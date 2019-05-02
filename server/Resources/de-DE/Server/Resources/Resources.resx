@@ -545,7 +545,7 @@
     <value>Ausführen</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Schreibgeschützt: Da Sie mit der Bearbeitung über die Quellcodeverwaltung begonnen haben, ist diese Ansicht schreibgeschützt.</value>
+    <value>Your app is currently in read only mode because you have source control integration enabled.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Erweiterter Editor</value>
@@ -1427,10 +1427,10 @@
     <value>Sie benötigen Schreibberechtigungen für die aktuelle App, um diese Einstellungen zu bearbeiten.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>Diese App weist eine Schreibschutzsperre auf, die das Bearbeiten von Einstellungen und das Empfangen sicherer Daten verhindert. Entfernen Sie die Sperre, und versuchen Sie es noch mal.</value>
+    <value>This app has a read only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>Hiermit werden Einstellungen im schreibgeschützten Modus angezeigt.</value>
+    <value>View settings in read only mode.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Fehler beim Laden der Einstellungen.</value>
@@ -1556,10 +1556,13 @@
     <value>Web-Apps unter Linux stellen über eine Sammlung integrierter Container Laufzeitoptionen bereit. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Weitere Informationen&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
-    <value>Startdatei</value>
+    <value>Startbefehl</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Geben Sie einen optionalen Startbefehl ein, der im Rahmen des Containerstarts ausgeführt wird. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Weitere Informationen&lt;/a&gt;.</value>
+  </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Geben Sie einen optionalen Startbefehl ein, der im Rahmen des Containerstarts ausgeführt wird.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Neueste</value>
@@ -1681,6 +1684,12 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Konfigurieren Sie CORS-Regeln (Cross-Origin Resource Sharing) für Ihre App.</value>
   </data>
+  <data name="feature_apiManagement" xml:space="preserve">
+    <value>API Management</value>
+  </data>
+  <data name="feature_apiManagementInfo" xml:space="preserve">
+    <value>Machen Sie Ihre HTTP-Triggerfunktionen über Azure API Management verfügbar – verwalten, schützen, sichern und veröffentlichen Sie die APIs.</value>
+  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API-Definition</value>
   </data>
@@ -1781,6 +1790,9 @@
     <value>Funktionen-App-Einstellungen</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>Konfiguration</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>Konfiguration</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -2120,22 +2132,22 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Der App-Name \"{0}\" ist nicht verfügbar.</value>
   </data>
   <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
+    <value>Der Slotname "{0}" ist nicht verfügbar.</value>
   </data>
   <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+    <value>Der Slotname "{0}" ist ein reservierter Bereitstellungsslotname.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Der Bearbeitungsmodus der Funktionen-App kann nicht aktualisiert werden. Versuchen Sie es später noch mal.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Ihre App befindet sich aktuell im schreibgeschützten Modus, weil Sie den Bearbeitungsmodus auf "Nur Lesen" festgelegt haben. Sie können den Bearbeitungsmodus hier ändern: </value>
+    <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Ihre App befindet sich zurzeit im Lese-/Schreibmodus, weil Sie den Bearbeitungsmodus auf "Lesen/Schreiben" festgelegt haben, obwohl die Quellcodeverwaltung aktiviert ist. Alle durchgeführten Änderungen werden bei der nächsten Bereitstellung möglicherweise überschrieben. Sie können den Bearbeitungsmodus hier ändern: </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Ihre App befindet sich zurzeit im schreibgeschützten Modus, weil Sie eine generierte Datei "function.json" veröffentlicht haben. Änderungen an "function.json" werden von der Functions-Laufzeit nicht berücksichtigt. </value>
+    <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>Ihre App befindet sich gerade im Lese-/Schreibmodus, weil Sie den Bearbeitungsmodus auf "Lesen/Schreiben" festgelegt haben, obwohl eine generierte "function.json" vorliegt. Änderungen an "function.json" werden von der Functions-Runtime nicht berücksichtigt.</value>
@@ -2284,6 +2296,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="slotsList_title" xml:space="preserve">
     <value>Slots (Vorschau)</value>
   </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Routingregeln werden demnächst geändert.</value>
+  </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>Für eine leistungsstärkere Überwachungsoberfläche einschließlich von Livemetriken und benutzerdefinierten Abfragen:</value>
   </data>
@@ -2312,7 +2327,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Es ist ein Clientzertifikat erforderlich, um diese Funktion aufzurufen. Für eine Ausführung aus dem Portal müssen Sie das Clientzertifikat deaktivieren.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Ihre App befindet sich aktuell im schreibgeschützten Modus, weil Sie Slots konfiguriert haben. Sie können den Bearbeitungsmodus hier ändern:</value>
+    <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Anwendungseinstellungen verwalten</value>
@@ -2902,6 +2917,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="swapFailure" xml:space="preserve">
     <value>Fehler beim Ausführen von "{{operation}}". Fehler: {{error}}</value>
   </data>
+  <data name="swapTimeout" xml:space="preserve">
+    <value>Exceeded maximum status polling attempts for {{operation}}. Check Activity log to confirm operation status/result.</value>
+  </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>"{{operation}}" wird abgebrochen</value>
   </data>
@@ -3056,7 +3074,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Funktionen (Vorschau)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Ihre App befindet sich derzeit im schreibgeschützten Modus, weil die Ausführung aus einer Paketdatei erfolgt. Bei Ausführung aus einer Paketdatei ist das Dateisystem schreibgeschützt, und die Dateien können nicht geändert werden. Um Änderungen vorzunehmen, aktualisieren Sie den Inhalt in Ihrer ZIP-Datei und die WEBSITE_RUN_FROM_PACKAGE-App-Einstellung.</value>
+    <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Code</value>
@@ -3160,6 +3178,12 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Die Tarife "App Service (isoliert)" innerhalb einer App Service-Umgebung (ASE) sind für Ihre Konfiguration nicht verfügbar. Eine App Service-Umgebung ist ein leistungsstarkes Azure App Service-Feature, das Netzwerkisolation und eine verbesserte Skalierung ermöglicht.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>Die Inlineerstellung von App Service-Umgebungen wird aktuell nicht unterstützt.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Neue App Service-Umgebung erstellen</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Dev/Test-Tarife sind für Ihre Konfiguration nicht verfügbar, sondern nur für Pläne, die nicht innerhalb einer App Service-Umgebung gehostet werden.</value>
   </data>
@@ -3180,6 +3204,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="free" xml:space="preserve">
     <value>Frei</value>
+  </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Die SKU "Free" wird für Linux in der ausgewählten Region nicht unterstützt.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/Monat (geschätzt)</value>
@@ -3289,11 +3316,14 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Isoliertes Netzwerk</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Die Ausführung erfolgt innerhalb Ihres eigenen virtuellen Netzwerks.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Integration des virtuellen Netzwerks</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Die Ausführung erfolgt innerhalb Ihres eigenen virtuellen Netzwerks.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Hiermit stellen Sie eine Verbindung mit einem virtuellen Netzwerk her.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Zugriff auf private App</value>
@@ -3377,7 +3407,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Konfigurieren Sie eine robuste Bereitstellungspipeline für Ihre Anwendung mit Azure Pipelines, einem Bestandteil von Azure DevOps Services (vormals VSTS). Die Pipeline erstellt Builds, führt Auslastungstests durch und führt eine Bereitstellung im Stagingslot und anschließend in der Produktion durch.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>App Service-Kudu-Buildserver</value>
+    <value>App Service-Builddienst</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Hiermit wird App Service als Buildserver verwendet. Die App Service-Kudu-Engine erstellt während der Bereitstellung ggf. automatisch Ihren Code, eine zusätzliche Konfiguration ist nicht erforderlich.</value>
@@ -3563,7 +3593,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Benutzeranmeldeinformationen</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>Benutzeranmeldeinformationen werden von Ihnen, dem Benutzer, definiert und können mit allen Apps verwendet werden, auf die Sie zugreifen können. Diese Anmeldeinformationen können mit FTP, lokalem Git und WebDeploy eingesetzt werden. Wenn Sie Benutzeranmeldeinformationen zum Herstellen einer Verbindung mit Ihrer App verwenden, muss der Benutzername bei der Authentifizierung über den Client im Format "{0}" vorliegen.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="userCredsNewUserDesc" xml:space="preserve">
@@ -3651,13 +3681,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Äquivalent zur Computeressource der Dv3-Serie</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>Verbindungszeichenfolgen dürfen nur mit einer Funktions-App verwendet werden, wenn Sie Entity Framework einsetzen. In anderen Szenarien verwenden Sie App-Einstellungen. Klicken Sie hier, um weitere Informationen zu erhalten.</value>
+    <value>Verbindungszeichenfolgen dürfen nur mit einer Funktions-App verwendet werden, wenn Sie Entity Framework einsetzen. In anderen Szenarien verwenden Sie App-Einstellungen.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Runtimeversion wird geladen...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Ihre App wird zurzeit im schreibgeschützten Modus ausgeführt, weil Sie einen lokalen Cache verwenden. Wenn Sie einen lokalen Cache verwenden, werden Änderungen am lokalen Dateisystem nicht dauerhaft im Website-Inhalt gespeichert. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Weitere Informationen&lt;/a&gt;</value>
+    <value>Your app is currently in read only mode because you are using Local Cache. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Löschen</value>
@@ -3723,7 +3753,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Sie müssen über Schreibzugriff für Ihre App verfügen, um Containereinstellungen zu konfigurieren.</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Ihre Containereinstellungen können nur konfiguriert werden, wenn Sie den Schreibschutz für Ihre App entfernen.</value>
+    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Einzelner Container</value>
@@ -3990,34 +4020,34 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Sie haben keine Schreibberechtigung.</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>Der Slot weist eine Schreibschutzsperre auf.</value>
+    <value>The deployment slot has a read only lock</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Quelle und Ziel können sich nicht im gleichen Slot befinden.</value>
+    <value>Source and Destination cannot be the same deployment slot</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Ein Austausch mit Vorschau kann nicht ausgeführt werden, weil für folgende Slots eine Authentifizierung aktiviert ist: {{slotNames}}</value>
+    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Der Austausch mit Vorschau kann nur bei Sites verwendet werden, deren Sloteinstellungen aktiviert sind.</value>
+    <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Bevor Sie den Austausch abschließen, prüfen Sie das App-Verhalten des ersten Slots mit der Konfiguration des zweiten Slots.</value>
+    <value>Before you complete the swap, review the first deployment slot's app behavior with the second deployment slot's configuration</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>Sie haben keine Schreibberechtigung für die folgenden Slots: {{slotNames}}</value>
+    <value>You do not have write permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>Sie haben keine Austauschberechtigung für die folgenden Slots: {{slotNames}}</value>
+    <value>You do not have swap permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>Für folgende Slots gilt eine Schreibschutzsperre: {{slotNames}}</value>
+    <value>There is a read only lock on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>Ein Austauschvorgang kann nur ausgeführt werden, wenn die App über mehrere Slots verfügt.</value>
+    <value>A swap operation can only be performed if the app has multiple deployment slots</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Slots austauschen</value>
+    <value>Swap deployment slots</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Fehler beim Laden.</value>
@@ -4032,10 +4062,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Konfigurationsänderungen</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>Dies sind die slotspezifischen Anwendungseinstellungen und Verbindungszeichenfolgen aus dem Zielslot, die in der ersten Phase des Austauschs vorübergehend auf den Quellslot angewendet werden.</value>
+    <value>These are the deployment slot specific application settings and connection strings from the target deployment slot which will be temporarily applied to the source deployment slot in the first phase of the swap.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>Dies ist eine Übersicht über den letzten Satz von Konfigurationsänderungen in den Quell- und Zielslots nach Abschluss des Austauschs.</value>
+    <value>This is a summary of the final set of configuration changes on the source and target deployment slots after the swap has completed.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Nehmen Sie oben eine gültige Auswahl vor, um die Vorschau zu laden.</value>
@@ -4149,7 +4179,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>URL ausblenden</value>
   </data>
   <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Die Linux-Nutzungsfunktionen sind ein Angebot der Vorschau.</value>
+    <value>Die Linux-Verbrauchsfunktionen sind ein Angebot der Vorschau.</value>
   </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Einige Felder sind nicht korrekt ausgefüllt oder sind erforderlich.</value>
@@ -4158,7 +4188,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Beenden und zum Bereitstellungscenter wechseln</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Das Bearbeiten von Funktionen im Portal wird für Funktions-Apps zur Linux-Nutzung (Vorschau) nicht unterstützt.</value>
+    <value>Das Bearbeiten von Funktionen im Portal wird für Funktions-Apps zum Linux-Verbrauch (Vorschau) nicht unterstützt.</value>
+  </data>
+  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
+    <value>Das Bearbeiten von Funktionen im Portal wird für Linux Premium-Funktions-Apps (Vorschau) nicht unterstützt.</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Einzelner Container (Vorschau)</value>
@@ -4194,7 +4227,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>ASP.NET-Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>In Windows Server Core 2016-LTSC-Container bereitgestellte ASP.NET Web Forms-Anwendung.</value>
+    <value>In Windows Server Core 2019-LTSC-Container bereitgestellte ASP.NET Web Forms-Anwendung.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask mit Redis</value>
@@ -4240,7 +4273,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>Neue oder vorhandene Web-App</value>
-    </data>
+  </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Bereitstellungsdetails</value>
   </data>
@@ -4362,13 +4395,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Stapel</value>
   </data>
   <data name="slots" xml:space="preserve">
-    <value>Einschubfächer</value>
+    <value>Bereitstellungsplatz</value>
   </data>
   <data name="autoSwapEnabled" xml:space="preserve">
     <value>Automatischer Tausch aktiviert</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Slot für automatischen Tausch</value>
+    <value>Auto swap deployment slot</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Plattform</value>
@@ -4419,7 +4452,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Wert</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Sloteinstellung</value>
+    <value>deployment slot setting</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4641,7 +4674,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Proxys (begrenzt)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>Um die Sloteinstellungen zu ändern, müssen Sie über Schreibzugriff auf die Produktions-App verfügen.</value>
+    <value>To change deployment slot settings you must have write access on the production app.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Um die Einstellungen für den automatischen Tausch zu ändern, müssen Sie über Schreibberechtigungen für die Produktions-App verfügen.</value>
@@ -4656,7 +4689,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Typ der Funktions-App</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Sloteinstellung aktiviert</value>
+    <value>Deployment Slot Setting Enabled</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Ausgeblendete Wert. Klicken Sie oben auf die Schaltfläche "Werte anzeigen", um den Wert anzuzeigen.</value>
@@ -4749,13 +4782,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Die App-Einstellungswerte müssen ein Array sein.</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is a required property on all application settings</value>
+    <value>"{0}" ist für alle Anwendungseigenschaften eine erforderliche Eigenschaft.</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value and name properties must be of type string</value>
+    <value>Alle Eigenschaften für App-Einstellungswerte und -namen müssen vom Typ "Zeichenfolge" sein.</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Alle Sloteinstellungseigenschaften der App-Einstellung müssen vom Typ "boolean" sein.</value>
+    <value>All app setting deployment slot setting properties must be of type boolean</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>"{0}" ist eine ungültige App-Einstellungseigenschaft.</value>
@@ -4795,5 +4828,75 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
     <value>Klicken Sie hier, um ein Upgrade auf eine höhere SKU durchzuführen und zusätzliche Features zu aktivieren.</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>Application Insights ist nicht konfiguriert. Konfigurieren Sie Application Insights, um Funktionsprotokolle zu erfassen.</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>Ihrer Funktions-App wurden Zugriffseinschränkungen hinzugefügt, sodass Sie sie möglicherweise nicht mehr über das Portal verwalten können.</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>Das angegebene Kennwort erfüllt nicht die Mindestanforderungen. Das Kennwort muss mindestens acht Zeichen lang sein und Buchstaben und Zahlen enthalten.</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Eingehende Clientzertifikate</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Eingehendes Zertifikat anfordern</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Zertifikatausschlusspfade</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>Clientausschlusspfade bearbeiten</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>Keine Ausschlussregeln definiert</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>Neuer Pfad</value>
+  </data>
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>Wenn Sie eine Organisation oder ein Repository nicht finden, müssen Sie möglicherweise zusätzliche Berechtigungen für GitHub aktivieren.</value>
+  </data>
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>Wenn Sie eine Organisation oder ein Repository nicht finden, müssen Sie möglicherweise zusätzliche Berechtigungen für Bitbucket aktivieren.</value>
+  </data>
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>Eingehende Clientzertifikate erfordern den App Service-Plan "Basic" oder höher.</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>Für Ihre Funktions-App wurden Clientzertifikate aktiviert. Dies kann möglicherweise bewirken, dass Sie die Funktions-App nicht mehr über das Portal verwalten können.</value>
+  </data>
+  <data name="alwaysOnInfoMessage" xml:space="preserve">
+    <value>Hiermit wird verhindert, dass Ihre App aufgrund von Inaktivität in den Leerlauf versetzt wird.</value>
+  </data>
+  <data name="ftpsInfoMessage" xml:space="preserve">
+    <value>Die FTP-basierte Bereitstellung kann deaktiviert oder so konfiguriert werden, dass FTP- (Nur-Text) oder FTPS-Verbindungen (sicher) akzeptiert werden.</value>
+  </data>
+  <data name="arrAffinityInfoMessage" xml:space="preserve">
+    <value>Verbessern Sie die Leistung Ihrer zustandslosen App, indem Sie Affinitätscookies deaktivieren. Für zustandsbehaftete Apps sollten Affinitätscookies aus Gründen der Kompatibilität aktiviert bleiben.</value>
+  </data>
+  <data name="applicationSettingsInfoMessage" xml:space="preserve">
+    <value>Anwendungseinstellungen werden im Ruhezustand verschlüsselt und über einen verschlüsselten Kanal übertragen. Sie können die Anwendungseinstellungen in Ihrem Browser als Klartext anzeigen, indem Sie die folgenden Steuerelemente verwenden. Anwendungseinstellungen werden zur Laufzeit als Umgebungsvariablen für den Zugriff durch Ihre Anwendung verfügbar gemacht.</value>
+  </data>
+  <data name="connectionStringsInfoMessage" xml:space="preserve">
+    <value>Verbindungszeichenfolgen werden im Ruhezustand verschlüsselt und über einen verschlüsselten Kanal übertragen.</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>PowerShell-Funktionen sind ein Angebot der Vorschau.</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>Anwendungseinstellungen filtern</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>Verbindungszeichenfolgen filtern</value>
+  </data>
+  <data name="readOnlyJava" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
   </data>
 </root>

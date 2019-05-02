@@ -82,6 +82,15 @@ export class VstsValidators {
                         }/${DeploymentCenterConstants.editReleaseDefinitionPermission}?tokens=${currentProject.id}`,
                         true,
                         callHeaders
+                      ),
+                      _cacheService.get(
+                        `https://${vstsAccountValue}.visualstudio.com/${
+                          currentProject.id
+                        }/_apis/distributedtask/queues?queueNames=${DeploymentCenterConstants.agentQueueNames.join(',')}&actionFilter=${
+                          DeploymentCenterConstants.queueActionFilter
+                        }&api-version=5.1-preview.1`,
+                        true,
+                        callHeaders
                       )
                     );
                   });
@@ -89,12 +98,19 @@ export class VstsValidators {
               return Observable.of(null);
             })
             .map(results => {
-              if (results && results.length === 2) {
+              if (results && results.length === 3) {
                 const buildPermissions = results[0] ? results[0].json().value[0] : true;
                 const releasePermissions = results[1] ? results[1].json().value[0] : true;
+                const queuePermissions = results[2] && results[2].json().count > 0 ? true : false;
                 if (!buildPermissions || !releasePermissions) {
                   return {
                     invalidPermissions: _translateService.instant(PortalResources.vstsReleaseBuildPermissions),
+                  };
+                }
+
+                if (!queuePermissions) {
+                  return {
+                    invalidPermissions: _translateService.instant(PortalResources.vstsAgentQueuePermissions),
                   };
                 }
               }

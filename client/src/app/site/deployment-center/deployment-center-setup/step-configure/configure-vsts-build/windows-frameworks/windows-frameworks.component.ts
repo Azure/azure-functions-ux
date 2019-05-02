@@ -118,6 +118,15 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
             .get('pythonSettings')
             .get('djangoSettingsModule')
             .updateValueAndValidity();
+        } else if (this.wizard.wizardValues.buildSettings.applicationFramework === WebAppFramework.Python && val === PythonFrameworkType.Flask) {
+          this.wizard.buildSettings
+            .get('pythonSettings')
+            .get('flaskProjectName')
+            .setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
+          this.wizard.buildSettings
+            .get('pythonSettings')
+            .get('flaskProjectName')
+            .updateValueAndValidity();
         } else {
           this.removeValidators();
         }
@@ -132,6 +141,14 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
     this.wizard.buildSettings
       .get('pythonSettings')
       .get('djangoSettingsModule')
+      .updateValueAndValidity();
+    this.wizard.buildSettings
+      .get('pythonSettings')
+      .get('flaskProjectName')
+      .setValidators([]);
+    this.wizard.buildSettings
+      .get('pythonSettings')
+      .get('flaskProjectName')
       .updateValueAndValidity();
   }
 

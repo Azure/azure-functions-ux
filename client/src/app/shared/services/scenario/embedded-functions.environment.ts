@@ -21,6 +21,13 @@ export class EmbeddedFunctionsEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.enableLinkAPIM] = {
+      id: ScenarioIds.enableLinkAPIM,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

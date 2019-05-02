@@ -38,6 +38,7 @@ export class ScenarioIds {
   public static readonly pythonSupported = 'PythonSupported';
   public static readonly javaSupported = 'JavaSupported';
   public static readonly defaultDocumentsSupported = 'DefaultDocumentsSupported';
+  public static readonly skipStackValidation = 'skipStackValidation';
   public static readonly autoSwapSupported = 'AutoSwapSupported';
   public static readonly handlerMappingsSupported = 'HandlerMappingsSupported';
   public static readonly virtualDirectoriesSupported = 'VirtualDirectoriesSupported';

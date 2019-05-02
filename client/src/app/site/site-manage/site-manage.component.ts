@@ -1,6 +1,6 @@
 import { SiteService } from '../../shared/services/site.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { ScenarioIds, SiteTabIds, ARMApiVersions, SupportedFeatures, FeatureFlags } from './../../shared/models/constants';
+import { ScenarioIds, SiteTabIds, ARMApiVersions, SupportedFeatures } from './../../shared/models/constants';
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -331,8 +331,6 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
   }
 
   private _initCol2Groups(site: ArmObj<Site>) {
-    const showVNetIntegration = Url.getParameterByName(null, FeatureFlags.ShowVNetIntegration) === 'true';
-
     const networkFeatures: FeatureItem[] = [
       new DisableableBladeFeature(
         this._translateService.instant(PortalResources.feature_networkingName),
@@ -350,7 +348,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         },
         this._portalService,
         this._hasSiteWritePermissionStream,
-        showVNetIntegration ? null : this._scenarioService.checkScenario(ScenarioIds.enableNetworking, { site: site })
+        this._scenarioService.checkScenario(ScenarioIds.enableNetworking, { site: site })
       ),
 
       new DisableableBladeFeature(
@@ -538,6 +536,24 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
   private _initCol3Groups(site: ArmObj<Site>) {
     const apiManagementFeatures: FeatureItem[] = [
+      new DisableableBladeFeature(
+        this._translateService.instant(PortalResources.feature_apiManagement),
+        this._translateService.instant(PortalResources.feature_apiManagement),
+        this._translateService.instant(PortalResources.feature_apiManagementInfo),
+        'image/apim.svg',
+        {
+          detailBlade: 'ResourceMenuBlade',
+          detailBladeInputs: {
+            id: site.id,
+            menuid: 'linkApiManagement',
+          },
+          extension: 'HubsExtension',
+        },
+        this._portalService,
+        null,
+        this._scenarioService.checkScenario(ScenarioIds.enableLinkAPIM, { site: site })
+      ),
+
       new TabFeature(
         this._translateService.instant(PortalResources.feature_apiDefinitionName),
         this._translateService.instant(PortalResources.feature_apiDefinitionName) + ' swagger',
