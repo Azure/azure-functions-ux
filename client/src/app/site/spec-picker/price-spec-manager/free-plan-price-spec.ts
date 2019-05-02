@@ -7,7 +7,6 @@ import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { ResourceId } from '../../../shared/models/arm/arm-obj';
 import { PlanService } from './../../../shared/services/plan.service';
-import { Url } from 'app/shared/Utilities/url';
 
 export class FreePlanPriceSpec extends PriceSpec {
   tier = Tier.free;
