@@ -7,6 +7,7 @@ import { OsType } from 'app/shared/models/arm/stacks';
 import { RegexValidator } from 'app/shared/validators/regexValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
+import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 
 export const TaskRunner = {
   None: 'None',
@@ -65,8 +66,8 @@ export class LinuxFramworksComponent implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
 
   selectedTaskRunner = this.defaultNodeTaskRunner;
-  selectedFramework = '';
-  selectedFrameworkVersion = '';
+  selectedFramework;
+  selectedFrameworkVersion;
   nodeFrameworkVersions: DropDownElement<string>[] = [];
   dotNetCoreFrameworkVersions: DropDownElement<string>[] = [];
   phpFrameworkVersions: DropDownElement<string>[] = [];
@@ -92,13 +93,6 @@ export class LinuxFramworksComponent implements OnDestroy {
         };
       });
 
-      this.phpFrameworkVersions = phpStack.properties.majorVersions.map(x => {
-        return {
-          displayLabel: x.displayVersion,
-          value: x.runtimeVersion.replace('PHP|', ''),
-        };
-      });
-
       this.nodeFrameworkVersions = nodeStack.properties.majorVersions.map(x => {
         return {
           displayLabel: x.displayVersion,
@@ -113,44 +107,61 @@ export class LinuxFramworksComponent implements OnDestroy {
         };
       });
 
-      this.wizard.buildSettings
-        .get('applicationFramework')
-        .valueChanges.takeUntil(this._ngUnsubscribe$)
-        .subscribe(val => {
-          this.setupValidators(val);
-        });
+      this.setupValidators();
       this.wizard.siteArmObj$.takeUntil(this._ngUnsubscribe$).subscribe(site => {
         const linuxFxVersionObj = site.properties.siteProperties.properties.find(x => x.name === 'LinuxFxVersion');
         if (linuxFxVersionObj) {
           const linuxFxVersion = linuxFxVersionObj.value.split('|');
           const stack = linuxFxVersion[0];
           const version = linuxFxVersion[1];
-          this.selectedFramework = stack;
+          switch (stack.toLowerCase()) {
+            case 'node':
+              this.selectedFramework = WebAppFramework.Node;
+              break;
+            case 'dotnetcore':
+              this.selectedFramework = WebAppFramework.AspNetCore;
+              break;
+            case 'php':
+              this.selectedFramework = WebAppFramework.PHP;
+              break;
+            case 'ruby':
+              this.selectedFramework = WebAppFramework.Ruby;
+              break;
+          }
           this.selectedFrameworkVersion = version;
         }
       });
     });
   }
 
-  private setupValidators(stack: string) {
-    // Regex value comes from Azure Devops team for validation
-    const nodeValidator = RegexValidator.create(
-      new RegExp('^(node|pm2|ng|npm)\\s+\\w+'),
-      this._translateService.instant(PortalResources.invalidStartupCommandNodejs)
-    );
-    const aspNetCoreValidator = RegexValidator.create(
-      new RegExp('^(dotnet)\\s+\\w+'),
-      this._translateService.instant(PortalResources.invalidStartupCommandAspNetCore)
-    );
-    if (stack === WebAppFramework.Node) {
-      this.wizard.buildSettings.get('startupCommand').setValidators([nodeValidator]);
-      this.wizard.buildSettings.get('startupCommand').updateValueAndValidity();
-    } else if (stack === WebAppFramework.AspNetCore) {
-      this.wizard.buildSettings.get('startupCommand').setValidators([aspNetCoreValidator]);
-      this.wizard.buildSettings.get('startupCommand').updateValueAndValidity();
-    } else {
-      this.removeValidators();
-    }
+  private setupValidators() {
+    const required = new RequiredValidator(this._translateService, false);
+    this.wizard.buildSettings.get('applicationFramework').setValidators(required.validate.bind(required));
+    this.wizard.buildSettings.get('applicationFramework').updateValueAndValidity();
+
+    this.wizard.buildSettings
+      .get('applicationFramework')
+      .valueChanges.takeUntil(this._ngUnsubscribe$)
+      .subscribe(stack => {
+        // Regex value comes from Azure Devops team for validation
+        const nodeValidator = RegexValidator.create(
+          new RegExp('^(node|pm2|ng|npm)\\s+\\w+'),
+          this._translateService.instant(PortalResources.invalidStartupCommandNodejs)
+        );
+        const aspNetCoreValidator = RegexValidator.create(
+          new RegExp('^(dotnet)\\s+\\w+'),
+          this._translateService.instant(PortalResources.invalidStartupCommandAspNetCore)
+        );
+        if (stack === WebAppFramework.Node) {
+          this.wizard.buildSettings.get('startupCommand').setValidators([nodeValidator]);
+          this.wizard.buildSettings.get('startupCommand').updateValueAndValidity();
+        } else if (stack === WebAppFramework.AspNetCore) {
+          this.wizard.buildSettings.get('startupCommand').setValidators([aspNetCoreValidator]);
+          this.wizard.buildSettings.get('startupCommand').updateValueAndValidity();
+        } else {
+          this.removeValidators();
+        }
+      });
   }
 
   private removeValidators() {

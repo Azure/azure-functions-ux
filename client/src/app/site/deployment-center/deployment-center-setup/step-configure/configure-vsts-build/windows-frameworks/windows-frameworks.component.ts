@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { DropDownElement } from '../../../../../../shared/models/drop-down-element';
 import { CacheService } from 'app/shared/services/cache.service';
 import { PythonFrameworkType } from '../../../wizard-logic/deployment-center-setup-models';
-import { RequiredValidator } from '../../../../../../shared/validators/requiredValidator';
+import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 
 export const TaskRunner = {
@@ -46,7 +46,7 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
 
   pythonVersionList: DropDownElement<string>[] = [];
 
-  defaultPythonFramework = 'Bottle';
+  defaultPythonFramework = PythonFrameworkType.Bottle;
   pythonFrameworkList: DropDownElement<PythonFrameworkType>[] = [
     { value: PythonFrameworkType.Bottle, displayLabel: 'Bottle' },
     { value: PythonFrameworkType.Django, displayLabel: 'Django' },
@@ -93,44 +93,44 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
     private _cacheService: CacheService,
     private _translateService: TranslateService
   ) {
-    this.wizard.buildSettings
-      .get('pythonSettings')
-      .get('framework')
-      .valueChanges.takeUntil(this._ngUnsubscribe$)
-      .subscribe(val => {
-        this.setupValidators(val);
-      });
+    this.setupValidators();
   }
 
   get getFramework() {
     return this.selectedPythonFramework;
   }
-  private setupValidators(val) {
+  private setupValidators() {
     this.requiredValidator = new RequiredValidator(this._translateService, false);
-    if (this.wizard.wizardValues.buildSettings.applicationFramework === WebAppFramework.Python && val === PythonFrameworkType.Django) {
-      this.wizard.buildSettings
-        .get('pythonSettings')
-        .get('djangoSettingsModule')
-        .setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
-      this.wizard.buildSettings
-        .get('pythonSettings')
-        .get('djangoSettingsModule')
-        .updateValueAndValidity();
-    } else if (
-      this.wizard.wizardValues.buildSettings.applicationFramework === WebAppFramework.Python &&
-      val === PythonFrameworkType.Flask
-    ) {
-      this.wizard.buildSettings
-        .get('pythonSettings')
-        .get('flaskProjectName')
-        .setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
-      this.wizard.buildSettings
-        .get('pythonSettings')
-        .get('flaskProjectName')
-        .updateValueAndValidity();
-    } else {
-      this.removeValidators();
-    }
+    this.wizard.buildSettings.get('applicationFramework').setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
+    this.wizard.buildSettings.get('applicationFramework').updateValueAndValidity();
+
+    this.wizard.buildSettings
+      .get('pythonSettings')
+      .get('framework')
+      .valueChanges.takeUntil(this._ngUnsubscribe$)
+      .subscribe(val => {
+        if (this.wizard.wizardValues.buildSettings.applicationFramework === WebAppFramework.Python && val === PythonFrameworkType.Django) {
+          this.wizard.buildSettings
+            .get('pythonSettings')
+            .get('djangoSettingsModule')
+            .setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
+          this.wizard.buildSettings
+            .get('pythonSettings')
+            .get('djangoSettingsModule')
+            .updateValueAndValidity();
+        } else if (this.wizard.wizardValues.buildSettings.applicationFramework === WebAppFramework.Python && val === PythonFrameworkType.Flask) {
+          this.wizard.buildSettings
+            .get('pythonSettings')
+            .get('flaskProjectName')
+            .setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
+          this.wizard.buildSettings
+            .get('pythonSettings')
+            .get('flaskProjectName')
+            .updateValueAndValidity();
+        } else {
+          this.removeValidators();
+        }
+      });
   }
 
   private removeValidators() {

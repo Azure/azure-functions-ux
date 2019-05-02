@@ -380,8 +380,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
         return ApplicationType.ScriptFunctionApp;
       case 'PrecompiledFunction':
         return ApplicationType.DotNetPreCompiledFunctionApp;
-      default:
+      case 'StaticWebapp':
         return ApplicationType.StaticWebapp;
+      default:
+        return ApplicationType.Undefined;
     }
   }
 
