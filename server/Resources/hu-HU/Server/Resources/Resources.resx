@@ -545,7 +545,7 @@
     <value>Futtatás</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Írásvédett – mivel verziókövetéssel kezdte el a szerkesztést, ez a nézet írásvédett.</value>
+    <value>Your app is currently in read only mode because you have source control integration enabled.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Speciális szerkesztő</value>
@@ -1427,10 +1427,10 @@
     <value>E beállítások módosításához írási hozzáféréssel kell rendelkeznie a jelenlegi alkalmazáshoz.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>Az alkalmazás írásvédettségi zárolása megakadályozza a beállítások módosítását és a védett adatok beolvasását. Oldja fel a zárolást, majd próbálkozzon újra.</value>
+    <value>This app has a read only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>Beállítások megtekintése írásvédett üzemmódban.</value>
+    <value>View settings in read only mode.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Nem sikerült betölteni a beállításokat.</value>
@@ -1556,10 +1556,13 @@
     <value>A linuxos Web Apps beépített tárolók egy gyűjteményével biztosít futásidejű beállításokat. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;További információ&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
-    <value>Indítási fájl</value>
+    <value>Indítási parancs</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Egy olyan nem kötelező indítási parancs megadása, melyet a tároló beállításának részeként fog futtatni a rendszer. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;További információ&lt;/a&gt;.</value>
+  </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Egy olyan nem kötelező indítási parancs megadása, melyet a tároló beállításának részeként fog futtatni a rendszer.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Legújabb</value>
@@ -1681,6 +1684,12 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Konfigurálhatja az Eltérő eredetű erőforrások megosztása (CORS) technológia az alkalmazáshoz tartozó szabályait.</value>
   </data>
+  <data name="feature_apiManagement" xml:space="preserve">
+    <value>API Management</value>
+  </data>
+  <data name="feature_apiManagementInfo" xml:space="preserve">
+    <value>Tegye elérhetővé HTTP-alapú eseményindító-függvényeit az Azure API Management segítségével – kezelheti, megvédheti, biztonságossá teheti és közzéteheti az API-kat.</value>
+  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API-definíció</value>
   </data>
@@ -1781,6 +1790,9 @@
     <value>Függvényalkalmazás beállításai</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>Konfiguráció</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>Konfiguráció</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -2120,22 +2132,22 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Az alkalmazás neve ({0}) érvénytelen.</value>
   </data>
   <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
+    <value>A(z) {0} tárolóhelynév érvénytelen.</value>
   </data>
   <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+    <value>A(z) {0} tárolóhelynév egy fenntartott üzembe helyezési pont neve.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Nem tudtuk megváltoztatni a függvényalkalmazás szerkesztési módját. Próbálja újra később.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Az alkalmazás jelenleg írásvédett módban van, mivel írásvédettre állította a szerkesztési módot. A szerkesztési módot itt változtathatja meg: </value>
+    <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Az alkalmazás jelenleg olvasási/írási módban van, mivel olvasási/írásira állította a szerkesztési módot annak ellenére, hogy engedélyezve van a verziókövetés. Az Ön által végrehajtott módosítások bármelyikét felülírhatja a következő üzemelő példány. A szerkesztési módot itt változtathatja meg: </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Az alkalmazás jelenleg írásvédett üzemmódban van, mert generált function.json fájlt tett közzé. A function.json fájlban végrehajtott módosítások a Functions-futtatókörnyezetben nem lesznek figyelembe véve. </value>
+    <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>Az alkalmazás azért van jelenleg olvasási/írási módban, mert az olvasás/írás értékre állította a szerkesztési módot annak ellenére, hogy generált function.json fájllal rendelkezik. A Functions-futtatókörnyezet nem fogja figyelembe venni a function.json módosításait.</value>
@@ -2284,6 +2296,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="slotsList_title" xml:space="preserve">
     <value>Tárolóhelyek (előzetes verzió)</value>
   </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Az útválasztási szabályok közelgő módosításai</value>
+  </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>Ha további funkciókkal, például élő metrikákkal és egyéni lekérdezésekkel szeretné bővíteni a figyelési környezetet,</value>
   </data>
@@ -2312,7 +2327,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A függvény meghívásához és futtatásához szükséges ügyféltanúsítvány. A portálon való futtatáshoz le kell tiltania az ügyféltanúsítványt.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Az alkalmazás jelenleg írásvédett módban van, mert tárolóhely(ek) van(nak) konfigurálva. A szerkesztési mód módosításához nyissa meg a következőt:</value>
+    <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Alkalmazásbeállítások kezelése</value>
@@ -2902,6 +2917,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="swapFailure" xml:space="preserve">
     <value>Nem sikerült befejezni a(z) {{operation}} műveletet. Hiba: {{error}}</value>
   </data>
+  <data name="swapTimeout" xml:space="preserve">
+    <value>Exceeded maximum status polling attempts for {{operation}}. Check Activity log to confirm operation status/result.</value>
+  </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>{{operation}} megszakítása</value>
   </data>
@@ -3056,7 +3074,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Funkciók (előzetes verzió)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Az alkalmazás jelenleg írásvédett üzemmódban fut, mert Ön csomagfájlból futtatja. A csomagfájlból való futtatáskor a fájlrendszer nem írható, tehát a fájlok nem módosíthatók. Ha módosításokat szeretne végrehajtani, frissítse a ZIP-fájl tartalmát és a WEBSITE_RUN_FROM_PACKAGE alkalmazásbeállítást.</value>
+    <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Kód</value>
@@ -3160,6 +3178,12 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Az App Service Environment- (ASE-) környezetbeli izolált díjcsomagok az Ön konfigurációja esetében nem érhetők el. Az ASE egy hatékony Azure App Service-funkció-ajánlat, amely hálózatizolálást és továbbfejlesztett skálázási funkciókat biztosít.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>Az App Service Environment-környezetek beágyazott létrehozása jelenleg nem támogatott.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Új App Service Environment-környezet létrehozása</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>A Dev/Test-tarifacsomagok az Ön konfigurációja esetében nem érhetők el, és csak a nem App Service Environment-környezetben üzemeltetett csomagok esetében érhetők el.</value>
   </data>
@@ -3180,6 +3204,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="free" xml:space="preserve">
     <value>Ingyenes</value>
+  </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Az ingyenes termékváltozat a Linux esetében nem támogatott a kiválasztott régióban.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/hónap (becsült díj)</value>
@@ -3289,11 +3316,14 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Izolált hálózat</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>A saját virtuális hálózaton belül fut.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Virtuális hálózat integrációja</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>A saját virtuális hálózaton belül fut.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Kapcsolódás egy virtuális hálózathoz.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Privát alkalmazáselérés</value>
@@ -3377,7 +3407,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Robusztus üzembe helyezési folyamat létrehozása az alkalmazás számára az Azure DevOps Services (korábbi nevén VSTS) segítségével. A folyamat létrehozza és futtatja a terhelési teszteket, valamint üzembe helyezi az alkalmazást az előkészítési ponton, majd az éles környezetben.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>App Service Kudu-buildelési kiszolgáló</value>
+    <value>App Service-buildelési szolgáltatás</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Az App Service használata buildelési kiszolgálóként. Az App Service Kudu-modulja, amikor szükséges, automatikusan, külön konfigurálás nélkül lefordítja az Ön programkódját az üzembe helyezés során.</value>
@@ -3563,7 +3593,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Felhasználó hitelesítő adatai</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>A felhasználói hitelesítő adatokat Ön, a felhasználó határozza meg, és az összes olyan alkalmazáshoz használhatja őket, amelyhez hozzáfér. Ezek a hitelesítő adatok az FTP, a helyi Git és a WebDeploy esetében is használhatók. Ha a felhasználói hitelesítő adatokkal csatlakozik az alkalmazáshoz, a felhasználónévnek {0} formátumúnak kell lennie, amikor az ügyfélről hitelesítést végez.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="userCredsNewUserDesc" xml:space="preserve">
@@ -3651,13 +3681,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Dv3 sorozatú számítási erőforrás egyenértéke</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>Kapcsolati sztringeket csak akkor használhat függvényalkalmazásokhoz, ha az entitás-keretrendszert használja. Más esetekben használja az alkalmazásbeállításokat. További információért kattintson ide.</value>
+    <value>Kapcsolati sztringeket csak akkor használhat függvényalkalmazásokhoz, ha az entitás-keretrendszert használja. Más esetekben használja az alkalmazásbeállításokat.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Futásidejű verzió: betöltés...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Az alkalmazás jelenleg írásvédett üzemmódban van, mert a helyi gyorsítótárat használja. Helyi gyorsítótár használatakor a helyi fájlrendszer módosításait a webhelytartalom nem őrzi meg. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;További információ&lt;/a&gt;</value>
+    <value>Your app is currently in read only mode because you are using Local Cache. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Törlés</value>
@@ -3723,7 +3753,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A tárolóbeállítások konfigurálásához alkalmazásírási jogosultsággal kell rendelkeznie</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>A tároló beállításai csak akkor konfigurálhatók, ha eltávolítja az alkalmazás olvasási zárolását</value>
+    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Egyetlen tároló</value>
@@ -3990,34 +4020,34 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Nem rendelkezik írási engedéllyel</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>A tárolóhelyen írásvédettségi zár van</value>
+    <value>The deployment slot has a read only lock</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>A forrás és a cél nem lehet ugyanaz a tárolóhely</value>
+    <value>Source and Destination cannot be the same deployment slot</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Az előnézettel végrehajtott felcserélés nem hajtható végre, mert a következő tárolóhelyeken engedélyezve van a hitelesítés: {{slotNames}}</value>
+    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Az előnézettel végrehajtott felcserélés csak azokon a helyeken használható, melyeken engedélyezve vannak a tárolóhely-beállítások</value>
+    <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>A csere végrehajtása előtt ellenőrizze az első tárhelybeli alkalmazásműködést a második tárhely konfigurációjával</value>
+    <value>Before you complete the swap, review the first deployment slot's app behavior with the second deployment slot's configuration</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>Nem rendelkezik írási engedéllyel a következő tárolóhelyekre vonatkozóan: {{slotNames}}</value>
+    <value>You do not have write permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>Nem rendelkezik cserélési engedéllyel a következő tárolóhelyekre vonatkozóan: {{slotNames}}</value>
+    <value>You do not have swap permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>Írásvédettségi zár van a következő tárolóhelyeken: {{slotNames}}</value>
+    <value>There is a read only lock on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>A csereműveletek csak akkor hajthatók végre, ha az alkalmazás több tárolóhellyel rendelkezik</value>
+    <value>A swap operation can only be performed if the app has multiple deployment slots</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Tárolóhelyek cseréje</value>
+    <value>Swap deployment slots</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>A betöltés nem sikerült</value>
@@ -4032,10 +4062,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Konfigurációs módosítások</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>Ezek a forrástárolóhelyről származó tárolóhely-specifikus alkalmazásbeállítások és kapcsolati sztringek, melyeket a rendszer ideiglenesen alkalmaz a forrástárolóhelyen a felcserélés első fázisában.</value>
+    <value>These are the deployment slot specific application settings and connection strings from the target deployment slot which will be temporarily applied to the source deployment slot in the first phase of the swap.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>Ez a forrás- és a céltárolóhelyen alkalmazott konfigurációs módosítások végső készletének a felcserélés befejeződése utáni összegzése.</value>
+    <value>This is a summary of the final set of configuration changes on the source and target deployment slots after the swap has completed.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Az előnézet betöltéséhez érvényes kijelölést adjon meg fentebb</value>
@@ -4160,6 +4190,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
     <value>A függvények portálon való szerkesztése nem támogatott a Linuxhoz készült használatalapú Function Apps (előzetes verzió) esetében.</value>
   </data>
+  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
+    <value>A függvények portálon való szerkesztése nem támogatott a prémium szintű, Linuxhoz készült Function Apps (előzetes verzió) esetében.</value>
+  </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Single Container (Előzetes verzió)</value>
   </data>
@@ -4194,7 +4227,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Asp.Net Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Windows Server Core 2016 LTSC-tárolóban üzembe helyezett Asp.Net Web Forms-alkalmazás.</value>
+    <value>Windows Server Core 2019 LTSC-tárolóban üzembe helyezett Asp.Net Web Forms-alkalmazás.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Redis Python Redis használatával</value>
@@ -4240,7 +4273,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>Új vagy meglévő webalkalmazás</value>
-    </data>
+  </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Példány részletei</value>
   </data>
@@ -4362,13 +4395,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Verem</value>
   </data>
   <data name="slots" xml:space="preserve">
-    <value>Tárolóhelyek</value>
+    <value>Üzembe helyezési pont</value>
   </data>
   <data name="autoSwapEnabled" xml:space="preserve">
     <value>Automatikus felcserélés engedélyezve</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Automatikus felcserélési tárolóhely</value>
+    <value>Auto swap deployment slot</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Platform</value>
@@ -4419,7 +4452,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Érték</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Tárhelybeállítás</value>
+    <value>deployment slot setting</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4641,7 +4674,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Proxyk (korlátozott)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>A tárolóhely-beállítások módosításához írási hozzáféréssel kell rendelkeznie az üzemi alkalmazáshoz.</value>
+    <value>To change deployment slot settings you must have write access on the production app.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Az automatikus felcserélési beállítás módosításához írási engedélyekkel kell rendelkeznie az üzemi alkalmazásra vonatkozóan.</value>
@@ -4656,7 +4689,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Függvényalkalmazás típusa</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Tárhelybeállítás engedélyezve</value>
+    <value>Deployment Slot Setting Enabled</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Rejtett érték. A megtekintéshez kattintson a fenti értékek megjelenítése gombra</value>
@@ -4749,13 +4782,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Az alkalmazásbeállítási értékeknek tömbnek kell lenniük</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is a required property on all application settings</value>
+    <value>A(z) {0} tulajdonság minden alkalmazásbeállítás esetében kötelező</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value and name properties must be of type string</value>
+    <value>Minden alkalmazásbeállítás érték- és névtulajdonságának sztring típusúnak kell lennie</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Minden alkalmazásbeállítási tárhelybeállítás-tulajdonságnak logikai típusúnak kell lennie</value>
+    <value>All app setting deployment slot setting properties must be of type boolean</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>A(z) {0} érvénytelen alkalmazásbeállítási tulajdonság</value>
@@ -4794,6 +4827,76 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A kiválasztott futtatókörnyezeti verem jelenleg nem támogatja a távoli hibakeresést.</value>
   </data>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
-    <value>Click here to upgrade to a higher SKU and enable additional features.</value>
+    <value>Kattintson ide egy magasabb szintű termékváltozatra váltáshoz és a további funkciók engedélyezéséhez.</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>Az Application Insights nincs beállítva. Állítsa be az Application Insights szolgáltatást a függvénynaplók rögzítéséhez.</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>Hozzáférési korlátozások lettek hozzáadva a függvényalkalmazáshoz, amelyek megakadályozhatják, hogy a portálon kezelje azt.</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>A megadott jelszó nem felel meg a minimális követelményeknek. A jelszónak legalább nyolc karakter hosszúnak kell lennie, és betűket és számokat kell tartalmaznia.</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Bejövő ügyféltanúsítványok</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Bejövő tanúsítvány megkövetelése</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Tanúsítványkizárási útvonalak</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>ügyfélkizárási útvonalak szerkesztése</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>Nincs definiálva kizárási szabály</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>Új elérési út</value>
+  </data>
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>Ha nem talál egy szervezetet vagy egy adattárat, lehetséges, hogy további engedélyeket kell engedélyeznie a GitHubon.</value>
+  </data>
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>Ha nem talál egy szervezetet vagy egy adattárat, lehetséges, hogy további engedélyeket kell engedélyeznie a Bitbucketben.</value>
+  </data>
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>A bejövő ügyféltanúsítványokhoz alap- vagy magasabb szintű App Service-csomag szükséges</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>Olyan ügyféltanúsítványok lettek engedélyezve a függvényalkalmazáshoz, amelyek megakadályozhatják, hogy a portálon kezelje azt.</value>
+  </data>
+  <data name="alwaysOnInfoMessage" xml:space="preserve">
+    <value>Megelőzheti, hogy az alkalmazást inaktivitás miatt tétlenként kezelje a rendszer.</value>
+  </data>
+  <data name="ftpsInfoMessage" xml:space="preserve">
+    <value>Az FTP-alapú üzembe helyezés letiltható, vagy beállítható az egyszerű szöveges FTP-kapcsolatok vagy a biztonságos FTPS-kapcsolatok fogadására. </value>
+  </data>
+  <data name="arrAffinityInfoMessage" xml:space="preserve">
+    <value>Az affinitási cookie kikapcsolásával növelheti az állapot nélküli alkalmazás teljesítményét. Az állapotalapú alkalmazások esetében a kompatibilitás érdekében bekapcsolva kell tartani ezt a beállítást.</value>
+  </data>
+  <data name="applicationSettingsInfoMessage" xml:space="preserve">
+    <value>Az alkalmazásbeállítások inaktív állapotban titkosítva vannak, és titkosított csatornán vannak továbbítva. A lenti vezérlőkkel dönthet úgy, hogy egyszerű szövegként jeleníti meg őket a böngészőben. Az alkalmazásbeállításokat környezeti változók formájában teszi elérhetővé az alkalmazás futási időben.</value>
+  </data>
+  <data name="connectionStringsInfoMessage" xml:space="preserve">
+    <value>A kapcsolati sztringek inaktív állapotban titkosítva vannak, és titkosított csatornán továbbítja őket a rendszer.</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>A PowerShell Functions egy előzetes verziójú ajánlat.</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Szűrés</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>Alkalmazásbeállítások szűrése</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>Kapcsolati sztringek szűrése</value>
+  </data>
+  <data name="readOnlyJava" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
   </data>
 </root>

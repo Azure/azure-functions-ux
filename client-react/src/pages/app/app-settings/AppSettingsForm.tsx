@@ -14,6 +14,7 @@ import CustomTabRenderer from './Sections/CustomTabRenderer';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { ThemeContext } from '../../../ThemeContext';
+import { SiteContext } from './Contexts';
 export const settingsWrapper = style({
   paddingLeft: '15px',
   padding: '5px 20px',
@@ -22,7 +23,7 @@ export const settingsWrapper = style({
 const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const theme = useContext(ThemeContext);
   const { values, initialValues, errors } = props;
-  const { site } = values;
+  const site = useContext(SiteContext);
   const { t } = useTranslation();
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;

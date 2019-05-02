@@ -154,6 +154,13 @@ export class NationalCloudEnvironment extends AzureEnvironment {
         });
       },
     };
+
+    this.scenarioChecks[ScenarioIds.enableLinkAPIM] = {
+      id: ScenarioIds.enableLinkAPIM,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

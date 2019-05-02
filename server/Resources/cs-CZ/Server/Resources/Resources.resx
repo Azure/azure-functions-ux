@@ -217,7 +217,7 @@
     <value>Vytvořit a začít</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Aplikace funkcí</value>
+    <value>Aplikace Function App</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
     <value>Začínáme s Azure Functions</value>
@@ -545,7 +545,7 @@
     <value>Spustit</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Jen pro čtení – vzhledem k tomu, že jste začali upravovat se správou zdrojového kódu, je toto zobrazení k dispozici jen pro čtení.</value>
+    <value>Vaše aplikace se v tuto chvíli nachází v režimu jen pro čtení, protože máte aktivovanou integraci správy zdrojového kódu.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Rozšířený editor</value>
@@ -1169,7 +1169,7 @@
     <value>Nová funkce</value>
   </data>
   <data name="functionApps" xml:space="preserve">
-    <value>Aplikace funkcí</value>
+    <value>Aplikace Function App</value>
   </data>
   <data name="stop" xml:space="preserve">
     <value>Zastavit</value>
@@ -1427,10 +1427,10 @@
     <value>Abyste mohli upravit tato nastavení, musíte mít v aktuální aplikaci oprávnění k zápisu.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>Tato aplikace je zamknuta jen pro čtení, což brání v úpravě nastavení nebo načtení zabezpečených dat. Odeberte prosím zámek a zkuste to znovu.</value>
+    <value>Tato aplikace je zamknutá jen pro čtení, což brání v úpravě nastavení nebo načtení zabezpečených dat. Odeberte prosím zámek a zkuste to znovu.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>Zobrazit nastavení v režimu jen pro čtení</value>
+    <value>Zobrazí nastavení v režimu jen pro čtení.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Nepovedlo se načíst nastavení.</value>
@@ -1556,10 +1556,13 @@
     <value>Funkce Web Apps na Linuxu nabízí možnosti modulu runtime prostřednictvím kolekce integrovaných kontejnerů. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Další informace&lt;/a&gt;</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
-    <value>Spouštěcí soubor</value>
+    <value>Spouštěcí příkaz</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Zadejte nepovinný spouštěcí příkaz, který se spustí během spouštění kontejneru. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Další informace&lt;/a&gt;</value>
+  </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Zadejte nepovinný spouštěcí příkaz, který se spustí během spouštění kontejneru.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Od nejnovějších</value>
@@ -1681,6 +1684,12 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Konfigurace pravidel CORS (Cross-Origin Resource Sharing) pro aplikaci</value>
   </data>
+  <data name="feature_apiManagement" xml:space="preserve">
+    <value>API management</value>
+  </data>
+  <data name="feature_apiManagementInfo" xml:space="preserve">
+    <value>Zveřejněte své funkce triggerů HTTP přes Azure API Management – rozhraní API můžete spravovat, chránit, zabezpečit a publikovat.</value>
+  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>Definice rozhraní API</value>
   </data>
@@ -1781,6 +1790,9 @@
     <value>Nastavení Function App</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>Konfigurace</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>Konfigurace</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -2129,13 +2141,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Nedokážeme aktualizovat režim úprav dané Function App. Zkuste to prosím později.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Vaše aplikace je aktuálně v režimu jen pro čtení, protože jste tak nastavili režim úprav. Pokud chcete režim úprav změnit, navštivte </value>
+    <value>Vaše aplikace se v tuto chvíli nachází v režimu jen pro čtení, protože se tak ručně nastavila. Pokud chcete režim úprav změnit, navštivte </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Vaše aplikace je aktuálně v režimu čtení a zápisu, protože jste tak nastavili režim úprav, přestože máte aktivovanou správu zdrojového kódu. Případné změny, které provedete, se můžou přepsat při příštím nasazení. Pokud chcete režim úprav změnit, navštivte </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Vaše aplikace je v tuto chvíli v režimu jen pro čtení, protože jste publikovali vygenerovaný soubor function.json. Modul runtime Functions bude změny v souboru function.json ignorovat. </value>
+    <value>Vaše aplikace se v tuto chvíli nachází v režimu jen pro čtení, protože jste publikovali vygenerovaný soubor function.json. Modul runtime Functions bude změny v souboru function.json ignorovat. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>Vaše aplikace je v tuto chvíli v režimu čtení a zápisu, protože jste tak nastavili režim úprav, přestože se vygeneroval soubor function.json. Modul runtime služby Functions nebude respektovat změny, které se provedou v souboru function.json.</value>
@@ -2284,6 +2296,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="slotsList_title" xml:space="preserve">
     <value>Sloty (Preview)</value>
   </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Nadcházející změny pravidel směrování</value>
+  </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>Abyste měli k dispozici rozmanitější možnosti monitorování, včetně živých metrik a vlastních dotazů:</value>
   </data>
@@ -2312,7 +2327,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Aby se mohlo zavolat spuštění této funkce, vyžaduje se klientský certifikát. Pokud ji chcete spustit z portálu, musíte klientský certifikát zakázat.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Vaše aplikace je v tuto chvíli v režimu jen pro čtení, protože máte nakonfigurované sloty. Pokud chcete změnit režim úprav, přejděte na</value>
+    <value>Vaše aplikace se v tuto chvíli nachází v režimu jen pro čtení, protože máte nakonfigurované sloty nasazení. Pokud chcete změnit režim úprav, přejděte na</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Spravovat nastavení aplikace</value>
@@ -2902,6 +2917,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="swapFailure" xml:space="preserve">
     <value>Operaci {{operation}} nešlo dokončit. Chyba: {{error}}</value>
   </data>
+  <data name="swapTimeout" xml:space="preserve">
+    <value>Překročil se maximální počet pokusů o načtení stavu pro operaci {{operation}}. Pokud chcete potvrdit stav nebo výsledek operace, podívejte se do protokolu aktivit.</value>
+  </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>Ruší se operace {{operation}}.</value>
   </data>
@@ -3056,7 +3074,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Functions (Preview)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Vaše aplikace je v tuto chvíli v režimu jen pro čtení, protože jste ji spustili ze souboru balíčku. Když se aplikace spustí ze souboru balíčku, systém souborů je určený jen pro čtení a soubory není možné měnit. Pokud chcete něco změnit, aktualizujte obsah souboru ZIP a nastavení aplikace WEBSITE_RUN_FROM_PACKAGE.</value>
+    <value>Vaše aplikace se v tuto chvíli nachází v režimu jen pro čtení, protože jste ji spustili ze souboru balíčku. Pokud chcete něco změnit, aktualizujte obsah souboru ZIP a nastavení aplikace WEBSITE_RUN_FROM_PACKAGE.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Kód</value>
@@ -3160,6 +3178,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Izolované cenové úrovně ve službě App Service Environment (ASE) nejsou pro vaši konfiguraci k dispozici. ASE je výkonná funkce, která nabízí službu Azure App Service. Ta poskytuje funkce pro izolování sítě a vylepšené škálování.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>Vložené vytváření prostředí App Service Environment se v současné době nepodporuje.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Vytvořit nové prostředí App Service Environment</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Cenové úrovně pro vývoj a testování nejsou k dispozici pro vaši konfiguraci. Jsou k dispozici jen plánům, které se nehostují ve službě App Service Environment.</value>
   </data>
@@ -3180,6 +3204,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="free" xml:space="preserve">
     <value>Zdarma</value>
+  </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Skladová položka Free se pro Linux ve vybrané oblasti nepodporuje.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/měsíc (odhad)</value>
@@ -3289,11 +3316,14 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Izolovaná síť</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Spouští se ve vlastní virtuální síti.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Integrace služby Virtual Network</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Spouští se ve vlastní virtuální síti.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Připojit k virtuální síti</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Přístup k privátní aplikaci</value>
@@ -3377,7 +3407,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Pomocí Azure Pipelines, což je součást služby Azure DevOps Services (dříve známé jako VSTS), můžete pro svou aplikaci nakonfigurovat robustní kanál nasazení. Kanál sestavuje kód, spouští zátěžové testy a nasazuje do přípravného slotu a pak do produkce.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Buildovací server App Service Kudu</value>
+    <value>Sestavovací služba App Service</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Jako buildovací server se použije služba App Service. Když to půjde, modul App Service Kudu automaticky sestaví váš kód během nasazování bez nutnosti něco dále konfigurovat.</value>
@@ -3563,7 +3593,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Přihlašovací údaje uživatele</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>Přihlašovací údaje uživatele si jakožto uživatel definujete vy sami a dají se používat ve všech aplikacích, ke kterým máte přístup. Tyto přihlašovací údaje se dají používat ve službách FTP, Místní úložiště Git a WebDeploy. Pokud při připojování k aplikacím používáte Přihlašovací údaje uživatele, uživatelské jméno musí být při ověřování z klienta ve formátu {0}.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="userCredsNewUserDesc" xml:space="preserve">
@@ -3651,13 +3681,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Ekvivalent k výpočetním prostředkům řady Dv3</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>Připojovací řetězce by se spolu s aplikací funkcí měly používat jen v případě, že používáte Entity Framework. Pro ostatní scénáře použijte Nastavení aplikace. Kliknutím získáte další informace.</value>
+    <value>Připojovací řetězce by se spolu s aplikací funkcí měly používat jen v případě, že používáte Entity Framework. Pro ostatní scénáře použijte Nastavení aplikace.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Verze modulu runtime: načítá se...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Vaše aplikace je v tuto chvíli v režimu jen pro čtení, protože používáte místní mezipaměť. Když se používá místní mezipaměť, změny provedené v místním souborovém systému se neukládají trvale do obsahu dané lokality. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Další informace&lt;/a&gt;</value>
+    <value>Vaše aplikace se v tuto chvíli nachází v režimu jen pro čtení, protože používáte místní mezipaměť. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Další informace&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Odstranit</value>
@@ -3723,7 +3753,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Pokud chcete nakonfigurovat nastavení kontejneru, musíte mít k aplikaci přístup pro zápis.</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Vaše nastavení kontejneru se nedají nakonfigurovat, dokud neodeberete zámek, který umožňuje vaši aplikaci jen číst.</value>
+    <value>Vaše aplikace se v tuto chvíli nachází v režimu jen pro čtení. Pokud chcete upravit nastavení kontejneru, odeberte zámek jen pro čtení.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Jeden kontejner</value>
@@ -3990,34 +4020,34 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Nemáte oprávnění pro zápis.</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>Slot je uzamčený jen pro čtení.</value>
+    <value>Slot nasazení je uzamknutý jen pro čtení.</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Zdroj a cíl nemůžou mít stejný slot.</value>
+    <value>Zdroj a cíl nemůžou mít stejný slot nasazení.</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Prohození s náhledem se nedá provést, protože následující sloty mají povolené ověřování: {{slotNames}}</value>
+    <value>Prohození s náhledem se nedá provést, protože následující sloty nasazení mají povolené ověřování: {{slotNames}}</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Prohození s náhledem se dá použít jen pro weby, které mají povolené nastavení slotů.</value>
+    <value>Prohození s náhledem se dá použít jen pro weby, které mají povolené nastavení slotů nasazení.</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Než prohození dokončíte, porovnejte chování aplikace v prvním slotu s konfigurací druhého slotu.</value>
+    <value>Než prohození dokončíte, porovnejte chování aplikace v prvním slotu nasazení s konfigurací druhého slotu nasazení.</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>Pro následující sloty nemáte oprávnění pro zápis: {{slotNames}}</value>
+    <value>Pro následující sloty nasazení nemáte oprávnění pro zápis: {{slotNames}}</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>Pro následující sloty nemáte oprávnění pro prohození: {{slotNames}}</value>
+    <value>Pro následující sloty nasazení nemáte oprávnění pro prohození: {{slotNames}}</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>Následující sloty jsou zamčené jen pro čtení: {{slotNames}}</value>
+    <value>Následující sloty nasazení jsou uzamknuté jen pro čtení: {{slotNames}}</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>Operace prohození se dá provést jen v případě, že aplikace má více než jeden slot.</value>
+    <value>Operace prohození se dá provést jen v případě, že aplikace má více než jeden slot nasazení.</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Prohodit sloty</value>
+    <value>Prohodit sloty nasazení</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Načítání se nezdařilo</value>
@@ -4032,10 +4062,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Změny konfigurace</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>Toto jsou nastavení aplikace specifická pro daný slot a připojovací řetězce z cílového slotu, které se budou dočasně používat ve zdrojovém slotu v první fázi prohození.</value>
+    <value>Toto jsou nastavení aplikace specifická pro daný slot nasazení a připojovací řetězce z cílového slotu nasazení, které se budou dočasně používat ve zdrojovém slotu nasazení v první fázi prohození.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>Toto je shrnutí konečné sady změn konfigurace na zdrojových a cílových slotech poté, co se prohození dokončilo.</value>
+    <value>Toto je shrnutí konečné sady změn konfigurace na zdrojových a cílových slotech nasazení poté, co se prohození dokončilo.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Pokud chcete načíst náhled, proveďte prosím výše platný výběr.</value>
@@ -4149,7 +4179,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>skrýt adresu URL</value>
   </data>
   <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux Consumption Functions je nabídka ve verzi Preview.</value>
+    <value>Plán Využití v Linuxu služby Functions je nabídka ve verzi Preview.</value>
   </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Některá pole nejsou správně vyplněná, nebo jsou povinná.</value>
@@ -4158,7 +4188,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Dokončit a přejít na Deployment Center</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Úprava funkcí na portálu se pro Linux Consumption Function Apps (Preview) nepodporuje.</value>
+    <value>Úprava funkcí na portálu se pro Function Apps (Preview) s plánem Využití v Linuxu nepodporuje.</value>
+  </data>
+  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
+    <value>Úprava funkcí na portálu se pro Function Apps (Preview) s plánem Premium v Linuxu nepodporuje.</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Single Container (Preview)</value>
@@ -4194,7 +4227,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Webové formuláře ASP.NET</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Aplikace webových formulářů ASP.NET nasazená do kontejneru Windows Server Core 2016 LTSC</value>
+    <value>Aplikace webových formulářů ASP.NET nasazená do kontejneru Windows Server Core 2019 LTSC</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask s Redisem</value>
@@ -4240,7 +4273,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>Nová nebo existující webová aplikace</value>
-    </data>
+  </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Podrobnosti o nasazení</value>
   </data>
@@ -4362,13 +4395,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Zásobník</value>
   </data>
   <data name="slots" xml:space="preserve">
-    <value>Přihrádky</value>
+    <value>Slot pro nasazení</value>
   </data>
   <data name="autoSwapEnabled" xml:space="preserve">
     <value>Automatické prohození je povolené.</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Slot automatického prohození</value>
+    <value>Automaticky prohodit slot nasazení</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Platforma</value>
@@ -4419,7 +4452,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Hodnota</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Nastavení slotu</value>
+    <value>nastavení slotu nasazení</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4641,7 +4674,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Proxy (omezené)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>Pokud chcete změnit nastavení slotů, musíte mít v produkční aplikaci oprávnění k zápisu.</value>
+    <value>Pokud chcete změnit nastavení slotů nasazení, musíte mít v produkční aplikaci oprávnění k zápisu.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Pokud chcete změnit nastavení automatického prohození, musíte mít v produkční aplikaci oprávnění k zápisu.</value>
@@ -4656,7 +4689,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Typ aplikace funkcí</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Nastavení slotu se povolila.</value>
+    <value>Nastavení slotu nasazení se povolila.</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Skrytá hodnota. Pokud si ji chcete zobrazit, klikněte výše na tlačítko Zobrazit hodnoty.</value>
@@ -4704,7 +4737,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Azure Blob</value>
   </data>
   <data name="azureFiles" xml:space="preserve">
-    <value>Soubory Azure</value>
+    <value>Azure Files</value>
   </data>
   <data name="newAzureStorageMount" xml:space="preserve">
     <value>Nové připojení Azure Storage</value>
@@ -4755,7 +4788,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Všechny vlastnosti názvů a hodnot nastavení aplikace musí být typu string.</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Všechny vlastnosti nastavení slotu nastavení aplikace musí být typu boolean.</value>
+    <value>Všechny vlastnosti nastavení slotu nasazení v nastavení aplikace musí být typu boolean.</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} je neplatná vlastnost nastavení aplikace.</value>
@@ -4795,5 +4828,75 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
     <value>Pokud chcete upgradovat na vyšší skladovou položku a povolit další funkce, klikněte sem.</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>Služba Application Insights není nakonfigurovaná. Pokud chcete zachytávat protokoly funkcí, nakonfigurujte Application Insights.</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>Do aplikace funkcí se přidala omezení přístupu, která můžou mít vliv na možnost spravovat aplikaci přes portál.</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>Zadané heslo nesplňuje minimální požadavky. Heslo by mělo být alespoň osm znaků dlouhé a musí obsahovat písmena a číslice.</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Příchozí klientské certifikáty</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Požadovat příchozí certifikát</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Cesty pro vyloučení certifikátů</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>Upravit cesty pro vyloučení klientů</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>Nedefinovala se žádná pravidla vyloučení</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>Nová cesta</value>
+  </data>
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>Pokud se vám nedaří najít organizaci nebo úložiště, bude možná nutné povolit v GitHubu další oprávnění.</value>
+  </data>
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>Pokud se vám nedaří najít organizaci nebo úložiště, bude možná nutné povolit v Bitbucketu další oprávnění.</value>
+  </data>
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>Příchozí klientské certifikáty vyžadují plán služby App Service Basic nebo vyšší.</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>V aplikaci funkcí se povolily klientské certifikáty, které můžou mít vliv na možnost spravovat aplikaci přes portál.</value>
+  </data>
+  <data name="alwaysOnInfoMessage" xml:space="preserve">
+    <value>Zabrání ukončení aplikace z důvodu neaktivity.</value>
+  </data>
+  <data name="ftpsInfoMessage" xml:space="preserve">
+    <value>Nasazení na základě FTP se dá zakázat nebo nakonfigurovat tak, aby přijímalo připojení FTP (prostý text) nebo FTPS (zabezpečené). </value>
+  </data>
+  <data name="arrAffinityInfoMessage" xml:space="preserve">
+    <value>Výkon svých bezstavových aplikací můžete zvýšit tak, že vypnete soubory cookie spřažení. Stavové aplikace by toto nastavení měly mít z důvodu kompatibility zapnuté.</value>
+  </data>
+  <data name="applicationSettingsInfoMessage" xml:space="preserve">
+    <value>Nastavení aplikace se šifrují při nečinnosti a přenáší se šifrovaným kanálem. Pomocí ovládacích prvků níže můžete nastavit, aby se v prohlížeči zobrazovala jako prostý text. Vaše aplikace může za běhu k nastavením aplikace přistupovat pomocí proměnných prostředí.</value>
+  </data>
+  <data name="connectionStringsInfoMessage" xml:space="preserve">
+    <value>Připojovací řetězce se šifrují při nečinnosti a přenáší se šifrovaným kanálem.</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>PowerShell Functions je nabídka ve verzi Preview.</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filtr</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>Filtrovat nastavení aplikace</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>Filtrovat připojovací řetězce</value>
+  </data>
+  <data name="readOnlyJava" xml:space="preserve">
+    <value>Úprava funkcí na portálu se pro Java Function Apps nepodporuje. Pro vývoj prosím použijte Maven nebo nástroj VS Code.</value>
   </data>
 </root>

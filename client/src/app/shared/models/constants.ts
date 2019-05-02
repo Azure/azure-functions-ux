@@ -302,6 +302,7 @@ export class ScenarioIds {
   public static readonly addScaleOut = 'addScaleOut';
   public static readonly alwaysOnSupported = 'alwaysOnSupported';
   public static readonly enableConsole = 'EnableConsole';
+  public static readonly enableLinkAPIM = 'EnableLinkAPIM';
 }
 
 export class NationalCloudArmUris {
@@ -600,8 +601,8 @@ export class FeatureFlags {
   public static UseNewSlotsBlade = 'UseNewSlotsBlade';
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
-  public static ShowVNetIntegration = 'ShowVNetIntegration';
   public static EnableLinuxElasticPremium = 'EnableLinuxElasticPremium';
+  public static AllowFreeLinux = 'allowfreelinux';
 }
 
 export class SupportedFeatures {

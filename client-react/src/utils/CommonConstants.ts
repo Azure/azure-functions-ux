@@ -27,6 +27,8 @@ export class CommonConstants {
     functionApp: 'functionapp',
     botapp: 'botapp',
     elastic: 'elastic', // only applies to server farm
+    app: 'app',
+    api: 'api',
   };
 
   public static readonly ApiVersions = {
@@ -41,5 +43,9 @@ export class CommonConstants {
     upsell: '#804998',
     upsellBackground: '#e7ddf2',
     blackText: '#161616', // useful for cases where black text is always wanted like against upsell background
+  };
+
+  public static readonly FeatureFlags = {
+    AllowFreeLinux: 'allowfreelinux',
   };
 }

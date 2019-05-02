@@ -78,6 +78,7 @@ export namespace errorIds {
   export const applicationInsightsConfigure = 'errors/appInsights/configure';
   export const quickstartLoadError = 'errors/quickstart/load';
   export const failedToSwapSlots = '/errors/unableToSwapSlots';
+  export const timedOutPollingSwapSlots = '/errors/timedOutPollingSwapSlots';
   export const failedToUpdateHostToOffline = 'error/failedToUpdateHostToOffline';
   export const failedToUpdateHostToRunning = 'error/failedToUpdateHostToRunning';
   export const failedToUninstallExtensions = 'error/failedToUninstallExtensions';
