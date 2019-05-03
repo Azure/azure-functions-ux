@@ -123,7 +123,7 @@ export class FunctionManageComponent extends NavigableComponent {
       this.setBusy();
       this._portalService.logAction('function-manage', 'delete');
       // Clone node for removing as it can be change during http call
-      this._functionAppService.deleteFunction(this.context, this.functionInfo).subscribe(() => {
+      this._functionService.deleteFunction(this.context.site.id, this.functionInfo.name).subscribe(() => {
         this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
           resourceId: `${this.context.site.id}/functions/${this.functionInfo.name}`,
           operation: 'remove',

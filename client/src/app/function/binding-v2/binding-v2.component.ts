@@ -148,7 +148,7 @@ export class BindingV2Component extends FunctionAppContextComponent {
   setup(): Subscription {
     return this.viewInfoEvents
       .switchMap(view => {
-        this._functionInfo = view.functionInfo.result.properties;
+        this._functionInfo = view.functionInfo.isSuccessful && view.functionInfo.result.properties;
         return Observable.zip(
           this._siteService.getAppSettings(view.context.site.id),
           this._functionAppService.getAuthSettings(view.context),
@@ -525,8 +525,8 @@ export class BindingV2Component extends FunctionAppContextComponent {
           const input = new EventGridInput();
           input.label = this._translateService.instant(PortalResources.eventGrid_label);
           input.help = this._translateService.instant(PortalResources.eventGrid_help);
-          input.bladeLabel = this._functionInfo.name;
-          this._functionAppService.getEventGridUri(this.context, this._functionInfo.name).subscribe(eventGridUri => {
+          input.bladeLabel = (this._functionInfo && this._functionInfo.name) || '';
+          this._functionAppService.getEventGridUri(this.context, input.bladeLabel).subscribe(eventGridUri => {
             input.value = eventGridUri.result;
           });
           this.model.inputs.push(input);

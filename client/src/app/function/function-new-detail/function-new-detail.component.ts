@@ -317,8 +317,8 @@ export class FunctionNewDetailComponent implements OnChanges {
     });
 
     this._globalStateService.setBusyState();
-    this._functionAppService
-      .createFunction(this.context, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
+    this._functionService
+      .createFunction(this.context.site.id, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
       .subscribe(
         newFunctionInfo => {
           if (newFunctionInfo.isSuccessful) {
@@ -331,7 +331,7 @@ export class FunctionNewDetailComponent implements OnChanges {
             this._aiService.trackEvent('new-function', { template: this.currentTemplate.id, result: 'success', first: 'false' });
 
             this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
-            this.functionsNode.addChild(newFunctionInfo.result);
+            this.functionsNode.addChild(newFunctionInfo.result.properties);
           }
           this._globalStateService.clearBusyState();
         },

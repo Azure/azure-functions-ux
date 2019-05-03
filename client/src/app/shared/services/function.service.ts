@@ -31,6 +31,30 @@ export class FunctionService {
     return this._client.execute({ resourceId: resourceId }, t => getFunction);
   }
 
+  createFunction(resourceId: string, functionName: string, files: any, config: any): Result<ArmObj<FunctionInfo>> {
+    const filesCopy = Object.assign({}, files);
+    const sampleData = filesCopy['sample.dat'];
+    delete filesCopy['sample.dat'];
+
+    const payload = JSON.stringify({
+      properties: {
+        files: filesCopy,
+        test_data: sampleData,
+        config: config,
+      },
+    });
+
+    const createFunction = this._cacheService.putArm(`${resourceId}/functions/${functionName}`, null, payload).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => createFunction);
+  }
+
+  deleteFunction(resourceId: string, functionName: string): Result<void> {
+    const deleteFunction = this._cacheService.deleteArm(`${resourceId}/functions/${functionName}`).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => deleteFunction);
+  }
+
   getFunctionKeys(resourceId: string, functionName: string, force?: boolean): Result<FunctionKeys> {
     const getFunctionKeys = this._cacheService.postArm(`${resourceId}/functions/${functionName}/listkeys`, force).map(r => {
       const functionKeys: FunctionKey[] = [];

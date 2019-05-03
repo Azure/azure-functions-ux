@@ -470,9 +470,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   private setFunctionInvokeUrl() {
     if (this.isHttpFunction && this.functionInfo) {
       this.functionInvokeUrl = this.functionInfo.invoke_url_template;
-    } else {
-      this.runValid = true;
     }
+    this.runValid = true;
   }
 
   saveScript(dontClearBusy?: boolean): Subscription | null {
