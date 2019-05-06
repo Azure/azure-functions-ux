@@ -152,6 +152,12 @@ export class LinuxFramworksComponent implements OnDestroy {
           new RegExp('^(dotnet)\\s+\\w+'),
           this._translateService.instant(PortalResources.invalidStartupCommandAspNetCore)
         );
+        const inputValidator = RegexValidator.create(
+          new RegExp(/^[.]*\\(.)*$|^[.]*\/(.)*$|[A-Za-z]:(.)*/),
+          this._translateService.instant(PortalResources.validate_workingDirectory),
+          true
+        );
+
         if (stack === WebAppFramework.Node) {
           this.wizard.buildSettings.get('startupCommand').setValidators([nodeValidator]);
           this.wizard.buildSettings.get('startupCommand').updateValueAndValidity();
@@ -161,12 +167,23 @@ export class LinuxFramworksComponent implements OnDestroy {
         } else {
           this.removeValidators();
         }
+
+        if (stack != WebAppFramework.AspNetCore) {
+          this.wizard.buildSettings.get('workingDirectory').setValidators([inputValidator]);
+          this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
+        } else {
+          this.wizard.buildSettings.get('workingDirectory').setValidators([]);
+          this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
+        }
       });
   }
 
   private removeValidators() {
     this.wizard.buildSettings.get('startupCommand').setValidators([]);
     this.wizard.buildSettings.get('startupCommand').updateValueAndValidity();
+
+    this.wizard.buildSettings.get('workingDirectory').setValidators([]);
+    this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
   }
 
   ngOnDestroy(): void {

@@ -109,10 +109,10 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
     this.wizard.buildSettings
       .get('applicationFramework')
       .valueChanges.takeUntil(this._ngUnsubscribe$)
-      .subscribe(val => {
-        if (val != WebAppFramework.AspNetCore && val != WebAppFramework.AspNetWap) {
+      .subscribe(stack => {
+        if (stack != WebAppFramework.AspNetCore && stack != WebAppFramework.AspNetWap) {
           const inputValidator = RegexValidator.create(
-            new RegExp(/^\\(.)*$|^\/(.)*$|[A-Za-z]:(.)*/),
+            new RegExp(/^[.]*\\(.)*$|^[.]*\/(.)*$|[A-Za-z]:(.)*/),
             this._translateService.instant(PortalResources.validate_workingDirectory),
             true
           );

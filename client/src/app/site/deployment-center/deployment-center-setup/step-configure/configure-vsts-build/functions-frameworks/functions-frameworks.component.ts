@@ -3,6 +3,7 @@ import { DeploymentCenterStateManager } from '../../../wizard-logic/deployment-c
 import { DropDownElement } from '../../../../../../shared/models/drop-down-element';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
+import { RegexValidator } from 'app/shared/validators/regexValidator';
 
 export const WebAppFramework = {
   ScriptFunction: 'ScriptFunction',
@@ -29,6 +30,21 @@ export class FunctionsFramworksComponent {
       value: WebAppFramework.PrecompiledFunction,
     },
   ];
+
+  private setupValidators() {
+    const inputValidator = RegexValidator.create(
+      new RegExp(/^\.{2,}\\(.)*$|^\.{2,}\/(.)*$|[A-Za-z]:(.)*/),
+      this._translateService.instant(PortalResources.validate_workingDirectory),
+      true
+    );
+    this.wizard.buildSettings.get('applicationFramework').valueChanges.subscribe(stack => {
+      this.wizard.buildSettings.get('workingDirectory').setValidators([inputValidator]);
+      this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
+    });
+  }
+
   selectedFramework = WebAppFramework.ScriptFunction;
-  constructor(public wizard: DeploymentCenterStateManager, private _translateService: TranslateService) {}
+  constructor(public wizard: DeploymentCenterStateManager, private _translateService: TranslateService) {
+    this.setupValidators();
+  }
 }
