@@ -9,13 +9,16 @@ x64/
 x86/
 build/
 bld/
+dist/
 [Bb]in/
 [Oo]bj/
 AzureFunctions/ng
 AzureFunctions/ng-full
 AzureFunctions/ng-min
 server/src/actions/resources
-
+server/src/data
+server/data
+server/src/public
 # User-specific files
 *.suo
 *.user

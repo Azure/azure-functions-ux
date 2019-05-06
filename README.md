@@ -87,28 +87,30 @@ npm run test
 ### React E2E Tests
 
 single run
-```
 
+```
 cd client-react
 npm run build
 cd ../tests
 npm run test:run
 
 ```
-development mode
-```
 
+development mode
+
+```
 cd client-react
 npm start
 
 ```
-plus in another terminal
-```
 
+plus in another terminal
+
+```
 cd tests
 npx cypress open
-
 ```
+
 ## License
 
 This project is licensed under the APACHE 2.0 License - see the [LICENSE.md](LICENSE.md) file for details
