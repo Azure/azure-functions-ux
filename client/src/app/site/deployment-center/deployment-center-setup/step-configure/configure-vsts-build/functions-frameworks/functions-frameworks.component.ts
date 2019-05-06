@@ -33,7 +33,7 @@ export class FunctionsFramworksComponent {
 
   private setupValidators() {
     const inputValidator = RegexValidator.create(
-      new RegExp(/^\.{2,}\\(.)*$|^\.{2,}\/(.)*$|[A-Za-z]:(.)*/),
+      new RegExp(/^\.{2,}\\(.)*$|^\.{2,}\/(.)*$|(.)*:(.)*/),
       this._translateService.instant(PortalResources.validate_workingDirectory),
       true
     );

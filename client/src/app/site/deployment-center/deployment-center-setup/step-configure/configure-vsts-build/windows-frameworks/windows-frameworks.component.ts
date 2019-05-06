@@ -104,7 +104,7 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
   private setupValidators() {
     this.requiredValidator = new RequiredValidator(this._translateService, false);
     const workingDirectoryValidator = RegexValidator.create(
-      new RegExp(/^\.{2,}\\(.)*$|^\.{2,}\/(.)*$|[A-Za-z]:(.)*/),
+      new RegExp(/^\.{2,}\\(.)*$|^\.{2,}\/(.)*$|(.)*:(.)*/),
       this._translateService.instant(PortalResources.validate_workingDirectory),
       true
     );
