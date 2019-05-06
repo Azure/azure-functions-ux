@@ -462,7 +462,8 @@ export class FunctionAppService {
     );
   }
 
-  deleteFunction(context: FunctionAppContext, functionInfo: FunctionInfo): Result<void> {
+  // Use deleteFunction in function.service.ts instead
+  deleteFunctionDeprecated(context: FunctionAppContext, functionInfo: FunctionInfo): Result<void> {
     return this.getClient(context)
       .execute({ resourceId: context.site.id }, t => {
         return this._cacheService.delete(functionInfo.href, this.jsonHeaders(t));

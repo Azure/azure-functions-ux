@@ -12,7 +12,7 @@ export class BindingManager {
     let i = 1;
     while (true) {
       const func = functionsInfo.find(value => {
-        return defaultName.toLowerCase() + i.toString() === value.name.toLowerCase();
+        return defaultName.toLowerCase() + i.toString() === value.properties.name.toLowerCase();
       });
 
       if (func) {

@@ -467,74 +467,11 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private setFunctionInvokeUrl(key?: string) {
-    if (this.isHttpFunction) {
-      // No webhook https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]
-      // WebhookType = "Generic JSON"  https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]&clientId=[keyname]
-      // WebhookType = "GitHub" or "Slack" https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?clientId=[keyname]
-      let code = '';
-      let clientId = '';
-      let queryParams = '';
-
-      // NOTE(michinoy): With existing implementation, the public functionKey is assigned once the component is loaded.
-      // But one could also change the key by selecting the dropdown. This is a currently a safer change instead having to
-      // refactor several areas of this file.
-      const functionKey = key || this.functionKey;
-
-      if (functionKey) {
-        code = functionKey;
-      }
-
-      if (this.webHookType && functionKey) {
-        const allKeys = this.functionKeys.keys.concat(this.hostKeys.functionKeys.keys).concat(this.hostKeys.systemKeys.keys);
-        const keyWithValue = allKeys.find(k => k.value === functionKey);
-        if (keyWithValue) {
-          clientId = keyWithValue.name;
-        }
-
-        if (this.webHookType.toLowerCase() !== WebhookTypes.genericjson) {
-          code = '';
-        }
-      }
-      if (this.authLevel && this.authLevel.toLowerCase() === 'anonymous') {
-        code = null;
-      }
-      if (code) {
-        queryParams = `?code=${code}`;
-      }
-      if (clientId) {
-        queryParams = queryParams ? `${queryParams}&clientId=${clientId}` : `?clientId=${clientId}`;
-      }
-
-      if (this.functionAppVersion === FunctionAppVersion.v1) {
-        this._functionAppService.getHostJson(this.context).subscribe(jsonObj => {
-          const result =
-            jsonObj.isSuccessful &&
-            jsonObj.result.http &&
-            jsonObj.result.http.routePrefix !== undefined &&
-            jsonObj.result.http.routePrefix !== null
-              ? jsonObj.result.http.routePrefix
-              : 'api';
-
-          this.updateFunctionInvokeUrl(result, queryParams);
-        });
-      } else {
-        this._functionAppService.getHostV2Json(this.context).subscribe(jsonObj => {
-          const result =
-            jsonObj.isSuccessful &&
-            jsonObj.result.extensions &&
-            jsonObj.result.extensions.http &&
-            jsonObj.result.extensions.http.routePrefix !== undefined &&
-            jsonObj.result.extensions.http.routePrefix !== null
-              ? jsonObj.result.extensions.http.routePrefix
-              : 'api';
-
-          this.updateFunctionInvokeUrl(result, queryParams);
-        });
-      }
-    } else {
-      this.runValid = true;
+  private setFunctionInvokeUrl() {
+    if (this.isHttpFunction && this.functionInfo) {
+      this.functionInvokeUrl = this.functionInfo.invoke_url_template;
     }
+    this.runValid = true;
   }
 
   saveScript(dontClearBusy?: boolean): Subscription | null {
@@ -713,7 +650,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   setShowFunctionInvokeUrlModal(value: boolean) {
     const allKeys = this.functionKeys.keys.concat(this.hostKeys.functionKeys.keys).concat(this.hostKeys.systemKeys.keys);
     if (allKeys.length > 0) {
-      this.onChangeKey(allKeys[0].value);
+      this.onChangeKey();
     }
     this.showFunctionInvokeUrlModal = value;
   }
@@ -735,8 +672,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  onChangeKey(key: string) {
-    this.setFunctionInvokeUrl(key);
+  onChangeKey() {
+    this.setFunctionInvokeUrl();
     this.setFunctionKey(this.functionInfo);
   }
 
@@ -778,27 +715,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           break;
       }
     }
-  }
-
-  private updateFunctionInvokeUrl(result: string, queryParams: string) {
-    const httpTrigger = this.functionInfo.config.bindings.find(b => {
-      return b.type === BindingType.httpTrigger.toString();
-    });
-    if (httpTrigger && httpTrigger.route) {
-      result = result + '/' + httpTrigger.route;
-    } else {
-      result = result + '/' + this.functionInfo.name;
-    }
-
-    // Remove doubled slashes
-    let path = '/' + result;
-    const find = '//';
-    const re = new RegExp(find, 'g');
-    path = path.replace(re, '/');
-    path = path.replace('/?', '?') + queryParams;
-
-    this.functionInvokeUrl = this.context.mainSiteUrl + path;
-    this.runValid = true;
   }
 
   private getTestData(): string {
@@ -856,23 +772,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     ).subscribe(tuple => {
       this.functionKeys = tuple[0].isSuccessful ? tuple[0].result : { keys: [] };
       this.hostKeys = tuple[1].isSuccessful ? tuple[1].result : { masterKey: '', functionKeys: { keys: [] }, systemKeys: { keys: [] } };
-      const masterKey = this.hostKeys.masterKey;
-
-      if (this.authLevel && this.authLevel.toLowerCase() === 'admin') {
-        if (!!masterKey) {
-          this.onChangeKey(masterKey);
-        }
-      } else {
-        let allKeys = this.functionKeys.keys;
-        if (!!masterKey) {
-          allKeys = allKeys.concat([{ name: '_master', value: masterKey }]);
-        }
-        allKeys = allKeys.concat(this.hostKeys.functionKeys.keys).concat(this.hostKeys.systemKeys.keys);
-        if (allKeys.length > 0) {
-          this.onChangeKey(allKeys[0].value);
-        }
-      }
-
+      this.onChangeKey();
       this.setInvokeUrlVisibility();
     });
   }
