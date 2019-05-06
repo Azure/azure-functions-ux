@@ -152,7 +152,7 @@ export class LinuxFramworksComponent implements OnDestroy {
           new RegExp('^(dotnet)\\s+\\w+'),
           this._translateService.instant(PortalResources.invalidStartupCommandAspNetCore)
         );
-        const inputValidator = RegexValidator.create(
+        const workingDirectoryValidator = RegexValidator.create(
           new RegExp(/^(\.{2,}|~|())\\(.)*$|^(\.{2,}|~|())\/(.)*$|(.)+:(.)*/),
           this._translateService.instant(PortalResources.validate_workingDirectory),
           true
@@ -169,7 +169,7 @@ export class LinuxFramworksComponent implements OnDestroy {
         }
 
         if (stack != WebAppFramework.AspNetCore) {
-          this.wizard.buildSettings.get('workingDirectory').setValidators([inputValidator]);
+          this.wizard.buildSettings.get('workingDirectory').setValidators([workingDirectoryValidator]);
           this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
         } else {
           this.wizard.buildSettings.get('workingDirectory').setValidators([]);
