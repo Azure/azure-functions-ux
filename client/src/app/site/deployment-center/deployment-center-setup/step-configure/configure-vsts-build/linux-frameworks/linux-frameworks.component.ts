@@ -153,7 +153,7 @@ export class LinuxFramworksComponent implements OnDestroy {
           this._translateService.instant(PortalResources.invalidStartupCommandAspNetCore)
         );
         const inputValidator = RegexValidator.create(
-          new RegExp(/^\.{2,}\\(.)*$|^\.{2,}\/(.)*$|(.)*:(.)*/),
+          new RegExp(/^(\.{2,}|())\\(.)*$|^(\.{2,}|())\/(.)*$|(.)+:(.)*/),
           this._translateService.instant(PortalResources.validate_workingDirectory),
           true
         );
