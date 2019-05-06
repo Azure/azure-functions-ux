@@ -4912,6 +4912,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
-    <value>Working directory validation.</value>
+    <value>Working directory path should be relative to root of repository, and cannot start with /, \\ or drive names(C:/). If working directory is in src folder of repsitory, path should be either src/ or ./src/</value>
   </data>
 </root>

@@ -103,6 +103,11 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
   }
   private setupValidators() {
     this.requiredValidator = new RequiredValidator(this._translateService, false);
+    const workingDirectoryValidator = RegexValidator.create(
+      new RegExp(/^\.{2,}\\(.)*$|^\.{2,}\/(.)*$|[A-Za-z]:(.)*/),
+      this._translateService.instant(PortalResources.validate_workingDirectory),
+      true
+    );
     this.wizard.buildSettings.get('applicationFramework').setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
     this.wizard.buildSettings.get('applicationFramework').updateValueAndValidity();
 
@@ -111,12 +116,7 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
       .valueChanges.takeUntil(this._ngUnsubscribe$)
       .subscribe(stack => {
         if (stack != WebAppFramework.AspNetCore && stack != WebAppFramework.AspNetWap) {
-          const inputValidator = RegexValidator.create(
-            new RegExp(/^[.]*\\(.)*$|^[.]*\/(.)*$|[A-Za-z]:(.)*/),
-            this._translateService.instant(PortalResources.validate_workingDirectory),
-            true
-          );
-          this.wizard.buildSettings.get('workingDirectory').setValidators([inputValidator]);
+          this.wizard.buildSettings.get('workingDirectory').setValidators([workingDirectoryValidator]);
           this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
         } else {
           this.wizard.buildSettings.get('workingDirectory').setValidators([]);
