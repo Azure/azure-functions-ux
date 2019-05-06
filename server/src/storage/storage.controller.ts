@@ -1,6 +1,5 @@
-import { Controller, Post, Body, UseInterceptors, UploadedFile, Headers, HttpException } from '@nestjs/common';
+import { Controller, Post, Body, HttpException } from '@nestjs/common';
 import { StorageService } from './storage.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('api')
 export class StorageController {

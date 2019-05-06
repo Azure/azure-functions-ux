@@ -73,9 +73,9 @@ gulp.task('package-version', () => {
 /**
  * This generates a inserts environment variables to the .env file
  */
-gulp.task('copy-env-example-to-env', () => {
+gulp.task('copy-env-template-to-env', () => {
   return gulp
-    .src('**/.env.example')
+    .src('**/.env.template')
     .pipe(
       rename(function(p) {
         p.extname = '';
