@@ -116,7 +116,7 @@ gulp.task('replace-environment-variables', cb => {
   }
   cb();
 });
-gulp.task('inject-environment-variables', gulp.series('copy-env-example-to-env', 'replace-environment-variables'));
+gulp.task('inject-environment-variables', gulp.series('copy-env-template-to-env', 'replace-environment-variables'));
 /********
  *   Bundle Up production server static files
  */
