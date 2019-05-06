@@ -6,6 +6,8 @@ import { CacheService } from 'app/shared/services/cache.service';
 import { PythonFrameworkType } from '../../../wizard-logic/deployment-center-setup-models';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
+import { RegexValidator } from 'app/shared/validators/regexValidator';
+import { PortalResources } from 'app/shared/models/portal-resources';
 
 export const TaskRunner = {
   None: 'None',
@@ -105,6 +107,24 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
     this.wizard.buildSettings.get('applicationFramework').updateValueAndValidity();
 
     this.wizard.buildSettings
+      .get('applicationFramework')
+      .valueChanges.takeUntil(this._ngUnsubscribe$)
+      .subscribe(val => {
+        if (val != WebAppFramework.AspNetCore && val != WebAppFramework.AspNetWap) {
+          const inputValidator = RegexValidator.create(
+            new RegExp(/^\\(.)*$|^\/(.)*$|[A-Za-z]:(.)*/),
+            this._translateService.instant(PortalResources.validate_workingDirectory),
+            true
+          );
+          this.wizard.buildSettings.get('workingDirectory').setValidators([inputValidator]);
+          this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
+        } else {
+          this.wizard.buildSettings.get('workingDirectory').setValidators([]);
+          this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
+        }
+      });
+
+    this.wizard.buildSettings
       .get('pythonSettings')
       .get('framework')
       .valueChanges.takeUntil(this._ngUnsubscribe$)
@@ -118,7 +138,10 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
             .get('pythonSettings')
             .get('djangoSettingsModule')
             .updateValueAndValidity();
-        } else if (this.wizard.wizardValues.buildSettings.applicationFramework === WebAppFramework.Python && val === PythonFrameworkType.Flask) {
+        } else if (
+          this.wizard.wizardValues.buildSettings.applicationFramework === WebAppFramework.Python &&
+          val === PythonFrameworkType.Flask
+        ) {
           this.wizard.buildSettings
             .get('pythonSettings')
             .get('flaskProjectName')
