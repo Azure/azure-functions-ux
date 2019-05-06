@@ -8,14 +8,27 @@ export class ProxyController {
   constructor(private loggingService: LoggingService, private httpService: HttpService) {}
 
   @Post('proxy')
-  async proxy(@Body('method') method, @Body('headers') headers, @Body('url') url, @Body('body') body, @Res() res: Response) {
-    return this.makeCall(method, headers, url, body, res);
+  async proxy(
+    @Body('method') proxyMethod,
+    @Body('headers') proxyHeaders,
+    @Body('url') proxyUrl,
+    @Body('body') proxyBody,
+    @Res() res: Response
+  ) {
+    return this.makeCall(proxyMethod, proxyHeaders, proxyUrl, proxyBody, res);
   }
 
   @Post('passthrough')
-  async passthrough(@Body('method') method, @Body('headers') headers, @Body('url') url, @Body('body') body, @Res() res: Response) {
-    return this.makeCall(method, headers, url, body, res);
+  async passthrough(
+    @Body('method') proxyMethod,
+    @Body('headers') proxyHeaders,
+    @Body('url') proxyUrl,
+    @Body('body') proxyBody,
+    @Res() res: Response
+  ) {
+    return this.makeCall(proxyMethod, proxyHeaders, proxyUrl, proxyBody, res);
   }
+
   private async makeCall(method: string, headers: any, url: string, body: any, res: Response) {
     try {
       const result = await this.httpService.request({

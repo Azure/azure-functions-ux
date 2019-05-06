@@ -5,7 +5,7 @@ import { ContainersService } from './containers.service';
 export class ContainersController {
   constructor(private containerService: ContainersService) {}
   @Post('validateContainerImage')
-  validateContainerImage(@Body('url') url: string, @Body('body') body: unknown, @Body('headers') headers: unknown) {
-    return this.containerService.validateContainerImage(url, body, headers);
+  validateContainerImage(@Body('url') proxyUrl: string, @Body('body') proxyBody: unknown, @Body('headers') proxyHeaders: unknown) {
+    return this.containerService.validateContainerImage(proxyUrl, proxyBody, proxyHeaders);
   }
 }

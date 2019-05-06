@@ -4,9 +4,9 @@ import { HttpService } from '../shared/http/http.service';
 @Injectable()
 export class ContainersService {
   constructor(private httpService: HttpService) {}
-  async validateContainerImage(url: string, body: unknown, headers: unknown) {
+  async validateContainerImage(url: string, proxyBody: unknown, headers: unknown) {
     try {
-      await this.httpService.post(url, body, {
+      await this.httpService.post(url, proxyBody, {
         headers,
       });
       return;
