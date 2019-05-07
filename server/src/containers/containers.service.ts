@@ -9,7 +9,7 @@ export class ContainersService {
       await this.httpService.post(url, proxyBody, {
         headers,
       });
-      return;
+      return {};
     } catch (e) {
       if (e.response && e.response.status) {
         const message = e.message;
