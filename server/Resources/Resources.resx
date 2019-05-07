@@ -4803,7 +4803,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>{0} is an invalid app setting property</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
-    <value>App setting names must be unqiue</value>
+    <value>App setting names must be unique</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Invalid JSON object</value>
