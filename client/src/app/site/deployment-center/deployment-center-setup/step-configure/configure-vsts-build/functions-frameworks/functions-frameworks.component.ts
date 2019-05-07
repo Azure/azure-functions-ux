@@ -33,7 +33,8 @@ export class FunctionsFramworksComponent {
 
   private setupValidators() {
     const workingDirectoryValidator = RegexValidator.create(
-      new RegExp(/^(\.{2,}|~|())\\(.)*$|^(\.{2,}|~|())\/(.)*$|(.)+:(.)*/),
+      // For windows
+      new RegExp(/^(\.{2,}|~|())\\(.)*$|^(\.{2,}|~|())\/(.)*$|^.:(.)*$/),
       this._translateService.instant(PortalResources.validate_workingDirectory),
       true
     );
