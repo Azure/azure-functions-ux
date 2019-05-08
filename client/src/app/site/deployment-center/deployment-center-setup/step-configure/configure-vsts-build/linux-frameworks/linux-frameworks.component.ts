@@ -8,6 +8,7 @@ import { RegexValidator } from 'app/shared/validators/regexValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
+import { Regex } from 'app/shared/models/constants';
 
 export const TaskRunner = {
   None: 'None',
@@ -153,7 +154,7 @@ export class LinuxFramworksComponent implements OnDestroy {
           this._translateService.instant(PortalResources.invalidStartupCommandAspNetCore)
         );
         const workingDirectoryValidator = RegexValidator.create(
-          new RegExp(/^(\.{2,}|~|())\\(.)*$|^(\.{2,}|~|())\/(.)*$/),
+          new RegExp(Regex.linuxWorkingDirectoryValidation),
           this._translateService.instant(PortalResources.validate_workingDirectory),
           true
         );

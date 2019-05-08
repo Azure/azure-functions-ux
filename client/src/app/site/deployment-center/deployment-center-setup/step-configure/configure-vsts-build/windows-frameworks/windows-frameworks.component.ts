@@ -8,6 +8,7 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { RegexValidator } from 'app/shared/validators/regexValidator';
 import { PortalResources } from 'app/shared/models/portal-resources';
+import { Regex } from 'app/shared/models/constants';
 
 export const TaskRunner = {
   None: 'None',
@@ -104,7 +105,7 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
   private setupValidators() {
     this.requiredValidator = new RequiredValidator(this._translateService, false);
     const workingDirectoryValidator = RegexValidator.create(
-      new RegExp(/^(\.{2,}|~|())\\(.)*$|^(\.{2,}|~|())\/(.)*$|^.:(.)*$/),
+      new RegExp(Regex.windowsWorkingDirectoryValidation),
       this._translateService.instant(PortalResources.validate_workingDirectory),
       true
     );
@@ -173,6 +174,8 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
       .get('pythonSettings')
       .get('flaskProjectName')
       .updateValueAndValidity();
+    this.wizard.buildSettings.get('workingDirectory').setValidators([]);
+    this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
   }
 
   ngOnInit(): void {

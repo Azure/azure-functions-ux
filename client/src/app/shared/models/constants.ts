@@ -127,6 +127,15 @@ export class Regex {
   public static readonly errorLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Error|ERROR)/;
   public static readonly warningLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Warning|WARNING)/;
   public static readonly log: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2})/;
+  /*
+    1. Donot Start with /, \ or ~
+    2. Donot have path in drive letter format eg: (C:/Windows)
+  */
+  public static readonly windowsWorkingDirectoryValidation = /^[/\\~](.)*$|^.:(.)*$/;
+  /*
+    1. Donot start with /, \ or ~
+  */
+  public static readonly linuxWorkingDirectoryValidation = /^[/\\~](.)*$/;
 }
 
 export class Links {
