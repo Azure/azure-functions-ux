@@ -167,6 +167,7 @@ export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts
   });
   return {
     id: '',
+    location: '',
     name: '',
     properties: storageMountFromForm,
   };
