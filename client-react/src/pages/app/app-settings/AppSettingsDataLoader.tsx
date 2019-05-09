@@ -40,10 +40,16 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
   const portalCommunicator = useContext(PortalContext);
-  const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<{ [key: string]: string }>>({ name: '', id: '', properties: {} });
+  const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<{ [key: string]: string }>>({
+    name: '',
+    id: '',
+    location: '',
+    properties: {},
+  });
   const [slotConfigNamesFromApi, setSlotConfigNamesFromApi] = useState<ArmObj<SlotConfigNames>>({
     name: '',
     id: '',
+    location: '',
     properties: { appSettingNames: [], azureStorageConfigNames: [], connectionStringNames: [] },
   });
   const [currentSiteNonForm, setCurrentSiteNonForm] = useState({} as any);
