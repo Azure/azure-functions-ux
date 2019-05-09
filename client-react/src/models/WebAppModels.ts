@@ -1,3 +1,8 @@
+export interface MsiIdentity {
+  principalId: string;
+  tenantId: string;
+  type: string;
+}
 export interface ArmObj<T> {
   id: string;
   kind?: string;
@@ -6,6 +11,7 @@ export interface ArmObj<T> {
   tags?: { [key: string]: string };
   location?: string;
   name: string;
+  identity?: MsiIdentity;
 }
 
 export interface ArmArray<T> {
