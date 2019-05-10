@@ -26,7 +26,6 @@ export const getServerFarmValidator = <T>(subscriptionId: string, resourceGroupN
       return ServerFarmService.fetchServerFarm(serverFarmId).then(r => {
         if (r.metadata.success) {
           errors.notUnique = `A plan named '${name}' already exists under the resource group ${resourceGroupName}`;
-          //   setNewPlanNameValidationError(`A plan named '${value}' already exists under the resource group ${rgName}`);
         }
 
         Object.keys(errors).length > 0 ? reject(errors) : resolve(errors);

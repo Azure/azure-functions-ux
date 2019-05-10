@@ -73,7 +73,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
           selectedKey={planInfo.isNewPlan ? planInfo.newPlanInfo.name : (planInfo.existingPlan as ArmObj<ServerFarm>).id}
           options={options}
           onChange={onChangeDropdown}
-          styles={dropdownStyleOverrides(false, theme, fullpage, '450px')} // etodo: is this right?
+          styles={dropdownStyleOverrides(false, theme, fullpage, '450px')}
         />
         <CreatePlan
           newPlanInfo={planInfo.newPlanInfo}

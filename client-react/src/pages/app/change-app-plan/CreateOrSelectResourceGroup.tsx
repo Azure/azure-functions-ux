@@ -84,9 +84,6 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
   };
 
   const onRgNameTextChange = (e: any, value: string) => {
-    // form.setFieldValue(`${field.name}.newResourceGroupName`, value);
-    // newResourceGroupName.current = value;
-
     setNewRgNameFieldValue(value);
 
     for (const option of options) {
@@ -113,8 +110,6 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
       </div>
       <Callout
         className={calloutStyle}
-        //   ariaLabelledBy={this._labelId}
-        //   ariaDescribedBy={this._descriptionId}
         role="alertdialog"
         gapSpace={0}
         target={menuButtonElement.current}

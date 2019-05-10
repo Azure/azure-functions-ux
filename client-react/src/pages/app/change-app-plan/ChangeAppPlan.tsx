@@ -15,6 +15,7 @@ import PortalCommunicator from '../../../portal-communicator';
 import { getDefaultServerFarmName } from '../../../utils/formValidation/serverFarmValidator';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
 import LogService from '../../../utils/LogService';
+import { ReactComponent as AppServicePlanSvg } from '../../../images/AppService/app-service-plan.svg';
 
 export const leftCol = style({
   marginRight: '20px',
@@ -78,8 +79,6 @@ const onSubmit = async (
   portalCommunicator: PortalCommunicator,
   changeComplete: () => void
 ) => {
-  console.log('submit');
-
   const { site, currentServerFarm, serverFarmInfo } = values;
   const notificationId = portalCommunicator.startNotification('Changing App Service plan', 'Changing App Service plan');
   setFormValues(values);
@@ -107,7 +106,6 @@ const onSubmit = async (
       portalCommunicator.stopNotification(notificationId, false, 'Failed to change to App Service plan: "{0}"'.format(updateSiteError));
       LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'Failed to update site'));
 
-      console.log('failed!');
       setIsUpdating(false);
       return;
     }
@@ -297,9 +295,6 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   addNewPlanToOptions(formValues.serverFarmInfo.newPlanInfo.name, serverFarmOptions);
 
   const onPlanChange = (form: FormikProps<ChangeAppPlanFormValues>, planInfo: CreateOrSelectPlanFormValues) => {
-    console.log(form.values.serverFarmInfo);
-    console.log('plan change!' + planInfo.isNewPlan);
-
     form.setFieldValue('serverFarmInfo', planInfo);
   };
 
@@ -336,7 +331,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                 <FeatureDescriptionCard
                   name="Change App Service plan"
                   description="Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance."
-                  iconUrl="/images/app-service-plan.svg"
+                  Svg={AppServicePlanSvg}
                 />
               </header>
 

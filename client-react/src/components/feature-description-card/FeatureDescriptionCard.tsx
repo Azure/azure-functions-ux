@@ -1,11 +1,11 @@
 import * as React from 'react';
-import ReactSVG from 'react-svg';
 import { style } from 'typestyle';
+import '../../theme/images.css';
 
 interface FeatureDescriptionCardProps {
   name: string;
   description: string;
-  iconUrl: string;
+  Svg: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   learnMoreLink?: string;
 }
 
@@ -31,12 +31,12 @@ const descriptionClass = style({
 });
 
 const FeatureDescriptionCard = (props: FeatureDescriptionCardProps) => {
-  const { iconUrl, name, description } = props;
+  const { Svg, name, description } = props;
 
   return (
     <div className={descriptionClass}>
       <span className={iconClass}>
-        <ReactSVG src={iconUrl} />
+        <Svg />
       </span>
       <h2 className={headerClass}>{name}</h2>
       <div>{description}</div>
