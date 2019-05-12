@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root"
-    xmlns=""
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  <xsd:schema id="root" 
+    xmlns="" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
     xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -1690,7 +1690,7 @@
   <data name="feature_apiManagement" xml:space="preserve">
     <value>API Management</value>
   </data>
-   <data name="feature_apiManagementInfo" xml:space="preserve">
+  <data name="feature_apiManagementInfo" xml:space="preserve">
     <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
   </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
@@ -3050,7 +3050,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Configure continuous integration with an Azure Repo, part of Azure DevOps Services (formerly known as VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
-    <value>Deploy from a public Git or Mercurial repo.</value>
+    <value>Deploy from a public Git or Mercurial repo. This option requires manually triggering your deployments.</value>
   </data>
   <data name="bitbucketDesc" xml:space="preserve">
     <value>Configure continuous integration with a Bitbucket repo.</value>
