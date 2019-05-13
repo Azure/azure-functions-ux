@@ -52,14 +52,26 @@ const localStorageCacheOptions = {
     tr: process.env.REACT_APP_CACHE_KEY,
   },
 };
-i18n.use(Backend).init({
-  backend: {
+let backends;
+if (process.env.REACT_APP_CACHE_KEY) {
+  backends = {
     backends: [
       LocalStorageBackend, // primary
       XHR, // fallback
     ],
     backendOptions: [localStorageCacheOptions, backendOptions],
-  },
+  };
+} else {
+  // if no cache key is present then always fetch from server
+  backends = {
+    backends: [
+      XHR, // fallback
+    ],
+    backendOptions: [backendOptions],
+  };
+}
+i18n.use(Backend).init({
+  backend: backends,
   fallbackLng: 'en',
   debug: false,
   // have a common namespace used around the full app
