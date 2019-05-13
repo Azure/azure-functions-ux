@@ -140,6 +140,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       : {
           metadata: {
             success: true,
+            error: null,
           },
         };
 
@@ -150,7 +151,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       });
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
-      portalContext.stopNotification(notificationId, false, t('configUpdateFailure'));
+      const siteError = siteResult.metadata.error && siteResult.metadata.error.Message;
+      const configError = configResult.metadata.error && configResult.metadata.error.Message;
+      const slotConfigError = slotConfigResults.metadata.error && slotConfigResults.metadata.error.Message;
+      const errMessage = siteError || configError || slotConfigError || t('configUpdateFailure');
+      portalContext.stopNotification(notificationId, false, errMessage);
     }
   };
   if (!initialLoading || !initialValues) {
