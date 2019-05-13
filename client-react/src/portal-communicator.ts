@@ -267,7 +267,7 @@ export default class PortalCommunicator {
       }
       this.setArmEndpointInternal(startupInfo.armEndpoint);
       this.setArmTokenInternal(startupInfo.token);
-      this.i18n.changeLanguage(startupInfo.acceptLanguage);
+      this.i18n.changeLanguage(startupInfo.effectiveLocale);
       this.setStartupInfo(startupInfo);
     } else if (methodName === Verbs.sendToken2) {
       this.setArmTokenInternal(data.token);

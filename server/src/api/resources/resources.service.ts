@@ -22,11 +22,11 @@ export class ResourcesService implements OnModuleInit {
   }
   async getResources(runtime: string, language: string) {
     const runtimeVersion = runtime.replace('~', '');
-
+    const langLower = language.toLowerCase();
     let langCode = 'en';
-    if (language !== 'en') {
-      if (!!languageMap[language]) {
-        langCode = languageMap[language];
+    if (langLower !== 'en') {
+      if (!!languageMap[langLower]) {
+        langCode = languageMap[langLower];
       } else {
         langCode = `${language.toLowerCase()}-${language.toUpperCase()}`;
       }
