@@ -16,6 +16,8 @@ import { getDefaultServerFarmName } from '../../../utils/formValidation/serverFa
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
 import LogService from '../../../utils/LogService';
 import { ReactComponent as AppServicePlanSvg } from '../../../images/AppService/app-service-plan.svg';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 export const leftCol = style({
   marginRight: '20px',
@@ -77,10 +79,11 @@ const onSubmit = async (
   setIsUpdating: React.Dispatch<React.SetStateAction<boolean>>,
   setFormValues: React.Dispatch<React.SetStateAction<ChangeAppPlanFormValues>>,
   portalCommunicator: PortalCommunicator,
+  t: i18next.TFunction,
   changeComplete: () => void
 ) => {
   const { site, currentServerFarm, serverFarmInfo } = values;
-  const notificationId = portalCommunicator.startNotification('Changing App Service plan', 'Changing App Service plan');
+  const notificationId = portalCommunicator.startNotification(t('changePlanNotification'), t('changePlanNotification'));
   setFormValues(values);
   setIsUpdating(true);
 
@@ -98,12 +101,12 @@ const onSubmit = async (
 
     const siteResponse = await SiteService.updateSite(site.id, site);
     if (siteResponse.metadata.success) {
-      portalCommunicator.stopNotification(notificationId, true, 'Changing App Service plan');
+      portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
       LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(true, false, false));
     } else {
       const updateSiteError =
         siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
-      portalCommunicator.stopNotification(notificationId, false, 'Failed to change to App Service plan: "{0}"'.format(updateSiteError));
+      portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
       LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'Failed to update site'));
 
       setIsUpdating(false);
@@ -124,7 +127,7 @@ const onSubmit = async (
 
       if (!rgResponse.metadata.success) {
         const createRgError = rgResponse.metadata.error && rgResponse.metadata.error.Message ? rgResponse.metadata.error.Message : rgName;
-        portalCommunicator.stopNotification(notificationId, false, 'Failed to create resource group: "{0}'.format(createRgError));
+        portalCommunicator.stopNotification(notificationId, false, t('changePlanRgCreateFailureNotificationFormat').format(createRgError));
         LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, true, true, 'Failed to update resource group'));
 
         setIsUpdating(false);
@@ -159,7 +162,11 @@ const onSubmit = async (
         serverFarmResponse.metadata.error && serverFarmResponse.metadata.error.Message
           ? serverFarmResponse.metadata.error.Message
           : planDescriptor.name;
-      portalCommunicator.stopNotification(notificationId, false, 'Failed to create App Service plan: "{0}"'.format(createPlanError));
+      portalCommunicator.stopNotification(
+        notificationId,
+        false,
+        t('changePlanPlanCreateFailureNotificationFormat').format(createPlanError)
+      );
 
       LogService.trackEvent(
         '/ChangeAppPlan',
@@ -177,7 +184,7 @@ const onSubmit = async (
     if (!siteResponse.metadata.success) {
       const updateSiteError =
         siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
-      portalCommunicator.stopNotification(notificationId, false, 'Failed to change to App Service plan: "{0}"'.format(updateSiteError));
+      portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
 
       LogService.trackEvent(
         '/ChangeAppPlan',
@@ -189,7 +196,7 @@ const onSubmit = async (
       return;
     }
 
-    portalCommunicator.stopNotification(notificationId, true, 'Changing App Service plan');
+    portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
   }
 
   changeComplete();
@@ -207,10 +214,10 @@ const getSelectedSkuString = (values: ChangeAppPlanFormValues) => {
   return `${sku.tier} (${sku.name}) `;
 };
 
-const getSelectedResourceGroupString = (values: CreateOrSelectPlanFormValues) => {
+const getSelectedResourceGroupString = (values: CreateOrSelectPlanFormValues, t: i18next.TFunction) => {
   if (values.isNewPlan) {
     if (values.newPlanInfo.isNewResourceGroup) {
-      return `(New) ${values.newPlanInfo.newResourceGroupName}`;
+      return t('newFormat').format(values.newPlanInfo.newResourceGroupName);
     }
 
     return `${(values.newPlanInfo.existingResourceGroup as ArmObj<ResourceGroup>).name}`;
@@ -275,6 +282,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const { resourceGroups, serverFarms, site, currentServerFarm, onChangeComplete: onChangeComplete } = props;
   const [isUpdating, setIsUpdating] = useState(false);
   const portalCommunicator = useContext(PortalContext);
+  const { t } = useTranslation();
 
   const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(
     getInitialFormValues(site, currentServerFarm, serverFarms, resourceGroups)
@@ -282,17 +290,17 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
 
   useEffect(() => {
     if (isUpdating) {
-      portalCommunicator.updateDirtyState(true, 'Are you sure you would like to cancel the update operation?');
+      portalCommunicator.updateDirtyState(true, t('cancelUpdateConfirmation'));
     } else {
       portalCommunicator.updateDirtyState(false);
     }
   }, [isUpdating]);
 
   const rgOptions = getDropdownOptions(resourceGroups);
-  addNewRgOption(formValues.serverFarmInfo.newPlanInfo.newResourceGroupName, rgOptions);
+  addNewRgOption(formValues.serverFarmInfo.newPlanInfo.newResourceGroupName, rgOptions, t);
 
   const serverFarmOptions = getDropdownOptions(serverFarms);
-  addNewPlanToOptions(formValues.serverFarmInfo.newPlanInfo.name, serverFarmOptions);
+  addNewPlanToOptions(formValues.serverFarmInfo.newPlanInfo.name, serverFarmOptions, t);
 
   const onPlanChange = (form: FormikProps<ChangeAppPlanFormValues>, planInfo: CreateOrSelectPlanFormValues) => {
     form.setFieldValue('serverFarmInfo', planInfo);
@@ -311,7 +319,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   if (serverFarmOptions.length === 0) {
     serverFarmOptions.unshift({
       key: formValues.serverFarmInfo.newPlanInfo.name,
-      text: `(New) ${formValues.serverFarmInfo.newPlanInfo.name}`,
+      text: t('newFormat').format(formValues.serverFarmInfo.newPlanInfo.name),
       data: NEW_PLAN,
       selected: true,
     });
@@ -323,27 +331,23 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
     <>
       <Formik
         initialValues={formValues}
-        onSubmit={values => onSubmit(values, setIsUpdating, setFormValues, portalCommunicator, onChangeComplete)}>
+        onSubmit={values => onSubmit(values, setIsUpdating, setFormValues, portalCommunicator, t, onChangeComplete)}>
         {(formProps: FormikProps<ChangeAppPlanFormValues>) => {
           return (
             <form>
               <header>
-                <FeatureDescriptionCard
-                  name="Change App Service plan"
-                  description="Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance."
-                  Svg={AppServicePlanSvg}
-                />
+                <FeatureDescriptionCard name={t('changePlanName')} description={t('changePlanDescription')} Svg={AppServicePlanSvg} />
               </header>
 
               <section>
                 <Stack style={formStyle}>
                   <Stack horizontal disableShrink>
-                    <label className={labelStyle}>Current App Service plan</label>
+                    <label className={labelStyle}>{t('changePlanCurrentPlan')}</label>
                     <div>{getPlanName(currentServerFarm)}</div>
                   </Stack>
 
                   <Stack horizontal disableShrink style={{ marginTop: '25px' }}>
-                    <label className={labelStyle}>Destination App Service plan</label>
+                    <label className={labelStyle}>{t('changePlanDestPlan')}</label>
                     <CreateOrSelectPlan
                       subscriptionId={subscriptionId}
                       isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
@@ -360,7 +364,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
 
                   <Stack horizontal disableShrink style={{ marginTop: '45px' }}>
                     <label className={labelStyle}>Resource Group</label>
-                    <div>{getSelectedResourceGroupString(formProps.values.serverFarmInfo)}</div>
+                    <div>{getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}</div>
                   </Stack>
 
                   <Stack horizontal disableShrink style={fieldStyle}>
@@ -378,7 +382,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
               <footer className={footerStyle}>
                 <PrimaryButton
                   data-automation-id="test"
-                  text="OK"
+                  text={t('ok')}
                   allowDisabledFocus={true}
                   onClick={formProps.submitForm}
                   disabled={isUpdating}

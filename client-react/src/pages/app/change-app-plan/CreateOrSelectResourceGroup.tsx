@@ -16,6 +16,8 @@ import { ArmObj } from '../../../models/WebAppModels';
 import { style } from 'typestyle';
 import { TextField as OfficeTextField } from 'office-ui-fabric-react/lib/TextField';
 import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 export interface CreateOrSelectResourceGroupFormProps {
   onRgChange: (rgInfo: ResourceGroupInfo) => void;
@@ -52,6 +54,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
   const [showCallout, setShowCallout] = useState(false);
   const [newRgNameFieldValue, setNewRgNameFieldValue] = useState(newResourceGroupName);
   const [newRgNameValidationError, setNewRgNameValidationError] = useState('');
+  const { t } = useTranslation();
 
   const onChangeDropdown = (e: unknown, option: IDropdownOption) => {
     const rgInfo: ResourceGroupInfo = {
@@ -74,7 +77,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
   };
 
   const onCompleteCallout = () => {
-    addNewRgOption(newRgNameFieldValue, options);
+    addNewRgOption(newRgNameFieldValue, options, t);
     setShowCallout(false);
     onChange({
       existingResourceGroup,
@@ -88,7 +91,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
     for (const option of options) {
       if (option.data !== NEW_RG && option.data.name.toLowerCase() === value.toLowerCase()) {
-        setNewRgNameValidationError(`'${value}' already exists`);
+        setNewRgNameValidationError(t('validationErrorAlreadyExistsFormat').format(value));
         return;
       }
     }
@@ -102,11 +105,11 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
         selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id}
         options={options}
         onChange={onChangeDropdown}
-        styles={dropdownStyleOverrides(false, theme, false, '260px')} // etodo: need to update for dirty
+        styles={dropdownStyleOverrides(false, theme, false, '260px')}
       />
 
       <div ref={menuButton => (menuButtonElement.current = menuButton)}>
-        <Link onClick={onShowCallout}>Create new</Link>
+        <Link onClick={onShowCallout}>{t('createNew')}</Link>
       </div>
       <Callout
         className={calloutStyle}
@@ -118,14 +121,14 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
         hidden={!showCallout}
         directionalHint={DirectionalHint.rightBottomEdge}>
         <section className={calloutContainerStyle}>
-          <div>A resource group is a container that holds related resources for an Azure solution.</div>
+          <div>t('resourceGroupDescription')</div>
           <div className={textFieldStyle}>
             <label>* Name</label>
             <OfficeTextField
               styles={TextFieldStyles}
               value={newRgNameFieldValue}
               onChange={onRgNameTextChange}
-              placeholder="Create new"
+              placeholder={t('createNew')}
               errorMessage={newRgNameValidationError}
             />
           </div>
@@ -137,7 +140,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
               onClick={onCompleteCallout}
             />
 
-            <DefaultButton text="Cancel" onClick={onDismissCallout} />
+            <DefaultButton text={t('cancel')} onClick={onDismissCallout} />
           </div>
         </section>
       </Callout>
@@ -145,11 +148,11 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
   );
 };
 
-export const addNewRgOption = (newRgName: string, options: IDropdownOption[]) => {
+export const addNewRgOption = (newRgName: string, options: IDropdownOption[], t: i18next.TFunction) => {
   if (newRgName) {
     const newItem = {
       key: newRgName,
-      text: `(New) ${newRgName}`,
+      text: t('newFormat').format(newRgName),
       data: NEW_RG,
     };
 

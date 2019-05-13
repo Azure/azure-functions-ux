@@ -6,6 +6,8 @@ import { useWindowSize } from 'react-use';
 import { ArmObj, ServerFarm } from '../../../models/WebAppModels';
 import { ResourceGroupInfo } from './CreateOrSelectResourceGroup';
 import { CreatePlan } from './CreatePlan';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 export const NEW_PLAN = '__NEWPLAN__';
 
@@ -42,6 +44,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
 
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
+  const { t } = useTranslation();
 
   const [planInfo, setPlanInfo] = useState<CreateOrSelectPlanFormValues>({
     isNewPlan,
@@ -80,18 +83,18 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
           serverFarmsInWebspace={serverFarmsInWebspace}
           resourceGroupOptions={resourceGroupOptions}
           subscriptionId={subscriptionId}
-          onCreatePanelClose={newPlan => onCreatePanelClose(planInfo, setPlanInfo, newPlan, options, onPlanChange)}
+          onCreatePanelClose={newPlan => onCreatePanelClose(planInfo, setPlanInfo, newPlan, options, t, onPlanChange)}
         />
       </Stack>
     </>
   );
 };
 
-export const addNewPlanToOptions = (planName: string, options: IDropdownOption[]) => {
+export const addNewPlanToOptions = (planName: string, options: IDropdownOption[], t: i18next.TFunction) => {
   if (planName) {
     const newItem = {
       key: planName,
-      text: `(New) ${planName}`,
+      text: t('newFormat').format(planName),
       data: NEW_PLAN,
     };
 
@@ -108,6 +111,7 @@ const onCreatePanelClose = (
   setPlanInfo: React.Dispatch<React.SetStateAction<CreateOrSelectPlanFormValues>>,
   newPlanInfo: NewPlanInfo,
   planOptions: IDropdownOption[],
+  t: i18next.TFunction,
   onPlanChange: (planInfo: CreateOrSelectPlanFormValues) => void
 ) => {
   const info = {
@@ -118,7 +122,7 @@ const onCreatePanelClose = (
     isNewPlan: true,
   };
 
-  addNewPlanToOptions(info.newPlanInfo.name, planOptions);
+  addNewPlanToOptions(info.newPlanInfo.name, planOptions, t);
   setPlanInfo(info);
   onPlanChange(info);
 };

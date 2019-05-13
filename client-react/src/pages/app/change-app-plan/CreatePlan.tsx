@@ -10,6 +10,8 @@ import { getServerFarmValidator } from '../../../utils/formValidation/serverFarm
 import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 import { style } from 'typestyle';
 import { linkStyle } from './ChangeAppPlan';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 export interface CreatePlanProps {
   newPlanInfo: NewPlanInfo;
@@ -33,10 +35,11 @@ export const CreatePlan = (props: CreatePlanProps) => {
   });
 
   const newPlanInfo$ = useRef(new Subject<NewPlanInfo>());
+  const { t } = useTranslation();
 
   // Initialization
   useEffect(() => {
-    watchForPlanUpdates(subscriptionId, newPlanInfo$.current, setNewPlanInfo, serverFarmsInWebspace, setNewPlanNameValidationError);
+    watchForPlanUpdates(subscriptionId, newPlanInfo$.current, setNewPlanInfo, serverFarmsInWebspace, setNewPlanNameValidationError, t);
 
     return () => {
       newPlanInfo$.current.unsubscribe();
@@ -55,7 +58,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
     newPlanInfo$.current.next(info);
   };
 
-  const onRenderFooterContent = () => {
+  const onRenderFooterContent = (t: i18next.TFunction) => {
     return (
       <div>
         <PrimaryButton
@@ -79,9 +82,9 @@ export const CreatePlan = (props: CreatePlanProps) => {
         isOpen={showPanel}
         type={PanelType.smallFixedFar}
         onDismiss={() => onCancelPanel(setShowPanel)}
-        headerText="Create a new plan"
-        closeButtonAriaLabel="Close"
-        onRenderFooterContent={onRenderFooterContent}>
+        headerText={t('createNewPlan')}
+        closeButtonAriaLabel={t('close')}
+        onRenderFooterContent={() => onRenderFooterContent(t)}>
         <CreateOrSelectResourceGroup
           options={resourceGroupOptions}
           isNewResourceGroup={newPlanInfo.isNewResourceGroup}
@@ -91,14 +94,14 @@ export const CreatePlan = (props: CreatePlanProps) => {
         />
 
         <div className={fieldStyle}>
-          <label>* Name</label>
+          <label>* {t('_name')}</label>
           <OfficeTextField
             styles={TextFieldStyles}
             value={newPlanInfo.name}
             onChange={onChangePlanName}
             // onBlur={field.onBlur}
             errorMessage={newPlanNameValidationError}
-            placeholder="Plan name"
+            placeholder={t('planName')}
           />
         </div>
       </Panel>
@@ -128,7 +131,8 @@ const watchForPlanUpdates = (
   newPlanInfo$: Subject<NewPlanInfo>,
   setNewPlanInfo: React.Dispatch<React.SetStateAction<NewPlanInfo>>,
   serverFarmsInWebspace: ArmObj<ServerFarm>[],
-  setNewPlanNameValidationError: React.Dispatch<React.SetStateAction<string>>
+  setNewPlanNameValidationError: React.Dispatch<React.SetStateAction<string>>,
+  t: i18next.TFunction
 ) => {
   newPlanInfo$.pipe(debounceTime(300)).subscribe(info => {
     setNewPlanInfo(info);
@@ -140,7 +144,7 @@ const watchForPlanUpdates = (
       .then(_ => {
         const duplicate = serverFarmsInWebspace.find(s => s.name.toLowerCase() === info.name.toLowerCase());
         if (duplicate) {
-          setNewPlanNameValidationError(`The name '${info.name}' is not unique within your apps hosting constraints`);
+          setNewPlanNameValidationError(t('validationWebspaceUniqueErrorFormat').format(info.name));
         } else {
           setNewPlanNameValidationError('');
         }
