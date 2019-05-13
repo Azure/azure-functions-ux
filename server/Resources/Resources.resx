@@ -4911,4 +4911,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="readOnlyJava" xml:space="preserve">
     <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
   </data>
+  <data name="mountedStorageInfo" xml:space="preserve">
+    <value>Mounted storage lets you map Azure Files or Blob containers for use with your app.</value>
+  </data>
 </root>
