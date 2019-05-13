@@ -69,7 +69,7 @@ const armObs$ = armSubject$.pipe(
   share()
 );
 
-const makeArmRequest = async <T>(armObj: InternalArmRequest): Promise<AxiosResponse<T>> => {
+const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise<AxiosResponse<T>> => {
   const { method, resourceId, body, apiVersion, queryString } = armObj;
   const url = Url.appendQueryString(`${window.armEndpoint}${resourceId}${queryString || ''}`, `api-version=${apiVersion}`);
   const headers: { [key: string]: string } = {
@@ -85,9 +85,15 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest): Promise<AxiosRespo
       method,
       headers,
       data: body,
-
       validateStatus: () => true, // never throw on an error, we can check the status and handle the error in the UI
     });
+    if (retry < 2 && result.status === 401) {
+      if (window.updateAuthToken) {
+        const newToken = await window.updateAuthToken('');
+        window.authToken = newToken;
+        return makeArmRequest(armObj, retry + 1);
+      }
+    }
     LogService.trackEvent('ArmHelper', 'makeArmRequest', { resourceId, method, sessionId, correlationId: armObj.id });
     return result;
   } catch (err) {
