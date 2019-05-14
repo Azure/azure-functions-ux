@@ -30,7 +30,7 @@ export class StepSourceControlComponent {
     },
     {
       id: 'github',
-      name: 'Github',
+      name: 'GitHub',
       icon: 'image/deployment-center/github.svg',
       color: '#68217A',
       description: this._translateService.instant(PortalResources.githubDesc),
