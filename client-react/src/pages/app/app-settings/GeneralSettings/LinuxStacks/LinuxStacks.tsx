@@ -28,17 +28,19 @@ const getRuntimeStacks = (builtInStacks: ArmObj<AvailableStack>[]) => {
 };
 
 const getSelectedRuntimeStack = (builtInStacks: ArmObj<AvailableStack>[], version: string) => {
-  const map = {};
-
-  builtInStacks.forEach(s => {
-    s.properties.majorVersions.forEach(majVer => {
-      map[majVer.runtimeVersion.toLowerCase()] = s.name;
-      majVer.minorVersions.forEach(minVer => {
-        map[minVer.runtimeVersion.toLowerCase()] = s.name;
-      });
-    });
-  });
-  return map[version];
+  for (const s of builtInStacks) {
+    for (const majVer of s.properties.majorVersions) {
+      if (majVer.runtimeVersion.toLowerCase() === version) {
+        return s.name;
+      }
+      for (const minVer of majVer.minorVersions) {
+        if (minVer.runtimeVersion.toLowerCase() === version) {
+          return s.name;
+        }
+      }
+    }
+  }
+  return '';
 };
 const getMajorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string) => {
   const linuxFxVersionOptions: IDropdownOption[] = [];
@@ -57,23 +59,26 @@ const getMajorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string
   return linuxFxVersionOptions;
 };
 const getSelectedMajorVersion = (builtInStacks: ArmObj<AvailableStack>[], version: string) => {
-  const map = {};
-
   const stack = getSelectedRuntimeStack(builtInStacks, version);
   const currentStack = builtInStacks.find(s => s.name === stack);
   if (!currentStack) {
-    return null;
+    return '';
   }
-  currentStack.properties.majorVersions.forEach(majVer => {
-    map[majVer.runtimeVersion.toLowerCase()] = majVer.runtimeVersion.toLowerCase();
-    majVer.minorVersions.forEach(minVer => {
-      map[minVer.runtimeVersion.toLowerCase()] = majVer.runtimeVersion.toLowerCase();
-    });
-  });
-  return map[version];
+  for (const majVer of currentStack.properties.majorVersions) {
+    if (majVer.runtimeVersion.toLowerCase() === version) {
+      return majVer.runtimeVersion.toLowerCase();
+    }
+    for (const minVer of majVer.minorVersions) {
+      if (minVer.runtimeVersion.toLowerCase() === version) {
+        return majVer.runtimeVersion.toLowerCase();
+      }
+    }
+  }
+  return '';
 };
 const getMinorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string, majorVersion: string) => {
   const linuxFxVersionOptions: IDropdownOption[] = [];
+  // included already handles the case that duplicate versions are included multiple times and needs to be filtered out
   const includedAlready = new Set();
   const currentStack = builtInStacks.find(s => s.name === stack);
   if (!currentStack) {
