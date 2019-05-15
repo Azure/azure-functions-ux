@@ -4962,4 +4962,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="planName" xml:space="preserve">
     <value>Plan name</value>
   </data>
+  <data name="majorVersion" xml:space="preserve">
+    <value>Major version</value>
+  </data>
+  <data name="minorVersion" xml:space="preserve">
+    <value>Minor version</value>
+  </data>
 </root>
