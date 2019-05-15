@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" 
-    xmlns="" 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  <xsd:schema id="root"
+    xmlns=""
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -4910,6 +4910,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
     <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
+  </data>
+  <data name="error_deploymentCenterExists" xml:space="preserve">
+    <value>Deployment is already configured through Deployment Center on your web app. To reconfigure, kindly disconnect the existing one before proceeding further. Note that only one deployment configuration is allowed through Azure DevOps in Deployment Center for a web app, in spite of the number of slots.</value>
   </data>
   <data name="mountedStorageInfo" xml:space="preserve">
     <value>Mounted storage lets you map Azure Files or Blob containers for use with your app.</value>

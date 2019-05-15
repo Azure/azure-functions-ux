@@ -98,7 +98,7 @@ export class StepCompleteComponent {
           this._portalService.stopNotification(
             notificationId,
             false,
-            this._translateService.instant(PortalResources.settingupDeploymentFail)
+            this._translateService.instant(PortalResources.settingupDeploymentFail) + this._translateService.instant(err)
           );
           this._logService.error(LogCategories.cicd, '/save-cicd', err);
           this._portalService.logAction('deploymentcenter', 'save', {
