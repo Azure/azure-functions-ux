@@ -1596,4 +1596,5 @@ export class PortalResources {
   public static resourceGroupDescription = 'resourceGroupDescription';
   public static createNewPlan = 'createNewPlan';
   public static planName = 'planName';
+  public static error_deploymentCenterExists = 'error_deploymentCenterExists';
 }
