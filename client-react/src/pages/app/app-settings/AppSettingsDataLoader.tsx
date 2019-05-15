@@ -40,10 +40,16 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
   const portalCommunicator = useContext(PortalContext);
-  const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<{ [key: string]: string }>>({ name: '', id: '', properties: {} });
+  const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<{ [key: string]: string }>>({
+    name: '',
+    id: '',
+    location: '',
+    properties: {},
+  });
   const [slotConfigNamesFromApi, setSlotConfigNamesFromApi] = useState<ArmObj<SlotConfigNames>>({
     name: '',
     id: '',
+    location: '',
     properties: { appSettingNames: [], azureStorageConfigNames: [], connectionStringNames: [] },
   });
   const [currentSiteNonForm, setCurrentSiteNonForm] = useState({} as any);
@@ -140,6 +146,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       : {
           metadata: {
             success: true,
+            error: null,
           },
         };
 
@@ -150,7 +157,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       });
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
-      portalContext.stopNotification(notificationId, false, t('configUpdateFailure'));
+      const siteError = siteResult.metadata.error && siteResult.metadata.error.Message;
+      const configError = configResult.metadata.error && configResult.metadata.error.Message;
+      const slotConfigError = slotConfigResults.metadata.error && slotConfigResults.metadata.error.Message;
+      const errMessage = siteError || configError || slotConfigError || t('configUpdateFailure');
+      portalContext.stopNotification(notificationId, false, errMessage);
     }
   };
   if (!initialLoading || !initialValues) {

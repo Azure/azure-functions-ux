@@ -5,7 +5,6 @@ import { AppKind } from '../../../../utils/AppKind';
 import { PriceSpec, PriceSpecInput, SpecColorCodes } from './PriceSpec';
 import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
 import { ArmProviderInfo } from '../../../../models/HttpResult';
-import Url from '../../../../utils/url';
 import { style } from 'typestyle';
 import i18next from 'i18next';
 
@@ -58,7 +57,6 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
   }
 
   public async runInitialization(input: PriceSpecInput): Promise<void> {
-    const allowFreeLinux = Url.getParameterByName(null, CommonConstants.FeatureFlags.AllowFreeLinux);
     let isLinux = false;
     if (input.plan) {
       isLinux = AppKind.hasAnyKind(input.plan, [CommonConstants.Kinds.linux]);
@@ -68,8 +66,7 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
       if (
         input.plan.properties.hostingEnvironmentProfile ||
         input.plan.properties.isXenon ||
-        AppKind.hasAnyKind(input.plan, [CommonConstants.Kinds.elastic]) ||
-        (!allowFreeLinux && isLinux)
+        AppKind.hasAnyKind(input.plan, [CommonConstants.Kinds.elastic])
       ) {
         this.state = 'hidden';
       }
@@ -82,12 +79,7 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
       if (isLinux) {
         this.topLevelFeatures.shift();
       }
-      if (
-        input.specPickerInput.data.hostingEnvironmentName ||
-        input.specPickerInput.data.isXenon ||
-        input.specPickerInput.data.isElastic ||
-        (!allowFreeLinux && isLinux)
-      ) {
+      if (input.specPickerInput.data.hostingEnvironmentName || input.specPickerInput.data.isXenon || input.specPickerInput.data.isElastic) {
         this.state = 'hidden';
       }
 

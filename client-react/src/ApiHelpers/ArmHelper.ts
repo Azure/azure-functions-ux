@@ -1,3 +1,4 @@
+import { ArmArray, ArmObj } from './../models/WebAppModels';
 import axios, { AxiosResponse } from 'axios';
 import { CommonConstants } from '../utils/CommonConstants';
 import { Subject, from } from 'rxjs';
@@ -7,6 +8,7 @@ import { async } from 'rxjs/internal/scheduler/async';
 import Url from '../utils/url';
 import { MethodTypes, ArmRequestObject, HttpResponseObject } from '../ArmHelper.types';
 import LogService from '../utils/LogService';
+import { LogCategories } from '../utils/LogCategories';
 
 const alwaysSkipBatch = !!Url.getParameterByName(null, 'appsvc.skipbatching');
 const sessionId = Url.getParameterByName(null, 'sessionId');
@@ -16,7 +18,7 @@ interface InternalArmRequest {
   id: string;
   commandName?: string;
   body: any;
-  apiVersion: string;
+  apiVersion: string | null;
   queryString?: string;
 }
 
@@ -38,13 +40,15 @@ const armObs$ = armSubject$.pipe(
   filter(x => x.length > 0),
   concatMap(x => {
     const batchBody = x.map(arm => {
+      const apiVersionString = arm.apiVersion ? `api-version=${arm.apiVersion}` : '';
+
       return {
         httpMethod: arm.method,
         content: arm.body,
         requestHeaderDetails: {
           commandName: arm.commandName,
         },
-        url: Url.appendQueryString(`${arm.resourceId}${arm.queryString || ''}`, `api-version=${arm.apiVersion}`),
+        url: Url.appendQueryString(`${arm.resourceId}${arm.queryString || ''}`, apiVersionString),
       };
     });
     return from(
@@ -69,7 +73,7 @@ const armObs$ = armSubject$.pipe(
   share()
 );
 
-const makeArmRequest = async <T>(armObj: InternalArmRequest): Promise<AxiosResponse<T>> => {
+const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise<AxiosResponse<T>> => {
   const { method, resourceId, body, apiVersion, queryString } = armObj;
   const url = Url.appendQueryString(`${window.armEndpoint}${resourceId}${queryString || ''}`, `api-version=${apiVersion}`);
   const headers: { [key: string]: string } = {
@@ -85,14 +89,20 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest): Promise<AxiosRespo
       method,
       headers,
       data: body,
-
       validateStatus: () => true, // never throw on an error, we can check the status and handle the error in the UI
     });
-    LogService.trackEvent('ArmHelper', 'makeArmRequest', { resourceId, method, sessionId, correlationId: armObj.id });
+    if (retry < 2 && result.status === 401) {
+      if (window.updateAuthToken) {
+        const newToken = await window.updateAuthToken('');
+        window.authToken = newToken;
+        return makeArmRequest(armObj, retry + 1);
+      }
+    }
+    LogService.trackEvent(LogCategories.armHelper, 'makeArmRequest', { resourceId, method, sessionId, correlationId: armObj.id });
     return result;
   } catch (err) {
     // This shouldn't be hit since we're telling axios to not throw on error
-    LogService.error('ArmHelper', 'makeArmRequest', err);
+    LogService.error(LogCategories.armHelper, 'makeArmRequest', err);
     throw err;
   }
 };
@@ -108,7 +118,7 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
     queryString,
     id,
     method: method || 'GET',
-    apiVersion: apiVersion || CommonConstants.ApiVersions.websiteApiVersion20180201,
+    apiVersion: apiVersion !== null ? apiVersion || CommonConstants.ApiVersions.websiteApiVersion20180201 : null,
   };
 
   if (!skipBuffer && !alwaysSkipBatch) {
@@ -148,6 +158,31 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
     data: response.data,
   };
   return retObj;
+};
+
+export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArray<T>>): Promise<ArmObj<T>[]> => {
+  let results: ArmObj<T>[] = [];
+  const response = await MakeArmCall(requestObject);
+
+  if (response.metadata.success) {
+    results = [...results, ...response.data.value];
+
+    if (response.data.nextLink) {
+      const pathAndQuery = Url.getPathAndQuery(response.data.nextLink);
+
+      const pagedResult = await MakePagedArmCall({
+        ...requestObject,
+        resourceId: pathAndQuery,
+        apiVersion: null,
+      });
+
+      results = [...results, ...pagedResult];
+    }
+  } else {
+    LogService.error(LogCategories.armHelper, 'MakePagedArmCall', response.metadata.error);
+  }
+
+  return results;
 };
 
 export default MakeArmCall;

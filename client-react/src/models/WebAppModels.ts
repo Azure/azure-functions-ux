@@ -1,17 +1,32 @@
+export interface MsiIdentity {
+  principalId: string;
+  tenantId: string;
+  type: string;
+}
 export interface ArmObj<T> {
   id: string;
   kind?: string;
   properties: T;
   type?: string;
   tags?: { [key: string]: string };
-  location?: string;
+  location: string;
   name: string;
+  identity?: MsiIdentity;
+  sku?: ArmSku;
 }
 
 export interface ArmArray<T> {
   value: ArmObj<T>[];
   nextLink?: string | null;
   id?: string;
+}
+
+export interface ArmSku {
+  name: string;
+  tier: string;
+  size: string;
+  family: string;
+  capacity: string;
 }
 
 export interface Address {
@@ -650,6 +665,9 @@ export interface ServerFarm {
   tags: { [key: string]: string };
   resourceGroup: string;
   freeOfferExpirationTime: Date;
+
+  // The resourceId of a site that you want to match the webspace of during creation
+  webSiteId?: string;
 }
 
 export interface Site {
@@ -686,7 +704,7 @@ export interface Site {
   premiumAppDeployed: boolean;
   scmSiteAlsoStopped: boolean;
   targetSwapSlot: string;
-  hostingEnvironmentProfile: HostingEnvironmentProfile;
+  hostingEnvironmentProfile?: HostingEnvironmentProfile;
   microService: string;
   gatewaySiteName: string;
   clientAffinityEnabled: boolean;

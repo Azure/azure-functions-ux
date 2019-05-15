@@ -15,5 +15,6 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/__snapshots__": true
-  }
+  },
+  "debug.node.autoAttach": "on"
 }

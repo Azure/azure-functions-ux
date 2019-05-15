@@ -1,9 +1,6 @@
 const resx2js = require('resx/resx2js');
-var gutil = require('gulp-util');
-var PluginError = gutil.PluginError;
 var Buffer = require('buffer').Buffer;
 var through2 = require('through2');
-const PLUGIN_NAME = 'gulp-resx';
 module.exports = function(opt) {
   opt = opt || {};
 
@@ -23,7 +20,6 @@ module.exports = function(opt) {
 
   var throughCallback = function(file, enc, cb) {
     if (file.isStream()) {
-      this.emit('error', new PluginError(PLUGIN_NAME, 'Streaming not supported'));
       return cb();
     }
 
