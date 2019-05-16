@@ -3,50 +3,6 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 jobs:
-  - job: Server
-    pool:
-      vmImage: 'macOS-10.13'
-
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '10.x'
-        displayName: 'Install Node.js'
-
-      - script: |
-          cd server
-          npm ci
-        displayName: 'npm install'
-
-      - script: |
-          cd server
-          npm run build
-        displayName: 'Setup Environment Variables and Build Resources'
-        env:
-          bitbucketClientId: $(bitbucketClientId)
-          githubClientId: $(githubClientId)
-          githubClientSecret: $(githubClientSecret)
-          githubRedirectUrl: $(githubRedirectUrl)
-          bitbucketClientSecret: $(bitbucketClientSecret)
-          bitbucketRedirectUrl: $(bitbucketRedirectUrl)
-          dropboxClientSecret: $(dropboxClientSecret)
-          dropboxClientId: $(dropboxClientId)
-          dropboxRedirectUrl: $(dropboxRedirectUrl)
-          onedriveClientSecret: $(onedriveClientSecret)
-          onedriveClientID: $(onedriveClientID)
-          onedriveRedirectUrl: $(onedriveRedirectUrl)
-
-      - task: CopyFiles@2
-        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
-        inputs:
-          SourceFolder: server/build
-          TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact: server'
-        inputs:
-          ArtifactName: server
-
   - job: ReactBuild
     pool:
       vmImage: 'macOS-10.13'
@@ -127,7 +83,7 @@ jobs:
         inputs:
           versionSpec: '8.x'
         displayName: 'Install Node.js'
-        
+
       - script: |
           npm install -g gulp-cli
         displayName: 'install gulp'
@@ -165,28 +121,28 @@ jobs:
         inputs:
           ArtifactName: angular-min
 
-  - job: PublishArtifacts
+  - job: Server
     pool:
       vmImage: 'macOS-10.13'
-
     dependsOn:
-      - Server
       - AngularFull
       - AngularMin
       - ReactBuild
     steps:
-      - checkout: none
-
       - task: NodeTool@0
         inputs:
           versionSpec: '10.x'
         displayName: 'Install Node.js'
 
-      - task: DownloadBuildArtifacts@0
-        displayName: 'Download Server Artifacts'
-        inputs:
-          artifactName: server
-          downloadPath: $(System.DefaultWorkingDirectory)
+      - script: |
+          cd server
+          npm ci
+        displayName: 'npm install'
+
+      - script: |
+          cd server
+          npm run build
+        displayName: 'Setup Environment Variables and Build Resources'
 
       - task: DownloadBuildArtifacts@0
         displayName: 'Download Angular Full Artifacts'
@@ -207,37 +163,49 @@ jobs:
           downloadPath: $(System.DefaultWorkingDirectory)
 
       - task: CopyFiles@2
-        displayName: 'Copy Server Files to: $(Build.ArtifactStagingDirectory)'
-        inputs:
-          SourceFolder: $(System.DefaultWorkingDirectory)/server
-          TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-      - task: CopyFiles@2
         displayName: 'Copy Angular Full Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
           SourceFolder: $(System.DefaultWorkingDirectory)/angular-full
-          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          TargetFolder: server/dist
 
       - task: CopyFiles@2
         displayName: 'Copy Angular Min Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
           SourceFolder: $(System.DefaultWorkingDirectory)/angular-min
-          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          TargetFolder: server/dist
 
       - task: CopyFiles@2
         displayName: 'Copy React Build Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
           SourceFolder: $(System.DefaultWorkingDirectory)/react-build
-          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          TargetFolder: server/dist
 
       - script: |
-          cd $(Build.ArtifactStagingDirectory)
+          cd server
+          npm run bundle
+        displayName: 'Run Production Ready Script'
+        env:
+          bitbucketClientId: $(bitbucketClientId)
+          githubClientId: $(githubClientId)
+          githubClientSecret: $(githubClientSecret)
+          githubRedirectUrl: $(githubRedirectUrl)
+          bitbucketClientSecret: $(bitbucketClientSecret)
+          bitbucketRedirectUrl: $(bitbucketRedirectUrl)
+          dropboxClientSecret: $(dropboxClientSecret)
+          dropboxClientId: $(dropboxClientId)
+          dropboxRedirectUrl: $(dropboxRedirectUrl)
+          onedriveClientSecret: $(onedriveClientSecret)
+          onedriveClientID: $(onedriveClientID)
+          onedriveRedirectUrl: $(onedriveRedirectUrl)
+
+      - script: |
+          cd server/dist
           npm ci --production
-        displayName: 'delete dev node_modules and install prod'
+        displayName: 'Run Production Ready Script'
 
       - task: ArchiveFiles@2
         inputs:
-          rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+          rootFolderOrFile: server/dist
           includeRootFolder: false
           archiveType: 'zip'
           archiveFile: '$(Build.ArtifactStagingDirectory)/package.zip'

@@ -12,7 +12,8 @@ export default class SiteService {
   };
 
   public static updateSite = (resourceId: string, site: ArmObj<Site>) => {
-    return MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'updateSite', method: 'PUT', body: site });
+    const { identity, ...rest } = site;
+    return MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'updateSite', method: 'PUT', body: rest });
   };
 
   public static fetchWebConfig = (resourceId: string) => {

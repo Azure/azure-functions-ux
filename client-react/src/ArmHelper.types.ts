@@ -5,7 +5,7 @@ export interface ArmRequestObject<T> {
   method?: MethodTypes;
   body?: T;
   skipBuffer?: boolean;
-  apiVersion?: string;
+  apiVersion?: string | null;
   queryString?: string;
 }
 export interface HttpResponseObject<T> {

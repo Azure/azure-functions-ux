@@ -1,5 +1,9 @@
 export default class Url {
-  public static appendQueryString(url: string, queryString): string {
+  public static appendQueryString(url: string, queryString: string): string {
+    if (!queryString) {
+      return url;
+    }
+
     if (url.includes('?')) {
       return `${url}&${queryString}`;
     }
@@ -64,6 +68,12 @@ export default class Url {
     const l = document.createElement('a');
     l.href = url || window.location.href;
     return l.hostname;
+  }
+
+  public static getPathAndQuery(url: string) {
+    const l = document.createElement('a');
+    l.href = url;
+    return `${l.pathname}${l.search}`;
   }
 
   private static queryStrings: { [key: string]: string };

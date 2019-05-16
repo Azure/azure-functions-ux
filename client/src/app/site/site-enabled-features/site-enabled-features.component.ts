@@ -190,7 +190,7 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
 
       case Feature.AppSettings:
         return <EnabledFeatureItem>{
-          title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
+          title: this._translateService.instant(PortalResources.feature_configuration),
           feature: feature,
           iconUrl: 'image/application-settings.svg',
           bladeInfo: {

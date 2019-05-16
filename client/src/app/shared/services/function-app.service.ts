@@ -50,6 +50,7 @@ import { ExtensionInfo, ExtensionsJson } from 'app/shared/models/extension-info'
 import { Version } from 'app/shared/Utilities/version';
 import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
 import { ArmSiteDescriptor } from '../resourceDescriptors';
+import { Http } from '@angular/http';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -67,6 +68,7 @@ export class FunctionAppService {
     private _globalStateService: GlobalStateService,
     private _siteService: SiteService,
     private _logService: LogService,
+    private _httpClient: Http,
     injector: Injector
   ) {
     this.runtime = new ConditionalHttpClient(
@@ -418,7 +420,7 @@ export class FunctionAppService {
         contentType = 'application/json';
       }
 
-      const headers = this.headers(token);
+      const headers = new Headers();
       if (contentType) {
         headers.append('Content-Type', contentType);
       }
@@ -436,25 +438,25 @@ export class FunctionAppService {
         case HttpMethods.GET:
           // make sure to pass 'true' to force make a request.
           // there is no scenario where we want cached data for a function run.
-          response = this._cacheService.get(url, true, headers);
+          response = this._httpClient.get(url, { headers });
           break;
         case HttpMethods.POST:
-          response = this._cacheService.post(url, true, headers, content);
+          response = this._httpClient.post(url, content, { headers });
           break;
         case HttpMethods.DELETE:
-          response = this._cacheService.delete(url, headers);
+          response = this._httpClient.delete(url, { headers });
           break;
         case HttpMethods.HEAD:
-          response = this._cacheService.head(url, true, headers);
+          response = this._httpClient.head(url, { headers });
           break;
         case HttpMethods.PATCH:
-          response = this._cacheService.patch(url, headers, content);
+          response = this._httpClient.patch(url, content, { headers });
           break;
         case HttpMethods.PUT:
-          response = this._cacheService.put(url, headers, content);
+          response = this._httpClient.put(url, content, { headers });
           break;
         default:
-          response = this._cacheService.send(url, model.method, true, headers, content);
+          response = this._httpClient.request(url, { headers, body: content, method: model.method });
           break;
       }
 

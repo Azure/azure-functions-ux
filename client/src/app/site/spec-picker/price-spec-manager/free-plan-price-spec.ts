@@ -1,13 +1,12 @@
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Kinds, Links, FeatureFlags } from './../../../shared/models/constants';
+import { Kinds, Links } from './../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { ResourceId } from '../../../shared/models/arm/arm-obj';
 import { PlanService } from './../../../shared/services/plan.service';
-import { Url } from 'app/shared/Utilities/url';
 
 export class FreePlanPriceSpec extends PriceSpec {
   tier = Tier.free;
@@ -64,7 +63,6 @@ export class FreePlanPriceSpec extends PriceSpec {
   }
 
   runInitialization(input: PriceSpecInput) {
-    const allowFreeLinux = Url.getParameterByName(null, FeatureFlags.AllowFreeLinux) === 'true';
     let isLinux = false;
     if (input.plan) {
       isLinux = AppKind.hasAnyKind(input.plan, [Kinds.linux]);
@@ -75,8 +73,7 @@ export class FreePlanPriceSpec extends PriceSpec {
       if (
         input.plan.properties.hostingEnvironmentProfile ||
         input.plan.properties.isXenon ||
-        AppKind.hasAnyKind(input.plan, [Kinds.elastic]) ||
-        (!allowFreeLinux && isLinux)
+        AppKind.hasAnyKind(input.plan, [Kinds.elastic])
       ) {
         this.state = 'hidden';
       }
@@ -90,7 +87,7 @@ export class FreePlanPriceSpec extends PriceSpec {
         this.topLevelFeatures.shift();
       }
 
-      if (input.specPickerInput.data.hostingEnvironmentName || input.specPickerInput.data.isXenon || (!allowFreeLinux && isLinux)) {
+      if (input.specPickerInput.data.hostingEnvironmentName || input.specPickerInput.data.isXenon) {
         this.state = 'hidden';
       }
 

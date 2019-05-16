@@ -32,6 +32,7 @@ export const dropdownStyleOverrides = (dirty: boolean, theme: ThemeExtended, ful
       ...baseStyle.dropdown,
       {
         width: widthOverride || formDefaultWidth,
+        maxWidth: widthOverride || baseStyle.dropdown[1].maxWidth,
       },
       dirty && {
         selectors: {

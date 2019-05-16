@@ -65,9 +65,14 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         .setAsyncValidators([
           VstsValidators.createVstsAccountNameValidator(this.wizard, this._translateService, this._cacheService).bind(this),
         ]);
+      this.wizard.buildSettings.get('vstsProject').setAsyncValidators([]);
+      this.wizard.buildSettings.get('vstsAccount').valueChanges.subscribe(account => {
+        this.wizard.buildSettings.get('vstsProject').setValue('MyFirstProject');
+      });
       this.wizard.buildSettings.get('vstsProject').setValidators([]);
       this.wizard.buildSettings.setAsyncValidators([]);
     } else {
+      this.selectedProject = '';
       this.wizard.buildSettings.get('location').setValidators([]);
       this.wizard.buildSettings.get('vstsAccount').setValidators(required.validate.bind(required));
       this.wizard.buildSettings.get('vstsAccount').setAsyncValidators([]);

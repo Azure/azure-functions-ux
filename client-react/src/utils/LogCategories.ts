@@ -39,4 +39,6 @@ export class LogCategories {
   public static readonly functionHostRestart = 'functionHostRestart';
   public static readonly containerACR = 'containerACR';
   public static readonly containerSettings = 'containerSettings';
+  public static readonly armHelper = 'ArmHelper';
+  public static readonly argHelper = 'ArgHelper';
 }
