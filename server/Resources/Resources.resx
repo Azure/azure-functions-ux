@@ -1733,7 +1733,7 @@
     <value>Lock resources to prevent unexpected changes or deletions.</value>
   </data>
   <data name="feature_automationScriptName" xml:space="preserve">
-    <value>Automation script</value>
+    <value>Export template</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
     <value>Automate deploying resources with Azure Resource Manager templates in a single, coordinated operation. Define resources and configurable input parameters and deploy with script or code.</value>
