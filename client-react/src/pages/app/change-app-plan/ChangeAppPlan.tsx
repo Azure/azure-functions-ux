@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import FeatureDescriptionCard from '../../../components/feature-description-card/FeatureDescriptionCard';
-import { PrimaryButton, IDropdownOption, Stack } from 'office-ui-fabric-react';
+import { PrimaryButton, IDropdownOption, Stack, Link } from 'office-ui-fabric-react';
 import { Formik, FormikProps } from 'formik';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ArmObj, Site, ServerFarm, ArmSku } from '../../../models/WebAppModels';
@@ -18,23 +18,28 @@ import LogService from '../../../utils/LogService';
 import { ReactComponent as AppServicePlanSvg } from '../../../images/AppService/app-service-plan.svg';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
+import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 
 export const leftCol = style({
   marginRight: '20px',
 });
 
-export const linkStyle = style({
-  color: '#015cda',
-  cursor: 'pointer',
-});
-
 const formStyle = {
-  marginTop: '50px',
+  marginTop: '40px',
 };
 
 const fieldStyle = {
   marginTop: '20px',
 };
+
+const sectionStyle = {
+  marginTop: '10px',
+};
+
+const labelSectionStyle = style({
+  textTransform: 'uppercase',
+  fontSize: '11px',
+});
 
 const labelStyle = style({
   width: '250px',
@@ -65,6 +70,178 @@ export interface ChangeAppPlanFormValues {
   serverFarmInfo: CreateOrSelectPlanFormValues;
 }
 
+export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
+  const { resourceGroups, serverFarms, site, currentServerFarm, onChangeComplete: onChangeComplete } = props;
+  const [isUpdating, setIsUpdating] = useState(false);
+  const portalCommunicator = useContext(PortalContext);
+  const { t } = useTranslation();
+
+  const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(
+    getInitialFormValues(site, currentServerFarm, serverFarms, resourceGroups)
+  );
+
+  useEffect(() => {
+    if (isUpdating) {
+      portalCommunicator.updateDirtyState(true, t('cancelUpdateConfirmation'));
+    } else {
+      portalCommunicator.updateDirtyState(false);
+    }
+  }, [isUpdating]);
+
+  const rgOptions = getDropdownOptions(resourceGroups);
+  addNewRgOption(formValues.serverFarmInfo.newPlanInfo.newResourceGroupName, rgOptions, t);
+
+  const serverFarmOptions = getDropdownOptions(serverFarms);
+  addNewPlanToOptions(formValues.serverFarmInfo.newPlanInfo.name, serverFarmOptions, t);
+
+  const onPlanChange = (form: FormikProps<ChangeAppPlanFormValues>, planInfo: CreateOrSelectPlanFormValues) => {
+    form.setFieldValue('serverFarmInfo', planInfo);
+  };
+
+  if (rgOptions.length === 0) {
+    const newResourceGroupName = formValues.serverFarmInfo.newPlanInfo.newResourceGroupName;
+    rgOptions.unshift({
+      key: newResourceGroupName,
+      text: newResourceGroupName,
+      data: newResourceGroupName,
+      selected: true,
+    });
+  }
+
+  if (serverFarmOptions.length === 0) {
+    serverFarmOptions.unshift({
+      key: formValues.serverFarmInfo.newPlanInfo.name,
+      text: t('newFormat').format(formValues.serverFarmInfo.newPlanInfo.name),
+      data: NEW_PLAN,
+      selected: true,
+    });
+  }
+
+  const subscriptionId = new ArmPlanDescriptor(currentServerFarm.id).subscription;
+
+  return (
+    <>
+      <Formik
+        initialValues={formValues}
+        onSubmit={values => onSubmit(values, setIsUpdating, setFormValues, portalCommunicator, t, onChangeComplete)}>
+        {(formProps: FormikProps<ChangeAppPlanFormValues>) => {
+          return (
+            <form>
+              <header>
+                <FeatureDescriptionCard name={t('changePlanName')} description={t('changePlanDescription')} Svg={AppServicePlanSvg} />
+              </header>
+
+              <section>
+                <Stack style={formStyle}>
+                  <Stack style={sectionStyle}>
+                    <label className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</label>
+                  </Stack>
+
+                  <Stack horizontal style={{ marginTop: '10px' }}>
+                    <label className={labelStyle}>{t('appServicePlan')}</label>
+                    <div>{getPlanName(currentServerFarm)}</div>
+                  </Stack>
+
+                  <Stack style={{ marginTop: '50px' }}>
+                    <label className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</label>
+                  </Stack>
+
+                  <Stack horizontal style={sectionStyle}>
+                    <label className={labelStyle}>{t('appServicePlan')}</label>
+                    <CreateOrSelectPlan
+                      subscriptionId={subscriptionId}
+                      isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
+                      newPlanInfo={formProps.values.serverFarmInfo.newPlanInfo}
+                      existingPlan={formProps.values.serverFarmInfo.existingPlan}
+                      options={serverFarmOptions}
+                      resourceGroupOptions={rgOptions}
+                      onPlanChange={info => {
+                        onPlanChange(formProps, info);
+                      }}
+                      serverFarmsInWebspace={serverFarms}
+                    />
+                  </Stack>
+
+                  <Stack horizontal style={{ marginTop: '25px' }}>
+                    <label className={labelStyle}>{t('resourceGroup')}</label>
+                    <div>{getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}</div>
+                  </Stack>
+
+                  <Stack horizontal disableShrink style={fieldStyle}>
+                    <label className={labelStyle}>{t('region')}</label>
+                    <span>{site.location}</span>
+                  </Stack>
+
+                  <Stack horizontal disableShrink style={fieldStyle}>
+                    <label className={labelStyle}>{t('pricingTier')}</label>
+                    {getPricingTierValue(currentServerFarm.id, formProps, portalCommunicator)}
+                  </Stack>
+                </Stack>
+              </section>
+
+              <footer className={footerStyle}>
+                <PrimaryButton
+                  data-automation-id="test"
+                  text={t('ok')}
+                  allowDisabledFocus={true}
+                  onClick={formProps.submitForm}
+                  disabled={isUpdating}
+                />
+              </footer>
+            </form>
+          );
+        }}
+      </Formik>
+    </>
+  );
+};
+
+const getPricingTierValue = (
+  currentServerFarmId: string,
+  form: FormikProps<ChangeAppPlanFormValues>,
+  portalCommunicator: PortalCommunicator
+) => {
+  if (form.values.serverFarmInfo.isNewPlan) {
+    return <Link onClick={() => openSpecPicker(currentServerFarmId, form, portalCommunicator)}>{getSelectedSkuString(form.values)}</Link>;
+  }
+
+  return <span>{getSelectedSkuString(form.values)}</span>;
+};
+
+const openSpecPicker = async (
+  currentServerFarmId: string,
+  form: FormikProps<ChangeAppPlanFormValues>,
+  portalCommunicator: PortalCommunicator
+) => {
+  const result = await portalCommunicator.openBlade<SpecPickerOutput>(
+    {
+      detailBlade: 'SpecPickerFrameBlade',
+      detailBladeInputs: {
+        id: currentServerFarmId,
+        data: {
+          selectedSkuCode: 'F1',
+          returnObjectResult: true,
+        },
+      },
+      openAsContextBlade: true,
+    },
+    'changeAppPlan'
+  );
+
+  if (result.reason === 'childClosedSelf') {
+    const newServerFarmInfo = {
+      ...form.values.serverFarmInfo,
+      newPlanInfo: {
+        ...form.values.serverFarmInfo.newPlanInfo,
+        skuCode: result.data.value.skuCode,
+        tier: result.data.value.tier,
+      },
+    };
+
+    form.setFieldValue('serverFarmInfo', newServerFarmInfo);
+  }
+};
+
 const getCompletionTelemtry = (success: boolean, newResourceGroup: boolean, newPlan: boolean, message?: string): CompletionTelemetry => {
   return {
     success,
@@ -82,7 +259,7 @@ const onSubmit = async (
   t: i18next.TFunction,
   changeComplete: () => void
 ) => {
-  const { site, currentServerFarm, serverFarmInfo } = values;
+  const { site, serverFarmInfo } = values;
   const notificationId = portalCommunicator.startNotification(t('changePlanNotification'), t('changePlanNotification'));
   setFormValues(values);
   setIsUpdating(true);
@@ -149,7 +326,7 @@ const onSubmit = async (
         webSiteId: site.id,
       },
       sku: {
-        name: currentServerFarm.sku ? currentServerFarm.sku.name : '',
+        name: getSelectedSkuCode(values),
       },
     };
 
@@ -204,14 +381,26 @@ const onSubmit = async (
 };
 
 const getSelectedSkuString = (values: ChangeAppPlanFormValues) => {
-  let sku: ArmSku;
+  let tier: string;
+  let skuCode: string;
   if (values.serverFarmInfo.isNewPlan) {
-    sku = values.currentServerFarm.sku as ArmSku;
+    skuCode = values.serverFarmInfo.newPlanInfo.skuCode;
+    tier = values.serverFarmInfo.newPlanInfo.tier;
   } else {
-    sku = (values.serverFarmInfo.existingPlan as ArmObj<ServerFarm>).sku as ArmSku;
+    const sku: ArmSku = (values.serverFarmInfo.existingPlan as ArmObj<ServerFarm>).sku as ArmSku;
+    skuCode = sku.name;
+    tier = sku.tier;
   }
 
-  return `${sku.tier} (${sku.name}) `;
+  return `${tier} (${skuCode}) `;
+};
+
+const getSelectedSkuCode = (values: ChangeAppPlanFormValues) => {
+  if (values.serverFarmInfo.isNewPlan) {
+    return values.serverFarmInfo.newPlanInfo.skuCode;
+  }
+
+  return ((values.serverFarmInfo.existingPlan as ArmObj<ServerFarm>).sku as ArmSku).name;
 };
 
 const getSelectedResourceGroupString = (values: CreateOrSelectPlanFormValues, t: i18next.TFunction) => {
@@ -239,7 +428,7 @@ const getDropdownOptions = (objs: ArmObj<any>[]) => {
       options = [
         ...options,
         {
-          key: objs[i].id,
+          key: objs[i].id.toLowerCase(),
           text: objs[i].name,
           data: objs[i],
           selected: i === 0,
@@ -258,9 +447,18 @@ const getInitialFormValues = (
   resourceGroups: ArmObj<ResourceGroup>[]
 ): ChangeAppPlanFormValues => {
   const existingPlan = serverFarms.length > 0 ? serverFarms[0] : null;
-  const existingResourceGroup = resourceGroups.length > 0 ? resourceGroups[0] : null;
+  const planDescriptor = new ArmPlanDescriptor(currentServerFarm.id);
+
+  const existingResourceGroup: ArmObj<ResourceGroup> = {
+    id: `/subscriptions/${planDescriptor.subscription}/resourceGroups/${planDescriptor.resourceGroup}`,
+    properties: {},
+    location: '',
+    name: planDescriptor.resourceGroup,
+  };
 
   const siteDescriptor = new ArmSiteDescriptor(site.id);
+  const skuCode = currentServerFarm.sku ? currentServerFarm.sku.name : '';
+  const tier = currentServerFarm.sku ? currentServerFarm.sku.tier : '';
 
   return {
     site,
@@ -270,128 +468,12 @@ const getInitialFormValues = (
       isNewPlan: !existingPlan,
       newPlanInfo: {
         existingResourceGroup,
-        isNewResourceGroup: !existingResourceGroup,
+        skuCode,
+        tier,
+        isNewResourceGroup: false,
         newResourceGroupName: '',
         name: getDefaultServerFarmName(siteDescriptor.resourceName),
       },
     },
   };
-};
-
-export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
-  const { resourceGroups, serverFarms, site, currentServerFarm, onChangeComplete: onChangeComplete } = props;
-  const [isUpdating, setIsUpdating] = useState(false);
-  const portalCommunicator = useContext(PortalContext);
-  const { t } = useTranslation();
-
-  const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(
-    getInitialFormValues(site, currentServerFarm, serverFarms, resourceGroups)
-  );
-
-  useEffect(() => {
-    if (isUpdating) {
-      portalCommunicator.updateDirtyState(true, t('cancelUpdateConfirmation'));
-    } else {
-      portalCommunicator.updateDirtyState(false);
-    }
-  }, [isUpdating]);
-
-  const rgOptions = getDropdownOptions(resourceGroups);
-  addNewRgOption(formValues.serverFarmInfo.newPlanInfo.newResourceGroupName, rgOptions, t);
-
-  const serverFarmOptions = getDropdownOptions(serverFarms);
-  addNewPlanToOptions(formValues.serverFarmInfo.newPlanInfo.name, serverFarmOptions, t);
-
-  const onPlanChange = (form: FormikProps<ChangeAppPlanFormValues>, planInfo: CreateOrSelectPlanFormValues) => {
-    form.setFieldValue('serverFarmInfo', planInfo);
-  };
-
-  if (rgOptions.length === 0) {
-    const newResourceGroupName = formValues.serverFarmInfo.newPlanInfo.newResourceGroupName;
-    rgOptions.unshift({
-      key: newResourceGroupName,
-      text: newResourceGroupName,
-      data: newResourceGroupName,
-      selected: true,
-    });
-  }
-
-  if (serverFarmOptions.length === 0) {
-    serverFarmOptions.unshift({
-      key: formValues.serverFarmInfo.newPlanInfo.name,
-      text: t('newFormat').format(formValues.serverFarmInfo.newPlanInfo.name),
-      data: NEW_PLAN,
-      selected: true,
-    });
-  }
-
-  const subscriptionId = new ArmPlanDescriptor(currentServerFarm.id).subscription;
-
-  return (
-    <>
-      <Formik
-        initialValues={formValues}
-        onSubmit={values => onSubmit(values, setIsUpdating, setFormValues, portalCommunicator, t, onChangeComplete)}>
-        {(formProps: FormikProps<ChangeAppPlanFormValues>) => {
-          return (
-            <form>
-              <header>
-                <FeatureDescriptionCard name={t('changePlanName')} description={t('changePlanDescription')} Svg={AppServicePlanSvg} />
-              </header>
-
-              <section>
-                <Stack style={formStyle}>
-                  <Stack horizontal disableShrink>
-                    <label className={labelStyle}>{t('changePlanCurrentPlan')}</label>
-                    <div>{getPlanName(currentServerFarm)}</div>
-                  </Stack>
-
-                  <Stack horizontal disableShrink style={{ marginTop: '25px' }}>
-                    <label className={labelStyle}>{t('changePlanDestPlan')}</label>
-                    <CreateOrSelectPlan
-                      subscriptionId={subscriptionId}
-                      isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
-                      newPlanInfo={formProps.values.serverFarmInfo.newPlanInfo}
-                      existingPlan={formProps.values.serverFarmInfo.existingPlan}
-                      options={serverFarmOptions}
-                      resourceGroupOptions={rgOptions}
-                      onPlanChange={info => {
-                        onPlanChange(formProps, info);
-                      }}
-                      serverFarmsInWebspace={serverFarms}
-                    />
-                  </Stack>
-
-                  <Stack horizontal disableShrink style={{ marginTop: '45px' }}>
-                    <label className={labelStyle}>Resource Group</label>
-                    <div>{getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}</div>
-                  </Stack>
-
-                  <Stack horizontal disableShrink style={fieldStyle}>
-                    <label className={labelStyle}>Region</label>
-                    <span>{site.location}</span>
-                  </Stack>
-
-                  <Stack horizontal disableShrink style={fieldStyle}>
-                    <label className={labelStyle}>Pricing Tier</label>
-                    <span>{getSelectedSkuString(formProps.values)}</span>
-                  </Stack>
-                </Stack>
-              </section>
-
-              <footer className={footerStyle}>
-                <PrimaryButton
-                  data-automation-id="test"
-                  text={t('ok')}
-                  allowDisabledFocus={true}
-                  onClick={formProps.submitForm}
-                  disabled={isUpdating}
-                />
-              </footer>
-            </form>
-          );
-        }}
-      </Formik>
-    </>
-  );
 };

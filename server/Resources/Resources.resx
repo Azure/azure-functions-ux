@@ -4923,11 +4923,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="changePlanDescription" xml:space="preserve">
     <value>Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance.</value>
   </data>
-  <data name="changePlanCurrentPlan" xml:space="preserve">
-    <value>Current App Service plan</value>
+  <data name="changePlanCurrentPlanDetails" xml:space="preserve">
+    <value>Current plan details</value>
   </data>
-  <data name="changePlanDestPlan" xml:space="preserve">
-    <value>Destination App Service plan</value>
+  <data name="changePlanDestPlanDetails" xml:space="preserve">
+    <value>Destination plan details</value>
   </data>
   <data name="changePlanNotification" xml:space="preserve">
     <value>Changing App Service plan</value>
