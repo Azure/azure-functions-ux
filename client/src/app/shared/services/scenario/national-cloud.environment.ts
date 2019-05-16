@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
   name = 'NationalCloud';
-  disabledBindings: string[] = ['apiHubFile', 'apiHubTable', 'apiHubFileTrigger', 'eventGridTrigger'];
+  disabledBindings: string[] = ['apiHubFile', 'apiHubTable', 'apiHubFileTrigger'];
 
   public static isNationalCloud() {
     return this.isMooncake() || this.isFairFax() || this.isBlackforest();
