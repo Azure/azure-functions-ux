@@ -1143,6 +1143,7 @@ export class PortalResources {
   public static FTPLabel = 'FTPLabel';
   public static validating = 'validating';
   public static vstsReleaseBuildPermissions = 'vstsReleaseBuildPermissions';
+  public static vstsAgentQueuePermissions = 'vstsAgentQueuePermissions';
   public static vstsNameUnavailable = 'vstsNameUnavailable';
   public static FTPBoth = 'FTPBoth';
   public static FTPSOnly = 'FTPSOnly';
@@ -1535,6 +1536,7 @@ export class PortalResources {
   public static noWriteAccessStorageAccount = 'noWriteAccessStorageAccount';
   public static selectAnOption = 'selectAnOption';
   public static invalidStartupCommandNodejs = 'invalidStartupCommandNodejs';
+  public static invalidStartupCommandAspNetCore = 'invalidStartupCommandAspNetCore';
   public static storageMountsNoPermissions = 'storageMountsNoPermissions';
   public static readOnlyPython = 'readOnlyPython';
   public static valuesMustBeAnArray = 'valuesMustBeAnArray';
@@ -1564,6 +1566,7 @@ export class PortalResources {
   public static noExclusionRulesDefined = 'noExclusionRulesDefined';
   public static newPath = 'newPath';
   public static githubOrgMessage = 'githubOrgMessage';
+  public static projectWithoutGitRepoNotFoundMessage = 'projectWithoutGitRepoNotFoundMessage';
   public static bitbucketOrgMessage = 'bitbucketOrgMessage';
   public static useIncomingClientCertsUpsell = 'useIncomingClientCertsUpsell';
   public static clientCertWarning = 'clientCertWarning';
@@ -1577,4 +1580,22 @@ export class PortalResources {
   public static filterAppSettings = 'filterAppSettings';
   public static filterConnectionStrings = 'filterConnectionStrings';
   public static readOnlyJava = 'readOnlyJava';
+  public static mountedStorageInfo = 'mountedStorageInfo';
+  public static changePlanName = 'changePlanName';
+  public static changePlanDescription = 'changePlanDescription';
+  public static changePlanCurrentPlanDetails = 'changePlanCurrentPlanDetails';
+  public static changePlanDestPlanDetails = 'changePlanDestPlanDetails';
+  public static changePlanNotification = 'changePlanNotification';
+  public static changePlanFailureNotificationFormat = 'changePlanFailureNotificationFormat';
+  public static changePlanRgCreateFailureNotificationFormat = 'changePlanRgCreateFailureNotificationFormat';
+  public static changePlanPlanCreateFailureNotificationFormat = 'changePlanPlanCreateFailureNotificationFormat';
+  public static cancelUpdateConfirmation = 'cancelUpdateConfirmation';
+  public static newFormat = 'newFormat';
+  public static validationErrorAlreadyExistsFormat = 'validationErrorAlreadyExistsFormat';
+  public static validationWebspaceUniqueErrorFormat = 'validationWebspaceUniqueErrorFormat';
+  public static resourceGroupDescription = 'resourceGroupDescription';
+  public static createNewPlan = 'createNewPlan';
+  public static planName = 'planName';
+  public static majorVersion = 'majorVersion';
+  public static minorVersion = 'minorVersion';
 }

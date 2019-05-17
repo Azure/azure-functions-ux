@@ -28,7 +28,7 @@ const getItems = (
     },
     {
       key: 'discard',
-      name: 'Discard',
+      name: t('discard'),
       iconProps: {
         iconName: 'ChromeClose',
       },
@@ -60,12 +60,9 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
   const { submitForm, resetForm, dirty, disabled } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
-  useEffect(
-    () => {
-      portalCommunicator.updateDirtyState(dirty);
-    },
-    [dirty]
-  );
+  useEffect(() => {
+    portalCommunicator.updateDirtyState(dirty);
+  }, [dirty]);
   return (
     <CommandBar
       items={getItems(submitForm, () => resetForm(), dirty, disabled, t)}

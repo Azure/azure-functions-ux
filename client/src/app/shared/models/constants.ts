@@ -491,6 +491,10 @@ export class DeploymentCenterConstants {
   public static readonly releaseSecurityNameSpace = 'C788C23E-1B46-4162-8F5E-D7585343B5DE';
   public static readonly editReleaseDefinitionPermission = 2;
 
+  // Agent queues
+  public static readonly agentQueueNames = ['Hosted VS2017'];
+  public static readonly queueActionFilter = 16; // "Use"
+
   public static readonly EmptyGuid = '00000000-0000-0000-0000-000000000000';
 }
 

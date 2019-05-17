@@ -1,3 +1,4 @@
+import { Url } from './../../shared/Utilities/url';
 import { SpecPickerComponent } from './../spec-picker/spec-picker.component';
 import { SiteService } from 'app/shared/services/site.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -35,6 +36,7 @@ import { Observable } from 'rxjs/Observable';
 import { ConsoleComponent } from '../console/console.component';
 import { AppLogStreamComponent } from '../log-stream/log-stream.component';
 import { QuickstartComponent } from '../quickstart/quickstart.component';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'site-dashboard',
@@ -62,6 +64,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
 
   private _openTabSubscription: Subscription;
   private _closeTabSubscription: Subscription;
+  private _openTroubleshoot: boolean;
 
   constructor(
     private _globalStateService: GlobalStateService,
@@ -71,6 +74,8 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
     private _scenarioService: ScenarioService,
     private _logService: LogService,
     private _siteService: SiteService,
+    public router: Router,
+    public route: ActivatedRoute,
     injector: Injector
   ) {
     super('site-dashboard', injector, DashboardType.AppDashboard);
@@ -113,6 +118,27 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
     return super
       .setup(navigationEvents)
       .switchMap(viewInfo => {
+        // ellhamai - This is a not-so-great workaround for the fact that we can't have deep links for
+        // child blades of Function apps due to the fact that we've overridden the normal portal
+        // asset registration.  The way this works is if we see this query string in the URL,
+        // then we'll open a child blade for troubleshoot.  The crappy part about this is that we don't have access to
+        // remove the query string from the page's URL so to get around this we remove it from our
+        // internal routing for the iframe (see end of setup function for this logic).  This works
+        // fine so long as the user never closes the functions blade, but if they refresh or reopen
+        // the blade, then we'll automatically open the troubleshoot blade again for the first app they load.
+        this._openTroubleshoot = Url.getParameterByName(null, 'appsvc.troubleshoot') === 'true';
+        if (this._openTroubleshoot) {
+          this._portalService.openBlade(
+            {
+              detailBlade: 'SCIFrameBlade',
+              detailBladeInputs: {
+                id: viewInfo.resourceId,
+              },
+            },
+            'site-dashboard'
+          );
+        }
+
         if (this._globalStateService.showTryView) {
           this._globalStateService.setDisabledMessage(this._translateService.instant(PortalResources.try_appDisabled));
         }
@@ -193,6 +219,14 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
         if (appNode.openTabId) {
           this.openFeature(appNode.openTabId);
           appNode.openTabId = null;
+        }
+
+        if (this._openTroubleshoot) {
+          const queryObj = Url.getQueryStringObj();
+          delete queryObj['appsvc.troubleshoot'];
+
+          const id = `/resources${this.viewInfo.resourceId}`.toLowerCase().replace('/providers/microsoft.web', '');
+          this.router.navigate([id], { relativeTo: this.route, queryParams: queryObj });
         }
       });
   }

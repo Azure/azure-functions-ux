@@ -20,5 +20,6 @@ declare global {
      */
     authToken?: string;
     armEndpoint?: string;
+    updateAuthToken?: (type: string) => Promise<string>;
   }
 }

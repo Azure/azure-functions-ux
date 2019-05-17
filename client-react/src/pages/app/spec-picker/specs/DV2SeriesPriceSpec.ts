@@ -1,4 +1,5 @@
 import { AvailableSku, ArmObj, GeoRegion, Sku, ServerFarm, ArmArray } from '../../../../models/WebAppModels';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 import { PriceSpec, PriceSpecInput, PlanSpecPickerData } from './PriceSpec';
 import { ArmProviderInfo } from '../../../../models/HttpResult';
 import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
@@ -71,10 +72,11 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
   }
 
   private async _getProviderLocations(subscriptionId: string, resourceType: string): Promise<string[]> {
-    const resourceId = `/subscriptions/${subscriptionId}/providers/microsoft.web?api-version=2018-01-01`;
+    const resourceId = `/subscriptions/${subscriptionId}/providers/microsoft.web`;
     const providerLocationsFetch = await MakeArmCall<{ value: ArmProviderInfo }>({
       resourceId,
       commandName: '_getProviderLocations',
+      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
     });
 
     const result = providerLocationsFetch;
@@ -88,14 +90,13 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
   }
 
   private async _getAllGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean): Promise<ArmObj<GeoRegion>[]> {
-    let id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions?sku=${sku}`;
-    if (isLinux) {
-      id += '&linuxWorkersEnabled=true';
-    }
+    let id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions`;
 
     const geoRegionsFetch = await MakeArmCall<ArmArray<GeoRegion>>({
       resourceId: id,
       commandName: '_getProviderLocations',
+      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
+      queryString: isLinux ? `sku=${sku}&linuxWorkersEnabled=true` : `sku=${sku}`,
     });
 
     return geoRegionsFetch.data.value;

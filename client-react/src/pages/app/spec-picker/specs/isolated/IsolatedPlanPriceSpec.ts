@@ -87,6 +87,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
         const hostingEnvironmentFetch = await MakeArmCall<{ value: HttpResult<ArmObj<HostingEnvironment>> }>({
           resourceId: input.plan.properties.hostingEnvironmentProfile.id,
           commandName: 'IsolatedPlanPriceSpec',
+          apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
         });
 
         const result = hostingEnvironmentFetch;

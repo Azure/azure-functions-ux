@@ -122,6 +122,7 @@ export function getStickySettings(
   return {
     id: '',
     name: '',
+    location: '',
     properties: {
       appSettingNames,
       connectionStringNames,
@@ -166,6 +167,7 @@ export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts
   });
   return {
     id: '',
+    location: '',
     name: '',
     properties: storageMountFromForm,
   };

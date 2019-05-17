@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es6",
     "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
     "sourceMap": true,
-    "strict": true,
-    "jsx": "react",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "moduleResolution": "node",
-    "skipLibCheck": true,
-    "outDir": "build"
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "jsx": "react"
   },
-  "exclude": ["node_modules", "src/public"]
+  "exclude": ["node_modules", "dist"]
 }

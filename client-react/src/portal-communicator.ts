@@ -76,6 +76,7 @@ export default class PortalCommunicator {
     this.setArmToken = setArmToken;
     this.setStartupInfo = setStartupInfo;
     window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this) as any, false);
+    window.updateAuthToken = this.getAdToken.bind(this);
     const shellUrl = decodeURI(window.location.href);
     const shellSrc = Url.getParameterByName(shellUrl, 'trustedAuthority') || '';
     PortalCommunicator.shellSrc = shellSrc;
@@ -90,7 +91,7 @@ export default class PortalCommunicator {
     }
   }
 
-  public openBlade(bladeInfo: IOpenBladeInfo, source: string): Promise<IBladeResult<any>> {
+  public openBlade<T>(bladeInfo: IOpenBladeInfo, source: string): Promise<IBladeResult<T>> {
     const payload: IDataMessage<IOpenBladeInfo> = {
       operationId: Guid.newGuid(),
       data: bladeInfo,
@@ -102,7 +103,7 @@ export default class PortalCommunicator {
         .pipe(
           filter(o => o.operationId === payload.operationId),
           first(),
-          map((r: IDataMessage<IDataMessageResult<IBladeResult<any>>>) => {
+          map((r: IDataMessage<IDataMessageResult<IBladeResult<T>>>) => {
             return r.data.result;
           })
         )
@@ -231,6 +232,33 @@ export default class PortalCommunicator {
     PortalCommunicator.postMessage(Verbs.returnPCV3Results, this.packageData(payload));
   }
 
+  public getAdToken(tokenType: 'graph' | 'azureTfsApi' | ''): Promise<string> {
+    const operationId = Guid.newGuid();
+
+    const payload = {
+      operationId,
+      data: {
+        tokenType,
+      },
+    };
+
+    PortalCommunicator.postMessage('get-ad-token', this.packageData(payload));
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === operationId),
+          first()
+        )
+        .subscribe((o: IDataMessage<IDataMessageResult<any>>) => {
+          if (o.data.status === 'success') {
+            resolve(o.data.result.token);
+          } else {
+            return reject();
+          }
+        });
+    });
+  }
+
   public broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, metadata?: T): void {
     const info: BroadcastMessage<T> = {
       id,
@@ -267,7 +295,7 @@ export default class PortalCommunicator {
       }
       this.setArmEndpointInternal(startupInfo.armEndpoint);
       this.setArmTokenInternal(startupInfo.token);
-      this.i18n.changeLanguage(startupInfo.acceptLanguage);
+      this.i18n.changeLanguage(startupInfo.effectiveLocale);
       this.setStartupInfo(startupInfo);
     } else if (methodName === Verbs.sendToken2) {
       this.setArmTokenInternal(data.token);
