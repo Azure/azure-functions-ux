@@ -23,6 +23,7 @@ export interface StatusMessage {
 
 interface SpecResult {
   skuCode: string;
+  tier: string;
 }
 
 @Component({
@@ -162,7 +163,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     this.statusMessage = null;
 
     // This is an existing plan, so just upgrade in-place
-    if (!this._input.data || (this._input.data && !!this._input.data.selectedSkuCode)) {
+    if (!this._input.data || (this._input.data && !!this._input.data.selectedSkuCode && !this._input.data.returnObjectResult)) {
       this._logService.log(LogLevel.debug, LogCategories.specPicker, {
         isCreateScenario: false,
         isLinux: this._input.data && this._input.data.isLinux,
@@ -182,7 +183,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     } else {
       // This is a new plan, so return plan information to parent blade
       this._logService.log(LogLevel.debug, LogCategories.specPicker, {
-        isCreateScenario: true,
+        isCreateScenario: !this._input.data.returnObjectResult,
         isLinux: this._input.data.isLinux,
         sku: this.specManager.selectedSpecGroup.selectedSpec.skuCode,
       });
@@ -190,6 +191,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       if (this._input.data && this._input.data.returnObjectResult) {
         this._portalService.returnPcv3Results<SpecResult>({
           skuCode: this.specManager.selectedSpecGroup.selectedSpec.skuCode,
+          tier: this.specManager.selectedSpecGroup.selectedSpec.tier,
         });
       } else {
         this._portalService.returnPcv3Results<string>(this.specManager.selectedSpecGroup.selectedSpec.legacySkuName);

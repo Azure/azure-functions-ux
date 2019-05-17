@@ -13,6 +13,8 @@ export const NEW_PLAN = '__NEWPLAN__';
 
 interface NewPlan {
   name: string;
+  skuCode: string;
+  tier: string;
 }
 
 export type NewPlanInfo = NewPlan & ResourceGroupInfo;
@@ -73,7 +75,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
     <>
       <Stack>
         <OfficeDropdown
-          selectedKey={planInfo.isNewPlan ? planInfo.newPlanInfo.name : (planInfo.existingPlan as ArmObj<ServerFarm>).id}
+          selectedKey={planInfo.isNewPlan ? planInfo.newPlanInfo.name : (planInfo.existingPlan as ArmObj<ServerFarm>).id.toLowerCase()}
           options={options}
           onChange={onChangeDropdown}
           styles={dropdownStyleOverrides(false, theme, fullpage, '450px')}

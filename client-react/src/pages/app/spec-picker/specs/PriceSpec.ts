@@ -17,6 +17,11 @@ export interface SpecPickerInput<T> {
   data?: T;
 }
 
+export interface SpecPickerOutput {
+  skuCode: string; // Like "S1"
+  tier: string; // Like "Standard"
+}
+
 export interface PlanSpecPickerData {
   subscriptionId: string;
   location: string;

@@ -1580,11 +1580,12 @@ export class PortalResources {
   public static filterAppSettings = 'filterAppSettings';
   public static filterConnectionStrings = 'filterConnectionStrings';
   public static readOnlyJava = 'readOnlyJava';
+  public static error_deploymentCenterExists = 'error_deploymentCenterExists';
   public static mountedStorageInfo = 'mountedStorageInfo';
   public static changePlanName = 'changePlanName';
   public static changePlanDescription = 'changePlanDescription';
-  public static changePlanCurrentPlan = 'changePlanCurrentPlan';
-  public static changePlanDestPlan = 'changePlanDestPlan';
+  public static changePlanCurrentPlanDetails = 'changePlanCurrentPlanDetails';
+  public static changePlanDestPlanDetails = 'changePlanDestPlanDetails';
   public static changePlanNotification = 'changePlanNotification';
   public static changePlanFailureNotificationFormat = 'changePlanFailureNotificationFormat';
   public static changePlanRgCreateFailureNotificationFormat = 'changePlanRgCreateFailureNotificationFormat';
@@ -1596,5 +1597,6 @@ export class PortalResources {
   public static resourceGroupDescription = 'resourceGroupDescription';
   public static createNewPlan = 'createNewPlan';
   public static planName = 'planName';
-  public static error_deploymentCenterExists = 'error_deploymentCenterExists';
+  public static majorVersion = 'majorVersion';
+  public static minorVersion = 'minorVersion';
 }
