@@ -1580,7 +1580,6 @@ export class PortalResources {
   public static filterAppSettings = 'filterAppSettings';
   public static filterConnectionStrings = 'filterConnectionStrings';
   public static readOnlyJava = 'readOnlyJava';
-  public static error_deploymentCenterExists = 'error_deploymentCenterExists';
   public static mountedStorageInfo = 'mountedStorageInfo';
   public static changePlanName = 'changePlanName';
   public static changePlanDescription = 'changePlanDescription';

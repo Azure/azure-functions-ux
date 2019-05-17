@@ -4911,9 +4911,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="readOnlyJava" xml:space="preserve">
     <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
   </data>
-  <data name="error_deploymentCenterExists" xml:space="preserve">
-    <value>Deployment is already configured through Deployment Center on your web app. Only one deployment configuration is allowed through Azure DevOps in Deployment Center for a web app, regardless of the number of slots. Disconnect the existing configuration to continue.</value>
-  </data>
   <data name="mountedStorageInfo" xml:space="preserve">
     <value>Mounted storage lets you map Azure Files or Blob containers for use with your app.</value>
   </data>

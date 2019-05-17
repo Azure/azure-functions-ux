@@ -48,7 +48,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
   private _vstsApiToken: string;
   public siteArm: ArmObj<Site>;
   public siteArmObj$ = new ReplaySubject<ArmObj<Site>>();
-  public webAppConfig: ArmObj<SiteConfig>;
   public updateSourceProviderConfig$ = new Subject();
   public selectedVstsRepoId = '';
   public subscriptionName = '';
@@ -74,17 +73,15 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
         return forkJoin(
           siteService.getSite(this._resourceId),
-          siteService.getSiteConfig(siteDescriptor.getSiteOnlyResourceId()),
           this._cacheService.getArm(`/subscriptions/${siteDescriptor.subscription}`, false, ARMApiVersions.armApiVersion)
         );
       })
       .switchMap(result => {
-        const [site, parentAppConfig, sub] = result;
+        const [site, sub] = result;
         this.siteArm = site.result;
         this.isLinuxApp = this.siteArm.kind.toLowerCase().includes(Kinds.linux);
         this.isFunctionApp = this.siteArm.kind.toLowerCase().includes(Kinds.functionApp);
         this.siteArmObj$.next(this.siteArm);
-        this.webAppConfig = parentAppConfig.result;
         this.subscriptionName = sub.json().displayName;
         this._location = this.siteArm.location;
         return scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm });
@@ -168,15 +165,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
   }
 
   private _deployVsts() {
-    var scmType = this.webAppConfig.properties.scmType;
-    if (
-      scmType
-        .toString()
-        .trim()
-        .toLowerCase() != 'none'
-    ) {
-      throw PortalResources.error_deploymentCenterExists;
-    }
     return this._startVstsDeployment().concatMap(id => {
       return Observable.timer(1000, 1000)
         .switchMap(() => this._pollVstsCheck(id))
@@ -361,7 +349,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
       subscriptionId: siteDescriptor.subscription,
       subscriptionName: this.subscriptionName,
       tenantId: tid,
-      resourceIdentifier: siteDescriptor.site,
+      resourceIdentifier: siteDescriptor.getFormattedTargetSiteName(),
       location: this._location,
       resourceGroupName: siteDescriptor.resourceGroup,
       authorizationInfo: {
