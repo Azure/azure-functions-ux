@@ -34,8 +34,6 @@ import { ScenarioService } from '../../../../shared/services/scenario/scenario.s
 import { AuthzService } from '../../../../shared/services/authz.service';
 import { VSOAccount } from '../../Models/vso-repo';
 import { AzureDevOpsService } from './azure-devops.service';
-import { SiteConfig } from 'app/shared/models/arm/site-config';
-import { PortalResources } from 'app/shared/models/portal-resources';
 
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
