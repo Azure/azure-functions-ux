@@ -101,8 +101,9 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
   return (
     <>
+      <label>* {t('resourceGroup')}</label>
       <OfficeDropdown
-        selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id}
+        selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase()}
         options={options}
         onChange={onChangeDropdown}
         styles={dropdownStyleOverrides(false, theme, false, '260px')}
@@ -121,9 +122,9 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
         hidden={!showCallout}
         directionalHint={DirectionalHint.rightBottomEdge}>
         <section className={calloutContainerStyle}>
-          <div>t('resourceGroupDescription')</div>
+          <div>{t('resourceGroupDescription')}</div>
           <div className={textFieldStyle}>
-            <label>* Name</label>
+            <label>* {t('_name')}</label>
             <OfficeTextField
               styles={TextFieldStyles}
               value={newRgNameFieldValue}

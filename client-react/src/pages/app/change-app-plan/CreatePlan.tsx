@@ -1,6 +1,6 @@
 import { NewPlanInfo } from './CreateOrSelectPlan';
 import { ArmObj, ServerFarm } from '../../../models/WebAppModels';
-import { IDropdownOption, Panel, PrimaryButton, DefaultButton, PanelType } from 'office-ui-fabric-react';
+import { IDropdownOption, Panel, PrimaryButton, DefaultButton, PanelType, Link } from 'office-ui-fabric-react';
 import { ResourceGroupInfo, CreateOrSelectResourceGroup } from './CreateOrSelectResourceGroup';
 import { TextField as OfficeTextField } from 'office-ui-fabric-react/lib/TextField';
 import React, { useRef, useEffect, useState } from 'react';
@@ -9,7 +9,6 @@ import { debounceTime } from 'rxjs/operators';
 import { getServerFarmValidator } from '../../../utils/formValidation/serverFarmValidator';
 import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 import { style } from 'typestyle';
-import { linkStyle } from './ChangeAppPlan';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 
@@ -74,9 +73,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
 
   return (
     <>
-      <a className={linkStyle} tabIndex={0} onClick={() => onShowPanel(setShowPanel)}>
-        Create new
-      </a>
+      <Link onClick={() => onShowPanel(setShowPanel)}>{t('createNew')}</Link>
 
       <Panel
         isOpen={showPanel}
@@ -99,7 +96,6 @@ export const CreatePlan = (props: CreatePlanProps) => {
             styles={TextFieldStyles}
             value={newPlanInfo.name}
             onChange={onChangePlanName}
-            // onBlur={field.onBlur}
             errorMessage={newPlanNameValidationError}
             placeholder={t('planName')}
           />

@@ -170,11 +170,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
   private _deployVsts() {
     var scmType = this.webAppConfig.properties.scmType;
     if (
-      scmType != null ||
-      scmType
-        .toString()
-        .trim()
-        .toLowerCase() != '' ||
       scmType
         .toString()
         .trim()

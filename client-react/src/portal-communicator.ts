@@ -91,7 +91,7 @@ export default class PortalCommunicator {
     }
   }
 
-  public openBlade(bladeInfo: IOpenBladeInfo, source: string): Promise<IBladeResult<any>> {
+  public openBlade<T>(bladeInfo: IOpenBladeInfo, source: string): Promise<IBladeResult<T>> {
     const payload: IDataMessage<IOpenBladeInfo> = {
       operationId: Guid.newGuid(),
       data: bladeInfo,
@@ -103,7 +103,7 @@ export default class PortalCommunicator {
         .pipe(
           filter(o => o.operationId === payload.operationId),
           first(),
-          map((r: IDataMessage<IDataMessageResult<IBladeResult<any>>>) => {
+          map((r: IDataMessage<IDataMessageResult<IBladeResult<T>>>) => {
             return r.data.result;
           })
         )

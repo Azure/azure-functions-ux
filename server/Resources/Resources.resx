@@ -1733,7 +1733,7 @@
     <value>Lock resources to prevent unexpected changes or deletions.</value>
   </data>
   <data name="feature_automationScriptName" xml:space="preserve">
-    <value>Automation script</value>
+    <value>Export template</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
     <value>Automate deploying resources with Azure Resource Manager templates in a single, coordinated operation. Define resources and configurable input parameters and deploy with script or code.</value>
@@ -4915,7 +4915,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/). If working directory is in src folder of repsitory, path should be either src/ or ./src/</value>
   </data>
   <data name="error_deploymentCenterExists" xml:space="preserve">
-    <value>Deployment is already configured through Deployment Center on your web app. To reconfigure, kindly disconnect the existing one before proceeding further. Note that only one deployment configuration is allowed through Azure DevOps in Deployment Center for a web app, in spite of the number of slots.</value>
+    <value>Deployment is already configured through Deployment Center on your web app. Only one deployment configuration is allowed through Azure DevOps in Deployment Center for a web app, regardless of the number of slots. Disconnect the existing configuration to continue.</value>
   </data>
   <data name="mountedStorageInfo" xml:space="preserve">
     <value>Mounted storage lets you map Azure Files or Blob containers for use with your app.</value>
@@ -4926,11 +4926,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="changePlanDescription" xml:space="preserve">
     <value>Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance.</value>
   </data>
-  <data name="changePlanCurrentPlan" xml:space="preserve">
-    <value>Current App Service plan</value>
+  <data name="changePlanCurrentPlanDetails" xml:space="preserve">
+    <value>Current plan details</value>
   </data>
-  <data name="changePlanDestPlan" xml:space="preserve">
-    <value>Destination App Service plan</value>
+  <data name="changePlanDestPlanDetails" xml:space="preserve">
+    <value>Destination plan details</value>
   </data>
   <data name="changePlanNotification" xml:space="preserve">
     <value>Changing App Service plan</value>
@@ -4964,5 +4964,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="planName" xml:space="preserve">
     <value>Plan name</value>
+  </data>
+  <data name="majorVersion" xml:space="preserve">
+    <value>Major version</value>
+  </data>
+  <data name="minorVersion" xml:space="preserve">
+    <value>Minor version</value>
   </data>
 </root>
