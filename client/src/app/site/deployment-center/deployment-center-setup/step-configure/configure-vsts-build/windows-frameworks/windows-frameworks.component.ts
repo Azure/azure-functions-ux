@@ -106,8 +106,7 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
     this.requiredValidator = new RequiredValidator(this._translateService, false);
     const workingDirectoryValidator = RegexValidator.create(
       new RegExp(Regex.windowsWorkingDirectoryValidation),
-      this._translateService.instant(PortalResources.validate_workingDirectory),
-      true
+      this._translateService.instant(PortalResources.validate_workingDirectory)
     );
     this.wizard.buildSettings.get('applicationFramework').setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
     this.wizard.buildSettings.get('applicationFramework').updateValueAndValidity();

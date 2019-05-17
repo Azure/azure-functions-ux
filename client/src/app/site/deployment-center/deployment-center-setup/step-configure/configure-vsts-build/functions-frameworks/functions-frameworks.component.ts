@@ -39,8 +39,7 @@ export class FunctionsFramworksComponent implements OnDestroy {
     const workingDirectoryValidator = RegexValidator.create(
       // For windows
       new RegExp(Regex.windowsWorkingDirectoryValidation),
-      this._translateService.instant(PortalResources.validate_workingDirectory),
-      true
+      this._translateService.instant(PortalResources.validate_workingDirectory)
     );
     this.wizard.buildSettings
       .get('applicationFramework')

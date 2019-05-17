@@ -131,11 +131,11 @@ export class Regex {
     1. Donot Start with /, \ or ~
     2. Donot have path in drive letter format eg: (C:/Windows)
   */
-  public static readonly windowsWorkingDirectoryValidation = /^[/\\~](.)*$|^.:(.)*$/;
+  public static readonly windowsWorkingDirectoryValidation = /^(?![\\/~]).(?!:).*$/;
   /*
     1. Donot start with /, \ or ~
   */
-  public static readonly linuxWorkingDirectoryValidation = /^[/\\~](.)*$/;
+  public static readonly linuxWorkingDirectoryValidation = /^(?![\\/~]).*$/;
 }
 
 export class Links {
