@@ -4912,7 +4912,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
-    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/). If working directory is in src folder of repsitory, path should be either src/ or ./src/</value>
+    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/). If working directory is in src folder of repsitory, path should be src/</value>
   </data>
   <data name="error_deploymentCenterExists" xml:space="preserve">
     <value>Deployment is already configured through Deployment Center on your web app. Only one deployment configuration is allowed through Azure DevOps in Deployment Center for a web app, regardless of the number of slots. Disconnect the existing configuration to continue.</value>
