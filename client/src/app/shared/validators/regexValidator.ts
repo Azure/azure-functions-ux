@@ -5,7 +5,6 @@ export class RegexValidator {
     return (control: CustomFormControl) => {
       const { value } = control;
       const valid = _regex.test(value);
-
       if (!valid) {
         return { regexFailure: _errorMessage };
       }
