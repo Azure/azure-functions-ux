@@ -1581,7 +1581,6 @@ export class PortalResources {
   public static filterConnectionStrings = 'filterConnectionStrings';
   public static readOnlyJava = 'readOnlyJava';
   public static validate_workingDirectory = 'validate_workingDirectory';
-  public static error_deploymentCenterExists = 'error_deploymentCenterExists';
   public static mountedStorageInfo = 'mountedStorageInfo';
   public static changePlanName = 'changePlanName';
   public static changePlanDescription = 'changePlanDescription';

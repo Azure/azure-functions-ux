@@ -115,6 +115,7 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
       .get('applicationFramework')
       .valueChanges.takeUntil(this._ngUnsubscribe$)
       .subscribe(stack => {
+        console.log(stack);
         if (stack != WebAppFramework.AspNetCore && stack != WebAppFramework.AspNetWap) {
           this.wizard.buildSettings.get('workingDirectory').setValidators([workingDirectoryValidator]);
           this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
@@ -173,8 +174,6 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
       .get('pythonSettings')
       .get('flaskProjectName')
       .updateValueAndValidity();
-    this.wizard.buildSettings.get('workingDirectory').setValidators([]);
-    this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
   }
 
   ngOnInit(): void {
