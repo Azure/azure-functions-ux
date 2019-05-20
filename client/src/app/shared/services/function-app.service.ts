@@ -306,8 +306,7 @@ export class FunctionAppService {
 
           return this._cacheService.get(
             `${Constants.cdnHost}api/templates?runtime=${extensionVersion || 'latest'}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
-            false,
-            null
+            false
           );
         })
         .map(r => {
