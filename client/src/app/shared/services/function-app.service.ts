@@ -1,4 +1,3 @@
-import { GlobalStateService } from './global-state.service';
 import { Host, HostV2 } from './../models/host';
 import {
   HttpMethods,
@@ -65,7 +64,6 @@ export class FunctionAppService {
     private _userService: UserService,
     private _injector: Injector,
     private _portalService: PortalService,
-    private _globalStateService: GlobalStateService,
     private _siteService: SiteService,
     private _logService: LogService,
     private _httpClient: Http,
@@ -306,15 +304,9 @@ export class FunctionAppService {
             extensionVersion = 'beta';
           }
 
-          const headers = this.portalHeaders(t);
-          if (this._globalStateService.showTryView) {
-            headers.delete('Authorization');
-          }
-
           return this._cacheService.get(
             `${Constants.cdnHost}api/templates?runtime=${extensionVersion || 'latest'}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
-            false,
-            headers
+            false
           );
         })
         .map(r => {
@@ -600,15 +592,9 @@ export class FunctionAppService {
             extensionVersion = 'latest';
           }
 
-          const headers = this.portalHeaders(t);
-          if (this._globalStateService.showTryView) {
-            headers.delete('Authorization');
-          }
-
           return this._cacheService.get(
             `${Constants.cdnHost}api/bindingconfig?runtime=${extensionVersion}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
-            false,
-            headers
+            false
           );
         })
         .map(r => {
