@@ -8,5 +8,9 @@ export interface StaticConfig {
     cacheBreakQuery: string;
     isAzure: boolean;
     version: string;
+    functionsVersionInfo: {
+      runtimeStable: string[];
+      runtimeDefault: string;
+    };
   };
 }
