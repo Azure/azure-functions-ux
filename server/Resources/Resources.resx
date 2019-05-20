@@ -4766,6 +4766,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="noBlobsOrFilesShares" xml:space="preserve">
     <value>This storage account has no blob containers or file shares</value>
   </data>
+  <data name="noFileShares" xml:space="preserve">
+    <value>This storage account has no file shares</value>
+  </data>
+  <data name="noBlobs" xml:space="preserve">
+    <value>This storage account has no blobs</value>
+  </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
     <value>You don't have write access to this storage account. If you know the access key you can put it in advanced mode.</value>
   </data>
