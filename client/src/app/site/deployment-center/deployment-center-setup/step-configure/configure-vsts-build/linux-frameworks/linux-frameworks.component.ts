@@ -155,8 +155,7 @@ export class LinuxFramworksComponent implements OnDestroy {
         );
         const workingDirectoryValidator = RegexValidator.create(
           new RegExp(Regex.linuxWorkingDirectoryValidation),
-          this._translateService.instant(PortalResources.validate_workingDirectory),
-          true
+          this._translateService.instant(PortalResources.validate_workingDirectory)
         );
 
         if (stack === WebAppFramework.Node) {
