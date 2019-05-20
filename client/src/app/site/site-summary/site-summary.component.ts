@@ -274,7 +274,10 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
         if (r.siteConfig && r.siteConfig.isSuccessful) {
           const siteConfig = r.siteConfig.result && r.siteConfig.result.properties;
-          const showIpRestrictionsWarning = siteConfig && siteConfig.ipSecurityRestrictions && siteConfig.ipSecurityRestrictions.length > 1;
+          const showIpRestrictionsWarning =
+            siteConfig &&
+            ((siteConfig.ipSecurityRestrictions && siteConfig.ipSecurityRestrictions.length > 1) ||
+              (siteConfig.scmIpSecurityRestrictions && siteConfig.scmIpSecurityRestrictions.length > 0));
           if (showIpRestrictionsWarning) {
             this.notifications.push({
               id: NotificationIds.ipRestrictions,

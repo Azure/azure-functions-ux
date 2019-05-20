@@ -4842,7 +4842,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Application Insights is not configured. Configure Application Insights to capture function logs.</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
-    <value>Access restrictions have been added to your function app which may affect your ability to manage it from the portal.</value>
+    <value>Access restrictions have been added to your function app. This may affect your ability to manage it from the portal and make the runtime unreachable.</value>
   </data>
   <data name="userCredsError" xml:space="preserve">
     <value>The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain letters and numbers.</value>
