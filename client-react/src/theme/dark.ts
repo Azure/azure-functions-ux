@@ -16,6 +16,7 @@ const AzurePortalColors = {
   warningIcon: '#ff8c00',
   infoBackground: '#012b65',
   infoIcon: '#015cda',
+  monochromaticIcon: '#bbb',
   textColor: '#ffffff',
   placeholderText: '#afafaf',
   labelText: '#808080',

@@ -4,7 +4,7 @@ import { PrimaryButton, IDropdownOption, Stack, Link } from 'office-ui-fabric-re
 import { Formik, FormikProps } from 'formik';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ArmObj, Site, ServerFarm, ArmSku } from '../../../models/WebAppModels';
-import { style } from 'typestyle';
+import { style, classes } from 'typestyle';
 import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import { CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN, addNewPlanToOptions } from './CreateOrSelectPlan';
 import SiteService from '../../../ApiHelpers/SiteService';
@@ -19,6 +19,8 @@ import { ReactComponent as AppServicePlanSvg } from '../../../images/AppService/
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
+import { InfoTooltip, defaultTooltipClass } from '../../../components/InfoTooltip/InfoTooltip';
+import { useWindowSize } from 'react-use';
 
 export const leftCol = style({
   marginRight: '20px',
@@ -45,9 +47,15 @@ const labelStyle = style({
   width: '250px',
 });
 
+const tooltipStyle = style({
+  marginLeft: '5px',
+});
+
 const footerStyle = style({
   marginTop: '50px',
 });
+
+const MaxHorizontalWidthPx = 750;
 
 interface CompletionTelemetry {
   success: boolean;
@@ -75,6 +83,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const [isUpdating, setIsUpdating] = useState(false);
   const portalCommunicator = useContext(PortalContext);
   const { t } = useTranslation();
+  const { width } = useWindowSize();
 
   const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(
     getInitialFormValues(site, currentServerFarm, serverFarms, resourceGroups)
@@ -137,7 +146,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                     <label className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</label>
                   </Stack>
 
-                  <Stack horizontal style={{ marginTop: '10px' }}>
+                  <Stack horizontal={width > MaxHorizontalWidthPx} style={{ marginTop: '10px' }}>
                     <label className={labelStyle}>{t('appServicePlan')}</label>
                     <div>{getPlanName(currentServerFarm)}</div>
                   </Stack>
@@ -146,7 +155,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                     <label className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</label>
                   </Stack>
 
-                  <Stack horizontal style={sectionStyle}>
+                  <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={sectionStyle}>
                     <label className={labelStyle}>{t('appServicePlan')}</label>
                     <CreateOrSelectPlan
                       subscriptionId={subscriptionId}
@@ -162,17 +171,20 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                     />
                   </Stack>
 
-                  <Stack horizontal style={{ marginTop: '25px' }}>
+                  <Stack horizontal={width > MaxHorizontalWidthPx} style={{ marginTop: '25px' }}>
                     <label className={labelStyle}>{t('resourceGroup')}</label>
                     <div>{getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}</div>
                   </Stack>
 
-                  <Stack horizontal disableShrink style={fieldStyle}>
-                    <label className={labelStyle}>{t('region')}</label>
+                  <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
+                    <label className={labelStyle}>
+                      <span>{t('region')}</span>
+                      <InfoTooltip className={classes(tooltipStyle, defaultTooltipClass)} content={t('changePlanLocationTooltip')} />
+                    </label>
                     <span>{site.location}</span>
                   </Stack>
 
-                  <Stack horizontal disableShrink style={fieldStyle}>
+                  <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
                     <label className={labelStyle}>{t('pricingTier')}</label>
                     {getPricingTierValue(currentServerFarm.id, formProps, portalCommunicator)}
                   </Stack>
