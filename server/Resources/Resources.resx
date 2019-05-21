@@ -4926,6 +4926,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="changePlanDescription" xml:space="preserve">
     <value>Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance.</value>
   </data>
+  <data name="changePlanLocationTooltip" xml:space="preserve">
+    <value>The region that your app currently resides in cannot be changed for new or existing plans.</value>
+  </data>
   <data name="changePlanCurrentPlanDetails" xml:space="preserve">
     <value>Current plan details</value>
   </data>

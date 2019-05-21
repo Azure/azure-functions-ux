@@ -16,6 +16,7 @@ export interface AzurePortalColors {
   warningIcon: string;
   infoBackground: string;
   infoIcon: string;
+  monochromaticIcon: string;
   textColor: string;
   placeholderText: string;
   labelText: string;
