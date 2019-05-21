@@ -4947,6 +4947,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="changePlanPlanCreateFailureNotificationFormat" xml:space="preserve">
     <value>Failed to create App Service plan: '{0}'</value>
   </data>
+  <data name="resourceGroupNameValidationError" xml:space="preserve">
+    <value>Resource group name can only include alphanumeric characters, periods, underscores, hyphens and parenthesis and cannot end in a period.</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>Are you sure you would like to cancel the update operation?</value>
   </data>

@@ -19,6 +19,7 @@ import { TextField as OfficeTextField } from 'office-ui-fabric-react/lib/TextFie
 import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
+import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
 
 export interface CreateOrSelectResourceGroupFormProps {
   onRgChange: (rgInfo: ResourceGroupInfo) => void;
@@ -92,6 +93,11 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
   const onRgNameTextChange = (e: any, value: string) => {
     setNewRgNameFieldValue(value);
+
+    if (!ValidationRegex.resourceGroupName.test(value)) {
+      setNewRgNameValidationError(t('resourceGroupNameValidationError'));
+      return;
+    }
 
     for (const option of options) {
       if (option.data !== NEW_RG && option.data.name.toLowerCase() === value.toLowerCase()) {

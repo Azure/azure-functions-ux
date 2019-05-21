@@ -1592,6 +1592,7 @@ export class PortalResources {
   public static changePlanFailureNotificationFormat = 'changePlanFailureNotificationFormat';
   public static changePlanRgCreateFailureNotificationFormat = 'changePlanRgCreateFailureNotificationFormat';
   public static changePlanPlanCreateFailureNotificationFormat = 'changePlanPlanCreateFailureNotificationFormat';
+  public static resourceGroupNameValidationError = 'resourceGroupNameValidationError';
   public static cancelUpdateConfirmation = 'cancelUpdateConfirmation';
   public static newFormat = 'newFormat';
   public static validationErrorAlreadyExistsFormat = 'validationErrorAlreadyExistsFormat';
