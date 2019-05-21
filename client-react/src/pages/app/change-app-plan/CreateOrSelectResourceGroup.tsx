@@ -56,7 +56,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
   const [newRgNameFieldValue, setNewRgNameFieldValue] = useState(newResourceGroupName);
   const [newRgNameValidationError, setNewRgNameValidationError] = useState('');
   const { t } = useTranslation();
-  const [createNewLinkElement, setCreateNewLinkElement] = useState<ILink | null>(null);
+  const createNewLinkElement = useRef<ILink | null>(null);
 
   const onChangeDropdown = (e: unknown, option: IDropdownOption) => {
     const rgInfo: ResourceGroupInfo = {
@@ -76,11 +76,11 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
   const onDismissCallout = () => {
     setShowCallout(false);
-    (createNewLinkElement as ILink).focus();
+    (createNewLinkElement.current as ILink).focus();
   };
 
   const onCompleteCallout = () => {
-    (createNewLinkElement as ILink).focus();
+    (createNewLinkElement.current as ILink).focus();
     addNewRgOption(newRgNameFieldValue, options, t);
     setShowCallout(false);
     onChange({
@@ -115,7 +115,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
       />
 
       <div ref={menuButton => (menuButtonElement.current = menuButton)}>
-        <Link onClick={onShowCallout} componentRef={ref => setCreateNewLinkElement(ref)}>
+        <Link onClick={onShowCallout} componentRef={ref => (createNewLinkElement.current = ref)}>
           {t('createNew')}
         </Link>
       </div>
