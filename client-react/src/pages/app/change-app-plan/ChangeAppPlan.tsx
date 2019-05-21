@@ -185,7 +185,9 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                   </Stack>
 
                   <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
-                    <label className={labelStyle}>{t('pricingTier')}</label>
+                    <label id="changeplan-pricingtier" className={labelStyle}>
+                      {t('pricingTier')}
+                    </label>
                     {getPricingTierValue(currentServerFarm.id, formProps, portalCommunicator)}
                   </Stack>
                 </Stack>
@@ -214,7 +216,11 @@ const getPricingTierValue = (
   portalCommunicator: PortalCommunicator
 ) => {
   if (form.values.serverFarmInfo.isNewPlan) {
-    return <Link onClick={() => openSpecPicker(currentServerFarmId, form, portalCommunicator)}>{getSelectedSkuString(form.values)}</Link>;
+    return (
+      <Link ariaLabelled-by="changeplan-pricingtier" onClick={() => openSpecPicker(currentServerFarmId, form, portalCommunicator)}>
+        {getSelectedSkuString(form.values)}
+      </Link>
+    );
   }
 
   return <span>{getSelectedSkuString(form.values)}</span>;

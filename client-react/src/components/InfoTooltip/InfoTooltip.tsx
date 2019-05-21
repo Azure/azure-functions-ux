@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { TooltipHost, getId } from 'office-ui-fabric-react';
+import React from 'react';
+import { TooltipHost } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
 import { ReactComponent as InfoSvg } from '../../images/Common/info.svg';
 
@@ -15,13 +15,12 @@ export const defaultTooltipClass = style({
 });
 
 export const InfoTooltip = (props: InfoTooltipProps) => {
-  const hostId = useRef<string>(getId('tooltipHost'));
   const className = props.className ? props.className : defaultTooltipClass;
   return (
     <>
-      <TooltipHost content={props.content} id={hostId.current} calloutProps={{ gapSpace: 0 }}>
+      <TooltipHost content={props.content} calloutProps={{ gapSpace: 0 }}>
         <span className={className}>
-          <InfoSvg aria-labelledby={hostId.current} />
+          <InfoSvg />
         </span>
       </TooltipHost>
     </>

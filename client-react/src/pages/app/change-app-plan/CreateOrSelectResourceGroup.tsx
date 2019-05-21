@@ -101,12 +101,13 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
   return (
     <>
-      <label>* {t('resourceGroup')}</label>
+      <label id="createplan-rgname">* {t('resourceGroup')}</label>
       <OfficeDropdown
         selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase()}
         options={options}
         onChange={onChangeDropdown}
         styles={dropdownStyleOverrides(false, theme, false, '260px')}
+        ariaLabelled-by="createplan-rgname"
       />
 
       <div ref={menuButton => (menuButtonElement.current = menuButton)}>
@@ -124,19 +125,20 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
         <section className={calloutContainerStyle}>
           <div>{t('resourceGroupDescription')}</div>
           <div className={textFieldStyle}>
-            <label>* {t('_name')}</label>
+            <label id="createorselectrg-rgname">* {t('_name')}</label>
             <OfficeTextField
               styles={TextFieldStyles}
               value={newRgNameFieldValue}
               onChange={onRgNameTextChange}
               placeholder={t('createNew')}
               errorMessage={newRgNameValidationError}
+              ariaLabelled-by="createorselectrg-rgname"
             />
           </div>
           <div>
             <PrimaryButton
               className={primaryButtonStyle}
-              text="OK"
+              text={t('ok')}
               disabled={!newRgNameFieldValue || !!newRgNameValidationError}
               onClick={onCompleteCallout}
             />
