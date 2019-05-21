@@ -3681,7 +3681,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Sync</value>
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
-    <value>Deployment Credentials</value>
+    <value>FTP/Credentials</value>
   </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
     <value>Dv3-Series compute equivalent</value>
