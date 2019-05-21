@@ -1585,6 +1585,7 @@ export class PortalResources {
   public static mountedStorageInfo = 'mountedStorageInfo';
   public static changePlanName = 'changePlanName';
   public static changePlanDescription = 'changePlanDescription';
+  public static changePlanLocationTooltip = 'changePlanLocationTooltip';
   public static changePlanCurrentPlanDetails = 'changePlanCurrentPlanDetails';
   public static changePlanDestPlanDetails = 'changePlanDestPlanDetails';
   public static changePlanNotification = 'changePlanNotification';
