@@ -8,6 +8,7 @@ import {
   Link,
   PrimaryButton,
   DefaultButton,
+  ILink,
 } from 'office-ui-fabric-react';
 import { dropdownStyleOverrides } from '../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../ThemeContext';
@@ -55,6 +56,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
   const [newRgNameFieldValue, setNewRgNameFieldValue] = useState(newResourceGroupName);
   const [newRgNameValidationError, setNewRgNameValidationError] = useState('');
   const { t } = useTranslation();
+  const [createNewLinkElement, setCreateNewLinkElement] = useState<ILink | null>(null);
 
   const onChangeDropdown = (e: unknown, option: IDropdownOption) => {
     const rgInfo: ResourceGroupInfo = {
@@ -74,9 +76,11 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
   const onDismissCallout = () => {
     setShowCallout(false);
+    (createNewLinkElement as ILink).focus();
   };
 
   const onCompleteCallout = () => {
+    (createNewLinkElement as ILink).focus();
     addNewRgOption(newRgNameFieldValue, options, t);
     setShowCallout(false);
     onChange({
@@ -111,7 +115,9 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
       />
 
       <div ref={menuButton => (menuButtonElement.current = menuButton)}>
-        <Link onClick={onShowCallout}>{t('createNew')}</Link>
+        <Link onClick={onShowCallout} componentRef={ref => setCreateNewLinkElement(ref)}>
+          {t('createNew')}
+        </Link>
       </div>
       <Callout
         className={calloutStyle}
