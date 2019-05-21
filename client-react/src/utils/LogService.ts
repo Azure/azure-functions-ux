@@ -31,7 +31,8 @@ export default class LogService {
     const errorId = `/errors/${category}/${id}`;
 
     if (AppInsights) {
-      AppInsights.trackEvent(errorId, data);
+      const properties = typeof data === 'object' ? data : { message: data };
+      AppInsights.trackEvent(errorId, properties);
     }
     if (this._logToConsole) {
       console.error(`[${category}] - ${data}`);
@@ -46,7 +47,8 @@ export default class LogService {
     const warningId = `/warnings/${category}/${id}`;
 
     if (AppInsights) {
-      AppInsights.trackEvent(warningId, data);
+      const properties = typeof data === 'object' ? data : { message: data };
+      AppInsights.trackEvent(warningId, properties);
     }
     if (this._logToConsole) {
       console.warn(`[${category}] - ${data}`);
@@ -61,7 +63,8 @@ export default class LogService {
     const warningId = `/event/${category}/${id}`;
 
     if (AppInsights) {
-      AppInsights.trackEvent(warningId, data);
+      const properties = typeof data === 'object' ? data : { message: data };
+      AppInsights.trackEvent(warningId, properties);
     }
     if (this._logToConsole) {
       console.log(`%c[${category}] - ${data}`, 'color: #ff8c00');

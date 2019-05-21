@@ -552,7 +552,11 @@ export class PlanPriceSpecManager {
       if (osType === OsType.Linux && spec.skuCode === SkuCode.Free.F1) {
         spec.specResourceSet.firstParty[0].resourceId = 'a90aec9f-eecb-42c7-8421-9b96716996dc';
       } else {
-        this._logService.error(LogCategories.specPicker, '/meter-not-found', `No meter found for ${spec.skuCode}`);
+        this._logService.error(LogCategories.specPicker, '/meter-not-found', {
+          skuCode: spec.skuCode,
+          osType: osType,
+          location: this._isUpdateScenario(this._inputs) ? this._plan.location : this._inputs.data.location,
+        });
       }
       return;
     }
