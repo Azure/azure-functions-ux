@@ -40,7 +40,8 @@ export class LogService {
     const errorId = `/errors/${category}/${id}`;
 
     // Always log errors to App Insights
-    this._aiService.trackEvent(errorId, data);
+    const properties = typeof data === 'object' ? data : { message: data };
+    this._aiService.trackEvent(errorId, properties);
 
     if (this._shouldLog(category, LogLevel.error)) {
       console.error(`[${category}] - ${data}`);
@@ -55,7 +56,8 @@ export class LogService {
     const warningId = `/warnings/${category}/${id}`;
 
     // Always log warnings to App Insights
-    this._aiService.trackEvent(warningId, data);
+    const properties = typeof data === 'object' ? data : { message: data };
+    this._aiService.trackEvent(warningId, properties);
 
     if (this._shouldLog(category, LogLevel.warning)) {
       console.log(`%c[${category}] - ${data}`, 'color: #ff8c00');
