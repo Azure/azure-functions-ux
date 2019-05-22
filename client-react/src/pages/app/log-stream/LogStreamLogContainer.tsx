@@ -40,7 +40,6 @@ const bodyDivStyle = style({
   wordBreak: 'break-word',
   wordWrap: 'break-word',
   width: '100%',
-  height: 'calc(100% - 20px)',
 });
 
 const connectingDivStyle = style({
@@ -71,6 +70,8 @@ const LogStreamLogContainer: React.FC<LogStreamLogContainerPropsCombined> = prop
   const { clearLogs, logEntries, connectionError, site, logType, logsEnabled } = props;
   const { t } = useTranslation();
   const scenarioChecker = new ScenarioService(t);
+  const showWebServerOption = !!site.id && scenarioChecker.checkScenario(ScenarioIds.addWebServerLogging, { site }).status !== 'disabled';
+  const totalNumberOfLogs = logEntries.length;
 
   const _onOptionChange = (e: any, newValue: IChoiceGroupOption) => {
     const useWebServer = newValue.key === LogType.WebServer;
@@ -98,19 +99,22 @@ const LogStreamLogContainer: React.FC<LogStreamLogContainerPropsCombined> = prop
 
   return (
     <div className={containerDivStyle}>
-      {!!site.id &&
-        scenarioChecker.checkScenario(ScenarioIds.addWebServerLogging, { site }).status !== 'disabled' && (
-          <div className={toggleDivStyle}>
-            <ChoiceGroup styles={ChoiceGroupStyles} defaultSelectedKey={logType} options={optionsWithMargin} onChange={_onOptionChange} />
-          </div>
-        )}
-      <div className={bodyDivStyle}>
+      {/* Show Application Logs and Web Server Toggle if Applicable*/}
+      {showWebServerOption && (
+        <div className={toggleDivStyle}>
+          <ChoiceGroup styles={ChoiceGroupStyles} defaultSelectedKey={logType} options={optionsWithMargin} onChange={_onOptionChange} />
+        </div>
+      )}
+
+      <div className={bodyDivStyle} style={{ height: showWebServerOption ? 'calc(100% - 50px)' : 'calc(100% - 20px)' }}>
         {/*Logs Disabled Message or Connecting*/}
         {!!site.id &&
-          ((logType === LogType.Application &&
-            !logsEnabled.applicationLogs && <div className={connectionErrorDivStyle}>{t('logStreamingApplicationLogsDisabled')}</div>) ||
-            (logType === LogType.WebServer &&
-              !logsEnabled.webServerLogs && <div className={connectionErrorDivStyle}>{t('logStreamingWebServerLogsDisabled')}</div>) ||
+          ((logType === LogType.Application && !logsEnabled.applicationLogs && (
+            <div className={connectionErrorDivStyle}>{t('logStreamingApplicationLogsDisabled')}</div>
+          )) ||
+            (logType === LogType.WebServer && !logsEnabled.webServerLogs && (
+              <div className={connectionErrorDivStyle}>{t('logStreamingWebServerLogsDisabled')}</div>
+            )) ||
             (!clearLogs && <div className={connectingDivStyle}>{t('feature_logStreamingConnecting')}</div>))}
 
         {/*Connection Error*/}
@@ -118,11 +122,30 @@ const LogStreamLogContainer: React.FC<LogStreamLogContainerPropsCombined> = prop
 
         {/*Log Entries*/}
         {!!logEntries &&
-          logEntries.map(logEntry => (
-            <div key={logEntry.message} className={logEntryDivStyle} style={{ color: getLogTextColor(logEntry.level) }}>
-              {logEntry.message}
-            </div>
-          ))}
+          logEntries.map((logEntry, logIndex) => {
+            if (logIndex + 1 !== totalNumberOfLogs) {
+              return (
+                <div key={logEntry.message} className={logEntryDivStyle} style={{ color: getLogTextColor(logEntry.level) }}>
+                  {logEntry.message}
+                </div>
+              );
+            }
+
+            /*Last Log Entry needs to be scrolled into focus*/
+            return (
+              <div
+                key={logEntry.message}
+                className={logEntryDivStyle}
+                style={{ color: getLogTextColor(logEntry.level) }}
+                ref={el => {
+                  if (!!el) {
+                    el.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}>
+                {logEntry.message}
+              </div>
+            );
+          })}
       </div>
     </div>
   );
