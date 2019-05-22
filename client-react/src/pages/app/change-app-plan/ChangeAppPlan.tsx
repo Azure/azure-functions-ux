@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import FeatureDescriptionCard from '../../../components/feature-description-card/FeatureDescriptionCard';
-import { PrimaryButton, IDropdownOption, Stack, Link } from 'office-ui-fabric-react';
+import { PrimaryButton, IDropdownOption, Stack, Link, ILink } from 'office-ui-fabric-react';
 import { Formik, FormikProps } from 'formik';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ArmObj, Site, ServerFarm, ArmSku } from '../../../models/WebAppModels';
@@ -84,6 +84,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const portalCommunicator = useContext(PortalContext);
   const { t } = useTranslation();
   const { width } = useWindowSize();
+  const changeSkuLinkElement = useRef<ILink | null>(null);
 
   const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(
     getInitialFormValues(site, currentServerFarm, serverFarms, resourceGroups)
@@ -185,8 +186,10 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                   </Stack>
 
                   <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
-                    <label className={labelStyle}>{t('pricingTier')}</label>
-                    {getPricingTierValue(currentServerFarm.id, formProps, portalCommunicator)}
+                    <label id="changeplan-pricingtier" className={labelStyle}>
+                      {t('pricingTier')}
+                    </label>
+                    {getPricingTierValue(currentServerFarm.id, formProps, changeSkuLinkElement, portalCommunicator)}
                   </Stack>
                 </Stack>
               </section>
@@ -211,10 +214,18 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
 const getPricingTierValue = (
   currentServerFarmId: string,
   form: FormikProps<ChangeAppPlanFormValues>,
+  linkElement: React.MutableRefObject<ILink | null>,
   portalCommunicator: PortalCommunicator
 ) => {
   if (form.values.serverFarmInfo.isNewPlan) {
-    return <Link onClick={() => openSpecPicker(currentServerFarmId, form, portalCommunicator)}>{getSelectedSkuString(form.values)}</Link>;
+    return (
+      <Link
+        ariaLabelled-by="changeplan-pricingtier"
+        onClick={() => openSpecPicker(currentServerFarmId, form, linkElement, portalCommunicator)}
+        componentRef={ref => (linkElement.current = ref)}>
+        {getSelectedSkuString(form.values)}
+      </Link>
+    );
   }
 
   return <span>{getSelectedSkuString(form.values)}</span>;
@@ -223,6 +234,7 @@ const getPricingTierValue = (
 const openSpecPicker = async (
   currentServerFarmId: string,
   form: FormikProps<ChangeAppPlanFormValues>,
+  linkElement: React.MutableRefObject<ILink | null>,
   portalCommunicator: PortalCommunicator
 ) => {
   const result = await portalCommunicator.openBlade<SpecPickerOutput>(
@@ -239,6 +251,8 @@ const openSpecPicker = async (
     },
     'changeAppPlan'
   );
+
+  (linkElement.current as ILink).focus();
 
   if (result.reason === 'childClosedSelf') {
     const newServerFarmInfo = {

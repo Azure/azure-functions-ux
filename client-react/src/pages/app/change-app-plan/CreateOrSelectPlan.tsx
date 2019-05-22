@@ -79,6 +79,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
           options={options}
           onChange={onChangeDropdown}
           styles={dropdownStyleOverrides(false, theme, fullpage, '450px')}
+          ariaLabel={t('appServicePlan')}
         />
         <CreatePlan
           newPlanInfo={planInfo.newPlanInfo}
