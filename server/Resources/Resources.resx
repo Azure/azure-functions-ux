@@ -4833,10 +4833,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Virtual Directory path must exist within an application path</value>
   </data>
   <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>Application logs are switched off. You can turn them on using the 'Diagnostic logs' settings.</value>
+    <value>Application logs are switched off. You can turn them on using the 'App Service logs' settings.</value>
   </data>
   <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Web server logs are switched off. You can turn them on using the 'Diagnostic logs' settings.</value>
+    <value>Web server logs are switched off. You can turn them on using the 'App Service logs' settings.</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
     <value>Your selected runtime stack does not currently support remote debugging.</value>
