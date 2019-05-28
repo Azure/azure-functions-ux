@@ -37,7 +37,7 @@ const FeatureDescriptionCard = (props: FeatureDescriptionCardProps) => {
       <span className={iconClass}>
         <Svg />
       </span>
-      <h2 className={headerClass}>{name}</h2>
+      <h3 className={headerClass}>{name}</h3>
       <div>{description}</div>
     </div>
   );
