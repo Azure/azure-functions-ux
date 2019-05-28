@@ -20,6 +20,7 @@ import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/T
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
+import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
 export interface CreateOrSelectResourceGroupFormProps {
   onRgChange: (rgInfo: ResourceGroupInfo) => void;
@@ -47,6 +48,12 @@ const textFieldStyle = style({
 const primaryButtonStyle = style({
   marginRight: '8px',
 });
+
+const requiredIcon = (theme: ThemeExtended) => {
+  return style({
+    color: theme.palette.red,
+  });
+};
 
 const NEW_RG = '__NewRG__';
 
@@ -111,7 +118,9 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
   return (
     <>
-      <label id="createplan-rgname">* {t('resourceGroup')}</label>
+      <label id="createplan-rgname">
+        <span className={requiredIcon(theme)}>*</span> {t('resourceGroup')}
+      </label>
       <OfficeDropdown
         selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase()}
         options={options}
@@ -137,7 +146,9 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
         <section className={calloutContainerStyle}>
           <div>{t('resourceGroupDescription')}</div>
           <div className={textFieldStyle}>
-            <label id="createorselectrg-rgname">* {t('_name')}</label>
+            <label id="createorselectrg-rgname">
+              <span className={requiredIcon(theme)}>*</span> {t('_name')}
+            </label>
             <OfficeTextField
               styles={TextFieldStyles}
               value={newRgNameFieldValue}

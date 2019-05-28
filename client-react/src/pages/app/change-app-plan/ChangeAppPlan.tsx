@@ -27,7 +27,7 @@ export const leftCol = style({
 });
 
 const formStyle = {
-  marginTop: '40px',
+  marginTop: '30px',
 };
 
 const fieldStyle = {
@@ -41,7 +41,8 @@ const sectionStyle = {
 const labelSectionStyle = style({
   textTransform: 'uppercase',
   fontSize: '11px',
-});
+  fontWeight: '600',
+} as any); // Casting to any because style definition doesn't support 600 even though it's valid CSS
 
 const labelStyle = style({
   width: '250px',
@@ -144,19 +145,21 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
               <section>
                 <Stack style={formStyle}>
                   <Stack style={sectionStyle}>
-                    <label className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</label>
+                    <h4 className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</h4>
                   </Stack>
 
-                  <Stack horizontal={width > MaxHorizontalWidthPx} style={{ marginTop: '10px' }}>
+                  <Stack horizontal={width > MaxHorizontalWidthPx}>
                     <label className={labelStyle}>{t('appServicePlan')}</label>
-                    <div>{getPlanName(currentServerFarm)}</div>
+                    <div tabIndex={0} aria-label={t('appServicePlan') + getPlanName(currentServerFarm)}>
+                      {getPlanName(currentServerFarm)}
+                    </div>
                   </Stack>
 
                   <Stack style={{ marginTop: '50px' }}>
-                    <label className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</label>
+                    <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
                   </Stack>
 
-                  <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={sectionStyle}>
+                  <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink>
                     <label className={labelStyle}>{t('appServicePlan')}</label>
                     <CreateOrSelectPlan
                       subscriptionId={subscriptionId}
@@ -174,7 +177,9 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
 
                   <Stack horizontal={width > MaxHorizontalWidthPx} style={{ marginTop: '25px' }}>
                     <label className={labelStyle}>{t('resourceGroup')}</label>
-                    <div>{getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}</div>
+                    <div tabIndex={0} aria-label={t('resourceGroup') + getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}>
+                      {getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}
+                    </div>
                   </Stack>
 
                   <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
@@ -182,14 +187,14 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                       <span>{t('region')}</span>
                       <InfoTooltip className={classes(tooltipStyle, defaultTooltipClass)} content={t('changePlanLocationTooltip')} />
                     </label>
-                    <span>{site.location}</span>
+                    <span tabIndex={0} aria-label={t('region') + site.location}>
+                      {site.location}
+                    </span>
                   </Stack>
 
                   <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
-                    <label id="changeplan-pricingtier" className={labelStyle}>
-                      {t('pricingTier')}
-                    </label>
-                    {getPricingTierValue(currentServerFarm.id, formProps, changeSkuLinkElement, portalCommunicator)}
+                    <label className={labelStyle}>{t('pricingTier')}</label>
+                    {getPricingTierValue(currentServerFarm.id, formProps, changeSkuLinkElement, portalCommunicator, t)}
                   </Stack>
                 </Stack>
               </section>
@@ -215,20 +220,27 @@ const getPricingTierValue = (
   currentServerFarmId: string,
   form: FormikProps<ChangeAppPlanFormValues>,
   linkElement: React.MutableRefObject<ILink | null>,
-  portalCommunicator: PortalCommunicator
+  portalCommunicator: PortalCommunicator,
+  t: i18next.TFunction
 ) => {
+  const skuString = getSelectedSkuString(form.values);
+
   if (form.values.serverFarmInfo.isNewPlan) {
     return (
       <Link
-        ariaLabelled-by="changeplan-pricingtier"
+        aria-label={t('pricingTier') + skuString}
         onClick={() => openSpecPicker(currentServerFarmId, form, linkElement, portalCommunicator)}
         componentRef={ref => (linkElement.current = ref)}>
-        {getSelectedSkuString(form.values)}
+        {skuString}
       </Link>
     );
   }
 
-  return <span>{getSelectedSkuString(form.values)}</span>;
+  return (
+    <span tabIndex={0} aria-label={t('pricingTier') + skuString}>
+      {getSelectedSkuString(form.values)}
+    </span>
+  );
 };
 
 const openSpecPicker = async (
@@ -285,125 +297,146 @@ const onSubmit = async (
   t: i18next.TFunction,
   changeComplete: () => void
 ) => {
-  const { site, serverFarmInfo } = values;
+  const { serverFarmInfo } = values;
   const notificationId = portalCommunicator.startNotification(t('changePlanNotification'), t('changePlanNotification'));
+
   setFormValues(values);
   setIsUpdating(true);
 
+  let success = false;
   if (!serverFarmInfo.isNewPlan) {
-    // Change to an existing plan
-
-    if (!serverFarmInfo.existingPlan) {
-      LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'existingPlan not set'));
-      return;
-    }
-
-    site.properties.serverFarmId = serverFarmInfo.existingPlan.id;
-
-    const planDescriptor = new ArmPlanDescriptor(site.properties.serverFarmId);
-
-    const siteResponse = await SiteService.updateSite(site.id, site);
-    if (siteResponse.metadata.success) {
-      portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
-      LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(true, false, false));
-    } else {
-      const updateSiteError =
-        siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
-      portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
-      LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'Failed to update site'));
-
-      setIsUpdating(false);
-      return;
-    }
+    success = await changeSiteToExistingPlan(notificationId, values, portalCommunicator, t);
   } else {
-    // Create a new plan
-
-    const siteDescriptor = new ArmSiteDescriptor(site.id);
-    let rgName = siteDescriptor.resourceGroup;
-
-    if (serverFarmInfo.newPlanInfo.isNewResourceGroup) {
-      const rgResponse = await ResourceGroupService.updateResourceGroup(
-        siteDescriptor.subscription,
-        serverFarmInfo.newPlanInfo.newResourceGroupName,
-        site.location
-      );
-
-      if (!rgResponse.metadata.success) {
-        const createRgError = rgResponse.metadata.error && rgResponse.metadata.error.Message ? rgResponse.metadata.error.Message : rgName;
-        portalCommunicator.stopNotification(notificationId, false, t('changePlanRgCreateFailureNotificationFormat').format(createRgError));
-        LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, true, true, 'Failed to update resource group'));
-
-        setIsUpdating(false);
-        return;
-      }
-
-      rgName = serverFarmInfo.newPlanInfo.newResourceGroupName;
-    }
-
-    const newServerFarmId = `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${rgName}/providers/Microsoft.Web/serverFarms/${
-      serverFarmInfo.newPlanInfo.name
-    }`;
-
-    const newServerFarm = {
-      id: newServerFarmId,
-      name: serverFarmInfo.newPlanInfo.name,
-      location: site.location,
-      properties: {
-        webSiteId: site.id,
-      },
-      sku: {
-        name: getSelectedSkuCode(values),
-      },
-    };
-
-    const planDescriptor = new ArmPlanDescriptor(newServerFarmId);
-    newServerFarm.properties.webSiteId = site.id;
-
-    const serverFarmResponse = await ServerFarmService.updateServerFarm(newServerFarmId, newServerFarm as ArmObj<ServerFarm>);
-    if (!serverFarmResponse.metadata.success) {
-      const createPlanError =
-        serverFarmResponse.metadata.error && serverFarmResponse.metadata.error.Message
-          ? serverFarmResponse.metadata.error.Message
-          : planDescriptor.name;
-      portalCommunicator.stopNotification(
-        notificationId,
-        false,
-        t('changePlanPlanCreateFailureNotificationFormat').format(createPlanError)
-      );
-
-      LogService.trackEvent(
-        '/ChangeAppPlan',
-        'onSubmit',
-        getCompletionTelemtry(false, serverFarmInfo.newPlanInfo.isNewResourceGroup, true, 'Failed to create new serverfarm')
-      );
-
-      setIsUpdating(false);
-      return;
-    }
-
-    site.properties.serverFarmId = newServerFarmId;
-
-    const siteResponse = await SiteService.updateSite(site.id, site);
-    if (!siteResponse.metadata.success) {
-      const updateSiteError =
-        siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
-      portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
-
-      LogService.trackEvent(
-        '/ChangeAppPlan',
-        'onSubmit',
-        getCompletionTelemtry(false, serverFarmInfo.newPlanInfo.isNewResourceGroup, serverFarmInfo.isNewPlan, 'Failed to update site')
-      );
-
-      setIsUpdating(false);
-      return;
-    }
-
-    portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
+    success = await changeSiteToNewPlan(notificationId, values, portalCommunicator, t);
   }
 
-  changeComplete();
+  if (success) {
+    changeComplete();
+  }
+
   setIsUpdating(false);
+};
+
+const changeSiteToExistingPlan = async (
+  notificationId: string,
+  formValues: ChangeAppPlanFormValues,
+  portalCommunicator: PortalCommunicator,
+  t: i18next.TFunction
+) => {
+  const { site, serverFarmInfo } = formValues;
+  let success = false;
+
+  if (!serverFarmInfo.existingPlan) {
+    LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'existingPlan not set'));
+    return success;
+  }
+
+  site.properties.serverFarmId = serverFarmInfo.existingPlan.id;
+
+  const planDescriptor = new ArmPlanDescriptor(site.properties.serverFarmId);
+
+  const siteResponse = await SiteService.updateSite(site.id, site);
+  if (siteResponse.metadata.success) {
+    portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
+    LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(true, false, false));
+    success = true;
+  } else {
+    const updateSiteError =
+      siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
+    portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
+    LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'Failed to update site'));
+  }
+
+  return success;
+};
+
+const changeSiteToNewPlan = async (
+  notificationId: string,
+  formValues: ChangeAppPlanFormValues,
+  portalCommunicator: PortalCommunicator,
+  t: i18next.TFunction
+) => {
+  const { site, serverFarmInfo, currentServerFarm } = formValues;
+  const siteDescriptor = new ArmSiteDescriptor(site.id);
+  let rgName = siteDescriptor.resourceGroup;
+
+  if (serverFarmInfo.newPlanInfo.isNewResourceGroup) {
+    const rgResponse = await ResourceGroupService.updateResourceGroup(
+      siteDescriptor.subscription,
+      serverFarmInfo.newPlanInfo.newResourceGroupName,
+      site.location
+    );
+
+    if (!rgResponse.metadata.success) {
+      const createRgError = rgResponse.metadata.error && rgResponse.metadata.error.Message ? rgResponse.metadata.error.Message : rgName;
+      portalCommunicator.stopNotification(notificationId, false, t('changePlanRgCreateFailureNotificationFormat').format(createRgError));
+      LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, true, true, 'Failed to update resource group'));
+
+      return false;
+    }
+
+    rgName = serverFarmInfo.newPlanInfo.newResourceGroupName;
+  }
+
+  const newServerFarmId = `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${rgName}/providers/Microsoft.Web/serverFarms/${
+    serverFarmInfo.newPlanInfo.name
+  }`;
+
+  const newServerFarm = {
+    id: newServerFarmId,
+    name: serverFarmInfo.newPlanInfo.name,
+    location: site.location,
+    kind: currentServerFarm.kind,
+    properties: {
+      webSiteId: site.id,
+      reserved: currentServerFarm.properties.reserved,
+      isXenon: currentServerFarm.properties.isXenon,
+      hostingEnvironmentId: currentServerFarm.properties.hostingEnvironmentId,
+      hostingEnvironmentProfile: currentServerFarm.properties.hostingEnvironmentProfile,
+    },
+    sku: {
+      name: getSelectedSkuCode(formValues),
+    },
+  };
+
+  const planDescriptor = new ArmPlanDescriptor(newServerFarmId);
+  const serverFarmResponse = await ServerFarmService.updateServerFarm(newServerFarmId, newServerFarm as ArmObj<ServerFarm>);
+
+  if (!serverFarmResponse.metadata.success) {
+    const createPlanError =
+      serverFarmResponse.metadata.error && serverFarmResponse.metadata.error.Message
+        ? serverFarmResponse.metadata.error.Message
+        : planDescriptor.name;
+    portalCommunicator.stopNotification(notificationId, false, t('changePlanPlanCreateFailureNotificationFormat').format(createPlanError));
+
+    LogService.trackEvent(
+      '/ChangeAppPlan',
+      'onSubmit',
+      getCompletionTelemtry(false, serverFarmInfo.newPlanInfo.isNewResourceGroup, true, 'Failed to create new serverfarm')
+    );
+
+    return false;
+  }
+
+  site.properties.serverFarmId = newServerFarmId;
+
+  const siteResponse = await SiteService.updateSite(site.id, site);
+  if (!siteResponse.metadata.success) {
+    const updateSiteError =
+      siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
+    portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
+
+    LogService.trackEvent(
+      '/ChangeAppPlan',
+      'onSubmit',
+      getCompletionTelemtry(false, serverFarmInfo.newPlanInfo.isNewResourceGroup, serverFarmInfo.isNewPlan, 'Failed to update site')
+    );
+
+    return false;
+  }
+
+  portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
+  return true;
 };
 
 const getSelectedSkuString = (values: ChangeAppPlanFormValues) => {
