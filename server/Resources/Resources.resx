@@ -4888,7 +4888,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Client certificates have been enabled on your function app which may affect your ability to manage it from the portal.</value>
   </data>
   <data name="alwaysOnInfoMessage" xml:space="preserve">
-    <value>Prevent's your app from being idled out due to inactivity.</value>
+    <value>Prevents your app from being idled out due to inactivity.</value>
   </data>
   <data name="ftpsInfoMessage" xml:space="preserve">
     <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. </value>
