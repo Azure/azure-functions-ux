@@ -141,7 +141,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
             const fnDescriptor: ArmFunctionDescriptor = new ArmFunctionDescriptor(info.resourceId);
             const targetName: string = fnDescriptor.name;
             // TODO: [ahmels] HANDLE RESULT. Talk to ehamai to understand the scenario.
-            const selectedFunctionArm = functions.result.value.find(f => f.name === targetName);
+            const selectedFunctionArm = functions.isSuccessful && functions.result.value.find(f => f.name === targetName);
 
             if (selectedFunctionArm) {
               this.selectedFunction = selectedFunctionArm.properties;

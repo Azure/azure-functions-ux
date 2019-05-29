@@ -190,8 +190,8 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
 
             this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-            this._functionAppService
-              .createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
+            this._functionService
+              .createFunction(this.context.site.id, functionName, selectedTemplate.files, selectedTemplate.function)
               .subscribe(
                 res => {
                   if (res.isSuccessful) {
@@ -201,7 +201,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
                       appResourceId: this.context.site.id,
                     });
 
-                    this.functionsNode.addChild(res.result);
+                    this.functionsNode.addChild(res.result.properties);
                   }
                   this._globalStateService.clearBusyState();
                 },

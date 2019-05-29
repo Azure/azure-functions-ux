@@ -91,21 +91,25 @@ export class FunctionService {
 
   getHostKeys(resourceId: string, force?: boolean): Result<HostKeys> {
     const getHostKeys = this._cacheService.postArm(`${resourceId}/host/default/listkeys`, force).map(r => {
-      const hostMasterKey = r.json()[HostKeyTypes.masterKey];
+      const hostMasterKey = (r.json() && HostKeyTypes.masterKey in r.json() && r.json()[HostKeyTypes.masterKey]) || '';
 
       const hostFunctionKeys: FunctionKey[] = [];
-      let objectKeys = Object.keys(r.json()[HostKeyTypes.functionKeys]) || [];
+      let objectKeys = Object.keys(r.json() && HostKeyTypes.functionKeys in r.json() && r.json()[HostKeyTypes.functionKeys]) || [];
       objectKeys.forEach(objectKey => {
         hostFunctionKeys.push({ name: objectKey, value: r.json()[HostKeyTypes.functionKeys][objectKey] });
       });
 
       const hostSystemKeys: FunctionKey[] = [];
-      objectKeys = Object.keys(r.json()[HostKeyTypes.systemKeys]) || [];
+      objectKeys = Object.keys(r.json() && HostKeyTypes.systemKeys in r.json() && r.json()[HostKeyTypes.systemKeys]) || [];
       objectKeys.forEach(objectKey => {
         hostSystemKeys.push({ name: objectKey, value: r.json()[HostKeyTypes.systemKeys][objectKey] });
       });
 
-      return { masterKey: hostMasterKey, functionKeys: { keys: hostFunctionKeys }, systemKeys: { keys: hostSystemKeys } };
+      return {
+        masterKey: hostMasterKey,
+        functionKeys: { keys: hostFunctionKeys },
+        systemKeys: { keys: hostSystemKeys },
+      };
     });
 
     return this._client.execute({ resourceId: resourceId }, t => getHostKeys);

@@ -134,15 +134,15 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
           try {
             const functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
             this.bindingManager.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
-            this._functionAppService
-              .createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
+            this._functionService
+              .createFunction(this.context.site.id, functionName, selectedTemplate.files, selectedTemplate.function)
               .subscribe(res => {
                 this._globalStateService.clearBusyState();
                 if (res.isSuccessful) {
                   this._broadcastService.broadcastEvent(BroadcastEvent.CloseTab, SiteTabIds.quickstart);
                   this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
                     operation: 'newFunction',
-                    data: res.result,
+                    data: res.result.properties,
                   });
                 }
               });

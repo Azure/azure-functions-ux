@@ -108,59 +108,6 @@ export class FunctionAppService {
     return ArmUtil.isLinuxApp(context.site) ? this.runtime : this.azure;
   }
 
-  // Use getFunction from function.service.ts instead
-  getFunctionDeprecated(context: FunctionAppContext, name: string): Result<FunctionInfo> {
-    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-      Observable.zip(
-        this._cacheService.get(context.urlTemplates.getFunctionUrl(name), false, this.headers(t)),
-        this._siteService.getAppSettings(context.site.id, true),
-        (functions, appSettings) => ({
-          function: functions.json() as FunctionInfo,
-          appSettings: appSettings.result,
-        })
-      ).map(result => {
-        // For runtime 2.0 we use settings for disabling functions
-        const appSettings = result.appSettings as ArmObj<{ [key: string]: string }>;
-        const functionGeneration = FunctionsVersionInfoHelper.getFunctionGeneration(
-          appSettings.properties[Constants.runtimeVersionAppSettingName]
-        );
-        if (functionGeneration === FunctionAppVersion.v2) {
-          const disabledSetting = appSettings.properties[`AzureWebJobs.${result.function.name}.Disabled`];
-          result.function.config.disabled = disabledSetting && disabledSetting.toLocaleLowerCase() === 'true';
-        }
-        return result.function;
-      })
-    );
-  }
-
-  // Use getFunctions from function.service.ts instead
-  getFunctionsDeprecated(context: FunctionAppContext): Result<FunctionInfo[]> {
-    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-      Observable.zip(
-        this._cacheService.get(context.urlTemplates.functionsUrl, false, this.headers(t)),
-        this._cacheService.postArm(`${context.site.id}/config/appsettings/list`),
-        (functions, appSettings) => ({ functions: functions.json() as FunctionInfo[], appSettings: appSettings.json() })
-      ).map(result => {
-        // For runtime 2.0 we use settings for disabling functions
-        const appSettings = result.appSettings as ArmObj<{ [key: string]: string }>;
-        const functionGeneration = FunctionsVersionInfoHelper.getFunctionGeneration(
-          appSettings.properties[Constants.runtimeVersionAppSettingName]
-        );
-        if (functionGeneration === FunctionAppVersion.v2) {
-          result.functions.forEach(f => {
-            const disabledSetting = appSettings.properties[`AzureWebJobs.${f.name}.Disabled`];
-
-            // Config doesn't exist for embedded
-            if (f.config) {
-              f.config.disabled = disabledSetting && disabledSetting.toLocaleLowerCase() === 'true';
-            }
-          });
-        }
-        return result.functions;
-      })
-    );
-  }
-
   getApiProxies(context: FunctionAppContext): Result<ApiProxy[]> {
     return this.getClient(context).execute({ resourceId: context.site.id } /*input*/, token =>
       Observable /*query*/.zip(
@@ -308,28 +255,6 @@ export class FunctionAppService {
     );
   }
 
-  createFunction(context: FunctionAppContext, functionName: string, files: any, config: any) {
-    const filesCopy = Object.assign({}, files);
-    const sampleData = filesCopy['sample.dat'];
-    delete filesCopy['sample.dat'];
-
-    const content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
-    const url = context.urlTemplates.getFunctionUrl(functionName);
-
-    return this.getClient(context).executeWithConditions([], { resourceId: context.site.id }, t => {
-      const headers = this.jsonHeaders(t);
-      return this._cacheService
-        .put(url, headers, content)
-        .map(r => r.json() as FunctionInfo)
-        .concatMap(r => {
-          return ArmUtil.isLinuxApp(context.site) ? this.restartFunctionsHost(context).map(() => r) : Observable.of(r);
-        })
-        .do(() => {
-          this._cacheService.clearCachePrefix(context.urlTemplates.scmSiteUrl);
-        });
-    });
-  }
-
   statusCodeToText(code: number) {
     const statusClass = Math.floor(code / 100) * 100;
     return HttpConstants.statusCodeMap[code] || HttpConstants.genericStatusCodeMap[statusClass] || 'Unknown Status Code';
@@ -462,17 +387,6 @@ export class FunctionAppService {
     );
   }
 
-  // Use deleteFunction in function.service.ts instead
-  deleteFunctionDeprecated(context: FunctionAppContext, functionInfo: FunctionInfo): Result<void> {
-    return this.getClient(context)
-      .execute({ resourceId: context.site.id }, t => {
-        return this._cacheService.delete(functionInfo.href, this.jsonHeaders(t));
-      })
-      .do(r => {
-        this._cacheService.clearCachePrefix(context.urlTemplates.functionsUrl);
-      });
-  }
-
   // TODO: [ahmels] change to Result<T>
   updateDisabledAppSettings(context: FunctionAppContext, infos: FunctionInfo[]): Observable<any> {
     if (infos.length > 0) {
@@ -506,25 +420,6 @@ export class FunctionAppService {
   getHostV2Json(context: FunctionAppContext): Result<HostV2> {
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
-    );
-  }
-
-  // Use getHostKeys in function.service.ts instead
-  getHostKeysDeprecated(context: FunctionAppContext): Result<FunctionKeys> {
-    return this.runtime.execute({ resourceId: context.site.id }, t =>
-      Observable.zip(
-        this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t)),
-        this._cacheService.get(context.urlTemplates.masterKeyUrl, false, this.headers(t))
-      ).map(r => {
-        const hostKeys = r[0].json();
-        hostKeys.keys = hostKeys.keys ? hostKeys.keys : [];
-        const masterKey = r[1].json();
-        if (masterKey) {
-          hostKeys.keys.splice(0, 0, masterKey);
-        }
-
-        return hostKeys;
-      })
     );
   }
 
@@ -659,15 +554,6 @@ export class FunctionAppService {
     );
   }
 
-  // Use getFunctionKeys from function.service.ts instead
-  getFunctionKeysDeprecated(context: FunctionAppContext, functionInfo: FunctionInfo): Result<FunctionKeys> {
-    return this.runtime.execute({ resourceId: context.site.id }, t =>
-      this._cacheService
-        .get(context.urlTemplates.getFunctionKeysUrl(functionInfo.name), false, this.headers(t))
-        .map(r => r.json() as FunctionKeys)
-    );
-  }
-
   // Use createFunctionKey from function.service.ts instead unless keyValue needs to be auto-generated
   createKeyDeprecated(context: FunctionAppContext, keyName: string, keyValue: string, functionInfo?: FunctionInfo): Result<FunctionKey> {
     this.clearKeysCache(context, functionInfo);
@@ -687,17 +573,6 @@ export class FunctionAppService {
       const req = body ? this._cacheService.put(url, this.jsonHeaders(t), body) : this._cacheService.post(url, true, this.jsonHeaders(t));
       return req.map(r => r.json() as FunctionKey);
     });
-  }
-
-  // Use deleteFunctionKey from function.service.ts instead
-  deleteKeyDeprecated(context: FunctionAppContext, key: FunctionKey, functionInfo?: FunctionInfo): Result<void> {
-    this.clearKeysCache(context, functionInfo);
-
-    const url = functionInfo
-      ? context.urlTemplates.getFunctionKeyUrl(functionInfo.name, key.name)
-      : context.urlTemplates.getAdminKeyUrl(key.name);
-
-    return this.runtime.execute({ resourceId: context.site.id }, t => this._cacheService.delete(url, this.jsonHeaders(t)));
   }
 
   renewKey(context: FunctionAppContext, key: FunctionKey, functionInfo?: FunctionInfo): Result<FunctionKey> {

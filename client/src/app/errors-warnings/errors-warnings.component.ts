@@ -60,7 +60,9 @@ export class ErrorsWarningsComponent extends FunctionAppContextComponent impleme
             }
             this.hostEventClient = new HostEventClient(v.context, this.userService);
           }
-          this.functionInfo = v.functionInfo.result.properties;
+          if (v.functionInfo.isSuccessful) {
+            this.functionInfo = v.functionInfo.result.properties;
+          }
           this.clearBusyState();
         })
         // Every time the function changes, we want to unsubscribe to the old one

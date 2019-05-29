@@ -213,7 +213,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
 
     this.functionUpdate = broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
       this.functionInfo.config = newFunctionInfo.config;
-      this.setInvokeUrlVisibility();
+      this._setInvokeUrlVisibility();
     });
   }
 
@@ -338,7 +338,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           } else {
             delete this.authLevel;
           }
-          this.updateKeys();
+          this._updateKeys();
 
           this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
           this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);
@@ -354,7 +354,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           // if the data is cached on the client, this causes few rapid changes in the DOM and we need to inform the change detector of these changes.
           // Otherwise we'll get ExpressionChangedAfterItHasBeenCheckedError
           this.cd.detectChanges();
-          this.setFunctionInvokeUrl();
+          this._setFunctionInvokeUrl();
         }
         this.functionAppVersion = tuple[4];
         this.showErrorsAndWarnings = this.functionAppVersion === FunctionAppVersion.v1;
@@ -448,7 +448,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private setInvokeUrlVisibility() {
+  private _setInvokeUrlVisibility() {
     if (this.functionInfo.config.bindings) {
       const b = this.functionInfo.config.bindings.find(b => {
         return b.type === BindingType.httpTrigger.toString();
@@ -457,7 +457,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private setFunctionKey(functionInfo) {
+  private _setFunctionKey(functionInfo) {
     if (functionInfo) {
       this._functionService.getFunctionKeys(this.context.site.id, functionInfo.name).subscribe(keys => {
         if (keys.isSuccessful && keys.result.keys && keys.result.keys.length > 0) {
@@ -467,7 +467,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private setFunctionInvokeUrl() {
+  private _setFunctionInvokeUrl() {
     if (this.isHttpFunction && this.functionInfo) {
       this.functionInvokeUrl = this.functionInfo.invoke_url_template;
     }
@@ -547,7 +547,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   }
 
   saveTestData() {
-    const test_data = this.getTestData();
+    const test_data = this._getTestData();
     if (this.functionInfo.test_data !== test_data) {
       this.functionInfo.test_data = test_data;
       this._functionAppService.updateFunction(this.context, this.functionInfo).subscribe(r => {
@@ -596,9 +596,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           if (this.httpRunLogs) {
             this.httpRunLogs.clearLogs();
           }
-          this.runFunctionInternal();
+          this._runFunctionInternal();
         } else {
-          this.runFunctionInternal();
+          this._runFunctionInternal();
         }
       }
     };
@@ -673,8 +673,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   }
 
   onChangeKey() {
-    this.setFunctionInvokeUrl();
-    this.setFunctionKey(this.functionInfo);
+    this._setFunctionInvokeUrl();
+    this._setFunctionKey(this.functionInfo);
   }
 
   onEventGridSubscribe() {
@@ -717,7 +717,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private getTestData(): string {
+  private _getTestData(): string {
     if (this.runHttp) {
       this.runHttp.model.body = this.updatedTestContent !== undefined ? this.updatedTestContent : this.runHttp.model.body;
       // remove "code" param fix
@@ -734,7 +734,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private runFunctionInternal() {
+  private _runFunctionInternal() {
     if (this.scriptFile.isDirty) {
       this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
     } else {
@@ -746,7 +746,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
             this.runHttp.model,
             this.runHttp.key
           )
-        : this._functionAppService.runFunction(this.context, this.functionInfo, this.getTestData());
+        : this._functionAppService.runFunction(this.context, this.functionInfo, this._getTestData());
 
       this.running = result
         .switchMap(r => {
@@ -765,7 +765,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private updateKeys() {
+  private _updateKeys() {
     Observable.zip(
       this._functionService.getFunctionKeys(this.context.site.id, this.functionInfo.name),
       this._functionService.getHostKeys(this.context.site.id)
@@ -773,7 +773,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
       this.functionKeys = tuple[0].isSuccessful ? tuple[0].result : { keys: [] };
       this.hostKeys = tuple[1].isSuccessful ? tuple[1].result : { masterKey: '', functionKeys: { keys: [] }, systemKeys: { keys: [] } };
       this.onChangeKey();
-      this.setInvokeUrlVisibility();
+      this._setInvokeUrlVisibility();
     });
   }
 }

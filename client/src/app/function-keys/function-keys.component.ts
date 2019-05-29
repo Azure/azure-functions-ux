@@ -82,12 +82,12 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
       .combineLatest(this.refreshSubject, (a, b) => a)
       .switchMap(viewInfo => {
         if (this.adminKeys) {
-          return this._functionService.getHostKeys(viewInfo.context.site.id, true).switchMap(r => {
-            return Observable.of({
+          return this._functionService.getHostKeys(viewInfo.context.site.id, true).map(r => {
+            return {
               isSuccessful: r.isSuccessful,
               result: r.isSuccessful ? this._formatHostKeys(r.result) : { keys: [] },
               error: r.error,
-            });
+            };
           });
         } else if (viewInfo.functionInfo.isSuccessful) {
           this.functionInfo = viewInfo.functionInfo.result.properties;
@@ -189,6 +189,7 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
       } else {
         // note (allisonm): current the new API doesn't support auto-generating a key value
         // if no value is provided we must use the old generation method via function runtime
+        // this will be remedied with ANT84 APIs
         this._functionAppService
           .createKeyDeprecated(this.context, this.newKeyName, this.newKeyValue, this.functionInfo)
           .subscribe(newKeyResult => {
