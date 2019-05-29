@@ -91,13 +91,14 @@ export const CreatePlan = (props: CreatePlanProps) => {
         />
 
         <div className={fieldStyle}>
-          <label>* {t('_name')}</label>
+          <label id="createplan-planname">* {t('_name')}</label>
           <OfficeTextField
             styles={TextFieldStyles}
             value={newPlanInfo.name}
             onChange={onChangePlanName}
             errorMessage={newPlanNameValidationError}
             placeholder={t('planName')}
+            ariaLabelled-by="createplan-planname"
           />
         </div>
       </Panel>

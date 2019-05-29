@@ -1533,6 +1533,8 @@ export class PortalResources {
   public static configurationOptions = 'configurationOptions';
   public static storageAccountNameMustBeLowerCase = 'storageAccountNameMustBeLowerCase';
   public static noBlobsOrFilesShares = 'noBlobsOrFilesShares';
+  public static noFileShares = 'noFileShares';
+  public static noBlobs = 'noBlobs';
   public static noWriteAccessStorageAccount = 'noWriteAccessStorageAccount';
   public static selectAnOption = 'selectAnOption';
   public static invalidStartupCommandNodejs = 'invalidStartupCommandNodejs';
@@ -1584,12 +1586,14 @@ export class PortalResources {
   public static mountedStorageInfo = 'mountedStorageInfo';
   public static changePlanName = 'changePlanName';
   public static changePlanDescription = 'changePlanDescription';
+  public static changePlanLocationTooltip = 'changePlanLocationTooltip';
   public static changePlanCurrentPlanDetails = 'changePlanCurrentPlanDetails';
   public static changePlanDestPlanDetails = 'changePlanDestPlanDetails';
   public static changePlanNotification = 'changePlanNotification';
   public static changePlanFailureNotificationFormat = 'changePlanFailureNotificationFormat';
   public static changePlanRgCreateFailureNotificationFormat = 'changePlanRgCreateFailureNotificationFormat';
   public static changePlanPlanCreateFailureNotificationFormat = 'changePlanPlanCreateFailureNotificationFormat';
+  public static resourceGroupNameValidationError = 'resourceGroupNameValidationError';
   public static cancelUpdateConfirmation = 'cancelUpdateConfirmation';
   public static newFormat = 'newFormat';
   public static validationErrorAlreadyExistsFormat = 'validationErrorAlreadyExistsFormat';

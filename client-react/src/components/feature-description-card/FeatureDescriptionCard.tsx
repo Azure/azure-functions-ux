@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { style } from 'typestyle';
-import '../../theme/images.css';
 
 interface FeatureDescriptionCardProps {
   name: string;
@@ -38,7 +37,7 @@ const FeatureDescriptionCard = (props: FeatureDescriptionCardProps) => {
       <span className={iconClass}>
         <Svg />
       </span>
-      <h2 className={headerClass}>{name}</h2>
+      <h3 className={headerClass}>{name}</h3>
       <div>{description}</div>
     </div>
   );

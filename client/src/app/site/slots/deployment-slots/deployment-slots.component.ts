@@ -42,6 +42,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   public SumValidator = RoutingSumValidator;
   public viewInfo: TreeViewInfo<SiteData>;
   public resourceId: ResourceId;
+  public isSlot: boolean;
 
   public addSlotCommandDisabled = true;
   public swapSlotsCommandDisabled = true;
@@ -73,8 +74,6 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   public siteArm: ArmObj<Site>;
   public relativeSlotsArm: ArmObj<Site>[];
   public saving: boolean;
-
-  public isSlot: boolean;
 
   private _siteConfigArm: ArmObj<SiteConfig>;
 

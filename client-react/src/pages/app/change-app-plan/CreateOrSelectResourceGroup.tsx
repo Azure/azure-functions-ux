@@ -8,6 +8,7 @@ import {
   Link,
   PrimaryButton,
   DefaultButton,
+  ILink,
 } from 'office-ui-fabric-react';
 import { dropdownStyleOverrides } from '../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../ThemeContext';
@@ -18,6 +19,8 @@ import { TextField as OfficeTextField } from 'office-ui-fabric-react/lib/TextFie
 import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
+import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
+import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
 export interface CreateOrSelectResourceGroupFormProps {
   onRgChange: (rgInfo: ResourceGroupInfo) => void;
@@ -46,6 +49,12 @@ const primaryButtonStyle = style({
   marginRight: '8px',
 });
 
+const requiredIcon = (theme: ThemeExtended) => {
+  return style({
+    color: theme.palette.red,
+  });
+};
+
 const NEW_RG = '__NewRG__';
 
 export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFormProps & ResourceGroupInfo & IDropdownProps) => {
@@ -55,6 +64,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
   const [newRgNameFieldValue, setNewRgNameFieldValue] = useState(newResourceGroupName);
   const [newRgNameValidationError, setNewRgNameValidationError] = useState('');
   const { t } = useTranslation();
+  const createNewLinkElement = useRef<ILink | null>(null);
 
   const onChangeDropdown = (e: unknown, option: IDropdownOption) => {
     const rgInfo: ResourceGroupInfo = {
@@ -74,9 +84,11 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
   const onDismissCallout = () => {
     setShowCallout(false);
+    (createNewLinkElement.current as ILink).focus();
   };
 
   const onCompleteCallout = () => {
+    (createNewLinkElement.current as ILink).focus();
     addNewRgOption(newRgNameFieldValue, options, t);
     setShowCallout(false);
     onChange({
@@ -88,6 +100,11 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
   const onRgNameTextChange = (e: any, value: string) => {
     setNewRgNameFieldValue(value);
+
+    if (!ValidationRegex.resourceGroupName.test(value)) {
+      setNewRgNameValidationError(t('resourceGroupNameValidationError'));
+      return;
+    }
 
     for (const option of options) {
       if (option.data !== NEW_RG && option.data.name.toLowerCase() === value.toLowerCase()) {
@@ -101,16 +118,21 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
   return (
     <>
-      <label>* {t('resourceGroup')}</label>
+      <label id="createplan-rgname">
+        <span className={requiredIcon(theme)}>*</span> {t('resourceGroup')}
+      </label>
       <OfficeDropdown
         selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase()}
         options={options}
         onChange={onChangeDropdown}
         styles={dropdownStyleOverrides(false, theme, false, '260px')}
+        ariaLabelled-by="createplan-rgname"
       />
 
       <div ref={menuButton => (menuButtonElement.current = menuButton)}>
-        <Link onClick={onShowCallout}>{t('createNew')}</Link>
+        <Link onClick={onShowCallout} componentRef={ref => (createNewLinkElement.current = ref)}>
+          {t('createNew')}
+        </Link>
       </div>
       <Callout
         className={calloutStyle}
@@ -124,19 +146,22 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
         <section className={calloutContainerStyle}>
           <div>{t('resourceGroupDescription')}</div>
           <div className={textFieldStyle}>
-            <label>* {t('_name')}</label>
+            <label id="createorselectrg-rgname">
+              <span className={requiredIcon(theme)}>*</span> {t('_name')}
+            </label>
             <OfficeTextField
               styles={TextFieldStyles}
               value={newRgNameFieldValue}
               onChange={onRgNameTextChange}
               placeholder={t('createNew')}
               errorMessage={newRgNameValidationError}
+              ariaLabelled-by="createorselectrg-rgname"
             />
           </div>
           <div>
             <PrimaryButton
               className={primaryButtonStyle}
-              text="OK"
+              text={t('ok')}
               disabled={!newRgNameFieldValue || !!newRgNameValidationError}
               onClick={onCompleteCallout}
             />

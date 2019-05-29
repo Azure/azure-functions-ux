@@ -1,24 +1,24 @@
-
 @import '../../../../../sass/common/variables';
 @import '../../../../../sass/controls/buttons';
 
 .sidebar-content {
-    padding-left: 20px;
+  padding-left: 20px;
 }
 
 .ftp-endpoint {
-    margin: auto;
-    width: 95%;
+  margin: auto;
+  width: 95%;
 }
 
 .save-button {
-    @extend .custom-button;
-    float:right;
-    margin-top: 10px;
-    margin-left: 0px;
+  @extend .custom-button;
+  float: right;
+  margin-top: 10px;
+  margin-left: 0px;
 }
 
 .credentials {
-    width: 95%;
-    margin: auto;
+  width: 95%;
+  margin: auto;
+  margin-top: 10px;
 }

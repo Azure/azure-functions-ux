@@ -73,6 +73,11 @@ export class XenonSiteEnvironment extends Environment {
       runCheck: () => disabledResult,
     };
 
+    this.scenarioChecks[ScenarioIds.azureBlobMount] = {
+      id: ScenarioIds.azureBlobMount,
+      runCheck: () => disabledResult,
+    };
+
     this.scenarioChecks[ScenarioIds.autoSwapSupported] = {
       id: ScenarioIds.autoSwapSupported,
       runCheck: (input: ScenarioCheckInput) => {
