@@ -518,8 +518,8 @@ export class FunctionAppService {
     return false;
   }
 
-  getLogs(context: FunctionAppContext, fi: FunctionInfo, range?: number, force: boolean = false): Result<string> {
-    const url = context.urlTemplates.getFunctionLogUrl(fi.name);
+  getLogs(context: FunctionAppContext, functionName: string, range?: number, force: boolean = false): Result<string> {
+    const url = context.urlTemplates.getFunctionLogUrl(functionName);
 
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.get(url, force, this.headers(t)).concatMap(r => {

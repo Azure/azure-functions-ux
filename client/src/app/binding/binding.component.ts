@@ -138,7 +138,7 @@ export class BindingComponent extends FunctionAppContextComponent implements OnD
     return this.viewInfoEvents
       .switchMap(viewInfo => {
         // TODO: [alrod] handle error
-        this._functionInfo = viewInfo.functionInfo.result.properties;
+        this._functionInfo = viewInfo.functionInfo.isSuccessful && viewInfo.functionInfo.result.properties;
         return this._siteService.getAppSettings(viewInfo.context.site.id);
       })
       .subscribe(appSettingsResult => {
@@ -510,8 +510,8 @@ export class BindingComponent extends FunctionAppContextComponent implements OnD
           const input = new EventGridInput();
           input.label = this._translateService.instant(PortalResources.eventGrid_label);
           input.help = this._translateService.instant(PortalResources.eventGrid_help);
-          input.bladeLabel = this._functionInfo.name;
-          this._functionAppService.getEventGridUri(this.context, this._functionInfo.name).subscribe(eventGridUri => {
+          input.bladeLabel = (this._functionInfo && this._functionInfo.name) || '';
+          this._functionAppService.getEventGridUri(this.context, input.bladeLabel).subscribe(eventGridUri => {
             input.value = eventGridUri.result;
           });
           this.model.inputs.push(input);

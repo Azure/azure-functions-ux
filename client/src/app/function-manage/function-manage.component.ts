@@ -110,8 +110,10 @@ export class FunctionManageComponent extends NavigableComponent {
         )
       )
       .do(tuple => {
+        if (tuple[1].isSuccessful) {
+          this.functionInfo = tuple[1].result.properties;
+        }
         this.context = tuple[2];
-        this.functionInfo = tuple[1].result.properties;
         this.runtimeVersion = tuple[0];
         this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
       });

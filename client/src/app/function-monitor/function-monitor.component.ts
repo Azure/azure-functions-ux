@@ -16,7 +16,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ApplicationInsightsService } from '../shared/services/application-insights.service';
 import { SiteService } from '../shared/services/site.service';
 import { LogService } from '../shared/services/log.service';
-import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: ComponentNames.functionMonitor,
@@ -38,7 +37,6 @@ export class FunctionMonitorComponent extends NavigableComponent {
     private _translateService: TranslateService,
     private _applicationInsightsService: ApplicationInsightsService,
     private _logService: LogService,
-    private _functionService: FunctionService,
     public globalStateService: GlobalStateService,
     injector: Injector
   ) {
@@ -75,7 +73,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
       .switchMap(tuple =>
         Observable.zip(
           Observable.of(tuple[0]),
-          this._functionService.getFunction(tuple[0].site.id, tuple[1].functionDescriptor.name),
+          Observable.of(tuple[1].functionDescriptor.name),
           this._siteService.getAppSettings(tuple[0].site.id),
           this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: tuple[0].site })
         )
@@ -84,7 +82,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
         (tuple): FunctionMonitorInfo => ({
           functionAppContext: tuple[0],
           functionAppSettings: tuple[2].result.properties,
-          functionInfo: tuple[1].result.properties,
+          functionName: tuple[1],
           appInsightsResourceDescriptor: tuple[3].data,
           appInsightsFeatureEnabled: tuple[3].status === 'enabled',
         })
