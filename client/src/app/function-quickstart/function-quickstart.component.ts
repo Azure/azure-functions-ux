@@ -95,7 +95,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
         console.error(e);
       })
       .subscribe(tuple => {
-        this.functionsInfo = tuple[0].result.value;
+        this.functionsInfo = tuple[0].isSuccessful ? tuple[0].result.value : [];
         this.isV1 = tuple[1] === FunctionAppVersion.v1;
         this.appSettingsArm = tuple[2].result;
 
