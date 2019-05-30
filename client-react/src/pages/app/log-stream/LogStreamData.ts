@@ -37,6 +37,11 @@ function _addLogEntry(message: string, logLevel: LogLevel, logEntries: LogEntry[
           message: logMessage,
           level: LogLevel.Normal,
         });
+      } else if (logEntries.length > 0 && logEntries[logEntries.length - 1].message === '') {
+        logEntries[logEntries.length - 1] = {
+          message: logMessage,
+          level: LogLevel.Normal,
+        };
       } else {
         // If a message is unknown, then we assume it's just a continuation of a previous line and just prepend it to
         // the previous line.  This allows us to write out single line entries for logs that are not formatted correctly.
@@ -45,6 +50,11 @@ function _addLogEntry(message: string, logLevel: LogLevel, logEntries: LogEntry[
         // may not be correct, but so far it seems to check out okay with our standard web apps logging format. -Krrish
         logEntries[logEntries.length - 1].message += logMessage;
       }
+    } else if (logEntries.length > 0 && logEntries[logEntries.length - 1].message === '') {
+      logEntries[logEntries.length - 1] = {
+        message: logMessage,
+        level: logLevel,
+      };
     } else {
       logEntries.push({
         message: logMessage,
@@ -55,6 +65,11 @@ function _addLogEntry(message: string, logLevel: LogLevel, logEntries: LogEntry[
     if (logEntries.length > maxLogEntries) {
       logEntries.splice(0, 1);
     }
+  } else {
+    logEntries.push({
+      message: '',
+      level: LogLevel.Normal,
+    });
   }
   return logEntries;
 }
