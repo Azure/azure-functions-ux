@@ -545,7 +545,7 @@
     <value>Esegui</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have source control integration enabled.</value>
+    <value>L'app è attualmente in modalità di sola lettura perché è abilitata l'integrazione del controllo del codice sorgente.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Editor avanzato</value>
@@ -1427,10 +1427,10 @@
     <value>Per modificare queste impostazioni, è necessario disporre delle autorizzazioni di scrittura per l'app corrente.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>This app has a read only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
+    <value>Questa app include un blocco di sola lettura che impedisce la modifica delle impostazioni o il recupero dei dati protetti. Rimuovere il blocco e riprovare.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>View settings in read only mode.</value>
+    <value>Visualizzare le impostazioni in modalità di sola lettura.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Non è stato possibile caricare le impostazioni.</value>
@@ -1730,7 +1730,7 @@
     <value>Consente di bloccare le risorse per impedire modifiche o eliminazioni impreviste.</value>
   </data>
   <data name="feature_automationScriptName" xml:space="preserve">
-    <value>Script di automazione</value>
+    <value>Esporta modello</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
     <value>Consente di automatizzare la distribuzione delle risorse con i modelli di Azure Resource Manager in un'unica operazione coordinata, definire le risorse e i parametri di input configurabili ed eseguire la distribuzione tramite script o codice.</value>
@@ -2141,13 +2141,13 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Non è possibile aggiornare la modalità di modifica dell'app per le funzioni. Riprovare più tardi.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
+    <value>L'app è attualmente in modalità di sola lettura perché è stata impostata su sola lettura. Per cambiare la modalità di modifica, vedere </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>L'app è attualmente in modalità di lettura/scrittura perché la modalità di modifica è stata impostata su lettura/scrittura anche se è abilitato il controllo del codice sorgente. È possibile che le modifiche effettuate vengano sovrascritte alla distribuzione successiva. Per cambiare la modalità di modifica, visitare </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
+    <value>L'app è attualmente in modalità di sola lettura perché è stato pubblicato un file function.json generato. Le modifiche apportate al file function.json non saranno considerate dal runtime di Funzioni di Azure. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>L'app è attualmente in modalità di lettura/scrittura perché la modalità di modifica è stata impostata su lettura/scrittura nonostante sia stato generato un file function.json. Le modifiche apportate al file function.json non saranno considerate dal runtime di Funzioni di Azure.</value>
@@ -2327,7 +2327,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Per la chiamata o l'esecuzione di questa funzione è necessario un certificato client. Per eseguirla dal portale, è necessario disabilitare il certificato client.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
+    <value>L'app è attualmente in modalità di sola lettura perché sono stati configurati slot di distribuzione. Per cambiare la modalità di modifica, vedere</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Gestisci impostazioni applicazione</value>
@@ -2351,7 +2351,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Eventi (endpoint predefinito)</value>
   </data>
   <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
-    <value>Monitoraggio operazioni</value>
+    <value>Monitoraggio delle operazioni</value>
   </data>
   <data name="eventHubPicker_policy" xml:space="preserve">
     <value>Criteri</value>
@@ -2918,7 +2918,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Non è stato possibile completare l'operazione di {{operation}}. Errore: {{error}}</value>
   </data>
   <data name="swapTimeout" xml:space="preserve">
-    <value>Exceeded maximum status polling attempts for {{operation}}. Check Activity log to confirm operation status/result.</value>
+    <value>È stato superato il numero massimo di tentativi di polling di stato per {{operation}}. Controllare il log attività per verificare lo stato o il risultato dell'operazione.</value>
   </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>Annullamento dell'operazione di {{operation}}</value>
@@ -3047,7 +3047,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>È possibile configurare l'integrazione continua con Azure Repos, parte di Azure DevOps Services (in precedenza VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
-    <value>Consente di eseguire la distribuzione da un repository Mercurial o Git pubblico.</value>
+    <value>È possibile eseguire la distribuzione da un repository Mercurial o Git pubblico. Questa opzione richiede l'attivazione manuale delle distribuzioni.</value>
   </data>
   <data name="bitbucketDesc" xml:space="preserve">
     <value>Consente di configurare l'integrazione continua con un repository Bitbucket.</value>
@@ -3074,7 +3074,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Funzioni di Azure (anteprima)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
+    <value>L'app è attualmente in modalità di sola lettura perché è in esecuzione da un file di pacchetto. Per apportare modifiche, aggiornare il contenuto nel file ZIP e nell'impostazione dell'app WEBSITE_RUN_FROM_PACKAGE.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Codice</value>
@@ -3557,7 +3557,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Convalida...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>Non si è autorizzati a creare una pipeline di compilazione o una pipeline di versione per questo progetto. Contattare l'amministratore di progetto</value>
+    <value>Non si hanno le autorizzazioni per creare una pipeline di compilazione o una pipeline di versione per questo progetto. Contattare l'amministratore di progetto o scegliere un progetto diverso</value>
+  </data>
+  <data name="vstsAgentQueuePermissions" xml:space="preserve">
+    <value>Non si hanno autorizzazioni da usare in nessuno dei pool di agenti disponibili in questo progetto. Contattare l'amministratore del progetto o scegliere un progetto diverso</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Il nome specificato per l'organizzazione non è valido. Specificarne un altro.</value>
@@ -3675,7 +3678,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Sincronizza</value>
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
-    <value>Credenziali distribuzione</value>
+    <value>FTP/Credenziali</value>
   </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
     <value>Equivalente alle risorse di calcolo della serie Dv3</value>
@@ -3687,7 +3690,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Versione runtime: caricamento...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Your app is currently in read only mode because you are using Local Cache. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
+    <value>L'app è attualmente in modalità di sola lettura perché si usa la cache locale. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Altre informazioni&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Elimina</value>
@@ -3753,7 +3756,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Per configurare le impostazioni del contenitore è necessario disporre dell'accesso in scrittura per l'app</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
+    <value>L'app è attualmente in modalità di sola lettura. Rimuovere il blocco di sola lettura nell'app per modificare le impostazioni del contenitore.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Contenitore singolo</value>
@@ -4020,34 +4023,34 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>L'utente non dispone dell'autorizzazione di scrittura</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>The deployment slot has a read only lock</value>
+    <value>Lo slot di distribuzione ha un blocco di sola lettura</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Source and Destination cannot be the same deployment slot</value>
+    <value>Origine e destinazione non possono essere nello stesso slot di distribuzione</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
+    <value>Non è possibile eseguire lo scambio con anteprima perché l'autenticazione è abilitata per gli slot di distribuzione seguenti: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
+    <value>È possibile usare lo scambio con anteprima solo con siti per cui sono abilitate le impostazioni slot di distribuzione</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Before you complete the swap, review the first deployment slot's app behavior with the second deployment slot's configuration</value>
+    <value>Prima di completare lo scambio, verificare il comportamento dell'app del primo slot di distribuzione con la configurazione del secondo slot di distribuzione</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>You do not have write permission on the following deployment slots: '{{slotNames}}'</value>
+    <value>L'utente non dispone dell'autorizzazione di scrittura per gli slot di distribuzione seguenti: '{{slotNames}}'</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>You do not have swap permission on the following deployment slots: '{{slotNames}}'</value>
+    <value>L'utente non dispone dell'autorizzazione per lo scambio per gli slot di distribuzione seguenti: '{{slotNames}}'</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>There is a read only lock on the following deployment slots: '{{slotNames}}'</value>
+    <value>È presente un blocco di sola lettura sugli slot di distribuzione seguenti: '{{slotNames}}'</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>A swap operation can only be performed if the app has multiple deployment slots</value>
+    <value>È possibile eseguire un'operazione di scambio solo se l'app presenta più slot di distribuzione</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Swap deployment slots</value>
+    <value>Scambia slot di distribuzione</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Caricamento non riuscito</value>
@@ -4062,10 +4065,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Modifiche di configurazione</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>These are the deployment slot specific application settings and connection strings from the target deployment slot which will be temporarily applied to the source deployment slot in the first phase of the swap.</value>
+    <value>Si tratta delle impostazioni dell'applicazione specifiche dello slot di distribuzione e delle stringhe di connessione dello slot di distribuzione di destinazione che verranno applicate temporaneamente allo slot di distribuzione di origine nella prima fase dello scambio.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>This is a summary of the final set of configuration changes on the source and target deployment slots after the swap has completed.</value>
+    <value>Si tratta di un riepilogo del set finale di modifiche di configurazione negli slot di distribuzione di origine e di destinazione al termine dello scambio.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Per caricare l'anteprima, effettuare una selezione valida</value>
@@ -4401,7 +4404,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Scambio automatico abilitato</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Auto swap deployment slot</value>
+    <value>Scambio automatico slot di distribuzione</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Piattaforma</value>
@@ -4452,7 +4455,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Valore</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>deployment slot setting</value>
+    <value>impostazione slot di distribuzione</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4674,7 +4677,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Proxy (limitati)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change deployment slot settings you must have write access on the production app.</value>
+    <value>Per modificare le impostazioni degli slot di distribuzione è necessario disporre dell'accesso in scrittura all'app di produzione.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Per modificare l'impostazione di scambio automatico è necessario disporre delle autorizzazioni di scrittura sull'app di produzione.</value>
@@ -4689,7 +4692,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Tipo di app per le funzioni</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Deployment Slot Setting Enabled</value>
+    <value>Impostazione slot di distribuzione abilitata</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Valore nascosto. Per visualizzarlo, fare clic sul pulsante Mostra valori sopra</value>
@@ -4760,6 +4763,12 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="noBlobsOrFilesShares" xml:space="preserve">
     <value>In questo account di archiviazione non sono presenti contenitori BLOB o condivisioni file</value>
   </data>
+  <data name="noFileShares" xml:space="preserve">
+    <value>In questo account di archiviazione non sono presenti condivisioni file</value>
+  </data>
+  <data name="noBlobs" xml:space="preserve">
+    <value>In questo account di archiviazione non sono presenti BLOB</value>
+  </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
     <value>Non si dispone dell'accesso in scrittura a questo account di archiviazione. Se si conosce la chiave di accesso è possibile specificarla nella modalità avanzata.</value>
   </data>
@@ -4767,7 +4776,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Selezionare un'opzione</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>I comandi di avvio per NodeJS devono usare ng, node o pm2</value>
+    <value>Specificare un comando di avvio che verrà eseguito durante l'avvio del contenitore. I comandi di avvio per Node.js devono usare la parola chiave ng, node, npm o pm2. Esempio: npm start</value>
+  </data>
+  <data name="invalidStartupCommandAspNetCore" xml:space="preserve">
+    <value>Specificare un comando di avvio che verrà eseguito durante l'avvio del contenitore. I comandi di avvio per .NET Core devono usare la parola chiave dotnet. Esempio: dotnet application.dll</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
@@ -4788,7 +4800,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Tutte le proprietà dei nomi e dei valori nelle impostazioni app devono essere di tipo stringa</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>All app setting deployment slot setting properties must be of type boolean</value>
+    <value>Tutte le proprietà delle impostazioni slot di distribuzione nelle impostazioni app devono essere di tipo booleano</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} è una proprietà di impostazione app non valida</value>
@@ -4818,10 +4830,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Il percorso della directory virtuale deve esistere all'interno di un percorso dell'applicazione</value>
   </data>
   <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>I log applicazioni sono disattivati. Per attivarli, usare le impostazioni in 'Log di diagnostica'.</value>
+    <value>I log applicazioni sono disattivati. Per attivarli, usare le impostazioni in 'Log del Servizio app'.</value>
   </data>
   <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>I log del server sono disattivati. Per attivarli, usare le impostazioni in 'Log di diagnostica'.</value>
+    <value>I log del server Web sono disattivati. Per attivarli, usare le impostazioni in 'Log del Servizio app'.</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
     <value>Lo stack di runtime selezionato non supporta il debug remoto in questo momento.</value>
@@ -4833,7 +4845,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Application Insights non è configurato. Configurare Application Insights per acquisire i log delle funzioni.</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
-    <value>All'app per le funzioni sono state aggiunte restrizioni di accesso che possono influire sulla possibilità di gestirla dal portale.</value>
+    <value>All'app per le funzioni sono state aggiunte restrizioni di accesso che possono influire sulla possibilità di gestirla dal portale e che potrebbero rendere irraggiungibile il runtime.</value>
   </data>
   <data name="userCredsError" xml:space="preserve">
     <value>La password specificata non soddisfa i requisiti minimi. La password deve avere una lunghezza di almeno otto caratteri e deve contenere lettere e numeri.</value>
@@ -4859,6 +4871,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="githubOrgMessage" xml:space="preserve">
     <value>Se non si riesce a trovare un'organizzazione o un repository, potrebbe essere necessario abilitare autorizzazioni aggiuntive in GitHub.</value>
+  </data>
+  <data name="projectWithoutGitRepoNotFoundMessage" xml:space="preserve">
+    <value>Verranno elencati solo i progetti con repository GIT validi.</value>
   </data>
   <data name="bitbucketOrgMessage" xml:space="preserve">
     <value>Se non si riesce a trovare un'organizzazione o un repository, potrebbe essere necessario abilitare autorizzazioni aggiuntive in Bitbucket.</value>
@@ -4897,6 +4912,78 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Filtra stringhe di connessione</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
+    <value>La modifica delle funzioni nel portale non è supportata per le app per le funzioni Java. Per le attività di sviluppo, usare Maven o VS Code.</value>
+  </data>
+  <data name="validate_workingDirectory" xml:space="preserve">
+    <value>Il percorso della directory di lavoro dovrebbe essere relativo alla radice del repository e non può iniziare con /, \ o nomi di unità (C:/) nel caso di Windows. Se la directory di lavoro risiede nella cartella src del repository, il percorso sarà src/</value>
+  </data>
+  <data name="mountedStorageInfo" xml:space="preserve">
+    <value>L'archiviazione montata consente di mappare i file di Azure o i contenitori BLOB da usare con l'app.</value>
+  </data>
+  <data name="changePlanName" xml:space="preserve">
+    <value>Cambia il piano di servizio app</value>
+  </data>
+  <data name="changePlanDescription" xml:space="preserve">
+    <value>La modifica del piano in cui è ospitata l'app consente di consolidare le app in un unico piano per condividere le risorse delle macchine virtuali o distribuirle in piani separati per ridimensionarle separatamente al fine di migliorare le prestazioni.</value>
+  </data>
+  <data name="changePlanLocationTooltip" xml:space="preserve">
+    <value>Non è possibile modificare l'area in cui risiede attualmente l'app per piani nuovi o esistenti.</value>
+  </data>
+  <data name="changePlanCurrentPlanDetails" xml:space="preserve">
+    <value>Dettagli del piano corrente</value>
+  </data>
+  <data name="changePlanDestPlanDetails" xml:space="preserve">
+    <value>Dettagli del piano di destinazione</value>
+  </data>
+  <data name="changePlanNotification" xml:space="preserve">
+    <value>Modifica del piano di servizio app</value>
+  </data>
+  <data name="changePlanFailureNotificationFormat" xml:space="preserve">
+    <value>Non è stato possibile modificare il piano di servizio app: '{0}'</value>
+  </data>
+  <data name="changePlanRgCreateFailureNotificationFormat" xml:space="preserve">
+    <value>Non è stato possibile creare il gruppo di risorse: '{0}'</value>
+  </data>
+  <data name="changePlanPlanCreateFailureNotificationFormat" xml:space="preserve">
+    <value>Non è stato possibile creare il piano di servizio app: '{0}'</value>
+  </data>
+  <data name="changePlanNoWritePermissionRg" xml:space="preserve">
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+  </data>
+  <data name="changePlanSiteLockedError" xml:space="preserve">
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+  </data>
+  <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+  </data>
+  <data name="resourceGroupNameValidationError" xml:space="preserve">
+    <value>Il nome del gruppo di risorse può contenere solo caratteri alfanumerici, punti, caratteri di sottolineatura, trattini e parentesi e non può terminare con un punto.</value>
+  </data>
+  <data name="cancelUpdateConfirmation" xml:space="preserve">
+    <value>Annullare l'operazione di aggiornamento?</value>
+  </data>
+  <data name="newFormat" xml:space="preserve">
+    <value>(Nuovo) {0}</value>
+  </data>
+  <data name="validationErrorAlreadyExistsFormat" xml:space="preserve">
+    <value>{0} già esistente</value>
+  </data>
+  <data name="validationWebspaceUniqueErrorFormat" xml:space="preserve">
+    <value>Il nome '{0}' non è univoco all'interno dei vincoli di hosting delle app</value>
+  </data>
+  <data name="resourceGroupDescription" xml:space="preserve">
+    <value>Un gruppo di risorse è un contenitore che include le risorse correlate per una soluzione di Azure.</value>
+  </data>
+  <data name="createNewPlan" xml:space="preserve">
+    <value>Crea un nuovo piano</value>
+  </data>
+  <data name="planName" xml:space="preserve">
+    <value>Nome del piano</value>
+  </data>
+  <data name="majorVersion" xml:space="preserve">
+    <value>Versione principale</value>
+  </data>
+  <data name="minorVersion" xml:space="preserve">
+    <value>Versione secondaria</value>
   </data>
 </root>

@@ -1697,7 +1697,7 @@
     <value>Nakonfigurujte umístění metadat Swagger 2.0, která popisují vaše rozhraní API. Díky tomu můžou rozhraní API snadno objevit a používat i ostatní uživatelé.</value>
   </data>
   <data name="feature_appServicePlanInfo" xml:space="preserve">
-    <value>Plán Aplikační služby je kontejner na vaše aplikace. V nastavení plánu Aplikační služby je umístění, funkce, náklady a výpočetní prostředky přidružené k vaší aplikaci.</value>
+    <value>Plán služby App Service je kontejnerem vaší aplikace. Nastavení plánu služby App Service bude určovat místo, funkce, náklady a výpočetní prostředky přidružené k vaší aplikaci.</value>
   </data>
   <data name="feature_quotasName" xml:space="preserve">
     <value>Kvóty</value>
@@ -1730,7 +1730,7 @@
     <value>Prostředky zamkněte, pokud chcete zabránit neočekávaným změnám nebo odstraněním.</value>
   </data>
   <data name="feature_automationScriptName" xml:space="preserve">
-    <value>Automatizační skript</value>
+    <value>Exportovat šablonu</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
     <value>Automatizace nasazování prostředků pomocí šablon Azure Resource Manageru v jediné koordinované operaci. Definuje prostředky a konfigurovatelné vstupní parametry a pak nasazení provede pomocí skriptu nebo kódu.</value>
@@ -3047,7 +3047,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Pomocí úložiště Azure Repos, což je součást služby Azure DevOps Services (dříve známé jako VSTS), můžete nakonfigurovat kontinuální integraci.</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
-    <value>Nasazení z veřejného úložiště Git nebo Mercurial</value>
+    <value>Nasazení z veřejného úložiště Git nebo Mercurial. Tato možnost vyžaduje ruční aktivaci nasazení.</value>
   </data>
   <data name="bitbucketDesc" xml:space="preserve">
     <value>Nakonfiguruje kontinuální integraci s úložištěm Bitbucket.</value>
@@ -3557,7 +3557,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Ověřování...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>V tomto projektu nemáte oprávnění vytvořit kanál buildu nebo verze. Obraťte se na správce projektu.</value>
+    <value>V tomto projektu nemáte oprávnění vytvořit kanál buildu nebo verze. Obraťte se na správce projektu, nebo zvolte jiný projekt.</value>
+  </data>
+  <data name="vstsAgentQueuePermissions" xml:space="preserve">
+    <value>Nemáte oprávnění používat v tomto projektu žádný z dostupných fondů agentů. Obraťte se na správce projektu, nebo zvolte jiný projekt.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Zadaný název organizace není platný. Zadejte prosím nějaký jiný.</value>
@@ -3675,7 +3678,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Synchronizace</value>
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
-    <value>Pověření nasazení</value>
+    <value>FTP / přihlašovací údaje</value>
   </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
     <value>Ekvivalent k výpočetním prostředkům řady Dv3</value>
@@ -4760,6 +4763,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="noBlobsOrFilesShares" xml:space="preserve">
     <value>Tento účet úložiště nemá žádné kontejnery objektů blob ani sdílené složky.</value>
   </data>
+  <data name="noFileShares" xml:space="preserve">
+    <value>Tento účet úložiště nemá žádné sdílené složky.</value>
+  </data>
+  <data name="noBlobs" xml:space="preserve">
+    <value>Tento účet úložiště nemá žádné objekty blob.</value>
+  </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
     <value>Nemáte oprávnění zapisovat do tohoto účtu úložiště. Pokud znáte přístupový klíč, můžete ho vložit v rozšířeném režimu.</value>
   </data>
@@ -4767,7 +4776,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Vyberte některou možnost.</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>Spouštěcí příkazy pro NodeJS musí používat ng, node nebo pm2.</value>
+    <value>Zadejte spouštěcí příkaz, který se spustí v rámci spouštění kontejneru. Spouštěcí příkazy pro Node.js musí používat klíčové slovo ng, node, npm nebo pm2. Příklad: npm start</value>
+  </data>
+  <data name="invalidStartupCommandAspNetCore" xml:space="preserve">
+    <value>Zadejte spouštěcí příkaz, který se spustí v rámci spouštění kontejneru. Spouštěcí příkazy pro .NET Core musí používat klíčové slovo dotnet. Příklad: dotnet application.dll</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
@@ -4818,10 +4830,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Cesta k virtuálnímu adresáři musí existovat v rámci cesty k aplikaci.</value>
   </data>
   <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>Aplikační protokoly jsou vypnuté. Můžete je zapnout pomocí nastavení Diagnostické protokoly.</value>
+    <value>Aplikační protokoly jsou vypnuté. Můžete je zapnout pomocí nastavení Protokoly App Service.</value>
   </data>
   <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Protokoly webového serveru jsou vypnuté. Můžete je zapnout pomocí nastavení Diagnostické protokoly.</value>
+    <value>Protokoly webového serveru jsou vypnuté. Můžete je zapnout pomocí nastavení Protokoly App Service.</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
     <value>Vybraný zásobník modulu runtime v současné době nepodporuje vzdálené ladění.</value>
@@ -4833,7 +4845,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Služba Application Insights není nakonfigurovaná. Pokud chcete zachytávat protokoly funkcí, nakonfigurujte Application Insights.</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
-    <value>Do aplikace funkcí se přidala omezení přístupu, která můžou mít vliv na možnost spravovat aplikaci přes portál.</value>
+    <value>Do aplikace funkcí se přidala omezení přístupu. Ta můžou mít vliv na možnost spravovat aplikaci přes portál a můžou způsobit, že modul runtime nebude dostupný.</value>
   </data>
   <data name="userCredsError" xml:space="preserve">
     <value>Zadané heslo nesplňuje minimální požadavky. Heslo by mělo být alespoň osm znaků dlouhé a musí obsahovat písmena a číslice.</value>
@@ -4859,6 +4871,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="githubOrgMessage" xml:space="preserve">
     <value>Pokud se vám nedaří najít organizaci nebo úložiště, bude možná nutné povolit v GitHubu další oprávnění.</value>
+  </data>
+  <data name="projectWithoutGitRepoNotFoundMessage" xml:space="preserve">
+    <value>Uvedou se jen projekty s platnými úložišti Git.</value>
   </data>
   <data name="bitbucketOrgMessage" xml:space="preserve">
     <value>Pokud se vám nedaří najít organizaci nebo úložiště, bude možná nutné povolit v Bitbucketu další oprávnění.</value>
@@ -4898,5 +4913,77 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="readOnlyJava" xml:space="preserve">
     <value>Úprava funkcí na portálu se pro Java Function Apps nepodporuje. Pro vývoj prosím použijte Maven nebo nástroj VS Code.</value>
+  </data>
+  <data name="validate_workingDirectory" xml:space="preserve">
+    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
+  </data>
+  <data name="mountedStorageInfo" xml:space="preserve">
+    <value>Připojené úložiště umožňuje mapovat kontejnery Azure Files nebo Blob tak, aby se daly používat ve vaší aplikaci.</value>
+  </data>
+  <data name="changePlanName" xml:space="preserve">
+    <value>Změnit plán služby App Service</value>
+  </data>
+  <data name="changePlanDescription" xml:space="preserve">
+    <value>Změna plánu, ve kterém se hostuje vaše aplikace, umožňuje buď konsolidovat aplikace do jednoho plánu, díky čemuž můžou sdílet prostředky počítačů, nebo je rozdělit do různých plánů, což jim umožňuje samostatné škálování pro vyšší výkon.</value>
+  </data>
+  <data name="changePlanLocationTooltip" xml:space="preserve">
+    <value>Oblast, ve které se vaše aplikace v tuto chvíli nachází, se pro nové ani stávající plány nedá změnit.</value>
+  </data>
+  <data name="changePlanCurrentPlanDetails" xml:space="preserve">
+    <value>Podrobnosti o aktuálním plánu</value>
+  </data>
+  <data name="changePlanDestPlanDetails" xml:space="preserve">
+    <value>Podrobnosti o cílovém plánu</value>
+  </data>
+  <data name="changePlanNotification" xml:space="preserve">
+    <value>Mění se plán služby App Service.</value>
+  </data>
+  <data name="changePlanFailureNotificationFormat" xml:space="preserve">
+    <value>Nepovedlo se změnit plán služby App Service: {0}</value>
+  </data>
+  <data name="changePlanRgCreateFailureNotificationFormat" xml:space="preserve">
+    <value>Nepovedlo se vytvořit skupinu prostředků: {0}</value>
+  </data>
+  <data name="changePlanPlanCreateFailureNotificationFormat" xml:space="preserve">
+    <value>Nepovedlo se vytvořit plán služby App Service: {0}</value>
+  </data>
+  <data name="changePlanNoWritePermissionRg" xml:space="preserve">
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+  </data>
+  <data name="changePlanSiteLockedError" xml:space="preserve">
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+  </data>
+  <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+  </data>
+  <data name="resourceGroupNameValidationError" xml:space="preserve">
+    <value>Název skupiny prostředků může obsahovat pouze alfanumerické znaky, tečky, podtržítka, pomlčky a závorky a nemůže končit tečkou.</value>
+  </data>
+  <data name="cancelUpdateConfirmation" xml:space="preserve">
+    <value>Opravdu chcete zrušit operaci aktualizace?</value>
+  </data>
+  <data name="newFormat" xml:space="preserve">
+    <value>(Nové) {0}</value>
+  </data>
+  <data name="validationErrorAlreadyExistsFormat" xml:space="preserve">
+    <value>{0} už existuje.</value>
+  </data>
+  <data name="validationWebspaceUniqueErrorFormat" xml:space="preserve">
+    <value>Název {0} není v rámci omezení hostování aplikací jedinečný.</value>
+  </data>
+  <data name="resourceGroupDescription" xml:space="preserve">
+    <value>Skupina prostředků je kontejner, který uchovává související prostředky pro řešení Azure.</value>
+  </data>
+  <data name="createNewPlan" xml:space="preserve">
+    <value>Vytvořit nový plán</value>
+  </data>
+  <data name="planName" xml:space="preserve">
+    <value>Název plánu</value>
+  </data>
+  <data name="majorVersion" xml:space="preserve">
+    <value>Hlavní verze</value>
+  </data>
+  <data name="minorVersion" xml:space="preserve">
+    <value>Podverze</value>
   </data>
 </root>
