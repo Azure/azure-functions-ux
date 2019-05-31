@@ -3681,7 +3681,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Sync</value>
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
-    <value>Deployment Credentials</value>
+    <value>FTP/Credentials</value>
   </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
     <value>Dv3-Series compute equivalent</value>
@@ -4766,6 +4766,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="noBlobsOrFilesShares" xml:space="preserve">
     <value>This storage account has no blob containers or file shares</value>
   </data>
+  <data name="noFileShares" xml:space="preserve">
+    <value>This storage account has no file shares</value>
+  </data>
+  <data name="noBlobs" xml:space="preserve">
+    <value>This storage account has no blobs</value>
+  </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
     <value>You don't have write access to this storage account. If you know the access key you can put it in advanced mode.</value>
   </data>
@@ -4827,10 +4833,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Virtual Directory path must exist within an application path</value>
   </data>
   <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>Application logs are switched off. You can turn them on using the 'Diagnostic logs' settings.</value>
+    <value>Application logs are switched off. You can turn them on using the 'App Service logs' settings.</value>
   </data>
   <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Web server logs are switched off. You can turn them on using the 'Diagnostic logs' settings.</value>
+    <value>Web server logs are switched off. You can turn them on using the 'App Service logs' settings.</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
     <value>Your selected runtime stack does not currently support remote debugging.</value>
@@ -4842,7 +4848,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Application Insights is not configured. Configure Application Insights to capture function logs.</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
-    <value>Access restrictions have been added to your function app which may affect your ability to manage it from the portal.</value>
+    <value>Access restrictions have been added to your function app. This may affect your ability to manage it from the portal and make the runtime unreachable.</value>
   </data>
   <data name="userCredsError" xml:space="preserve">
     <value>The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain letters and numbers.</value>
@@ -4882,7 +4888,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Client certificates have been enabled on your function app which may affect your ability to manage it from the portal.</value>
   </data>
   <data name="alwaysOnInfoMessage" xml:space="preserve">
-    <value>Prevent's your app from being idled out due to inactivity.</value>
+    <value>Prevents your app from being idled out due to inactivity.</value>
   </data>
   <data name="ftpsInfoMessage" xml:space="preserve">
     <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. </value>
@@ -4911,6 +4917,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="readOnlyJava" xml:space="preserve">
     <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
   </data>
+  <data name="validate_workingDirectory" xml:space="preserve">
+    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
+  </data>
   <data name="mountedStorageInfo" xml:space="preserve">
     <value>Mounted storage lets you map Azure Files or Blob containers for use with your app.</value>
   </data>
@@ -4919,6 +4928,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="changePlanDescription" xml:space="preserve">
     <value>Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance.</value>
+  </data>
+  <data name="changePlanLocationTooltip" xml:space="preserve">
+    <value>The region that your app currently resides in cannot be changed for new or existing plans.</value>
   </data>
   <data name="changePlanCurrentPlanDetails" xml:space="preserve">
     <value>Current plan details</value>
@@ -4937,6 +4949,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="changePlanPlanCreateFailureNotificationFormat" xml:space="preserve">
     <value>Failed to create App Service plan: '{0}'</value>
+  </data>
+  <data name="changePlanNoWritePermissionRg" xml:space="preserve">
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+  </data>
+  <data name="changePlanSiteLockedError" xml:space="preserve">
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+  </data>
+  <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+  </data>
+  <data name="resourceGroupNameValidationError" xml:space="preserve">
+    <value>Resource group name can only include alphanumeric characters, periods, underscores, hyphens and parenthesis and cannot end in a period.</value>
   </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>Are you sure you would like to cancel the update operation?</value>

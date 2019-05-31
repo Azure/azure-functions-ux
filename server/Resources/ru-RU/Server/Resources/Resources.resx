@@ -1730,7 +1730,7 @@
     <value>Блокируйте ресурсы, чтобы предотвратить непредвиденные изменения или удаления.</value>
   </data>
   <data name="feature_automationScriptName" xml:space="preserve">
-    <value>Сценарий автоматизации</value>
+    <value>Экспорт шаблона</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
     <value>Вы можете развертывать ресурсы с помощью шаблонов Azure Resource Manager в одной скоординированной операции. Определите ресурсы и настраиваемые входные параметры и проведите развертывание с помощью сценария или кода.</value>
@@ -2537,7 +2537,7 @@
     <value>Южная Бразилия</value>
   </data>
   <data name="australiaeast" xml:space="preserve">
-    <value>Восточная часть Австралии</value>
+    <value>Восточная Австралия</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
     <value>Юго-Восточная Австралия</value>
@@ -3047,7 +3047,7 @@
     <value>Настройка непрерывной интеграции с помощью службы репозиториев Azure, входящей в Azure DevOps Services (ранее — VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
-    <value>Развертывание из открытого репозитория Git или Mercurial.</value>
+    <value>Развертывание из открытого репозитория Git или Mercurial. Этот параметр требует активации развертываний вручную.</value>
   </data>
   <data name="bitbucketDesc" xml:space="preserve">
     <value>Настройка непрерывной интеграции с репозиторием Bitbucket.</value>
@@ -3557,7 +3557,10 @@
     <value>Идет проверка...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>У вас нет разрешений на создание конвейера сборки или выпуска в этом проекте. Обратитесь к администратору проекта.</value>
+    <value>У вас нет разрешений на создание конвейера сборки или выпуска в этом проекте. Обратитесь к администратору проекта или выберите другой проект.</value>
+  </data>
+  <data name="vstsAgentQueuePermissions" xml:space="preserve">
+    <value>У вас нет разрешений на использование в каких-либо доступных пулах агентов в этом проекте. Обратитесь к администратору проекта или выберите другой проект.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Указанное имя организации недопустимо. Укажите другое имя.</value>
@@ -3675,7 +3678,7 @@
     <value>Синхронизация</value>
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
-    <value>Мандат на развертывание</value>
+    <value>FTP или учетные данные</value>
   </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
     <value>Эквивалент вычислительных ресурсов серии Dv3</value>
@@ -4760,6 +4763,12 @@
   <data name="noBlobsOrFilesShares" xml:space="preserve">
     <value>Эта учетная запись хранения не содержит контейнеров BLOB-объектов или общих файловых ресурсов</value>
   </data>
+  <data name="noFileShares" xml:space="preserve">
+    <value>Эта учетная запись хранения не содержит общих файловых ресурсов.</value>
+  </data>
+  <data name="noBlobs" xml:space="preserve">
+    <value>Учетная запись хранения не содержит BLOB-объектов.</value>
+  </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
     <value>У вас нет доступа на запись к этой учетной записи хранения. Если вы знаете ключ доступа, можете перевести ее в расширенный режим.</value>
   </data>
@@ -4767,7 +4776,10 @@
     <value>Выбрать вариант</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>Команды запуска для NodeJS должны использовать ng, node или pm2</value>
+    <value>Вы можете ввести команду, которая будет выполняться при запуске контейнеров. Команды запуска для Node.js должны использовать ключевые слова ng, node, npm или pm2, например: npm start.</value>
+  </data>
+  <data name="invalidStartupCommandAspNetCore" xml:space="preserve">
+    <value>Вы можете ввести команду, которая будет выполняться при запуске контейнеров. Команды запуска для .NET Core должны использовать ключевое слово dotnet, например: dotnet application.dll.</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
@@ -4794,7 +4806,7 @@
     <value>{0} является недопустимым свойством параметров приложения.</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
-    <value>Имена параметров приложения должны быть уникальными.</value>
+    <value>Имена параметров приложения должны быть уникальными</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Недопустимый объект JSON</value>
@@ -4818,10 +4830,10 @@
     <value>Путь к виртуальному каталогу должен существовать внутри пути к приложению.</value>
   </data>
   <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>Журналы приложений выключены. Вы можете включить их, используя настройки "Журналы диагностики".</value>
+    <value>Журналы приложений выключены. Вы можете включить их, используя настройки "Журналы службы приложений".</value>
   </data>
   <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Журналы веб-сервера отключены. Вы можете включить их с помощью настроек "Журналы диагностики".</value>
+    <value>Журналы веб-сервера отключены. Вы можете включить их с помощью настроек "Журналы службы приложений".</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
     <value>Выбранный стек среды выполнения сейчас не поддерживает удаленную отладку.</value>
@@ -4833,7 +4845,7 @@
     <value>Служба Application Insights не настроена. Настройте Application Insights для сбора журналов функций.</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
-    <value>Для вашего приложения-функции были введены ограничения доступа, которые могут повлиять на возможность управления этим приложением на портале.</value>
+    <value>Для вашего приложения-функции были введены ограничения доступа, которые могут повлиять на возможность управления этим приложением на портале и сделать недоступной среду выполнения.</value>
   </data>
   <data name="userCredsError" xml:space="preserve">
     <value>Указанный пароль не соответствует минимальным требованиям к паролю. Пароль должен содержать буквы и цифры. Длина пароля — не менее восьми символов.</value>
@@ -4859,6 +4871,9 @@
   </data>
   <data name="githubOrgMessage" xml:space="preserve">
     <value>Если не удается найти организацию или репозиторий, возможно, необходимо включить дополнительные разрешения в GitHub.</value>
+  </data>
+  <data name="projectWithoutGitRepoNotFoundMessage" xml:space="preserve">
+    <value>Будут перечислены только проекты с допустимыми репозиториями Git.</value>
   </data>
   <data name="bitbucketOrgMessage" xml:space="preserve">
     <value>Если не удается найти организацию или репозиторий, возможно, необходимо включить дополнительные разрешения в Bitbucket.</value>
@@ -4898,5 +4913,77 @@
   </data>
   <data name="readOnlyJava" xml:space="preserve">
     <value>Функции редактирования на портале не поддерживаются для приложений-функций Java. Используйте для разработки Maven или VS Code.</value>
+  </data>
+  <data name="validate_workingDirectory" xml:space="preserve">
+    <value>Путь к рабочему каталогу должен указываться относительно корня репозитория и не может начинаться с "/", "\" или с букв дисков ("C:/") в Windows. Если рабочий каталог находится в папке "src" репозитория, путь должен начинаться с "src/".</value>
+  </data>
+  <data name="mountedStorageInfo" xml:space="preserve">
+    <value>Подключенное хранилище позволяет сопоставить контейнеры BLOB-объектов или Файлы Azure для использования с вашим приложением.</value>
+  </data>
+  <data name="changePlanName" xml:space="preserve">
+    <value>Изменить план служб приложений</value>
+  </data>
+  <data name="changePlanDescription" xml:space="preserve">
+    <value>Вы можете изменить план размещения приложения и в результате либо консолидировать свои приложения в одном плане, что позволит им использовать общие компьютерные ресурсы, либо разделить их по разным планам, что позволит масштабировать их по отдельности для повышения производительности.</value>
+  </data>
+  <data name="changePlanLocationTooltip" xml:space="preserve">
+    <value>Регион, в котором находится ваше приложение, невозможно изменить для новых или существующих планов.</value>
+  </data>
+  <data name="changePlanCurrentPlanDetails" xml:space="preserve">
+    <value>Сведения о текущем плане</value>
+  </data>
+  <data name="changePlanDestPlanDetails" xml:space="preserve">
+    <value>Сведения о целевом плане</value>
+  </data>
+  <data name="changePlanNotification" xml:space="preserve">
+    <value>Изменение плана службы приложений</value>
+  </data>
+  <data name="changePlanFailureNotificationFormat" xml:space="preserve">
+    <value>Не удалось перейти на план службы приложений "{0}".</value>
+  </data>
+  <data name="changePlanRgCreateFailureNotificationFormat" xml:space="preserve">
+    <value>Не удалось создать группу ресурсов "{0}".</value>
+  </data>
+  <data name="changePlanPlanCreateFailureNotificationFormat" xml:space="preserve">
+    <value>Не удалось создать план службы приложений "{0}".</value>
+  </data>
+  <data name="changePlanNoWritePermissionRg" xml:space="preserve">
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+  </data>
+  <data name="changePlanSiteLockedError" xml:space="preserve">
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+  </data>
+  <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+  </data>
+  <data name="resourceGroupNameValidationError" xml:space="preserve">
+    <value>Имя группы ресурсов может содержать только буквы, цифры, точки, подчеркивания, дефисы и круглые скобки, а также не может кончаться точкой.</value>
+  </data>
+  <data name="cancelUpdateConfirmation" xml:space="preserve">
+    <value>Вы действительно хотите отменить операцию обновления?</value>
+  </data>
+  <data name="newFormat" xml:space="preserve">
+    <value>(Новое) {0}</value>
+  </data>
+  <data name="validationErrorAlreadyExistsFormat" xml:space="preserve">
+    <value>{0} уже существует</value>
+  </data>
+  <data name="validationWebspaceUniqueErrorFormat" xml:space="preserve">
+    <value>Имя "{0}" не является уникальным в рамках ограничений для размещения приложений.</value>
+  </data>
+  <data name="resourceGroupDescription" xml:space="preserve">
+    <value>Группа ресурсов — это контейнер, содержащий связанные ресурсы для решения Azure.</value>
+  </data>
+  <data name="createNewPlan" xml:space="preserve">
+    <value>Создать новый план</value>
+  </data>
+  <data name="planName" xml:space="preserve">
+    <value>Имя плана</value>
+  </data>
+  <data name="majorVersion" xml:space="preserve">
+    <value>Основной номер версии</value>
+  </data>
+  <data name="minorVersion" xml:space="preserve">
+    <value>Дополнительный номер версии</value>
   </data>
 </root>

@@ -100,4 +100,5 @@ export class ScenarioIds {
   public static readonly pricingTierApiEnabled = 'PricingTierApiEnabled';
   public static readonly incomingClientCertEnabled = 'incomingClientCertEnabled';
   public static readonly showConnnectionStringFunctionInfo = 'showConnnectionStringFunctionInfo';
+  public static readonly azureBlobMount = 'azureBlobMount';
 }

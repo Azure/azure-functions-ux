@@ -1,6 +1,7 @@
 import { ArmObj, Lock, Permissions, PermissionsAsRegExp, ArmArray } from '../models/WebAppModels';
 import MakeArmCall from '../ApiHelpers/ArmHelper';
 import { CommonConstants } from './CommonConstants';
+import { HttpResponseObject } from '../ArmHelper.types';
 
 export interface IAuthzService {
   hasPermission(resourceId: string, requestedActions: string[]): Promise<boolean>;
@@ -45,6 +46,11 @@ export default class RbacHelper {
       return false;
     }
   }
+
+  public static isNoAccessResponse(response: HttpResponseObject<any>) {
+    return response.metadata.error && (response.metadata.error === 401 || response.metadata.error === 403);
+  }
+
   private static async getLocks(resourceId: string): Promise<ArmObj<Lock>[]> {
     const lockId = `${resourceId}${RbacHelper.authSuffix}`;
     const logCall = await MakeArmCall<ArmArray<Lock>>({
@@ -106,12 +112,12 @@ export default class RbacHelper {
   }
 
   /*
-    * 1. All allowed character escapes are taken into account: \*, \t, \n, \r, \\, \'
-    *    a. \0 is explicitly not supported
-    * 2. All non-escaped wildcards match 0 or more characters of anything
-    * 3. The entire wildcard pattern is matched from beginning to end, and no more (e.g., a*d matches add but not adding or bad).
-    * 4. The pattern matching should be case insensitive.
-    */
+   * 1. All allowed character escapes are taken into account: \*, \t, \n, \r, \\, \'
+   *    a. \0 is explicitly not supported
+   * 2. All non-escaped wildcards match 0 or more characters of anything
+   * 3. The entire wildcard pattern is matched from beginning to end, and no more (e.g., a*d matches add but not adding or bad).
+   * 4. The pattern matching should be case insensitive.
+   */
   private static convertWildCardPatternToRegex(wildCardPattern: string): RegExp {
     const wildCardPatternNew = wildCardPattern.replace(this._wildCardEscapeSequence, '\0'); // sentinel for escaped wildcards
     const regex = this.escapeRegExp(wildCardPatternNew) // escape the rest of the regex

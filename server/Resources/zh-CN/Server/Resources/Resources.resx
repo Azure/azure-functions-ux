@@ -545,7 +545,7 @@
     <value>运行</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have source control integration enabled.</value>
+    <value>你的应用当前处于只读模式，因为你启用了源代码管理集成。</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>高级编辑器</value>
@@ -1427,10 +1427,10 @@
     <value>必须具有当前应用的写入权限才可编辑这些设置。</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>This app has a read only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
+    <value>此应用具有一个阻止编辑设置或阻止检索安全数据的只读锁定。请删除该锁定并重试。</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>View settings in read only mode.</value>
+    <value>在只读模式下查看设置。</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>未能加载设置。</value>
@@ -1730,7 +1730,7 @@
     <value>锁定资源以防止意外的更改或删除。</value>
   </data>
   <data name="feature_automationScriptName" xml:space="preserve">
-    <value>自动化脚本</value>
+    <value>导出模板</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
     <value>通过 Azure 资源管理器模板在单一、协调的操作中自动部署资源。定义资源和可配置的输入参数并使用脚本或代码进行部署。</value>
@@ -2141,13 +2141,13 @@
     <value>无法更新 Function App 的编辑模式。请稍后再试。</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
+    <value>你的应用当前处于只读模式，因为它已手动设置为只读。若要更改编辑模式，请访问</value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>尽管已启用源控件，但由于已将编辑模式设置为读/写，因此应用当前处于读/写模式。下次部署可能会替代所做的所有更改。若要更改编辑模式，请访问 </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
+    <value>应用当前处于只读模式，因为你发布了生成的 function.json。Functions 运行时不会采用对 function.json 所做的更改。</value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>尽管具有一个生成的 function.json，但由于已将编辑模式设置为读/写，因此应用当前处于读/写模式。对 function.json 进行的更改将不会被 Functions 运行时所采用。</value>
@@ -2327,7 +2327,7 @@
     <value>需要客户端证书以调用运行此函数。若要从门户运行，必须禁用客户端证书。</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
+    <value>应用当前处于只读模式，因为已配置部署槽位。若要更改编辑模式，请访问</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>管理应用程序设置</value>
@@ -2351,7 +2351,7 @@
     <value>事件(内置终结点)</value>
   </data>
   <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
-    <value>操作监控</value>
+    <value>操作监视</value>
   </data>
   <data name="eventHubPicker_policy" xml:space="preserve">
     <value>策略</value>
@@ -2918,7 +2918,7 @@
     <value>未能完成 {{operation}}。错误: {{error}}</value>
   </data>
   <data name="swapTimeout" xml:space="preserve">
-    <value>Exceeded maximum status polling attempts for {{operation}}. Check Activity log to confirm operation status/result.</value>
+    <value>超过 {{operation}} 的最大状态轮询尝试次数。请查看活动日志以确认操作状态/结果。</value>
   </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>正在取消 {{operation}}</value>
@@ -3047,7 +3047,7 @@
     <value>使用 Azure Repo (Azure DevOps 服务 - 以前称为 VSTS - 的一部分)配置持续集成。</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
-    <value>从公共的 Git 或 Mercurial 存储库部署。</value>
+    <value>从公共 Git 或 Mercurial 存储库中部署。此选项需要手动触发部署。</value>
   </data>
   <data name="bitbucketDesc" xml:space="preserve">
     <value>使用 Bitbucket 存储库，配置持续集成。</value>
@@ -3074,7 +3074,7 @@
     <value>Functions (预览版)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
+    <value>应用当前处于只读模式，因为你是从包文件运行的。若要进行任何更改，请更新 zip 文件中的内容和 WEBSITE_RUN_FROM_PACKAGE 应用设置。</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>代码</value>
@@ -3557,7 +3557,10 @@
     <value>正在验证...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>你没有权限在此项目上创建生成管道或发布管道。请联系项目管理员</value>
+    <value>你没有在此项目上创建生成管道或发布管道的权限。请与你的项目管理员联系或者选择其他的项目</value>
+  </data>
+  <data name="vstsAgentQueuePermissions" xml:space="preserve">
+    <value>你没有在此项目中使用任何可用代理池的权限。请与你的项目管理员联系或者选择其他的项目</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>提供的组织名无效。请提供其他组织名。</value>
@@ -3675,7 +3678,7 @@
     <value>同步</value>
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
-    <value>部署凭据</value>
+    <value>FTP/凭据</value>
   </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
     <value>Dv3 序列计算等效项</value>
@@ -3687,7 +3690,7 @@
     <value>运行时版本: 正在加载...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Your app is currently in read only mode because you are using Local Cache. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
+    <value>你的应用当前处于只读模式，因为你正在使用本地缓存。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;了解详细信息&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>删除</value>
@@ -3753,7 +3756,7 @@
     <value>必须在应用上具有写入访问权限，才能配置容器设置</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
+    <value>你的应用当前处于只读模式。请删除应用上的只读锁定以编辑容器设置。</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>单个容器</value>
@@ -4020,34 +4023,34 @@
     <value>你没有写入权限</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>The deployment slot has a read only lock</value>
+    <value>部署槽位具有只读锁定</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Source and Destination cannot be the same deployment slot</value>
+    <value>源和目标不能是同一部署槽位</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
+    <value>无法执行预览版交换，因为以下部署槽位已启用身份验证: "{{slotNames}}"</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
+    <value>预览版交换只能用于启用了部署槽位设置的站点</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Before you complete the swap, review the first deployment slot's app behavior with the second deployment slot's configuration</value>
+    <value>完成交换之前，请通过第二个部署槽位的配置检查第一个部署槽位的应用行为</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>You do not have write permission on the following deployment slots: '{{slotNames}}'</value>
+    <value>你没有以下部署槽位的写入权限: "{{slotNames}}"</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>You do not have swap permission on the following deployment slots: '{{slotNames}}'</value>
+    <value>你没有以下部署槽位的交换权限: "{{slotNames}}"</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>There is a read only lock on the following deployment slots: '{{slotNames}}'</value>
+    <value>以下部署槽位存在只读锁定: "{{slotNames}}"</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>A swap operation can only be performed if the app has multiple deployment slots</value>
+    <value>仅当应用有多个部署槽位时才能执行交换操作</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Swap deployment slots</value>
+    <value>交换部署槽位</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>加载失败</value>
@@ -4062,10 +4065,10 @@
     <value>配置更改</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>These are the deployment slot specific application settings and connection strings from the target deployment slot which will be temporarily applied to the source deployment slot in the first phase of the swap.</value>
+    <value>这些是来自目标部署槽位的特定于部署槽位的应用程序设置和连接字符串，在交换的第一阶段，目标部署槽位将被暂时应用到源部署槽位。</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>This is a summary of the final set of configuration changes on the source and target deployment slots after the swap has completed.</value>
+    <value>这是完成交换后，源部署槽位和目标部署槽位上的最后一组配置更改摘要。</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>请在上面进行有效选择以加载预览</value>
@@ -4401,7 +4404,7 @@
     <value>自动交换已启用</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Auto swap deployment slot</value>
+    <value>自动交换部署槽位</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>平台</value>
@@ -4452,7 +4455,7 @@
     <value>值</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>deployment slot setting</value>
+    <value>部署槽位设置</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4674,7 +4677,7 @@
     <value>代理(受限)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change deployment slot settings you must have write access on the production app.</value>
+    <value>要更改部署槽位设置，必须对生产应用具有写入权限。</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>要更改自动交换设置，则必须对生产应用具有写入权限。</value>
@@ -4689,7 +4692,7 @@
     <value>函数应用类型</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Deployment Slot Setting Enabled</value>
+    <value>部署槽位设置已启用</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>隐藏值。单击上方的“显示值”按钮查看</value>
@@ -4760,6 +4763,12 @@
   <data name="noBlobsOrFilesShares" xml:space="preserve">
     <value>此存储帐户没有 blob 容器或文件共享</value>
   </data>
+  <data name="noFileShares" xml:space="preserve">
+    <value>此存储帐户没有文件共享</value>
+  </data>
+  <data name="noBlobs" xml:space="preserve">
+    <value>此存储帐户没有 blob</value>
+  </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
     <value>你没有针对此存储帐户的写权限。如果你知道访问密钥，可在高级模式下提供该访问密钥。</value>
   </data>
@@ -4767,7 +4776,10 @@
     <value>选择选项</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>NodeJS 启动命令必须使用 ng、节点或 pm2</value>
+    <value>提供将作为容器启动一部分运行的启动命令。Node.js 的启动命令必须使用 ng、node、npm 或 pm2 关键字。例如，npm start</value>
+  </data>
+  <data name="invalidStartupCommandAspNetCore" xml:space="preserve">
+    <value>提供将作为容器启动一部分运行的启动命令。.NET Core 的启动命令必须使用 dotnet 关键字。例如，dotnet application.dll</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
@@ -4788,7 +4800,7 @@
     <value>所有应用设置值和名称属性必须是字符串类型</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>All app setting deployment slot setting properties must be of type boolean</value>
+    <value>所有应用设置部署槽位设置属性必须为布尔类型</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} 是无效的应用设置属性</value>
@@ -4818,10 +4830,10 @@
     <value>虚拟目录路径必须存在于应用程序路径中</value>
   </data>
   <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>应用程序日志已关闭。你可以使用“诊断日志”设置来打开它们。</value>
+    <value>应用程序日志已关闭。你可以使用“应用服务日志”设置来打开它们。</value>
   </data>
   <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Web 服务器日志已关闭。你可以使用“诊断日志”设置来打开它们。</value>
+    <value>Web 服务器日志已关闭。你可以使用“应用服务日志”设置来打开它们。</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
     <value>所选的运行时堆栈当前不支持远程调试。</value>
@@ -4833,7 +4845,7 @@
     <value>未配置 Application Insights。请配置 Application Insights 以捕获函数日志。</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
-    <value>已向你的函数应用添加访问限制，这可能影响你通过门户管理此应用的能力。</value>
+    <value>已向你的函数应用添加访问限制，这可能影响你通过门户管理此应用的能力，并可能导致运行时无法访问。</value>
   </data>
   <data name="userCredsError" xml:space="preserve">
     <value>指定的密码不符合最低要求。密码应至少为八个字符，并且必须包含字母和数字。</value>
@@ -4859,6 +4871,9 @@
   </data>
   <data name="githubOrgMessage" xml:space="preserve">
     <value>如果找不到组织或存储库，可能需要启用 GitHub 的其他权限。</value>
+  </data>
+  <data name="projectWithoutGitRepoNotFoundMessage" xml:space="preserve">
+    <value>将仅列出具有有效 GIT 存储库的项目。</value>
   </data>
   <data name="bitbucketOrgMessage" xml:space="preserve">
     <value>如果找不到组织或存储库，可能需要启用 Bitbucket 的其他权限。</value>
@@ -4897,6 +4912,78 @@
     <value>筛选连接字符串</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
+    <value>Java Function App 不支持在门户中编辑函数。请使用 Maven 或 VS Code 进行开发。</value>
+  </data>
+  <data name="validate_workingDirectory" xml:space="preserve">
+    <value>工作目录路径应与存储库的根路径相对，且不可以 /、\ 或驱动器名称(C:/)(若为 Windows)开头。如果工作目录位于存储库的 src 文件夹中，则路径应为 src/</value>
+  </data>
+  <data name="mountedStorageInfo" xml:space="preserve">
+    <value>通过载入的存储，可映射 Azure 文件或 BLOB 容器供应用使用。</value>
+  </data>
+  <data name="changePlanName" xml:space="preserve">
+    <value>更改应用服务计划</value>
+  </data>
+  <data name="changePlanDescription" xml:space="preserve">
+    <value>通过更改承载应用的计划，可以将应用合并为单个计划，以便这些应用共享计算机资源，也可以将它们分散到单独的计划中，以便通过单独缩放各应用来提高性能。</value>
+  </data>
+  <data name="changePlanLocationTooltip" xml:space="preserve">
+    <value>你的应用当前所在的区域无法更改为新的或现有的计划。</value>
+  </data>
+  <data name="changePlanCurrentPlanDetails" xml:space="preserve">
+    <value>当前计划详细信息</value>
+  </data>
+  <data name="changePlanDestPlanDetails" xml:space="preserve">
+    <value>目标计划详细信息</value>
+  </data>
+  <data name="changePlanNotification" xml:space="preserve">
+    <value>正在更改应用服务计划</value>
+  </data>
+  <data name="changePlanFailureNotificationFormat" xml:space="preserve">
+    <value>未能更改为应用服务计划“{0}”</value>
+  </data>
+  <data name="changePlanRgCreateFailureNotificationFormat" xml:space="preserve">
+    <value>未能创建资源组“{0}”</value>
+  </data>
+  <data name="changePlanPlanCreateFailureNotificationFormat" xml:space="preserve">
+    <value>未能创建应用服务计划“{0}”</value>
+  </data>
+  <data name="changePlanNoWritePermissionRg" xml:space="preserve">
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+  </data>
+  <data name="changePlanSiteLockedError" xml:space="preserve">
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+  </data>
+  <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+  </data>
+  <data name="resourceGroupNameValidationError" xml:space="preserve">
+    <value>资源组名称只能包含字母数字字符、句点、下划线、连字符和圆括号，并不能以句点结尾。</value>
+  </data>
+  <data name="cancelUpdateConfirmation" xml:space="preserve">
+    <value>确定要取消更新操作吗?</value>
+  </data>
+  <data name="newFormat" xml:space="preserve">
+    <value>(新项) {0}</value>
+  </data>
+  <data name="validationErrorAlreadyExistsFormat" xml:space="preserve">
+    <value>{0} 已存在</value>
+  </data>
+  <data name="validationWebspaceUniqueErrorFormat" xml:space="preserve">
+    <value>名称“{0}”在承载约束的应用中不是唯一的</value>
+  </data>
+  <data name="resourceGroupDescription" xml:space="preserve">
+    <value>资源组是保管 Azure 解决方案的相关资源的容器。</value>
+  </data>
+  <data name="createNewPlan" xml:space="preserve">
+    <value>创建新计划</value>
+  </data>
+  <data name="planName" xml:space="preserve">
+    <value>计划名称</value>
+  </data>
+  <data name="majorVersion" xml:space="preserve">
+    <value>主版本</value>
+  </data>
+  <data name="minorVersion" xml:space="preserve">
+    <value>次版本</value>
   </data>
 </root>

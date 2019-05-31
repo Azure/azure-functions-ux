@@ -8,13 +8,16 @@ import { FormikProps, Field } from 'formik';
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { useTranslation } from 'react-i18next';
-import { StorageAccountsContext } from '../Contexts';
+import { StorageAccountsContext, SiteContext } from '../Contexts';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
   BlobStorage: 'BlobStorage',
   Storage: 'Storage',
 };
+
 const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
   const { errors, values, setValues, setFieldValue } = props;
   const [accountSharesFiles, setAccountSharesFiles] = useState([]);
@@ -22,8 +25,15 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const [sharesLoading, setSharesLoading] = useState(false);
   const [accountError, setAccountError] = useState('');
   const storageAccounts = useContext(StorageAccountsContext);
-  const accountOptions = storageAccounts.value.map(val => ({ key: val.name, text: val.name }));
+  const site = useContext(SiteContext);
   const { t } = useTranslation();
+  const scenarioService = new ScenarioService(t);
+
+  const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
+  const accountOptions = storageAccounts.value
+    .filter(val => supportsBlobStorage || val.kind !== storageKinds.BlobStorage)
+    .map(val => ({ key: val.name, text: val.name }));
+
   const setAccessKey = (accessKey: string) => {
     setValues({ ...values, accessKey });
   };
@@ -42,7 +52,13 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             accessKey: data.keys[0].value,
           };
           try {
-            const blobCall = axios.post(`/api/getStorageContainers?accountName=${values.accountName}`, payload);
+            let blobsCall: any = {
+              data: [],
+            };
+
+            if (supportsBlobStorage) {
+              blobsCall = axios.post(`/api/getStorageContainers?accountName=${values.accountName}`, payload);
+            }
 
             let filesCall: any = {
               data: [],
@@ -51,19 +67,25 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               filesCall = axios.post(`/api/getStorageFileShares?accountName=${values.accountName}`, payload);
             }
 
-            const [blobs, files] = await Promise.all([blobCall, filesCall]);
+            const [blobs, files] = await Promise.all([blobsCall, filesCall]);
             setSharesLoading(false);
             const filesData = files.data || [];
             const blobData = blobs.data || [];
             setAccountSharesFiles(filesData);
             setAccountSharesBlob(blobData);
-            if (filesData.length === 0) {
-              setFieldValue('type', 'AzureBlob');
-            } else if (blobData.length === 0) {
+            if (blobData.length === 0 || !supportsBlobStorage) {
               setFieldValue('type', 'AzureFiles');
+            } else if (filesData.length === 0) {
+              setFieldValue('type', 'AzureBlob');
             }
             if (filesData.length === 0 && blobData.length === 0) {
-              setAccountError(t('noBlobsOrFilesShares'));
+              if (!supportsBlobStorage) {
+                setAccountError(t('noFileShares'));
+              } else if (storageAccount.kind === storageKinds.BlobStorage) {
+                setAccountError(t('noBlobs'));
+              } else {
+                setAccountError(t('noBlobsOrFilesShares'));
+              }
             }
           } catch (err) {
             setAccountError(t('noWriteAccessStorageAccount'));
@@ -77,6 +99,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const blobContainerOptions = accountSharesBlob.map((x: any) => ({ key: x.name, text: x.name }));
   const filesContainerOptions = accountSharesFiles.map((x: any) => ({ key: x.name, text: x.name }));
 
+  const showStorageTypeOption = supportsBlobStorage && (!storageAccount || storageAccount.kind !== storageKinds.BlobStorage);
   return (
     <>
       <Field
@@ -97,7 +120,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           }
         }}
       />
-      {(!storageAccount || storageAccount.kind !== storageKinds.BlobStorage) && (
+      {showStorageTypeOption && (
         <Field
           component={RadioButton}
           name="type"

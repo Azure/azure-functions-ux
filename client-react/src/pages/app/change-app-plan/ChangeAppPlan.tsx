@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import FeatureDescriptionCard from '../../../components/feature-description-card/FeatureDescriptionCard';
-import { PrimaryButton, IDropdownOption, Stack, Link } from 'office-ui-fabric-react';
+import { PrimaryButton, IDropdownOption, Stack, Link, ILink, MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { Formik, FormikProps } from 'formik';
 import { ResourceGroup } from '../../../models/resource-group';
-import { ArmObj, Site, ServerFarm, ArmSku } from '../../../models/WebAppModels';
-import { style } from 'typestyle';
+import { ArmObj, Site, ServerFarm, ArmSku, HostingEnvironment } from '../../../models/WebAppModels';
+import { style, classes } from 'typestyle';
 import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import { CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN, addNewPlanToOptions } from './CreateOrSelectPlan';
 import SiteService from '../../../ApiHelpers/SiteService';
@@ -19,13 +19,20 @@ import { ReactComponent as AppServicePlanSvg } from '../../../images/AppService/
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
+import { InfoTooltip, defaultTooltipClass } from '../../../components/InfoTooltip/InfoTooltip';
+import { useWindowSize } from 'react-use';
+import RbacHelper from '../../../utils/rbac-helper';
 
 export const leftCol = style({
   marginRight: '20px',
 });
 
+const wrapperStyle = {
+  padding: '30px',
+};
+
 const formStyle = {
-  marginTop: '40px',
+  marginTop: '30px',
 };
 
 const fieldStyle = {
@@ -39,15 +46,22 @@ const sectionStyle = {
 const labelSectionStyle = style({
   textTransform: 'uppercase',
   fontSize: '11px',
-});
+  fontWeight: '600',
+} as any); // Casting to any because style definition doesn't support 600 even though it's valid CSS
 
 const labelStyle = style({
   width: '250px',
 });
 
+const tooltipStyle = style({
+  marginLeft: '5px',
+});
+
 const footerStyle = style({
   marginTop: '50px',
 });
+
+const MaxHorizontalWidthPx = 750;
 
 interface CompletionTelemetry {
   success: boolean;
@@ -59,6 +73,7 @@ interface CompletionTelemetry {
 export interface ChangeAppPlanProps {
   site: ArmObj<Site>;
   currentServerFarm: ArmObj<ServerFarm>;
+  hostingEnvironment?: ArmObj<HostingEnvironment>;
   resourceGroups: ArmObj<ResourceGroup>[];
   serverFarms: ArmObj<ServerFarm>[];
   onChangeComplete: () => void;
@@ -71,14 +86,23 @@ export interface ChangeAppPlanFormValues {
 }
 
 export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
-  const { resourceGroups, serverFarms, site, currentServerFarm, onChangeComplete: onChangeComplete } = props;
+  const { resourceGroups, serverFarms, site, currentServerFarm, hostingEnvironment, onChangeComplete: onChangeComplete } = props;
+
   const [isUpdating, setIsUpdating] = useState(false);
+  const [siteIsReadOnlyLocked, setSiteIsReadOnlyLocked] = useState(false);
   const portalCommunicator = useContext(PortalContext);
   const { t } = useTranslation();
+  const { width } = useWindowSize();
+  const changeSkuLinkElement = useRef<ILink | null>(null);
 
   const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(
     getInitialFormValues(site, currentServerFarm, serverFarms, resourceGroups)
   );
+
+  // Initialization
+  useEffect(() => {
+    checkIfSiteIsLocked(site.id, setSiteIsReadOnlyLocked);
+  }, []);
 
   useEffect(() => {
     if (isUpdating) {
@@ -121,96 +145,138 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
 
   return (
     <>
-      <Formik
-        initialValues={formValues}
-        onSubmit={values => onSubmit(values, setIsUpdating, setFormValues, portalCommunicator, t, onChangeComplete)}>
-        {(formProps: FormikProps<ChangeAppPlanFormValues>) => {
-          return (
-            <form>
-              <header>
-                <FeatureDescriptionCard name={t('changePlanName')} description={t('changePlanDescription')} Svg={AppServicePlanSvg} />
-              </header>
+      {getWarningBar(siteIsReadOnlyLocked, t)}
+      <div style={wrapperStyle}>
+        <Formik
+          initialValues={formValues}
+          onSubmit={values => onSubmit(values, setIsUpdating, setFormValues, portalCommunicator, t, onChangeComplete)}>
+          {(formProps: FormikProps<ChangeAppPlanFormValues>) => {
+            return (
+              <form>
+                <header>
+                  <FeatureDescriptionCard name={t('changePlanName')} description={t('changePlanDescription')} Svg={AppServicePlanSvg} />
+                </header>
 
-              <section>
-                <Stack style={formStyle}>
-                  <Stack style={sectionStyle}>
-                    <label className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</label>
+                <section>
+                  <Stack style={formStyle}>
+                    <Stack style={sectionStyle}>
+                      <h4 className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</h4>
+                    </Stack>
+
+                    <Stack horizontal={width > MaxHorizontalWidthPx}>
+                      <label className={labelStyle}>{t('appServicePlan')}</label>
+                      <div tabIndex={0} aria-label={t('appServicePlan') + getPlanName(currentServerFarm)}>
+                        {getPlanName(currentServerFarm)}
+                      </div>
+                    </Stack>
+
+                    <Stack style={{ marginTop: '50px' }}>
+                      <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
+                    </Stack>
+
+                    <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink>
+                      <label className={labelStyle}>{t('appServicePlan')}</label>
+                      <CreateOrSelectPlan
+                        subscriptionId={subscriptionId}
+                        isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
+                        newPlanInfo={formProps.values.serverFarmInfo.newPlanInfo}
+                        existingPlan={formProps.values.serverFarmInfo.existingPlan}
+                        options={serverFarmOptions}
+                        resourceGroupOptions={rgOptions}
+                        onPlanChange={info => {
+                          onPlanChange(formProps, info);
+                        }}
+                        serverFarmsInWebspace={serverFarms}
+                        hostingEnvironment={hostingEnvironment}
+                      />
+                    </Stack>
+
+                    <Stack horizontal={width > MaxHorizontalWidthPx} style={{ marginTop: '25px' }}>
+                      <label className={labelStyle}>{t('resourceGroup')}</label>
+                      <div
+                        tabIndex={0}
+                        aria-label={t('resourceGroup') + getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}>
+                        {getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}
+                      </div>
+                    </Stack>
+
+                    <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
+                      <label className={labelStyle}>
+                        <span>{t('region')}</span>
+                        <InfoTooltip className={classes(tooltipStyle, defaultTooltipClass)} content={t('changePlanLocationTooltip')} />
+                      </label>
+                      <span tabIndex={0} aria-label={t('region') + site.location}>
+                        {site.location}
+                      </span>
+                    </Stack>
+
+                    <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
+                      <label className={labelStyle}>{t('pricingTier')}</label>
+                      {getPricingTierValue(currentServerFarm.id, formProps, changeSkuLinkElement, portalCommunicator, t)}
+                    </Stack>
                   </Stack>
+                </section>
 
-                  <Stack horizontal style={{ marginTop: '10px' }}>
-                    <label className={labelStyle}>{t('appServicePlan')}</label>
-                    <div>{getPlanName(currentServerFarm)}</div>
-                  </Stack>
-
-                  <Stack style={{ marginTop: '50px' }}>
-                    <label className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</label>
-                  </Stack>
-
-                  <Stack horizontal style={sectionStyle}>
-                    <label className={labelStyle}>{t('appServicePlan')}</label>
-                    <CreateOrSelectPlan
-                      subscriptionId={subscriptionId}
-                      isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
-                      newPlanInfo={formProps.values.serverFarmInfo.newPlanInfo}
-                      existingPlan={formProps.values.serverFarmInfo.existingPlan}
-                      options={serverFarmOptions}
-                      resourceGroupOptions={rgOptions}
-                      onPlanChange={info => {
-                        onPlanChange(formProps, info);
-                      }}
-                      serverFarmsInWebspace={serverFarms}
-                    />
-                  </Stack>
-
-                  <Stack horizontal style={{ marginTop: '25px' }}>
-                    <label className={labelStyle}>{t('resourceGroup')}</label>
-                    <div>{getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}</div>
-                  </Stack>
-
-                  <Stack horizontal disableShrink style={fieldStyle}>
-                    <label className={labelStyle}>{t('region')}</label>
-                    <span>{site.location}</span>
-                  </Stack>
-
-                  <Stack horizontal disableShrink style={fieldStyle}>
-                    <label className={labelStyle}>{t('pricingTier')}</label>
-                    {getPricingTierValue(currentServerFarm.id, formProps, portalCommunicator)}
-                  </Stack>
-                </Stack>
-              </section>
-
-              <footer className={footerStyle}>
-                <PrimaryButton
-                  data-automation-id="test"
-                  text={t('ok')}
-                  allowDisabledFocus={true}
-                  onClick={formProps.submitForm}
-                  disabled={isUpdating}
-                />
-              </footer>
-            </form>
-          );
-        }}
-      </Formik>
+                <footer className={footerStyle}>
+                  <PrimaryButton
+                    data-automation-id="test"
+                    text={t('ok')}
+                    allowDisabledFocus={true}
+                    onClick={formProps.submitForm}
+                    disabled={isUpdating || siteIsReadOnlyLocked}
+                  />
+                </footer>
+              </form>
+            );
+          }}
+        </Formik>
+      </div>
     </>
   );
+};
+
+const checkIfSiteIsLocked = async (resourceId: string, setSiteIsReadOnlyLocked: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const readOnly = await RbacHelper.hasReadOnlyLock(resourceId);
+  setSiteIsReadOnlyLocked(readOnly);
+};
+
+const getWarningBar = (siteIsReadOnlyLocked: boolean, t: i18next.TFunction) => {
+  if (siteIsReadOnlyLocked) {
+    return <MessageBar messageBarType={MessageBarType.warning}>{t('changePlanSiteLockedError')}</MessageBar>;
+  }
 };
 
 const getPricingTierValue = (
   currentServerFarmId: string,
   form: FormikProps<ChangeAppPlanFormValues>,
-  portalCommunicator: PortalCommunicator
+  linkElement: React.MutableRefObject<ILink | null>,
+  portalCommunicator: PortalCommunicator,
+  t: i18next.TFunction
 ) => {
+  const skuString = getSelectedSkuString(form.values);
+
   if (form.values.serverFarmInfo.isNewPlan) {
-    return <Link onClick={() => openSpecPicker(currentServerFarmId, form, portalCommunicator)}>{getSelectedSkuString(form.values)}</Link>;
+    return (
+      <Link
+        aria-label={t('pricingTier') + skuString}
+        onClick={() => openSpecPicker(currentServerFarmId, form, linkElement, portalCommunicator)}
+        componentRef={ref => (linkElement.current = ref)}>
+        {skuString}
+      </Link>
+    );
   }
 
-  return <span>{getSelectedSkuString(form.values)}</span>;
+  return (
+    <span tabIndex={0} aria-label={t('pricingTier') + skuString}>
+      {getSelectedSkuString(form.values)}
+    </span>
+  );
 };
 
 const openSpecPicker = async (
   currentServerFarmId: string,
   form: FormikProps<ChangeAppPlanFormValues>,
+  linkElement: React.MutableRefObject<ILink | null>,
   portalCommunicator: PortalCommunicator
 ) => {
   const result = await portalCommunicator.openBlade<SpecPickerOutput>(
@@ -227,6 +293,8 @@ const openSpecPicker = async (
     },
     'changeAppPlan'
   );
+
+  (linkElement.current as ILink).focus();
 
   if (result.reason === 'childClosedSelf') {
     const newServerFarmInfo = {
@@ -259,125 +327,146 @@ const onSubmit = async (
   t: i18next.TFunction,
   changeComplete: () => void
 ) => {
-  const { site, serverFarmInfo } = values;
+  const { serverFarmInfo } = values;
   const notificationId = portalCommunicator.startNotification(t('changePlanNotification'), t('changePlanNotification'));
+
   setFormValues(values);
   setIsUpdating(true);
 
+  let success = false;
   if (!serverFarmInfo.isNewPlan) {
-    // Change to an existing plan
-
-    if (!serverFarmInfo.existingPlan) {
-      LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'existingPlan not set'));
-      return;
-    }
-
-    site.properties.serverFarmId = serverFarmInfo.existingPlan.id;
-
-    const planDescriptor = new ArmPlanDescriptor(site.properties.serverFarmId);
-
-    const siteResponse = await SiteService.updateSite(site.id, site);
-    if (siteResponse.metadata.success) {
-      portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
-      LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(true, false, false));
-    } else {
-      const updateSiteError =
-        siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
-      portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
-      LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'Failed to update site'));
-
-      setIsUpdating(false);
-      return;
-    }
+    success = await changeSiteToExistingPlan(notificationId, values, portalCommunicator, t);
   } else {
-    // Create a new plan
-
-    const siteDescriptor = new ArmSiteDescriptor(site.id);
-    let rgName = siteDescriptor.resourceGroup;
-
-    if (serverFarmInfo.newPlanInfo.isNewResourceGroup) {
-      const rgResponse = await ResourceGroupService.updateResourceGroup(
-        siteDescriptor.subscription,
-        serverFarmInfo.newPlanInfo.newResourceGroupName,
-        site.location
-      );
-
-      if (!rgResponse.metadata.success) {
-        const createRgError = rgResponse.metadata.error && rgResponse.metadata.error.Message ? rgResponse.metadata.error.Message : rgName;
-        portalCommunicator.stopNotification(notificationId, false, t('changePlanRgCreateFailureNotificationFormat').format(createRgError));
-        LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, true, true, 'Failed to update resource group'));
-
-        setIsUpdating(false);
-        return;
-      }
-
-      rgName = serverFarmInfo.newPlanInfo.newResourceGroupName;
-    }
-
-    const newServerFarmId = `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${rgName}/providers/Microsoft.Web/serverFarms/${
-      serverFarmInfo.newPlanInfo.name
-    }`;
-
-    const newServerFarm = {
-      id: newServerFarmId,
-      name: serverFarmInfo.newPlanInfo.name,
-      location: site.location,
-      properties: {
-        webSiteId: site.id,
-      },
-      sku: {
-        name: getSelectedSkuCode(values),
-      },
-    };
-
-    const planDescriptor = new ArmPlanDescriptor(newServerFarmId);
-    newServerFarm.properties.webSiteId = site.id;
-
-    const serverFarmResponse = await ServerFarmService.updateServerFarm(newServerFarmId, newServerFarm as ArmObj<ServerFarm>);
-    if (!serverFarmResponse.metadata.success) {
-      const createPlanError =
-        serverFarmResponse.metadata.error && serverFarmResponse.metadata.error.Message
-          ? serverFarmResponse.metadata.error.Message
-          : planDescriptor.name;
-      portalCommunicator.stopNotification(
-        notificationId,
-        false,
-        t('changePlanPlanCreateFailureNotificationFormat').format(createPlanError)
-      );
-
-      LogService.trackEvent(
-        '/ChangeAppPlan',
-        'onSubmit',
-        getCompletionTelemtry(false, serverFarmInfo.newPlanInfo.isNewResourceGroup, true, 'Failed to create new serverfarm')
-      );
-
-      setIsUpdating(false);
-      return;
-    }
-
-    site.properties.serverFarmId = newServerFarmId;
-
-    const siteResponse = await SiteService.updateSite(site.id, site);
-    if (!siteResponse.metadata.success) {
-      const updateSiteError =
-        siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
-      portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
-
-      LogService.trackEvent(
-        '/ChangeAppPlan',
-        'onSubmit',
-        getCompletionTelemtry(false, serverFarmInfo.newPlanInfo.isNewResourceGroup, serverFarmInfo.isNewPlan, 'Failed to update site')
-      );
-
-      setIsUpdating(false);
-      return;
-    }
-
-    portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
+    success = await changeSiteToNewPlan(notificationId, values, portalCommunicator, t);
   }
 
-  changeComplete();
+  if (success) {
+    changeComplete();
+  }
+
   setIsUpdating(false);
+};
+
+const changeSiteToExistingPlan = async (
+  notificationId: string,
+  formValues: ChangeAppPlanFormValues,
+  portalCommunicator: PortalCommunicator,
+  t: i18next.TFunction
+) => {
+  const { site, serverFarmInfo } = formValues;
+  let success = false;
+
+  if (!serverFarmInfo.existingPlan) {
+    LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'existingPlan not set'));
+    return success;
+  }
+
+  site.properties.serverFarmId = serverFarmInfo.existingPlan.id;
+
+  const planDescriptor = new ArmPlanDescriptor(site.properties.serverFarmId);
+
+  const siteResponse = await SiteService.updateSite(site.id, site);
+  if (siteResponse.metadata.success) {
+    portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
+    LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(true, false, false));
+    success = true;
+  } else {
+    const updateSiteError =
+      siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
+    portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
+    LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'Failed to update site'));
+  }
+
+  return success;
+};
+
+const changeSiteToNewPlan = async (
+  notificationId: string,
+  formValues: ChangeAppPlanFormValues,
+  portalCommunicator: PortalCommunicator,
+  t: i18next.TFunction
+) => {
+  const { site, serverFarmInfo, currentServerFarm } = formValues;
+  const siteDescriptor = new ArmSiteDescriptor(site.id);
+  let rgName = siteDescriptor.resourceGroup;
+
+  if (serverFarmInfo.newPlanInfo.isNewResourceGroup) {
+    const rgResponse = await ResourceGroupService.updateResourceGroup(
+      siteDescriptor.subscription,
+      serverFarmInfo.newPlanInfo.newResourceGroupName,
+      site.location
+    );
+
+    if (!rgResponse.metadata.success) {
+      const createRgError = rgResponse.metadata.error && rgResponse.metadata.error.Message ? rgResponse.metadata.error.Message : rgName;
+      portalCommunicator.stopNotification(notificationId, false, t('changePlanRgCreateFailureNotificationFormat').format(createRgError));
+      LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, true, true, 'Failed to update resource group'));
+
+      return false;
+    }
+
+    rgName = serverFarmInfo.newPlanInfo.newResourceGroupName;
+  }
+
+  const newServerFarmId = `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${rgName}/providers/Microsoft.Web/serverFarms/${
+    serverFarmInfo.newPlanInfo.name
+  }`;
+
+  const newServerFarm = {
+    id: newServerFarmId,
+    name: serverFarmInfo.newPlanInfo.name,
+    location: site.location,
+    kind: currentServerFarm.kind,
+    properties: {
+      webSiteId: site.id,
+      reserved: currentServerFarm.properties.reserved,
+      isXenon: currentServerFarm.properties.isXenon,
+      hostingEnvironmentId: currentServerFarm.properties.hostingEnvironmentId,
+      hostingEnvironmentProfile: currentServerFarm.properties.hostingEnvironmentProfile,
+    },
+    sku: {
+      name: getSelectedSkuCode(formValues),
+    },
+  };
+
+  const planDescriptor = new ArmPlanDescriptor(newServerFarmId);
+  const serverFarmResponse = await ServerFarmService.updateServerFarm(newServerFarmId, newServerFarm as ArmObj<ServerFarm>);
+
+  if (!serverFarmResponse.metadata.success) {
+    const createPlanError =
+      serverFarmResponse.metadata.error && serverFarmResponse.metadata.error.Message
+        ? serverFarmResponse.metadata.error.Message
+        : planDescriptor.name;
+    portalCommunicator.stopNotification(notificationId, false, t('changePlanPlanCreateFailureNotificationFormat').format(createPlanError));
+
+    LogService.trackEvent(
+      '/ChangeAppPlan',
+      'onSubmit',
+      getCompletionTelemtry(false, serverFarmInfo.newPlanInfo.isNewResourceGroup, true, 'Failed to create new serverfarm')
+    );
+
+    return false;
+  }
+
+  site.properties.serverFarmId = newServerFarmId;
+
+  const siteResponse = await SiteService.updateSite(site.id, site);
+  if (!siteResponse.metadata.success) {
+    const updateSiteError =
+      siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
+    portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
+
+    LogService.trackEvent(
+      '/ChangeAppPlan',
+      'onSubmit',
+      getCompletionTelemtry(false, serverFarmInfo.newPlanInfo.isNewResourceGroup, serverFarmInfo.isNewPlan, 'Failed to update site')
+    );
+
+    return false;
+  }
+
+  portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
+  return true;
 };
 
 const getSelectedSkuString = (values: ChangeAppPlanFormValues) => {
@@ -470,6 +559,7 @@ const getInitialFormValues = (
         existingResourceGroup,
         skuCode,
         tier,
+        hasSubscriptionWritePermission: true,
         isNewResourceGroup: false,
         newResourceGroupName: '',
         name: getDefaultServerFarmName(siteDescriptor.resourceName),
