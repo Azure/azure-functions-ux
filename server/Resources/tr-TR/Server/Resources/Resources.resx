@@ -545,7 +545,7 @@
     <value>Çalıştır</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have source control integration enabled.</value>
+    <value>Kaynak denetimi tümleştirmesini etkinleştirdiğinizden uygulamanız şu anda salt okunur modda çalışıyor.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Gelişmiş düzenleyici</value>
@@ -1427,10 +1427,10 @@
     <value>Bu ayarları düzenleyebilmeniz için, geçerli uygulamada yazma izinlerine sahip olmanız gerekir.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>This app has a read only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
+    <value>Bu uygulamada, ayarların düzenlenmesini veya güvenli verilerin indirilmesini önleyen bir salt okunur kilidi var.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>View settings in read only mode.</value>
+    <value>Ayarları salt okunur modda görüntüleyin.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Ayarlar yüklenemedi.</value>
@@ -1730,7 +1730,7 @@
     <value>Beklenmeyen değişiklikleri veya silme işlemlerini önlemek için kaynakları kilitleyin.</value>
   </data>
   <data name="feature_automationScriptName" xml:space="preserve">
-    <value>Otomasyon betiği</value>
+    <value>Şablonu dışarı aktar</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
     <value>Azure Resource Manager şablonlarıyla kaynak dağıtımını, eşgüdümlü tek bir işlemle otomatikleştirin. Kaynakları ve yapılandırılabilir giriş parametrelerini tanımlayıp betik ya da kodla dağıtın.</value>
@@ -2141,13 +2141,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İşlev uygulamanızın düzenleme modunu güncelleştiremiyoruz. Lütfen daha sonra yeniden deneyin.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
+    <value>El ile salt okunur olarak ayarlandığı için uygulamanız şu anda salt okunur modda çalışıyor. Düzenleme modunu değiştirmek için şurayı ziyaret edin:</value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Kaynak denetimini etkinleştirmiş olmanıza karşın düzenleme modunu okuma/yazma olarak ayarladığınızdan uygulamanız şu anda okuma/yazma modunda. Bir sonraki dağıtımınızda, yaptığınız tüm değişikliklerin üzerine yazılabilir. Düzenleme modunu değiştirmek için şurayı ziyaret edin: </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
+    <value>Oluşturulan bir function.json yayımlamış olduğunuzdan uygulamanız şu anda salt okunur modda çalışıyor. Function.json içinde yapılan değişiklikler, İşlevler çalışma zamanı tarafından kullanılmaz. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>Oluşturulmuş bir function.json olduğu halde düzenleme modunu okuma\yazma olarak ayarladığınızdan uygulamanız şu anda okuma/yazma modunda. Function.json üzerinde yapılan değişiklikler, İşlevler çalışma zamanı tarafından uygulanmayacak.</value>
@@ -2327,7 +2327,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bu işlevin çalıştırılabilmesi için istemci sertifikası gereklidir. İşlevi portaldan çalıştırmak için istemci sertifikasını devre dışı bırakmanız gerekir.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
+    <value>Yapılandırılmış dağıtım yuvalarınız olduğundan uygulamanız şu anda salt okunur modda çalışıyor. Düzenleme modunu değiştirmek için şurayı ziyaret edin:</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Uygulama ayarlarını yönet</value>
@@ -2534,10 +2534,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Orta ABD</value>
   </data>
   <data name="brazilsouth" xml:space="preserve">
-    <value>Güney Brezilya</value>
+    <value>Brezilya Güney</value>
   </data>
   <data name="australiaeast" xml:space="preserve">
-    <value>Doğu Avustralya</value>
+    <value>Avustralya Doğu</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
     <value>Avustralya Güneydoğu</value>
@@ -2918,7 +2918,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>{{operation}} tamamlanamadı. Hata: {{error}}</value>
   </data>
   <data name="swapTimeout" xml:space="preserve">
-    <value>Exceeded maximum status polling attempts for {{operation}}. Check Activity log to confirm operation status/result.</value>
+    <value>{{operation}} için en yüksek durum yoklama deneme sayısı aşıldı. İşlem durumunu/sonucunu onaylamak için Etkinlik günlüğünü denetleyin.</value>
   </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>{{operation}} iptal ediliyor</value>
@@ -3047,7 +3047,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Azure DevOps Hizmetleri'nin (önceki adıyla VSTS) bir parçası olan Azure Deposu ile sürekli tümleştirmeyi yapılandırın.</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
-    <value>Genel bir Git veya Mercurial deposundan dağıtın.</value>
+    <value>Genel bir Git veya Mercurial deposundan dağıtın. Bu seçenek dağıtımlarınızın el ile tetiklenmesini gerektirir.</value>
   </data>
   <data name="bitbucketDesc" xml:space="preserve">
     <value>Bir Bitbucket deposu ile sürekli tümleştirmeyi yapılandırın.</value>
@@ -3074,7 +3074,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İşlevler (Önizleme)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
+    <value>Paket dosyasından çalıştırdığınız için uygulamanız şu anda salt okunur modda çalışıyor. Değişiklik yapmak için zip dosyanızın içeriğini ve WEBSITE_RUN_FROM_PACKAGE uygulama ayarını güncelleştirin.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Kod</value>
@@ -3557,7 +3557,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Doğrulanıyor...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>Bu projede Derleme işlem hattı veya Sürüm işlem hattı oluşturmak için izniniz yok. Proje yöneticinize başvurun</value>
+    <value>Bu projede Derleme işlem hattı veya Sürüm işlem hattı oluşturma izniniz yok. Proje yöneticinize başvurun veya farklı bir proje seçin</value>
+  </data>
+  <data name="vstsAgentQueuePermissions" xml:space="preserve">
+    <value>Bu projedeki kullanılabilir aracı havuzlarından herhangi birinde kullanma izniniz yok. Proje yöneticinize başvurun veya farklı bir proje seçin</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Belirtilen kuruluş adı geçerli değil. Lütfen başka bir kuruluş adı sağlayın.</value>
@@ -3675,7 +3678,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Eşitle</value>
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
-    <value>Dağıtım Kimlik Bilgileri</value>
+    <value>FTP/Kimlik Bilgileri</value>
   </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
     <value>Dv3 Serisi işlem eşdeğeri</value>
@@ -3687,7 +3690,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Çalışma zamanı sürümü: Yükleniyor...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Your app is currently in read only mode because you are using Local Cache. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
+    <value>Yerel Önbellek kullandığınızdan uygulamanız şu anda salt okunur modda çalışıyor. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Daha fazla bilgi edinin&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Sil</value>
@@ -3753,7 +3756,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Kapsayıcı ayarlarını yapılandırmak için uygulamanızda yazma iznine sahip olmanız gerekir</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
+    <value>Uygulamanız şu anda salt okunur modda çalışıyor. Kapsayıcı ayarlarını düzenlemek için uygulamanızdaki salt okunur kilidini kaldırın.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Tek Kapsayıcı</value>
@@ -4020,34 +4023,34 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yazma izniniz yok</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>The deployment slot has a read only lock</value>
+    <value>Dağıtım yuvasının salt okunur bir kilidi var</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Source and Destination cannot be the same deployment slot</value>
+    <value>Kaynak ve Hedef aynı dağıtım yuvası olamaz</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
+    <value>Şu dağıtım yuvalarında kimlik doğrulaması etkin olduğundan önizleme ile takas yapılamıyor: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
+    <value>Önizleme ile takas yalnızca dağıtım yuvası ayarları etkinleştirilmiş sitelerle kullanılabilir</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Before you complete the swap, review the first deployment slot's app behavior with the second deployment slot's configuration</value>
+    <value>Takası tamamlamadan önce ilk dağıtım yuvasının uygulama davranışını ikinci dağıtım yuvasının yapılandırmasıyla gözden geçirin</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>You do not have write permission on the following deployment slots: '{{slotNames}}'</value>
+    <value>Şu dağıtım yuvalarında yazma izniniz yok: '{{slotNames}}'</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>You do not have swap permission on the following deployment slots: '{{slotNames}}'</value>
+    <value>Şu dağıtım yuvalarında takas izniniz yok: '{{slotNames}}'</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>There is a read only lock on the following deployment slots: '{{slotNames}}'</value>
+    <value>Şu dağıtım yuvalarında salt okunur bir kilit var: '{{slotNames}}'</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>A swap operation can only be performed if the app has multiple deployment slots</value>
+    <value>Takas işlemleri yalnızca uygulamanın birden fazla dağıtım yuvası varsa gerçekleştirilebilir</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Swap deployment slots</value>
+    <value>Dağıtım yuvalarını takas et</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Yükleme başarısız</value>
@@ -4062,10 +4065,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yapılandırma Değişiklikleri</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>These are the deployment slot specific application settings and connection strings from the target deployment slot which will be temporarily applied to the source deployment slot in the first phase of the swap.</value>
+    <value>Bunlar, takasın ilk aşamasında geçici olarak kaynak dağıtım yuvasına uygulanacak dağıtım yuvasına özgü uygulama ayarları ve hedef dağıtım yuvasından alınan bağlantı dizeleridir.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>This is a summary of the final set of configuration changes on the source and target deployment slots after the swap has completed.</value>
+    <value>Bu, kaynak ve hedef dağıtım yuvalarındaki yapılandırma değişiklerinin takas tamamlandıktan sonraki özetidir.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Önizlemeyi yüklemek için lütfen yukarıdan geçerli bir seçim yapın</value>
@@ -4401,7 +4404,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Otomatik değiştirme etkin</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Auto swap deployment slot</value>
+    <value>Otomatik takas dağıtım yuvası</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Platform</value>
@@ -4452,7 +4455,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Değer</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>deployment slot setting</value>
+    <value>dağıtım yuvası ayarı</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4674,7 +4677,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Ara Sunucular (Sınırlı)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change deployment slot settings you must have write access on the production app.</value>
+    <value>Dağıtım yuvası ayarlarını değiştirmek için üretim uygulaması üzerinde yazma erişiminiz olmalıdır.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Otomatik değiştirme ayarlarını değiştirmek için üretim uygulaması üzerinde yazma izinleriniz olmalıdır.</value>
@@ -4689,7 +4692,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İşlev Uygulaması Türü</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Deployment Slot Setting Enabled</value>
+    <value>Dağıtım Yuvası Ayarı Etkin</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Gizli değer. Görüntülemek için yukarıdaki Değerleri göster düğmesine tıklayın</value>
@@ -4760,6 +4763,12 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="noBlobsOrFilesShares" xml:space="preserve">
     <value>Bu depolama hesabında blob kapsayıcısı veya dosya paylaşımı yok</value>
   </data>
+  <data name="noFileShares" xml:space="preserve">
+    <value>Bu depolama hesabında dosya paylaşımı yok</value>
+  </data>
+  <data name="noBlobs" xml:space="preserve">
+    <value>Bu depolama hesabında blob yok</value>
+  </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
     <value>Bu depolama hesabına yazma erişiminiz yok. Erişim anahtarını biliyorsanız hesabı gelişmiş moda geçirebilirsiniz.</value>
   </data>
@@ -4767,7 +4776,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bir seçenek belirleyin</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>NodeJS için başlangıç komutları ng, node veya pm2 kullanmalıdır</value>
+    <value>Kapsayıcı başlatma işleminin bir parçası olarak çalıştırılacak bir başlangıç komutu belirtin. Node.js için başlangıç komutları ng, node, npm veya pm2 anahtar sözcüğünü kullanmalıdır. Örnek, npm start</value>
+  </data>
+  <data name="invalidStartupCommandAspNetCore" xml:space="preserve">
+    <value>Kapsayıcı başlatma işleminin bir parçası olarak çalıştırılacak bir başlangıç komutu belirtin. .NET Core için başlangıç komutları dotnet anahtar sözcüğünü kullanmalıdır. Örnek, dotnet application.dll</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
@@ -4788,7 +4800,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Tüm uygulama ayarı değeri ve ad özellikleri dize türünde olmalıdır</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>All app setting deployment slot setting properties must be of type boolean</value>
+    <value>Tüm uygulama ayarı dağıtım yuvası ayarı özellikleri boole türünde olmalıdır</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} geçersiz bir uygulama ayarı özelliği</value>
@@ -4818,10 +4830,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Sanal Dizin yolu bir uygulama yolunda bulunmalıdır</value>
   </data>
   <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>Uygulama günlükleri kapalı. Bunları 'Tanılama günlükleri' ayarlarını kullanarak açabilirsiniz.</value>
+    <value>Uygulama günlükleri kapalı. Bunları 'App Service günlükleri' ayarlarını kullanarak açabilirsiniz.</value>
   </data>
   <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Web sunucu günlükleri kapalı. Bunları 'Tanılama günlükleri' ayarlarını kullanarak açabilirsiniz.</value>
+    <value>Web sunucu günlükleri kapalı. Bunları 'App Service günlükleri' ayarlarını kullanarak açabilirsiniz.</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
     <value>Seçtiğiniz çalışma zamanı yığını şu anda uzaktan hata ayıklamayı desteklemiyor.</value>
@@ -4833,7 +4845,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Application Insights yapılandırılmadı. Application Insights'ı işlev günlüklerini yakalayacak şekilde yapılandırın.</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
-    <value>İşlev uygulamanıza erişim kısıtlamaları eklendi. Bu durum, uygulamayı portaldan yönetme becerinizi kısıtlayabilir.</value>
+    <value>İşlev uygulamanıza erişim kısıtlamaları eklendi. Bu durum, uygulamayı portaldan yönetme becerinizi kısıtlayabilir ve çalışma zamanını ulaşılamaz hale getirebilir.</value>
   </data>
   <data name="userCredsError" xml:space="preserve">
     <value>Belirtilen parola en düşük gereksinimleri karşılamıyor. Parola en az sekiz karakterden oluşmalı, harf ve sayı içermelidir.</value>
@@ -4860,6 +4872,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="githubOrgMessage" xml:space="preserve">
     <value>Bir kuruluş veya depo bulamıyorsanız GitHub'da ek izinler etkinleştirmeniz gerekebilir.</value>
   </data>
+  <data name="projectWithoutGitRepoNotFoundMessage" xml:space="preserve">
+    <value>Yalnızca geçerli Git depoları olan projeler listelenir.</value>
+  </data>
   <data name="bitbucketOrgMessage" xml:space="preserve">
     <value>Bir kuruluş veya depo bulamıyorsanız Bitbucket'ta ek izinler etkinleştirmeniz gerekebilir.</value>
   </data>
@@ -4870,7 +4885,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İşlev uygulamanızda istemci sertifikaları etkinleştirildi. Bu durum, uygulamayı portaldan yönetme becerinizi kısıtlayabilir.</value>
   </data>
   <data name="alwaysOnInfoMessage" xml:space="preserve">
-    <value>Uygulamanızın etkin olmama nedeniyle zaman aşımına uğramasını önleyin.</value>
+    <value>Prevents your app from being idled out due to inactivity.</value>
   </data>
   <data name="ftpsInfoMessage" xml:space="preserve">
     <value>FTP tabanlı dağıtım devre dışı bırakılabilir veya FTP (düz metin) veya FTPS (güvenli) bağlantıları kabul edecek şekilde yapılandırılabilir. </value>
@@ -4897,6 +4912,78 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bağlantı dizelerini filtrele</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
+    <value>Portalda işlev düzenleme Java Function Apps için desteklenmemektedir. Geliştirmek için lütfen Maven veya VS Code kullanın.</value>
+  </data>
+  <data name="validate_workingDirectory" xml:space="preserve">
+    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
+  </data>
+  <data name="mountedStorageInfo" xml:space="preserve">
+    <value>Bağlı depolama, uygulamanızla kullanılacak Azure Dosyalar veya Blob kapsayıcılarını eşlemenizi sağlar.</value>
+  </data>
+  <data name="changePlanName" xml:space="preserve">
+    <value>App Service planını değiştir</value>
+  </data>
+  <data name="changePlanDescription" xml:space="preserve">
+    <value>Uygulamanızın barındırıldığı planı değiştirmek, uygulamalarınızı makine kaynaklarını paylaşabilecekleri tek bir plan olarak birleştirmenize veya gelişmiş performans için ayrı ayrı ölçeklenebilecekleri ayrı planlara yaymaya olanak sağlar.</value>
+  </data>
+  <data name="changePlanLocationTooltip" xml:space="preserve">
+    <value>Uygulamanızın şu anda bulunduğu bölge, yeni veya mevcut planlar için değiştirilemez.</value>
+  </data>
+  <data name="changePlanCurrentPlanDetails" xml:space="preserve">
+    <value>Geçerli plan ayrıntıları</value>
+  </data>
+  <data name="changePlanDestPlanDetails" xml:space="preserve">
+    <value>Hedef plan ayrıntıları</value>
+  </data>
+  <data name="changePlanNotification" xml:space="preserve">
+    <value>App Service planı değiştiriliyor</value>
+  </data>
+  <data name="changePlanFailureNotificationFormat" xml:space="preserve">
+    <value>'{0}' App Service planına değiştirilemedi</value>
+  </data>
+  <data name="changePlanRgCreateFailureNotificationFormat" xml:space="preserve">
+    <value>'{0}' kaynak grubu oluşturulamadı</value>
+  </data>
+  <data name="changePlanPlanCreateFailureNotificationFormat" xml:space="preserve">
+    <value>'{0}' App Service planı oluşturulamadı</value>
+  </data>
+  <data name="changePlanNoWritePermissionRg" xml:space="preserve">
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+  </data>
+  <data name="changePlanSiteLockedError" xml:space="preserve">
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+  </data>
+  <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+  </data>
+  <data name="resourceGroupNameValidationError" xml:space="preserve">
+    <value>Kaynak grubu adı yalnızca alfasayısal karakterler, nokta, alt çizgi, kısa çizgi ve parantez içerebilir ve bir noktayla bitemez.</value>
+  </data>
+  <data name="cancelUpdateConfirmation" xml:space="preserve">
+    <value>Güncelleştirme işlemini iptal etmek istediğinizden emin misiniz?</value>
+  </data>
+  <data name="newFormat" xml:space="preserve">
+    <value>(Yeni) {0}</value>
+  </data>
+  <data name="validationErrorAlreadyExistsFormat" xml:space="preserve">
+    <value>{0} zaten var</value>
+  </data>
+  <data name="validationWebspaceUniqueErrorFormat" xml:space="preserve">
+    <value>'{0}' adı, uygulama barındırma kısıtlamalarınız içinde benzersiz değil</value>
+  </data>
+  <data name="resourceGroupDescription" xml:space="preserve">
+    <value>Kaynak grubu, bir Azure çözümüne ilişkin kaynakları tutan bir kapsayıcıdır.</value>
+  </data>
+  <data name="createNewPlan" xml:space="preserve">
+    <value>Yeni bir plan oluştur</value>
+  </data>
+  <data name="planName" xml:space="preserve">
+    <value>Plan adı</value>
+  </data>
+  <data name="majorVersion" xml:space="preserve">
+    <value>Ana sürüm</value>
+  </data>
+  <data name="minorVersion" xml:space="preserve">
+    <value>İkincil sürüm</value>
   </data>
 </root>
