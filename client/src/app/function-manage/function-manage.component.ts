@@ -15,6 +15,7 @@ import { Observable } from 'rxjs/Observable';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
 import { DashboardType } from '../tree-view/models/dashboard-type';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'function-manage',
@@ -34,6 +35,7 @@ export class FunctionManageComponent extends NavigableComponent {
     private _portalService: PortalService,
     private _functionAppService: FunctionAppService,
     private _translateService: TranslateService,
+    private _functionService: FunctionService,
     injector: Injector,
     configService: ConfigService
   ) {
@@ -102,14 +104,16 @@ export class FunctionManageComponent extends NavigableComponent {
       .switchMap(tuple =>
         Observable.zip(
           this._functionAppService.getRuntimeGeneration(tuple[0]),
-          this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
+          this._functionService.getFunction(tuple[0].site.id, tuple[1].functionDescriptor.name),
           Observable.of(tuple[0]),
           Observable.of(tuple[1])
         )
       )
       .do(tuple => {
+        if (tuple[1].isSuccessful) {
+          this.functionInfo = tuple[1].result.properties;
+        }
         this.context = tuple[2];
-        this.functionInfo = tuple[1].result;
         this.runtimeVersion = tuple[0];
         this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
       });
@@ -121,7 +125,7 @@ export class FunctionManageComponent extends NavigableComponent {
       this.setBusy();
       this._portalService.logAction('function-manage', 'delete');
       // Clone node for removing as it can be change during http call
-      this._functionAppService.deleteFunction(this.context, this.functionInfo).subscribe(() => {
+      this._functionService.deleteFunction(this.context.site.id, this.functionInfo.name).subscribe(() => {
         this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
           resourceId: `${this.context.site.id}/functions/${this.functionInfo.name}`,
           operation: 'remove',

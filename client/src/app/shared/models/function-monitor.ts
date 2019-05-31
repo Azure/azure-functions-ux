@@ -1,5 +1,4 @@
 import { FunctionAppContext } from '../function-app-context';
-import { FunctionInfo } from './function-info';
 import { ARMApplicationInsightsDescriptior } from '../resourceDescriptors';
 import { ErrorEvent } from './error-event';
 
@@ -47,7 +46,7 @@ export interface FunctionStats {
 export interface FunctionMonitorInfo {
   functionAppContext: FunctionAppContext;
   functionAppSettings: { [key: string]: string };
-  functionInfo: FunctionInfo;
+  functionName: string;
   appInsightsResourceDescriptor: ARMApplicationInsightsDescriptior;
   appInsightsFeatureEnabled: boolean;
 }
