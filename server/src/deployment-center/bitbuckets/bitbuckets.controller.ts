@@ -75,7 +75,7 @@ export class BitbucketsController {
     if (
       !session ||
       !session[Constants.oauthApis.bitbucket_state_key] ||
-      this.dcService.hashStateGuid(session[Constants.oauthApis.bitbucket_state_key]) !== state
+      this.dcService.hashStateGuid(session[Constants.oauthApis.bitbucket_state_key]).substr(0, 10) !== state
     ) {
       this.loggingService.error({}, '', 'bitbucket-invalid-sate-key');
       throw new HttpException('Not Authorized', 403);

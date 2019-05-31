@@ -4888,7 +4888,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Client certificates have been enabled on your function app which may affect your ability to manage it from the portal.</value>
   </data>
   <data name="alwaysOnInfoMessage" xml:space="preserve">
-    <value>Prevent's your app from being idled out due to inactivity.</value>
+    <value>Prevents your app from being idled out due to inactivity.</value>
   </data>
   <data name="ftpsInfoMessage" xml:space="preserve">
     <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. </value>
@@ -4916,6 +4916,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
     <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
+  </data>
+  <data name="validate_workingDirectory" xml:space="preserve">
+    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
   </data>
   <data name="mountedStorageInfo" xml:space="preserve">
     <value>Mounted storage lets you map Azure Files or Blob containers for use with your app.</value>
@@ -4946,6 +4949,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="changePlanPlanCreateFailureNotificationFormat" xml:space="preserve">
     <value>Failed to create App Service plan: '{0}'</value>
+  </data>
+  <data name="changePlanNoWritePermissionRg" xml:space="preserve">
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+  </data>
+  <data name="changePlanSiteLockedError" xml:space="preserve">
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+  </data>
+  <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
   </data>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Resource group name can only include alphanumeric characters, periods, underscores, hyphens and parenthesis and cannot end in a period.</value>

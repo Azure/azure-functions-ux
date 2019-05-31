@@ -8,6 +8,7 @@ import { RegexValidator } from 'app/shared/validators/regexValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
+import { Regex } from 'app/shared/models/constants';
 
 export const TaskRunner = {
   None: 'None',
@@ -152,6 +153,11 @@ export class LinuxFramworksComponent implements OnDestroy {
           new RegExp('^(dotnet)\\s+\\w+'),
           this._translateService.instant(PortalResources.invalidStartupCommandAspNetCore)
         );
+        const workingDirectoryValidator = RegexValidator.create(
+          new RegExp(Regex.linuxWorkingDirectoryValidation),
+          this._translateService.instant(PortalResources.validate_workingDirectory)
+        );
+
         if (stack === WebAppFramework.Node) {
           this.wizard.buildSettings.get('startupCommand').setValidators([nodeValidator]);
           this.wizard.buildSettings.get('startupCommand').updateValueAndValidity();
@@ -161,12 +167,23 @@ export class LinuxFramworksComponent implements OnDestroy {
         } else {
           this.removeValidators();
         }
+
+        if (stack != WebAppFramework.AspNetCore) {
+          this.wizard.buildSettings.get('workingDirectory').setValidators([workingDirectoryValidator]);
+          this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
+        } else {
+          this.wizard.buildSettings.get('workingDirectory').setValidators([]);
+          this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
+        }
       });
   }
 
   private removeValidators() {
     this.wizard.buildSettings.get('startupCommand').setValidators([]);
     this.wizard.buildSettings.get('startupCommand').updateValueAndValidity();
+
+    this.wizard.buildSettings.get('workingDirectory').setValidators([]);
+    this.wizard.buildSettings.get('workingDirectory').updateValueAndValidity();
   }
 
   ngOnDestroy(): void {
