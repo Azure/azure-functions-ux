@@ -1,6 +1,6 @@
 import { NewPlanInfo } from './CreateOrSelectPlan';
-import { ArmObj, ServerFarm } from '../../../models/WebAppModels';
-import { IDropdownOption, Panel, PrimaryButton, DefaultButton, PanelType, Link } from 'office-ui-fabric-react';
+import { ArmObj, ServerFarm, HostingEnvironment } from '../../../models/WebAppModels';
+import { IDropdownOption, Panel, PrimaryButton, DefaultButton, PanelType, Link, MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { ResourceGroupInfo, CreateOrSelectResourceGroup } from './CreateOrSelectResourceGroup';
 import { TextField as OfficeTextField } from 'office-ui-fabric-react/lib/TextField';
 import React, { useRef, useEffect, useState } from 'react';
@@ -11,12 +11,16 @@ import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/T
 import { style } from 'typestyle';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
+import { AppKind } from '../../../utils/AppKind';
+import { CommonConstants } from '../../../utils/CommonConstants';
+import RbacHelper from '../../../utils/rbac-helper';
 
 export interface CreatePlanProps {
   newPlanInfo: NewPlanInfo;
   serverFarmsInWebspace: ArmObj<ServerFarm>[];
   resourceGroupOptions: IDropdownOption[];
   subscriptionId: string;
+  hostingEnvironment?: ArmObj<HostingEnvironment>;
   onCreatePanelClose: (newPlanInfo: NewPlanInfo) => void;
 }
 
@@ -25,9 +29,11 @@ const fieldStyle = style({
 });
 
 export const CreatePlan = (props: CreatePlanProps) => {
-  const { resourceGroupOptions, serverFarmsInWebspace, subscriptionId, onCreatePanelClose } = props;
+  const { resourceGroupOptions, serverFarmsInWebspace, subscriptionId, onCreatePanelClose, hostingEnvironment } = props;
 
   const [showPanel, setShowPanel] = useState(false);
+  const [hasSubscriptionWritePermission, setHasSubscriptionWritePermission] = useState(true);
+  const [hasResourceGroupWritePermission, setHasResourceGroupWritePermission] = useState(true);
   const [newPlanNameValidationError, setNewPlanNameValidationError] = useState('');
   const [newPlanInfo, setNewPlanInfo] = useState<NewPlanInfo>({
     ...props.newPlanInfo,
@@ -39,6 +45,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
   // Initialization
   useEffect(() => {
     watchForPlanUpdates(subscriptionId, newPlanInfo$.current, setNewPlanInfo, serverFarmsInWebspace, setNewPlanNameValidationError, t);
+    checkIfHasSubscriptionWriteAccess(`/subscriptions/${subscriptionId}`, setHasSubscriptionWritePermission);
 
     return () => {
       newPlanInfo$.current.unsubscribe();
@@ -63,7 +70,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
         <PrimaryButton
           onClick={() => onClosePanel(newPlanInfo, setShowPanel, onCreatePanelClose)}
           style={{ marginRight: '8px' }}
-          disabled={!newPlanInfo.name || !!newPlanNameValidationError}>
+          disabled={!newPlanInfo.name || !!newPlanNameValidationError || !hasResourceGroupWritePermission}>
           OK
         </PrimaryButton>
         <DefaultButton onClick={() => onCancelPanel(setShowPanel)}>Cancel</DefaultButton>
@@ -73,7 +80,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
 
   return (
     <>
-      <Link onClick={() => onShowPanel(setShowPanel)}>{t('createNew')}</Link>
+      {getNewLink(setShowPanel, t, hostingEnvironment)}
 
       <Panel
         isOpen={showPanel}
@@ -82,12 +89,16 @@ export const CreatePlan = (props: CreatePlanProps) => {
         headerText={t('createNewPlan')}
         closeButtonAriaLabel={t('close')}
         onRenderFooterContent={() => onRenderFooterContent(t)}>
+        {getSubscriptionWritePermissionWarning(hasSubscriptionWritePermission, t)}
+
         <CreateOrSelectResourceGroup
           options={resourceGroupOptions}
           isNewResourceGroup={newPlanInfo.isNewResourceGroup}
           newResourceGroupName={newPlanInfo.newResourceGroupName}
           existingResourceGroup={newPlanInfo.existingResourceGroup}
           onRgChange={onRgChange}
+          hasSubscriptionWritePermission={hasSubscriptionWritePermission}
+          onRgValidationError={e => onRgValidationError(e, setHasResourceGroupWritePermission)}
         />
 
         <div className={fieldStyle}>
@@ -104,6 +115,36 @@ export const CreatePlan = (props: CreatePlanProps) => {
       </Panel>
     </>
   );
+};
+
+const onRgValidationError = (error: string, setHasResourceGroupWritePermission: React.Dispatch<React.SetStateAction<boolean>>) => {
+  setHasResourceGroupWritePermission(!error);
+};
+
+const checkIfHasSubscriptionWriteAccess = async (
+  resourceId: string,
+  hasSubscriptionWritePermission: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  const hasPermission = await RbacHelper.hasPermission(resourceId, [RbacHelper.writeScope]);
+  hasSubscriptionWritePermission(hasPermission);
+};
+
+const getSubscriptionWritePermissionWarning = (hasSubscriptionWritePermission: boolean, t: i18next.TFunction) => {
+  if (!hasSubscriptionWritePermission) {
+    return <MessageBar messageBarType={MessageBarType.warning}>{t('changePlanNoWritePermissionOnSubscription')}</MessageBar>;
+  }
+};
+
+const getNewLink = (
+  setShowPanel: React.Dispatch<React.SetStateAction<boolean>>,
+  t: i18next.TFunction,
+  hostingEnvironment?: ArmObj<HostingEnvironment>
+) => {
+  if (hostingEnvironment && AppKind.hasAnyKind(hostingEnvironment, [CommonConstants.Kinds.aseV1])) {
+    return;
+  }
+
+  return <Link onClick={() => onShowPanel(setShowPanel)}>{t('createNew')}</Link>;
 };
 
 const onShowPanel = (setShowPanel: React.Dispatch<React.SetStateAction<boolean>>) => {
