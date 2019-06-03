@@ -179,12 +179,12 @@ export class ContainerSettingsManager {
     }
   }
 
-  public applyContainerConfig(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
-    return this._validateContainerImage(resourceId, os, formData);
+  public applyContainerConfig(resourceId: string, location: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
+    return this._validateContainerImage(resourceId, location, os, formData);
   }
 
-  public saveContainerConfig(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
-    return this._validateContainerImage(resourceId, os, formData).switchMap(r => {
+  public saveContainerConfig(resourceId: string, location: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
+    return this._validateContainerImage(resourceId, location, os, formData).switchMap(r => {
       return Observable.zip(
         this._saveContainerAppSettings(resourceId, os, formData),
         this._saveContainerSiteConfig(resourceId, os, formData)
@@ -208,7 +208,7 @@ export class ContainerSettingsManager {
     });
   }
 
-  private _validateContainerImage(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
+  private _validateContainerImage(resourceId: string, location: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
     const containerType = this._getFormContainerType(formData.siteConfig.fxVersion);
     const serverUrl = new URL(formData.appSettings[ContainerConstants.serverUrlSetting]);
 
@@ -221,6 +221,7 @@ export class ContainerSettingsManager {
       return this._containerValidationService
         .validateContainerImage(
           resourceId,
+          location,
           formData.appSettings[ContainerConstants.serverUrlSetting],
           'windows',
           image,
