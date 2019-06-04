@@ -20,8 +20,8 @@ import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/T
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
-import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 import RbacHelper from '../../../utils/rbac-helper';
+import { FieldWrapper, Layout } from '../../../components/FieldWrapper/FieldWrapper';
 
 export interface CreateOrSelectResourceGroupFormProps {
   onRgChange: (rgInfo: ResourceGroupInfo) => void;
@@ -43,20 +43,14 @@ const calloutContainerStyle = style({
   padding: '20px',
 });
 
-const textFieldStyle = style({
+const textFieldStyle = {
   marginTop: '20px',
   marginBottom: '20px',
-});
+};
 
 const primaryButtonStyle = style({
   marginRight: '8px',
 });
-
-const requiredIcon = (theme: ThemeExtended) => {
-  return style({
-    color: theme.palette.red,
-  });
-};
 
 const NEW_RG = '__NewRG__';
 
@@ -142,17 +136,16 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
   return (
     <>
-      <label id="createplan-rgname">
-        <span className={requiredIcon(theme)}>*</span> {t('resourceGroup')}
-      </label>
-      <OfficeDropdown
-        selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase()}
-        options={options}
-        onChange={onChangeDropdown}
-        styles={dropdownStyleOverrides(false, theme, false, '260px')}
-        ariaLabelled-by="createplan-rgname"
-        errorMessage={existingRgWritePermissionError}
-      />
+      <FieldWrapper label={t('resourceGroup')} layout={Layout.vertical} required={true}>
+        <OfficeDropdown
+          ariaLabel={t('resourceGroup')}
+          selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase()}
+          options={options}
+          onChange={onChangeDropdown}
+          styles={dropdownStyleOverrides(false, theme, false, '260px')}
+          errorMessage={existingRgWritePermissionError}
+        />
+      </FieldWrapper>
 
       <div ref={menuButton => (menuButtonElement.current = menuButton)}>
         {getNewLink(hasSubscriptionWritePermission, onShowCallout, createNewLinkElement, t)}
@@ -168,19 +161,16 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
         directionalHint={DirectionalHint.rightBottomEdge}>
         <section className={calloutContainerStyle}>
           <div>{t('resourceGroupDescription')}</div>
-          <div className={textFieldStyle}>
-            <label id="createorselectrg-rgname">
-              <span className={requiredIcon(theme)}>*</span> {t('_name')}
-            </label>
+          <FieldWrapper label={t('_name')} layout={Layout.vertical} required={true} style={textFieldStyle}>
             <OfficeTextField
+              id={'createorselectrg-rgname'}
               styles={TextFieldStyles}
               value={newRgNameFieldValue}
               onChange={onRgNameTextChange}
               placeholder={t('createNew')}
               errorMessage={newRgNameValidationError}
-              ariaLabelled-by="createorselectrg-rgname"
             />
-          </div>
+          </FieldWrapper>
           <div>
             <PrimaryButton
               className={primaryButtonStyle}
