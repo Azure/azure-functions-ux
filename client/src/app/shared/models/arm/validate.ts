@@ -9,7 +9,7 @@ export interface ContainerValidationProperties {
   containerRegistryBaseUrl: string;
   containerRegistryUsername: string;
   containerRegistryPassword: string;
-  containerImageRespository: string;
+  containerImageRepository: string;
   containerImageTag: string;
   containerImagePlatform: string;
 }

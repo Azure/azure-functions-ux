@@ -1,17 +1,14 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CacheService } from '../../../shared/services/cache.service';
-import { UserService } from '../../../shared/services/user.service';
-import { ConditionalHttpClient, Result } from '../../../shared/conditional-http-client';
 import { ArmResourceDescriptor } from 'app/shared/resourceDescriptors';
 import { ValidateRequest, ContainerValidationProperties } from 'app/shared/models/arm/validate';
+import { ARMApiVersions } from 'app/shared/models/constants';
+import { Observable } from 'rxjs/Observable';
+import { Response } from '@angular/http';
 
 @Injectable()
 export class ContainerValidationService {
-  private readonly _client: ConditionalHttpClient;
-
-  constructor(private _cacheService: CacheService, private _userService: UserService, injector: Injector) {
-    this._client = new ConditionalHttpClient(injector, _ => this._userService.getStartupInfo().map(i => i.token));
-  }
+  constructor(private _cacheService: CacheService) {}
 
   public validateContainerImage(
     resourceId: string,
@@ -22,7 +19,7 @@ export class ContainerValidationService {
     tag: string,
     username: string,
     password: string
-  ): Result<any> {
+  ): Observable<Response> {
     const resourceDescriptor: ArmResourceDescriptor = new ArmResourceDescriptor(resourceId);
     const validateRequest: ValidateRequest<ContainerValidationProperties> = {
       name: resourceDescriptor.resourceName,
@@ -30,15 +27,18 @@ export class ContainerValidationService {
       type: 'Microsoft.Web/container',
       properties: {
         containerRegistryBaseUrl: baseUrl,
-        containerRegistryUsername: username,
-        containerRegistryPassword: password,
-        containerImageRespository: `${repository}:${tag}`,
+        containerRegistryUsername: username ? username : '',
+        containerRegistryPassword: password ? password : '',
+        containerImageRepository: `${repository}:${tag ? tag : 'latest'}`,
         containerImageTag: '',
         containerImagePlatform: platform,
       },
     };
 
-    const validateImage = this._cacheService.postArm(resourceId, true, null, validateRequest).map(r => r.json());
-    return this._client.execute({ resourceId: resourceId }, t => validateImage);
+    const validateResourceId = `/subscriptions/${resourceDescriptor.subscription}/resourcegroups/${
+      resourceDescriptor.resourceGroup
+    }/providers/Microsoft.Web/validate`;
+
+    return this._cacheService.postArm(validateResourceId, true, ARMApiVersions.websiteApiVersion20160301, validateRequest);
   }
 }
