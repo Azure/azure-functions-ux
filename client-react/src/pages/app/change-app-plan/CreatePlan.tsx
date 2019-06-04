@@ -8,12 +8,12 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { getServerFarmValidator } from '../../../utils/formValidation/serverFarmValidator';
 import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
-import { style } from 'typestyle';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { AppKind } from '../../../utils/AppKind';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import RbacHelper from '../../../utils/rbac-helper';
+import { FieldWrapper, Layout } from '../../../components/FieldWrapper/FieldWrapper';
 
 export interface CreatePlanProps {
   newPlanInfo: NewPlanInfo;
@@ -23,10 +23,6 @@ export interface CreatePlanProps {
   hostingEnvironment?: ArmObj<HostingEnvironment>;
   onCreatePanelClose: (newPlanInfo: NewPlanInfo) => void;
 }
-
-const fieldStyle = style({
-  marginTop: '20px',
-});
 
 export const CreatePlan = (props: CreatePlanProps) => {
   const { resourceGroupOptions, serverFarmsInWebspace, subscriptionId, onCreatePanelClose, hostingEnvironment } = props;
@@ -101,17 +97,16 @@ export const CreatePlan = (props: CreatePlanProps) => {
           onRgValidationError={e => onRgValidationError(e, setHasResourceGroupWritePermission)}
         />
 
-        <div className={fieldStyle}>
-          <label id="createplan-planname">* {t('_name')}</label>
+        <FieldWrapper label={t('_name')} layout={Layout.vertical} required={true} style={{ marginTop: '20px' }}>
           <OfficeTextField
+            id="createplan-planname"
             styles={TextFieldStyles}
             value={newPlanInfo.name}
             onChange={onChangePlanName}
             errorMessage={newPlanNameValidationError}
             placeholder={t('planName')}
-            ariaLabelled-by="createplan-planname"
           />
-        </div>
+        </FieldWrapper>
       </Panel>
     </>
   );

@@ -4,7 +4,7 @@ import { PrimaryButton, IDropdownOption, Stack, Link, ILink, MessageBar, Message
 import { Formik, FormikProps } from 'formik';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ArmObj, Site, ServerFarm, ArmSku, HostingEnvironment } from '../../../models/WebAppModels';
-import { style, classes } from 'typestyle';
+import { style } from 'typestyle';
 import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import { CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN, addNewPlanToOptions } from './CreateOrSelectPlan';
 import SiteService from '../../../ApiHelpers/SiteService';
@@ -19,9 +19,10 @@ import { ReactComponent as AppServicePlanSvg } from '../../../images/AppService/
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
-import { InfoTooltip, defaultTooltipClass } from '../../../components/InfoTooltip/InfoTooltip';
 import { useWindowSize } from 'react-use';
 import RbacHelper from '../../../utils/rbac-helper';
+import { BroadcastMessageId } from '../../../models/portal-models';
+import { FieldWrapper } from '../../../components/FieldWrapper/FieldWrapper';
 
 export const leftCol = style({
   marginRight: '20px',
@@ -51,10 +52,6 @@ const labelSectionStyle = style({
 
 const labelStyle = style({
   width: '250px',
-});
-
-const tooltipStyle = style({
-  marginLeft: '5px',
 });
 
 const footerStyle = style({
@@ -163,19 +160,17 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                       <h4 className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</h4>
                     </Stack>
 
-                    <Stack horizontal={width > MaxHorizontalWidthPx}>
-                      <label className={labelStyle}>{t('appServicePlan')}</label>
+                    <FieldWrapper label={t('appServicePlan')}>
                       <div tabIndex={0} aria-label={t('appServicePlan') + getPlanName(currentServerFarm)}>
                         {getPlanName(currentServerFarm)}
                       </div>
-                    </Stack>
+                    </FieldWrapper>
 
                     <Stack style={{ marginTop: '50px' }}>
                       <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
                     </Stack>
 
-                    <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink>
-                      <label className={labelStyle}>{t('appServicePlan')}</label>
+                    <FieldWrapper label={t('appServicePlan')} required={true}>
                       <CreateOrSelectPlan
                         subscriptionId={subscriptionId}
                         isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
@@ -189,26 +184,21 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                         serverFarmsInWebspace={serverFarms}
                         hostingEnvironment={hostingEnvironment}
                       />
-                    </Stack>
+                    </FieldWrapper>
 
-                    <Stack horizontal={width > MaxHorizontalWidthPx} style={{ marginTop: '25px' }}>
-                      <label className={labelStyle}>{t('resourceGroup')}</label>
+                    <FieldWrapper label={t('resourceGroup')} style={{ marginTop: '25px' }}>
                       <div
                         tabIndex={0}
                         aria-label={t('resourceGroup') + getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}>
                         {getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}
                       </div>
-                    </Stack>
+                    </FieldWrapper>
 
-                    <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
-                      <label className={labelStyle}>
-                        <span>{t('region')}</span>
-                        <InfoTooltip className={classes(tooltipStyle, defaultTooltipClass)} content={t('changePlanLocationTooltip')} />
-                      </label>
+                    <FieldWrapper label={t('region')} style={fieldStyle} tooltip={t('changePlanLocationTooltip')}>
                       <span tabIndex={0} aria-label={t('region') + site.location}>
                         {site.location}
                       </span>
-                    </Stack>
+                    </FieldWrapper>
 
                     <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
                       <label className={labelStyle}>{t('pricingTier')}</label>
@@ -342,6 +332,7 @@ const onSubmit = async (
 
   if (success) {
     changeComplete();
+    portalCommunicator.broadcastMessage(BroadcastMessageId.siteUpdated, values.site.id);
   }
 
   setIsUpdating(false);
