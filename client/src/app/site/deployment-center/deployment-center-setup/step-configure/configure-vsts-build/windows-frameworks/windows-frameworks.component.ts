@@ -59,12 +59,12 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
   pythonLoading = false;
   webApplicationFrameworks: DropDownElement<string>[] = [
     {
-      displayLabel: 'ASP.NET',
-      value: WebAppFramework.AspNetWap,
-    },
-    {
       displayLabel: 'ASP.NET Core',
       value: WebAppFramework.AspNetCore,
+    },
+    {
+      displayLabel: 'ASP.NET',
+      value: WebAppFramework.AspNetWap,
     },
     {
       displayLabel: 'Node.JS',
@@ -86,7 +86,7 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
 
   private _ngUnsubscribe$ = new Subject();
   selectedPythonVersion = '';
-  selectedFramework = WebAppFramework.AspNetWap;
+  selectedFramework = WebAppFramework.AspNetCore;
   selectedPythonFramework = this.defaultPythonFramework;
   selectedTaskRunner = this.defaultNodeTaskRunner;
   requiredValidator: RequiredValidator;
