@@ -4989,4 +4989,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="minorVersion" xml:space="preserve">
     <value>Minor version</value>
   </data>
+  <data name="containerValidationFailed" xml:space="preserve">
+    <value>Failed to validate container settings.</value>
+  </data>
 </root>

@@ -1606,4 +1606,5 @@ export class PortalResources {
   public static planName = 'planName';
   public static majorVersion = 'majorVersion';
   public static minorVersion = 'minorVersion';
+  public static containerValidationFailed = 'containerValidationFailed';
 }
