@@ -10,7 +10,6 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { FunctionAppContextComponent } from '../../shared/components/function-app-context-component';
 import { FunctionAppService } from '../../shared/services/function-app.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
-import { FunctionService } from 'app/shared/services/function.service';
 
 class OptionTypes {
   azure = 'Azure';
@@ -43,10 +42,9 @@ export class StorageComponent extends FunctionAppContextComponent {
     private _globalStateService: GlobalStateService,
     private _translateService: TranslateService,
     functionAppService: FunctionAppService,
-    broadcastService: BroadcastService,
-    functionService: FunctionService
+    broadcastService: BroadcastService
   ) {
-    super('storage', functionAppService, broadcastService, functionService);
+    super('storage', functionAppService, broadcastService);
     this.options = [
       {
         displayLabel: this._translateService.instant(PortalResources.storage_endpoint_azure),

@@ -35,7 +35,6 @@ import { FunctionAppContextComponent } from 'app/shared/components/function-app-
 import { Subscription } from 'rxjs/Subscription';
 import { SiteService } from 'app/shared/services/site.service';
 import { PortalService } from 'app/shared/services/portal.service';
-import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'function-runtime',
@@ -95,10 +94,9 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     private _scenarioService: ScenarioService,
     private _languageService: LanguageService,
     private _siteService: SiteService,
-    private _portalService: PortalService,
-    private _functionService: FunctionService
+    private _portalService: PortalService
   ) {
-    super('function-runtime', _functionAppService, broadcastService, _functionService, () => this._busyManager.setBusy());
+    super('function-runtime', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
     this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.functionRuntime);
 
@@ -248,13 +246,13 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           this._functionAppService.getSlotsList(this.context),
           this._functionAppService.getFunctionAppEditMode(this.context),
           this._functionAppService.getFunctionHostStatus(this.context),
-          this._functionService.getFunctions(this.context.site.id)
+          this._functionAppService.getFunctions(this.context)
         );
       })
       .do(() => this._busyManager.clearBusy())
       .subscribe(tuple => {
         // Assume true if there was an error.
-        this.hasFunctions = tuple[4].isSuccessful ? tuple[4].result.value.length > 0 : true;
+        this.hasFunctions = tuple[4].isSuccessful ? tuple[4].result.length > 0 : true;
 
         const appSettings: ArmObj<any> = tuple[0].json();
         this.exactExtensionVersion = tuple[3].isSuccessful ? tuple[3].result.version : '';
