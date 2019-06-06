@@ -8,6 +8,7 @@ import 'rxjs/add/observable/of';
 import { UserService } from './user.service';
 import { GlobalStateService } from '../services/global-state.service';
 import { FunctionInvocations, FunctionAggregates } from '../models/function-monitor';
+import { FunctionInfo } from '../models/function-info';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 
 @Injectable()
@@ -34,13 +35,13 @@ export class FunctionMonitorService {
     return headers;
   }
 
-  getDataForSelectedFunction(context: FunctionAppContext, functionName: string, host: string) {
+  getDataForSelectedFunction(context: FunctionAppContext, functionInfo: FunctionInfo, host: string) {
     const url = context.scmUrl + '/azurejobs/api/functions/definitions?host=' + host + '&limit=11';
     return this._http
       .get(url, {
         headers: this.getHeadersForScmSite(context.tryFunctionsScmCreds),
       })
-      .map(r => <FunctionAggregates>r.json().entries.find(x => x.functionName.toLowerCase() === functionName.toLowerCase()));
+      .map(r => <FunctionAggregates>r.json().entries.find(x => x.functionName.toLowerCase() === functionInfo.name.toLowerCase()));
   }
 
   getInvocationsDataForSelectedFunction(context: FunctionAppContext, functionId: string) {
