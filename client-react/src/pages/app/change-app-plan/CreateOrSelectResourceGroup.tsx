@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
 import RbacHelper from '../../../utils/rbac-helper';
-import { FieldWrapper, Layout } from '../../../components/FieldWrapper/FieldWrapper';
+import { FormControlWrapper, Layout } from '../../../components/FormControlWrapper/FormControlWrapper';
 
 export interface CreateOrSelectResourceGroupFormProps {
   onRgChange: (rgInfo: ResourceGroupInfo) => void;
@@ -136,7 +136,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
   return (
     <>
-      <FieldWrapper label={t('resourceGroup')} layout={Layout.vertical} required={true}>
+      <FormControlWrapper label={t('resourceGroup')} layout={Layout.vertical} required={true}>
         <OfficeDropdown
           ariaLabel={t('resourceGroup')}
           selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase()}
@@ -145,7 +145,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
           styles={dropdownStyleOverrides(false, theme, false, '260px')}
           errorMessage={existingRgWritePermissionError}
         />
-      </FieldWrapper>
+      </FormControlWrapper>
 
       <div ref={menuButton => (menuButtonElement.current = menuButton)}>
         {getNewLink(hasSubscriptionWritePermission, onShowCallout, createNewLinkElement, t)}
@@ -161,7 +161,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
         directionalHint={DirectionalHint.rightBottomEdge}>
         <section className={calloutContainerStyle}>
           <div>{t('resourceGroupDescription')}</div>
-          <FieldWrapper label={t('_name')} layout={Layout.vertical} required={true} style={textFieldStyle}>
+          <FormControlWrapper label={t('_name')} layout={Layout.vertical} required={true} style={textFieldStyle}>
             <OfficeTextField
               id={'createorselectrg-rgname'}
               styles={TextFieldStyles}
@@ -170,7 +170,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
               placeholder={t('createNew')}
               errorMessage={newRgNameValidationError}
             />
-          </FieldWrapper>
+          </FormControlWrapper>
           <div>
             <PrimaryButton
               className={primaryButtonStyle}

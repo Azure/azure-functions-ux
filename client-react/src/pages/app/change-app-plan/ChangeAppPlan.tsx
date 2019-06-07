@@ -22,7 +22,7 @@ import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 import { useWindowSize } from 'react-use';
 import RbacHelper from '../../../utils/rbac-helper';
 import { BroadcastMessageId } from '../../../models/portal-models';
-import { FieldWrapper } from '../../../components/FieldWrapper/FieldWrapper';
+import { FormControlWrapper } from '../../../components/FormControlWrapper/FormControlWrapper';
 
 export const leftCol = style({
   marginRight: '20px',
@@ -160,17 +160,17 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                       <h4 className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</h4>
                     </Stack>
 
-                    <FieldWrapper label={t('appServicePlan')}>
+                    <FormControlWrapper label={t('appServicePlan')}>
                       <div tabIndex={0} aria-label={t('appServicePlan') + getPlanName(currentServerFarm)}>
                         {getPlanName(currentServerFarm)}
                       </div>
-                    </FieldWrapper>
+                    </FormControlWrapper>
 
                     <Stack style={{ marginTop: '50px' }}>
                       <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
                     </Stack>
 
-                    <FieldWrapper label={t('appServicePlan')} required={true}>
+                    <FormControlWrapper label={t('appServicePlan')} required={true}>
                       <CreateOrSelectPlan
                         subscriptionId={subscriptionId}
                         isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
@@ -184,21 +184,21 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                         serverFarmsInWebspace={serverFarms}
                         hostingEnvironment={hostingEnvironment}
                       />
-                    </FieldWrapper>
+                    </FormControlWrapper>
 
-                    <FieldWrapper label={t('resourceGroup')} style={{ marginTop: '25px' }}>
+                    <FormControlWrapper label={t('resourceGroup')} style={{ marginTop: '25px' }}>
                       <div
                         tabIndex={0}
                         aria-label={t('resourceGroup') + getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}>
                         {getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}
                       </div>
-                    </FieldWrapper>
+                    </FormControlWrapper>
 
-                    <FieldWrapper label={t('region')} style={fieldStyle} tooltip={t('changePlanLocationTooltip')}>
+                    <FormControlWrapper label={t('region')} style={fieldStyle} tooltip={t('changePlanLocationTooltip')}>
                       <span tabIndex={0} aria-label={t('region') + site.location}>
                         {site.location}
                       </span>
-                    </FieldWrapper>
+                    </FormControlWrapper>
 
                     <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
                       <label className={labelStyle}>{t('pricingTier')}</label>

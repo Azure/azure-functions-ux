@@ -11,7 +11,7 @@ export enum Layout {
   vertical = 'vertical',
 }
 
-export interface FieldWrapperProps {
+export interface FormControlWrapperProps {
   children: JSX.Element;
   label: string;
   tooltip?: string;
@@ -41,7 +41,7 @@ const MaxHorizontalWidthPx = 750;
 // We make a best effort to associate the "label" with the child input field by "id", however if the child
 // element is not an "input" element, then the screen reader won't respect it and won't read the label first.
 // In that case, you'll have to manually specify the "ariaLabel" property on the child element yourself
-export const FieldWrapper = (props: FieldWrapperProps) => {
+export const FormControlWrapper = (props: FormControlWrapperProps) => {
   const { label, children, layout, required, style, tooltip } = props;
   const { width } = useWindowSize();
   const theme = useContext(ThemeContext);
