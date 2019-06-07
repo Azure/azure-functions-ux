@@ -13,7 +13,7 @@ import i18next from 'i18next';
 import { AppKind } from '../../../utils/AppKind';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import RbacHelper from '../../../utils/rbac-helper';
-import { FieldWrapper, Layout } from '../../../components/FieldWrapper/FieldWrapper';
+import { FormControlWrapper, Layout } from '../../../components/FormControlWrapper/FormControlWrapper';
 
 export interface CreatePlanProps {
   newPlanInfo: NewPlanInfo;
@@ -97,7 +97,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
           onRgValidationError={e => onRgValidationError(e, setHasResourceGroupWritePermission)}
         />
 
-        <FieldWrapper label={t('_name')} layout={Layout.vertical} required={true} style={{ marginTop: '20px' }}>
+        <FormControlWrapper label={t('_name')} layout={Layout.vertical} required={true} style={{ marginTop: '20px' }}>
           <OfficeTextField
             id="createplan-planname"
             styles={TextFieldStyles}
@@ -106,7 +106,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
             errorMessage={newPlanNameValidationError}
             placeholder={t('planName')}
           />
-        </FieldWrapper>
+        </FormControlWrapper>
       </Panel>
     </>
   );
