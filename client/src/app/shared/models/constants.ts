@@ -127,6 +127,15 @@ export class Regex {
   public static readonly errorLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Error|ERROR)/;
   public static readonly warningLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Warning|WARNING)/;
   public static readonly log: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2})/;
+  /*
+    1. Donot Start with /, \ or ~
+    2. Donot have path in drive letter format eg: (C:/Windows)
+  */
+  public static readonly windowsWorkingDirectoryValidation = /^(?![\\/~]).(?!:).*$|^.{0}$/;
+  /*
+    1. Donot start with /, \ or ~
+  */
+  public static readonly linuxWorkingDirectoryValidation = /^(?![\\/~]).*$|^.{0}$/;
 }
 
 export class Links {
@@ -490,6 +499,10 @@ export class DeploymentCenterConstants {
   // Release definition
   public static readonly releaseSecurityNameSpace = 'C788C23E-1B46-4162-8F5E-D7585343B5DE';
   public static readonly editReleaseDefinitionPermission = 2;
+
+  // Agent queues
+  public static readonly agentQueueNames = ['Hosted VS2017'];
+  public static readonly queueActionFilter = 16; // "Use"
 
   public static readonly EmptyGuid = '00000000-0000-0000-0000-000000000000';
 }

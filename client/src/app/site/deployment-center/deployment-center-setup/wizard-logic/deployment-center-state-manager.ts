@@ -202,7 +202,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
       targets: this._deploymentTargets,
     };
 
-    const setupvsoCall = this._azureDevOpsService.startDeployment(this.wizardValues.buildSettings.vstsAccount, deploymentObject);
+    const setupvsoCall = this._azureDevOpsService.startDeployment(
+      this.wizardValues.buildSettings.vstsAccount,
+      deploymentObject,
+      this.wizardValues.buildSettings.createNewVsoAccount
+    );
 
     if (this.wizardValues.buildSettings.createNewVsoAccount) {
       return this._cacheService
@@ -343,7 +347,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
       subscriptionId: siteDescriptor.subscription,
       subscriptionName: this.subscriptionName,
       tenantId: tid,
-      resourceIdentifier: siteDescriptor.site,
+      resourceIdentifier: siteDescriptor.getFormattedTargetSiteName(),
       location: this._location,
       resourceGroupName: siteDescriptor.resourceGroup,
       authorizationInfo: {
@@ -376,8 +380,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
         return ApplicationType.ScriptFunctionApp;
       case 'PrecompiledFunction':
         return ApplicationType.DotNetPreCompiledFunctionApp;
-      default:
+      case 'StaticWebapp':
         return ApplicationType.StaticWebapp;
+      default:
+        return ApplicationType.Undefined;
     }
   }
 

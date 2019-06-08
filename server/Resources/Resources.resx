@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" 
-    xmlns="" 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  <xsd:schema id="root"
+    xmlns=""
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -1690,7 +1690,7 @@
   <data name="feature_apiManagement" xml:space="preserve">
     <value>API Management</value>
   </data>
-   <data name="feature_apiManagementInfo" xml:space="preserve">
+  <data name="feature_apiManagementInfo" xml:space="preserve">
     <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
   </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
@@ -1733,7 +1733,7 @@
     <value>Lock resources to prevent unexpected changes or deletions.</value>
   </data>
   <data name="feature_automationScriptName" xml:space="preserve">
-    <value>Automation script</value>
+    <value>Export template</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
     <value>Automate deploying resources with Azure Resource Manager templates in a single, coordinated operation. Define resources and configurable input parameters and deploy with script or code.</value>
@@ -3050,7 +3050,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Configure continuous integration with an Azure Repo, part of Azure DevOps Services (formerly known as VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
-    <value>Deploy from a public Git or Mercurial repo.</value>
+    <value>Deploy from a public Git or Mercurial repo. This option requires manually triggering your deployments.</value>
   </data>
   <data name="bitbucketDesc" xml:space="preserve">
     <value>Configure continuous integration with a Bitbucket repo.</value>
@@ -3560,7 +3560,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Validating...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>You do not have permissions to create a Build pipeline or a Release pipeline on this project. Contact your project administrator</value>
+    <value>You do not have permissions to create a Build pipeline or a Release pipeline on this project. Contact your project administrator or choose a different project</value>
+  </data>
+  <data name="vstsAgentQueuePermissions" xml:space="preserve">
+    <value>You do not have permissions to use at any of the available agent pools in this project . Contact your project administrator or choose a different project</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>The organization name supplied is not valid. Please supply another organization name.</value>
@@ -3678,7 +3681,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Sync</value>
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
-    <value>Deployment Credentials</value>
+    <value>FTP/Credentials</value>
   </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
     <value>Dv3-Series compute equivalent</value>
@@ -4763,6 +4766,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="noBlobsOrFilesShares" xml:space="preserve">
     <value>This storage account has no blob containers or file shares</value>
   </data>
+  <data name="noFileShares" xml:space="preserve">
+    <value>This storage account has no file shares</value>
+  </data>
+  <data name="noBlobs" xml:space="preserve">
+    <value>This storage account has no blobs</value>
+  </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
     <value>You don't have write access to this storage account. If you know the access key you can put it in advanced mode.</value>
   </data>
@@ -4770,7 +4779,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Select an option</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>Startup commands for NodeJS must use ng, node or pm2</value>
+    <value>Provide a startup command that will be run as part of container startup. Startup commands for Node.js must use ng, node, npm or pm2 keyword. Example, npm start</value>
+  </data>
+  <data name="invalidStartupCommandAspNetCore" xml:space="preserve">
+    <value>Provide a startup command that will be run as part of container startup. Startup commands for .NET Core must use dotnet keyword. Example, dotnet application.dll</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
@@ -4797,7 +4809,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>{0} is an invalid app setting property</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
-    <value>App setting names must be unqiue</value>
+    <value>App setting names must be unique</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Invalid JSON object</value>
@@ -4821,10 +4833,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Virtual Directory path must exist within an application path</value>
   </data>
   <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>Application logs are switched off. You can turn them on using the 'Diagnostic logs' settings.</value>
+    <value>Application logs are switched off. You can turn them on using the 'App Service logs' settings.</value>
   </data>
   <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Web server logs are switched off. You can turn them on using the 'Diagnostic logs' settings.</value>
+    <value>Web server logs are switched off. You can turn them on using the 'App Service logs' settings.</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
     <value>Your selected runtime stack does not currently support remote debugging.</value>
@@ -4836,7 +4848,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Application Insights is not configured. Configure Application Insights to capture function logs.</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
-    <value>Access restrictions have been added to your function app which may affect your ability to manage it from the portal.</value>
+    <value>Access restrictions have been added to your function app. This may affect your ability to manage it from the portal and make the runtime unreachable.</value>
   </data>
   <data name="userCredsError" xml:space="preserve">
     <value>The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain letters and numbers.</value>
@@ -4863,6 +4875,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="githubOrgMessage" xml:space="preserve">
     <value>If you can't find an organization or repository, you might need to enable additional permissions on GitHub.</value>
   </data>
+  <data name="projectWithoutGitRepoNotFoundMessage" xml:space="preserve">
+    <value>Only projects with valid git repositories will be listed.</value>
+  </data>
   <data name="bitbucketOrgMessage" xml:space="preserve">
     <value>If you can't find an organization or repository, you might need to enable additional permissions on Bitbucket.</value>
   </data>
@@ -4873,7 +4888,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Client certificates have been enabled on your function app which may affect your ability to manage it from the portal.</value>
   </data>
   <data name="alwaysOnInfoMessage" xml:space="preserve">
-    <value>Prevent's your app from being idled out due to inactivity.</value>
+    <value>Prevents your app from being idled out due to inactivity.</value>
   </data>
   <data name="ftpsInfoMessage" xml:space="preserve">
     <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. </value>
@@ -4901,5 +4916,77 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
     <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
+  </data>
+  <data name="validate_workingDirectory" xml:space="preserve">
+    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
+  </data>
+  <data name="mountedStorageInfo" xml:space="preserve">
+    <value>Mounted storage lets you map Azure Files or Blob containers for use with your app.</value>
+  </data>
+  <data name="changePlanName" xml:space="preserve">
+    <value>Change App Service plan</value>
+  </data>
+  <data name="changePlanDescription" xml:space="preserve">
+    <value>Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance.</value>
+  </data>
+  <data name="changePlanLocationTooltip" xml:space="preserve">
+    <value>The region that your app currently resides in cannot be changed for new or existing plans.</value>
+  </data>
+  <data name="changePlanCurrentPlanDetails" xml:space="preserve">
+    <value>Current plan details</value>
+  </data>
+  <data name="changePlanDestPlanDetails" xml:space="preserve">
+    <value>Destination plan details</value>
+  </data>
+  <data name="changePlanNotification" xml:space="preserve">
+    <value>Changing App Service plan</value>
+  </data>
+  <data name="changePlanFailureNotificationFormat" xml:space="preserve">
+    <value>Failed to change to App Service plan: '{0}'</value>
+  </data>
+  <data name="changePlanRgCreateFailureNotificationFormat" xml:space="preserve">
+    <value>Failed to create resource group: '{0}'</value>
+  </data>
+  <data name="changePlanPlanCreateFailureNotificationFormat" xml:space="preserve">
+    <value>Failed to create App Service plan: '{0}'</value>
+  </data>
+  <data name="changePlanNoWritePermissionRg" xml:space="preserve">
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+  </data>
+  <data name="changePlanSiteLockedError" xml:space="preserve">
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+  </data>
+  <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+  </data>
+  <data name="resourceGroupNameValidationError" xml:space="preserve">
+    <value>Resource group name can only include alphanumeric characters, periods, underscores, hyphens and parenthesis and cannot end in a period.</value>
+  </data>
+  <data name="cancelUpdateConfirmation" xml:space="preserve">
+    <value>Are you sure you would like to cancel the update operation?</value>
+  </data>
+  <data name="newFormat" xml:space="preserve">
+    <value>(New) {0}</value>
+  </data>
+  <data name="validationErrorAlreadyExistsFormat" xml:space="preserve">
+    <value>{0} already exists</value>
+  </data>
+  <data name="validationWebspaceUniqueErrorFormat" xml:space="preserve">
+    <value>The name '{0}' is not unique within your apps hosting constraints</value>
+  </data>
+  <data name="resourceGroupDescription" xml:space="preserve">
+    <value>A resource group is a container that holds related resources for an Azure solution.</value>
+  </data>
+  <data name="createNewPlan" xml:space="preserve">
+    <value>Create a new plan</value>
+  </data>
+  <data name="planName" xml:space="preserve">
+    <value>Plan name</value>
+  </data>
+  <data name="majorVersion" xml:space="preserve">
+    <value>Major version</value>
+  </data>
+  <data name="minorVersion" xml:space="preserve">
+    <value>Minor version</value>
   </data>
 </root>

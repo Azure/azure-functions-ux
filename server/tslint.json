@@ -1,5 +1,25 @@
 {
-    "rules": {
-        "quotemark": [true, "single", "avoid-escape", "avoid-template"]
-    }
+  "defaultSeverity": "error",
+  "extends": ["tslint-config-airbnb", "tslint:recommended", "tslint-config-prettier"],
+  "rules": {
+    "object-literal-sort-keys": false,
+    "no-console": false,
+    "jsx-no-lambda": false,
+    "indent": [true, "spaces", 2],
+    "eofline": false,
+    "variable-name": false,
+    "max-line-length": false,
+    "ter-arrow-parens": false,
+    "ter-indent": false,
+    "import-name": false,
+    "ordered-imports": false,
+    "interface-name": false,
+    "array-type": false,
+    "function-name": false,
+    "no-string-literal": false,
+    "member-access": [false]
+  },
+  "linterOptions": {
+    "exclude": ["config/**/*.js", "node_modules/**/*.ts", "node_modules/**/*.js"]
+  }
 }

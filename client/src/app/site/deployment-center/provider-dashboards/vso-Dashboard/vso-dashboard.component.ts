@@ -657,8 +657,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   }
 
   showDeploymentCredentials() {
-    this.hideCreds = true;
-    this.sidePanelOpened = true;
+    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, 'ftp');
   }
 
   ngOnDestroy(): void {

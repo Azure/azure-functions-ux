@@ -774,11 +774,12 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._translateService.instant(PortalResources.feature_automationScriptInfo),
         'image/automation-script.svg',
         {
-          detailBlade: 'TemplateViewerBlade',
+          detailBlade: 'ResourceGroupTemplateViewer',
           detailBladeInputs: {
             options: {
               resourceGroup: `/subscriptions/${this._descriptor.subscription}/resourcegroups/${this._descriptor.resourceGroup}`,
               telemetryId: 'Microsoft.Web/sites',
+              resourceIds: [site.id],
             },
             stepOutput: null,
           },

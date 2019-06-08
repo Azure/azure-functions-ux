@@ -6,4 +6,5 @@ export const Links = {
   ftpInfo: 'https://go.microsoft.com/fwlink/?linkid=871316',
   startupFileInfo: 'https://go.microsoft.com/fwlink/?linkid=861969',
   funcConnStringsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=875276',
+  mountedStorageLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2088516',
 };

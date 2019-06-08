@@ -141,6 +141,8 @@ export interface IOpenBladeInfo {
   detailBlade: string;
   detailBladeInputs: any;
   extension?: string;
+  openAsContextBlade?: boolean;
+  openAsSubJourney?: boolean;
 }
 
 export interface ITimerEvent {
@@ -238,9 +240,13 @@ export interface ITokenResponse {
   token: string;
 }
 
+export interface IBladeResultValue<T> {
+  value: T;
+}
+
 export interface IBladeResult<T> {
   reason: 'userNavigation' | 'childClosedSelf';
-  data: T;
+  data: IBladeResultValue<T>;
 }
 
 export enum BroadcastMessageId {
