@@ -696,7 +696,6 @@ export class PortalResources {
   public static notFound = 'notFound';
   public static eventHubPicker_IOTEndpoint = 'eventHubPicker_IOTEndpoint';
   public static emptyBrowse_title = 'emptyBrowse_title';
-  public static appFunctionSettings_slotsOptinSettings = 'appFunctionSettings_slotsOptinSettings';
   public static appFunctionSettings_slotsDesc = 'appFunctionSettings_slotsDesc';
   public static appFunctionSettings_slotsEnable = 'appFunctionSettings_slotsEnable';
   public static appFunctionSettings_warning_1 = 'appFunctionSettings_warning_1';
@@ -704,6 +703,7 @@ export class PortalResources {
   public static appFunctionSettings_warning_3 = 'appFunctionSettings_warning_3';
   public static slotCreateOperationInProgressWarning = 'slotCreateOperationInProgressWarning';
   public static slots_label = 'slots_label';
+  public static slotsPreview_label = 'slotsPreview_label';
   public static slotNew = 'slotNew';
   public static slotNew_nameLabel = 'slotNew_nameLabel';
   public static slotNew_cloneConfigLabel = 'slotNew_cloneConfigLabel';
