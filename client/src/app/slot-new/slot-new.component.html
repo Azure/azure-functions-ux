@@ -11,7 +11,7 @@
 
   <div class="slot-form" *ngIf="hasCreatePermissions && !hasReachedDynamicQuotaLimit">
 
-    <div *ngIf="!slotOptinEnabled" class="setting-wrapper">
+    <div *ngIf="!slotOptInEnabled" class="setting-wrapper">
       <div class="alert alert-warning">
         <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
         <div class="alert-message">
@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <ng-container *ngIf="slotOptinEnabled || newSlotForm.controls['optIn'].value">
+    <ng-container *ngIf="slotOptInEnabled || newSlotForm.controls['optIn'].value">
       <div>
         <label> {{ 'slotNew_nameLabel' | translate}} </label>
         <pop-over [message]="'slotNew_nameLabel_balloonText' | translate">

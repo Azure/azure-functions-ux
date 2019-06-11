@@ -272,6 +272,7 @@ export class PortalResources {
   public static httpRun_query = 'httpRun_query';
   public static topBar_alwaysOn = 'topBar_alwaysOn';
   public static topBar_slotsHostId = 'topBar_slotsHostId';
+  public static topBar_slotsHostIdV2 = 'topBar_slotsHostIdV2';
   public static topBar_releaseNotes = 'topBar_releaseNotes';
   public static adminKeys_title = 'adminKeys_title';
   public static functionKeys_addNewAdminKey = 'functionKeys_addNewAdminKey';

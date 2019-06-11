@@ -17,8 +17,6 @@ import { AuthzService } from '../shared/services/authz.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Constants } from 'app/shared/models/constants';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
-import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
-import { HttpResult } from 'app/shared/models/http-result';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { CacheService } from '../shared/services/cache.service';
 
@@ -29,13 +27,12 @@ import { CacheService } from '../shared/services/cache.service';
 })
 export class SlotNewComponent extends NavigableComponent {
   public Resources = PortalResources;
-  public slotOptinEnabled: boolean;
+  public slotOptInEnabled: boolean;
   public hasCreatePermissions: boolean;
   public newSlotForm: FormGroup;
   public slotNamePlaceholder: string;
   public hasReachedDynamicQuotaLimit: boolean;
   public isLoading = true;
-  public runtimeVersion: string;
 
   private _context: FunctionAppContext;
   private _siteId: string;
@@ -94,34 +91,15 @@ export class SlotNewComponent extends NavigableComponent {
         this._siteObj = r[2].result;
         this._slotsList = r[3].result;
         const as = r[4];
-        this.runtimeVersion = r[5];
 
         this.hasCreatePermissions = writePermission && !readOnlyLock;
 
-        this.slotOptinEnabled = this._isSlotOptinEnabled(as);
+        this.slotOptInEnabled = as.isSuccessful && this._functionAppService.isSlotsSupported(as.result);
 
         const sku = this._siteObj.properties.sku;
         this.hasReachedDynamicQuotaLimit = !!sku && sku.toLowerCase() === 'dynamic' && this._slotsList.length === 1;
         this.isLoading = false;
       });
-  }
-
-  private _isSlotOptinEnabled(appSettingsResult: HttpResult<ArmObj<ApplicationSettings>>) {
-    const slotsSecretStorageSetting =
-      appSettingsResult.isSuccessful && appSettingsResult.result.properties[Constants.slotsSecretStorageSettingsName];
-
-    // For V1 Function apps, the 'AzureWebJobsSecretStorageType' app setting must be set, and the value must be 'Blob'
-    const enabledForV1 =
-      this.runtimeVersion === 'V1' &&
-      !!slotsSecretStorageSetting &&
-      slotsSecretStorageSetting.toLowerCase() === Constants.slotsSecretStorageSettingsValue.toLowerCase();
-
-    // For V2 Function apps, the 'AzureWebJobsSecretStorageType' app setting must either not be set, or be set with value 'Blob'
-    const enabledForV2 =
-      this.runtimeVersion === 'V2' &&
-      (!slotsSecretStorageSetting || slotsSecretStorageSetting.toLowerCase() === Constants.slotsSecretStorageSettingsValue.toLowerCase());
-
-    return this._slotsList.length > 0 || enabledForV1 || enabledForV2;
   }
 
   createSlot() {
@@ -178,7 +156,7 @@ export class SlotNewComponent extends NavigableComponent {
   }
 
   private _enableSlotOptIn() {
-    if (this.slotOptinEnabled) {
+    if (this.slotOptInEnabled) {
       return Observable.of({
         isSuccessful: true,
         error: null,
@@ -186,7 +164,7 @@ export class SlotNewComponent extends NavigableComponent {
       });
     } else {
       const newOrUpdatedSettings = {};
-      newOrUpdatedSettings[Constants.slotsSecretStorageSettingsName] = Constants.slotsSecretStorageSettingsValue;
+      newOrUpdatedSettings[Constants.secretStorageSettingsName] = Constants.secretStorageSettingsValueBlob;
       return this._siteService.addOrUpdateAppSettings(this._context.site.id, newOrUpdatedSettings).do(r => {
         if (r.isSuccessful) {
           this._functionAppService.fireSyncTrigger(this._context);

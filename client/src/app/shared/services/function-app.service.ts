@@ -789,6 +789,30 @@ export class FunctionAppService {
     );
   }
 
+  isSlotsSupported(appSettings: ArmObj<ApplicationSettings>): boolean {
+    const runtimeGeneration = FunctionsVersionInfoHelper.getFunctionGeneration(
+      appSettings.properties[Constants.runtimeVersionAppSettingName]
+    );
+    const slotsSecretStorageSetting =
+      !!appSettings &&
+      appSettings.properties[Constants.secretStorageSettingsName] &&
+      appSettings.properties[Constants.secretStorageSettingsName].toLowerCase();
+
+    // For V1 Function apps, the only supported values for 'AzureWebJobsSecretStorageType' are 'Files' (default) and 'Blob'.
+    // Slots are not supported for 'Files'. Therefore, to support slots, the app setting must be configured, and the value must not be 'Files'.
+    const enabledForV1 =
+      runtimeGeneration === 'V1' &&
+      !!slotsSecretStorageSetting &&
+      slotsSecretStorageSetting !== Constants.secretStorageSettingsValueFiles.toLowerCase();
+
+    // For V2 Function apps, the only supported values for 'AzureWebJobsSecretStorageType' are 'Files', 'Blob' (default) and 'KeyVault'.
+    // Slots are not supported for 'Files'. Therefore, to support slots, the app setting must either not be configured, or the configured value must not be 'Files'.
+    const enabledForV2 =
+      runtimeGeneration === 'V2' && slotsSecretStorageSetting !== Constants.secretStorageSettingsValueFiles.toLowerCase();
+
+    return enabledForV1 || enabledForV2;
+  }
+
   isSlot(context: FunctionAppContext | string): boolean {
     return !!this.getSlotName(context);
   }
