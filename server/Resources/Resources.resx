@@ -2209,14 +2209,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appFunctionSettings_warning_2" xml:space="preserve">
     <value>Logic apps integration with Functions does not work when Slots(preview) is enabled.</value>
   </data>
-  <data name="appFunctionSettings_warning_3a" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the</value>
-  </data>
-  <data name="appFunctionSettings_warning_3b" xml:space="preserve">
-    <value>'Manage'</value>
-  </data>
-  <data name="appFunctionSettings_warning_3c" xml:space="preserve">
-    <value>node for each function.</value>
+  <data name="appFunctionSettings_warning_3" xml:space="preserve">
+    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>A slot create operation is currently in progress. After navigating away, you will no longer be able to check operation status.</value>

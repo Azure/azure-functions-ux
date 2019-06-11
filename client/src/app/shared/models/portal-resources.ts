@@ -698,9 +698,7 @@ export class PortalResources {
   public static appFunctionSettings_slotsEnable = 'appFunctionSettings_slotsEnable';
   public static appFunctionSettings_warning_1 = 'appFunctionSettings_warning_1';
   public static appFunctionSettings_warning_2 = 'appFunctionSettings_warning_2';
-  public static appFunctionSettings_warning_3a = 'appFunctionSettings_warning_3a';
-  public static appFunctionSettings_warning_3b = 'appFunctionSettings_warning_3b';
-  public static appFunctionSettings_warning_3c = 'appFunctionSettings_warning_3c';
+  public static appFunctionSettings_warning_3 = 'appFunctionSettings_warning_3';
   public static slotCreateOperationInProgressWarning = 'slotCreateOperationInProgressWarning';
   public static slots_label = 'slots_label';
   public static slotNew = 'slotNew';
