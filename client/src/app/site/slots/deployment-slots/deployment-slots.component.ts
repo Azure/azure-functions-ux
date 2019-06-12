@@ -635,6 +635,68 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     }
   }
 
+  openActivityLog() {
+    const siteDescriptor = new ArmSiteDescriptor(this.siteArm.id);
+
+    const query = {
+      operationNames: [
+        'Microsoft.Web/sites/applySlotConfig/Action',
+        'Microsoft.Web/sites/resetSlotConfig/Action',
+        'Microsoft.Web/sites/slotsswap/Action',
+        'Microsoft.Web/sites/slots/applySlotConfig/Action',
+        'Microsoft.Web/sites/slots/resetSlotConfig/Action',
+        'Microsoft.Web/sites/slots/slotsswap/Action',
+      ],
+      searchText: '',
+      subscriptions: [siteDescriptor.subscription],
+      managementGroups: [],
+      // resourceGroupId: `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${siteDescriptor.resourceGroup}`,
+      resourceGroupId: siteDescriptor.resourceGroupId,
+      resourceId: siteDescriptor.resourceId,
+      resourceTypes: [],
+      category: 'all',
+      levels: ['1', '2', '3', '4'],
+      timeSpan: '2',
+      // timeSpan: '3',
+      // startTime: '2019-04-28T21:03:43.084Z',
+      // endTime: '2019-05-28T21:03:43.084Z',
+      // REMOVE
+      // caller: 'all',
+      // queryName: 'ActivityLogTest',
+      // queryId: 'ab2e5bde-3b7a-4d9b-914a-703589c4e50d',
+      // searchString: '',
+      top: 100,
+    };
+
+    const bladeInfo: OpenBladeInfo = {
+      detailBlade: 'ActivityLogBlade',
+      detailBladeInputs: { queryInputs: { query } },
+      extension: 'Microsoft_Azure_ActivityLog',
+      openAsContextBlade: false,
+      openAsSubJourney: false,
+    };
+
+    this._portalService
+      .openBlade(bladeInfo, this.componentName)
+      .mergeMap(bladeResult => {
+        return Observable.of({
+          success: true,
+          error: null,
+          result: bladeResult,
+        });
+      })
+      .catch(err => {
+        return Observable.of({
+          success: false,
+          error: err,
+          result: null,
+        });
+      })
+      .subscribe(_ => {
+        // TODO (andimarc): do something?
+      });
+  }
+
   getSegment(path: string, index: number): string {
     let segment = null;
 
