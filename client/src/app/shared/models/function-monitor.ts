@@ -56,6 +56,7 @@ export interface MonitorDetailsInfo {
   functionMonitorInfo: FunctionMonitorInfo;
   operationId: string;
   id: string;
+  invocationId: string;
 }
 
 export interface MonitorConfigureInfo {

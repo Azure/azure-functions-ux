@@ -12,6 +12,7 @@ export interface AIInvocationTrace {
   resultCode: string;
   duration: number;
   operationId: string;
+  invocationId: string;
 }
 
 export interface AIInvocationTraceHistory {
