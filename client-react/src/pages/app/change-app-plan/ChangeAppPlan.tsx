@@ -3,7 +3,6 @@ import FeatureDescriptionCard from '../../../components/feature-description-card
 import { PrimaryButton, IDropdownOption, Stack, Link, ILink, MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { Formik, FormikProps } from 'formik';
 import { ResourceGroup } from '../../../models/resource-group';
-import { ArmObj, Site, ServerFarm, ArmSku, HostingEnvironment } from '../../../models/WebAppModels';
 import { style } from 'typestyle';
 import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import { CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN, addNewPlanToOptions } from './CreateOrSelectPlan';
@@ -24,6 +23,10 @@ import RbacHelper from '../../../utils/rbac-helper';
 import { BroadcastMessageId } from '../../../models/portal-models';
 import { FormControlWrapper } from '../../../components/FormControlWrapper/FormControlWrapper';
 import { LogCategories } from '../../../utils/LogCategories';
+import { ArmObj, ArmSku } from '../../../models/arm-obj';
+import { Site } from '../../../models/site/site';
+import { ServerFarm } from '../../../models/serverFarm/serverfarm';
+import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 
 export const leftCol = style({
   marginRight: '20px',
