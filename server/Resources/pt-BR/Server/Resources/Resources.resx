@@ -920,7 +920,10 @@
     <value>"AlwaysOn" não está habilitada. O seu aplicativo pode não estar funcionando adequadamente</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>A configuração de 'AzureWebJobsSecretStorageType' deve ser definida como 'blob'. Não ter essa configuração causará um comportamento inesperado ao usar slots de implantação</value>
+    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+  </data>
+  <data name="topBar_slotsHostIdV2" xml:space="preserve">
+    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Notas de versão do Azure Functions.</value>
@@ -1081,8 +1084,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>O proxy com o nome '{{name}}' já existe</value>
   </data>
-  <data name="slots_warningOff" xml:space="preserve">
-    <value>Os slots (visualização) de funções do Azure estão desabilitados. Para habilitar, visite</value>
+  <data name="slots_warningDisabled" xml:space="preserve">
+    <value>Azure functions slots is currently disabled.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Descartar</value>
@@ -2197,6 +2200,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Habilite os slots de implantação (visualização).</value>
   </data>
+  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
+    <value>Enable deployment slots</value>
+  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>problemas conhecidos:</value>
   </data>
@@ -2204,16 +2210,13 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>A integração de aplicativos de lógica com funções não funciona quando Slots(preview) está ativado.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Optar por esta versão prévia do recurso redefinirá todos os segredos pré-existentes. Os segredos de função podem ser encontrados em</value>
-  </data>
-  <data name="appFunctionSettings_warning_4" xml:space="preserve">
-    <value>'Gerenciar'</value>
-  </data>
-  <data name="appFunctionSettings_warning_5" xml:space="preserve">
-    <value>nó para cada função.</value>
+    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Uma operação de criação de slot está em andamento no momento. Após navegar externamente, você não poderá mais verificar o status da operação.</value>
+  </data>
+  <data name="slots_label" xml:space="preserve">
+    <value>Slots</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Adicionar Slot</value>
@@ -4948,13 +4951,13 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Falha ao criar o plano do Serviço de Aplicativo: '{0}'</value>
   </data>
   <data name="changePlanNoWritePermissionRg" xml:space="preserve">
-    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+    <value>Você não tem permissão de gravação suficiente para criar um novo Plano do Serviço de Aplicativo neste grupo de recursos</value>
   </data>
   <data name="changePlanSiteLockedError" xml:space="preserve">
-    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+    <value>Seu aplicativo tem um bloqueio somente leitura e não pode ser movido para outro Plano do Serviço de Aplicativo</value>
   </data>
   <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
-    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+    <value>A criação de um novo grupo de recursos não é permitida porque você não tem permissão de gravação suficiente na assinatura</value>
   </data>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>O nome do grupo de recursos só pode incluir caracteres alfanuméricos, pontos, sublinhados, hifens e parênteses e não pode terminar com um ponto.</value>
@@ -4985,5 +4988,8 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="minorVersion" xml:space="preserve">
     <value>Versão secundária</value>
+  </data>
+  <data name="containerValidationFailed" xml:space="preserve">
+    <value>Falha ao validar as configurações do contêiner.</value>
   </data>
 </root>
