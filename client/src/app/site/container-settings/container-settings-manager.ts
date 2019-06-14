@@ -179,12 +179,12 @@ export class ContainerSettingsManager {
     }
   }
 
-  public applyContainerConfig(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
-    return this._validateContainerImage(resourceId, os, formData);
+  public applyContainerConfig(resourceId: string, location: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
+    return this._validateContainerImage(resourceId, location, os, formData);
   }
 
-  public saveContainerConfig(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
-    return this._validateContainerImage(resourceId, os, formData).switchMap(r => {
+  public saveContainerConfig(resourceId: string, location: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
+    return this._validateContainerImage(resourceId, location, os, formData).switchMap(r => {
       return Observable.zip(
         this._saveContainerAppSettings(resourceId, os, formData),
         this._saveContainerSiteConfig(resourceId, os, formData)
@@ -208,11 +208,10 @@ export class ContainerSettingsManager {
     });
   }
 
-  private _validateContainerImage(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
+  private _validateContainerImage(resourceId: string, location: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
     const containerType = this._getFormContainerType(formData.siteConfig.fxVersion);
-    const serverUrl = new URL(formData.appSettings[ContainerConstants.serverUrlSetting]);
 
-    if (os === 'windows' && containerType === 'single' && !serverUrl.host.startsWith('mcr.microsoft.com')) {
+    if (os === 'windows' && containerType === 'single') {
       const fxVersionParts = formData.siteConfig.fxVersion.split('|');
       const imageAndTagParts = fxVersionParts[1].split(':');
       const image = imageAndTagParts[0];
@@ -221,6 +220,7 @@ export class ContainerSettingsManager {
       return this._containerValidationService
         .validateContainerImage(
           resourceId,
+          location,
           formData.appSettings[ContainerConstants.serverUrlSetting],
           'windows',
           image,
@@ -229,16 +229,18 @@ export class ContainerSettingsManager {
           formData.appSettings[ContainerConstants.passwordSetting]
         )
         .switchMap(r => {
-          if (r.isSuccessful) {
-            return Observable.of(true);
-          } else {
-            if (r.error.result && r.error.result._body) {
+          if (r && r.status === 200 && r.json()) {
+            if (r.json().status !== 'Success') {
               return Observable.throw({
-                message: r.error.result._body,
+                message: r.json().error.message,
               });
             } else {
-              return Observable.throw({ ...r.error, resourceId });
+              return Observable.of(true);
             }
+          } else {
+            return Observable.throw({
+              message: PortalResources.containerValidationFailed,
+            });
           }
         });
     } else {

@@ -232,15 +232,16 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
           });
         }
         if (result.slotsResponse) {
-          let slotsStorageSetting = appSettings.properties[Constants.slotsSecretStorageSettingsName];
-          if (!!slotsStorageSetting) {
-            slotsStorageSetting = slotsStorageSetting.toLowerCase();
-          }
           const numSlots = result.slotsResponse.length;
-          if (numSlots > 0 && slotsStorageSetting !== Constants.slotsSecretStorageSettingsValue.toLowerCase()) {
+          if (numSlots > 0 && !this._functionAppService.isSlotsSupported(appSettings)) {
+            const message =
+              FunctionsVersionInfoHelper.getFunctionGeneration(extensionVersion) === 'V1'
+                ? this._translateService.instant(PortalResources.topBar_slotsHostId)
+                : this._translateService.instant(PortalResources.topBar_slotsHostIdV2);
+
             notifications.push({
               id: NotificationIds.slotsHostId,
-              message: this._translateService.instant(PortalResources.topBar_slotsHostId),
+              message: message,
               iconClass: 'fa fa-exclamation-triangle warning',
               learnMoreLink: '',
               clickCallback: null,
