@@ -2,11 +2,11 @@ import { Checkbox } from 'office-ui-fabric-react';
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
-import { VirtualApplication } from '../../../../models/WebAppModels';
 import { formElementStyle } from '../AppSettings.styles';
 import { isEqual } from 'lodash-es';
 import StringUtils from '../../../../utils/string';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import { VirtualApplication } from '../../../../models/site/config';
 
 export interface HandlerMappingAddEditProps {
   updateVirtualApplication: (item: VirtualApplication) => any;

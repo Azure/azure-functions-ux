@@ -1,16 +1,11 @@
-import {
-  ArmObj,
-  SiteConfig,
-  SlotConfigNames,
-  VirtualApplication,
-  Site,
-  NameValuePair,
-  ConnStringInfo,
-  ArmAzureStorageMount,
-} from '../../../models/WebAppModels';
 import SiteService from '../../../ApiHelpers/SiteService';
 import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
 import { sortBy } from 'lodash-es';
+import { ArmObj } from '../../../models/arm-obj';
+import { Site } from '../../../models/site/site';
+import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication } from '../../../models/site/config';
+import { SlotConfigNames } from '../../../models/site/slot-config-names';
+import { NameValuePair } from '../../../models/name-value-pair';
 
 interface StateToFormParams {
   site: ArmObj<Site>;
@@ -264,7 +259,7 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
       va.virtualDirectories.forEach(element => {
         const virtualPath = `${
           va.virtualPath.endsWith('/') && element.virtualPath.startsWith('/') ? va.virtualPath.slice(0, -2) : va.virtualPath
-        }${element.virtualPath}`;
+          }${element.virtualPath}`;
         newList.push({
           ...element,
           virtualPath: `${virtualPath}`,

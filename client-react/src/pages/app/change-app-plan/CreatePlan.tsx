@@ -1,5 +1,4 @@
 import { NewPlanInfo } from './CreateOrSelectPlan';
-import { ArmObj, ServerFarm, HostingEnvironment } from '../../../models/WebAppModels';
 import { IDropdownOption, Panel, PrimaryButton, DefaultButton, PanelType, Link, MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { ResourceGroupInfo, CreateOrSelectResourceGroup } from './CreateOrSelectResourceGroup';
 import { TextField as OfficeTextField } from 'office-ui-fabric-react/lib/TextField';
@@ -14,6 +13,9 @@ import { AppKind } from '../../../utils/AppKind';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import RbacHelper from '../../../utils/rbac-helper';
 import { FormControlWrapper, Layout } from '../../../components/FormControlWrapper/FormControlWrapper';
+import { ArmObj } from '../../../models/arm-obj';
+import { ServerFarm } from '../../../models/serverFarm/serverfarm';
+import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 
 export interface CreatePlanProps {
   newPlanInfo: NewPlanInfo;

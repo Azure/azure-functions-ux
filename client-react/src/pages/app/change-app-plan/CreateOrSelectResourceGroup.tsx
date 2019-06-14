@@ -13,7 +13,6 @@ import {
 import { dropdownStyleOverrides } from '../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../ThemeContext';
 import { ResourceGroup } from '../../../models/resource-group';
-import { ArmObj } from '../../../models/WebAppModels';
 import { style } from 'typestyle';
 import { TextField as OfficeTextField } from 'office-ui-fabric-react/lib/TextField';
 import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
@@ -22,6 +21,7 @@ import i18next from 'i18next';
 import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
 import RbacHelper from '../../../utils/rbac-helper';
 import { FormControlWrapper, Layout } from '../../../components/FormControlWrapper/FormControlWrapper';
+import { ArmObj } from '../../../models/arm-obj';
 
 export interface CreateOrSelectResourceGroupFormProps {
   onRgChange: (rgInfo: ResourceGroupInfo) => void;
