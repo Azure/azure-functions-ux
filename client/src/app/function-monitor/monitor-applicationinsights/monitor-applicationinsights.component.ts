@@ -95,6 +95,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
       functionMonitorInfo: this.functionMonitorInfo,
       operationId: trace.operationId,
       id: trace.id,
+      invocationId: trace.invocationId,
     };
     this.sidePanelOpened = true;
   }

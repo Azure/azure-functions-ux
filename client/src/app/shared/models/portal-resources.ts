@@ -272,6 +272,7 @@ export class PortalResources {
   public static httpRun_query = 'httpRun_query';
   public static topBar_alwaysOn = 'topBar_alwaysOn';
   public static topBar_slotsHostId = 'topBar_slotsHostId';
+  public static topBar_slotsHostIdV2 = 'topBar_slotsHostIdV2';
   public static topBar_releaseNotes = 'topBar_releaseNotes';
   public static adminKeys_title = 'adminKeys_title';
   public static functionKeys_addNewAdminKey = 'functionKeys_addNewAdminKey';
@@ -325,7 +326,7 @@ export class PortalResources {
   public static appFunctionSettings_useApiProxies = 'appFunctionSettings_useApiProxies';
   public static sideBar_changeMadeApiProxy = 'sideBar_changeMadeApiProxy';
   public static apiProxy_alreadyExists = 'apiProxy_alreadyExists';
-  public static slots_warningOff = 'slots_warningOff';
+  public static slots_warningDisabled = 'slots_warningDisabled';
   public static discard = 'discard';
   public static sidebar_Functions = 'sidebar_Functions';
   public static intro_signInWithFacebook = 'intro_signInWithFacebook';
@@ -695,12 +696,12 @@ export class PortalResources {
   public static emptyBrowse_title = 'emptyBrowse_title';
   public static appFunctionSettings_slotsOptinSettings = 'appFunctionSettings_slotsOptinSettings';
   public static appFunctionSettings_slotsDesc = 'appFunctionSettings_slotsDesc';
+  public static appFunctionSettings_slotsEnable = 'appFunctionSettings_slotsEnable';
   public static appFunctionSettings_warning_1 = 'appFunctionSettings_warning_1';
   public static appFunctionSettings_warning_2 = 'appFunctionSettings_warning_2';
   public static appFunctionSettings_warning_3 = 'appFunctionSettings_warning_3';
-  public static appFunctionSettings_warning_4 = 'appFunctionSettings_warning_4';
-  public static appFunctionSettings_warning_5 = 'appFunctionSettings_warning_5';
   public static slotCreateOperationInProgressWarning = 'slotCreateOperationInProgressWarning';
+  public static slots_label = 'slots_label';
   public static slotNew = 'slotNew';
   public static slotNew_nameLabel = 'slotNew_nameLabel';
   public static slotNew_cloneConfigLabel = 'slotNew_cloneConfigLabel';
@@ -1606,4 +1607,5 @@ export class PortalResources {
   public static planName = 'planName';
   public static majorVersion = 'majorVersion';
   public static minorVersion = 'minorVersion';
+  public static containerValidationFailed = 'containerValidationFailed';
 }

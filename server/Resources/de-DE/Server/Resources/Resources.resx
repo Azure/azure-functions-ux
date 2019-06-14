@@ -920,7 +920,10 @@
     <value>Die Einstellung "AlwaysOn" ist nicht aktiviert. Ihre App funktioniert möglicherweise nicht ordnungsgemäß.</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>Die Einstellung "AzureWebJobsSecretStorageType" muss auf "blob" festgelegt werden. Das Fehlen dieser Einstellung führt bei Verwendung von Bereitstellungsslots zu unerwartetem Verhalten.</value>
+    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+  </data>
+  <data name="topBar_slotsHostIdV2" xml:space="preserve">
+    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Versionsanmerkungen zu Azure Functions.</value>
@@ -1081,8 +1084,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>Es ist bereits ein Proxy mit dem Namen "{{name}}" vorhanden.</value>
   </data>
-  <data name="slots_warningOff" xml:space="preserve">
-    <value>Azure Functions-Slots (Vorschau) sind zurzeit deaktiviert. Wechseln Sie zur Aktivierung hierhin:</value>
+  <data name="slots_warningDisabled" xml:space="preserve">
+    <value>Azure functions slots is currently disabled.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Verwerfen</value>
@@ -2197,6 +2200,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Hiermit werden Bereitstellungsslots aktiviert (Vorschau).</value>
   </data>
+  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
+    <value>Enable deployment slots</value>
+  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Bekannte Probleme:</value>
   </data>
@@ -2204,16 +2210,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Die Logic Apps-Integration mit Functions funktioniert nicht, wenn Slots (Vorschau) aktiviert sind.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Durch das Aktivieren dieses Vorschaufeatures werden alle vorhandenen Geheimnisse zurückgesetzt. Funktionsgeheimnisse finden Sie hier:</value>
-  </data>
-  <data name="appFunctionSettings_warning_4" xml:space="preserve">
-    <value>Der Knoten "Verwalten"</value>
-  </data>
-  <data name="appFunctionSettings_warning_5" xml:space="preserve">
-    <value>für jede Funktion.</value>
+    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Aktuell wird ein Vorgang zur Sloterstellung ausgeführt. Wenn Sie zu einer anderen Seite wechseln, können Sie den Status des Vorgangs nicht mehr überprüfen.</value>
+  </data>
+  <data name="slots_label" xml:space="preserve">
+    <value>Einschubfächer</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Slot hinzufügen</value>
@@ -4885,7 +4888,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Für Ihre Funktions-App wurden Clientzertifikate aktiviert. Dies kann möglicherweise bewirken, dass Sie die Funktions-App nicht mehr über das Portal verwalten können.</value>
   </data>
   <data name="alwaysOnInfoMessage" xml:space="preserve">
-    <value>Prevents your app from being idled out due to inactivity.</value>
+    <value>Hiermit wird verhindert, dass Ihre App aufgrund von Inaktivität in den Leerlauf versetzt wird.</value>
   </data>
   <data name="ftpsInfoMessage" xml:space="preserve">
     <value>Die FTP-basierte Bereitstellung kann deaktiviert oder so konfiguriert werden, dass FTP- (Nur-Text) oder FTPS-Verbindungen (sicher) akzeptiert werden.</value>
@@ -4915,7 +4918,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Das Bearbeiten von Funktionen im Portal wird für Java-Funktions-Apps nicht unterstützt. Verwenden Sie Maven oder VS Code für die Entwicklung.</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
-    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
+    <value>Der Arbeitsverzeichnispfad muss relativ zum Stamm des Repositorys sein und darf nicht mit "/", "\" oder im Fall von Windows mit Laufwerknamen beginnen (C:/). Wenn sich das Arbeitsverzeichnis im src-Ordner des Repositorys befindet, muss der Pfad "src/" lauten.</value>
   </data>
   <data name="mountedStorageInfo" xml:space="preserve">
     <value>Mit eingebundenem Speicher können Sie Azure Files- oder Blobcontainer zur Verwendung mit Ihrer App zuordnen.</value>
@@ -4948,13 +4951,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Fehler beim Erstellen des App Service-Plans "{0}".</value>
   </data>
   <data name="changePlanNoWritePermissionRg" xml:space="preserve">
-    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+    <value>Sie verfügen nicht über ausreichende Schreibberechtigungen zum Erstellen eines neuen App Service-Plans in dieser Ressourcengruppe.</value>
   </data>
   <data name="changePlanSiteLockedError" xml:space="preserve">
-    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+    <value>Ihre App weist eine ReadOnly-Sperre auf und kann nicht in einen anderen App Service-Plan verschoben werden.</value>
   </data>
   <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
-    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+    <value>Das Erstellen einer neuen Ressourcengruppe ist nicht zulässig, weil Sie nicht über ausreichende Schreibberechtigungen für das Abonnement verfügen.</value>
   </data>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Der Ressourcengruppenname darf nur alphanumerische Zeichen, Punkte, Unterstriche, Bindestriche und Klammern enthalten, Er darf nicht mit einem Punkt enden.</value>
@@ -4985,5 +4988,8 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="minorVersion" xml:space="preserve">
     <value>Nebenversion</value>
+  </data>
+  <data name="containerValidationFailed" xml:space="preserve">
+    <value>Fehler beim Überprüfen der Containereinstellungen.</value>
   </data>
 </root>

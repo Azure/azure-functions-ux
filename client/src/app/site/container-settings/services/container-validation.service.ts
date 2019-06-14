@@ -1,55 +1,44 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CacheService } from '../../../shared/services/cache.service';
-import { UserService } from '../../../shared/services/user.service';
-import { ConditionalHttpClient, Result } from '../../../shared/conditional-http-client';
-import { ProxyRequest, GetRepositoryTagRequest } from '../container-settings';
-import { Constants } from '../../../shared/models/constants';
-import { Headers } from '@angular/http';
+import { ArmResourceDescriptor } from 'app/shared/resourceDescriptors';
+import { ValidateRequest, ContainerValidationProperties } from 'app/shared/models/arm/validate';
+import { ARMApiVersions } from 'app/shared/models/constants';
+import { Observable } from 'rxjs/Observable';
+import { Response } from '@angular/http';
 
 @Injectable()
 export class ContainerValidationService {
-  private readonly _client: ConditionalHttpClient;
-
-  constructor(private _cacheService: CacheService, private _userService: UserService, injector: Injector) {
-    this._client = new ConditionalHttpClient(injector, _ => this._userService.getStartupInfo().map(i => i.token));
-  }
+  constructor(private _cacheService: CacheService) {}
 
   public validateContainerImage(
     resourceId: string,
+    location: string,
     baseUrl: string,
     platform: string,
     repository: string,
     tag: string,
     username: string,
     password: string
-  ): Result<any> {
-    const proxyRequestBody: GetRepositoryTagRequest = {
-      baseUrl,
-      platform,
-      repository,
-      tag,
-      username,
-      password,
+  ): Observable<Response> {
+    const resourceDescriptor: ArmResourceDescriptor = new ArmResourceDescriptor(resourceId);
+    const validateRequest: ValidateRequest<ContainerValidationProperties> = {
+      name: resourceDescriptor.resourceName,
+      location: location,
+      type: 'Microsoft.Web/container',
+      properties: {
+        containerRegistryBaseUrl: baseUrl,
+        containerRegistryUsername: username ? username : '',
+        containerRegistryPassword: password ? password : '',
+        containerImageRepository: `${repository}:${tag ? tag : 'latest'}`,
+        containerImageTag: '',
+        containerImagePlatform: platform,
+      },
     };
 
-    const proxyRequest: ProxyRequest<GetRepositoryTagRequest> = {
-      method: 'POST',
-      url: `${Constants.webAppsHostName}/api/Websites/GetRepositoryTagAsync`,
-      body: proxyRequestBody,
-      headers: {},
-    };
+    const validateResourceId = `/subscriptions/${resourceDescriptor.subscription}/resourcegroups/${
+      resourceDescriptor.resourceGroup
+    }/providers/Microsoft.Web/validate`;
 
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    const validateImage = this._userService
-      .getStartupInfo()
-      .first()
-      .switchMap(i => {
-        proxyRequest.headers['Authorization'] = `Bearer ${i.token}`;
-        return this._cacheService.post('/api/validateContainerImage', true, headers, proxyRequest).map(r => r.json());
-      });
-
-    return this._client.execute({ resourceId: resourceId }, t => validateImage);
+    return this._cacheService.postArm(validateResourceId, true, ARMApiVersions.websiteApiVersion20160301, validateRequest);
   }
 }

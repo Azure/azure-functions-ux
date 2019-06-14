@@ -55,7 +55,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
 
   const actionBarPrimaryButtonProps = {
     id: 'save',
-    title: t('update'),
+    title: t('ok'),
     onClick: save,
     disable: !!nameError,
   };
