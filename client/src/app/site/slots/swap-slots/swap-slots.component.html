@@ -91,13 +91,6 @@
                     </div>
                 </div>
 
-                <div class="swap-icon-container">
-                    <span
-                        class="icon-small"
-                        load-image="image/swap.svg">
-                    </span>
-                </div>
-
                 <div class="control-container dest">
                     <div class="control-label">
                         <div class="bullet dest"></div>
@@ -147,7 +140,7 @@
                     [infoText]="'swapMultiPhaseNoStickySettings' | translate">
                 </info-box>
 
-                <div class="centered">
+                <div>
                     <label>
                         <input
                             [formControl]="swapForm ? swapForm.controls['multiPhase'] : null"
@@ -159,11 +152,12 @@
             </div>
 
             <div *ngIf="swapForm?.controls['multiPhase']?.value" class="phase-container">
+
+                <progress-bar [steps]="phases" class="NavSymbols"></progress-bar>
+
                 <div class="help-text-container">
                     {{ 'swapWithPreviewInfoText' | translate }}
                 </div>
-
-                <progress-bar [steps]="phases" class="NavSymbols"></progress-bar>
 
                 <info-box *ngIf="showPreviewLink"
                     typeClass="info"
