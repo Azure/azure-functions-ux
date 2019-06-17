@@ -428,13 +428,19 @@ const changeSiteToNewPlan = async (
     serverFarmInfo.newPlanInfo.name
   }`;
 
+  // Purposely ignoring slots to avoid a back-end bug where if webSiteId is a slot resourceId, then you'll get a 404 on create.
+  // This works because slots always have the same webspace as prod sites.
+  const webSiteId = `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${
+    siteDescriptor.resourceGroup
+  }/providers/Microsoft.Web/sites/${siteDescriptor.site}`;
+
   const newServerFarm = {
     id: newServerFarmId,
     name: serverFarmInfo.newPlanInfo.name,
     location: site.location,
     kind: currentServerFarm.kind,
     properties: {
-      webSiteId: site.id,
+      webSiteId,
       reserved: currentServerFarm.properties.reserved,
       isXenon: currentServerFarm.properties.isXenon,
       hostingEnvironmentId: currentServerFarm.properties.hostingEnvironmentId,
