@@ -4975,7 +4975,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>The name of your plan may not exceed {0} characters.</value>
   </data>
   <data name="aspNameConflictValidationError" xml:space="preserve">
-    <value>A plan named '{0}' already exists under the resource group ${resourceGroupName}</value>
+    <value>A plan named '{0}' already exists under the resource group {0}</value>
   </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>Are you sure you would like to cancel the update operation?</value>
