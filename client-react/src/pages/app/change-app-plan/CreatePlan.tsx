@@ -172,7 +172,7 @@ const watchForPlanUpdates = (
 
     const rgName = info.isNewResourceGroup ? info.newResourceGroupName : (info.existingResourceGroup as ArmObj<any>).name;
 
-    const validate = getServerFarmValidator(subscriptionId, rgName);
+    const validate = getServerFarmValidator(subscriptionId, rgName, t);
     validate(info.name)
       .then(_ => {
         const duplicate = serverFarmsInWebspace.find(s => s.name.toLowerCase() === info.name.toLowerCase());
