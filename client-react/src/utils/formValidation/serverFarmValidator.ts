@@ -39,7 +39,7 @@ export const getServerFarmValidator = <T>(
       const serverFarmId = `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Web/serverFarms/${name}`;
       return ServerFarmService.fetchServerFarm(serverFarmId).then(r => {
         if (r.metadata.success) {
-          errors.notUnique = t('aspNameConflictValidationError').format(name);
+          errors.notUnique = t('aspNameConflictValidationError').format(name, resourceGroupName);
         }
 
         Object.keys(errors).length > 0 ? reject(errors) : resolve(errors);
