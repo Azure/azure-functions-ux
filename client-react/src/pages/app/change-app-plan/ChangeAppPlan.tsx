@@ -23,6 +23,7 @@ import { useWindowSize } from 'react-use';
 import RbacHelper from '../../../utils/rbac-helper';
 import { BroadcastMessageId } from '../../../models/portal-models';
 import { FormControlWrapper } from '../../../components/FormControlWrapper/FormControlWrapper';
+import { LogCategories } from '../../../utils/LogCategories';
 
 export const leftCol = style({
   marginRight: '20px',
@@ -64,6 +65,7 @@ interface CompletionTelemetry {
   success: boolean;
   newResourceGroup: boolean;
   newPlan: boolean;
+  resourceId?: string;
   message?: string;
 }
 
@@ -300,11 +302,18 @@ const openSpecPicker = async (
   }
 };
 
-const getCompletionTelemtry = (success: boolean, newResourceGroup: boolean, newPlan: boolean, message?: string): CompletionTelemetry => {
+const getCompletionTelemtry = (
+  success: boolean,
+  newResourceGroup: boolean,
+  newPlan: boolean,
+  resourceId?: string,
+  message?: string
+): CompletionTelemetry => {
   return {
     success,
     newResourceGroup,
     newPlan,
+    resourceId,
     message,
   };
 };
@@ -348,7 +357,8 @@ const changeSiteToExistingPlan = async (
   let success = false;
 
   if (!serverFarmInfo.existingPlan) {
-    LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'existingPlan not set'));
+    LogService.trackEvent(LogCategories.changeAppPlan, 'onSubmit', getCompletionTelemtry(false, false, false, '', 'existingPlan not set'));
+
     return success;
   }
 
@@ -359,13 +369,18 @@ const changeSiteToExistingPlan = async (
   const siteResponse = await SiteService.updateSite(site.id, site);
   if (siteResponse.metadata.success) {
     portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
-    LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(true, false, false));
+    LogService.trackEvent(LogCategories.changeAppPlan, 'onSubmit', getCompletionTelemtry(true, false, false, site.id));
+
     success = true;
   } else {
     const updateSiteError =
       siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
     portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
-    LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'Failed to update site'));
+    LogService.trackEvent(
+      LogCategories.changeAppPlan,
+      'onSubmit',
+      getCompletionTelemtry(false, false, false, site.id, `Failed to update site: '${updateSiteError}'`)
+    );
   }
 
   return success;
@@ -391,7 +406,17 @@ const changeSiteToNewPlan = async (
     if (!rgResponse.metadata.success) {
       const createRgError = rgResponse.metadata.error && rgResponse.metadata.error.Message ? rgResponse.metadata.error.Message : rgName;
       portalCommunicator.stopNotification(notificationId, false, t('changePlanRgCreateFailureNotificationFormat').format(createRgError));
-      LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, true, true, 'Failed to update resource group'));
+      LogService.trackEvent(
+        LogCategories.changeAppPlan,
+        'onSubmit',
+        getCompletionTelemtry(
+          false,
+          true,
+          true,
+          `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${serverFarmInfo.newPlanInfo.newResourceGroupName}`,
+          `Failed to update resource group: ${createRgError}`
+        )
+      );
 
       return false;
     }
@@ -403,13 +428,19 @@ const changeSiteToNewPlan = async (
     serverFarmInfo.newPlanInfo.name
   }`;
 
+  // Purposely ignoring slots to avoid a back-end bug where if webSiteId is a slot resourceId, then you'll get a 404 on create.
+  // This works because slots always have the same webspace as prod sites.
+  const webSiteId = `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${
+    siteDescriptor.resourceGroup
+  }/providers/Microsoft.Web/sites/${siteDescriptor.site}`;
+
   const newServerFarm = {
     id: newServerFarmId,
     name: serverFarmInfo.newPlanInfo.name,
     location: site.location,
     kind: currentServerFarm.kind,
     properties: {
-      webSiteId: site.id,
+      webSiteId,
       reserved: currentServerFarm.properties.reserved,
       isXenon: currentServerFarm.properties.isXenon,
       hostingEnvironmentId: currentServerFarm.properties.hostingEnvironmentId,
@@ -431,9 +462,15 @@ const changeSiteToNewPlan = async (
     portalCommunicator.stopNotification(notificationId, false, t('changePlanPlanCreateFailureNotificationFormat').format(createPlanError));
 
     LogService.trackEvent(
-      '/ChangeAppPlan',
+      'ChangeAppPlan',
       'onSubmit',
-      getCompletionTelemtry(false, serverFarmInfo.newPlanInfo.isNewResourceGroup, true, 'Failed to create new serverfarm')
+      getCompletionTelemtry(
+        false,
+        serverFarmInfo.newPlanInfo.isNewResourceGroup,
+        true,
+        newServerFarmId,
+        `Failed to create new serverfarm: '${createPlanError}'`
+      )
     );
 
     return false;
@@ -448,15 +485,28 @@ const changeSiteToNewPlan = async (
     portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
 
     LogService.trackEvent(
-      '/ChangeAppPlan',
+      'ChangeAppPlan',
       'onSubmit',
-      getCompletionTelemtry(false, serverFarmInfo.newPlanInfo.isNewResourceGroup, serverFarmInfo.isNewPlan, 'Failed to update site')
+      getCompletionTelemtry(
+        false,
+        serverFarmInfo.newPlanInfo.isNewResourceGroup,
+        serverFarmInfo.isNewPlan,
+        site.id,
+        `Failed to update site: '${updateSiteError}'`
+      )
     );
 
     return false;
   }
 
   portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
+
+  LogService.trackEvent(
+    'ChangeAppPlan',
+    'onSubmit',
+    getCompletionTelemtry(true, serverFarmInfo.newPlanInfo.isNewResourceGroup, serverFarmInfo.isNewPlan, site.id)
+  );
+
   return true;
 };
 
