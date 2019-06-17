@@ -188,12 +188,14 @@ export class ApplicationInsightsService {
   private _getQueryForInvocationTraceHistory(operationId: string, invocationId: string): string {
     this._validateOperationId(operationId);
 
+    const invocationIdFilter = !!invocationId ? `| where customDimensions['InvocationId'] == '${invocationId}'` : '';
+
     return (
       `union traces` +
       `| union exceptions` +
       `| where timestamp > ago(30d)` +
       `| where operation_Id == '${operationId}'` +
-      `| where customDimensions['InvocationId'] == '${invocationId}'` +
+      invocationIdFilter +
       `| order by timestamp asc` +
       `| project timestamp, message = iff(message != '', message, iff(innermostMessage != '', innermostMessage, customDimensions.["prop__{OriginalFormat}"])), logLevel = customDimensions.["LogLevel"]`
     );
