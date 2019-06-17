@@ -1598,6 +1598,10 @@ export class PortalResources {
   public static changePlanSiteLockedError = 'changePlanSiteLockedError';
   public static changePlanNoWritePermissionOnSubscription = 'changePlanNoWritePermissionOnSubscription';
   public static resourceGroupNameValidationError = 'resourceGroupNameValidationError';
+  public static aspNameCharacterValidationError = 'aspNameCharacterValidationError';
+  public static aspNameRestrictedValidationError = 'aspNameRestrictedValidationError';
+  public static aspNameLengthValidationError = 'aspNameLengthValidationError';
+  public static aspNameConflictValidationError = 'aspNameConflictValidationError';
   public static cancelUpdateConfirmation = 'cancelUpdateConfirmation';
   public static newFormat = 'newFormat';
   public static validationErrorAlreadyExistsFormat = 'validationErrorAlreadyExistsFormat';
