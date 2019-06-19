@@ -8,7 +8,7 @@ import {
   ConnStringInfo,
   ArmAzureStorageMount,
 } from '../../../models/WebAppModels';
-
+import SiteService from '../../../ApiHelpers/SiteService';
 import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
 import { sortBy } from 'lodash-es';
 
@@ -94,6 +94,18 @@ export const convertFormToState = (
   const configWithStack = getConfigWithStackSettings(config, values);
   const storageMounts = getAzureStorageMountFromForm(values.azureStorageMounts);
 
+  if (site) {
+    if (site.id) {
+      slotConfigNames.id = `${SiteService.getProductionId(site.id)}/config/slotconfignames`;
+      storageMounts.id = `${site.id}/config/azureStorageAccounts`;
+    }
+
+    if (site.location) {
+      slotConfigNames.location = site.location;
+      storageMounts.location = site.location;
+    }
+  }
+
   return {
     site,
     slotConfigNames,
@@ -121,8 +133,8 @@ export function getStickySettings(
 
   return {
     id: '',
-    name: '',
     location: '',
+    name: 'slotconfignames',
     properties: {
       appSettingNames,
       connectionStringNames,
@@ -168,7 +180,7 @@ export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts
   return {
     id: '',
     location: '',
-    name: '',
+    name: 'azurestorageaccounts',
     properties: storageMountFromForm,
   };
 }
