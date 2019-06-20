@@ -32,6 +32,10 @@ const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
               text: '.NET',
             },
             {
+              key: 'dotnetcore',
+              text: '.NET Core',
+            },
+            {
               key: 'php',
               text: 'PHP',
             },
