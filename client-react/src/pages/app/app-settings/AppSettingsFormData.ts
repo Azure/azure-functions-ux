@@ -95,14 +95,14 @@ export const convertFormToState = (
   const storageMounts = getAzureStorageMountFromForm(values.azureStorageMounts);
 
   if (site) {
-    if (site.id) {
-      slotConfigNames.id = `${SiteService.getProductionId(site.id)}/config/slotconfignames`;
-      storageMounts.id = `${site.id}/config/azureStorageAccounts`;
+    const [id, location] = [site.id, site.location];
+    if (id) {
+      slotConfigNames.id = `${SiteService.getProductionId(id)}/config/slotconfignames`;
+      storageMounts.id = `${id}/config/azureStorageAccounts`;
     }
-
-    if (site.location) {
-      slotConfigNames.location = site.location;
-      storageMounts.location = site.location;
+    if (location) {
+      slotConfigNames.location = location;
+      storageMounts.location = location;
     }
   }
 
