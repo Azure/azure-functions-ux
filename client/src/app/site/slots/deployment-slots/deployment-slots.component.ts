@@ -638,6 +638,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   openActivityLog() {
     const siteDescriptor = new ArmSiteDescriptor(this.siteArm.id);
 
+    // See https://msazure.visualstudio.com/One/_git/AzureUX-ActivityLog?path=%2Fsrc%2FActivityLogExtension%2FClient%2FEvents%2FModels%2FSharedEventModels.ts&version=GBdev
     const query = {
       operationNames: [
         'Microsoft.Web/sites/applySlotConfig/Action',
@@ -650,21 +651,26 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       searchText: '',
       subscriptions: [siteDescriptor.subscription],
       managementGroups: [],
-      // resourceGroupId: `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${siteDescriptor.resourceGroup}`,
       resourceGroupId: siteDescriptor.resourceGroupId,
       resourceId: siteDescriptor.resourceId,
       resourceTypes: [],
       category: 'all',
+      // Levels
+      //   Critical = 1
+      //   Error = 2
+      //   Warning = 3
+      //   Informational = 4
+      //   Verbose = 5
       levels: ['1', '2', '3', '4'],
+      // TimeSpan
+      //   LastOneHour = 0
+      //   Last24Hours = 1
+      //   LastWeek = 2
+      //   Custom = 3 (requires startTime and endTime)
+      //   LastSixHours = 4
+      //   LastTwoWeeks = 6
+      //   LastOneMonth = 7
       timeSpan: '2',
-      // timeSpan: '3',
-      // startTime: '2019-04-28T21:03:43.084Z',
-      // endTime: '2019-05-28T21:03:43.084Z',
-      // REMOVE
-      // caller: 'all',
-      // queryName: 'ActivityLogTest',
-      // queryId: 'ab2e5bde-3b7a-4d9b-914a-703589c4e50d',
-      // searchString: '',
       top: 100,
     };
 
@@ -676,25 +682,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       openAsSubJourney: false,
     };
 
-    this._portalService
-      .openBlade(bladeInfo, this.componentName)
-      .mergeMap(bladeResult => {
-        return Observable.of({
-          success: true,
-          error: null,
-          result: bladeResult,
-        });
-      })
-      .catch(err => {
-        return Observable.of({
-          success: false,
-          error: err,
-          result: null,
-        });
-      })
-      .subscribe(_ => {
-        // TODO (andimarc): do something?
-      });
+    this._portalService.openBlade(bladeInfo, this.componentName).subscribe();
   }
 
   getSegment(path: string, index: number): string {
