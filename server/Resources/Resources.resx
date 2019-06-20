@@ -147,6 +147,9 @@
   <data name="storage" xml:space="preserve">
     <value>Storage</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>Function</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Create Function Error: {{error}}</value>
   </data>
@@ -671,7 +674,7 @@
     <value>Scenario:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Triggers</value>
+    <value>Trigger</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
     <value>Trial expired</value>
@@ -5009,5 +5012,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>Failed to validate container settings.</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>No trigger defined</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>No inputs defined</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>No outpus defined</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>Function</value>
   </data>
 </root>
