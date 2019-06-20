@@ -1186,6 +1186,9 @@
   <data name="restart" xml:space="preserve">
     <value>Restart</value>
   </data>
+  <data name="logs" xml:space="preserve">
+    <value>Logs</value>
+  </data>
   <data name="swap" xml:space="preserve">
     <value>Swap</value>
   </data>

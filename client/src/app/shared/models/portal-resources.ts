@@ -359,6 +359,7 @@ export class PortalResources {
   public static stop = 'stop';
   public static start = 'start';
   public static restart = 'restart';
+  public static logs = 'logs';
   public static swap = 'swap';
   public static startSwap = 'startSwap';
   public static completeSwap = 'completeSwap';
