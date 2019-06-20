@@ -13,6 +13,7 @@ export class PortalResources {
   public static cpu = 'cpu';
   public static memory = 'memory';
   public static storage = 'storage';
+  public static function = 'function';
   public static functionCreateErrorDetails = 'functionCreateErrorDetails';
   public static functionCreateErrorMessage = 'functionCreateErrorMessage';
   public static functionDev_functionErrorDetails = 'functionDev_functionErrorDetails';
@@ -1613,4 +1614,8 @@ export class PortalResources {
   public static majorVersion = 'majorVersion';
   public static minorVersion = 'minorVersion';
   public static containerValidationFailed = 'containerValidationFailed';
+  public static integrateNoTriggerDefined = 'integrateNoTriggerDefined';
+  public static integrateNoInputsDefined = 'integrateNoInputsDefined';
+  public static integrateNoOutputsDefined = 'integrateNoOutputsDefined';
+  public static _function = '_function';
 }
