@@ -59,7 +59,7 @@
 
     <div *ngIf="keepVisible || featureSupported || loadingFailed" class="config-wrapper">
         <info-box
-            *ngIf="!fetchingContent && !!siteArm && (!relativeSlotsArm || relativeSlotsArm.length === 0)"
+            *ngIf="!fetchingContent && !!prodSiteArm && (!deploymentSlotsArm || deploymentSlotsArm.length === 0)"
             [isBanner]="true"
             [infoText]="'slotsList_noSlots' | translate"
             typeClass="upsell"
@@ -141,31 +141,29 @@
                     <th class="padded-col" table-cell>
                         {{ 'slotsList_serverfarmHeader' | translate }}
                     </th>
-                    <th *ngIf="!isSlot" class="padded-col" table-cell>
+                    <th *ngIf="!!prodSiteConfigArm" class="padded-col" table-cell>
                         {{ 'slotsList_trafficPercentHeader' | translate }}
                     </th>
                 </tr>
 
-                <tr *ngIf="siteArm" table-row>
+                <tr *ngIf="prodSiteArm" table-row>
 
                     <td class="padded-col" table-cell>
-                        {{ (siteArm && siteArm.name) ? siteArm.name.replace('/', '-') : '-' }}
-                        <div
-                            *ngIf="siteArm?.type === 'Microsoft.Web/sites'"
-                            class="pill">
+                        {{ (prodSiteArm && prodSiteArm.name) || '-' }}
+                        <div class="pill">
                             {{ 'production' | translate }}
                         </div>
                     </td>
 
                     <td class="padded-col" table-cell>
-                        {{ siteArm ? siteArm.properties.state : '-' }}
+                        {{ prodSiteArm ? prodSiteArm.properties.state : '-' }}
                     </td>
 
                     <td class="padded-col" table-cell>
-                        {{ siteArm ? getSegment(siteArm.properties.serverFarmId, 8) : '-' }}
+                        {{ prodSiteArm ? getSegment(prodSiteArm.properties.serverFarmId, 8) : '-' }}
                     </td>
 
-                    <td *ngIf="!isSlot" class="padded-col" table-cell>
+                    <td *ngIf="!!prodSiteConfigArm" class="padded-col" table-cell>
                         <div class="pct-wrapper">
                             <textbox
                                 disabled="true"
@@ -177,38 +175,40 @@
 
                 </tr>
 
-                <tr *ngFor="let relativeSlotArm of (siteArm ? relativeSlotsArm : [])" table-row>
+                <tr *ngFor="let deploymentSlotArm of (prodSiteArm ? deploymentSlotsArm : [])" table-row>
 
                     <td class="padded-col" table-cell>
 
                         <a *ngIf="!navigationDisabled"
                             tabindex="0"
-                            (click)="openSlotBlade(relativeSlotArm.id)"
+                            (click)="openSlotBlade(deploymentSlotArm.id)"
                             [activate-with-keys]>
-                            {{ relativeSlotArm.name ? relativeSlotArm.name.replace('/', '-') : '-' }}
+                            {{ deploymentSlotArm.name ? deploymentSlotArm.name.replace('/', '-') : '-' }}
                         </a>
                         <span *ngIf="!!navigationDisabled">
-                            {{ relativeSlotArm.name ? relativeSlotArm.name.replace('/', '-') : '-' }}
+                            {{ deploymentSlotArm.name ? deploymentSlotArm.name.replace('/', '-') : '-' }}
                         </span>
                         <div
-                            *ngIf="relativeSlotArm.type === 'Microsoft.Web/sites'"
+                            *ngIf="deploymentSlotArm.type === 'Microsoft.Web/sites'"
                             class="pill">
                             {{ 'production' | translate }}
                         </div>
                     </td>
 
                     <td class="padded-col" table-cell>
-                        {{ relativeSlotArm.properties.state }}
+                        {{ deploymentSlotArm.properties.state }}
                     </td>
 
                     <td class="padded-col" table-cell>
-                        {{ getSegment(relativeSlotArm.properties.serverFarmId, 8) }}
+                        {{ getSegment(deploymentSlotArm.properties.serverFarmId, 8) }}
                     </td>
 
-                    <td *ngIf="!isSlot" class="padded-col" table-cell [editable]="true">
+                    <td *ngIf="!!prodSiteConfigArm" class="padded-col" table-cell [editable]="!isSlot">
                         <div class="pct-wrapper">
                             <textbox
-                                [control]="(mainForm && mainForm.controls['rulesGroup']) ? mainForm.controls['rulesGroup'].controls[relativeSlotArm.name] : null"
+                                [disabled]="isSlot"
+                                [readonly]="isSlot"
+                                [control]="(mainForm && mainForm.controls['rulesGroup']) ? mainForm.controls['rulesGroup'].controls[deploymentSlotArm.name] : null"
                                 [placeholder]="0"
                                 [highlightDirty]="true">
                             </textbox>
@@ -219,13 +219,13 @@
 
                 <!-- Placeholder/Message Row -->
                 <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-                <tr *ngIf="!siteArm || !relativeSlotsArm || relativeSlotsArm.length === 0" table-row>
+                <tr *ngIf="!prodSiteArm || !deploymentSlotsArm || deploymentSlotsArm.length === 0" table-row>
 
-                    <td *ngIf="fetchingContent" class="message-row" [attr.colspan]="!isSlot ? 4 : 3" table-cell>
+                    <td *ngIf="fetchingContent" class="message-row" [attr.colspan]="!!prodSiteConfigArm ? 4 : 3" table-cell>
                         {{ 'loading' | translate }}
                     </td>
 
-                    <td *ngIf="!fetchingContent && !siteArm" class="message-row" [attr.colspan]="!isSlot ? 4 : 3" table-cell>
+                    <td *ngIf="!fetchingContent && !prodSiteArm" class="message-row" [attr.colspan]="!!prodSiteConfigArm ? 4 : 3" table-cell>
                         {{ 'error_unableToLoadSlotsList' | translate }}
                     </td>
 
