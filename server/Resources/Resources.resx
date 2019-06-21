@@ -5022,6 +5022,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
     <value>No outpus defined</value>
   </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ Add input</value>
+  </data>
   <data name="_function" xml:space="preserve">
     <value>Function</value>
   </data>
