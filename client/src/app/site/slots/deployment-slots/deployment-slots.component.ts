@@ -72,10 +72,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   public dirtyMessage: string;
 
   public siteArm: ArmObj<Site>;
-  public relativeSlotsArm: ArmObj<Site>[];
+  public prodSiteConfigArm: ArmObj<SiteConfig>;
+  public slotsArm: ArmObj<Site>[];
   public saving: boolean;
-
-  private _siteConfigArm: ArmObj<SiteConfig>;
 
   private _slotName: string;
 
@@ -167,9 +166,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.slotsQuotaMessage = null;
 
         this.siteArm = null;
-        this.relativeSlotsArm = null;
+        this.slotsArm = null;
         this.saving = false;
-        this._siteConfigArm = null;
+        this.prodSiteConfigArm = null;
 
         this._updateDisabledState();
 
@@ -208,16 +207,18 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         }
 
         if (success) {
-          this._siteConfigArm = siteConfigResult.result;
+          this.prodSiteConfigArm = siteConfigResult.result;
 
           if (this.isSlot) {
             this.siteArm = slotsResult.result.value.filter(s => s.id.toLowerCase() === this.resourceId.toLowerCase())[0];
-            this.relativeSlotsArm = slotsResult.result.value.filter(s => s.id.toLowerCase() !== this.resourceId.toLowerCase());
-            this.relativeSlotsArm.unshift(siteResult.result);
+            this.slotsArm = slotsResult.result.value.filter(s => s.id.toLowerCase() !== this.resourceId.toLowerCase());
+            this.slotsArm.unshift(siteResult.result);
           } else {
             this.siteArm = siteResult.result;
-            this.relativeSlotsArm = slotsResult.result.value;
+            this.slotsArm = slotsResult.result.value;
           }
+
+          this.slotsArm.unshift(this.siteArm);
         }
 
         this.loadingFailed = !success;
@@ -252,7 +253,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
         this.featureSupported = slotsQuota === -1 || slotsQuota >= 1;
 
-        if (this.featureSupported && this.relativeSlotsArm && this.relativeSlotsArm.length + 1 >= slotsQuota) {
+        if (this.featureSupported && this.slotsArm && this.slotsArm.length >= slotsQuota) {
           let quotaMessage = this._translateService.instant(PortalResources.slotNew_quotaReached, { quota: slotsQuota });
           if (this.canScaleUp) {
             quotaMessage = quotaMessage + ' ' + this._translateService.instant(PortalResources.slotNew_quotaUpgrade);
@@ -339,7 +340,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   }
 
   private _setupForm() {
-    if (!!this.siteArm && !!this.relativeSlotsArm && !!this._siteConfigArm) {
+    if (!!this.siteArm && !!this.slotsArm && !!this.prodSiteConfigArm) {
       this.mainForm = this._fb.group({});
 
       const remainderControl = this._fb.control({ value: '', disabled: false });
@@ -347,10 +348,12 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       const routingSumValidator = new RoutingSumValidator(this._fb, this._translateService);
       const rulesGroup = this._fb.group({}, { validator: routingSumValidator.validate.bind(routingSumValidator) });
 
-      this.relativeSlotsArm.forEach(siteArm => {
-        const ruleControl = this._generateRuleControl(siteArm);
-        rulesGroup.addControl(siteArm.name, ruleControl);
-      });
+      this.slotsArm
+        .filter(siteArm => siteArm.type !== 'Microsoft.Web/sites')
+        .forEach(siteArm => {
+          const ruleControl = this._generateRuleControl(siteArm);
+          rulesGroup.addControl(siteArm.name, ruleControl);
+        });
 
       this.mainForm.addControl(RoutingSumValidator.REMAINDER_CONTROL_NAME, remainderControl);
 
@@ -360,6 +363,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
       setTimeout(_ => {
         remainderControl.disable();
+        rulesGroup.disable();
       });
     } else {
       this.mainForm = null;
@@ -373,7 +377,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     this.saveAndDiscardCommandsDisabled = this.refreshCommandDisabled || !this.hasWriteAccess;
     if (this.mainForm && this.mainForm.controls['rulesGroup']) {
-      if (this.saveAndDiscardCommandsDisabled) {
+      if (this.saveAndDiscardCommandsDisabled || this.isSlot) {
         this.mainForm.controls['rulesGroup'].disable();
       } else {
         this.mainForm.controls['rulesGroup'].enable();
@@ -382,13 +386,13 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     this.addSlotCommandDisabled = this.saveAndDiscardCommandsDisabled || !!this.slotsQuotaMessage;
     this.swapSlotsCommandDisabled =
-      this.saveAndDiscardCommandsDisabled || !this.hasSwapAccess || !this.relativeSlotsArm || !this.relativeSlotsArm.length;
+      this.saveAndDiscardCommandsDisabled || !this.hasSwapAccess || !this.slotsArm || this.slotsArm.length < 2;
 
     this.navigationDisabled = this.isSlot || this._addControlsOpen || this._swapControlsOpen;
   }
 
   private _generateRuleControl(siteArm: ArmObj<Site>): FormControl {
-    const rampUpRules = this._siteConfigArm.properties.experiments.rampUpRules;
+    const rampUpRules = this.prodSiteConfigArm.properties.experiments.rampUpRules;
     const ruleName = siteArm.type === 'Microsoft.Web/sites' ? 'production' : this.getSegment(siteArm.name, -1);
     const rule = !rampUpRules ? null : rampUpRules.filter(r => r.name.toLowerCase() === ruleName.toLowerCase())[0];
 
@@ -431,7 +435,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         .switchMap(s => {
           notificationId = s.id;
 
-          const siteConfigArm: ArmObj<SiteConfig> = JSON.parse(JSON.stringify(this._siteConfigArm));
+          const siteConfigArm: ArmObj<SiteConfig> = JSON.parse(JSON.stringify(this.prodSiteConfigArm));
           const rampUpRules = siteConfigArm.properties.experiments.rampUpRules as RoutingRule[];
 
           const rulesGroup: FormGroup = this.mainForm.controls['rulesGroup'] as FormGroup;
@@ -461,7 +465,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                   if (index >= 0) {
                     rampUpRules[index].reroutePercentage = value;
                   } else {
-                    const slotArm = this.relativeSlotsArm.find(s => s.name.toLowerCase() === name.toLowerCase());
+                    const slotArm = this.slotsArm.find(s => s.name.toLowerCase() === name.toLowerCase());
 
                     if (slotArm) {
                       rampUpRules.push({
@@ -505,7 +509,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
           this.clearBusy();
           this._portalService.stopNotification(notificationId, true, this._translateService.instant(PortalResources.configUpdateSuccess));
 
-          this._siteConfigArm = r.json();
+          this.prodSiteConfigArm = r.json();
           this._updateDisabledState();
           this._setupForm();
         });

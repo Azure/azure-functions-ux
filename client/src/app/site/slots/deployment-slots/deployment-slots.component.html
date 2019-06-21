@@ -59,7 +59,7 @@
 
     <div *ngIf="keepVisible || featureSupported || loadingFailed" class="config-wrapper">
         <info-box
-            *ngIf="!fetchingContent && !!siteArm && (!relativeSlotsArm || relativeSlotsArm.length === 0)"
+            *ngIf="!fetchingContent && !!siteArm && (!slotsArm || slotsArm.length === 0)"
             [isBanner]="true"
             [infoText]="'slotsList_noSlots' | translate"
             typeClass="upsell"
@@ -141,31 +141,39 @@
                     <th class="padded-col" table-cell>
                         {{ 'slotsList_serverfarmHeader' | translate }}
                     </th>
-                    <th *ngIf="!isSlot" class="padded-col" table-cell>
+                    <th *ngIf="!!prodSiteConfigArm" class="padded-col" table-cell>
                         {{ 'slotsList_trafficPercentHeader' | translate }}
                     </th>
                 </tr>
 
-                <tr *ngIf="siteArm" table-row>
+                <tr *ngFor="let slotArm of (siteArm ? slotsArm : [])" table-row>
 
                     <td class="padded-col" table-cell>
-                        {{ (siteArm && siteArm.name) ? siteArm.name.replace('/', '-') : '-' }}
+                        <span *ngIf="!!navigationDisabled || slotArm.id === siteArm.id">
+                            {{ slotArm.name ? slotArm.name.replace('/', '-') : '-' }}
+                        </span>
+                        <a *ngIf="!navigationDisabled && slotArm.id !== siteArm.id"
+                            tabindex="0"
+                            (click)="openSlotBlade(slotArm.id)"
+                            [activate-with-keys]>
+                            {{ slotArm.name ? slotArm.name.replace('/', '-') : '-' }}
+                        </a>
                         <div
-                            *ngIf="siteArm?.type === 'Microsoft.Web/sites'"
+                            *ngIf="slotArm.type === 'Microsoft.Web/sites'"
                             class="pill">
                             {{ 'production' | translate }}
                         </div>
                     </td>
 
                     <td class="padded-col" table-cell>
-                        {{ siteArm ? siteArm.properties.state : '-' }}
+                        {{ slotArm.properties.state }}
                     </td>
 
                     <td class="padded-col" table-cell>
-                        {{ siteArm ? getSegment(siteArm.properties.serverFarmId, 8) : '-' }}
+                        {{ getSegment(slotArm.properties.serverFarmId, 8) }}
                     </td>
 
-                    <td *ngIf="!isSlot" class="padded-col" table-cell>
+                    <td *ngIf="!!prodSiteConfigArm && slotArm.type === 'Microsoft.Web/sites'" class="padded-col" table-cell>
                         <div class="pct-wrapper">
                             <textbox
                                 disabled="true"
@@ -174,41 +182,10 @@
                             </textbox>
                         </div>
                     </td>
-
-                </tr>
-
-                <tr *ngFor="let relativeSlotArm of (siteArm ? relativeSlotsArm : [])" table-row>
-
-                    <td class="padded-col" table-cell>
-
-                        <a *ngIf="!navigationDisabled"
-                            tabindex="0"
-                            (click)="openSlotBlade(relativeSlotArm.id)"
-                            [activate-with-keys]>
-                            {{ relativeSlotArm.name ? relativeSlotArm.name.replace('/', '-') : '-' }}
-                        </a>
-                        <span *ngIf="!!navigationDisabled">
-                            {{ relativeSlotArm.name ? relativeSlotArm.name.replace('/', '-') : '-' }}
-                        </span>
-                        <div
-                            *ngIf="relativeSlotArm.type === 'Microsoft.Web/sites'"
-                            class="pill">
-                            {{ 'production' | translate }}
-                        </div>
-                    </td>
-
-                    <td class="padded-col" table-cell>
-                        {{ relativeSlotArm.properties.state }}
-                    </td>
-
-                    <td class="padded-col" table-cell>
-                        {{ getSegment(relativeSlotArm.properties.serverFarmId, 8) }}
-                    </td>
-
-                    <td *ngIf="!isSlot" class="padded-col" table-cell [editable]="true">
+                    <td *ngIf="!!prodSiteConfigArm && slotArm.type !== 'Microsoft.Web/sites'" class="padded-col" table-cell [editable]="!isSlot">
                         <div class="pct-wrapper">
                             <textbox
-                                [control]="(mainForm && mainForm.controls['rulesGroup']) ? mainForm.controls['rulesGroup'].controls[relativeSlotArm.name] : null"
+                                [control]="(mainForm && mainForm.controls['rulesGroup']) ? mainForm.controls['rulesGroup'].controls[slotArm.name] : null"
                                 [placeholder]="0"
                                 [highlightDirty]="true">
                             </textbox>
@@ -219,13 +196,13 @@
 
                 <!-- Placeholder/Message Row -->
                 <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-                <tr *ngIf="!siteArm || !relativeSlotsArm || relativeSlotsArm.length === 0" table-row>
+                <tr *ngIf="!siteArm || !slotsArm || slotsArm.length === 0" table-row>
 
-                    <td *ngIf="fetchingContent" class="message-row" [attr.colspan]="!isSlot ? 4 : 3" table-cell>
+                    <td *ngIf="fetchingContent" class="message-row" [attr.colspan]="!!prodSiteConfigArm ? 4 : 3" table-cell>
                         {{ 'loading' | translate }}
                     </td>
 
-                    <td *ngIf="!fetchingContent && !siteArm" class="message-row" [attr.colspan]="!isSlot ? 4 : 3" table-cell>
+                    <td *ngIf="!fetchingContent && !siteArm" class="message-row" [attr.colspan]="!!prodSiteConfigArm ? 4 : 3" table-cell>
                         {{ 'error_unableToLoadSlotsList' | translate }}
                     </td>
 
