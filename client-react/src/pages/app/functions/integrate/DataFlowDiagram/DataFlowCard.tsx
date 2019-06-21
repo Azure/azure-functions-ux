@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { FunctionBinding } from '../../../../../models/functions/function-binding';
-import { style } from 'typestyle';
-import { color } from 'csx';
 import { Link } from 'office-ui-fabric-react';
 import { ThemeContext } from '../../../../../ThemeContext';
-import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
+import { getCardStyle, getHeaderStyle, listStyle } from './DataFlowDiagram.styles';
 
 export interface DataFlowCardChildProps {
   items: FunctionBinding[];
@@ -22,64 +22,11 @@ export interface DataFlowCardState {
   items: FunctionBinding[];
 }
 
-const getCardStyle = (theme: ThemeExtended) => {
-  return style({
-    border: `solid 1px ${theme.semanticColors.cardBorderColor}`,
-    borderRadius: '2px',
-    minWidth: '250px',
-    maxWidth: '350px',
-    minHeight: '70px',
-    paddingTop: '1px',
-  });
-};
-
-const getHeaderStyle = (theme: ThemeExtended) => {
-  return style({
-    height: '35px',
-    backgroundColor: '#fafafa',
-    borderBottom: `solid 1px ${color(theme.semanticColors.cardBorderColor).lighten('20%')}`,
-
-    // Necessary for some reason to prevent overlap with right border on middle card
-    marginRight: '1px',
-
-    $nest: {
-      h3: {
-        marginTop: '0px',
-        paddingTop: '5px',
-        paddingLeft: '15px',
-        fontWeight: '600',
-        display: 'inline-block',
-      },
-      svg: {
-        height: '20px',
-        width: '20px',
-        marginRight: '7px',
-        marginTop: '7px',
-        float: 'right',
-      },
-    },
-  } as any);
-};
-
-const listStyle = style({
-  listStyleType: 'none',
-  padding: '0px',
-  margin: '0px',
-
-  $nest: {
-    li: {
-      padding: '7px 18px',
-    },
-    '.emptyMessage': {
-      color: '#7f7f7f',
-    },
-  },
-});
-
 const DataFlowCard: React.SFC<DataFlowCardProps> = props => {
   const { title, emptyMessage, Svg, functionName, items, supportsMultipleItems } = props;
 
   const theme = useContext(ThemeContext);
+  const { t } = useTranslation();
 
   return (
     <div className={getCardStyle(theme)}>
@@ -87,12 +34,18 @@ const DataFlowCard: React.SFC<DataFlowCardProps> = props => {
         <h3>{title}</h3>
         <Svg />
       </div>
-      {getItemsList(items, emptyMessage, functionName, supportsMultipleItems)}
+      {getItemsList(items, emptyMessage, t, functionName, supportsMultipleItems)}
     </div>
   );
 };
 
-const getItemsList = (items: FunctionBinding[], emptyMessage: string, functionName?: string, supportsMultipleItems?: boolean) => {
+const getItemsList = (
+  items: FunctionBinding[],
+  emptyMessage: string,
+  t: i18next.TFunction,
+  functionName?: string,
+  supportsMultipleItems?: boolean
+) => {
   let list: JSX.Element[] = [];
 
   if (functionName) {
@@ -122,7 +75,7 @@ const getItemsList = (items: FunctionBinding[], emptyMessage: string, functionNa
   if (supportsMultipleItems) {
     list.push(
       <li key={list.length}>
-        <Link>+ Add input</Link>
+        <Link>{t('integrateAddInput')}</Link>
       </li>
     );
   }

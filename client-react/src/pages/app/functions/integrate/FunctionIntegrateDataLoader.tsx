@@ -27,7 +27,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   public componentWillMount() {
     const { resourceId } = this.props;
 
-    FunctionsService.fetchFunction(resourceId).then(r => {
+    FunctionsService.getFunction(resourceId).then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
