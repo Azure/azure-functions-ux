@@ -15,6 +15,8 @@ import {
   CodeRepository,
   BuildConfiguration,
   PythonFrameworkType,
+  PermissionsResultCreationParameters,
+  PermissionsResult,
 } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { Headers } from '@angular/http';
@@ -26,6 +28,8 @@ import { UserService } from '../../../../shared/services/user.service';
 import { ARMApiVersions, ScenarioIds, DeploymentCenterConstants, Kinds } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../../../../shared/models/portal-resources';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { Site } from '../../../../shared/models/arm/site';
 import { SiteService } from '../../../../shared/services/site.service';
@@ -44,6 +48,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
   private _token: string;
   private _vstsApiToken: string;
+  private _canCreateApp = false;
   public siteArm: ArmObj<Site>;
   public siteArmObj$ = new ReplaySubject<ArmObj<Site>>();
   public updateSourceProviderConfig$ = new Subject();
@@ -59,6 +64,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   constructor(
     private _cacheService: CacheService,
     private _azureDevOpsService: AzureDevOpsService,
+    private _translateService: TranslateService,
     siteService: SiteService,
     userService: UserService,
     portalService: PortalService,
@@ -163,17 +169,23 @@ export class DeploymentCenterStateManager implements OnDestroy {
   }
 
   private _deployVsts() {
-    return this._startVstsDeployment().concatMap(id => {
-      return Observable.timer(1000, 1000)
-        .switchMap(() => this._pollVstsCheck(id))
-        .map(r => {
-          const result = r.json();
-          const ciConfig: { status: string; statusMessage: string } = result.ciConfiguration.result;
-          return { ...ciConfig, result: result.ciConfiguration };
-        })
-        .first(result => {
-          return result.status !== 'inProgress' && result.status !== 'queued';
-        });
+    return this._canCreateAadApp().switchMap(r => {
+      if (r.status !== 'succeeded') {
+        return Observable.of(r);
+      }
+
+      return this._startVstsDeployment().concatMap(id => {
+        return Observable.timer(1000, 1000)
+          .switchMap(() => this._pollVstsCheck(id))
+          .map(r => {
+            const result = r.json();
+            const ciConfig: { status: string; statusMessage: string } = result.ciConfiguration.result;
+            return { ...ciConfig, result: result.ciConfiguration };
+          })
+          .first(result => {
+            return result.status !== 'inProgress' && result.status !== 'queued';
+          });
+      });
     });
   }
 
@@ -227,6 +239,39 @@ export class DeploymentCenterStateManager implements OnDestroy {
       return Observable.of(r.id);
     });
   }
+
+  private _canCreateAadApp(): Observable<{ status: string; statusMessage: string; result: any }> {
+    const success = {
+      status: 'succeeded',
+      statusMessage: null,
+      result: null,
+    };
+
+    const permissionPayload: PermissionsResultCreationParameters = {
+      aadPermissions: {
+        token: this._vstsApiToken,
+        tenantId: parseToken(this._token).tid,
+      },
+    };
+
+    if (!this._canCreateApp) {
+      return this._azureDevOpsService.getPermissionResult(permissionPayload).map((r: PermissionsResult) => {
+        if (!r.aadPermissions.value) {
+          return {
+            status: 'failed',
+            statusMessage: this._translateService.instant(PortalResources.noPermissionsToCreateApp).format(r.aadPermissions.message),
+            result: null,
+          };
+        } else {
+          this._canCreateApp = true;
+          return success;
+        }
+      });
+    } else {
+      return Observable.of(success);
+    }
+  }
+
   private get _ciConfig(): CiConfiguration {
     return {
       project: {

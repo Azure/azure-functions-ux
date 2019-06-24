@@ -504,6 +504,10 @@ export class DeploymentCenterConstants {
   public static readonly agentQueueNames = ['Hosted VS2017'];
   public static readonly queueActionFilter = 16; // "Use"
 
+  // PermissionResult
+  public static readonly vstsPermissionApiUri =
+    'https://peprodscussu2.portalext.visualstudio.com/_apis/ContinuousDelivery/PermissionsResult?api-version=4.1-preview.1';
+
   public static readonly EmptyGuid = '00000000-0000-0000-0000-000000000000';
 }
 

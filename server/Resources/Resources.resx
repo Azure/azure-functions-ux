@@ -3803,6 +3803,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>Failed to set up deployment: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>You can't register a new application in Azure Active Directory. Learn more: https://go.microsoft.com/fwlink/?linkid=843472. More details: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Disconnecting your deployment</value>
   </data>
@@ -3990,7 +3993,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>The repository for web app {0} can not be updated at this time.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Azure DevOps Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principal.</value>
+    <value>Azure DevOps Continuous Delivery requires you to have permissions to create a service principal in Azure Active Directory and assign role to it.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Select sample</value>
