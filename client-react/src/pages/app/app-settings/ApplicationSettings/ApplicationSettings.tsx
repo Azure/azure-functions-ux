@@ -16,6 +16,7 @@ import { SearchBox, Stack } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
+import { isLinuxApp } from '../../../../utils/arm-utils';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 interface ApplicationSettingsState {
@@ -105,6 +106,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           headerText={t('addEditApplicationSetting')}
           closeButtonAriaLabel={t('close')}>
           <AppSettingAddEdit
+            isLinux={isLinuxApp(values.site)}
             appSetting={this.state.currentAppSetting!}
             disableSlotSetting={!production_write}
             otherAppSettings={values.appSettings}
@@ -118,7 +120,12 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           onDismiss={this._onCancel}
           closeButtonAriaLabel={t('close')}>
           <Suspense fallback={<LoadingComponent />}>
-            <AppSettingsBulkEdit updateAppSetting={this._saveBulkEdit} closeBlade={this._onCancel} appSettings={values.appSettings} />
+            <AppSettingsBulkEdit
+              isLinux={isLinuxApp(values.site)}
+              updateAppSetting={this._saveBulkEdit}
+              closeBlade={this._onCancel}
+              appSettings={values.appSettings}
+            />
           </Suspense>
         </Panel>
         <DisplayTableWithEmptyMessage

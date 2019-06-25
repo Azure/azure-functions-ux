@@ -2123,7 +2123,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>ERROR</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>This field can only contain letters, numbers (0-9), periods ("."), and underscores ("_")</value>
+    <value>App setting names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>This field is required</value>
@@ -4802,23 +4802,38 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>All deployment slot setting properties must be of type boolean</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>App setting values must be an array</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} is a required property on all application settings</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>All app setting value and name properties must be of type string</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>All app setting deployment slot setting properties must be of type boolean</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} is an invalid app setting property</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>App setting names must be unique</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Connection string values must be an array</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all connection strings</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>All connection string value and name properties must be of type string</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} is an invalid connection string property</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Connection string names must be unique</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Invalid JSON object</value>
