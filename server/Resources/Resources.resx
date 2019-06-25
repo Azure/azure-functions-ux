@@ -4835,6 +4835,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="connectionStringNamesUnique" xml:space="preserve">
     <value>Connection string names must be unique</value>
   </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all handler mappings</value>
+  </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Invalid JSON object</value>
   </data>

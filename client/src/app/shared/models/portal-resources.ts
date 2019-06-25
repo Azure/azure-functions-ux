@@ -1555,6 +1555,7 @@ export class PortalResources {
   public static connectionStringValueMustBeAString = 'connectionStringValueMustBeAString';
   public static connectionStringInvalidProperty = 'connectionStringInvalidProperty';
   public static connectionStringNamesUnique = 'connectionStringNamesUnique';
+  public static handlerMappingPropIsRequired = 'handlerMappingPropIsRequired';
   public static jsonInvalid = 'jsonInvalid';
   public static advancedEdit = 'advancedEdit';
   public static coachMarkAriaDescription = 'coachMarkAriaDescription';
