@@ -13,7 +13,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
     expect(errMessage).toBeFalsy();
   });
 
@@ -28,7 +28,7 @@ describe('getErrorMessage', () => {
         value: '1',
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
     expect(errMessage).toBeFalsy();
   });
   it('Should give error message if object is put in', () => {
@@ -37,8 +37,8 @@ describe('getErrorMessage', () => {
       value: '6.9.1',
       slotSetting: false,
     });
-    const errMessage = getErrorMessage(appSettings, (key => key) as any);
-    expect(errMessage).toBe('valuesMustBeAnArray');
+    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
+    expect(errMessage).toBe('appSettingValuesMustBeAnArray');
   });
 
   it('Should give error message if an object is missing a name', () => {
@@ -53,7 +53,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
     expect(errMessage).toBe('appSettingPropIsRequired');
   });
 
@@ -69,7 +69,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
     expect(errMessage).toBe('appSettingPropIsRequired');
   });
 
@@ -86,8 +86,8 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, (key => key) as any);
-    expect(errMessage).toBe('valueMustBeAString');
+    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
+    expect(errMessage).toBe('appSettingValueMustBeAString');
   });
 
   it('Should give error message if an object has a non string name', () => {
@@ -103,8 +103,8 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, (key => key) as any);
-    expect(errMessage).toBe('valueMustBeAString');
+    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
+    expect(errMessage).toBe('appSettingValueMustBeAString');
   });
 
   it('Should give error message if an object has extra properties', () => {
@@ -121,7 +121,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, (key => `${key}:{0}`) as any);
+    const errMessage = getErrorMessage(appSettings, false, (key => `${key}:{0}`) as any);
     expect(errMessage).toBe('invalidAppSettingProperty:testName');
   });
 
@@ -138,7 +138,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
     expect(errMessage).toBe('slotSettingMustBeBoolean');
   });
 
@@ -155,7 +155,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]`;
-    const errMessage = getErrorMessage(appSettings, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
     expect(errMessage).toBe('jsonInvalid');
   });
 });
