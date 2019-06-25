@@ -35,10 +35,11 @@ import { Site } from '../../../../shared/models/arm/site';
 import { SiteService } from '../../../../shared/services/site.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
-import { AuthzService } from '../../../../shared/services/authz.service';
 import { VSOAccount } from '../../Models/vso-repo';
 import { AzureDevOpsService } from './azure-devops.service';
+import { LocalStorageService } from '../../../../shared/services/local-storage.service';
 
+const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
   public resourceIdStream$ = new ReplaySubject<string>(1);
@@ -48,7 +49,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
   private _token: string;
   private _vstsApiToken: string;
-  private _canCreateApp = false;
+  private _sessionId: string;
   public siteArm: ArmObj<Site>;
   public siteArmObj$ = new ReplaySubject<ArmObj<Site>>();
   public updateSourceProviderConfig$ = new Subject();
@@ -61,15 +62,16 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public isFunctionApp = false;
   public vstsKuduOnly = false;
   public vsoAccounts: VSOAccount[] = [];
+
   constructor(
     private _cacheService: CacheService,
     private _azureDevOpsService: AzureDevOpsService,
     private _translateService: TranslateService,
+    private _localStorageService: LocalStorageService,
     siteService: SiteService,
     userService: UserService,
     portalService: PortalService,
-    scenarioService: ScenarioService,
-    authZService: AuthzService
+    scenarioService: ScenarioService
   ) {
     this.resourceIdStream$
       .switchMap(r => {
@@ -99,6 +101,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
       .takeUntil(this._ngUnsubscribe$)
       .subscribe(r => {
         this._token = r.token;
+        this._sessionId = r.sessionId;
       });
 
     if (scenarioService.checkScenario(ScenarioIds.vstsSource).status !== 'disabled') {
@@ -254,7 +257,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
       },
     };
 
-    if (!this._canCreateApp) {
+    if (!this._isAadCreatePermissionStored()) {
       return this._azureDevOpsService.getPermissionResult(permissionPayload).map((r: PermissionsResult) => {
         if (!r.aadPermissions.value) {
           return {
@@ -263,7 +266,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             result: null,
           };
         } else {
-          this._canCreateApp = true;
+          this._storeAadCreatePermission();
           return success;
         }
       });
@@ -430,6 +433,33 @@ export class DeploymentCenterStateManager implements OnDestroy {
       default:
         return ApplicationType.Undefined;
     }
+  }
+
+  private _isAadCreatePermissionStored(): boolean {
+    let storedPermissionItem = <any>this._localStorageService.getItem(CreateAadAppPermissionStorageKey);
+    if (storedPermissionItem && storedPermissionItem.sessionId && storedPermissionItem.sessionId === this._sessionId) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // Using Local storage for two reasons:
+  // 1. CacheService only caches for 1 minute which is too short for this scenario
+  // 2. Local variable can not be used as Deployment center angular components are re-instantiated if we move out
+  //    of Deployment center menu (say to Overview menu) and come back
+  // There are two options to use as pivot for storing permission
+  // 1. User token - this get auto refreshed every 60 minutes, hence stored value gets stale. Also this might be insecure.
+  // 2. Session Id - this changes if user does page refresh or changes login
+  // Choosing 2 as it seems longer-lived and is secure
+  private _storeAadCreatePermission(): void {
+    let storedPermissionItem = {
+      id: CreateAadAppPermissionStorageKey,
+      sessionId: this._sessionId,
+    };
+
+    // overwrite existing value
+    this._localStorageService.setItem(storedPermissionItem.id, storedPermissionItem);
   }
 
   public getVstsPassthroughHeaders(appendMsaPassthroughHeader: boolean = false): Headers {
