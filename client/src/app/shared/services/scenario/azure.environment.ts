@@ -3,7 +3,7 @@ import { Tier } from './../../models/serverFarmSku';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
-import { ARMApplicationInsightsDescriptior, ArmResourceDescriptor } from '../../resourceDescriptors';
+import { ARMApplicationInsightsDescriptior } from '../../resourceDescriptors';
 import { Injector } from '@angular/core';
 import { ApplicationInsightsService } from '../application-insights.service';
 import { TranslateService } from '@ngx-translate/core';

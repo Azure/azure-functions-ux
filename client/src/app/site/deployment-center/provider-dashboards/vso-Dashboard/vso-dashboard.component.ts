@@ -127,6 +127,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
           this._translateService.instant(PortalResources.disconnectingDeployment),
           this._translateService.instant(PortalResources.disconnectingDeployment)
         )
+        .take(1)
         .do(notification => {
           notificationId = notification.id;
         })
