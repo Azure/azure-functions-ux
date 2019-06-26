@@ -5,10 +5,12 @@ import { ThemeContext } from '../../../../../ThemeContext';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { getCardStyle, getHeaderStyle, listStyle } from './DataFlowDiagram.styles';
+import PortalCommunicator from '../../../../../portal-communicator';
+import { PortalContext } from '../../../../../PortalContext';
 
 export interface DataFlowCardChildProps {
   items: FunctionBinding[];
-  functionName?: string;
+  functionResourceId: string;
 }
 
 export interface DataFlowCardProps extends DataFlowCardChildProps {
@@ -16,6 +18,9 @@ export interface DataFlowCardProps extends DataFlowCardChildProps {
   Svg: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   emptyMessage: string;
   supportsMultipleItems?: boolean;
+
+  // Only used for the FunctionDataFlowCard.  When set, it doesn't show links or an add button
+  functionName?: string;
 }
 
 export interface DataFlowCardState {
@@ -23,10 +28,11 @@ export interface DataFlowCardState {
 }
 
 const DataFlowCard: React.SFC<DataFlowCardProps> = props => {
-  const { title, emptyMessage, Svg, functionName, items, supportsMultipleItems } = props;
+  const { title, emptyMessage, Svg, functionResourceId, functionName, items, supportsMultipleItems } = props;
 
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
+  const portalCommunicator = useContext(PortalContext);
 
   return (
     <div className={getCardStyle(theme)}>
@@ -34,7 +40,7 @@ const DataFlowCard: React.SFC<DataFlowCardProps> = props => {
         <h3>{title}</h3>
         <Svg />
       </div>
-      {getItemsList(items, emptyMessage, t, functionName, supportsMultipleItems)}
+      {getItemsList(items, emptyMessage, t, portalCommunicator, functionResourceId, functionName, supportsMultipleItems)}
     </div>
   );
 };
@@ -43,6 +49,8 @@ const getItemsList = (
   items: FunctionBinding[],
   emptyMessage: string,
   t: i18next.TFunction,
+  portalCommunicator: PortalCommunicator,
+  functionResourceId: string,
   functionName?: string,
   supportsMultipleItems?: boolean
 ) => {
@@ -66,7 +74,7 @@ const getItemsList = (
       const linkName = `${item.type} ${name}`;
       return (
         <li key={i.toString()}>
-          <Link>{linkName}</Link>
+          <Link onClick={() => onClick(functionResourceId, item, portalCommunicator)}>{linkName}</Link>
         </li>
       );
     });
@@ -81,6 +89,26 @@ const getItemsList = (
   }
 
   return <ul className={listStyle}>{list}</ul>;
+};
+
+const onClick = (functionResourceId: string, functionBinding: FunctionBinding, portalCommunicator: PortalCommunicator) => {
+  const openBlade = portalCommunicator.openBlade(
+    {
+      detailBlade: 'BindingEditorFrameBlade',
+      detailBladeInputs: {
+        id: functionResourceId,
+        data: {
+          binding: functionBinding,
+        },
+      },
+      openAsContextBlade: true,
+    },
+    'DataFlowCard'
+  );
+
+  openBlade.then(r => {
+    console.log(`done: ${r.data}`);
+  });
 };
 
 export default DataFlowCard;

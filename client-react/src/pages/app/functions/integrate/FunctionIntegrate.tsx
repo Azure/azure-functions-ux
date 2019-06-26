@@ -7,6 +7,8 @@ import { FunctionBinding, BindingDirection } from '../../../../models/functions/
 import OutputDataFlowCard from './DataFlowDiagram/OutputDataFlowCard';
 import InputDataFlowCard from './DataFlowDiagram/InputDataFlowCard';
 import FunctionDataFlowCard from './DataFlowDiagram/FunctionDataFlowCard';
+import { getBindingConfigDirection } from './binding-editor/BindingEditor';
+import { BindingConfigDirection } from '../../../../models/functions/bindings-config';
 
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -29,18 +31,18 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
         <Stack horizontal gap={50} horizontalAlign={'center'} disableShrink>
           <Stack.Item grow>
             <Stack gap={100}>
-              <TriggerDataFlowCard items={triggers} />
-              <InputDataFlowCard items={inputs} />
+              <TriggerDataFlowCard items={triggers} functionResourceId={functionInfo.id} />
+              <InputDataFlowCard items={inputs} functionResourceId={functionInfo.id} />
             </Stack>
           </Stack.Item>
           <Stack.Item grow>
             <Stack verticalAlign="center" verticalFill={true}>
-              <FunctionDataFlowCard items={[]} functionName={functionInfo.properties.name} />
+              <FunctionDataFlowCard items={[]} functionResourceId={functionInfo.id} />
             </Stack>
           </Stack.Item>
           <Stack.Item grow>
             <Stack verticalAlign="center" verticalFill={true}>
-              <OutputDataFlowCard items={outputs} />
+              <OutputDataFlowCard items={outputs} functionResourceId={functionInfo.id} />
             </Stack>
           </Stack.Item>
         </Stack>
@@ -51,7 +53,7 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
 
 const getTriggers = (bindings: FunctionBinding[]) => {
   const trigger = bindings.find(b => {
-    return b.direction === 'in' && b.type.toLowerCase().indexOf('trigger') > -1;
+    return getBindingConfigDirection(b) === BindingConfigDirection.trigger;
   });
 
   return trigger ? [trigger] : [];
@@ -59,10 +61,6 @@ const getTriggers = (bindings: FunctionBinding[]) => {
 
 const getBindings = (bindings: FunctionBinding[], direction: BindingDirection) => {
   return bindings.filter(b => {
-    if (direction === BindingDirection.in) {
-      return b.direction === direction && b.type.toLowerCase().indexOf('trigger') === -1;
-    }
-
-    return b.direction === direction;
+    return getBindingConfigDirection(b).toString() === direction.toString();
   });
 };
