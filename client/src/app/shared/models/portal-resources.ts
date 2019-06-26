@@ -1617,5 +1617,6 @@ export class PortalResources {
   public static integrateNoTriggerDefined = 'integrateNoTriggerDefined';
   public static integrateNoInputsDefined = 'integrateNoInputsDefined';
   public static integrateNoOutputsDefined = 'integrateNoOutputsDefined';
+  public static integrateAddInput = 'integrateAddInput';
   public static _function = '_function';
 }
