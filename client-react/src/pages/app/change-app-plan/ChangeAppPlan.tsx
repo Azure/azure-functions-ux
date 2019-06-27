@@ -3,8 +3,7 @@ import FeatureDescriptionCard from '../../../components/feature-description-card
 import { PrimaryButton, IDropdownOption, Stack, Link, ILink, MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { Formik, FormikProps } from 'formik';
 import { ResourceGroup } from '../../../models/resource-group';
-import { ArmObj, Site, ServerFarm, ArmSku, HostingEnvironment } from '../../../models/WebAppModels';
-import { style, classes } from 'typestyle';
+import { style } from 'typestyle';
 import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import { CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN, addNewPlanToOptions } from './CreateOrSelectPlan';
 import SiteService from '../../../ApiHelpers/SiteService';
@@ -19,9 +18,15 @@ import { ReactComponent as AppServicePlanSvg } from '../../../images/AppService/
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
-import { InfoTooltip, defaultTooltipClass } from '../../../components/InfoTooltip/InfoTooltip';
 import { useWindowSize } from 'react-use';
 import RbacHelper from '../../../utils/rbac-helper';
+import { BroadcastMessageId } from '../../../models/portal-models';
+import { FormControlWrapper } from '../../../components/FormControlWrapper/FormControlWrapper';
+import { LogCategories } from '../../../utils/LogCategories';
+import { ArmObj, ArmSku } from '../../../models/arm-obj';
+import { Site } from '../../../models/site/site';
+import { ServerFarm } from '../../../models/serverFarm/serverfarm';
+import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 
 export const leftCol = style({
   marginRight: '20px',
@@ -53,10 +58,6 @@ const labelStyle = style({
   width: '250px',
 });
 
-const tooltipStyle = style({
-  marginLeft: '5px',
-});
-
 const footerStyle = style({
   marginTop: '50px',
 });
@@ -67,6 +68,7 @@ interface CompletionTelemetry {
   success: boolean;
   newResourceGroup: boolean;
   newPlan: boolean;
+  resourceId?: string;
   message?: string;
 }
 
@@ -163,19 +165,17 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                       <h4 className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</h4>
                     </Stack>
 
-                    <Stack horizontal={width > MaxHorizontalWidthPx}>
-                      <label className={labelStyle}>{t('appServicePlan')}</label>
+                    <FormControlWrapper label={t('appServicePlan')}>
                       <div tabIndex={0} aria-label={t('appServicePlan') + getPlanName(currentServerFarm)}>
                         {getPlanName(currentServerFarm)}
                       </div>
-                    </Stack>
+                    </FormControlWrapper>
 
                     <Stack style={{ marginTop: '50px' }}>
                       <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
                     </Stack>
 
-                    <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink>
-                      <label className={labelStyle}>{t('appServicePlan')}</label>
+                    <FormControlWrapper label={t('appServicePlan')} required={true}>
                       <CreateOrSelectPlan
                         subscriptionId={subscriptionId}
                         isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
@@ -189,26 +189,21 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                         serverFarmsInWebspace={serverFarms}
                         hostingEnvironment={hostingEnvironment}
                       />
-                    </Stack>
+                    </FormControlWrapper>
 
-                    <Stack horizontal={width > MaxHorizontalWidthPx} style={{ marginTop: '25px' }}>
-                      <label className={labelStyle}>{t('resourceGroup')}</label>
+                    <FormControlWrapper label={t('resourceGroup')} style={{ marginTop: '25px' }}>
                       <div
                         tabIndex={0}
                         aria-label={t('resourceGroup') + getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}>
                         {getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}
                       </div>
-                    </Stack>
+                    </FormControlWrapper>
 
-                    <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
-                      <label className={labelStyle}>
-                        <span>{t('region')}</span>
-                        <InfoTooltip className={classes(tooltipStyle, defaultTooltipClass)} content={t('changePlanLocationTooltip')} />
-                      </label>
+                    <FormControlWrapper label={t('region')} style={fieldStyle} tooltip={t('changePlanLocationTooltip')}>
                       <span tabIndex={0} aria-label={t('region') + site.location}>
                         {site.location}
                       </span>
-                    </Stack>
+                    </FormControlWrapper>
 
                     <Stack horizontal={width > MaxHorizontalWidthPx} disableShrink style={fieldStyle}>
                       <label className={labelStyle}>{t('pricingTier')}</label>
@@ -310,11 +305,18 @@ const openSpecPicker = async (
   }
 };
 
-const getCompletionTelemtry = (success: boolean, newResourceGroup: boolean, newPlan: boolean, message?: string): CompletionTelemetry => {
+const getCompletionTelemtry = (
+  success: boolean,
+  newResourceGroup: boolean,
+  newPlan: boolean,
+  resourceId?: string,
+  message?: string
+): CompletionTelemetry => {
   return {
     success,
     newResourceGroup,
     newPlan,
+    resourceId,
     message,
   };
 };
@@ -342,6 +344,7 @@ const onSubmit = async (
 
   if (success) {
     changeComplete();
+    portalCommunicator.broadcastMessage(BroadcastMessageId.siteUpdated, values.site.id);
   }
 
   setIsUpdating(false);
@@ -357,7 +360,8 @@ const changeSiteToExistingPlan = async (
   let success = false;
 
   if (!serverFarmInfo.existingPlan) {
-    LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'existingPlan not set'));
+    LogService.trackEvent(LogCategories.changeAppPlan, 'onSubmit', getCompletionTelemtry(false, false, false, '', 'existingPlan not set'));
+
     return success;
   }
 
@@ -368,13 +372,18 @@ const changeSiteToExistingPlan = async (
   const siteResponse = await SiteService.updateSite(site.id, site);
   if (siteResponse.metadata.success) {
     portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
-    LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(true, false, false));
+    LogService.trackEvent(LogCategories.changeAppPlan, 'onSubmit', getCompletionTelemtry(true, false, false, site.id));
+
     success = true;
   } else {
     const updateSiteError =
       siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
     portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
-    LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, false, false, 'Failed to update site'));
+    LogService.trackEvent(
+      LogCategories.changeAppPlan,
+      'onSubmit',
+      getCompletionTelemtry(false, false, false, site.id, `Failed to update site: '${updateSiteError}'`)
+    );
   }
 
   return success;
@@ -400,7 +409,17 @@ const changeSiteToNewPlan = async (
     if (!rgResponse.metadata.success) {
       const createRgError = rgResponse.metadata.error && rgResponse.metadata.error.Message ? rgResponse.metadata.error.Message : rgName;
       portalCommunicator.stopNotification(notificationId, false, t('changePlanRgCreateFailureNotificationFormat').format(createRgError));
-      LogService.trackEvent('/ChangeAppPlan', 'onSubmit', getCompletionTelemtry(false, true, true, 'Failed to update resource group'));
+      LogService.trackEvent(
+        LogCategories.changeAppPlan,
+        'onSubmit',
+        getCompletionTelemtry(
+          false,
+          true,
+          true,
+          `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${serverFarmInfo.newPlanInfo.newResourceGroupName}`,
+          `Failed to update resource group: ${createRgError}`
+        )
+      );
 
       return false;
     }
@@ -412,13 +431,19 @@ const changeSiteToNewPlan = async (
     serverFarmInfo.newPlanInfo.name
   }`;
 
+  // Purposely ignoring slots to avoid a back-end bug where if webSiteId is a slot resourceId, then you'll get a 404 on create.
+  // This works because slots always have the same webspace as prod sites.
+  const webSiteId = `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${
+    siteDescriptor.resourceGroup
+  }/providers/Microsoft.Web/sites/${siteDescriptor.site}`;
+
   const newServerFarm = {
     id: newServerFarmId,
     name: serverFarmInfo.newPlanInfo.name,
     location: site.location,
     kind: currentServerFarm.kind,
     properties: {
-      webSiteId: site.id,
+      webSiteId,
       reserved: currentServerFarm.properties.reserved,
       isXenon: currentServerFarm.properties.isXenon,
       hostingEnvironmentId: currentServerFarm.properties.hostingEnvironmentId,
@@ -440,9 +465,15 @@ const changeSiteToNewPlan = async (
     portalCommunicator.stopNotification(notificationId, false, t('changePlanPlanCreateFailureNotificationFormat').format(createPlanError));
 
     LogService.trackEvent(
-      '/ChangeAppPlan',
+      'ChangeAppPlan',
       'onSubmit',
-      getCompletionTelemtry(false, serverFarmInfo.newPlanInfo.isNewResourceGroup, true, 'Failed to create new serverfarm')
+      getCompletionTelemtry(
+        false,
+        serverFarmInfo.newPlanInfo.isNewResourceGroup,
+        true,
+        newServerFarmId,
+        `Failed to create new serverfarm: '${createPlanError}'`
+      )
     );
 
     return false;
@@ -457,15 +488,28 @@ const changeSiteToNewPlan = async (
     portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
 
     LogService.trackEvent(
-      '/ChangeAppPlan',
+      'ChangeAppPlan',
       'onSubmit',
-      getCompletionTelemtry(false, serverFarmInfo.newPlanInfo.isNewResourceGroup, serverFarmInfo.isNewPlan, 'Failed to update site')
+      getCompletionTelemtry(
+        false,
+        serverFarmInfo.newPlanInfo.isNewResourceGroup,
+        serverFarmInfo.isNewPlan,
+        site.id,
+        `Failed to update site: '${updateSiteError}'`
+      )
     );
 
     return false;
   }
 
   portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
+
+  LogService.trackEvent(
+    'ChangeAppPlan',
+    'onSubmit',
+    getCompletionTelemtry(true, serverFarmInfo.newPlanInfo.isNewResourceGroup, serverFarmInfo.isNewPlan, site.id)
+  );
+
   return true;
 };
 

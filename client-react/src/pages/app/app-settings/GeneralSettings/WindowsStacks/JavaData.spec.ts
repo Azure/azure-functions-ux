@@ -9,8 +9,8 @@ import {
   getFrameworkVersionOptions,
 } from './JavaData';
 import { mockAvailableStacks } from '../../../../../mocks/ArmMocks';
-import { ArmArray, ArmObj } from '../../../../../models/WebAppModels';
 import { AvailableStack } from '../../../../../models/available-stacks';
+import { ArmArray } from '../../../../../models/arm-obj';
 
 describe('getJavaStack', () => {
   let availableStacks: ArmArray<AvailableStack>;

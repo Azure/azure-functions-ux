@@ -10,7 +10,6 @@ import { BaseExtensionInstallComponent } from 'app/extension-install/base-extens
 import { AiService } from '../shared/services/ai.service';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { errorIds } from 'app/shared/models/error-ids';
-import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'extension-install',
@@ -32,10 +31,9 @@ export class ExtensionInstallComponent extends BaseExtensionInstallComponent {
     translateService: TranslateService,
     public aiService: AiService,
     portalService: PortalService,
-    functionService: FunctionService,
     _functionAppService: FunctionAppService
   ) {
-    super('extension-install', _functionAppService, broadcastService, aiService, translateService, portalService, functionService);
+    super('extension-install', _functionAppService, broadcastService, aiService, translateService, portalService);
   }
 
   @Input()

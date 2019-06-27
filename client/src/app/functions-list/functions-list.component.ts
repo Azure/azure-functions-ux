@@ -14,7 +14,6 @@ import { PortalService } from '../shared/services/portal.service';
 import { Observable } from 'rxjs/Observable';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { NavigableComponent } from '../shared/components/navigable-component';
-import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'functions-list',
@@ -37,7 +36,6 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
     private _portalService: PortalService,
     private _translateService: TranslateService,
     private _functionAppService: FunctionAppService,
-    private _functionService: FunctionService,
     injector: Injector
   ) {
     super('functions-list', injector, DashboardType.FunctionsDashboard);
@@ -113,8 +111,8 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
     if (result) {
       this.setBusy();
       this._portalService.logAction('function-list', 'delete');
-      this._functionService
-        .deleteFunction(this.context.site.id, functionInfo.name)
+      this._functionAppService
+        .deleteFunction(this.context, functionInfo)
         .do(null, e => {
           this.clearBusy();
           console.error(e);

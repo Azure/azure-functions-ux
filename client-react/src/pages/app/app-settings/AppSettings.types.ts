@@ -1,7 +1,8 @@
 import { FormikProps } from 'formik';
-
 import { AvailableStack } from '../../../models/available-stacks';
-import { ArmObj, Site, SiteConfig, VirtualApplication, AzureStorageMount } from '../../../models/WebAppModels';
+import { AzureStorageMount, SiteConfig, VirtualApplication } from '../../../models/site/config';
+import { ArmObj } from '../../../models/arm-obj';
+import { Site } from '../../../models/site/site';
 
 export interface Permissions {
   production_write: boolean;

@@ -1,11 +1,12 @@
+import { ArmSku, ArmObj } from './../../../../../models/arm-obj';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { ServerFarmSkuConstants } from '../../../../../utils/scenario-checker/ServerFarmSku';
 import { AppKind } from '../../../../../utils/AppKind';
 import { PlanSpecPickerData, SpecColorCodes } from '../PriceSpec';
 import { style } from 'typestyle';
 import { DV2SeriesPriceSpec } from '../DV2SeriesPriceSpec';
-import { ArmObj, Sku, ServerFarm } from '../../../../../models/WebAppModels';
 import i18next from 'i18next';
+import { ServerFarm } from '../../../../../models/serverFarm/serverfarm';
 
 export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
   constructor(t: i18next.TFunction) {
@@ -71,7 +72,7 @@ export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
     });
   }
 
-  protected _matchSku(sku: Sku): boolean {
+  protected _matchSku(sku: ArmSku): boolean {
     return sku.name.indexOf('v2') > -1;
   }
 

@@ -1,27 +1,17 @@
-import { HostKeyTypes } from './constants';
-
 export interface FunctionKey {
   name: string;
   value: string;
   show?: boolean;
   selected?: boolean;
-  hostKeyType?: HostKeyTypes;
+  links?: Array<Links>;
 }
 
 export interface FunctionKeys {
   keys: Array<FunctionKey>;
+  links: Array<Links>;
 }
 
-export interface HostKeys {
-  masterKey: string;
-  functionKeys: HostFunctionKeys;
-  systemKeys: HostSystemKeys;
-}
-
-export interface HostFunctionKeys {
-  keys: Array<FunctionKey>;
-}
-
-export interface HostSystemKeys {
-  keys: Array<FunctionKey>;
+interface Links {
+  rel: string;
+  href: string;
 }
