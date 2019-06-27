@@ -9,7 +9,6 @@ import { AiService } from '../shared/services/ai.service';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { Site } from '../shared/models/arm/site';
 import { PortalService } from '../shared/services/portal.service';
-import { AppNode } from '../tree-view/app-node';
 import { RequiredValidator } from '../shared/validators/requiredValidator';
 import { PortalResources } from '../shared/models/portal-resources';
 import { SlotNameValidator } from '../shared/validators/slotNameValidator';
@@ -18,6 +17,8 @@ import { AuthzService } from '../shared/services/authz.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Constants } from 'app/shared/models/constants';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
+import { FunctionAppContext } from 'app/shared/function-app-context';
+import { CacheService } from '../shared/services/cache.service';
 
 @Component({
   selector: 'slot-new',
@@ -26,15 +27,14 @@ import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/n
 })
 export class SlotNewComponent extends NavigableComponent {
   public Resources = PortalResources;
-  public slotOptinEnabled: boolean;
+  public slotOptInEnabled: boolean;
   public hasCreatePermissions: boolean;
   public newSlotForm: FormGroup;
   public slotNamePlaceholder: string;
   public hasReachedDynamicQuotaLimit: boolean;
   public isLoading = true;
-  public runtimeVersion: string;
 
-  private _slotsNode: SlotsNode;
+  private _context: FunctionAppContext;
   private _siteId: string;
   private _slotsList: ArmObj<Site>[];
   private _siteObj: ArmObj<Site>;
@@ -45,6 +45,7 @@ export class SlotNewComponent extends NavigableComponent {
     private _portalService: PortalService,
     private _aiService: AiService,
     private _siteService: SiteService,
+    private _cacheService: CacheService,
     private _functionAppService: FunctionAppService,
     private authZService: AuthzService,
     private injector: Injector
@@ -63,13 +64,15 @@ export class SlotNewComponent extends NavigableComponent {
         )
       )
       .switchMap(viewInfo => {
-        this._slotsNode = <SlotsNode>viewInfo.node;
+        this._context = viewInfo.context;
         const validator = new RequiredValidator(this._translateService);
 
         // parse the site resourceId from slot's
         this._siteId = viewInfo.context.site.id;
         const slotNameValidator = new SlotNameValidator(this.injector, this._siteId);
+
         this.newSlotForm = this.fb.group({
+          optIn: [false],
           name: [null, validator.validate.bind(validator), slotNameValidator.validate.bind(slotNameValidator)],
         });
 
@@ -88,24 +91,15 @@ export class SlotNewComponent extends NavigableComponent {
         this._siteObj = r[2].result;
         this._slotsList = r[3].result;
         const as = r[4];
-        this.runtimeVersion = r[5];
 
         this.hasCreatePermissions = writePermission && !readOnlyLock;
 
-        this.slotOptinEnabled =
-          this.runtimeVersion === 'V2' ||
-          this._slotsList.length > 0 ||
-          (as.isSuccessful && as.result.properties[Constants.slotsSecretStorageSettingsName] === Constants.slotsSecretStorageSettingsValue);
+        this.slotOptInEnabled = as.isSuccessful && this._functionAppService.isSlotsSupported(as.result);
 
         const sku = this._siteObj.properties.sku;
         this.hasReachedDynamicQuotaLimit = !!sku && sku.toLowerCase() === 'dynamic' && this._slotsList.length === 1;
         this.isLoading = false;
       });
-  }
-
-  onFunctionAppSettingsClicked() {
-    const appNode = <AppNode>this._slotsNode.parent;
-    appNode.openSettings();
   }
 
   createSlot() {
@@ -119,9 +113,16 @@ export class SlotNewComponent extends NavigableComponent {
         this._translateService.instant(PortalResources.slotNew_startCreateNotifyTitle).format(newSlotName)
       )
       .first()
+      .switchMap(n => {
+        notificationId = n.id;
+        return this._enableSlotOptIn();
+      })
       .switchMap(s => {
-        notificationId = s.id;
-        return this._siteService.createSlot(this._siteObj.id, newSlotName, this._siteObj.location, this._siteObj.properties.serverFarmId);
+        if (s.isSuccessful) {
+          return this._siteService.createSlot(this._siteObj.id, newSlotName, this._siteObj.location, this._siteObj.properties.serverFarmId);
+        } else {
+          return Observable.of(s);
+        }
       })
       .subscribe(r => {
         this.clearBusy();
@@ -152,5 +153,24 @@ export class SlotNewComponent extends NavigableComponent {
           this._aiService.trackEvent(errorIds.failedToCreateApp, { error: r.error.result, id: this._siteObj.id });
         }
       });
+  }
+
+  private _enableSlotOptIn() {
+    if (this.slotOptInEnabled) {
+      return Observable.of({
+        isSuccessful: true,
+        error: null,
+        result: null,
+      });
+    } else {
+      const newOrUpdatedSettings = {};
+      newOrUpdatedSettings[Constants.secretStorageSettingsName] = Constants.secretStorageSettingsValueBlob;
+      return this._siteService.addOrUpdateAppSettings(this._context.site.id, newOrUpdatedSettings).do(r => {
+        if (r.isSuccessful) {
+          this._functionAppService.fireSyncTrigger(this._context);
+          this._cacheService.clearArmIdCachePrefix(this._context.site.id);
+        }
+      });
+    }
   }
 }

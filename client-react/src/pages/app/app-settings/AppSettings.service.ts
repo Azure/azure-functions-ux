@@ -1,7 +1,10 @@
 import SiteService from '../../../ApiHelpers/SiteService';
 import StorageService from '../../../ApiHelpers/StorageService';
-import { ArmObj, Site, SiteConfig, SlotConfigNames, ArmAzureStorageMount } from '../../../models/WebAppModels';
 import RbacHelper from '../../../utils/rbac-helper';
+import { ArmObj } from '../../../models/arm-obj';
+import { Site } from '../../../models/site/site';
+import { SiteConfig, ArmAzureStorageMount } from '../../../models/site/config';
+import { SlotConfigNames } from '../../../models/site/slot-config-names';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
   const [

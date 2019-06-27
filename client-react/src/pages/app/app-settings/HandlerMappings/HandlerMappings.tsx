@@ -9,10 +9,10 @@ import DisplayTableWithEmptyMessage, {
   defaultCellStyle,
 } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { HandlerMapping } from '../../../../models/WebAppModels';
 import { AppSettingsFormValues, Permissions } from '../AppSettings.types';
 import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 import { PermissionsContext } from '../Contexts';
+import { HandlerMapping } from '../../../../models/site/config';
 
 export interface HandlerMappingState {
   showPanel: boolean;

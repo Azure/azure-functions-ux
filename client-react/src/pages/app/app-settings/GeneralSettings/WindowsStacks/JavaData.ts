@@ -1,6 +1,7 @@
 import { AvailableStack } from '../../../../../models/available-stacks';
-import { ArmObj, SiteConfig } from '../../../../../models/WebAppModels';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { SiteConfig } from '../../../../../models/site/config';
 
 export const getJavaStack = (stacks: ArmObj<AvailableStack>[]) => stacks.find(x => x.name === 'java');
 export const getJavaContainers = (stacks: ArmObj<AvailableStack>[]) => stacks.find(x => x.name === 'javaContainers');

@@ -1,5 +1,4 @@
-import { NotificationIds, SiteTabIds, Constants, LogCategories } from './../../shared/models/constants';
-import { LogService } from './../../shared/services/log.service';
+import { NotificationIds, SiteTabIds, Constants } from './../../shared/models/constants';
 import { ScenarioIds } from './../../shared/models/constants';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
@@ -35,7 +34,6 @@ import { FunctionAppContextComponent } from 'app/shared/components/function-app-
 import { Subscription } from 'rxjs/Subscription';
 import { SiteService } from 'app/shared/services/site.service';
 import { PortalService } from 'app/shared/services/portal.service';
-import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'function-runtime',
@@ -73,13 +71,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   public functionAppEditModeOptions: SelectOption<boolean>[];
   public functionAppEditModeForcedWarning: string;
 
-  private _isSlotApp = false;
-  public slotsStatusOptions: SelectOption<boolean>[];
-  public slotsAppSetting: string;
-  public slotsEnabled: boolean;
   public betaDisabled = false;
   public disableRuntimeSelector = false;
-  public slotsValueChange: Subject<boolean>;
   private _busyManager: BusyStateScopeManager;
 
   constructor(
@@ -91,14 +84,12 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     private _translateService: TranslateService,
     private _configService: ConfigService,
     private _functionAppService: FunctionAppService,
-    private _logService: LogService,
     private _scenarioService: ScenarioService,
     private _languageService: LanguageService,
     private _siteService: SiteService,
-    private _portalService: PortalService,
-    private _functionService: FunctionService
+    private _portalService: PortalService
   ) {
-    super('function-runtime', _functionAppService, broadcastService, _functionService, () => this._busyManager.setBusy());
+    super('function-runtime', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
     this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.functionRuntime);
 
@@ -123,16 +114,6 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
       {
         displayLabel: this._translateService.instant(PortalResources.appFunctionSettings_readOnlyMode),
         value: false,
-      },
-    ];
-    this.slotsStatusOptions = [
-      {
-        displayLabel: this._translateService.instant(PortalResources.off),
-        value: false,
-      },
-      {
-        displayLabel: this._translateService.instant(PortalResources.on),
-        value: true,
       },
     ];
 
@@ -207,28 +188,6 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         this._busyManager.clearBusy();
       });
 
-    this.slotsValueChange = new Subject<boolean>();
-    this.slotsValueChange
-      .filter(value => value !== this.slotsEnabled)
-      .subscribe((value: boolean) => {
-        this._busyManager.setBusy();
-        const newOrUpdatedSettings = {};
-        newOrUpdatedSettings[Constants.slotsSecretStorageSettingsName] = value
-          ? Constants.slotsSecretStorageSettingsValue
-          : Constants.disabled;
-        this._siteService.addOrUpdateAppSettings(this.context.site.id, newOrUpdatedSettings).subscribe(r => {
-          if (r.isSuccessful) {
-            this._functionAppService.fireSyncTrigger(this.context);
-            this.slotsEnabled = value;
-            this._busyManager.clearBusy();
-            this._cacheService.clearArmIdCachePrefix(this.context.site.id);
-          } else {
-            this._busyManager.clearBusy();
-            this._logService.error(LogCategories.functionAppSettings, '/save-slot-change', r.error);
-          }
-        });
-      });
-
     this.functionRuntimeValueStream = new Subject<string>();
     this.functionRuntimeValueStream.subscribe((value: string) => {
       this.updateVersion(value);
@@ -248,17 +207,16 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           this._functionAppService.getSlotsList(this.context),
           this._functionAppService.getFunctionAppEditMode(this.context),
           this._functionAppService.getFunctionHostStatus(this.context),
-          this._functionService.getFunctions(this.context.site.id)
+          this._functionAppService.getFunctions(this.context)
         );
       })
       .do(() => this._busyManager.clearBusy())
       .subscribe(tuple => {
         // Assume true if there was an error.
-        this.hasFunctions = tuple[4].isSuccessful ? tuple[4].result.value.length > 0 : true;
+        this.hasFunctions = tuple[4].isSuccessful ? tuple[4].result.length > 0 : true;
 
         const appSettings: ArmObj<any> = tuple[0].json();
         this.exactExtensionVersion = tuple[3].isSuccessful ? tuple[3].result.version : '';
-        this._isSlotApp = this._functionAppService.isSlot(this.context);
         this.dailyMemoryTimeQuota = this.context.site.properties.dailyMemoryTimeQuota
           ? this.context.site.properties.dailyMemoryTimeQuota.toString()
           : '0';
@@ -300,16 +258,6 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         }
         this._busyManager.clearBusy();
         this._aiService.stopTrace('/timings/site/tab/function-runtime/revealed', this.viewInfo.data.siteTabRevealedTraceKey);
-
-        // settings for enabling slots, display if there are no slots && appSetting property for slot is set
-        this.slotsAppSetting = appSettings.properties[Constants.slotsSecretStorageSettingsName];
-        if (this._isSlotApp) {
-          // Slots Node
-          this.slotsEnabled = true;
-        } else {
-          this.slotsEnabled =
-            (tuple[1].isSuccessful && tuple[1].result.length > 0) || this.slotsAppSetting === Constants.slotsSecretStorageSettingsValue;
-        }
       });
   }
 

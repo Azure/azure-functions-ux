@@ -920,7 +920,10 @@
     <value>Az AlwaysOn beállítás nincs engedélyezve. Előfordulhat, hogy az alkalmazás nem működik megfelelően</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>Az AzureWebJobsSecretStorageType beállítást a blob értékre kell beállítani. Ha a beállítás nincs megadva, az nem várt működéshez vezet az üzembe helyezési pontok használatakor</value>
+    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+  </data>
+  <data name="topBar_slotsHostIdV2" xml:space="preserve">
+    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions – Kibocsátási megjegyzések</value>
@@ -1081,8 +1084,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>{{name}} nevű proxy már létezik</value>
   </data>
-  <data name="slots_warningOff" xml:space="preserve">
-    <value>Az Azure Functions-tárolóhelyek (előzetes verzió) jelenleg le vannak tiltva. Az engedélyezéshez látogasson el a következő helyre:</value>
+  <data name="slots_warningDisabled" xml:space="preserve">
+    <value>Azure functions slots is currently disabled.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Elvetés</value>
@@ -2197,6 +2200,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Az üzembe helyezési pontok engedélyezése (előzetes verzió).</value>
   </data>
+  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
+    <value>Enable deployment slots</value>
+  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Ismert problémák:</value>
   </data>
@@ -2204,16 +2210,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A Logic Apps és a Functions integrációja nem működik, ha a Slots (előzetes verzió) engedélyezve van.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Ha ezt az előzetes funkciót választja, alaphelyzetbe állítja az összes meglévő titkos kódot. A titkos függvénykódok az egyes függvények</value>
-  </data>
-  <data name="appFunctionSettings_warning_4" xml:space="preserve">
-    <value>Kezelés</value>
-  </data>
-  <data name="appFunctionSettings_warning_5" xml:space="preserve">
-    <value>csomópontjában találhatók.</value>
+    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Tárhely-létrehozási művelet van folyamatban van. Ha elhagyja a lapot, többé nem fogja tudni ellenőrizni a művelet állapotát.</value>
+  </data>
+  <data name="slots_label" xml:space="preserve">
+    <value>Tárhelyek</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Tárhely felvétele</value>
@@ -4915,7 +4918,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A Java Function Apps nem támogatja a függvények portálon való szerkesztését. A fejlesztéshez használja a Mavent vagy a VS Code-ot.</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
-    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
+    <value>A munkakönyvtár elérési útjának az adattár gyökeréhez képest relatívnak kell lennie, és nem kezdődhet / vagy \ jellel, vagy meghajtónévvel (C:/) Windows esetén. Ha a munkakönyvtár az adattár src mappájában található, az elérési útnak a következőnek kell lennie: src/</value>
   </data>
   <data name="mountedStorageInfo" xml:space="preserve">
     <value>A csatlakoztatott tárolóval leképezheti az Azure Files- vagy -blobtárolókat az alkalmazáshoz való használatra.</value>
@@ -4948,13 +4951,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Nem sikerült létrehozni a(z) {0} App Service-csomagot</value>
   </data>
   <data name="changePlanNoWritePermissionRg" xml:space="preserve">
-    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+    <value>Nincs megfelelő írási engedélye új App Service-csomagok az erőforráscsoportban való létrehozásához</value>
   </data>
   <data name="changePlanSiteLockedError" xml:space="preserve">
-    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+    <value>Az alkalmazáson írásvédettségi zár van, és nem helyezhető át másik App Service-csomagba</value>
   </data>
   <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
-    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+    <value>Az új erőforráscsoportok létrehozása nem engedélyezett, mert nem rendelkezik a megfelelő írási engedéllyel az előfizetésre vonatkozóan</value>
   </data>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Az erőforráscsoport neve csak betűket és számokat, pontokat, aláhúzásjeleket, kötőjeleket és zárójeleket tartalmazhat, és nem végződhet ponttal.</value>
@@ -4985,5 +4988,8 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="minorVersion" xml:space="preserve">
     <value>Alverzió</value>
+  </data>
+  <data name="containerValidationFailed" xml:space="preserve">
+    <value>Nem sikerült érvényesíteni a tárolóbeállításokat.</value>
   </data>
 </root>

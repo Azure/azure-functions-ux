@@ -161,35 +161,6 @@
             </div>
         </div>
     </div>
-
-    <div *ngIf="!exactExtensionVersion?.startsWith('2.')"
-        class="setting-wrapper">
-        <label id="slotEnableLabel" class="title-label">{{ 'appFunctionSettings_slotsOptinSettings' | translate}}</label>
-        <p>{{ 'appFunctionSettings_slotsDesc' | translate }}</p>
-        <div class="alert alert-warning">
-            <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
-            <div class="alert-message">
-                <span class="title-label">{{ 'appFunctionSettings_warning_1' | translate }}</span><br/>
-                <span>{{ 'appFunctionSettings_warning_2' | translate }}</span><br/>
-                <span>
-                    {{ 'appFunctionSettings_warning_3' | translate }}
-                    <span class="title-label">{{ 'appFunctionSettings_warning_4' | translate }}</span>
-                    {{ 'appFunctionSettings_warning_5' | translate }}
-                </span>
-            </div>
-        </div>
-        <div>
-            <radio-selector
-                [disabled]="slotsEnabled"
-                [defaultValue]="slotsEnabled"
-                [options]="slotsStatusOptions"
-                (value)="slotsValueChange.next($event)"
-                id="slotEnableRadioButton"
-                aria-labelledby="slotEnableLabel slotEnableRadioButton">
-            </radio-selector>
-        </div>
-    </div>
-
     <function-keys
         *ngIf="!isStopped"
         [autoSelect]="true"

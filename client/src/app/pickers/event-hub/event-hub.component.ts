@@ -13,7 +13,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
-import { FunctionService } from 'app/shared/services/function.service';
 
 class OptionTypes {
   eventHub = 'EventHub';
@@ -71,10 +70,9 @@ export class EventHubComponent extends FunctionAppContextComponent {
     private _globalStateService: GlobalStateService,
     private _translateService: TranslateService,
     functionAppService: FunctionAppService,
-    broadcastService: BroadcastService,
-    functionService: FunctionService
+    broadcastService: BroadcastService
   ) {
-    super('event-hub', functionAppService, broadcastService, functionService, () => _globalStateService.setBusyState());
+    super('event-hub', functionAppService, broadcastService, () => _globalStateService.setBusyState());
 
     this.options = [
       {
