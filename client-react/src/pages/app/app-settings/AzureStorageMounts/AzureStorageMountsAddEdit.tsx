@@ -63,7 +63,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       render={(formProps: FormikProps<FormAzureStorageMounts>) => {
         const actionBarPrimaryButtonProps = {
           id: 'save',
-          title: t('update'),
+          title: t('ok'),
           onClick: formProps.submitForm,
           disable: !formProps.isValid || !formProps.dirty || formProps.isValidating,
         };

@@ -9,10 +9,10 @@ import DisplayTableWithEmptyMessage, {
   defaultCellStyle,
 } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { VirtualApplication } from '../../../../models/WebAppModels';
 import { AppSettingsFormValues, Permissions } from '../AppSettings.types';
 import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { PermissionsContext } from '../Contexts';
+import { VirtualApplication } from '../../../../models/site/config';
 
 export interface VirtualApplicationsState {
   showPanel: boolean;

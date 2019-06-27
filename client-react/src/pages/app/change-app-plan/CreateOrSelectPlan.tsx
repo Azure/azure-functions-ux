@@ -3,11 +3,13 @@ import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption, Stack } fr
 import { dropdownStyleOverrides } from '../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../ThemeContext';
 import { useWindowSize } from 'react-use';
-import { ArmObj, ServerFarm, HostingEnvironment } from '../../../models/WebAppModels';
 import { ResourceGroupInfo } from './CreateOrSelectResourceGroup';
 import { CreatePlan } from './CreatePlan';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
+import { ArmObj } from '../../../models/arm-obj';
+import { ServerFarm } from '../../../models/serverFarm/serverfarm';
+import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 
 export const NEW_PLAN = '__NEWPLAN__';
 

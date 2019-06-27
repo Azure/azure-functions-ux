@@ -1,6 +1,8 @@
 import { ArmSiteDescriptor } from './../shared/resourceDescriptors';
 import { EmbeddedFunctionsNode } from './../tree-view/embedded-functions-node';
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { FunctionAppContext } from 'app/shared/function-app-context';
 import { LogService } from './../shared/services/log.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
@@ -8,7 +10,7 @@ import { StoredSubscriptions } from './../shared/models/localStorage/local-stora
 import { Dom } from './../shared/Utilities/dom';
 import { SubUtil } from './../shared/Utilities/sub-util';
 import { SearchBoxComponent } from './../search-box/search-box.component';
-import { Component, ViewChild, AfterViewInit, Injector, OnDestroy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input, Injector, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -23,6 +25,7 @@ import { PortalService } from './../shared/services/portal.service';
 import { LocalStorageService } from './../shared/services/local-storage.service';
 import { TreeNode } from '../tree-view/tree-node';
 import { AppsNode } from '../tree-view/apps-node';
+import { AppNode } from '../tree-view/app-node';
 import { ArmService } from '../shared/services/arm.service';
 import { CacheService } from '../shared/services/cache.service';
 import { UserService } from '../shared/services/user.service';
@@ -71,6 +74,15 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
   private _ngUnsubscribe = new Subject();
 
   private _initialized = false;
+  private _tryFunctionAppContext: FunctionAppContext;
+
+  private _tryFunctionAppContextStream = new Subject<FunctionAppContext>();
+  @Input()
+  set tryFunctionAppContextInput(functionAppContext: FunctionAppContext) {
+    if (functionAppContext) {
+      this._tryFunctionAppContextStream.next(functionAppContext);
+    }
+  }
 
   constructor(
     public injector: Injector,
@@ -91,6 +103,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
     public logService: LogService,
     public router: Router,
     public route: ActivatedRoute,
+    private _functionAppService: FunctionAppService,
     private _scenarioService: ScenarioService
   ) {
     this.headerOnTopOfSideNav = this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
@@ -130,6 +143,33 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
         }
       }
     });
+
+    this._tryFunctionAppContextStream
+      .mergeMap(tryFunctionAppContext => {
+        this._tryFunctionAppContext = tryFunctionAppContext;
+        return this._functionAppService.getFunctions(this._tryFunctionAppContext);
+      })
+      .subscribe(functions => {
+        this.globalStateService.clearBusyState();
+
+        if (functions.isSuccessful && functions.result.length > 0) {
+          this.initialResourceId = `${this._tryFunctionAppContext.site.id}/functions/${functions.result[0].name}`;
+        } else {
+          this.initialResourceId = this._tryFunctionAppContext.site.id;
+        }
+
+        this.rootNode = new TreeNode(this, null, null);
+
+        const appNode = new AppNode(this, this._tryFunctionAppContext.site, this.rootNode, [], false);
+
+        appNode.select();
+
+        this.rootNode.children = [appNode];
+        this.rootNode.isExpanded = true;
+      });
+    if (this.tryFunctionsSevice.functionAppContext) {
+      this._tryFunctionAppContextStream.next(this.tryFunctionsSevice.functionAppContext);
+    }
   }
 
   ngAfterViewInit() {

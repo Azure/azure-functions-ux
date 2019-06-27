@@ -147,11 +147,11 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
     }
 
     if (!this.children || this.children.length === 0) {
-      return this._functionService.getFunctions(this._context.site.id).map(fcs => {
+      return this._functionAppService.getFunctions(this._context).map(fcs => {
         const fcNodes = <FunctionNode[]>[];
         if (fcs.isSuccessful) {
-          fcs.result.value.forEach(fc => {
-            fcNodes.push(new FunctionNode(this.sideNav, this._context, fc.properties, this));
+          fcs.result.forEach(fc => {
+            fcNodes.push(new FunctionNode(this.sideNav, this._context, fc, this));
           });
         }
         this.children = fcNodes;

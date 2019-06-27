@@ -920,7 +920,10 @@
     <value>AlwaysOn is uitgeschakeld. Mogelijk werkt uw app niet op de juiste manier</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>De instelling AzureWebJobsSecretStorageType moet zijn geconfigureerd op blob. Als u deze instelling niet hebt geconfigureerd, kan dit leiden tot onverwacht gedrag bij gebruik van implementatiesites</value>
+    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+  </data>
+  <data name="topBar_slotsHostIdV2" xml:space="preserve">
+    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Opmerkingen bij de release van Azure Functions.</value>
@@ -1081,8 +1084,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>De proxy met de naam {{name}} bestaat al</value>
   </data>
-  <data name="slots_warningOff" xml:space="preserve">
-    <value>Sites (preview-versie) voor Azure Functions is uitgeschakeld. Als u deze functie wilt inschakelen, gaat u naar</value>
+  <data name="slots_warningDisabled" xml:space="preserve">
+    <value>Azure functions slots is currently disabled.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Negeren</value>
@@ -2197,6 +2200,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Implementatiesites (preview-versie) inschakelen.</value>
   </data>
+  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
+    <value>Enable deployment slots</value>
+  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Bekende problemen:</value>
   </data>
@@ -2204,16 +2210,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Integratie van Logica Apps met Functions werkt niet als Sites (preview-versie) is ingeschakeld.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Als u zich aanmeldt voor deze preview-functie, worden bestaande geheimen opnieuw ingesteld. Functiegeheimen kunt u vinden onder het knooppunt</value>
-  </data>
-  <data name="appFunctionSettings_warning_4" xml:space="preserve">
-    <value>Beheren</value>
-  </data>
-  <data name="appFunctionSettings_warning_5" xml:space="preserve">
-    <value>voor elke functie.</value>
+    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>De bewerking voor sleuf maken wordt momenteel uitgevoerd. Wanneer u de pagina verlaat, kunt u de status van de bewerking niet meer controleren.</value>
+  </data>
+  <data name="slots_label" xml:space="preserve">
+    <value>Slots</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Sleuf toevoegen</value>
@@ -4886,7 +4889,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Er zijn clientcertificaten ingeschakeld in uw functie-app die wellicht invloed hebben op de mogelijkheid om de app te beheren vanuit de portal.</value>
   </data>
   <data name="alwaysOnInfoMessage" xml:space="preserve">
-    <value>Prevents your app from being idled out due to inactivity.</value>
+    <value>Hiermee wordt voorkomen dat uw app inactief wordt vanwege inactiviteit.</value>
   </data>
   <data name="ftpsInfoMessage" xml:space="preserve">
     <value>FTP-implementatie kan worden uitgeschakeld of geconfigureerd om FTP- (tekst zonder opmaak) of FTPS-verbindingen (beveiligde verbindingen) te accepteren.</value>
@@ -4916,7 +4919,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Functies bewerken in de portal wordt niet ondersteund door Java-functie-apps. Gebruik Maven of VS Code voor de ontwikkeling.</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
-    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
+    <value>Onder Windows moet het pad naar de werkmap relatief zijn ten opzichte van de hoofdmap van de opslagplaats en mag niet beginnen met/, \ of stationsnamen (C:/). Als de werkmap zich in de map src van de opslagplaats bevindt, moet het pad src/ zijn</value>
   </data>
   <data name="mountedStorageInfo" xml:space="preserve">
     <value>Met gekoppelde opslag kunt u Azure-bestanden of Blob-containers toewijzen voor gebruik met uw app.</value>
@@ -4949,13 +4952,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Kan App Service-plan niet maken: {0}</value>
   </data>
   <data name="changePlanNoWritePermissionRg" xml:space="preserve">
-    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+    <value>U beschikt niet over voldoende schrijfmachtigingen om een nieuw App Service-plan te maken in deze resourcegroep</value>
   </data>
   <data name="changePlanSiteLockedError" xml:space="preserve">
-    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+    <value>Uw app heeft een alleen-lezenvergrendeling en kan niet worden verplaatst naar een ander App Service-plan</value>
   </data>
   <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
-    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+    <value>Het maken van een nieuwe resourcegroep is niet toegestaan, omdat u niet over voldoende schrijfmachtigingen voor het abonnement beschikt</value>
   </data>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>De naam van een resourcegroep mag alleen alfanumerieke tekens, punten, onderstrepingstekens, afbreekstreepjes en haakjes bevatten en mag niet eindigen op een punt.</value>
@@ -4986,5 +4989,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="minorVersion" xml:space="preserve">
     <value>Secundaire versie</value>
+  </data>
+  <data name="containerValidationFailed" xml:space="preserve">
+    <value>Kan de containerinstellingen niet valideren.</value>
   </data>
 </root>

@@ -12,7 +12,6 @@ import { Observable } from 'rxjs/Observable';
 import { SideNavComponent } from './../side-nav/side-nav.component';
 import { TreeNode } from './tree-node';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { FunctionService } from 'app/shared/services/function.service';
 
 interface ErrorTitles {
   noAccessTitle: string;
@@ -31,7 +30,6 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
   protected _logService: LogService;
   protected _functionAppService: FunctionAppService;
   protected _broadcastService: BroadcastService;
-  protected _functionService: FunctionService;
 
   constructor(
     sideNav: SideNavComponent,
@@ -45,7 +43,6 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
     this._logService = sideNav.injector.get(LogService);
     this._functionAppService = sideNav.injector.get(FunctionAppService);
     this._broadcastService = sideNav.injector.get(BroadcastService);
-    this._functionService = sideNav.injector.get(FunctionService);
   }
 
   abstract loadChildren(): Observable<any>;

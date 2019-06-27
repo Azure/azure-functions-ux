@@ -1,4 +1,4 @@
-import { ArmObj } from '../models/WebAppModels';
+import { ArmObj } from '../models/arm-obj';
 
 export class AppKind {
   // Returns true if an ARM object has all of the kind values listed in kindsToCheck

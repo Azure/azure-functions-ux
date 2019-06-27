@@ -3,23 +3,41 @@
 
   <h4>{{ 'slotNew_desc' | translate}}</h4>
   <div *ngIf="!isLoading && !hasCreatePermissions" class="alert alert-warning alert-dismissible" role="alert">
-    {{ 'slotNew_noAccess' | translate }}</div>
-  <div *ngIf="!isLoading && !slotOptinEnabled" class="alert alert-warning alert-dismissible" role="alert">
-    {{ 'slots_warningOff' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+    {{ 'slotNew_noAccess' | translate }}
   </div>
   <div *ngIf="!isLoading && hasReachedDynamicQuotaLimit" class="alert alert-warning alert-dismissible" role="alert">
     {{ 'slotNew_dynamicQuotaReached' | translate }}
   </div>
 
-  <div class="slot-form" *ngIf="slotOptinEnabled && hasCreatePermissions && !hasReachedDynamicQuotaLimit">
-    <div>
-      <label> {{ 'slotNew_nameLabel' | translate}} </label>
-      <pop-over [message]="'slotNew_nameLabel_balloonText' | translate">
-        <span class="glyphicon glyphicon-info-sign button-title"></span>
-      </pop-over>
+  <div class="slot-form" *ngIf="hasCreatePermissions && !hasReachedDynamicQuotaLimit">
+
+    <div *ngIf="!slotOptInEnabled" class="setting-wrapper">
+      <div class="alert alert-warning">
+        <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
+        <div class="alert-message">
+          <span>{{ 'slots_warningDisabled' | translate }}</span><br>
+          <span>{{ 'appFunctionSettings_warning_3' | translate }}</span>
+        </div>
+      </div>
+      <div>
+        <label>
+          <input [formControl]="newSlotForm.controls['optIn']" type="checkbox">
+          {{ 'appFunctionSettings_slotsEnable' | translate }}
+        </label>
+      </div>
     </div>
-    <textbox class="name-textbox" [placeholder]="Resources.enterName | translate" [control]="newSlotForm.controls['name']"></textbox>
-    <button class="custom-button" disabled="!newSlotForm.valid || !newSlotForm.dirty"
-      [disabled]="newSlotForm.invalid || newSlotForm.pristine" (click)="createSlot()">{{ 'create' | translate }}</button>
+
+    <ng-container *ngIf="slotOptInEnabled || newSlotForm.controls['optIn'].value">
+      <div>
+        <label> {{ 'slotNew_nameLabel' | translate}} </label>
+        <pop-over [message]="'slotNew_nameLabel_balloonText' | translate">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+        </pop-over>
+      </div>
+      <textbox class="name-textbox" [placeholder]="Resources.enterName | translate" [control]="newSlotForm.controls['name']"></textbox>
+      <button class="custom-button" disabled="!newSlotForm.valid || !newSlotForm.dirty"
+        [disabled]="newSlotForm.invalid || newSlotForm.pristine" (click)="createSlot()">{{ 'create' | translate }}</button>
+    </ng-container>
+
   </div>
 </div>

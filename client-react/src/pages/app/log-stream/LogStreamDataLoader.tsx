@@ -3,9 +3,10 @@ import { LogEntry, LogsEnabled, LogType } from './LogStream.types';
 import { processLogs, processLogConfig, logStreamEnabled } from './LogStreamData';
 import LogStream from './LogStream';
 import { ArmTokenContext } from '../../../ArmTokenContext';
-import { ArmObj, Site } from '../../../models/WebAppModels';
 import SiteService from '../../../ApiHelpers/SiteService';
 import LogService from '../../../utils/LogService';
+import { ArmObj } from '../../../models/arm-obj';
+import { Site } from '../../../models/site/site';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;

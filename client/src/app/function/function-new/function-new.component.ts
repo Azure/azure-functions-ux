@@ -41,7 +41,6 @@ import { SiteService } from '../../shared/services/site.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BillingService } from './../../shared/services/billing.service';
 import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
-import { FunctionService } from './../../shared/services/function.service';
 
 interface CategoryOrder {
   name: string;
@@ -65,7 +64,7 @@ export interface CreateCard extends Template {
   styleUrls: ['./function-new.component.scss'],
 })
 export class FunctionNewComponent extends FunctionAppContextComponent implements OnDestroy {
-  public functionsInfo: ArmObj<FunctionInfo>[];
+  public functionsInfo: FunctionInfo[];
   public functionName: string;
   public functionNameError = '';
   public areInputsValid = false;
@@ -181,10 +180,9 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     private _logService: LogService,
     private _functionAppService: FunctionAppService,
     private _siteService: SiteService,
-    private _billingService: BillingService,
-    private _functionService: FunctionService
+    private _billingService: BillingService
   ) {
-    super('function-new', _functionAppService, _broadcastService, _functionService, () => _globalStateService.setBusyState());
+    super('function-new', _functionAppService, _broadcastService, () => _globalStateService.setBusyState());
 
     this.disabled = !!_broadcastService.getDirtyState('function_disabled');
     this.showTryView = this._globalStateService.showTryView;
@@ -205,7 +203,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         }
 
         return Observable.zip(
-          this._functionService.getFunctions(this.context.site.id),
+          this._functionAppService.getFunctions(this.context),
           this._functionAppService.getRuntimeGeneration(this.context),
           this._siteService.getAppSettings(this.context.site.id),
           this._functionAppService.getBindingConfig(this.context),
@@ -218,7 +216,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         this._logService.error(LogCategories.functionNew, '/load-functions-cards-failure', e);
       })
       .subscribe(tuple => {
-        this.functionsInfo = tuple[0].isSuccessful ? tuple[0].result.value : [];
+        this.functionsInfo = tuple[0].result;
         this.runtimeVersion = tuple[1];
         this.appSettingsArm = tuple[2].result;
         this.bindings = tuple[3].result.bindings;

@@ -920,7 +920,10 @@
     <value>La opción "AlwaysOn" no está habilitada. Es posible que la aplicación no funcione correctamente</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>El valor "AzureWebJobsSecretStorageType" debe establecerse como "blob". En caso contrario, se obtiene un comportamiento inesperado al usar los espacios de implementación.</value>
+    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+  </data>
+  <data name="topBar_slotsHostIdV2" xml:space="preserve">
+    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Notas de la versión de Azure Functions.</value>
@@ -1081,8 +1084,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>El proxy con nombre "{{nombre}}" ya existen</value>
   </data>
-  <data name="slots_warningOff" xml:space="preserve">
-    <value>Los espacios de Azure Functions (vista previa) están actualmente deshabilitados. Para habilitarlos, visite</value>
+  <data name="slots_warningDisabled" xml:space="preserve">
+    <value>Azure functions slots is currently disabled.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Descartar</value>
@@ -2197,6 +2200,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Habilita los espacios de implementación (versión preliminar).</value>
   </data>
+  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
+    <value>Enable deployment slots</value>
+  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Problemas conocidos:</value>
   </data>
@@ -2204,16 +2210,13 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>La integración de Logic Apps con Functions no funciona cuando están habilitados los espacios (versión preliminar).</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Al participar en esta característica en versión preliminar, se restablecerán los secretos ya existentes. Los secretos de la función se encuentran en</value>
-  </data>
-  <data name="appFunctionSettings_warning_4" xml:space="preserve">
-    <value>Nodo "Administrar"</value>
-  </data>
-  <data name="appFunctionSettings_warning_5" xml:space="preserve">
-    <value>de cada función.</value>
+    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Hay una operación de creación de espacio en curso. Después de salir, ya no podrá comprobar el estado de la operación.</value>
+  </data>
+  <data name="slots_label" xml:space="preserve">
+    <value>Ranuras</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Agregar ranura</value>
@@ -4915,7 +4918,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>La edición de funciones en el portal no es compatible con aplicaciones de función Java. Use Maven o VS Code para el desarrollo.</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
-    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
+    <value>La ruta de acceso al directorio de trabajo debe ser relativa a la raíz del repositorio y no puede comenzar con /, \ o nombres de unidad (C:/) en el caso de Windows. Si el directorio de trabajo está en la carpeta src del repositorio, la ruta de acceso debe ser src/.</value>
   </data>
   <data name="mountedStorageInfo" xml:space="preserve">
     <value>El almacenamiento montado le permite asignar contenedores de Azure Files o de blob para usarlos con la aplicación.</value>
@@ -4948,13 +4951,13 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>No se pudo crear el plan de App Service "{0}".</value>
   </data>
   <data name="changePlanNoWritePermissionRg" xml:space="preserve">
-    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+    <value>No tiene suficientes permisos de escritura para crear un plan de App Service nuevo en este grupo de recursos.</value>
   </data>
   <data name="changePlanSiteLockedError" xml:space="preserve">
-    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+    <value>La aplicación tiene un bloqueo de solo lectura y no se puede mover a otro plan de App Service.</value>
   </data>
   <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
-    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+    <value>No se permite crear un nuevo grupo de recursos porque no tiene suficientes permisos de escritura en la suscripción.</value>
   </data>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>El nombre de grupo de recursos solo puede incluir caracteres alfanuméricos, puntos, subrayados, guiones y paréntesis y no puede finalizar en un punto.</value>
@@ -4985,5 +4988,8 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="minorVersion" xml:space="preserve">
     <value>Versión secundaria</value>
+  </data>
+  <data name="containerValidationFailed" xml:space="preserve">
+    <value>No se pudo validar la configuración del contenedor.</value>
   </data>
 </root>
