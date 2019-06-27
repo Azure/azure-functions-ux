@@ -16,7 +16,6 @@ import { CacheService } from './../shared/services/cache.service';
 import { PortalService } from './../shared/services/portal.service';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { FunctionService } from 'app/shared/services/function.service';
 
 interface LogicAppInfo {
   name: string;
@@ -78,10 +77,9 @@ export class LogicAppsComponent extends FunctionAppContextComponent {
     private _translateService: TranslateService,
     private _logService: LogService,
     _functionAppService: FunctionAppService,
-    broadcastService: BroadcastService,
-    functionService: FunctionService
+    broadcastService: BroadcastService
   ) {
-    super('logic-apps', _functionAppService, broadcastService, functionService);
+    super('logic-apps', _functionAppService, broadcastService);
 
     this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.logicApps);
   }

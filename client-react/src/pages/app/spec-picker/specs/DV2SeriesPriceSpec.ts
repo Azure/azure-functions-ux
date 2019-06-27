@@ -1,9 +1,12 @@
-import { AvailableSku, ArmObj, GeoRegion, Sku, ServerFarm, ArmArray } from '../../../../models/WebAppModels';
+import { ArmSku, AvailableSku } from './../../../../models/arm-obj';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { PriceSpec, PriceSpecInput, PlanSpecPickerData } from './PriceSpec';
 import { ArmProviderInfo } from '../../../../models/HttpResult';
 import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
 import i18next from 'i18next';
+import { ArmObj, ArmArray } from '../../../../models/arm-obj';
+import { ServerFarm } from '../../../../models/serverFarm/serverfarm';
+import { GeoRegion } from '../../../../models/georegions';
 
 export abstract class DV2SeriesPriceSpec extends PriceSpec {
   private readonly _sku: string;
@@ -36,7 +39,7 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
     }
   }
 
-  protected abstract _matchSku(sku: Sku): boolean;
+  protected abstract _matchSku(sku: ArmSku): boolean;
   protected abstract _shouldHideForNewPlan(data: PlanSpecPickerData): boolean;
   protected abstract _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean;
 

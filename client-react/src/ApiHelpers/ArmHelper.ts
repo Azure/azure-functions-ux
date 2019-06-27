@@ -1,4 +1,3 @@
-import { ArmArray, ArmObj } from './../models/WebAppModels';
 import axios, { AxiosResponse } from 'axios';
 import { CommonConstants } from '../utils/CommonConstants';
 import { Subject, from } from 'rxjs';
@@ -9,6 +8,7 @@ import Url from '../utils/url';
 import { MethodTypes, ArmRequestObject, HttpResponseObject } from '../ArmHelper.types';
 import LogService from '../utils/LogService';
 import { LogCategories } from '../utils/LogCategories';
+import { ArmArray, ArmObj } from '../models/arm-obj';
 
 const alwaysSkipBatch = !!Url.getParameterByName(null, 'appsvc.skipbatching');
 const sessionId = Url.getParameterByName(null, 'sessionId');

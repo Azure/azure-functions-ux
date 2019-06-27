@@ -15,7 +15,6 @@ import { BroadcastService } from '../../shared/services/broadcast.service';
 import { UserService } from '../../shared/services/user.service';
 import { Subscription as Sub } from '../../shared/models/subscription';
 import { SiteService } from '../../shared/services/site.service';
-import { FunctionService } from 'app/shared/services/function.service';
 
 class OptionTypes {
   cosmosDB = 'CosmosDB';
@@ -56,10 +55,9 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
     private _userService: UserService,
     private _siteService: SiteService,
     functionAppService: FunctionAppService,
-    broadcastService: BroadcastService,
-    functionService: FunctionService
+    broadcastService: BroadcastService
   ) {
-    super('cosmos-db', functionAppService, broadcastService, functionService);
+    super('cosmos-db', functionAppService, broadcastService);
 
     this.options = [
       {

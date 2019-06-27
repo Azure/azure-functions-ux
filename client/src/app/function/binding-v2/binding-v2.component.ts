@@ -30,7 +30,6 @@ import { FunctionAppContextComponent } from 'app/shared/components/function-app-
 import { Subscription } from 'rxjs/Subscription';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { SiteService } from '../../shared/services/site.service';
-import { FunctionService } from 'app/shared/services/function.service';
 
 declare var marked: any;
 
@@ -93,7 +92,6 @@ export class BindingV2Component extends FunctionAppContextComponent {
   constructor(
     @Inject(ElementRef) elementRef: ElementRef,
     broadcastService: BroadcastService,
-    functionService: FunctionService,
     private _portalService: PortalService,
     private _cacheService: CacheService,
     private _translateService: TranslateService,
@@ -102,7 +100,7 @@ export class BindingV2Component extends FunctionAppContextComponent {
     private _siteService: SiteService,
     private _logService: LogService
   ) {
-    super('binding-v2', _functionAppService, broadcastService, functionService);
+    super('binding-v2', _functionAppService, broadcastService);
 
     const renderer = new marked.Renderer();
 
@@ -148,7 +146,7 @@ export class BindingV2Component extends FunctionAppContextComponent {
   setup(): Subscription {
     return this.viewInfoEvents
       .switchMap(view => {
-        this._functionInfo = view.functionInfo.isSuccessful && view.functionInfo.result.properties;
+        this._functionInfo = view.functionInfo.result;
         return Observable.zip(
           this._siteService.getAppSettings(view.context.site.id),
           this._functionAppService.getAuthSettings(view.context),
@@ -525,8 +523,8 @@ export class BindingV2Component extends FunctionAppContextComponent {
           const input = new EventGridInput();
           input.label = this._translateService.instant(PortalResources.eventGrid_label);
           input.help = this._translateService.instant(PortalResources.eventGrid_help);
-          input.bladeLabel = (this._functionInfo && this._functionInfo.name) || '';
-          this._functionAppService.getEventGridUri(this.context, input.bladeLabel).subscribe(eventGridUri => {
+          input.bladeLabel = this._functionInfo.name;
+          this._functionAppService.getEventGridUri(this.context, this._functionInfo.name).subscribe(eventGridUri => {
             input.value = eventGridUri.result;
           });
           this.model.inputs.push(input);

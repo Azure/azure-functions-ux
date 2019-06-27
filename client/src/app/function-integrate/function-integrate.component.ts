@@ -71,7 +71,7 @@ export class FunctionIntegrateComponent extends BaseFunctionComponent implements
       });
 
       if (view.functionInfo.isSuccessful) {
-        this._selectedFunction = view.functionInfo.result.properties;
+        this._selectedFunction = view.functionInfo.result;
         this._originalContent = JSON.stringify(this._selectedFunction.config, undefined, 2);
         this._currentContent = this._originalContent;
         this.cancelConfig();

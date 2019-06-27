@@ -37,6 +37,7 @@ export interface AzurePortalColors {
   controlErrorStateOutline: string;
   controlDirtyOutline: string;
   disabledControlBackground: string;
+  cardBorderColor: string;
 }
 export interface SemanticColorsExtended extends ISemanticColors, AzurePortalColors {}
 export interface ThemeExtended extends ITheme {

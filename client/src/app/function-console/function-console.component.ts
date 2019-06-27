@@ -26,7 +26,6 @@ import { PromptComponent } from './extra-components/prompt.component';
 import { MessageComponent } from './extra-components/message.component';
 import { ErrorComponent } from './extra-components/error.component';
 import { UtilitiesService } from '../shared/services/utilities.service';
-import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'console',
@@ -67,14 +66,13 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
   constructor(
     public functionAppService: FunctionAppService,
     public broadcastService: BroadcastService,
-    public functionService: FunctionService,
     private _siteService: SiteService,
     private _utilities: UtilitiesService,
     private _cacheService: CacheService,
     private _consoleService: ConsoleService,
     private _componentFactoryResolver: ComponentFactoryResolver
   ) {
-    super('console', functionAppService, broadcastService, functionService);
+    super('console', functionAppService, broadcastService);
   }
 
   setup(): Subscription {

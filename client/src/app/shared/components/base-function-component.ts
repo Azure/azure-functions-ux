@@ -4,18 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { NavigableComponent, ExtendedTreeViewInfo } from './navigable-component';
-import { FunctionService } from '../services/function.service';
 
 export abstract class BaseFunctionComponent extends NavigableComponent {
   public context: FunctionAppContext;
 
   protected _functionAppService: FunctionAppService;
-  protected _functionService: FunctionService;
 
   constructor(componentName: string, injector: Injector, dashboardType: DashboardType) {
     super(componentName, injector, dashboardType);
     this._functionAppService = injector.get(FunctionAppService);
-    this._functionService = injector.get(FunctionService);
   }
 
   setup(navigationEvents: Observable<ExtendedTreeViewInfo>) {
@@ -29,7 +26,7 @@ export abstract class BaseFunctionComponent extends NavigableComponent {
       })
       .switchMap(tuple =>
         Observable.zip(
-          this._functionService.getFunction(tuple[0].site.id, tuple[1].functionDescriptor.name),
+          this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
           Observable.of(tuple[0]),
           Observable.of(tuple[1])
         )

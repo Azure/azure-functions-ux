@@ -1,16 +1,11 @@
-import {
-  ArmObj,
-  SiteConfig,
-  SlotConfigNames,
-  VirtualApplication,
-  Site,
-  NameValuePair,
-  ConnStringInfo,
-  ArmAzureStorageMount,
-} from '../../../models/WebAppModels';
-
+import SiteService from '../../../ApiHelpers/SiteService';
 import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
 import { sortBy } from 'lodash-es';
+import { ArmObj } from '../../../models/arm-obj';
+import { Site } from '../../../models/site/site';
+import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication } from '../../../models/site/config';
+import { SlotConfigNames } from '../../../models/site/slot-config-names';
+import { NameValuePair } from '../../../models/name-value-pair';
 
 interface StateToFormParams {
   site: ArmObj<Site>;
@@ -94,6 +89,18 @@ export const convertFormToState = (
   const configWithStack = getConfigWithStackSettings(config, values);
   const storageMounts = getAzureStorageMountFromForm(values.azureStorageMounts);
 
+  if (site) {
+    const [id, location] = [site.id, site.location];
+    if (id) {
+      slotConfigNames.id = `${SiteService.getProductionId(id)}/config/slotconfignames`;
+      storageMounts.id = `${id}/config/azureStorageAccounts`;
+    }
+    if (location) {
+      slotConfigNames.location = location;
+      storageMounts.location = location;
+    }
+  }
+
   return {
     site,
     slotConfigNames,
@@ -121,8 +128,8 @@ export function getStickySettings(
 
   return {
     id: '',
-    name: '',
     location: '',
+    name: 'slotconfignames',
     properties: {
       appSettingNames,
       connectionStringNames,
@@ -168,7 +175,7 @@ export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts
   return {
     id: '',
     location: '',
-    name: '',
+    name: 'azurestorageaccounts',
     properties: storageMountFromForm,
   };
 }
@@ -252,7 +259,7 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
       va.virtualDirectories.forEach(element => {
         const virtualPath = `${
           va.virtualPath.endsWith('/') && element.virtualPath.startsWith('/') ? va.virtualPath.slice(0, -2) : va.virtualPath
-        }${element.virtualPath}`;
+          }${element.virtualPath}`;
         newList.push({
           ...element,
           virtualPath: `${virtualPath}`,

@@ -10,7 +10,6 @@ import { FunctionAppContextComponent } from '../shared/components/function-app-c
 import { FunctionAppService } from '../shared/services/function-app.service';
 import { Subject } from 'rxjs/Subject';
 import { VfsObject } from '../shared/models/vfs-object';
-import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'errors-warnings',
@@ -37,13 +36,8 @@ export class ErrorsWarningsComponent extends FunctionAppContextComponent impleme
   private functionInfo: FunctionInfo;
   private hostEventClient: HostEventClient;
   private monacoSubscription: Subscription;
-  constructor(
-    functionAppService: FunctionAppService,
-    broadcastService: BroadcastService,
-    private userService: UserService,
-    functionService: FunctionService
-  ) {
-    super('errors-warnings', functionAppService, broadcastService, functionService, () => this.setBusyState(), () => this.clearBusyState());
+  constructor(functionAppService: FunctionAppService, broadcastService: BroadcastService, private userService: UserService) {
+    super('errors-warnings', functionAppService, broadcastService, () => this.setBusyState(), () => this.clearBusyState());
     this.selectFile = new Subject();
   }
 
@@ -60,9 +54,7 @@ export class ErrorsWarningsComponent extends FunctionAppContextComponent impleme
             }
             this.hostEventClient = new HostEventClient(v.context, this.userService);
           }
-          if (v.functionInfo.isSuccessful) {
-            this.functionInfo = v.functionInfo.result.properties;
-          }
+          this.functionInfo = v.functionInfo.result;
           this.clearBusyState();
         })
         // Every time the function changes, we want to unsubscribe to the old one

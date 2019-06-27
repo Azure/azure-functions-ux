@@ -16,8 +16,6 @@ import { errorIds } from '../../shared/models/error-ids';
 import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
 import { NavigableComponent } from '../../shared/components/navigable-component';
 import { SiteService } from '../../shared/services/site.service';
-import { ArmObj } from 'app/shared/models/arm/arm-obj';
-import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'api-new',
@@ -32,7 +30,7 @@ export class ApiNewComponent extends NavigableComponent {
 
   public context: FunctionAppContext;
   public apiProxies: ApiProxy[];
-  public functionsInfo: ArmObj<FunctionInfo>[];
+  public functionsInfo: FunctionInfo[];
   public appNode: AppNode;
   public rrOverrideValid: boolean;
 
@@ -61,7 +59,6 @@ export class ApiNewComponent extends NavigableComponent {
     private _aiService: AiService,
     private _functionAppService: FunctionAppService,
     private _siteService: SiteService,
-    private _functionService: FunctionService,
     fb: FormBuilder,
     injector: Injector
   ) {
@@ -100,7 +97,7 @@ export class ApiNewComponent extends NavigableComponent {
           // Should be okay to query app settings without checkout RBAC/locks since this component
           // shouldn't load unless you have write access.
           return Observable.zip(
-            this._functionService.getFunctions(context.site.id),
+            this._functionAppService.getFunctions(context),
             this._functionAppService.getApiProxies(context),
             this._siteService.getAppSettings(context.site.id),
             (f, p, a) => ({ fcs: f, proxies: p, appSettings: a, context: context })
@@ -110,7 +107,7 @@ export class ApiNewComponent extends NavigableComponent {
       .do(res => {
         this.context = res.context;
         if (res.fcs.isSuccessful) {
-          this.functionsInfo = res.fcs.result.value;
+          this.functionsInfo = res.fcs.result;
         } else {
           this.showComponentError({
             errorId: res.fcs.error.errorId,

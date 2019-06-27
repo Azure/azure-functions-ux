@@ -26,7 +26,6 @@ import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/n
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { BillingService } from 'app/shared/services/billing.service';
 import { Tier } from 'app/shared/models/serverFarmSku';
-import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'function-edit',
@@ -62,7 +61,6 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
     private _aiService: AiService,
     private _configService: ConfigService,
     private _billingService: BillingService,
-    private _functionService: FunctionService,
     injector: Injector
   ) {
     super('function-edit', injector, info => {
@@ -109,7 +107,7 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
         const functionDescriptor = tuple[1];
         const subscriptionId = new ArmSiteDescriptor(this.context.site.id).subscription;
         return Observable.zip(
-          this._functionService.getFunction(this.context.site.id, functionDescriptor.name),
+          this._functionAppService.getFunction(this.context, functionDescriptor.name),
           this._billingService.checkIfSubscriptionHasQuotaId(subscriptionId, SubscriptionQuotaIds.dreamSparkQuotaId)
         );
       })
@@ -118,7 +116,7 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
         const functionResult = tuple[0];
         this.isDreamSpark = tuple[1];
         if (functionResult.isSuccessful) {
-          this.selectedFunction = functionResult.result.properties;
+          this.selectedFunction = functionResult.result;
           this._setupPollingTasks();
 
           const segments = this.viewInfo.resourceId.split('/');
@@ -234,15 +232,16 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
           });
         }
         if (result.slotsResponse) {
-          let slotsStorageSetting = appSettings.properties[Constants.slotsSecretStorageSettingsName];
-          if (!!slotsStorageSetting) {
-            slotsStorageSetting = slotsStorageSetting.toLowerCase();
-          }
           const numSlots = result.slotsResponse.length;
-          if (numSlots > 0 && slotsStorageSetting !== Constants.slotsSecretStorageSettingsValue.toLowerCase()) {
+          if (numSlots > 0 && !this._functionAppService.isSlotsSupported(appSettings)) {
+            const message =
+              FunctionsVersionInfoHelper.getFunctionGeneration(extensionVersion) === 'V1'
+                ? this._translateService.instant(PortalResources.topBar_slotsHostId)
+                : this._translateService.instant(PortalResources.topBar_slotsHostIdV2);
+
             notifications.push({
               id: NotificationIds.slotsHostId,
-              message: this._translateService.instant(PortalResources.topBar_slotsHostId),
+              message: message,
               iconClass: 'fa fa-exclamation-triangle warning',
               learnMoreLink: '',
               clickCallback: null,

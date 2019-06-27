@@ -1,28 +1,7 @@
 @import '../../../../sass/common/variables';
 
-.control-container {
-  // width: calc(50% - 15px);
-
-  &.src,
-  &.dest {
-    width: calc(50% - 15px);
-    float: left;
-  }
-}
-
-.swap-icon-container {
-  float: left;
-  width: 30px;
-  margin-top: 24px;
-  text-align: center;
-
-  span {
-    transform: rotate(40deg);
-    -webkit-transform: rotate(40deg); /* Safari */
-    -moz-transform: rotate(40deg); /* Firefox */
-    -ms-transform: rotate(40deg); /* IE */
-    -o-transform: rotate(40deg); /* Opera */
-  }
+.control-container.dest {
+  margin-top: 10px;
 }
 
 .bullet {
