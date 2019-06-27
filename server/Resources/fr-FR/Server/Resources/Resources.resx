@@ -920,10 +920,7 @@
     <value>« Always On » n'est pas activé. Votre application risque de ne pas fonctionner correctement</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
-  </data>
-  <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>Le paramètre 'AzureWebJobsSecretStorageType' doit avoir la valeur 'blob'. Sinon, l'utilisation d'emplacements de déploiement peut entraîner un comportement inattendu</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Notes de publication Azure Functions.</value>
@@ -1084,8 +1081,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>Un proxy portant le nom « {{name}} » existe déjà</value>
   </data>
-  <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Les emplacements Azure Functions (préversion) sont actuellement désactivés. Pour les activer, visitez</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Abandonner</value>
@@ -2200,9 +2197,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Activer les emplacements de déploiement (préversion).</value>
   </data>
-  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
-  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Problèmes connus :</value>
   </data>
@@ -2210,13 +2204,16 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>L'intégration de Logic Apps avec Functions ne fonctionne pas quand Emplacements (préversion) est activé.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>La participation à cette fonctionnalité en préversion entraîne la réinitialisation de tous les secrets préexistants. Les secrets de fonction se trouvent sous le</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>nœud « Gérer »</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>pour chaque fonction.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Une opération de création d'emplacement est en cours. Si vous quittez cette page, vous ne pouvez plus vérifier l'état de l'opération.</value>
-  </data>
-  <data name="slots_label" xml:space="preserve">
-    <value>Emplacements</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Ajouter un emplacement</value>
@@ -4888,7 +4885,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Les certificats clients ont été activés sur votre application de fonction, ce qui peut affecter votre capacité à gérer celle-ci à partir du portail.</value>
   </data>
   <data name="alwaysOnInfoMessage" xml:space="preserve">
-    <value>Empêche l’arrêt de votre application en raison de son inactivité.</value>
+    <value>Prevents your app from being idled out due to inactivity.</value>
   </data>
   <data name="ftpsInfoMessage" xml:space="preserve">
     <value>Le déploiement FTP peut être désactivé ou configuré pour accepter les connexions FTP (texte brut) ou FTPS (sécurisées).</value>
@@ -4918,7 +4915,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>La modification de fonctions dans le portail n’est pas prise en charge pour les applications de fonction Java. Utilisez Maven ou VS Code pour le développement.</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
-    <value>Le chemin d’accès du répertoire de travail doit être relatif à la racine du référentiel et ne peut pas commencer par /, \ ou des noms de lecteurs (C:/) dans le cas de Windows. Si le répertoire de travail se trouve dans le dossier src du dépôt, le chemin d’accès doit être src/</value>
+    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
   </data>
   <data name="mountedStorageInfo" xml:space="preserve">
     <value>Le stockage monté vous permet de mapper des conteneurs Azure Files ou Blob à utiliser avec votre application.</value>
@@ -4951,13 +4948,13 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Impossible de créer le plan App Service : « {0} »</value>
   </data>
   <data name="changePlanNoWritePermissionRg" xml:space="preserve">
-    <value>Vous ne disposez pas des autorisations d’écriture suffisantes pour créer un plan App Service dans ce groupe de ressources</value>
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
   </data>
   <data name="changePlanSiteLockedError" xml:space="preserve">
-    <value>Votre application a un verrou en lecture seule et ne peut pas être déplacée vers un autre plan App Service</value>
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
   </data>
   <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
-    <value>La création d’un groupe de ressources n’est pas autorisée, car vous ne disposez pas de l’autorisation d’écriture suffisante sur l’abonnement</value>
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
   </data>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Un nom de groupe de ressources ne peut contenir que des caractères alphanumériques, des points, des traits de soulignement, des tirets et des parenthèses, et il ne peut pas se terminer par un point.</value>
@@ -4988,8 +4985,5 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   </data>
   <data name="minorVersion" xml:space="preserve">
     <value>Version secondaire</value>
-  </data>
-  <data name="containerValidationFailed" xml:space="preserve">
-    <value>Échec de la validation des paramètres du conteneur.</value>
   </data>
 </root>

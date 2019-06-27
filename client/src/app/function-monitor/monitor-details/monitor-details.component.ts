@@ -51,15 +51,14 @@ export class MonitorDetailsComponent extends FeatureComponent<MonitorDetailsInfo
           Observable.of(monitorDetailsInfo),
           this._applicationInsightsService.getInvocationTraceHistory(
             monitorDetailsInfo.functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
-            monitorDetailsInfo.operationId,
-            monitorDetailsInfo.invocationId
+            monitorDetailsInfo.operationId
           )
         )
       )
       .do(tuple => {
         this.isLoading = false;
         this._monitorDetailsInfo = tuple[0];
-        this.functionName = this._monitorDetailsInfo.functionMonitorInfo.functionInfo.name;
+        this.functionName = this._monitorDetailsInfo.functionMonitorInfo.functionName;
         this.operationId = this._monitorDetailsInfo.operationId;
         this.traceHistory = tuple[1];
       });
@@ -68,8 +67,7 @@ export class MonitorDetailsComponent extends FeatureComponent<MonitorDetailsInfo
   public openAppInsightsQueryEditor() {
     const url = this._applicationInsightsService.getInvocationTraceHistoryDirectUrl(
       this._monitorDetailsInfo.functionMonitorInfo.appInsightsResourceDescriptor.getResourceIdForDirectUrl(),
-      this._monitorDetailsInfo.operationId,
-      this._monitorDetailsInfo.invocationId
+      this._monitorDetailsInfo.operationId
     );
 
     window.open(url, '_blank');

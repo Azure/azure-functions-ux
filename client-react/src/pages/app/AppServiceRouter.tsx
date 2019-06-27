@@ -5,34 +5,25 @@ import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
 export interface AppSeriviceRouterProps {
   subscriptionId?: string;
-  resourcegroup?: string;
   siteName?: string;
   slotName?: string;
-  functionName?: string;
+  resourcegroup?: string;
 }
 
 const AppSettingsLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-settings/AppSettings'));
 const LogStreamLoadable: any = lazy(() => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamDataLoader'));
 const ChangeAppPlanLoadable: any = lazy(() => import(/* webpackChunkName:"changeappplan" */ './change-app-plan/ChangeAppPlanDataLoader'));
-const FunctionIntegrateLoadable: any = lazy(() =>
-  import(/* webpackChunkName:"functionintegrate" */ './functions/integrate/FunctionIntegrateDataLoader')
-);
 
 const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = props => {
   const [resourceId, setResourceId] = useState('');
   const theme = useContext(ThemeContext);
 
   useEffect(() => {
-    const { subscriptionId, resourcegroup, siteName, slotName, functionName } = props;
+    const { subscriptionId, resourcegroup, siteName, slotName } = props;
     let id = `/subscriptions/${subscriptionId}/resourcegroups/${resourcegroup}/providers/Microsoft.Web/sites/${siteName}`;
     if (slotName) {
       id = `${id}/slots/${slotName}`;
     }
-
-    if (functionName) {
-      id = `${id}/functions/${functionName}`;
-    }
-
     setResourceId(id);
   }, []);
 
@@ -46,7 +37,6 @@ const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = 
                 <AppSettingsLoadable resourceId={resourceId} path="/settings" />
                 <LogStreamLoadable resourceId={resourceId} path="/log-stream" />
                 <ChangeAppPlanLoadable resourceId={resourceId} path="/changeappplan" />
-                <FunctionIntegrateLoadable resourceId={resourceId} path="/integrate" />
               </Router>
             )
           );

@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AvailableStack } from '../../../../../models/available-stacks';
+import { ArmObj } from '../../../../../models/WebAppModels';
 import { AppSettingsFormValues, FormApi, FormState } from '../../AppSettings.types';
 import { PermissionsContext } from '../../Contexts';
 import { Links } from '../../../../../utils/FwLinks';
-import { ArmObj } from '../../../../../models/arm-obj';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];

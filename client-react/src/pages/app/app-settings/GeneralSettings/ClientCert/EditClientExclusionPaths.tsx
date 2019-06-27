@@ -42,7 +42,7 @@ const EditClientExclusionPaths: React.FC<Props> = props => {
 
   const actionBarPrimaryButtonProps = {
     id: 'save',
-    title: t('ok'),
+    title: t('update'),
     onClick: () => {
       save(values.join(';'));
     },

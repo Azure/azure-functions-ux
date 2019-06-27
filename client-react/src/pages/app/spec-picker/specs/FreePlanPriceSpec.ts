@@ -1,3 +1,4 @@
+import { AvailableSku, ArmObj, GeoRegion, ArmArray } from '../../../../models/WebAppModels';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { ServerFarmSkuConstants } from '../../../../utils/scenario-checker/ServerFarmSku';
 import { AppKind } from '../../../../utils/AppKind';
@@ -6,8 +7,6 @@ import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
 import { ArmProviderInfo } from '../../../../models/HttpResult';
 import { style } from 'typestyle';
 import i18next from 'i18next';
-import { AvailableSku, ArmObj, ArmArray } from '../../../../models/arm-obj';
-import { GeoRegion } from '../../../../models/georegions';
 
 export abstract class FreePlanPriceSpec extends PriceSpec {
   constructor(t: i18next.TFunction) {

@@ -1,22 +1,7 @@
+import { ArmObj, Lock, Permissions, PermissionsAsRegExp, ArmArray } from '../models/WebAppModels';
 import MakeArmCall from '../ApiHelpers/ArmHelper';
 import { CommonConstants } from './CommonConstants';
 import { HttpResponseObject } from '../ArmHelper.types';
-import { ArmObj, ArmArray } from '../models/arm-obj';
-
-export interface Permissions {
-  actions: string[];
-  notActions: string[];
-}
-
-export interface PermissionsAsRegExp {
-  actions: RegExp[];
-  notActions: RegExp[];
-}
-
-export interface Lock {
-  level: string;
-  notes: string;
-}
 
 export interface IAuthzService {
   hasPermission(resourceId: string, requestedActions: string[]): Promise<boolean>;

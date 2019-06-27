@@ -1,8 +1,7 @@
+import { ServerFarm, ArmObj } from '../models/WebAppModels';
 import { CommonConstants } from '../utils/CommonConstants';
 import MakeArmCall from './ArmHelper';
 import { ARGRequest, MakeAzureResourceGraphCall } from './ArgHelper';
-import { ArmObj } from '../models/arm-obj';
-import { ServerFarm } from '../models/serverFarm/serverfarm';
 
 export default class ServerFarmService {
   public static fetchServerFarm = (resourceId: string) => {

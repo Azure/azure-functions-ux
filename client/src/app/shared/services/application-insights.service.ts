@@ -13,7 +13,7 @@ import * as pako from 'pako';
 import { LocalStorageService } from './local-storage.service';
 import { MonitorViewItem } from '../models/localStorage/local-storage';
 import * as moment from 'moment-mini-ts';
-
+ 
 @Injectable()
 export class ApplicationInsightsService {
   private readonly _client: ConditionalHttpClient;
@@ -74,15 +74,11 @@ export class ApplicationInsightsService {
       .map(response => this._extractInvocationTracesFromResponse(response));
   }
 
-  public getInvocationTraceHistory(
-    aiResourceId: string,
-    operationId: string,
-    invocationId: string
-  ): Observable<AIInvocationTraceHistory[]> {
+  public getInvocationTraceHistory(aiResourceId: string, operationId: string): Observable<AIInvocationTraceHistory[]> {
     this._validateAiResourceid(aiResourceId);
 
     const body = {
-      query: this._getQueryForInvocationTraceHistory(operationId, invocationId),
+      query: this._getQueryForInvocationTraceHistory(operationId),
     };
 
     const armResponse = this._cacheService.postArm(
@@ -106,11 +102,9 @@ export class ApplicationInsightsService {
     return baseUrl + query;
   }
 
-  public getInvocationTraceHistoryDirectUrl(aiDirectResourceId: string, operationId: string, invocationId: string): string {
+  public getInvocationTraceHistoryDirectUrl(aiDirectResourceId: string, operationId: string): string {
     const baseUrl = this._directUrl + aiDirectResourceId + '?q=';
-    const query = ApplicationInsightsQueryUtil.compressAndEncodeBase64AndUri(
-      this._getQueryForInvocationTraceHistory(operationId, invocationId)
-    );
+    const query = ApplicationInsightsQueryUtil.compressAndEncodeBase64AndUri(this._getQueryForInvocationTraceHistory(operationId));
     return baseUrl + query;
   }
 
@@ -178,24 +172,21 @@ export class ApplicationInsightsService {
     this._validateFunctionName(functionName);
     return (
       `requests ` +
-      `| project timestamp, id, operation_Name, success, resultCode, duration, operation_Id, cloud_RoleName, invocationId=customDimensions['InvocationId'] ` +
+      `| project timestamp, id, operation_Name, success, resultCode, duration, operation_Id, cloud_RoleName ` +
       `| where timestamp > ago(30d) ` +
       `| where cloud_RoleName =~ '${functionAppName}' and operation_Name == '${functionName}' ` +
       `| order by timestamp desc | take ${top}`
     );
   }
 
-  private _getQueryForInvocationTraceHistory(operationId: string, invocationId: string): string {
+  private _getQueryForInvocationTraceHistory(operationId: string): string {
     this._validateOperationId(operationId);
-
-    const invocationIdFilter = !!invocationId ? `| where customDimensions['InvocationId'] == '${invocationId}'` : '';
 
     return (
       `union traces` +
       `| union exceptions` +
       `| where timestamp > ago(30d)` +
       `| where operation_Id == '${operationId}'` +
-      invocationIdFilter +
       `| order by timestamp asc` +
       `| project timestamp, message = iff(message != '', message, iff(innermostMessage != '', innermostMessage, customDimensions.["prop__{OriginalFormat}"])), logLevel = customDimensions.["LogLevel"]`
     );
@@ -275,7 +266,6 @@ export class ApplicationInsightsService {
               resultCode: row[4],
               duration: Number.parseFloat(row[5]),
               operationId: row[6],
-              invocationId: row[8],
             });
           });
         }

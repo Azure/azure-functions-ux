@@ -2,19 +2,20 @@ import { FormikProps } from 'formik';
 import { DetailsListLayoutMode, SelectionMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import React from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
+
 import DisplayTableWithEmptyMessage, {
   defaultCellStyle,
 } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+
 import { AppSettingsFormValues, FormAzureStorageMounts } from '../AppSettings.types';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import AzureStorageMountsAddEdit from './AzureStorageMountsAddEdit';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { StorageType, ArmAzureStorageMount } from '../../../../models/WebAppModels';
 import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
-import { ArmAzureStorageMount, StorageType } from '../../../../models/site/config';
-
 export interface AzureStorageMountLocalState {
   showPanel: boolean;
   currentAzureStorageMount: FormAzureStorageMounts | null;

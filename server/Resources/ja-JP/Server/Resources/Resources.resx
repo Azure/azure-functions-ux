@@ -920,10 +920,7 @@
     <value>'AlwaysOn' が有効になっていません。アプリが正常に動作しない可能性があります</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
-  </data>
-  <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>'AzureWebJobsSecretStorageType' の設定は 'blob' に設定する必要があります。この設定がない場合、デプロイ スロットの使用時に予期しない動作が発生します</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions リリース ノート。</value>
@@ -1084,8 +1081,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>'{{name}}' という名前のプロキシが既に存在します</value>
   </data>
-  <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Azure Functions スロット (プレビュー) は現在無効になっています。有効にするには、</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>破棄</value>
@@ -2200,9 +2197,6 @@
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>デプロイ スロット (プレビュー) を有効にします。</value>
   </data>
-  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
-  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>既知の問題:</value>
   </data>
@@ -2210,13 +2204,16 @@
     <value>Logic Apps の Azure Functions との統合は、スロット (プレビュー) が有効になっている場合は機能しません。</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>このプレビュー機能の利用を選択すると、既存のシークレットがすべてリセットされます。関数のシークレットは、各関数の </value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>'管理'</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>ノードの下にあります。</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>スロット作成操作が現在進行中です。ここから移動すると、操作の状態を確認できなくなります。</value>
-  </data>
-  <data name="slots_label" xml:space="preserve">
-    <value>Slots</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>スロットの追加</value>
@@ -4918,7 +4915,7 @@
     <value>Java Function Apps ではポータルにおける関数の編集はサポートされていません。開発には Maven または VS Code を使用してください。</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
-    <value>作業ディレクトリのパスは、リポジトリのルートからの相対パスである必要があり、Windows の場合は、/、\、ドライブ名 (C:/) で開始することはできません。作業ディレクトリがリポジトリの src フォルダーにある場合、パスは src/ にする必要があります</value>
+    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
   </data>
   <data name="mountedStorageInfo" xml:space="preserve">
     <value>マウントされた記憶域を使用すると、アプリで使用する Azure Files または Blob のコンテナーをマップできます。</value>
@@ -4951,13 +4948,13 @@
     <value>App Service プランを作成できませんでした: '{0}'</value>
   </data>
   <data name="changePlanNoWritePermissionRg" xml:space="preserve">
-    <value>このリソース グループに新しい App Service プランを作成するための十分な書き込みアクセス許可がありません</value>
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
   </data>
   <data name="changePlanSiteLockedError" xml:space="preserve">
-    <value>アプリで ReadOnly ロックが設定されており、別の App Service プランに移動することはできません</value>
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
   </data>
   <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
-    <value>サブスクリプションに対する十分な書き込みアクセス許可がないため、新しいリソース グループを作成することは許可されていません</value>
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
   </data>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>リソース グループ名には、英数字、ピリオド、アンダースコア、ハイフン、およびかっこだけを使用できます。また、末尾をピリオドにすることはできません。</value>
@@ -4988,8 +4985,5 @@
   </data>
   <data name="minorVersion" xml:space="preserve">
     <value>マイナー バージョン</value>
-  </data>
-  <data name="containerValidationFailed" xml:space="preserve">
-    <value>コンテナー設定を検証できませんでした。</value>
   </data>
 </root>

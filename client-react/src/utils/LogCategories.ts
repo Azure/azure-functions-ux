@@ -41,5 +41,4 @@ export class LogCategories {
   public static readonly containerSettings = 'containerSettings';
   public static readonly armHelper = 'ArmHelper';
   public static readonly argHelper = 'ArgHelper';
-  public static readonly changeAppPlan = 'ChangeAppPlan';
 }

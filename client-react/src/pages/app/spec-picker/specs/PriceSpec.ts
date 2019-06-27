@@ -1,11 +1,10 @@
 import { SpecResourceSet } from '../../../../models/BillingModels';
+import { ArmObj, ServerFarm } from '../../../../models/WebAppModels';
 import PortalCommunicator from '../../../../portal-communicator';
 import { BillingService } from '../../../../utils/BillingService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import i18next from 'i18next';
-import { ArmObj } from '../../../../models/arm-obj';
-import { ServerFarm } from '../../../../models/serverFarm/serverfarm';
 
 export interface PriceSpecInput {
   specPickerInput: SpecPickerInput<PlanSpecPickerData>;

@@ -4,11 +4,10 @@ import { AppKind } from '../../../../../utils/AppKind';
 import { PriceSpec, PriceSpecInput, SpecColorCodes } from '../PriceSpec';
 import { NationalCloudEnvironment } from '../../../../../utils/scenario-checker/national-cloud.environment';
 import { style } from 'typestyle';
+import { ArmObj, HostingEnvironment } from '../../../../../models/WebAppModels';
 import { HttpResult } from '../../../../../models/HttpResult';
 import MakeArmCall from '../../../../../ApiHelpers/ArmHelper';
 import i18next from 'i18next';
-import { ArmObj } from '../../../../../models/arm-obj';
-import { HostingEnvironment } from '../../../../../models/hostingEnvironment/hosting-environment';
 
 export abstract class IsolatedPlanPriceSpec extends PriceSpec {
   constructor(t: i18next.TFunction) {

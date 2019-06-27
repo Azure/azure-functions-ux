@@ -3,6 +3,7 @@ import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import React, { useContext, useState, useEffect } from 'react';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AvailableStack } from '../../../../../models/available-stacks';
+import { ArmObj } from '../../../../../models/WebAppModels';
 import { AppSettingsFormValues } from '../../AppSettings.types';
 import { AvailableStacksContext, PermissionsContext } from '../../Contexts';
 import TextField from '../../../../../components/form-controls/TextField';
@@ -11,7 +12,6 @@ import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
 import { Links } from '../../../../../utils/FwLinks';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
-import { ArmObj } from '../../../../../models/arm-obj';
 
 type PropsType = FormikProps<AppSettingsFormValues>;
 

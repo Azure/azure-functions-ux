@@ -73,7 +73,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
       .switchMap(tuple =>
         Observable.zip(
           Observable.of(tuple[0]),
-          this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
+          Observable.of(tuple[1].functionDescriptor.name),
           this._siteService.getAppSettings(tuple[0].site.id),
           this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: tuple[0].site })
         )
@@ -82,7 +82,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
         (tuple): FunctionMonitorInfo => ({
           functionAppContext: tuple[0],
           functionAppSettings: tuple[2].result.properties,
-          functionInfo: tuple[1].result,
+          functionName: tuple[1],
           appInsightsResourceDescriptor: tuple[3].data,
           appInsightsFeatureEnabled: tuple[3].status === 'enabled',
         })
@@ -93,8 +93,8 @@ export class FunctionMonitorComponent extends NavigableComponent {
         this._renderComponentName = this._shouldLoadClassicView()
           ? ComponentNames.monitorClassic
           : this._shouldLoadApplicationInsightsView()
-            ? ComponentNames.monitorApplicationInsights
-            : this._loadMonitorConfigureView();
+          ? ComponentNames.monitorApplicationInsights
+          : this._loadMonitorConfigureView();
 
         this.renderView = true;
       });

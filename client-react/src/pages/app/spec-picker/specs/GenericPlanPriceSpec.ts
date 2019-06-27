@@ -1,7 +1,7 @@
 import { PriceSpec, PriceSpecInput } from './PriceSpec';
 import { PricingTier } from '../../../../models/pricingtier';
+import { ComputeMode } from '../../../../models/WebAppModels';
 import i18next from 'i18next';
-import { ComputeMode } from '../../../../models/site/compute-mode';
 
 export abstract class GenericPlanPriceSpec extends PriceSpec {
   private static readonly colorToCssSpec = {

@@ -20,6 +20,7 @@ import { CacheService } from './../../shared/services/cache.service';
 import { ScenarioService } from '../../shared/services/scenario/scenario.service';
 import { ScenarioIds } from '../../shared/models/constants';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'binding-input-v2',
@@ -57,12 +58,14 @@ export class BindingInputV2Component extends FunctionAppContextComponent {
     private _cacheService: CacheService,
     private _scenarioService: ScenarioService,
     broadcastService: BroadcastService,
-    functionAppService: FunctionAppService
+    functionAppService: FunctionAppService,
+    functionService: FunctionService
   ) {
     super(
       'binding-input-v2',
       functionAppService,
       broadcastService,
+      functionService,
       () => this._globalStateService.setBusyState(),
       () => this._globalStateService.clearBusyState()
     );

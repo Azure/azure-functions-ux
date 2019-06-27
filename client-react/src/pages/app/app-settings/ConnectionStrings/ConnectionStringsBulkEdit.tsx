@@ -31,7 +31,7 @@ const ConnectionStringsBulkEdit: React.FC<ConnectionStringsBulkEditProps> = prop
 
   const actionBarPrimaryButtonProps = {
     id: 'save',
-    title: t('ok'),
+    title: t('update'),
     onClick: save,
     disable: !!errorMessage,
   };
