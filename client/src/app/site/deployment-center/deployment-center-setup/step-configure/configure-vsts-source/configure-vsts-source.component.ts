@@ -187,6 +187,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this.hasAccounts = hasAccounts;
         this.hasRepos = hasRepos;
         this.wizard.hideConfigureStepContinueButton = !hasAccounts || !hasRepos;
+        this.wizard.hideVstsBuildConfigure = !hasAccounts;
       });
   }
 
