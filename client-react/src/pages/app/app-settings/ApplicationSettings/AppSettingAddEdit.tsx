@@ -48,7 +48,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
 
   const actionBarPrimaryButtonProps = {
     id: 'save',
-    title: t('update'),
+    title: t('ok'),
     onClick: save,
     disable: !!nameError,
   };

@@ -10,7 +10,6 @@ import { RuntimeExtension } from 'app/shared/models/binding';
 import { ExtensionInstallStatus } from 'app/shared/models/extension-install-status';
 import { Observable } from 'rxjs/Observable';
 import { PortalService } from 'app/shared/services/portal.service';
-import { FunctionService } from 'app/shared/services/function.service';
 
 export abstract class BaseExtensionInstallComponent extends FunctionAppContextComponent {
   public neededExtensions: RuntimeExtension[];
@@ -30,10 +29,9 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
     private _aiService: AiService,
     public translateService: TranslateService,
     public portalService: PortalService,
-    functionService: FunctionService,
     setBusy?: Function
   ) {
-    super(componentName, functionAppService, broadcastService, functionService, setBusy);
+    super(componentName, functionAppService, broadcastService, setBusy);
   }
 
   installExtensions() {
@@ -218,16 +216,14 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
 
       if (this.installJobs.length > 0) {
         this.installing = true;
-        const status = this.installJobs
-          .filter(job => job && job.id)
-          .map(job => {
-            return this.functionAppService.getExtensionInstallStatus(this.context, job.id).map(r => {
-              return {
-                installStatusResult: r,
-                job: job,
-              };
-            });
+        const status = this.installJobs.filter(job => job && job.id).map(job => {
+          return this.functionAppService.getExtensionInstallStatus(this.context, job.id).map(r => {
+            return {
+              installStatusResult: r,
+              job: job,
+            };
           });
+        });
 
         // No installation to keep track of
         // All extension installations resulted in error like 500

@@ -18,7 +18,6 @@ import { AiService } from '../../shared/services/ai.service';
 import { FunctionAppContext } from '../../shared/function-app-context';
 import { BusyStateScopeManager } from '../../busy-state/busy-state-scope-manager';
 import { errorIds } from '../../shared/models/error-ids';
-import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'extension-checker',
@@ -58,13 +57,12 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
   constructor(
     aiService: AiService,
     broadcastService: BroadcastService,
-    functionService: FunctionService,
     private _functionAppService: FunctionAppService,
     private _logService: LogService,
     private _portalService: PortalService,
     private _translateService: TranslateService
   ) {
-    super('extension-checker', _functionAppService, broadcastService, aiService, _translateService, _portalService, functionService);
+    super('extension-checker', _functionAppService, broadcastService, aiService, _translateService, _portalService);
 
     this._busyManager = new BusyStateScopeManager(this._broadcastService, 'sidebar');
     this.functionCardStream = new Subject();

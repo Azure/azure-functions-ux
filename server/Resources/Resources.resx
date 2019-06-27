@@ -147,6 +147,9 @@
   <data name="storage" xml:space="preserve">
     <value>Storage</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>Function</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Create Function Error: {{error}}</value>
   </data>
@@ -671,7 +674,7 @@
     <value>Scenario:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Triggers</value>
+    <value>Trigger</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
     <value>Trial expired</value>
@@ -923,7 +926,10 @@
     <value>'AlwaysOn' is not enabled. Your app may not function properly</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob',not having this setting will cause unexpected behavior when using deployment slots</value>
+    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+  </data>
+  <data name="topBar_slotsHostIdV2" xml:space="preserve">
+    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions release notes.</value>
@@ -1084,8 +1090,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>Proxy with name '{{name}}' already exists</value>
   </data>
-  <data name="slots_warningOff" xml:space="preserve">
-    <value>Azure functions slots (preview) is currently disabled. To enable, visit</value>
+  <data name="slots_warningDisabled" xml:space="preserve">
+    <value>Azure functions slots is currently disabled.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Discard</value>
@@ -1182,6 +1188,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Restart</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Logs</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>Swap</value>
@@ -2200,6 +2209,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Enable deployment slots (preview).</value>
   </data>
+  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
+    <value>Enable deployment slots</value>
+  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Known issues:</value>
   </data>
@@ -2207,16 +2219,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Logic apps integration with Functions does not work when Slots(preview) is enabled.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Opting into this preview feature will reset any pre-existing secrets. Function secrets can be found under the</value>
-  </data>
-  <data name="appFunctionSettings_warning_4" xml:space="preserve">
-    <value>'Manage'</value>
-  </data>
-  <data name="appFunctionSettings_warning_5" xml:space="preserve">
-    <value>node for each function.</value>
+    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>A slot create operation is currently in progress. After navigating away, you will no longer be able to check operation status.</value>
+  </data>
+  <data name="slots_label" xml:space="preserve">
+    <value>Slots</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Add Slot</value>
@@ -4962,6 +4971,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Resource group name can only include alphanumeric characters, periods, underscores, hyphens and parenthesis and cannot end in a period.</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>'{0}' is an invalid character</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>The name '{0}' is restricted. Please choose another name.</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>The name of your plan may not exceed {0} characters.</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>A plan named '{0}' already exists under the resource group '{1}'</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>Are you sure you would like to cancel the update operation?</value>
   </data>
@@ -4991,5 +5012,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>Failed to validate container settings.</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>No trigger defined</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>No inputs defined</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>No outpus defined</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ Add input</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>Function</value>
   </data>
 </root>

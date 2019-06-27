@@ -9,7 +9,7 @@ import {
   getConfigWithStackSettings,
 } from './AppSettingsFormData';
 import { mockSite, mockWebConfig, mockConnectionStrings, mockMetadata, mockAppSettings, mockSlotConfigName } from '../../../mocks/ArmMocks';
-import { VirtualApplication } from '../../../models/WebAppModels';
+import { VirtualApplication } from '../../../models/site/config';
 
 describe('Convert State to Form Data', () => {
   it('convert redux state to form state', () => {

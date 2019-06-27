@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { ArmObj, Site, ServerFarm, HostingEnvironment } from '../../../models/WebAppModels';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ArmSubcriptionDescriptor } from '../../../utils/resourceDescriptors';
 import { ChangeAppPlan } from './ChangeAppPlan';
@@ -11,6 +10,10 @@ import { ServerFarmSkuConstants } from '../../../utils/scenario-checker/ServerFa
 import LogService from '../../../utils/LogService';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import HostingEnvironmentService from '../../../ApiHelpers/HostingEnvironmentService';
+import { ArmObj } from '../../../models/arm-obj';
+import { Site } from '../../../models/site/site';
+import { ServerFarm } from '../../../models/serverFarm/serverfarm';
+import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 
 interface ChangeAppPlanDataLoaderProps {
   resourceId: string;

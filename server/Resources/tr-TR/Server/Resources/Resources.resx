@@ -920,7 +920,10 @@
     <value>'AlwaysOn' etkin değil. Uygulamanız düzgün çalışmayabilir</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>'AzureWebJobsSecretStorageType' ayarı 'blob' olarak ayarlanmalıdır, bu ayarın yapılmaması dağıtım yuvaları kullanılırken beklenmeyen davranışlara neden olur</value>
+    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+  </data>
+  <data name="topBar_slotsHostIdV2" xml:space="preserve">
+    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure İşlevleri sürüm notları.</value>
@@ -1081,8 +1084,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>'{{name}}' adında bir proxy zaten var</value>
   </data>
-  <data name="slots_warningOff" xml:space="preserve">
-    <value>Azure İşlevleri yuvaları (önizleme) şu anda devre dışı. Etkinleştirmek için şuraya gidin:</value>
+  <data name="slots_warningDisabled" xml:space="preserve">
+    <value>Azure functions slots is currently disabled.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>At</value>
@@ -2197,6 +2200,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Dağıtım yuvalarını etkinleştirin (önizleme).</value>
   </data>
+  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
+    <value>Enable deployment slots</value>
+  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Bilinen sorunlar:</value>
   </data>
@@ -2204,16 +2210,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yuvalar (Önizleme) etkinleştirildiğinde İşlevler ile Logic Apps tümleştirmesi çalışmaz.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Bu önizleme özelliğine katılmayı seçmek, önceden mevcut olan tüm gizli dizileri sıfırlar. İşlev gizli dizileri her işlev için</value>
-  </data>
-  <data name="appFunctionSettings_warning_4" xml:space="preserve">
-    <value>'Yönet'</value>
-  </data>
-  <data name="appFunctionSettings_warning_5" xml:space="preserve">
-    <value>düğümünde bulunabilir.</value>
+    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Bir yuva oluşturma işlemi şu anda devam ediyor. Bu sayfadan ayrıldıktan sonra işlem durumunu denetleyemezsiniz.</value>
+  </data>
+  <data name="slots_label" xml:space="preserve">
+    <value>Yuvalar</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Yuva Ekle</value>
@@ -4885,7 +4888,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İşlev uygulamanızda istemci sertifikaları etkinleştirildi. Bu durum, uygulamayı portaldan yönetme becerinizi kısıtlayabilir.</value>
   </data>
   <data name="alwaysOnInfoMessage" xml:space="preserve">
-    <value>Prevents your app from being idled out due to inactivity.</value>
+    <value>Uygulamanızın etkin olmama nedeniyle zaman aşımına uğramasını önler.</value>
   </data>
   <data name="ftpsInfoMessage" xml:space="preserve">
     <value>FTP tabanlı dağıtım devre dışı bırakılabilir veya FTP (düz metin) veya FTPS (güvenli) bağlantıları kabul edecek şekilde yapılandırılabilir. </value>
@@ -4915,7 +4918,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Portalda işlev düzenleme Java Function Apps için desteklenmemektedir. Geliştirmek için lütfen Maven veya VS Code kullanın.</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
-    <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
+    <value>Çalışma dizini yolu, deponun köküne göreli olmalıdır ve Windows kullanılıyorsa /, \ veya sürücü adlarıyla (C:/) başlayamaz. Çalışma dizini deponun src klasöründe ise, yol src/ olmalıdır</value>
   </data>
   <data name="mountedStorageInfo" xml:space="preserve">
     <value>Bağlı depolama, uygulamanızla kullanılacak Azure Dosyalar veya Blob kapsayıcılarını eşlemenizi sağlar.</value>
@@ -4948,13 +4951,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>'{0}' App Service planı oluşturulamadı</value>
   </data>
   <data name="changePlanNoWritePermissionRg" xml:space="preserve">
-    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
+    <value>Bu kaynak grubunda yeni bir App Service Planı oluşturmak için gereken yazma iznine sahip değilsiniz</value>
   </data>
   <data name="changePlanSiteLockedError" xml:space="preserve">
-    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
+    <value>Uygulamanızda salt okunur kilidi olduğundan bu uygulama başka bir App Service planına taşınamıyor</value>
   </data>
   <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
-    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
+    <value>Abonelikte gereken yazma iznine sahip olmadığınızdan, yeni kaynak grubu oluşturmaya izin verilmiyor</value>
   </data>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Kaynak grubu adı yalnızca alfasayısal karakterler, nokta, alt çizgi, kısa çizgi ve parantez içerebilir ve bir noktayla bitemez.</value>
@@ -4985,5 +4988,8 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="minorVersion" xml:space="preserve">
     <value>İkincil sürüm</value>
+  </data>
+  <data name="containerValidationFailed" xml:space="preserve">
+    <value>Kapsayıcı ayarları doğrulanamadı.</value>
   </data>
 </root>

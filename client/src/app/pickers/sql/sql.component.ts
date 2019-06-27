@@ -7,7 +7,6 @@ import { ArmService } from '../../shared/services/arm.service';
 import { FunctionAppContextComponent } from '../../shared/components/function-app-context-component';
 import { FunctionAppService } from '../../shared/services/function-app.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
-import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'sql',
@@ -32,10 +31,9 @@ export class SqlComponent extends FunctionAppContextComponent {
     private _armService: ArmService,
     private _globalStateService: GlobalStateService,
     functionAppService: FunctionAppService,
-    broadcastService: BroadcastService,
-    functionService: FunctionService
+    broadcastService: BroadcastService
   ) {
-    super('sql', functionAppService, broadcastService, functionService);
+    super('sql', functionAppService, broadcastService);
   }
 
   onClose() {

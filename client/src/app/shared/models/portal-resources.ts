@@ -13,6 +13,7 @@ export class PortalResources {
   public static cpu = 'cpu';
   public static memory = 'memory';
   public static storage = 'storage';
+  public static function = 'function';
   public static functionCreateErrorDetails = 'functionCreateErrorDetails';
   public static functionCreateErrorMessage = 'functionCreateErrorMessage';
   public static functionDev_functionErrorDetails = 'functionDev_functionErrorDetails';
@@ -272,6 +273,7 @@ export class PortalResources {
   public static httpRun_query = 'httpRun_query';
   public static topBar_alwaysOn = 'topBar_alwaysOn';
   public static topBar_slotsHostId = 'topBar_slotsHostId';
+  public static topBar_slotsHostIdV2 = 'topBar_slotsHostIdV2';
   public static topBar_releaseNotes = 'topBar_releaseNotes';
   public static adminKeys_title = 'adminKeys_title';
   public static functionKeys_addNewAdminKey = 'functionKeys_addNewAdminKey';
@@ -325,7 +327,7 @@ export class PortalResources {
   public static appFunctionSettings_useApiProxies = 'appFunctionSettings_useApiProxies';
   public static sideBar_changeMadeApiProxy = 'sideBar_changeMadeApiProxy';
   public static apiProxy_alreadyExists = 'apiProxy_alreadyExists';
-  public static slots_warningOff = 'slots_warningOff';
+  public static slots_warningDisabled = 'slots_warningDisabled';
   public static discard = 'discard';
   public static sidebar_Functions = 'sidebar_Functions';
   public static intro_signInWithFacebook = 'intro_signInWithFacebook';
@@ -358,6 +360,7 @@ export class PortalResources {
   public static stop = 'stop';
   public static start = 'start';
   public static restart = 'restart';
+  public static logs = 'logs';
   public static swap = 'swap';
   public static startSwap = 'startSwap';
   public static completeSwap = 'completeSwap';
@@ -695,12 +698,12 @@ export class PortalResources {
   public static emptyBrowse_title = 'emptyBrowse_title';
   public static appFunctionSettings_slotsOptinSettings = 'appFunctionSettings_slotsOptinSettings';
   public static appFunctionSettings_slotsDesc = 'appFunctionSettings_slotsDesc';
+  public static appFunctionSettings_slotsEnable = 'appFunctionSettings_slotsEnable';
   public static appFunctionSettings_warning_1 = 'appFunctionSettings_warning_1';
   public static appFunctionSettings_warning_2 = 'appFunctionSettings_warning_2';
   public static appFunctionSettings_warning_3 = 'appFunctionSettings_warning_3';
-  public static appFunctionSettings_warning_4 = 'appFunctionSettings_warning_4';
-  public static appFunctionSettings_warning_5 = 'appFunctionSettings_warning_5';
   public static slotCreateOperationInProgressWarning = 'slotCreateOperationInProgressWarning';
+  public static slots_label = 'slots_label';
   public static slotNew = 'slotNew';
   public static slotNew_nameLabel = 'slotNew_nameLabel';
   public static slotNew_cloneConfigLabel = 'slotNew_cloneConfigLabel';
@@ -1597,6 +1600,10 @@ export class PortalResources {
   public static changePlanSiteLockedError = 'changePlanSiteLockedError';
   public static changePlanNoWritePermissionOnSubscription = 'changePlanNoWritePermissionOnSubscription';
   public static resourceGroupNameValidationError = 'resourceGroupNameValidationError';
+  public static aspNameCharacterValidationError = 'aspNameCharacterValidationError';
+  public static aspNameRestrictedValidationError = 'aspNameRestrictedValidationError';
+  public static aspNameLengthValidationError = 'aspNameLengthValidationError';
+  public static aspNameConflictValidationError = 'aspNameConflictValidationError';
   public static cancelUpdateConfirmation = 'cancelUpdateConfirmation';
   public static newFormat = 'newFormat';
   public static validationErrorAlreadyExistsFormat = 'validationErrorAlreadyExistsFormat';
@@ -1607,4 +1614,8 @@ export class PortalResources {
   public static majorVersion = 'majorVersion';
   public static minorVersion = 'minorVersion';
   public static containerValidationFailed = 'containerValidationFailed';
+  public static integrateNoTriggerDefined = 'integrateNoTriggerDefined';
+  public static integrateNoInputsDefined = 'integrateNoInputsDefined';
+  public static integrateNoOutputsDefined = 'integrateNoOutputsDefined';
+  public static _function = '_function';
 }

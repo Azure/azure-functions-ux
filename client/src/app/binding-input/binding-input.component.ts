@@ -17,7 +17,6 @@ import { GlobalStateService } from '../shared/services/global-state.service';
 import { CacheService } from './../shared/services/cache.service';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { ScenarioIds, PickerNames } from 'app/shared/models/constants';
-import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'binding-input',
@@ -51,14 +50,12 @@ export class BindingInputComponent extends FunctionAppContextComponent {
     private _globalStateService: GlobalStateService,
     private _cacheService: CacheService,
     private _scenarioService: ScenarioService,
-    functionAppService: FunctionAppService,
-    functionService: FunctionService
+    functionAppService: FunctionAppService
   ) {
     super(
       'binding-input',
       functionAppService,
       broadcastService,
-      functionService,
       () => _globalStateService.setBusyState(),
       () => _globalStateService.clearBusyState()
     );

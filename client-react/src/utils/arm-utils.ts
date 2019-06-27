@@ -1,5 +1,6 @@
-import { ArmObj, Site } from '../models/WebAppModels';
 import { AppKind } from './AppKind';
+import { ArmObj } from '../models/arm-obj';
+import { Site } from '../models/site/site';
 
 export function isFunctionApp(obj: ArmObj<any>): boolean {
   return AppKind.hasKinds(obj, ['functionapp']) && !AppKind.hasKinds(obj, ['botapp']);

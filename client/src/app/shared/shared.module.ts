@@ -73,7 +73,6 @@ import { QuotaService } from './services/quota.service';
 import { RemoveSpacesPipe } from './pipes/remove-spaces.pipe';
 import { MarkdownModule } from 'ngx-markdown';
 import { GroupTabsComponent } from '../controls/group-tabs/group-tabs.component';
-import { FunctionService } from './services/function.service';
 
 export function ArmServiceFactory(
   http: Http,
@@ -216,7 +215,6 @@ export class SharedModule {
         { provide: ErrorHandler, useClass: GlobalErrorHandler },
         ApplicationInsightsService,
         QuotaService,
-        FunctionService,
       ],
     };
   }

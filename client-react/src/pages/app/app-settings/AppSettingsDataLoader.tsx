@@ -12,7 +12,6 @@ import {
   getProductionAppWritePermissions,
   updateStorageMounts,
 } from './AppSettings.service';
-import { ArmArray, ArmObj, SlotConfigNames, StorageAccount, Site } from '../../../models/WebAppModels';
 import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
 import { PortalContext } from '../../../PortalContext';
@@ -20,6 +19,10 @@ import { useTranslation } from 'react-i18next';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import SiteService from '../../../ApiHelpers/SiteService';
 import LogService from '../../../utils/LogService';
+import { ArmArray, ArmObj } from '../../../models/arm-obj';
+import { SlotConfigNames } from '../../../models/site/slot-config-names';
+import { StorageAccount } from '../../../models/storage-account';
+import { Site } from '../../../models/site/site';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
