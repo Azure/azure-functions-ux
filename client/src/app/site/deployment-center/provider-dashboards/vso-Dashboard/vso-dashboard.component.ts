@@ -94,6 +94,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         } else {
           accountName = endpointUri.hostname.split('.')[0];
         }
+
         return this._azureDevOpsService.getBuildDef(accountName, projectId, buildId).catch((err, caught) => {
           this._busyManager.clearBusy();
           this.deploymentObject = null;
@@ -662,5 +663,11 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     this._ngUnsubscribe$.next();
+  }
+
+  browseToSite() {
+    if (this.deploymentObject && this.deploymentObject.site && this.deploymentObject.site.properties) {
+      window.open(`https://${this.deploymentObject.site.properties.defaultHostName}`, '_blank');
+    }
   }
 }
