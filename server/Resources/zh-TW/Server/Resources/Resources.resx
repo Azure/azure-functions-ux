@@ -920,10 +920,7 @@
     <value>未啟用 'AlwaysOn'。您的應用程式可能無法正確運作</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
-  </data>
-  <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>'AzureWebJobsSecretStorageType' 設定應設為 'blob'，若未進行這項設定，在使用部署位置時會造成未預期的行為</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions 版本資訊。</value>
@@ -1084,8 +1081,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>名稱為 '{{name}}' 的 Proxy 已存在</value>
   </data>
-  <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Azure Functions 位置 (預覽) 目前已停用。若要啟用，請瀏覽</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>捨棄</value>
@@ -2200,9 +2197,6 @@
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>啟用部署位置 (預覽)。</value>
   </data>
-  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
-  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>已知問題:</value>
   </data>
@@ -2210,13 +2204,16 @@
     <value>當位置 (預覽) 啟用時，邏輯應用程式與 Functions 的整合即無法運作。</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>加入此預覽功能將會重設任何既存的祕密。函式祕密會位在各函式的</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>[管理]</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>節點下。</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>目前正在進行建立位置作業。瀏覽離開此處後，您將再也無法查看作業狀態。</value>
-  </data>
-  <data name="slots_label" xml:space="preserve">
-    <value>位置</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>加入位置</value>
@@ -4951,13 +4948,13 @@
     <value>無法建立 App Service 方案: '{0}'</value>
   </data>
   <data name="changePlanNoWritePermissionRg" xml:space="preserve">
-    <value>您沒有足夠的寫入權限，無法在此資源群組中建立新的 App Service 方案</value>
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
   </data>
   <data name="changePlanSiteLockedError" xml:space="preserve">
-    <value>您的應用程式有唯讀鎖定，因此無法移至其他 App Service 方案</value>
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
   </data>
   <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
-    <value>因為您對訂用帳戶沒有足夠的寫入權限，所以不允許建立新的資源群組</value>
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
   </data>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>資源群組名稱只可包含英數字元、句號、底線、連字號及括號，且結尾不得為句號。</value>
@@ -4988,8 +4985,5 @@
   </data>
   <data name="minorVersion" xml:space="preserve">
     <value>次要版本</value>
-  </data>
-  <data name="containerValidationFailed" xml:space="preserve">
-    <value>無法驗證容器設定。</value>
   </data>
 </root>

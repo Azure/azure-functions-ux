@@ -37,7 +37,6 @@ const AzurePortalColors = {
   standardControlOutlineAccent: '#4894fe',
   controlErrorStateOutline: '#f63747',
   controlDirtyOutline: '#c87fdc',
-  cardBorderColor: '#b2b2b2',
 };
 const themePalette = {
   themePrimary: '#4894fe',

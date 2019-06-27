@@ -31,7 +31,7 @@ const AppSettingsBulkEdit: React.FC<AppSettingsBulkEditProps> = props => {
 
   const actionBarPrimaryButtonProps = {
     id: 'save',
-    title: t('ok'),
+    title: t('update'),
     onClick: save,
     disable: !!errorMessage,
   };

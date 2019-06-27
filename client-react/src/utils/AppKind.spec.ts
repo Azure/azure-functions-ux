@@ -1,5 +1,5 @@
 import { AppKind } from './AppKind';
-import { ArmObj } from '../models/arm-obj';
+import { ArmObj } from '../models/WebAppModels';
 
 const armObj = (kind: string | null) =>
   ({

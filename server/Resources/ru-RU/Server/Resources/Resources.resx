@@ -920,10 +920,7 @@
     <value>Режим "AlwaysOn" отключен. Приложение может работать неправильно.</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
-  </data>
-  <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>Параметр "AzureWebJobsSecretStorageType" должен иметь значение "blob"; его отсутствие вызовет непредвиденное поведение при использовании слотов развертывания</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Заметки о выпуске для функций Azure.</value>
@@ -1084,8 +1081,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>Прокси-сервер "{{name}}" уже существует.</value>
   </data>
-  <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Слоты функций Azure (предварительная версия) сейчас отключены. Чтобы включить их, перейдите на страницу</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Отменить</value>
@@ -2200,9 +2197,6 @@
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Включить слоты развертывания (предварительная версия).</value>
   </data>
-  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
-  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Известные проблемы:</value>
   </data>
@@ -2210,13 +2204,16 @@
     <value>Когда включены Слоты (предварительная версия), интеграция Logic Apps с Функциями не работает.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>Если вы решите использовать эту предварительную версию, имеющиеся секреты будут сброшены. Секреты можно найти в узле</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>"Управление"</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>для каждой функции.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Выполняется операция создания слота. Вы больше не сможете просматривать ее состояние, если уйдете с этой страницы.</value>
-  </data>
-  <data name="slots_label" xml:space="preserve">
-    <value>Слоты</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Добавить слот</value>
@@ -4951,13 +4948,13 @@
     <value>Не удалось создать план службы приложений "{0}".</value>
   </data>
   <data name="changePlanNoWritePermissionRg" xml:space="preserve">
-    <value>У вас недостаточно разрешений на запись для создания нового плана службы приложений в этой группе ресурсов.</value>
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
   </data>
   <data name="changePlanSiteLockedError" xml:space="preserve">
-    <value>Ваше приложение имеет блокировку только для чтения и не может быть переведено на другой план службы приложений.</value>
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
   </data>
   <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
-    <value>Вы не можете создать группу ресурсов, так как у вас недостаточно разрешений на запись в используемой подписке.</value>
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
   </data>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Имя группы ресурсов может содержать только буквы, цифры, точки, подчеркивания, дефисы и круглые скобки, а также не может кончаться точкой.</value>
@@ -4988,8 +4985,5 @@
   </data>
   <data name="minorVersion" xml:space="preserve">
     <value>Дополнительный номер версии</value>
-  </data>
-  <data name="containerValidationFailed" xml:space="preserve">
-    <value>Не удалось проверить параметры контейнера.</value>
   </data>
 </root>

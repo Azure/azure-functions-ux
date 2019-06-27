@@ -635,56 +635,6 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     }
   }
 
-  openActivityLog() {
-    const siteDescriptor = new ArmSiteDescriptor(this.siteArm.id);
-
-    // See https://msazure.visualstudio.com/One/_git/AzureUX-ActivityLog?path=%2Fsrc%2FActivityLogExtension%2FClient%2FEvents%2FModels%2FSharedEventModels.ts&version=GBdev
-    const query = {
-      operationNames: [
-        'Microsoft.Web/sites/applySlotConfig/Action',
-        'Microsoft.Web/sites/resetSlotConfig/Action',
-        'Microsoft.Web/sites/slotsswap/Action',
-        'Microsoft.Web/sites/slots/applySlotConfig/Action',
-        'Microsoft.Web/sites/slots/resetSlotConfig/Action',
-        'Microsoft.Web/sites/slots/slotsswap/Action',
-      ],
-      searchText: '',
-      subscriptions: [siteDescriptor.subscription],
-      managementGroups: [],
-      resourceGroupId: siteDescriptor.resourceGroupId,
-      resourceId: siteDescriptor.resourceId,
-      resourceTypes: [],
-      category: 'all',
-      // Levels
-      //   Critical = 1
-      //   Error = 2
-      //   Warning = 3
-      //   Informational = 4
-      //   Verbose = 5
-      levels: ['1', '2', '3', '4'],
-      // TimeSpan
-      //   LastOneHour = 0
-      //   Last24Hours = 1
-      //   LastWeek = 2
-      //   Custom = 3 (requires startTime and endTime)
-      //   LastSixHours = 4
-      //   LastTwoWeeks = 6
-      //   LastOneMonth = 7
-      timeSpan: '2',
-      top: 100,
-    };
-
-    const bladeInfo: OpenBladeInfo = {
-      detailBlade: 'ActivityLogBlade',
-      detailBladeInputs: { queryInputs: { query } },
-      extension: 'Microsoft_Azure_ActivityLog',
-      openAsContextBlade: false,
-      openAsSubJourney: false,
-    };
-
-    this._portalService.openBlade(bladeInfo, this.componentName).subscribe();
-  }
-
   getSegment(path: string, index: number): string {
     let segment = null;
 

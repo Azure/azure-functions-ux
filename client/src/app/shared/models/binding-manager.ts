@@ -5,13 +5,14 @@ import { FunctionInfo } from '../models/function-info';
 import { FunctionBinding } from './function-config';
 import { PortalResources } from './portal-resources';
 import { TranslateService } from '@ngx-translate/core';
+import { ArmObj } from './arm/arm-obj';
 
 export class BindingManager {
-  public static getFunctionName(defaultName: string, functionsInfo: FunctionInfo[]): string {
+  public static getFunctionName(defaultName: string, functionsInfo: ArmObj<FunctionInfo>[]): string {
     let i = 1;
     while (true) {
       const func = functionsInfo.find(value => {
-        return defaultName.toLowerCase() + i.toString() === value.name.toLowerCase();
+        return defaultName.toLowerCase() + i.toString() === value.properties.name.toLowerCase();
       });
 
       if (func) {

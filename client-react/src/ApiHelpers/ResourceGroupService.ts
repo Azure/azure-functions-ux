@@ -1,7 +1,7 @@
 import { ResourceGroup } from '../models/resource-group';
+import { ArmObj } from '../models/WebAppModels';
 import MakeArmCall, { MakePagedArmCall } from './ArmHelper';
 import { CommonConstants } from '../utils/CommonConstants';
-import { ArmObj } from '../models/arm-obj';
 
 export default class ResourceGroupService {
   public static fetchResourceGroups = (subscriptionId: string) => {

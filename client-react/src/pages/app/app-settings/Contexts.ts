@@ -1,9 +1,7 @@
 import { createContext } from 'react';
+import { ArmArray, ArmObj, StorageAccount, Site } from '../../../models/WebAppModels';
 import { AvailableStack } from '../../../models/available-stacks';
 import { Permissions } from './AppSettings.types';
-import { ArmArray, ArmObj } from '../../../models/arm-obj';
-import { StorageAccount } from '../../../models/storage-account';
-import { Site } from '../../../models/site/site';
 
 export const AvailableStacksContext = createContext<ArmArray<AvailableStack>>({ value: [] });
 

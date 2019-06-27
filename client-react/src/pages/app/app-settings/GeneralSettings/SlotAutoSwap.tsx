@@ -69,18 +69,18 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
                 selectedKey={!!props.values.config.properties.autoSwapSlotName ? 'on' : 'off'}
                 options={[
                   {
-                    key: 'on',
-                    /**
-                     * The text string for the option.
-                     */
-                    text: t('on'),
-                  },
-                  {
                     key: 'off',
                     /**
                      * The text string for the option.
                      */
                     text: t('off'),
+                  },
+                  {
+                    key: 'on',
+                    /**
+                     * The text string for the option.
+                     */
+                    text: t('on'),
                   },
                 ]}
                 onChange={onToggleChange}

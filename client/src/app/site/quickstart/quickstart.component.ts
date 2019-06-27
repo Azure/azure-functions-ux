@@ -22,6 +22,7 @@ import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { BillingService } from './../../shared/services/billing.service';
 import { Observable } from 'rxjs/Observable';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'quickstart',
@@ -66,9 +67,10 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
     private _billingService: BillingService,
     broadcastService: BroadcastService,
     functionAppService: FunctionAppService,
-    userService: UserService
+    userService: UserService,
+    functionService: FunctionService
   ) {
-    super('quickstart', functionAppService, broadcastService, () => this._busyManager.setBusy());
+    super('quickstart', functionAppService, broadcastService, functionService, () => this._busyManager.setBusy());
 
     this._wizardService.wizardForm = this._fb.group({
       // wizard values

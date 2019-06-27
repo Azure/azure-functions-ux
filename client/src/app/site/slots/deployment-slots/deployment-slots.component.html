@@ -31,13 +31,6 @@
         </command>
 
         <command
-            [displayText]="'logs' | translate"
-            iconUrl="image/logs.svg"
-            (click)="openActivityLog()"
-            [disabled]="fetchingContent || !viewInfo">
-        </command>
-
-        <command
             [displayText]="'refresh' | translate"
             iconUrl="image/reset.svg"
             (click)="refresh(true)"

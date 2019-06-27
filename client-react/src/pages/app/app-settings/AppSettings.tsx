@@ -11,8 +11,7 @@ import i18n from 'i18next';
 import { PermissionsContext, SiteContext } from './Contexts';
 import { commandBarSticky, formStyle } from './AppSettings.styles';
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
-import { ArmObj } from '../../../models/arm-obj';
-import { Site } from '../../../models/site/site';
+import { ArmObj, Site } from '../../../models/WebAppModels';
 
 const validate = (values: AppSettingsFormValues, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   const duplicateDefaultDocumentsValidation = (value: string) => {

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useContext } from 'react';
 
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AvailableStack } from '../../../../../models/available-stacks';
+import { ArmObj } from '../../../../../models/WebAppModels';
 import { AppSettingsFormValues } from '../../AppSettings.types';
 import {
   getJavaStack,
@@ -17,7 +18,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { PermissionsContext } from '../../Contexts';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
-import { ArmObj } from '../../../../../models/arm-obj';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];

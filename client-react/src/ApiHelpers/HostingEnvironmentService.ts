@@ -1,7 +1,6 @@
+import { HostingEnvironment, ArmObj } from './../models/WebAppModels';
 import MakeArmCall from './ArmHelper';
 import { CommonConstants } from '../utils/CommonConstants';
-import { ArmObj } from '../models/arm-obj';
-import { HostingEnvironment } from '../models/hostingEnvironment/hosting-environment';
 
 export default class HostingEnvironmentService {
   public static fetchHostingEnvironment = (resourceId: string) => {

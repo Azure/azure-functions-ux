@@ -41,7 +41,6 @@ export class ArmSubcriptionDescriptor extends Descriptor {
 export class ArmResourceDescriptor extends Descriptor {
   public subscription: string;
   public resourceGroup: string;
-  public resourceGroupId: string;
   public resourceName: string;
 
   constructor(resourceId: string) {
@@ -61,7 +60,6 @@ export class ArmResourceDescriptor extends Descriptor {
 
     this.subscription = this.parts[1];
     this.resourceGroup = this.parts[3];
-    this.resourceGroupId = `/subscriptions/${this.subscription}/resourceGroups/${this.resourceGroup}`;
     this.resourceName = this.parts[this.parts.length - 1];
   }
 

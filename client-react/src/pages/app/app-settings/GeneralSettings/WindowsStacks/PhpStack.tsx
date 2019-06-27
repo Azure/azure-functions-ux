@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AvailableStack } from '../../../../../models/available-stacks';
+import { ArmObj } from '../../../../../models/WebAppModels';
 import { AppSettingsFormValues } from '../../AppSettings.types';
 import { PermissionsContext } from '../../Contexts';
-import { ArmObj } from '../../../../../models/arm-obj';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];

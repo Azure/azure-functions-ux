@@ -920,10 +920,7 @@
     <value>Ustawienie „Zawsze włączone” (AlwaysOn) nie jest aktywne. Aplikacja może nie działać prawidłowo.</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
-  </data>
-  <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>Ustawienie „AzureWebJobsSecretStorageType” powinno mieć wartość „blob”; brak tego ustawienia spowoduje nieoczekiwane zachowanie podczas używania miejsc wdrożenia</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Informacje o wersji usługi Azure Functions.</value>
@@ -1084,8 +1081,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>Serwer proxy o nazwie „{{name}}” już istnieje</value>
   </data>
-  <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Miejsca usługi Azure Functions (wersja zapoznawcza) są obecnie wyłączone. Aby je włączyć, odwiedź</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Odrzuć</value>
@@ -2200,9 +2197,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Włącz miejsca wdrożenia (wersja zapoznawcza).</value>
   </data>
-  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
-  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Znane problemy:</value>
   </data>
@@ -2210,13 +2204,16 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Integracja aplikacji logiki z usługą Functions nie działa, gdy miejsca wdrożenia (wersja zapoznawcza) są włączone.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>Włączenie tej funkcji w wersji zapoznawczej spowoduje zresetowanie wszystkich już istniejących kluczy tajnych. Klucze tajne usługi Functions można znaleźć w węźle</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>„Zarządzanie”</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>węzeł dla poszczególnych funkcji.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Operacja tworzenia miejsca jest w toku. Po przejściu do innego elementu sprawdzenie stanu operacji nie będzie już możliwe.</value>
-  </data>
-  <data name="slots_label" xml:space="preserve">
-    <value>Miejsca</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Dodaj miejsce</value>
@@ -4951,13 +4948,13 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Nie można utworzyć planu usługi App Service: „{0}”</value>
   </data>
   <data name="changePlanNoWritePermissionRg" xml:space="preserve">
-    <value>Nie masz wystarczających uprawnień do zapisu, aby utworzyć nowy plan usługi App Service w tej grupie zasobów</value>
+    <value>You do not have sufficient write permission to create a new App Service Plan in this resource group</value>
   </data>
   <data name="changePlanSiteLockedError" xml:space="preserve">
-    <value>Aplikacja ma blokadę tylko do odczytu i nie można jej przenieść do innego planu usługi App Service</value>
+    <value>Your app has a readonly lock and cannot be moved to another App Service Plan</value>
   </data>
   <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
-    <value>Utworzenie nowej grupy zasobów jest niedozwolone, ponieważ nie masz wystarczających uprawnień do zapisu w subskrypcji</value>
+    <value>Creating a new resource group is not allowed because you do not have sufficient write permission on the subscription</value>
   </data>
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Nazwa grupy zasobów może składać się tylko ze znaków alfanumerycznych, kropek, podkreśleń, myślników i nawiasów. Nie można zakończyć jej kropką.</value>
@@ -4988,8 +4985,5 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="minorVersion" xml:space="preserve">
     <value>Wersja pomocnicza </value>
-  </data>
-  <data name="containerValidationFailed" xml:space="preserve">
-    <value>Nie można zweryfikować ustawień kontenera.</value>
   </data>
 </root>

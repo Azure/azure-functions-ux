@@ -284,7 +284,6 @@ export const mockAvailableStacks = {
       id: '',
       name: 'aspnet',
       type: 'Microsoft.Web/availableStacks?osTypeSelected=Windows',
-      location: 'westus',
       properties: {
         name: 'aspnet',
         display: 'Net Framework Version',
@@ -310,7 +309,6 @@ export const mockAvailableStacks = {
       id: '',
       name: 'node',
       type: 'Microsoft.Web/availableStacks?osTypeSelected=Windows',
-      location: 'westus',
       properties: {
         name: 'node',
         display: 'node.js Version',
@@ -530,7 +528,6 @@ export const mockAvailableStacks = {
       id: '',
       name: 'php',
       type: 'Microsoft.Web/availableStacks?osTypeSelected=Windows',
-      location: 'westus',
       properties: {
         name: 'php',
         display: 'PHP Version',
@@ -568,7 +565,6 @@ export const mockAvailableStacks = {
       id: '',
       name: 'python',
       type: 'Microsoft.Web/availableStacks?osTypeSelected=Windows',
-      location: 'westus',
       properties: {
         name: 'python',
         display: 'Python Version',
@@ -606,7 +602,6 @@ export const mockAvailableStacks = {
       id: '',
       name: 'java',
       type: 'Microsoft.Web/availableStacks?osTypeSelected=Windows',
-      location: 'westus',
       properties: {
         name: 'java',
         display: 'Java Version',
@@ -694,7 +689,6 @@ export const mockAvailableStacks = {
       id: '',
       name: 'javaContainers',
       type: 'Microsoft.Web/availableStacks?osTypeSelected=Windows',
-      location: 'westus',
       properties: {
         name: 'javaContainers',
         display: 'Java Containers',
