@@ -141,7 +141,12 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
       this.isUpdating = true;
       const data = this.containerSettingsManager.containerFormData;
       this.containerSettingsManager
-        .applyContainerConfig(this.containerConfigureInfo.resourceId, this.containerConfigureInfo.os, data)
+        .applyContainerConfig(
+          this.containerConfigureInfo.resourceId,
+          this.containerConfigureInfo.location,
+          this.containerConfigureInfo.os,
+          data
+        )
         .catch(error => {
           this.isUpdating = false;
           this.statusMessage = {
@@ -179,7 +184,12 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
       this.isUpdating = true;
 
       this.containerSettingsManager
-        .saveContainerConfig(this.containerConfigureInfo.resourceId, this.containerConfigureInfo.os, data)
+        .saveContainerConfig(
+          this.containerConfigureInfo.resourceId,
+          this.containerConfigureInfo.location,
+          this.containerConfigureInfo.os,
+          data
+        )
         .catch(error => {
           this.isUpdating = false;
           this.statusMessage = {

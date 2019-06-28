@@ -545,7 +545,7 @@
     <value>実行</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have source control integration enabled.</value>
+    <value>ソース管理の統合が有効になっているため、アプリは現在読み取り専用モードになっています。</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>詳細エディター</value>
@@ -920,7 +920,10 @@
     <value>'AlwaysOn' が有効になっていません。アプリが正常に動作しない可能性があります</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>'AzureWebJobsSecretStorageType' の設定は 'blob' に設定する必要があります。この設定がない場合、デプロイ スロットの使用時に予期しない動作が発生します</value>
+    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+  </data>
+  <data name="topBar_slotsHostIdV2" xml:space="preserve">
+    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions リリース ノート。</value>
@@ -1081,8 +1084,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>'{{name}}' という名前のプロキシが既に存在します</value>
   </data>
-  <data name="slots_warningOff" xml:space="preserve">
-    <value>Azure Functions スロット (プレビュー) は現在無効になっています。有効にするには、</value>
+  <data name="slots_warningDisabled" xml:space="preserve">
+    <value>Azure functions slots is currently disabled.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>破棄</value>
@@ -1427,10 +1430,10 @@
     <value>この設定を編集するには、現在のアプリに対する書き込みアクセス許可が必要です。</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>This app has a read only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
+    <value>このアプリには読み取り専用ロックが設定されているため、設定の編集や保護されたデータの取得ができません。ロックを解除してからもう一度お試しください。</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>View settings in read only mode.</value>
+    <value>読み取り専用モードで設定を表示します。</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>設定の読み込みに失敗しました。</value>
@@ -1730,7 +1733,7 @@
     <value>リソースをロックすると、予期せぬ変更や削除を予防できます。</value>
   </data>
   <data name="feature_automationScriptName" xml:space="preserve">
-    <value>Automation スクリプト</value>
+    <value>テンプレートのエクスポート</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
     <value>Azure Resource Manager テンプレートを使って、リソースのデプロイを 1 つの連携した操作として自動化します。リソースと構成可能な入力パラメーターを定義して、スクリプトまたはコードでデプロイします。</value>
@@ -2141,13 +2144,13 @@
     <value>Function App の編集モードを更新できませんでした。後でもう一度やり直してください。</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
+    <value>[読み取り専用] に手動で設定されたため、アプリは現在読み取り専用モードになっています。編集モードを変更するには、</value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>ソース管理が有効になっているにもかかわらず編集モードが読み取り/書き込みに設定されたため、アプリが現在、読み取り/書き込みモードになっています。今回の変更はいずれも、次回のデプロイで上書きされる可能性があります。編集モードを変更するには、以下にアクセスしてください: </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
+    <value>生成された function.json を公開しているため、アプリは現在読み取り専用モードになっています。function.json に加えられた変更は、Functions ランタイムでは受け入れられません。</value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>生成された function.json があるにもかかわらず編集モードが読み取り/書き込みに設定されたため、アプリは現在、読み取り/書き込みモードです。function.json に対する変更は Functions ランタイムでは受け入れられません。</value>
@@ -2197,6 +2200,9 @@
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>デプロイ スロット (プレビュー) を有効にします。</value>
   </data>
+  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
+    <value>Enable deployment slots</value>
+  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>既知の問題:</value>
   </data>
@@ -2204,16 +2210,13 @@
     <value>Logic Apps の Azure Functions との統合は、スロット (プレビュー) が有効になっている場合は機能しません。</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>このプレビュー機能の利用を選択すると、既存のシークレットがすべてリセットされます。関数のシークレットは、各関数の </value>
-  </data>
-  <data name="appFunctionSettings_warning_4" xml:space="preserve">
-    <value>'管理'</value>
-  </data>
-  <data name="appFunctionSettings_warning_5" xml:space="preserve">
-    <value>ノードの下にあります。</value>
+    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>スロット作成操作が現在進行中です。ここから移動すると、操作の状態を確認できなくなります。</value>
+  </data>
+  <data name="slots_label" xml:space="preserve">
+    <value>Slots</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>スロットの追加</value>
@@ -2327,7 +2330,7 @@
     <value>この関数を実行するには、クライアント証明書が必要です。ポータルから実行するには、クライアント証明書を無効にする必要があります。</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
+    <value>デプロイ スロットが構成済みになっているため、アプリは現在読み取り専用モードになっています。編集モードに変更するには、</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>アプリケーション設定の管理</value>
@@ -2351,7 +2354,7 @@
     <value>イベント (組み込みのエンドポイント)</value>
   </data>
   <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
-    <value>操作の監視</value>
+    <value>操作監視</value>
   </data>
   <data name="eventHubPicker_policy" xml:space="preserve">
     <value>ポリシー</value>
@@ -2918,7 +2921,7 @@
     <value>{{operation}} を完了できませんでした。エラー: {{error}}</value>
   </data>
   <data name="swapTimeout" xml:space="preserve">
-    <value>Exceeded maximum status polling attempts for {{operation}}. Check Activity log to confirm operation status/result.</value>
+    <value>{{operation}} の最大ステータス ポーリング試行回数を超えました。アクティビティ ログを確認して、操作の状態/結果を確認してください。</value>
   </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>{{operation}} をキャンセルしています</value>
@@ -3047,7 +3050,7 @@
     <value>Azure DevOps Services (旧称 VSTS) の一部である Azure リポジトリによる継続的インテグレーションを構成します。</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
-    <value>パブリックの Git リポジトリまたは Mercurial リポジトリからデプロイします。</value>
+    <value>パブリックの Git または Mercurial リポジトリからデプロイします。このオプションでは、デプロイを手動でトリガーする必要があります。</value>
   </data>
   <data name="bitbucketDesc" xml:space="preserve">
     <value>Bitbucket リポジトリを使用して継続的インテグレーションを構成します。</value>
@@ -3074,7 +3077,7 @@
     <value>Functions (プレビュー)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
+    <value>パッケージ ファイルから実行しているため、アプリは現在読み取り専用モードです。変更を加えるには、Zip ファイルの内容と WEBSITE_RUN_FROM_PACKAGE アプリ設定を更新します。</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>コード</value>
@@ -3341,10 +3344,10 @@
     <value>{0} コア</value>
   </data>
   <data name="pricing_aSeriesComputeEquivalent" xml:space="preserve">
-    <value>A シリーズ計算と同等</value>
+    <value>A シリーズ コンピューティングと同等</value>
   </data>
   <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
-    <value>Dv2 シリーズ計算と同等 </value>
+    <value>Dv2 シリーズ コンピューティングと同等 </value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>proxies.json が無効です。エラー: '{0}'。</value>
@@ -3557,7 +3560,10 @@
     <value>検証しています...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>このプロジェクトのビルド パイプラインおよびリリース パイプラインを作成するアクセス許可がありません。プロジェクト管理者にお問い合わせください</value>
+    <value>このプロジェクトのビルド パイプラインおよびリリース パイプラインを作成するアクセス許可がありません。プロジェクト管理者に連絡するか、別のプロジェクトを選択してください</value>
+  </data>
+  <data name="vstsAgentQueuePermissions" xml:space="preserve">
+    <value>このプロジェクトの使用可能な任意のエージェント プールで使用するためのアクセス許可がありません。プロジェクト管理者に連絡するか、別のプロジェクトを選択してください</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>指定した組織名が無効です。別の組織名を指定してください。</value>
@@ -3675,10 +3681,10 @@
     <value>同期</value>
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
-    <value>展開の資格情報</value>
+    <value>FTP/資格情報</value>
   </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
-    <value>Dv3 シリーズ計算と同等 </value>
+    <value>Dv3 シリーズ コンピューティングと同等 </value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Entity Framework を使用している場合、接続文字列は関数アプリでのみご使用ください。他のシナリオではアプリ設定を使用します。</value>
@@ -3687,7 +3693,7 @@
     <value>ランタイム バージョン: 読み込んでいます...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Your app is currently in read only mode because you are using Local Cache. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
+    <value>ローカル キャッシュを使用しているため、アプリは現在読み取り専用モードです。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;詳細情報&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>削除</value>
@@ -3753,7 +3759,7 @@
     <value>コンテナーの設定を構成するアプリの書き込みアクセス権が必要です</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
+    <value>アプリは現在読み取り専用モードです。コンテナー設定を編集するには、アプリの読み取り専用ロックを解除してください。</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>単一コンテナー</value>
@@ -4020,34 +4026,34 @@
     <value>書き込みアクセス許可がありません</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>The deployment slot has a read only lock</value>
+    <value>デプロイ スロットに読み取り専用ロックがあります</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Source and Destination cannot be the same deployment slot</value>
+    <value>デプロイ元とデプロイ先に同じデプロイ スロットを指定できません</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
+    <value>次のデプロイ スロットで認証が有効になっているため、プレビュー付きのスワップを実行できません: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
+    <value>プレビュー付きのスワップは、デプロイ スロット設定が有効になっているサイトでのみ使用できます</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Before you complete the swap, review the first deployment slot's app behavior with the second deployment slot's configuration</value>
+    <value>スワップを完了する前に、2 番目のデプロイ スロットの構成での最初のデプロイ スロットのアプリの動作を確認してください</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>You do not have write permission on the following deployment slots: '{{slotNames}}'</value>
+    <value>次のデプロイ スロットに対する書き込みアクセス許可がありません: '{{slotNames}}'</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>You do not have swap permission on the following deployment slots: '{{slotNames}}'</value>
+    <value>次のデプロイ スロットをスワップするアクセス許可がありません: '{{slotNames}}'</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>There is a read only lock on the following deployment slots: '{{slotNames}}'</value>
+    <value>次のデプロイ スロットに対する読み取り専用のロックがあります: '{{slotNames}}'</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>A swap operation can only be performed if the app has multiple deployment slots</value>
+    <value>スワップ操作は、アプリに複数のデプロイ スロットがある場合にのみ実行できます</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Swap deployment slots</value>
+    <value>デプロイ スロットのスワップ</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>読み込みに失敗しました</value>
@@ -4062,10 +4068,10 @@
     <value>構成変更</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>These are the deployment slot specific application settings and connection strings from the target deployment slot which will be temporarily applied to the source deployment slot in the first phase of the swap.</value>
+    <value>これらは、スワップの最初のフェーズでソース デプロイ スロットに一時的に適用される、ターゲット デプロイ スロット側のデプロイ スロット特有のアプリケーション設定および接続文字列です。</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>This is a summary of the final set of configuration changes on the source and target deployment slots after the swap has completed.</value>
+    <value>これは、スワップが完了した後、ソース スロットとターゲット デプロイ スロットに対して加えられる最終的な構成変更一式の概要です。</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>プレビューを読み込むには、上で有効な選択を行ってください</value>
@@ -4401,7 +4407,7 @@
     <value>自動スワップが有効</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Auto swap deployment slot</value>
+    <value>自動スワップ デプロイ スロット</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>プラットフォーム</value>
@@ -4452,7 +4458,7 @@
     <value>値</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>deployment slot setting</value>
+    <value>デプロイ スロットの設定</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4674,7 +4680,7 @@
     <value>プロキシ (制限あり)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change deployment slot settings you must have write access on the production app.</value>
+    <value>デプロイ スロット設定を変更するには、運用アプリにおける書き込みアクセス権が必要です。</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>自動スワップ設定を変更するには、運用アプリにおける書き込みアクセス許可が必要です。</value>
@@ -4689,7 +4695,7 @@
     <value>Function App の種類</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Deployment Slot Setting Enabled</value>
+    <value>デプロイ スロットの設定が有効です</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>非表示の値。表示するには、上記の [値を表示する] ボタンをクリックします</value>
@@ -4760,6 +4766,12 @@
   <data name="noBlobsOrFilesShares" xml:space="preserve">
     <value>このストレージ アカウントに BLOB コンテナーまたはファイル共有はありません</value>
   </data>
+  <data name="noFileShares" xml:space="preserve">
+    <value>このストレージ アカウントにはファイル共有はありません</value>
+  </data>
+  <data name="noBlobs" xml:space="preserve">
+    <value>このストレージ アカウントには BLOB はありません</value>
+  </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
     <value>このストレージ アカウントへの書き込みアクセス権がありません。アクセス キーがわかっている場合は、詳細設定モードで指定できます。</value>
   </data>
@@ -4767,7 +4779,10 @@
     <value>オプションの選択</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>NodeJS のスタートアップ コマンドには、ng、node、pm2 のいずれかを使用する必要があります</value>
+    <value>コンテナーのスタートアップの一環として実行される、スタートアップ コマンドを指定します。Node.js のスタートアップ コマンドは、ng、node、npm、pm2 のいずれかのキーワードを使用する必要があります。例: npm start</value>
+  </data>
+  <data name="invalidStartupCommandAspNetCore" xml:space="preserve">
+    <value>コンテナーのスタートアップの一環として実行される、スタートアップ コマンドを指定します。.Net Core のスタートアップ コマンドは、dotnet キーワードを使用する必要があります。例: dotnet application.dll</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
@@ -4788,7 +4803,7 @@
     <value>アプリ設定の値と名前のプロパティをすべて文字列型にする必要があります</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>All app setting deployment slot setting properties must be of type boolean</value>
+    <value>すべてのアプリ設定デプロイ スロットの設定プロパティはブール値型である必要があります</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} は無効なアプリ設定プロパティです</value>
@@ -4818,10 +4833,10 @@
     <value>仮想ディレクトリ パスは、アプリケーション パス内に存在する必要があります</value>
   </data>
   <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>アプリケーション ログがオフに切り替えられました。[診断ログ] 設定を使用して、オンにすることができます。</value>
+    <value>アプリケーション ログがオフに切り替えられました。[App Service ログ] 設定を使用して、オンにすることができます。</value>
   </data>
   <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Web サーバー ログがオフになっています。[診断ログ] 設定を使用してオンにすることができます。</value>
+    <value>Web サーバー ログがオフになっています。[App Service ログ] 設定を使用してオンにすることができます。</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
     <value>選択されているランタイム スタックでは、現在リモート デバッグをサポートしていません。</value>
@@ -4833,7 +4848,7 @@
     <value>Application Insights が構成されていません。関数ログをキャプチャするように Application Insights を構成してください。</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
-    <value>アクセスの制限が関数アプリに追加されたため、ポータルからの管理機能に影響する可能性があります。</value>
+    <value>アクセスの制限が関数アプリに追加されています。これにより、ポータルからの管理機能に影響し、ランタイムに到達できない可能性があります。</value>
   </data>
   <data name="userCredsError" xml:space="preserve">
     <value>指定されたパスワードは最小要件を満たしていません。パスワードは少なくとも 8 文字以上にし、文字と数字を含める必要があります。</value>
@@ -4859,6 +4874,9 @@
   </data>
   <data name="githubOrgMessage" xml:space="preserve">
     <value>組織またはリポジトリが見つからない場合は、GitHub で追加のアクセス許可を有効にする必要があります。</value>
+  </data>
+  <data name="projectWithoutGitRepoNotFoundMessage" xml:space="preserve">
+    <value>有効な git リポジトリを含むプロジェクトのみが一覧表示されます。</value>
   </data>
   <data name="bitbucketOrgMessage" xml:space="preserve">
     <value>組織またはリポジトリが見つからない場合は、Bitbucket で追加のアクセス許可を有効にする必要があります。</value>
@@ -4897,6 +4915,81 @@
     <value>接続文字列のフィルター処理</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
+    <value>Java Function Apps ではポータルにおける関数の編集はサポートされていません。開発には Maven または VS Code を使用してください。</value>
+  </data>
+  <data name="validate_workingDirectory" xml:space="preserve">
+    <value>作業ディレクトリのパスは、リポジトリのルートからの相対パスである必要があり、Windows の場合は、/、\、ドライブ名 (C:/) で開始することはできません。作業ディレクトリがリポジトリの src フォルダーにある場合、パスは src/ にする必要があります</value>
+  </data>
+  <data name="mountedStorageInfo" xml:space="preserve">
+    <value>マウントされた記憶域を使用すると、アプリで使用する Azure Files または Blob のコンテナーをマップできます。</value>
+  </data>
+  <data name="changePlanName" xml:space="preserve">
+    <value>App Service プランの変更</value>
+  </data>
+  <data name="changePlanDescription" xml:space="preserve">
+    <value>アプリがホストされているプランを変更すると、アプリを 1 つのプランに統合してマシン リソースを共有したり、別々のプランに分けてパフォーマンス向上のために別々にスケーリングしたりすることができます。</value>
+  </data>
+  <data name="changePlanLocationTooltip" xml:space="preserve">
+    <value>アプリが現在存在するリージョンを新規または既存のプランに変更することはできません。</value>
+  </data>
+  <data name="changePlanCurrentPlanDetails" xml:space="preserve">
+    <value>現在の計画の詳細</value>
+  </data>
+  <data name="changePlanDestPlanDetails" xml:space="preserve">
+    <value>ターゲット計画の詳細</value>
+  </data>
+  <data name="changePlanNotification" xml:space="preserve">
+    <value>App Service プランを変更しています</value>
+  </data>
+  <data name="changePlanFailureNotificationFormat" xml:space="preserve">
+    <value>App Service プランを変更できませんでした: '{0}'</value>
+  </data>
+  <data name="changePlanRgCreateFailureNotificationFormat" xml:space="preserve">
+    <value>リソース グループを作成できませんでした: '{0}'</value>
+  </data>
+  <data name="changePlanPlanCreateFailureNotificationFormat" xml:space="preserve">
+    <value>App Service プランを作成できませんでした: '{0}'</value>
+  </data>
+  <data name="changePlanNoWritePermissionRg" xml:space="preserve">
+    <value>このリソース グループに新しい App Service プランを作成するための十分な書き込みアクセス許可がありません</value>
+  </data>
+  <data name="changePlanSiteLockedError" xml:space="preserve">
+    <value>アプリで ReadOnly ロックが設定されており、別の App Service プランに移動することはできません</value>
+  </data>
+  <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
+    <value>サブスクリプションに対する十分な書き込みアクセス許可がないため、新しいリソース グループを作成することは許可されていません</value>
+  </data>
+  <data name="resourceGroupNameValidationError" xml:space="preserve">
+    <value>リソース グループ名には、英数字、ピリオド、アンダースコア、ハイフン、およびかっこだけを使用できます。また、末尾をピリオドにすることはできません。</value>
+  </data>
+  <data name="cancelUpdateConfirmation" xml:space="preserve">
+    <value>更新操作をキャンセルしますか?</value>
+  </data>
+  <data name="newFormat" xml:space="preserve">
+    <value>(新規) {0}</value>
+  </data>
+  <data name="validationErrorAlreadyExistsFormat" xml:space="preserve">
+    <value>{0} は既に存在しています</value>
+  </data>
+  <data name="validationWebspaceUniqueErrorFormat" xml:space="preserve">
+    <value>'{0}' という名前は、お客様のアプリのホスト制約において一意ではありません</value>
+  </data>
+  <data name="resourceGroupDescription" xml:space="preserve">
+    <value>リソース グループは、Azure のソリューションに関連するリソースを保持するコンテナーです。</value>
+  </data>
+  <data name="createNewPlan" xml:space="preserve">
+    <value>新しいプランを作成します</value>
+  </data>
+  <data name="planName" xml:space="preserve">
+    <value>プラン名</value>
+  </data>
+  <data name="majorVersion" xml:space="preserve">
+    <value>メジャー バージョン</value>
+  </data>
+  <data name="minorVersion" xml:space="preserve">
+    <value>マイナー バージョン</value>
+  </data>
+  <data name="containerValidationFailed" xml:space="preserve">
+    <value>コンテナー設定を検証できませんでした。</value>
   </data>
 </root>

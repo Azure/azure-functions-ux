@@ -1,8 +1,7 @@
 import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
-
 import MakeArmCall from './ArmHelper';
-
-import { ArmArray, StorageAccount } from '../models/WebAppModels';
+import { ArmArray } from '../models/arm-obj';
+import { StorageAccount } from '../models/storage-account';
 
 export default class StorageService {
   public static fetchAzureStorageAccounts = (resourceId: string) => {

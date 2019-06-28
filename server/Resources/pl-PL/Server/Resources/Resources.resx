@@ -545,7 +545,7 @@
     <value>Uruchom</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have source control integration enabled.</value>
+    <value>Twoja aplikacja jest obecnie w trybie tylko do odczytu, ponieważ masz włączoną integrację z kontrolą źródła.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Edytor zaawansowany</value>
@@ -920,7 +920,10 @@
     <value>Ustawienie „Zawsze włączone” (AlwaysOn) nie jest aktywne. Aplikacja może nie działać prawidłowo.</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>Ustawienie „AzureWebJobsSecretStorageType” powinno mieć wartość „blob”; brak tego ustawienia spowoduje nieoczekiwane zachowanie podczas używania miejsc wdrożenia</value>
+    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+  </data>
+  <data name="topBar_slotsHostIdV2" xml:space="preserve">
+    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Informacje o wersji usługi Azure Functions.</value>
@@ -1081,8 +1084,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>Serwer proxy o nazwie „{{name}}” już istnieje</value>
   </data>
-  <data name="slots_warningOff" xml:space="preserve">
-    <value>Miejsca usługi Azure Functions (wersja zapoznawcza) są obecnie wyłączone. Aby je włączyć, odwiedź</value>
+  <data name="slots_warningDisabled" xml:space="preserve">
+    <value>Azure functions slots is currently disabled.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Odrzuć</value>
@@ -1427,10 +1430,10 @@
     <value>Aby edytować te ustawienia, należy mieć uprawnienia do zapisu dla bieżącej aplikacji.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>This app has a read only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
+    <value>Ta aplikacja została zablokowana i jest w trybie tylko do odczytu, co uniemożliwia edycję ustawień i pobieranie zabezpieczonych danych. Usuń blokadę, a następnie spróbuj ponownie.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>View settings in read only mode.</value>
+    <value>Wyświetl ustawienia w trybie tylko do odczytu.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Nie można załadować ustawień.</value>
@@ -1697,7 +1700,7 @@
     <value>Skonfiguruj lokalizację metadanych Swagger 2.0 opisujących interfejs API. Dzięki temu inne osoby będą mogły łatwo odnajdywać Twój interfejs API i korzystać z niego.</value>
   </data>
   <data name="feature_appServicePlanInfo" xml:space="preserve">
-    <value>Plan Usługi aplikacji pełni funkcję kontenera aplikacji. Ustawienia planu Usługi aplikacji określa lokalizację, funkcje, koszt i zasoby obliczeniowe skojarzone z aplikacją.</value>
+    <value>Plan usługi App Service to kontener dla aplikacji. Ustawienia planu usługi App Service określają lokalizację, funkcje, koszt i zasoby obliczeniowe skojarzone z aplikacją.</value>
   </data>
   <data name="feature_quotasName" xml:space="preserve">
     <value>Limity</value>
@@ -1730,7 +1733,7 @@
     <value>Blokuj zasoby, aby uniemożliwić nieoczekiwane zmiany lub usunięcia.</value>
   </data>
   <data name="feature_automationScriptName" xml:space="preserve">
-    <value>Skrypt automatyzacji</value>
+    <value>Eksportuj szablon</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
     <value>Automatyzuj wdrażanie zasobów przy użyciu szablonów usługi Azure Resource Manager w ramach pojedynczej, skoordynowanej operacji. Zdefiniuj zasoby i konfigurowalne parametry wejściowe oraz wdrażaj przy użyciu skryptu lub kodu.</value>
@@ -2141,13 +2144,13 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Nie możemy zaktualizować trybu edycji Twojej aplikacji funkcji. Spróbuj ponownie później.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
+    <value>Twoja aplikacja jest obecnie w trybie tylko do odczytu, ponieważ ustawiono ten tryb ręcznie. Aby zmienić tryb edycji, odwiedź </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Twoja aplikacja jest obecnie w trybie odczytu/zapisu, ponieważ masz ustawiony tryb edycji odczyt/zapis mimo włączonej kontroli źródła. Wszelkie wprowadzone zmiany mogą zostać zastąpione kolejnym wdrożeniem. Aby zmienić tryb edycji, odwiedź </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
+    <value>Twoja aplikacja jest obecnie w trybie tylko do odczytu, ponieważ opublikowano wygenerowany plik function.json. Zmiany wprowadzone w pliku function.json nie będą uznawane przez środowisko uruchomieniowe usługi Functions. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>Twoja aplikacja jest obecnie w trybie odczytu/zapisu, ponieważ ustawiono tryb edycji na odczyt/zapis pomimo wygenerowanego pliku function.json. Zmiany wprowadzone w pliku function.json nie zostaną uwzględnione w środowisku uruchomieniowym usługi Functions.</value>
@@ -2197,6 +2200,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Włącz miejsca wdrożenia (wersja zapoznawcza).</value>
   </data>
+  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
+    <value>Enable deployment slots</value>
+  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Znane problemy:</value>
   </data>
@@ -2204,16 +2210,13 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Integracja aplikacji logiki z usługą Functions nie działa, gdy miejsca wdrożenia (wersja zapoznawcza) są włączone.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Włączenie tej funkcji w wersji zapoznawczej spowoduje zresetowanie wszystkich już istniejących kluczy tajnych. Klucze tajne usługi Functions można znaleźć w węźle</value>
-  </data>
-  <data name="appFunctionSettings_warning_4" xml:space="preserve">
-    <value>„Zarządzanie”</value>
-  </data>
-  <data name="appFunctionSettings_warning_5" xml:space="preserve">
-    <value>węzeł dla poszczególnych funkcji.</value>
+    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Operacja tworzenia miejsca jest w toku. Po przejściu do innego elementu sprawdzenie stanu operacji nie będzie już możliwe.</value>
+  </data>
+  <data name="slots_label" xml:space="preserve">
+    <value>Miejsca</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Dodaj miejsce</value>
@@ -2327,7 +2330,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Do uruchomienia tej funkcji wymagany jest certyfikat klienta. Aby uruchomić ją z portalu, trzeba wyłączyć certyfikat klienta.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
+    <value>Twoja aplikacja jest obecnie w trybie tylko do odczytu, ponieważ zostały skonfigurowane miejsca wdrożenia. Aby zmienić tryb edycji, odwiedź</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Zarządzaj ustawieniami aplikacji</value>
@@ -2918,7 +2921,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Nie można ukończyć operacji {{operation}}. Błąd: {{error}}</value>
   </data>
   <data name="swapTimeout" xml:space="preserve">
-    <value>Exceeded maximum status polling attempts for {{operation}}. Check Activity log to confirm operation status/result.</value>
+    <value>Przekroczono maksymalną liczbę prób sondowania stanu dla operacji {{operation}}. Sprawdź dziennik aktywności, aby potwierdzić stan/wynik operacji.</value>
   </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>Anulowanie operacji {{operation}}</value>
@@ -3047,7 +3050,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Konfiguruj ciągłą integrację z usługą Azure Repos wchodzącą w skład usługi Azure DevOps Services (wcześniej znanej jako VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
-    <value>Wdróż z publicznego repozytorium Git lub Mercurial.</value>
+    <value>Wdróż z publicznego repozytorium Git lub Mercurial. Ta opcja wymaga ręcznego wyzwalania wdrożeń.</value>
   </data>
   <data name="bitbucketDesc" xml:space="preserve">
     <value>Skonfiguruj ciągłą integrację z repozytorium Bitbucket.</value>
@@ -3074,7 +3077,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Functions (wersja zapoznawcza)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
+    <value>Twoja aplikacja jest obecnie w trybie tylko do odczytu, ponieważ została uruchomiona z pliku pakietu. Aby wprowadzić jakiekolwiek zmiany, zaktualizuj zawartość w pliku zip i ustawienie aplikacji WEBSITE_RUN_FROM_PACKAGE.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Kod</value>
@@ -3263,7 +3266,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Zwiększ skalę w poziomie.</value>
   </data>
   <data name="pricing_computeVmSize" xml:space="preserve">
-    <value>Oblicz rozmiar maszyny wirtualnej: {0}</value>
+    <value>Rozmiar obliczeniowej maszyny wirtualnej: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
     <value>Zbyt mało dostępnych wystąpień.</value>
@@ -3344,7 +3347,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Odpowiednik zasobów obliczeniowych serii A</value>
   </data>
   <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
-    <value>Odpowiednik zasobów obliczeniowych serii Dv2</value>
+    <value>Odpowiednik obliczeniowy serii Dv2</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>Plik proxies.json jest nieprawidłowy. Błąd: „{0}”.</value>
@@ -3557,7 +3560,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Trwa sprawdzanie poprawności...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>Nie masz uprawnień do tworzenia potoku kompilacji ani potoku wydania dla tego projektu. Skontaktuj się z administratorem projektu</value>
+    <value>Nie masz uprawnień do tworzenia potoku kompilacji ani potoku wydania dla tego projektu. Skontaktuj się z administratorem projektu lub wybierz inny projekt</value>
+  </data>
+  <data name="vstsAgentQueuePermissions" xml:space="preserve">
+    <value>Nie masz uprawnień do użycia dla żadnej z dostępnych pul agentów w tym projekcie. Skontaktuj się z administratorem projektu lub wybierz inny projekt</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Podana nazwa organizacji jest nieprawidłowa. Podaj inną nazwę organizacji.</value>
@@ -3675,10 +3681,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Synchronizuj</value>
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
-    <value>Poświadczenia wdrożenia</value>
+    <value>FTP/poświadczenia</value>
   </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
-    <value>Odpowiednik zasobów obliczeniowych serii Dv3</value>
+    <value>Odpowiednik obliczeniowy serii Dv3</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Parametry połączenia powinny być używane z aplikacją funkcji tylko wtedy, gdy używasz platformy Entity Framework. W przypadku innych scenariuszy używaj ustawień aplikacji.</value>
@@ -3687,7 +3693,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Wersja środowiska uruchomieniowego: ładowanie...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Your app is currently in read only mode because you are using Local Cache. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
+    <value>Twoja aplikacja jest obecnie w trybie tylko do odczytu, ponieważ korzystasz z lokalnej pamięci podręcznej. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Dowiedz się więcej&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Usuń</value>
@@ -3753,7 +3759,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Musisz mieć dostęp do zapisu do aplikacji, aby skonfigurować ustawienia kontenera</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
+    <value>Twoja aplikacja jest obecnie w trybie tylko do odczytu. Usuń tę blokadę dla aplikacji, aby edytować ustawienia kontenera.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Jeden kontener</value>
@@ -4020,34 +4026,34 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Nie masz uprawnienia do zapisu</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>The deployment slot has a read only lock</value>
+    <value>Miejsce wdrożenia zostało zablokowane w trybie tylko do odczytu</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Source and Destination cannot be the same deployment slot</value>
+    <value>Źródło i cel nie mogą wskazywać tego samego miejsca wdrożenia</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
+    <value>Nie można wykonać zamiany z wersją zapoznawczą, ponieważ następujące miejsca wdrożenia mają włączone uwierzytelnianie: „{{slotNames}}”</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
+    <value>Zamianę z wersją zapoznawczą można wykonać tylko w przypadku witryn z włączonymi ustawieniami miejsca wdrożenia</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Before you complete the swap, review the first deployment slot's app behavior with the second deployment slot's configuration</value>
+    <value>Przed ukończeniem zamiany sprawdź zachowanie aplikacji w pierwszym miejscu wdrożenia za pomocą konfiguracji drugiego miejsca wdrożenia</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>You do not have write permission on the following deployment slots: '{{slotNames}}'</value>
+    <value>Nie masz uprawnienia do zapisu dla następujących miejsc wdrożenia: „{{slotNames}}”</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>You do not have swap permission on the following deployment slots: '{{slotNames}}'</value>
+    <value>Nie masz uprawnienia do zamiany dla następujących miejsc wdrożenia: „{{slotNames}}”</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>There is a read only lock on the following deployment slots: '{{slotNames}}'</value>
+    <value>Następujące miejsca wdrożenia są zablokowane w trybie tylko do odczytu: „{{slotNames}}”</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>A swap operation can only be performed if the app has multiple deployment slots</value>
+    <value>Operację zamiany można wykonać tylko wtedy, gdy aplikacja ma wiele miejsc wdrożenia</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Swap deployment slots</value>
+    <value>Zamienianie miejsc wdrożenia</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Ładowanie nie powiodło się</value>
@@ -4062,10 +4068,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Zmiany konfiguracji</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>These are the deployment slot specific application settings and connection strings from the target deployment slot which will be temporarily applied to the source deployment slot in the first phase of the swap.</value>
+    <value>To są specyficzne dla miejsca wdrożenia ustawienia aplikacji i parametry połączenia z docelowego miejsca wdrożenia, które zostaną tymczasowo zastosowane dla źródłowego miejsca wdrożenia w pierwszej fazie zamiany.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>This is a summary of the final set of configuration changes on the source and target deployment slots after the swap has completed.</value>
+    <value>To jest podsumowanie ostatecznego zestawu zmian konfiguracji dla źródłowego i docelowego miejsca wdrożenia po wykonaniu zamiany.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Dokonaj prawidłowego wyboru powyżej, aby załadować podgląd</value>
@@ -4401,7 +4407,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Automatyczna wymiana włączona</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Auto swap deployment slot</value>
+    <value>Zamień automatycznie miejsce wdrożenia</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Platforma</value>
@@ -4452,7 +4458,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Wartość</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>deployment slot setting</value>
+    <value>ustawienie miejsca wdrożenia</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4674,7 +4680,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Serwery proxy (ograniczone)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change deployment slot settings you must have write access on the production app.</value>
+    <value>Aby zmienić ustawienia miejsca wdrożenia, musisz mieć dostęp do zapisu dla aplikacji produkcyjnej.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Aby zmienić ustawienia automatycznej wymiany, musisz mieć dostęp do zapisu w aplikacji produkcyjnej.</value>
@@ -4689,7 +4695,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Typ aplikacji funkcji</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Deployment Slot Setting Enabled</value>
+    <value>Włączono ustawienie miejsca wdrożenia</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Ukryta wartość. Kliknij przycisk Pokaż wartości powyżej, aby wyświetlić</value>
@@ -4760,6 +4766,12 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="noBlobsOrFilesShares" xml:space="preserve">
     <value>To konto magazynu nie ma kontenerów obiektów blob lub udziałów plików</value>
   </data>
+  <data name="noFileShares" xml:space="preserve">
+    <value>To konto magazynu nie ma udziałów plików</value>
+  </data>
+  <data name="noBlobs" xml:space="preserve">
+    <value>To konto magazynu nie ma obiektów BLOB</value>
+  </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
     <value>Nie masz dostępu do tego konta magazynu z możliwością zapisu. Jeśli znasz klucz dostępu, możesz podać go w trybie zaawansowanym.</value>
   </data>
@@ -4767,7 +4779,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Wybierz opcję</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>Polecenia uruchamiania dla platformy NodeJS muszą korzystać z poleceń ng, node lub pm2</value>
+    <value>Podaj polecenie uruchamiania, które będzie uruchamiane podczas uruchamiania kontenera. Polecenia uruchamiania dla platformy Node. js muszą używać słowa kluczowego ng, node, npm lub pm2, na przykład: npm start</value>
+  </data>
+  <data name="invalidStartupCommandAspNetCore" xml:space="preserve">
+    <value>Podaj polecenie uruchamiania, które będzie uruchamiane podczas uruchamiania kontenera. Polecenia uruchamiania dla programu .NET Core muszą używać słowa kluczowego dotnet, na przykład: dotnet application.dll</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
@@ -4788,7 +4803,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Wszystkie właściwości wartości i nazw ustawień aplikacji muszą być typu „ciąg”</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>All app setting deployment slot setting properties must be of type boolean</value>
+    <value>Wszystkie właściwości ustawień miejsca wdrożenia dla ustawienia aplikacji muszą być typu logicznego</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} jest nieprawidłową właściwością ustawienia aplikacji</value>
@@ -4818,10 +4833,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Ścieżka katalogu wirtualnego musi istnieć w ścieżce aplikacji</value>
   </data>
   <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>Dzienniki aplikacji są wyłączone. Możesz je włączyć za pomocą ustawień „Dzienniki diagnostyczne”.</value>
+    <value>Dzienniki aplikacji są wyłączone. Możesz je włączyć za pomocą ustawień „Dzienniki usługi App Service”.</value>
   </data>
   <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Dzienniki serwera sieci Web są wyłączone. Możesz je włączyć za pomocą ustawień „Dzienniki diagnostyczne”.</value>
+    <value>Dzienniki serwera internetowego są wyłączone. Możesz je włączyć za pomocą ustawień „Dzienniki usługi App Service”.</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
     <value>Wybrany stos środowiska uruchomieniowego obecnie nie obsługuje zdalnego debugowania.</value>
@@ -4833,7 +4848,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Usługa Application Insights nie jest skonfigurowana. Skonfiguruj usługę Application Insights, aby przechwytywać dzienniki funkcji.</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
-    <value>Do aplikacji funkcji dodano ograniczenia dostępu, co może mieć wpływ na możliwość zarządzania nią z poziomu portalu.</value>
+    <value>Do aplikacji funkcji dodano ograniczenia dostępu. Może to mieć wpływ na możliwość zarządzania nią z poziomu portalu oraz uniemożliwić kontakt ze środowiskiem uruchomieniowym.</value>
   </data>
   <data name="userCredsError" xml:space="preserve">
     <value>Podane hasło nie spełnia minimalnych wymagań. Hasło powinno składać się z co najmniej ośmiu znaków oraz musi zawierać litery i cyfry.</value>
@@ -4859,6 +4874,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="githubOrgMessage" xml:space="preserve">
     <value>Jeśli nie możesz znaleźć organizacji lub repozytorium, może być konieczne włączenie dodatkowych uprawnień w serwisie GitHub.</value>
+  </data>
+  <data name="projectWithoutGitRepoNotFoundMessage" xml:space="preserve">
+    <value>Zostaną wyświetlone tylko projekty z prawidłowymi repozytoriami git.</value>
   </data>
   <data name="bitbucketOrgMessage" xml:space="preserve">
     <value>Jeśli nie możesz znaleźć organizacji lub repozytorium, może być konieczne włączenie dodatkowych uprawień w usłudze Bitbucket.</value>
@@ -4897,6 +4915,81 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Filtruj parametry połączeń</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
+    <value>Edytowanie funkcji w portalu za pomocą aplikacji funkcji w języku Java nie jest obsługiwane. Użyj programu Maven lub VS Code do programowania.</value>
+  </data>
+  <data name="validate_workingDirectory" xml:space="preserve">
+    <value>Ścieżka katalogu roboczego powinna być podana względem katalogu głównego repozytorium oraz nie może zaczynać się od znaków / i \ ani nazw dysków (C:/) w przypadku systemu Windows. Jeśli katalog roboczy znajduje się w folderze src repozytorium, ścieżka powinna mieć wartość src/</value>
+  </data>
+  <data name="mountedStorageInfo" xml:space="preserve">
+    <value>Zainstalowany magazyn umożliwia mapowanie kontenerów obiektów blob lub usługi Azure Files na potrzeby użycia w aplikacji.</value>
+  </data>
+  <data name="changePlanName" xml:space="preserve">
+    <value>Zmień plan usługi App Service</value>
+  </data>
+  <data name="changePlanDescription" xml:space="preserve">
+    <value>Zmiana planu, w ramach którego aplikacja jest hostowana, umożliwia skonsolidowanie aplikacji w jednym planie, dzięki czemu mogą one współdzielić zasoby maszyn, lub rozdzielenie ich na oddzielne plany, co umożliwi niezależne ich skalowanie w celu poprawienia wydajności.</value>
+  </data>
+  <data name="changePlanLocationTooltip" xml:space="preserve">
+    <value>Regionu, w którym obecnie znajduje się aplikacja, nie można zmienić w przypadku nowych ani istniejących planów.</value>
+  </data>
+  <data name="changePlanCurrentPlanDetails" xml:space="preserve">
+    <value>Szczegóły bieżącego planu</value>
+  </data>
+  <data name="changePlanDestPlanDetails" xml:space="preserve">
+    <value>Szczegóły planu docelowego</value>
+  </data>
+  <data name="changePlanNotification" xml:space="preserve">
+    <value>Zmienianie planu usługi App Service</value>
+  </data>
+  <data name="changePlanFailureNotificationFormat" xml:space="preserve">
+    <value>Nie można zmienić na plan usługi App Service: „{0}”</value>
+  </data>
+  <data name="changePlanRgCreateFailureNotificationFormat" xml:space="preserve">
+    <value>Nie można utworzyć grupy zasobów: „{0}”</value>
+  </data>
+  <data name="changePlanPlanCreateFailureNotificationFormat" xml:space="preserve">
+    <value>Nie można utworzyć planu usługi App Service: „{0}”</value>
+  </data>
+  <data name="changePlanNoWritePermissionRg" xml:space="preserve">
+    <value>Nie masz wystarczających uprawnień do zapisu, aby utworzyć nowy plan usługi App Service w tej grupie zasobów</value>
+  </data>
+  <data name="changePlanSiteLockedError" xml:space="preserve">
+    <value>Aplikacja ma blokadę tylko do odczytu i nie można jej przenieść do innego planu usługi App Service</value>
+  </data>
+  <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
+    <value>Utworzenie nowej grupy zasobów jest niedozwolone, ponieważ nie masz wystarczających uprawnień do zapisu w subskrypcji</value>
+  </data>
+  <data name="resourceGroupNameValidationError" xml:space="preserve">
+    <value>Nazwa grupy zasobów może składać się tylko ze znaków alfanumerycznych, kropek, podkreśleń, myślników i nawiasów. Nie można zakończyć jej kropką.</value>
+  </data>
+  <data name="cancelUpdateConfirmation" xml:space="preserve">
+    <value>Czy na pewno chcesz anulować operację aktualizacji?</value>
+  </data>
+  <data name="newFormat" xml:space="preserve">
+    <value>(Nowy) {0}</value>
+  </data>
+  <data name="validationErrorAlreadyExistsFormat" xml:space="preserve">
+    <value>Element {0} już istnieje</value>
+  </data>
+  <data name="validationWebspaceUniqueErrorFormat" xml:space="preserve">
+    <value>Nazwa „{0}” nie jest unikatowa w ramach ograniczeń hostingu aplikacji</value>
+  </data>
+  <data name="resourceGroupDescription" xml:space="preserve">
+    <value>Grupa zasobów to kontener zawierający powiązane zasoby dla rozwiązania platformy Azure.</value>
+  </data>
+  <data name="createNewPlan" xml:space="preserve">
+    <value>Utwórz nowy plan</value>
+  </data>
+  <data name="planName" xml:space="preserve">
+    <value>Nazwa planu</value>
+  </data>
+  <data name="majorVersion" xml:space="preserve">
+    <value>Wersja główna</value>
+  </data>
+  <data name="minorVersion" xml:space="preserve">
+    <value>Wersja pomocnicza </value>
+  </data>
+  <data name="containerValidationFailed" xml:space="preserve">
+    <value>Nie można zweryfikować ustawień kontenera.</value>
   </data>
 </root>

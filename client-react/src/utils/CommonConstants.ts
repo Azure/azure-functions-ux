@@ -22,6 +22,7 @@ export class CommonConstants {
 
   public static readonly Kinds = {
     linux: 'linux',
+    aseV1: 'ASEV1',
     aseV2: 'ASEV2',
     container: 'container',
     functionApp: 'functionapp',

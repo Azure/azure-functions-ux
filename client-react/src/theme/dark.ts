@@ -12,7 +12,7 @@ const AzurePortalColors = {
   successIcon: '#5db300',
   errorBackground: '#61050c',
   errorIcon: '#e00b1c',
-  warningBackground: '#422400',
+  warningBackground: '#b36200',
   warningIcon: '#ff8c00',
   infoBackground: '#012b65',
   infoIcon: '#015cda',
@@ -37,6 +37,7 @@ const AzurePortalColors = {
   standardControlOutlineAccent: '#4894fe',
   controlErrorStateOutline: '#f63747',
   controlDirtyOutline: '#c87fdc',
+  cardBorderColor: '#b2b2b2',
 };
 const themePalette = {
   themePrimary: '#4894fe',

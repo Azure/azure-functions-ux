@@ -27,8 +27,9 @@ export class Constants {
   public static routingExtensionVersionAppSettingName = 'ROUTING_EXTENSION_VERSION';
   public static functionAppEditModeSettingName = 'FUNCTION_APP_EDIT_MODE';
   public static instrumentationKeySettingName = 'APPINSIGHTS_INSTRUMENTATIONKEY';
-  public static slotsSecretStorageSettingsName = 'AzureWebJobsSecretStorageType';
-  public static slotsSecretStorageSettingsValue = 'Blob';
+  public static secretStorageSettingsName = 'AzureWebJobsSecretStorageType';
+  public static secretStorageSettingsValueBlob = 'Blob';
+  public static secretStorageSettingsValueFiles = 'Files';
   public static contentShareConfigSettingsName = 'WEBSITE_CONTENTSHARE';
   public static azureWebJobsDashboardSettingsName = 'AzureWebJobsDashboard';
   public static functionsWorkerRuntimeAppSettingsName = 'FUNCTIONS_WORKER_RUNTIME';
@@ -612,6 +613,7 @@ export class FeatureFlags {
   public static oldDeploymentCenter = 'oldvsts';
   public static EnableLinuxElasticPremium = 'EnableLinuxElasticPremium';
   public static AllowFreeLinux = 'allowfreelinux';
+  public static RemoveSlotsPreviewTag = 'RemoveSlotsPreviewTag';
 }
 
 export class SupportedFeatures {

@@ -3,11 +3,13 @@ import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption, Stack } fr
 import { dropdownStyleOverrides } from '../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../ThemeContext';
 import { useWindowSize } from 'react-use';
-import { ArmObj, ServerFarm } from '../../../models/WebAppModels';
 import { ResourceGroupInfo } from './CreateOrSelectResourceGroup';
 import { CreatePlan } from './CreatePlan';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
+import { ArmObj } from '../../../models/arm-obj';
+import { ServerFarm } from '../../../models/serverFarm/serverfarm';
+import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 
 export const NEW_PLAN = '__NEWPLAN__';
 
@@ -29,6 +31,7 @@ export interface CreateOrSelectPlanProps {
   subscriptionId: string;
   resourceGroupOptions: IDropdownOption[];
   serverFarmsInWebspace: ArmObj<ServerFarm>[];
+  hostingEnvironment?: ArmObj<HostingEnvironment>;
   onPlanChange: (planInfo: CreateOrSelectPlanFormValues) => void;
 }
 
@@ -36,6 +39,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
   const {
     options,
     subscriptionId,
+    hostingEnvironment,
     resourceGroupOptions,
     isNewPlan,
     newPlanInfo,
@@ -86,6 +90,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
           serverFarmsInWebspace={serverFarmsInWebspace}
           resourceGroupOptions={resourceGroupOptions}
           subscriptionId={subscriptionId}
+          hostingEnvironment={hostingEnvironment}
           onCreatePanelClose={newPlan => onCreatePanelClose(planInfo, setPlanInfo, newPlan, options, t, onPlanChange)}
         />
       </Stack>

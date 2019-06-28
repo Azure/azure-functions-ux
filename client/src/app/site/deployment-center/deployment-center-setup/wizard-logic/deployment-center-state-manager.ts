@@ -56,6 +56,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public isFunctionApp = false;
   public vstsKuduOnly = false;
   public vsoAccounts: VSOAccount[] = [];
+  public hideConfigureStepContinueButton = false;
+
   constructor(
     private _cacheService: CacheService,
     private _azureDevOpsService: AzureDevOpsService,

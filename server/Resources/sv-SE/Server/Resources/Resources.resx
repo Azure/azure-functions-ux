@@ -920,7 +920,10 @@
     <value>AlwaysOn är inte aktiverat. Appen kanske inte fungerar som den ska</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>Inställningen AzureWebJobsSecretStorageType ska vara angiven till "blob". Andra inställningar kan orsaka oväntat beteende vid användning av distributionsfack</value>
+    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+  </data>
+  <data name="topBar_slotsHostIdV2" xml:space="preserve">
+    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Viktig information om Azure Functions.</value>
@@ -1081,8 +1084,8 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>En proxyserver med namnet {{name}} finns redan</value>
   </data>
-  <data name="slots_warningOff" xml:space="preserve">
-    <value>Azure Functions-platser (förhandsversion) är för närvarande inaktiverat. Aktivera det på</value>
+  <data name="slots_warningDisabled" xml:space="preserve">
+    <value>Azure functions slots is currently disabled.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Ignorera</value>
@@ -1730,7 +1733,7 @@
     <value>Lås resurser för att förhindra oväntade ändringar eller raderingar.</value>
   </data>
   <data name="feature_automationScriptName" xml:space="preserve">
-    <value>Automationsskript</value>
+    <value>Exportera mall</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
     <value>Automatisera distributionen av resurser med Azure Resource Manager-mallar i en enda, samordnad åtgärd. Definiera resurser och konfigurerbara indataparametrar och distribuera med skript eller kod.</value>
@@ -2197,6 +2200,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Aktivera distributionsplatser (förhandsgranskning).</value>
   </data>
+  <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
+    <value>Enable deployment slots</value>
+  </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Kända problem:</value>
   </data>
@@ -2204,16 +2210,13 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Logikprogramintegrering med funktioner fungerar inte när Platser (förhandsgranskning) aktiveras.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Val av förhandsgranskningsfunktionen återställer alla befintliga hemligheter. Funktionshemligheter finns under</value>
-  </data>
-  <data name="appFunctionSettings_warning_4" xml:space="preserve">
-    <value>Hantera</value>
-  </data>
-  <data name="appFunctionSettings_warning_5" xml:space="preserve">
-    <value>nod för varje funktion.</value>
+    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>En plats håller på att skapas. När du har lämnat sidan kan du inte längre kontrollera åtgärdens status.</value>
+  </data>
+  <data name="slots_label" xml:space="preserve">
+    <value>Slots</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Lägg till plats</value>
@@ -2495,10 +2498,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Södra centrala USA</value>
   </data>
   <data name="northeurope" xml:space="preserve">
-    <value>Nordeuropa</value>
+    <value>Europa, norra</value>
   </data>
   <data name="westeurope" xml:space="preserve">
-    <value>Västeuropa</value>
+    <value>Europa, västra</value>
   </data>
   <data name="southeastasia" xml:space="preserve">
     <value>Sydostasien</value>
@@ -2534,10 +2537,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Centrala USA</value>
   </data>
   <data name="brazilsouth" xml:space="preserve">
-    <value>Södra Brasilien</value>
+    <value>Brasilien, södra</value>
   </data>
   <data name="australiaeast" xml:space="preserve">
-    <value>Östra Australien</value>
+    <value>Australien, östra</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
     <value>Sydöstra Australien</value>
@@ -3047,7 +3050,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Konfigurera kontinuerlig integration med en Azure-lagringsplats, som ingår i Azure DevOps Services (tidigare VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
-    <value>Distribuera från en offentlig Git- eller Mercurial-lagringsplats.</value>
+    <value>Distribuera från en offentlig Git- eller Mercurial-lagringsplats. Det här alternativet kräver manuell utlösning av dina distributioner.</value>
   </data>
   <data name="bitbucketDesc" xml:space="preserve">
     <value>Konfigurera kontinuerlig integrering med en Bitbucket-lagringsplats.</value>
@@ -3224,7 +3227,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Delad infrastruktur</value>
   </data>
   <data name="pricing_sharedCpu" xml:space="preserve">
-    <value>Delade compute-resurser som används för att köra program som distribuerats i App Service-prenumerationsavtalet.</value>
+    <value>Delade beräkningsresurser som används för att köra program som distribuerats i App Service-prenumerationsavtalet.</value>
   </data>
   <data name="pricing_computeDedicatedAcu" xml:space="preserve">
     <value>Dedikerade beräkningsresurser som används för att köra program som distribuerats i App Service plan.</value>
@@ -3335,7 +3338,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>{0} GB minne</value>
   </data>
   <data name="pricing_computeLimit" xml:space="preserve">
-    <value>{0} minuter/dag compute</value>
+    <value>{0} minuter/dag beräkna</value>
   </data>
   <data name="pricing_numCores" xml:space="preserve">
     <value>{0} kärnor</value>
@@ -3557,7 +3560,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Validerar...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>Du har inte behörighet att skapa en bygg-pipeline i projektet. Kontakta din projektadministratör</value>
+    <value>Du har inte behörigheter att skapa en versionspipeline eller utgåvapipeline för det här projektet. Kontakta din projektadministratör eller välj ett annat projekt.</value>
+  </data>
+  <data name="vstsAgentQueuePermissions" xml:space="preserve">
+    <value>Du har inte behörigheter att använda i någon av de tillgängliga agentpoolerna för det här projektet. Kontakta din projektadministratör eller välj ett annat projekt</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Det angivna organisationsnamnet är inte giltigt. Ange ett annat organisationsnamn.</value>
@@ -3675,7 +3681,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Synkronisera</value>
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
-    <value>Autentiseringsuppgifter för distributions</value>
+    <value>FTP/autentiseringsuppgifter</value>
   </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
     <value>Motsvarande Dv3-serieberäkning</value>
@@ -4760,6 +4766,12 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="noBlobsOrFilesShares" xml:space="preserve">
     <value>Det här lagringskontot har inga blob-behållare eller filresurser</value>
   </data>
+  <data name="noFileShares" xml:space="preserve">
+    <value>Det här lagringskontot har inga filresurser</value>
+  </data>
+  <data name="noBlobs" xml:space="preserve">
+    <value>Det här lagringskontot har inga blobbar</value>
+  </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
     <value>Du har inte skrivbehörighet för det här lagringskontot. Om du kan åtkomstnyckeln så kan du sätta den i avancerat läge.</value>
   </data>
@@ -4767,7 +4779,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Välj ett alternativ</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>Startkommandon för NodeJS måste använda ng, node eller pm2</value>
+    <value>Ange ett startkommando som ska köras som en del av containerns uppstart. Startkommandon för Node.js måste använda ng-, node-, npm- eller pm2-nyckelord. Exempelvis, npm start</value>
+  </data>
+  <data name="invalidStartupCommandAspNetCore" xml:space="preserve">
+    <value>Ange ett startkommando som ska köras som en del av containerns uppstart. Startkommandon för .NET Core måste använda ett dotnet-nyckelord. Exempelvis: dotnet application.dll</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
@@ -4818,10 +4833,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Den virtuella katalogsökvägen måste finnas i en programsökväg</value>
   </data>
   <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>Programloggarna är avstängda. Du kan aktivera dem med hjälp av inställningarna för diagnostikloggar.</value>
+    <value>Programloggarna stängs av. Du kan aktivera dem med hjälp av inställningarna för App Service-loggar.</value>
   </data>
   <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Webbserverloggarna är avstängda. Du kan aktivera dem med hjälp av inställningarna för diagnostikloggar.</value>
+    <value>Webbserverloggarna är avstängda. Du kan aktivera dem med hjälp av inställningarna för App Service-loggar.</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
     <value>Din valda runtime-stack stöder inte fjärrfelsökning för tillfället.</value>
@@ -4833,7 +4848,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Application Insights har inte konfigurerats. Konfigurera Application Insights för att hämta funktionsloggar.</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
-    <value>Åtkomstbegränsningar har lagts till i din funktionsapp vilket kan påverka din förmåga att hantera den från portalen.</value>
+    <value>Åtkomstbegränsningar har lagts till i din funktionsapp, vilket kan påverka din förmåga att hantera den från portalen och göra körningen onåbar.</value>
   </data>
   <data name="userCredsError" xml:space="preserve">
     <value>Det angivna lösenordet uppfyller inte minimikraven. Lösenordet måste vara minst åtta tecken långt och måste innehålla bokstäver och siffror.</value>
@@ -4860,6 +4875,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="githubOrgMessage" xml:space="preserve">
     <value>Om du inte hittar en organisation eller ett centrallager kan du behöva aktivera ytterligare behörigheter på GitHub.</value>
   </data>
+  <data name="projectWithoutGitRepoNotFoundMessage" xml:space="preserve">
+    <value>Endast projekt med giltiga git-centrallager visas.</value>
+  </data>
   <data name="bitbucketOrgMessage" xml:space="preserve">
     <value>Om du inte hittar en organisation eller ett centrallager kan du behöva aktivera ytterligare behörigheter på Bitbucket.</value>
   </data>
@@ -4870,7 +4888,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Klientcertifikat har aktiverats för din funktionsapp vilket kan påverka din förmåga att hantera den från portalen.</value>
   </data>
   <data name="alwaysOnInfoMessage" xml:space="preserve">
-    <value>Förhindrar dina appar från att stoppas på grund av inaktivitet.</value>
+    <value>Förhindrar din app från att stoppas på grund av inaktivitet.</value>
   </data>
   <data name="ftpsInfoMessage" xml:space="preserve">
     <value>FTP-baserad distribution kan inaktiveras eller konfigureras att acceptera anslutningar med FTP (klartext) eller FTPS (säkra).</value>
@@ -4898,5 +4916,80 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="readOnlyJava" xml:space="preserve">
     <value>Redigeringsfunktioner i portalen stöds inte för Java-funktionsappar. Använd Maven eller VS Code för distribution.</value>
+  </data>
+  <data name="validate_workingDirectory" xml:space="preserve">
+    <value>Arbetskatalogsökvägen ska vara relativ i förhållande till lagringsplatsens rot, och den får inte börja med/, \ eller enhetsnamn (C:/) när det handlar om Windows. Om arbetskatalogen finns i lagringsplatsens src-mapp bör sökvägen vara src/</value>
+  </data>
+  <data name="mountedStorageInfo" xml:space="preserve">
+    <value>Monterad lagring låter dig mappa Azure Files- eller BLOB-containrar för användning med din app.</value>
+  </data>
+  <data name="changePlanName" xml:space="preserve">
+    <value>Ändra App Service-plan</value>
+  </data>
+  <data name="changePlanDescription" xml:space="preserve">
+    <value>Om du ändrar planen som din app ligger på kan du antingen konsolidera dina appar till en enda plan som låter dem dela datorresurser, eller sprida dem till separata planer som låter dem skalas separat för bättre prestanda.</value>
+  </data>
+  <data name="changePlanLocationTooltip" xml:space="preserve">
+    <value>Den region som din app finns i för närvarande kan inte ändras för nya eller befintliga planer.</value>
+  </data>
+  <data name="changePlanCurrentPlanDetails" xml:space="preserve">
+    <value>Aktuell plan information</value>
+  </data>
+  <data name="changePlanDestPlanDetails" xml:space="preserve">
+    <value>Mål Plans information</value>
+  </data>
+  <data name="changePlanNotification" xml:space="preserve">
+    <value>Ändrar App Service-planen</value>
+  </data>
+  <data name="changePlanFailureNotificationFormat" xml:space="preserve">
+    <value>Det gick inte att ändra till App Service planen: {0}</value>
+  </data>
+  <data name="changePlanRgCreateFailureNotificationFormat" xml:space="preserve">
+    <value>Det gick inte att skapa resursgruppen: {0}</value>
+  </data>
+  <data name="changePlanPlanCreateFailureNotificationFormat" xml:space="preserve">
+    <value>Det gick inte att skapa App Service planen: {0}</value>
+  </data>
+  <data name="changePlanNoWritePermissionRg" xml:space="preserve">
+    <value>Du har inte tillräcklig skrivbehörighet för att skapa en ny App Service plan i den här resursgruppen</value>
+  </data>
+  <data name="changePlanSiteLockedError" xml:space="preserve">
+    <value>Din app är skrivskyddad och kan inte flyttas till en annan App Service plan</value>
+  </data>
+  <data name="changePlanNoWritePermissionOnSubscription" xml:space="preserve">
+    <value>Det är inte tillåtet att skapa en ny resursgrupp eftersom du inte har tillräcklig skrivbehörighet för prenumerationen</value>
+  </data>
+  <data name="resourceGroupNameValidationError" xml:space="preserve">
+    <value>Resursgruppnamn får endast innehålla alfanumeriska tecken, punkter, understreck, bindestreck och parenteser och får inte sluta med en punkt.</value>
+  </data>
+  <data name="cancelUpdateConfirmation" xml:space="preserve">
+    <value>Är du säker på att du vill avbryta uppdateringsåtgärden?</value>
+  </data>
+  <data name="newFormat" xml:space="preserve">
+    <value>(Ny) {0}</value>
+  </data>
+  <data name="validationErrorAlreadyExistsFormat" xml:space="preserve">
+    <value>{0} finns redan</value>
+  </data>
+  <data name="validationWebspaceUniqueErrorFormat" xml:space="preserve">
+    <value>Namnet {0} är inte unikt inom dina appars värdbegränsningar</value>
+  </data>
+  <data name="resourceGroupDescription" xml:space="preserve">
+    <value>En resursgrupp är en container som innehåller relaterade resurser för en Azure-lösning.</value>
+  </data>
+  <data name="createNewPlan" xml:space="preserve">
+    <value>Skapa en ny plan</value>
+  </data>
+  <data name="planName" xml:space="preserve">
+    <value>Plannamn</value>
+  </data>
+  <data name="majorVersion" xml:space="preserve">
+    <value>Huvudversion</value>
+  </data>
+  <data name="minorVersion" xml:space="preserve">
+    <value>Mindre version</value>
+  </data>
+  <data name="containerValidationFailed" xml:space="preserve">
+    <value>Det gick inte att validera containerinställningarna.</value>
   </data>
 </root>

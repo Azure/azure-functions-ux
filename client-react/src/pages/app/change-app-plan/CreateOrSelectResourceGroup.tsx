@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import {
   Dropdown as OfficeDropdown,
   IDropdownProps,
@@ -13,23 +13,26 @@ import {
 import { dropdownStyleOverrides } from '../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../ThemeContext';
 import { ResourceGroup } from '../../../models/resource-group';
-import { ArmObj } from '../../../models/WebAppModels';
 import { style } from 'typestyle';
 import { TextField as OfficeTextField } from 'office-ui-fabric-react/lib/TextField';
 import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
-import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
+import RbacHelper from '../../../utils/rbac-helper';
+import { FormControlWrapper, Layout } from '../../../components/FormControlWrapper/FormControlWrapper';
+import { ArmObj } from '../../../models/arm-obj';
 
 export interface CreateOrSelectResourceGroupFormProps {
   onRgChange: (rgInfo: ResourceGroupInfo) => void;
+  onRgValidationError: (error: string) => void;
 }
 
 export interface ResourceGroupInfo {
   isNewResourceGroup: boolean;
   newResourceGroupName: string;
   existingResourceGroup: ArmObj<ResourceGroup> | null;
+  hasSubscriptionWritePermission: boolean;
 }
 
 const calloutStyle = style({
@@ -40,40 +43,48 @@ const calloutContainerStyle = style({
   padding: '20px',
 });
 
-const textFieldStyle = style({
+const textFieldStyle = {
   marginTop: '20px',
   marginBottom: '20px',
-});
+};
 
 const primaryButtonStyle = style({
   marginRight: '8px',
 });
 
-const requiredIcon = (theme: ThemeExtended) => {
-  return style({
-    color: theme.palette.red,
-  });
-};
-
 const NEW_RG = '__NewRG__';
 
 export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFormProps & ResourceGroupInfo & IDropdownProps) => {
-  const { options, isNewResourceGroup, newResourceGroupName, existingResourceGroup, onRgChange: onChange } = props;
+  const {
+    options,
+    isNewResourceGroup,
+    newResourceGroupName,
+    existingResourceGroup,
+    hasSubscriptionWritePermission,
+    onRgChange: onChange,
+    onRgValidationError,
+  } = props;
+
   const theme = useContext(ThemeContext);
   const [showCallout, setShowCallout] = useState(false);
   const [newRgNameFieldValue, setNewRgNameFieldValue] = useState(newResourceGroupName);
   const [newRgNameValidationError, setNewRgNameValidationError] = useState('');
+  const [existingRgWritePermissionError, setExistingRgWritePermissionError] = useState('');
   const { t } = useTranslation();
   const createNewLinkElement = useRef<ILink | null>(null);
 
   const onChangeDropdown = (e: unknown, option: IDropdownOption) => {
     const rgInfo: ResourceGroupInfo = {
+      hasSubscriptionWritePermission,
       existingResourceGroup: option.data === NEW_RG ? existingResourceGroup : option.data,
       isNewResourceGroup: option.data === NEW_RG ? true : false,
       newResourceGroupName: newRgNameFieldValue,
     };
 
     onChange(rgInfo);
+
+    const rgResourceId = option.data === NEW_RG ? '' : (option.data as ArmObj<any>).id;
+    checkWritePermissionOnRg(rgResourceId, setExistingRgWritePermissionError, onRgValidationError, t);
   };
 
   const menuButtonElement = useRef<HTMLElement | null>(null);
@@ -92,6 +103,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
     addNewRgOption(newRgNameFieldValue, options, t);
     setShowCallout(false);
     onChange({
+      hasSubscriptionWritePermission,
       existingResourceGroup,
       isNewResourceGroup: true,
       newResourceGroupName: newRgNameFieldValue,
@@ -116,23 +128,27 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
     setNewRgNameValidationError('');
   };
 
+  // Initialize
+  useEffect(() => {
+    const rgResourceId = isNewResourceGroup ? '' : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase();
+    checkWritePermissionOnRg(rgResourceId, setExistingRgWritePermissionError, onRgValidationError, t);
+  }, []);
+
   return (
     <>
-      <label id="createplan-rgname">
-        <span className={requiredIcon(theme)}>*</span> {t('resourceGroup')}
-      </label>
-      <OfficeDropdown
-        selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase()}
-        options={options}
-        onChange={onChangeDropdown}
-        styles={dropdownStyleOverrides(false, theme, false, '260px')}
-        ariaLabelled-by="createplan-rgname"
-      />
+      <FormControlWrapper label={t('resourceGroup')} layout={Layout.vertical} required={true}>
+        <OfficeDropdown
+          ariaLabel={t('resourceGroup')}
+          selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase()}
+          options={options}
+          onChange={onChangeDropdown}
+          styles={dropdownStyleOverrides(false, theme, false, '260px')}
+          errorMessage={existingRgWritePermissionError}
+        />
+      </FormControlWrapper>
 
       <div ref={menuButton => (menuButtonElement.current = menuButton)}>
-        <Link onClick={onShowCallout} componentRef={ref => (createNewLinkElement.current = ref)}>
-          {t('createNew')}
-        </Link>
+        {getNewLink(hasSubscriptionWritePermission, onShowCallout, createNewLinkElement, t)}
       </div>
       <Callout
         className={calloutStyle}
@@ -145,19 +161,16 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
         directionalHint={DirectionalHint.rightBottomEdge}>
         <section className={calloutContainerStyle}>
           <div>{t('resourceGroupDescription')}</div>
-          <div className={textFieldStyle}>
-            <label id="createorselectrg-rgname">
-              <span className={requiredIcon(theme)}>*</span> {t('_name')}
-            </label>
+          <FormControlWrapper label={t('_name')} layout={Layout.vertical} required={true} style={textFieldStyle}>
             <OfficeTextField
+              id={'createorselectrg-rgname'}
               styles={TextFieldStyles}
               value={newRgNameFieldValue}
               onChange={onRgNameTextChange}
               placeholder={t('createNew')}
               errorMessage={newRgNameValidationError}
-              ariaLabelled-by="createorselectrg-rgname"
             />
-          </div>
+          </FormControlWrapper>
           <div>
             <PrimaryButton
               className={primaryButtonStyle}
@@ -172,6 +185,40 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
       </Callout>
     </>
   );
+};
+
+const checkWritePermissionOnRg = (
+  rgResourceId: string,
+  setExistingRgWritePermissionError: React.Dispatch<React.SetStateAction<string>>,
+  onRgValidationError: (error: string) => void,
+  t: i18next.TFunction
+) => {
+  if (!rgResourceId) {
+    setExistingRgWritePermissionError('');
+    onRgValidationError('');
+    return;
+  }
+
+  return RbacHelper.hasPermission(rgResourceId, [RbacHelper.writeScope]).then(hasPermission => {
+    const validationError = hasPermission ? '' : t('changePlanNoWritePermissionRg');
+    setExistingRgWritePermissionError(validationError);
+    onRgValidationError(validationError);
+  });
+};
+
+const getNewLink = (
+  hasSubscriptionWritePermission: boolean,
+  onShowCallout: () => void,
+  createNewLinkElement: React.MutableRefObject<ILink | null>,
+  t: i18next.TFunction
+) => {
+  if (hasSubscriptionWritePermission) {
+    return (
+      <Link onClick={onShowCallout} componentRef={ref => (createNewLinkElement.current = ref)}>
+        {t('createNew')}
+      </Link>
+    );
+  }
 };
 
 export const addNewRgOption = (newRgName: string, options: IDropdownOption[], t: i18next.TFunction) => {
