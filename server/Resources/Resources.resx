@@ -4014,7 +4014,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>You do not have any valid Azure DevOps organization</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>You do not have any valid Azure DevOps organization. App Service Kudu Build also requires you to be organization owner</value>
+    <value>Owner level access to a valid Azure DevOps organization is required.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Create one now</value>
@@ -5027,5 +5027,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="_function" xml:space="preserve">
     <value>Function</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>Fetching deployment data ...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>No deployment data available.</value>
   </data>
 </root>

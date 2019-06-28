@@ -1619,4 +1619,6 @@ export class PortalResources {
   public static integrateNoOutputsDefined = 'integrateNoOutputsDefined';
   public static integrateAddInput = 'integrateAddInput';
   public static _function = '_function';
+  public static fetchingDeploymentData = 'fetchingDeploymentData';
+  public static noDeploymentDataAvailable = 'noDeploymentDataAvailable';
 }
