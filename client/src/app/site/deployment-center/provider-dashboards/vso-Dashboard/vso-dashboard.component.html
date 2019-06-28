@@ -1,6 +1,7 @@
 <ng-sidebar-container style="height:100vh" [animate]="true">
   <div ng-sidebar-content>
     <command-bar>
+      <command displayText="{{ 'browse' | translate }}" iconUrl="image/external.svg" (click)="browseToSite()"></command>
       <command displayText="{{ 'refresh' | translate }}" iconUrl="image/refresh.svg" (click)="refresh()"></command>
       <command
         displayText="{{ 'sync' | translate }}"
@@ -66,10 +67,10 @@
               (click)="repositoryOnClick()"
               tabindex="0"
               id="siteSubscriptionNameLink"
-              aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink"
-            >
+              aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
               {{ RepositoryText }}
             </a>
+            <copy-pre [content]="RepositoryText" [onlyCopyButton]="true"></copy-pre>
           </div>
         </div>
         <div>

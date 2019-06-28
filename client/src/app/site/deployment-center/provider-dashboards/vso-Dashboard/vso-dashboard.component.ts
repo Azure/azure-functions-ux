@@ -698,4 +698,10 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   ngOnDestroy(): void {
     this._ngUnsubscribe$.next();
   }
+
+  browseToSite() {
+    if (this.deploymentObject && this.deploymentObject.site && this.deploymentObject.site.properties) {
+      window.open(`https://${this.deploymentObject.site.properties.defaultHostName}`, '_blank');
+    }
+  }
 }
