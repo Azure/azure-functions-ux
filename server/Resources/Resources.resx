@@ -3548,7 +3548,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Drag a file here or</value>
   </data>
   <data name="browse" xml:space="preserve">
-    <value>browse</value>
+    <value>Browse</value>
   </data>
   <data name="toUpload" xml:space="preserve">
     <value>to upload</value>

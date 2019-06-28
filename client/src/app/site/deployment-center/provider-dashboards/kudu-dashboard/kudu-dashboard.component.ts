@@ -392,4 +392,10 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
   showDeploymentCredentials() {
     this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, 'ftp');
   }
+
+  browseToSite() {
+    if (this.deploymentObject && this.deploymentObject.site && this.deploymentObject.site.properties) {
+      window.open(`https://${this.deploymentObject.site.properties.defaultHostName}`, '_blank');
+    }
+  }
 }
