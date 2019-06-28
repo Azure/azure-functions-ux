@@ -9,7 +9,7 @@
         [disabled]="!this.deploymentObject?.VSOData"
       ></command>
       <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/Disconnect.svg" (click)="disconnect()"></command>
-      <command displayText="{{ 'edit' | translate }}" iconUrl="image/Edit.svg" (click)="edit()"></command>
+      <command displayText="{{ 'edit' | translate }}" iconUrl="image/Edit.svg" (click)="edit()" [disabled]="!this.deploymentObject?.VSOData"></command>
       <command
         displayText="{{ 'deploymentCredentials' | translate }}"
         iconUrl="image/key.svg"
