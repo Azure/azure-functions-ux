@@ -1,3 +1,4 @@
+import { ScenarioResult } from './../../shared/services/scenario/scenario.models';
 import { SiteService } from '../../shared/services/site.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { ScenarioIds, SiteTabIds, ARMApiVersions, SupportedFeatures } from './../../shared/models/constants';
@@ -44,6 +45,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
   private _hasSiteWritePermissionStream = new Subject<DisableInfo>();
   private _hasPlanReadPermissionStream = new Subject<DisableInfo>();
   private _hasPlanWritePermissionStream = new Subject<DisableInfo>();
+  private _enableAppServiceEditorStream = new Subject<ScenarioResult>();
 
   @Input()
   set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -85,7 +87,8 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
           this._authZService.hasPermission(site.id, [AuthzService.writeScope]),
           this._authZService.hasPermission(site.properties.serverFarmId, [AuthzService.readScope]),
           this._authZService.hasPermission(site.properties.serverFarmId, [AuthzService.writeScope]),
-          this._authZService.hasReadOnlyLock(site.id)
+          this._authZService.hasReadOnlyLock(site.id),
+          this._scenarioService.checkScenarioAsync(ScenarioIds.enableAppServiceEditor, { site: site })
         );
       })
       .do(r => {
@@ -95,6 +98,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         const hasPlanReadPermissions = r[1];
         const hasPlanWritePermissions = r[2];
         const hasReadOnlyLock = r[3];
+        this._enableAppServiceEditorStream.next(r[4]);
 
         if (!hasSiteWritePermissions) {
           siteWriteDisabledMessage = this._translateService.instant(PortalResources.featureRequiresWritePermissionOnApp);
@@ -217,7 +221,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
     developmentToolFeatures.push(new OpenKuduFeature(site, this._hasSiteWritePermissionStream, this._translateService));
     developmentToolFeatures.push(
-      new OpenEditorFeature(site, this._hasSiteWritePermissionStream, this._translateService, this._scenarioService)
+      new OpenEditorFeature(site, this._hasSiteWritePermissionStream, this._translateService, this._enableAppServiceEditorStream)
     );
 
     if (this._scenarioService.checkScenario(ScenarioIds.addResourceExplorer, { site: site }).status !== 'disabled') {
@@ -869,7 +873,7 @@ export class OpenEditorFeature extends DisableableFeature {
     private _site: ArmObj<Site>,
     disabledInfoStream: Subject<DisableInfo>,
     _translateService: TranslateService,
-    scenarioService: ScenarioService
+    enableAppServiceEditorStream: Subject<ScenarioResult>
   ) {
     super(
       _translateService.instant(PortalResources.feature_appServiceEditorName),
@@ -878,7 +882,8 @@ export class OpenEditorFeature extends DisableableFeature {
       'image/appsvc-editor.svg',
       null,
       disabledInfoStream,
-      scenarioService.checkScenario(ScenarioIds.enableAppServiceEditor, { site: _site })
+      null,
+      enableAppServiceEditorStream
     );
   }
 
