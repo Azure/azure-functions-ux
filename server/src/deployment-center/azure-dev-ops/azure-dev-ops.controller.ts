@@ -26,15 +26,22 @@ export class AzureDevOpsController {
       if (passHeaders['x-vss-forcemsapassthrough'] === 'true') {
         headers['X-VSS-ForceMsaPassThrough'] = 'true';
       }
+
+      this.loggingService.trackEvent('Dispatching call to visualstudio.com', {
+        uri,
+        method: 'post',
+      });
+
       const result = await this.httpService.post(uri, body, {
         headers,
       });
       return result.data;
     } catch (err) {
-      this.loggingService.error(err, '', 'vso-passthrough');
       if (err.response) {
+        this.loggingService.error(err.response.data, 'api/setupvso', 'vso-passthrough');
         throw new HttpException(err.response.data, err.response.status);
       } else {
+        this.loggingService.error('No response in error object', 'api/setupvso', 'vso-passthrough');
         throw new HttpException('Internal Server Error', 500);
       }
     }
