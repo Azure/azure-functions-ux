@@ -124,7 +124,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
       .subscribe((r: any) => {
         this._vstsRepositories = [];
 
-        this._hasRepos$.next(r.length > 0);
+        this._hasRepos$.next(r && r.value && r.value.length > 0);
 
         r.value.forEach(repo => {
           this._vstsRepositories.push({
