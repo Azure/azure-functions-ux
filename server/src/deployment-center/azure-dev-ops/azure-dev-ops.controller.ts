@@ -8,26 +8,39 @@ export class AzureDevOpsController {
 
   @Post('setupvso')
   async setupvso(@Query('accountName') accountName: string, @Body('authToken') authToken: string, @Body() body: any, @Req() req) {
+    this.loggingService.trackEvent('/api/setupvso/received-request', {
+      accountName: req.query.accountName,
+    });
+
     const uri = `https://${
       req.query.accountName
     }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
+
     const passHeaders = req.headers;
+
     if (body.source && body.source.repository && body.source.repository.type === 'GitHub') {
+      this.loggingService.trackEvent('/api/setupvso/dispatch-github-token-request', {
+        accountName: req.query.accountName,
+      });
+
       const githubToken = await this.dcService.getSourceControlToken(authToken, 'github');
       body.source.repository.authorizationInfo.parameters.AccessToken = githubToken.token;
     }
+
     delete body.authToken;
+
     try {
       const headers: { [key: string]: string } = {
         Authorization: passHeaders.authorization as string,
         'Content-Type': 'application/json',
         accept: 'application/json;api-version=4.1-preview.1',
       };
+
       if (passHeaders['x-vss-forcemsapassthrough'] === 'true') {
         headers['X-VSS-ForceMsaPassThrough'] = 'true';
       }
 
-      this.loggingService.trackEvent('Dispatching call to visualstudio.com', {
+      this.loggingService.trackEvent('/api/setupvso/dispatch-vs-request', {
         uri,
         method: 'post',
       });
