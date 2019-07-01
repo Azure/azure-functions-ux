@@ -5034,4 +5034,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="noDeploymentDataAvailable" xml:space="preserve">
     <value>No deployment data available.</value>
   </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>This feature is not available for apps in an ILB ASE</value>
+  </data>
 </root>

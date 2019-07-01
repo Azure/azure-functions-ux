@@ -1621,4 +1621,5 @@ export class PortalResources {
   public static _function = '_function';
   public static fetchingDeploymentData = 'fetchingDeploymentData';
   public static noDeploymentDataAvailable = 'noDeploymentDataAvailable';
+  public static featureNotSupportedForILBASEApps = 'featureNotSupportedForILBASEApps';
 }
