@@ -7,4 +7,4 @@ node_env: production
 nodeProcessCountPerApplication: 0
 
 # https://github.com/nodejs/node/issues/24692
-http_max_header_size: 16000
+nodeProcessCommandLine: "node --http_max_header_size 16000"
