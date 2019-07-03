@@ -492,6 +492,8 @@ export class DeploymentCenterConstants {
     'https://commerceprodwus21.vscommerce.visualstudio.com/_apis/Subscription/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
 
   public static readonly permissionsInfoLink = 'https://go.microsoft.com/fwlink/?linkid=2086046';
+  public static readonly vstsPermissionApiUri =
+    'https://peprodscussu2.portalext.visualstudio.com/_apis/ContinuousDelivery/PermissionsResult?api-version=4.1-preview.1';
   // VSTS Validation constants
   // Build definition
   public static readonly buildSecurityNameSpace = '33344D9C-FC72-4d6f-ABA5-FA317101A7E9';
@@ -504,10 +506,6 @@ export class DeploymentCenterConstants {
   // Agent queues
   public static readonly agentQueueNames = ['Hosted VS2017'];
   public static readonly queueActionFilter = 16; // "Use"
-
-  // PermissionResult
-  public static readonly vstsPermissionApiUri =
-    'https://peprodscussu2.portalext.visualstudio.com/_apis/ContinuousDelivery/PermissionsResult?api-version=4.1-preview.1';
 
   public static readonly EmptyGuid = '00000000-0000-0000-0000-000000000000';
 }
