@@ -111,7 +111,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             return of(null);
           });
         }
-        return null;
+        return of(null);
       })
       .subscribe(
         r => {
@@ -356,8 +356,10 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   }
 
   public onUrlClick(url) {
-    const win = window.open(url, '_blank');
-    win.focus();
+    if (url) {
+      const win = window.open(url, '_blank');
+      win.focus();
+    }
   }
 
   private _getReleaseUrl(messageJSON: KuduLogMessage): string {
@@ -375,13 +377,11 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     const urlInfo: UrlInfo[] = [];
     if (messageJSON.commitId) {
       const commitUrl: string = this._getCommitUrl(messageJSON);
-      if (commitUrl) {
-        urlInfo.push({
-          urlIcon: 'image/deployment-center/CD-Commit.svg',
-          urlText: `Source Version ${messageJSON.commitId.substr(0, 10)}`,
-          url: commitUrl,
-        });
-      }
+      urlInfo.push({
+        urlIcon: 'image/deployment-center/CD-Commit.svg',
+        urlText: `Source Version ${messageJSON.commitId.substr(0, 10)}`,
+        url: commitUrl,
+      });
     }
     if (messageJSON.buildNumber) {
       const buildUrl: string = this._getBuildUrl(messageJSON);
@@ -549,7 +549,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
       (this.activeDeployment && this.activeDeployment.repoProvider);
 
     if (source) {
-      if (source.toLowerCase() == 'tfsgit' || source.toLowerCase() == 'tfsversioncontrol') {
+      if (source.toLowerCase() == 'tfsgit' || source.toLowerCase() == 'tfsversioncontrol' || source.toLowerCase() == 'git') {
         return `Azure Repos (${source})`;
       }
       return source;
@@ -578,7 +578,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
       (this.deploymentObject && this.deploymentObject.VSOData && this.deploymentObject.VSOData.repository.url) ||
       this.activeDeployment.repositoryUrl;
     if (repoUrl) {
-      const win = window.open(this.deploymentObject.VSOData.repository.url, '_blank');
+      const win = window.open(repoUrl, '_blank');
       win.focus();
     }
   }
@@ -602,7 +602,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   }
 
   get SlotName() {
-    if (!this.deploymentObject || !this.deploymentObject.VSOData) {
+    if (!this.deploymentObject || !this.deploymentObject.siteMetadata) {
       return this._translateService.instant('loading');
     }
     const slotName = this.deploymentObject.siteMetadata.properties['VSTSRM_SlotName'];
