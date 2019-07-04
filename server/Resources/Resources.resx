@@ -2203,9 +2203,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>No function apps to display</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>Slots (preview)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Enable deployment slots (preview).</value>
   </data>
@@ -2226,6 +2223,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="slots_label" xml:space="preserve">
     <value>Slots</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>Slots (preview)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Add Slot</value>
@@ -4014,7 +4014,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>You do not have any valid Azure DevOps organization</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>You do not have any valid Azure DevOps organization. App Service Kudu Build also requires you to be organization owner</value>
+    <value>Owner level access to a valid Azure DevOps organization is required.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Create one now</value>
@@ -5027,5 +5027,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="_function" xml:space="preserve">
     <value>Function</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>Fetching deployment data ...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>No deployment data available.</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>This feature is not available for apps in an ILB ASE</value>
   </data>
 </root>

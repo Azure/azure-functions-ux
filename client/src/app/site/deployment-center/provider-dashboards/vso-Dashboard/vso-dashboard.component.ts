@@ -18,6 +18,7 @@ import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
 import { of } from 'rxjs/observable/of';
 import { AzureDevOpsService } from '../../deployment-center-setup/wizard-logic/azure-devops.service';
+import { DeploymentDashboard } from '../deploymentDashboard';
 
 class VSODeploymentObject extends DeploymentData {
   VSOData: VSOBuildDefinition;
@@ -29,7 +30,7 @@ class VSODeploymentObject extends DeploymentData {
   styleUrls: ['./vso-dashboard.component.scss'],
   providers: [AzureDevOpsService],
 })
-export class VsoDashboardComponent implements OnChanges, OnDestroy {
+export class VsoDashboardComponent extends DeploymentDashboard implements OnChanges, OnDestroy {
   @Input()
   resourceId: string;
 
@@ -49,10 +50,11 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     private _cacheService: CacheService,
     private _armService: ArmService,
     private _logService: LogService,
-    private _translateService: TranslateService,
     private _broadcastService: BroadcastService,
-    private _azureDevOpsService: AzureDevOpsService
+    private _azureDevOpsService: AzureDevOpsService,
+    translateService: TranslateService
   ) {
+    super(translateService);
     this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
     this.viewInfoStream$ = new Subject<string>();
     this.viewInfoStream$
@@ -70,6 +72,8 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         );
       })
       .switchMap(r => {
+        this.tableMessages.emptyMessage = this._translateService.instant(PortalResources.noDeploymentDataAvailable);
+
         this.deploymentObject = {
           site: r.site,
           siteMetadata: r.metadata,
@@ -185,6 +189,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   }
 
   refresh() {
+    this.tableMessages.emptyMessage = this._translateService.instant(PortalResources.fetchingDeploymentData);
     this._busyManager.setBusy();
     this.viewInfoStream$.next(this.resourceId);
   }
@@ -700,8 +705,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   }
 
   browseToSite() {
-    if (this.deploymentObject && this.deploymentObject.site && this.deploymentObject.site.properties) {
-      window.open(`https://${this.deploymentObject.site.properties.defaultHostName}`, '_blank');
-    }
+    this._browseToSite(this.deploymentObject);
   }
 }
