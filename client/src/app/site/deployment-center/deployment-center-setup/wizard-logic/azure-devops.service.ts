@@ -8,7 +8,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { uniqBy } from 'lodash-es';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
-import { Constants } from 'app/shared/models/constants';
+import { Constants, DeploymentCenterConstants } from 'app/shared/models/constants';
 
 @Injectable()
 export class AzureDevOpsService implements OnDestroy {
@@ -123,6 +123,15 @@ export class AzureDevOpsService implements OnDestroy {
         .map(res => res.json());
     });
   }
+
+  getPermissionResult(permissionPayload: any) {
+    return this._httpClient
+      .post(DeploymentCenterConstants.vstsPermissionApiUri, permissionPayload, {
+        headers: this._headersWithoutPassthrough,
+      })
+      .map(res => res.json());
+  }
+
   private get _headersWithPassthrough(): Headers {
     const headers = new Headers();
     headers.append('Authorization', `Bearer ${this._token}`);
