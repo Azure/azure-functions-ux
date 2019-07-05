@@ -46,6 +46,7 @@ export class FeatureItem {
 
 export class DisableableFeature extends FeatureItem {
   private _enabledRxSub: RxSubscription;
+  private _overrideSub: RxSubscription;
   public enabled = false;
 
   constructor(
@@ -55,17 +56,17 @@ export class DisableableFeature extends FeatureItem {
     imageUrl: string,
     superScriptIconUrl?: string,
     _disableInfoStream?: Subject<DisableInfo>,
-    overrideDisableInfo?: ScenarioResult // If the feature is known to be disabled before any async logic, then use this disable immediately
+    overrideDisableInfo?: ScenarioResult, // If the feature is known to be disabled before any async logic, then use this disable immediately
+    overrideDisableStream?: Subject<ScenarioResult>
   ) {
     super(title, keywords, info, imageUrl, superScriptIconUrl);
 
     if (overrideDisableInfo) {
-      // Assumes that all scenario results for feature items are a black list
-      if (overrideDisableInfo.status === 'disabled') {
-        this.warning = overrideDisableInfo.data;
-      }
-
-      this.enabled = overrideDisableInfo.status !== 'disabled';
+      this.setWarningandEnabled(overrideDisableInfo);
+    } else if (overrideDisableStream) {
+      this._overrideSub = overrideDisableStream.subscribe(streamInfo => {
+        this.setWarningandEnabled(streamInfo);
+      });
     } else if (_disableInfoStream) {
       this._enabledRxSub = _disableInfoStream.subscribe(disableInfo => {
         this.enabled = disableInfo.enabled;
@@ -82,6 +83,19 @@ export class DisableableFeature extends FeatureItem {
       this._enabledRxSub.unsubscribe();
       this._enabledRxSub = null;
     }
+
+    if (this._overrideSub) {
+      this._overrideSub.unsubscribe();
+      this._overrideSub = null;
+    }
+  }
+
+  setWarningandEnabled(scenarioResult: ScenarioResult) {
+    if (scenarioResult.status === 'disabled') {
+      this.warning = scenarioResult.data;
+    }
+
+    this.enabled = scenarioResult.status !== 'disabled';
   }
 }
 

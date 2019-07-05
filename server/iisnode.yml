@@ -3,5 +3,8 @@
 
 node_env: production
 
-#by setting this to 0 it'll scale out so that number of node processes = number of cores ont he machine
+#by setting this to 0 it'll scale out so that number of node processes = number of cores on the machine
 nodeProcessCountPerApplication: 0
+
+# https://github.com/nodejs/node/issues/24692
+nodeProcessCommandLine: "D:\Program Files (x86)\nodejs\10.15.2\node.exe" --max-http-header-size 80000

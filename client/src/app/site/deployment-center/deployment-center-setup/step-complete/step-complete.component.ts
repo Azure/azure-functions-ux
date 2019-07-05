@@ -95,11 +95,13 @@ export class StepCompleteComponent {
         },
         err => {
           this.clearBusy();
-          this._portalService.stopNotification(
-            notificationId,
-            false,
-            this._translateService.instant(PortalResources.settingupDeploymentFail)
-          );
+
+          const errorMessage =
+            err && err.json() && err.json().message
+              ? err && err.json() && err.json().message
+              : this._translateService.instant(PortalResources.settingupDeploymentFail);
+
+          this._portalService.stopNotification(notificationId, false, errorMessage);
           this._logService.error(LogCategories.cicd, '/save-cicd', err);
           this._portalService.logAction('deploymentcenter', 'save', {
             id: saveGuid,

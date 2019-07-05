@@ -1,5 +1,5 @@
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { LogCategories } from './../shared/models/constants';
+import { LogCategories, FeatureFlags } from './../shared/models/constants';
 import { LogService } from './../shared/services/log.service';
 import { SlotNode } from './app-node';
 import { TreeNode } from './tree-node';
@@ -9,11 +9,12 @@ import { ArmObj } from '../shared/models/arm/arm-obj';
 import { Site } from '../shared/models/arm/site';
 import { PortalResources } from '../shared/models/portal-resources';
 import { Subscription } from '../shared/models/subscription';
+import { Url } from 'app/shared/Utilities/url';
 
 export class SlotsNode extends TreeNode {
   public dashboardType = DashboardType.SlotsDashboard;
   public newDashboardType = DashboardType.CreateSlotDashboard;
-  public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_slotsOptinSettings);
+  public title = this.sideNav.translateService.instant(PortalResources.slotsPreview_label);
   private _logService: LogService;
   private _functionAppService: FunctionAppService;
 
@@ -30,6 +31,10 @@ export class SlotsNode extends TreeNode {
     this.iconUrl = 'image/BulletList.svg';
     this._logService = sideNav.injector.get(LogService);
     this._functionAppService = sideNav.injector.get(FunctionAppService);
+
+    if (Url.getParameterByName(null, FeatureFlags.RemoveSlotsPreviewTag) === 'true') {
+      this.title = this.sideNav.translateService.instant(PortalResources.slots_label);
+    }
   }
 
   public loadChildren() {

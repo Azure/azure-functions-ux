@@ -615,6 +615,7 @@ export class FeatureFlags {
   public static oldDeploymentCenter = 'oldvsts';
   public static EnableLinuxElasticPremium = 'EnableLinuxElasticPremium';
   public static AllowFreeLinux = 'allowfreelinux';
+  public static RemoveSlotsPreviewTag = 'RemoveSlotsPreviewTag';
 }
 
 export class SupportedFeatures {
