@@ -15,6 +15,8 @@ import {
   CodeRepository,
   BuildConfiguration,
   PythonFrameworkType,
+  PermissionsResultCreationParameters,
+  PermissionsResult,
 } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { Headers } from '@angular/http';
@@ -26,15 +28,18 @@ import { UserService } from '../../../../shared/services/user.service';
 import { ARMApiVersions, ScenarioIds, DeploymentCenterConstants, Kinds } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../../../../shared/models/portal-resources';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { Site } from '../../../../shared/models/arm/site';
 import { SiteService } from '../../../../shared/services/site.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
-import { AuthzService } from '../../../../shared/services/authz.service';
 import { VSOAccount } from '../../Models/vso-repo';
 import { AzureDevOpsService } from './azure-devops.service';
+import { LocalStorageService } from '../../../../shared/services/local-storage.service';
 
+const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
   public resourceIdStream$ = new ReplaySubject<string>(1);
@@ -44,6 +49,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
   private _token: string;
   private _vstsApiToken: string;
+  private _sessionId: string;
   public siteArm: ArmObj<Site>;
   public siteArmObj$ = new ReplaySubject<ArmObj<Site>>();
   public updateSourceProviderConfig$ = new Subject();
@@ -61,11 +67,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
   constructor(
     private _cacheService: CacheService,
     private _azureDevOpsService: AzureDevOpsService,
+    private _translateService: TranslateService,
+    private _localStorageService: LocalStorageService,
     siteService: SiteService,
     userService: UserService,
     portalService: PortalService,
-    scenarioService: ScenarioService,
-    authZService: AuthzService
+    scenarioService: ScenarioService
   ) {
     this.resourceIdStream$
       .switchMap(r => {
@@ -95,6 +102,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
       .takeUntil(this._ngUnsubscribe$)
       .subscribe(r => {
         this._token = r.token;
+        this._sessionId = r.sessionId;
       });
 
     if (scenarioService.checkScenario(ScenarioIds.vstsSource).status !== 'disabled') {
@@ -165,17 +173,23 @@ export class DeploymentCenterStateManager implements OnDestroy {
   }
 
   private _deployVsts() {
-    return this._startVstsDeployment().concatMap(id => {
-      return Observable.timer(1000, 1000)
-        .switchMap(() => this._pollVstsCheck(id))
-        .map(r => {
-          const result = r.json();
-          const ciConfig: { status: string; statusMessage: string } = result.ciConfiguration.result;
-          return { ...ciConfig, result: result.ciConfiguration };
-        })
-        .first(result => {
-          return result.status !== 'inProgress' && result.status !== 'queued';
-        });
+    return this._canCreateAadApp().switchMap(r => {
+      if (r.status !== 'succeeded') {
+        return Observable.of(r);
+      }
+
+      return this._startVstsDeployment().concatMap(id => {
+        return Observable.timer(1000, 1000)
+          .switchMap(() => this._pollVstsCheck(id))
+          .map(r => {
+            const result = r.json();
+            const ciConfig: { status: string; statusMessage: string } = result.ciConfiguration.result;
+            return { ...ciConfig, result: result.ciConfiguration };
+          })
+          .first(result => {
+            return result.status !== 'inProgress' && result.status !== 'queued';
+          });
+      });
     });
   }
 
@@ -229,6 +243,39 @@ export class DeploymentCenterStateManager implements OnDestroy {
       return Observable.of(r.id);
     });
   }
+
+  private _canCreateAadApp(): Observable<{ status: string; statusMessage: string; result: any }> {
+    const success = {
+      status: 'succeeded',
+      statusMessage: null,
+      result: null,
+    };
+
+    const permissionPayload: PermissionsResultCreationParameters = {
+      aadPermissions: {
+        token: this._vstsApiToken,
+        tenantId: parseToken(this._token).tid,
+      },
+    };
+
+    if (!this._isAadCreatePermissionStored()) {
+      return this._azureDevOpsService.getPermissionResult(permissionPayload).map((r: PermissionsResult) => {
+        if (!r.aadPermissions.value) {
+          return {
+            status: 'failed',
+            statusMessage: this._translateService.instant(PortalResources.noPermissionsToCreateApp).format(r.aadPermissions.message),
+            result: null,
+          };
+        } else {
+          this._storeAadCreatePermission();
+          return success;
+        }
+      });
+    } else {
+      return Observable.of(success);
+    }
+  }
+
   private get _ciConfig(): CiConfiguration {
     return {
       project: {
@@ -387,6 +434,33 @@ export class DeploymentCenterStateManager implements OnDestroy {
       default:
         return ApplicationType.Undefined;
     }
+  }
+
+  private _isAadCreatePermissionStored(): boolean {
+    let storedPermissionItem = <any>this._localStorageService.getItem(CreateAadAppPermissionStorageKey);
+    if (storedPermissionItem && storedPermissionItem.sessionId && storedPermissionItem.sessionId === this._sessionId) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // Using Local storage for two reasons:
+  // 1. CacheService only caches for 1 minute which is too short for this scenario
+  // 2. Local variable can not be used as Deployment center angular components are re-instantiated if we move out
+  //    of Deployment center menu (say to Overview menu) and come back
+  // There are two options to use as pivot for storing permission
+  // 1. User token - this get auto refreshed every 60 minutes, hence stored value gets stale. Also this might be insecure.
+  // 2. Session Id - this changes if user does page refresh or changes login
+  // Choosing 2 as it seems longer-lived and is secure
+  private _storeAadCreatePermission(): void {
+    let storedPermissionItem = {
+      id: CreateAadAppPermissionStorageKey,
+      sessionId: this._sessionId,
+    };
+
+    // overwrite existing value
+    this._localStorageService.setItem(storedPermissionItem.id, storedPermissionItem);
   }
 
   public getVstsPassthroughHeaders(appendMsaPassthroughHeader: boolean = false): Headers {

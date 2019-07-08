@@ -150,6 +150,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
           this._translateService.instant(PortalResources.disconnectingDeployment),
           this._translateService.instant(PortalResources.disconnectingDeployment)
         )
+        .take(1)
         .do(notification => {
           notificationId = notification.id;
         })
