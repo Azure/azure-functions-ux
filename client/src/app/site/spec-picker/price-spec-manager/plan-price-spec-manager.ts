@@ -31,7 +31,7 @@ import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories, Links, ScenarioIds } from '../../../shared/models/constants';
+import { LogCategories, Links, ScenarioIds, Constants } from '../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { AppKind } from 'app/shared/Utilities/app-kind';
@@ -81,6 +81,7 @@ export class PlanPriceSpecManager {
   private _subscriptionId: string;
   private _inputs: SpecPickerInput<PlanSpecPickerData>;
   private _ngUnsubscribe$ = new Subject();
+  private _numberOfSites = 0;
 
   constructor(
     private _authZService: AuthzService,
@@ -117,32 +118,36 @@ export class PlanPriceSpecManager {
     return Observable.zip(this._getPlan(inputs), pricingTiers, (plan, pt) => ({
       plan: plan,
       pricingTiers: pt,
-    })).flatMap(r => {
-      // plan is null for new plans
-      this._plan = r.plan;
+    }))
+      .flatMap(r => {
+        // plan is null for new plans
+        this._plan = r.plan;
 
-      if (r.pricingTiers) {
-        this.specGroups = [
-          new GenericSpecGroup(this._injector, this, SpecGroup.Development, r.pricingTiers),
-          new GenericSpecGroup(this._injector, this, SpecGroup.Production, r.pricingTiers),
-        ];
-      }
-      // Initialize every spec for each spec group.  For most cards this is a no-op, but
-      // some require special handling so that we know if we need to hide/disable a card.
-      this.specGroups.forEach(g => {
-        const priceSpecInput: PriceSpecInput = {
-          specPickerInput: inputs,
-          plan: this._plan,
-          subscriptionId: this._subscriptionId,
-        };
+        if (r.pricingTiers) {
+          this.specGroups = [
+            new GenericSpecGroup(this._injector, this, SpecGroup.Development, r.pricingTiers),
+            new GenericSpecGroup(this._injector, this, SpecGroup.Production, r.pricingTiers),
+          ];
+        }
+        // Initialize every spec for each spec group.  For most cards this is a no-op, but
+        // some require special handling so that we know if we need to hide/disable a card.
+        this.specGroups.forEach(g => {
+          const priceSpecInput: PriceSpecInput = {
+            specPickerInput: inputs,
+            plan: this._plan,
+            subscriptionId: this._subscriptionId,
+          };
 
-        g.initialize(priceSpecInput);
-        specInitCalls = specInitCalls.concat(g.recommendedSpecs.map(s => s.initialize(priceSpecInput)));
-        specInitCalls = specInitCalls.concat(g.additionalSpecs.map(s => s.initialize(priceSpecInput)));
+          g.initialize(priceSpecInput);
+          specInitCalls = specInitCalls.concat(g.recommendedSpecs.map(s => s.initialize(priceSpecInput)));
+          specInitCalls = specInitCalls.concat(g.additionalSpecs.map(s => s.initialize(priceSpecInput)));
+        });
+
+        return specInitCalls.length > 0 ? Observable.zip(...specInitCalls) : Observable.of(null);
+      })
+      .do(() => {
+        return this._getServerFarmSites(inputs);
       });
-
-      return specInitCalls.length > 0 ? Observable.zip(...specInitCalls) : Observable.of(null);
-    });
   }
 
   getSpecCosts() {
@@ -237,6 +242,7 @@ export class PlanPriceSpecManager {
           }
 
           this.selectedSpecGroup.selectedSpec.updateUpsellBanner();
+          this._updateAppDensityStatusMessage(this.selectedSpecGroup.selectedSpec);
         } else {
           this._portalService.stopNotification(
             notificationId,
@@ -337,7 +343,17 @@ export class PlanPriceSpecManager {
     // plan is null for new plans
     if (this._plan) {
       const tier = this._plan.sku.tier;
-      if ((tier === Tier.premiumV2 && spec.tier !== Tier.premiumV2) || (tier !== Tier.premiumV2 && spec.tier === Tier.premiumV2)) {
+
+      this._updateAppDensityStatusMessage(spec);
+      const shouldShowUpsellStatusMessage =
+        !this._specPicker.statusMessage ||
+        (this._specPicker.statusMessage &&
+          this._specPicker.statusMessage.level !== 'warning' &&
+          this._specPicker.statusMessage.level !== 'error');
+      if (
+        (shouldShowUpsellStatusMessage && (tier === Tier.premiumV2 && spec.tier !== Tier.premiumV2)) ||
+        (tier !== Tier.premiumV2 && spec.tier === Tier.premiumV2)
+      ) {
         // show message when upgrading to PV2 or downgrading from PV2.
         this._specPicker.statusMessage = {
           message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
@@ -402,6 +418,35 @@ export class PlanPriceSpecManager {
     }
   }
 
+  private _shouldShowAppDensityWarning(skuCode: string): boolean {
+    return (
+      window.appsvc.env.runtimeType !== 'OnPrem' && this._isAppDensitySkuCode(skuCode) && this._numberOfSites >= Constants.appDensityLimit
+    );
+  }
+
+  private _isAppDensitySkuCode(skuCode: string): boolean {
+    const upperCaseSkuCode = skuCode.toUpperCase();
+    return (
+      upperCaseSkuCode === SkuCode.Basic.B1 ||
+      upperCaseSkuCode === SkuCode.Standard.S1 ||
+      upperCaseSkuCode === SkuCode.Premium.P1 ||
+      upperCaseSkuCode === SkuCode.PremiumContainer.PC2 ||
+      upperCaseSkuCode === SkuCode.PremiumV2.P1V2 ||
+      upperCaseSkuCode === SkuCode.Isolated.I1 ||
+      upperCaseSkuCode === SkuCode.ElasticPremium.EP1
+    );
+  }
+
+  private _updateAppDensityStatusMessage(spec: PriceSpec) {
+    if (this._shouldShowAppDensityWarning(spec.skuCode)) {
+      this._specPicker.statusMessage = {
+        message: this._ts.instant(PortalResources.pricing_appDensityWarningMessage).format(this._plan.name),
+        level: 'warning',
+        infoLink: Links.appDensityWarningLink,
+      };
+    }
+  }
+
   private _findFirstEnabledSpecIndex(specs: PriceSpec[]): number {
     return specs.findIndex(spec => spec.state === 'enabled');
   }
@@ -463,6 +508,25 @@ export class PlanPriceSpecManager {
 
         return null;
       });
+    }
+
+    return Observable.of(null);
+  }
+
+  private _getServerFarmSites(inputs: SpecPickerInput<PlanSpecPickerData>) {
+    if (this._isUpdateScenario(inputs)) {
+      this._numberOfSites = 0;
+      return this._planService.getServerFarmSites(inputs.id, true).subscribe(
+        response => {
+          if (response.isSuccessful) {
+            this._numberOfSites = this._numberOfSites + response.result.value.length;
+          }
+        },
+        null,
+        () => {
+          this._updateAppDensityStatusMessage(this.selectedSpecGroup.selectedSpec);
+        }
+      );
     }
 
     return Observable.of(null);

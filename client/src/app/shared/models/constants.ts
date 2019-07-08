@@ -58,6 +58,7 @@ export class Constants {
   public static WebhookHandlerFunctionName = 'RefreshO365Subscriptions';
   public static WebhookHandlerFunctionId = 'TimerTrigger-CSharpWebhookHandler';
   public static WebhookFunctionName = 'MSGraphWebhook';
+  public static appDensityLimit = 8;
 }
 
 export class TabCommunicationVerbs {
@@ -165,6 +166,7 @@ export class Links {
   public static elasticPremiumNotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086603';
   public static clientCertEnabledLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086188';
   public static powershellPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086831';
+  public static appDensityWarningLink = 'https://go.microsoft.com/fwlink/?linkid=2098431';
 }
 
 export class Kinds {
