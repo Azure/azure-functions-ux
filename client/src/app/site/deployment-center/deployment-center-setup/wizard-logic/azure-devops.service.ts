@@ -8,7 +8,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { uniqBy } from 'lodash-es';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
-import { Constants } from 'app/shared/models/constants';
+import { Constants, DeploymentCenterConstants } from 'app/shared/models/constants';
 
 @Injectable()
 export class AzureDevOpsService implements OnDestroy {
@@ -112,8 +112,8 @@ export class AzureDevOpsService implements OnDestroy {
     });
   }
 
-  getBuildDef(account: string, project: string, buildId: string) {
-    const uri = `https://dev.azure.com/${account}/${project}/_apis/build/Definitions/${buildId}?api-version=2.0`;
+  getBuildDef(account: string, projectUrl: string, buildId: string) {
+    const uri = `${projectUrl}/_apis/build/Definitions/${buildId}?api-version=2.0`;
     return this.getAccounts().switchMap(r => {
       const msaPassthrough = r.find(x => x.AccountName.toLowerCase() === account.toLowerCase())!.ForceMsaPassThrough;
       return this._httpClient
@@ -123,6 +123,15 @@ export class AzureDevOpsService implements OnDestroy {
         .map(res => res.json());
     });
   }
+
+  getPermissionResult(permissionPayload: any) {
+    return this._httpClient
+      .post(DeploymentCenterConstants.vstsPermissionApiUri, permissionPayload, {
+        headers: this._headersWithoutPassthrough,
+      })
+      .map(res => res.json());
+  }
+
   private get _headersWithPassthrough(): Headers {
     const headers = new Headers();
     headers.append('Authorization', `Bearer ${this._token}`);

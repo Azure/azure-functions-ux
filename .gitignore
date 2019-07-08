@@ -19,6 +19,7 @@ server/src/actions/resources
 server/src/data
 server/data
 server/src/public
+server/templates
 # User-specific files
 *.suo
 *.user

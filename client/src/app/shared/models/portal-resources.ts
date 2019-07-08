@@ -1224,6 +1224,7 @@ export class PortalResources {
   public static settingupDeploymentSuccess = 'settingupDeploymentSuccess';
   public static settingupDeploymentFail = 'settingupDeploymentFail';
   public static settingupDeploymentFailWithStatusMessage = 'settingupDeploymentFailWithStatusMessage';
+  public static noPermissionsToCreateApp = 'noPermissionsToCreateApp';
   public static disconnectingDeployment = 'disconnectingDeployment';
   public static disconnectingDeploymentSuccess = 'disconnectingDeploymentSuccess';
   public static disconnectingDeploymentFail = 'disconnectingDeploymentFail';
@@ -1627,4 +1628,6 @@ export class PortalResources {
   public static _function = '_function';
   public static fetchingDeploymentData = 'fetchingDeploymentData';
   public static noDeploymentDataAvailable = 'noDeploymentDataAvailable';
+  public static featureNotSupportedForILBASEApps = 'featureNotSupportedForILBASEApps';
+  public static azureReposLabel = 'azureReposLabel';
 }
