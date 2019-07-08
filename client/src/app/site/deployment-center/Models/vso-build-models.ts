@@ -98,4 +98,8 @@ export interface KuduLogMessage {
   VSTSRM_AccountUrl?: string;
   VSTSRM_RepoUrl?: string;
   VSTSRM_AccountId?: string;
+  buildProjectUrl?: string;
+  repositoryUrl?: string;
+  branch?: string;
+  teamProjectName?: string;
 }
