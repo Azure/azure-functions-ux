@@ -5040,4 +5040,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
     <value>This feature is not available for apps in an ILB ASE</value>
   </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
 </root>

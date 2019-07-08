@@ -1623,4 +1623,5 @@ export class PortalResources {
   public static fetchingDeploymentData = 'fetchingDeploymentData';
   public static noDeploymentDataAvailable = 'noDeploymentDataAvailable';
   public static featureNotSupportedForILBASEApps = 'featureNotSupportedForILBASEApps';
+  public static azureReposLabel = 'azureReposLabel';
 }
