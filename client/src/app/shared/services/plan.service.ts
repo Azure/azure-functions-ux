@@ -133,7 +133,7 @@ export class PlanService implements IPlanService {
   }
 
   getServerFarmSites(resourceId: ResourceId, includeSlots = false, force = false): Result<ArmArrayResult<Site>> {
-    const uri = !includeSlots ? `${resourceId}/sites` : `${resourceId}/sites?includeSlots=true&$top=10`;
+    const uri = !includeSlots ? `${resourceId}/sites` : `${resourceId}/sites?includeSlots=true`;
     const getServerFarmSites = this._cacheService
       .getArm(uri, force)
       .expand(response => {

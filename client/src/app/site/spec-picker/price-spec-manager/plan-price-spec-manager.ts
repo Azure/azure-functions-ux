@@ -420,7 +420,9 @@ export class PlanPriceSpecManager {
 
   private _shouldShowAppDensityWarning(skuCode: string): boolean {
     return (
-      window.appsvc.env.runtimeType !== 'OnPrem' && this._isAppDensitySkuCode(skuCode) && this._numberOfSites >= Constants.appDensityLimit
+      this._scenarioService.checkScenario(ScenarioIds.appDensity).status !== 'disabled' &&
+      this._isAppDensitySkuCode(skuCode) &&
+      this._numberOfSites >= Constants.appDensityLimit
     );
   }
 

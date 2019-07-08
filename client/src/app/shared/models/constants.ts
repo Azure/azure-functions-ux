@@ -315,6 +315,7 @@ export class ScenarioIds {
   public static readonly alwaysOnSupported = 'alwaysOnSupported';
   public static readonly enableConsole = 'EnableConsole';
   public static readonly enableLinkAPIM = 'EnableLinkAPIM';
+  public static readonly appDensity = 'appDensity';
 }
 
 export class NationalCloudArmUris {
