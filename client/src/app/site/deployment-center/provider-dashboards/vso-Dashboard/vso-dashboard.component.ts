@@ -96,8 +96,8 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
         if (buildDefinitionId) {
           // Get Repository details from build definition
 
-          let accountName = '',
-            buildDefinitionProjectUrl = '';
+          let accountName = '';
+          let buildDefinitionProjectUrl = '';
 
           if (buildDefinitionUrl) {
             accountName = this.getVSOAccountNameFromUrl(buildDefinitionUrl);
@@ -529,21 +529,21 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
   }
 
   accountOnClick() {
-    let gotoUrl = '';
+    let accountUrl = '';
     if (this.deploymentObject && this.deploymentObject.VSOData) {
       const fullUrl = this.deploymentObject.VSOData.url;
       const url = new URL(fullUrl);
-      gotoUrl = url.host;
-      if (gotoUrl.includes(this._devAzureCom)) {
+      accountUrl = url.host;
+      if (accountUrl.includes(this._devAzureCom)) {
         const accountName = url.pathname.split('/')[1];
-        gotoUrl = `${gotoUrl}/${accountName}`;
+        accountUrl = `${accountUrl}/${accountName}`;
       }
     } else if (this.activeDeployment) {
-      gotoUrl = this.activeDeployment.collectionUrl;
+      accountUrl = this.activeDeployment.collectionUrl;
     }
 
-    if (gotoUrl) {
-      const win = window.open(`https://${gotoUrl}`, '_blank');
+    if (accountUrl) {
+      const win = window.open(`https://${accountUrl}`, '_blank');
       win.focus();
     }
   }
@@ -555,7 +555,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
 
     if (source) {
       if (source.toLowerCase() == 'tfsgit' || source.toLowerCase() == 'tfsversioncontrol' || source.toLowerCase() == 'git') {
-        return `Azure Repos (${source})`;
+        return `${this._translateService.instant(PortalResources.azureReposLabel)} (${source})`;
       }
       return source;
     }
