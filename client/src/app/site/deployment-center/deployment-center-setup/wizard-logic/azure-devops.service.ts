@@ -112,8 +112,8 @@ export class AzureDevOpsService implements OnDestroy {
     });
   }
 
-  getBuildDef(account: string, project: string, buildId: string) {
-    const uri = `https://dev.azure.com/${account}/${project}/_apis/build/Definitions/${buildId}?api-version=2.0`;
+  getBuildDef(account: string, projectUrl: string, buildId: string) {
+    const uri = `${projectUrl}/_apis/build/Definitions/${buildId}?api-version=2.0`;
     return this.getAccounts().switchMap(r => {
       const msaPassthrough = r.find(x => x.AccountName.toLowerCase() === account.toLowerCase())!.ForceMsaPassThrough;
       return this._httpClient

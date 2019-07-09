@@ -251,6 +251,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
     margin-top: auto;
     margin-bottom: auto;
     top: 10px;
+    display: inline-flex;
 
     button,
     .message-icon,
