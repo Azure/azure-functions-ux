@@ -299,12 +299,16 @@ export class StepSourceControlComponent {
 
   updateProvider(provider: string) {
     if (provider === 'dropbox') {
+      this._dropboxAuthed = true;
       this.dropboxUserSubject$.next(true);
     } else if (provider === 'github') {
+      this._githubAuthed = true;
       this.githubUserSubject$.next(true);
     } else if (provider === 'onedrive') {
+      this._onedriveAuthed = true;
       this.onedriveUserSubject$.next(true);
     } else if (provider === 'bitbucket') {
+      this._bitbucketAuthed = true;
       this.bitbucketUserSubject$.next(true);
     }
     this._wizardService.updateSourceProviderConfig$.next();
@@ -333,7 +337,9 @@ export class StepSourceControlComponent {
                 win.close();
               });
           }
-        } catch (e) {}
+        } catch (e) {
+          this._logService.error(LogCategories.cicd, `/authorize/${provider}`, e);
+        }
       });
   }
 
