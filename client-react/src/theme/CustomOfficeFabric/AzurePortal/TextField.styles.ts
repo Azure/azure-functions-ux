@@ -58,6 +58,8 @@ export const TextFieldStyles = (props: ITextFieldStyleProps): Partial<ITextField
             fontStyle: 'italic',
           },
         },
+        marginBottom: '1px',
+        marginTop: '1px',
       },
       disabled && {
         color: semanticColors.disabledBodyText,

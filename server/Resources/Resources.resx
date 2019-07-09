@@ -5046,4 +5046,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="azureReposLabel" xml:space="preserve">
     <value>Azure Repos</value>
   </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>Updating binding</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>Updating {0} ({1})</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>Failed to update {0} ({1}): {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>Succeeded in updating {0} ({1})</value>
+  </data>
 </root>
