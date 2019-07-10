@@ -1,6 +1,7 @@
 <ng-sidebar-container style="height:100vh" [animate]="true">
   <div ng-sidebar-content>
     <command-bar>
+      <command displayText="{{ 'browse' | translate }}" iconUrl="image/external.svg" (click)="browseToSite()"></command>
       <command displayText="{{ 'refresh' | translate }}" iconUrl="image/refresh.svg" (click)="refresh()"></command>
       <command
         displayText="{{ 'sync' | translate }}"
@@ -9,7 +10,7 @@
         [disabled]="!this.deploymentObject?.VSOData"
       ></command>
       <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/Disconnect.svg" (click)="disconnect()"></command>
-      <command displayText="{{ 'edit' | translate }}" iconUrl="image/Edit.svg" (click)="edit()"></command>
+      <command displayText="{{ 'edit' | translate }}" iconUrl="image/Edit.svg" (click)="edit()" [disabled]="!this.deploymentObject?.VSOData"></command>
       <command
         displayText="{{ 'deploymentCredentials' | translate }}"
         iconUrl="image/key.svg"
@@ -66,10 +67,10 @@
               (click)="repositoryOnClick()"
               tabindex="0"
               id="siteSubscriptionNameLink"
-              aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink"
-            >
+              aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
               {{ RepositoryText }}
             </a>
+            <copy-pre [content]="RepositoryText" [onlyCopyButton]="true"></copy-pre>
           </div>
         </div>
         <div>
@@ -114,6 +115,7 @@
         [rowHeight]="'auto'"
         [virtualization]="true"
         [groupExpansionDefault]="true"
+        [messages]="tableMessages"
       >
         <!-- Group Header Template -->
         <ngx-datatable-group-header [rowHeight]="100" #myGroupHeader>

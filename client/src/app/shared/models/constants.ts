@@ -58,6 +58,7 @@ export class Constants {
   public static WebhookHandlerFunctionName = 'RefreshO365Subscriptions';
   public static WebhookHandlerFunctionId = 'TimerTrigger-CSharpWebhookHandler';
   public static WebhookFunctionName = 'MSGraphWebhook';
+  public static appDensityLimit = 8;
 }
 
 export class TabCommunicationVerbs {
@@ -165,6 +166,7 @@ export class Links {
   public static elasticPremiumNotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086603';
   public static clientCertEnabledLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086188';
   public static powershellPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086831';
+  public static appDensityWarningLink = 'https://go.microsoft.com/fwlink/?linkid=2098431';
 }
 
 export class Kinds {
@@ -313,6 +315,10 @@ export class ScenarioIds {
   public static readonly alwaysOnSupported = 'alwaysOnSupported';
   public static readonly enableConsole = 'EnableConsole';
   public static readonly enableLinkAPIM = 'EnableLinkAPIM';
+  public static readonly appDensity = 'appDensity';
+  public static readonly enableKudu = 'EnableKudu';
+  public static readonly enableCORS = 'EnableCORS';
+  public static readonly enableQuotas = 'EnableQuotas';
 }
 
 export class NationalCloudArmUris {
@@ -370,6 +376,7 @@ export class ARMApiVersions {
   public static websiteApiVersion20160301 = '2016-03-01';
   public static websiteApiVersion20180201 = '2018-02-01';
   public static websiteApiVersion20181101 = '2018-11-01';
+  public static websiteApiVersion20160901: '2016-09-01';
   public static armApiVersion = '2014-04-01';
   public static acrApiversion = '2017-03-01';
   public static acrWebhookApiVersion = '2017-10-01';
@@ -492,6 +499,8 @@ export class DeploymentCenterConstants {
     'https://commerceprodwus21.vscommerce.visualstudio.com/_apis/Subscription/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
 
   public static readonly permissionsInfoLink = 'https://go.microsoft.com/fwlink/?linkid=2086046';
+  public static readonly vstsPermissionApiUri =
+    'https://peprodscussu2.portalext.visualstudio.com/_apis/ContinuousDelivery/PermissionsResult?api-version=4.1-preview.1';
   // VSTS Validation constants
   // Build definition
   public static readonly buildSecurityNameSpace = '33344D9C-FC72-4d6f-ABA5-FA317101A7E9';
@@ -613,6 +622,7 @@ export class FeatureFlags {
   public static oldDeploymentCenter = 'oldvsts';
   public static EnableLinuxElasticPremium = 'EnableLinuxElasticPremium';
   public static AllowFreeLinux = 'allowfreelinux';
+  public static RemoveSlotsPreviewTag = 'RemoveSlotsPreviewTag';
 }
 
 export class SupportedFeatures {

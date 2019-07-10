@@ -34,8 +34,11 @@ export class ConfigureExternalComponent {
   ];
 
   public repoMode = 'Git';
-  public privateRepo = false;
+  public privateRepo = true;
   constructor(public wizard: DeploymentCenterStateManager, private _translateService: TranslateService) {
+    const val = this.wizard.wizardValues;
+    val.sourceSettings.privateRepo = true;
+    this.wizard.wizardValues = val;
     this.updateFormValidation();
   }
 
@@ -48,6 +51,10 @@ export class ConfigureExternalComponent {
 
   accessTypeChanged(evt) {
     this.privateRepo = evt;
+    if (this.wizard.wizardValues.sourceSettings.privateRepo !== this.privateRepo) {
+      this.setRepoAuthFormValidation(this.privateRepo);
+    }
+
     const wizardValues = this.wizard.wizardValues;
     wizardValues.sourceSettings.privateRepo = this.privateRepo;
     this.wizard.wizardValues = wizardValues;
@@ -59,5 +66,19 @@ export class ConfigureExternalComponent {
     this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
     this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
     this.wizard.sourceSettings.get('branch').updateValueAndValidity();
+    this.setRepoAuthFormValidation(this.wizard.wizardValues.sourceSettings.privateRepo);
+  }
+
+  setRepoAuthFormValidation(isPrivateRepo: boolean) {
+    if (isPrivateRepo) {
+      const required = new RequiredValidator(this._translateService, false);
+      this.wizard.sourceSettings.get('username').setValidators(required.validate.bind(required));
+      this.wizard.sourceSettings.get('password').setValidators(required.validate.bind(required));
+      this.wizard.sourceSettings.get('username').updateValueAndValidity();
+      this.wizard.sourceSettings.get('password').updateValueAndValidity();
+    } else {
+      this.wizard.sourceSettings.get('username').setValidators([]);
+      this.wizard.sourceSettings.get('password').setValidators([]);
+    }
   }
 }

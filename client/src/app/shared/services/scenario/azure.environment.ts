@@ -3,7 +3,7 @@ import { Tier } from './../../models/serverFarmSku';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
-import { ARMApplicationInsightsDescriptior, ArmResourceDescriptor } from '../../resourceDescriptors';
+import { ARMApplicationInsightsDescriptior } from '../../resourceDescriptors';
 import { Injector } from '@angular/core';
 import { ApplicationInsightsService } from '../application-insights.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -252,16 +252,13 @@ export class AzureEnvironment extends Environment {
   }
 
   private _vstsPermissionsCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
-    const resourceDesc = new ArmResourceDescriptor(input.site.id);
-    return this._authZService
-      .hasPermission(`/subscriptions/${resourceDesc.subscription}`, [AuthzService.activeDirectoryWriteScope])
-      .map(value => {
-        return <ScenarioResult>{
-          status: value ? 'enabled' : 'disabled',
-          data: {
-            errorMessage: this._translateService.instant(PortalResources.vsts_permissions_error),
-          },
-        };
-      });
+    return this._authZService.hasPermission(input.site.id, [AuthzService.activeDirectoryWriteScope]).map(value => {
+      return <ScenarioResult>{
+        status: value ? 'enabled' : 'disabled',
+        data: {
+          errorMessage: this._translateService.instant(PortalResources.vsts_permissions_error),
+        },
+      };
+    });
   }
 }

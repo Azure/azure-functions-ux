@@ -18,6 +18,8 @@ export class CopyPreComponent implements OnInit {
   passwordField = false;
   @Input()
   copyableString: string = null;
+  @Input()
+  onlyCopyButton = false;
 
   public contentView = true;
   public hiddenContentPlaceholder = '●●●●●●●●●●●●●●●';

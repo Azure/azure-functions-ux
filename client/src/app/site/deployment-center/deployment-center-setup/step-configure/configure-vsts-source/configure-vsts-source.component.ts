@@ -5,6 +5,7 @@ import { CacheService } from 'app/shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
 import uniqBy from 'lodash-es/uniqBy';
 import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { VSORepo } from 'app/site/deployment-center/Models/vso-repo';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
@@ -13,6 +14,7 @@ import { RequiredValidator } from '../../../../../shared/validators/requiredVali
 import { TranslateService } from '@ngx-translate/core';
 import { VstsValidators } from '../../validators/vsts-validators';
 import { AzureDevOpsService } from '../../wizard-logic/azure-devops.service';
+import { combineLatest } from 'rxjs/observable/combineLatest';
 
 @Component({
   selector: 'app-configure-vsts-source',
@@ -33,6 +35,8 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
   private _memberIdSubscription = new Subject();
   private _accountSubscription = new Subject<string>();
   private _branchSubscription = new Subject<string>();
+  private _hasAccounts$ = new ReplaySubject<boolean>();
+  private _hasRepos$ = new ReplaySubject<boolean>();
   private _selectedAccount = '';
   public selectedAccount = '';
   public selectedProject = '';
@@ -50,6 +54,9 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     private _translateService: TranslateService,
     private _azureDevOpsService: AzureDevOpsService
   ) {
+    this._hasAccounts$.next(true);
+    this._hasRepos$.next(true);
+
     this.setupSubscriptions();
     this.populate();
     this.wizard.wizardForm.controls.buildProvider.valueChanges
@@ -96,11 +103,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
       .do(() => (this.accountListLoading = false))
       .subscribe(
         r => {
-          if (r.length === 0) {
-            this.hasAccounts = false;
-          } else {
-            this.hasAccounts = true;
-          }
+          this._hasAccounts$.next(r.length > 0);
 
           this.accountList = r.map(account => ({
             displayLabel: account.AccountName,
@@ -108,7 +111,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
           }));
         },
         err => {
-          this.hasAccounts = false;
+          this._hasAccounts$.next(false);
           this._logService.error(LogCategories.cicd, '/fetch-vso-profile-repo-data', err);
         }
       );
@@ -121,11 +124,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
       .subscribe((r: any) => {
         this._vstsRepositories = [];
 
-        if (r.length === 0) {
-          this.hasRepos = false;
-        } else {
-          this.hasRepos = true;
-        }
+        this._hasRepos$.next(r && r.value && r.value.length > 0);
 
         r.value.forEach(repo => {
           this._vstsRepositories.push({
@@ -181,6 +180,15 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
           this._logService.error(LogCategories.cicd, '/fetch-vso-branches', err);
         }
       );
+
+    combineLatest(this._hasAccounts$, this._hasRepos$)
+      .takeUntil(this._ngUnsubscribe$)
+      .subscribe(([hasAccounts, hasRepos]) => {
+        this.hasAccounts = hasAccounts;
+        this.hasRepos = hasRepos;
+        this.wizard.hideConfigureStepContinueButton = !hasAccounts || !hasRepos;
+        this.wizard.hideVstsBuildConfigure = !hasAccounts;
+      });
   }
 
   get isKudu() {

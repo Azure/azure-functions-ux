@@ -2203,9 +2203,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>No function apps to display</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>Slots (preview)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Enable deployment slots (preview).</value>
   </data>
@@ -2226,6 +2223,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="slots_label" xml:space="preserve">
     <value>Slots</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>Slots (preview)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Add Slot</value>
@@ -3214,6 +3214,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>Outgoing IP addresses for your app might change.</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>Your app service plan {0} has exceeded the recommended number of apps for its size.</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>Free</value>
   </data>
@@ -3548,7 +3551,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Drag a file here or</value>
   </data>
   <data name="browse" xml:space="preserve">
-    <value>browse</value>
+    <value>Browse</value>
   </data>
   <data name="toUpload" xml:space="preserve">
     <value>to upload</value>
@@ -3812,6 +3815,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>Failed to set up deployment: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>You can't register a new application in Azure Active Directory. Learn more: https://go.microsoft.com/fwlink/?linkid=843472. More details: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Disconnecting your deployment</value>
   </data>
@@ -3999,7 +4005,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>The repository for web app {0} can not be updated at this time.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Azure DevOps Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principal.</value>
+    <value>Azure DevOps Continuous Delivery requires you to have permissions to create a service principal in Azure Active Directory and assign role to it.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Select sample</value>
@@ -4014,7 +4020,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>You do not have any valid Azure DevOps organization</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>You do not have any valid Azure DevOps organization. App Service Kudu Build also requires you to be organization owner</value>
+    <value>Owner level access to a valid Azure DevOps organization is required.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Create one now</value>
@@ -5027,5 +5033,41 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="_function" xml:space="preserve">
     <value>Function</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>Fetching deployment data ...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>No deployment data available.</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>This feature is not available for apps in an ILB ASE</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>Updating binding</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>Updating {0} ({1})</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>Failed to update {0} ({1}): {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>Succeeded in updating {0} ({1})</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>Edit input</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>Edit output</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>Edit trigger</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>Edit binding commands</value>
   </data>
 </root>

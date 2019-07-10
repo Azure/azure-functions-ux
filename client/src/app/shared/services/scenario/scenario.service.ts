@@ -20,6 +20,7 @@ import { XenonSiteEnvironment } from 'app/shared/services/scenario/xenon-site.en
 import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
 import { FunctionAppEnvironment } from './function-app.environment';
 import { WindowsCodeEnvironment } from './windows-code.environment';
+import { AppOnAse } from './app-on-ase.environment';
 
 export interface IScenarioService {
   checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult;
@@ -40,6 +41,7 @@ export class ScenarioService implements IScenarioService {
     new DynamicLinuxEnvironment(this._translateService),
     new FunctionAppEnvironment(this._injector),
     new WindowsCodeEnvironment(),
+    new AppOnAse(this._injector),
   ];
 
   constructor(
@@ -96,27 +98,29 @@ export class ScenarioService implements IScenarioService {
   // If however it has only implemented a the synchronous "runCheck" method, then it will treat
   // it as an asynchronous function and include its result in the final status calculation.
   public checkScenarioAsync(id: string, input?: ScenarioCheckInput): Observable<ScenarioCheckResult> {
-    const checks = this._environments.filter(env => env.isCurrentEnvironment(input) && env.scenarioChecks[id]).map(env => {
-      const check = env.scenarioChecks[id];
-      let runCheckObs: Observable<ScenarioResult>;
+    const checks = this._environments
+      .filter(env => env.isCurrentEnvironment(input) && env.scenarioChecks[id])
+      .map(env => {
+        const check = env.scenarioChecks[id];
+        let runCheckObs: Observable<ScenarioResult>;
 
-      if (check.runCheckAsync) {
-        runCheckObs = check.runCheckAsync(input);
-      } else if (check.runCheck) {
-        runCheckObs = Observable.of(check.runCheck(input));
-      } else {
-        throw Error('No runCheckAsync or runCheck method implemented for Environment: "${env.name}", Scenario: "${check.id}"');
-      }
+        if (check.runCheckAsync) {
+          runCheckObs = check.runCheckAsync(input);
+        } else if (check.runCheck) {
+          runCheckObs = Observable.of(check.runCheck(input));
+        } else {
+          throw Error('No runCheckAsync or runCheck method implemented for Environment: "${env.name}", Scenario: "${check.id}"');
+        }
 
-      return runCheckObs.map(r => {
-        return <ScenarioCheckResult>{
-          status: r.status,
-          data: r.data,
-          environmentName: env.name,
-          id: id,
-        };
+        return runCheckObs.map(r => {
+          return <ScenarioCheckResult>{
+            status: r.status,
+            data: r.data,
+            environmentName: env.name,
+            id: id,
+          };
+        });
       });
-    });
 
     if (checks.length === 0) {
       return Observable.of(<ScenarioCheckResult>{

@@ -696,7 +696,6 @@ export class PortalResources {
   public static notFound = 'notFound';
   public static eventHubPicker_IOTEndpoint = 'eventHubPicker_IOTEndpoint';
   public static emptyBrowse_title = 'emptyBrowse_title';
-  public static appFunctionSettings_slotsOptinSettings = 'appFunctionSettings_slotsOptinSettings';
   public static appFunctionSettings_slotsDesc = 'appFunctionSettings_slotsDesc';
   public static appFunctionSettings_slotsEnable = 'appFunctionSettings_slotsEnable';
   public static appFunctionSettings_warning_1 = 'appFunctionSettings_warning_1';
@@ -704,6 +703,7 @@ export class PortalResources {
   public static appFunctionSettings_warning_3 = 'appFunctionSettings_warning_3';
   public static slotCreateOperationInProgressWarning = 'slotCreateOperationInProgressWarning';
   public static slots_label = 'slots_label';
+  public static slotsPreview_label = 'slotsPreview_label';
   public static slotNew = 'slotNew';
   public static slotNew_nameLabel = 'slotNew_nameLabel';
   public static slotNew_cloneConfigLabel = 'slotNew_cloneConfigLabel';
@@ -1028,6 +1028,7 @@ export class PortalResources {
   public static pricing_epNotAvailable = 'pricing_epNotAvailable';
   public static pricing_scaleUp = 'pricing_scaleUp';
   public static pricing_pv2UpsellInfoMessage = 'pricing_pv2UpsellInfoMessage';
+  public static pricing_appDensityWarningMessage = 'pricing_appDensityWarningMessage';
   public static free = 'free';
   public static pricing_freeLinuxNotAvailable = 'pricing_freeLinuxNotAvailable';
   public static pricing_pricePerMonth = 'pricing_pricePerMonth';
@@ -1224,6 +1225,7 @@ export class PortalResources {
   public static settingupDeploymentSuccess = 'settingupDeploymentSuccess';
   public static settingupDeploymentFail = 'settingupDeploymentFail';
   public static settingupDeploymentFailWithStatusMessage = 'settingupDeploymentFailWithStatusMessage';
+  public static noPermissionsToCreateApp = 'noPermissionsToCreateApp';
   public static disconnectingDeployment = 'disconnectingDeployment';
   public static disconnectingDeploymentSuccess = 'disconnectingDeploymentSuccess';
   public static disconnectingDeploymentFail = 'disconnectingDeploymentFail';
@@ -1617,5 +1619,18 @@ export class PortalResources {
   public static integrateNoTriggerDefined = 'integrateNoTriggerDefined';
   public static integrateNoInputsDefined = 'integrateNoInputsDefined';
   public static integrateNoOutputsDefined = 'integrateNoOutputsDefined';
+  public static integrateAddInput = 'integrateAddInput';
   public static _function = '_function';
+  public static fetchingDeploymentData = 'fetchingDeploymentData';
+  public static noDeploymentDataAvailable = 'noDeploymentDataAvailable';
+  public static featureNotSupportedForILBASEApps = 'featureNotSupportedForILBASEApps';
+  public static azureReposLabel = 'azureReposLabel';
+  public static updateBindingNotification = 'updateBindingNotification';
+  public static updateBindingNotificationDetails = 'updateBindingNotificationDetails';
+  public static updateBindingNotificationFailed = 'updateBindingNotificationFailed';
+  public static updateBindingNotificationSuccess = 'updateBindingNotificationSuccess';
+  public static editBindingInput = 'editBindingInput';
+  public static editBindingOuput = 'editBindingOuput';
+  public static editBindingTrigger = 'editBindingTrigger';
+  public static editBindingCommands = 'editBindingCommands';
 }
