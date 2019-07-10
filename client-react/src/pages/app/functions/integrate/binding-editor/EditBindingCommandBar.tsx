@@ -36,7 +36,7 @@ const EditBindingCommandBar: React.FC<EditBindingCommandBarProps> = props => {
       items={getItems(props, t)}
       aria-role="nav"
       styles={CommandBarStyles}
-      ariaLabel={'Edit binding command bar'}
+      ariaLabel={t('editBindingCommands')}
       buttonAs={CustomCommandBarButton}
     />
   );
@@ -71,7 +71,7 @@ const getItems = (props: EditBindingCommandBarProps, t: i18next.TFunction): ICom
         iconName: 'Delete',
       },
       disabled: !props.dirty,
-      ariaLabel: 'Delete',
+      ariaLabel: t('delete'),
       onClick: props.resetForm,
     },
   ];

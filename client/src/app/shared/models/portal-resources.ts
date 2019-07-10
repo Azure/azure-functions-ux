@@ -1629,4 +1629,8 @@ export class PortalResources {
   public static updateBindingNotificationDetails = 'updateBindingNotificationDetails';
   public static updateBindingNotificationFailed = 'updateBindingNotificationFailed';
   public static updateBindingNotificationSuccess = 'updateBindingNotificationSuccess';
+  public static editBindingInput = 'editBindingInput';
+  public static editBindingOuput = 'editBindingOuput';
+  public static editBindingTrigger = 'editBindingTrigger';
+  public static editBindingCommands = 'editBindingCommands';
 }

@@ -5058,4 +5058,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="updateBindingNotificationSuccess" xml:space="preserve">
     <value>Succeeded in updating {0} ({1})</value>
   </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>Edit input</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>Edit output</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>Edit trigger</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>Edit binding commands</value>
+  </data>
 </root>

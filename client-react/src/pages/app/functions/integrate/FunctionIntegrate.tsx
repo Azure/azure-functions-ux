@@ -18,10 +18,6 @@ const paddingStyle = {
 export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
   const { functionInfo } = props;
 
-  const parser = new DOMParser();
-  const doc = parser.parseFromString('<root></root>', 'application/xml');
-  console.log(doc);
-
   return (
     <>
       <div style={paddingStyle}>

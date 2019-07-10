@@ -11,6 +11,8 @@ import { ReactComponent as CloseSvg } from '../../../../../images/Common/close.s
 import { style } from 'typestyle';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { ArmObj } from '../../../../../models/arm-obj';
+import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 export interface BindingEditorDataLoaderProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -61,6 +63,7 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
   const { functionInfo, bindingInfo } = props;
   const [bindingsMetadata, setBindingsMetadata] = useState<BindingConfigMetadata[] | null>(null);
   const [isPanelOpened, setIsPanelOpened] = useState<boolean>(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     FunctionsService.getBindingConfigMetadata().then(r => {
@@ -90,7 +93,7 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
     <Panel
       isOpen={isPanelOpened}
       type={PanelType.smallFixedFar}
-      onRenderNavigationContent={() => onRenderNavigationContent(bindingInfo, onPanelClosed)}
+      onRenderNavigationContent={() => onRenderNavigationContent(bindingInfo, onPanelClosed, t)}
       styles={panelStyle}>
       {getEditorOrLoader(functionInfo, bindingInfo, bindingsMetadata, props.onSubmit)}
     </Panel>
@@ -119,22 +122,22 @@ const getEditorOrLoader = (
   return <LoadingComponent />;
 };
 
-const getPanelHeader = (bindingInfo: BindingInfo) => {
+const getPanelHeader = (bindingInfo: BindingInfo, t: i18next.TFunction) => {
   const direction = getBindingConfigDirection(bindingInfo);
   if (direction === BindingConfigDirection.in) {
-    return 'Edit input';
+    return t('editBindingInput');
   } else if (direction === BindingConfigDirection.out) {
-    return 'Edit output';
+    return t('editBindingOuput');
   }
 
-  return 'Edit trigger';
+  return t('editBindingTrigger');
 };
 
-const onRenderNavigationContent = (bindingInfo: BindingInfo, onClosePanel: () => void): JSX.Element => {
+const onRenderNavigationContent = (bindingInfo: BindingInfo, onClosePanel: () => void, t: i18next.TFunction): JSX.Element => {
   return (
     <>
       <div className={panelHeaderStyle}>
-        <h3>{getPanelHeader(bindingInfo)}</h3>
+        <h3>{getPanelHeader(bindingInfo, t)}</h3>
         <CloseSvg onClick={onClosePanel} tabIndex={0} role="button" aria-label={'Close'} />
       </div>
     </>

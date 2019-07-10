@@ -24,7 +24,7 @@ export const sendHttpRequest = <T>(options: AxiosRequestConfig) => {
 
 export const getJsonHeaders = (): { [key: string]: string } => {
   return {
-    'Content-Type': 'appliation/json',
+    'Content-Type': 'application/json',
     Accept: 'application/json',
     'x-ms-client-request-id': Guid.newGuid(),
   };
