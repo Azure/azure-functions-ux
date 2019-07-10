@@ -30,7 +30,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     closeBlade();
   };
 
-  const validateAppSettingName = (value: string) => {
+  const validateStorageMountName = (value: string) => {
     if (initialName && value === initialName) {
       return '';
     }
@@ -84,7 +84,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               ariaLabel={t('_name')}
               errorMessage={formProps.errors && formProps.errors.name}
               validate={val => {
-                const error = validateAppSettingName(val);
+                const error = validateStorageMountName(val);
                 if (error) {
                   throw error;
                 }

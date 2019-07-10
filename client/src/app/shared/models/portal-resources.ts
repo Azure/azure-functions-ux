@@ -1441,6 +1441,7 @@ export class PortalResources {
   public static nameRes = 'nameRes';
   public static value = 'value';
   public static sticky = 'sticky';
+  public static notSticky = 'notSticky';
   public static newApplicationSetting = 'newApplicationSetting';
   public static addEditConnectionStringHeader = 'addEditConnectionStringHeader';
   public static newConnectionString = 'newConnectionString';
@@ -1515,6 +1516,7 @@ export class PortalResources {
   public static precompiledDotNetApp = 'precompiledDotNetApp';
   public static functionAppType = 'functionAppType';
   public static slotSettingOn = 'slotSettingOn';
+  public static slotSettingOff = 'slotSettingOff';
   public static hiddenValueClickAboveToShow = 'hiddenValueClickAboveToShow';
   public static fieldMustBeUnique = 'fieldMustBeUnique';
   public static addNewVirtualDirectoryV3 = 'addNewVirtualDirectoryV3';
@@ -1617,5 +1619,6 @@ export class PortalResources {
   public static integrateNoTriggerDefined = 'integrateNoTriggerDefined';
   public static integrateNoInputsDefined = 'integrateNoInputsDefined';
   public static integrateNoOutputsDefined = 'integrateNoOutputsDefined';
+  public static integrateAddInput = 'integrateAddInput';
   public static _function = '_function';
 }

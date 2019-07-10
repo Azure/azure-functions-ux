@@ -8,11 +8,10 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 import DisplayTableWithEmptyMessage, {
   defaultCellStyle,
 } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, Stack } from 'office-ui-fabric-react';
+import { SearchBox, Stack, Icon, Label } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
@@ -196,6 +195,16 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     this.setState({ showPanel: false });
   };
 
+  // private _onToggleSticky = (key: string): void => {
+  //   let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
+  //   const index = appSettings.findIndex(x => x.name.toLowerCase() === key);
+  //   if (index !== -1) {
+  //     appSettings[index].sticky = !appSettings[index].sticky;
+  //     appSettings = sortBy(appSettings, o => o.name.toLowerCase());
+  //     this.props.setFieldValue('appSettings', appSettings);
+  //   }
+  // };
+
   private _onCancel = (): void => {
     this.setState({ showPanel: false });
   };
@@ -225,40 +234,51 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
 
     if (column.key === 'delete') {
       return (
-        <IconButton
+        <ActionButton
           className={defaultCellStyle}
           disabled={!editable}
           id={`app-settings-application-settings-delete-${index}`}
           iconProps={{ iconName: 'Delete' }}
           ariaLabel={t('delete')}
-          title={t('delete')}
-          onClick={() => this._removeItem(itemKey)}
-        />
+          onClick={() => this._removeItem(itemKey)}>
+          {t('delete')}
+        </ActionButton>
       );
     }
     if (column.key === 'edit') {
       return (
-        <IconButton
+        <ActionButton
           className={defaultCellStyle}
           disabled={!editable}
           id={`app-settings-application-settings-edit-${index}`}
           iconProps={{ iconName: 'Edit' }}
           ariaLabel={t('edit')}
-          title={t('edit')}
-          onClick={() => this._onShowPanel(item)}
-        />
+          onClick={() => this._onShowPanel(item)}>
+          {t('edit')}
+        </ActionButton>
       );
     }
     if (column.key === 'sticky') {
-      return item.sticky ? (
-        <IconButton
-          className={defaultCellStyle}
-          id={`app-settings-application-settings-sticky-${index}`}
-          iconProps={{ iconName: 'CheckMark' }}
-          title={t('sticky')}
-          ariaLabel={t('slotSettingOn')}
-        />
-      ) : null;
+      const iconName = item.sticky ? 'Link' : 'RemoveLink';
+      const title = item.sticky ? t('sticky') : t('notSticky');
+      const ariaLabel = item.sticky ? t('slotSettingOn') : t('slotSettingOff');
+      return (
+        <>
+          <Icon iconName={iconName} title={title} ariaLabel={ariaLabel} />
+          <Label>{ariaLabel}</Label>
+        </>
+      );
+      // return (
+      //   <ActionButton
+      //     className={defaultCellStyle}
+      //     disabled={!editable}
+      //     id={`app-settings-application-settings-sticky-${index}`}
+      //     iconProps={{ iconName: item.sticky ? 'Link' : 'RemoveLink' }}
+      //     ariaLabel={item.sticky ? t('sticky') : t('notSticky')}
+      //     onClick={() => this._onToggleSticky(itemKey)}>
+      //     {item.sticky ? t('slotSettingOn') : t('slotSettingOff')}
+      //   </ActionButton>
+      // );
     }
     if (column.key === 'value') {
       return (
@@ -331,8 +351,8 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         key: 'sticky',
         name: t('sticky'),
         fieldName: 'sticky',
-        minWidth: 50,
-        maxWidth: 100,
+        minWidth: 200,
+        maxWidth: 200,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
@@ -341,23 +361,21 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
       },
       {
         key: 'delete',
-        name: '',
-        minWidth: 16,
-        maxWidth: 16,
+        name: t('delete'),
+        minWidth: 100,
+        maxWidth: 100,
         isResizable: true,
         isCollapsable: false,
         onRender: this._onRenderItemColumn,
-        ariaLabel: t('delete'),
       },
       {
         key: 'edit',
-        name: '',
-        minWidth: 16,
-        maxWidth: 16,
+        name: t('edit'),
+        minWidth: 100,
+        maxWidth: 100,
         isResizable: true,
         isCollapsable: false,
         onRender: this._onRenderItemColumn,
-        ariaLabel: t('edit'),
       },
     ];
   };
