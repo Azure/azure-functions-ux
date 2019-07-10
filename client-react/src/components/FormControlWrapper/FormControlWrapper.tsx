@@ -22,6 +22,7 @@ export interface FormControlWrapperProps {
 
 const labelStyle = typeStyle({
   width: '250px',
+  marginBottom: '5px',
 });
 
 const requiredIcon = (theme: ThemeExtended) => {

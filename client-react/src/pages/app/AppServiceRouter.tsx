@@ -18,6 +18,10 @@ const FunctionIntegrateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functionintegrate" */ './functions/integrate/FunctionIntegrateDataLoader')
 );
 
+const FunctionBindingEditorLoadable: any = lazy(() =>
+  import(/* webpackChunkName:"functionbindingeditor" */ './functions/integrate/binding-editor/BindingEditorDataLoader')
+);
+
 const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = props => {
   const [resourceId, setResourceId] = useState('');
   const theme = useContext(ThemeContext);
@@ -47,6 +51,7 @@ const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = 
                 <LogStreamLoadable resourceId={resourceId} path="/log-stream" />
                 <ChangeAppPlanLoadable resourceId={resourceId} path="/changeappplan" />
                 <FunctionIntegrateLoadable resourceId={resourceId} path="/integrate" />
+                <FunctionBindingEditorLoadable resourceId={resourceId} path="/bindingeditor" />
               </Router>
             )
           );

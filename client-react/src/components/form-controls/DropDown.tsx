@@ -4,7 +4,7 @@ import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
 import DropdownNoFormik from './DropDownnoFormik';
 
-interface CustomDropdownProps {
+export interface CustomDropdownProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;

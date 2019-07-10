@@ -1625,4 +1625,12 @@ export class PortalResources {
   public static noDeploymentDataAvailable = 'noDeploymentDataAvailable';
   public static featureNotSupportedForILBASEApps = 'featureNotSupportedForILBASEApps';
   public static azureReposLabel = 'azureReposLabel';
+  public static updateBindingNotification = 'updateBindingNotification';
+  public static updateBindingNotificationDetails = 'updateBindingNotificationDetails';
+  public static updateBindingNotificationFailed = 'updateBindingNotificationFailed';
+  public static updateBindingNotificationSuccess = 'updateBindingNotificationSuccess';
+  public static editBindingInput = 'editBindingInput';
+  public static editBindingOuput = 'editBindingOuput';
+  public static editBindingTrigger = 'editBindingTrigger';
+  public static editBindingCommands = 'editBindingCommands';
 }
