@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
-import { TimerEvent, OpenBladeInfo, DataMessage, PinPartInfo, LogEntryLevel, NotificationStartedInfo } from '../../shared/models/portal';
+import {
+  TimerEvent,
+  OpenBladeInfo,
+  DataMessage,
+  PinPartInfo,
+  LogEntryLevel,
+  NotificationStartedInfo,
+  TokenType,
+} from '../../shared/models/portal';
 import { Subject } from 'rxjs/Subject';
 import { SpecCostQueryInput, SpecCostQueryResult } from '../../site/spec-picker/price-spec-manager/billing-models';
 import { Observable } from 'rxjs/Observable';
@@ -31,7 +39,7 @@ export class MockPortalService {
     bladeName?: string
   ) {}
 
-  getAdToken(tokenType: 'graph' | 'azureTfsApi') {}
+  getAdToken(tokenType: TokenType) {}
 
   getSpecCosts(query: SpecCostQueryInput): Observable<SpecCostQueryResult> {
     return null;

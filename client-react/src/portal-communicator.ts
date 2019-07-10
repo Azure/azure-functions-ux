@@ -19,6 +19,7 @@ import {
   IUpdateBladeInfo,
   LogEntryLevel,
   Verbs,
+  TokenType,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import darkModeTheme from './theme/dark';
@@ -232,7 +233,7 @@ export default class PortalCommunicator {
     PortalCommunicator.postMessage(Verbs.returnPCV3Results, this.packageData(payload));
   }
 
-  public getAdToken(tokenType: 'graph' | 'azureTfsApi' | ''): Promise<string> {
+  public getAdToken(tokenType: TokenType): Promise<string> {
     const operationId = Guid.newGuid();
 
     const payload = {
