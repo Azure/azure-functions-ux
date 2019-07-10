@@ -316,6 +316,9 @@ export class ScenarioIds {
   public static readonly enableConsole = 'EnableConsole';
   public static readonly enableLinkAPIM = 'EnableLinkAPIM';
   public static readonly appDensity = 'appDensity';
+  public static readonly enableKudu = 'EnableKudu';
+  public static readonly enableCORS = 'EnableCORS';
+  public static readonly enableQuotas = 'EnableQuotas';
 }
 
 export class NationalCloudArmUris {

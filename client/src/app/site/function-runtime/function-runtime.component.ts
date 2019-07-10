@@ -64,6 +64,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   public isStopped: boolean;
   public hasFunctions: boolean;
   public badRuntimeVersion: boolean;
+  public isLinuxDynamic: boolean;
 
   private _appNode: AppNode;
 
@@ -201,6 +202,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         this.isStopped =
           this.context.site.properties.state && this.context.site.properties.state.toLocaleLowerCase() !== 'Running'.toLocaleLowerCase();
         this.isLinuxApp = ArmUtil.isLinuxApp(this.context.site);
+        this.isLinuxDynamic = ArmUtil.isLinuxDynamic(this.context.site);
 
         return Observable.forkJoin(
           this._cacheService.postArm(`${this.viewInfo.resourceId}/config/appsettings/list`, true),
