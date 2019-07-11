@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>存储</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>函数</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>创建函数出错: {{error}}</value>
   </data>
@@ -920,10 +923,10 @@
     <value>未启用 "AlwaysOn"。应用可能无法正常工作</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>"AzureWebJobsSecretStorageType" 设置应设置为 "blob"。不进行此设置会导致使用部署槽位时出现意外行为。</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>"AzureWebJobsSecretStorageType" 设置不应设置为 "files"。进行此设置会导致使用部署槽位时出现意外行为。</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions 发行说明。</value>
@@ -1085,7 +1088,7 @@
     <value>名称为“{{name}}”的代理已存在</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>Azure Functions 槽位当前已禁用。</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>放弃</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>重新启动</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>日志</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>交换</value>
@@ -2194,14 +2200,11 @@
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>没有要显示的功能函数</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>槽位(预览)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>启用部署槽位(预览)。</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>启用部署槽位</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>已知问题:</value>
@@ -2210,13 +2213,16 @@
     <value>启用槽位(预览)后，逻辑应用与 Functions 集成无法运行。</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>启用此功能将重置任何预先存在的机密。可在每个功能的“管理”节点下找到函数机密。</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>当前正在进行槽位创建操作。离开页面后，将不再能够查看操作状态。</value>
   </data>
   <data name="slots_label" xml:space="preserve">
     <value>槽</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>槽位(预览)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>添加槽</value>
@@ -3205,6 +3211,9 @@
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>应用的传出 IP 地址可能会更改。</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>你的应用服务计划 {0} 已超过针对它的大小建议的应用数。</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>免费</value>
   </data>
@@ -3803,6 +3812,9 @@
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>未能设置部署: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>无法在 Azure Active Directory 中注册新应用。了解更多: https://go.microsoft.com/fwlink/?linkid=843472。更多详情: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>正在断开你的部署</value>
   </data>
@@ -3846,7 +3858,7 @@
     <value>Azure 容器注册表</value>
   </data>
   <data name="containerDockerHub" xml:space="preserve">
-    <value>Docker 中心</value>
+    <value>Docker Hub</value>
   </data>
   <data name="containerPrivateRegistry" xml:space="preserve">
     <value>专用注册表</value>
@@ -3990,7 +4002,7 @@
     <value>目前无法更新 Web 应用 {0} 的存储库。</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Azure DevOps 持续交付要求你具备写入 Azure Active Directory 并创建服务主体的权限。</value>
+    <value>Azure DevOps 持续交付要求，必须有权在 Azure Active Directory 中创建服务主体并向它分配角色。</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>选择示例</value>
@@ -4005,7 +4017,7 @@
     <value>你没有任何有效的 Azure DevOps 组织</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>你没有任何有效的 Azure DevOps 组织。应用服务 Kudu 生成还要求你是帐户所有者</value>
+    <value>对有效 Azure DevOps 组织的所有者级别访问是必需的。</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>立即创建</value>
@@ -4962,6 +4974,18 @@
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>资源组名称只能包含字母数字字符、句点、下划线、连字符和圆括号，并不能以句点结尾。</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>“{0}”是一个无效字符</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>名称“{0}”受限。请选择其他名称。</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>计划的名称不能超过 {0} 个字符。</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>资源组“{1}”下已存在名为“{0}”的计划</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>确定要取消更新操作吗?</value>
   </data>
@@ -4991,5 +5015,56 @@
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>未能验证容器设置。</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>未定义触发器</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>未定义输入</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>未定义输出</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+添加输入</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>函数</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>正在提取部署数据...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>无可用的部署数据。</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>ILB ASE 中的应用不支持此功能</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>正在更新绑定</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>正在更新 {0} ({1})</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>未能更新 {0} ({1}): {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>已成功更新 {0} ({1})</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>编辑输入</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>编辑输出</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>编辑触发器</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>编辑绑定命令</value>
   </data>
 </root>
