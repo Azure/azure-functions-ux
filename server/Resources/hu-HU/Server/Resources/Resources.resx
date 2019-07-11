@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>Storage</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>Függvény</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Hiba történt a függvény létrehozásakor: {{error}}</value>
   </data>
@@ -298,7 +301,7 @@
     <value>Akár saját függvény létrehozásával is kezdheti</value>
   </data>
   <data name="intro_keepUsingQuickstart" xml:space="preserve">
-    <value>A gyors üzembe helyezés használatának folytatása</value>
+    <value>A gyorsútmutató használatának folytatása</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
     <value>PowerShell, Python vagy Batch esetén</value>
@@ -464,7 +467,7 @@
     <value>Az Azure Functions új verziója érhető el. Ide kattintva végezheti el a frissítést</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>Gyors üzembe helyezés</value>
+    <value>Gyorsútmutató</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
     <value>Használat</value>
@@ -668,7 +671,7 @@
     <value>Forgatókönyv:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Triggerek</value>
+    <value>Eseményindító</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
     <value>A próbaidőszak letelt</value>
@@ -920,10 +923,10 @@
     <value>Az AlwaysOn beállítás nincs engedélyezve. Előfordulhat, hogy az alkalmazás nem működik megfelelően</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>Az AzureWebJobsSecretStorageType beállítást a blob értékre kell állítani. A beállítás megadásának mellőzése nem várt viselkedést eredményezhet az üzembe helyezési pontok használatakor.</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>Az AzureWebJobsSecretStorageType beállítást nem szabad a files értékre állítani. A beállítás megadása nem várt viselkedést eredményezhet az üzembe helyezési pontok használatakor.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions – Kibocsátási megjegyzések</value>
@@ -1085,7 +1088,7 @@
     <value>{{name}} nevű proxy már létezik</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>Az Azure Functions-tárolóhelyek jelenleg le vannak tiltva.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Elvetés</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Újraindítás</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Naplók</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>Felcserélés</value>
@@ -1970,7 +1976,7 @@
     <value>MŰVELETEK</value>
   </data>
   <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
-    <value>lépjen a gyors üzembe helyezéshez</value>
+    <value>lépjen a gyorsútmutatóra</value>
   </data>
   <data name="httpRun_noQuery" xml:space="preserve">
     <value>Nincsenek lekérdezési paraméterek</value>
@@ -2194,14 +2200,11 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>Nincsenek megjeleníthető függvényalkalmazások</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>Tárolóhelyek (előzetes verzió)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Az üzembe helyezési pontok engedélyezése (előzetes verzió).</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>Üzembe helyezési pontok engedélyezése</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Ismert problémák:</value>
@@ -2210,13 +2213,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A Logic Apps és a Functions integrációja nem működik, ha a Slots (előzetes verzió) engedélyezve van.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>E funkció engedélyezésével minden meglévő titkos kódot alaphelyzetbe állít. A titkos függvénykódok az egyes függvények Kezelés csomópontjában találhatók.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Tárhely-létrehozási művelet van folyamatban van. Ha elhagyja a lapot, többé nem fogja tudni ellenőrizni a művelet állapotát.</value>
   </data>
   <data name="slots_label" xml:space="preserve">
     <value>Tárhelyek</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>Tárolóhelyek (előzetes verzió)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Tárhely felvétele</value>
@@ -2777,7 +2783,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A proxyk használata engedélyezve van. Az újbóli letiltáshoz törölje vagy tiltsa le az összes egyedi proxyt.</value>
   </data>
   <data name="java_splash_button" xml:space="preserve">
-    <value>Java az Azure Functions szolgáltatásban – első lépések</value>
+    <value>Java az Azure Functions szolgáltatásban – gyorsútmutató</value>
   </data>
   <data name="nameColon" xml:space="preserve">
     <value>Név:</value>
@@ -3205,6 +3211,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>Az alkalmazáshoz tartozó kimenő IP-cím módosulhat.</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>A(z) {0} App Service-csomagban található alkalmazások száma túllépte az ajánlott értéket.</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>Ingyenes</value>
   </data>
@@ -3539,7 +3548,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Húzzon ide egy fájlt, vagy</value>
   </data>
   <data name="browse" xml:space="preserve">
-    <value>tallózás</value>
+    <value>Tallózás</value>
   </data>
   <data name="toUpload" xml:space="preserve">
     <value>őket</value>
@@ -3803,6 +3812,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>Nem sikerült beállítani az üzemelő példányt: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>Nem regisztrálhat új alkalmazást az Azure Active Directoryban. További információ: https://go.microsoft.com/fwlink/?linkid=843472. További részletek: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Az üzemelő példány leválasztása</value>
   </data>
@@ -3840,7 +3852,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Tárolóbeállítások frissítése</value>
   </data>
   <data name="containerQuickstart" xml:space="preserve">
-    <value>Gyors üzembe helyezés</value>
+    <value>Gyorsútmutató</value>
   </data>
   <data name="containerACR" xml:space="preserve">
     <value>Azure Container Registry</value>
@@ -3903,7 +3915,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Az Azure Functions használata a Javához – első lépések</value>
   </data>
   <data name="quickstartDescription" xml:space="preserve">
-    <value>A gyors üzembe helyezési útmutatót követve létrehozhat és közzétehet egy függvényt</value>
+    <value>A gyorsútmutatót követve létrehozhat és közzétehet egy függvényt</value>
   </data>
   <data name="chooseDevEnvironment" xml:space="preserve">
     <value>Válasszon fejlesztőkörnyezetet</value>
@@ -3915,7 +3927,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Függvény létrehozása</value>
   </data>
   <data name="quickstart" xml:space="preserve">
-    <value>Első lépések</value>
+    <value>Gyorsútmutató</value>
   </data>
   <data name="vsCardTitle" xml:space="preserve">
     <value>Visual Studio</value>
@@ -3990,7 +4002,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A(z) {0} webalkalmazás adattára jelenleg nem frissíthető.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Az Azure DevOps-beli folyamatos szolgáltatásnyújtás engedélyekhez köti az Azure Active Directoryba való írást és a szolgáltatásnevek létrehozását.</value>
+    <value>Az Azure DevOps-beli folyamatos teljesítés engedélyekhez köti a szolgáltatásnevek Azure Active Directoryban való létrehozását, és a szerepkörök azokhoz való hozzárendelését.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Minta kiválasztása</value>
@@ -4005,7 +4017,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Nem rendelkezik érvényes Azure DevOps-céggel</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>Nem rendelkezik érvényes Azure DevOps-céggel. Ezen felül az App Service-beli Kudu-build használatához cégtulajdonosnak kell lennie</value>
+    <value>Egy érvényes Azure DevOps-szervezethez való tulajdonosi szintű hozzáférés szükséges.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Hozzon létre egyet most</value>
@@ -4962,6 +4974,18 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Az erőforráscsoport neve csak betűket és számokat, pontokat, aláhúzásjeleket, kötőjeleket és zárójeleket tartalmazhat, és nem végződhet ponttal.</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>A(z) {0} érvénytelen karakter.</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>A(z) {0} elnevezés korlátozott. Válasszon másik nevet.</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>A csomag elnevezése nem lehet hosszabb {0} karakternél.</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>Egy {0} nevű csomag már létezik a(z) {1} erőforráscsoportban</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>Biztos, hogy megszakítja a frissítési műveletet?</value>
   </data>
@@ -4991,5 +5015,56 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>Nem sikerült érvényesíteni a tárolóbeállításokat.</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>Nincs definiálva trigger</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>Nincs definiálva bemenet</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>Nincs definiálva kimenet</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ Bemenet hozzáadása</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>Függvény</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>Üzembe helyezési adatok beolvasása...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>Nincs elérhető üzembe helyezési adat.</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>Ez a funkció ILB ASE-környezetbeli alkalmazásokhoz nem érhető el</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>Updating binding</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>Updating {0} ({1})</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>Failed to update {0} ({1}): {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>Succeeded in updating {0} ({1})</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>Edit input</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>Edit output</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>Edit trigger</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>Edit binding commands</value>
   </data>
 </root>

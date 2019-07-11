@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>記憶域</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>関数</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>関数の作成エラー: {{error}}</value>
   </data>
@@ -920,10 +923,10 @@
     <value>'AlwaysOn' が有効になっていません。アプリが正常に動作しない可能性があります</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>'AzureWebJobsSecretStorageType' 設定を 'blob' に設定する必要があります。この設定になっていないと、デプロイ スロットを使用するときに予期しない動作が発生します。</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>'AzureWebJobsSecretStorageType' 設定を 'files' に設定することはできません。この設定にしていると、デプロイ スロットを使用するときに予期しない動作が発生します。</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions リリース ノート。</value>
@@ -1085,7 +1088,7 @@
     <value>'{{name}}' という名前のプロキシが既に存在します</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>Azure Functions スロットは現在無効になっています。</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>破棄</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>再開</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>ログ</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>スワップ</value>
@@ -2194,14 +2200,11 @@
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>表示する Function App がありません</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>スロット (プレビュー)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>デプロイ スロット (プレビュー) を有効にします。</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>デプロイ スロットを有効にする</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>既知の問題:</value>
@@ -2210,13 +2213,16 @@
     <value>Logic Apps の Azure Functions との統合は、スロット (プレビュー) が有効になっている場合は機能しません。</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>この機能を有効にすると、既存のシークレットがすべてリセットされます。関数のシークレットは、各関数の [管理] ノードの下にあります。</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>スロット作成操作が現在進行中です。ここから移動すると、操作の状態を確認できなくなります。</value>
   </data>
   <data name="slots_label" xml:space="preserve">
-    <value>Slots</value>
+    <value>スロット</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>スロット (プレビュー)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>スロットの追加</value>
@@ -3205,6 +3211,9 @@
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>アプリの送信 IP アドレスは変更される可能性があります。</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>App Service プラン {0} は、プランのサイズに対して推奨されているアプリ数を超えています。</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>無料</value>
   </data>
@@ -3803,6 +3812,9 @@
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>デプロイをセットアップできませんでした: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>Azure Active Directory に新しいアプリケーションを登録することはできません。詳細情報: https://go.microsoft.com/fwlink/?linkid=843472。さらに詳しく: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>デプロイとの接続を切断しています</value>
   </data>
@@ -3903,7 +3915,7 @@
     <value>Java 用の Azure Functions - 作業の開始</value>
   </data>
   <data name="quickstartDescription" xml:space="preserve">
-    <value>クイックスタートのガイダンスに従って関数を作成し、発行します</value>
+    <value>クイック スタートのガイダンスに従って関数を作成し、発行します</value>
   </data>
   <data name="chooseDevEnvironment" xml:space="preserve">
     <value>開発環境を選択する</value>
@@ -3990,7 +4002,7 @@
     <value>Web アプリ {0} のリポジトリは、現在は更新できません。</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Azure DevOps 継続的デリバリーでは、Azure Active Directory への書き込みとサービス プリンシパルの作成を行うためのアクセス許可が必要です。</value>
+    <value>Azure DevOps 継続的デリバリーでは、Azure Active Directory でのサービス プリンシパルの作成とそれに対するロールの割り当てを行うためのアクセス許可が必要です。</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>サンプルの選択</value>
@@ -4005,7 +4017,7 @@
     <value>有効な Azure DevOps 組織がありません</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>有効な Azure DevOps 組織がありません。App Service Kudu ビルドを使用するには、組織所有者であることも必要です</value>
+    <value>有効な Azure DevOps 組織への所有者レベルのアクセスが必要です。</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>今すぐ作成します</value>
@@ -4962,6 +4974,18 @@
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>リソース グループ名には、英数字、ピリオド、アンダースコア、ハイフン、およびかっこだけを使用できます。また、末尾をピリオドにすることはできません。</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>'{0}' は無効な文字です</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>名前 '{0}' は制限されています。別の名前を選択してください。</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>プランの名前は {0} 文字以下にしてください。</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>'{0}' という名前のプランは、リソース グループ '{1}' に既に存在します</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>更新操作をキャンセルしますか?</value>
   </data>
@@ -4991,5 +5015,56 @@
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>コンテナー設定を検証できませんでした。</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>トリガーが定義されていません</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>入力が定義されていません</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>出力が定義されていません</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ 入力の追加</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>関数</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>デプロイ データをフェッチしています...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>利用できるデプロイ データはありません。</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>この機能は、ILB ASE のアプリにはご利用いただけません</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>Updating binding</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>Updating {0} ({1})</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>Failed to update {0} ({1}): {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>Succeeded in updating {0} ({1})</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>Edit input</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>Edit output</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>Edit trigger</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>Edit binding commands</value>
   </data>
 </root>

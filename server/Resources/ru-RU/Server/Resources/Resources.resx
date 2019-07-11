@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>Служба хранилища</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>Функция</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Ошибка при создании функции: {{error}}</value>
   </data>
@@ -464,7 +467,7 @@
     <value>Доступна новая версия функций Azure. Чтобы выполнить обновление, щелкните здесь</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>Быстрый старт</value>
+    <value>Быстрый запуск</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
     <value>Использование</value>
@@ -668,7 +671,7 @@
     <value>Сценарий:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Триггеры</value>
+    <value>Триггер</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
     <value>Истек срок действия пробной версии.</value>
@@ -920,10 +923,10 @@
     <value>Режим "AlwaysOn" отключен. Приложение может работать неправильно.</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>Параметр "AzureWebJobsSecretStorageType" должен иметь значение "blob". Его отсутствие вызовет непредвиденное поведение при использовании слотов развертывания.</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>Параметр "AzureWebJobsSecretStorageType" не должен иметь значение "files". Его наличие вызовет непредвиденное поведение при использовании слотов развертывания.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Заметки о выпуске для функций Azure.</value>
@@ -1085,7 +1088,7 @@
     <value>Прокси-сервер "{{name}}" уже существует.</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>Слоты функций Azure сейчас отключены.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Отменить</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Перезапустить</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Журналы</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>Замена</value>
@@ -2194,14 +2200,11 @@
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>Нет приложений-функций для отображения</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>Слоты (предварительная версия)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Включить слоты развертывания (предварительная версия).</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>Включить слоты развертывания</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Известные проблемы:</value>
@@ -2210,13 +2213,16 @@
     <value>Когда включены Слоты (предварительная версия), интеграция Logic Apps с Функциями не работает.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>При включении этой функции будут сброшены все ранее существовавшие секреты. Секреты функций можно найти в узле "Управление" для каждой функции.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Выполняется операция создания слота. Вы больше не сможете просматривать ее состояние, если уйдете с этой страницы.</value>
   </data>
   <data name="slots_label" xml:space="preserve">
     <value>Слоты</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>Слоты (предварительная версия)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Добавить слот</value>
@@ -3205,6 +3211,9 @@
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>Исходящие IP-адреса для вашего приложения могут измениться.</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>Превышено рекомендуемое число приложений для размера вашего плана службы приложений {0}.</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>Бесплатно</value>
   </data>
@@ -3539,7 +3548,7 @@
     <value>Перетащите сюда файл или</value>
   </data>
   <data name="browse" xml:space="preserve">
-    <value>обзор</value>
+    <value>Обзор</value>
   </data>
   <data name="toUpload" xml:space="preserve">
     <value>для отправки</value>
@@ -3803,6 +3812,9 @@
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>Не удалось настроить развертывание: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>Невозможно зарегистрировать новое приложение в Azure Active Directory. Дополнительные сведения: https://go.microsoft.com/fwlink/?linkid=843472. Подробные сведения: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Отключение развертывания</value>
   </data>
@@ -3840,13 +3852,13 @@
     <value>Обновить параметры контейнера</value>
   </data>
   <data name="containerQuickstart" xml:space="preserve">
-    <value>Быстрый старт</value>
+    <value>Быстрый запуск</value>
   </data>
   <data name="containerACR" xml:space="preserve">
     <value>Реестр контейнеров Azure</value>
   </data>
   <data name="containerDockerHub" xml:space="preserve">
-    <value>Центр Docker</value>
+    <value>Docker Hub</value>
   </data>
   <data name="containerPrivateRegistry" xml:space="preserve">
     <value>Частный реестр</value>
@@ -3915,7 +3927,7 @@
     <value>Создание функции</value>
   </data>
   <data name="quickstart" xml:space="preserve">
-    <value>Быстрый старт</value>
+    <value>Быстрый запуск</value>
   </data>
   <data name="vsCardTitle" xml:space="preserve">
     <value>Visual Studio</value>
@@ -3990,7 +4002,7 @@
     <value>Сейчас невозможно обновить репозиторий для веб-приложения {0}.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Непрерывная поставка Azure DevOps требует, чтобы у вас были разрешения на запись в Azure Active Directory и создание субъекта-службы.</value>
+    <value>Для использования непрерывной поставки в Azure DevOps вам необходимы разрешения для создания субъекта-службы в Azure Active Directory и для назначения ему роли.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Выберите пример</value>
@@ -4005,7 +4017,7 @@
     <value>У вас нет допустимой организации Azure DevOps.</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>У вас нет допустимой организации Azure DevOps. Для сборки Kudu службы приложений вы также должны быть владельцем организации.</value>
+    <value>Требуется доступ уровня владельца к действительной организации Azure DevOps.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Создать новый</value>
@@ -4962,6 +4974,18 @@
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Имя группы ресурсов может содержать только буквы, цифры, точки, подчеркивания, дефисы и круглые скобки, а также не может кончаться точкой.</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>Недопустимый символ ("{0}")</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>Имя "{0}" запрещено. Укажите другое имя.</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>Максимально допустимое число символов в имени плана — {0}.</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>План с именем "{0}" уже существует в группе ресурсов "{1}"</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>Вы действительно хотите отменить операцию обновления?</value>
   </data>
@@ -4991,5 +5015,56 @@
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>Не удалось проверить параметры контейнера.</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>Триггер не задан.</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>Входные данные не заданы.</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>Выходные данные не заданы.</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ Добавить входные данные</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>Функция</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>Получение данных развертывания…</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>Данные развертывания недоступны.</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>Эта функция недоступна для приложений в среде службы приложений внутреннего балансировщика нагрузки (ILB ASE).</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Репозитории Azure</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>Updating binding</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>Updating {0} ({1})</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>Failed to update {0} ({1}): {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>Succeeded in updating {0} ({1})</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>Edit input</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>Edit output</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>Edit trigger</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>Edit binding commands</value>
   </data>
 </root>
