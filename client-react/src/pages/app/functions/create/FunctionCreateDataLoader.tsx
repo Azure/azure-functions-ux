@@ -5,6 +5,8 @@ import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { FunctionCreate } from './FunctionCreate';
+import { FunctionInfo } from '../../../../models/functions/function-info';
+import { ArmObj } from '../../../../models/arm-obj';
 
 export interface FunctionCreateDataLoaderProps {
   resourceId: string;
@@ -12,7 +14,7 @@ export interface FunctionCreateDataLoaderProps {
 
 export interface FunctionCreateDataLoaderState {
   functionTemplates: FunctionTemplate[] | null;
-  isLoading: boolean;
+  functionsInfo: ArmObj<FunctionInfo>[] | null;
 }
 
 class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderProps, FunctionCreateDataLoaderState> {
@@ -21,17 +23,33 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
 
     this.state = {
       functionTemplates: null,
-      isLoading: true,
+      functionsInfo: null,
     };
   }
 
   public componentWillMount() {
+    this._loadTemplates();
+    this._loadFunctions();
+  }
+
+  public render() {
+    if (!this.state.functionTemplates || !this.state.functionsInfo) {
+      return <LoadingComponent />;
+    }
+
+    const functionTemplates = this.state.functionTemplates as FunctionTemplate[];
+    const functionsInfo = this.state.functionsInfo as ArmObj<FunctionInfo>[];
+
+    return <FunctionCreate functionTemplates={functionTemplates} functionsInfo={functionsInfo} />;
+  }
+
+  private _loadTemplates() {
     FunctionsService.getTemplatesMetadata().then(r => {
       if (r.metadata.success) {
+        console.log(r.data);
         this.setState({
           ...this.state,
           functionTemplates: r.data,
-          isLoading: false,
         });
       } else {
         LogService.trackEvent(
@@ -43,14 +61,20 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
     });
   }
 
-  public render() {
-    if (this.state.isLoading) {
-      return <LoadingComponent />;
-    }
+  private _loadFunctions() {
+    const { resourceId } = this.props;
 
-    const functionTemplates = this.state.functionTemplates as FunctionTemplate[];
-
-    return <FunctionCreate functionTemplates={functionTemplates} />;
+    FunctionsService.getFunctions(resourceId).then(r => {
+      if (r.metadata.success) {
+        console.log(r.data.value);
+        this.setState({
+          ...this.state,
+          functionsInfo: r.data.value,
+        });
+      } else {
+        LogService.trackEvent(LogCategories.functionCreate, 'getFunctions', `Failed to get functions: ${r.metadata.error}`);
+      }
+    });
   }
 }
 
