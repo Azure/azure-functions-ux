@@ -13,7 +13,7 @@ import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import PortalCommunicator from '../../../../../portal-communicator';
 import { PortalContext } from '../../../../../PortalContext';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
-import { take, first } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 export interface BindingCardChildProps {
   functionInfo: ArmObj<FunctionInfo>;
