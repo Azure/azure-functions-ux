@@ -11,7 +11,7 @@ import DisplayTableWithEmptyMessage, {
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, Stack, Icon, Label } from 'office-ui-fabric-react';
+import { SearchBox, Stack } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
@@ -195,15 +195,16 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     this.setState({ showPanel: false });
   };
 
-  // private _onToggleSticky = (key: string): void => {
-  //   let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
-  //   const index = appSettings.findIndex(x => x.name.toLowerCase() === key);
-  //   if (index !== -1) {
-  //     appSettings[index].sticky = !appSettings[index].sticky;
-  //     appSettings = sortBy(appSettings, o => o.name.toLowerCase());
-  //     this.props.setFieldValue('appSettings', appSettings);
-  //   }
-  // };
+  private _onToggleSticky = (key: string): void => {
+    let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
+    const index = appSettings.findIndex(x => (key || '').toLowerCase() === x.name.toLowerCase());
+    if (index !== -1) {
+      const item = { ...appSettings[index], sticky: !appSettings[index].sticky };
+      appSettings[index] = item;
+      appSettings = sortBy(appSettings, o => o.name.toLowerCase());
+      this.props.setFieldValue('appSettings', appSettings);
+    }
+  };
 
   private _onCancel = (): void => {
     this.setState({ showPanel: false });
@@ -259,26 +260,17 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
       );
     }
     if (column.key === 'sticky') {
-      const iconName = item.sticky ? 'Link' : 'RemoveLink';
-      const title = item.sticky ? t('sticky') : t('notSticky');
-      const ariaLabel = item.sticky ? t('slotSettingOn') : t('slotSettingOff');
       return (
-        <>
-          <Icon iconName={iconName} title={title} ariaLabel={ariaLabel} />
-          <Label>{ariaLabel}</Label>
-        </>
+        <ActionButton
+          className={defaultCellStyle}
+          disabled={!editable}
+          id={`app-settings-application-settings-sticky-${index}`}
+          iconProps={{ iconName: item.sticky ? 'Link' : 'RemoveLink' }}
+          ariaLabel={item.sticky ? t('sticky') : t('notSticky')}
+          onClick={() => this._onToggleSticky(itemKey)}>
+          {item.sticky ? t('slotSettingOn') : t('slotSettingOff')}
+        </ActionButton>
       );
-      // return (
-      //   <ActionButton
-      //     className={defaultCellStyle}
-      //     disabled={!editable}
-      //     id={`app-settings-application-settings-sticky-${index}`}
-      //     iconProps={{ iconName: item.sticky ? 'Link' : 'RemoveLink' }}
-      //     ariaLabel={item.sticky ? t('sticky') : t('notSticky')}
-      //     onClick={() => this._onToggleSticky(itemKey)}>
-      //     {item.sticky ? t('slotSettingOn') : t('slotSettingOff')}
-      //   </ActionButton>
-      // );
     }
     if (column.key === 'value') {
       return (
