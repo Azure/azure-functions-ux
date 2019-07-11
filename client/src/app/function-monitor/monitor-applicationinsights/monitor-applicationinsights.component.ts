@@ -69,10 +69,21 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
             functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
             this._getFunctionAppName(functionMonitorInfo.functionAppContext),
             functionMonitorInfo.functionInfo.name
-          )
+          ),
+          this._portalService.getAdToken('graph'),
+          this._portalService.getAdToken('azureTfsApi'),
+          this._portalService.getAdToken('applicationinsightapi')
         )
       )
       .do(tuple => {
+        const graphToken = tuple[3];
+        const tfsToken = tuple[4];
+        const aiToken = tuple[5];
+
+        console.log(graphToken);
+        console.log(tfsToken);
+        console.log(aiToken);
+
         this.functionMonitorInfo = tuple[0];
         this.invocationTraces = tuple[2];
         const monthlySummary = tuple[1];
