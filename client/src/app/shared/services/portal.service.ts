@@ -17,6 +17,7 @@ import {
   BladeResult,
   EventFilter,
   EventVerbs,
+  TokenType,
 } from './../models/portal';
 import {
   Event,
@@ -56,7 +57,7 @@ export interface IPortalService {
     getAppSettingCallback: (appSettingName: string) => void,
     bladeName?: string
   );
-  getAdToken(tokenType: 'graph' | 'azureTfsApi');
+  getAdToken(tokenType: TokenType);
   getSpecCosts(query: SpecCostQueryInput): Observable<SpecCostQueryResult>;
   getSubscription(subscriptionId: string): Observable<Subscription>;
   closeBlades();
@@ -238,7 +239,7 @@ export class PortalService implements IPortalService {
       });
   }
 
-  getAdToken(tokenType: 'graph' | 'azureTfsApi') {
+  getAdToken(tokenType: TokenType) {
     this.logAction('portal-service', `get-ad-token: ${tokenType}`, null);
     const operationId = Guid.newGuid();
 

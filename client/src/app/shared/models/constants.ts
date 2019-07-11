@@ -316,6 +316,9 @@ export class ScenarioIds {
   public static readonly enableConsole = 'EnableConsole';
   public static readonly enableLinkAPIM = 'EnableLinkAPIM';
   public static readonly appDensity = 'appDensity';
+  public static readonly enableKudu = 'EnableKudu';
+  public static readonly enableCORS = 'EnableCORS';
+  public static readonly enableQuotas = 'EnableQuotas';
 }
 
 export class NationalCloudArmUris {
@@ -373,6 +376,7 @@ export class ARMApiVersions {
   public static websiteApiVersion20160301 = '2016-03-01';
   public static websiteApiVersion20180201 = '2018-02-01';
   public static websiteApiVersion20181101 = '2018-11-01';
+  public static websiteApiVersion20160901: '2016-09-01';
   public static armApiVersion = '2014-04-01';
   public static acrApiversion = '2017-03-01';
   public static acrWebhookApiVersion = '2017-10-01';
