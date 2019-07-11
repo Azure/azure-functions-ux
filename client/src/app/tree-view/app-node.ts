@@ -18,6 +18,7 @@ import { ProxiesNode } from './proxies-node';
 import { Subscription } from 'app/shared/models/subscription';
 import { BroadcastEvent, TreeUpdateEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from './../shared/services/broadcast.service';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 export class AppNode extends TreeNode implements Disposable, Removable, CustomSelection, Collection, Refreshable, CanBlockNavChange {
   public supportsAdvanced = true;
@@ -95,11 +96,11 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
           this.isLoading = false;
           this.supportsRefresh = true;
 
-          const children = [
-            new FunctionsNode(this.sideNav, context, this),
-            new ProxiesNode(this.sideNav, context, this),
-            new SlotsNode(this.sideNav, this._subscriptions, this._siteArmCacheObj, this),
-          ];
+          const children: TreeNode[] = [new FunctionsNode(this.sideNav, context, this), new ProxiesNode(this.sideNav, context, this)];
+
+          if (!ArmUtil.isLinuxDynamic(context.site)) {
+            children.push(new SlotsNode(this.sideNav, this._subscriptions, this._siteArmCacheObj, this));
+          }
 
           const filteredChildren = this._scenarioService.checkScenario(ScenarioIds.filterAppNodeChildren, {
             site: context.site,

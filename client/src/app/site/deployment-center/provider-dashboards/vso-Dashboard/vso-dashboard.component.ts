@@ -18,6 +18,7 @@ import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
 import { of } from 'rxjs/observable/of';
 import { AzureDevOpsService } from '../../deployment-center-setup/wizard-logic/azure-devops.service';
+import { DeploymentDashboard } from '../deploymentDashboard';
 
 class VSODeploymentObject extends DeploymentData {
   VSOData: VSOBuildDefinition;
@@ -29,11 +30,11 @@ class VSODeploymentObject extends DeploymentData {
   styleUrls: ['./vso-dashboard.component.scss'],
   providers: [AzureDevOpsService],
 })
-export class VsoDashboardComponent implements OnChanges, OnDestroy {
+export class VsoDashboardComponent extends DeploymentDashboard implements OnChanges, OnDestroy {
   @Input()
   resourceId: string;
 
-  public activeDeployment: ActivityDetailsLog;
+  public activeDeployment: KuduLogMessage;
   public hideCreds = false;
   public sidePanelOpened = false;
   public viewInfoStream$: Subject<string>;
@@ -49,10 +50,11 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     private _cacheService: CacheService,
     private _armService: ArmService,
     private _logService: LogService,
-    private _translateService: TranslateService,
     private _broadcastService: BroadcastService,
-    private _azureDevOpsService: AzureDevOpsService
+    private _azureDevOpsService: AzureDevOpsService,
+    translateService: TranslateService
   ) {
+    super(translateService);
     this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
     this.viewInfoStream$ = new Subject<string>();
     this.viewInfoStream$
@@ -70,6 +72,8 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         );
       })
       .switchMap(r => {
+        this.tableMessages.emptyMessage = this._translateService.instant(PortalResources.noDeploymentDataAvailable);
+
         this.deploymentObject = {
           site: r.site,
           siteMetadata: r.metadata,
@@ -85,22 +89,33 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         const vstsMetaData: any = this.deploymentObject.siteMetadata.properties;
 
         const endpoint = vstsMetaData['VSTSRM_ConfiguredCDEndPoint'];
-        const endpointUri = new URL(endpoint);
         const projectId = vstsMetaData['VSTSRM_ProjectId'];
-        const buildId = vstsMetaData['VSTSRM_BuildDefinitionId'];
-        let accountName = '';
-        if (endpointUri.host.includes(this._devAzureCom)) {
-          accountName = endpointUri.pathname.split('/')[1];
-        } else {
-          accountName = endpointUri.hostname.split('.')[0];
+        const buildDefinitionId = vstsMetaData['VSTSRM_BuildDefinitionId'];
+        const buildDefinitionUrl: string = vstsMetaData['VSTSRM_BuildDefinitionWebAccessUrl'];
+
+        if (buildDefinitionId) {
+          // Get Repository details from build definition
+
+          let accountName = '';
+          let buildDefinitionProjectUrl = '';
+
+          if (buildDefinitionUrl) {
+            accountName = this.getVSOAccountNameFromUrl(buildDefinitionUrl);
+            buildDefinitionProjectUrl = buildDefinitionUrl.substring(0, buildDefinitionUrl.indexOf('/_build?'));
+          } else {
+            accountName = this.getVSOAccountNameFromUrl(endpoint);
+            buildDefinitionProjectUrl = `https://dev.azure.com/${accountName}/${projectId}`;
+          }
+
+          return this._azureDevOpsService.getBuildDef(accountName, buildDefinitionProjectUrl, buildDefinitionId).catch((err, caught) => {
+            this._busyManager.clearBusy();
+            this.deploymentObject = null;
+            this._logService.error(LogCategories.cicd, '/load-vso-dashboard', err);
+            this.unableToReachVSTS = true;
+            return of(null);
+          });
         }
-        return this._azureDevOpsService.getBuildDef(accountName, projectId, buildId).catch((err, caught) => {
-          this._busyManager.clearBusy();
-          this.deploymentObject = null;
-          this._logService.error(LogCategories.cicd, '/load-vso-dashboard', err);
-          this.unableToReachVSTS = true;
-          return of(null);
-        });
+        return of(null);
       })
       .subscribe(
         r => {
@@ -117,6 +132,14 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
       );
   }
 
+  getVSOAccountNameFromUrl(url: string): string {
+    const endpointUri = new URL(url);
+    if (endpointUri.host.includes(this._devAzureCom)) {
+      return endpointUri.pathname.split('/')[1];
+    }
+    return endpointUri.hostname.split('.')[0];
+  }
+
   disconnect() {
     const confirmResult = confirm(this._translateService.instant(PortalResources.disconnectConfirm));
     if (confirmResult) {
@@ -127,6 +150,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
           this._translateService.instant(PortalResources.disconnectingDeployment),
           this._translateService.instant(PortalResources.disconnectingDeployment)
         )
+        .take(1)
         .do(notification => {
           notificationId = notification.id;
         })
@@ -166,6 +190,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   }
 
   refresh() {
+    this.tableMessages.emptyMessage = this._translateService.instant(PortalResources.fetchingDeploymentData);
     this._busyManager.setBusy();
     this.viewInfoStream$.next(this.resourceId);
   }
@@ -228,6 +253,10 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
       }
       if (logType !== VSTSLogMessageType.Other) {
         messageToAdd = this._createDeploymentLogFromJSONMessage(item, messageJSON, date, logType, destinationSlotName);
+        if (item.active && item.status === 4) {
+          // Set active deployment
+          this.activeDeployment = messageJSON;
+        }
       }
     }
     return messageToAdd;
@@ -307,17 +336,15 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
 
   private _getCommitUrl(messageJSON: KuduLogMessage): string {
     if (messageJSON.commitId != null) {
-      const repoName: string = messageJSON.repoProvider.toLowerCase();
-      switch (repoName) {
+      const repoProvider: string = messageJSON.repoProvider.toLowerCase();
+      var repoUrl = messageJSON.repositoryUrl;
+      switch (repoProvider) {
         case 'tfsgit':
-          return '{0}{1}/_git/{2}/commit/{3}'.format(
-            messageJSON.collectionUrl,
-            messageJSON.teamProject,
-            messageJSON.repoName,
-            messageJSON.commitId
-          );
+          repoUrl = repoUrl || '{0}{1}/_git/{2}'.format(messageJSON.collectionUrl, messageJSON.teamProject, messageJSON.repoName);
+          return '{0}/commit/{1}'.format(repoUrl, messageJSON.commitId);
         case 'tfsversioncontrol':
-          return '{0}{1}/_versionControl/changeset/{2}'.format(messageJSON.collectionUrl, messageJSON.teamProject, messageJSON.commitId);
+          repoUrl = repoUrl || `{0}{1}`.format(messageJSON.collectionUrl, messageJSON.teamProject);
+          return '{0}/_versionControl/changeset/{1}'.format(repoUrl, messageJSON.commitId);
         default:
           return '';
       }
@@ -327,14 +354,18 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
 
   private _getBuildUrl(messageJSON: KuduLogMessage): string {
     if (messageJSON.buildId != null) {
-      return '{0}{1}/_build?buildId={2}&_a=summary'.format(messageJSON.collectionUrl, messageJSON.teamProject, messageJSON.buildId);
+      return messageJSON.buildProjectUrl
+        ? '{0}/_build?buildId={1}&_a=summary'.format(messageJSON.buildProjectUrl, messageJSON.buildId)
+        : '{0}/{1}/_build?buildId={2}&_a=summary'.format(messageJSON.collectionUrl, messageJSON.teamProject, messageJSON.buildId);
     }
     return '';
   }
 
   public onUrlClick(url) {
-    const win = window.open(url, '_blank');
-    win.focus();
+    if (url) {
+      const win = window.open(url, '_blank');
+      win.focus();
+    }
   }
 
   private _getReleaseUrl(messageJSON: KuduLogMessage): string {
@@ -352,13 +383,11 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     const urlInfo: UrlInfo[] = [];
     if (messageJSON.commitId) {
       const commitUrl: string = this._getCommitUrl(messageJSON);
-      if (commitUrl) {
-        urlInfo.push({
-          urlIcon: 'image/deployment-center/CD-Commit.svg',
-          urlText: `Source Version ${messageJSON.commitId.substr(0, 10)}`,
-          url: commitUrl,
-        });
-      }
+      urlInfo.push({
+        urlIcon: 'image/deployment-center/CD-Commit.svg',
+        urlText: `Source Version ${messageJSON.commitId.substr(0, 10)}`,
+        url: commitUrl,
+      });
     }
     if (messageJSON.buildNumber) {
       const buildUrl: string = this._getBuildUrl(messageJSON);
@@ -485,70 +514,79 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   }
 
   get AccountText() {
-    if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-      return this._translateService.instant(PortalResources.loading);
+    if (this.deploymentObject && this.deploymentObject.VSOData) {
+      const fullUrl = this.deploymentObject.VSOData.url;
+      const url = new URL(fullUrl);
+      const host = url.host;
+      if (host.includes(this._devAzureCom)) {
+        const accountName = url.pathname.split('/')[1];
+        return accountName;
+      }
+      return host.replace('https://', '').split('.')[0];
+    } else if (this.activeDeployment) {
+      return this.getVSOAccountNameFromUrl(this.activeDeployment.collectionUrl);
     }
-    const fullUrl = this.deploymentObject.VSOData.url;
-    const url = new URL(fullUrl);
-    const host = url.host;
-    if (host.includes(this._devAzureCom)) {
-      const accountName = url.pathname.split('/')[1];
-      return accountName;
-    }
-    return host.replace('https://', '').split('.')[0];
+    return this._translateService.instant(PortalResources.loading);
   }
 
   accountOnClick() {
-    if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-      return;
+    let accountUrl = '';
+    if (this.deploymentObject && this.deploymentObject.VSOData) {
+      const fullUrl = this.deploymentObject.VSOData.url;
+      const url = new URL(fullUrl);
+      accountUrl = url.host;
+      if (accountUrl.includes(this._devAzureCom)) {
+        const accountName = url.pathname.split('/')[1];
+        accountUrl = `${accountUrl}/${accountName}`;
+      }
+    } else if (this.activeDeployment) {
+      accountUrl = this.activeDeployment.collectionUrl;
     }
 
-    const fullUrl = this.deploymentObject.VSOData.url;
-    const url = new URL(fullUrl);
-    let gotoUrl = url.host;
-    if (gotoUrl.includes(this._devAzureCom)) {
-      const accountName = url.pathname.split('/')[1];
-      gotoUrl = `${gotoUrl}/${accountName}`;
+    if (accountUrl) {
+      const win = window.open(`https://${accountUrl}`, '_blank');
+      win.focus();
     }
-    const win = window.open(`https://${gotoUrl}`, '_blank');
-    win.focus();
   }
 
   get SourceText() {
-    if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-      return this._translateService.instant('loading');
-    }
+    let source =
+      (this.deploymentObject && this.deploymentObject.VSOData && this.deploymentObject.VSOData.repository.type) ||
+      (this.activeDeployment && this.activeDeployment.repoProvider);
 
-    if (
-      this.deploymentObject.VSOData.repository.type.toLowerCase() == 'tfsgit' ||
-      this.deploymentObject.VSOData.repository.type.toLowerCase() == 'tfsversioncontrol'
-    ) {
-      return `Azure Repos (${this.deploymentObject.VSOData.repository.type})`;
+    if (source) {
+      if (source.toLowerCase() == 'tfsgit' || source.toLowerCase() == 'tfsversioncontrol' || source.toLowerCase() == 'git') {
+        return `${this._translateService.instant(PortalResources.azureReposLabel)} (${source})`;
+      }
+      return source;
     }
-
-    return this.deploymentObject.VSOData.repository.type;
+    return this._translateService.instant('loading');
   }
 
   get ProjectName() {
-    if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-      return this._translateService.instant('loading');
-    }
-    return this.deploymentObject.VSOData.project.name;
+    return (
+      (this.deploymentObject && this.deploymentObject.VSOData && this.deploymentObject.VSOData.project.name) ||
+      (this.activeDeployment && this.activeDeployment.teamProjectName) ||
+      this._translateService.instant('loading')
+    );
   }
 
   get RepositoryText() {
-    if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-      return this._translateService.instant('loading');
-    }
-    return this.deploymentObject.VSOData.repository.url;
+    return (
+      (this.deploymentObject && this.deploymentObject.VSOData && this.deploymentObject.VSOData.repository.url) ||
+      (this.activeDeployment && this.activeDeployment.repositoryUrl) ||
+      this._translateService.instant('loading')
+    );
   }
 
   repositoryOnClick() {
-    if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-      return;
+    let repoUrl =
+      (this.deploymentObject && this.deploymentObject.VSOData && this.deploymentObject.VSOData.repository.url) ||
+      this.activeDeployment.repositoryUrl;
+    if (repoUrl) {
+      const win = window.open(repoUrl, '_blank');
+      win.focus();
     }
-    const win = window.open(this.deploymentObject.VSOData.repository.url, '_blank');
-    win.focus();
   }
 
   get LoadTestText() {
@@ -560,14 +598,17 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     return !!testSiteName ? 'Enabled' : 'Disabled';
   }
   get BranchText() {
-    if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-      return this._translateService.instant('loading');
-    }
-    return this.deploymentObject.VSOData.repository.defaultBranch.replace('refs/heads/', '');
+    return (
+      (this.deploymentObject &&
+        this.deploymentObject.VSOData &&
+        this.deploymentObject.VSOData.repository.defaultBranch.replace('refs/heads/', '')) ||
+      (this.activeDeployment && this.activeDeployment.branch) ||
+      this._translateService.instant('loading')
+    );
   }
 
   get SlotName() {
-    if (!this.deploymentObject || !this.deploymentObject.VSOData) {
+    if (!this.deploymentObject || !this.deploymentObject.siteMetadata) {
       return this._translateService.instant('loading');
     }
     const slotName = this.deploymentObject.siteMetadata.properties['VSTSRM_SlotName'];
@@ -662,5 +703,9 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     this._ngUnsubscribe$.next();
+  }
+
+  browseToSite() {
+    this._browseToSite(this.deploymentObject);
   }
 }

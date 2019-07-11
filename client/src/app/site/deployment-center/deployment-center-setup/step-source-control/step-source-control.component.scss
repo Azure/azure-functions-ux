@@ -79,6 +79,9 @@ h1 {
     font-size: $card-header-title-font-size;
     font-weight: $card-header-title-font-weight;
     height: $card-header-title-height;
+    border-bottom-style: $card-description-border-top-style;
+    border-bottom-width: $card-description-border-top-width;
+    border-bottom-color: $card-description-border-color;
     img {
       height: $card-header-icon-height;
       width: $card-header-icon-width;
@@ -88,9 +91,6 @@ h1 {
   }
 
   .cardDescription {
-    border-top-style: $card-description-border-top-style;
-    border-top-width: $card-description-border-top-width;
-    border-color: $card-description-border-color;
     margin-top: $card-description-margin-top;
     padding: $card-description-padding;
     display: -webkit-box;

@@ -167,5 +167,5 @@
         [adminKeys]="true"
         [viewInfo]="viewInfo"></function-keys>
 
-    <host-editor *ngIf="context" class="features-wrapper" [functionAppInput]="context" ></host-editor>
+    <host-editor *ngIf="context && !isLinuxDynamic" class="features-wrapper" [functionAppInput]="context" ></host-editor>
 </div>

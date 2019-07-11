@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ActionBar from '../../../../components/ActionBar';
-import { HandlerMapping } from '../../../../models/WebAppModels';
 import { formElementStyle } from '../AppSettings.styles';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import { HandlerMapping } from '../../../../models/site/config';
 
 export interface HandlerMappingAddEditProps {
   updateHandlerMapping: (item: HandlerMapping) => any;

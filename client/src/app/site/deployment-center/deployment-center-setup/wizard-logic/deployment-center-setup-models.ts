@@ -301,3 +301,30 @@ export interface CodeRepository {
   type: string;
   id?: string;
 }
+
+/**
+ * AAD authorization parameters which are required for verifying if a user has permissions to register a new app in an Active Directory
+ */
+export interface AadAuthorizationParameters {
+  /**
+   * Gets tenant Id of the Azure Active Directory
+   */
+  tenantId: string;
+  /**
+   * Gets Azure active directory issued token for VSTS service
+   */
+  token: string;
+}
+
+export interface PermissionsResultCreationParameters {
+  aadPermissions: AadAuthorizationParameters;
+}
+
+export interface PermissionResult {
+  message: string;
+  value: boolean;
+}
+
+export interface PermissionsResult {
+  aadPermissions: PermissionResult;
+}
