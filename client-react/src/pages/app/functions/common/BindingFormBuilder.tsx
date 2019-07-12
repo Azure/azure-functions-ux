@@ -47,17 +47,17 @@ export class BindingFormBuilder {
     return initialFormValues;
   }
 
-  public getFields(formProps: FormikProps<BindingEditorFormValues>) {
+  public getFields(formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     const fields: JSX.Element[] = [];
 
     let key = 0;
     for (const setting of this._bindingMetadata.settings) {
       if (setting.value === 'string') {
-        fields.push(this._getTextField(key, setting, formProps));
+        fields.push(this._getTextField(key, setting, formProps, isDisabled));
       } else if (setting.value === 'enum') {
-        fields.push(this._getDropdown(key, setting, formProps));
+        fields.push(this._getDropdown(key, setting, formProps, isDisabled));
       } else if (setting.value === 'checkBoxList') {
-        fields.push(this._getMultiSelectDropdown(key, setting, formProps));
+        fields.push(this._getMultiSelectDropdown(key, setting, formProps, isDisabled));
       }
 
       key = key + 1;
@@ -66,19 +66,29 @@ export class BindingFormBuilder {
     return fields;
   }
 
-  private _getTextField(key: number, setting: BindingConfigUIDefinition, formProps: FormikProps<BindingEditorFormValues>) {
+  private _getTextField(
+    key: number,
+    setting: BindingConfigUIDefinition,
+    formProps: FormikProps<BindingEditorFormValues>,
+    isDisabled: boolean
+  ) {
     return (
       <FormControlWrapper
         label={BindingFormBuilder.getLocalizedString(setting.label, this._t)}
         layout={Layout.vertical}
         tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t)}
         key={key}>
-        <Field name={setting.name} component={TextField} {...formProps} />
+        <Field name={setting.name} component={TextField} disabled={isDisabled} {...formProps} />
       </FormControlWrapper>
     );
   }
 
-  private _getDropdown(key: number, setting: BindingConfigUIDefinition, formProps: FormikProps<BindingEditorFormValues>) {
+  private _getDropdown(
+    key: number,
+    setting: BindingConfigUIDefinition,
+    formProps: FormikProps<BindingEditorFormValues>,
+    isDisabled: boolean
+  ) {
     let options: IDropdownOption[] = [];
 
     if (setting.enum) {
@@ -91,12 +101,17 @@ export class BindingFormBuilder {
         layout={Layout.vertical}
         tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t)}
         key={key}>
-        <Field name={setting.name} component={Dropdown} {...formProps} options={options} />
+        <Field name={setting.name} component={Dropdown} {...formProps} options={options} disabled={isDisabled} />
       </FormControlWrapper>
     );
   }
 
-  private _getMultiSelectDropdown(key: number, setting: BindingConfigUIDefinition, formProps: FormikProps<BindingEditorFormValues>) {
+  private _getMultiSelectDropdown(
+    key: number,
+    setting: BindingConfigUIDefinition,
+    formProps: FormikProps<BindingEditorFormValues>,
+    isDisabled: boolean
+  ) {
     if (this._bindingInfo.type.toLowerCase() === 'httptrigger') {
       return (
         <FormControlWrapper
@@ -104,7 +119,7 @@ export class BindingFormBuilder {
           layout={Layout.vertical}
           tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t)}
           key={key}>
-          <Field name={setting.name} component={HttpMethodMultiDropdown} key={key} setting={setting} {...formProps} />
+          <Field name={setting.name} component={HttpMethodMultiDropdown} key={key} setting={setting} disabled={isDisabled} {...formProps} />
         </FormControlWrapper>
       );
     }

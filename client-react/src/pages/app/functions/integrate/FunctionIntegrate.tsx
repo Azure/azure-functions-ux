@@ -26,19 +26,26 @@ export interface BindingUpdateInfo {
 
 export interface BindingEditorContextInfo {
   openEditor: (bindingInfo: BindingInfo) => Observable<BindingUpdateInfo>;
+  closeEditor: () => void;
+  updateFunctionInfo: React.Dispatch<React.SetStateAction<ArmObj<FunctionInfo>>>;
 }
 
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
-  const { functionInfo } = props;
+  const { functionInfo: initialFunctionInfo } = props;
 
   const bindingUpdate$ = useRef(new Subject<BindingUpdateInfo>());
   const [bindingToUpdate, setBindingToUpdate] = useState<BindingInfo | undefined>(undefined);
+  const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo>>(initialFunctionInfo);
 
   const openEditor = (bindingInfo: BindingInfo): Observable<BindingUpdateInfo> => {
     setBindingToUpdate(bindingInfo);
     return bindingUpdate$.current;
+  };
+
+  const closeEditor = () => {
+    setBindingToUpdate(undefined);
   };
 
   const onSubmit = (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => {
@@ -47,8 +54,6 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
       currentBindingInfo,
       closedReason: 'save',
     });
-
-    setBindingToUpdate(undefined);
   };
 
   const onCancel = () => {
@@ -63,6 +68,8 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
 
   const editorContext: BindingEditorContextInfo = {
     openEditor,
+    closeEditor,
+    updateFunctionInfo: setFunctionInfo,
   };
 
   return (

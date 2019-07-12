@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BindingConfigMetadata, BindingConfigDirection } from '../../../../../models/functions/bindings-config';
 import { BindingInfo, BindingDirection } from '../../../../../models/functions/function-binding';
 import { useTranslation } from 'react-i18next';
@@ -28,8 +28,8 @@ const fieldWrapperStyle = style({
 
 const BindingEditor: React.SFC<BindingEditorProps> = props => {
   const { allBindingsConfigMetadata: bindingsConfigMetadata, currentBindingInfo, onSubmit } = props;
-
   const { t } = useTranslation();
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const currentBindingMetadata = bindingsConfigMetadata.find(b => b.type === currentBindingInfo.type) as BindingConfigMetadata;
 
@@ -53,6 +53,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
       }
     }
 
+    setIsDisabled(true);
     onSubmit(newBindingInfo, currentBindingInfo);
   };
 
@@ -63,11 +64,12 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
           <form>
             <EditBindingCommandBar
               submitForm={formProps.submitForm}
-              resetForm={formProps.resetForm}
+              resetForm={() => formProps.resetForm(initialFormValues)}
               delete={() => onDelete(currentBindingInfo)}
               dirty={formProps.dirty}
+              loading={isDisabled}
             />
-            <div className={fieldWrapperStyle}>{builder.getFields(formProps)}</div>
+            <div className={fieldWrapperStyle}>{builder.getFields(formProps, isDisabled)}</div>
           </form>
         );
       }}

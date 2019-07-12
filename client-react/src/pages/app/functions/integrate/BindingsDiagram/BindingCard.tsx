@@ -129,12 +129,13 @@ const onClick = (
     .pipe(first())
     .subscribe(info => {
       if (info.closedReason === 'save') {
-        submit(portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo, info.currentBindingInfo);
+        submit(bindingEditorContext, portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo, info.currentBindingInfo);
       }
     });
 };
 
 const submit = (
+  bindingEditorContext: BindingEditorContextInfo,
   portalCommunicator: PortalCommunicator,
   t: i18next.TFunction,
   functionInfo: ArmObj<FunctionInfo>,
@@ -181,6 +182,9 @@ const submit = (
       true,
       t('updateBindingNotificationSuccess').format(newFunctionInfo.properties.name, newBindingInfo.name)
     );
+
+    bindingEditorContext.closeEditor();
+    bindingEditorContext.updateFunctionInfo(newFunctionInfo);
   });
 };
 
