@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>Armazenamento</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>Função</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Erro ao Criar Função: {{error}}</value>
   </data>
@@ -668,7 +671,7 @@
     <value>Cenário:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Ativadores</value>
+    <value>Acionador</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
     <value>A versão de avaliação expirou</value>
@@ -920,10 +923,10 @@
     <value>A definição "Sempre ligado" não está ativada. A aplicação pode não funcionar corretamente</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>A definição "AzureWebJobsSecretStorageType" deve ser definida como "blob". Não ter esta definição irá causar um comportamento inesperado ao utilizar os blocos de implementação.</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>A definição "AzureWebJobsSecretStorageType" não deve ser definida como "ficheiros". Ter desta definição irá causar um comportamento inesperado ao utilizar os blocos de implementação.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Notas de versão das Funções do Azure.</value>
@@ -1085,7 +1088,7 @@
     <value>O proxy com o nome "{{name}}" já existe</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>As ranhuras de funções do Azure estão atualmente desativadas.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Eliminar</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Reiniciar</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Registos</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>Trocar</value>
@@ -2194,14 +2200,11 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>Não existem aplicações de função para apresentar</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>Ranhuras (pré-visualização)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Ativar ranhuras de implementação (pré-visualização).</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>Ativar blocos de implementação</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Problemas conhecidos:</value>
@@ -2210,13 +2213,16 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>A integração de aplicações lógicas nas Funções não funciona quando as Ranhuras (pré-visualização) estão ativadas.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>Ativar esta funcionalidade irá repor quaisquer segredos pré-existentes. Os segredos da função podem ser encontrados no nó "Gerir" para cada função.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Uma operação de criação de ranhura está atualmente em progresso. Depois de navegar para fora, não vai poder verificar o estado de operação.</value>
   </data>
   <data name="slots_label" xml:space="preserve">
-    <value>Slots</value>
+    <value>Ranhuras</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>Ranhuras (pré-visualização)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Adicionar Ranhura</value>
@@ -3205,6 +3211,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>Os endereços IP enviados para a sua aplicação poderão ser alterados.</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>O seu plano do serviço de aplicações {0} excedeu o número recomendado de aplicações para o seu tamanho.</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>Gratuito</value>
   </data>
@@ -3539,7 +3548,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Arrastar um ficheiro para aqui ou</value>
   </data>
   <data name="browse" xml:space="preserve">
-    <value>procurar</value>
+    <value>Procurar</value>
   </data>
   <data name="toUpload" xml:space="preserve">
     <value>a carregar</value>
@@ -3803,6 +3812,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>Falha ao configurar implementação: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>You can't register a new application in Azure Active Directory. Learn more: https://go.microsoft.com/fwlink/?linkid=843472. More details: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>A desligar a sua implementação</value>
   </data>
@@ -3846,7 +3858,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Azure Container Registry</value>
   </data>
   <data name="containerDockerHub" xml:space="preserve">
-    <value>Hub do Docker</value>
+    <value>Docker Hub</value>
   </data>
   <data name="containerPrivateRegistry" xml:space="preserve">
     <value>Registo Privado</value>
@@ -3990,7 +4002,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>O repositório da aplicação Web {0} não pode ser atualizado neste momento.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>A Entrega Contínua do Azure DevOps requer que tenha permissões para escrever no Azure Active Directory e criar um principal de serviço.</value>
+    <value>Azure DevOps Continuous Delivery requires you to have permissions to create a service principal in Azure Active Directory and assign role to it.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Selecionar exemplo</value>
@@ -4005,7 +4017,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Não tem organizações Azure DevOps válidas</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>Não tem nenhuma organização válida do Azure DevOps. A Compilação Kudu do Serviço de Aplicações também requer que seja um proprietário de organização</value>
+    <value>É exigido o acesso ao nível de proprietário para uma organização do Azure DevOps válida.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Criar uma agora</value>
@@ -4962,6 +4974,18 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>O nome do grupo de recursos só pode incluir carateres alfanuméricos, pontos, carateres de sublinhado, hífenes e parêntesis e não pode terminar num ponto.</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>"{0}" é um caráter inválido</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>O nome "{0}" é restrito. Escolha outro nome.</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>O nome do seu plano não pode exceder {0} carateres.</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>Já existe um plano com o nome "{0}" no grupo de recursos "{1}"</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>Quer mesmo cancelar a operação de atualização?</value>
   </data>
@@ -4991,5 +5015,56 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>Ocorreu uma falha ao validar as definições de contentor.</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>Nenhum acionador definido</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>Não existem entradas definidas</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>Nenhuma saída definida</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ Adicionar entrada</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>Função</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>A obter dados de implementação...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>Não existem implementações disponíveis.</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>Esta funcionalidade não está disponível para aplicações num ILB ASE.</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>Updating binding</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>Updating {0} ({1})</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>Failed to update {0} ({1}): {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>Succeeded in updating {0} ({1})</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>Edit input</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>Edit output</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>Edit trigger</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>Edit binding commands</value>
   </data>
 </root>

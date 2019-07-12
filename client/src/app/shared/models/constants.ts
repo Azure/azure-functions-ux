@@ -58,6 +58,7 @@ export class Constants {
   public static WebhookHandlerFunctionName = 'RefreshO365Subscriptions';
   public static WebhookHandlerFunctionId = 'TimerTrigger-CSharpWebhookHandler';
   public static WebhookFunctionName = 'MSGraphWebhook';
+  public static appDensityLimit = 8;
 }
 
 export class TabCommunicationVerbs {
@@ -165,6 +166,7 @@ export class Links {
   public static elasticPremiumNotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086603';
   public static clientCertEnabledLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086188';
   public static powershellPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086831';
+  public static appDensityWarningLink = 'https://go.microsoft.com/fwlink/?linkid=2098431';
 }
 
 export class Kinds {
@@ -313,6 +315,10 @@ export class ScenarioIds {
   public static readonly alwaysOnSupported = 'alwaysOnSupported';
   public static readonly enableConsole = 'EnableConsole';
   public static readonly enableLinkAPIM = 'EnableLinkAPIM';
+  public static readonly appDensity = 'appDensity';
+  public static readonly enableKudu = 'EnableKudu';
+  public static readonly enableCORS = 'EnableCORS';
+  public static readonly enableQuotas = 'EnableQuotas';
 }
 
 export class NationalCloudArmUris {
@@ -370,6 +376,7 @@ export class ARMApiVersions {
   public static websiteApiVersion20160301 = '2016-03-01';
   public static websiteApiVersion20180201 = '2018-02-01';
   public static websiteApiVersion20181101 = '2018-11-01';
+  public static websiteApiVersion20160901: '2016-09-01';
   public static armApiVersion = '2014-04-01';
   public static acrApiversion = '2017-03-01';
   public static acrWebhookApiVersion = '2017-10-01';

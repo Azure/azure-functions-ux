@@ -219,7 +219,14 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
       )
     );
 
-    developmentToolFeatures.push(new OpenKuduFeature(site, this._hasSiteWritePermissionStream, this._translateService));
+    developmentToolFeatures.push(
+      new OpenKuduFeature(
+        site,
+        this._hasSiteWritePermissionStream,
+        this._translateService,
+        this._scenarioService.checkScenario(ScenarioIds.enableKudu, { site: site })
+      )
+    );
     developmentToolFeatures.push(
       new OpenEditorFeature(site, this._hasSiteWritePermissionStream, this._translateService, this._enableAppServiceEditorStream)
     );
@@ -479,7 +486,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._scenarioService.checkScenario(ScenarioIds.enableDiagnosticLogs, { site: site })
       ),
 
-      new TabFeature(
+      new DisableableTabFeature(
         this._translateService.instant(PortalResources.feature_logStreamingName),
         this._translateService.instant(PortalResources.feature_logStreamingName) +
           ' ' +
@@ -489,7 +496,9 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._translateService.instant(PortalResources.feature_logStreamingInfo),
         'image/log-stream.svg',
         SiteTabIds.logStream,
-        this._broadcastService
+        this._broadcastService,
+        null,
+        this._scenarioService.checkScenario(ScenarioIds.enableLogStream, { site: site })
       ),
 
       new DisableableBladeFeature(
@@ -567,7 +576,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._broadcastService
       ),
 
-      new BladeFeature(
+      new DisableableBladeFeature(
         'CORS',
         'cors api',
         this._translateService.instant(PortalResources.feature_corsInfo),
@@ -577,7 +586,9 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
           detailBladeInputs: { resourceUri: site.id },
           openAsContextBlade: true,
         },
-        this._portalService
+        this._portalService,
+        null,
+        this._scenarioService.checkScenario(ScenarioIds.enableCORS, { site: site })
       ),
     ];
 
@@ -639,7 +650,8 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             },
           },
           this._portalService,
-          this._hasPlanReadPermissionStream
+          this._hasPlanReadPermissionStream,
+          this._scenarioService.checkScenario(ScenarioIds.enableQuotas, { site: site })
         )
       );
     }
@@ -851,14 +863,20 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 }
 
 export class OpenKuduFeature extends DisableableFeature {
-  constructor(private _site: ArmObj<Site>, disableInfoStream: Subject<DisableInfo>, _translateService: TranslateService) {
+  constructor(
+    private _site: ArmObj<Site>,
+    disableInfoStream: Subject<DisableInfo>,
+    _translateService: TranslateService,
+    scenarioResult: ScenarioResult
+  ) {
     super(
       _translateService.instant(PortalResources.feature_advancedToolsName),
       _translateService.instant(PortalResources.feature_advancedToolsName) + ' kudu',
       _translateService.instant(PortalResources.feature_advancedToolsInfo),
       'image/advanced-tools.svg',
       null,
-      disableInfoStream
+      disableInfoStream,
+      scenarioResult
     );
   }
 

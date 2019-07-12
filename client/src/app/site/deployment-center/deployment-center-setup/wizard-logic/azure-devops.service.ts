@@ -103,7 +103,7 @@ export class AzureDevOpsService implements OnDestroy {
     }
     const uri = `${Constants.serviceHost}api/setupvso?accountName=${account}`;
     return this.getAccounts().switchMap(r => {
-      const msaPassthrough = r.find(x => x.AccountName.toLowerCase() === account.toLowerCase())!.ForceMsaPassThrough;
+      const msaPassthrough = isNewVsoAccount ? false : r.find(x => x.AccountName.toLowerCase() === account.toLowerCase())!.ForceMsaPassThrough;
       return this._httpClient
         .post(uri, deploymentObj, {
           headers: msaPassthrough ? this._headersWithPassthrough : this._headersWithoutPassthrough,
