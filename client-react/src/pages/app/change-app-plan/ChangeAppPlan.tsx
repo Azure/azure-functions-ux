@@ -266,7 +266,7 @@ const updateAppDensityWarning = async (
 const shouldShowAppDensityWarning = (skuCode: string, numberOfSites: number, t: any): boolean => {
   const scenarioChecker = new ScenarioService(t);
   const shouldShowAppDensityMessage = scenarioChecker.checkScenario(ScenarioIds.appDensity).status !== 'disabled';
-  return shouldShowAppDensityMessage && isAppDensitySkuCode(skuCode) && numberOfSites >= 0;
+  return shouldShowAppDensityMessage && isAppDensitySkuCode(skuCode) && numberOfSites >= CommonConstants.AppDensityLimit;
 };
 
 const isAppDensitySkuCode = (skuCode: string): boolean => {
