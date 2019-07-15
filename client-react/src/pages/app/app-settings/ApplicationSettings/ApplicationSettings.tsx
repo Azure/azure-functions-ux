@@ -11,7 +11,7 @@ import DisplayTableWithEmptyMessage, {
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, Stack } from 'office-ui-fabric-react';
+import { SearchBox, Stack, TooltipHost } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
@@ -233,32 +233,70 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
       return null;
     }
 
-    if (column.key === 'delete') {
+    if (column.key === 'actions') {
       return (
-        <ActionButton
-          className={defaultCellStyle}
-          disabled={!editable}
-          id={`app-settings-application-settings-delete-${index}`}
-          iconProps={{ iconName: 'Delete' }}
-          ariaLabel={t('delete')}
-          onClick={() => this._removeItem(itemKey)}>
-          {t('delete')}
-        </ActionButton>
+        <>
+          <TooltipHost
+            content={t('delete')}
+            id={`app-settings-application-settings-delete-tooltip-${index}`}
+            calloutProps={{ gapSpace: 0 }}
+            closeDelay={500}>
+            <ActionButton
+              className={defaultCellStyle}
+              disabled={!editable}
+              id={`app-settings-application-settings-delete-${index}`}
+              iconProps={{ iconName: 'Delete' }}
+              // ariaLabel={t('delete')}
+              aria-labelledby={`app-settings-application-settings-delete-tooltip-${index}`}
+              onClick={() => this._removeItem(itemKey)}>
+              {t('delete')}
+            </ActionButton>
+          </TooltipHost>
+          <TooltipHost
+            content={t('edit')}
+            id={`app-settings-application-settings-edit-tooltip-${index}`}
+            calloutProps={{ gapSpace: 0 }}
+            closeDelay={500}>
+            <ActionButton
+              className={defaultCellStyle}
+              disabled={!editable}
+              id={`app-settings-application-settings-edit-${index}`}
+              iconProps={{ iconName: 'Edit' }}
+              // ariaLabel={t('edit')}
+              aria-labelledby={`app-settings-application-settings-edit-tooltip-${index}`}
+              onClick={() => this._onShowPanel(item)}>
+              {t('edit')}
+            </ActionButton>
+          </TooltipHost>
+        </>
       );
     }
-    if (column.key === 'edit') {
-      return (
-        <ActionButton
-          className={defaultCellStyle}
-          disabled={!editable}
-          id={`app-settings-application-settings-edit-${index}`}
-          iconProps={{ iconName: 'Edit' }}
-          ariaLabel={t('edit')}
-          onClick={() => this._onShowPanel(item)}>
-          {t('edit')}
-        </ActionButton>
-      );
-    }
+    // if (column.key === 'delete') {
+    //   return (
+    //     <ActionButton
+    //       className={defaultCellStyle}
+    //       disabled={!editable}
+    //       id={`app-settings-application-settings-delete-${index}`}
+    //       iconProps={{ iconName: 'Delete' }}
+    //       ariaLabel={t('delete')}
+    //       onClick={() => this._removeItem(itemKey)}>
+    //       {t('delete')}
+    //     </ActionButton>
+    //   );
+    // }
+    // if (column.key === 'edit') {
+    //   return (
+    //     <ActionButton
+    //       className={defaultCellStyle}
+    //       disabled={!editable}
+    //       id={`app-settings-application-settings-edit-${index}`}
+    //       iconProps={{ iconName: 'Edit' }}
+    //       ariaLabel={t('edit')}
+    //       onClick={() => this._onShowPanel(item)}>
+    //       {t('edit')}
+    //     </ActionButton>
+    //   );
+    // }
     if (column.key === 'sticky') {
       return (
         <ActionButton
@@ -350,25 +388,40 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         isPadded: true,
         isResizable: true,
         onRender: this._onRenderItemColumn,
+        ariaLabel: t('sticky'),
       },
       {
-        key: 'delete',
-        name: t('delete'),
-        minWidth: 100,
-        maxWidth: 100,
+        key: 'actions',
+        name: t('binding_actions'),
+        minWidth: 200,
+        maxWidth: 200,
         isResizable: true,
         isCollapsable: false,
         onRender: this._onRenderItemColumn,
+        // ariaLabel: t('binding_actions'),
       },
-      {
-        key: 'edit',
-        name: t('edit'),
-        minWidth: 100,
-        maxWidth: 100,
-        isResizable: true,
-        isCollapsable: false,
-        onRender: this._onRenderItemColumn,
-      },
+      // {
+      //   key: 'delete',
+      //   // name: t('delete'),
+      //   name: '',
+      //   minWidth: 100,
+      //   maxWidth: 100,
+      //   isResizable: true,
+      //   isCollapsable: false,
+      //   onRender: this._onRenderItemColumn,
+      //   ariaLabel: t('delete'),
+      // },
+      // {
+      //   key: 'edit',
+      //   // name: t('edit'),
+      //   name: '',
+      //   minWidth: 100,
+      //   maxWidth: 100,
+      //   isResizable: true,
+      //   isCollapsable: false,
+      //   onRender: this._onRenderItemColumn,
+      //   ariaLabel: t('edit'),
+      // },
     ];
   };
 }
