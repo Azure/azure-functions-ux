@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 
 export interface BindingEditorDataLoaderProps {
   functionInfo: ArmObj<FunctionInfo>;
-  bindingInfo: BindingInfo;
+  bindingInfo?: BindingInfo;
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
 }
@@ -61,10 +61,8 @@ const panelStyle = {
 
 const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props => {
   const { functionInfo, bindingInfo } = props;
-  const [bindingsMetadata, setBindingsMetadata] = useState<BindingConfigMetadata[] | null>(null);
-  const [isPanelOpened, setIsPanelOpened] = useState<boolean>(true);
+  const [bindingsMetadata, setBindingsMetadata] = useState<BindingConfigMetadata[] | undefined>(undefined);
   const { t } = useTranslation();
-
   useEffect(() => {
     FunctionsService.getBindingConfigMetadata().then(r => {
       if (!r.metadata.success) {
@@ -80,33 +78,28 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
     });
   }, []);
 
-  const onPanelClosed = () => {
-    setIsPanelOpened(false);
-    props.onPanelClose();
-  };
-
-  if (!bindingsMetadata) {
-    return <LoadingComponent />;
+  if (!bindingInfo || !bindingsMetadata) {
+    return null;
   }
 
   return (
     <Panel
-      isOpen={isPanelOpened}
+      isOpen={true}
       type={PanelType.smallFixedFar}
-      onRenderNavigationContent={() => onRenderNavigationContent(bindingInfo, onPanelClosed, t)}
+      onRenderNavigationContent={() => onRenderNavigationContent(bindingInfo as BindingInfo, props.onPanelClose, t)}
       styles={panelStyle}>
-      {getEditorOrLoader(functionInfo, bindingInfo, bindingsMetadata, props.onSubmit)}
+      {getEditorOrLoader(functionInfo, props.onSubmit, bindingInfo, bindingsMetadata)}
     </Panel>
   );
 };
 
 const getEditorOrLoader = (
   functionInfo: ArmObj<FunctionInfo>,
-  bindingInfo: BindingInfo,
-  bindingsMetadata: BindingConfigMetadata[],
-  onSubmit: (bindingInfo: BindingInfo) => void
+  onSubmit: (bindingInfo: BindingInfo) => void,
+  bindingInfo?: BindingInfo,
+  bindingsMetadata?: BindingConfigMetadata[]
 ) => {
-  if (bindingsMetadata) {
+  if (bindingsMetadata && bindingInfo) {
     return (
       <div style={{ marginTop: '10px' }}>
         <BindingEditor
