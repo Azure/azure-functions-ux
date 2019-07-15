@@ -228,8 +228,8 @@ export class OnPremEnvironment extends Environment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.appDensity] = {
-      id: ScenarioIds.appDensity,
+    this.scenarioChecks[ScenarioIds.isAppDensityEnabled] = {
+      id: ScenarioIds.isAppDensityEnabled,
       runCheck: () => {
         return { status: 'disabled' };
       },

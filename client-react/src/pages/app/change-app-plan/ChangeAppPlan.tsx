@@ -27,7 +27,6 @@ import { ArmObj, ArmSku } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
-import { ServerFarmSkuConstants } from '../../../utils/scenario-checker/ServerFarmSku';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { CommonConstants } from '../../../utils/CommonConstants';
@@ -120,7 +119,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   }, [isUpdating]);
 
   useEffect(() => {
-    updateAppDensityWarning(setShowAppDensityWarning, subscriptionId, formValues.serverFarmInfo, t);
+    updateAppDensityWarning(setShowAppDensityWarning, formValues.serverFarmInfo, t);
   }, [formValues]);
 
   const rgOptions = getDropdownOptions(resourceGroups);
@@ -131,7 +130,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
 
   const onPlanChange = (form: FormikProps<ChangeAppPlanFormValues>, planInfo: CreateOrSelectPlanFormValues) => {
     form.setFieldValue('serverFarmInfo', planInfo);
-    updateAppDensityWarning(setShowAppDensityWarning, subscriptionId, planInfo, t);
+    updateAppDensityWarning(setShowAppDensityWarning, planInfo, t);
   };
 
   if (rgOptions.length === 0) {
@@ -247,39 +246,17 @@ const checkIfSiteIsLocked = async (resourceId: string, setSiteIsReadOnlyLocked: 
 
 const updateAppDensityWarning = async (
   setShowAppDensityWarning: React.Dispatch<React.SetStateAction<boolean>>,
-  subscriptionId: string,
   planInfo: CreateOrSelectPlanFormValues,
   t: any
 ) => {
-  if (!planInfo.isNewPlan && planInfo.existingPlan && planInfo.existingPlan.id) {
-    const result = await ServerFarmService.getTotalSitesIncludingSlotsInServerFarm(subscriptionId, planInfo.existingPlan.id);
-    if (shouldShowAppDensityWarning(!!planInfo.existingPlan.sku ? planInfo.existingPlan.sku.name : '', result[0].count_, t)) {
-      setShowAppDensityWarning(true);
-    } else {
-      setShowAppDensityWarning(false);
-    }
+  const scenarioChecker = new ScenarioService(t);
+  if (!planInfo.isNewPlan && planInfo.existingPlan && planInfo.existingPlan.id && planInfo.existingPlan.sku) {
+    scenarioChecker.checkScenarioAsync(ScenarioIds.isAppDensityEnabled, { serverFarm: planInfo.existingPlan }).then(result => {
+      setShowAppDensityWarning(result.status !== 'disabled');
+    });
   } else {
     setShowAppDensityWarning(false);
   }
-};
-
-const shouldShowAppDensityWarning = (skuCode: string, numberOfSites: number, t: any): boolean => {
-  const scenarioChecker = new ScenarioService(t);
-  const shouldShowAppDensityMessage = scenarioChecker.checkScenario(ScenarioIds.appDensity).status !== 'disabled';
-  return shouldShowAppDensityMessage && isAppDensitySkuCode(skuCode) && numberOfSites >= CommonConstants.AppDensityLimit;
-};
-
-const isAppDensitySkuCode = (skuCode: string): boolean => {
-  const upperCaseSkuCode = skuCode.toUpperCase();
-  return (
-    upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.Basic.B1 ||
-    upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.Standard.S1 ||
-    upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.Premium.P1 ||
-    upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.PremiumContainer.PC2 ||
-    upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.PremiumV2.P1V2 ||
-    upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.Isolated.I1 ||
-    upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.ElasticPremium.EP1
-  );
 };
 
 const getWarningBar = (
