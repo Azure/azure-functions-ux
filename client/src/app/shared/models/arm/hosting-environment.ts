@@ -8,9 +8,15 @@ export interface HostingEnvironmentProfile {
 
 export interface HostingEnvironment {
   name: string;
-  internalLoadBalancingMode: InternalLoadBalancingMode | null;
+  internalLoadBalancingMode?: string;
   vnetName: string;
 }
+
+export type InternalLoadBalancingModeType =
+  | InternalLoadBalancingMode.None
+  | InternalLoadBalancingMode.Web
+  | InternalLoadBalancingMode.Publishing
+  | InternalLoadBalancingMode.PublishingAndWeb;
 
 export enum InternalLoadBalancingMode {
   // Serve all traffic on the public internet (default)

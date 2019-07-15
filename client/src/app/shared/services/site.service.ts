@@ -202,7 +202,7 @@ export class SiteService {
   }
 
   getHostingEnvironment(resourceId: string, force?: boolean): Result<ArmObj<HostingEnvironment>> {
-    const getHostingEnvironment = this._cacheService.getArm(resourceId, force).map(r => r.json());
+    const getHostingEnvironment = this._cacheService.getArm(resourceId, force, ARMApiVersions.websiteApiVersion20160901).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getHostingEnvironment);
   }
