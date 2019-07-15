@@ -27,6 +27,9 @@ import { ArmObj, ArmSku } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
+import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
+import { CommonConstants } from '../../../utils/CommonConstants';
 
 export const leftCol = style({
   marginRight: '20px',
@@ -92,10 +95,11 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
 
   const [isUpdating, setIsUpdating] = useState(false);
   const [siteIsReadOnlyLocked, setSiteIsReadOnlyLocked] = useState(false);
+  const [showAppDensityWarning, setShowAppDensityWarning] = useState(false);
   const portalCommunicator = useContext(PortalContext);
-  const { t } = useTranslation();
   const { width } = useWindowSize();
   const changeSkuLinkElement = useRef<ILink | null>(null);
+  const { t } = useTranslation();
 
   const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(
     getInitialFormValues(site, currentServerFarm, serverFarms, resourceGroups)
@@ -114,6 +118,10 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
     }
   }, [isUpdating]);
 
+  useEffect(() => {
+    updateAppDensityWarning(setShowAppDensityWarning, formValues.serverFarmInfo, t);
+  }, [formValues]);
+
   const rgOptions = getDropdownOptions(resourceGroups);
   addNewRgOption(formValues.serverFarmInfo.newPlanInfo.newResourceGroupName, rgOptions, t);
 
@@ -122,6 +130,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
 
   const onPlanChange = (form: FormikProps<ChangeAppPlanFormValues>, planInfo: CreateOrSelectPlanFormValues) => {
     form.setFieldValue('serverFarmInfo', planInfo);
+    updateAppDensityWarning(setShowAppDensityWarning, planInfo, t);
   };
 
   if (rgOptions.length === 0) {
@@ -147,7 +156,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
 
   return (
     <>
-      {getWarningBar(siteIsReadOnlyLocked, t)}
+      {getWarningBar(siteIsReadOnlyLocked, t, showAppDensityWarning, formValues)}
       <div style={wrapperStyle}>
         <Formik
           initialValues={formValues}
@@ -235,9 +244,39 @@ const checkIfSiteIsLocked = async (resourceId: string, setSiteIsReadOnlyLocked: 
   setSiteIsReadOnlyLocked(readOnly);
 };
 
-const getWarningBar = (siteIsReadOnlyLocked: boolean, t: i18next.TFunction) => {
+const updateAppDensityWarning = async (
+  setShowAppDensityWarning: React.Dispatch<React.SetStateAction<boolean>>,
+  planInfo: CreateOrSelectPlanFormValues,
+  t: any
+) => {
+  const scenarioChecker = new ScenarioService(t);
+  if (!planInfo.isNewPlan && planInfo.existingPlan && planInfo.existingPlan.id && planInfo.existingPlan.sku) {
+    scenarioChecker.checkScenarioAsync(ScenarioIds.isAppDensityEnabled, { serverFarm: planInfo.existingPlan }).then(result => {
+      setShowAppDensityWarning(result.status !== 'disabled');
+    });
+  } else {
+    setShowAppDensityWarning(false);
+  }
+};
+
+const getWarningBar = (
+  siteIsReadOnlyLocked: boolean,
+  t: i18next.TFunction,
+  showAppDensityWarning: boolean,
+  formValues: ChangeAppPlanFormValues
+) => {
   if (siteIsReadOnlyLocked) {
     return <MessageBar messageBarType={MessageBarType.warning}>{t('changePlanSiteLockedError')}</MessageBar>;
+  } else if (showAppDensityWarning) {
+    const planName = !!formValues.serverFarmInfo.existingPlan && formValues.serverFarmInfo.existingPlan.name;
+    return (
+      <MessageBar messageBarType={MessageBarType.warning}>
+        {t('pricing_appDensityWarningMessage').format(planName)}
+        <Link href={CommonConstants.Links.appDensityWarningLink} target="_blank">
+          {t('learnMore')}
+        </Link>
+      </MessageBar>
+    );
   }
 };
 

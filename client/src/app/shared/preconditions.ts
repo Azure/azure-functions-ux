@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { ArmObj } from './models/arm/arm-obj';
 import { Site } from './models/arm/site';
 import { errorIds } from './models/error-ids';
-import { HostingEnvironment } from './models/arm/hosting-environment';
+import { HostingEnvironment, InternalLoadBalancingMode } from './models/arm/hosting-environment';
 import { LogService } from './services/log.service';
 import { Headers } from '@angular/http';
 import { HostStatus } from './models/host-status';
@@ -76,7 +76,10 @@ export namespace Preconditions {
               .getArm(app.properties.hostingEnvironmentProfile.id, false, ARMApiVersions.websiteApiVersion20160901)
               .concatMap(a => {
                 const ase: ArmObj<HostingEnvironment> = a.json();
-                if (ase.properties.internalLoadBalancingMode && ase.properties.internalLoadBalancingMode !== 'None') {
+                if (
+                  ase.properties.internalLoadBalancingMode &&
+                  ase.properties.internalLoadBalancingMode !== InternalLoadBalancingMode.None
+                ) {
                   return this.cacheService
                     .get(context.urlTemplates.runtimeSiteUrl)
                     .map(() => true)
