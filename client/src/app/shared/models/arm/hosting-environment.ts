@@ -8,7 +8,7 @@ export interface HostingEnvironmentProfile {
 
 export interface HostingEnvironment {
   name: string;
-  internalLoadBalancingMode?: string;
+  internalLoadBalancingMode?: InternalLoadBalancingModeType;
   vnetName: string;
 }
 
