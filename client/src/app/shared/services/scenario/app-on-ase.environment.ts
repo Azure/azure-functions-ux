@@ -28,7 +28,7 @@ export class AppOnAse extends Environment {
   }
 
   private _runCheckForIlbAse(input: ScenarioCheckInput) {
-    return this._siteService.getHostingEnvironment(input.site.properties.hostingEnvironmentProfile.id, true).map(r => {
+    return this._siteService.getHostingEnvironment(input.site.properties.hostingEnvironmentProfile.id).map(r => {
       if (r.isSuccessful) {
         const ase = r.result;
         if (ase.properties.internalLoadBalancingMode !== InternalLoadBalancingMode.None) {
