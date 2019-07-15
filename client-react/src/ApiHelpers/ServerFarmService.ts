@@ -37,4 +37,18 @@ export default class ServerFarmService {
       body: serverFarm,
     });
   };
+
+  public static getTotalSitesIncludingSlotsInServerFarm = (subscriptionId: string, resourceId: string) => {
+    const queryString =
+      `where type == 'microsoft.web/sites' or type == 'microsoft.web/sites/slots'` +
+      `| where properties.serverFarmId == '${resourceId}'` +
+      `| summarize count()`;
+
+    const request: ARGRequest = {
+      subscriptions: [subscriptionId],
+      query: queryString,
+    };
+
+    return MakeAzureResourceGraphCall<number>(request, 'getTotalSitesIncludingSlotsInServerFarm');
+  };
 }
