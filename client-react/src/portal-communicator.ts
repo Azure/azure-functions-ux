@@ -19,6 +19,7 @@ import {
   IUpdateBladeInfo,
   LogEntryLevel,
   Verbs,
+  TokenType,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import darkModeTheme from './theme/dark';
@@ -63,11 +64,11 @@ export default class PortalCommunicator {
   private i18n: any;
   private setTheme: Dispatch<SetStateAction<ThemeExtended>>;
   private setArmToken: Dispatch<SetStateAction<string>>;
-  private setStartupInfo: Dispatch<SetStateAction<IStartupInfo>>;
+  private setStartupInfo: Dispatch<SetStateAction<IStartupInfo<any>>>;
   public initializeIframe(
     setTheme: Dispatch<SetStateAction<ThemeExtended>>,
     setArmToken: Dispatch<SetStateAction<string>>,
-    setStartupInfo: Dispatch<SetStateAction<IStartupInfo>>,
+    setStartupInfo: Dispatch<SetStateAction<IStartupInfo<any>>>,
     i18n: any = null
   ): void {
     this.frameId = Url.getParameterByName(null, 'frameId');
@@ -232,7 +233,7 @@ export default class PortalCommunicator {
     PortalCommunicator.postMessage(Verbs.returnPCV3Results, this.packageData(payload));
   }
 
-  public getAdToken(tokenType: 'graph' | 'azureTfsApi' | ''): Promise<string> {
+  public getAdToken(tokenType: TokenType): Promise<string> {
     const operationId = Guid.newGuid();
 
     const payload = {
@@ -286,7 +287,7 @@ export default class PortalCommunicator {
     LogService.debug(`iFrame-${this.frameId}]`, `Received mesg: ${methodName}  for frameId: ${event.data.data && event.data.data.frameId}`);
 
     if (methodName === Verbs.sendStartupInfo) {
-      const startupInfo = data as IStartupInfo;
+      const startupInfo = data as IStartupInfo<any>;
       if (this.currentTheme !== startupInfo.theme) {
         const newTheme = startupInfo.theme === 'dark' ? darkModeTheme : lightTheme;
         loadTheme(newTheme);

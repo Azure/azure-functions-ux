@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>Archiviazione</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>Funzione</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Errore durante la creazione della funzione: {{error}}</value>
   </data>
@@ -920,10 +923,10 @@
     <value>La funzionalità 'AlwaysOn' non è abilitata. L'app potrebbe non funzionare correttamente</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>L'impostazione 'AzureWebJobsSecretStorageType' deve essere impostata su 'blob'. La mancanza di questa impostazione può generare comportamenti imprevisti quando si usano gli slot di distribuzione.</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>L'impostazione 'AzureWebJobsSecretStorageType' non deve essere impostata su 'file'. Questa impostazione può generare comportamenti imprevisti quando si usano gli slot di distribuzione.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>note sulla versione di Funzioni di Azure.</value>
@@ -1085,7 +1088,7 @@
     <value>Un proxy con il nome '{{name}}' esiste già</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>Gli slot di Funzioni di Azure sono attualmente disabilitati.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Ignora</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Riavvia</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Log</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>Scambia</value>
@@ -2194,14 +2200,11 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>Nessuna app per le funzioni da visualizzare</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>Slot (anteprima)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Abilita slot di distribuzione (anteprima)</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>Abilita slot di distribuzione</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Problemi noti:</value>
@@ -2210,13 +2213,16 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>l'integrazione delle app per la logica con Funzioni di Azure non funziona quando è abilitata la funzionalità Slot (anteprima).</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>Se si abilita questa funzionalità, i segreti preesistenti verranno reimpostati. I segreti delle funzioni sono disponibili nel nodo "Gestisci" per ogni funzione.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>È attualmente in corso un'operazione di creazione slot. Se si esce dalla pagina, non sarà più possibile controllare lo stato dell'operazione.</value>
   </data>
   <data name="slots_label" xml:space="preserve">
     <value>Slot</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>Slot (anteprima)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Aggiungi slot</value>
@@ -2777,7 +2783,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>La funzionalità Proxy è stata abilitata. Per disabilitarla di nuovo, eliminare o disabilitare i singoli proxy.</value>
   </data>
   <data name="java_splash_button" xml:space="preserve">
-    <value>Guida introduttiva a Java in Funzioni di Azure</value>
+    <value>Guida di avvio rapido per Java in Funzioni di Azure</value>
   </data>
   <data name="nameColon" xml:space="preserve">
     <value>Nome:</value>
@@ -3205,6 +3211,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>Gli indirizzi IP in uscita per l'app potrebbero variare.</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>Il piano di servizio app {0} ha superato il numero di app consigliato per le relative dimensioni.</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>Gratuito</value>
   </data>
@@ -3539,7 +3548,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Trascinare un file qui oppure</value>
   </data>
   <data name="browse" xml:space="preserve">
-    <value>sfoglia</value>
+    <value>Sfoglia</value>
   </data>
   <data name="toUpload" xml:space="preserve">
     <value>da caricare</value>
@@ -3803,6 +3812,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>Non è stato possibile configurare la distribuzione: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>Non è possibile registrare una nuova applicazione in Azure Active Directory. Altre informazioni: https://go.microsoft.com/fwlink/?linkid=843472. Altri dettagli: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Disconnessione della distribuzione</value>
   </data>
@@ -3846,7 +3858,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Registro Azure Container</value>
   </data>
   <data name="containerDockerHub" xml:space="preserve">
-    <value>Hub Docker</value>
+    <value>Docker Hub</value>
   </data>
   <data name="containerPrivateRegistry" xml:space="preserve">
     <value>Registro privato</value>
@@ -3903,7 +3915,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Funzioni di Azure per Java - Guida introduttiva</value>
   </data>
   <data name="quickstartDescription" xml:space="preserve">
-    <value>Seguire le indicazioni della Guida introduttiva per creare e pubblicare una funzione</value>
+    <value>Seguire le indicazioni della Guida di avvio rapido per creare e pubblicare una funzione</value>
   </data>
   <data name="chooseDevEnvironment" xml:space="preserve">
     <value>Scegliere un ambiente di distribuzione</value>
@@ -3990,7 +4002,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Non è possibile aggiornare il repository per l'app Web {0} in questo momento.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>La distribuzione continua di Azure DevOps richiede le autorizzazioni di scrittura in Azure Active Directory e la creazione di un'entità servizio.</value>
+    <value>La distribuzione continua di Azure DevOps richiede le autorizzazioni per la creazione di un'entità servizio in Azure Active Directory e l'assegnazione del ruolo all'entità servizio.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Selezionare l'esempio</value>
@@ -4005,7 +4017,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>L'utente non dispone di organizzazioni DevOps di Azure valide</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>L'utente non dispone di un'organizzazione DevOps di Azure valida. Il server di compilazione Kudu del servizio app richiede che l'utente sia anche proprietario dell'organizzazione</value>
+    <value>È necessario disporre dell'accesso di livello proprietario a un'organizzazione Azure DevOps valida.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Crearne uno adesso</value>
@@ -4962,6 +4974,18 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Il nome del gruppo di risorse può contenere solo caratteri alfanumerici, punti, caratteri di sottolineatura, trattini e parentesi e non può terminare con un punto.</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>'{0}' è un carattere non valido</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>Il nome '{0}' è limitato. Specificare un altro nome.</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>Il nome del piano non può contenere più di {0} caratteri.</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>Esiste già un piano denominato '{0}' nel gruppo di risorse '{1}'</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>Annullare l'operazione di aggiornamento?</value>
   </data>
@@ -4991,5 +5015,56 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>Non è stato possibile convalidare le impostazioni del contenitore.</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>Nessun trigger definito</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>Nessun input definito</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>Nessun output definito</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ Aggiungi input</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>Funzione</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>Recupero dei dati della distribuzione...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>I dati della distribuzione non sono disponibili.</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>Questa funzionalità non è disponibile per le app in un ambiente del servizio app con bilanciamento del carico interno</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>Aggiornamento dell'associazione</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>Aggiornamento di {0} ({1})</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>Non è stato possibile aggiornare {0} ({1}): {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>L'aggiornamento di {0} ({1}) è riuscito</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>Modifica input</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>Modifica output</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>Modifica trigger</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>Modifica comandi associazione</value>
   </data>
 </root>

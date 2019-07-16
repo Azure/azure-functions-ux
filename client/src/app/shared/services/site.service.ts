@@ -21,6 +21,7 @@ import { UserService } from './user.service';
 import { PublishingCredentials } from '../models/publishing-credentials';
 import { ARMApiVersions } from '../models/constants';
 import { ByosStorageAccounts } from 'app/site/byos/byos';
+import { HostingEnvironment } from '../models/arm/hosting-environment';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -198,5 +199,11 @@ export class SiteService {
       .postArm(`${resourceId}/config/azureStorageAccounts/list`, force, ARMApiVersions.websiteApiVersion20180201)
       .map(r => r.json());
     return this._client.execute({ resourceId: resourceId }, t => getSiteConfig);
+  }
+
+  getHostingEnvironment(resourceId: string, force?: boolean): Result<ArmObj<HostingEnvironment>> {
+    const getHostingEnvironment = this._cacheService.getArm(resourceId, force, ARMApiVersions.websiteApiVersion20160901).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => getHostingEnvironment);
   }
 }

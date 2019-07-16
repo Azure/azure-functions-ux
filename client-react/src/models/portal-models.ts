@@ -39,12 +39,13 @@ export interface IUserInfo {
   uniqueDirectoryName: string;
 }
 
-export interface IFeatureInfo {
+export interface IFeatureInfo<T> {
   id: string;
   feature: string;
+  data: T;
 }
 
-export interface IStartupInfo {
+export interface IStartupInfo<T> {
   sessionId: string;
   token: string;
   acceptLanguage: string;
@@ -54,7 +55,7 @@ export interface IStartupInfo {
   userInfo: IUserInfo;
   theme: string;
   armEndpoint: string;
-  featureInfo: IFeatureInfo;
+  featureInfo: IFeatureInfo<T>;
 }
 
 export interface IDataMessage<T> {
@@ -235,8 +236,10 @@ export enum PartSize {
   Custom = 99,
 }
 
+export type TokenType = 'graph' | 'azureTfsApi' | 'applicationinsightapi' | '';
+
 export interface ITokenResponse {
-  tokenType: 'graph' | 'azureTfsApi';
+  tokenType: TokenType;
   token: string;
 }
 

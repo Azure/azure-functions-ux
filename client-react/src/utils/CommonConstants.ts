@@ -11,13 +11,13 @@ export class CommonConstants {
     funcStorageLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2010003',
     updateExtensionsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2013353',
     deploymentSlotsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2014035',
-    dynamicLinuxPreviewLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2022864',
     communityTemplatesLink: 'https://go.microsoft.com/fwlink/?linkid=2022552',
     linuxContainersLearnMore: 'https://go.microsoft.com/fwlink/?linkid=861969',
     premiumV2NotAvailableLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2009376',
     azureComputeUnitLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2027465',
     pv2UpsellInfoLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2028474',
     ipRestrictionsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=854597',
+    appDensityWarningLink: 'https://go.microsoft.com/fwlink/?linkid=2098431',
   };
 
   public static readonly Kinds = {
@@ -49,4 +49,6 @@ export class CommonConstants {
   public static readonly FeatureFlags = {
     AllowFreeLinux: 'allowfreelinux',
   };
+
+  public static readonly AppDensityLimit = 8;
 }

@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div *ngIf="!onlyCopyButton" class="wrapper">
   <label *ngIf="label" style="padding-right: 20px">{{ label }}</label>
   <label *ngIf="!label"></label>
   <div>
@@ -36,8 +36,19 @@
     (keyup)="onKeyPress($event.target.value, 'copy')"
     tabindex="0" >
     <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300" tabIndex="-1">
-      <i class="link fa fa-copy clickable"
-        ><span class="fix-font">&nbsp;{{ 'copypre_copy' | translate }}</span></i >
+      <i class="link fa fa-copy clickable">
+        <span class="fix-font">&nbsp;{{ 'copypre_copy' | translate }}</span>
+      </i>
     </pop-over>
   </div>
+</div>
+
+<div *ngIf="onlyCopyButton"
+  title="{{ 'copypre_copyClipboard' | translate }}"
+  (click)="copyToClipboard()"
+  role="button"
+  (keyup)="onKeyPress($event.target.value, 'copy')"
+  tabindex="0" 
+  class="onlyButton">
+  <i class="link fa fa-copy clickable"></i>
 </div>

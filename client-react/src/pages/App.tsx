@@ -20,7 +20,7 @@ const portalCommunicator = new PortalCommunicator();
 
 export const App: React.FC = () => {
   const [theme, setTheme] = useState(lightTheme as ThemeExtended);
-  const [startupInfo, setStartupInfo] = useState({} as IStartupInfo);
+  const [startupInfo, setStartupInfo] = useState({} as IStartupInfo<any>);
   const [armToken, setArmToken] = useState('');
   useEffect(() => {
     portalCommunicator.initializeIframe(setTheme, setArmToken, setStartupInfo, i18n);

@@ -1,9 +1,10 @@
+import { ARMApiVersions } from 'app/shared/models/constants';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
 import { ArmObj } from './models/arm/arm-obj';
 import { Site } from './models/arm/site';
 import { errorIds } from './models/error-ids';
-import { HostingEnvironment } from './models/arm/hosting-environment';
+import { HostingEnvironment, InternalLoadBalancingMode } from './models/arm/hosting-environment';
 import { LogService } from './services/log.service';
 import { Headers } from '@angular/http';
 import { HostStatus } from './models/host-status';
@@ -71,22 +72,30 @@ export namespace Preconditions {
         .concatMap(context => {
           const app: ArmObj<Site> = context.site;
           if (app.properties.hostingEnvironmentProfile && app.properties.hostingEnvironmentProfile.id) {
-            return this.cacheService.getArm(app.properties.hostingEnvironmentProfile.id, false, '2016-09-01').concatMap(a => {
-              const ase: ArmObj<HostingEnvironment> = a.json();
-              if (ase.properties.internalLoadBalancingMode && ase.properties.internalLoadBalancingMode !== 'None') {
-                return this.cacheService
-                  .get(context.urlTemplates.runtimeSiteUrl)
-                  .map(() => true)
-                  .catch(res => {
-                    if (res.status === 0) {
-                      return Observable.of(false);
-                    }
-                    return Observable.of(true);
-                  });
-              } else {
+            return this.cacheService
+              .getArm(app.properties.hostingEnvironmentProfile.id, false, ARMApiVersions.websiteApiVersion20160901)
+              .concatMap(a => {
+                const ase: ArmObj<HostingEnvironment> = a.json();
+                if (
+                  ase.properties.internalLoadBalancingMode &&
+                  ase.properties.internalLoadBalancingMode !== InternalLoadBalancingMode.None
+                ) {
+                  return this.cacheService
+                    .get(context.urlTemplates.runtimeSiteUrl)
+                    .map(() => true)
+                    .catch(res => {
+                      if (res.status === 0) {
+                        return Observable.of(false);
+                      }
+                      return Observable.of(true);
+                    });
+                } else {
+                  return Observable.of(true);
+                }
+              })
+              .catch(() => {
                 return Observable.of(true);
-              }
-            });
+              });
           } else {
             return Observable.of(true);
           }

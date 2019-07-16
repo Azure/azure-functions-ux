@@ -3,6 +3,10 @@ enum BindingMethod {
   post = 'post',
 }
 
+// Should only be used for FunctionInfo binding direction.
+// For some reason binding direction is only in/out when
+// stored in Function config.  Binding direction downloaded from templates
+// also have Trigger as a possible direction.
 export enum BindingDirection {
   in = 'in',
   out = 'out',
@@ -51,7 +55,7 @@ enum BindingType {
   signalRConnectionInfo = 'signalRConnectionInfo',
 }
 
-export interface FunctionBinding {
+export interface BindingInfo {
   name: string;
   type: BindingType;
   direction: BindingDirection;

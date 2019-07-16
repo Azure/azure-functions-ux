@@ -8,5 +8,5 @@
 <app-configure-vsts-build *ngIf="buildProvider === 'vsts' && !wizard.hideVstsBuildConfigure"></app-configure-vsts-build>
 <div class="footer">
   <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
-  <button type="button" class="custom-button form-button" nextStep>{{'continue' | translate}}</button>
+  <button type="button" *ngIf="!wizard.hideConfigureStepContinueButton" class="custom-button form-button" nextStep>{{'continue' | translate}}</button>
 </div>

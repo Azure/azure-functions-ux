@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { Stack } from 'office-ui-fabric-react';
-import TriggerDataFlowCard from './DataFlowDiagram/TriggerDataFlowCard';
-import { FunctionBinding, BindingDirection } from '../../../../models/functions/function-binding';
-import OutputDataFlowCard from './DataFlowDiagram/OutputDataFlowCard';
-import InputDataFlowCard from './DataFlowDiagram/InputDataFlowCard';
-import FunctionDataFlowCard from './DataFlowDiagram/FunctionDataFlowCard';
+import TriggerBindingCard from './BindingsDiagram/TriggerBindingCard';
+import OutputBindingCard from './BindingsDiagram/OutputBindingCard';
+import InputBindingCard from './BindingsDiagram/InputBindingCard';
+import FunctionNameBindingCard from './BindingsDiagram/FunctionNameBindingCard';
+import { BindingInfo } from '../../../../models/functions/function-binding';
+import { Subject, Observable } from 'rxjs';
+import BindingEditorDataLoader from './binding-editor/BindingEditorDataLoader';
 
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -16,53 +18,86 @@ const paddingStyle = {
   padding: '20px',
 };
 
-export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
-  const { functionInfo } = props;
+export interface BindingUpdateInfo {
+  newBindingInfo?: BindingInfo;
+  currentBindingInfo?: BindingInfo;
+  closedReason: 'cancel' | 'save' | 'delete';
+}
 
-  const triggers = getTriggers(functionInfo.properties.config.bindings);
-  const inputs = getBindings(functionInfo.properties.config.bindings, BindingDirection.in);
-  const outputs = getBindings(functionInfo.properties.config.bindings, BindingDirection.out);
+export interface BindingEditorContextInfo {
+  openEditor: (bindingInfo: BindingInfo) => Observable<BindingUpdateInfo>;
+  closeEditor: () => void;
+  updateFunctionInfo: React.Dispatch<React.SetStateAction<ArmObj<FunctionInfo>>>;
+}
+
+export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
+
+export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
+  const { functionInfo: initialFunctionInfo } = props;
+
+  const bindingUpdate$ = useRef(new Subject<BindingUpdateInfo>());
+  const [bindingToUpdate, setBindingToUpdate] = useState<BindingInfo | undefined>(undefined);
+  const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo>>(initialFunctionInfo);
+
+  const openEditor = (bindingInfo: BindingInfo): Observable<BindingUpdateInfo> => {
+    setBindingToUpdate(bindingInfo);
+    return bindingUpdate$.current;
+  };
+
+  const closeEditor = () => {
+    setBindingToUpdate(undefined);
+  };
+
+  const onSubmit = (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => {
+    bindingUpdate$.current.next({
+      newBindingInfo,
+      currentBindingInfo,
+      closedReason: 'save',
+    });
+  };
+
+  const onCancel = () => {
+    bindingUpdate$.current.next({
+      newBindingInfo: undefined,
+      currentBindingInfo: bindingToUpdate,
+      closedReason: 'cancel',
+    });
+
+    setBindingToUpdate(undefined);
+  };
+
+  const editorContext: BindingEditorContextInfo = {
+    openEditor,
+    closeEditor,
+    updateFunctionInfo: setFunctionInfo,
+  };
 
   return (
     <>
-      <div style={paddingStyle}>
-        <Stack horizontal gap={50} horizontalAlign={'center'} disableShrink>
-          <Stack.Item grow>
-            <Stack gap={100}>
-              <TriggerDataFlowCard items={triggers} />
-              <InputDataFlowCard items={inputs} />
-            </Stack>
-          </Stack.Item>
-          <Stack.Item grow>
-            <Stack verticalAlign="center" verticalFill={true}>
-              <FunctionDataFlowCard items={[]} functionName={functionInfo.properties.name} />
-            </Stack>
-          </Stack.Item>
-          <Stack.Item grow>
-            <Stack verticalAlign="center" verticalFill={true}>
-              <OutputDataFlowCard items={outputs} />
-            </Stack>
-          </Stack.Item>
-        </Stack>
-      </div>
+      <BindingEditorContext.Provider value={editorContext}>
+        <BindingEditorDataLoader functionInfo={functionInfo} bindingInfo={bindingToUpdate} onPanelClose={onCancel} onSubmit={onSubmit} />
+
+        <div style={paddingStyle}>
+          <Stack horizontal gap={50} horizontalAlign={'center'} disableShrink>
+            <Stack.Item grow>
+              <Stack gap={100}>
+                <TriggerBindingCard functionInfo={functionInfo} />
+                <InputBindingCard functionInfo={functionInfo} />
+              </Stack>
+            </Stack.Item>
+            <Stack.Item grow>
+              <Stack verticalAlign="center" verticalFill={true}>
+                <FunctionNameBindingCard functionInfo={functionInfo} />
+              </Stack>
+            </Stack.Item>
+            <Stack.Item grow>
+              <Stack verticalAlign="center" verticalFill={true}>
+                <OutputBindingCard functionInfo={functionInfo} />
+              </Stack>
+            </Stack.Item>
+          </Stack>
+        </div>
+      </BindingEditorContext.Provider>
     </>
   );
-};
-
-const getTriggers = (bindings: FunctionBinding[]) => {
-  const trigger = bindings.find(b => {
-    return b.direction === 'in' && b.type.toLowerCase().indexOf('trigger') > -1;
-  });
-
-  return trigger ? [trigger] : [];
-};
-
-const getBindings = (bindings: FunctionBinding[], direction: BindingDirection) => {
-  return bindings.filter(b => {
-    if (direction === BindingDirection.in) {
-      return b.direction === direction && b.type.toLowerCase().indexOf('trigger') === -1;
-    }
-
-    return b.direction === direction;
-  });
 };

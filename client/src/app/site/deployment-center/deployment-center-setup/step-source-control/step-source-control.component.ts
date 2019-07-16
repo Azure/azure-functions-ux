@@ -31,7 +31,7 @@ export class StepSourceControlComponent {
     {
       id: 'github',
       name: 'GitHub',
-      icon: 'image/deployment-center/github.svg',
+      icon: 'image/deployment-center/GitHubLogo.svg',
       color: '#68217A',
       description: this._translateService.instant(PortalResources.githubDesc),
       authorizedStatus: 'none',
@@ -51,7 +51,7 @@ export class StepSourceControlComponent {
     {
       id: 'localgit',
       name: 'Local Git',
-      icon: 'image/deployment-center/LocalGit.svg',
+      icon: 'image/deployment-center/GitLogo.svg',
       color: '#ba141a',
       description: this._translateService.instant(PortalResources.localGitDesc),
       authorizedStatus: 'none',
@@ -81,7 +81,7 @@ export class StepSourceControlComponent {
     {
       id: 'external',
       name: 'External',
-      icon: 'image/deployment-center/External.svg',
+      icon: 'image/deployment-center/ExternalGit.svg',
       color: '#7FBA00',
       description: this._translateService.instant(PortalResources.externalDesc),
       authorizedStatus: 'none',
@@ -299,12 +299,16 @@ export class StepSourceControlComponent {
 
   updateProvider(provider: string) {
     if (provider === 'dropbox') {
+      this._dropboxAuthed = true;
       this.dropboxUserSubject$.next(true);
     } else if (provider === 'github') {
+      this._githubAuthed = true;
       this.githubUserSubject$.next(true);
     } else if (provider === 'onedrive') {
+      this._onedriveAuthed = true;
       this.onedriveUserSubject$.next(true);
     } else if (provider === 'bitbucket') {
+      this._bitbucketAuthed = true;
       this.bitbucketUserSubject$.next(true);
     }
     this._wizardService.updateSourceProviderConfig$.next();
@@ -333,7 +337,9 @@ export class StepSourceControlComponent {
                 win.close();
               });
           }
-        } catch (e) {}
+        } catch (e) {
+          this._logService.error(LogCategories.cicd, `/authorize/${provider}`, e);
+        }
       });
   }
 

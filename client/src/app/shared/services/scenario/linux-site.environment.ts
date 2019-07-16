@@ -75,13 +75,6 @@ export class LinuxSiteEnvironment extends Environment {
       id: ScenarioIds.addWebServerLogging,
       runCheck: () => ({ status: 'disabled' }),
     };
-
-    this.scenarioChecks[ScenarioIds.enableLinkAPIM] = {
-      id: ScenarioIds.enableLinkAPIM,
-      runCheck: () => {
-        return { status: 'disabled' };
-      },
-    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

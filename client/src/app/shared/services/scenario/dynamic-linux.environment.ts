@@ -41,11 +41,29 @@ export class DynamicLinuxEnvironment extends Environment {
       runCheck: () => disabledResult,
     };
 
-    this.scenarioChecks[ScenarioIds.enableLinkAPIM] = {
-      id: ScenarioIds.enableLinkAPIM,
-      runCheck: () => {
-        return { status: 'disabled' };
-      },
+    this.scenarioChecks[ScenarioIds.enableKudu] = {
+      id: ScenarioIds.enableKudu,
+      runCheck: () => disabledResult,
+    };
+
+    this.scenarioChecks[ScenarioIds.enableLogStream] = {
+      id: ScenarioIds.enableLogStream,
+      runCheck: () => disabledResult,
+    };
+
+    this.scenarioChecks[ScenarioIds.enableMetrics] = {
+      id: ScenarioIds.enableMetrics,
+      runCheck: () => disabledResult,
+    };
+
+    this.scenarioChecks[ScenarioIds.enableCORS] = {
+      id: ScenarioIds.enableCORS,
+      runCheck: () => disabledResult,
+    };
+
+    this.scenarioChecks[ScenarioIds.enableQuotas] = {
+      id: ScenarioIds.enableQuotas,
+      runCheck: () => disabledResult,
     };
   }
 
