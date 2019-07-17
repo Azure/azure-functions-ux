@@ -1,5 +1,5 @@
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { LogCategories, FeatureFlags } from './../shared/models/constants';
+import { LogCategories } from './../shared/models/constants';
 import { LogService } from './../shared/services/log.service';
 import { SlotNode } from './app-node';
 import { TreeNode } from './tree-node';
