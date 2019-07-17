@@ -1352,7 +1352,6 @@ export class PortalResources {
   public static containerSettingsUpdateSuccess = 'containerSettingsUpdateSuccess';
   public static showUrl = 'showUrl';
   public static hideUrl = 'hideUrl';
-  public static dynamicLinuxPreview = 'dynamicLinuxPreview';
   public static formIsInvalid = 'formIsInvalid';
   public static finishAndDeploy = 'finishAndDeploy';
   public static readOnlyLinuxDynamic = 'readOnlyLinuxDynamic';
