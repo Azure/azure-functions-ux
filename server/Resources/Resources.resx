@@ -4800,7 +4800,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Python Function Apps (Preview). Please use the CLI or VS Code for development. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Learn more&lt;/a&gt;</value>
+    <value>Editing functions in the portal is not supported for Python Function Apps. Please use the CLI or VS Code for development. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Learn more&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
