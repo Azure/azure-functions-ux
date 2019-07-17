@@ -4196,9 +4196,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="hideUrl" xml:space="preserve">
     <value>hide url</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux Consumption Functions are a preview offer.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Some fields are not properly filled out or are required.</value>
   </data>
@@ -4206,7 +4203,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Finish and go to Deployment Center</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Linux Consumption Function Apps (Preview).</value>
+    <value>Editing functions in the portal is not supported for Linux Consumption Function Apps.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
