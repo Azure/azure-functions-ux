@@ -1147,6 +1147,7 @@ export class PortalResources {
   public static validating = 'validating';
   public static vstsReleaseBuildPermissions = 'vstsReleaseBuildPermissions';
   public static vstsAgentQueuePermissions = 'vstsAgentQueuePermissions';
+  public static vstsCreateRepoPermissions = 'vstsCreateRepoPermissions';
   public static vstsNameUnavailable = 'vstsNameUnavailable';
   public static FTPBoth = 'FTPBoth';
   public static FTPSOnly = 'FTPSOnly';
