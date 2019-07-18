@@ -150,7 +150,7 @@ export class ApplicationInsightsService {
               topologyObject.data.columns,
               topologyObject.data.rows
             );
-            return aiResources[0];
+            return aiResources.length == 1 ? aiResources[0] : null;
           }
         }
 
@@ -179,14 +179,6 @@ export class ApplicationInsightsService {
     const key = `${functionAppResourceId}/monitor/view`;
 
     this._localStorage.removeItem(key);
-  }
-
-  public getAppIdFromInstrumentationKey(instrumentationKey: string): Observable<HttpResult<Response>> {
-    const url = `https://dc.services.visualstudio.com/api/profiles/${instrumentationKey}/appId`;
-
-    const request = this._cacheService.get(url, true);
-
-    return this._client.execute({ resourceId: null }, t => request);
   }
 
   private _getAIResourceFromInstrumentationKey(instrumentationKey: string): Observable<HttpResult<Response>> {

@@ -78,8 +78,8 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
         );
       })
       .do(responses => {
-        this.invocationTraces = responses[1];
         const monthlySummary = responses[0];
+        this.invocationTraces = responses[1];
         this.applicationInsightsInstanceName = this.functionMonitorInfo.appInsightResource.name;
         this.appInsightsQueryReturnedTitle = this._translateService
           .instant(PortalResources.functionMonitor_appInsightsQueryReturnedTitle)
