@@ -399,6 +399,7 @@ export class PortalResources {
   public static siteSummary_restartNotifyTitle = 'siteSummary_restartNotifyTitle';
   public static siteSummary_restartNotifySuccess = 'siteSummary_restartNotifySuccess';
   public static siteSummary_restartNotifyFail = 'siteSummary_restartNotifyFail';
+  public static featureNotSupportedForPlan = 'featureNotSupportedForPlan';
   public static featureNotSupportedConsumption = 'featureNotSupportedConsumption';
   public static featureNotSupportedElastic = 'featureNotSupportedElastic';
   public static featureNotSupportedForSlots = 'featureNotSupportedForSlots';
