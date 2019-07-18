@@ -2305,9 +2305,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>Traffic %</value>
   </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Slots (preview)</value>
-  </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Upcoming changes to Routing Rules</value>
   </data>
@@ -4199,9 +4196,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="hideUrl" xml:space="preserve">
     <value>hide url</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux Consumption Functions are a preview offer.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Some fields are not properly filled out or are required.</value>
   </data>
@@ -4209,7 +4203,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Finish and go to Deployment Center</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Linux Consumption Function Apps (Preview).</value>
+    <value>Editing functions in the portal is not supported for Linux Consumption Function Apps.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
@@ -4803,7 +4797,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Python Function Apps (Preview). Please use the CLI or VS Code for development. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Learn more&lt;/a&gt;</value>
+    <value>Editing functions in the portal is not supported for Python Function Apps. Please use the CLI or VS Code for development. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Learn more&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>

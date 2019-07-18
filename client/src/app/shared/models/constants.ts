@@ -152,7 +152,6 @@ export class Links {
   public static funcStorageLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2010003';
   public static updateExtensionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2013353';
   public static deploymentSlotsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2014035';
-  public static dynamicLinuxPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2022864';
   public static communityTemplatesLink = 'https://go.microsoft.com/fwlink/?linkid=2022552&type=functionapp';
   public static linuxContainersLearnMore = 'https://go.microsoft.com/fwlink/?linkid=861969';
   public static premiumV2NotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2009376';
@@ -622,7 +621,6 @@ export class FeatureFlags {
   public static oldDeploymentCenter = 'oldvsts';
   public static EnableLinuxElasticPremium = 'EnableLinuxElasticPremium';
   public static AllowFreeLinux = 'allowfreelinux';
-  public static RemoveSlotsPreviewTag = 'RemoveSlotsPreviewTag';
 }
 
 export class SupportedFeatures {
