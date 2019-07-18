@@ -1,43 +1,85 @@
 <div class="newSlot-container">
-  <h1>{{ 'slotNew_heading' | translate }}</h1>
 
-  <h4>{{ 'slotNew_desc' | translate}}</h4>
-  <div *ngIf="!isLoading && !hasCreatePermissions" class="alert alert-warning alert-dismissible" role="alert">
-    {{ 'slotNew_noAccess' | translate }}
-  </div>
-  <div *ngIf="!isLoading && hasReachedDynamicQuotaLimit" class="alert alert-warning alert-dismissible" role="alert">
-    {{ 'slotNew_dynamicQuotaReached' | translate }}
-  </div>
-
-  <div class="slot-form" *ngIf="hasCreatePermissions && !hasReachedDynamicQuotaLimit">
-
-    <div *ngIf="!slotOptInEnabled" class="setting-wrapper">
-      <div class="alert alert-warning">
-        <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
-        <div class="alert-message">
-          <span>{{ 'slots_warningDisabled' | translate }}</span><br>
-          <span>{{ 'appFunctionSettings_warning_3' | translate }}</span>
-        </div>
-      </div>
-      <div>
-        <label>
-          <input [formControl]="newSlotForm.controls['optIn']" type="checkbox">
-          {{ 'appFunctionSettings_slotsEnable' | translate }}
-        </label>
-      </div>
+  <div *ngIf="!isLoading && !featureSupported && canScaleUp" class="scale-up-container">
+    <div load-image="image/scale-up.svg" class="icon-large"></div>
+    <div class="scale-up-message">
+        {{ 'slots_upgrade' | translate}}
     </div>
-
-    <ng-container *ngIf="slotOptInEnabled || newSlotForm.controls['optIn'].value">
-      <div>
-        <label> {{ 'slotNew_nameLabel' | translate}} </label>
-        <pop-over [message]="'slotNew_nameLabel_balloonText' | translate">
-          <span class="glyphicon glyphicon-info-sign button-title"></span>
-        </pop-over>
-      </div>
-      <textbox class="name-textbox" [placeholder]="Resources.enterName | translate" [control]="newSlotForm.controls['name']"></textbox>
-      <button class="custom-button" disabled="!newSlotForm.valid || !newSlotForm.dirty"
-        [disabled]="newSlotForm.invalid || newSlotForm.pristine" (click)="createSlot()">{{ 'create' | translate }}</button>
-    </ng-container>
-
+    <div class="slots-description">
+        {{ 'slots_description' | translate }}
+        <a class="link" target="_blank" [href]="FwdLinks.deploymentSlotsLearnMore">
+            {{ 'learnMore' | translate }}
+        </a>
+    </div>
+    <button (click)="scaleUp()" class="custom-button">
+        {{ 'upgrade' | translate }}
+    </button>
   </div>
+
+  <!--
+  <info-box
+    *ngIf="!isLoading && !featureSupported && canScaleUp"
+    typeClass="info"
+    infoText="{{ 'slots_upgrade' | translate}}"
+    infoActionIcon='image/scale-up.svg'
+    [infoActionFn]="canScaleUp ? slotsQuotaScaleUp : null">
+  </info-box>
+  -->
+
+  <ng-container *ngIf="featureSupported">
+
+      <h1>{{ 'slotNew_heading' | translate }}</h1>
+
+      <h4>{{ 'slotNew_desc' | translate}}</h4>
+    
+      <div *ngIf="!isLoading && !hasCreatePermissions" class="alert alert-warning alert-dismissible" role="alert">
+        {{ 'slotNew_noAccess' | translate }}
+      </div>
+    
+      <ng-container *ngIf="featureSupported && hasCreatePermissions">
+    
+        <info-box
+          *ngIf="slotsQuotaMessage"
+          typeClass="info"
+          [infoText]="slotsQuotaMessage"
+          infoActionIcon='image/scale-up.svg'
+          [infoActionFn]="canScaleUp ? slotsQuotaScaleUp : null">
+        </info-box>
+    
+        <div class="slot-form" *ngIf="!slotsQuotaMessage">
+      
+          <div *ngIf="!slotOptInEnabled" class="setting-wrapper">
+            <div class="alert alert-warning">
+              <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
+              <div class="alert-message">
+                <span>{{ 'slots_warningDisabled' | translate }}</span><br>
+                <span>{{ 'appFunctionSettings_warning_3' | translate }}</span>
+              </div>
+            </div>
+            <div>
+              <label>
+                <input [formControl]="newSlotForm.controls['optIn']" type="checkbox">
+                {{ 'appFunctionSettings_slotsEnable' | translate }}
+              </label>
+            </div>
+          </div>
+      
+          <ng-container *ngIf="slotOptInEnabled || newSlotForm.controls['optIn'].value">
+            <div>
+              <label> {{ 'slotNew_nameLabel' | translate}} </label>
+              <pop-over [message]="'slotNew_nameLabel_balloonText' | translate">
+                <span class="glyphicon glyphicon-info-sign button-title"></span>
+              </pop-over>
+            </div>
+            <textbox class="name-textbox" [placeholder]="Resources.enterName | translate" [control]="newSlotForm.controls['name']"></textbox>
+            <button class="custom-button" disabled="!newSlotForm.valid || !newSlotForm.dirty"
+              [disabled]="newSlotForm.invalid || newSlotForm.pristine" (click)="createSlot()">{{ 'create' | translate }}</button>
+          </ng-container>
+      
+        </div>
+    
+      </ng-container>
+
+  </ng-container>
+
 </div>

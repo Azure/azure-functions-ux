@@ -15,10 +15,12 @@ import { SlotNameValidator } from '../shared/validators/slotNameValidator';
 import { errorIds } from '../shared/models/error-ids';
 import { AuthzService } from '../shared/services/authz.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { Constants } from 'app/shared/models/constants';
+import { Constants, ScenarioIds, LogCategories } from 'app/shared/models/constants';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { CacheService } from '../shared/services/cache.service';
+import { ScenarioService } from '../shared/services/scenario/scenario.service';
+import { LogService } from 'app/shared/services/log.service';
 
 @Component({
   selector: 'slot-new',
@@ -31,7 +33,10 @@ export class SlotNewComponent extends NavigableComponent {
   public hasCreatePermissions: boolean;
   public newSlotForm: FormGroup;
   public slotNamePlaceholder: string;
-  public hasReachedDynamicQuotaLimit: boolean;
+  public featureSupported: boolean;
+  public canScaleUp: boolean;
+  public slotsQuotaMessage: string;
+  public slotsQuotaScaleUp: () => void;
   public isLoading = true;
 
   private _context: FunctionAppContext;
@@ -47,22 +52,28 @@ export class SlotNewComponent extends NavigableComponent {
     private _siteService: SiteService,
     private _cacheService: CacheService,
     private _functionAppService: FunctionAppService,
+    private _scenarioService: ScenarioService,
+    private _logService: LogService,
     private authZService: AuthzService,
     private injector: Injector
   ) {
     super('slot-new', injector, DashboardType.CreateSlotDashboard);
+
+    this.slotsQuotaScaleUp = () => {
+      this.scaleUp();
+    };
   }
 
   setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
     return super
       .setup(navigationEvents)
-      .switchMap(v =>
-        this._functionAppService.getAppContext(v.siteDescriptor.getTrimmedResourceId()).map(r =>
-          Object.assign(v, {
-            context: r,
-          })
-        )
-      )
+      .switchMap(v => {
+        this.isLoading = true;
+        this.featureSupported = false;
+        this.canScaleUp = false;
+        this.slotsQuotaMessage = '';
+        return this._functionAppService.getAppContext(v.siteDescriptor.getTrimmedResourceId()).map(r => Object.assign(v, { context: r }));
+      })
       .switchMap(viewInfo => {
         this._context = viewInfo.context;
         const validator = new RequiredValidator(this._translateService);
@@ -82,23 +93,61 @@ export class SlotNewComponent extends NavigableComponent {
           this._siteService.getSite(this._siteId),
           this._functionAppService.getSlotsList(viewInfo.context),
           this._siteService.getAppSettings(this._siteId),
-          this._functionAppService.getRuntimeGeneration(viewInfo.context)
+          this._scenarioService.checkScenarioAsync(ScenarioIds.getSiteSlotLimits, { site: viewInfo.context.site })
         );
       })
       .do(r => {
-        const writePermission = r[0];
-        const readOnlyLock = r[1];
-        this._siteObj = r[2].result;
-        this._slotsList = r[3].result;
-        const as = r[4];
+        const [writePermission, readOnlyLock, siteObjResult, slotsListResult, appSettings, slotsQuotaCheck] = r;
+        const slotsQuota = !!slotsQuotaCheck ? slotsQuotaCheck.data : 0;
+        this._siteObj = siteObjResult.result;
+        this._slotsList = slotsListResult.result;
+
+        this.canScaleUp =
+          this._siteObj && this._scenarioService.checkScenario(ScenarioIds.canScaleForSlots, { site: this._siteObj }).status !== 'disabled';
+
+        this.featureSupported = slotsQuota === -1 || slotsQuota >= 1;
+
+        if (this.featureSupported && this._slotsList && this._slotsList.length >= slotsQuota) {
+          let quotaMessage = '';
+
+          const sku = this._siteObj.properties.sku;
+          if (!!sku && sku.toLowerCase() === 'dynamic') {
+            quotaMessage = this._translateService.instant(PortalResources.slotNew_dynamicQuotaReached);
+          } else {
+            quotaMessage = this._translateService.instant(PortalResources.slotNew_quotaReached, { quota: slotsQuota });
+            if (this.canScaleUp) {
+              quotaMessage = quotaMessage + ' ' + this._translateService.instant(PortalResources.slotNew_quotaUpgrade);
+            }
+          }
+          this.slotsQuotaMessage = quotaMessage;
+        }
 
         this.hasCreatePermissions = writePermission && !readOnlyLock;
 
-        this.slotOptInEnabled = as.isSuccessful && this._functionAppService.isSlotsSupported(as.result);
+        this.slotOptInEnabled = appSettings.isSuccessful && this._functionAppService.isSlotsSupported(appSettings.result);
 
-        const sku = this._siteObj.properties.sku;
-        this.hasReachedDynamicQuotaLimit = !!sku && sku.toLowerCase() === 'dynamic' && this._slotsList.length === 1;
         this.isLoading = false;
+      });
+  }
+
+  scaleUp() {
+    this.setBusy();
+
+    this._portalService
+      .openBlade(
+        {
+          detailBlade: 'SpecPickerFrameBlade',
+          detailBladeInputs: {
+            id: this._siteObj.properties.serverFarmId,
+            feature: 'scaleup',
+            data: null,
+          },
+        },
+        this.componentName
+      )
+      .subscribe(r => {
+        this.clearBusy();
+        this._logService.debug(LogCategories.deploymentSlots, `Scale up ${r.reason === 'childClosedSelf' ? 'succeeded' : 'cancelled'}`);
       });
   }
 
