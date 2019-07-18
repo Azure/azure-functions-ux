@@ -513,6 +513,10 @@ export class DeploymentCenterConstants {
   public static readonly agentQueueNames = ['Hosted VS2017'];
   public static readonly queueActionFilter = 16; // "Use"
 
+  // Tfs Git permission
+  public static readonly tfsGitSecurityNameSpace = '2E9EB7ED-3C0A-47D4-87C1-0FFDD275FD87';
+  public static readonly createRepositoryPermission = 256;
+
   public static readonly EmptyGuid = '00000000-0000-0000-0000-000000000000';
 }
 
