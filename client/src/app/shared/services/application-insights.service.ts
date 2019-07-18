@@ -1,6 +1,12 @@
 import { Injectable, Injector } from '@angular/core';
-import { Response } from '@angular/http';
-import { AIMonthlySummary, AIInvocationTrace, AIInvocationTraceHistory, AIQueryResult } from '../models/application-insights';
+import { Response, Headers } from '@angular/http';
+import {
+  AIMonthlySummary,
+  AIInvocationTrace,
+  AIInvocationTraceHistory,
+  AIQueryResult,
+  ApplicationInsight,
+} from '../models/application-insights';
 import { Observable } from 'rxjs/Observable';
 import { ConditionalHttpClient } from '../conditional-http-client';
 import { UserService } from './user.service';
@@ -8,73 +14,73 @@ import { HttpResult } from './../models/http-result';
 import { CacheService } from './cache.service';
 import { LogService } from './log.service';
 import { LogCategories, Constants } from '../models/constants';
-import { ArmSiteDescriptor } from '../resourceDescriptors';
-import * as pako from 'pako';
 import { LocalStorageService } from './local-storage.service';
 import { MonitorViewItem } from '../models/localStorage/local-storage';
 import * as moment from 'moment-mini-ts';
+import { ResourcesTopology, ArmObj } from '../models/arm/arm-obj';
+import { ArmUtil } from '../Utilities/arm-utils';
 
 @Injectable()
 export class ApplicationInsightsService {
   private readonly _client: ConditionalHttpClient;
 
-  private readonly _apiVersion = '2015-05-01';
-  private readonly _directUrl = 'https://analytics.applicationinsights.io/';
+  private readonly _aiUrl = 'https://api.applicationinsights.io/v1/apps';
+  private readonly _aiApiVersion = '2018-04-20';
+  private readonly _armTopologyApiVersion = '2017-10-05-preview';
 
   constructor(
     private _logService: LogService,
     private _cacheService: CacheService,
     private _localStorage: LocalStorageService,
-    userService: UserService,
+    private _userService: UserService,
     injector: Injector
   ) {
-    this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
+    this._client = new ConditionalHttpClient(injector, _ => this._userService.getStartupInfo().map(i => i.token));
   }
 
-  public getLast30DaysSummary(aiResourceId: string, functionAppName: string, functionName: string): Observable<AIMonthlySummary> {
-    this._validateAiResourceid(aiResourceId);
-
+  public getLast30DaySummary(appId: string, aiToken: string, functionAppName: string, functionName: string): Observable<AIMonthlySummary> {
     const body = {
       query: this._getQueryForLast30DaysSummary(functionAppName, functionName),
+      timespan: 'P30D',
     };
 
-    const armResponse = this._cacheService.postArm(
-      `/${aiResourceId}/api/query`,
-      true,
-      this._apiVersion,
-      body,
-      'applicationInsights_30DaysSummary'
-    );
+    const url = `${this._aiUrl}/${appId}/query?api-version=${this._aiApiVersion}&queryType=getLast30DaySummary`;
 
-    return this._client.execute({ resourceId: aiResourceId }, t => armResponse).map(response => this._extractSummaryFromResponse(response));
+    const headers = new Headers({
+      Authorization: `Bearer ${aiToken}`,
+    });
+
+    const request = this._cacheService.post(url, true, headers, body);
+
+    return this._client.execute({ resourceId: null }, t => request).map(response => this._extractSummaryFromResponse(response));
   }
 
   public getInvocationTraces(
-    aiResourceId: string,
+    appId: string,
+    aiToken: string,
     functionAppName: string,
     functionName: string,
     top: number = 20
   ): Observable<AIInvocationTrace[]> {
-    this._validateAiResourceid(aiResourceId);
-
     const body = {
       query: this._getQueryForInvocationTraces(functionAppName, functionName, top),
+      timespan: 'P30D',
     };
 
-    const armResponse = this._cacheService.postArm(
-      `/${aiResourceId}/api/query`,
-      true,
-      this._apiVersion,
-      body,
-      'applicationInsights_invocationTraces'
-    );
+    const url = `${this._aiUrl}/${appId}/query?api-version=${this._aiApiVersion}&queryType=getInvocationTraces`;
 
-    return this._client
-      .execute({ resourceId: aiResourceId }, t => armResponse)
-      .map(response => this._extractInvocationTracesFromResponse(response));
+    const headers = new Headers({
+      Authorization: `Bearer ${aiToken}`,
+    });
+
+    const request = this._cacheService.post(url, true, headers, body);
+
+    return this._client.execute({ resourceId: null }, t => request).map(response => this._extractInvocationTracesFromResponse(response));
   }
 
   public getInvocationTraceHistory(
+    appId: string,
+    aiToken: string,
     aiResourceId: string,
     operationId: string,
     invocationId: string
@@ -83,60 +89,73 @@ export class ApplicationInsightsService {
 
     const body = {
       query: this._getQueryForInvocationTraceHistory(operationId, invocationId),
+      timespan: 'P30D',
     };
 
-    const armResponse = this._cacheService.postArm(
-      `/${aiResourceId}/api/query`,
-      true,
-      this._apiVersion,
-      body,
-      'applicationInsights_invocationTraceHistory'
-    );
+    const url = `${this._aiUrl}/${appId}/query?api-version=${this._aiApiVersion}&queryType=getInvocationTraceHistory`;
+
+    const headers = new Headers({
+      Authorization: `Bearer ${aiToken}`,
+    });
+
+    const request = this._cacheService.post(url, true, headers, body);
 
     return this._client
-      .execute({ resourceId: aiResourceId }, t => armResponse)
+      .execute({ resourceId: null }, t => request)
       .map(response => this._extractInvocationTraceHistoryFromResponse(response));
   }
 
-  public getInvocationTracesDirectUrl(aiDirectResourceId: string, functionAppName: string, functionName: string, top: number = 20): string {
-    const baseUrl = this._directUrl + aiDirectResourceId + '?q=';
-    const query = ApplicationInsightsQueryUtil.compressAndEncodeBase64AndUri(
-      this._getQueryForInvocationTraces(functionAppName, functionName, top)
-    );
-    return baseUrl + query;
+  public getInvocationTracesBladeParameters(resourceId: string, functionAppName: string, functionName: string, top: number = 20): any {
+    return {
+      detailBlade: 'LogsBlade',
+      detailBladeInputs: {
+        resourceId,
+        source: `Microsoft.Web-FunctionApp-${functionAppName}`,
+        query: this._getQueryForInvocationTraces(functionAppName, functionName, top),
+      },
+      extension: 'Microsoft_Azure_Monitoring_Logs',
+    };
   }
 
-  public getInvocationTraceHistoryDirectUrl(aiDirectResourceId: string, operationId: string, invocationId: string): string {
-    const baseUrl = this._directUrl + aiDirectResourceId + '?q=';
-    const query = ApplicationInsightsQueryUtil.compressAndEncodeBase64AndUri(
-      this._getQueryForInvocationTraceHistory(operationId, invocationId)
-    );
-    return baseUrl + query;
+  public getInvocationTraceHistoryBladeParameters(
+    resourceId: string,
+    functionAppName: string,
+    operationId: string,
+    invocationId: string
+  ): any {
+    return {
+      detailBlade: 'LogsBlade',
+      detailBladeInputs: {
+        resourceId,
+        source: `Microsoft.Web-FunctionApp-${functionAppName}`,
+        query: this._getQueryForInvocationTraceHistory(operationId, invocationId),
+      },
+      extension: 'Microsoft_Azure_Monitoring_Logs',
+    };
   }
 
-  public getApplicationInsightsId(siteId: string): Observable<string> {
-    const descriptor = new ArmSiteDescriptor(siteId);
-    return Observable.zip(
-      this._cacheService.postArm(`${siteId}/config/appsettings/list`),
-      this._cacheService.getArm(`/subscriptions/${descriptor.subscription}/providers/microsoft.insights/components`, false, '2015-05-01'),
-      (as, ai) => ({ appSettings: as, appInsights: ai })
-    ).map(r => {
-      const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
-      let result = null;
-      if (ikey) {
-        const aiResources = r.appInsights.json();
+  public getApplicationInsightResource(siteId: string): Observable<ArmObj<ApplicationInsight>> {
+    return this._cacheService
+      .postArm(`${siteId}/config/appsettings/list`)
+      .switchMap(response => {
+        const ikey = response.json().properties[Constants.instrumentationKeySettingName];
 
-        // AI RP has an issue where they return an array instead of a JSON response if empty
-        if (aiResources && !Array.isArray(aiResources)) {
-          aiResources.value.forEach(ai => {
-            if (ai.properties.InstrumentationKey === ikey) {
-              result = ai.id;
-            }
-          });
+        return this._getAIResourceFromInstrumentationKey(ikey);
+      })
+      .map(response => {
+        if (response.isSuccessful) {
+          const topologyObject = <ResourcesTopology>response.result.json();
+          if (topologyObject.data && topologyObject.data.columns && topologyObject.data.rows) {
+            const aiResources = ArmUtil.mapResourcesTopologyToArmObjects<ApplicationInsight>(
+              topologyObject.data.columns,
+              topologyObject.data.rows
+            );
+            return aiResources[0];
+          }
         }
-      }
-      return result;
-    });
+
+        return null;
+      });
   }
 
   public setFunctionMonitorClassicViewPreference(functionAppResourceId: string, value: string) {
@@ -160,6 +179,38 @@ export class ApplicationInsightsService {
     const key = `${functionAppResourceId}/monitor/view`;
 
     this._localStorage.removeItem(key);
+  }
+
+  public getAppIdFromInstrumentationKey(instrumentationKey: string): Observable<HttpResult<Response>> {
+    const url = `https://dc.services.visualstudio.com/api/profiles/${instrumentationKey}/appId`;
+
+    const request = this._cacheService.get(url, true);
+
+    return this._client.execute({ resourceId: null }, t => request);
+  }
+
+  private _getAIResourceFromInstrumentationKey(instrumentationKey: string): Observable<HttpResult<Response>> {
+    return this._userService
+      .getStartupInfo()
+      .map(startupInfo => startupInfo.subscriptions)
+      .switchMap(subscriptions => {
+        const subscriptionIds = subscriptions.map(subscription => subscription.subscriptionId);
+
+        const body = {
+          query: `where isnotempty(properties) | where type == 'microsoft.insights/components' | where properties.InstrumentationKey == '${instrumentationKey}'`,
+          subscriptions: subscriptionIds,
+        };
+
+        const request = this._cacheService.postArm(
+          `/providers/microsoft.resourcestopology/resources`,
+          true,
+          this._armTopologyApiVersion,
+          body,
+          'getAIResourceFromInstrumentationKey'
+        );
+
+        return this._client.execute({ resourceId: null }, t => request).map(response => response);
+      });
   }
 
   private _getQueryForLast30DaysSummary(functionAppName: string, functionName: string): string {
@@ -197,7 +248,7 @@ export class ApplicationInsightsService {
       `| where operation_Id == '${operationId}'` +
       invocationIdFilter +
       `| order by timestamp asc` +
-      `| project timestamp, message = iff(message != '', message, iff(innermostMessage != '', innermostMessage, customDimensions.["prop__{OriginalFormat}"])), logLevel = customDimensions.["LogLevel"]`
+      `| project timestamp, message = iff(message != '', message, iff(innermostMessage != '', innermostMessage, customDimensions.['prop__{OriginalFormat}'])), logLevel = customDimensions.['LogLevel']`
     );
   }
 
@@ -234,8 +285,8 @@ export class ApplicationInsightsService {
     if (response.isSuccessful) {
       const resultJson = <AIQueryResult>response.result.json();
       if (!!resultJson) {
-        const summaryTable = resultJson.Tables.find(table => table.TableName === 'Table_0');
-        const rows = summaryTable.Rows;
+        const summaryTable = resultJson.tables.find(table => table.name === 'PrimaryResult');
+        const rows = summaryTable.rows;
 
         // NOTE(michinoy): The query returns up to two rows, with two columns: status and count
         // status of True = Success
@@ -263,9 +314,9 @@ export class ApplicationInsightsService {
     if (response.isSuccessful) {
       const resultJson = <AIQueryResult>response.result.json();
       if (!!resultJson) {
-        const summaryTable = resultJson.Tables.find(table => table.TableName === 'Table_0');
-        if (summaryTable && summaryTable.Rows.length > 0) {
-          summaryTable.Rows.forEach(row => {
+        const summaryTable = resultJson.tables.find(table => table.name === 'PrimaryResult');
+        if (summaryTable && summaryTable.rows.length > 0) {
+          summaryTable.rows.forEach(row => {
             traces.push({
               timestamp: row[0],
               timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
@@ -293,10 +344,10 @@ export class ApplicationInsightsService {
     if (response.isSuccessful) {
       const resultJson = <AIQueryResult>response.result.json();
       if (resultJson) {
-        const summaryTable = resultJson.Tables.find(table => table.TableName === 'Table_0');
-        if (summaryTable && summaryTable.Rows.length > 0) {
+        const summaryTable = resultJson.tables.find(table => table.name === 'PrimaryResult');
+        if (summaryTable && summaryTable.rows.length > 0) {
           let rowNum = 0;
-          summaryTable.Rows.forEach(row => {
+          summaryTable.rows.forEach(row => {
             history.push({
               rowId: rowNum++,
               timestamp: row[0],
@@ -312,93 +363,5 @@ export class ApplicationInsightsService {
     }
 
     return history;
-  }
-}
-
-class ApplicationInsightsQueryUtil {
-  public static compressAndEncodeBase64AndUri(str) {
-    const compressedBase64 = ApplicationInsightsQueryUtil._compressAndEncodeBase64(str);
-    return encodeURIComponent(compressedBase64);
-  }
-
-  public static decompressBase64UriComponent(compressedBase64UriComponent) {
-    const compressedBase64 = decodeURIComponent(compressedBase64UriComponent);
-
-    return ApplicationInsightsQueryUtil._decompressBase64(compressedBase64);
-  }
-
-  private static _compressAndEncodeBase64(str) {
-    const compressed = ApplicationInsightsQueryUtil._compressString(str);
-    return btoa(compressed);
-  }
-
-  private static _compressString(str) {
-    const byteArray = ApplicationInsightsQueryUtil._toUTF8Array(str);
-    const compressedByteArray = pako.gzip(byteArray);
-    const compressed = String.fromCharCode.apply(null, compressedByteArray);
-
-    return compressed;
-  }
-
-  private static _decompressBase64(compressedBase64) {
-    const compressed = atob(compressedBase64);
-
-    return ApplicationInsightsQueryUtil._decompressString(compressed);
-  }
-
-  private static _decompressString(compressed) {
-    const compressedByteArray = compressed.split('').map(function(e) {
-      return e.charCodeAt(0);
-    });
-    const decompressedByteArray = pako.inflate(compressedByteArray);
-    const decompressed = ApplicationInsightsQueryUtil._fromUTF8Array(decompressedByteArray);
-
-    return decompressed;
-  }
-
-  private static _toUTF8Array(str) {
-    const utf8 = [];
-    for (let i = 0; i < str.length; i++) {
-      let charcode = str.charCodeAt(i);
-      if (charcode < 0x80) utf8.push(charcode);
-      else if (charcode < 0x800) {
-        utf8.push(0xc0 | (charcode >> 6), 0x80 | (charcode & 0x3f));
-      } else if (charcode < 0xd800 || charcode >= 0xe000) {
-        utf8.push(0xe0 | (charcode >> 12), 0x80 | ((charcode >> 6) & 0x3f), 0x80 | (charcode & 0x3f));
-      } else {
-        i++;
-        charcode = 0x10000 + (((charcode & 0x3ff) << 10) | (str.charCodeAt(i) & 0x3ff));
-        utf8.push(0xf0 | (charcode >> 18), 0x80 | ((charcode >> 12) & 0x3f), 0x80 | ((charcode >> 6) & 0x3f), 0x80 | (charcode & 0x3f));
-      }
-    }
-    return utf8;
-  }
-
-  private static _fromUTF8Array(utf8) {
-    const charsArray = [];
-    for (let i = 0; i < utf8.length; i++) {
-      let charCode, firstByte, secondByte, thirdByte, fourthByte;
-      if ((utf8[i] & 0x80) === 0) {
-        charCode = utf8[i];
-      } else if ((utf8[i] & 0xe0) === 0xc0) {
-        firstByte = utf8[i] & 0x1f;
-        secondByte = utf8[++i] & 0x3f;
-        charCode = (firstByte << 6) + secondByte;
-      } else if ((utf8[i] & 0xf0) === 0xe0) {
-        firstByte = utf8[i] & 0x0f;
-        secondByte = utf8[++i] & 0x3f;
-        thirdByte = utf8[++i] & 0x3f;
-        charCode = (firstByte << 12) + (secondByte << 6) + thirdByte;
-      } else if ((utf8[i] & 0xf8) === 0xf0) {
-        firstByte = utf8[i] & 0x07;
-        secondByte = utf8[++i] & 0x3f;
-        thirdByte = utf8[++i] & 0x3f;
-        fourthByte = utf8[++i] & 0x3f;
-        charCode = (firstByte << 18) + (secondByte << 12) + (thirdByte << 6) + fourthByte;
-      }
-
-      charsArray.push(charCode);
-    }
-    return String.fromCharCode.apply(null, charsArray);
   }
 }

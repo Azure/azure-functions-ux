@@ -28,6 +28,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     this.selectedRowId = null;
     this.appInsightsQueryReturnedTitle = this._translateService.instant(PortalResources.loading);
     this.showDelayWarning = false;
+    this.functionMonitorInfo = functionMonitorInfo;
     this.componentId = `${functionMonitorInfo.functionAppContext.site.id}/functions/${functionMonitorInfo.functionInfo.name}/monitor`;
     this.setInput(functionMonitorInfo);
   }
@@ -44,6 +45,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
   public showDelayWarning = false;
   public appInsightsQueryReturnedTitle: string;
   public componentId: string;
+  public applicationInsightsAppId: string;
 
   constructor(
     private _portalService: PortalService,
@@ -57,37 +59,28 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
 
   protected setup(functionMonitorInfoInputEvent: Observable<FunctionMonitorInfo>) {
     return functionMonitorInfoInputEvent
-      .switchMap(functionMonitorInfo =>
-        Observable.zip(
-          Observable.of(functionMonitorInfo),
-          this._applicationInsightsService.getLast30DaysSummary(
-            functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
-            this._getFunctionAppName(functionMonitorInfo.functionAppContext),
+      .switchMap(functionMonitorInfo => {
+        const functionAppName = this._getFunctionAppName(functionMonitorInfo.functionAppContext);
+
+        return Observable.zip(
+          this._applicationInsightsService.getLast30DaySummary(
+            functionMonitorInfo.appInsightResource.properties.AppId,
+            functionMonitorInfo.appInsightToken,
+            functionAppName,
             functionMonitorInfo.functionInfo.name
           ),
           this._applicationInsightsService.getInvocationTraces(
-            functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
-            this._getFunctionAppName(functionMonitorInfo.functionAppContext),
+            functionMonitorInfo.appInsightResource.properties.AppId,
+            functionMonitorInfo.appInsightToken,
+            functionAppName,
             functionMonitorInfo.functionInfo.name
-          ),
-          this._portalService.getAdToken('graph'),
-          this._portalService.getAdToken('azureTfsApi'),
-          this._portalService.getAdToken('applicationinsightapi')
-        )
-      )
-      .do(tuple => {
-        const graphToken = tuple[3];
-        const tfsToken = tuple[4];
-        const aiToken = tuple[5];
-
-        console.log(graphToken);
-        console.log(tfsToken);
-        console.log(aiToken);
-
-        this.functionMonitorInfo = tuple[0];
-        this.invocationTraces = tuple[2];
-        const monthlySummary = tuple[1];
-        this.applicationInsightsInstanceName = this.functionMonitorInfo.appInsightsResourceDescriptor.instanceName;
+          )
+        );
+      })
+      .do(responses => {
+        this.invocationTraces = responses[1];
+        const monthlySummary = responses[0];
+        this.applicationInsightsInstanceName = this.functionMonitorInfo.appInsightResource.name;
         this.appInsightsQueryReturnedTitle = this._translateService
           .instant(PortalResources.functionMonitor_appInsightsQueryReturnedTitle)
           .format(this.invocationTraces.length);
@@ -127,7 +120,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
       {
         detailBlade: 'AspNetOverviewV3',
         detailBladeInputs: {
-          id: this.functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
+          id: this.functionMonitorInfo.appInsightResource.id,
         },
         extension: 'AppInsightsExtension',
       },
@@ -136,13 +129,14 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
   }
 
   public openAppInsightsQueryEditor() {
-    const url = this._applicationInsightsService.getInvocationTracesDirectUrl(
-      this.functionMonitorInfo.appInsightsResourceDescriptor.getResourceIdForDirectUrl(),
-      this._getFunctionAppName(this.functionMonitorInfo.functionAppContext),
-      this.functionMonitorInfo.functionInfo.name
+    this._portalService.openBlade(
+      this._applicationInsightsService.getInvocationTracesBladeParameters(
+        this.functionMonitorInfo.appInsightResource.id,
+        this._getFunctionAppName(this.functionMonitorInfo.functionAppContext),
+        this.functionMonitorInfo.functionInfo.name
+      ),
+      ComponentNames.functionMonitor
     );
-
-    window.open(url, '_blank');
   }
 
   public openDiagnoseAndSolveProblemsBlade() {

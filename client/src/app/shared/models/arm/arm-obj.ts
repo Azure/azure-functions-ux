@@ -33,3 +33,24 @@ export interface Sku {
 export interface AvailableSku {
   sku: Sku;
 }
+
+export interface ResourcesTopology {
+  count: number;
+  data: ResourceTologyData;
+  facets: any[];
+  maxRows: number;
+  pagingEnabled: false;
+  totalRecords: number;
+}
+
+export interface ResourceTologyData {
+  columns: ResourceTopologyColumn[];
+  // NOTE(michinoy): each row would contain an array of items.
+  // The type of each item is determined through the type of the column.
+  rows: any[][];
+}
+
+export interface ResourceTopologyColumn {
+  name: string;
+  type: string;
+}
