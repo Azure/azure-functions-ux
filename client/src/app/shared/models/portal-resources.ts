@@ -730,7 +730,6 @@ export class PortalResources {
   public static slotsList_statusHeader = 'slotsList_statusHeader';
   public static slotsList_serverfarmHeader = 'slotsList_serverfarmHeader';
   public static slotsList_trafficPercentHeader = 'slotsList_trafficPercentHeader';
-  public static slotsList_title = 'slotsList_title';
   public static slotsList_tipDeprecationMessage = 'slotsList_tipDeprecationMessage';
   public static monitoring_appInsights = 'monitoring_appInsights';
   public static monitoring_appInsightsConfigureLink = 'monitoring_appInsightsConfigureLink';
@@ -1354,7 +1353,6 @@ export class PortalResources {
   public static containerSettingsUpdateSuccess = 'containerSettingsUpdateSuccess';
   public static showUrl = 'showUrl';
   public static hideUrl = 'hideUrl';
-  public static dynamicLinuxPreview = 'dynamicLinuxPreview';
   public static formIsInvalid = 'formIsInvalid';
   public static finishAndDeploy = 'finishAndDeploy';
   public static readOnlyLinuxDynamic = 'readOnlyLinuxDynamic';

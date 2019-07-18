@@ -27,7 +27,7 @@
   <command displayText="{{ 'downloadFunctionAppContent' | translate}}"
     iconUrl="image/download.svg"
     (click)="openDownloadFunctionAppModal()"
-    [disabled]="!siteAvailabilityStateNormal || !hasWriteAccess"></command>
+    [disabled]="!siteAvailabilityStateNormal || !hasWriteAccess || isLinuxConsumption"></command>
 
   <command displayText="{{ '_delete' | translate }}"
     iconUrl="image/delete.svg"
