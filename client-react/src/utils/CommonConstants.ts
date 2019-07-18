@@ -17,6 +17,7 @@ export class CommonConstants {
     azureComputeUnitLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2027465',
     pv2UpsellInfoLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2028474',
     ipRestrictionsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=854597',
+    appDensityWarningLink: 'https://go.microsoft.com/fwlink/?linkid=2098431',
   };
 
   public static readonly Kinds = {
@@ -48,4 +49,6 @@ export class CommonConstants {
   public static readonly FeatureFlags = {
     AllowFreeLinux: 'allowfreelinux',
   };
+
+  public static readonly AppDensityLimit = 8;
 }
