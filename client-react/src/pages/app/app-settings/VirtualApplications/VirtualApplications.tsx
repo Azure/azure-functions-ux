@@ -13,6 +13,7 @@ import { AppSettingsFormValues, Permissions } from '../AppSettings.types';
 import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { VirtualApplication } from '../../../../models/site/config';
+import { TooltipHost } from 'office-ui-fabric-react';
 
 export interface VirtualApplicationsState {
   showPanel: boolean;
@@ -137,26 +138,38 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
 
     if (column.key === 'delete') {
       return item.virtualPath === '/' ? null : (
-        <IconButton
-          className={defaultCellStyle}
-          disabled={!app_write || !editable}
-          iconProps={{ iconName: 'Delete' }}
-          ariaLabel={t('delete')}
-          title={t('delete')}
-          onClick={() => this.removeItem(index)}
-        />
+        <TooltipHost
+          content={t('delete')}
+          id={`app-settings-virtual-applications-delete-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={!app_write || !editable}
+            id={`app-settings-virtual-applications-delete-${index}`}
+            iconProps={{ iconName: 'Delete' }}
+            aria-labelledby={`app-settings-virtual-applications-delete-tooltip-${index}`}
+            onClick={() => this.removeItem(index)}
+          />
+        </TooltipHost>
       );
     }
     if (column.key === 'edit') {
       return (
-        <IconButton
-          className={defaultCellStyle}
-          disabled={!app_write || !editable}
-          iconProps={{ iconName: 'Edit' }}
-          ariaLabel={t('edit')}
-          title={t('edit')}
-          onClick={() => this._onShowPanel(item, index)}
-        />
+        <TooltipHost
+          content={t('edit')}
+          id={`app-settings-virtual-applications-edit-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={!app_write || !editable}
+            id={`app-settings-virtual-applications-edit-${index}`}
+            iconProps={{ iconName: 'Edit' }}
+            aria-labelledby={`app-settings-virtual-applications-edit-tooltip-${index}`}
+            onClick={() => this._onShowPanel(item, index)}
+          />
+        </TooltipHost>
       );
     }
     if (column.key === 'type') {

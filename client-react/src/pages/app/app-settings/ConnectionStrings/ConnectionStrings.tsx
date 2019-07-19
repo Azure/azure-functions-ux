@@ -239,15 +239,14 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
           id={`app-settings-connection-strings-delete-tooltip-${index}`}
           calloutProps={{ gapSpace: 0 }}
           closeDelay={500}>
-          <ActionButton
+          <IconButton
             className={defaultCellStyle}
             disabled={!editable}
             id={`app-settings-connection-strings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             aria-labelledby={`app-settings-connection-strings-delete-tooltip-${index}`}
-            onClick={() => this._removeItem(itemKey)}>
-            {t('delete')}
-          </ActionButton>
+            onClick={() => this._removeItem(itemKey)}
+          />
         </TooltipHost>
       );
     }
@@ -258,15 +257,14 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
           id={`app-settings-connection-strings-edit-tooltip-${index}`}
           calloutProps={{ gapSpace: 0 }}
           closeDelay={500}>
-          <ActionButton
+          <IconButton
             className={defaultCellStyle}
             disabled={!editable}
             id={`app-settings-connection-strings-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             aria-labelledby={`app-settings-connection-strings-edit-tooltip-${index}`}
-            onClick={() => this._onShowPanel(item)}>
-            {t('edit')}
-          </ActionButton>
+            onClick={() => this._onShowPanel(item)}
+          />
         </TooltipHost>
       );
     }

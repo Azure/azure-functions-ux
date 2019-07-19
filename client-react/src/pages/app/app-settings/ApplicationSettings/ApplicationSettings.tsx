@@ -238,15 +238,14 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           id={`app-settings-application-settings-delete-tooltip-${index}`}
           calloutProps={{ gapSpace: 0 }}
           closeDelay={500}>
-          <ActionButton
+          <IconButton
             className={defaultCellStyle}
             disabled={!editable}
             id={`app-settings-application-settings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             aria-labelledby={`app-settings-application-settings-delete-tooltip-${index}`}
-            onClick={() => this._removeItem(itemKey)}>
-            {t('delete')}
-          </ActionButton>
+            onClick={() => this._removeItem(itemKey)}
+          />
         </TooltipHost>
       );
     }
@@ -257,15 +256,14 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           id={`app-settings-application-settings-edit-tooltip-${index}`}
           calloutProps={{ gapSpace: 0 }}
           closeDelay={500}>
-          <ActionButton
+          <IconButton
             className={defaultCellStyle}
             disabled={!editable}
             id={`app-settings-application-settings-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             aria-labelledby={`app-settings-application-settings-edit-tooltip-${index}`}
-            onClick={() => this._onShowPanel(item)}>
-            {t('edit')}
-          </ActionButton>
+            onClick={() => this._onShowPanel(item)}
+          />
         </TooltipHost>
       );
     }
