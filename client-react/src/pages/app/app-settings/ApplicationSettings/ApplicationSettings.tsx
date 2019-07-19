@@ -12,7 +12,7 @@ import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, Stack } from 'office-ui-fabric-react';
+import { SearchBox, Stack, TooltipHost } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
@@ -233,28 +233,38 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
 
     if (column.key === 'delete') {
       return (
-        <IconButton
-          className={defaultCellStyle}
-          disabled={!editable}
-          id={`app-settings-application-settings-delete-${index}`}
-          iconProps={{ iconName: 'Delete' }}
-          ariaLabel={t('delete')}
-          title={t('delete')}
-          onClick={() => this._removeItem(itemKey)}
-        />
+        <TooltipHost
+          content={t('delete')}
+          id={`app-settings-application-settings-delete-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={!editable}
+            id={`app-settings-application-settings-delete-${index}`}
+            iconProps={{ iconName: 'Delete' }}
+            ariaLabel={t('delete')}
+            onClick={() => this._removeItem(itemKey)}
+          />
+        </TooltipHost>
       );
     }
     if (column.key === 'edit') {
       return (
-        <IconButton
-          className={defaultCellStyle}
-          disabled={!editable}
-          id={`app-settings-application-settings-edit-${index}`}
-          iconProps={{ iconName: 'Edit' }}
-          ariaLabel={t('edit')}
-          title={t('edit')}
-          onClick={() => this._onShowPanel(item)}
-        />
+        <TooltipHost
+          content={t('edit')}
+          id={`app-settings-application-settings-edit-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={!editable}
+            id={`app-settings-application-settings-edit-${index}`}
+            iconProps={{ iconName: 'Edit' }}
+            ariaLabel={t('edit')}
+            onClick={() => this._onShowPanel(item)}
+          />
+        </TooltipHost>
       );
     }
     if (column.key === 'sticky') {
