@@ -10,7 +10,7 @@ import IconButton from '../../../../components/IconButton/IconButton';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import AzureStorageMountsAddEdit from './AzureStorageMountsAddEdit';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType, TooltipHost } from 'office-ui-fabric-react';
 import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import { ArmAzureStorageMount, StorageType } from '../../../../models/site/config';
@@ -151,26 +151,38 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
 
     if (column.key === 'delete') {
       return (
-        <IconButton
-          className={defaultCellStyle}
-          disabled={!editable}
-          iconProps={{ iconName: 'Delete' }}
-          ariaLabel={t('delete')}
-          title={t('delete')}
-          onClick={() => this.removeItem(index)}
-        />
+        <TooltipHost
+          content={t('delete')}
+          id={`app-settings-storage-mounts-delete-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={!editable}
+            id={`app-settings-storage-mounts-delete-${index}`}
+            iconProps={{ iconName: 'Delete' }}
+            ariaLabel={t('delete')}
+            onClick={() => this.removeItem(index)}
+          />
+        </TooltipHost>
       );
     }
     if (column.key === 'edit') {
       return (
-        <IconButton
-          className={defaultCellStyle}
-          disabled={!editable}
-          iconProps={{ iconName: 'Edit' }}
-          ariaLabel={t('edit')}
-          title={t('edit')}
-          onClick={() => this._onShowPanel(item, index)}
-        />
+        <TooltipHost
+          content={t('edit')}
+          id={`app-settings-storage-mounts-edit-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={!editable}
+            id={`app-settings-storage-mounts-edit-${index}`}
+            iconProps={{ iconName: 'Edit' }}
+            ariaLabel={t('edit')}
+            onClick={() => this._onShowPanel(item, index)}
+          />
+        </TooltipHost>
       );
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
