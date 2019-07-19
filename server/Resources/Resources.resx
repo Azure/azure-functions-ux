@@ -3580,6 +3580,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>The organization name supplied is not valid. Please supply another organization name.</value>
   </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+  </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
   </data>
