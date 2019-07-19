@@ -7,9 +7,7 @@ const schema = Joi.array()
   .items(
     Joi.object().keys({
       name: Joi.string().required(),
-      value: Joi.string()
-        .required()
-        .allow(''),
+      value: Joi.string().required(),
       type: Joi.required().valid(TypeStrings),
       slotSetting: Joi.boolean().optional(),
     })
@@ -25,17 +23,17 @@ export const getErrorMessage = (newValue: string, t: i18next.TFunction) => {
     const details = result.error.details[0];
     switch (details.type) {
       case 'array.base':
-        return t('valuesMustBeAnArray');
+        return t('connectionStringValuesMustBeAnArray');
       case 'any.required':
-        return t('appSettingPropIsRequired').format(details.context!.key);
+        return t('connectionStringPropIsRequired').format(details.context!.key);
       case 'string.base':
-        return t('valueMustBeAString');
+        return t('connectionStringValueMustBeAString');
       case 'boolean.base':
         return t('slotSettingMustBeBoolean');
       case 'object.allowUnknown':
-        return t('invalidAppSettingProperty').format(details.context!.key);
+        return t('connectionStringInvalidProperty').format(details.context!.key);
       case 'array.unique':
-        return t('appSettingNamesUnique');
+        return t('connectionStringNamesUnique');
       case 'any.allowOnly':
         return details.message;
       default:

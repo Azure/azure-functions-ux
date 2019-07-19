@@ -2123,7 +2123,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>ERROR</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>This field can only contain letters, numbers (0-9), periods ("."), and underscores ("_")</value>
+    <value>App setting names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>This field is required</value>
@@ -3572,7 +3572,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>You do not have permissions to create a Build pipeline or a Release pipeline on this project. Contact your project administrator or choose a different project</value>
   </data>
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
-    <value>You do not have permissions to use at any of the available agent pools in this project . Contact your project administrator or choose a different project</value>
+    <value>You do not have permissions to use at any of the available agent pools in this project. Contact your project administrator or choose a different project</value>
+  </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>You do not have permissions to create repository in this project. Contact your project administrator or choose a different project</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>The organization name supplied is not valid. Please supply another organization name.</value>
@@ -4196,9 +4199,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="hideUrl" xml:space="preserve">
     <value>hide url</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux Consumption Functions are a preview offer.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Some fields are not properly filled out or are required.</value>
   </data>
@@ -4206,7 +4206,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Finish and go to Deployment Center</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Linux Consumption Function Apps (Preview).</value>
+    <value>Editing functions in the portal is not supported for Linux Consumption Function Apps.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
@@ -4805,23 +4805,41 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>All deployment slot setting properties must be of type boolean</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>App setting values must be an array</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} is a required property on all application settings</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>All app setting value and name properties must be of type string</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>All app setting deployment slot setting properties must be of type boolean</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} is an invalid app setting property</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>App setting names must be unique</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Connection string values must be an array</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all connection strings</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>All connection string value and name properties must be of type string</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} is an invalid connection string property</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Connection string names must be unique</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all handler mappings</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Invalid JSON object</value>
