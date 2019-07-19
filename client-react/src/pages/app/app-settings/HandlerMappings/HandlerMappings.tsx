@@ -47,7 +47,8 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
           disabled={!app_write || !editable}
           onClick={this.createNewItem}
           styles={{ root: { marginTop: '5px' } }}
-          iconProps={{ iconName: 'Add' }}>
+          iconProps={{ iconName: 'Add' }}
+          ariaLabel={t('addNewHandlerMapping')}>
           {t('addNewHandler')}
         </ActionButton>
         <Panel
