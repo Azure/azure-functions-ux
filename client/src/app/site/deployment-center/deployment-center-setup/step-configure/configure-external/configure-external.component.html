@@ -24,27 +24,25 @@
         <radio-selector [ariaLabel]="'repoType' | translate" [defaultValue]="repoMode" aria-labelledby="dc-external-repoType-label" [options]="RepoTypeOptions" (value)="repoTypeChanged($event)"></radio-selector>
       </div>
     </div>
-    <ng-container *ngIf="wizard?.wizardValues?.buildProvider === 'vsts'">
+    <div class="setting-wrapper">
+      <label class="setting-label" id="dc-external-privateRepo-label">{{'privateRepo' | translate}}</label>
+      <div class="setting-control-container">
+        <radio-selector [ariaLabel]="'privateRepo' | translate" [defaultValue]="privateRepo" [options]="AccessTypeOptions" (value)="accessTypeChanged($event)"></radio-selector>
+      </div>
+    </div>
+
+    <ng-container *ngIf="wizard?.wizardValues?.sourceSettings?.privateRepo">
+
       <div class="setting-wrapper">
-        <label class="setting-label" id="dc-external-privateRepo-label">{{'privateRepo' | translate}}</label>
+        <label class="setting-label" id="dc-external-privateRepoUserName-label">{{'username' | translate }}</label>
         <div class="setting-control-container">
-          <radio-selector [ariaLabel]="'privateRepo' | translate" [defaultValue]="privateRepo" [options]="AccessTypeOptions" (value)="accessTypeChanged($event)"></radio-selector>
+          <textbox [ariaLabel]="'username' | translate" [control]="this.wizard?.sourceSettings?.controls?.username" ></textbox>
         </div>
       </div>
-
-      <ng-container *ngIf="wizard?.wizardValues?.sourceSettings?.privateRepo">
-
-        <div class="setting-wrapper">
-          <label class="setting-label" id="dc-external-privateRepoUserName-label">{{'username' | translate }}</label>
-          <div class="setting-control-container">
-            <textbox [ariaLabel]="'username' | translate" [control]="this.wizard?.sourceSettings?.controls?.username" ></textbox>
-          </div>
+      <div class="setting-wrapper">
+        <label class="setting-label" id="dc-external-privateRepoPassword-label">{{'password' | translate }}</label>
+        <div class="setting-control-container">
+          <textbox [ariaLabel]="'password' | translate" [control]="this.wizard?.sourceSettings?.controls?.password" type="password"></textbox>
         </div>
-        <div class="setting-wrapper">
-          <label class="setting-label" id="dc-external-privateRepoPassword-label">{{'password' | translate }}</label>
-          <div class="setting-control-container">
-            <textbox [ariaLabel]="'password' | translate" [control]="this.wizard?.sourceSettings?.controls?.password" type="password"></textbox>
-          </div>
-        </div>
-      </ng-container>
+      </div>
     </ng-container>
