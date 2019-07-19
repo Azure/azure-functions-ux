@@ -386,7 +386,7 @@
     <value>A save operation is currently in progress.  Navigating away may cause some changes to be lost.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Add new setting</value>
+    <value>+ Add new application setting</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
     <value>+ Add new connection string</value>
@@ -4725,7 +4725,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>New virtual application or directory</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>New handler</value>
+    <value>New handler mapping</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Unable to open a connection to your app. This may be due to any network security groups or IP restriction rules that you have placed on your app. To use log streaming, please make sure you are able to access your app directly from your current network.</value>
