@@ -47,10 +47,30 @@ const buttonsWrapperStyle = style({
   paddingTop: '10px',
 });
 
-const buttonStyle = style({
-  marginLeft: '16px',
-  marginTop: '2px',
-});
+const buttonStyle = (theme: ThemeExtended, isPrimary: boolean) =>
+  style({
+    marginLeft: '16px',
+    marginTop: '2px',
+    $nest: {
+      '&:focus': {
+        $nest: {
+          '&::after': {
+            top: '1px !important',
+            right: '1px !important',
+            bottom: '1px !important',
+            left: '1px !important',
+            borderStyle: 'dotted !important',
+            borderColor: `${
+              isPrimary ? theme.semanticColors.primaryButtonBorderFocused : theme.semanticColors.buttonBorderFocused
+            } !important`,
+            outlineStyle: 'dotted !important',
+            outlineColor: `${theme.semanticColors.buttonOutlineFocused} !important`,
+            outlineOffset: '1px !important',
+          },
+        },
+      },
+    },
+  });
 
 const statusMessageDiv = style({
   display: 'inline-block',
@@ -66,7 +86,7 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({ primaryButton, secondaryB
       <div className={buttonsWrapperStyle}>
         <PrimaryButton
           id={`${id}-${primaryButton.id}`}
-          className={buttonStyle}
+          className={buttonStyle(theme, true)}
           onClick={primaryButton.onClick}
           disabled={primaryButton.disable}>
           {t(primaryButton.title)}
@@ -74,7 +94,7 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({ primaryButton, secondaryB
         {secondaryButton && (
           <DefaultButton
             id={`${id}-${secondaryButton.id}`}
-            className={buttonStyle}
+            className={buttonStyle(theme, false)}
             onClick={secondaryButton.onClick}
             disabled={secondaryButton.disable}>
             {t('cancel')}

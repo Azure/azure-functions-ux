@@ -39,7 +39,11 @@ export interface AzurePortalColors {
   disabledControlBackground: string;
   cardBorderColor: string;
 }
-export interface SemanticColorsExtended extends ISemanticColors, AzurePortalColors {}
+export interface SemanticColorsExtended extends ISemanticColors, AzurePortalColors {
+  buttonBorderFocused: string;
+  buttonOutlineFocused: string;
+  primaryButtonBorderFocused: string;
+}
 export interface ThemeExtended extends ITheme {
   semanticColors: SemanticColorsExtended;
 }

@@ -138,6 +138,8 @@ const semanticColors = {
   buttonBackgroundPressed: AzurePortalColors.buttonPressed,
   buttonBackgroundDisabled: AzurePortalColors.buttonDisabled,
   buttonBorder: AzurePortalColors.buttonRest,
+  buttonBorderFocused: '#015bda',
+  buttonOutlineFocused: themePalette.blueLight,
   buttonText: AzurePortalColors.buttonRest,
   buttonTextHovered: AzurePortalColors.background,
   buttonTextChecked: AzurePortalColors.background,
@@ -151,6 +153,7 @@ const semanticColors = {
   primaryButtonBackgroundPressed: AzurePortalColors.buttonPressed,
   primaryButtonBackgroundDisabled: AzurePortalColors.buttonDisabled,
   primaryButtonBorder: 'transparent',
+  primaryButtonBorderFocused: '#FFFFFF',
 
   primaryButtonText: AzurePortalColors.background,
   primaryButtonTextHovered: AzurePortalColors.background,
