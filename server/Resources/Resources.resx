@@ -386,19 +386,19 @@
     <value>A save operation is currently in progress.  Navigating away may cause some changes to be lost.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Add new application setting</value>
+    <value>Add new application setting</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Add new connection string</value>
+    <value>Add new connection string</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Add new document</value>
+    <value>Add new document</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Add new handler mapping</value>
+    <value>Add new handler mapping</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Add new virtual application or directory</value>
+    <value>Add new virtual application or directory</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Enter a name</value>
@@ -4617,7 +4617,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Mount storage (Preview)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Add storage</value>
+    <value>Add storage</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Account</value>
