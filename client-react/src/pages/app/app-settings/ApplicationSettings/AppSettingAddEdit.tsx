@@ -14,9 +14,10 @@ export interface AppSettingAddEditProps {
   otherAppSettings: FormAppSetting[];
   appSetting: FormAppSetting;
   disableSlotSetting: boolean;
+  isLinux: boolean;
 }
 const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
-  const { updateAppSetting, otherAppSettings, closeBlade, appSetting, disableSlotSetting } = props;
+  const { updateAppSetting, otherAppSettings, closeBlade, appSetting, disableSlotSetting, isLinux } = props;
   const [nameError, setNameError] = useState('');
   const [currentAppSetting, setCurrentAppSetting] = useState(appSetting);
   const { t } = useTranslation();
@@ -35,6 +36,12 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
   };
 
   const validateAppSettingName = (value: string) => {
+    if (!value) {
+      return t('appSettingPropIsRequired').format('name');
+    }
+    if (isLinux && /[^\w\.]/.test(value)) {
+      return t('validation_linuxAppSettingNameError');
+    }
     return otherAppSettings.filter(v => v.name.toLowerCase() === value.toLowerCase()).length >= 1 ? t('appSettingNamesUnique') : '';
   };
 

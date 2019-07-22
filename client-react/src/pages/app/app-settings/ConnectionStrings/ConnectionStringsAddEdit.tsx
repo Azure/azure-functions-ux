@@ -22,10 +22,14 @@ export interface ConnectionStringAddEditProps {
 const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props => {
   const { updateConnectionString, otherConnectionStrings, closeBlade, connectionString, disableSlotSetting } = props;
   const [nameError, setNameError] = useState('');
+  const [valueError, setValueError] = useState('');
   const [currentConnectionString, setCurrentConnectionString] = useState(connectionString);
   const { t } = useTranslation();
   const validateConnectionStringName = (value: string) => {
-    return otherConnectionStrings.filter(v => v.name === value).length >= 1 ? 'Connection string names must be unique' : '';
+    if (!value) {
+      return t('connectionStringPropIsRequired').format('name');
+    }
+    return otherConnectionStrings.filter(v => v.name === value).length >= 1 ? t('connectionStringNamesUnique') : '';
   };
   const updateConnectionStringName = (e: any, name: string) => {
     const error = validateConnectionStringName(name);
@@ -33,7 +37,12 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
     setCurrentConnectionString({ ...currentConnectionString, name });
   };
 
+  const validateConnectionStringValue = (value: string) => {
+    return !value ? t('connectionStringPropIsRequired').format('value') : '';
+  };
   const updateConnectionStringValue = (e: any, value: string) => {
+    const error = validateConnectionStringValue(name);
+    setValueError(error);
     setCurrentConnectionString({ ...currentConnectionString, value });
   };
 
@@ -83,6 +92,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
         widthOverride="100%"
         id="connection-strings-form-value"
         value={currentConnectionString.value}
+        errorMessage={valueError}
         onChange={updateConnectionStringValue}
       />
       <DropdownNoFormik
