@@ -79,6 +79,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
   public swapControlsOpen = false;
   public targetSwapSlot: string;
   public siteAvailabilityStateNormal = false;
+  public isLinuxConsumption = false;
 
   private _viewInfo: TreeViewInfo<SiteData>;
   private _subs: Subscription[];
@@ -130,6 +131,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       .switchMap(context => {
         this.context = context;
         this.siteAvailabilityStateNormal = context.site.properties.availabilityState === SiteAvailabilitySates.Normal;
+        this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
 
         this._setResourceInformation(context);
         this._setAppServicePlanData(context);
@@ -218,16 +220,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         }
 
         this.notifications = [];
-        if (ArmUtil.isLinuxDynamic(this.context.site)) {
-          this.notifications.push({
-            id: NotificationIds.dynamicLinux,
-            message: this.ts.instant(PortalResources.dynamicLinuxPreview),
-            iconClass: 'fa fa-exclamation-triangle warning',
-            learnMoreLink: Links.dynamicLinuxPreviewLearnMore,
-            clickCallback: null,
-          });
-          this._globalStateService.setTopBarNotifications(this.notifications);
-        } else if (isPowershell) {
+        if (isPowershell) {
           this.notifications.push({
             id: NotificationIds.powershellPreview,
             message: this.ts.instant(PortalResources.powershellPreview),
