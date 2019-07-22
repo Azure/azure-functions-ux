@@ -31,6 +31,7 @@ export class StepCompleteComponent {
   resourceId: string;
   private _busyManager: BusyStateScopeManager;
   private _ngUnsubscribe$ = new Subject();
+  private _saveDeploymentConfig$ = new Subject();
 
   constructor(
     public wizard: DeploymentCenterStateManager,
@@ -44,9 +45,20 @@ export class StepCompleteComponent {
     this.wizard.resourceIdStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
       this.resourceId = r;
     });
+
+    this._saveDeploymentConfig$
+      .takeUntil(this._ngUnsubscribe$)
+      .debounceTime(500)
+      .subscribe(_ => {
+        this._saveDeploymentConfig();
+      });
   }
 
   Save() {
+    this._saveDeploymentConfig$.next(true);
+  }
+
+  private _saveDeploymentConfig() {
     const saveGuid = Guid.newGuid();
     this._portalService.logAction('deploymentcenter', 'save', {
       id: saveGuid,
