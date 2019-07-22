@@ -4532,7 +4532,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Failed to save credentials</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Successfully saved credentials</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">

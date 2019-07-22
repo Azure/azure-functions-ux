@@ -185,7 +185,11 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
         this.saving = false;
         this.setInput(this.resourceId);
         if (result) {
-          this._portalService.stopNotification(saveUserCredentialsNotificationId, true, PortalResources.savingCredentialsSucccess);
+          this._portalService.stopNotification(
+            saveUserCredentialsNotificationId,
+            true,
+            this._translateService.instant(PortalResources.savingCredentialsSuccess)
+          );
         }
       });
     this.setInput(this.resourceId);
