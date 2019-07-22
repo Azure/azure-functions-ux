@@ -3577,6 +3577,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="vstsCreateRepoPermissions" xml:space="preserve">
     <value>You do not have permissions to create repository in this project. Contact your project administrator or choose a different project</value>
   </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>The organization name supplied is not valid. Please supply another organization name.</value>
   </data>
