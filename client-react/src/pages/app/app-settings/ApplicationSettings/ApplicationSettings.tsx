@@ -61,7 +61,8 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
             onClick={this._createNewItem}
             disabled={!editable}
             styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Add' }}>
+            iconProps={{ iconName: 'Add' }}
+            ariaLabel={t('addNewSetting')}>
             {t('newApplicationSetting')}
           </ActionButton>
           <ActionButton

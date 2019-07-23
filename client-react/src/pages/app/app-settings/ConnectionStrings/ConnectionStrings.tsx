@@ -62,7 +62,8 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
             onClick={this._createNewItem}
             disabled={!editable}
             styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Add' }}>
+            iconProps={{ iconName: 'Add' }}
+            ariaLabel={t('addNewConnectionString')}>
             {t('newConnectionString')}
           </ActionButton>
           <ActionButton
