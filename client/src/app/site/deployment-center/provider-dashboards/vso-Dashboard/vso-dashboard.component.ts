@@ -542,14 +542,12 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
         const accountName = url.pathname.split('/')[1];
         accountUrl = `${accountUrl}/${accountName}`;
       }
+      accountUrl = `https://${accountUrl}`;
     } else if (this.activeDeployment) {
       accountUrl = this.activeDeployment.collectionUrl;
     }
 
     if (accountUrl) {
-      if (accountUrl.indexOf('https://') != 0) {
-        accountUrl = `https://${accountUrl}`;
-      }
       const win = window.open(accountUrl, '_blank');
       win.focus();
     }
