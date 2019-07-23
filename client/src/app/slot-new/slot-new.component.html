@@ -63,8 +63,8 @@
           </pop-over>
         </div>
         <textbox class="name-textbox" [placeholder]="Resources.enterName | translate" [control]="newSlotForm.controls['name']"></textbox>
-        <button class="custom-button" disabled="!newSlotForm.valid || !newSlotForm.dirty"
-          [disabled]="newSlotForm.invalid || newSlotForm.pristine" (click)="createSlot()">{{ 'create' | translate }}</button>
+        <button class="custom-button" disabled="isLoading || !newSlotForm.valid || !newSlotForm.controls['name'].dirty"
+          [disabled]="isLoading || newSlotForm.invalid || newSlotForm.controls['name'].pristine" (click)="createSlot()">{{ 'create' | translate }}</button>
       </ng-container>
 
     </div>
