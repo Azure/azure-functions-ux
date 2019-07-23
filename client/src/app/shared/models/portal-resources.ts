@@ -1461,7 +1461,7 @@ export class PortalResources {
   public static resettingCredentialsSucccess = 'resettingCredentialsSucccess';
   public static savingCredentials = 'savingCredentials';
   public static savingCredentialsFail = 'savingCredentialsFail';
-  public static savingCredentialsSucccess = 'savingCredentialsSucccess';
+  public static savingCredentialsSuccess = 'savingCredentialsSuccess';
   public static containerPrivateRegistryDescription = 'containerPrivateRegistryDescription';
   public static notSelected = 'notSelected';
   public static autoUpdate = 'autoUpdate';
