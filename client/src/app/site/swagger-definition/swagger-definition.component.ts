@@ -30,6 +30,7 @@ import { HttpResult } from '../../shared/models/http-result';
 import { Host } from '../../shared/models/host';
 import { FunctionAppEditMode } from 'app/shared/models/function-app-edit-mode';
 import { EditModeHelper } from 'app/shared/Utilities/edit-mode.helper';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'swaggerdefinition',
@@ -65,9 +66,10 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
     broadcastService: BroadcastService,
     private _translateService: TranslateService,
     private _functionAppService: FunctionAppService,
-    private _scenarioService: ScenarioService
+    private _scenarioService: ScenarioService,
+    functionService: FunctionService
   ) {
-    super('swagger-definition', _functionAppService, broadcastService, () => this._busyManager.setBusy());
+    super('swagger-definition', _functionAppService, broadcastService, functionService, () => this._busyManager.setBusy());
 
     this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.apiDefinition);
     this.swaggerStatusOptions = [

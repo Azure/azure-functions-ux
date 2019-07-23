@@ -7,6 +7,7 @@ import { ArmService } from '../../shared/services/arm.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'app-setting',
@@ -28,9 +29,10 @@ export class AppSettingComponent extends FunctionAppContextComponent {
     private _armService: ArmService,
     private _globalStateService: GlobalStateService,
     functionAppService: FunctionAppService,
-    broadcastService: BroadcastService
+    broadcastService: BroadcastService,
+    functionService: FunctionService
   ) {
-    super('app-setting', functionAppService, broadcastService);
+    super('app-setting', functionAppService, broadcastService, functionService);
   }
 
   onClose() {

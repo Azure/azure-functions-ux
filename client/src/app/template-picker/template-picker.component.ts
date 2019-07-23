@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioService } from '../shared/services/scenario/scenario.service';
+import { FunctionService } from 'app/shared/services/function.service';
 
 interface CategoryOrder {
   name: string;
@@ -68,12 +69,14 @@ export class TemplatePickerComponent extends FunctionAppContextComponent {
     private _globalStateService: GlobalStateService,
     private _functionAppService: FunctionAppService,
     private _translateService: TranslateService,
-    broadcastService: BroadcastService
+    broadcastService: BroadcastService,
+    functionService: FunctionService
   ) {
     super(
       'template-picker',
       _functionAppService,
       broadcastService,
+      functionService,
       () => _globalStateService.setBusyState(),
       () => _globalStateService.clearBusyState()
     );

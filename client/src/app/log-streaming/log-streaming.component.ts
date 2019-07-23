@@ -27,6 +27,7 @@ import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { LogContentComponent } from './log-content.component';
 import { Regex, LogLevel } from '../shared/models/constants';
 import { PortalResources } from '../shared/models/portal-resources';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'log-streaming',
@@ -50,6 +51,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
   private _logContentComponent: ComponentFactory<any>;
   private _logStreamIndex = 0;
   private _logComponents: ComponentRef<any>[] = [];
+  private _functionName: string;
 
   @Input()
   isHttpLogs: boolean;
@@ -62,13 +64,14 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
 
   constructor(
     broadcastService: BroadcastService,
+    functionService: FunctionService,
     @Inject(ElementRef) private _elementRef: ElementRef,
     private _userService: UserService,
     private _functionAppService: FunctionAppService,
     private _utilities: UtilitiesService,
     private _componentFactoryResolver: ComponentFactoryResolver
   ) {
-    super('log-streaming', _functionAppService, broadcastService);
+    super('log-streaming', _functionAppService, broadcastService, functionService);
     this._tokenSubscription = this._userService.getStartupInfo().subscribe(s => (this._token = s.token));
     this.log = '';
     this._timeouts = [];
@@ -76,7 +79,8 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
 
   setup(): Subscription {
     return this.viewInfoEvents.subscribe(view => {
-      this._functionInfo = view.functionInfo.result;
+      this._functionInfo = view.functionInfo.isSuccessful && view.functionInfo.result.properties;
+      this._functionName = (this._functionInfo && this._functionInfo.name) || '';
       // clear logs on navigation to a new viewInfo
       this.log = '';
       this._logContentComponent = this._componentFactoryResolver.resolveComponentFactory(LogContentComponent);
@@ -240,7 +244,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
       // set ongoing request flag
       .do(() => (ongoingRequest = true))
       // Get the latest logs, passing force=true and no range (get all the file)
-      .concatMap(() => this._functionAppService.getLogs(this.context, this._functionInfo, null, true))
+      .concatMap(() => this._functionAppService.getLogs(this.context, this._functionName, null, true))
       // clear ongoing request flag
       .do(() => (ongoingRequest = false))
       // and only if it was successful
@@ -268,7 +272,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
       }
       const scmUrl = this.context.scmUrl;
       this._xhReq = new XMLHttpRequest();
-      const url = `${scmUrl}/api/logstream/application/functions/function/${this._functionInfo.name}`;
+      const url = `${scmUrl}/api/logstream/application/functions/function/${this._functionName}`;
       this._xhReq.open('GET', url, true);
       if (this._functionAppService._tryFunctionsBasicAuthToken) {
         // TODO: [ahmels] Fix token
@@ -283,7 +287,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
         // This is so that when you switch between functions, you can see some of the last logs
         // The ask for this was for users who have functions invoking each other in a chain
         // and wanting to see the logs for the last invocation for a function when switching to it.
-        this._functionAppService.getLogs(this.context, this._functionInfo, 10000).subscribe(r => {
+        this._functionAppService.getLogs(this.context, this._functionName, 10000).subscribe(r => {
           oldLogs = r.result;
           if (!this.stopped) {
             this._addLogContent(oldLogs, LogLevel.Normal);
