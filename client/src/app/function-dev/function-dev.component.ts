@@ -43,13 +43,14 @@ import { BindingManager } from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
 import { errorIds } from '../shared/models/error-ids';
 import { HttpRunModel } from '../shared/models/http-run';
-import { FunctionKeys } from '../shared/models/function-key';
+import { FunctionKeys, HostKeys } from '../shared/models/function-key';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 import { LogService } from '../shared/services/log.service';
 import { LogCategories, WebhookTypes, FunctionAppVersion } from '../shared/models/constants';
 import { ArmUtil } from '../shared/Utilities/arm-utils';
 import { AiService } from 'app/shared/services/ai.service';
+import { FunctionService } from 'app/shared/services/function.service';
 
 type FileSelectionEvent = VfsObject | [VfsObject, monaco.editor.IMarkerData[], monaco.editor.IMarkerData];
 
@@ -111,7 +112,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   public functionInvokeUrl: string;
   public expandLogs = false;
   public functionKeys: FunctionKeys;
-  public hostKeys: FunctionKeys;
+  public hostKeys: HostKeys;
   public masterKey: string;
   public isStandalone: boolean;
   public inTab: boolean;
@@ -143,9 +144,10 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     private _functionAppService: FunctionAppService,
     private _logService: LogService,
     private cd: ChangeDetectorRef,
-    private _aiService: AiService
+    private _aiService: AiService,
+    private _functionService: FunctionService
   ) {
-    super('function-dev', _functionAppService, broadcastService, () => _globalStateService.setBusyState());
+    super('function-dev', _functionAppService, broadcastService, _functionService, () => _globalStateService.setBusyState());
 
     this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
     this.isStandalone = configService.isStandalone();
@@ -211,7 +213,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
 
     this.functionUpdate = broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
       this.functionInfo.config = newFunctionInfo.config;
-      this.setInvokeUrlVisibility();
+      this._setInvokeUrlVisibility();
     });
   }
 
@@ -228,7 +230,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           Observable.of(functionView),
           this._functionAppService.getEventGridUri(functionView.context, functionView.functionInfo.result.name),
           this._functionAppService.getFunctionHostStatus(functionView.context),
-          this._functionAppService.getFunctionErrors(functionView.context, functionView.functionInfo.result),
+          this._functionAppService.getFunctionErrors(functionView.context, functionView.functionInfo.result.properties),
           this._functionAppService.getRuntimeGeneration(functionView.context)
         );
       })
@@ -281,7 +283,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
             .subscribe(() => this._logService.verbose(LogCategories.functionHostRestart, `restart for ${this.context.site.id}`));
         }
         if (tuple[0].functionInfo.isSuccessful) {
-          const functionInfo = tuple[0].functionInfo.result;
+          const functionInfo = tuple[0].functionInfo.result.properties;
           this.content = '';
           this.eventGridSubscribeUrl = tuple[1].result;
           this.testContent = functionInfo.test_data;
@@ -336,7 +338,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           } else {
             delete this.authLevel;
           }
-          this.updateKeys();
+          this._updateKeys();
 
           this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
           this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);
@@ -352,7 +354,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           // if the data is cached on the client, this causes few rapid changes in the DOM and we need to inform the change detector of these changes.
           // Otherwise we'll get ExpressionChangedAfterItHasBeenCheckedError
           this.cd.detectChanges();
-          this.setFunctionInvokeUrl();
+          this._setFunctionInvokeUrl();
         }
         this.functionAppVersion = tuple[4];
         this.showErrorsAndWarnings = this.functionAppVersion === FunctionAppVersion.v1;
@@ -446,7 +448,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private setInvokeUrlVisibility() {
+  private _setInvokeUrlVisibility() {
     if (this.functionInfo.config.bindings) {
       const b = this.functionInfo.config.bindings.find(b => {
         return b.type === BindingType.httpTrigger.toString();
@@ -455,9 +457,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private setFunctionKey(functionInfo) {
+  private _setFunctionKey(functionInfo) {
     if (functionInfo) {
-      this._functionAppService.getFunctionKeys(this.context, functionInfo).subscribe(keys => {
+      this._functionService.getFunctionKeys(this.context.site.id, functionInfo.name).subscribe(keys => {
         if (keys.isSuccessful && keys.result.keys && keys.result.keys.length > 0) {
           this.functionKey = keys.result.keys.find(k => k.name === 'default').value || keys.result.keys[0].value;
         }
@@ -465,74 +467,11 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private setFunctionInvokeUrl(key?: string) {
-    if (this.isHttpFunction) {
-      // No webhook https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]
-      // WebhookType = "Generic JSON"  https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]&clientId=[keyname]
-      // WebhookType = "GitHub" or "Slack" https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?clientId=[keyname]
-      let code = '';
-      let clientId = '';
-      let queryParams = '';
-
-      // NOTE(michinoy): With existing implementation, the public functionKey is assigned once the component is loaded.
-      // But one could also change the key by selecting the dropdown. This is a currently a safer change instead having to
-      // refactor several areas of this file.
-      const functionKey = key || this.functionKey;
-
-      if (functionKey) {
-        code = functionKey;
-      }
-
-      if (this.webHookType && functionKey) {
-        const allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
-        const keyWithValue = allKeys.find(k => k.value === functionKey);
-        if (keyWithValue) {
-          clientId = keyWithValue.name;
-        }
-
-        if (this.webHookType.toLowerCase() !== WebhookTypes.genericjson) {
-          code = '';
-        }
-      }
-      if (this.authLevel && this.authLevel.toLowerCase() === 'anonymous') {
-        code = null;
-      }
-      if (code) {
-        queryParams = `?code=${code}`;
-      }
-      if (clientId) {
-        queryParams = queryParams ? `${queryParams}&clientId=${clientId}` : `?clientId=${clientId}`;
-      }
-
-      if (this.functionAppVersion === FunctionAppVersion.v1) {
-        this._functionAppService.getHostJson(this.context).subscribe(jsonObj => {
-          const result =
-            jsonObj.isSuccessful &&
-            jsonObj.result.http &&
-            jsonObj.result.http.routePrefix !== undefined &&
-            jsonObj.result.http.routePrefix !== null
-              ? jsonObj.result.http.routePrefix
-              : 'api';
-
-          this.updateFunctionInvokeUrl(result, queryParams);
-        });
-      } else {
-        this._functionAppService.getHostV2Json(this.context).subscribe(jsonObj => {
-          const result =
-            jsonObj.isSuccessful &&
-            jsonObj.result.extensions &&
-            jsonObj.result.extensions.http &&
-            jsonObj.result.extensions.http.routePrefix !== undefined &&
-            jsonObj.result.extensions.http.routePrefix !== null
-              ? jsonObj.result.extensions.http.routePrefix
-              : 'api';
-
-          this.updateFunctionInvokeUrl(result, queryParams);
-        });
-      }
-    } else {
-      this.runValid = true;
+  private _setFunctionInvokeUrl() {
+    if (this.isHttpFunction && this.functionInfo) {
+      this.functionInvokeUrl = this.functionInfo.invoke_url_template;
     }
+    this.runValid = true;
   }
 
   saveScript(dontClearBusy?: boolean): Subscription | null {
@@ -563,7 +502,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
       this.functionInfo.config = JSON.parse(this.updatedContent);
     }
 
-    return this._functionAppService.saveFile(this.context, this.scriptFile, this.updatedContent, this.functionInfo).subscribe(
+    return this._functionAppService.saveFile(this.context, this.scriptFile, this.updatedContent).subscribe(
       r => {
         this._broadcastService.broadcastEvent<void>(BroadcastEvent.FunctionCodeUpdate);
         if (!dontClearBusy) {
@@ -608,7 +547,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   }
 
   saveTestData() {
-    const test_data = this.getTestData();
+    const test_data = this._getTestData();
     if (this.functionInfo.test_data !== test_data) {
       this.functionInfo.test_data = test_data;
       this._functionAppService.updateFunction(this.context, this.functionInfo).subscribe(r => {
@@ -657,9 +596,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           if (this.httpRunLogs) {
             this.httpRunLogs.clearLogs();
           }
-          this.runFunctionInternal();
+          this._runFunctionInternal();
         } else {
-          this.runFunctionInternal();
+          this._runFunctionInternal();
         }
       }
     };
@@ -709,9 +648,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   }
 
   setShowFunctionInvokeUrlModal(value: boolean) {
-    const allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
+    const allKeys = this.functionKeys.keys.concat(this.hostKeys.functionKeys.keys).concat(this.hostKeys.systemKeys.keys);
     if (allKeys.length > 0) {
-      this.onChangeKey(allKeys[0].value);
+      this.onChangeKey();
     }
     this.showFunctionInvokeUrlModal = value;
   }
@@ -733,9 +672,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  onChangeKey(key: string) {
-    this.setFunctionInvokeUrl(key);
-    this.setFunctionKey(this.functionInfo);
+  onChangeKey() {
+    this._setFunctionInvokeUrl();
+    this._setFunctionKey(this.functionInfo);
   }
 
   onEventGridSubscribe() {
@@ -778,33 +717,12 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private updateFunctionInvokeUrl(result: string, queryParams: string) {
-    const httpTrigger = this.functionInfo.config.bindings.find(b => {
-      return b.type === BindingType.httpTrigger.toString();
-    });
-    if (httpTrigger && httpTrigger.route) {
-      result = result + '/' + httpTrigger.route;
-    } else {
-      result = result + '/' + this.functionInfo.name;
-    }
-
-    // Remove doubled slashes
-    let path = '/' + result;
-    const find = '//';
-    const re = new RegExp(find, 'g');
-    path = path.replace(re, '/');
-    path = path.replace('/?', '?') + queryParams;
-
-    this.functionInvokeUrl = this.context.mainSiteUrl + path;
-    this.runValid = true;
-  }
-
-  private getTestData(): string {
+  private _getTestData(): string {
     if (this.runHttp) {
       this.runHttp.model.body = this.updatedTestContent !== undefined ? this.updatedTestContent : this.runHttp.model.body;
       // remove "code" param fix
       const clonedModel: HttpRunModel = JSON.parse(JSON.stringify(this.runHttp.model));
-      const codeIndex = clonedModel.queryStringParams.findIndex(p => p.name === 'code');
+      const codeIndex = (clonedModel.queryStringParams && clonedModel.queryStringParams.findIndex(p => p.name === 'code')) || -1;
 
       if (codeIndex > -1) {
         clonedModel.queryStringParams.splice(codeIndex, 1);
@@ -816,7 +734,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private runFunctionInternal() {
+  private _runFunctionInternal() {
     if (this.scriptFile.isDirty) {
       this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
     } else {
@@ -828,7 +746,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
             this.runHttp.model,
             this.runHttp.key
           )
-        : this._functionAppService.runFunction(this.context, this.functionInfo, this.getTestData());
+        : this._functionAppService.runFunction(this.context, this.functionInfo, this._getTestData());
 
       this.running = result
         .switchMap(r => {
@@ -847,27 +765,15 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     }
   }
 
-  private updateKeys() {
+  private _updateKeys() {
     Observable.zip(
-      this._functionAppService.getFunctionKeys(this.context, this.functionInfo),
-      this._functionAppService.getHostKeys(this.context)
+      this._functionService.getFunctionKeys(this.context.site.id, this.functionInfo.name),
+      this._functionService.getHostKeys(this.context.site.id)
     ).subscribe(tuple => {
-      this.functionKeys = tuple[0].isSuccessful ? tuple[0].result : { keys: [], links: [] };
-      this.hostKeys = tuple[1].isSuccessful ? tuple[1].result : { keys: [], links: [] };
-
-      if (this.authLevel && this.authLevel.toLowerCase() === 'admin') {
-        const masterKey = this.hostKeys.keys.find(k => k.name === '_master');
-        if (masterKey) {
-          this.onChangeKey(masterKey.value);
-        }
-      } else {
-        const allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
-        if (allKeys.length > 0) {
-          this.onChangeKey(allKeys[0].value);
-        }
-      }
-
-      this.setInvokeUrlVisibility();
+      this.functionKeys = tuple[0].isSuccessful ? tuple[0].result : { keys: [] };
+      this.hostKeys = tuple[1].isSuccessful ? tuple[1].result : { masterKey: '', functionKeys: { keys: [] }, systemKeys: { keys: [] } };
+      this.onChangeKey();
+      this._setInvokeUrlVisibility();
     });
   }
 }
