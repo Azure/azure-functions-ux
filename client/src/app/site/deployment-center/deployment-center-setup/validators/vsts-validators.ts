@@ -99,18 +99,20 @@ export class VstsValidators {
                         vstsAccountValue,
                         currentProject.id,
                         callHeaders
-                      )
+                      ),
+                      VstsValidators.isAzurePipelinesFeatureEnabled(_cacheService, vstsAccountValue, currentProject.id, callHeaders)
                     );
                   });
               }
               return Observable.of(null);
             })
             .map(results => {
-              if (results && results.length === 4) {
+              if (results && results.length === 5) {
                 const buildPermissions = results[0] ? results[0].json().value[0] : true;
                 const releasePermissions = results[1] ? results[1].json().value[0] : true;
                 const queuePermissions = results[2] && results[2].json().count > 0 ? true : false;
                 const createRepoPermission = results[3] ? results[3].json().value[0] : true;
+                const isPipelineFeatureEnabled = results[4];
                 if (!buildPermissions || !releasePermissions) {
                   return {
                     invalidPermissions: _translateService.instant(PortalResources.vstsReleaseBuildPermissions),
@@ -126,6 +128,12 @@ export class VstsValidators {
                 if (!createRepoPermission) {
                   return {
                     invalidPermissions: _translateService.instant(PortalResources.vstsCreateRepoPermissions),
+                  };
+                }
+
+                if (!isPipelineFeatureEnabled) {
+                  return {
+                    invalidPermissions: _translateService.instant(PortalResources.vstsPipelinesNotEnabled),
                   };
                 }
               }
@@ -161,5 +169,35 @@ export class VstsValidators {
     }
 
     return Observable.of(null);
+  }
+
+  static isAzurePipelinesFeatureEnabled(
+    _cacheService: CacheService,
+    _vstsAccountName: string,
+    _vstsProjectId: string,
+    _callHeaders: Headers
+  ): Observable<boolean> {
+    const featureQueryPayload = {
+      featureIds: [DeploymentCenterConstants.vstsPipelineFeatureId],
+      scopeValues: {
+        project: _vstsProjectId,
+      },
+    };
+
+    return _cacheService
+      .post(
+        `https://${_vstsAccountName}.visualstudio.com/_apis/FeatureManagement/FeatureStatesQuery/host/project/${_vstsProjectId}?api-version=4.1-preview.1`,
+        true,
+        _callHeaders,
+        featureQueryPayload
+      )
+      .map(response => {
+        let featureStates = response.json().featureStates;
+        if (featureStates && featureStates[DeploymentCenterConstants.vstsPipelineFeatureId]) {
+          return featureStates[DeploymentCenterConstants.vstsPipelineFeatureId].state.toLowerCase() === 'enabled';
+        }
+
+        return true;
+      });
   }
 }
