@@ -107,6 +107,12 @@ export class FunctionAppService {
   getClient(context: FunctionAppContext): Observable<ConditionalHttpClient> {
     if (ArmUtil.isLinuxApp(context.site)) {
       return Observable.of(this.runtime);
+    } else if (context.runtimeVersion) {
+      if (context.runtimeVersion === FunctionAppVersion.v2) {
+        return Observable.of(this.runtime);
+      } else {
+        return Observable.of(this.azure);
+      }
     } else {
       return this.getRuntimeGeneration(context).map(result => {
         if (result === FunctionAppVersion.v2) {
