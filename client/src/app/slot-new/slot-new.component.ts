@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { SlotsNode } from '../tree-view/slots-node';
-import { AiService } from '../shared/services/ai.service';
-import { ArmObj } from '../shared/models/arm/arm-obj';
+import { LogService } from '../shared/services/log.service';
+import { ArmObj, ArmArrayResult } from '../shared/models/arm/arm-obj';
 import { Site } from '../shared/models/arm/site';
 import { PortalService } from '../shared/services/portal.service';
 import { RequiredValidator } from '../shared/validators/requiredValidator';
@@ -15,11 +15,14 @@ import { SlotNameValidator } from '../shared/validators/slotNameValidator';
 import { errorIds } from '../shared/models/error-ids';
 import { AuthzService } from '../shared/services/authz.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { Constants, ScenarioIds } from 'app/shared/models/constants';
+import { Constants, ScenarioIds, LogCategories } from 'app/shared/models/constants';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { CacheService } from '../shared/services/cache.service';
 import { ScenarioService } from '../shared/services/scenario/scenario.service';
+import { Tier } from 'app/shared/models/serverFarmSku';
+import { HttpResult } from 'app/shared/models/http-result';
+import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
 
 @Component({
   selector: 'slot-new',
@@ -29,6 +32,7 @@ import { ScenarioService } from '../shared/services/scenario/scenario.service';
 export class SlotNewComponent extends NavigableComponent {
   public Resources = PortalResources;
   public isLoading = true;
+  public loadingFailureMessage = '';
   public featureSupported: boolean;
   public canScaleUp: boolean;
   public hasCreatePermissions: boolean;
@@ -47,7 +51,7 @@ export class SlotNewComponent extends NavigableComponent {
     private fb: FormBuilder,
     private _translateService: TranslateService,
     private _portalService: PortalService,
-    private _aiService: AiService,
+    private _logService: LogService,
     private _siteService: SiteService,
     private _cacheService: CacheService,
     private _functionAppService: FunctionAppService,
@@ -63,6 +67,7 @@ export class SlotNewComponent extends NavigableComponent {
       .setup(navigationEvents)
       .switchMap(v => {
         this.isLoading = true;
+        this.loadingFailureMessage = '';
         this.featureSupported = false;
         this.canScaleUp = false;
         this.hasCreatePermissions = false;
@@ -95,38 +100,78 @@ export class SlotNewComponent extends NavigableComponent {
         );
       })
       .do(r => {
-        const [writePermission, readOnlyLock, siteObjResult, slotsListResult, appSettings, slotsQuotaCheck] = r;
-        const slotsQuota = !!slotsQuotaCheck ? slotsQuotaCheck.data : 0;
-        this._siteObj = siteObjResult.result;
-        this._slotsList = slotsListResult.result && slotsListResult.result.value;
+        const [writePermission, readOnlyLock, siteObjResult, slotsListResult, appSettingsResult, slotsQuotaCheck] = r;
 
-        this.canScaleUp =
-          this._siteObj && this._scenarioService.checkScenario(ScenarioIds.canScaleForSlots, { site: this._siteObj }).status !== 'disabled';
+        this.loadingFailureMessage = this._checkForLoadingFailure(siteObjResult, slotsListResult, appSettingsResult);
 
-        this.featureSupported = slotsQuota === -1 || slotsQuota >= 1;
+        if (!this.loadingFailureMessage) {
+          const slotsQuota = !!slotsQuotaCheck ? slotsQuotaCheck.data : 0;
+          this._siteObj = siteObjResult.result;
+          this._slotsList = slotsListResult.result && slotsListResult.result.value;
 
-        if (this.featureSupported && this._slotsList && this._slotsList.length + 1 >= slotsQuota) {
-          let quotaMessage = '';
-          const sku = this._siteObj.properties && this._siteObj.properties.sku;
-          if (!!sku && sku.toLowerCase() === 'dynamic') {
-            quotaMessage = this._translateService.instant(PortalResources.slotNew_dynamicQuotaReached);
-          } else {
-            quotaMessage = this._translateService.instant(PortalResources.slotNew_quotaReached, { quota: slotsQuota });
-            if (this.canScaleUp) {
-              quotaMessage = quotaMessage + ' ' + this._translateService.instant(PortalResources.slotNew_quotaUpgrade);
+          this.canScaleUp =
+            this._siteObj &&
+            this._scenarioService.checkScenario(ScenarioIds.canScaleForSlots, { site: this._siteObj }).status !== 'disabled';
+
+          this.featureSupported = slotsQuota === -1 || slotsQuota >= 1;
+
+          if (this.featureSupported && this._slotsList && this._slotsList.length + 1 >= slotsQuota) {
+            let quotaMessage = '';
+            const sku = this._siteObj.properties && this._siteObj.properties.sku;
+            if (!!sku && sku.toLowerCase() === 'dynamic') {
+              quotaMessage = this._translateService.instant(PortalResources.slotNew_dynamicQuotaReached);
+            } else {
+              quotaMessage = this._translateService.instant(PortalResources.slotNew_quotaReached, { quota: slotsQuota });
+              if (this.canScaleUp) {
+                quotaMessage = quotaMessage + ' ' + this._translateService.instant(PortalResources.slotNew_quotaUpgrade);
+              }
             }
+            this.slotsQuotaMessage = quotaMessage;
           }
-          this.slotsQuotaMessage = quotaMessage;
+
+          this.hasCreatePermissions = writePermission && !readOnlyLock;
+
+          this.slotOptInEnabled = this._functionAppService.isSlotsSupported(appSettingsResult.result);
         }
-
-        this.hasCreatePermissions = writePermission && !readOnlyLock;
-
-        this.slotOptInEnabled = appSettings.isSuccessful && this._functionAppService.isSlotsSupported(appSettings.result);
 
         this.isLoading = false;
 
         this._refreshing = false;
       });
+  }
+
+  private _checkForLoadingFailure(
+    siteObjResult: HttpResult<ArmObj<Site>>,
+    slotsListResult: HttpResult<ArmArrayResult<Site>>,
+    appSettingsResult: HttpResult<ArmObj<ApplicationSettings>>
+  ): string {
+    let success = true;
+    let loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+    if (!siteObjResult.isSuccessful) {
+      success = false;
+      if (siteObjResult.error && siteObjResult.error.message) {
+        loadingFailureMessage = loadingFailureMessage + '\r\n' + siteObjResult.error.message;
+      }
+      this._logService.error(LogCategories.newSlot, 'fetch-site', siteObjResult.error.result);
+    }
+
+    if (!slotsListResult.isSuccessful) {
+      success = false;
+      if (slotsListResult.error && slotsListResult.error.message) {
+        loadingFailureMessage = loadingFailureMessage + '\r\n' + slotsListResult.error.message;
+      }
+      this._logService.error(LogCategories.newSlot, 'fetch-slots-list', slotsListResult.error.result);
+    }
+
+    if (!appSettingsResult.isSuccessful) {
+      success = false;
+      if (appSettingsResult.error && appSettingsResult.error.message) {
+        loadingFailureMessage = loadingFailureMessage + '\r\n' + appSettingsResult.error.message;
+      }
+      this._logService.error(LogCategories.newSlot, 'fetch-app-settings', appSettingsResult.error.result);
+    }
+
+    return success ? '' : loadingFailureMessage;
   }
 
   scaleUp() {
@@ -203,7 +248,7 @@ export class SlotNewComponent extends NavigableComponent {
             errorId: errorIds.failedToCreateSlot,
             resourceId: this._siteObj.id,
           });
-          this._aiService.trackEvent(errorIds.failedToCreateApp, { error: r.error.result, id: this._siteObj.id });
+          this._logService.error(LogCategories.newSlot, 'create-slot', { error: r.error.result, id: this._siteObj.id });
         }
       });
   }
