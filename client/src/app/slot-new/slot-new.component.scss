@@ -50,6 +50,10 @@ h1 {
   align-items: center;
 }
 
+.alert-error {
+  background-color: $error-box-color;
+}
+
 .alert-icon {
   width: 30px;
 }
