@@ -119,7 +119,7 @@ export class FunctionAppService {
   }
 
   getApiProxies(context: FunctionAppContext): Result<ApiProxy[]> {
-    return this.getClient(context).flatMap(client => {
+    return this.getClient(context).switchMap(client => {
       return client.execute({ resourceId: context.site.id } /*input*/, token =>
         Observable /*query*/.zip(
           this.retrieveProxies(context, token),
@@ -184,7 +184,7 @@ export class FunctionAppService {
     const uri = context.urlTemplates.proxiesJsonUrl;
     this._cacheService.clearCachePrefix(uri);
 
-    return this.getClient(context).flatMap(client => {
+    return this.getClient(context).switchMap(client => {
       return client.execute({ resourceId: context.site.id }, t =>
         this._cacheService.put(uri, this.jsonHeaders(t, ['If-Match', '*']), jsonString)
       );
@@ -194,7 +194,7 @@ export class FunctionAppService {
   getFileContent(context: FunctionAppContext, file: VfsObject | string): Result<string> {
     const fileHref = typeof file === 'string' ? file : file.href;
 
-    return this.getClient(context).flatMap(client => {
+    return this.getClient(context).switchMap(client => {
       return client.execute({ resourceId: context.site.id }, t =>
         this._cacheService.get(fileHref, false, this.headers(t)).map(r => r.text())
       );
@@ -204,7 +204,7 @@ export class FunctionAppService {
   saveFile(context: FunctionAppContext, file: VfsObject | string, updatedContent: string): Result<VfsObject | string> {
     const fileHref = typeof file === 'string' ? file : file.href;
 
-    return this.getClient(context).flatMap(client => {
+    return this.getClient(context).switchMap(client => {
       return client.execute({ resourceId: context.site.id }, t =>
         this._cacheService
           .put(fileHref, this.jsonHeaders(t, ['Content-Type', 'plain/text'], ['If-Match', '*']), updatedContent)
@@ -216,7 +216,7 @@ export class FunctionAppService {
   deleteFile(context: FunctionAppContext, file: VfsObject | string, functionInfo?: FunctionInfo): Result<VfsObject | string> {
     const fileHref = typeof file === 'string' ? file : file.href;
 
-    return this.getClient(context).flatMap(client => {
+    return this.getClient(context).switchMap(client => {
       return client.execute({ resourceId: context.site.id }, t =>
         this._cacheService.delete(fileHref, this.jsonHeaders(t, ['Content-Type', 'plain/text'], ['If-Match', '*'])).map(() => file)
       );
@@ -432,7 +432,7 @@ export class FunctionAppService {
   }
 
   getHostJson(context: FunctionAppContext): Result<Host> {
-    return this.getClient(context).flatMap(client => {
+    return this.getClient(context).switchMap(client => {
       return client.execute({ resourceId: context.site.id }, t =>
         this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
       );
@@ -440,7 +440,7 @@ export class FunctionAppService {
   }
 
   getHostV2Json(context: FunctionAppContext): Result<HostV2> {
-    return this.getClient(context).flatMap(client => {
+    return this.getClient(context).switchMap(client => {
       return client.execute({ resourceId: context.site.id }, t =>
         this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
       );
@@ -462,7 +462,7 @@ export class FunctionAppService {
       console.error(e);
     }
 
-    return this.getClient(context).flatMap(client => {
+    return this.getClient(context).switchMap(client => {
       return client.execute({ resourceId: context.site.id }, t =>
         this.getExtensionVersionFromAppSettings(context)
           .concatMap(extensionVersion => {
@@ -547,7 +547,7 @@ export class FunctionAppService {
   getLogs(context: FunctionAppContext, functionName: string, range?: number, force: boolean = false): Result<string> {
     const url = context.urlTemplates.getFunctionLogUrl(functionName);
 
-    return this.getClient(context).flatMap(client => {
+    return this.getClient(context).switchMap(client => {
       return client.execute({ resourceId: context.site.id }, t =>
         this._cacheService.get(url, force, this.headers(t)).concatMap(r => {
           let files: VfsObject[] = r.json();
@@ -577,7 +577,7 @@ export class FunctionAppService {
 
   getVfsObjects(context: FunctionAppContext, fi: FunctionInfo | string): Result<VfsObject[]> {
     const href = typeof fi === 'string' ? fi : fi.script_root_path_href;
-    return this.getClient(context).flatMap(client => {
+    return this.getClient(context).switchMap(client => {
       return client.execute({ resourceId: context.site.id }, t =>
         this._cacheService.get(href, false, this.headers(t)).map(e => <VfsObject[]>e.json())
       );
