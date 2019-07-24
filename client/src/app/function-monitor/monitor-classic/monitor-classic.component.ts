@@ -60,7 +60,7 @@ export class MonitorClassicComponent extends FeatureComponent<FunctionMonitorInf
           if (functionHost.isSuccessful) {
             return this._functionMonitorService.getDataForSelectedFunction(
               functionMonitorInfo.functionAppContext,
-              functionMonitorInfo.functionInfo,
+              functionMonitorInfo.functionName,
               functionHost.result.id
             );
           } else {

@@ -386,19 +386,19 @@
     <value>A save operation is currently in progress.  Navigating away may cause some changes to be lost.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Add new setting</value>
+    <value>Add new application setting</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Add new connection string</value>
+    <value>Add new connection string</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Add new document</value>
+    <value>Add new document</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Add new handler mapping</value>
+    <value>Add new handler mapping</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Add new virtual application or directory</value>
+    <value>Add new virtual application or directory</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Enter a name</value>
@@ -4470,7 +4470,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Value</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>deployment slot setting</value>
+    <value>Deployment slot setting</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4617,7 +4617,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Mount storage (Preview)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Add storage</value>
+    <value>Add storage</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Account</value>
@@ -4725,7 +4725,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>New virtual application or directory</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>New handler</value>
+    <value>New handler mapping</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Unable to open a connection to your app. This may be due to any network security groups or IP restriction rules that you have placed on your app. To use log streaming, please make sure you are able to access your app directly from your current network.</value>

@@ -65,7 +65,7 @@ export class MonitorDetailsComponent extends FeatureComponent<MonitorDetailsInfo
       .do(tuple => {
         this.isLoading = false;
         this._monitorDetailsInfo = tuple[0];
-        this.functionName = this._monitorDetailsInfo.functionMonitorInfo.functionInfo.name;
+        this.functionName = this._monitorDetailsInfo.functionMonitorInfo.functionName;
         this.operationId = this._monitorDetailsInfo.operationId;
         this.traceHistory = tuple[1];
       });

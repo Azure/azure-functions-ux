@@ -77,7 +77,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
       .switchMap(tuple =>
         Observable.zip(
           Observable.of(tuple[0]),
-          this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
+          Observable.of(tuple[1].functionDescriptor.name),
           this._siteService.getAppSettings(tuple[0].site.id),
           this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: tuple[0].site }),
           this._portalService.getAdToken('applicationinsightapi')
