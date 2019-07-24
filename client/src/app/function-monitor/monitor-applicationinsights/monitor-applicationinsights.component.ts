@@ -29,7 +29,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     this.appInsightsQueryReturnedTitle = this._translateService.instant(PortalResources.loading);
     this.showDelayWarning = false;
     this.functionMonitorInfo = functionMonitorInfo;
-    this.componentId = `${functionMonitorInfo.functionAppContext.site.id}/functions/${functionMonitorInfo.functionInfo.name}/monitor`;
+    this.componentId = `${functionMonitorInfo.functionAppContext.site.id}/functions/${functionMonitorInfo.functionName}/monitor`;
     this.setInput(functionMonitorInfo);
   }
 
@@ -67,13 +67,13 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
             functionMonitorInfo.appInsightResource.properties.AppId,
             functionMonitorInfo.appInsightToken,
             functionAppName,
-            functionMonitorInfo.functionInfo.name
+            functionMonitorInfo.functionName
           ),
           this._applicationInsightsService.getInvocationTraces(
             functionMonitorInfo.appInsightResource.properties.AppId,
             functionMonitorInfo.appInsightToken,
             functionAppName,
-            functionMonitorInfo.functionInfo.name
+            functionMonitorInfo.functionName
           )
         );
       })
@@ -133,7 +133,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
       this._applicationInsightsService.getInvocationTracesBladeParameters(
         this.functionMonitorInfo.appInsightResource.id,
         this._getFunctionAppName(this.functionMonitorInfo.functionAppContext),
-        this.functionMonitorInfo.functionInfo.name
+        this.functionMonitorInfo.functionName
       ),
       ComponentNames.functionMonitor
     );

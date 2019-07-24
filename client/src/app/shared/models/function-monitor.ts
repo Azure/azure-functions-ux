@@ -1,5 +1,4 @@
 import { FunctionAppContext } from '../function-app-context';
-import { FunctionInfo } from './function-info';
 import { ErrorEvent } from './error-event';
 import { ApplicationInsight } from './application-insights';
 import { ArmObj } from './arm/arm-obj';
@@ -48,7 +47,7 @@ export interface FunctionStats {
 export interface FunctionMonitorInfo {
   functionAppContext: FunctionAppContext;
   functionAppSettings: { [key: string]: string };
-  functionInfo: FunctionInfo;
+  functionName: string;
   appInsightResource?: ArmObj<ApplicationInsight>;
   appInsightToken?: string;
 }

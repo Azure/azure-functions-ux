@@ -87,7 +87,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
         (tuple): FunctionMonitorInfo => ({
           functionAppContext: tuple[0],
           functionAppSettings: tuple[2].result.properties,
-          functionInfo: tuple[1].result,
+          functionName: tuple[1],
           appInsightResource: tuple[3].status === 'enabled' ? <ArmObj<ApplicationInsight>>tuple[3].data : null,
           appInsightToken: tuple[3].status === 'enabled' && tuple[4].result ? tuple[4].result.token : null,
         })
