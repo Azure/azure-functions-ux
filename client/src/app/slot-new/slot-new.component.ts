@@ -45,7 +45,7 @@ export class SlotNewComponent extends NavigableComponent {
   private _siteId: string;
   private _slotsList: ArmObj<Site>[];
   private _siteObj: ArmObj<Site>;
-  private _refreshing: boolean;
+  private _forceRequest: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -74,7 +74,7 @@ export class SlotNewComponent extends NavigableComponent {
         this.slotsQuotaMessage = '';
         this.slotOptInEnabled = false;
         return this._functionAppService
-          .getAppContext(v.siteDescriptor.getTrimmedResourceId(), this._refreshing)
+          .getAppContext(v.siteDescriptor.getTrimmedResourceId(), this._forceRequest)
           .map(r => Object.assign(v, { context: r }));
       })
       .switchMap(viewInfo => {
@@ -93,9 +93,9 @@ export class SlotNewComponent extends NavigableComponent {
         return Observable.zip(
           this.authZService.hasPermission(this._siteId, [AuthzService.writeScope]),
           this.authZService.hasReadOnlyLock(this._siteId),
-          this._siteService.getSite(this._siteId, this._refreshing),
-          this._siteService.getSlots(this._siteId, this._refreshing),
-          this._siteService.getAppSettings(this._siteId, this._refreshing),
+          this._siteService.getSite(this._siteId, this._forceRequest),
+          this._siteService.getSlots(this._siteId, this._forceRequest),
+          this._siteService.getAppSettings(this._siteId, this._forceRequest),
           this._scenarioService.checkScenarioAsync(ScenarioIds.getSiteSlotLimits, { site: viewInfo.context.site })
         );
       })
@@ -118,7 +118,7 @@ export class SlotNewComponent extends NavigableComponent {
           if (this.featureSupported && this._slotsList && this._slotsList.length + 1 >= slotsQuota) {
             let quotaMessage = '';
             const sku = this._siteObj.properties && this._siteObj.properties.sku;
-            if (!!sku && sku.toLowerCase() === 'dynamic') {
+            if (!!sku && sku.toLowerCase() === Tier.dynamic.toLowerCase()) {
               quotaMessage = this._translateService.instant(PortalResources.slotNew_dynamicQuotaReached);
             } else {
               quotaMessage = this._translateService.instant(PortalResources.slotNew_quotaReached, { quota: slotsQuota });
@@ -136,7 +136,7 @@ export class SlotNewComponent extends NavigableComponent {
 
         this.isLoading = false;
 
-        this._refreshing = false;
+        this._forceRequest = false;
       });
   }
 
@@ -195,7 +195,7 @@ export class SlotNewComponent extends NavigableComponent {
   }
 
   private _refresh() {
-    this._refreshing = true;
+    this._forceRequest = true;
     const viewInfo: ExtendedTreeViewInfo = { ...this.viewInfo };
     this.setInput(viewInfo);
   }
