@@ -15,8 +15,7 @@
       <div class="alert alert-warning alert-dismissible" role="alert">
         <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
         <div class="alert-message">
-          <span>{{ 'featureNotSupportedForPlan' | translate }}</span>
-          <span *ngIf="canScaleUp"> {{ 'slots_upgrade' | translate }}</span>
+          <span>{{ featureNotSupportedMessage }}</span>
         </div>
       </div>
       <button *ngIf="canScaleUp" (click)="scaleUp()" class="custom-button">

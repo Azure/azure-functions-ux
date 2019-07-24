@@ -1306,9 +1306,6 @@
   <data name="siteSummary_restartNotifyFail" xml:space="preserve">
     <value>Failed to restart app '{0}'</value>
   </data>
-  <data name="featureNotSupportedForPlan" xml:space="preserve">
-    <value>This feature is not supported for your App Service plan.</value>
-  </data>
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>This feature is not supported for apps on a Consumption plan</value>
   </data>

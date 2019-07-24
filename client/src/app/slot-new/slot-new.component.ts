@@ -23,6 +23,7 @@ import { ScenarioService } from '../shared/services/scenario/scenario.service';
 import { Tier } from 'app/shared/models/serverFarmSku';
 import { HttpResult } from 'app/shared/models/http-result';
 import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
+import { ConfigService } from 'app/shared/services/config.service';
 
 @Component({
   selector: 'slot-new',
@@ -34,6 +35,7 @@ export class SlotNewComponent extends NavigableComponent {
   public isLoading = true;
   public loadingFailureMessage = '';
   public featureSupported: boolean;
+  public featureNotSupportedMessage: '';
   public canScaleUp: boolean;
   public hasCreatePermissions: boolean;
   public slotsQuotaMessage: string;
@@ -56,6 +58,7 @@ export class SlotNewComponent extends NavigableComponent {
     private _cacheService: CacheService,
     private _functionAppService: FunctionAppService,
     private _scenarioService: ScenarioService,
+    private _configService: ConfigService,
     private authZService: AuthzService,
     private injector: Injector
   ) {
@@ -69,6 +72,7 @@ export class SlotNewComponent extends NavigableComponent {
         this.isLoading = true;
         this.loadingFailureMessage = '';
         this.featureSupported = false;
+        this.featureNotSupportedMessage = '';
         this.canScaleUp = false;
         this.hasCreatePermissions = false;
         this.slotsQuotaMessage = '';
@@ -109,13 +113,21 @@ export class SlotNewComponent extends NavigableComponent {
           this._siteObj = siteObjResult.result;
           this._slotsList = slotsListResult.result && slotsListResult.result.value;
 
-          this.canScaleUp =
-            this._siteObj &&
-            this._scenarioService.checkScenario(ScenarioIds.canScaleForSlots, { site: this._siteObj }).status !== 'disabled';
-
           this.featureSupported = slotsQuota === -1 || slotsQuota >= 1;
 
-          if (this.featureSupported && this._slotsList && this._slotsList.length + 1 >= slotsQuota) {
+          if (!this.featureSupported) {
+            if (this._configService.isOnPrem()) {
+              this.featureNotSupportedMessage = this._translateService.instant(PortalResources.upgradeUpsell);
+              this.canScaleUp = false;
+            } else {
+              this.featureNotSupportedMessage = this._translateService.instant(PortalResources.slots_upgrade);
+              this.canScaleUp = true;
+            }
+          } else if (this._slotsList && this._slotsList.length + 1 >= slotsQuota) {
+            this.canScaleUp =
+              this._siteObj &&
+              this._scenarioService.checkScenario(ScenarioIds.canScaleForSlots, { site: this._siteObj }).status !== 'disabled';
+
             let quotaMessage = '';
             const sku = this._siteObj.properties && this._siteObj.properties.sku;
             if (!!sku && sku.toLowerCase() === Tier.dynamic.toLowerCase()) {
