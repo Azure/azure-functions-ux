@@ -52,7 +52,7 @@ export class FunctionIntegrateV2Component extends BaseFunctionComponent {
       .switchMap(view => {
         if (view.functionInfo.isSuccessful) {
           try {
-            this._bindingManager.validateConfig(view.functionInfo.result.config, this._translateService);
+            this._bindingManager.validateConfig(view.functionInfo.result.properties.config, this._translateService);
             return Observable.zip(
               this._functionAppService.getBindingConfig(view.context),
               this._functionAppService.getTemplates(view.context),
@@ -80,7 +80,7 @@ export class FunctionIntegrateV2Component extends BaseFunctionComponent {
           const bindings = tuple[0];
           const viewInfo = tuple[2];
           if (viewInfo.functionInfo.isSuccessful && bindings.isSuccessful) {
-            this.functionInfo = viewInfo.functionInfo.result;
+            this.functionInfo = viewInfo.functionInfo.result.properties;
             this.model.config = this._bindingManager.functionConfigToUI(this.functionInfo.config, bindings.result.bindings);
             if (this.model.config.bindings.length > 0) {
               this.currentBinding = this.model.config.bindings[0];

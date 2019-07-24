@@ -1,17 +1,17 @@
 import React from 'react';
-import DataFlowCard, { DataFlowCardChildProps, getBindings } from './DataFlowCard';
+import BindingCard, { BindingCardChildProps, getBindings } from './BindingCard';
 import { ReactComponent as InputSvg } from '../../../../../images/Common/input.svg';
 import { useTranslation } from 'react-i18next';
 import { BindingDirection } from '../../../../../models/functions/function-binding';
 
-const InputDataFlowCard: React.SFC<DataFlowCardChildProps> = props => {
+const InputBindingCard: React.SFC<BindingCardChildProps> = props => {
   const { functionInfo } = props;
   const { t } = useTranslation();
 
   const inputs = getBindings(functionInfo.properties.config.bindings, BindingDirection.in);
 
   return (
-    <DataFlowCard
+    <BindingCard
       items={inputs}
       title={t('input')}
       emptyMessage={t('integrateNoInputsDefined')}
@@ -22,4 +22,4 @@ const InputDataFlowCard: React.SFC<DataFlowCardChildProps> = props => {
   );
 };
 
-export default InputDataFlowCard;
+export default InputBindingCard;

@@ -28,8 +28,13 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
       <Stack horizontal verticalAlign="center">
         <Icon iconName="Info" className={infoIconStyle(theme)} />
         <p>
-          {t('applicationSettingsInfoMessage')}
-          <Link href={Links.applicationSettingsInfo} target="_blank" className={learnMoreLinkStyle}>
+          <span id="application-settings-info-message">{t('applicationSettingsInfoMessage')}</span>
+          <Link
+            id="application-settings-info-learnMore"
+            href={Links.applicationSettingsInfo}
+            target="_blank"
+            className={learnMoreLinkStyle}
+            aria-labelledby="application-settings-info-message application-settings-info-learnMore">
             {` ${t('learnMore')}`}
           </Link>
         </p>
@@ -49,11 +54,16 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
       <Stack horizontal verticalAlign="center">
         <Icon iconName="Info" className={infoIconStyle(theme)} />
         <p>
-          {t('connectionStringsInfoMessage')}
+          <span id="connection-strings-info-message">{t('connectionStringsInfoMessage')}</span>
           {showFunctionAppMessage && (
             <>
-              {` ${t('funcConnStringsInfoText')} `}
-              <Link href={Links.funcConnStringsLearnMore} target="_blank" className={learnMoreLinkStyle}>
+              <span id="func-conn-strings-info-text">{` ${t('funcConnStringsInfoText')} `}</span>
+              <Link
+                id="func-conn-strings-info-learnMore"
+                href={Links.funcConnStringsLearnMore}
+                target="_blank"
+                className={learnMoreLinkStyle}
+                aria-labelledby="connection-strings-info-message func-conn-strings-info-text func-conn-strings-info-learnMore">
                 {` ${t('learnMore')}`}
               </Link>
             </>

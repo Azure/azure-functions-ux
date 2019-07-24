@@ -227,6 +227,13 @@ export class OnPremEnvironment extends Environment {
           });
       },
     };
+
+    this.scenarioChecks[ScenarioIds.isAppDensityEnabled] = {
+      id: ScenarioIds.isAppDensityEnabled,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

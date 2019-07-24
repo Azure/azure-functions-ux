@@ -80,12 +80,12 @@
     <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
     <!-- Display 'add' link if ARM call returned successfully and user has write permissions and new pristine item doesn't exist  -->
     <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" tabindex="0" role="button" class="link add-setting" (click)="addItem()" [activate-with-keys]>
-      {{ 'addNewDocument' | translate }}
+      + {{ 'addNewDocument' | translate }}
     </div>
 
     <!-- Display 'add' link disabled if ARM call did not return successfully or user does not have write permissions, or new pristine item already exits -->
     <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" tabindex="-1" role="button" class="disabled-link add-setting" aria-disabled="true">
-      {{ 'addNewDocument' | translate }}
+      + {{ 'addNewDocument' | translate }}
     </div>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 

@@ -730,7 +730,6 @@ export class PortalResources {
   public static slotsList_statusHeader = 'slotsList_statusHeader';
   public static slotsList_serverfarmHeader = 'slotsList_serverfarmHeader';
   public static slotsList_trafficPercentHeader = 'slotsList_trafficPercentHeader';
-  public static slotsList_title = 'slotsList_title';
   public static slotsList_tipDeprecationMessage = 'slotsList_tipDeprecationMessage';
   public static monitoring_appInsights = 'monitoring_appInsights';
   public static monitoring_appInsightsConfigureLink = 'monitoring_appInsightsConfigureLink';
@@ -1148,6 +1147,7 @@ export class PortalResources {
   public static validating = 'validating';
   public static vstsReleaseBuildPermissions = 'vstsReleaseBuildPermissions';
   public static vstsAgentQueuePermissions = 'vstsAgentQueuePermissions';
+  public static vstsCreateRepoPermissions = 'vstsCreateRepoPermissions';
   public static vstsNameUnavailable = 'vstsNameUnavailable';
   public static FTPBoth = 'FTPBoth';
   public static FTPSOnly = 'FTPSOnly';
@@ -1353,7 +1353,6 @@ export class PortalResources {
   public static containerSettingsUpdateSuccess = 'containerSettingsUpdateSuccess';
   public static showUrl = 'showUrl';
   public static hideUrl = 'hideUrl';
-  public static dynamicLinuxPreview = 'dynamicLinuxPreview';
   public static formIsInvalid = 'formIsInvalid';
   public static finishAndDeploy = 'finishAndDeploy';
   public static readOnlyLinuxDynamic = 'readOnlyLinuxDynamic';
@@ -1462,7 +1461,7 @@ export class PortalResources {
   public static resettingCredentialsSucccess = 'resettingCredentialsSucccess';
   public static savingCredentials = 'savingCredentials';
   public static savingCredentialsFail = 'savingCredentialsFail';
-  public static savingCredentialsSucccess = 'savingCredentialsSucccess';
+  public static savingCredentialsSuccess = 'savingCredentialsSuccess';
   public static containerPrivateRegistryDescription = 'containerPrivateRegistryDescription';
   public static notSelected = 'notSelected';
   public static autoUpdate = 'autoUpdate';
@@ -1546,12 +1545,18 @@ export class PortalResources {
   public static invalidStartupCommandAspNetCore = 'invalidStartupCommandAspNetCore';
   public static storageMountsNoPermissions = 'storageMountsNoPermissions';
   public static readOnlyPython = 'readOnlyPython';
-  public static valuesMustBeAnArray = 'valuesMustBeAnArray';
-  public static appSettingPropIsRequired = 'appSettingPropIsRequired';
-  public static valueMustBeAString = 'valueMustBeAString';
   public static slotSettingMustBeBoolean = 'slotSettingMustBeBoolean';
-  public static invalidAppSettingProperty = 'invalidAppSettingProperty';
+  public static appSettingValuesMustBeAnArray = 'appSettingValuesMustBeAnArray';
+  public static appSettingPropIsRequired = 'appSettingPropIsRequired';
+  public static appSettingValueMustBeAString = 'appSettingValueMustBeAString';
+  public static appSettingInvalidProperty = 'appSettingInvalidProperty';
   public static appSettingNamesUnique = 'appSettingNamesUnique';
+  public static connectionStringValuesMustBeAnArray = 'connectionStringValuesMustBeAnArray';
+  public static connectionStringPropIsRequired = 'connectionStringPropIsRequired';
+  public static connectionStringValueMustBeAString = 'connectionStringValueMustBeAString';
+  public static connectionStringInvalidProperty = 'connectionStringInvalidProperty';
+  public static connectionStringNamesUnique = 'connectionStringNamesUnique';
+  public static handlerMappingPropIsRequired = 'handlerMappingPropIsRequired';
   public static jsonInvalid = 'jsonInvalid';
   public static advancedEdit = 'advancedEdit';
   public static coachMarkAriaDescription = 'coachMarkAriaDescription';
