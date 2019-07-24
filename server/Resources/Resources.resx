@@ -4470,7 +4470,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Value</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>deployment slot setting</value>
+    <value>Deployment slot setting</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>

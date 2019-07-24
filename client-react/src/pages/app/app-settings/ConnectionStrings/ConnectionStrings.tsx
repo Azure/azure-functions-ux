@@ -16,7 +16,7 @@ import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
-import { Stack, SearchBox } from 'office-ui-fabric-react';
+import { Stack, SearchBox, TooltipHost } from 'office-ui-fabric-react';
 import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
 
 interface ConnectionStringsState {
@@ -234,28 +234,38 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
 
     if (column.key === 'delete') {
       return (
-        <IconButton
-          className={defaultCellStyle}
-          disabled={!editable}
-          iconProps={{ iconName: 'Delete' }}
-          id={`app-settings-connection-strings-delete-${index}`}
-          ariaLabel={t('delete')}
-          title={t('delete')}
-          onClick={() => this._removeItem(itemKey)}
-        />
+        <TooltipHost
+          content={t('delete')}
+          id={`app-settings-connection-strings-delete-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={!editable}
+            id={`app-settings-connection-strings-delete-${index}`}
+            iconProps={{ iconName: 'Delete' }}
+            ariaLabel={t('delete')}
+            onClick={() => this._removeItem(itemKey)}
+          />
+        </TooltipHost>
       );
     }
     if (column.key === 'edit') {
       return (
-        <IconButton
-          className={defaultCellStyle}
-          disabled={!editable}
-          iconProps={{ iconName: 'Edit' }}
-          id={`app-settings-connection-strings-edit-${index}`}
-          ariaLabel={t('edit')}
-          title={t('edit')}
-          onClick={() => this._onShowPanel(item)}
-        />
+        <TooltipHost
+          content={t('edit')}
+          id={`app-settings-connection-strings-edit-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={!editable}
+            id={`app-settings-connection-strings-edit-${index}`}
+            iconProps={{ iconName: 'Edit' }}
+            ariaLabel={t('edit')}
+            onClick={() => this._onShowPanel(item)}
+          />
+        </TooltipHost>
       );
     }
     if (column.key === 'sticky') {
@@ -336,7 +346,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         name: t('value'),
         fieldName: 'value',
         minWidth: 110,
-        isRowHeader: true,
+        isRowHeader: false,
         data: 'string',
         isPadded: true,
         isResizable: true,
@@ -348,7 +358,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         fieldName: 'type',
         minWidth: 200,
         maxWidth: 250,
-        isRowHeader: true,
+        isRowHeader: false,
         data: 'string',
         isPadded: true,
         isResizable: true,
@@ -360,7 +370,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         fieldName: 'sticky',
         minWidth: 50,
         maxWidth: 100,
-        isRowHeader: true,
+        isRowHeader: false,
         data: 'string',
         isPadded: true,
         isResizable: true,
@@ -368,23 +378,25 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
       },
       {
         key: 'delete',
-        name: '',
-        minWidth: 16,
-        maxWidth: 16,
-        isResizable: true,
+        name: t('delete'),
+        fieldName: 'delete',
+        minWidth: 100,
+        maxWidth: 100,
+        isRowHeader: false,
+        isResizable: false,
         isCollapsable: false,
         onRender: this._onRenderItemColumn,
-        ariaLabel: t('delete'),
       },
       {
         key: 'edit',
-        name: '',
-        minWidth: 16,
-        maxWidth: 16,
-        isResizable: true,
+        name: t('edit'),
+        fieldName: 'edit',
+        minWidth: 100,
+        maxWidth: 100,
+        isRowHeader: false,
+        isResizable: false,
         isCollapsable: false,
         onRender: this._onRenderItemColumn,
-        ariaLabel: t('edit'),
       },
     ];
   };

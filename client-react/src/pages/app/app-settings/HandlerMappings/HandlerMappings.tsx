@@ -13,6 +13,7 @@ import { AppSettingsFormValues, Permissions } from '../AppSettings.types';
 import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { HandlerMapping } from '../../../../models/site/config';
+import { TooltipHost } from 'office-ui-fabric-react';
 
 export interface HandlerMappingState {
   showPanel: boolean;
@@ -159,26 +160,38 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
 
     if (column.key === 'delete') {
       return (
-        <IconButton
-          className={defaultCellStyle}
-          disabled={!app_write || !editable}
-          iconProps={{ iconName: 'Delete' }}
-          ariaLabel={t('delete')}
-          title={t('delete')}
-          onClick={() => this.removeItem(index)}
-        />
+        <TooltipHost
+          content={t('delete')}
+          id={`app-settings-handler-mappings-delete-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={!app_write || !editable}
+            id={`app-settings-handler-mappings-delete-${index}`}
+            iconProps={{ iconName: 'Delete' }}
+            ariaLabel={t('delete')}
+            onClick={() => this.removeItem(index)}
+          />
+        </TooltipHost>
       );
     }
     if (column.key === 'edit') {
       return (
-        <IconButton
-          className={defaultCellStyle}
-          disabled={!app_write || !editable}
-          iconProps={{ iconName: 'Edit' }}
-          ariaLabel={t('edit')}
-          title={t('edit')}
-          onClick={() => this._onShowPanel(item, index)}
-        />
+        <TooltipHost
+          content={t('edit')}
+          id={`app-settings-handler-mappings-edit-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={!app_write || !editable}
+            id={`app-settings-handler-mappings-edit-${index}`}
+            iconProps={{ iconName: 'Edit' }}
+            ariaLabel={t('edit')}
+            onClick={() => this._onShowPanel(item, index)}
+          />
+        </TooltipHost>
       );
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
@@ -206,7 +219,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         fieldName: 'scriptProcessor',
         minWidth: 210,
         maxWidth: 350,
-        isRowHeader: true,
+        isRowHeader: false,
         data: 'string',
         isPadded: true,
         isResizable: true,
@@ -218,7 +231,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         fieldName: 'arguments',
         minWidth: 210,
         maxWidth: 350,
-        isRowHeader: true,
+        isRowHeader: false,
         data: 'string',
         isPadded: true,
         isResizable: true,
@@ -226,23 +239,25 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
       },
       {
         key: 'delete',
-        name: '',
-        minWidth: 16,
-        maxWidth: 16,
-        isResizable: true,
+        name: t('delete'),
+        fieldName: 'delete',
+        minWidth: 100,
+        maxWidth: 100,
+        isRowHeader: false,
+        isResizable: false,
         isCollapsable: false,
         onRender: this.onRenderItemColumn,
-        ariaLabel: t('delete'),
       },
       {
         key: 'edit',
-        name: '',
-        minWidth: 16,
-        maxWidth: 16,
-        isResizable: true,
+        name: t('edit'),
+        fieldName: 'edit',
+        minWidth: 100,
+        maxWidth: 100,
+        isRowHeader: false,
+        isResizable: false,
         isCollapsable: false,
         onRender: this.onRenderItemColumn,
-        ariaLabel: t('edit'),
       },
     ];
   };

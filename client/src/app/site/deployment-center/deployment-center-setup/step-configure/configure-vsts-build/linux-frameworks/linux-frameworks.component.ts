@@ -80,12 +80,19 @@ export class LinuxFramworksComponent implements OnDestroy {
       const nodeStack = stacks.find(x => x.name.toLowerCase() === 'node');
       const phpStack = stacks.find(x => x.name.toLowerCase() === 'php');
       const dotNetCoreStack = stacks.find(x => x.name.toLowerCase() === 'dotnetcore');
-      this.rubyFrameworkVersions = rubyStack.properties.majorVersions.map(x => {
-        return {
-          displayLabel: x.displayVersion,
-          value: x.runtimeVersion.replace('RUBY|', ''),
-        };
-      });
+
+      this.rubyFrameworkVersions = rubyStack.properties.majorVersions
+        .map(x => {
+          return x.minorVersions.map(y => {
+            return {
+              displayLabel: y.displayVersion,
+              value: y.runtimeVersion.replace('RUBY|', ''),
+            };
+          });
+        })
+        .reduce((a, b) => {
+          return a.concat(b);
+        });
 
       this.phpFrameworkVersions = phpStack.properties.majorVersions.map(x => {
         return {
