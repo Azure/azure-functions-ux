@@ -64,7 +64,8 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
         disabled={!app_write || !editable}
         onClick={createNewItem}
         styles={{ root: { marginTop: '5px' } }}
-        iconProps={{ iconName: 'Add' }}>
+        iconProps={{ iconName: 'Add' }}
+        ariaLabel={t('addNewDocument')}>
         {t('newDocument')}
       </ActionButton>
       <ol>

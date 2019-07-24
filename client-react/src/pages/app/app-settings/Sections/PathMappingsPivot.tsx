@@ -37,8 +37,13 @@ const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & PathMappi
           <Stack horizontal verticalAlign="center">
             <Icon iconName="Info" className={infoIconStyle(theme)} />
             <p>
-              {t('mountedStorageInfo')}
-              <Link href={Links.mountedStorageLearnMore} target="_blank" className={learnMoreLinkStyle}>
+              <span id="mounted-storage-info">{t('mountedStorageInfo')}</span>
+              <Link
+                id="mounted-storage-info-learnMore"
+                href={Links.mountedStorageLearnMore}
+                target="_blank"
+                className={learnMoreLinkStyle}
+                aria-labelledby="mounted-storage-info mounted-storage-info-learnMore">
                 {` ${t('learnMore')}`}
               </Link>
             </p>

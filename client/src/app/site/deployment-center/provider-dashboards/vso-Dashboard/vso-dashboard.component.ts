@@ -114,8 +114,10 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
             this.unableToReachVSTS = true;
             return of(null);
           });
+        } else {
+          this._busyManager.clearBusy();
+          return of(null);
         }
-        return of(null);
       })
       .subscribe(
         r => {
@@ -340,6 +342,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
       var repoUrl = messageJSON.repositoryUrl;
       switch (repoProvider) {
         case 'tfsgit':
+        case 'git':
           repoUrl = repoUrl || '{0}{1}/_git/{2}'.format(messageJSON.collectionUrl, messageJSON.teamProject, messageJSON.repoName);
           return '{0}/commit/{1}'.format(repoUrl, messageJSON.commitId);
         case 'tfsversioncontrol':
@@ -539,12 +542,13 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
         const accountName = url.pathname.split('/')[1];
         accountUrl = `${accountUrl}/${accountName}`;
       }
+      accountUrl = `https://${accountUrl}`;
     } else if (this.activeDeployment) {
       accountUrl = this.activeDeployment.collectionUrl;
     }
 
     if (accountUrl) {
-      const win = window.open(`https://${accountUrl}`, '_blank');
+      const win = window.open(accountUrl, '_blank');
       win.focus();
     }
   }

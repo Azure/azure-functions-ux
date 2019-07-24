@@ -28,7 +28,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     this.selectedRowId = null;
     this.appInsightsQueryReturnedTitle = this._translateService.instant(PortalResources.loading);
     this.showDelayWarning = false;
-    this.componentId = `${functionMonitorInfo.functionAppContext.site.id}/functions/${functionMonitorInfo.functionInfo.name}/monitor`;
+    this.componentId = `${functionMonitorInfo.functionAppContext.site.id}/functions/${functionMonitorInfo.functionName}/monitor`;
     this.setInput(functionMonitorInfo);
   }
 
@@ -63,12 +63,12 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
           this._applicationInsightsService.getLast30DaysSummary(
             functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
             this._getFunctionAppName(functionMonitorInfo.functionAppContext),
-            functionMonitorInfo.functionInfo.name
+            functionMonitorInfo.functionName
           ),
           this._applicationInsightsService.getInvocationTraces(
             functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
             this._getFunctionAppName(functionMonitorInfo.functionAppContext),
-            functionMonitorInfo.functionInfo.name
+            functionMonitorInfo.functionName
           )
         )
       )
@@ -128,7 +128,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     const url = this._applicationInsightsService.getInvocationTracesDirectUrl(
       this.functionMonitorInfo.appInsightsResourceDescriptor.getResourceIdForDirectUrl(),
       this._getFunctionAppName(this.functionMonitorInfo.functionAppContext),
-      this.functionMonitorInfo.functionInfo.name
+      this.functionMonitorInfo.functionName
     );
 
     window.open(url, '_blank');

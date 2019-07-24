@@ -11,7 +11,7 @@ import 'rxjs/add/observable/of';
 import { TranslateService } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
-import { FunctionKey } from '../shared/models/function-key';
+import { FunctionKey, FunctionKeys, HostKeys } from '../shared/models/function-key';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
@@ -22,6 +22,8 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { FunctionService } from 'app/shared/services/function.service';
+import { HostKeyTypes } from 'app/shared/models/constants';
 
 @Component({
   selector: 'function-keys',
@@ -57,9 +59,10 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
     broadcastService: BroadcastService,
     private _translateService: TranslateService,
     private _utilities: UtilitiesService,
-    private _functionAppService: FunctionAppService
+    private _functionAppService: FunctionAppService,
+    private _functionService: FunctionService
   ) {
-    super('function-keys', _functionAppService, broadcastService);
+    super('function-keys', _functionAppService, broadcastService, _functionService);
 
     this.validKey = false;
     this.keys = [];
@@ -79,17 +82,22 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
       .combineLatest(this.refreshSubject, (a, b) => a)
       .switchMap(viewInfo => {
         if (this.adminKeys) {
-          return this._functionAppService.getHostKeys(viewInfo.context);
+          return this._functionService.getHostKeys(viewInfo.context.site.id, true).map(r => {
+            return {
+              isSuccessful: r.isSuccessful,
+              result: r.isSuccessful ? this._formatHostKeys(r.result) : { keys: [] },
+              error: r.error,
+            };
+          });
         } else if (viewInfo.functionInfo.isSuccessful) {
-          this.functionInfo = viewInfo.functionInfo.result;
-
-          return this._functionAppService.getFunctionKeys(viewInfo.context, viewInfo.functionInfo.result);
+          this.functionInfo = viewInfo.functionInfo.result.properties;
+          return this._functionService.getFunctionKeys(viewInfo.context.site.id, viewInfo.functionInfo.result.properties.name, true);
         } else {
           this.functionInfo = null;
 
           return Observable.of({
             isSuccessful: true,
-            result: { keys: [], links: [] },
+            result: { keys: [] },
             error: null,
           });
         }
@@ -117,6 +125,7 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
             resourceId: this.context.site.id,
           });
         }
+        this.clearBusyState();
       });
   }
 
@@ -145,40 +154,120 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
   saveNewKey() {
     if (this.validKey) {
       this.setBusyState();
-      this._functionAppService.createKey(this.context, this.newKeyName, this.newKeyValue, this.functionInfo).subscribe(
-        () => {
-          this.clearBusyState();
-          this.refreshSubject.next(null);
-        },
-        () => this.clearBusyState()
-      );
+      if (!!this.newKeyValue) {
+        if (this.tableId === 'functionKeys') {
+          this._functionService
+            .createFunctionKey(this.context.site.id, this.functionInfo.name, this.newKeyName, this.newKeyValue)
+            .subscribe(newKeyResult => {
+              if (newKeyResult.isSuccessful) {
+                this.refreshSubject.next(null);
+              } else {
+                this.showComponentError({
+                  errorId: newKeyResult.error.errorId,
+                  message: newKeyResult.error.message,
+                  resourceId: this.context.site.id,
+                });
+                this.clearBusyState();
+              }
+            });
+        } else {
+          this._functionService
+            .createHostKey(this.context.site.id, this.newKeyName, this.newKeyValue, HostKeyTypes.functionKeys)
+            .subscribe(newKeyResult => {
+              if (newKeyResult.isSuccessful) {
+                this.refreshSubject.next(null);
+              } else {
+                this.showComponentError({
+                  errorId: newKeyResult.error.errorId,
+                  message: newKeyResult.error.message,
+                  resourceId: this.context.site.id,
+                });
+                this.clearBusyState();
+              }
+            });
+        }
+      } else {
+        // note (allisonm): current the new API doesn't support auto-generating a key value
+        // if no value is provided we must use the old generation method via function runtime
+        // this will be remedied with ANT84 APIs
+        this._functionAppService
+          .createKeyDeprecated(this.context, this.newKeyName, this.newKeyValue, this.functionInfo)
+          .subscribe(newKeyResult => {
+            if (newKeyResult.isSuccessful) {
+              this.refreshSubject.next(null);
+            } else {
+              this.showComponentError({
+                errorId: newKeyResult.error.errorId,
+                message: newKeyResult.error.message,
+                resourceId: this.context.site.id,
+              });
+              this.clearBusyState();
+            }
+          });
+      }
     }
   }
 
   revokeKey(key: FunctionKey) {
     if (confirm(this._translateService.instant(PortalResources.functionKeys_revokeConfirmation, { name: key.name }))) {
       this.setBusyState();
-      this._functionAppService.deleteKey(this.context, key, this.functionInfo).subscribe(
-        () => {
-          this.clearBusyState();
-          this.refreshSubject.next(null);
-        },
-        () => this.clearBusyState()
-      );
+      if (this.tableId === 'functionKeys') {
+        this._functionService.deleteFunctionKey(this.context.site.id, this.functionInfo.name, key.name).subscribe(deleteKeyResult => {
+          if (deleteKeyResult.isSuccessful) {
+            this.refreshSubject.next(null);
+          } else {
+            this.showComponentError({
+              errorId: deleteKeyResult.error.errorId,
+              message: deleteKeyResult.error.message,
+              resourceId: this.context.site.id,
+            });
+            this.clearBusyState();
+          }
+        });
+      } else {
+        this._functionService.deleteHostKey(this.context.site.id, key.name, key.hostKeyType).subscribe(deleteKeyResult => {
+          if (deleteKeyResult.isSuccessful) {
+            this.refreshSubject.next(null);
+          } else {
+            this.showComponentError({
+              errorId: deleteKeyResult.error.errorId,
+              message: deleteKeyResult.error.message,
+              resourceId: this.context.site.id,
+            });
+            this.clearBusyState();
+          }
+        });
+      }
     }
   }
 
   renewKey(key: FunctionKey) {
     if (confirm(this._translateService.instant(PortalResources.functionKeys_renewConfirmation, { name: key.name }))) {
       this.setBusyState();
-      this._functionAppService.renewKey(this.context, key, this.functionInfo).subscribe(
-        () => {
-          this.clearBusyState();
+      this._functionAppService.renewKey(this.context, key, this.functionInfo).subscribe(renewKeyResult => {
+        if (renewKeyResult.isSuccessful) {
           this.refreshSubject.next(null);
-        },
-        () => this.clearBusyState()
-      );
+        } else {
+          this.showComponentError({
+            errorId: renewKeyResult.error.errorId,
+            message: renewKeyResult.error.message,
+            resourceId: this.context.site.id,
+          });
+          this.clearBusyState();
+        }
+      });
     }
+  }
+
+  private _formatHostKeys(hostKeys: HostKeys): FunctionKeys {
+    const masterKey: FunctionKey = { name: '_master', value: hostKeys.masterKey, hostKeyType: HostKeyTypes.masterKey };
+    hostKeys.functionKeys.keys.forEach((key, i) => {
+      hostKeys.functionKeys.keys[i].hostKeyType = HostKeyTypes.functionKeys;
+    });
+    hostKeys.systemKeys.keys.forEach((key, i) => {
+      hostKeys.systemKeys.keys[i].hostKeyType = HostKeyTypes.systemKeys;
+    });
+    return { keys: [masterKey].concat(hostKeys.functionKeys.keys).concat(hostKeys.systemKeys.keys) };
   }
 
   copyKey(key: FunctionKey) {

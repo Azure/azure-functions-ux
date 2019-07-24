@@ -10,7 +10,9 @@
           <div class="text-label">{{'keysDialog_key' | translate}}</div>
           <select #selectKeys (change)="onChangeKey($event.target.value)">
             <option *ngFor="let key of functionKeys.keys" [value]="key.value">{{key.name}} (Function key)</option>
-            <option *ngFor="let key of hostKeys.keys" [value]="key.value">{{key.name}} (Host key)</option>
+            <option *ngIf="!!hostKeys.masterKey" [value]='hostKeys.masterKey'>_master (Host key)</option>
+            <option *ngFor="let key of hostKeys.functionKeys.keys" [value]="key.value">{{key.name}} (Host key)</option>
+            <option *ngFor="let key of hostKeys.systemKeys.keys" [value]="key.value">{{key.name}} (Host key)</option>
           </select>
         </div>
         <div class="keys-dialog-body-invokeUrl">
