@@ -134,6 +134,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   private _restartHostSubscription: Subscription;
 
   private functionAppVersion: string;
+  private _initialSetFocus = true;
 
   constructor(
     private broadcastService: BroadcastService,
@@ -443,8 +444,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   }
 
   ngAfterViewChecked() {
-    if (this.showFunctionInvokeUrlModal) {
+    if (this.showFunctionInvokeUrlModal && this._initialSetFocus) {
       this.selectKeys.nativeElement.focus();
+      this._initialSetFocus = false;
     }
   }
 
@@ -725,6 +727,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   hideModal() {
     this.showFunctionKeyModal = false;
     this.showFunctionInvokeUrlModal = false;
+    this._initialSetFocus = true;
   }
 
   onDisableTestData(disableTestData: boolean) {
