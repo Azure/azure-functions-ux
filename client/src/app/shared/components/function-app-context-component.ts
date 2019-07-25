@@ -94,10 +94,7 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
       )
       .do(v => {
         this.viewInfo = v;
-        this.context = v.context;
-        if (v.version) {
-          this.context.runtimeVersion = v.version;
-        }
+        this.context = { ...v.context, runtimeVersion: v.version };
       });
 
     this.timeout = setTimeout(() => {

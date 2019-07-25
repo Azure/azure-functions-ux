@@ -104,37 +104,21 @@ export class FunctionAppService {
       });
   }
 
-  getClient(context: FunctionAppContext): Observable<ConditionalHttpClient> {
-    if (ArmUtil.isLinuxApp(context.site)) {
-      return Observable.of(this.runtime);
-    } else if (context.runtimeVersion) {
-      if (context.runtimeVersion === FunctionAppVersion.v2) {
-        return Observable.of(this.runtime);
-      } else {
-        return Observable.of(this.azure);
-      }
-    } else {
-      return this.getRuntimeGeneration(context).map(result => {
-        if (result === FunctionAppVersion.v2) {
-          return this.runtime;
-        } else {
-          return this.azure;
-        }
-      });
-    }
+  getClient(context: FunctionAppContext): ConditionalHttpClient {
+    return ArmUtil.isLinuxApp(context.site) || (context.runtimeVersion && context.runtimeVersion === FunctionAppVersion.v2)
+      ? this.runtime
+      : this.azure;
   }
 
   getApiProxies(context: FunctionAppContext): Result<ApiProxy[]> {
-    return this.getClient(context).switchMap(client => {
-      return client.execute({ resourceId: context.site.id } /*input*/, token =>
-        Observable /*query*/.zip(
-          this.retrieveProxies(context, token),
-          this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
-          (p, s) => ({ proxies: p, schema: s })
-        )
-          .flatMap(response => this.validateAndGetProxies(response.proxies, response.schema))
-      );
-    });
+    return this.getClient(context).execute({ resourceId: context.site.id } /*input*/, token =>
+      Observable /*query*/.zip(
+        this.retrieveProxies(context, token),
+        this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
+        (p, s) => ({ proxies: p, schema: s })
+      )
+        .flatMap(response => this.validateAndGetProxies(response.proxies, response.schema))
+    );
   }
 
   private retrieveProxies(context: FunctionAppContext, token: string): Observable<any> {
@@ -190,43 +174,35 @@ export class FunctionAppService {
     const uri = context.urlTemplates.proxiesJsonUrl;
     this._cacheService.clearCachePrefix(uri);
 
-    return this.getClient(context).switchMap(client => {
-      return client.execute({ resourceId: context.site.id }, t =>
-        this._cacheService.put(uri, this.jsonHeaders(t, ['If-Match', '*']), jsonString)
-      );
-    });
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+      this._cacheService.put(uri, this.jsonHeaders(t, ['If-Match', '*']), jsonString)
+    );
   }
 
   getFileContent(context: FunctionAppContext, file: VfsObject | string): Result<string> {
     const fileHref = typeof file === 'string' ? file : file.href;
 
-    return this.getClient(context).switchMap(client => {
-      return client.execute({ resourceId: context.site.id }, t =>
-        this._cacheService.get(fileHref, false, this.headers(t)).map(r => r.text())
-      );
-    });
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+      this._cacheService.get(fileHref, false, this.headers(t)).map(r => r.text())
+    );
   }
 
   saveFile(context: FunctionAppContext, file: VfsObject | string, updatedContent: string): Result<VfsObject | string> {
     const fileHref = typeof file === 'string' ? file : file.href;
 
-    return this.getClient(context).switchMap(client => {
-      return client.execute({ resourceId: context.site.id }, t =>
-        this._cacheService
-          .put(fileHref, this.jsonHeaders(t, ['Content-Type', 'plain/text'], ['If-Match', '*']), updatedContent)
-          .map(() => file)
-      );
-    });
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+      this._cacheService
+        .put(fileHref, this.jsonHeaders(t, ['Content-Type', 'plain/text'], ['If-Match', '*']), updatedContent)
+        .map(() => file)
+    );
   }
 
   deleteFile(context: FunctionAppContext, file: VfsObject | string, functionInfo?: FunctionInfo): Result<VfsObject | string> {
     const fileHref = typeof file === 'string' ? file : file.href;
 
-    return this.getClient(context).switchMap(client => {
-      return client.execute({ resourceId: context.site.id }, t =>
-        this._cacheService.delete(fileHref, this.jsonHeaders(t, ['Content-Type', 'plain/text'], ['If-Match', '*'])).map(() => file)
-      );
-    });
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+      this._cacheService.delete(fileHref, this.jsonHeaders(t, ['Content-Type', 'plain/text'], ['If-Match', '*'])).map(() => file)
+    );
   }
 
   getRuntimeGeneration(context: FunctionAppContext): Observable<string> {
@@ -438,19 +414,15 @@ export class FunctionAppService {
   }
 
   getHostJson(context: FunctionAppContext): Result<Host> {
-    return this.getClient(context).switchMap(client => {
-      return client.execute({ resourceId: context.site.id }, t =>
-        this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
-      );
-    });
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+      this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
+    );
   }
 
   getHostV2Json(context: FunctionAppContext): Result<HostV2> {
-    return this.getClient(context).switchMap(client => {
-      return client.execute({ resourceId: context.site.id }, t =>
-        this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
-      );
-    });
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+      this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
+    );
   }
 
   getBindingConfig(context: FunctionAppContext): Result<BindingConfig> {
@@ -468,33 +440,31 @@ export class FunctionAppService {
       console.error(e);
     }
 
-    return this.getClient(context).switchMap(client => {
-      return client.execute({ resourceId: context.site.id }, t =>
-        this.getExtensionVersionFromAppSettings(context)
-          .concatMap(extensionVersion => {
-            if (!extensionVersion) {
-              extensionVersion = 'latest';
-            }
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+      this.getExtensionVersionFromAppSettings(context)
+        .concatMap(extensionVersion => {
+          if (!extensionVersion) {
+            extensionVersion = 'latest';
+          }
 
-            return this._cacheService.get(
-              `${Constants.cdnHost}api/bindingconfig?runtime=${extensionVersion}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
-              false
-            );
-          })
-          .map(r => {
-            const bindingConfig = r.json() as BindingConfig;
+          return this._cacheService.get(
+            `${Constants.cdnHost}api/bindingconfig?runtime=${extensionVersion}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
+            false
+          );
+        })
+        .map(r => {
+          const bindingConfig = r.json() as BindingConfig;
 
-            // Linux Filter - remove bindings with extensions
-            if (ArmUtil.isLinuxApp(context.site)) {
-              const filteredBindings = bindingConfig.bindings.filter(binding => !binding.extension);
-              bindingConfig.bindings = filteredBindings;
-            }
+          // Linux Filter - remove bindings with extensions
+          if (ArmUtil.isLinuxApp(context.site)) {
+            const filteredBindings = bindingConfig.bindings.filter(binding => !binding.extension);
+            bindingConfig.bindings = filteredBindings;
+          }
 
-            this.localize(bindingConfig);
-            return bindingConfig;
-          })
-      );
-    });
+          this.localize(bindingConfig);
+          return bindingConfig;
+        })
+    );
   }
 
   updateFunction(context: FunctionAppContext, fi: FunctionInfo): Result<FunctionInfo> {
@@ -553,41 +523,37 @@ export class FunctionAppService {
   getLogs(context: FunctionAppContext, functionName: string, range?: number, force: boolean = false): Result<string> {
     const url = context.urlTemplates.getFunctionLogUrl(functionName);
 
-    return this.getClient(context).switchMap(client => {
-      return client.execute({ resourceId: context.site.id }, t =>
-        this._cacheService.get(url, force, this.headers(t)).concatMap(r => {
-          let files: VfsObject[] = r.json();
-          if (files.length > 0) {
-            files = files
-              .map(e => Object.assign({}, e, { parsedTime: new Date(e.mtime) }))
-              .sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime());
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+      this._cacheService.get(url, force, this.headers(t)).concatMap(r => {
+        let files: VfsObject[] = r.json();
+        if (files.length > 0) {
+          files = files
+            .map(e => Object.assign({}, e, { parsedTime: new Date(e.mtime) }))
+            .sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime());
 
-            const headers = range ? this.headers(t, ['Range', `bytes=-${range}`]) : this.headers(t);
+          const headers = range ? this.headers(t, ['Range', `bytes=-${range}`]) : this.headers(t);
 
-            return this._cacheService.get(files.pop().href, force, headers).map(f => {
-              const content = f.text();
-              if (range) {
-                const index = content.indexOf('\n');
-                return <string>(index !== -1 ? content.substring(index + 1) : content);
-              } else {
-                return content;
-              }
-            });
-          } else {
-            return Observable.of('');
-          }
-        })
-      );
-    });
+          return this._cacheService.get(files.pop().href, force, headers).map(f => {
+            const content = f.text();
+            if (range) {
+              const index = content.indexOf('\n');
+              return <string>(index !== -1 ? content.substring(index + 1) : content);
+            } else {
+              return content;
+            }
+          });
+        } else {
+          return Observable.of('');
+        }
+      })
+    );
   }
 
   getVfsObjects(context: FunctionAppContext, fi: FunctionInfo | string): Result<VfsObject[]> {
     const href = typeof fi === 'string' ? fi : fi.script_root_path_href;
-    return this.getClient(context).switchMap(client => {
-      return client.execute({ resourceId: context.site.id }, t =>
-        this._cacheService.get(href, false, this.headers(t)).map(e => <VfsObject[]>e.json())
-      );
-    });
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+      this._cacheService.get(href, false, this.headers(t)).map(e => <VfsObject[]>e.json())
+    );
   }
 
   // Use createFunctionKey from function.service.ts instead unless keyValue needs to be auto-generated
