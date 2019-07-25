@@ -978,10 +978,10 @@ export class FunctionAppService {
   }
 
   installExtension(context: FunctionAppContext, extension: RuntimeExtension): Result<ExtensionInstallStatus> {
-    const extensionOnlineBody = { ...extension, PostInstallActions: 'BringAppOnline' };
+    const requestBody = { ...extension, PostInstallActions: 'BringAppOnline' };
     return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService
-        .post(context.urlTemplates.runtimeHostExtensionsUrl, true, this.jsonHeaders(t), extensionOnlineBody)
+        .post(context.urlTemplates.runtimeHostExtensionsUrl, true, this.jsonHeaders(t), requestBody)
         .map(r => r.json() as ExtensionInstallStatus)
     );
   }
