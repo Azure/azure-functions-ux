@@ -977,13 +977,11 @@ export class FunctionAppService {
     );
   }
 
-  // TOOD: [soninaren] Capture 409
-  // TODO: [soninaren] returns error object when resulted in error
-  // TODO: [soninaren] error.id is not defined
   installExtension(context: FunctionAppContext, extension: RuntimeExtension): Result<ExtensionInstallStatus> {
+    const requestBody = { ...extension, PostInstallActions: 'BringAppOnline' };
     return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService
-        .post(context.urlTemplates.runtimeHostExtensionsUrl, true, this.jsonHeaders(t), extension)
+        .post(context.urlTemplates.runtimeHostExtensionsUrl, true, this.jsonHeaders(t), requestBody)
         .map(r => r.json() as ExtensionInstallStatus)
     );
   }
