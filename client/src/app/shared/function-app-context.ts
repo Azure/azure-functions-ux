@@ -9,4 +9,5 @@ export interface FunctionAppContext {
   urlTemplates: UrlTemplates;
   tryFunctionsScmCreds?: string;
   masterKey?: string;
+  runtimeVersion?: string;
 }
