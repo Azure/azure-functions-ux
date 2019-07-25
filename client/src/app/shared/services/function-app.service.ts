@@ -1086,8 +1086,8 @@ export class FunctionAppService {
     );
   }
 
-  getAppContext(resourceId: string): Observable<FunctionAppContext> {
-    return this._cacheService.getArm(resourceId).map(r => ArmUtil.mapArmSiteToContext(r.json(), this._injector));
+  getAppContext(resourceId: string, force?: boolean): Observable<FunctionAppContext> {
+    return this._cacheService.getArm(resourceId, force).map(r => ArmUtil.mapArmSiteToContext(r.json(), this._injector));
   }
 
   getAppContentAsZip(context: FunctionAppContext, includeCsProj: boolean, includeAppSettings: boolean): Result<any> {

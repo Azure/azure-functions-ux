@@ -211,7 +211,7 @@ export class AzureEnvironment extends Environment {
         limit = 0;
         break;
       case Tier.dynamic:
-        limit = 1;
+        limit = 2;
         break;
       case Tier.standard:
         limit = 5;

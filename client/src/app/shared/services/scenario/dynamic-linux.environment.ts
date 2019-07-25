@@ -65,6 +65,11 @@ export class DynamicLinuxEnvironment extends Environment {
       id: ScenarioIds.enableQuotas,
       runCheck: () => disabledResult,
     };
+
+    this.scenarioChecks[ScenarioIds.enableAuth] = {
+      id: ScenarioIds.enableAuth,
+      runCheck: () => disabledResult,
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
