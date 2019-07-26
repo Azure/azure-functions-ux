@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsListLayoutMode, IColumn, SelectionMode, IDetailsList } from 'office-ui-fabric-react/lib/DetailsList';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import React, { lazy, Suspense } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
@@ -31,6 +31,8 @@ interface ApplicationSettingsState {
 
 export class ApplicationSettings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ApplicationSettingsState> {
   public static contextType = PermissionsContext;
+  public list: IDetailsList | null;
+  private _notificationMessage: string;
   constructor(props) {
     super(props);
     this.state = {
@@ -51,10 +53,10 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     if (!values.appSettings) {
       return null;
     }
-
     const allShown = showAllValues || (values.appSettings.length > 0 && shownValues.length === values.appSettings.length);
     return (
       <>
+        <div aria-live="assertive">{this._notificationMessage}</div>
         <Stack horizontal verticalAlign="center">
           <ActionButton
             id="app-settings-application-settings-add"
@@ -141,6 +143,9 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
+          componentRef={ref => {
+            this.list = ref;
+          }}
           emptyMessage={t('emptyAppSettings')}
         />
       </>
@@ -157,6 +162,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
   };
 
   private _openBulkEdit = () => {
+    this._notificationMessage = 'Advanced edit panel opened.';
     this.setState({
       showPanel: true,
       panelItem: 'bulk',
@@ -169,12 +175,14 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
   };
 
   private _saveBulkEdit = (appSettings: FormAppSetting[]) => {
+    this._notificationMessage = 'Advanced edit panel closed. Changes applied.';
     const newAppSettings = sortBy(appSettings, o => o.name.toLowerCase());
 
     this.props.setFieldValue('appSettings', newAppSettings);
     this.setState({ showPanel: false });
   };
   private _createNewItem = () => {
+    this._notificationMessage = 'Add/Edit application setting panel opened.';
     const blankAppSetting = {
       name: '',
       value: '',
@@ -188,6 +196,10 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
   };
 
   private _onClosePanel = (item: FormAppSetting): void => {
+    if (!!this.list) {
+      this.list.focusIndex(0, false);
+    }
+    this._notificationMessage = `Add/Edit application setting panel closed. Changes applied to app setting ${item.name}`;
     let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
     const index = appSettings.findIndex(
       x =>
@@ -205,10 +217,15 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
   };
 
   private _onCancel = (): void => {
+    this._notificationMessage =
+      this.state.panelItem === 'add'
+        ? 'Add/Edit application setting panel closed. No changes applied.'
+        : 'Advanced edit panel closed. No changes applied.';
     this.setState({ showPanel: false });
   };
 
   private _onShowPanel = (item: FormAppSetting): void => {
+    this._notificationMessage = 'Add/Edit application setting panel opened.';
     this.setState({
       showPanel: true,
       panelItem: 'add',
@@ -280,29 +297,35 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     }
     if (column.key === 'value') {
       return (
-        <>
-          <ActionButton
-            id={`app-settings-application-settings-show-hide-${index}`}
-            className={defaultCellStyle}
-            onClick={() => {
-              const newShownValues = new Set(shownValues);
-              if (hidden) {
+        <div role="presentation" aria-live="assertive">
+          {hidden ? (
+            <ActionButton
+              id={`app-settings-application-settings-show-${index}`}
+              className={defaultCellStyle}
+              onClick={() => {
+                const newShownValues = new Set(shownValues);
                 newShownValues.add(itemKey);
-              } else {
-                newShownValues.delete(itemKey);
-              }
-              this.setState({ shownValues: [...newShownValues], showAllValues: false });
-            }}
-            iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
-            {hidden ? (
+                this.setState({ shownValues: [...newShownValues], showAllValues: false });
+              }}
+              iconProps={{ iconName: 'RedEye' }}>
               <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
-            ) : (
+            </ActionButton>
+          ) : (
+            <ActionButton
+              id={`app-settings-application-settings-hide-${index}`}
+              className={defaultCellStyle}
+              onClick={() => {
+                const newShownValues = new Set(shownValues);
+                newShownValues.delete(itemKey);
+                this.setState({ shownValues: [...newShownValues], showAllValues: false });
+              }}
+              iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
               <div className={defaultCellStyle} id={`app-settings-application-settings-value-${index}`}>
                 {item[column.fieldName!]}
               </div>
-            )}
-          </ActionButton>
-        </>
+            </ActionButton>
+          )}
+        </div>
       );
     }
     if (column.key === 'name') {
