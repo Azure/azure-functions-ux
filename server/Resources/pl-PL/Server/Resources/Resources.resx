@@ -383,19 +383,19 @@
     <value>Operacja zapisywania jest obecnie w toku.  Zamknięcie tego okna może spowodować utratę niektórych zmian.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Dodaj nowe ustawienie</value>
+    <value>Dodaj nowe ustawienie aplikacji</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Dodaj nowe parametry połączenia</value>
+    <value>Dodaj nowe parametry połączenia</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Dodaj nowy dokument.</value>
+    <value>Dodaj nowy dokument</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Dodaj nowe mapowanie procedury obsługi</value>
+    <value>Dodaj nowe mapowanie procedury obsługi</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Dodaj nową wirtualną aplikację lub katalog</value>
+    <value>Dodaj nową wirtualną aplikację lub katalog</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Wprowadź nazwę</value>
@@ -2120,7 +2120,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>BŁĄD</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>To pole może zawierać tylko litery, cyfry (0–9), kropki („.”) oraz znaki podkreślenia („_”)</value>
+    <value>Nazwy ustawień aplikacji mogą zawierać tylko litery, cyfry (0–9), kropki („.”) oraz znaki podkreślenia („_”)</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>To pole jest wymagane</value>
@@ -2301,9 +2301,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>% ruchu</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Miejsca (wersja zapoznawcza)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Nadchodzące zmiany w regułach routingu</value>
@@ -3574,8 +3571,20 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>Nie masz uprawnień do użycia dla żadnej z dostępnych pul agentów w tym projekcie. Skontaktuj się z administratorem projektu lub wybierz inny projekt</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>Nie masz uprawnień do tworzenia repozytorium w tym projekcie. Skontaktuj się z administratorem projektu lub wybierz inny projekt</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Podana nazwa organizacji jest nieprawidłowa. Podaj inną nazwę organizacji.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4196,9 +4205,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="hideUrl" xml:space="preserve">
     <value>ukryj adres url</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Funkcje oparte na zużyciu dla systemu Linux są ofertą w wersji zapoznawczej.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Niektóre pola nie są prawidłowo wypełnione lub są wymagane.</value>
   </data>
@@ -4206,7 +4212,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Zakończ i przejdź do Centrum wdrażania</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Edytowanie funkcji w portalu nie jest obsługiwane dla aplikacji funkcji opartych na zużyciu dla systemu Linux (wersja zapoznawcza).</value>
+    <value>Edytowanie funkcji w portalu nie jest obsługiwane dla aplikacji funkcji opartych na zużyciu dla systemu Linux.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Edytowanie funkcji w portalu nie jest obsługiwane dla aplikacji funkcji Premium dla systemu Linux (wersja zapoznawcza).</value>
@@ -4470,7 +4476,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Wartość</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>ustawienie miejsca wdrożenia</value>
+    <value>Ustawienie miejsca wdrożenia</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4532,7 +4538,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Nie można zapisać poświadczeń</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Pomyślnie zapisane poświadczenia</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Zainstaluj magazyn (wersja zapoznawcza)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Dodaj magazyn</value>
+    <value>Dodaj magazyn</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Konto</value>
@@ -4725,7 +4731,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Nowa aplikacja wirtualna lub katalog wirtualny</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Nowa procedura obsługi</value>
+    <value>Nowe mapowanie procedury obsługi</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Nie można otworzyć połączenia z aplikacją. Może to być spowodowane sieciowymi grupami zabezpieczeń lub regułami ograniczeń adresów IP określonymi dla aplikacji. Aby korzystać z przesyłania strumieniowego dzienników, upewnij się, że masz dostęp do aplikacji bezpośrednio z bieżącej sieci.</value>
@@ -4800,28 +4806,46 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Edytowanie funkcji w portalu za pomocą aplikacji funkcji w języku Python (wersja zapoznawcza) nie jest obsługiwane. Do opracowania użyj interfejsu wiersza polecenia lub programu VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Dowiedz się więcej&lt;/a&gt;</value>
+    <value>Edytowanie funkcji w portalu za pomocą aplikacji funkcji w języku Python nie jest obsługiwane. Do programowania użyj interfejsu wiersza polecenia lub programu VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Dowiedz się więcej&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Instalacje magazynów platformy Azure zawierają wpisy tajne. W celu wyświetlenia/edytowania tej sekcji są wymagane uprawnienia do odczytu/zapisu.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Wszystkie właściwości ustawień miejsca wdrożenia muszą być typu logicznego</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Wartości ustawień aplikacji muszą być tablicami</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} jest właściwością wymaganą dla wszystkich ustawień aplikacji</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Wszystkie właściwości wartości i nazw ustawień aplikacji muszą być typu „ciąg”</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Wszystkie właściwości ustawień miejsca wdrożenia dla ustawienia aplikacji muszą być typu logicznego</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} jest nieprawidłową właściwością ustawienia aplikacji</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Nazwy ustawień aplikacji muszą być unikatowe</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Wartości parametrów połączenia muszą być tablicą</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} jest właściwością wymaganą we wszystkich parametrach połączenia</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Wszystkie właściwości wartości i nazw parametrów połączenia muszą być typu „ciąg”</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} to nieprawidłowa właściwość parametrów połączenia</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Nazwy parametrów połączenia muszą być unikatowe</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} jest właściwością wymaganą we wszystkich mapowaniach obsługi</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Nieprawidłowy obiekt JSON</value>

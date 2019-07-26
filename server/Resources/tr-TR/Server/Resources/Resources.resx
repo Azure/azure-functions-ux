@@ -383,19 +383,19 @@
     <value>Devam eden bir kayıt işlemi var. Sayfadan ayrılırsanız bazı değişiklikler kaybolabilir.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Yeni ayar ekle</value>
+    <value>Yeni uygulama ayarı ekle</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Yeni bağlantı dizesi ekle</value>
+    <value>Yeni bağlantı dizesi ekle</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Yeni belge ekle</value>
+    <value>Yeni belge ekle</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Yeni işleyici eşlemesi ekle</value>
+    <value>Yeni işleyici eşlemesi ekle</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Yeni sanal uygulama veya dizin ekle</value>
+    <value>Yeni sanal uygulama veya dizin ekle</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Bir ad girin</value>
@@ -2120,7 +2120,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>HATA</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>Bu alan yalnızca harfler, rakamlar (0-9), nokta (".") ve alt çizgi ("_") içerebilir</value>
+    <value>Uygulama ayarı adları yalnızca harfler, rakamlar (0-9), nokta (".") ve alt çizgi ("_") içerebilir</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Bu alan gereklidir</value>
@@ -2301,9 +2301,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>Trafik yüzdesi</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Yuvalar (önizleme)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Yönlendirme Kuralları için gelecek değişiklikler</value>
@@ -3574,8 +3571,20 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>Bu projedeki kullanılabilir aracı havuzlarından herhangi birinde kullanma izniniz yok. Proje yöneticinize başvurun veya farklı bir proje seçin</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>Bu projede depo oluşturma izniniz yok. Proje yöneticinize başvurun veya farklı bir proje seçin</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Belirtilen kuruluş adı geçerli değil. Lütfen başka bir kuruluş adı sağlayın.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4196,9 +4205,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="hideUrl" xml:space="preserve">
     <value>URL'yi gizle</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux Tüketim İşlevleri bir önizleme teklifidir.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Bazı alanlar düzgün doldurulmadı veya zorunlu.</value>
   </data>
@@ -4206,7 +4212,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bitir ve Dağıtım Merkezi'ne git</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Portalda işlev düzenleme Linux Tüketim İşlevi Uygulamaları (Önizleme) için desteklenmiyor.</value>
+    <value>Linux Tüketim İşlevi Uygulamaları için portalda işlev düzenleme desteklenmiyor.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Portalda işlev düzenleme Linux Premium İşlev Uygulamaları (Önizleme) için desteklenmiyor.</value>
@@ -4470,7 +4476,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Değer</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>dağıtım yuvası ayarı</value>
+    <value>Deployment slot setting</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4532,7 +4538,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Kimlik bilgileri kaydedilemedi</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Kimlik bilgileri başarıyla kaydedildi</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Depolama bağlama (Önizleme)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>Depolama ekle</value>
+    <value>Depolama alanı ekle</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Hesap</value>
@@ -4725,7 +4731,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yeni sanal uygulama veya dizin</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Yeni işleyici</value>
+    <value>Yeni işleyici eşlemesi</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Uygulamanız ile bağlantı kurulamıyor. Bunun nedeni, uygulamanızda yürürlüğe koyduğunuz ağ güvenlik grupları veya IP kısıtlama kuralları olabilir. Günlük akışını kullanmak için lütfen geçerli ağınızdan uygulamanıza erişebildiğinizden emin olun.</value>
@@ -4800,28 +4806,46 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Portalda işlev düzenleme Python Function Apps (Önizleme) için desteklenmemektedir. Geliştirmek için lütfen CLI'yı veya VS Code'u kullanın. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Daha fazla bilgi edinin&lt;/a&gt;</value>
+    <value>Python İşlev Uygulamaları için portalda işlev düzenleme desteklenmiyor. Geliştirmek için lütfen CLI veya VS Code kullanın. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Daha fazla bilgi&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure depolama bağlamaları gizli diziler içeriyor. Bu bölümü görüntülemek/düzenlemek için okuma/yazma izinleri gereklidir.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Tüm dağıtım yuvası ayarı özellikleri boole türünde olmalıdır</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Uygulama ayarı değerleri bir dizi olmalıdır</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} tüm uygulama ayarlarında gerekli bir özelliktir</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Tüm uygulama ayarı değeri ve ad özellikleri dize türünde olmalıdır</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Tüm uygulama ayarı dağıtım yuvası ayarı özellikleri boole türünde olmalıdır</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} geçersiz bir uygulama ayarı özelliği</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Uygulama ayarı adları benzersiz olmalıdır</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Bağlantı dizesi değerleri bir dizi olmalıdır</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} tüm bağlantı dizelerinde gerekli bir özelliktir</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Tüm bağlantı dizesi değeri ve ad özellikleri dize türünde olmalıdır</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} geçersiz bir bağlantı dizesi özelliğidir</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Bağlantı dizesi adları benzersiz olmalıdır</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} tüm işleyici eşlemelerinde gerekli bir özelliktir</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>JSON nesnesi geçersiz</value>
@@ -5044,27 +5068,27 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Azure Repos</value>
   </data>
   <data name="updateBindingNotification" xml:space="preserve">
-    <value>Updating binding</value>
+    <value>Bağlama güncelleştiriliyor</value>
   </data>
   <data name="updateBindingNotificationDetails" xml:space="preserve">
-    <value>Updating {0} ({1})</value>
+    <value>{0} ({1}) güncelleştiriliyor</value>
   </data>
   <data name="updateBindingNotificationFailed" xml:space="preserve">
-    <value>Failed to update {0} ({1}): {2}</value>
+    <value>{0} ({1}) güncelleştirilemedi: {2}</value>
   </data>
   <data name="updateBindingNotificationSuccess" xml:space="preserve">
-    <value>Succeeded in updating {0} ({1})</value>
+    <value>{0} ({1}) başarıyla güncelleştirildi</value>
   </data>
   <data name="editBindingInput" xml:space="preserve">
-    <value>Edit input</value>
+    <value>Girişi düzenle</value>
   </data>
   <data name="editBindingOuput" xml:space="preserve">
-    <value>Edit output</value>
+    <value>Çıkışı düzenle</value>
   </data>
   <data name="editBindingTrigger" xml:space="preserve">
-    <value>Edit trigger</value>
+    <value>Tetikleyiciyi düzenle</value>
   </data>
   <data name="editBindingCommands" xml:space="preserve">
-    <value>Edit binding commands</value>
+    <value>Bağlama komutlarını düzenle</value>
   </data>
 </root>
