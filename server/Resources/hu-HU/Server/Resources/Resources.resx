@@ -383,19 +383,19 @@
     <value>Jelenleg folyamatban van egy mentési művelet.  Ha ellép a lapról, néhány módosítás elveszhet.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Új beállítás hozzáadása</value>
+    <value>Új alkalmazásbeállítás hozzáadása</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Új kapcsolati sztring hozzáadása</value>
+    <value>Új kapcsolati sztring hozzáadása</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Új dokumentum hozzáadása</value>
+    <value>Új dokumentum hozzáadása</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Új kezelőtársítás hozzáadása</value>
+    <value>Új kezelőtársítás hozzáadása</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Új virtuális alkalmazás vagy könyvtár hozzáadása</value>
+    <value>Új virtuális alkalmazás vagy könyvtár hozzáadása</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Írjon be egy nevet.</value>
@@ -2120,7 +2120,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>HIBA</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>A mező csak betűket, számokat (0-9), kötőjeleket (-) és aláhúzásjeleket (_) tartalmazhat</value>
+    <value>Az alkalmazásbeállítás nevei csak betűket, számokat (0–9), pontokat (.) és aláhúzásjeleket (_) tartalmazhatnak</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Ezt a mezőt kötelező kitölteni</value>
@@ -2301,9 +2301,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>Adatforgalom (%)</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Tárolóhelyek (előzetes verzió)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Az útválasztási szabályok közelgő módosításai</value>
@@ -3574,8 +3571,20 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>Nem jogosult a projektben elérhető ügynökkészletek használatára. Forduljon a projekt rendszergazdájához, vagy válasszon másik projektet</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>Nem jogosult a projektben adattár létrehozására. Forduljon a projekt rendszergazdájához, vagy válasszon másik projektet</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>A megadott cégnév érvénytelen. Adjon meg egy másik cégnevet.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4196,9 +4205,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="hideUrl" xml:space="preserve">
     <value>URL-cím elrejtése</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>A Linuxhoz készült használatalapú Functions egy előzetes verziójú ajánlat.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Bizonyos mezők nem megfelelően vannak kitöltve, vagy azokat kötelező megadni.</value>
   </data>
@@ -4206,7 +4212,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Befejezés és a Deployment Center megnyitása</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>A függvények portálon való szerkesztése nem támogatott a Linuxhoz készült használatalapú Function Apps (előzetes verzió) esetében.</value>
+    <value>A függvények portálon való szerkesztése nem támogatott a Linuxhoz készült használatalapú Function Apps esetében.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>A függvények portálon való szerkesztése nem támogatott a prémium szintű, Linuxhoz készült Function Apps (előzetes verzió) esetében.</value>
@@ -4470,7 +4476,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Érték</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>üzembe helyezési pont beállítása</value>
+    <value>Üzembe helyezési pont beállítása</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4532,7 +4538,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Nem sikerült menteni a hitelesítő adatokat</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>A hitelesítő adatok mentése sikerült</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Tár csatlakoztatása (előzetes verzió)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Tár hozzáadása</value>
+    <value>Tár hozzáadása</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Fiók</value>
@@ -4725,7 +4731,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Új virtuális alkalmazás vagy címtár</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Új kezelő</value>
+    <value>Új kezelőtársítás</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Nem sikerült kapcsolatot létesíteni az alkalmazással. Ennek oka lehet bármely, az alkalmazására alkalmazott hálózati biztonsági csoport vagy IP-címkorlátozási szabály. A folyamatos átvitelű naplózás használatához győződjön meg róla, hogy eléri az alkalmazást a közvetlenül a jelenlegi hálózatról.</value>
@@ -4800,28 +4806,46 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>A Python Function Apps (előzetes verzió) nem támogatja a függvények portálon való szerkesztését. A fejlesztéshez használja a parancssori felületet vagy a VS Code-ot. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;További információ&lt;/a&gt;</value>
+    <value>A Python Function Apps nem támogatja a függvények portálon való szerkesztését. A fejlesztéshez használja a parancssori felületet vagy a VS Code-ot. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;További információ&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Az Azure Storage-csatlakozások titkos kulcsokat tartalmaznak. A szakasz megtekintéséhez vagy szerkesztéséhez olvasási/írási jogosultság szükséges.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Minden üzembe helyezési pont beállítására vonatkozó tulajdonságnak logikai típusúnak kell lennie</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Az alkalmazásbeállítási értékeknek tömbnek kell lenniük</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>A(z) {0} tulajdonság minden alkalmazásbeállítás esetében kötelező</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Minden alkalmazásbeállítás érték- és névtulajdonságának sztring típusúnak kell lennie</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Minden alkalmazásbeállítás üzembe helyezési pont beállítására vonatkozó tulajdonságainak logikai típusúnak kell lennie</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>A(z) {0} érvénytelen alkalmazásbeállítási tulajdonság</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Az alkalmazásbeállításoknak egyedi névvel kell rendelkezniük</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>A kapcsolati sztringek értékeinek tömbnek kell lenniük</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>A(z) {0} tulajdonság minden kapcsolati sztring esetében kötelező</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Minden kapcsolati sztring érték- és névtulajdonságának sztring típusúnak kell lennie</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>A(z) {0} érvénytelen kapcsolatisztring-tulajdonság</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>A kapcsolati sztringek neveinek egyedinek kell lenniük</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>A(z) {0} tulajdonság minden kezelőleképezés esetében kötelező</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Érvénytelen JSON-objektum</value>
@@ -5044,27 +5068,27 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Azure Repos</value>
   </data>
   <data name="updateBindingNotification" xml:space="preserve">
-    <value>Updating binding</value>
+    <value>Kötés frissítése</value>
   </data>
   <data name="updateBindingNotificationDetails" xml:space="preserve">
-    <value>Updating {0} ({1})</value>
+    <value>{1} ({0}) frissítése</value>
   </data>
   <data name="updateBindingNotificationFailed" xml:space="preserve">
-    <value>Failed to update {0} ({1}): {2}</value>
+    <value>Nem sikerült a(z) {0} ({1}) frissítése: {2}</value>
   </data>
   <data name="updateBindingNotificationSuccess" xml:space="preserve">
-    <value>Succeeded in updating {0} ({1})</value>
+    <value>{0} ({1}) frissítése sikerült</value>
   </data>
   <data name="editBindingInput" xml:space="preserve">
-    <value>Edit input</value>
+    <value>Bemenet szerkesztése</value>
   </data>
   <data name="editBindingOuput" xml:space="preserve">
-    <value>Edit output</value>
+    <value>Kimenet szerkesztése</value>
   </data>
   <data name="editBindingTrigger" xml:space="preserve">
-    <value>Edit trigger</value>
+    <value>Eseményindító szerkesztése</value>
   </data>
   <data name="editBindingCommands" xml:space="preserve">
-    <value>Edit binding commands</value>
+    <value>Kötési parancsok szerkesztése</value>
   </data>
 </root>

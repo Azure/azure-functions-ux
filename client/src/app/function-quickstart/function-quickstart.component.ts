@@ -27,6 +27,7 @@ import { Observable } from 'rxjs/Observable';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../shared/models/arm/application-settings';
 import { SiteService } from '../shared/services/site.service';
+import { FunctionService } from 'app/shared/services/function.service';
 
 type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
 
@@ -37,7 +38,7 @@ type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
 })
 export class FunctionQuickstartComponent extends FunctionAppContextComponent {
   @Input()
-  functionsInfo: FunctionInfo[];
+  functionsInfo: ArmObj<FunctionInfo>[];
 
   selectedFunction: string;
   selectedLanguage: string;
@@ -66,9 +67,10 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
     private _translateService: TranslateService,
     private _aiService: AiService,
     private _functionAppService: FunctionAppService,
-    private _siteService: SiteService
+    private _siteService: SiteService,
+    private _functionService: FunctionService
   ) {
-    super('function-quickstart', _functionAppService, broadcastService, () => _globalStateService.setBusyState());
+    super('function-quickstart', _functionAppService, broadcastService, _functionService, () => _globalStateService.setBusyState());
 
     this.selectedFunction = 'HttpTrigger';
     this.selectedLanguage = 'CSharp';
@@ -83,7 +85,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
       .switchMap(r => {
         this.functionsNode = r.node as FunctionsNode;
         return Observable.zip(
-          this._functionAppService.getFunctions(this.context),
+          this._functionService.getFunctions(this.context.site.id),
           this._functionAppService.getRuntimeGeneration(this.context),
           this._siteService.getAppSettings(this.context.site.id)
         );
@@ -93,7 +95,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
         console.error(e);
       })
       .subscribe(tuple => {
-        this.functionsInfo = tuple[0].result;
+        this.functionsInfo = tuple[0].isSuccessful ? tuple[0].result.value : [];
         this.isV1 = tuple[1] === FunctionAppVersion.v1;
         this.appSettingsArm = tuple[2].result;
 
@@ -188,8 +190,8 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
 
             this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-            this._functionAppService
-              .createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
+            this._functionService
+              .createFunction(this.context.site.id, functionName, selectedTemplate.files, selectedTemplate.function)
               .subscribe(
                 res => {
                   if (res.isSuccessful) {
@@ -199,7 +201,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
                       appResourceId: this.context.site.id,
                     });
 
-                    this.functionsNode.addChild(res.result);
+                    this.functionsNode.addChild(res.result.properties);
                   }
                   this._globalStateService.clearBusyState();
                 },

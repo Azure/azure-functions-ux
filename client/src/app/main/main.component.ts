@@ -20,6 +20,7 @@ import { AuthzService } from 'app/shared/services/authz.service';
 import { AiService } from 'app/shared/services/ai.service';
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { NavigationStart, Event as RouterEvent, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'main',
@@ -48,6 +49,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
     private _portalService: PortalService,
     private _broadcastService: BroadcastService,
     private _functionAppService: FunctionAppService,
+    private _functionService: FunctionService,
     _ngHttp: Http,
     _translateService: TranslateService,
     _armService: ArmService,
@@ -134,15 +136,15 @@ export class MainComponent implements AfterViewInit, OnDestroy {
 
         this._functionAppService
           .getAppContext(siteDescriptor.getTrimmedResourceId())
-          .mergeMap(context => this._functionAppService.getFunctions(context))
+          .mergeMap(context => this._functionService.getFunctions(context.site.id))
           .subscribe(functions => {
             const fnDescriptor: ArmFunctionDescriptor = new ArmFunctionDescriptor(info.resourceId);
             const targetName: string = fnDescriptor.name;
             // TODO: [ahmels] HANDLE RESULT. Talk to ehamai to understand the scenario.
-            const selectedFunction = functions.result.find(f => f.name === targetName);
+            const selectedFunctionArm = functions.isSuccessful && functions.result.value.find(f => f.name === targetName);
 
-            if (selectedFunction) {
-              this.selectedFunction = selectedFunction;
+            if (selectedFunctionArm) {
+              this.selectedFunction = selectedFunctionArm.properties;
             } else {
               // handle the error
               _aiService.trackEvent('/main-component/error', {

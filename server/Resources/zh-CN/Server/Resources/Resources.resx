@@ -383,19 +383,19 @@
     <value>当前正在进行保存操作。离开页面可能会导致某些更改丢失。</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ 添加新设置</value>
+    <value>添加新应用程序设置</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ 添加新连接字符串</value>
+    <value>添加新连接字符串</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ 添加新文档</value>
+    <value>添加新文档</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ 添加新的处理程序映射</value>
+    <value>添加新处理程序映射</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ 添加新的虚拟应用程序或目录</value>
+    <value>添加新虚拟应用程序或目录</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>输入名称</value>
@@ -2120,7 +2120,7 @@
     <value>错误</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>此字段只能包含字母、数字(0-9)、句点(".")和下划线("_")</value>
+    <value>应用设置名称只能包含字母、数字(0-9)、句点(".")和下划线("_")</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>此字段是必需的</value>
@@ -2301,9 +2301,6 @@
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>流量 %</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>槽位(预览)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>即将推出的路由规则更改</value>
@@ -3572,10 +3569,22 @@
     <value>你没有在此项目上创建生成管道或发布管道的权限。请与你的项目管理员联系或者选择其他的项目</value>
   </data>
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
-    <value>你没有在此项目中使用任何可用代理池的权限。请与你的项目管理员联系或者选择其他的项目</value>
+    <value>你无权使用此项目中的任何可用代理池。请联系项目管理员或选择其他项目</value>
+  </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>你无权在此项目中创建存储库。请联系项目管理员或选择其他项目</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>提供的组织名无效。请提供其他组织名。</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4196,9 +4205,6 @@
   <data name="hideUrl" xml:space="preserve">
     <value>隐藏 URL</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux 消耗函数是一种预览产品/服务。</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>某些字段未正确填充或为必填字段。</value>
   </data>
@@ -4206,7 +4212,7 @@
     <value>完成后，请转到“部署中心”</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Linux 消耗函数应用(预览版)不支持在门户中编辑函数。</value>
+    <value>Linux 消耗计划函数应用不支持在门户中编辑函数。</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Linux 高级函数应用(预览版)不支持在门户中编辑函数。</value>
@@ -4532,7 +4538,7 @@
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>未能保存凭据</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>已成功保存凭据</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@
     <value>装载存储(预览)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ 添加存储</value>
+    <value>添加存储</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>帐户</value>
@@ -4725,7 +4731,7 @@
     <value>新虚拟应用程序或目录</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>新处理程序</value>
+    <value>新处理程序映射</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>无法打开与你的应用的连接。这可能由你在应用中设置的某些网络安全组或 IP 限制规则引起。要使用日志流式处理，请确保能够从当前网络直接访问你的应用。</value>
@@ -4800,28 +4806,46 @@
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Python Function App(预览版)不支持在门户中编辑函数。请使用 CLI 或 VS Code 进行开发。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;了解详情&lt;/a&gt;</value>
+    <value>Python 函数应用不支持在门户中编辑函数。请使用 CLI 或 VS Code 进行开发。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;了解更多&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure 存储装载包含机密。需要读取/写入权限才能查看/编辑此分区。</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>所有部署槽位设置属性都必须是布尔类型</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>应用设置值必须是一个数组</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} 对所有应用程序设置而言都是必需属性</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>所有应用设置值和名称属性必须是字符串类型</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>所有应用设置部署槽位设置属性必须为布尔类型</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} 是无效的应用设置属性</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>应用设置名称必须唯一</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>连接字符串值必须是数组</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} 是所有连接字符串的必需属性</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>所有连接字符串值和名称属性都必须是字符串类型</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} 是无效的连接字符串属性</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>连接字符串名称必须是唯一的</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} 是所有处理程序映射的必需属性</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>JSON 对象无效</value>

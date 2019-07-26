@@ -383,19 +383,19 @@
     <value>Hay una operación de guardar en curso. Al salir, puede que se pierdan algunos cambios.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Agregar nuevo valor</value>
+    <value>Agregar nueva configuración de aplicación</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Agregar nueva cadena de conexión</value>
+    <value>Agregar nueva cadena de conexión</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Agregar un nuevo documento</value>
+    <value>Agregar nuevo documento</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Agregar una nueva asignación de controlador</value>
+    <value>Agregar nueva asignación de controlador</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Agregar una nueva aplicación o directorio virtual</value>
+    <value>Agregar nueva aplicación o directorio virtual</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Escribir un nombre</value>
@@ -2120,7 +2120,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>ERROR</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>Este campo solo puede contener letras, números (0-9), puntos (".") y caracteres de subrayado ("_").</value>
+    <value>Los nombres de configuraciones de aplicaciones solo pueden contener letras, números (0-9), puntos (".") y guiones bajos ("_").</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Este campo es obligatorio</value>
@@ -2301,9 +2301,6 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>Tráfico %</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Espacios (vista previa)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Próximos cambios en las reglas de enrutamiento</value>
@@ -3574,8 +3571,20 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>No tiene permisos de uso para ninguno de los grupos de agentes disponibles en este proyecto. Póngase en contacto con el administrador del proyecto o elija otro proyecto.</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>No tiene permisos para crear el repositorio en este proyecto. Póngase en contacto con el administrador del proyecto o elija otro proyecto.</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>El nombre de organización especificado no es válido. Proporcione otro.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3927,7 +3936,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Crear una función</value>
   </data>
   <data name="quickstart" xml:space="preserve">
-    <value>Quickstart</value>
+    <value>Inicio rápido</value>
   </data>
   <data name="vsCardTitle" xml:space="preserve">
     <value>Visual Studio</value>
@@ -4196,9 +4205,6 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="hideUrl" xml:space="preserve">
     <value>ocultar dirección url</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Las funciones de consumo de Linux son una oferta en versión preliminar.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Algunos de los campos no se rellenaron correctamente o son necesarios.</value>
   </data>
@@ -4206,7 +4212,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Finalizar e ir al centro de implementación</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>La edición de funciones en el portal no es compatible con las aplicaciones de función de Consumo de Linux (versión preliminar).</value>
+    <value>La edición de funciones en el portal no es compatible con las aplicaciones de función de Consumo para Linux.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>La edición de funciones en el portal no es compatible con las aplicaciones de función Premium de Linux (versión preliminar).</value>
@@ -4470,7 +4476,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Valor</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>configuración de ranura de implementación</value>
+    <value>Configuración de ranura de implementación</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4532,7 +4538,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>No se pudieron guardar las credenciales.</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Las credenciales se guardaron correctamente.</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Almacenamiento de montaje (versión preliminar)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Agregar almacenamiento</value>
+    <value>Agregar almacenamiento</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Cuenta</value>
@@ -4725,7 +4731,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Nueva aplicación o directorio virtual</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Nuevo controlador</value>
+    <value>Nueva asignación de controlador</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>No se puede abrir una conexión a la aplicación. Puede deberse a los grupos de seguridad de red o reglas de restricción de IP que haya definido en la aplicación. Para usar la transmisión de registros, compruebe que puede acceder a la aplicación directamente desde la red actual.</value>
@@ -4800,28 +4806,46 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>La edición de funciones en el portal no es compatible con las aplicaciones de función Python (versión preliminar). Use la CLI o VS Code para el desarrollo. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Más información&lt;/a&gt;</value>
+    <value>La edición de funciones en el portal no es compatible con las aplicaciones de función Python. Use la CLI o VS Code para el desarrollo. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Más información&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Los montajes de almacenamiento de Azure contienen secretos. Se necesitan permisos de lectura y escritura para ver o editar esta sección.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Todas las propiedades de configuración de ranuras de implementación deben ser de tipo Boolean.</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Los valores de configuración de la aplicación deben ser una matriz.</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} es una propiedad necesaria en todas las configuraciones de la aplicación.</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Todas las propiedades de nombre y valor de configuración de la aplicación deben ser de tipo string.</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Todas las propiedades de configuración de ranuras de implementación de la configuración de la aplicación deben ser de tipo booleano.</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} es una propiedad de configuración de la aplicación que no es válida.</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Los nombres de configuración de la aplicación deben ser únicos.</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Los valores de las cadenas de conexión deben ser una matriz.</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} es una propiedad necesaria en todas las cadenas de conexión.</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Todas las propiedades de nombre y valor de cadena de conexión deben ser de tipo String.</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} es una propiedad de cadena de conexión no válida.</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Los nombres de las cadenas de conexión deben ser únicos.</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} es una propiedad necesaria en todas las asignaciones de controladores.</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Objeto JSON no válido</value>
