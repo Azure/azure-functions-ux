@@ -383,19 +383,19 @@
     <value>Ein Speichervorgang wird gerade ausgeführt. Wenn Sie zu einer anderen Seite wechseln, gehen möglicherweise einige Änderungen verloren.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Neue Einstellung hinzufügen</value>
+    <value>Neue Anwendungseinstellung hinzufügen</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Neue Verbindungszeichenfolge hinzufügen</value>
+    <value>Neue Verbindungszeichenfolge hinzufügen</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Neues Dokument hinzufügen</value>
+    <value>Neues Dokument hinzufügen</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Neue Handlerzuordnung hinzufügen</value>
+    <value>Neue Handlerzuordnung hinzufügen</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Neue virtuelle Anwendung oder Verzeichnis hinzufügen</value>
+    <value>Neue virtuelle Anwendung oder Verzeichnis hinzufügen</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Geben Sie einen Namen ein</value>
@@ -2120,7 +2120,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>FEHLER</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>Dieses Feld darf nur Buchstaben, Ziffern (0–9), Punkte (".") und Unterstriche ("_") enthalten.</value>
+    <value>Namen von App-Einstellungen dürfen nur Buchstaben, Ziffern (0–9), Punkte (".") und Unterstriche ("_") enthalten.</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Dieses Feld ist erforderlich.</value>
@@ -2301,9 +2301,6 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>Datenverkehr %</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Slots (Vorschau)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Routingregeln werden demnächst geändert.</value>
@@ -3572,10 +3569,22 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Sie besitzen keine Berechtigungen zum Erstellen einer Build- oder Releasepipeline für dieses Projekt. Wenden Sie sich an Ihren Projektadministrator, oder wählen Sie ein anderes Projekt aus.</value>
   </data>
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
-    <value>Sie besitzen keine Berechtigungen, um einen der verfügbaren Agent-Pools in diesem Projekt zu verwenden. Wenden Sie sich an den Projektadministrator, oder wählen Sie ein anderes Projekt aus.</value>
+    <value>Sie besitzen keine Berechtigungen, um einen der verfügbaren Agent-Pools in diesem Projekt zu verwenden. Wenden Sie sich an Ihren Projektadministrator, oder wählen Sie ein anderes Projekt aus.</value>
+  </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>Sie besitzen keine Berechtigungen, um Repositorys in diesem Projekt zu erstellen. Wenden Sie sich an Ihren Projektadministrator, oder wählen Sie ein anderes Projekt aus.</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Der angegebene Organisationsname ist ungültig. Geben Sie einen anderen Organisationsnamen an.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP und FTPS</value>
@@ -4196,9 +4205,6 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="hideUrl" xml:space="preserve">
     <value>URL ausblenden</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Die Linux-Verbrauchsfunktionen sind ein Angebot der Vorschau.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Einige Felder sind nicht korrekt ausgefüllt oder sind erforderlich.</value>
   </data>
@@ -4206,7 +4212,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Beenden und zum Bereitstellungscenter wechseln</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Das Bearbeiten von Funktionen im Portal wird für Funktions-Apps zum Linux-Verbrauch (Vorschau) nicht unterstützt.</value>
+    <value>Das Bearbeiten von Funktionen im Portal wird für Funktions-Apps im Plan "Linux-Verbrauch" nicht unterstützt.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Das Bearbeiten von Funktionen im Portal wird für Linux Premium-Funktions-Apps (Vorschau) nicht unterstützt.</value>
@@ -4532,7 +4538,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Fehler beim Speichern der Anmeldeinformationen.</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Die Anmeldeinformationen wurden erfolgreich gespeichert.</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Speicher bereitstellen (Vorschau)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Speicher hinzufügen</value>
+    <value>Speicher hinzufügen</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Konto</value>
@@ -4725,7 +4731,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Neue virtuelle Anwendung oder neues virtuelles Verzeichnis</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Neuer Handler</value>
+    <value>Neue Handlerzuordnung</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Es kann keine Verbindung mit Ihrer App hergestellt werden. Dies kann auf Netzwerksicherheitsgruppen oder IP-Einschränkungsregeln zurückzuführen sein, die für Ihre App konfiguriert wurden. Um das Protokollstreaming nutzen zu können, stellen Sie sicher, dass Sie direkt aus dem aktuellen Netzwerk auf Ihre App zugreifen können.</value>
@@ -4800,28 +4806,46 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Das Bearbeiten von Funktionen im Portal wird für Python-Funktions-Apps (Vorschau) nicht unterstützt. Verwenden Sie die CLI oder VS Code für die Entwicklung. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Weitere Informationen&lt;/a&gt;</value>
+    <value>Das Bearbeiten von Funktionen im Portal wird für Python-Funktions-Apps nicht unterstützt. Verwenden Sie die CLI oder VS Code für die Entwicklung. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Weitere Informationen&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure-Speichereinbindungen enthalten Geheimnisse. Zum Anzeigen/Bearbeiten dieses Abschnitts sind Lese-/Schreibberechtigungen erforderlich.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Alle Eigenschaften von Bereitstellungssloteinstellungen müssen den Typ "boolean" aufweisen.</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Die App-Einstellungswerte müssen ein Array sein.</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>"{0}" ist für alle Anwendungseigenschaften eine erforderliche Eigenschaft.</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Alle Eigenschaften für App-Einstellungswerte und -namen müssen vom Typ "Zeichenfolge" sein.</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Alle Bereitstellungsslot-Einstellungseigenschaften der App-Einstellung müssen vom Typ "boolean" sein.</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>"{0}" ist eine ungültige App-Einstellungseigenschaft.</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Die Namen von App-Einstellungen müssen eindeutig sein.</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Die Werte einer Verbindungszeichenfolge müssen ein Array sein.</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>"{0}" ist für alle Verbindungszeichenfolgen eine erforderliche Eigenschaft.</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Alle Wert- und Namenseigenschaften für Verbindungszeichenfolgen müssen den Typ "string" aufweisen.</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>"{0}" ist eine ungültige Eigenschaft für eine Verbindungszeichenfolge.</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Namen von Verbindungszeichenfolgen müssen eindeutig sein.</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>"{0}" ist für alle Handlerzuordnungen eine erforderliche Eigenschaft.</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Ungültiges JSON-Objekt.</value>

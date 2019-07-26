@@ -383,19 +383,19 @@
     <value>儲存作業目前進行中。瀏覽到別處可能會導致某些變更遺失。</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ 新增設定</value>
+    <value>新增應用程式設定</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ 新增連接字串</value>
+    <value>新增連接字串</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ 新增文件</value>
+    <value>新增文件</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ 新增處理常式對應</value>
+    <value>新增處理常式對應</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ 新增虛擬應用程式或目錄</value>
+    <value>新增虛擬應用程式或目錄</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>輸入名稱</value>
@@ -2120,7 +2120,7 @@
     <value>錯誤</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>此欄位只能包含字母、數字 (0-9)、點 (".") 及底線 ("_")</value>
+    <value>應用程式設定名稱只可包含字母、數字 (0-9)、句點 (".") 和底線 ("_")</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>這是必要欄位</value>
@@ -2301,9 +2301,6 @@
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>流量百分比</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>位置 (預覽)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>即將進行的路由規則變更</value>
@@ -3574,8 +3571,20 @@
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>您無權在此專案中用於任何可用的代理程式集區。請連絡您的專案系統管理員，或選擇其他專案</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>您無權在此專案中建立存放庫。請連絡您的專案系統管理員，或選擇其他專案</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>提供的組織名稱無效。請提供其他組織名稱。</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4196,9 +4205,6 @@
   <data name="hideUrl" xml:space="preserve">
     <value>隱藏 URL</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux 使用量函數是預覽供應項目。</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>某些欄位未正確填入或為必要項。</value>
   </data>
@@ -4206,7 +4212,7 @@
     <value>完成並前往部署中心</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Linux 使用量函數應用程式 (預覽) 不支援在入口網站中編輯函數。</value>
+    <value>Linux 使用量函數應用程式不支援在入口網站中編輯函數。</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Linux 進階函數應用程式 (預覽) 不支援在入口網站中編輯函式。</value>
@@ -4532,7 +4538,7 @@
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>無法儲存認證</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>已成功儲存認證</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@
     <value>掛接儲存體 (預覽)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ 新增儲存體</value>
+    <value>新增儲存體</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>帳戶</value>
@@ -4725,7 +4731,7 @@
     <value>新增虛擬應用程式或目錄</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>新增處理常式</value>
+    <value>新增處理常式對應</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>無法開啟對您應用程式的連線。這可能是您對應用程式設定的任何網路安全性群組或 IP 限制規則所致。若要使用記錄串流，請確認您可直接從目前的網路存取應用程式。</value>
@@ -4800,28 +4806,46 @@
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Python Function Apps (預覽) 不支援在入口網站中編輯函式。請使用 CLI 或 VS 程式碼進行開發。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;深入了解&lt;/a&gt;</value>
+    <value>Python 函數應用程式不支援在入口網站中編輯函數。請使用 CLI 或 VS Code 進行開發。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;深入了解&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure 儲存體掛接包含秘密。必須有讀寫權限才可檢視/編輯此區段。</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>所有部署位置設定屬性的類型都必須是布林值</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>應用程式設定值必須是陣列</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} 在所有應用程式設定均為必要屬性</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>所有應用程式設定的值和名稱屬性都必須是字串類型</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>所有應用程式設定部署位置設定屬性都必須為布林值類型</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} 是無效的應用程式設定屬性</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>應用程式設定名稱必須是唯一的</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>連接字串值必須是陣列</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} 在所有連接字串上均為必要屬性</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>所有連接字串值和名稱屬性的類型都必須是字串</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} 是無效的連接字串屬性</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>連接字串名稱必須是唯一的</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} 在所有處理常式對應上均為必要屬性</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>JSON 物件無效</value>
