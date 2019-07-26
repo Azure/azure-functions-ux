@@ -750,7 +750,7 @@ export class FunctionAppService {
           sourceControlEnabled: a,
           appSettingsResponse: b,
           hasSlots: s,
-          functions: f.isSuccessful ? f.result.value : [],
+          functionsInfo: f.isSuccessful ? f.result.value : [],
         })
       )
         .map(result => {
@@ -762,7 +762,7 @@ export class FunctionAppService {
 
           let editModeSettingString: string = appSettings ? appSettings.properties[Constants.functionAppEditModeSettingName] || '' : '';
           editModeSettingString = editModeSettingString.toLocaleLowerCase();
-          const vsCreatedFunc = result.functions.isSuccessful ? !!result.functions.find((fc: any) => !!fc.config.generatedBy) : false;
+          const vsCreatedFunc = !!result.functionsInfo.find((fc: any) => !!fc.config.generatedBy);
           const usingRunFromZip = appSettings ? this._getRFZSetting(appSettings) !== '0' : false;
           const usingLocalCache =
             appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
