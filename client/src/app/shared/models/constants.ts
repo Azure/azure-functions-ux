@@ -152,7 +152,6 @@ export class Links {
   public static funcStorageLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2010003';
   public static updateExtensionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2013353';
   public static deploymentSlotsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2014035';
-  public static dynamicLinuxPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2022864';
   public static communityTemplatesLink = 'https://go.microsoft.com/fwlink/?linkid=2022552&type=functionapp';
   public static linuxContainersLearnMore = 'https://go.microsoft.com/fwlink/?linkid=861969';
   public static premiumV2NotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2009376';
@@ -501,6 +500,8 @@ export class DeploymentCenterConstants {
   public static readonly permissionsInfoLink = 'https://go.microsoft.com/fwlink/?linkid=2086046';
   public static readonly vstsPermissionApiUri =
     'https://peprodscussu2.portalext.visualstudio.com/_apis/ContinuousDelivery/PermissionsResult?api-version=4.1-preview.1';
+
+  public static readonly vstsPipelineFeatureId = 'ms.vss-build.pipelines';
   // VSTS Validation constants
   // Build definition
   public static readonly buildSecurityNameSpace = '33344D9C-FC72-4d6f-ABA5-FA317101A7E9';
@@ -513,6 +514,10 @@ export class DeploymentCenterConstants {
   // Agent queues
   public static readonly agentQueueNames = ['Hosted VS2017'];
   public static readonly queueActionFilter = 16; // "Use"
+
+  // Tfs Git permission
+  public static readonly tfsGitSecurityNameSpace = '2E9EB7ED-3C0A-47D4-87C1-0FFDD275FD87';
+  public static readonly createRepositoryPermission = 256;
 
   public static readonly EmptyGuid = '00000000-0000-0000-0000-000000000000';
 }
@@ -631,4 +636,10 @@ export class SupportedFeatures {
 export enum FunctionAppVersion {
   v1 = 'V1',
   v2 = 'V2',
+}
+
+export enum HostKeyTypes {
+  masterKey = 'masterKey',
+  functionKeys = 'functionKeys',
+  systemKeys = 'systemKeys',
 }

@@ -1,6 +1,9 @@
 import { ScenarioIds } from './scenario-ids';
 import { ServerFarmSkuConstants } from './ServerFarmSku';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
+import ServerFarmService from '../../ApiHelpers/ServerFarmService';
+import { ArmPlanDescriptor } from '../../utils/resourceDescriptors';
+import { CommonConstants } from '../../utils/CommonConstants';
 
 export class AzureEnvironment extends Environment {
   public name = 'Azure';
@@ -117,6 +120,26 @@ export class AzureEnvironment extends Environment {
         return { status: enabled ? 'enabled' : 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.isAppDensityEnabled] = {
+      id: ScenarioIds.isAppDensityEnabled,
+      runCheckAsync: (input: ScenarioCheckInput) => {
+        const serverFarm = input.serverFarm;
+        if (serverFarm) {
+          const subscriptionId = new ArmPlanDescriptor(serverFarm.id).subscription;
+          return ServerFarmService.getTotalSitesIncludingSlotsInServerFarm(subscriptionId, serverFarm.id).then(result => {
+            const skuName = serverFarm.sku ? serverFarm.sku.name : '';
+            return {
+              status: this.isAppDensitySkuCode(skuName) && result[0].count_ >= CommonConstants.AppDensityLimit ? 'enabled' : 'disabled',
+            };
+          });
+        } else {
+          return {
+            status: 'disabled',
+          };
+        }
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
@@ -216,5 +239,18 @@ export class AzureEnvironment extends Environment {
       status: 'enabled',
       data: limit,
     };
+  }
+
+  private isAppDensitySkuCode(skuCode: string): boolean {
+    const upperCaseSkuCode = skuCode.toUpperCase();
+    return (
+      upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.Basic.B1 ||
+      upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.Standard.S1 ||
+      upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.Premium.P1 ||
+      upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.PremiumContainer.PC2 ||
+      upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.PremiumV2.P1V2 ||
+      upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.Isolated.I1 ||
+      upperCaseSkuCode === ServerFarmSkuConstants.SkuCode.ElasticPremium.EP1
+    );
   }
 }
