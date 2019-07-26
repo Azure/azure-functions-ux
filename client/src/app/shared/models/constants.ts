@@ -500,6 +500,8 @@ export class DeploymentCenterConstants {
   public static readonly permissionsInfoLink = 'https://go.microsoft.com/fwlink/?linkid=2086046';
   public static readonly vstsPermissionApiUri =
     'https://peprodscussu2.portalext.visualstudio.com/_apis/ContinuousDelivery/PermissionsResult?api-version=4.1-preview.1';
+
+  public static readonly vstsPipelineFeatureId = 'ms.vss-build.pipelines';
   // VSTS Validation constants
   // Build definition
   public static readonly buildSecurityNameSpace = '33344D9C-FC72-4d6f-ABA5-FA317101A7E9';
