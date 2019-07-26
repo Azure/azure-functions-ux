@@ -13,6 +13,7 @@ import { AppSettingsFormValues, Permissions } from '../AppSettings.types';
 import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { VirtualApplication } from '../../../../models/site/config';
+import { TooltipHost } from 'office-ui-fabric-react';
 
 export interface VirtualApplicationsState {
   showPanel: boolean;
@@ -46,7 +47,8 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
           disabled={!app_write || !editable}
           onClick={this.createNewItem}
           styles={{ root: { marginTop: '5px' } }}
-          iconProps={{ iconName: 'Add' }}>
+          iconProps={{ iconName: 'Add' }}
+          ariaLabel={t('addNewVirtualDirectory')}>
           {t('addNewVirtualDirectoryV3')}
         </ActionButton>
         <Panel
@@ -136,26 +138,38 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
 
     if (column.key === 'delete') {
       return item.virtualPath === '/' ? null : (
-        <IconButton
-          className={defaultCellStyle}
-          disabled={!app_write || !editable}
-          iconProps={{ iconName: 'Delete' }}
-          ariaLabel={t('delete')}
-          title={t('delete')}
-          onClick={() => this.removeItem(index)}
-        />
+        <TooltipHost
+          content={t('delete')}
+          id={`app-settings-virtual-applications-delete-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={!app_write || !editable}
+            id={`app-settings-virtual-applications-delete-${index}`}
+            iconProps={{ iconName: 'Delete' }}
+            ariaLabel={t('delete')}
+            onClick={() => this.removeItem(index)}
+          />
+        </TooltipHost>
       );
     }
     if (column.key === 'edit') {
       return (
-        <IconButton
-          className={defaultCellStyle}
-          disabled={!app_write || !editable}
-          iconProps={{ iconName: 'Edit' }}
-          ariaLabel={t('edit')}
-          title={t('edit')}
-          onClick={() => this._onShowPanel(item, index)}
-        />
+        <TooltipHost
+          content={t('edit')}
+          id={`app-settings-virtual-applications-edit-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={!app_write || !editable}
+            id={`app-settings-virtual-applications-edit-${index}`}
+            iconProps={{ iconName: 'Edit' }}
+            ariaLabel={t('edit')}
+            onClick={() => this._onShowPanel(item, index)}
+          />
+        </TooltipHost>
       );
     }
     if (column.key === 'type') {
@@ -185,7 +199,7 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
         fieldName: 'physicalPath',
         minWidth: 210,
         maxWidth: 350,
-        isRowHeader: true,
+        isRowHeader: false,
         data: 'string',
         isPadded: true,
         isResizable: true,
@@ -198,7 +212,7 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
         fieldName: 'virtualDirectory',
         minWidth: 210,
         maxWidth: 350,
-        isRowHeader: true,
+        isRowHeader: false,
         data: 'string',
         isPadded: true,
         isResizable: true,
@@ -206,23 +220,25 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
       },
       {
         key: 'delete',
-        name: '',
-        minWidth: 16,
-        maxWidth: 16,
-        isResizable: true,
+        name: t('delete'),
+        fieldName: 'delete',
+        minWidth: 100,
+        maxWidth: 100,
+        isRowHeader: false,
+        isResizable: false,
         isCollapsable: false,
         onRender: this.onRenderItemColumn,
-        ariaLabel: t('delete'),
       },
       {
         key: 'edit',
-        name: '',
-        minWidth: 16,
-        maxWidth: 16,
-        isResizable: true,
+        name: t('edit'),
+        fieldName: 'edit',
+        minWidth: 100,
+        maxWidth: 100,
+        isRowHeader: false,
+        isResizable: false,
         isCollapsable: false,
         onRender: this.onRenderItemColumn,
-        ariaLabel: t('edit'),
       },
     ];
   };

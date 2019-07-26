@@ -625,7 +625,6 @@ export class FeatureFlags {
   public static UseNewSlotsBlade = 'UseNewSlotsBlade';
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
-  public static EnableLinuxElasticPremium = 'EnableLinuxElasticPremium';
   public static AllowFreeLinux = 'allowfreelinux';
 }
 
@@ -636,4 +635,10 @@ export class SupportedFeatures {
 export enum FunctionAppVersion {
   v1 = 'V1',
   v2 = 'V2',
+}
+
+export enum HostKeyTypes {
+  masterKey = 'masterKey',
+  functionKeys = 'functionKeys',
+  systemKeys = 'systemKeys',
 }

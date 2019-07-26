@@ -12,6 +12,7 @@ import { errorIds } from './../shared/models/error-ids';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 import { NationalCloudEnvironment } from 'app/shared/services/scenario/national-cloud.environment';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'aad-registration',
@@ -42,9 +43,10 @@ export class AadRegistrationComponent extends FunctionAppContextComponent implem
     private _portalService: PortalService,
     private _globalService: GlobalStateService,
     private _functionAppService: FunctionAppService,
+    functionService: FunctionService,
     broadcastService: BroadcastService
   ) {
-    super('aad-registration', _functionAppService, broadcastService);
+    super('aad-registration', _functionAppService, broadcastService, functionService);
   }
 
   setup(): Subscription {

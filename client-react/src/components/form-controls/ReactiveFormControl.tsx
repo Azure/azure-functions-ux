@@ -48,9 +48,14 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
           <Stack horizontal verticalAlign="center">
             <Icon iconName="Info" className={infoIconStyle(theme)} />
             <div>
-              {`${infoBubbleMessage} `}
+              <span id={`${props.id}-infobubble`}>{`${infoBubbleMessage} `}</span>
               {learnMoreLink && (
-                <Link href={learnMoreLink} target="_blank" className={learnMoreLinkStyle}>
+                <Link
+                  id={`${props.id}-learnmore`}
+                  href={learnMoreLink}
+                  target="_blank"
+                  className={learnMoreLinkStyle}
+                  aria-labelledby={`${props.id}-infobubble ${props.id}-learnmore`}>
                   {t('learnMore')}
                 </Link>
               )}
