@@ -746,7 +746,12 @@ export class FunctionAppService {
           ? Observable.of({ isSuccessful: true, result: true, error: null })
           : this.getSlotsList(context).map(r => (r.isSuccessful ? Object.assign(r, { result: r.result.length > 0 }) : r)),
         this._functionService.getFunctions(context.site.id),
-        (a, b, s, f) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s, functions: f })
+        (a, b, s, f) => ({
+          sourceControlEnabled: a,
+          appSettingsResponse: b,
+          hasSlots: s,
+          functionsInfo: f.isSuccessful ? f.result.value : [],
+        })
       )
         .map(result => {
           const appSettings: ArmObj<{ [key: string]: string }> = result.appSettingsResponse.isSuccessful
@@ -757,9 +762,7 @@ export class FunctionAppService {
 
           let editModeSettingString: string = appSettings ? appSettings.properties[Constants.functionAppEditModeSettingName] || '' : '';
           editModeSettingString = editModeSettingString.toLocaleLowerCase();
-          const vsCreatedFunc = result.functions.isSuccessful
-            ? !!result.functions.result.find((fc: any) => !!fc.config.generatedBy)
-            : false;
+          const vsCreatedFunc = !!result.functionsInfo.find((fc: any) => !!fc.config.generatedBy);
           const usingRunFromZip = appSettings ? this._getRFZSetting(appSettings) !== '0' : false;
           const usingLocalCache =
             appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
