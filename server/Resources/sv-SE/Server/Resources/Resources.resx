@@ -383,19 +383,19 @@
     <value>En åtgärd för att spara pågår för tillfället. Om du lämnar platsen kan vissa ändringar gå förlorade.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Lägg till ny inställning</value>
+    <value>Lägg till ny programinställning</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Lägg till ny anslutningssträng</value>
+    <value>Lägg till ny anslutningssträng</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Lägg till nytt dokument</value>
+    <value>Lägg till nytt dokument</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Lägg till ny hanterarmappning</value>
+    <value>Lägg till ny hanterarmappning</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Lägg till ny virtuell installation eller katalog</value>
+    <value>Lägg till nytt virtuellt program eller katalog</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Ange ett namn</value>
@@ -2120,7 +2120,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>FEL</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>Det här fältet kan bara innehålla bokstäver, siffror (0-9), punkter (".") och understreck ("_")</value>
+    <value>Appinställningsnamn får bara innehålla bokstäver, siffror (0-9), punkter (.) och understreck (_)</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Det här fältet är obligatoriskt</value>
@@ -2301,9 +2301,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>% trafik</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Platser (förhandsversion)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Kommande ändringar av hanteringsreglerna</value>
@@ -3574,8 +3571,20 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>Du har inte behörigheter att använda i någon av de tillgängliga agentpoolerna för det här projektet. Kontakta din projektadministratör eller välj ett annat projekt</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>Du har inte behörigheter att skapa centrallager i det här projektet. Kontakta din projektadministratör eller välj ett annat projekt</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Det angivna organisationsnamnet är inte giltigt. Ange ett annat organisationsnamn.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4196,9 +4205,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="hideUrl" xml:space="preserve">
     <value>dölj URL</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux Consumption Functions finns nu som förhandsversionserbjudande.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Vissa fält har inte fyllts i korrekt eller är obligatoriska.</value>
   </data>
@@ -4206,7 +4212,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Slutför och gå till Distributionscenter</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Redigering av funktioner i portalen stöds inte för Linux Consumption-funktionsappar (förhandsversion).</value>
+    <value>Redigering av funktioner i portalen stöds inte för Linux Consumption-funktionsappar.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Redigeringsfunktioner i portalen stöds inte för Linux Premium-funktionsappar (förhandsversion).</value>
@@ -4470,7 +4476,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Värde</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>distributionsfackinställning</value>
+    <value>Distributionsfackinställning</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4532,7 +4538,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Det gick inte att spara autentiseringsuppgifterna</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Autentiseringsuppgifterna har sparats</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Montera minne (förhandsversion)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Lägg till minne</value>
+    <value>Lägg till lagringsutrymme</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Konto</value>
@@ -4725,7 +4731,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Nytt virtuellt program eller katalog</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Ny hanterare</value>
+    <value>Ny hanterarmappning</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Det går inte att öppna någon anslutning till din app. Detta kan bero på någon nätverkssäkerhetsgrupp eller IP-begränsningsregel som du har placerat i din app. Om du vill använda loggdirektuppspelning, så se till att du att du har åtkomst till din app från det aktuella nätverket.</value>
@@ -4800,28 +4806,46 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Redigera funktioner i portalen stöds inte för Python-funktionsappar (förhandsgranskning). Använd CLI eller VS Code för utveckling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Läs mer&lt;/a&gt;</value>
+    <value>Redigering av funktioner i portalen stöds inte för Python-funktionsappar. Använd CLI eller VS Code för utveckling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Läs mer&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure Storage-monteringar innehåller hemligheter. Läs-/skrivbehörigheter krävs om du ska kunna visa/redigera det här avsnittet.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Alla egenskaper för distributionsfackinställningar måste vara av typen boolesk</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Appinställningsvärden måste vara en matris</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} är en obligatorisk egenskap för samtliga programinställningar</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Alla appinställningsvärden och namnegenskaper måste vara av typen sträng</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Alla inställningsegenskaper för appinställningsfacket måste vara av boolesk typ</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} är en ogiltig appinställningsegenskap</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Appinställningsnamn måste vara unika</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Anslutningssträngvärden måste vara en matris</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} är en obligatorisk egenskap för samtliga anslutningssträngar</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Alla egenskaper för anslutningssträngvärde och -namn måste vara av typen sträng</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} är en ogiltig anslutningssträngegenskap</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Anslutningssträngnamn måste vara unika</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} är en obligatorisk egenskap för samtliga hanterarmappningar</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Ogiltigt JSON-objekt</value>

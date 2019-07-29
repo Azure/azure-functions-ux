@@ -383,19 +383,19 @@
     <value>V tuto chvíli probíhá nějaká operace ukládání. Když přejdete jinam, může dojít ke ztrátě některých změn.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Přidat nové nastavení</value>
+    <value>Přidat nové nastavení aplikace</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Přidat nový připojovací řetězec</value>
+    <value>Přidat nový připojovací řetězec</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Přidat nový dokument</value>
+    <value>Přidat nový dokument</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Přidat nové mapování obslužné rutiny</value>
+    <value>Přidat nové mapování obslužné rutiny</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Přidat novou virtuální aplikaci nebo adresář</value>
+    <value>Přidat novou virtuální aplikaci nebo adresář</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Zadejte název</value>
@@ -2120,7 +2120,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>CHYBA</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>Toto pole může obsahovat jen písmena, číslice (0–9), tečky (.) a podtržítka (_).</value>
+    <value>Názvy nastavení aplikace můžou obsahovat jen písmena, číslice (0–9), tečky (.) a podtržítka (_).</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Toto pole je povinné.</value>
@@ -2301,9 +2301,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>Provoz (%)</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Sloty (Preview)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Nadcházející změny pravidel směrování</value>
@@ -3574,8 +3571,20 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>Nemáte oprávnění používat v tomto projektu žádný z dostupných fondů agentů. Obraťte se na správce projektu, nebo zvolte jiný projekt.</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>Nemáte oprávnění vytvářet v tomto projektu úložiště. Obraťte se na správce projektu, nebo zvolte jiný projekt.</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Zadaný název organizace není platný. Zadejte prosím nějaký jiný.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP a FTPS</value>
@@ -4196,9 +4205,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="hideUrl" xml:space="preserve">
     <value>skrýt adresu URL</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Plán Využití v Linuxu služby Functions je nabídka ve verzi Preview.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Některá pole nejsou správně vyplněná, nebo jsou povinná.</value>
   </data>
@@ -4206,7 +4212,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Dokončit a přejít na Deployment Center</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Úprava funkcí na portálu se pro Function Apps (Preview) s plánem Využití v Linuxu nepodporuje.</value>
+    <value>Úprava funkcí na portálu se pro Function Apps s plánem Využití v Linuxu nepodporuje.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Úprava funkcí na portálu se pro Function Apps (Preview) s plánem Premium v Linuxu nepodporuje.</value>
@@ -4470,7 +4476,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Hodnota</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>nastavení slotu nasazení</value>
+    <value>Nastavení slotu nasazení</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4532,7 +4538,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Nepovedlo se uložit přihlašovací údaje.</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Přihlašovací údaje se úspěšně uložily.</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Připojit úložiště (Preview)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Přidat úložiště</value>
+    <value>Přidat úložiště</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Účet</value>
@@ -4725,7 +4731,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Nová virtuální aplikace nebo adresář</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Nová obslužná rutina</value>
+    <value>Nové mapování obslužné rutiny</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Nepovedlo se navázat spojení s vaší aplikací. Příčinou může být kterákoli skupina zabezpečení sítě nebo pravidlo omezení IP adres, které jste zavedli do své aplikace. Pokud chcete použít streamování protokolů, ujistěte se prosím, že z aktuální sítě máte přímý přístup k aplikaci.</value>
@@ -4800,28 +4806,46 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Úprava funkcí na portálu se pro Python Function Apps (Preview) nepodporuje. Pro vývoj prosím použijte rozhraní příkazového řádku nebo nástroj VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Další informace&lt;/a&gt;</value>
+    <value>Úprava funkcí na portálu se pro Python Function Apps nepodporuje. Pro vývoj prosím použijte rozhraní příkazového řádku nebo nástroj VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Další informace&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Připojení Azure Storage obsahují tajné kódy. K zobrazení nebo úpravám tohoto oddílu se vyžadují oprávnění pro čtení a zápis.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Všechny vlastnosti nastavení slotu nasazení musí být typu boolean.</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Hodnoty nastavení aplikace musí být pole.</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} je ve všech nastaveních aplikace povinná vlastnost.</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Všechny vlastnosti názvů a hodnot nastavení aplikace musí být typu string.</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Všechny vlastnosti nastavení slotu nasazení v nastavení aplikace musí být typu boolean.</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} je neplatná vlastnost nastavení aplikace.</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Názvy nastavení aplikací musí být jedinečné.</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Hodnoty připojovacích řetězců musí být pole.</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} je ve všech připojovacích řetězcích povinná vlastnost.</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Všechny vlastnosti hodnot a názvů připojovacích řetězců musí být typu string.</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} je neplatná vlastnost připojovacího řetězce.</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Názvy připojovacích řetězců musí být jedinečné.</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} je ve všech mapováních obslužných rutin povinná vlastnost.</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Neplatný objekt JSON</value>

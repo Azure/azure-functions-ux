@@ -383,19 +383,19 @@
     <value>È in corso un'operazione di salvataggio. Se si esce adesso alcune modifiche potrebbero andare perse.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Aggiungi nuova impostazione</value>
+    <value>Add new application setting</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Aggiungi nuova stringa di connessione</value>
+    <value>Add new connection string</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Aggiungi nuovo documento</value>
+    <value>Add new document</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Aggiungi nuovo mapping del gestore</value>
+    <value>Add new handler mapping</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Aggiungi nuova directory o applicazione virtuale</value>
+    <value>Add new virtual application or directory</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Immettere un nome</value>
@@ -2120,7 +2120,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>ERRORE</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>Questo campo può contenere solo lettere, numeri (0-9), punti (".") e caratteri di sottolineatura ("_")</value>
+    <value>I nomi delle impostazioni app possono contenere solo lettere, numeri (0-9), punti (".") e caratteri di sottolineatura ("_")</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Questo campo è obbligatorio</value>
@@ -2301,9 +2301,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>% traffico</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Slot (anteprima)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Prossime modifiche alle regole di routing</value>
@@ -3574,8 +3571,20 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>Non si hanno autorizzazioni da usare in nessuno dei pool di agenti disponibili in questo progetto. Contattare l'amministratore del progetto o scegliere un progetto diverso</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>Non si hanno le autorizzazioni per creare il repository in questo progetto. Contattare l'amministratore di progetto o scegliere un progetto diverso</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Il nome specificato per l'organizzazione non è valido. Specificarne un altro.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP e FTPS</value>
@@ -4196,9 +4205,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="hideUrl" xml:space="preserve">
     <value>nascondi URL</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Le funzioni a consumo Linux sono un'offerta in anteprima.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Alcuni campi non sono stati compilati correttamente o sono obbligatori.</value>
   </data>
@@ -4206,7 +4212,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Termina e passa al Centro distribuzione</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>La modifica delle funzioni nel portale non è supportata per le app per le funzioni a consumo Linux (anteprima).</value>
+    <value>La modifica delle funzioni nel portale non è supportata per le app per le funzioni a consumo per Linux.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>La modifica delle funzioni nel portale non è supportata per le app per le funzioni Premium Linux (anteprima).</value>
@@ -4470,7 +4476,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Valore</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>impostazione slot di distribuzione</value>
+    <value>Deployment slot setting</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4532,7 +4538,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Non è stato possibile salvare le credenziali</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Le credenziali sono state salvate</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Monta risorsa di archiviazione (anteprima)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Aggiungi risorsa di archiviazione</value>
+    <value>Aggiungi risorsa di archiviazione</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Account</value>
@@ -4725,7 +4731,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Nuova directory o applicazione virtuale</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Nuovo gestore</value>
+    <value>Nuovo mapping del gestore</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Non è possibile aprire una connessione all'app corrente. Il problema può essere causato da eventuali gruppi di sicurezza di rete o regole di restrizione per gli indirizzi IP applicate all'app. Per usare i log in streaming, assicurarsi di poter accedere all'app direttamente dalla rete corrente.</value>
@@ -4800,28 +4806,46 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>La modifica delle funzioni nel portale non è supportata per le app per le funzioni Python (anteprima). Per le attività di sviluppo, usare l'interfaccia della riga di comando o VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Altre informazioni&lt;/a&gt;</value>
+    <value>La modifica delle funzioni nel portale non è supportata per le app per le funzioni Python. Per le attività di sviluppo, usare l'interfaccia della riga di comando o VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Altre informazioni&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>I montaggi di Archiviazione di Azure possono contenere segreti. Per visualizzare/modificare questa sezione, sono necessarie autorizzazioni di lettura/scrittura.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Tutte le proprietà delle impostazioni degli slot di distribuzione devono essere di tipo booleano</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>I valori delle impostazioni app devono essere una matrice</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} è una proprietà obbligatoria per tutte le impostazioni dell'applicazione</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Tutte le proprietà dei nomi e dei valori nelle impostazioni app devono essere di tipo stringa</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Tutte le proprietà delle impostazioni slot di distribuzione nelle impostazioni app devono essere di tipo booleano</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} è una proprietà di impostazione app non valida</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>I nomi delle impostazioni app devono essere univoci</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>I valori delle stringhe di connessione devono essere una matrice</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} è una proprietà obbligatoria per tutte le stringhe di connessione</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Tutte le proprietà dei nomi e dei valori delle stringhe di connessione devono essere di tipo stringa</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} è una proprietà della stringa di connessione non valida</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>I nomi delle stringhe di connessione devono essere univoci</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} è una proprietà obbligatoria per tutti i mapping del gestore</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>L'oggetto JSON non è valido</value>
@@ -4866,7 +4890,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>La password specificata non soddisfa i requisiti minimi. La password deve avere una lunghezza di almeno otto caratteri e deve contenere lettere e numeri.</value>
   </data>
   <data name="incomingClientCertificates" xml:space="preserve">
-    <value>Certificati client in infresso</value>
+    <value>Certificati client in ingresso</value>
   </data>
   <data name="requireIncomingClientCertificates" xml:space="preserve">
     <value>Richiedi certificato in ingresso</value>

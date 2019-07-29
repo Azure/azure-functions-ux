@@ -165,7 +165,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
               slotsList: slots.isSuccessful ? slots.result : [],
               pingedScmSite: ping.isSuccessful ? ping.result : false,
               runtime: version,
-              functionInfo: functions.isSuccessful ? functions.result : [],
+              functionsInfo: functions.isSuccessful ? functions.result.value : [],
               appSettings: appSettings,
               siteConfig: siteConfig,
               appInsightsEnablement: appInsightsEnablement,
@@ -185,7 +185,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
               slotsList: [],
               pingedScmSite: ping.isSuccessful ? ping.result : false,
               runtime: null,
-              functionInfo: [],
+              functionsInfo: [],
               appInsightsEnablement: appInsightsEnablement,
             })
           );
@@ -207,7 +207,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         const workerRuntime = appSettings && appSettings[Constants.functionsWorkerRuntimeAppSettingsName];
         const isPowershell = workerRuntime && WorkerRuntimeLanguages[workerRuntime] === WorkerRuntimeLanguages.powershell;
 
-        if (r.functionInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && r.runtime === FunctionAppVersion.v2) {
+        if (r.functionsInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && r.runtime === FunctionAppVersion.v2) {
           this.showQuickstart = true;
         }
 
