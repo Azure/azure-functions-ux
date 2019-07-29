@@ -1,6 +1,10 @@
 export interface FunctionConfig {
   disabled?: boolean | string; // can be null for empty template
   bindings: FunctionBinding[];
+  generatedBy?: string;
+  configurationSource?: string;
+  scriptFile?: string;
+  entryPoint?: string;
 }
 
 export interface FunctionBinding {
