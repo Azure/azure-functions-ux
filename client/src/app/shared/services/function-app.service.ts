@@ -16,7 +16,7 @@ import { Injectable, Injector } from '@angular/core';
 import { Headers, Response, ResponseType, ResponseContentType } from '@angular/http';
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { HttpResult } from './../models/http-result';
-import { ArmObj } from 'app/shared/models/arm/arm-obj';
+import { ArmObj, ArmArrayResult } from 'app/shared/models/arm/arm-obj';
 import { FunctionsVersionInfoHelper } from 'app/shared/models/functions-version-info';
 import { Constants } from 'app/shared/models/constants';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
@@ -762,7 +762,7 @@ export class FunctionAppService {
 
           let editModeSettingString: string = appSettings ? appSettings.properties[Constants.functionAppEditModeSettingName] || '' : '';
           editModeSettingString = editModeSettingString.toLocaleLowerCase();
-          const vsCreatedFunc = !!result.functionsInfo.find((fc: any) => !!fc.config.generatedBy);
+          const vsCreatedFunc = !!result.functionsInfo.find((fc: ArmObj<FunctionInfo>) => !!fc.properties.config.generatedBy);
           const usingRunFromZip = appSettings ? this._getRFZSetting(appSettings) !== '0' : false;
           const usingLocalCache =
             appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
