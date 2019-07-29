@@ -104,8 +104,10 @@ export class FunctionAppService {
       });
   }
 
-  getClient(context: FunctionAppContext) {
-    return ArmUtil.isLinuxApp(context.site) ? this.runtime : this.azure;
+  getClient(context: FunctionAppContext): ConditionalHttpClient {
+    return ArmUtil.isLinuxApp(context.site) || (context.runtimeVersion && context.runtimeVersion === FunctionAppVersion.v2)
+      ? this.runtime
+      : this.azure;
   }
 
   getApiProxies(context: FunctionAppContext): Result<ApiProxy[]> {
@@ -170,8 +172,8 @@ export class FunctionAppService {
 
   saveApiProxy(context: FunctionAppContext, jsonString: string): Result<Response> {
     const uri = context.urlTemplates.proxiesJsonUrl;
-
     this._cacheService.clearCachePrefix(uri);
+
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.put(uri, this.jsonHeaders(t, ['If-Match', '*']), jsonString)
     );
@@ -180,7 +182,7 @@ export class FunctionAppService {
   getFileContent(context: FunctionAppContext, file: VfsObject | string): Result<string> {
     const fileHref = typeof file === 'string' ? file : file.href;
 
-    return this.runtime.execute({ resourceId: context.site.id }, t =>
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.get(fileHref, false, this.headers(t)).map(r => r.text())
     );
   }
@@ -188,7 +190,7 @@ export class FunctionAppService {
   saveFile(context: FunctionAppContext, file: VfsObject | string, updatedContent: string): Result<VfsObject | string> {
     const fileHref = typeof file === 'string' ? file : file.href;
 
-    return this.runtime.execute({ resourceId: context.site.id }, t =>
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService
         .put(fileHref, this.jsonHeaders(t, ['Content-Type', 'plain/text'], ['If-Match', '*']), updatedContent)
         .map(() => file)
@@ -198,7 +200,7 @@ export class FunctionAppService {
   deleteFile(context: FunctionAppContext, file: VfsObject | string, functionInfo?: FunctionInfo): Result<VfsObject | string> {
     const fileHref = typeof file === 'string' ? file : file.href;
 
-    return this.runtime.execute({ resourceId: context.site.id }, t =>
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.delete(fileHref, this.jsonHeaders(t, ['Content-Type', 'plain/text'], ['If-Match', '*'])).map(() => file)
     );
   }
@@ -438,7 +440,7 @@ export class FunctionAppService {
       console.error(e);
     }
 
-    return this.azure.execute({ resourceId: context.site.id }, t =>
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this.getExtensionVersionFromAppSettings(context)
         .concatMap(extensionVersion => {
           if (!extensionVersion) {
@@ -549,7 +551,7 @@ export class FunctionAppService {
 
   getVfsObjects(context: FunctionAppContext, fi: FunctionInfo | string): Result<VfsObject[]> {
     const href = typeof fi === 'string' ? fi : fi.script_root_path_href;
-    return this.runtime.execute({ resourceId: context.site.id }, t =>
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.get(href, false, this.headers(t)).map(e => <VfsObject[]>e.json())
     );
   }
@@ -744,7 +746,12 @@ export class FunctionAppService {
           ? Observable.of({ isSuccessful: true, result: true, error: null })
           : this.getSlotsList(context).map(r => (r.isSuccessful ? Object.assign(r, { result: r.result.length > 0 }) : r)),
         this._functionService.getFunctions(context.site.id),
-        (a, b, s, f) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s, functions: f })
+        (a, b, s, f) => ({
+          sourceControlEnabled: a,
+          appSettingsResponse: b,
+          hasSlots: s,
+          functionsInfo: f.isSuccessful ? f.result.value : [],
+        })
       )
         .map(result => {
           const appSettings: ArmObj<{ [key: string]: string }> = result.appSettingsResponse.isSuccessful
@@ -755,9 +762,7 @@ export class FunctionAppService {
 
           let editModeSettingString: string = appSettings ? appSettings.properties[Constants.functionAppEditModeSettingName] || '' : '';
           editModeSettingString = editModeSettingString.toLocaleLowerCase();
-          const vsCreatedFunc = result.functions.isSuccessful
-            ? !!result.functions.result.find((fc: any) => !!fc.config.generatedBy)
-            : false;
+          const vsCreatedFunc = !!result.functionsInfo.find((fc: any) => !!fc.config.generatedBy);
           const usingRunFromZip = appSettings ? this._getRFZSetting(appSettings) !== '0' : false;
           const usingLocalCache =
             appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
@@ -975,13 +980,11 @@ export class FunctionAppService {
     );
   }
 
-  // TOOD: [soninaren] Capture 409
-  // TODO: [soninaren] returns error object when resulted in error
-  // TODO: [soninaren] error.id is not defined
   installExtension(context: FunctionAppContext, extension: RuntimeExtension): Result<ExtensionInstallStatus> {
+    const requestBody = { ...extension, PostInstallActions: 'BringAppOnline' };
     return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService
-        .post(context.urlTemplates.runtimeHostExtensionsUrl, true, this.jsonHeaders(t), extension)
+        .post(context.urlTemplates.runtimeHostExtensionsUrl, true, this.jsonHeaders(t), requestBody)
         .map(r => r.json() as ExtensionInstallStatus)
     );
   }

@@ -383,19 +383,19 @@
     <value>Сейчас идет операция сохранения. Переход отсюда может привести к потере части изменений.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Добавить новый параметр</value>
+    <value>Добавить новый параметр приложения</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Добавить новую строку подключения</value>
+    <value>Добавить новую строку подключения</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Добавить новый документ</value>
+    <value>Добавить новый документ</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Добавить новое сопоставление обработчика</value>
+    <value>Добавить новое сопоставление обработчика</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Добавить новое виртуальное приложение или каталог</value>
+    <value>Добавить новое виртуальное приложение или каталог</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Введите имя</value>
@@ -2120,7 +2120,7 @@
     <value>Ошибка</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>Это поле может содержать только буквы, цифры (0–9), точки (".") и символы подчеркивания ("_")</value>
+    <value>Имена параметров приложения могут содержать только буквы, цифры (0–9), точки (".") и символы подчеркивания ("_").</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Это обязательное поле</value>
@@ -2301,9 +2301,6 @@
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>% трафика</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Слоты (предварительная версия)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Правила маршрутизации будут изменены.</value>
@@ -3572,10 +3569,22 @@
     <value>У вас нет разрешений на создание конвейера сборки или выпуска в этом проекте. Обратитесь к администратору проекта или выберите другой проект.</value>
   </data>
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
-    <value>У вас нет разрешений на использование в каких-либо доступных пулах агентов в этом проекте. Обратитесь к администратору проекта или выберите другой проект.</value>
+    <value>У вас нет разрешений на использование ни в одном из доступных пулов агентов в этом проекте. Обратитесь к администратору проекта или выберите другой проект.</value>
+  </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>У вас нет разрешений на создание репозитория в этом проекте. Обратитесь к администратору проекта или выберите другой проект.</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Указанное имя организации недопустимо. Укажите другое имя.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4196,9 +4205,6 @@
   <data name="hideUrl" xml:space="preserve">
     <value>скрыть URL-адрес</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Приложения-функции потребления Linux — это предложение на этапе предварительной версии.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Некоторые поля не заполнены должным образом или являются обязательными.</value>
   </data>
@@ -4206,7 +4212,7 @@
     <value>Завершить и перейти в центр развертывания</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Изменение функций на портале не поддерживается для приложений-функций потребления Linux (предварительная версия).</value>
+    <value>Редактирование функций на портале не поддерживается для приложений-функций плана "Потребление Linux".</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Изменение функций на портале не поддерживается для приложений-функций Linux категории "Премиум" (предварительная версия).</value>
@@ -4470,7 +4476,7 @@
     <value>Значение</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>параметры слота развертывания</value>
+    <value>Параметр слота развертывания</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4532,7 +4538,7 @@
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Не удалось сохранить учетные данные.</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Учетные данные успешно сохранены</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@
     <value>Подключить хранилище (предварительная версия)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Добавить хранилище</value>
+    <value>Добавить хранилище</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Учетная запись</value>
@@ -4725,7 +4731,7 @@
     <value>Новое виртуальное приложение или каталог</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Новый обработчик</value>
+    <value>Новое сопоставление обработчика</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Не удалось установить подключение к приложению. Возможно, причина в заданных группах безопасности сети или правилах ограничения IP-адресов. Для потоковой передачи журналов убедитесь, что вы можете подключиться к приложению непосредственно из текущей сети.</value>
@@ -4800,28 +4806,46 @@
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Функции редактирования на портале не поддерживаются для приложений-функций Python (предварительная версия). Используйте для разработки CLI или VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Дополнительные сведения&lt;/a&gt;</value>
+    <value>Редактирование функций на портале не поддерживается для приложений-функций Python. Для разработки используйте интерфейс командной строки или VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Дополнительные сведения.&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Подключенные ресурсы хранилища Azure содержат секреты. Для просмотра и изменения этого раздела требуются разрешения на чтение и запись.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Все свойства параметров слота развертывания должны иметь логический тип.</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Значения параметров приложения должны быть массивом.</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} является обязательным свойством для всех параметров приложения.</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Свойства имен и значений всех параметров приложения должны иметь строковый тип.</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Все свойства слота развертывания в параметрах приложения должны иметь логический тип.</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} является недопустимым свойством параметров приложения.</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Имена параметров приложения должны быть уникальными</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Значения строки подключения должны быть массивом.</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>Свойство {0} является обязательным для всех строк подключения.</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Свойства имен и значений всех строк подключения должны иметь строковый тип.</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>Свойство строки подключения {0} недопустимо.</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Имена строк подключения должны быть уникальными.</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>Свойство {0} является обязательным для всех сопоставлений обработчика.</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Недопустимый объект JSON</value>
@@ -5044,27 +5068,27 @@
     <value>Репозитории Azure</value>
   </data>
   <data name="updateBindingNotification" xml:space="preserve">
-    <value>Updating binding</value>
+    <value>Обновление привязок</value>
   </data>
   <data name="updateBindingNotificationDetails" xml:space="preserve">
-    <value>Updating {0} ({1})</value>
+    <value>Выполняется обновление привязок {0} ({1}).</value>
   </data>
   <data name="updateBindingNotificationFailed" xml:space="preserve">
-    <value>Failed to update {0} ({1}): {2}</value>
+    <value>Не удалось обновить привязки {0} ({1}): {2}.</value>
   </data>
   <data name="updateBindingNotificationSuccess" xml:space="preserve">
-    <value>Succeeded in updating {0} ({1})</value>
+    <value>Привязки обновлены: {0} ({1}).</value>
   </data>
   <data name="editBindingInput" xml:space="preserve">
-    <value>Edit input</value>
+    <value>Изменить входные данные</value>
   </data>
   <data name="editBindingOuput" xml:space="preserve">
-    <value>Edit output</value>
+    <value>Изменить выходные данные</value>
   </data>
   <data name="editBindingTrigger" xml:space="preserve">
-    <value>Edit trigger</value>
+    <value>Изменить триггер</value>
   </data>
   <data name="editBindingCommands" xml:space="preserve">
-    <value>Edit binding commands</value>
+    <value>Изменить команды привязки</value>
   </data>
 </root>

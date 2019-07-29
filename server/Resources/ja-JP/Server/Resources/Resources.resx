@@ -383,19 +383,19 @@
     <value>保存操作が現在進行中です。移動すると、変更内容の一部が失われる可能性があります。</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ 新しい文字列の追加</value>
+    <value>新しいアプリケーション設定を追加する</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ 新しい接続文字列の追加</value>
+    <value>新しい接続文字列を追加する</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ 新しいドキュメントを追加します</value>
+    <value>新しいドキュメントを追加する</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ 新しいハンドラー マッピングを追加します</value>
+    <value>新しいハンドラー マッピングを追加する</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ 新しい仮想アプリケーションまたはディレクトリを追加します</value>
+    <value>新しい仮想アプリケーションまたはディレクトリを追加する</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>名前の入力</value>
@@ -2120,7 +2120,7 @@
     <value>エラー</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>このフィールドに使用できるのは、英字、数字 (0-9)、ピリオド (".")、アンダースコア ("_") のみです</value>
+    <value>アプリ設定名に使用できるのは、英字、数字 (0-9)、ピリオド (".")、アンダースコア ("_") のみです</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>このフィールドは必須項目です</value>
@@ -2301,9 +2301,6 @@
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>トラフィック %</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>スロット (プレビュー)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>ルーティング規則への今後の変更</value>
@@ -3574,8 +3571,20 @@
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>このプロジェクトの使用可能な任意のエージェント プールで使用するためのアクセス許可がありません。プロジェクト管理者に連絡するか、別のプロジェクトを選択してください</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>このプロジェクトにリポジトリを作成するためのアクセス許可がありません。プロジェクト管理者に連絡するか、別のプロジェクトを選択してください</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>指定した組織名が無効です。別の組織名を指定してください。</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4196,9 +4205,6 @@
   <data name="hideUrl" xml:space="preserve">
     <value>URL を非表示にする</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux Consumption Functions はプレビュー オファーです。</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>一部のフィールドが正しく入力されていないか、入力が必要です。</value>
   </data>
@@ -4206,7 +4212,7 @@
     <value>終了して、デプロイ センターに移動する</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>ポータルでの関数の編集は、Linux Consumption Function Apps (プレビュー) ではサポートされていません。</value>
+    <value>ポータルでの関数の編集は、Linux Consumption Function Apps ではサポートされていません。</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>ポータルでの関数の編集は、Linux Premium Function Apps (プレビュー) ではサポートされていません。</value>
@@ -4532,7 +4538,7 @@
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>資格情報を保存できませんでした</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>資格情報が正常に保存されました</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@
     <value>ストレージのマウント (プレビュー)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ ストレージの追加</value>
+    <value>ストレージを追加する</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>アカウント</value>
@@ -4725,7 +4731,7 @@
     <value>新しい仮想アプリケーションまたはディレクトリ</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>新しいハンドラー</value>
+    <value>新しいハンドラー マッピング</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>アプリへの接続を開くことができません。アプリに設定されたネットワーク セキュリティ グループまたは IP 制限ルールが原因である可能性があります。ログ ストリーミングを使用するには、現在のネットワークからアプリに直接アクセスできることをご確認ください。</value>
@@ -4800,28 +4806,46 @@
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Python Function Apps (プレビュー) ではポータルにおける関数の編集はサポートされていません。開発には CLI または VS Code を使用してください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
+    <value>Python Function Apps ではポータルにおける関数の編集はサポートされていません。開発には CLI または VS Code を使用してください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure Storage のマウントに秘密が含まれています。このセクションを表示または編集するには、読み取りまたは書き込みのアクセス許可が必要です。</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>すべてのデプロイ スロットの設定プロパティはブール値型である必要があります</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>アプリ設定値はアレイである必要があります</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} はすべてのアプリケーション設定で必須のプロパティです</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>アプリ設定の値と名前のプロパティをすべて文字列型にする必要があります</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>すべてのアプリ設定デプロイ スロットの設定プロパティはブール値型である必要があります</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} は無効なアプリ設定プロパティです</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>アプリ設定名は一意である必要があります</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>接続文字列の値を配列にする必要があります</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} はすべての接続文字列で必須のプロパティです</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>接続文字列の値と名前のプロパティをすべて文字列型にする必要があります</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} は無効な接続文字列プロパティです</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>接続文字列名は一意である必要があります</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} はすべてのハンドラー マッピングで必須のプロパティです</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>無効な JSON オブジェクト</value>
@@ -5044,27 +5068,27 @@
     <value>Azure Repos</value>
   </data>
   <data name="updateBindingNotification" xml:space="preserve">
-    <value>Updating binding</value>
+    <value>バインディングを更新しています</value>
   </data>
   <data name="updateBindingNotificationDetails" xml:space="preserve">
-    <value>Updating {0} ({1})</value>
+    <value>{0} ({1}) を更新しています</value>
   </data>
   <data name="updateBindingNotificationFailed" xml:space="preserve">
-    <value>Failed to update {0} ({1}): {2}</value>
+    <value>{0} ({1}) を更新できませんでした: {2}</value>
   </data>
   <data name="updateBindingNotificationSuccess" xml:space="preserve">
-    <value>Succeeded in updating {0} ({1})</value>
+    <value>{0} ({1}) が正常に更新されました</value>
   </data>
   <data name="editBindingInput" xml:space="preserve">
-    <value>Edit input</value>
+    <value>入力の編集</value>
   </data>
   <data name="editBindingOuput" xml:space="preserve">
-    <value>Edit output</value>
+    <value>出力の編集</value>
   </data>
   <data name="editBindingTrigger" xml:space="preserve">
-    <value>Edit trigger</value>
+    <value>トリガーの編集</value>
   </data>
   <data name="editBindingCommands" xml:space="preserve">
-    <value>Edit binding commands</value>
+    <value>バインディング コマンドの編集</value>
   </data>
 </root>

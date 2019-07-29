@@ -383,19 +383,19 @@
     <value>Une opération d'enregistrement est en cours. Si vous poursuivez votre navigation ailleurs, vous pouvez perdre des modifications.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Ajouter un nouveau paramètre</value>
+    <value>Add new application setting</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Ajouter une nouvelle chaîne de connexion</value>
+    <value>Add new connection string</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Ajouter un nouveau document</value>
+    <value>Add new document</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Ajouter un nouveau mappage de gestionnaire</value>
+    <value>Add new handler mapping</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Ajouter une nouvelle application/un nouvel annuaire virtuel</value>
+    <value>Add new virtual application or directory</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Entrer un nom</value>
@@ -2120,7 +2120,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>ERREUR</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>Ce champ peut contenir uniquement des lettres, des chiffres (0-9), des points (".") et des traits de soulignement (" _")</value>
+    <value>Les noms de paramètre d'application peuvent contenir uniquement des lettres, des chiffres (0-9), des points (« . ») et des traits de soulignement (« _ »)</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Ce champ est obligatoire</value>
@@ -2301,9 +2301,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>% de trafic</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Emplacements (préversion)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Modifications à venir apportées aux règles d'acheminement</value>
@@ -3574,8 +3571,20 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>Vous n’avez pas les autorisations nécessaires pour utiliser les pools d’agents disponibles dans ce projet. Contactez votre administrateur de projet ou choisissez un autre projet.</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>Vous n’avez pas les autorisations nécessaires pour créer un référentiel dans ce projet. Contactez votre administrateur de projet ou choisissez un autre projet</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Le nom d’organisation fourni n’est pas valide. Indiquez un autre nom d’organisation.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Could not fetch a valid Azure DevOps token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Could not fetch Azure DevOps token. More details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4196,9 +4205,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="hideUrl" xml:space="preserve">
     <value>Masquer l’URL</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Les fonctions de consommation Linux sont en préversion.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Certains champs ne sont pas remplis correctement ou sont requis.</value>
   </data>
@@ -4206,7 +4212,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Terminer et accéder au centre de déploiement</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>La modification de fonctions dans le portail n’est pas prise en charge pour les applications de fonction de consommation Linux (préversion).</value>
+    <value>Les fonctions de modification dans le portail ne sont pas prises en charge pour les applications de fonction de consommation Linux.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>La modification de fonctions dans le portail n’est pas prise en charge pour les applications de fonction Premium Linux (préversion).</value>
@@ -4470,7 +4476,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Valeur</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>paramètre d’emplacement de déploiement</value>
+    <value>Deployment slot setting</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4532,7 +4538,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Échec de l’enregistrement des informations d’identification</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Informations d’identification correctement enregistrées</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4617,7 +4623,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Montage du stockage (préversion)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Ajouter du stockage</value>
+    <value>Add storage</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Compte</value>
@@ -4725,7 +4731,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Nouvelle application virtuelle ou nouveau répertoire virtuel</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Nouveau gestionnaire</value>
+    <value>Nouveau mappage de gestionnaire</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Impossible d’ouvrir une connexion à votre application. Cela peut être dû à des groupes de sécurité réseau ou à des règles de restriction IP que vous avez placés dans votre application. Pour utiliser le streaming des journaux, vérifiez que vous êtes en mesure d’accéder à votre application directement à partir de votre réseau actuel.</value>
@@ -4800,28 +4806,46 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Les fonctions de modification dans le portail ne sont pas prises en charge pour Python Function Apps (préversion). Utilisez l’interface CLI ou VS Code pour le développement. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;En savoir plus&lt;/a&gt;</value>
+    <value>Les fonctions de modification dans le portail ne sont pas prises en charge pour Python Function Apps. Utilisez l’interface CLI ou VS Code pour le développement. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;En savoir plus&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Les montages Stockage Azure contiennent des secrets. Des autorisations en lecture/écriture sont requises pour afficher/modifier cette section.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Toutes les propriétés de paramètre d’emplacement de déploiement doivent être de type booléen</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Les valeurs de paramètre d’application doivent être un tableau</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} est une propriété requise sur tous les paramètres de l’application</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Toutes les propriétés de nom et de valeur de paramètre d’application doivent être de type chaîne</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Toutes les propriétés de paramètre d’emplacement de déploiement de paramètre d’application doivent être de type booléen</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} est une propriété de paramètre d’application non valide</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Les noms de paramètres d’application doivent être uniques</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Les valeurs de chaîne de connexion doivent être un tableau</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} est une propriété requise sur tous les chaînes de connexion</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Toutes les propriétés de nom et de valeur de chaînes de connexion doivent être de type chaîne</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} n’est pas une propriété de chaîne de connexion valide</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Les noms de chaîne de connexion doivent être uniques</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} est une propriété requise sur tous les mappages de gestionnaires</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Objet JSON non valide</value>
@@ -5044,27 +5068,27 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Azure Repos</value>
   </data>
   <data name="updateBindingNotification" xml:space="preserve">
-    <value>Updating binding</value>
+    <value>Mise à jour de la liaison</value>
   </data>
   <data name="updateBindingNotificationDetails" xml:space="preserve">
-    <value>Updating {0} ({1})</value>
+    <value>Mise à jour de {0} ({1})</value>
   </data>
   <data name="updateBindingNotificationFailed" xml:space="preserve">
-    <value>Failed to update {0} ({1}): {2}</value>
+    <value>Échec de la mise à jour de {0} ({1}) : {2}</value>
   </data>
   <data name="updateBindingNotificationSuccess" xml:space="preserve">
-    <value>Succeeded in updating {0} ({1})</value>
+    <value>Réussite de la mise à jour de {0} ({1})</value>
   </data>
   <data name="editBindingInput" xml:space="preserve">
-    <value>Edit input</value>
+    <value>Modifier l’entrée</value>
   </data>
   <data name="editBindingOuput" xml:space="preserve">
-    <value>Edit output</value>
+    <value>Modifier la sortie</value>
   </data>
   <data name="editBindingTrigger" xml:space="preserve">
-    <value>Edit trigger</value>
+    <value>Modifier le déclencheur</value>
   </data>
   <data name="editBindingCommands" xml:space="preserve">
-    <value>Edit binding commands</value>
+    <value>Modifier les commandes de liaison</value>
   </data>
 </root>
