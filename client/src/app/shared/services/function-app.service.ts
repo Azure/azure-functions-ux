@@ -762,7 +762,7 @@ export class FunctionAppService {
 
           let editModeSettingString: string = appSettings ? appSettings.properties[Constants.functionAppEditModeSettingName] || '' : '';
           editModeSettingString = editModeSettingString.toLocaleLowerCase();
-          const vsCreatedFunc = !!result.functionsInfo.find((fc: any) => !!fc.config.generatedBy);
+          const vsCreatedFunc = !!result.functionsInfo.find((fc: ArmObj<FunctionInfo>) => !!fc.properties.config.generatedBy);
           const usingRunFromZip = appSettings ? this._getRFZSetting(appSettings) !== '0' : false;
           const usingLocalCache =
             appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
