@@ -4346,6 +4346,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="debugging" xml:space="preserve">
     <value>Debugging</value>
   </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(modified)</value>
+  </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Application settings</value>
   </data>
