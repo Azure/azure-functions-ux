@@ -66,42 +66,45 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const scenarioChecker = scenarioCheckerRef.current!;
 
   return (
-    <AppSettingsDataLoader resourceId={resourceId}>
-      {({ initialFormValues, saving, onSubmit, scaleUpPlan }) => (
-        <SiteContext.Consumer>
-          {site => {
-            return (
-              <Formik
-                initialValues={initialFormValues}
-                onSubmit={onSubmit}
-                enableReinitialize={true}
-                validate={values => validate(values, t, scenarioChecker, site)}
-                validateOnBlur={false}
-                validateOnChange={false}>
-                {(formProps: FormikProps<AppSettingsFormValues>) => (
-                  <form>
-                    <div className={commandBarSticky}>
-                      <AppSettingsCommandBar
-                        submitForm={formProps.submitForm}
-                        resetForm={formProps.resetForm}
-                        disabled={!app_write || !editable || saving}
-                        dirty={formProps.dirty}
-                      />
-                      {scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
-                        <UpsellBanner onClick={scaleUpPlan} />
-                      )}
-                    </div>
-                    <div className={formStyle}>
-                      <AppSettingsForm {...formProps} />
-                    </div>
-                  </form>
-                )}
-              </Formik>
-            );
-          }}
-        </SiteContext.Consumer>
-      )}
-    </AppSettingsDataLoader>
+    <>
+      <div aria-live="assertive" aria-relevant="additions" id="alert-container" />
+      <AppSettingsDataLoader resourceId={resourceId}>
+        {({ initialFormValues, saving, onSubmit, scaleUpPlan }) => (
+          <SiteContext.Consumer>
+            {site => {
+              return (
+                <Formik
+                  initialValues={initialFormValues}
+                  onSubmit={onSubmit}
+                  enableReinitialize={true}
+                  validate={values => validate(values, t, scenarioChecker, site)}
+                  validateOnBlur={false}
+                  validateOnChange={false}>
+                  {(formProps: FormikProps<AppSettingsFormValues>) => (
+                    <form>
+                      <div className={commandBarSticky}>
+                        <AppSettingsCommandBar
+                          submitForm={formProps.submitForm}
+                          resetForm={formProps.resetForm}
+                          disabled={!app_write || !editable || saving}
+                          dirty={formProps.dirty}
+                        />
+                        {scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
+                          <UpsellBanner onClick={scaleUpPlan} />
+                        )}
+                      </div>
+                      <div className={formStyle}>
+                        <AppSettingsForm {...formProps} />
+                      </div>
+                    </form>
+                  )}
+                </Formik>
+              );
+            }}
+          </SiteContext.Consumer>
+        )}
+      </AppSettingsDataLoader>
+    </>
   );
 };
 

@@ -32,7 +32,6 @@ interface ApplicationSettingsState {
 export class ApplicationSettings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ApplicationSettingsState> {
   public static contextType = PermissionsContext;
   public list: IDetailsList | null;
-  private _notificationMessage: string;
   constructor(props) {
     super(props);
     this.state = {
@@ -56,7 +55,6 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     const allShown = showAllValues || (values.appSettings.length > 0 && shownValues.length === values.appSettings.length);
     return (
       <>
-        <div aria-live="assertive">{this._notificationMessage}</div>
         <Stack horizontal verticalAlign="center">
           <ActionButton
             id="app-settings-application-settings-add"
@@ -105,7 +103,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'add'}
           type={PanelType.large}
-          onDismiss={this._onCancel}
+          onDismiss={this._onDismiss}
           headerText={t('addEditApplicationSetting')}
           closeButtonAriaLabel={t('close')}>
           <AppSettingAddEdit
@@ -120,7 +118,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'bulk'}
           type={PanelType.large}
-          onDismiss={this._onCancel}
+          onDismiss={this._onDismiss}
           closeButtonAriaLabel={t('close')}>
           <Suspense fallback={<LoadingComponent />}>
             <AppSettingsBulkEdit
@@ -152,6 +150,13 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     );
   }
 
+  private _updateAlertMessage = (message: string) => {
+    const alertContainer = document.getElementById('alert-container');
+    if (alertContainer) {
+      alertContainer.innerText = message;
+    }
+  };
+
   private _flipHideSwitch = () => {
     const { showAllValues } = this.state;
     let shownValues: string[] = [];
@@ -162,10 +167,12 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
   };
 
   private _openBulkEdit = () => {
-    this._notificationMessage = 'Advanced edit panel opened.';
-    this.setState({
-      showPanel: true,
-      panelItem: 'bulk',
+    this._updateAlertMessage('Advanced edit panel opened.');
+    setTimeout(() => {
+      this.setState({
+        showPanel: true,
+        panelItem: 'bulk',
+      });
     });
   };
 
@@ -175,61 +182,82 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
   };
 
   private _saveBulkEdit = (appSettings: FormAppSetting[]) => {
-    this._notificationMessage = 'Advanced edit panel closed. Changes applied.';
-    const newAppSettings = sortBy(appSettings, o => o.name.toLowerCase());
+    const notificationMessage = 'Advanced edit panel closed. Changes applied.';
+    this._updateAlertMessage(notificationMessage);
+    setTimeout(() => {
+      const newAppSettings = sortBy(appSettings, o => o.name.toLowerCase());
 
-    this.props.setFieldValue('appSettings', newAppSettings);
-    this.setState({ showPanel: false });
+      this.props.setFieldValue('appSettings', newAppSettings);
+      this.setState({ showPanel: false });
+    });
   };
   private _createNewItem = () => {
-    this._notificationMessage = 'Add/Edit application setting panel opened.';
-    const blankAppSetting = {
-      name: '',
-      value: '',
-      sticky: false,
-    };
-    this.setState({
-      showPanel: true,
-      panelItem: 'add',
-      currentAppSetting: blankAppSetting,
+    const notificationMessage = 'Add/Edit application setting panel opened.';
+    this._updateAlertMessage(notificationMessage);
+    setTimeout(() => {
+      const blankAppSetting = {
+        name: '',
+        value: '',
+        sticky: false,
+      };
+      this.setState({
+        showPanel: true,
+        panelItem: 'add',
+        currentAppSetting: blankAppSetting,
+      });
     });
   };
 
   private _onClosePanel = (item: FormAppSetting): void => {
     if (!!this.list) {
-      this.list.focusIndex(0, false);
+      this.list.focusIndex(0, true);
     }
-    this._notificationMessage = `Add/Edit application setting panel closed. Changes applied to app setting ${item.name}`;
-    let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
-    const index = appSettings.findIndex(
-      x =>
-        x.name.toLowerCase() === item.name.toLowerCase() ||
-        (!!this.state.currentAppSetting && this.state.currentAppSetting.name.toLowerCase() === x.name.toLowerCase())
-    );
-    if (index !== -1) {
-      appSettings[index] = item;
-    } else {
-      appSettings.push(item);
-    }
-    appSettings = sortBy(appSettings, o => o.name.toLowerCase());
-    this.props.setFieldValue('appSettings', appSettings);
-    this.setState({ showPanel: false });
+    const notificationMessage = `Add/Edit application setting panel closed. Changes applied to app setting ${item.name}`;
+    this._updateAlertMessage(notificationMessage);
+    setTimeout(() => {
+      let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
+      const index = appSettings.findIndex(
+        x =>
+          x.name.toLowerCase() === item.name.toLowerCase() ||
+          (!!this.state.currentAppSetting && this.state.currentAppSetting.name.toLowerCase() === x.name.toLowerCase())
+      );
+      if (index !== -1) {
+        appSettings[index] = item;
+      } else {
+        appSettings.push(item);
+      }
+      appSettings = sortBy(appSettings, o => o.name.toLowerCase());
+      this.props.setFieldValue('appSettings', appSettings);
+      this.setState({ showPanel: false });
+    });
   };
 
   private _onCancel = (): void => {
-    this._notificationMessage =
+    const notificationMessage =
       this.state.panelItem === 'add'
         ? 'Add/Edit application setting panel closed. No changes applied.'
         : 'Advanced edit panel closed. No changes applied.';
-    this.setState({ showPanel: false });
+    this._updateAlertMessage(notificationMessage);
+    setTimeout(() => {
+      this.setState({ showPanel: false });
+    });
+  };
+
+  private _onDismiss = (): void => {
+    if (this.state.showPanel) {
+      this._onCancel();
+    }
   };
 
   private _onShowPanel = (item: FormAppSetting): void => {
-    this._notificationMessage = 'Add/Edit application setting panel opened.';
-    this.setState({
-      showPanel: true,
-      panelItem: 'add',
-      currentAppSetting: item,
+    const notificationMessage = 'Add/Edit application setting panel opened.';
+    this._updateAlertMessage(notificationMessage);
+    setTimeout(() => {
+      this.setState({
+        showPanel: true,
+        panelItem: 'add',
+        currentAppSetting: item,
+      });
     });
   };
 
