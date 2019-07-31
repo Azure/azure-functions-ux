@@ -476,7 +476,7 @@ export class FunctionAppService {
     }
 
     this._cacheService.clearCachePrefix(context.mainSiteUrl);
-    return this.runtime.execute({ resourceId: context.site.id }, t =>
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.put(fi.href, this.jsonHeaders(t), JSON.stringify(fiCopy)).map(r => r.json() as FunctionInfo)
     );
   }
@@ -959,7 +959,7 @@ export class FunctionAppService {
   }
 
   saveHostJson(context: FunctionAppContext, jsonString: string): Result<any> {
-    return this.runtime.execute({ resourceId: context.site.id }, t =>
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.put(context.urlTemplates.hostJsonUrl, this.jsonHeaders(t, ['If-Match', '*']), jsonString).map(r => r.json())
     );
   }
