@@ -8,7 +8,7 @@ import { CacheService } from './cache.service';
 import { UserService } from './user.service';
 import { FunctionInfo } from '../models/function-info';
 import { HostKeyTypes } from '../models/constants';
-import { FunctionAppService } from '../services/function-app.service';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContext } from '../function-app-context';
 import { ArmUtil } from '../Utilities/arm-utils';
 
@@ -17,14 +17,12 @@ type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
 export class FunctionService {
   private readonly _client: ConditionalHttpClient;
+  private _functionAppService: FunctionAppService;
 
-  constructor(
-    userService: UserService,
-    injector: Injector,
-    private _cacheService: CacheService,
-    private _functionAppService: FunctionAppService
-  ) {
+  constructor(userService: UserService, injector: Injector, private _cacheService: CacheService) {
     this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
+    // todo allisonm: Remove _functionAppService onceDOTNET_USE_POLLING_FILE_WATCHER=true in applied to containers
+    setTimeout(() => (this._functionAppService = injector.get(FunctionAppService)));
   }
 
   getFunctions(resourceId: string): Result<ArmArrayResult<FunctionInfo>> {
