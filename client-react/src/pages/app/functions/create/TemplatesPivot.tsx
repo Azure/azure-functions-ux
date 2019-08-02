@@ -1,27 +1,25 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { useTranslation } from 'react-i18next';
-import { Icon, Link, Stack } from 'office-ui-fabric-react';
+// import { useTranslation } from 'react-i18next';
+// import { Stack } from 'office-ui-fabric-react';
+import { FunctionCreateProps } from './FunctionCreate';
+import CreateCard from './CreateCard';
+// import { ActionButton } from 'office-ui-fabric-react';
 // import { FormikProps } from 'formik';
-import { infoIconStyle, learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
-import { ThemeContext } from '../../../../ThemeContext';
-import { Links } from '../../../../utils/FwLinks';
+// import { ThemeContext } from '../../../../ThemeContext';
 
-const TemplatesPivot: React.FC<any> = props => {
-  const { t } = useTranslation();
-  const theme = useContext(ThemeContext);
+const TemplatesPivot: React.FC<FunctionCreateProps> = props => {
+  // const { t } = useTranslation();
+  // const theme = useContext(ThemeContext);
+  const { functionTemplates } = props;
   return (
     <>
-      <h3>{t('applicationSettings')}</h3>
-      <Stack horizontal verticalAlign="center">
-        <Icon iconName="Info" className={infoIconStyle(theme)} />
-        <p>
-          {t('applicationSettingsInfoMessage')}
-          <Link href={Links.applicationSettingsInfo} target="_blank" className={learnMoreLinkStyle}>
-            {` ${t('learnMore')}`}
-          </Link>
-        </p>
-      </Stack>
+      {!!functionTemplates &&
+        functionTemplates.map(template => {
+          if (template.metadata && template.metadata.name && template.metadata.language) {
+            return <CreateCard functionTemplate={template} />;
+          }
+        })}
     </>
   );
 };
