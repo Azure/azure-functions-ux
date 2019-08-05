@@ -1167,6 +1167,7 @@ export class FunctionAppService {
     const headers = new Headers();
     if (typeof authTokenOrHeader === 'string' && authTokenOrHeader.length > 0) {
       if (authTokenOrHeader.startsWith('masterKey ')) {
+        headers.set('Cache-Control', 'no-cache');
         headers.set('x-functions-key', authTokenOrHeader.substring('masterKey '.length));
       } else {
         headers.set('Authorization', `Bearer ${authTokenOrHeader}`);
