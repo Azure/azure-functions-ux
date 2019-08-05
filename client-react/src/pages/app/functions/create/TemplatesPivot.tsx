@@ -16,9 +16,7 @@ const TemplatesPivot: React.FC<FunctionCreateProps> = props => {
     <>
       {!!functionTemplates &&
         functionTemplates.map(template => {
-          if (template.metadata && template.metadata.name && template.metadata.language) {
-            return <CreateCard functionTemplate={template} />;
-          }
+          return <CreateCard functionTemplate={template} />;
         })}
     </>
   );

@@ -11,6 +11,21 @@ export const getCardStyle = (theme: ThemeExtended) => {
     margin: '35px',
     float: 'left',
     position: 'relative',
+
+    $nest: {
+      '&.selected': {
+        borderColor: `${theme.semanticColors.inputBorder}`,
+      },
+      '&:hover': {
+        cursor: 'pointer',
+      },
+      '&:focus': {
+        outlineColor: `${theme.semanticColors.focusBorder}`,
+        outlineOffset: '5px',
+        outlineStyle: 'dashed',
+        outlineWidth: '1px',
+      },
+    },
   });
 };
 

@@ -17,11 +17,10 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
   const { functionTemplate } = props;
 
   const theme = useContext(ThemeContext);
-  // const { t } = useTranslation();
 
   return (
     <>
-      <div className={getCardStyle(theme)}>
+      <div className={getCardStyle(theme)} onClick={() => onClick(functionTemplate)}>
         <div className={getHeaderStyle(theme, functionTemplate)}>
           <img />
           {functionTemplate.metadata.name}
@@ -30,6 +29,10 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
       </div>
     </>
   );
+};
+
+const onClick = (functionTemplate: FunctionTemplate) => {
+  console.log(functionTemplate.id);
 };
 
 export default CreateCard;

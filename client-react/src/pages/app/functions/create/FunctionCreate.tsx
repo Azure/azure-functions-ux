@@ -40,7 +40,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
             {'go to the quickstart.'}
           </Link>
         </p>
-        <Pivot>
+        <Pivot getTabId={getPivotTabId}>
           <PivotItem
             onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
               CustomTabRenderer(link, defaultRenderer, theme)
@@ -62,4 +62,14 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
       {/*<CreateFunctionCommandBar />*/}
     </>
   );
+};
+
+const getPivotTabId = (itemKey: string, index: number) => {
+  switch (itemKey) {
+    case 'templates':
+      return 'function-create-templates-tab';
+    case 'details':
+      return 'function-create-details-tab';
+  }
+  return '';
 };
