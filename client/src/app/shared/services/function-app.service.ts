@@ -204,7 +204,11 @@ export class FunctionAppService {
   }
 
   getRuntimeGeneration(context: FunctionAppContext): Observable<string> {
-    return this.getExtensionVersionFromAppSettings(context).map(v => FunctionsVersionInfoHelper.getFunctionGeneration(v));
+    return this.getExtensionVersionFromAppSettings(context)
+      .map(v => FunctionsVersionInfoHelper.getFunctionGeneration(v))
+      .catch(e => {
+        return Observable.of(FunctionAppVersion.v2);
+      });
   }
 
   private getExtensionVersionFromAppSettings(context: FunctionAppContext) {
