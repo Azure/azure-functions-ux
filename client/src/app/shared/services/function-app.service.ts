@@ -183,7 +183,7 @@ export class FunctionAppService {
     const fileHref = typeof file === 'string' ? file : file.href;
 
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-      this._cacheService.get(fileHref, false, this.headers(t)).map(r => r.text())
+      this._cacheService.get(fileHref, true, this.headers(t)).map(r => r.text())
     );
   }
 
