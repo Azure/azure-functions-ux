@@ -92,7 +92,7 @@ export class FunctionAppService {
         return this._userService.getStartupInfo();
       })
       .concatMap(info => {
-        if (ArmUtil.isLinuxApp(context.site)) {
+        if (context.urlTemplates.useNewUrls) {
           return this._cacheService.getArm(`${context.site.id}/hostruntime/admin/host/systemkeys/_master`);
         } else {
           return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
@@ -105,9 +105,7 @@ export class FunctionAppService {
   }
 
   getClient(context: FunctionAppContext): ConditionalHttpClient {
-    return ArmUtil.isLinuxApp(context.site) || (context.runtimeVersion && context.runtimeVersion === FunctionAppVersion.v2)
-      ? this.runtime
-      : this.azure;
+    return context.urlTemplates.useNewUrls ? this.runtime : this.azure;
   }
 
   getApiProxies(context: FunctionAppContext): Result<ApiProxy[]> {
@@ -1090,7 +1088,18 @@ export class FunctionAppService {
   }
 
   getAppContext(resourceId: string, force?: boolean): Observable<FunctionAppContext> {
-    return this._cacheService.getArm(resourceId, force).map(r => ArmUtil.mapArmSiteToContext(r.json(), this._injector));
+    return this._cacheService
+      .getArm(resourceId, force)
+      .map(r => ArmUtil.mapArmSiteToContext(r.json(), this._injector))
+      .switchMap(context => {
+        return Observable.zip(Observable.of(context), this.getRuntimeGeneration(context));
+      })
+      .switchMap(tuple => {
+        const newContext = tuple[0];
+        const version = tuple[1];
+        newContext.urlTemplates.runtimeVersion = version;
+        return Observable.of(newContext);
+      });
   }
 
   getAppContentAsZip(context: FunctionAppContext, includeCsProj: boolean, includeAppSettings: boolean): Result<any> {
