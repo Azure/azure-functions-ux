@@ -1402,6 +1402,7 @@ export class PortalResources {
   public static stackSettings = 'stackSettings';
   public static platformSettings = 'platformSettings';
   public static debugging = 'debugging';
+  public static modifiedTag = 'modifiedTag';
   public static applicationSettings = 'applicationSettings';
   public static generalSettings = 'generalSettings';
   public static defaultDocuments = 'defaultDocuments';
