@@ -190,25 +190,23 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
 
             this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-            this._functionService
-              .createFunction(this.context.site.id, functionName, selectedTemplate.files, selectedTemplate.function)
-              .subscribe(
-                res => {
-                  if (res.isSuccessful) {
-                    this._portalService.logAction('intro-create-from-template', 'success', {
-                      template: selectedTemplate.id,
-                      name: functionName,
-                      appResourceId: this.context.site.id,
-                    });
+            this._functionService.createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function).subscribe(
+              res => {
+                if (res.isSuccessful) {
+                  this._portalService.logAction('intro-create-from-template', 'success', {
+                    template: selectedTemplate.id,
+                    name: functionName,
+                    appResourceId: this.context.site.id,
+                  });
 
-                    this.functionsNode.addChild(res.result.properties);
-                  }
-                  this._globalStateService.clearBusyState();
-                },
-                () => {
-                  this._globalStateService.clearBusyState();
+                  this.functionsNode.addChild(res.result.properties);
                 }
-              );
+                this._globalStateService.clearBusyState();
+              },
+              () => {
+                this._globalStateService.clearBusyState();
+              }
+            );
           } catch (e) {
             this.showComponentError({
               message: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) }),
