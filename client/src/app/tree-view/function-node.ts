@@ -1,3 +1,4 @@
+import { FunctionAppVersion } from 'app/shared/models/constants';
 import { EmbeddedFunctionsNode } from './embedded-functions-node';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { GlobalStateService } from './../shared/services/global-state.service';
@@ -67,8 +68,25 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
       this.showExpandIcon = false;
     }
 
-    if (typeof this.functionInfo.config.disabled === 'string') {
-      const settingName = this.functionInfo.config.disabled;
+    if (this.context.runtimeVersion === FunctionAppVersion.v1) {
+      if (typeof this.functionInfo.config.disabled === 'string') {
+        const settingName = this.functionInfo.config.disabled;
+        this._siteService.getAppSettings(this.context.site.id).subscribe(r => {
+          if (r.isSuccessful) {
+            const result = r.result.properties[settingName];
+            this.functionInfo.config.disabled = result === '1' || result === 'true';
+          } else {
+            this._logService.error(LogCategories.SideNav, errorIds.failedToGetAppSettings, r.error);
+          }
+        });
+      }
+    } else {
+      let settingName: string;
+      if (typeof this.functionInfo.config.disabled === 'string') {
+        settingName = this.functionInfo.config.disabled;
+      } else {
+        settingName = `AzureWebJobs.${this.functionInfo.name}.Disabled`;
+      }
       this._siteService.getAppSettings(this.context.site.id).subscribe(r => {
         if (r.isSuccessful) {
           const result = r.result.properties[settingName];
