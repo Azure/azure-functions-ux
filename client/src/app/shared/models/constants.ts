@@ -626,7 +626,6 @@ export class FeatureFlags {
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
   public static AllowFreeLinux = 'allowfreelinux';
-  public static RemoveSlotsPreviewTag = 'RemoveSlotsPreviewTag';
 }
 
 export class SupportedFeatures {
