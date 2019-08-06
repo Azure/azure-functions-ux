@@ -5,9 +5,7 @@ import { SlotsNode } from '../tree-view/slots-node';
 import { SlotNode } from '../tree-view/app-node';
 import { PortalResources } from '../shared/models/portal-resources';
 import { errorIds } from '../shared/models/error-ids';
-import { FeatureFlags } from '../shared/models/constants';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
-import { Url } from '../shared/Utilities/url';
 import { Observable } from 'rxjs/Observable';
 
 interface SlotItem {
@@ -25,12 +23,10 @@ interface SlotItem {
 export class SlotsListComponent extends NavigableComponent {
   public slots: SlotItem[] = [];
   public isLoading: boolean;
-  public showPreviewTag = true;
 
   private _slotsNode: SlotsNode;
   constructor(private _translateService: TranslateService, injector: Injector) {
     super('slots-list', injector, DashboardType.SlotsDashboard);
-    this.showPreviewTag = Url.getParameterByName(null, FeatureFlags.RemoveSlotsPreviewTag) !== 'true';
   }
 
   setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
