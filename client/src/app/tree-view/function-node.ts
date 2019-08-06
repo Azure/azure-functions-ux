@@ -1,3 +1,4 @@
+import { Properties } from './../site/deployment-center/deployment-center-setup/wizard-logic/azure-devops-service-models';
 import { EmbeddedFunctionsNode } from './embedded-functions-node';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { GlobalStateService } from './../shared/services/global-state.service';
@@ -67,8 +68,8 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
       this.showExpandIcon = false;
     }
 
-    if (typeof this.functionInfo.config.disabled === 'string') {
-      const settingName = this.functionInfo.config.disabled;
+    if (typeof this.functionInfo.config.disabled !== 'boolean') {
+      const settingName = this.functionInfo.config.disabled || `AzureWebJobs.${this.functionInfo.name}.Disabled`;
       this._siteService.getAppSettings(this.context.site.id).subscribe(r => {
         if (r.isSuccessful) {
           const result = r.result.properties[settingName];
