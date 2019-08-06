@@ -135,7 +135,7 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
             const functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
             this.bindingManager.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
             this._functionService
-              .createFunction(this.context.site.id, functionName, selectedTemplate.files, selectedTemplate.function)
+              .createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
               .subscribe(res => {
                 this._globalStateService.clearBusyState();
                 if (res.isSuccessful) {
