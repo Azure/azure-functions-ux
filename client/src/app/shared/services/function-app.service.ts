@@ -477,7 +477,7 @@ export class FunctionAppService {
       }
     }
 
-    this._cacheService.clearCachePrefix(context.mainSiteUrl);
+    this._cacheService.clearArmIdCachePrefix(context.site.id);
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.put(fi.href, this.jsonHeaders(t), JSON.stringify(fiCopy)).map(r => r.json() as FunctionInfo)
     );
