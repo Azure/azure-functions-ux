@@ -1,7 +1,10 @@
 <div class="topContainer">
-  <div class="selectionContainer" flex-list>
+  <div class="selectionContainer" role="radiogroup" flex-list>
     <div *ngFor="let card of portalTemplateCards" class="cardContainer" [class.selected]="selectedPortalTemplateCard?.name === card.name"
-      (click)="selectPortalTemplate(card)">
+      (click)="selectPortalTemplate(card)"
+      role="radio"
+      [attr.aria-checked]="selectedPortalTemplateCard?.name === card.name"
+      (keydown)="onKeyPress($event, card)">
       <div class="cardHeader">
         <img [src]="card.icon" [style.background-color]="card.color"/> {{card.name}}
       </div>

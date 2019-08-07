@@ -6,6 +6,7 @@ import { DeploymentCard } from 'app/site/quickstart/Models/deployment-card';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { Subject } from 'rxjs/Subject';
+import { KeyCodes } from 'app/shared/models/constants';
 
 @Component({
   selector: 'step-choose-deployment-method',
@@ -84,6 +85,12 @@ export class StepChooseDeploymentMethodComponent implements OnDestroy {
     this._quickstartService.getQuickstartFile(markdownFileName).subscribe(file => {
       this._wizardService.instructions.setValue(file);
     });
+  }
+
+  public onKeyPress(event: KeyboardEvent, card: DeploymentCard) {
+    if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+      this.selectDeployment(card);
+    }
   }
 
   private _getDeploymentCards(): DeploymentCard[] {
