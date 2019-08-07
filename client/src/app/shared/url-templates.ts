@@ -78,7 +78,7 @@ export class UrlTemplates {
         ? `${this.mainSiteUrl}/admin/vfs/home/site/wwwroot/proxies.json`
         : `${this.mainSiteUrl}/admin/vfs/site/wwwroot/proxies.json`;
     }
-    return `${this.scmUrl}/api/functions/config`;
+    return `${this.scmUrl}/api/vfs/site/wwwroot/proxies.json`;
   }
 
   getFunctionUrl(functionName: string, functionEntity?: string): string {
