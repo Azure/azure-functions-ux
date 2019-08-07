@@ -92,7 +92,7 @@ export class FunctionAppService {
         return this._userService.getStartupInfo();
       })
       .concatMap(info => {
-        if (ArmUtil.isLinuxApp(context.site)) {
+        if (context.urlTemplates.useNewUrls) {
           return this._cacheService.getArm(`${context.site.id}/hostruntime/admin/host/systemkeys/_master`);
         } else {
           return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
@@ -105,9 +105,7 @@ export class FunctionAppService {
   }
 
   getClient(context: FunctionAppContext): ConditionalHttpClient {
-    return ArmUtil.isLinuxApp(context.site) || (context.runtimeVersion && context.runtimeVersion === FunctionAppVersion.v2)
-      ? this.runtime
-      : this.azure;
+    return context.urlTemplates.useNewUrls ? this.runtime : this.azure;
   }
 
   getApiProxies(context: FunctionAppContext): Result<ApiProxy[]> {
@@ -206,7 +204,11 @@ export class FunctionAppService {
   }
 
   getRuntimeGeneration(context: FunctionAppContext): Observable<string> {
-    return this.getExtensionVersionFromAppSettings(context).map(v => FunctionsVersionInfoHelper.getFunctionGeneration(v));
+    return this.getExtensionVersionFromAppSettings(context)
+      .map(v => FunctionsVersionInfoHelper.getFunctionGeneration(v))
+      .catch(e => {
+        return Observable.of(FunctionAppVersion.v2);
+      });
   }
 
   private getExtensionVersionFromAppSettings(context: FunctionAppContext) {
@@ -475,7 +477,7 @@ export class FunctionAppService {
       }
     }
 
-    this._cacheService.clearCachePrefix(context.mainSiteUrl);
+    this._cacheService.clearArmIdCachePrefix(context.site.id);
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.put(fi.href, this.jsonHeaders(t), JSON.stringify(fiCopy)).map(r => r.json() as FunctionInfo)
     );
@@ -1090,7 +1092,18 @@ export class FunctionAppService {
   }
 
   getAppContext(resourceId: string, force?: boolean): Observable<FunctionAppContext> {
-    return this._cacheService.getArm(resourceId, force).map(r => ArmUtil.mapArmSiteToContext(r.json(), this._injector));
+    return this._cacheService
+      .getArm(resourceId, force)
+      .map(r => ArmUtil.mapArmSiteToContext(r.json(), this._injector))
+      .switchMap(context => {
+        return Observable.zip(Observable.of(context), this.getRuntimeGeneration(context));
+      })
+      .switchMap(tuple => {
+        const newContext = tuple[0];
+        const version = tuple[1];
+        newContext.urlTemplates.runtimeVersion = version;
+        return Observable.of(newContext);
+      });
   }
 
   getAppContentAsZip(context: FunctionAppContext, includeCsProj: boolean, includeAppSettings: boolean): Result<any> {
@@ -1154,6 +1167,7 @@ export class FunctionAppService {
     const headers = new Headers();
     if (typeof authTokenOrHeader === 'string' && authTokenOrHeader.length > 0) {
       if (authTokenOrHeader.startsWith('masterKey ')) {
+        headers.set('Cache-Control', 'no-cache');
         headers.set('x-functions-key', authTokenOrHeader.substring('masterKey '.length));
       } else {
         headers.set('Authorization', `Bearer ${authTokenOrHeader}`);

@@ -229,7 +229,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
         this.showConsole = !ArmUtil.isLinuxDynamic(functionView.context.site);
         return Observable.zip(
           Observable.of(functionView),
-          this._functionAppService.getEventGridUri(functionView.context, functionView.functionInfo.result.name),
+          this._functionAppService.getEventGridUri(functionView.context, functionView.functionInfo.result.properties.name),
           this._functionAppService.getFunctionHostStatus(functionView.context),
           this._functionAppService.getFunctionErrors(functionView.context, functionView.functionInfo.result.properties),
           this._functionAppService.getRuntimeGeneration(functionView.context)
