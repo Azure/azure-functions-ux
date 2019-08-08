@@ -19,7 +19,7 @@ export class AuthzService implements IAuthzService {
   public static writeScope = './write';
   public static deleteScope = './delete';
   public static actionScope = './action';
-  public static activeDirectoryWriteScope = 'Microsoft.Authorization/*/Write';
+  public static roleAssignmentWriteScope = 'Microsoft.Authorization/roleassignments/Write';
   public static permissionsSuffix = '/providers/microsoft.authorization/permissions';
   public static authSuffix = '/providers/Microsoft.Authorization/locks';
 
@@ -94,8 +94,8 @@ export class AuthzService implements IAuthzService {
         action = resourceType + action.substring(1);
       }
 
-      return !!permissionSetRegexes.find(availableRegex => {
-        return this._isAllowed(action, availableRegex);
+      return !!permissionSetRegexes.every((availableRegex, idx) => {
+        return this._isAllowed(action, availableRegex, permissionsSet[idx]);
       });
     });
   }
@@ -116,12 +116,12 @@ export class AuthzService implements IAuthzService {
   }
 
   /*
-    * 1. All allowed character escapes are taken into account: \*, \t, \n, \r, \\, \'
-    *    a. \0 is explicitly not supported
-    * 2. All non-escaped wildcards match 0 or more characters of anything
-    * 3. The entire wildcard pattern is matched from beginning to end, and no more (e.g., a*d matches add but not adding or bad).
-    * 4. The pattern matching should be case insensitive.
-    */
+   * 1. All allowed character escapes are taken into account: \*, \t, \n, \r, \\, \'
+   *    a. \0 is explicitly not supported
+   * 2. All non-escaped wildcards match 0 or more characters of anything
+   * 3. The entire wildcard pattern is matched from beginning to end, and no more (e.g., a*d matches add but not adding or bad).
+   * 4. The pattern matching should be case insensitive.
+   */
   private _convertWildCardPatternToRegex(wildCardPattern: string): RegExp {
     wildCardPattern = wildCardPattern.replace(this._wildCardEscapeSequence, '\0'); // sentinel for escaped wildcards
     const regex = this._escapeRegExp(wildCardPattern) // escape the rest of the regex
@@ -140,13 +140,19 @@ export class AuthzService implements IAuthzService {
     return regex.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
   }
 
-  private _isAllowed(requestedAction: string, permission: PermissionsAsRegExp): boolean {
-    const actionAllowed = !!permission.actions.find(action => {
+  private _isAllowed(requestedAction: string, permissionRegex: PermissionsAsRegExp, permission: Permissions): boolean {
+    var requestedActionRegex = this._convertWildCardPatternToRegex(requestedAction);
+    const actionAllowed = !!permissionRegex.actions.find(action => {
       return action.test(requestedAction);
     });
-    const actionDenied = !!permission.notActions.find(notAction => {
-      return notAction.test(requestedAction);
-    });
+
+    const actionDenied =
+      !!permissionRegex.notActions.find(notActionRegex => {
+        return notActionRegex.test(requestedAction);
+      }) ||
+      !!permission.notActions.find(notAction => {
+        return requestedActionRegex.test(notAction);
+      });
 
     return actionAllowed && !actionDenied;
   }

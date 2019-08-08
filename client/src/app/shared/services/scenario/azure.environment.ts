@@ -252,7 +252,7 @@ export class AzureEnvironment extends Environment {
   }
 
   private _vstsPermissionsCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
-    return this._authZService.hasPermission(input.site.id, [AuthzService.activeDirectoryWriteScope]).map(value => {
+    return this._authZService.hasPermission(input.site.id, [AuthzService.roleAssignmentWriteScope]).map(value => {
       return <ScenarioResult>{
         status: value ? 'enabled' : 'disabled',
         data: {
