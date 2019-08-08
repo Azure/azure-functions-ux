@@ -3575,16 +3575,16 @@
     <value>У вас нет разрешений на создание репозитория в этом проекте. Обратитесь к администратору проекта или выберите другой проект.</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>Служба Azure Pipelines не включена для этого проекта. Обратитесь к его администратору или выберите другой проект.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Указанное имя организации недопустимо. Укажите другое имя.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Не удалось получить допустимый токен Azure DevOps.</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Не удалось получить токен Azure DevOps. Дополнительные сведения: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4342,6 +4342,9 @@
   </data>
   <data name="debugging" xml:space="preserve">
     <value>Отладка</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(изменено)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Параметры приложения</value>
