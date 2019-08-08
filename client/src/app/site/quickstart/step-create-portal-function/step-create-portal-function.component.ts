@@ -10,7 +10,7 @@ import { BindingManager } from 'app/shared/models/binding-manager';
 import { GlobalStateService } from 'app/shared/services/global-state.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionTemplate } from 'app/shared/models/function-template';
-import { WorkerRuntimeLanguages, SiteTabIds } from 'app/shared/models/constants';
+import { WorkerRuntimeLanguages, SiteTabIds, KeyCodes } from 'app/shared/models/constants';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Observable } from 'rxjs/Observable';
 import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
@@ -119,6 +119,12 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
       this._navigateToMoreTempaltes();
     } else {
       this._createFunction();
+    }
+  }
+
+  public onKeyPress(event: KeyboardEvent, card: PortalTemplateCard) {
+    if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+      this.selectPortalTemplate(card);
     }
   }
 
