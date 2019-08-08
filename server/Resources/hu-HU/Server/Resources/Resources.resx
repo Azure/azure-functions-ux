@@ -3575,16 +3575,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Nem jogosult a projektben adattár létrehozására. Forduljon a projekt rendszergazdájához, vagy válasszon másik projektet</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>Az Azure Pipelines szolgáltatás nincs engedélyezve ehhez a projekthez. Forduljon a projekt rendszergazdájához, vagy válasszon másik projektet</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>A megadott cégnév érvénytelen. Adjon meg egy másik cégnevet.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Nem sikerült érvényes Azure DevOps-jogkivonatot beolvasni</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Nem sikerült beolvasni az Azure DevOps-jogkivonatot. További részletek: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4342,6 +4342,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="debugging" xml:space="preserve">
     <value>Hibakeresés</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(módosítva)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Alkalmazásbeállítások</value>

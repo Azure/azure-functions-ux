@@ -3575,16 +3575,16 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Sie besitzen keine Berechtigungen, um Repositorys in diesem Projekt zu erstellen. Wenden Sie sich an Ihren Projektadministrator, oder wählen Sie ein anderes Projekt aus.</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>Der Azure Pipelines-Dienst ist für dieses Projekt nicht aktiviert. Wenden Sie sich an Ihren Projektadministrator, oder wählen Sie ein anderes Projekt aus.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Der angegebene Organisationsname ist ungültig. Geben Sie einen anderen Organisationsnamen an.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Es konnte kein gültiges Azure DevOps-Token abgerufen werden.</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Das Azure DevOps-Token konnte nicht abgerufen werden. Weitere Details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP und FTPS</value>
@@ -4342,6 +4342,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="debugging" xml:space="preserve">
     <value>Debuggen</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(geändert)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Anwendungseinstellungen</value>
