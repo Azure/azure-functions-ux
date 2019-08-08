@@ -1,7 +1,10 @@
 <div class="topContainer">
-    <div class="selectionContainer" flex-list>
+    <div class="selectionContainer" role="radiogroup" flex-list>
       <div *ngFor="let card of deploymentCards" class="cardContainer" [class.selected]="selectedDeploymentCard?.name === card.name"
-        (click)="selectDeployment(card)">
+        (click)="selectDeployment(card)"
+        role="radio"
+        [attr.aria-checked]="selectedDeploymentCard?.name === card.name"
+        (keydown)="onKeyPress($event, card)">
         <div class="cardHeader">
           <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}}
         </div>
