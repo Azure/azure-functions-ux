@@ -3575,16 +3575,16 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>No tiene permisos para crear el repositorio en este proyecto. Póngase en contacto con el administrador del proyecto o elija otro proyecto.</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>El servicio Azure Pipelines no está habilitado para este proyecto. Póngase en contacto con el administrador del proyecto o elija otro proyecto.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>El nombre de organización especificado no es válido. Proporcione otro.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>No se pudo capturar un token de Azure DevOps válido.</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>No se pudo capturar el token de Azure DevOps. Más detalles: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4342,6 +4342,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="debugging" xml:space="preserve">
     <value>Depuración</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(modificado)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Configuración de la aplicación</value>

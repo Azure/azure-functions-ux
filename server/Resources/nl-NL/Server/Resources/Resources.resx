@@ -3576,16 +3576,16 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>U hebt geen machtigingen om een opslagplaats agentpools in dit project te maken. Neem contact op met de projectbeheerder of kies een ander project</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>De Azure Pipelines-service is niet ingeschakeld voor dit project. Neem contact op met de projectbeheerder of kies een ander project</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>De opgegeven organisatienaam is ongeldig. Geef een andere organisatienaam op.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Kan geen geldig Azure DevOps-Token ophalen</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Kan het Azure DevOps-token niet ophalen. Meer details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP- + FTPS</value>
@@ -4343,6 +4343,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="debugging" xml:space="preserve">
     <value>Foutopsporing</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(gewijzigd)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Toepassingsinstellingen</value>
