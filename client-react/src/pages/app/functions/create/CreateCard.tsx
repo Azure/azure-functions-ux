@@ -4,9 +4,11 @@ import { ThemeContext } from '../../../../ThemeContext';
 import { getCardStyle, getHeaderStyle, getDescriptionStyle, getSrc } from './FunctionCreate.styles';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { useTranslation } from 'react-i18next';
+import { PivotState } from './FunctionCreate';
 
 export interface CreateCardProps {
   functionTemplate: FunctionTemplate;
+  setKey: (string) => void;
 }
 
 export interface CreateCardState {
@@ -15,13 +17,13 @@ export interface CreateCardState {
 }
 
 const CreateCard: React.SFC<CreateCardProps> = props => {
-  const { functionTemplate } = props;
+  const { functionTemplate, setKey } = props;
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
   return (
     <>
-      <div className={getCardStyle(theme)} onClick={() => onClick(functionTemplate)}>
+      <div className={getCardStyle(theme)} onClick={() => onClick(functionTemplate, setKey)}>
         <div className={getHeaderStyle(functionTemplate)}>
           <img src={getSrc(functionTemplate)} />
           {functionTemplate.metadata.name}
@@ -33,8 +35,9 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
   );
 };
 
-const onClick = (functionTemplate: FunctionTemplate) => {
+const onClick = (functionTemplate: FunctionTemplate, setKey: any) => {
   console.log(functionTemplate.id);
+  setKey(PivotState.details);
 };
 
 export default CreateCard;

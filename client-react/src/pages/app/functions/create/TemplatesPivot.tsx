@@ -1,14 +1,21 @@
 import React from 'react';
-import { FunctionCreateProps } from './FunctionCreate';
 import CreateCard from './CreateCard';
+import { FunctionTemplate } from '../../../../models/functions/function-template';
+import { PivotState } from './FunctionCreate';
 
-const TemplatesPivot: React.FC<FunctionCreateProps> = props => {
-  const { functionTemplates } = props;
+interface TemplatesPivotProps {
+  functionTemplates: FunctionTemplate[];
+  setKey: (string) => void;
+}
+
+const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
+  const { functionTemplates, setKey } = props;
+  setKey(PivotState.templates);
   return (
     <>
       {!!functionTemplates &&
         functionTemplates.map((template, index) => {
-          return <CreateCard functionTemplate={template} key={index} />;
+          return <CreateCard functionTemplate={template} key={index} setKey={setKey} />;
         })}
     </>
   );

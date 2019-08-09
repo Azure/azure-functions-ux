@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
@@ -15,12 +15,20 @@ export interface FunctionCreateProps {
   functionsInfo: ArmObj<FunctionInfo>[];
 }
 
+export enum PivotState {
+  templates = 'templates',
+  details = 'details',
+}
+
 const paddingStyle = {
   padding: '20px',
 };
 
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   const theme = useContext(ThemeContext);
+  const { functionTemplates } = props;
+
+  const [key, setKey] = useState<PivotState | undefined>(undefined);
 
   return (
     <>
@@ -32,20 +40,20 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
             {'go to the quickstart.'}
           </Link>
         </p>
-        <Pivot getTabId={getPivotTabId}>
+        <Pivot getTabId={getPivotTabId} selectedKey={key}>
           <PivotItem
             onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
               CustomTabRenderer(link, defaultRenderer, theme)
             }
-            itemKey="templates"
+            itemKey={PivotState.templates}
             headerText={'Templates'}>
-            <TemplatesPivot {...props} />
+            <TemplatesPivot functionTemplates={functionTemplates} setKey={setKey} />
           </PivotItem>
           <PivotItem
             onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
               CustomTabRenderer(link, defaultRenderer, theme)
             }
-            itemKey="details"
+            itemKey={PivotState.details}
             headerText={'Details'}>
             <DetailsPivot {...props} />
           </PivotItem>
@@ -56,11 +64,11 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   );
 };
 
-const getPivotTabId = (itemKey: string, index: number) => {
+const getPivotTabId = (itemKey: string) => {
   switch (itemKey) {
-    case 'templates':
+    case PivotState.templates:
       return 'function-create-templates-tab';
-    case 'details':
+    case PivotState.details:
       return 'function-create-details-tab';
   }
   return '';
