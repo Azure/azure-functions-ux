@@ -8,7 +8,7 @@ import { PivotState } from './FunctionCreate';
 
 export interface CreateCardProps {
   functionTemplate: FunctionTemplate;
-  setKey: (PivotState) => void;
+  setPivotStateKey: (PivotState) => void;
 }
 
 export interface CreateCardState {
@@ -17,13 +17,13 @@ export interface CreateCardState {
 }
 
 const CreateCard: React.SFC<CreateCardProps> = props => {
-  const { functionTemplate, setKey } = props;
+  const { functionTemplate, setPivotStateKey } = props;
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
   return (
     <>
-      <div className={getCardStyle(theme)} onClick={() => onClick(functionTemplate, setKey)}>
+      <div className={getCardStyle(theme)} onClick={() => onClick(functionTemplate, setPivotStateKey)}>
         <div className={getHeaderStyle(functionTemplate)}>
           <img src={getSrc(functionTemplate)} />
           {functionTemplate.metadata.name}
@@ -35,9 +35,9 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
   );
 };
 
-const onClick = (functionTemplate: FunctionTemplate, setKey: any) => {
+const onClick = (functionTemplate: FunctionTemplate, setPivotStateKey: any) => {
   console.log(functionTemplate.id);
-  setKey(PivotState.details);
+  setPivotStateKey(PivotState.details);
 };
 
 export default CreateCard;

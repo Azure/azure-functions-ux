@@ -5,17 +5,17 @@ import { PivotState } from './FunctionCreate';
 
 interface TemplatesPivotProps {
   functionTemplates: FunctionTemplate[];
-  setKey: (PivotState) => void;
+  setPivotStateKey: (PivotState) => void;
 }
 
 const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
-  const { functionTemplates, setKey } = props;
-  setKey(PivotState.templates);
+  const { functionTemplates, setPivotStateKey } = props;
+  setPivotStateKey(PivotState.templates);
   return (
     <>
       {!!functionTemplates &&
         functionTemplates.map((template, index) => {
-          return <CreateCard functionTemplate={template} key={index} setKey={setKey} />;
+          return <CreateCard functionTemplate={template} key={index} setPivotStateKey={setPivotStateKey} />;
         })}
     </>
   );

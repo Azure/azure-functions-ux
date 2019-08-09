@@ -27,7 +27,7 @@ const paddingStyle = {
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   const theme = useContext(ThemeContext);
   const { functionTemplates } = props;
-  const [key, setKey] = useState<PivotState | undefined>(undefined);
+  const [pivotStateKey, setPivotStateKey] = useState<PivotState | undefined>(undefined);
 
   return (
     <>
@@ -39,14 +39,14 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
             {'go to the quickstart.'}
           </Link>
         </p>
-        <Pivot getTabId={getPivotTabId} selectedKey={key}>
+        <Pivot getTabId={getPivotTabId} selectedKey={pivotStateKey}>
           <PivotItem
             onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
               CustomTabRenderer(link, defaultRenderer, theme)
             }
             itemKey={PivotState.templates}
             headerText={'Templates'}>
-            <TemplatesPivot functionTemplates={functionTemplates} setKey={setKey} />
+            <TemplatesPivot functionTemplates={functionTemplates} setPivotStateKey={setPivotStateKey} />
           </PivotItem>
           <PivotItem
             onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
