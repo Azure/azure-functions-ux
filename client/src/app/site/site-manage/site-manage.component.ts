@@ -523,7 +523,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         {
           detailBlade: 'MetricsBladeV3',
           detailBladeInputs: {
-            id: site.id,
+            ResourceId: site.id,
           },
           extension: 'Microsoft_Azure_Monitoring',
         },
