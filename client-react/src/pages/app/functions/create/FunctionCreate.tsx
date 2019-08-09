@@ -27,7 +27,6 @@ const paddingStyle = {
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   const theme = useContext(ThemeContext);
   const { functionTemplates } = props;
-
   const [key, setKey] = useState<PivotState | undefined>(undefined);
 
   return (

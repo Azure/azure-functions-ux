@@ -5,7 +5,7 @@ import { PivotState } from './FunctionCreate';
 
 interface TemplatesPivotProps {
   functionTemplates: FunctionTemplate[];
-  setKey: (string) => void;
+  setKey: (PivotState) => void;
 }
 
 const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {

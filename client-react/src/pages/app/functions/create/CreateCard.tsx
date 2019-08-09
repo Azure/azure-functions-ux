@@ -8,7 +8,7 @@ import { PivotState } from './FunctionCreate';
 
 export interface CreateCardProps {
   functionTemplate: FunctionTemplate;
-  setKey: (string) => void;
+  setKey: (PivotState) => void;
 }
 
 export interface CreateCardState {
