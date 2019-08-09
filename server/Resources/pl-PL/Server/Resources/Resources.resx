@@ -3575,16 +3575,16 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Nie masz uprawnień do tworzenia repozytorium w tym projekcie. Skontaktuj się z administratorem projektu lub wybierz inny projekt</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>Usługa Azure Pipelines nie jest włączona dla tego projektu. Skontaktuj się z administratorem projektu lub wybierz inny projekt</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Podana nazwa organizacji jest nieprawidłowa. Podaj inną nazwę organizacji.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Nie można pobrać prawidłowego tokenu Azure DevOps</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Nie można pobrać tokenu Azure DevOps. Więcej szczegółów: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4342,6 +4342,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="debugging" xml:space="preserve">
     <value>Debugowanie</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(zmodyfikowano)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Ustawienia aplikacji</value>
