@@ -3575,16 +3575,16 @@
     <value>이 프로젝트에 리포지토리를 만들 수 있는 권한이 없습니다. 프로젝트 관리자에게 문의하거나 다른 프로젝트를 선택하세요.</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>이 프로젝트에 Azure Pipelines 서비스를 사용할 수 없습니다. 프로젝트 관리자에게 문의하거나 다른 프로젝트를 선택하세요.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>제공된 조직 이름이 잘못되었습니다. 다른 조직 이름을 제공하세요.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>유효한 Azure DevOps 토큰을 가져올 수 없습니다.</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Azure DevOps 토큰을 가져올 수 없습니다. 추가 세부 정보: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP+FTPS</value>
@@ -4342,6 +4342,9 @@
   </data>
   <data name="debugging" xml:space="preserve">
     <value>디버깅</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(수정됨)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>응용 프로그램 설정</value>
