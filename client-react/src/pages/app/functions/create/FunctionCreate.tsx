@@ -5,12 +5,10 @@ import { FunctionInfo } from '../../../../models/functions/function-info';
 import { Pivot, PivotItem, IPivotItemProps, Link } from 'office-ui-fabric-react';
 import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
 import { ThemeContext } from '../../../../ThemeContext';
-// import { useTranslation } from 'react-i18next';
 import TemplatesPivot from './TemplatesPivot';
 import DetailsPivot from './DetailsPivot';
 import { Links } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
-// import { BindingFormBuilder } from '../common/BindingFormBuilder';
 
 export interface FunctionCreateProps {
   functionTemplates: FunctionTemplate[];
@@ -23,12 +21,6 @@ const paddingStyle = {
 
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   const theme = useContext(ThemeContext);
-  // const { t } = useTranslation();
-
-  // const { functionTemplates } = props;
-
-  // const builder = new BindingFormBuilder(currentBindingInfo, functionTemplates[0].function.bindings[0], t);
-  // const initialFormValues = builder.getInitialFormValues();
 
   return (
     <>
@@ -46,7 +38,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
               CustomTabRenderer(link, defaultRenderer, theme)
             }
             itemKey="templates"
-            linkText={'Templates'}>
+            headerText={'Templates'}>
             <TemplatesPivot {...props} />
           </PivotItem>
           <PivotItem
@@ -54,7 +46,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
               CustomTabRenderer(link, defaultRenderer, theme)
             }
             itemKey="details"
-            linkText={'Details'}>
+            headerText={'Details'}>
             <DetailsPivot {...props} />
           </PivotItem>
         </Pivot>

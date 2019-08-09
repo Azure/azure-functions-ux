@@ -20,7 +20,7 @@ export interface FunctionTemplateMetadata {
   category?: string[];
   userPrompt?: string[];
   defaultFunctionName?: string;
-  description?: string;
+  description: string;
   visible?: boolean;
   filters?: string[];
   enabledInTryMode?: boolean;

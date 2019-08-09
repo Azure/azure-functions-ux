@@ -29,8 +29,7 @@ export const getCardStyle = (theme: ThemeExtended) => {
   });
 };
 
-export const getHeaderStyle = (theme: ThemeExtended, functionTemplate: FunctionTemplate) => {
-  const headerStyle = _getTemplateColorandIcon(functionTemplate);
+export const getHeaderStyle = (functionTemplate: FunctionTemplate) => {
   return style({
     display: 'inline-flex',
     width: '100%',
@@ -41,8 +40,7 @@ export const getHeaderStyle = (theme: ThemeExtended, functionTemplate: FunctionT
 
     $nest: {
       img: {
-        src: `${headerStyle.icon}`,
-        backgroundColor: `${headerStyle.color}`,
+        backgroundColor: `${_getTemplateColor(functionTemplate)}`,
         height: '40px',
         width: '40px',
         padding: '5px',
@@ -50,6 +48,34 @@ export const getHeaderStyle = (theme: ThemeExtended, functionTemplate: FunctionT
       },
     },
   } as any);
+};
+
+export const getSrc = (functionTemplate: FunctionTemplate) => {
+  if (functionTemplate.metadata && functionTemplate.metadata.categoryStyle) {
+    switch (functionTemplate.metadata.categoryStyle) {
+      case 'blob':
+        return require('images/CreateCardIcons/blob.svg');
+      case 'cosmosDB':
+        return require('images/CreateCardIcons/cosmosDB.svg');
+      case 'eventGrid':
+        return require('images/CreateCardIcons/eventGrid.svg');
+      case 'eventHub':
+        return require('images/CreateCardIcons/eventHub.svg');
+      case 'http':
+        return require('images/CreateCardIcons/http.svg');
+      case 'iot':
+        return require('images/CreateCardIcons/iot.svg');
+      case 'queue':
+        return require('images/CreateCardIcons/queue.svg');
+      case 'serviceBus':
+        return require('images/CreateCardIcons/serviceBus.svg');
+      case 'timer':
+        return require('images/CreateCardIcons/timer.svg');
+      case 'webhook':
+        return require('images/CreateCardIcons/webhook.svg');
+    }
+  }
+  return require('images/CreateCardIcons/other.svg');
 };
 
 export const getDescriptionStyle = (theme: ThemeExtended) => {
@@ -60,25 +86,22 @@ export const getDescriptionStyle = (theme: ThemeExtended) => {
   });
 };
 
-const _getTemplateColorandIcon = (template: FunctionTemplate) => {
-  if (template.metadata && template.metadata.categoryStyle) {
-    return createCardStyles.hasOwnProperty(template.metadata.categoryStyle)
-      ? createCardStyles[template.metadata.categoryStyle]
-      : createCardStyles['other'];
-  }
-  return createCardStyles['other'];
+const _getTemplateColor = (template: FunctionTemplate) => {
+  return (
+    (template.metadata && template.metadata.categoryStyle && createCardColors[template.metadata.categoryStyle]) || createCardColors['other']
+  );
 };
 
-const createCardStyles = {
-  blob: { color: '#1E5890', icon: 'image/blob.svg' },
-  cosmosDB: { color: '#379DA6', icon: 'image/cosmosDB.svg' },
-  eventGrid: { color: '#719516', icon: 'image/eventGrid.svg' },
-  eventHub: { color: '#719516', icon: 'image/eventHub.svg' },
-  http: { color: '#731DDA', icon: 'image/http.svg' },
-  iot: { color: '#990000', icon: 'image/iot.svg' },
-  other: { color: '#000000', icon: 'image/other.svg' },
-  queue: { color: '#1E5890', icon: 'image/queue.svg' },
-  serviceBus: { color: '#F67600', icon: 'image/serviceBus.svg' },
-  timer: { color: '#3C86FF', icon: 'image/timer.svg' },
-  webhook: { color: '#731DDA', icon: 'image/webhook.svg' },
+const createCardColors = {
+  blob: '#1E5890',
+  cosmosDB: '#379DA6',
+  eventGrid: '#719516',
+  eventHub: '#719516',
+  http: '#731DDA',
+  iot: '#990000',
+  other: '#000000',
+  queue: '#1E5890',
+  serviceBus: '#F67600',
+  timer: '#3C86FF',
+  webhook: '#731DDA',
 };
