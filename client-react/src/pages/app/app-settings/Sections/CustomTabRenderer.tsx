@@ -6,7 +6,7 @@ const CustomTabRenderer = (
   defaultRenderer: (link: IPivotItemProps) => JSX.Element,
   theme: ThemeExtended,
   dirtyCheck?: () => boolean,
-  dirtyLabel: string,
+  dirtyLabel?: string,
   errorCheck?: () => boolean
 ) => {
   let iconState: 'error' | 'dirty' | '' = '';
