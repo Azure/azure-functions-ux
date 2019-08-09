@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>Opslag</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>Functie</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Fout bij het maken van de functie: {{error}}</value>
   </data>
@@ -298,7 +301,7 @@
     <value>Ga aan de slag met uw eigen</value>
   </data>
   <data name="intro_keepUsingQuickstart" xml:space="preserve">
-    <value>Deze snelstartgids blijven gebruiken</value>
+    <value>Deze quickstart blijven gebruiken</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
     <value>Voor PowerShell, Python en Batch,</value>
@@ -380,19 +383,19 @@
     <value>Er wordt een bewerking voor opslaan uitgevoerd. Als u deze pagina verlaat, kunnen sommige wijzigingen verloren gaan.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Nieuwe instelling toevoegen</value>
+    <value>Nieuwe toepassingsinstelling toevoegen</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Nieuwe verbindingsreeks toevoegen</value>
+    <value>Nieuwe verbindingsreeks toevoegen</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Nieuw document toevoegen</value>
+    <value>Nieuw document toevoegen</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Nieuwe handlertoewijzing toevoegen</value>
+    <value>Nieuwe handlertoewijzing toevoegen</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Nieuwe virtuele toepassing of map toevoegen</value>
+    <value>Nieuwe virtuele toepassing of directory toevoegen</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Een naam invoeren</value>
@@ -464,7 +467,7 @@
     <value>Er is een nieuwe versie van Azure Functions beschikbaar. Als u een upgrade wilt uitvoeren, klikt u hier</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>Snelstartgids</value>
+    <value>Quickstart</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
     <value>Gebruik</value>
@@ -668,7 +671,7 @@
     <value>Scenario:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Triggers</value>
+    <value>Trigger</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
     <value>De proefversie is verlopen</value>
@@ -920,10 +923,10 @@
     <value>AlwaysOn is uitgeschakeld. Mogelijk werkt uw app niet op de juiste manier</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>De instelling AzureWebJobsSecretStorageType moet zijn geconfigureerd op Blob. Als u deze instelling niet hebt geconfigureerd, kan dit leiden tot onverwacht gedrag bij gebruik van implementatiesites.</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>De instelling AzureWebJobsSecretStorageType mag niet zijn ingesteld op Bestanden. Deze instelling kan leiden tot onverwacht gedrag bij gebruik van implementatiesites.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Opmerkingen bij de release van Azure Functions.</value>
@@ -1085,7 +1088,7 @@
     <value>De proxy met de naam {{name}} bestaat al</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>Azure Functions-sites zijn momenteel uitgeschakeld.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Negeren</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Opnieuw starten</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Logboeken</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>Wisseling</value>
@@ -1721,7 +1727,7 @@
     <value>Configureer het op rollen gebaseerde toegangsbeheer (RBAC) voor uw app.</value>
   </data>
   <data name="feature_tagsName" xml:space="preserve">
-    <value>Labels</value>
+    <value>Tags</value>
   </data>
   <data name="feature_tagsInfo" xml:space="preserve">
     <value>Tags zijn sleutel-waardeparen waarmee u resources kunt categoriseren en een geconsolideerde factuur kunt bekijken door dezelfde tag op meerdere resources en resourcegroepen toe te passen. </value>
@@ -1970,7 +1976,7 @@
     <value>ACTIES</value>
   </data>
   <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
-    <value>ga naar de snelstartgids</value>
+    <value>ga naar de quickstart</value>
   </data>
   <data name="httpRun_noQuery" xml:space="preserve">
     <value>Er zijn geen queryparameters</value>
@@ -2114,7 +2120,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>FOUT</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>Dit veld kan alleen letters, cijfers (0-9) punten ('.') en onderstrepingstekens ('_') bevatten</value>
+    <value>Namen voor app-instellingen mogen alleen letters, cijfers (0-9), punten (.) en onderstrepingstekens (_) bevatten</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Dit veld is vereist</value>
@@ -2194,14 +2200,11 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>Er kunnen geen functie-apps worden weergegeven</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>Sites (preview-versies)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Implementatiesites (preview-versie) inschakelen.</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>Implementatiesites inschakelen</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Bekende problemen:</value>
@@ -2210,13 +2213,16 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Integratie van Logica Apps met Functions werkt niet als Sites (preview-versie) is ingeschakeld.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>Als u deze functie inschakelt, worden eventuele bestaande geheimen opnieuw ingesteld. De functiegeheimen vindt u onder het knooppunt Beheren voor elke functie.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>De bewerking voor sleuf maken wordt momenteel uitgevoerd. Wanneer u de pagina verlaat, kunt u de status van de bewerking niet meer controleren.</value>
   </data>
   <data name="slots_label" xml:space="preserve">
-    <value>Slots</value>
+    <value>Sleuven</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>Sites (preview-versies)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Sleuf toevoegen</value>
@@ -2295,9 +2301,6 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>Verkeerspercentage</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Sites (preview-versies)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Aankomende wijzigingen in routeringsregels</value>
@@ -2778,7 +2781,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Proxy's is ingeschakeld. Als u dit wilt uitschakelen, moet u alle afzonderlijke proxy's verwijderen of uitschakelen.</value>
   </data>
   <data name="java_splash_button" xml:space="preserve">
-    <value>Quick Start voor Java in Azure Functions</value>
+    <value>Quickstart voor Java in Azure Functions</value>
   </data>
   <data name="nameColon" xml:space="preserve">
     <value>Naam:</value>
@@ -3206,6 +3209,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>Uitgaande IP-adressen voor uw app kunnen worden gewijzigd.</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>Het App Service-plan {0} heeft het aanbevolen aantal apps voor de grootte van het plan overschreden.</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>Gratis</value>
   </data>
@@ -3540,7 +3546,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Een bestand hierheen slepen of</value>
   </data>
   <data name="browse" xml:space="preserve">
-    <value>bladeren</value>
+    <value>Bladeren</value>
   </data>
   <data name="toUpload" xml:space="preserve">
     <value>om te uploaden</value>
@@ -3566,8 +3572,20 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>U hebt geen machtigingen om een van de beschikbare agentpools in dit project te gebruiken. Neem contact op met de projectbeheerder of kies een ander project</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>U hebt geen machtigingen om een opslagplaats agentpools in dit project te maken. Neem contact op met de projectbeheerder of kies een ander project</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>De Azure Pipelines-service is niet ingeschakeld voor dit project. Neem contact op met de projectbeheerder of kies een ander project</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>De opgegeven organisatienaam is ongeldig. Geef een andere organisatienaam op.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Kan geen geldig Azure DevOps-Token ophalen</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Kan het Azure DevOps-token niet ophalen. Meer details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP- + FTPS</value>
@@ -3804,6 +3822,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>Kan de implementatie niet instellen: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>U kunt geen nieuwe toepassing registreren in Azure Active Directory. Meer informatie: https://go.microsoft.com/fwlink/?linkid=843472. Meer details: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>De verbinding met uw implementatie wordt verbroken</value>
   </data>
@@ -3841,13 +3862,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Containerinstellingen bijwerken</value>
   </data>
   <data name="containerQuickstart" xml:space="preserve">
-    <value>Snelstartgids</value>
+    <value>Quickstart-gids</value>
   </data>
   <data name="containerACR" xml:space="preserve">
     <value>Azure Container Registry</value>
   </data>
   <data name="containerDockerHub" xml:space="preserve">
-    <value>Docker-hub</value>
+    <value>Docker Hub</value>
   </data>
   <data name="containerPrivateRegistry" xml:space="preserve">
     <value>Privéregister</value>
@@ -3904,7 +3925,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Azure-functies voor Java - aan de slag</value>
   </data>
   <data name="quickstartDescription" xml:space="preserve">
-    <value>Volg de richtlijnen voor het schrijven en publiceren van een functie in de Snelstartgids</value>
+    <value>Volg de richtlijnen voor het schrijven en publiceren van een functie in de quickstart</value>
   </data>
   <data name="chooseDevEnvironment" xml:space="preserve">
     <value>Kies een implementatieomgeving</value>
@@ -3916,7 +3937,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Een functie maken</value>
   </data>
   <data name="quickstart" xml:space="preserve">
-    <value>Quick Start</value>
+    <value>Quickstart</value>
   </data>
   <data name="vsCardTitle" xml:space="preserve">
     <value>Visual Studio</value>
@@ -3991,7 +4012,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>De opslagplaats voor web-app {0} kan op dit moment niet worden bijgewerkt.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>De doorlopende Azure DevOps-levering vereist dat u een machtiging hebt voor het schrijven naar Azure Active Directory en het maken van een service-principal.</value>
+    <value>Voor een continue levering van Azure DevOps is het vereist dat u gemachtigd bent om een service-principal te maken in Azure Active Directory en hieraan rollen toe te wijzen.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Voorbeeld selecteren</value>
@@ -4006,7 +4027,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>U beschikt niet over een geldige Azure DevOps-organisatie</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>U hebt geen geldige Azure DevOps-organisatie. App Service Kudu Build vereist ook dat u eigenaar van de organisatie bent</value>
+    <value>Toegang op eigenaarsniveau tot een geldige Azure DevOps-organisatie is vereist.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Nu maken</value>
@@ -4132,7 +4153,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Installatiekopie</value>
   </data>
   <data name="containerACRTag" xml:space="preserve">
-    <value>Code</value>
+    <value>Tag</value>
   </data>
   <data name="containerACRStartupFile" xml:space="preserve">
     <value>Opstartbestand</value>
@@ -4185,9 +4206,6 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="hideUrl" xml:space="preserve">
     <value>url verbergen</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Functies voor Linux-verbruik zijn een preview-aanbieding.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Sommige velden zijn niet correct ingevuld of zijn vereist.</value>
   </data>
@@ -4195,7 +4213,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Voltooien en naar Deployment Center</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Functies bewerken in de portal wordt niet ondersteund voor functie-apps voor Linux-verbruik (preview).</value>
+    <value>Functies bewerken in de portal wordt niet ondersteund voor functie-apps voor Linux-verbruik.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Functies bewerken in de portal wordt niet ondersteund voor Premium-functie-apps voor Linux (Preview).</value>
@@ -4325,6 +4343,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="debugging" xml:space="preserve">
     <value>Foutopsporing</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(gewijzigd)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Toepassingsinstellingen</value>
@@ -4459,7 +4480,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Waarde</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>implementatiesite-instelling</value>
+    <value>Instelling voor implementatiesite</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4521,7 +4542,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Het opslaan van de referenties is mislukt</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Referenties zijn opgeslagen</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4606,7 +4627,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Opslag koppelen (preview)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Opslag toevoegen</value>
+    <value>Opslag toevoegen</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Account</value>
@@ -4714,7 +4735,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Nieuwe virtuele toepassing of map</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Nieuwe handler</value>
+    <value>Nieuwe handlertoewijzing</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Kan geen verbinding maken met uw app. Dit kan komen door netwerkbeveiligingsgroepen of IP-beperkingsregels die u in uw app hebt geplaatst. Zorg ervoor dat u rechtstreeks vanaf uw huidige netwerk toegang hebt tot uw app om logboekstreaming te gebruiken.</value>
@@ -4789,28 +4810,46 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Functies in de portal bewerken wordt niet ondersteund voor Python Function Apps (preview-versie). Gebruik de CLI of VS Code voor ontwikkeling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Meer informatie&lt;/a&gt;</value>
+    <value>Functies bewerken in de portal wordt niet ondersteund door Python-functie-apps. Gebruik CLI of VS Code voor de ontwikkeling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Meer informatie&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure-opslagkoppeling bevat geheimen. Lees-/schrijf-machtigingen zijn vereist om deze sectie te bekijken/bewerken.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Alle eigenschappen van de instellingen voor de implementatiesite moeten van het type booleaans zijn</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>De waarden voor de app-instellingen moeten een matrix zijn</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} is een vereiste eigenschap voor alle toepassingsinstellingen</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Alle waarde- en naameigenschappen voor de app-instellingen moeten van het type tekenreeks zijn</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Alle eigenschappen van de implementatiesite-instellingen voor de app-instellingen moeten van het type booleaans zijn</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} is een ongeldige eigenschap voor app-instellingen</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Namen voor de app-instellingen moeten uniek zijn</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Verbindingsreekswaarden moeten een matrix zijn</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} is een vereiste eigenschap voor verbindingsreeksen</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Alle waarde- en naameigenschappen voor verbindingsreeksen moeten van het type tekenreeks zijn</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} is een ongeldige verbindingsreekseigenschap</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Namen van verbindingsreeksen moeten uniek zijn</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} is een vereiste eigenschap voor alle handlertoewijzingen</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Ongeldig JSON-object</value>
@@ -4963,6 +5002,18 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>De naam van een resourcegroep mag alleen alfanumerieke tekens, punten, onderstrepingstekens, afbreekstreepjes en haakjes bevatten en mag niet eindigen op een punt.</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>{0} is een ongeldig teken</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>De naam {0} is beperkt. Geef een andere naam op.</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>De naam van het plan mag niet langer zijn dan {0} tekens.</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>Er bestaat al een plan met de naam {0} in de resourcegroep {1}</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>Weet u zeker dat u de bewerking voor bijwerken wilt annuleren?</value>
   </data>
@@ -4992,5 +5043,56 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>Kan de containerinstellingen niet valideren.</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>Geen trigger gedefinieerd</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>Geen invoerwaarden gedefinieerd</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>Geen uitvoerwaarden gedefinieerd</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ Invoer toevoegen</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>Functie</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>Implementatiegegevens ophalen...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>Er zijn geen implementatiegegevens beschikbaar.</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>Deze functie is niet beschikbaar voor apps in een ILB ASE.</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure-opslagplaatsen</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>Binding bijwerken</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>{0} ({1}) bijwerken</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>Kan {0} ({1}) niet bijwerken: {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>{0} ({1}) is bijgewerkt</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>Invoer bewerken</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>Uitvoer bewerken</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>Trigger bewerken</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>Bindingsopdrachten bewerken</value>
   </data>
 </root>

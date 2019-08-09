@@ -1,7 +1,7 @@
 import i18next from 'i18next';
 import { FormAppSetting } from '../AppSettings.types';
 import * as Joi from 'joi';
-const schema = Joi.array()
+const windowsSchema = Joi.array()
   .unique('name')
   .items(
     Joi.object().keys({
@@ -12,10 +12,23 @@ const schema = Joi.array()
       slotSetting: Joi.boolean().optional(),
     })
   );
-export const getErrorMessage = (newValue: string, t: i18next.TFunction) => {
+const linuxSchema = Joi.array()
+  .unique('name')
+  .items(
+    Joi.object().keys({
+      name: Joi.string()
+        .required()
+        .regex(/^[\w|\.]*$/),
+      value: Joi.string()
+        .required()
+        .allow(''),
+      slotSetting: Joi.boolean().optional(),
+    })
+  );
+export const getErrorMessage = (newValue: string, isLinux: boolean, t: i18next.TFunction) => {
   try {
     const obj = JSON.parse(newValue) as unknown;
-
+    const schema = isLinux ? linuxSchema : windowsSchema;
     const result = Joi.validate(obj, schema);
     if (!result.error) {
       return '';
@@ -23,15 +36,17 @@ export const getErrorMessage = (newValue: string, t: i18next.TFunction) => {
     const details = result.error.details[0];
     switch (details.type) {
       case 'array.base':
-        return t('valuesMustBeAnArray');
+        return t('appSettingValuesMustBeAnArray');
       case 'any.required':
         return t('appSettingPropIsRequired').format(details.context!.key);
       case 'string.base':
-        return t('valueMustBeAString');
+        return t('appSettingValueMustBeAString');
+      case 'string.regex.base':
+        return t('validation_linuxAppSettingNameError');
       case 'boolean.base':
         return t('slotSettingMustBeBoolean');
       case 'object.allowUnknown':
-        return t('invalidAppSettingProperty').format(details.context!.key);
+        return t('appSettingInvalidProperty').format(details.context!.key);
       case 'array.unique':
         return t('appSettingNamesUnique');
       default:

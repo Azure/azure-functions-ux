@@ -60,7 +60,7 @@ export class MonitorClassicComponent extends FeatureComponent<FunctionMonitorInf
           if (functionHost.isSuccessful) {
             return this._functionMonitorService.getDataForSelectedFunction(
               functionMonitorInfo.functionAppContext,
-              functionMonitorInfo.functionInfo,
+              functionMonitorInfo.functionName,
               functionHost.result.id
             );
           } else {
@@ -91,7 +91,7 @@ export class MonitorClassicComponent extends FeatureComponent<FunctionMonitorInf
   }
 
   get shouldRenderAppInsightsUpsell() {
-    return this.functionMonitorInfo !== null && this.functionMonitorInfo !== null && this.functionMonitorInfo.appInsightsFeatureEnabled;
+    return this.functionMonitorInfo !== null && this.functionMonitorInfo !== null && this.functionMonitorInfo.appInsightResource !== null;
   }
 
   public refreshMonitorClassicData() {

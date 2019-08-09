@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>Almacenamiento</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>Función</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Error al crear la función: {{error}}.</value>
   </data>
@@ -380,19 +383,19 @@
     <value>Hay una operación de guardar en curso. Al salir, puede que se pierdan algunos cambios.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Agregar nuevo valor</value>
+    <value>Agregar nueva configuración de aplicación</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Agregar nueva cadena de conexión</value>
+    <value>Agregar nueva cadena de conexión</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Agregar un nuevo documento</value>
+    <value>Agregar nuevo documento</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Agregar una nueva asignación de controlador</value>
+    <value>Agregar nueva asignación de controlador</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Agregar una nueva aplicación o directorio virtual</value>
+    <value>Agregar nueva aplicación o directorio virtual</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Escribir un nombre</value>
@@ -668,7 +671,7 @@
     <value>Escenario:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Desencadenadores</value>
+    <value>Desencadenador</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
     <value>La prueba ha expirado.</value>
@@ -920,10 +923,10 @@
     <value>La opción "AlwaysOn" no está habilitada. Es posible que la aplicación no funcione correctamente</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>El valor "AzureWebJobsSecretStorageType" debe establecerse como "blob". En caso contrario, se obtiene un comportamiento inesperado al usar las ranuras de implementación.</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>El valor "AzureWebJobsSecretStorageType" no debe establecerse como "files". En caso contrario, se obtiene un comportamiento inesperado al usar las ranuras de implementación.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Notas de la versión de Azure Functions.</value>
@@ -1085,7 +1088,7 @@
     <value>El proxy con nombre "{{nombre}}" ya existen</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>Los espacios de Azure Functions están actualmente deshabilitados.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Descartar</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Reiniciar</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Registros</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>Intercambiar</value>
@@ -2114,7 +2120,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>ERROR</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>Este campo solo puede contener letras, números (0-9), puntos (".") y caracteres de subrayado ("_").</value>
+    <value>Los nombres de configuraciones de aplicaciones solo pueden contener letras, números (0-9), puntos (".") y guiones bajos ("_").</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Este campo es obligatorio</value>
@@ -2194,14 +2200,11 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>No hay ninguna aplicación de función para mostrar</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>Espacios (vista previa)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Habilita los espacios de implementación (versión preliminar).</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>Habilitar las ranuras de implementación</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Problemas conocidos:</value>
@@ -2210,13 +2213,16 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>La integración de Logic Apps con Functions no funciona cuando están habilitados los espacios (versión preliminar).</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>Si habilita esta característica, se restablecerán los secretos preexistentes. Los secretos de función se pueden encontrar en el nodo "Administrar" de cada función.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Hay una operación de creación de espacio en curso. Después de salir, ya no podrá comprobar el estado de la operación.</value>
   </data>
   <data name="slots_label" xml:space="preserve">
     <value>Ranuras</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>Espacios (vista previa)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Agregar ranura</value>
@@ -2295,9 +2301,6 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>Tráfico %</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Espacios (vista previa)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Próximos cambios en las reglas de enrutamiento</value>
@@ -3205,6 +3208,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>Las direcciones IP de salida de la aplicación pueden cambiar.</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>El plan de App Service {0} ha superado el número recomendado de aplicaciones para su tamaño.</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>Gratis</value>
   </data>
@@ -3539,7 +3545,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Arrastrar un archivo aquí o</value>
   </data>
   <data name="browse" xml:space="preserve">
-    <value>examinar</value>
+    <value>Examinar</value>
   </data>
   <data name="toUpload" xml:space="preserve">
     <value>para cargarlos.</value>
@@ -3565,8 +3571,20 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>No tiene permisos de uso para ninguno de los grupos de agentes disponibles en este proyecto. Póngase en contacto con el administrador del proyecto o elija otro proyecto.</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>No tiene permisos para crear el repositorio en este proyecto. Póngase en contacto con el administrador del proyecto o elija otro proyecto.</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>El servicio Azure Pipelines no está habilitado para este proyecto. Póngase en contacto con el administrador del proyecto o elija otro proyecto.</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>El nombre de organización especificado no es válido. Proporcione otro.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>No se pudo capturar un token de Azure DevOps válido.</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>No se pudo capturar el token de Azure DevOps. Más detalles: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3803,6 +3821,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>No se pudo configurar la implementación: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>No se puede registrar una aplicación nueva en Azure Active Directory. Más información: https://go.microsoft.com/fwlink/?linkid=843472. Más detalles: {0}.</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Desconectando la implementación</value>
   </data>
@@ -3915,7 +3936,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Crear una función</value>
   </data>
   <data name="quickstart" xml:space="preserve">
-    <value>Quickstart</value>
+    <value>Inicio rápido</value>
   </data>
   <data name="vsCardTitle" xml:space="preserve">
     <value>Visual Studio</value>
@@ -3990,7 +4011,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>El repositorio para la aplicación web {0} no se puede actualizar en este momento.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>La entrega continua de Azure DevOps requiere que tenga permisos para escribir en Azure Active Directory y crear una entidad de servicio.</value>
+    <value>La entrega continua de Azure DevOps requiere que tenga permisos para crear una entidad de servicio en Azure Active Directory y asignarle roles.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Seleccionar muestra</value>
@@ -4005,7 +4026,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>No tiene ninguna organización de Azure DevOps válida.</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>No tiene ninguna organización de Azure DevOps válida. La compilación Kudu de App Service también requiere que sea el propietario de la organización.</value>
+    <value>Se requiere el acceso de nivel de propietario a una organización de Azure DevOps válida.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Crear ahora</value>
@@ -4184,9 +4205,6 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="hideUrl" xml:space="preserve">
     <value>ocultar dirección url</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Las funciones de consumo de Linux son una oferta en versión preliminar.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Algunos de los campos no se rellenaron correctamente o son necesarios.</value>
   </data>
@@ -4194,7 +4212,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Finalizar e ir al centro de implementación</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>La edición de funciones en el portal no es compatible con las aplicaciones de función de Consumo de Linux (versión preliminar).</value>
+    <value>La edición de funciones en el portal no es compatible con las aplicaciones de función de Consumo para Linux.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>La edición de funciones en el portal no es compatible con las aplicaciones de función Premium de Linux (versión preliminar).</value>
@@ -4324,6 +4342,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="debugging" xml:space="preserve">
     <value>Depuración</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(modificado)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Configuración de la aplicación</value>
@@ -4458,7 +4479,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Valor</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>configuración de ranura de implementación</value>
+    <value>Configuración de ranura de implementación</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4520,7 +4541,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>No se pudieron guardar las credenciales.</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Las credenciales se guardaron correctamente.</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4605,7 +4626,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Almacenamiento de montaje (versión preliminar)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Agregar almacenamiento</value>
+    <value>Agregar almacenamiento</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Cuenta</value>
@@ -4713,7 +4734,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Nueva aplicación o directorio virtual</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Nuevo controlador</value>
+    <value>Nueva asignación de controlador</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>No se puede abrir una conexión a la aplicación. Puede deberse a los grupos de seguridad de red o reglas de restricción de IP que haya definido en la aplicación. Para usar la transmisión de registros, compruebe que puede acceder a la aplicación directamente desde la red actual.</value>
@@ -4788,28 +4809,46 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>La edición de funciones en el portal no es compatible con las aplicaciones de función Python (versión preliminar). Use la CLI o VS Code para el desarrollo. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Más información&lt;/a&gt;</value>
+    <value>La edición de funciones en el portal no es compatible con las aplicaciones de función Python. Use la CLI o VS Code para el desarrollo. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Más información&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Los montajes de almacenamiento de Azure contienen secretos. Se necesitan permisos de lectura y escritura para ver o editar esta sección.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Todas las propiedades de configuración de ranuras de implementación deben ser de tipo Boolean.</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Los valores de configuración de la aplicación deben ser una matriz.</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} es una propiedad necesaria en todas las configuraciones de la aplicación.</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Todas las propiedades de nombre y valor de configuración de la aplicación deben ser de tipo string.</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Todas las propiedades de configuración de ranuras de implementación de la configuración de la aplicación deben ser de tipo booleano.</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} es una propiedad de configuración de la aplicación que no es válida.</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Los nombres de configuración de la aplicación deben ser únicos.</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Los valores de las cadenas de conexión deben ser una matriz.</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} es una propiedad necesaria en todas las cadenas de conexión.</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Todas las propiedades de nombre y valor de cadena de conexión deben ser de tipo String.</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} es una propiedad de cadena de conexión no válida.</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Los nombres de las cadenas de conexión deben ser únicos.</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} es una propiedad necesaria en todas las asignaciones de controladores.</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Objeto JSON no válido</value>
@@ -4962,6 +5001,18 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>El nombre de grupo de recursos solo puede incluir caracteres alfanuméricos, puntos, subrayados, guiones y paréntesis y no puede finalizar en un punto.</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>"{0}" no es un carácter válido</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>El nombre "{0}" está restringido. Elija otro nombre.</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>El nombre del plan no puede superar los {0} caracteres.</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>Ya existe un plan denominado "{0}" en el grupo de recursos "{1}".</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>¿Está seguro de que quiere cancelar la operación de actualización?</value>
   </data>
@@ -4991,5 +5042,56 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>No se pudo validar la configuración del contenedor.</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>No se definió ningún desencadenador.</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>No se definió ninguna entrada.</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>No se definió ninguna salida.</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ Agregar entrada</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>Función</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>Capturando datos de implementación...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>No hay datos de implementación disponibles.</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>Esta característica no está disponible para aplicaciones en un ASE de ILB.</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>Actualizando enlace</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>Actualizando {0} ({1})</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>No se pudo actualizar {0} ({1}): {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>La actualización de {0} ({1}) se completó correctamente.</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>Editar entrada</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>Editar salida</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>Editar desencadenador</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>Editar comandos de enlace</value>
   </data>
 </root>

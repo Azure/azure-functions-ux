@@ -223,8 +223,17 @@ export function getConnectionStringsFromForm(connectionStrings: FormConnectionSt
 }
 
 export function unFlattenVirtualApplicationsList(virtualApps: VirtualApplication[]) {
-  const virtualApplications = virtualApps.filter(x => !x.virtualDirectory)!;
-  const virtualDirectories = virtualApps.filter(x => x.virtualDirectory);
+  if (!virtualApps) {
+    return [];
+  }
+
+  const newList: VirtualApplication[] = [];
+  virtualApps.forEach(va => {
+    newList.push({ ...va, virtualDirectories: [] });
+  });
+
+  const virtualApplications = newList.filter(x => !x.virtualDirectory)!;
+  const virtualDirectories = newList.filter(x => x.virtualDirectory);
 
   virtualApplications.sort((a, b) => b.virtualPath.length - a.virtualPath.length);
   virtualDirectories.forEach(vd => {
@@ -259,7 +268,7 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
       va.virtualDirectories.forEach(element => {
         const virtualPath = `${
           va.virtualPath.endsWith('/') && element.virtualPath.startsWith('/') ? va.virtualPath.slice(0, -2) : va.virtualPath
-          }${element.virtualPath}`;
+        }${element.virtualPath}`;
         newList.push({
           ...element,
           virtualPath: `${virtualPath}`,

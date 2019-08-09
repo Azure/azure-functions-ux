@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>저장소</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>함수</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>함수 만들기 오류: {{error}}</value>
   </data>
@@ -217,7 +220,7 @@
     <value>만들기 + 시작</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Function Apps</value>
+    <value>함수 앱</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
     <value>Azure Functions 시작</value>
@@ -265,7 +268,7 @@
     <value>구독</value>
   </data>
   <data name="createApp_description" xml:space="preserve">
-    <value>Function App을 만들면 코드를 호스트하고 실행할 수 있는 새 컨테이너가 자동으로 프로비전됩니다.</value>
+    <value>함수 앱을 만들면 코드를 호스트하고 실행할 수 있는 새 컨테이너가 자동으로 프로비전됩니다.</value>
   </data>
   <data name="createApp_fail" xml:space="preserve">
     <value>앱 만들기 실패</value>
@@ -380,19 +383,19 @@
     <value>저장 작업이 현재 진행 중입니다. 다른 곳으로 나가면 일부 변경 내용이 손실될 수 있습니다.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ 새 설정 추가</value>
+    <value>새 애플리케이션 설정 추가</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ 새 연결 문자열 추가</value>
+    <value>새 연결 문자열 추가</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ 새 문서 추가</value>
+    <value>새 문서 추가</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ 새 핸들러 매핑 추가</value>
+    <value>새 처리기 매핑 추가</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ 새 가상 응용 프로그램 또는 디렉터리 추가</value>
+    <value>새 가상 애플리케이션 또는 디렉터리 추가</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>이름 입력</value>
@@ -437,7 +440,7 @@
     <value>기능 검색</value>
   </data>
   <data name="searchFunctionApps" xml:space="preserve">
-    <value>Function Apps 검색</value>
+    <value>함수 앱 검색</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>구독 ID</value>
@@ -479,7 +482,7 @@
     <value>앱 사용량(Gb/초)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Function App 사용량</value>
+    <value>함수 앱 사용량</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
     <value>데이터를 사용할 수 없음</value>
@@ -686,7 +689,7 @@
     <value>&lt;span&gt;설명서 자세히 살펴보기&lt;/span&gt; - &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;여기&lt;/a&gt;서 Azure Functions의 모든 기능을 살펴보세요.</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Function App 설정</value>
+    <value>함수 앱 설정</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
     <value>통합</value>
@@ -839,7 +842,7 @@
     <value>함수 앱에 연결할 수 없습니다. 앱에 일시적인 문제가 있거나 앱이 시작되지 않을 수 있습니다. 로그를 확인하거나 몇 분 후에 다시 시도하세요.</value>
   </data>
   <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
-    <value>Function App을 검색할 수 없음({{functionApp}})</value>
+    <value>함수 앱을 검색할 수 없음({{functionApp}})</value>
   </data>
   <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
     <value>함수 앱에 연결할 수 없습니다({{statusText}}). 나중에 다시 시도하세요.</value>
@@ -920,10 +923,10 @@
     <value>'AlwaysOn'이 사용하도록 설정되어 있지 않습니다. 앱이 제대로 작동하지 않을 수 있습니다.</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>'AzureWebJobsSecretStorageType' 설정을 'Blob'으로 설정해야 합니다. 이 설정을 사용하지 않으면 배포 슬롯을 사용할 때 예기치 않은 동작이 발생합니다.</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>'AzureWebJobsSecretStorageType' 설정을 'files'로 설정해야 합니다. 이 설정을 사용하지 않으면 배포 슬롯을 사용할 때 예기치 않은 동작이 발생합니다.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions 릴리스 정보.</value>
@@ -965,7 +968,7 @@
     <value>일일 사용 할당량(GB-초)</value>
   </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-    <value>Function App이 일일 사용 할당량에 도달하여 다음 24시간까지 중지되었습니다.</value>
+    <value>함수 앱이 일일 사용 할당량에 도달하여 다음 24시간까지 중지되었습니다.</value>
   </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
     <value>할당량 제거</value>
@@ -974,7 +977,7 @@
     <value>할당량 설정</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>일일 사용 할당량에 도달하면 Function App이 다음 날 0:00 AM UTC까지 중지됩니다.</value>
+    <value>일일 사용 할당량에 도달하면 함수 앱이 다음 날 0:00 AM UTC까지 중지됩니다.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>{{name}} 키를 취소하시겠습니까?</value>
@@ -983,7 +986,7 @@
     <value>키</value>
   </data>
   <data name="functionNew_nameError" xml:space="preserve">
-    <value>이름은 Function App 내에서 고유해야 하며 문자를 시작해야 하고 숫자(0-9), 대시("-") 및 밑줄("_")을 포함할 수 있습니다.</value>
+    <value>이름은 함수 앱 내에서 고유해야 하며 문자를 시작해야 하고 숫자(0-9), 대시("-") 및 밑줄("_")을 포함할 수 있습니다.</value>
   </data>
   <data name="functionDev_loading" xml:space="preserve">
     <value>로딩 중...</value>
@@ -1085,7 +1088,7 @@
     <value>이름이 '{{name}}'인 프록시가 이미 있습니다.</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>Azure 함수 슬롯이 현재 사용하지 않도록 설정되어 있습니다.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>취소</value>
@@ -1172,7 +1175,7 @@
     <value>새 함수</value>
   </data>
   <data name="functionApps" xml:space="preserve">
-    <value>Function Apps</value>
+    <value>함수 앱</value>
   </data>
   <data name="stop" xml:space="preserve">
     <value>중지</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>다시 시작</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>로그</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>교환</value>
@@ -1802,7 +1808,7 @@
     <value>응용 프로그램 설정</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
-    <value>이 평가판에서는 Function App 관리를 사용할 수 없습니다.</value>
+    <value>이 평가판에서는 함수 앱 관리를 사용할 수 없습니다.</value>
   </data>
   <data name="template" xml:space="preserve">
     <value>템플릿</value>
@@ -2114,7 +2120,7 @@
     <value>오류</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>이 필드는 문자, 숫자(0-9), 마침표("."), 밑줄("_")만 포함할 수 있습니다.</value>
+    <value>앱 설정 이름에는 문자, 숫자(0-9), 마침표(".") 및 밑줄("_")만 사용할 수 있습니다.</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>이 필드는 필수입니다.</value>
@@ -2194,14 +2200,11 @@
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>표시할 함수 앱이 없음</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>슬롯(미리 보기)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>배포 슬롯을 사용합니다(미리 보기).</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>배포 슬롯 사용</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>알려진 문제:</value>
@@ -2210,13 +2213,16 @@
     <value>슬롯(미리 보기)을 사용하도록 설정하면 논리 앱과 함수의 통합이 작동하지 않습니다.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>이 기능을 사용하도록 설정하면 기존 암호가 모두 재설정됩니다. 함수 암호는 각 함수의 '관리' 노드에서 찾을 수 있습니다.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>슬롯 만들기 작업이 현재 진행 중입니다. 다른 곳으로 나가면 작업 상태를 더 이상 확인할 수 없습니다.</value>
   </data>
   <data name="slots_label" xml:space="preserve">
-    <value>Slots</value>
+    <value>슬롯</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>슬롯(미리 보기)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>슬롯 추가</value>
@@ -2296,9 +2302,6 @@
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>트래픽 %</value>
   </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>슬롯(미리 보기)</value>
-  </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>회람 규칙에 대한 예정된 변경</value>
   </data>
@@ -2363,7 +2366,7 @@
     <value>proxies.json 스키마 유효성 검사에 실패했습니다. 오류: '{0}'.</value>
   </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-    <value>사용량 요금제에서 일일 사용 할당량(기가바이트-초)을 설정하여 플랫폼 사용을 제한할 수 있습니다. 일일 사용 할당량에 도달하면 Function App이 다음 날 0:00 AM UTC까지 중지됩니다.</value>
+    <value>사용량 요금제에서 일일 사용 할당량(기가바이트-초)을 설정하여 플랫폼 사용을 제한할 수 있습니다. 일일 사용 할당량에 도달하면 함수 앱이 다음 날 0:00 AM UTC까지 중지됩니다.</value>
   </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
     <value>(허브 정책)</value>
@@ -2789,7 +2792,7 @@
     <value>값 숨기기</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>App Insights 계측 키가 앱 설정에 있지만, Function App의 구독에 App Insights가 없습니다. App Insights가 Function App과 같은 구독에 있는지 확인하세요.</value>
+    <value>App Insights 계측 키가 앱 설정에 있지만, 함수 앱의 구독에 App Insights가 없습니다. App Insights가 함수 앱과 같은 구독에 있는지 확인하세요.</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>행의 시작</value>
@@ -3205,6 +3208,9 @@
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>앱의 나가는 IP 주소가 변경될 수 있습니다.</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>App Service 계획 {0}이(가) 크기에 대해 권장되는 앱 수를 초과했습니다.</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>무료</value>
   </data>
@@ -3287,7 +3293,7 @@
     <value>고밀도</value>
   </data>
   <data name="pricing_highDensityDesc" xml:space="preserve">
-    <value>여러 Function Apps 간에 효율적으로 App Service 계획을 공유합니다.</value>
+    <value>여러 함수 앱 간에 효율적으로 App Service 계획을 공유합니다.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>스테이징 슬롯</value>
@@ -3565,8 +3571,20 @@
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>이 프로젝트의 사용 가능한 에이전트 풀에서 사용할 수 있는 권한이 없습니다. 프로젝트 관리자에게 문의하거나 다른 프로젝트를 선택하세요.</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>이 프로젝트에 리포지토리를 만들 수 있는 권한이 없습니다. 프로젝트 관리자에게 문의하거나 다른 프로젝트를 선택하세요.</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>이 프로젝트에 Azure Pipelines 서비스를 사용할 수 없습니다. 프로젝트 관리자에게 문의하거나 다른 프로젝트를 선택하세요.</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>제공된 조직 이름이 잘못되었습니다. 다른 조직 이름을 제공하세요.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>유효한 Azure DevOps 토큰을 가져올 수 없습니다.</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Azure DevOps 토큰을 가져올 수 없습니다. 추가 세부 정보: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP+FTPS</value>
@@ -3803,6 +3821,9 @@
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>배포를 설정하지 못함: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>Azure Active Directory에서 새 애플리케이션을 등록할 수 없습니다. 자세한 정보: https://go.microsoft.com/fwlink/?linkid=843472. 추가 세부 정보: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>배포 연결을 끊는 중</value>
   </data>
@@ -3846,7 +3867,7 @@
     <value>Azure 컨테이너 레지스트리</value>
   </data>
   <data name="containerDockerHub" xml:space="preserve">
-    <value>Docker 허브</value>
+    <value>Docker Hub</value>
   </data>
   <data name="containerPrivateRegistry" xml:space="preserve">
     <value>개인 레지스트리</value>
@@ -3990,7 +4011,7 @@
     <value>지금은 {0} 웹앱에 대한 리포지토리를 업데이트할 수 없습니다.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Azure DevOps 지속적인 업데이트를 사용하려면 Azure Active Directory에 대한 쓰기 권한과 서비스 주체를 만들 수 있는 권한이 있어야 합니다.</value>
+    <value>Azure DevOps 지속적인 업데이트를 사용하려면 Azure Active Directory에서 서비스 주체를 만들고 역할을 할당할 수 있는 권한이 있어야 합니다.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>샘플 선택</value>
@@ -4005,7 +4026,7 @@
     <value>유효한 Azure DevOps 조직이 없음</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>유효한 Azure DevOps 조직이 없습니다. App Service Kudu 빌드를 사용하려면 조직 소유자여야 합니다.</value>
+    <value>올바른 Azure DevOps 조직에 대한 소유자 수준 액세스 권한이 필요합니다.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>지금 새로 만들기</value>
@@ -4113,10 +4134,10 @@
     <value>~2(미리 보기)</value>
   </data>
   <data name="functionAppRuntimeStackTitle" xml:space="preserve">
-    <value>Function App 런타임 스택</value>
+    <value>함수 앱 런타임 스택</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>Function Apps v2는 이제 단일 언어입니다. 앱에 함수를 추가하기 전에 런타임 스택을 설정하세요.</value>
+    <value>함수 앱 v2는 이제 단일 언어입니다. 앱에 함수를 추가하기 전에 런타임 스택을 설정하세요.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>함수 런타임 스택</value>
@@ -4184,9 +4205,6 @@
   <data name="hideUrl" xml:space="preserve">
     <value>URL 숨기기</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux 소비 함수는 미리 보기 제안입니다.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>일부 필드가 제대로 입력되지 않았거나 필요합니다.</value>
   </data>
@@ -4194,10 +4212,10 @@
     <value>완료하고 배포 센터로 이동</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Linux 소비 Function Apps(미리 보기)에는 포털에서의 함수 편집이 지원되지 않습니다.</value>
+    <value>포털에서 함수를 편집하는 기능이 Linux 소비 함수 앱에서 지원되지 않습니다.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Linux Premium Function Apps(미리 보기)에는 포털에서의 함수 편집이 지원되지 않습니다.</value>
+    <value>Linux Premium 함수 앱(미리 보기)에는 포털에서의 함수 편집이 지원되지 않습니다.</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>단일 컨테이너(미리 보기)</value>
@@ -4308,7 +4326,7 @@
     <value>개인</value>
   </data>
   <data name="swaggerDefinitionReadOnly" xml:space="preserve">
-    <value>읽기 전용 모드의 Function Apps에 API 정의(Swagger)를 사용할 수 없습니다.</value>
+    <value>읽기 전용 모드의 함수 앱에 API 정의(Swagger)를 사용할 수 없습니다.</value>
   </data>
   <data name="troubleshootYourApp" xml:space="preserve">
     <value>앱 문제 해결</value>
@@ -4324,6 +4342,9 @@
   </data>
   <data name="debugging" xml:space="preserve">
     <value>디버깅</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(수정됨)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>응용 프로그램 설정</value>
@@ -4520,7 +4541,7 @@
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>자격 증명을 저장하지 못함</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>자격 증명을 저장함</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4605,7 +4626,7 @@
     <value>스토리지 마운트(미리 보기)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ 스토리지 추가</value>
+    <value>스토리지 추가</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>계정</value>
@@ -4686,13 +4707,13 @@
     <value>자동 교환 설정을 변경하려면 프로덕션 앱에서 쓰기 권한이 있어야 합니다.</value>
   </data>
   <data name="scriptFunctionApp" xml:space="preserve">
-    <value>스크립트 Function App</value>
+    <value>스크립트 함수 앱</value>
   </data>
   <data name="precompiledDotNetApp" xml:space="preserve">
-    <value>미리 컴파일된 .NET Function App</value>
+    <value>미리 컴파일된 .NET 함수 앱</value>
   </data>
   <data name="functionAppType" xml:space="preserve">
-    <value>Function App 종류</value>
+    <value>함수 앱 종류</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
     <value>배포 슬롯 설정을 사용하도록 설정함</value>
@@ -4713,7 +4734,7 @@
     <value>새 가상 애플리케이션 또는 디렉터리</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>새 처리기</value>
+    <value>새 처리기 매핑</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>애플리케이션에 대한 연결을 열 수 없습니다. 앱에 적용된 네트워크 보안 그룹 또는 IP 제한 규칙이 원인일 수 있습니다. 로그 스트리밍을 사용하려면 현재 네트워크에서 앱에 직접 액세스할 수 있는지 확인하세요.</value>
@@ -4728,7 +4749,7 @@
     <value>'논리 앱'이 햔후 몇 개월 내에 제거됩니다. Azure Portal 찾아보기를 사용하여 논리 앱을 계속 찾아볼 수 있습니다.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>이 기능은 Linux App Service 계획에서 실행하는 Function Apps에서만 사용할 수 있습니다. 실시간 로깅을 위해 Application Insights를 사용하세요.</value>
+    <value>이 기능은 Linux App Service 계획에서 실행하는 함수 앱에서만 사용할 수 있습니다. 실시간 로깅을 위해 Application Insights를 사용하세요.</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>규모 확장</value>
@@ -4788,28 +4809,46 @@
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>포털에서 함수를 편집하는 기능이 Python 함수 앱(미리 보기)에서 지원되지 않습니다. 개발용 CLI 또는 VS 코드를 사용하세요. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;자세한 정보&lt;/a&gt;</value>
+    <value>포털에서 함수를 편집하는 기능이 Python 함수 앱에서 지원되지 않습니다. 개발용 CLI 또는 VS 코드를 사용하세요. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;자세한 정보&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure 스토리지 마운트에 기밀 정보가 있습니다. 이 섹션을 보거나 편집하려면 읽기/쓰기 권한이 필요합니다.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>모든 배포 슬롯 설정 속성은 부울 형식이어야 합니다.</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>앱 설정 값이 배열이어야 합니다.</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0}은(는) 모든 애플리케이션 설정에서 필수 속성입니다.</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>모든 앱 설정 값 및 이름 속성은 문자열 형식이어야함</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>모든 앱 배포 슬롯 설정 속성은 부울 형식이어야 합니다.</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0}은(는) 잘못된 앱 설정 속성입니다.</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>앱 설정 이름은 고유해야 합니다.</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>연결 문자열 값은 배열이어야 합니다.</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0}은(는) 모든 연결 문자열에서 필수 속성입니다.</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>모든 연결 문자열 값 및 이름 속성은 문자열 형식이어야 합니다.</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0}은(는) 잘못된 연결 문자열 속성입니다.</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>연결 문자열 이름은 고유해야 합니다.</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0}은(는) 모든 처리기 매핑에서 필수 속성입니다.</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>잘못된 JSON 개체</value>
@@ -4962,6 +5001,18 @@
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>리소스 그룹 이름은 영숫자, 마침표, 밑줄, 하이픈 및 괄호만 사용할 수 있고 마침표로 끝날 수 없습니다.</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>'{0}'은(는) 잘못된 문자입니다.</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>이름 '{0}'이(가) 제한되었습니다. 다른 이름을 선택하세요.</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>계획 이름은 {0}자를 초과할 수 없습니다.</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>이름이 '{0}'인 계획이 리소스 그룹 '{1}'에 이미 있습니다.</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>업데이트 작업을 취소하시겠습니까?</value>
   </data>
@@ -4991,5 +5042,56 @@
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>컨테이너 설정을 확인하지 못했습니다.</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>트리거가 정의되지 않음</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>입력이 정의되지 않음</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>출력이 정의되지 않음</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ 입력 추가</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>함수</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>배포 데이터를 가져오는 중...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>배포 데이터를 사용할 수 없습니다.</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>ILB ASE의 앱에서는 이 기능을 사용할 수 없습니다.</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>바인딩을 업데이트하는 중</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>{0}({1})을(를) 업데이트하는 중</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>{0}({1}) 업데이트 실패: {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>{0}({1}) 업데이트 성공</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>입력 편집</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>출력 편집</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>트리거 편집</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>바인딩 명령 편집</value>
   </data>
 </root>

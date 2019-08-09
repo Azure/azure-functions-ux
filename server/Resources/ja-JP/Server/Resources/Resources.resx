@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>記憶域</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>関数</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>関数の作成エラー: {{error}}</value>
   </data>
@@ -380,19 +383,19 @@
     <value>保存操作が現在進行中です。移動すると、変更内容の一部が失われる可能性があります。</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ 新しい文字列の追加</value>
+    <value>新しいアプリケーション設定を追加する</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ 新しい接続文字列の追加</value>
+    <value>新しい接続文字列を追加する</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ 新しいドキュメントを追加します</value>
+    <value>新しいドキュメントを追加する</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ 新しいハンドラー マッピングを追加します</value>
+    <value>新しいハンドラー マッピングを追加する</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ 新しい仮想アプリケーションまたはディレクトリを追加します</value>
+    <value>新しい仮想アプリケーションまたはディレクトリを追加する</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>名前の入力</value>
@@ -920,10 +923,10 @@
     <value>'AlwaysOn' が有効になっていません。アプリが正常に動作しない可能性があります</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>'AzureWebJobsSecretStorageType' 設定を 'blob' に設定する必要があります。この設定になっていないと、デプロイ スロットを使用するときに予期しない動作が発生します。</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>'AzureWebJobsSecretStorageType' 設定を 'files' に設定することはできません。この設定にしていると、デプロイ スロットを使用するときに予期しない動作が発生します。</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions リリース ノート。</value>
@@ -1085,7 +1088,7 @@
     <value>'{{name}}' という名前のプロキシが既に存在します</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>Azure Functions スロットは現在無効になっています。</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>破棄</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>再開</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>ログ</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>スワップ</value>
@@ -2114,7 +2120,7 @@
     <value>エラー</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>このフィールドに使用できるのは、英字、数字 (0-9)、ピリオド (".")、アンダースコア ("_") のみです</value>
+    <value>アプリ設定名に使用できるのは、英字、数字 (0-9)、ピリオド (".")、アンダースコア ("_") のみです</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>このフィールドは必須項目です</value>
@@ -2194,14 +2200,11 @@
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>表示する Function App がありません</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>スロット (プレビュー)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>デプロイ スロット (プレビュー) を有効にします。</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>デプロイ スロットを有効にする</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>既知の問題:</value>
@@ -2210,13 +2213,16 @@
     <value>Logic Apps の Azure Functions との統合は、スロット (プレビュー) が有効になっている場合は機能しません。</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>この機能を有効にすると、既存のシークレットがすべてリセットされます。関数のシークレットは、各関数の [管理] ノードの下にあります。</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>スロット作成操作が現在進行中です。ここから移動すると、操作の状態を確認できなくなります。</value>
   </data>
   <data name="slots_label" xml:space="preserve">
-    <value>Slots</value>
+    <value>スロット</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>スロット (プレビュー)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>スロットの追加</value>
@@ -2295,9 +2301,6 @@
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>トラフィック %</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>スロット (プレビュー)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>ルーティング規則への今後の変更</value>
@@ -3205,6 +3208,9 @@
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>アプリの送信 IP アドレスは変更される可能性があります。</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>App Service プラン {0} は、プランのサイズに対して推奨されているアプリ数を超えています。</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>無料</value>
   </data>
@@ -3565,8 +3571,20 @@
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>このプロジェクトの使用可能な任意のエージェント プールで使用するためのアクセス許可がありません。プロジェクト管理者に連絡するか、別のプロジェクトを選択してください</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>このプロジェクトにリポジトリを作成するためのアクセス許可がありません。プロジェクト管理者に連絡するか、別のプロジェクトを選択してください</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>このプロジェクトでは Azure Pipelines サービスが有効になっていません。プロジェクト管理者に連絡するか、別のプロジェクトを選択してください</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>指定した組織名が無効です。別の組織名を指定してください。</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>有効な Azure DevOps トークンを取得できませんでした</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Azure DevOps トークンを取得できませんでした。詳細: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3803,6 +3821,9 @@
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>デプロイをセットアップできませんでした: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>Azure Active Directory に新しいアプリケーションを登録することはできません。詳細情報: https://go.microsoft.com/fwlink/?linkid=843472。さらに詳しく: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>デプロイとの接続を切断しています</value>
   </data>
@@ -3903,7 +3924,7 @@
     <value>Java 用の Azure Functions - 作業の開始</value>
   </data>
   <data name="quickstartDescription" xml:space="preserve">
-    <value>クイックスタートのガイダンスに従って関数を作成し、発行します</value>
+    <value>クイック スタートのガイダンスに従って関数を作成し、発行します</value>
   </data>
   <data name="chooseDevEnvironment" xml:space="preserve">
     <value>開発環境を選択する</value>
@@ -3990,7 +4011,7 @@
     <value>Web アプリ {0} のリポジトリは、現在は更新できません。</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Azure DevOps 継続的デリバリーでは、Azure Active Directory への書き込みとサービス プリンシパルの作成を行うためのアクセス許可が必要です。</value>
+    <value>Azure DevOps 継続的デリバリーでは、Azure Active Directory でのサービス プリンシパルの作成とそれに対するロールの割り当てを行うためのアクセス許可が必要です。</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>サンプルの選択</value>
@@ -4005,7 +4026,7 @@
     <value>有効な Azure DevOps 組織がありません</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>有効な Azure DevOps 組織がありません。App Service Kudu ビルドを使用するには、組織所有者であることも必要です</value>
+    <value>有効な Azure DevOps 組織への所有者レベルのアクセスが必要です。</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>今すぐ作成します</value>
@@ -4184,9 +4205,6 @@
   <data name="hideUrl" xml:space="preserve">
     <value>URL を非表示にする</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux Consumption Functions はプレビュー オファーです。</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>一部のフィールドが正しく入力されていないか、入力が必要です。</value>
   </data>
@@ -4194,7 +4212,7 @@
     <value>終了して、デプロイ センターに移動する</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>ポータルでの関数の編集は、Linux Consumption Function Apps (プレビュー) ではサポートされていません。</value>
+    <value>ポータルでの関数の編集は、Linux Consumption Function Apps ではサポートされていません。</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>ポータルでの関数の編集は、Linux Premium Function Apps (プレビュー) ではサポートされていません。</value>
@@ -4324,6 +4342,9 @@
   </data>
   <data name="debugging" xml:space="preserve">
     <value>デバッグ</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(変更済み)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>アプリケーション設定</value>
@@ -4520,7 +4541,7 @@
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>資格情報を保存できませんでした</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>資格情報が正常に保存されました</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4605,7 +4626,7 @@
     <value>ストレージのマウント (プレビュー)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ ストレージの追加</value>
+    <value>ストレージを追加する</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>アカウント</value>
@@ -4713,7 +4734,7 @@
     <value>新しい仮想アプリケーションまたはディレクトリ</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>新しいハンドラー</value>
+    <value>新しいハンドラー マッピング</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>アプリへの接続を開くことができません。アプリに設定されたネットワーク セキュリティ グループまたは IP 制限ルールが原因である可能性があります。ログ ストリーミングを使用するには、現在のネットワークからアプリに直接アクセスできることをご確認ください。</value>
@@ -4788,28 +4809,46 @@
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Python Function Apps (プレビュー) ではポータルにおける関数の編集はサポートされていません。開発には CLI または VS Code を使用してください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
+    <value>Python Function Apps ではポータルにおける関数の編集はサポートされていません。開発には CLI または VS Code を使用してください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure Storage のマウントに秘密が含まれています。このセクションを表示または編集するには、読み取りまたは書き込みのアクセス許可が必要です。</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>すべてのデプロイ スロットの設定プロパティはブール値型である必要があります</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>アプリ設定値はアレイである必要があります</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} はすべてのアプリケーション設定で必須のプロパティです</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>アプリ設定の値と名前のプロパティをすべて文字列型にする必要があります</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>すべてのアプリ設定デプロイ スロットの設定プロパティはブール値型である必要があります</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} は無効なアプリ設定プロパティです</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>アプリ設定名は一意である必要があります</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>接続文字列の値を配列にする必要があります</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} はすべての接続文字列で必須のプロパティです</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>接続文字列の値と名前のプロパティをすべて文字列型にする必要があります</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} は無効な接続文字列プロパティです</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>接続文字列名は一意である必要があります</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} はすべてのハンドラー マッピングで必須のプロパティです</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>無効な JSON オブジェクト</value>
@@ -4962,6 +5001,18 @@
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>リソース グループ名には、英数字、ピリオド、アンダースコア、ハイフン、およびかっこだけを使用できます。また、末尾をピリオドにすることはできません。</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>'{0}' は無効な文字です</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>名前 '{0}' は制限されています。別の名前を選択してください。</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>プランの名前は {0} 文字以下にしてください。</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>'{0}' という名前のプランは、リソース グループ '{1}' に既に存在します</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>更新操作をキャンセルしますか?</value>
   </data>
@@ -4991,5 +5042,56 @@
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>コンテナー設定を検証できませんでした。</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>トリガーが定義されていません</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>入力が定義されていません</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>出力が定義されていません</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ 入力の追加</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>関数</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>デプロイ データをフェッチしています...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>利用できるデプロイ データはありません。</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>この機能は、ILB ASE のアプリにはご利用いただけません</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>バインディングを更新しています</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>{0} ({1}) を更新しています</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>{0} ({1}) を更新できませんでした: {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>{0} ({1}) が正常に更新されました</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>入力の編集</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>出力の編集</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>トリガーの編集</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>バインディング コマンドの編集</value>
   </data>
 </root>

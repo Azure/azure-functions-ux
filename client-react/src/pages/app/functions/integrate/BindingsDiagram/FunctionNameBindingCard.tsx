@@ -1,17 +1,17 @@
 import React from 'react';
-import DataFlowCard, { DataFlowCardChildProps } from './DataFlowCard';
+import BindingCard, { BindingCardChildProps } from './BindingCard';
 import { ReactComponent as FunctionSvg } from '../../../../../images/AppService/functions_f.svg';
 import { useTranslation } from 'react-i18next';
 import { ArmResourceDescriptor } from '../../../../../utils/resourceDescriptors';
 
-const FunctionDataFlowCard: React.SFC<DataFlowCardChildProps> = props => {
+const FunctionNameBindingCard: React.SFC<BindingCardChildProps> = props => {
   const { functionInfo } = props;
   const { t } = useTranslation();
 
   const descriptor = new ArmResourceDescriptor(functionInfo.id);
 
   return (
-    <DataFlowCard
+    <BindingCard
       functionInfo={functionInfo}
       items={[]}
       title={t('_function')}
@@ -24,4 +24,4 @@ const FunctionDataFlowCard: React.SFC<DataFlowCardChildProps> = props => {
   );
 };
 
-export default FunctionDataFlowCard;
+export default FunctionNameBindingCard;

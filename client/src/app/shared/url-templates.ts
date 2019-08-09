@@ -6,6 +6,7 @@ import { PortalService } from './services/portal.service';
 import { Injector } from '@angular/core';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
+import { FunctionAppVersion } from './models/constants';
 
 export class UrlTemplates {
   private configService: ConfigService;
@@ -13,8 +14,8 @@ export class UrlTemplates {
   private armService: ArmService;
   private scmUrl: string;
   private mainSiteUrl: string;
-  private useNewUrls: boolean;
   private isEmbeddedFunctions: boolean;
+  public runtimeVersion: string;
 
   constructor(private site: ArmObj<Site>, injector: Injector) {
     this.portalService = injector.get(PortalService);
@@ -24,8 +25,10 @@ export class UrlTemplates {
     this.isEmbeddedFunctions = this.portalService.isEmbeddedFunctions;
     this.scmUrl = this.isEmbeddedFunctions ? null : this.getScmUrl();
     this.mainSiteUrl = this.isEmbeddedFunctions ? null : this.getMainUrl();
+  }
 
-    this.useNewUrls = ArmUtil.isLinuxApp(this.site);
+  get useNewUrls(): boolean {
+    return this.runtimeVersion === FunctionAppVersion.v2;
   }
 
   public getScmUrl() {
@@ -70,7 +73,12 @@ export class UrlTemplates {
   }
 
   get proxiesJsonUrl(): string {
-    return this.useNewUrls ? `${this.mainSiteUrl}/admin/vfs/site/wwwroot/proxies.json` : `${this.scmUrl}/api/vfs/site/wwwroot/proxies.json`;
+    if (this.useNewUrls) {
+      return ArmUtil.isLinuxApp(this.site)
+        ? `${this.mainSiteUrl}/admin/vfs/home/site/wwwroot/proxies.json`
+        : `${this.mainSiteUrl}/admin/vfs/site/wwwroot/proxies.json`;
+    }
+    return `${this.scmUrl}/api/vfs/site/wwwroot/proxies.json`;
   }
 
   getFunctionUrl(functionName: string, functionEntity?: string): string {
@@ -104,7 +112,12 @@ export class UrlTemplates {
   }
 
   get hostJsonUrl(): string {
-    return this.useNewUrls ? `${this.mainSiteUrl}/admin/vfs/home/site/wwwroot/host.json` : `${this.scmUrl}/api/functions/config`;
+    if (this.useNewUrls) {
+      return ArmUtil.isLinuxApp(this.site)
+        ? `${this.mainSiteUrl}/admin/vfs/home/site/wwwroot/host.json`
+        : `${this.mainSiteUrl}/admin/vfs/site/wwwroot/host.json`;
+    }
+    return `${this.scmUrl}/api/functions/config`;
   }
 
   get scmTokenUrl(): string {

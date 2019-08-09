@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>Lagring</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>Funktion</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Fel när funktion skapades: {{error}}</value>
   </data>
@@ -380,19 +383,19 @@
     <value>En åtgärd för att spara pågår för tillfället. Om du lämnar platsen kan vissa ändringar gå förlorade.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Lägg till ny inställning</value>
+    <value>Lägg till ny programinställning</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Lägg till ny anslutningssträng</value>
+    <value>Lägg till ny anslutningssträng</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Lägg till nytt dokument</value>
+    <value>Lägg till nytt dokument</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Lägg till ny hanterarmappning</value>
+    <value>Lägg till ny hanterarmappning</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Lägg till ny virtuell installation eller katalog</value>
+    <value>Lägg till nytt virtuellt program eller katalog</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Ange ett namn</value>
@@ -920,10 +923,10 @@
     <value>AlwaysOn är inte aktiverat. Appen kanske inte fungerar som den ska</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>Inställningen AzureWebJobsSecretStorageType ska vara angiven till blob. Om den här inställningen inte finns, kommer det att orsaka oväntat beteende vid användning av distributionsfack.</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>Inställningen AzureWebJobsSecretStorageType ska vara angiven till blob. Om den här inställningen finns kommer det att orsaka oväntat beteende vid användning av distributionsfack.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Viktig information om Azure Functions.</value>
@@ -1085,7 +1088,7 @@
     <value>En proxyserver med namnet {{name}} finns redan</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>Azure Functions-platser är inaktiverade för tillfället.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Ignorera</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Starta om</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Loggar</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>Växla</value>
@@ -1826,7 +1832,7 @@
     <value>Hybridanslutningar</value>
   </data>
   <data name="supportRequest" xml:space="preserve">
-    <value>supportförfrågan</value>
+    <value>supportbegäran</value>
   </data>
   <data name="scale" xml:space="preserve">
     <value>skala</value>
@@ -2114,7 +2120,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>FEL</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>Det här fältet kan bara innehålla bokstäver, siffror (0-9), punkter (".") och understreck ("_")</value>
+    <value>Appinställningsnamn får bara innehålla bokstäver, siffror (0-9), punkter (.) och understreck (_)</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Det här fältet är obligatoriskt</value>
@@ -2194,14 +2200,11 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>Det finns inga funktionsappar att visa</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>Platser (förhandsversion)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Aktivera distributionsplatser (förhandsgranskning).</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>Aktivera distributionsplatser</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Kända problem:</value>
@@ -2210,13 +2213,16 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Logikprogramintegrering med funktioner fungerar inte när Platser (förhandsgranskning) aktiveras.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>Om du aktiverar den här funktionen återställs eventuella befintliga hemligheter. Det går att hitta funktionshemligheter under Hantera-noden för varje funktion.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>En plats håller på att skapas. När du har lämnat sidan kan du inte längre kontrollera åtgärdens status.</value>
   </data>
   <data name="slots_label" xml:space="preserve">
-    <value>Slots</value>
+    <value>Platser</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>Platser (förhandsversion)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Lägg till plats</value>
@@ -2295,9 +2301,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>% trafik</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Platser (förhandsversion)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Kommande ändringar av hanteringsreglerna</value>
@@ -3205,6 +3208,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>Din apps utgående IP-adresser kan ändras.</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>Din app service-plan {0} har överskridit det rekommenderade antalet appar för sin storlek.</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>Gratis</value>
   </data>
@@ -3539,7 +3545,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Dra en fil hit eller</value>
   </data>
   <data name="browse" xml:space="preserve">
-    <value>bläddra</value>
+    <value>Bläddra</value>
   </data>
   <data name="toUpload" xml:space="preserve">
     <value>att ladda upp</value>
@@ -3565,8 +3571,20 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>Du har inte behörigheter att använda i någon av de tillgängliga agentpoolerna för det här projektet. Kontakta din projektadministratör eller välj ett annat projekt</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>Du har inte behörigheter att skapa centrallager i det här projektet. Kontakta din projektadministratör eller välj ett annat projekt</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Azure Pipelines-tjänsten har inte aktiverats för det här projektet. Kontakta din projektadministratör eller välj ett annat projekt</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Det angivna organisationsnamnet är inte giltigt. Ange ett annat organisationsnamn.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Det gick inte att hämta en giltig Azure DevOps-token</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Det gick inte att hämta Azure DevOps-token. Mer information: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3803,6 +3821,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>Det gick inte att konfigurera distributionen: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>Du kan inte registrera ett nytt program i Azure Active Directory. Läs mer: https://go.microsoft.com/fwlink/?linkid=843472. Mer information: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Kopplar från din distribution</value>
   </data>
@@ -3846,7 +3867,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Azure Container Registry</value>
   </data>
   <data name="containerDockerHub" xml:space="preserve">
-    <value>Docker-hubb</value>
+    <value>Docker Hub</value>
   </data>
   <data name="containerPrivateRegistry" xml:space="preserve">
     <value>Privat register</value>
@@ -3990,7 +4011,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Lagringsplatsen för webbappen {0} kan inte uppdateras just nu.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Kontinuerlig Azure DevOps-leverans kräver att du har behörigheter att skriva till Azure Active Directory och skapa ett tjänsthuvudkonto.</value>
+    <value>Azure DevOps kontinuerlig leverans kräver att du har behörigheter att skapa ett huvudkonto i Azure Active Directory och tilldelar det rollen.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Välj exempel</value>
@@ -4005,7 +4026,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Du har inte någon giltig Azure DevOps-organisation</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>Du har inte några giltiga Azure DevOps-konton. App Service Kudu Build kräver dessutom att du är organisationsägare</value>
+    <value>Åtkomst på ägarnivå till en giltig Azure DevOps-organisation krävs.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Skapa en nu</value>
@@ -4184,9 +4205,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="hideUrl" xml:space="preserve">
     <value>dölj URL</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux Consumption Functions finns nu som förhandsversionserbjudande.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Vissa fält har inte fyllts i korrekt eller är obligatoriska.</value>
   </data>
@@ -4194,7 +4212,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Slutför och gå till Distributionscenter</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Redigering av funktioner i portalen stöds inte för Linux Consumption-funktionsappar (förhandsversion).</value>
+    <value>Redigering av funktioner i portalen stöds inte för Linux Consumption-funktionsappar.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Redigeringsfunktioner i portalen stöds inte för Linux Premium-funktionsappar (förhandsversion).</value>
@@ -4324,6 +4342,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="debugging" xml:space="preserve">
     <value>Felsökning</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(ändrad)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Programinställningar</value>
@@ -4458,7 +4479,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Värde</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>distributionsfackinställning</value>
+    <value>Distributionsfackinställning</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4520,7 +4541,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Det gick inte att spara autentiseringsuppgifterna</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Autentiseringsuppgifterna har sparats</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4605,7 +4626,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Montera minne (förhandsversion)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Lägg till minne</value>
+    <value>Lägg till lagringsutrymme</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Konto</value>
@@ -4713,7 +4734,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Nytt virtuellt program eller katalog</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Ny hanterare</value>
+    <value>Ny hanterarmappning</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Det går inte att öppna någon anslutning till din app. Detta kan bero på någon nätverkssäkerhetsgrupp eller IP-begränsningsregel som du har placerat i din app. Om du vill använda loggdirektuppspelning, så se till att du att du har åtkomst till din app från det aktuella nätverket.</value>
@@ -4788,28 +4809,46 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Redigera funktioner i portalen stöds inte för Python-funktionsappar (förhandsgranskning). Använd CLI eller VS Code för utveckling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Läs mer&lt;/a&gt;</value>
+    <value>Redigering av funktioner i portalen stöds inte för Python-funktionsappar. Använd CLI eller VS Code för utveckling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Läs mer&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure Storage-monteringar innehåller hemligheter. Läs-/skrivbehörigheter krävs om du ska kunna visa/redigera det här avsnittet.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Alla egenskaper för distributionsfackinställningar måste vara av typen boolesk</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Appinställningsvärden måste vara en matris</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} är en obligatorisk egenskap för samtliga programinställningar</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Alla appinställningsvärden och namnegenskaper måste vara av typen sträng</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Alla inställningsegenskaper för appinställningsfacket måste vara av boolesk typ</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} är en ogiltig appinställningsegenskap</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Appinställningsnamn måste vara unika</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Anslutningssträngvärden måste vara en matris</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} är en obligatorisk egenskap för samtliga anslutningssträngar</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Alla egenskaper för anslutningssträngvärde och -namn måste vara av typen sträng</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} är en ogiltig anslutningssträngegenskap</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Anslutningssträngnamn måste vara unika</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} är en obligatorisk egenskap för samtliga hanterarmappningar</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Ogiltigt JSON-objekt</value>
@@ -4962,6 +5001,18 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Resursgruppnamn får endast innehålla alfanumeriska tecken, punkter, understreck, bindestreck och parenteser och får inte sluta med en punkt.</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>{0} är ett ogiltigt tecken</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>Namnet {0} är begränsat. Välj ett annat namn.</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>Namnet på din plan får inte överskrida {0} tecken.</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>Det finns redan en plan med namnet {0} under resursgruppen {1}</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>Är du säker på att du vill avbryta uppdateringsåtgärden?</value>
   </data>
@@ -4991,5 +5042,56 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>Det gick inte att validera containerinställningarna.</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>Ingen utlösare har definierats</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>Inga indata har definierats</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>Inga utdata har definierats</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ Lägg till indata</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>Funktion</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>Hämtar distributionsdata...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>Inga distributionsdata tillgängliga.</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>Den här funktionen är inte tillgänglig för appar på en ILB ASE</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>Uppdaterar bindningen</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>Uppdaterar {0} ({1})</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>Det gick inte att uppdatera {0} ({1}): {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>Uppdaterade {0} ({1})</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>Redigera indata</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>Redigera utdata</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>Redigera utlösare</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>Redigera bindningskommandon</value>
   </data>
 </root>

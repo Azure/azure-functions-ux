@@ -1,7 +1,7 @@
 import { FunctionAppContext } from '../function-app-context';
-import { FunctionInfo } from './function-info';
-import { ARMApplicationInsightsDescriptior } from '../resourceDescriptors';
 import { ErrorEvent } from './error-event';
+import { ApplicationInsight } from './application-insights';
+import { ArmObj } from './arm/arm-obj';
 
 export interface FunctionInvocations {
   executingJobRunId: string;
@@ -47,9 +47,9 @@ export interface FunctionStats {
 export interface FunctionMonitorInfo {
   functionAppContext: FunctionAppContext;
   functionAppSettings: { [key: string]: string };
-  functionInfo: FunctionInfo;
-  appInsightsResourceDescriptor: ARMApplicationInsightsDescriptior;
-  appInsightsFeatureEnabled: boolean;
+  functionName: string;
+  appInsightResource?: ArmObj<ApplicationInsight>;
+  appInsightToken?: string;
 }
 
 export interface MonitorDetailsInfo {

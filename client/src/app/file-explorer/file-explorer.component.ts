@@ -16,6 +16,7 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpResult } from 'app/shared/models/http-result';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'file-explorer',
@@ -50,9 +51,10 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
     private _globalStateService: GlobalStateService,
     private _translateService: TranslateService,
     private _functionAppService: FunctionAppService,
-    private _aiService: AiService
+    private _aiService: AiService,
+    functionService: FunctionService
   ) {
-    super('file-explorer', _functionAppService, broadcastService, () => this.setBusyState());
+    super('file-explorer', _functionAppService, broadcastService, functionService, () => this.setBusyState());
 
     this.selectedFileChange = new Subject<VfsObject>();
 
@@ -91,9 +93,9 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
       .switchMap(e => {
         this.resetState();
         if (e.functionInfo.isSuccessful) {
-          this.functionInfo = e.functionInfo.result;
+          this.functionInfo = e.functionInfo.result.properties;
           this.currentTitle = this.functionInfo.name;
-          return this._functionAppService.getVfsObjects(this.context, e.functionInfo.result);
+          return this._functionAppService.getVfsObjects(this.context, e.functionInfo.result.properties);
         } else {
           return Observable.of({
             isSuccessful: false,
@@ -200,7 +202,7 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
       ? `${this.trim(this.currentVfsObject.href)}/${this.newFileName}`
       : `${this.trim(this.functionInfo.script_root_path_href)}/${this.newFileName}`;
     this.setBusyState();
-    const saveFileObservable = this._functionAppService.saveFile(this.context, href, content || '', this.functionInfo);
+    const saveFileObservable = this._functionAppService.saveFile(this.context, href, content || '');
     saveFileObservable.subscribe(
       r => {
         if (this.newFileName.indexOf('\\') !== -1 || this.newFileName.indexOf('/') !== -1) {
@@ -265,7 +267,7 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
     }
 
     this.setBusyState();
-    this._functionAppService.deleteFile(this.context, this.selectedFile, this.functionInfo).subscribe(
+    this._functionAppService.deleteFile(this.context, this.selectedFile).subscribe(
       deleted => {
         this.clearBusyState();
         const result = deleted.isSuccessful ? deleted.result : '';

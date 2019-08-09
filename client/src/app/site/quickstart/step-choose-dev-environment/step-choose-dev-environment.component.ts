@@ -7,6 +7,7 @@ import { PortalResources } from '../../../shared/models/portal-resources';
 import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 import { Subject } from 'rxjs/Subject';
 import { QuickstartService } from 'app/site/quickstart/quickstart.service';
+import { KeyCodes } from 'app/shared/models/constants';
 @Component({
   selector: 'step-choose-dev-environment',
   templateUrl: './step-choose-dev-environment.component.html',
@@ -108,6 +109,12 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
       this._quickstartService.getQuickstartFile(this.fileName).subscribe(file => {
         this._wizardService.instructions.setValue(file);
       });
+    }
+  }
+
+  public onKeyPress(event: KeyboardEvent, card: DevEnvironmentCard) {
+    if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+      this.selectDevEnvironment(card);
     }
   }
 

@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>Depolama alanı</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>İşlev</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>İşlev Oluşturma Hatası: {{error}}</value>
   </data>
@@ -380,19 +383,19 @@
     <value>Devam eden bir kayıt işlemi var. Sayfadan ayrılırsanız bazı değişiklikler kaybolabilir.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Yeni ayar ekle</value>
+    <value>Yeni uygulama ayarı ekle</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Yeni bağlantı dizesi ekle</value>
+    <value>Yeni bağlantı dizesi ekle</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Yeni belge ekle</value>
+    <value>Yeni belge ekle</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Yeni işleyici eşlemesi ekle</value>
+    <value>Yeni işleyici eşlemesi ekle</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Yeni sanal uygulama veya dizin ekle</value>
+    <value>Yeni sanal uygulama veya dizin ekle</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Bir ad girin</value>
@@ -668,7 +671,7 @@
     <value>Senaryo:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Tetikleyiciler</value>
+    <value>Tetikleyici</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
     <value>Deneme süresi doldu</value>
@@ -920,10 +923,10 @@
     <value>'AlwaysOn' etkin değil. Uygulamanız düzgün çalışmayabilir</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>'AzureWebJobsSecretStorageType' ayarı 'blob' olarak ayarlanmalıdır. Bu ayarın yapılmaması, dağıtım yuvaları kullanılırken beklenmeyen davranışlara neden olur.</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>'AzureWebJobsSecretStorageType' ayarı 'files' olarak ayarlanmamalıdır. Bu ayarın yapılması dağıtım yuvaları kullanılırken beklenmeyen davranışlara neden olur.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure İşlevleri sürüm notları.</value>
@@ -1085,7 +1088,7 @@
     <value>'{{name}}' adında bir proxy zaten var</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>Azure İşlevleri yuvaları şu anda devre dışı.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>At</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Yeniden başlat</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Günlükler</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>Değiştir</value>
@@ -2114,7 +2120,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>HATA</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>Bu alan yalnızca harfler, rakamlar (0-9), nokta (".") ve alt çizgi ("_") içerebilir</value>
+    <value>Uygulama ayarı adları yalnızca harfler, rakamlar (0-9), nokta (".") ve alt çizgi ("_") içerebilir</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>Bu alan gereklidir</value>
@@ -2194,14 +2200,11 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>Görüntülenecek işlev uygulaması yok</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>Yuvalar (önizleme)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Dağıtım yuvalarını etkinleştirin (önizleme).</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>Dağıtım yuvalarını etkinleştirin</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Bilinen sorunlar:</value>
@@ -2210,13 +2213,16 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yuvalar (Önizleme) etkinleştirildiğinde İşlevler ile Logic Apps tümleştirmesi çalışmaz.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>Bu özellik etkinleştirildiğinde, önceden var olan gizli diziler sıfırlanır. İşlev gizli dizileri, her işlevin 'Manage' düğümü altında bulunabilir.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Bir yuva oluşturma işlemi şu anda devam ediyor. Bu sayfadan ayrıldıktan sonra işlem durumunu denetleyemezsiniz.</value>
   </data>
   <data name="slots_label" xml:space="preserve">
     <value>Yuvalar</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>Yuvalar (önizleme)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Yuva Ekle</value>
@@ -2295,9 +2301,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>Trafik yüzdesi</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Yuvalar (önizleme)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Yönlendirme Kuralları için gelecek değişiklikler</value>
@@ -3205,6 +3208,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>Uygulamanızın giden IP adresleri değişebilir.</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>App Service planınız {0}, boyutu için önerilen uygulama sayısını aştı.</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>Ücretsiz</value>
   </data>
@@ -3539,7 +3545,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Buraya bir dosya sürükleyin veya</value>
   </data>
   <data name="browse" xml:space="preserve">
-    <value>gözat</value>
+    <value>Gözat</value>
   </data>
   <data name="toUpload" xml:space="preserve">
     <value>karşıya yükleyin</value>
@@ -3565,8 +3571,20 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>Bu projedeki kullanılabilir aracı havuzlarından herhangi birinde kullanma izniniz yok. Proje yöneticinize başvurun veya farklı bir proje seçin</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>Bu projede depo oluşturma izniniz yok. Proje yöneticinize başvurun veya farklı bir proje seçin</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Bu proje için Azure Pipelines hizmeti etkinleştirilmedi. Proje yöneticinize başvurun veya farklı bir proje seçin</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Belirtilen kuruluş adı geçerli değil. Lütfen başka bir kuruluş adı sağlayın.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Geçerli bir Azure DevOps belirteci getirilemedi</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Azure DevOps belirteci getirilemedi. Daha fazla bilgi: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3803,6 +3821,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>Dağıtım ayarlanamadı: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>Azure Active Directory'ye yeni bir uygulama kaydedilemez. Daha fazla bilgi: https://go.microsoft.com/fwlink/?linkid=843472. Diğer ayrıntılar: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Dağıtımınızın bağlantısı kesiliyor</value>
   </data>
@@ -3990,7 +4011,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>{0} web uygulamasının deposu şu an güncelleştirilemiyor.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Azure DevOps Sürekli Teslimi için Azure Active Directory'ye yazma ve hizmet sorumlusu oluşturma izninizin olması gerekir.</value>
+    <value>Azure DevOps Sürekli Teslim için, Azure Active Directory'de bir hizmet sorumlusu oluşturmaya ve hizmet sorunlusuna rol atamaya yönelik izinlerinizin olması gerekir.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Örnek seç</value>
@@ -4005,7 +4026,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Geçerli herhangi bir Azure DevOps kuruluşunuz yok</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>Geçerli bir Azure DevOps kuruluşunuz yok. App Service Kudu Derlemesi aynı zamanda kuruluş sahibi olmanızı gerektirir</value>
+    <value>Geçerli bir Azure DevOps kuruluşuna sahip düzeyi erişimi gereklidir.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Hemen hesap oluşturun</value>
@@ -4184,9 +4205,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="hideUrl" xml:space="preserve">
     <value>URL'yi gizle</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux Tüketim İşlevleri bir önizleme teklifidir.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Bazı alanlar düzgün doldurulmadı veya zorunlu.</value>
   </data>
@@ -4194,7 +4212,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bitir ve Dağıtım Merkezi'ne git</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Portalda işlev düzenleme Linux Tüketim İşlevi Uygulamaları (Önizleme) için desteklenmiyor.</value>
+    <value>Linux Tüketim İşlevi Uygulamaları için portalda işlev düzenleme desteklenmiyor.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Portalda işlev düzenleme Linux Premium İşlev Uygulamaları (Önizleme) için desteklenmiyor.</value>
@@ -4324,6 +4342,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="debugging" xml:space="preserve">
     <value>Hata ayıklama</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(değiştirilmiş)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Uygulama ayarları</value>
@@ -4458,7 +4479,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Değer</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>dağıtım yuvası ayarı</value>
+    <value>Dağıtım yuvası ayarı</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4520,7 +4541,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Kimlik bilgileri kaydedilemedi</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Kimlik bilgileri başarıyla kaydedildi</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4605,7 +4626,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Depolama bağlama (Önizleme)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>Depolama ekle</value>
+    <value>Depolama alanı ekle</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Hesap</value>
@@ -4713,7 +4734,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yeni sanal uygulama veya dizin</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Yeni işleyici</value>
+    <value>Yeni işleyici eşlemesi</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Uygulamanız ile bağlantı kurulamıyor. Bunun nedeni, uygulamanızda yürürlüğe koyduğunuz ağ güvenlik grupları veya IP kısıtlama kuralları olabilir. Günlük akışını kullanmak için lütfen geçerli ağınızdan uygulamanıza erişebildiğinizden emin olun.</value>
@@ -4788,28 +4809,46 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Portalda işlev düzenleme Python Function Apps (Önizleme) için desteklenmemektedir. Geliştirmek için lütfen CLI'yı veya VS Code'u kullanın. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Daha fazla bilgi edinin&lt;/a&gt;</value>
+    <value>Python İşlev Uygulamaları için portalda işlev düzenleme desteklenmiyor. Geliştirmek için lütfen CLI veya VS Code kullanın. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Daha fazla bilgi&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure depolama bağlamaları gizli diziler içeriyor. Bu bölümü görüntülemek/düzenlemek için okuma/yazma izinleri gereklidir.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Tüm dağıtım yuvası ayarı özellikleri boole türünde olmalıdır</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Uygulama ayarı değerleri bir dizi olmalıdır</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} tüm uygulama ayarlarında gerekli bir özelliktir</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Tüm uygulama ayarı değeri ve ad özellikleri dize türünde olmalıdır</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Tüm uygulama ayarı dağıtım yuvası ayarı özellikleri boole türünde olmalıdır</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} geçersiz bir uygulama ayarı özelliği</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Uygulama ayarı adları benzersiz olmalıdır</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Bağlantı dizesi değerleri bir dizi olmalıdır</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} tüm bağlantı dizelerinde gerekli bir özelliktir</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Tüm bağlantı dizesi değeri ve ad özellikleri dize türünde olmalıdır</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} geçersiz bir bağlantı dizesi özelliğidir</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Bağlantı dizesi adları benzersiz olmalıdır</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} tüm işleyici eşlemelerinde gerekli bir özelliktir</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>JSON nesnesi geçersiz</value>
@@ -4962,6 +5001,18 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Kaynak grubu adı yalnızca alfasayısal karakterler, nokta, alt çizgi, kısa çizgi ve parantez içerebilir ve bir noktayla bitemez.</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>'{0}' geçersiz bir karakter</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>'{0}' adı kısıtlanmış. Lütfen başka bir ad seçin.</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>Planınızın adı {0} karakterden uzun olamaz.</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>'{1}' kaynak grubunun altında '{0}' adlı bir plan zaten var</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>Güncelleştirme işlemini iptal etmek istediğinizden emin misiniz?</value>
   </data>
@@ -4991,5 +5042,56 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>Kapsayıcı ayarları doğrulanamadı.</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>Hiçbir tetikleyici tanımlanmadı</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>Hiçbir giriş tanımlanmadı</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>Hiçbir çıkış tanımlanmadı</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ Giriş ekle</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>İşlev</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>Dağıtım verileri getiriliyor...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>Kullanılabilir dağıtım verisi yok.</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>Bu özellik, bir ILB ASE ortamındaki uygulamalarda kullanılamıyor</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>Bağlama güncelleştiriliyor</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>{0} ({1}) güncelleştiriliyor</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>{0} ({1}) güncelleştirilemedi: {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>{0} ({1}) başarıyla güncelleştirildi</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>Girişi düzenle</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>Çıkışı düzenle</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>Tetikleyiciyi düzenle</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>Bağlama komutlarını düzenle</value>
   </data>
 </root>

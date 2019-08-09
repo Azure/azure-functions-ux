@@ -10,12 +10,14 @@ import { BindingManager } from 'app/shared/models/binding-manager';
 import { GlobalStateService } from 'app/shared/services/global-state.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionTemplate } from 'app/shared/models/function-template';
-import { WorkerRuntimeLanguages, SiteTabIds } from 'app/shared/models/constants';
+import { WorkerRuntimeLanguages, SiteTabIds, KeyCodes } from 'app/shared/models/constants';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Observable } from 'rxjs/Observable';
 import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 import { Subject } from 'rxjs/Subject';
 import { errorIds } from 'app/shared/models/error-ids';
+import { ArmObj } from 'app/shared/models/arm/arm-obj';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'step-create-portal-function',
@@ -55,7 +57,7 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
   public workerRuntime: workerRuntimeOptions;
   public language: string;
   public templates: FunctionTemplate[];
-  public functionsInfo: FunctionInfo[];
+  public functionsInfo: ArmObj<FunctionInfo>[];
   public finishButtonText: string;
   public isDreamspark: boolean;
 
@@ -66,7 +68,8 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
     private _translateService: TranslateService,
     private _globalStateService: GlobalStateService,
     private _functionAppService: FunctionAppService,
-    private _broadcastService: BroadcastService
+    private _broadcastService: BroadcastService,
+    private _functionService: FunctionService
   ) {
     this.context = this._wizardService.context.value;
     this.isLinux = this._wizardService.isLinux.value;
@@ -98,10 +101,10 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
   ngOnInit() {
     return Observable.zip(
       this._functionAppService.getTemplates(this.context),
-      this._functionAppService.getFunctions(this.context)
+      this._functionService.getFunctions(this.context.site.id)
     ).subscribe(r => {
       this.templates = r[0].isSuccessful ? r[0].result : null;
-      this.functionsInfo = r[1].isSuccessful ? r[1].result : null;
+      this.functionsInfo = r[1].isSuccessful ? r[1].result.value : null;
     });
   }
 
@@ -119,6 +122,12 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
     }
   }
 
+  public onKeyPress(event: KeyboardEvent, card: PortalTemplateCard) {
+    if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+      this.selectPortalTemplate(card);
+    }
+  }
+
   private _createFunction() {
     if (!this._globalStateService.IsBusy) {
       this._globalStateService.setBusyState();
@@ -131,7 +140,7 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
           try {
             const functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
             this.bindingManager.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
-            this._functionAppService
+            this._functionService
               .createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
               .subscribe(res => {
                 this._globalStateService.clearBusyState();
@@ -139,7 +148,7 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
                   this._broadcastService.broadcastEvent(BroadcastEvent.CloseTab, SiteTabIds.quickstart);
                   this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
                     operation: 'newFunction',
-                    data: res.result,
+                    data: res.result.properties,
                   });
                 }
               });

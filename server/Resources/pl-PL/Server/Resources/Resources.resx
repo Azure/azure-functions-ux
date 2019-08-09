@@ -144,6 +144,9 @@
   <data name="storage" xml:space="preserve">
     <value>Magazyn</value>
   </data>
+  <data name="function" xml:space="preserve">
+    <value>Funkcja</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Błąd tworzenia funkcji: {{error}}</value>
   </data>
@@ -298,7 +301,7 @@
     <value>Rozpocznij pracę samodzielnie</value>
   </data>
   <data name="intro_keepUsingQuickstart" xml:space="preserve">
-    <value>Kontynuuj korzystanie z szybkiego startu</value>
+    <value>Kontynuuj korzystanie z przewodnika Szybki start</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
     <value>W przypadku programu PowerShell, języka Python i usługi Batch</value>
@@ -380,19 +383,19 @@
     <value>Operacja zapisywania jest obecnie w toku.  Zamknięcie tego okna może spowodować utratę niektórych zmian.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>+ Dodaj nowe ustawienie</value>
+    <value>Dodaj nowe ustawienie aplikacji</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Dodaj nowe parametry połączenia</value>
+    <value>Dodaj nowe parametry połączenia</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>+ Dodaj nowy dokument.</value>
+    <value>Dodaj nowy dokument</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>+ Dodaj nowe mapowanie procedury obsługi</value>
+    <value>Dodaj nowe mapowanie procedury obsługi</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>+ Dodaj nową wirtualną aplikację lub katalog</value>
+    <value>Dodaj nową wirtualną aplikację lub katalog</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Wprowadź nazwę</value>
@@ -668,7 +671,7 @@
     <value>Scenariusz:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Wyzwalacze</value>
+    <value>Wyzwalacz</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
     <value>Wersja próbna wygasła</value>
@@ -920,10 +923,10 @@
     <value>Ustawienie „Zawsze włączone” (AlwaysOn) nie jest aktywne. Aplikacja może nie działać prawidłowo.</value>
   </data>
   <data name="topBar_slotsHostId" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob'. Not having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>Ustawienie „AzureWebJobsSecretStorageType” powinno mieć wartość „blob”. Brak tego ustawienia spowoduje nieoczekiwane zachowanie podczas używania miejsc wdrożenia.</value>
   </data>
   <data name="topBar_slotsHostIdV2" xml:space="preserve">
-    <value>The 'AzureWebJobsSecretStorageType' setting should not be set to 'files'. Having this setting will cause unexpected behavior when using deployment slots.</value>
+    <value>Ustawienie „AzureWebJobsSecretStorageType” nie powinno mieć wartości „files” — ustawienie o takiej wartości spowoduje nieoczekiwane zachowanie podczas używania miejsc wdrożenia.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Informacje o wersji usługi Azure Functions.</value>
@@ -1085,7 +1088,7 @@
     <value>Serwer proxy o nazwie „{{name}}” już istnieje</value>
   </data>
   <data name="slots_warningDisabled" xml:space="preserve">
-    <value>Azure functions slots is currently disabled.</value>
+    <value>Miejsca usługi Azure Functions są obecnie wyłączone.</value>
   </data>
   <data name="discard" xml:space="preserve">
     <value>Odrzuć</value>
@@ -1182,6 +1185,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Uruchom ponownie</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Dzienniki</value>
   </data>
   <data name="swap" xml:space="preserve">
     <value>Wymień</value>
@@ -1826,7 +1832,7 @@
     <value>Połączenia hybrydowe</value>
   </data>
   <data name="supportRequest" xml:space="preserve">
-    <value>żądanie obsługi</value>
+    <value>wniosek o pomoc techniczną</value>
   </data>
   <data name="scale" xml:space="preserve">
     <value>skala</value>
@@ -1970,7 +1976,7 @@
     <value>AKCJE</value>
   </data>
   <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
-    <value>przejdź do szybkiego startu</value>
+    <value>przejdź do przewodnika Szybki start</value>
   </data>
   <data name="httpRun_noQuery" xml:space="preserve">
     <value>Brak parametrów zapytania</value>
@@ -2114,7 +2120,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>BŁĄD</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>To pole może zawierać tylko litery, cyfry (0–9), kropki („.”) oraz znaki podkreślenia („_”)</value>
+    <value>Nazwy ustawień aplikacji mogą zawierać tylko litery, cyfry (0–9), kropki („.”) oraz znaki podkreślenia („_”)</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>To pole jest wymagane</value>
@@ -2194,14 +2200,11 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>Brak funkcji aplikacji do wyświetlenia</value>
   </data>
-  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
-    <value>Miejsca (wersja zapoznawcza)</value>
-  </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Włącz miejsca wdrożenia (wersja zapoznawcza).</value>
   </data>
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
-    <value>Enable deployment slots</value>
+    <value>Włącz miejsca wdrożenia</value>
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Znane problemy:</value>
@@ -2210,13 +2213,16 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Integracja aplikacji logiki z usługą Functions nie działa, gdy miejsca wdrożenia (wersja zapoznawcza) są włączone.</value>
   </data>
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
-    <value>Enabling this feature will reset any pre-existing secrets. Function secrets can be found under the 'Manage' node for each function.</value>
+    <value>Włączenie tej funkcji spowoduje zresetowanie wszelkich istniejących wcześniej wpisów tajnych. Wpisy tajne funkcji można znaleźć w węźle „Zarządzanie” dla każdej funkcji.</value>
   </data>
   <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
     <value>Operacja tworzenia miejsca jest w toku. Po przejściu do innego elementu sprawdzenie stanu operacji nie będzie już możliwe.</value>
   </data>
   <data name="slots_label" xml:space="preserve">
     <value>Miejsca</value>
+  </data>
+  <data name="slotsPreview_label" xml:space="preserve">
+    <value>Miejsca (wersja zapoznawcza)</value>
   </data>
   <data name="slotNew" xml:space="preserve">
     <value>Dodaj miejsce</value>
@@ -2295,9 +2301,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>% ruchu</value>
-  </data>
-  <data name="slotsList_title" xml:space="preserve">
-    <value>Miejsca (wersja zapoznawcza)</value>
   </data>
   <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
     <value>Nadchodzące zmiany w regułach routingu</value>
@@ -3205,6 +3208,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
     <value>Wychodzące adresy IP aplikacji mogą ulec zmianie.</value>
   </data>
+  <data name="pricing_appDensityWarningMessage" xml:space="preserve">
+    <value>Twój plan usługi App Service {0} przekroczył zalecaną liczbę aplikacji dla swojego rozmiaru.</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>Bezpłatna</value>
   </data>
@@ -3539,7 +3545,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Przeciągnij plik tutaj lub</value>
   </data>
   <data name="browse" xml:space="preserve">
-    <value>przeglądaj</value>
+    <value>Przeglądaj</value>
   </data>
   <data name="toUpload" xml:space="preserve">
     <value>do przekazania</value>
@@ -3565,8 +3571,20 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="vstsAgentQueuePermissions" xml:space="preserve">
     <value>Nie masz uprawnień do użycia dla żadnej z dostępnych pul agentów w tym projekcie. Skontaktuj się z administratorem projektu lub wybierz inny projekt</value>
   </data>
+  <data name="vstsCreateRepoPermissions" xml:space="preserve">
+    <value>Nie masz uprawnień do tworzenia repozytorium w tym projekcie. Skontaktuj się z administratorem projektu lub wybierz inny projekt</value>
+  </data>
+  <data name="vstsPipelinesNotEnabled" xml:space="preserve">
+    <value>Usługa Azure Pipelines nie jest włączona dla tego projektu. Skontaktuj się z administratorem projektu lub wybierz inny projekt</value>
+  </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Podana nazwa organizacji jest nieprawidłowa. Podaj inną nazwę organizacji.</value>
+  </data>
+  <data name="vstsTokenIsInvalid" xml:space="preserve">
+    <value>Nie można pobrać prawidłowego tokenu Azure DevOps</value>
+  </data>
+  <data name="vstsTokenFetchFailed" xml:space="preserve">
+    <value>Nie można pobrać tokenu Azure DevOps. Więcej szczegółów: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3803,6 +3821,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
     <value>Nie można skonfigurować wdrożenia: {0}</value>
   </data>
+  <data name="noPermissionsToCreateApp" xml:space="preserve">
+    <value>Nie można zarejestrować nowej aplikacji w usłudze Azure Active Directory. Dowiedz się więcej: https://go.microsoft.com/fwlink/?linkid=843472. Więcej szczegółów: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Odłączanie wdrożenia</value>
   </data>
@@ -3990,7 +4011,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Nie można w tej chwili zaktualizować repozytorium dla aplikacji internetowej {0}.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Ciągłe dostarczanie w usłudze Azure DevOps wymaga posiadania uprawnień do zapisu w usłudze Azure Active Directory i utworzenia jednostki usługi.</value>
+    <value>Ciągłe dostarczanie w usłudze Azure DevOps wymaga posiadania uprawnień do tworzenia jednostki usługi w usłudze Azure Active Directory i przypisywania roli.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Wybierz przykład</value>
@@ -4005,7 +4026,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Nie masz prawidłowych organizacji usługi Azure DevOps</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>Nie masz prawidłowych organizacji usługi Azure DevOps. Kompilacja Kudu usługi App Service wymaga również bycia właścicielem konta</value>
+    <value>Wymagany jest dostęp na poziomie właściciela do prawidłowej organizacji w usłudze Azure DevOps.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Utwórz konto teraz</value>
@@ -4184,9 +4205,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="hideUrl" xml:space="preserve">
     <value>ukryj adres url</value>
   </data>
-  <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Funkcje oparte na zużyciu dla systemu Linux są ofertą w wersji zapoznawczej.</value>
-  </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Niektóre pola nie są prawidłowo wypełnione lub są wymagane.</value>
   </data>
@@ -4194,7 +4212,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Zakończ i przejdź do Centrum wdrażania</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Edytowanie funkcji w portalu nie jest obsługiwane dla aplikacji funkcji opartych na zużyciu dla systemu Linux (wersja zapoznawcza).</value>
+    <value>Edytowanie funkcji w portalu nie jest obsługiwane dla aplikacji funkcji opartych na zużyciu dla systemu Linux.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
     <value>Edytowanie funkcji w portalu nie jest obsługiwane dla aplikacji funkcji Premium dla systemu Linux (wersja zapoznawcza).</value>
@@ -4324,6 +4342,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="debugging" xml:space="preserve">
     <value>Debugowanie</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(zmodyfikowano)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Ustawienia aplikacji</value>
@@ -4458,7 +4479,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Wartość</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>ustawienie miejsca wdrożenia</value>
+    <value>Ustawienie miejsca wdrożenia</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4520,7 +4541,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="savingCredentialsFail" xml:space="preserve">
     <value>Nie można zapisać poświadczeń</value>
   </data>
-  <data name="savingCredentialsSucccess" xml:space="preserve">
+  <data name="savingCredentialsSuccess" xml:space="preserve">
     <value>Pomyślnie zapisane poświadczenia</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
@@ -4605,7 +4626,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Zainstaluj magazyn (wersja zapoznawcza)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>+ Dodaj magazyn</value>
+    <value>Dodaj magazyn</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Konto</value>
@@ -4713,7 +4734,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Nowa aplikacja wirtualna lub katalog wirtualny</value>
   </data>
   <data name="addNewHandler" xml:space="preserve">
-    <value>Nowa procedura obsługi</value>
+    <value>Nowe mapowanie procedury obsługi</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
     <value>Nie można otworzyć połączenia z aplikacją. Może to być spowodowane sieciowymi grupami zabezpieczeń lub regułami ograniczeń adresów IP określonymi dla aplikacji. Aby korzystać z przesyłania strumieniowego dzienników, upewnij się, że masz dostęp do aplikacji bezpośrednio z bieżącej sieci.</value>
@@ -4788,28 +4809,46 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Edytowanie funkcji w portalu za pomocą aplikacji funkcji w języku Python (wersja zapoznawcza) nie jest obsługiwane. Do opracowania użyj interfejsu wiersza polecenia lub programu VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Dowiedz się więcej&lt;/a&gt;</value>
+    <value>Edytowanie funkcji w portalu za pomocą aplikacji funkcji w języku Python nie jest obsługiwane. Do programowania użyj interfejsu wiersza polecenia lub programu VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Dowiedz się więcej&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Instalacje magazynów platformy Azure zawierają wpisy tajne. W celu wyświetlenia/edytowania tej sekcji są wymagane uprawnienia do odczytu/zapisu.</value>
   </data>
-  <data name="valuesMustBeAnArray" xml:space="preserve">
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Wszystkie właściwości ustawień miejsca wdrożenia muszą być typu logicznego</value>
+  </data>
+  <data name="appSettingValuesMustBeAnArray" xml:space="preserve">
     <value>Wartości ustawień aplikacji muszą być tablicami</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
     <value>{0} jest właściwością wymaganą dla wszystkich ustawień aplikacji</value>
   </data>
-  <data name="valueMustBeAString" xml:space="preserve">
+  <data name="appSettingValueMustBeAString" xml:space="preserve">
     <value>Wszystkie właściwości wartości i nazw ustawień aplikacji muszą być typu „ciąg”</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Wszystkie właściwości ustawień miejsca wdrożenia dla ustawienia aplikacji muszą być typu logicznego</value>
-  </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+  <data name="appSettingInvalidProperty" xml:space="preserve">
     <value>{0} jest nieprawidłową właściwością ustawienia aplikacji</value>
   </data>
   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>Nazwy ustawień aplikacji muszą być unikatowe</value>
+  </data>
+  <data name="connectionStringValuesMustBeAnArray" xml:space="preserve">
+    <value>Wartości parametrów połączenia muszą być tablicą</value>
+  </data>
+  <data name="connectionStringPropIsRequired" xml:space="preserve">
+    <value>{0} jest właściwością wymaganą we wszystkich parametrach połączenia</value>
+  </data>
+  <data name="connectionStringValueMustBeAString" xml:space="preserve">
+    <value>Wszystkie właściwości wartości i nazw parametrów połączenia muszą być typu „ciąg”</value>
+  </data>
+  <data name="connectionStringInvalidProperty" xml:space="preserve">
+    <value>{0} to nieprawidłowa właściwość parametrów połączenia</value>
+  </data>
+  <data name="connectionStringNamesUnique" xml:space="preserve">
+    <value>Nazwy parametrów połączenia muszą być unikatowe</value>
+  </data>
+  <data name="handlerMappingPropIsRequired" xml:space="preserve">
+    <value>{0} jest właściwością wymaganą we wszystkich mapowaniach obsługi</value>
   </data>
   <data name="jsonInvalid" xml:space="preserve">
     <value>Nieprawidłowy obiekt JSON</value>
@@ -4962,6 +5001,18 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="resourceGroupNameValidationError" xml:space="preserve">
     <value>Nazwa grupy zasobów może składać się tylko ze znaków alfanumerycznych, kropek, podkreśleń, myślników i nawiasów. Nie można zakończyć jej kropką.</value>
   </data>
+  <data name="aspNameCharacterValidationError" xml:space="preserve">
+    <value>„{0}” jest nieprawidłowym znakiem</value>
+  </data>
+  <data name="aspNameRestrictedValidationError" xml:space="preserve">
+    <value>Nazwa „{0}” jest zastrzeżona. Wybierz inną nazwę.</value>
+  </data>
+  <data name="aspNameLengthValidationError" xml:space="preserve">
+    <value>Nazwa planu nie może zawierać więcej niż {0} znaków.</value>
+  </data>
+  <data name="aspNameConflictValidationError" xml:space="preserve">
+    <value>Plan o nazwie „{0}” już istnieje w grupie zasobów „{1}”</value>
+  </data>
   <data name="cancelUpdateConfirmation" xml:space="preserve">
     <value>Czy na pewno chcesz anulować operację aktualizacji?</value>
   </data>
@@ -4991,5 +5042,56 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="containerValidationFailed" xml:space="preserve">
     <value>Nie można zweryfikować ustawień kontenera.</value>
+  </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+    <value>Nie zdefiniowano wyzwalacza</value>
+  </data>
+  <data name="integrateNoInputsDefined" xml:space="preserve">
+    <value>Nie zdefiniowano danych wejściowych</value>
+  </data>
+  <data name="integrateNoOutputsDefined" xml:space="preserve">
+    <value>Nie zdefiniowano danych wyjściowych</value>
+  </data>
+  <data name="integrateAddInput" xml:space="preserve">
+    <value>+ Dodaj dane wejściowe</value>
+  </data>
+  <data name="_function" xml:space="preserve">
+    <value>Funkcja</value>
+  </data>
+  <data name="fetchingDeploymentData" xml:space="preserve">
+    <value>Trwa pobieranie danych wdrożenia...</value>
+  </data>
+  <data name="noDeploymentDataAvailable" xml:space="preserve">
+    <value>Brak dostępnych danych wdrożenia.</value>
+  </data>
+  <data name="featureNotSupportedForILBASEApps" xml:space="preserve">
+    <value>Ta funkcja nie jest dostępna dla aplikacji w środowisku ASE wewnętrznego modułu równoważenia obciążenia</value>
+  </data>
+  <data name="azureReposLabel" xml:space="preserve">
+    <value>Azure Repos</value>
+  </data>
+  <data name="updateBindingNotification" xml:space="preserve">
+    <value>Aktualizowanie powiązania</value>
+  </data>
+  <data name="updateBindingNotificationDetails" xml:space="preserve">
+    <value>Aktualizowanie elementu {0} ({1})</value>
+  </data>
+  <data name="updateBindingNotificationFailed" xml:space="preserve">
+    <value>Nie można zaktualizować elementu {0} ({1}): {2}</value>
+  </data>
+  <data name="updateBindingNotificationSuccess" xml:space="preserve">
+    <value>Pomyślnie zaktualizowano element {0} ({1})</value>
+  </data>
+  <data name="editBindingInput" xml:space="preserve">
+    <value>Edytuj dane wejściowe</value>
+  </data>
+  <data name="editBindingOuput" xml:space="preserve">
+    <value>Edytuj dane wyjściowe</value>
+  </data>
+  <data name="editBindingTrigger" xml:space="preserve">
+    <value>Edytuj wyzwalacz</value>
+  </data>
+  <data name="editBindingCommands" xml:space="preserve">
+    <value>Edytuj polecenia powiązań</value>
   </data>
 </root>
