@@ -5,7 +5,7 @@ import { FunctionTemplate } from '../../../../models/functions/function-template
 export const filterBoxStyle = {
   root: {
     marginLeft: '410px',
-    marginTop: '-30px',
+    marginTop: '-10px',
     height: '30px',
     width: '300px',
   },

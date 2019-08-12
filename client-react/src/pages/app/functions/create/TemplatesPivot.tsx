@@ -4,6 +4,7 @@ import { FunctionTemplate } from '../../../../models/functions/function-template
 import { PivotState } from './FunctionCreate';
 import { SearchBox } from 'office-ui-fabric-react';
 import { filterBoxStyle } from './FunctionCreate.styles';
+import { useTranslation } from 'react-i18next';
 
 interface TemplatesPivotProps {
   functionTemplates: FunctionTemplate[];
@@ -12,15 +13,15 @@ interface TemplatesPivotProps {
 
 const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
   const { functionTemplates, setPivotStateKey } = props;
+  const { t } = useTranslation();
   setPivotStateKey(PivotState.templates);
   const [filterValue, setFilterValue] = useState<string | undefined>(undefined);
   return (
     <>
       <SearchBox
         id="create-functions-search"
-        className="ms-slideDownIn20"
         styles={filterBoxStyle}
-        placeholder={'Search by template name'}
+        placeholder={t('functionCreate_searchByTemplateName')}
         onChange={newValue => setFilterValue(newValue)}
       />
       {!!functionTemplates &&

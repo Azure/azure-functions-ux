@@ -23,7 +23,7 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
 
   return (
     <>
-      <div className={getCardStyle(theme)} onClick={() => onClick(functionTemplate, setPivotStateKey)}>
+      <div className={getCardStyle(theme)} onClick={() => onClick(setPivotStateKey)}>
         <div className={getHeaderStyle(functionTemplate)}>
           <img src={getSrc(functionTemplate)} />
           {functionTemplate.metadata.name}
@@ -35,7 +35,7 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
   );
 };
 
-const onClick = (functionTemplate: FunctionTemplate, setPivotStateKey: any) => {
+const onClick = (setPivotStateKey: any) => {
   setPivotStateKey(PivotState.details);
 };
 

@@ -1642,4 +1642,10 @@ export class PortalResources {
   public static editBindingOuput = 'editBindingOuput';
   public static editBindingTrigger = 'editBindingTrigger';
   public static editBindingCommands = 'editBindingCommands';
+  public static functionCreate_newFunction = 'functionCreate_newFunction';
+  public static functionCreate_createFunctionMessage = 'functionCreate_createFunctionMessage';
+  public static functionCreate_goToQuickstart = 'functionCreate_goToQuickstart';
+  public static functionCreate_templates = 'functionCreate_templates';
+  public static functionCreate_details = 'functionCreate_details';
+  public static functionCreate_searchByTemplateName = 'functionCreate_searchByTemplateName';
 }
