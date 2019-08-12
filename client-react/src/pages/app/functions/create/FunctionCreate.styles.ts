@@ -2,6 +2,15 @@ import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 import { style } from 'typestyle';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 
+export const filterBoxStyle = {
+  root: {
+    marginLeft: '410px',
+    marginTop: '-30px',
+    height: '30px',
+    width: '300px',
+  },
+};
+
 export const getCardStyle = (theme: ThemeExtended) => {
   return style({
     border: `solid 1px ${theme.semanticColors.cardBorderColor}`,
@@ -92,6 +101,7 @@ const _getTemplateColor = (template: FunctionTemplate) => {
   );
 };
 
+// allisonm: Discuss with Byron regarding themeing these colors and light vs dark mode
 const createCardColors = {
   blob: '#1E5890',
   cosmosDB: '#379DA6',

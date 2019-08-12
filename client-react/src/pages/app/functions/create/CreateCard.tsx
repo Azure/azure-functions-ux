@@ -36,7 +36,6 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
 };
 
 const onClick = (functionTemplate: FunctionTemplate, setPivotStateKey: any) => {
-  console.log(functionTemplate.id);
   setPivotStateKey(PivotState.details);
 };
 

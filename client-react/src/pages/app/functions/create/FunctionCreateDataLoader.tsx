@@ -46,7 +46,6 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
   private _loadTemplates() {
     FunctionsService.getTemplatesMetadata().then(r => {
       if (r.metadata.success) {
-        console.log(r.data);
         this.setState({
           ...this.state,
           functionTemplates: r.data,
@@ -66,7 +65,6 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
 
     FunctionsService.getFunctions(resourceId).then(r => {
       if (r.metadata.success) {
-        console.log(r.data.value);
         this.setState({
           ...this.state,
           functionsInfo: r.data.value,

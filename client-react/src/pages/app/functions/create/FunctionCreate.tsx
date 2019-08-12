@@ -58,7 +58,6 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
           </PivotItem>
         </Pivot>
       </div>
-      {/*<CreateFunctionCommandBar />*/}
     </>
   );
 };
