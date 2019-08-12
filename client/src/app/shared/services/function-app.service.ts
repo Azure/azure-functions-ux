@@ -1099,7 +1099,7 @@ export class FunctionAppService {
       .switchMap(tuple => {
         const newContext = tuple[0];
         const version = tuple[1];
-        newContext.urlTemplates.runtimeVersion = version;
+        newContext.runtimeVersion = version;
         return Observable.of(newContext);
       });
   }
