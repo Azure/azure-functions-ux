@@ -67,7 +67,7 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
     FunctionsService.getBindingConfigMetadata().then(r => {
       if (!r.metadata.success) {
         LogService.trackEvent(
-          LogCategories.changeAppPlan,
+          LogCategories.bindingEditor,
           'getBindingConfigMetadata',
           `Failed to get bindingConfigMetadata: ${r.metadata.error}`
         );
@@ -117,13 +117,17 @@ const getEditorOrLoader = (
 
 const getPanelHeader = (bindingInfo: BindingInfo, t: i18next.TFunction) => {
   const direction = getBindingConfigDirection(bindingInfo);
-  if (direction === BindingConfigDirection.in) {
-    return t('editBindingInput');
-  } else if (direction === BindingConfigDirection.out) {
-    return t('editBindingOuput');
+  switch (direction) {
+    case BindingConfigDirection.in: {
+      return t('editBindingInput');
+    }
+    case BindingConfigDirection.out: {
+      return t('editBindingOuput');
+    }
+    default: {
+      return t('editBindingTrigger');
+    }
   }
-
-  return t('editBindingTrigger');
 };
 
 const onRenderNavigationContent = (bindingInfo: BindingInfo, onClosePanel: () => void, t: i18next.TFunction): JSX.Element => {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#719516;}
+	.st1{fill:#FFFFFF;}
+</style>
+<title>asdEvent Hub</title>
+<g id="Event_Hub">
+	<rect class="st0" width="100" height="100"/>
+	<rect x="14" y="53.5" class="st1" width="41.4" height="5.4"/>
+	<polygon class="st1" points="50,39.1 35.2,53.9 37.8,56.5 40.5,56.5 52.4,44.5 75.2,44.5 75.2,39.1 	"/>
+	<polygon class="st1" points="43.4,67.9 32.5,57.1 27.4,57.1 26.5,58.9 41,73.3 71.6,73.3 71.6,67.9 	"/>
+	<polygon class="st1" points="44.6,26.5 17.2,53.9 19.8,56.5 22.5,56.5 47,31.9 62.6,31.9 62.6,26.5 	"/>
+	<circle class="st1" cx="59.9" cy="56.2" r="6.1"/>
+	<circle class="st1" cx="65.3" cy="29.2" r="6.1"/>
+	<circle class="st1" cx="77.9" cy="41.8" r="6.1"/>
+	<circle class="st1" cx="72.5" cy="70.6" r="6.1"/>
+	<path class="st1" d="M93.6,94.9c0.7,0.1,1.4-0.5,1.4-1.2c0-0.1,0-0.2,0-0.3V75.9c0.1-0.7-0.5-1.4-1.2-1.4c-0.1,0-0.2,0-0.3,0h-8.6
+		c-0.7-0.1-1.4,0.5-1.4,1.2c0,0.1,0,0.2,0,0.3v7.2H17.1v-7.6c0-0.9-0.5-1.4-1.8-1.4H6.4c-0.9,0-1.4,0.5-1.4,1.8v17.6
+		c-0.1,0.7,0.5,1.4,1.2,1.4c0.1,0,0.2,0,0.3,0H93.6z"/>
+	<path class="st1" d="M93.6,5.1C94.3,5,94.9,5.5,95,6.2c0,0.1,0,0.2,0,0.3v17.6c0.1,0.7-0.5,1.4-1.2,1.4c-0.1,0-0.2,0-0.3,0h-8.6
+		c-0.7,0.1-1.4-0.5-1.4-1.2c0-0.1,0-0.2,0-0.3v-7.2H17.1v7.6c0,0.9-0.5,1.4-1.8,1.4H6.4c-0.9,0-1.4-0.5-1.4-1.8V6.5
+		C4.9,5.8,5.5,5.1,6.2,5.1c0.1,0,0.2,0,0.3,0H93.6z"/>
+</g>
+</svg>
