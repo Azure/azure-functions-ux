@@ -19,7 +19,7 @@ export class AuthzService implements IAuthzService {
   public static writeScope = './write';
   public static deleteScope = './delete';
   public static actionScope = './action';
-  public static roleAssignmentWriteScope = 'Microsoft.Authorization/roleassignments/Write';
+  public static activeDirectoryWriteScope = 'Microsoft.Authorization/*/Write';
   public static permissionsSuffix = '/providers/microsoft.authorization/permissions';
   public static authSuffix = '/providers/Microsoft.Authorization/locks';
 
@@ -141,11 +141,11 @@ export class AuthzService implements IAuthzService {
   }
 
   private _isAllowed(requestedAction: string, permissionRegex: PermissionsAsRegExp, permission: Permissions): boolean {
-    var requestedActionRegex = this._convertWildCardPatternToRegex(requestedAction);
     const actionAllowed = !!permissionRegex.actions.find(action => {
       return action.test(requestedAction);
     });
 
+    const requestedActionRegex = this._convertWildCardPatternToRegex(requestedAction);
     const actionDenied =
       !!permissionRegex.notActions.find(notActionRegex => {
         return notActionRegex.test(requestedAction);
