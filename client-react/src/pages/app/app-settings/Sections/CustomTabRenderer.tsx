@@ -5,14 +5,14 @@ const CustomTabRenderer = (
   link: IPivotItemProps,
   defaultRenderer: (link: IPivotItemProps) => JSX.Element,
   theme: ThemeExtended,
-  dirtyCheck: () => boolean,
-  dirtyLabel: string,
+  dirtyCheck?: () => boolean,
+  dirtyLabel?: string,
   errorCheck?: () => boolean
 ) => {
   let iconState: 'error' | 'dirty' | '' = '';
   if (errorCheck && errorCheck()) {
     iconState = 'error';
-  } else if (dirtyCheck()) {
+  } else if (dirtyCheck && dirtyCheck()) {
     iconState = 'dirty';
   }
 
