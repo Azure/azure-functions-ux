@@ -3,7 +3,6 @@ import { Tier } from './../../models/serverFarmSku';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
-import { ARMApplicationInsightsDescriptior } from '../../resourceDescriptors';
 import { Injector } from '@angular/core';
 import { ApplicationInsightsService } from '../application-insights.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -237,10 +236,10 @@ export class AzureEnvironment extends Environment {
 
   private _getApplicationInsightsId(input: ScenarioCheckInput): Observable<ScenarioResult> {
     if (input.site) {
-      return this._applicationInsightsService.getApplicationInsightsId(input.site.id).switchMap(applicationInsightsResourceId => {
+      return this._applicationInsightsService.getApplicationInsightResource(input.site.id).switchMap(resource => {
         return Observable.of<ScenarioResult>({
           status: 'enabled',
-          data: applicationInsightsResourceId ? new ARMApplicationInsightsDescriptior(applicationInsightsResourceId) : null,
+          data: resource,
         });
       });
     } else {

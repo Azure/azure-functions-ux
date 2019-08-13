@@ -3,7 +3,7 @@ import { UrlTemplates } from 'app/shared/url-templates';
 import { FunctionAppContext } from './../function-app-context';
 import { Site } from './../models/arm/site';
 import { FunctionContainer } from './../models/function-container';
-import { ArmObj } from './../models/arm/arm-obj';
+import { ArmObj, ResourceTopologyColumn, Identity, Sku } from './../models/arm/arm-obj';
 import { Kinds } from '../models/constants';
 
 export namespace ArmUtil {
@@ -41,5 +41,29 @@ export namespace ArmUtil {
       mainSiteUrl: template.getMainUrl(),
       urlTemplates: new UrlTemplates(obj, injector),
     };
+  }
+
+  export function mapResourcesTopologyToArmObjects<T>(columns: ResourceTopologyColumn[], rows: any[][]): ArmObj<T>[] {
+    const idIndex = columns.findIndex(col => col.name.toLowerCase() === 'id');
+    const nameIndex = columns.findIndex(col => col.name.toLowerCase() === 'name');
+    const typeIndex = columns.findIndex(col => col.name.toLowerCase() === 'type');
+    const kindIndex = columns.findIndex(col => col.name.toLowerCase() === 'kind');
+    const locationIndex = columns.findIndex(col => col.name.toLowerCase() === 'location');
+    const propertiesIndex = columns.findIndex(col => col.name.toLowerCase() === 'properties');
+    const identityIndex = columns.findIndex(col => col.name.toLowerCase() === 'identity');
+    const skuIndex = columns.findIndex(col => col.name.toLowerCase() === 'sku');
+
+    const armObjects: ArmObj<T>[] = rows.map(row => ({
+      id: row[idIndex],
+      name: row[nameIndex],
+      type: row[typeIndex],
+      kind: row[kindIndex],
+      location: row[locationIndex],
+      properties: <T>row[propertiesIndex],
+      identity: <Identity>row[identityIndex],
+      sku: <Sku>row[skuIndex],
+    }));
+
+    return armObjects;
   }
 }

@@ -3575,16 +3575,16 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Du har inte behörigheter att skapa centrallager i det här projektet. Kontakta din projektadministratör eller välj ett annat projekt</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>Azure Pipelines-tjänsten har inte aktiverats för det här projektet. Kontakta din projektadministratör eller välj ett annat projekt</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Det angivna organisationsnamnet är inte giltigt. Ange ett annat organisationsnamn.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Det gick inte att hämta en giltig Azure DevOps-token</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Det gick inte att hämta Azure DevOps-token. Mer information: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4342,6 +4342,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="debugging" xml:space="preserve">
     <value>Felsökning</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(ändrad)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Programinställningar</value>

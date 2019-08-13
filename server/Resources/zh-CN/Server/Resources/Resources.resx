@@ -3575,16 +3575,16 @@
     <value>你无权在此项目中创建存储库。请联系项目管理员或选择其他项目</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>没有为此项目启用 Azure Pipelines 服务。请联系项目管理员或选择其他项目</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>提供的组织名无效。请提供其他组织名。</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>无法提取有效的 Azure DevOps 令牌</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>无法提取 Azure DevOps 令牌。更多详细信息: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4342,6 +4342,9 @@
   </data>
   <data name="debugging" xml:space="preserve">
     <value>调试</value>
+  </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(已修改)</value>
   </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>应用程序设置</value>
