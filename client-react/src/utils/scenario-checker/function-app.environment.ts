@@ -39,8 +39,23 @@ export class FunctionAppEnvironment extends Environment {
         return { status: 'enabled' };
       },
     };
+
     this.scenarioChecks[ScenarioIds.skipStackValidation] = {
       id: ScenarioIds.skipStackValidation,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.windowsAppStack] = {
+      id: ScenarioIds.windowsAppStack,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.linuxAppStack] = {
+      id: ScenarioIds.linuxAppStack,
       runCheck: () => {
         return { status: 'disabled' };
       },

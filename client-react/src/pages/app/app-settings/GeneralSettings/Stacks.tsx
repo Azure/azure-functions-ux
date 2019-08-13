@@ -15,16 +15,9 @@ const Stacks: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
 
-  if (scenarioService.checkScenario(ScenarioIds.windowsAppStack, { site }).status === 'enabled') {
-    return (
-      <>
-        <h3>{t('stackSettings')}</h3>
-        <div className={settingsWrapper}>
-          <WindowsStacks {...props} />
-        </div>
-      </>
-    );
-  }
+  // NOTE(michinoy): We should always default to showing the windows runtime stack selector,
+  // unless if the kind specifically contains 'linux' in it OR show nothing if the kind contains 'functionapp'
+
   if (scenarioService.checkScenario(ScenarioIds.linuxAppStack, { site }).status === 'enabled') {
     return (
       <>
@@ -34,8 +27,21 @@ const Stacks: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
         </div>
       </>
     );
+  } else if (
+    scenarioService.checkScenario(ScenarioIds.linuxAppStack, { site }).status !== 'disabled' &&
+    scenarioService.checkScenario(ScenarioIds.windowsAppStack, { site }).status !== 'disabled'
+  ) {
+    return (
+      <>
+        <h3>{t('stackSettings')}</h3>
+        <div className={settingsWrapper}>
+          <WindowsStacks {...props} />
+        </div>
+      </>
+    );
+  } else {
+    return null;
   }
-  return null;
 };
 
 export default Stacks;
