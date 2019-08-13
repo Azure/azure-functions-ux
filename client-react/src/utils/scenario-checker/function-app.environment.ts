@@ -47,15 +47,8 @@ export class FunctionAppEnvironment extends Environment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.windowsAppStack] = {
-      id: ScenarioIds.windowsAppStack,
-      runCheck: () => {
-        return { status: 'disabled' };
-      },
-    };
-
-    this.scenarioChecks[ScenarioIds.linuxAppStack] = {
-      id: ScenarioIds.linuxAppStack,
+    this.scenarioChecks[ScenarioIds.functionAppRuntimeStack] = {
+      id: ScenarioIds.functionAppRuntimeStack,
       runCheck: () => {
         return { status: 'disabled' };
       },

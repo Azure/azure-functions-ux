@@ -15,9 +15,6 @@ const Stacks: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
 
-  // NOTE(michinoy): We should always default to showing the windows runtime stack selector,
-  // unless if the kind specifically contains 'linux' in it OR show nothing if the kind contains 'functionapp'
-
   if (scenarioService.checkScenario(ScenarioIds.linuxAppStack, { site }).status === 'enabled') {
     return (
       <>
@@ -27,10 +24,11 @@ const Stacks: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
         </div>
       </>
     );
-  } else if (
-    scenarioService.checkScenario(ScenarioIds.linuxAppStack, { site }).status !== 'disabled' &&
-    scenarioService.checkScenario(ScenarioIds.windowsAppStack, { site }).status !== 'disabled'
-  ) {
+  } else if (scenarioService.checkScenario(ScenarioIds.functionAppRuntimeStack, { site }).status === 'disabled') {
+    return null;
+  } else {
+    // NOTE(michinoy): Always default to the windows based runtime stack.
+
     return (
       <>
         <h3>{t('stackSettings')}</h3>
@@ -39,8 +37,6 @@ const Stacks: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
         </div>
       </>
     );
-  } else {
-    return null;
   }
 };
 
