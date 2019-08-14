@@ -11,6 +11,7 @@ import { ExtensionInstallStatus } from 'app/shared/models/extension-install-stat
 import { Observable } from 'rxjs/Observable';
 import { PortalService } from 'app/shared/services/portal.service';
 import { FunctionService } from 'app/shared/services/function.service';
+import { Version } from 'app/shared/Utilities/version';
 
 export abstract class BaseExtensionInstallComponent extends FunctionAppContextComponent {
   public neededExtensions: RuntimeExtension[];
@@ -100,16 +101,25 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
         return runtimeExtensions;
       }
 
+      // Only require an extension installations if the extension is not already installed
+      // OR the extension is installed but the major version is mismatched
       runtimeExtensions.forEach(runtimeExtension => {
-        const ext = r.result.extensions.find(installedExtention => {
-          return installedExtention.id === runtimeExtension.id && installedExtention.version === runtimeExtension.version;
+        const extFound = r.result.extensions.find(installedExtention => {
+          if (installedExtention.id === runtimeExtension.id) {
+            return !this._shouldInstallNewExtensionVersion(installedExtention, runtimeExtension);
+          }
+          return false;
         });
-        if (!ext) {
+        if (!extFound) {
           neededExtensions.push(runtimeExtension);
 
           // Check if an older version of the extension needs to be uninstalled
+          // Only uninstall extensions with mismatching major versions
           const old = r.result.extensions.find(installedExtention => {
-            return installedExtention.id === runtimeExtension.id;
+            if (installedExtention.id === runtimeExtension.id) {
+              return this._shouldInstallNewExtensionVersion(installedExtention, runtimeExtension);
+            }
+            return false;
           });
           if (old) {
             this.oldExtensionIds.push(runtimeExtension.id);
@@ -291,6 +301,12 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
     this._aiService.trackEvent(errorIds.timeoutInstallingFunctionRuntimeExtension, {
       content: this.translateService.instant(PortalResources.timeoutInstallingFunctionRuntimeExtension),
     });
+  }
+
+  private _shouldInstallNewExtensionVersion(installedExtension: RuntimeExtension, runtimeExtension: RuntimeExtension): boolean {
+    const installedExtentionVersion = new Version(installedExtension.version);
+    const runtimeExtensionVersion = new Version(runtimeExtension.version);
+    return installedExtentionVersion.majorVersion !== runtimeExtensionVersion.majorVersion;
   }
 
   abstract showInstallFailed(context: FunctionAppContext, id: string);
