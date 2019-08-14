@@ -163,10 +163,34 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
   private _initCol1Groups(site: ArmObj<Site>) {
     const codeDeployFeatures = [];
-    const showDeploymentCenterFlag = Url.getParameterByName(null, 'appsvc.deploymentcenter');
-    const deploymentCenterEnabled = this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, { site }).status !== 'disabled';
-    if (deploymentCenterEnabled || showDeploymentCenterFlag) {
-      const deploymentCenterFeature = new TabFeature(
+    const deploymentCenterKeywords =
+      this._translateService.instant(PortalResources.continuousDeployment) +
+      ' ' +
+      this._translateService.instant(PortalResources.source) +
+      ' ' +
+      this._translateService.instant(PortalResources.options) +
+      '  github bitbucket dropbox onedrive vsts vso';
+
+    if (ArmUtil.isContainerApp(site)) {
+      const deploymentCenterFeature = new DisableableBladeFeature(
+        this._translateService.instant(PortalResources.deploymentCenterTitle),
+        deploymentCenterKeywords,
+        this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
+        'image/deployment-source.svg',
+        {
+          detailBlade: 'ContinuousIntegrationBlade',
+          detailBladeInputs: {
+            websiteResourceUri: this._descriptor.resourceId,
+          },
+          extension: 'AzureTfsExtension',
+        },
+        this._portalService,
+        this._hasSiteWritePermissionStream,
+        this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, { site: site })
+      );
+      codeDeployFeatures.push(deploymentCenterFeature);
+    } else {
+      const deploymentCenterFeature = new DisableableTabFeature(
         this._translateService.instant(PortalResources.deploymentCenterTitle),
         this._translateService.instant(PortalResources.continuousDeployment) +
           ' ' +
@@ -177,7 +201,9 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
         'image/deployment-source.svg',
         SiteTabIds.continuousDeployment,
-        this._broadcastService
+        this._broadcastService,
+        null,
+        this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, { site })
       );
       codeDeployFeatures.push(deploymentCenterFeature);
     }
