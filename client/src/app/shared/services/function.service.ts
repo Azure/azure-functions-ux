@@ -40,11 +40,10 @@ export class FunctionService {
   updateFunction(resourceId: string, functionInfo: FunctionInfo): Result<ArmObj<FunctionInfo>> {
     const functionInfoCopy = <FunctionInfo>{};
     for (const prop in functionInfo) {
-      if (functionInfo.hasOwnProperty(prop)) {
+      if (functionInfo.hasOwnProperty(prop) && prop !== 'functionApp') {
         functionInfoCopy[prop] = functionInfo[prop];
       }
     }
-    console.log(functionInfoCopy);
 
     const payload = JSON.stringify({
       properties: functionInfoCopy,

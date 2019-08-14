@@ -82,7 +82,7 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
     const observable =
       this.runtimeVersion === 'V2'
         ? this._functionAppService.updateDisabledAppSettings(this.context, [item.functionInfo])
-        : this._functionAppService.updateFunction(this.context, item.functionInfo);
+        : this._functionService.updateFunction(this.context.site.id, item.functionInfo);
 
     return observable
       .do(null, e => {
