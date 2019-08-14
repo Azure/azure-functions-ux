@@ -108,7 +108,7 @@ export class FunctionIntegrateComponent extends BaseFunctionComponent implements
         this.configContent = this._currentContent;
         this._selectedFunction.config = JSON.parse(this.configContent);
         this.setBusy();
-        this._functionAppService.updateFunction(this.context, this._selectedFunction).subscribe(() => {
+        this._functionService.updateFunction(this.context.site.id, this._selectedFunction).subscribe(() => {
           this._originalContent = this.configContent;
           this.clearDirty();
           this.clearBusy();
