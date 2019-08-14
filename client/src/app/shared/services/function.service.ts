@@ -31,6 +31,23 @@ export class FunctionService {
     return this._client.execute({ resourceId: resourceId }, t => getFunction);
   }
 
+  updateFunction(resourceId: string, functionInfo: FunctionInfo): Result<ArmObj<FunctionInfo>> {
+    const functionInfoCopy = <FunctionInfo>{};
+    for (const prop in functionInfo) {
+      if (functionInfo.hasOwnProperty(prop) && prop !== 'functionApp') {
+        functionInfoCopy[prop] = functionInfo[prop];
+      }
+    }
+
+    const payload = JSON.stringify({
+      properties: functionInfoCopy,
+    });
+
+    const updateFunction = this._cacheService.putArm(`${resourceId}/functions/${functionInfo.name}`, null, payload).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => updateFunction);
+  }
+
   createFunction(resourceId: string, functionName: string, files: any, config: any): Result<ArmObj<FunctionInfo>> {
     const filesCopy = Object.assign({}, files);
     const sampleData = filesCopy['sample.dat'];
