@@ -338,7 +338,11 @@ export class StepSourceControlComponent {
               });
           }
         } catch (e) {
-          this._logService.error(LogCategories.cicd, `/authorize/${provider}`, e);
+          if (!(e instanceof DOMException)) {
+            // NOTE(michinoy): While we wait and retry for authorization window to switch to callback, local DOM Exception
+            // will be thrown indicating cross site origin. Do not log those as it will skew the actual error report.
+            this._logService.error(LogCategories.cicd, `/authorize/${provider}`, e);
+          }
         }
       });
   }
