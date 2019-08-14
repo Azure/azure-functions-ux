@@ -467,20 +467,6 @@ export class FunctionAppService {
     );
   }
 
-  updateFunction(context: FunctionAppContext, fi: FunctionInfo): Result<FunctionInfo> {
-    const fiCopy = <FunctionInfo>{};
-    for (const prop in fi) {
-      if (fi.hasOwnProperty(prop) && prop !== 'functionApp') {
-        fiCopy[prop] = fi[prop];
-      }
-    }
-
-    this._cacheService.clearArmIdCachePrefix(context.site.id);
-    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-      this._cacheService.put(fi.href, this.jsonHeaders(t), JSON.stringify(fiCopy)).map(r => r.json() as FunctionInfo)
-    );
-  }
-
   getFunctionErrors(context: FunctionAppContext, fi: FunctionInfo, handleUnauthorized?: boolean): Result<string[]> {
     return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService
