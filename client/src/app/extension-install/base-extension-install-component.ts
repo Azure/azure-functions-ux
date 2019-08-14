@@ -104,24 +104,20 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
       // Only require an extension installations if the extension is not already installed
       // OR the extension is installed but the major version is mismatched
       runtimeExtensions.forEach(runtimeExtension => {
-        const ext = r.result.extensions.find(installedExtention => {
+        const extFound = r.result.extensions.find(installedExtention => {
           if (installedExtention.id === runtimeExtension.id) {
-            const installedExtentionVersion = new Version(installedExtention.version);
-            const runtimeExtensionVersion = new Version(runtimeExtension.version);
-            return installedExtentionVersion.majorVersion === runtimeExtensionVersion.majorVersion;
+            return !this._shouldInstallNewExtensionVersion(installedExtention, runtimeExtension);
           }
           return false;
         });
-        if (!ext) {
+        if (!extFound) {
           neededExtensions.push(runtimeExtension);
 
           // Check if an older version of the extension needs to be uninstalled
           // Only uninstall extensions with mismatching major versions
           const old = r.result.extensions.find(installedExtention => {
             if (installedExtention.id === runtimeExtension.id) {
-              const installedExtentionVersion = new Version(installedExtention.version);
-              const runtimeExtensionVersion = new Version(runtimeExtension.version);
-              return installedExtentionVersion.majorVersion !== runtimeExtensionVersion.majorVersion;
+              return this._shouldInstallNewExtensionVersion(installedExtention, runtimeExtension);
             }
             return false;
           });
@@ -305,6 +301,12 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
     this._aiService.trackEvent(errorIds.timeoutInstallingFunctionRuntimeExtension, {
       content: this.translateService.instant(PortalResources.timeoutInstallingFunctionRuntimeExtension),
     });
+  }
+
+  private _shouldInstallNewExtensionVersion(installedExtension: RuntimeExtension, runtimeExtension: RuntimeExtension): boolean {
+    const installedExtentionVersion = new Version(installedExtension.version);
+    const runtimeExtensionVersion = new Version(runtimeExtension.version);
+    return installedExtentionVersion.majorVersion !== runtimeExtensionVersion.majorVersion;
   }
 
   abstract showInstallFailed(context: FunctionAppContext, id: string);
