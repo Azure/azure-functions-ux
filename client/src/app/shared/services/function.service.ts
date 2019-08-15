@@ -8,21 +8,15 @@ import { CacheService } from './cache.service';
 import { UserService } from './user.service';
 import { FunctionInfo } from '../models/function-info';
 import { HostKeyTypes } from '../models/constants';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { FunctionAppContext } from '../function-app-context';
-import { ArmUtil } from '../Utilities/arm-utils';
 
 type Result<T> = Observable<HttpResult<T>>;
 
 @Injectable()
 export class FunctionService {
   private readonly _client: ConditionalHttpClient;
-  private _functionAppService: FunctionAppService;
 
   constructor(userService: UserService, injector: Injector, private _cacheService: CacheService) {
     this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
-    // todo allisonm: Remove _functionAppService onceDOTNET_USE_POLLING_FILE_WATCHER=true in applied to containers
-    setTimeout(() => (this._functionAppService = injector.get(FunctionAppService)));
   }
 
   getFunctions(resourceId: string): Result<ArmArrayResult<FunctionInfo>> {
@@ -54,8 +48,7 @@ export class FunctionService {
     return this._client.execute({ resourceId: resourceId }, t => updateFunction);
   }
 
-  createFunction(context: FunctionAppContext, functionName: string, files: any, config: any): Result<ArmObj<FunctionInfo>> {
-    const resourceId = context.site.id;
+  createFunction(resourceId: string, functionName: string, files: any, config: any): Result<ArmObj<FunctionInfo>> {
     const filesCopy = Object.assign({}, files);
     const sampleData = filesCopy['sample.dat'];
     delete filesCopy['sample.dat'];
@@ -68,15 +61,7 @@ export class FunctionService {
       },
     });
 
-    const createFunction = this._cacheService
-      .putArm(`${resourceId}/functions/${functionName}`, null, payload)
-      .map(r => r.json())
-      .concatMap(r => {
-        return ArmUtil.isLinuxApp(context.site) ? this._functionAppService.restartFunctionsHost(context).map(() => r) : Observable.of(r);
-      })
-      .do(() => {
-        this._cacheService.clearCachePrefix(context.urlTemplates.scmSiteUrl);
-      });
+    const createFunction = this._cacheService.putArm(`${resourceId}/functions/${functionName}`, null, payload).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => createFunction);
   }
