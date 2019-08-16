@@ -5094,4 +5094,22 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="editBindingCommands" xml:space="preserve">
     <value>Editar comandos de associação</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Nova Função</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Crie uma função neste Aplicativo de Funções. Você pode começar selecionando de um modelo abaixo ou </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>acesse o início rápido.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Modelos</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Detalhes</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Pesquisar por nome do modelo</value>
+  </data>
 </root>

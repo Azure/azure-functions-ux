@@ -5094,4 +5094,22 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="editBindingCommands" xml:space="preserve">
     <value>Modifica comandi associazione</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Nuova funzione</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Creare una nuova funzione in questa app per le funzioni. Per iniziare, selezionare uno dei modelli seguenti oppure</value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>passare all'Avvio rapido.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Modelli</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Dettagli</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Cerca per nome modello</value>
+  </data>
 </root>

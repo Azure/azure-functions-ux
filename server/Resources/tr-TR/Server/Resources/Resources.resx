@@ -5094,4 +5094,22 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="editBindingCommands" xml:space="preserve">
     <value>Bağlama komutlarını düzenle</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Yeni İşlev</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Create a new function in this Function App. You can start by selecting from a template below or </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>go to the quickstart.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Şablonlar</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Ayrıntılar</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Search by template name</value>
+  </data>
 </root>

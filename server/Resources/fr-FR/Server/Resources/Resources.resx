@@ -5094,4 +5094,22 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="editBindingCommands" xml:space="preserve">
     <value>Modifier les commandes de liaison</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Nouvelle fonction</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Créez une fonction dans cette Function App. Vous pouvez commencer par sélectionner un modèle ci-dessous ou </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>accédez au démarrage rapide.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Modèles</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Rechercher par nom de modèle</value>
+  </data>
 </root>

@@ -5094,4 +5094,22 @@
   <data name="editBindingCommands" xml:space="preserve">
     <value>編輯繫結命令</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>新函式</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>在此函數應用程式中建立新的函式。您可以從選取下方的範本開始著手，或</value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>前往快速入門。</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>範本</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>詳細資料</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>依範本名稱搜尋</value>
+  </data>
 </root>

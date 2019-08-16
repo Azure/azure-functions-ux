@@ -5094,4 +5094,22 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="editBindingCommands" xml:space="preserve">
     <value>Bindungsbefehle bearbeiten</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Neue Funktion</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Erstellen Sie eine neue Funktion in dieser Funktionen-App. Sie können mit der Auswahl aus einer der folgenden Vorlagen beginnen, oder </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>wechseln Sie zum Schnellstart.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Vorlagen</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Nach Vorlangename suchen</value>
+  </data>
 </root>
