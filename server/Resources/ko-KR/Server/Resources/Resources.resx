@@ -5094,4 +5094,22 @@
   <data name="editBindingCommands" xml:space="preserve">
     <value>바인딩 명령 편집</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>새 함수</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>이 Function App에서 새 함수를 만듭니다. 아래에서 템플릿을 선택하여 시작하거나</value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>빠른 시작으로 이동합니다.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>템플릿</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>세부 정보</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>템플릿 이름으로 검색</value>
+  </data>
 </root>

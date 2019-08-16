@@ -5094,4 +5094,22 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="editBindingCommands" xml:space="preserve">
     <value>Redigera bindningskommandon</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Ny funktion</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Skapa en ny funktion i den här funktionsappen. Du kan börja med att välja från en mall nedan eller </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>gå till snabbstarten.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Mallar</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Sök efter mallnamn</value>
+  </data>
 </root>

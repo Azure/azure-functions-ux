@@ -4860,7 +4860,7 @@
     <value>Нажмите клавишу ВВОД или ALT+C, чтобы открыть уведомление о новости.</value>
   </data>
   <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
-    <value>Появилась новость.</value>
+    <value>Появилась учебная подсказка.</value>
   </data>
   <data name="advancedEditCoachmarkDesc" xml:space="preserve">
     <value>Расширенное редактирование позволяет массово изменять параметры вашего приложения. Ключи и значения можно редактировать в формате JSON в виде обычного текста.</value>
@@ -5093,5 +5093,23 @@
   </data>
   <data name="editBindingCommands" xml:space="preserve">
     <value>Изменить команды привязки</value>
+  </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Новая функция</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Создание функции в этом приложении-функции. Вы можете выбрать шаблон ниже или </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>перейти к краткому руководству.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Шаблоны</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Подробно</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Поиск по имени шаблона</value>
   </data>
 </root>
