@@ -81,20 +81,18 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
             ? functionService.getFunction(tuple[0].site.id, tuple[1].functionDescriptor.name)
             : Observable.of({ isSuccessful: false, error: { errorId: '' } }),
           Observable.of(tuple[0]),
-          Observable.of(tuple[1]),
-          functionAppService.getRuntimeGeneration(tuple[0])
+          Observable.of(tuple[1])
         );
       })
       .map(tuple =>
         Object.assign(tuple[2], {
           context: tuple[1],
           functionInfo: tuple[0] as HttpResult<ArmObj<FunctionInfo>>,
-          version: tuple[3],
         })
       )
       .do(v => {
         this.viewInfo = v;
-        this.context = { ...v.context, runtimeVersion: v.version };
+        this.context = v.context;
       });
 
     this.timeout = setTimeout(() => {
