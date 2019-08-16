@@ -5094,4 +5094,22 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="editBindingCommands" xml:space="preserve">
     <value>Editar comandos de enlace</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Nueva función</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Cree una nueva función en esta aplicación de funciones. Para empezar, seleccione desde una plantilla a continuación o </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>vaya al inicio rápido.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Plantillas</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Detalles</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Buscar por nombre de plantilla</value>
+  </data>
 </root>

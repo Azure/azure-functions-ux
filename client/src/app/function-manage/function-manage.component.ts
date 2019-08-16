@@ -16,6 +16,11 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { FunctionService } from 'app/shared/services/function.service';
+import { FunctionAppVersion } from 'app/shared/models/constants';
+import { SiteService } from 'app/shared/services/site.service';
+import { HttpResult } from 'app/shared/models/http-result';
+import { ArmObj } from 'app/shared/models/arm/arm-obj';
+import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
 
 @Component({
   selector: 'function-manage',
@@ -36,6 +41,7 @@ export class FunctionManageComponent extends NavigableComponent {
     private _functionAppService: FunctionAppService,
     private _translateService: TranslateService,
     private _functionService: FunctionService,
+    private _siteService: SiteService,
     injector: Injector,
     configService: ConfigService
   ) {
@@ -64,7 +70,7 @@ export class FunctionManageComponent extends NavigableComponent {
           : this._portalService.logAction('function-manage', 'enable');
         return this.runtimeVersion === 'V2'
           ? this._functionAppService.updateDisabledAppSettings(this.context, [this.functionInfo])
-          : this._functionAppService.updateFunction(this.context, this.functionInfo);
+          : this._functionService.updateFunction(this.context.site.id, this.functionInfo);
       })
       .do(null, e => {
         this.functionInfo.config.disabled = !this.functionInfo.config.disabled;
@@ -103,18 +109,19 @@ export class FunctionManageComponent extends NavigableComponent {
       )
       .switchMap(tuple =>
         Observable.zip(
-          this._functionAppService.getRuntimeGeneration(tuple[0]),
-          this._functionService.getFunction(tuple[0].site.id, tuple[1].functionDescriptor.name),
           Observable.of(tuple[0]),
-          Observable.of(tuple[1])
+          this._functionService.getFunction(tuple[0].site.id, tuple[1].functionDescriptor.name),
+          tuple[0].urlTemplates.runtimeVersion === FunctionAppVersion.v1
+            ? Observable.of(null)
+            : this._siteService.getAppSettings(tuple[0].site.id)
         )
       )
       .do(tuple => {
+        this.runtimeVersion = tuple[0].urlTemplates.runtimeVersion;
         if (tuple[1].isSuccessful) {
-          this.functionInfo = tuple[1].result.properties;
+          this._setFunctionInfo(tuple[1].result.properties, tuple[2]);
         }
-        this.context = tuple[2];
-        this.runtimeVersion = tuple[0];
+        this.context = tuple[0];
         this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
       });
   }
@@ -133,5 +140,19 @@ export class FunctionManageComponent extends NavigableComponent {
         this.clearBusy();
       });
     }
+  }
+
+  private _setFunctionInfo(functionInfo: FunctionInfo, appSettings: HttpResult<ArmObj<ApplicationSettings>> | null) {
+    if (this.runtimeVersion !== FunctionAppVersion.v1) {
+      let settingName: string;
+      if (typeof functionInfo.config.disabled === 'string') {
+        settingName = functionInfo.config.disabled;
+      } else {
+        settingName = `AzureWebJobs.${functionInfo.name}.Disabled`;
+      }
+      const result = appSettings && appSettings.isSuccessful && appSettings.result.properties[settingName];
+      functionInfo.config.disabled = result === '1' || result === 'true';
+    }
+    this.functionInfo = functionInfo;
   }
 }

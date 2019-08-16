@@ -146,11 +146,11 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
     }
 
     return this._applicationInsightsService
-      .getApplicationInsightsId(this._site.id)
-      .flatMap(aiId => {
+      .getApplicationInsightResource(this._site.id)
+      .flatMap(resource => {
         const items = [];
-        if (aiId) {
-          items.push(this._getEnabledFeatureItem(Feature.AppInsight, aiId));
+        if (resource) {
+          items.push(this._getEnabledFeatureItem(Feature.AppInsight, resource.id));
         }
         return Observable.of(items);
       })

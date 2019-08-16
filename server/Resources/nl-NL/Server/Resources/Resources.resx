@@ -5095,4 +5095,22 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="editBindingCommands" xml:space="preserve">
     <value>Bindingsopdrachten bewerken</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Nieuwe functie</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Maak een nieuwe functie in deze functie-app. U kunt beginnen door een van de onderstaande sjablonen te selecteren of door </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>naar de quickstart te gaan.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Sjablonen</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Zoeken op sjabloonnaam</value>
+  </data>
 </root>

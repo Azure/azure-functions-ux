@@ -615,7 +615,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     const test_data = this._getTestData();
     if (this.functionInfo.test_data !== test_data) {
       this.functionInfo.test_data = test_data;
-      this._functionAppService.updateFunction(this.context, this.functionInfo).subscribe(r => {
+      this._functionService.updateFunction(this.context.site.id, this.functionInfo).subscribe(r => {
         Object.assign(this.functionInfo, r);
         if (this.updatedTestContent) {
           this.testContent = this.updatedTestContent;

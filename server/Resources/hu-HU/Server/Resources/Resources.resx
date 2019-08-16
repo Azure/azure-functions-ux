@@ -5094,4 +5094,22 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="editBindingCommands" xml:space="preserve">
     <value>Kötési parancsok szerkesztése</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Új függvény</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Új függvény létrehozása ebben a függvényalkalmazásban. A kezdéshez válasszon az alábbi sablonok közül, vagy </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>nyissa meg a gyorsútmutatót</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Sablonok</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Részletek</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Keresés sablonnév alapján</value>
+  </data>
 </root>

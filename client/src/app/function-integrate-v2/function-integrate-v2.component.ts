@@ -222,7 +222,7 @@ export class FunctionIntegrateV2Component extends BaseFunctionComponent {
     delete functionInfoCopy.test_data;
 
     this._globalStateService.setBusyState();
-    this._functionAppService.updateFunction(this.context, functionInfoCopy).subscribe(() => {
+    this._functionService.updateFunction(this.context.site.id, this.functionInfo).subscribe(() => {
       this._globalStateService.clearBusyState();
       this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this.functionInfo);
     });

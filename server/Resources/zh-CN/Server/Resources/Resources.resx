@@ -5094,4 +5094,22 @@
   <data name="editBindingCommands" xml:space="preserve">
     <value>编辑绑定命令</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>新建函数</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>在此 Function App 中创建一个新函数。可以选择下面的一个模板开始操作，或</value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>转到快速入门。</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>模板</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>详细信息</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>按模板名称搜索</value>
+  </data>
 </root>

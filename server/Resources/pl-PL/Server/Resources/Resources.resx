@@ -5094,4 +5094,22 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="editBindingCommands" xml:space="preserve">
     <value>Edytuj polecenia powiązań</value>
   </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Nowa funkcja</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Utwórz nową funkcję w tej aplikacji funkcji. Możesz zacząć od wybrania szablonu poniżej lub </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>przejść do przewodnika Szybki start.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Szablony</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Szczegóły</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Wyszukaj według nazwy szablonu</value>
+  </data>
 </root>
