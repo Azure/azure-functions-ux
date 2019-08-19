@@ -57,6 +57,7 @@ export interface PlanSpecPickerData {
   isXenon: boolean;
   selectedLegacySkuName: string; // Looks like "small_standard"
   selectedSkuCode?: string; // Can be set in update scenario for initial spec selection
+  isElastic?: boolean;
 }
 
 export type ApplyButtonState = 'enabled' | 'disabled';
