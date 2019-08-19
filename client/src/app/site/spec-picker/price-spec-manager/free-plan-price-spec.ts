@@ -87,7 +87,7 @@ export class FreePlanPriceSpec extends PriceSpec {
         this.topLevelFeatures.shift();
       }
 
-      if (input.specPickerInput.data.hostingEnvironmentName || input.specPickerInput.data.isXenon) {
+      if (input.specPickerInput.data.hostingEnvironmentName || input.specPickerInput.data.isXenon || input.specPickerInput.data.isXenon) {
         this.state = 'hidden';
       }
 
