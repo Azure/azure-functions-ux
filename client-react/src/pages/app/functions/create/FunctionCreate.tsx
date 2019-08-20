@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 export interface FunctionCreateProps {
   functionTemplates: FunctionTemplate[];
   functionsInfo: ArmObj<FunctionInfo>[];
+  resourceId: string;
 }
 
 export enum PivotState {
@@ -28,8 +29,9 @@ const paddingStyle = {
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
-  const { functionTemplates } = props;
+  const { functionTemplates, resourceId } = props;
   const [pivotStateKey, setPivotStateKey] = useState<PivotState | undefined>(undefined);
+  const [selectedFunctionTemplate, setSelectedFunctionTemplate] = useState<FunctionTemplate | undefined>(undefined);
 
   return (
     <>
@@ -48,7 +50,11 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
             }
             itemKey={PivotState.templates}
             headerText={t('functionCreate_templates')}>
-            <TemplatesPivot functionTemplates={functionTemplates} setPivotStateKey={setPivotStateKey} />
+            <TemplatesPivot
+              functionTemplates={functionTemplates}
+              setSelectedFunctionTemplate={setSelectedFunctionTemplate}
+              setPivotStateKey={setPivotStateKey}
+            />
           </PivotItem>
           <PivotItem
             onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
@@ -56,7 +62,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
             }
             itemKey={PivotState.details}
             headerText={t('functionCreate_details')}>
-            <DetailsPivot {...props} />
+            <DetailsPivot selectedFunctionTemplate={selectedFunctionTemplate} resourceId={resourceId} />
           </PivotItem>
         </Pivot>
       </div>

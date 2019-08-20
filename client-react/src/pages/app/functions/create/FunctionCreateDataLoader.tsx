@@ -37,10 +37,11 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
       return <LoadingComponent />;
     }
 
+    const { resourceId } = this.props;
     const functionTemplates = this.state.functionTemplates as FunctionTemplate[];
     const functionsInfo = this.state.functionsInfo as ArmObj<FunctionInfo>[];
 
-    return <FunctionCreate functionTemplates={functionTemplates} functionsInfo={functionsInfo} />;
+    return <FunctionCreate functionTemplates={functionTemplates} functionsInfo={functionsInfo} resourceId={resourceId} />;
   }
 
   private _loadTemplates() {

@@ -16,6 +16,36 @@ export default class FunctionsService {
     return MakeArmCall<ArmObj<FunctionInfo>>({ resourceId, commandName: 'fetchFunction' });
   };
 
+  public static createFunction = (functionAppId: string, functionName: string, files: any, config: any) => {
+    const resourceId = `${functionAppId}/functions/${functionName}`;
+    const filesCopy = Object.assign({}, files);
+    const sampleData = filesCopy['sample.dat'];
+    delete filesCopy['sample.dat'];
+    const configCopy = Object.assign({}, config);
+
+    const functionInfo: ArmObj<FunctionInfo> = {
+      id: resourceId,
+      name: '',
+      location: '',
+      properties: {
+        name: functionName,
+        files: filesCopy,
+        test_data: sampleData,
+        config: configCopy,
+      },
+    };
+
+    console.log(resourceId);
+    console.log(functionInfo);
+
+    return MakeArmCall<ArmObj<FunctionInfo>>({
+      resourceId,
+      commandName: 'createFunction',
+      method: 'PUT',
+      body: functionInfo,
+    });
+  };
+
   // The current implementation should be temporary.  In the future, we need to support extension bundles
   // which means that we'll probably be calling ARM to give us a bunch of resources which are specific
   // to the apps extension bundle version
