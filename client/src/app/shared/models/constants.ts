@@ -642,3 +642,7 @@ export enum HostKeyTypes {
   functionKeys = 'functionKeys',
   systemKeys = 'systemKeys',
 }
+
+export class Pricing {
+  public static hoursInAzureMonth = 730;
+}

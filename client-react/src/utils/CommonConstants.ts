@@ -51,4 +51,8 @@ export class CommonConstants {
   };
 
   public static readonly AppDensityLimit = 8;
+
+  public static readonly Pricing = {
+    hoursInAzureMonth: 730,
+  };
 }
