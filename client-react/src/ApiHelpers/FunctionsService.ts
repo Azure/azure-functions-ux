@@ -4,6 +4,7 @@ import MakeArmCall from './ArmHelper';
 import { FunctionInfo } from '../models/functions/function-info';
 import { sendHttpRequest, getJsonHeaders } from './HttpClient';
 import { FunctionTemplate } from '../models/functions/function-template';
+import { FunctionConfig } from '../models/functions/function-config';
 
 export default class FunctionsService {
   public static getFunctions = (resourceId: string) => {
@@ -16,7 +17,7 @@ export default class FunctionsService {
     return MakeArmCall<ArmObj<FunctionInfo>>({ resourceId, commandName: 'fetchFunction' });
   };
 
-  public static createFunction = (functionAppId: string, functionName: string, files: any, config: any) => {
+  public static createFunction = (functionAppId: string, functionName: string, files: any, config: FunctionConfig) => {
     const resourceId = `${functionAppId}/functions/${functionName}`;
     const filesCopy = Object.assign({}, files);
     const sampleData = filesCopy['sample.dat'];
@@ -28,7 +29,7 @@ export default class FunctionsService {
       name: '',
       location: '',
       properties: {
-        name: functionName,
+        name: `${functionName}`,
         files: filesCopy,
         test_data: sampleData,
         config: configCopy,

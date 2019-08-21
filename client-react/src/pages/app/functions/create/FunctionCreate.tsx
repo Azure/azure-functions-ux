@@ -11,6 +11,7 @@ import { Links } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { useTranslation } from 'react-i18next';
 import { BindingConfigMetadata } from '../../../../models/functions/bindings-config';
+import { paddingStyle } from './FunctionCreate.styles';
 
 export interface FunctionCreateProps {
   functionTemplates: FunctionTemplate[];
@@ -24,14 +25,10 @@ export enum PivotState {
   details = 'details',
 }
 
-const paddingStyle = {
-  padding: '20px',
-};
-
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
-  const { functionTemplates, bindingsConfigMetatdata, resourceId } = props;
+  const { functionTemplates, functionsInfo, bindingsConfigMetatdata, resourceId } = props;
   const [pivotStateKey, setPivotStateKey] = useState<PivotState | undefined>(undefined);
   const [selectedFunctionTemplate, setSelectedFunctionTemplate] = useState<FunctionTemplate | undefined>(undefined);
 
@@ -65,6 +62,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
             itemKey={PivotState.details}
             headerText={t('functionCreate_details')}>
             <DetailsPivot
+              functionsInfo={functionsInfo}
               bindingsConfigMetatdata={bindingsConfigMetatdata}
               selectedFunctionTemplate={selectedFunctionTemplate}
               resourceId={resourceId}
