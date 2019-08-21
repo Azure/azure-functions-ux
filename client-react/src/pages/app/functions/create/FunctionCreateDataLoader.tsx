@@ -7,6 +7,7 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { FunctionCreate } from './FunctionCreate';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
+import { BindingConfigMetadata } from '../../../../models/functions/bindings-config';
 
 export interface FunctionCreateDataLoaderProps {
   resourceId: string;
@@ -15,6 +16,7 @@ export interface FunctionCreateDataLoaderProps {
 export interface FunctionCreateDataLoaderState {
   functionTemplates: FunctionTemplate[] | null;
   functionsInfo: ArmObj<FunctionInfo>[] | null;
+  bindingsConfigMetatdata: BindingConfigMetadata[] | null;
 }
 
 class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderProps, FunctionCreateDataLoaderState> {
@@ -24,24 +26,34 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
     this.state = {
       functionTemplates: null,
       functionsInfo: null,
+      bindingsConfigMetatdata: null,
     };
   }
 
   public componentWillMount() {
     this._loadTemplates();
     this._loadFunctions();
+    this._loadBindings();
   }
 
   public render() {
-    if (!this.state.functionTemplates || !this.state.functionsInfo) {
+    if (!this.state.functionTemplates || !this.state.functionsInfo || !this.state.bindingsConfigMetatdata) {
       return <LoadingComponent />;
     }
 
     const { resourceId } = this.props;
     const functionTemplates = this.state.functionTemplates as FunctionTemplate[];
     const functionsInfo = this.state.functionsInfo as ArmObj<FunctionInfo>[];
+    const bindingsConfigMetatdata = this.state.bindingsConfigMetatdata as BindingConfigMetadata[];
 
-    return <FunctionCreate functionTemplates={functionTemplates} functionsInfo={functionsInfo} resourceId={resourceId} />;
+    return (
+      <FunctionCreate
+        functionTemplates={functionTemplates}
+        functionsInfo={functionsInfo}
+        bindingsConfigMetatdata={bindingsConfigMetatdata}
+        resourceId={resourceId}
+      />
+    );
   }
 
   private _loadTemplates() {
@@ -72,6 +84,23 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
         });
       } else {
         LogService.trackEvent(LogCategories.functionCreate, 'getFunctions', `Failed to get functions: ${r.metadata.error}`);
+      }
+    });
+  }
+
+  private _loadBindings() {
+    FunctionsService.getBindingConfigMetadata().then(r => {
+      if (r.metadata.success) {
+        this.setState({
+          ...this.state,
+          bindingsConfigMetatdata: r.data.bindings,
+        });
+      } else {
+        LogService.trackEvent(
+          LogCategories.functionCreate,
+          'getBindingConfigMetadata',
+          `Failed to get bindingConfigMetadata: ${r.metadata.error}`
+        );
       }
     });
   }
