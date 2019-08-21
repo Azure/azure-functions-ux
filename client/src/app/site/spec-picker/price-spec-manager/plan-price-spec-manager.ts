@@ -644,7 +644,7 @@ export class PlanPriceSpecManager {
           spec.price = 0;
         } else {
           const meter = costResult.firstParty[0].meters[0];
-          spec.price = meter.perUnitAmount * 744; // 744 hours in a month
+          spec.price = meter.amount;
           const rate = spec.price.toFixed(2);
           spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, meter.perUnitCurrencyCode);
         }
