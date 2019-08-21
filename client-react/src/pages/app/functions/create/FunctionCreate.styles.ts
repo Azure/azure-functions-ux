@@ -2,10 +2,6 @@ import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 import { style } from 'typestyle';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 
-// export const fieldWrapperStyle = style({
-//   padding: '20px',
-// });
-
 export const paddingStyle = {
   padding: '20px',
 };

@@ -29,7 +29,7 @@ export default class FunctionsService {
       name: '',
       location: '',
       properties: {
-        name: `${functionName}`,
+        name: functionName,
         files: filesCopy,
         test_data: sampleData,
         config: configCopy,
