@@ -19,7 +19,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
     bindingMetadata: BindingConfigMetadata,
     private _functionsInfo: ArmObj<FunctionInfo>[],
     private _defaultName: string,
-    t: i18next.TFunction
+    private t: i18next.TFunction
   ) {
     super(bindingInfo, bindingMetadata, t);
   }
@@ -53,7 +53,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
 
   private _getFunctionNameTextField(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
     return (
-      <FormControlWrapper label={'Function Name'} layout={Layout.vertical} key={0}>
+      <FormControlWrapper label={this.t('functionCreate_newFunction')} layout={Layout.vertical} key={0}>
         <Field name={'functionName'} component={TextField} disabled={isDisabled} {...formProps} />
       </FormControlWrapper>
     );
