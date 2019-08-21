@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links } from './../../../shared/models/constants';
+import { Kinds, Links, Pricing } from './../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { ServerFarm } from './../../../shared/models/server-farm';
@@ -96,7 +96,7 @@ export class PremiumV2SmallPlanPriceSpec extends PremiumV2PlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
@@ -118,7 +118,7 @@ export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
@@ -140,7 +140,7 @@ export class PremiumV2LargePlanPriceSpec extends PremiumV2PlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],

@@ -1,7 +1,7 @@
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
-import { Links } from '../../../shared/models/constants';
+import { Links, Pricing } from '../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 
 export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
@@ -82,7 +82,7 @@ export class PremiumContainerSmallPriceSpec extends PremiumContainerPlanPriceSpe
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
@@ -104,7 +104,7 @@ export class PremiumContainerMediumPriceSpec extends PremiumContainerPlanPriceSp
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
@@ -126,7 +126,7 @@ export class PremiumContainerLargePriceSpec extends PremiumContainerPlanPriceSpe
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],

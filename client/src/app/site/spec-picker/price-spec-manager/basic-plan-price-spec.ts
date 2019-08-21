@@ -1,4 +1,4 @@
-import { Kinds, Links } from './../../../shared/models/constants';
+import { Kinds, Links, Pricing } from './../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
@@ -75,7 +75,7 @@ export class BasicSmallPlanPriceSpec extends BasicPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
@@ -97,7 +97,7 @@ export class BasicMediumPlanPriceSpec extends BasicPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
@@ -119,7 +119,7 @@ export class BasicLargePlanPriceSpec extends BasicPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
