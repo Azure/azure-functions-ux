@@ -17,12 +17,16 @@ export default class FunctionsService {
     return MakeArmCall<ArmObj<FunctionInfo>>({ resourceId, commandName: 'fetchFunction' });
   };
 
-  public static createFunction = (functionAppId: string, functionName: string, files: any, config: FunctionConfig) => {
+  public static createFunction = (
+    functionAppId: string,
+    functionName: string,
+    files: { [key: string]: string },
+    functionConfig: FunctionConfig
+  ) => {
     const resourceId = `${functionAppId}/functions/${functionName}`;
     const filesCopy = Object.assign({}, files);
     const sampleData = filesCopy['sample.dat'];
     delete filesCopy['sample.dat'];
-    const configCopy = Object.assign({}, config);
 
     const functionInfo: ArmObj<FunctionInfo> = {
       id: resourceId,
@@ -32,12 +36,9 @@ export default class FunctionsService {
         name: functionName,
         files: filesCopy,
         test_data: sampleData,
-        config: configCopy,
+        config: functionConfig,
       },
     };
-
-    console.log(resourceId);
-    console.log(functionInfo);
 
     return MakeArmCall<ArmObj<FunctionInfo>>({
       resourceId,

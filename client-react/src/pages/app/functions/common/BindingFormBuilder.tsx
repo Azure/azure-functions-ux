@@ -50,7 +50,7 @@ export class BindingFormBuilder {
   public getFields(formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean, keyOffset = 0) {
     const fields: JSX.Element[] = [];
 
-    let key = 0 + keyOffset;
+    let key = keyOffset;
     for (const setting of this._bindingMetadata.settings) {
       if (setting.value === 'string') {
         fields.push(this._getTextField(key, setting, formProps, isDisabled));

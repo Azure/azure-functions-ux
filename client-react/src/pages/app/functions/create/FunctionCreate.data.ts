@@ -54,7 +54,7 @@ function _buildFunctionConfig(
     // Only look at form values for the trigger Binding
     // Else, (when not the trigger Binding) directly copy the Binding
     if (bindingInfo === triggerBinding) {
-      const bindingInfoCopy = bindingInfo;
+      const bindingInfoCopy = { ...bindingInfo };
       // Update binding values that exist in the form
       for (const key in bindingInfo) {
         if (formValues.hasOwnProperty(key)) {
