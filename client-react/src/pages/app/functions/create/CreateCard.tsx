@@ -1,21 +1,15 @@
 import React, { useContext } from 'react';
-import { BindingInfo } from '../../../../models/functions/function-binding';
 import { ThemeContext } from '../../../../ThemeContext';
 import { getCardStyle, getHeaderStyle, getDescriptionStyle, getSrc } from './FunctionCreate.styles';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { useTranslation } from 'react-i18next';
 import { PivotState } from './FunctionCreate';
-import { onTemplateSelected } from './FunctionCreate.data';
+import { onTemplateSelected } from './CreateCard.helper';
 
 export interface CreateCardProps {
   functionTemplate: FunctionTemplate;
   setSelectedFunctionTemplate: (FunctionTemplate) => void;
   setPivotStateKey: (PivotState) => void;
-}
-
-export interface CreateCardState {
-  selected: boolean;
-  items: BindingInfo[];
 }
 
 const CreateCard: React.SFC<CreateCardProps> = props => {

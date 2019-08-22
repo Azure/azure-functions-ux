@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { DefaultButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,8 @@ import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/C
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
 import { paddingStyle } from './FunctionCreate.styles';
-import { getTriggerBinding, getRequiredBindingMetadata, onCreateFunctionClicked } from './FunctionCreate.data';
+import { FunctionCreateContext } from './FunctionCreateDataLoader';
+import { getTriggerBinding, getRequiredBindingMetadata } from './DetailsPivot.helper';
 
 interface DetailsPivotProps {
   functionsInfo: ArmObj<FunctionInfo>[];
@@ -19,6 +20,7 @@ interface DetailsPivotProps {
 
 const DetailsPivot: React.FC<DetailsPivotProps> = props => {
   const { functionsInfo, bindingsConfigMetatdata, selectedFunctionTemplate, resourceId } = props;
+  const functionCreateData = useContext(FunctionCreateContext);
   const { t } = useTranslation();
 
   if (selectedFunctionTemplate) {
@@ -41,7 +43,7 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
       <>
         <Formik
           initialValues={initialFormValues}
-          onSubmit={formValues => onCreateFunctionClicked(resourceId, selectedFunctionTemplate, triggerBinding, formValues)}>
+          onSubmit={formValues => functionCreateData.createFunction(resourceId, selectedFunctionTemplate, triggerBinding, formValues)}>
           {(formProps: FormikProps<CreateFunctionFormValues>) => {
             return (
               <form>

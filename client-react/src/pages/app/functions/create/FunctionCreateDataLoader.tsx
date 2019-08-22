@@ -1,13 +1,15 @@
 import React from 'react';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
-import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { FunctionCreate } from './FunctionCreate';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
 import { BindingConfigMetadata } from '../../../../models/functions/bindings-config';
+import FunctionCreateData from './FunctionCreate.data';
+
+export const FunctionCreateContext = React.createContext(new FunctionCreateData());
 
 export interface FunctionCreateDataLoaderProps {
   resourceId: string;
@@ -20,6 +22,7 @@ export interface FunctionCreateDataLoaderState {
 }
 
 class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderProps, FunctionCreateDataLoaderState> {
+  private functionCreateData = new FunctionCreateData();
   constructor(props: FunctionCreateDataLoaderProps) {
     super(props);
 
@@ -42,22 +45,25 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
     }
 
     const { resourceId } = this.props;
+    const functionCreateData = this.functionCreateData;
     const functionTemplates = this.state.functionTemplates as FunctionTemplate[];
     const functionsInfo = this.state.functionsInfo as ArmObj<FunctionInfo>[];
     const bindingsConfigMetatdata = this.state.bindingsConfigMetatdata as BindingConfigMetadata[];
 
     return (
-      <FunctionCreate
-        functionTemplates={functionTemplates}
-        functionsInfo={functionsInfo}
-        bindingsConfigMetatdata={bindingsConfigMetatdata}
-        resourceId={resourceId}
-      />
+      <FunctionCreateContext.Provider value={functionCreateData}>
+        <FunctionCreate
+          functionTemplates={functionTemplates}
+          functionsInfo={functionsInfo}
+          bindingsConfigMetatdata={bindingsConfigMetatdata}
+          resourceId={resourceId}
+        />
+      </FunctionCreateContext.Provider>
     );
   }
 
   private _loadTemplates() {
-    FunctionsService.getTemplatesMetadata().then(r => {
+    this.functionCreateData.getTemplates().then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
@@ -76,7 +82,7 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
   private _loadFunctions() {
     const { resourceId } = this.props;
 
-    FunctionsService.getFunctions(resourceId).then(r => {
+    this.functionCreateData.getFunctions(resourceId).then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
@@ -89,7 +95,7 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
   }
 
   private _loadBindings() {
-    FunctionsService.getBindingConfigMetadata().then(r => {
+    this.functionCreateData.getBindings().then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
