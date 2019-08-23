@@ -318,7 +318,7 @@ export class FunctionNewDetailComponent implements OnChanges {
 
     this._globalStateService.setBusyState();
     this._functionService
-      .createFunction(this.context, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
+      .createFunction(this.context.site.id, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
       .subscribe(
         newFunctionInfo => {
           if (newFunctionInfo.isSuccessful) {

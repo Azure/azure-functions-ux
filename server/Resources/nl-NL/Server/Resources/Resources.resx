@@ -3576,16 +3576,16 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>U hebt geen machtigingen om een opslagplaats agentpools in dit project te maken. Neem contact op met de projectbeheerder of kies een ander project</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>De Azure Pipelines-service is niet ingeschakeld voor dit project. Neem contact op met de projectbeheerder of kies een ander project</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>De opgegeven organisatienaam is ongeldig. Geef een andere organisatienaam op.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Kan geen geldig Azure DevOps-Token ophalen</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Kan het Azure DevOps-token niet ophalen. Meer details: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP- + FTPS</value>
@@ -4344,6 +4344,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="debugging" xml:space="preserve">
     <value>Foutopsporing</value>
   </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(gewijzigd)</value>
+  </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Toepassingsinstellingen</value>
   </data>
@@ -5091,5 +5094,23 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="editBindingCommands" xml:space="preserve">
     <value>Bindingsopdrachten bewerken</value>
+  </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Nieuwe functie</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Maak een nieuwe functie in deze functie-app. U kunt beginnen door een van de onderstaande sjablonen te selecteren of door </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>naar de quickstart te gaan.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Sjablonen</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Zoeken op sjabloonnaam</value>
   </data>
 </root>

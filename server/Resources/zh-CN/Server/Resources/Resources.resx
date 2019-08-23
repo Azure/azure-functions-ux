@@ -3575,16 +3575,16 @@
     <value>你无权在此项目中创建存储库。请联系项目管理员或选择其他项目</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>没有为此项目启用 Azure Pipelines 服务。请联系项目管理员或选择其他项目</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>提供的组织名无效。请提供其他组织名。</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>无法提取有效的 Azure DevOps 令牌</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>无法提取 Azure DevOps 令牌。更多详细信息: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4343,6 +4343,9 @@
   <data name="debugging" xml:space="preserve">
     <value>调试</value>
   </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(已修改)</value>
+  </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>应用程序设置</value>
   </data>
@@ -5090,5 +5093,23 @@
   </data>
   <data name="editBindingCommands" xml:space="preserve">
     <value>编辑绑定命令</value>
+  </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>新建函数</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>在此 Function App 中创建一个新函数。可以选择下面的一个模板开始操作，或</value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>转到快速入门。</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>模板</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>详细信息</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>按模板名称搜索</value>
   </data>
 </root>

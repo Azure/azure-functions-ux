@@ -17,9 +17,11 @@ const ChangeAppPlanLoadable: any = lazy(() => import(/* webpackChunkName:"change
 const FunctionIntegrateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functionintegrate" */ './functions/integrate/FunctionIntegrateDataLoader')
 );
-
 const FunctionBindingEditorLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functionbindingeditor" */ './functions/integrate/binding-editor/BindingEditorDataLoader')
+);
+const FunctionCreateLoadable: any = lazy(() =>
+  import(/* webpackChunkName:"functioncreate" */ './functions/create/FunctionCreateDataLoader')
 );
 
 const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = props => {
@@ -52,6 +54,7 @@ const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = 
                 <ChangeAppPlanLoadable resourceId={resourceId} path="/changeappplan" />
                 <FunctionIntegrateLoadable resourceId={resourceId} path="/integrate" />
                 <FunctionBindingEditorLoadable resourceId={resourceId} path="/bindingeditor" />
+                <FunctionCreateLoadable resourceId={resourceId} path="/functioncreate" />
               </Router>
             )
           );

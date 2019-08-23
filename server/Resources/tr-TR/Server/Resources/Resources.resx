@@ -3575,16 +3575,16 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bu projede depo oluşturma izniniz yok. Proje yöneticinize başvurun veya farklı bir proje seçin</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>Bu proje için Azure Pipelines hizmeti etkinleştirilmedi. Proje yöneticinize başvurun veya farklı bir proje seçin</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Belirtilen kuruluş adı geçerli değil. Lütfen başka bir kuruluş adı sağlayın.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Geçerli bir Azure DevOps belirteci getirilemedi</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Azure DevOps belirteci getirilemedi. Daha fazla bilgi: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4343,6 +4343,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="debugging" xml:space="preserve">
     <value>Hata ayıklama</value>
   </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(değiştirilmiş)</value>
+  </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Uygulama ayarları</value>
   </data>
@@ -4476,7 +4479,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Değer</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Deployment slot setting</value>
+    <value>Dağıtım yuvası ayarı</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -5090,5 +5093,23 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="editBindingCommands" xml:space="preserve">
     <value>Bağlama komutlarını düzenle</value>
+  </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Yeni İşlev</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Create a new function in this Function App. You can start by selecting from a template below or </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>go to the quickstart.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Şablonlar</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Ayrıntılar</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Search by template name</value>
   </data>
 </root>

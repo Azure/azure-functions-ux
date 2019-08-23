@@ -3575,16 +3575,16 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Nie masz uprawnień do tworzenia repozytorium w tym projekcie. Skontaktuj się z administratorem projektu lub wybierz inny projekt</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>Usługa Azure Pipelines nie jest włączona dla tego projektu. Skontaktuj się z administratorem projektu lub wybierz inny projekt</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Podana nazwa organizacji jest nieprawidłowa. Podaj inną nazwę organizacji.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Nie można pobrać prawidłowego tokenu Azure DevOps</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Nie można pobrać tokenu Azure DevOps. Więcej szczegółów: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4343,6 +4343,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="debugging" xml:space="preserve">
     <value>Debugowanie</value>
   </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(zmodyfikowano)</value>
+  </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Ustawienia aplikacji</value>
   </data>
@@ -5090,5 +5093,23 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="editBindingCommands" xml:space="preserve">
     <value>Edytuj polecenia powiązań</value>
+  </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Nowa funkcja</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Utwórz nową funkcję w tej aplikacji funkcji. Możesz zacząć od wybrania szablonu poniżej lub </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>przejść do przewodnika Szybki start.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Szablony</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Szczegóły</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Wyszukaj według nazwy szablonu</value>
   </data>
 </root>

@@ -48,7 +48,7 @@ export abstract class SharedPlanPriceSpec extends PriceSpec {
       id: this.skuCode,
       firstParty: [
         {
-          quantity: 744,
+          quantity: CommonConstants.Pricing.hoursInAzureMonth,
         },
       ],
     };

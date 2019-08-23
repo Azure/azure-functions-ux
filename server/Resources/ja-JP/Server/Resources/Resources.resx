@@ -3575,16 +3575,16 @@
     <value>このプロジェクトにリポジトリを作成するためのアクセス許可がありません。プロジェクト管理者に連絡するか、別のプロジェクトを選択してください</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>このプロジェクトでは Azure Pipelines サービスが有効になっていません。プロジェクト管理者に連絡するか、別のプロジェクトを選択してください</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>指定した組織名が無効です。別の組織名を指定してください。</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>有効な Azure DevOps トークンを取得できませんでした</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Azure DevOps トークンを取得できませんでした。詳細: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4343,6 +4343,9 @@
   <data name="debugging" xml:space="preserve">
     <value>デバッグ</value>
   </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(変更済み)</value>
+  </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>アプリケーション設定</value>
   </data>
@@ -5090,5 +5093,23 @@
   </data>
   <data name="editBindingCommands" xml:space="preserve">
     <value>バインディング コマンドの編集</value>
+  </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>新しい関数</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>この関数アプリで新しい関数を作成します。次のテンプレートから選択するか、</value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>クイック スタートに移動して開始できます。</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>テンプレート</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>テンプレート名で検索</value>
   </data>
 </root>

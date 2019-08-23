@@ -3575,16 +3575,16 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Você não tem permissões para criar repositórios neste projeto. Entre em contato com o administrador do projeto ou escolha um projeto diferente</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>O serviço do Azure Pipelines não está habilitado para este projeto. Entre em contato com o administrador do projeto ou escolha um projeto diferente</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>O nome da organização fornecido não é válido. Forneça outro nome de organização.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Não foi possível buscar um token válido do Azure DevOps</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Não foi possível buscar o token do Azure DevOps. Mais detalhes: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4343,6 +4343,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="debugging" xml:space="preserve">
     <value>Depuração</value>
   </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(modificado)</value>
+  </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Configurações do aplicativo</value>
   </data>
@@ -5090,5 +5093,23 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="editBindingCommands" xml:space="preserve">
     <value>Editar comandos de associação</value>
+  </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Nova Função</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Crie uma função neste Aplicativo de Funções. Você pode começar selecionando de um modelo abaixo ou </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>acesse o início rápido.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Modelos</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Detalhes</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Pesquisar por nome do modelo</value>
   </data>
 </root>

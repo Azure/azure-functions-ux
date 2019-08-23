@@ -383,19 +383,19 @@
     <value>Une opération d'enregistrement est en cours. Si vous poursuivez votre navigation ailleurs, vous pouvez perdre des modifications.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>Add new application setting</value>
+    <value>Ajouter un nouveau paramètre d’application</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>Add new connection string</value>
+    <value>Ajouter une nouvelle chaîne de connexion</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>Add new document</value>
+    <value>Ajouter un nouveau document</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>Add new handler mapping</value>
+    <value>Ajouter un nouveau mappage de gestionnaire</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>Add new virtual application or directory</value>
+    <value>Ajouter une nouvelle application/un nouvel annuaire virtuel</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Entrer un nom</value>
@@ -3575,16 +3575,16 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Vous n’avez pas les autorisations nécessaires pour créer un référentiel dans ce projet. Contactez votre administrateur de projet ou choisissez un autre projet</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>Le service Azure Pipelines n’est pas activé pour ce projet. Contactez votre administrateur de projet ou choisissez un autre projet</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Le nom d’organisation fourni n’est pas valide. Indiquez un autre nom d’organisation.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Impossible d’extraire un jeton Azure DevOps valide</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Impossible d’extraire le jeton Azure DevOps. Plus de détails : {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4343,6 +4343,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="debugging" xml:space="preserve">
     <value>Débogage</value>
   </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(modifié)</value>
+  </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Paramètres de l'application</value>
   </data>
@@ -4476,7 +4479,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Valeur</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Deployment slot setting</value>
+    <value>Paramètre de l’emplacement de déploiement</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4623,7 +4626,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Montage du stockage (préversion)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>Add storage</value>
+    <value>Ajouter du stockage</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Compte</value>
@@ -5090,5 +5093,23 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   </data>
   <data name="editBindingCommands" xml:space="preserve">
     <value>Modifier les commandes de liaison</value>
+  </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Nouvelle fonction</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Créez une fonction dans cette Function App. Vous pouvez commencer par sélectionner un modèle ci-dessous ou </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>accédez au démarrage rapide.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Modèles</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Rechercher par nom de modèle</value>
   </data>
 </root>

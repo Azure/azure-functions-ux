@@ -24,17 +24,26 @@ export interface AIInvocationTraceHistory {
 }
 
 export interface AIQueryResult {
-  Tables: AIQueryResultTable[];
+  tables: AIQueryResultTable[];
 }
 
 export interface AIQueryResultTable {
-  TableName: string;
-  Columns: AIQueryResultTableColumn[];
-  Rows: any[][];
+  name: string;
+  columns: AIQueryResultTableColumn[];
+  rows: any[][];
 }
 
 export interface AIQueryResultTableColumn {
-  ColumnName: string;
-  DataType: string;
-  ColumnType: string;
+  columnName: string;
+  dataType: string;
+  columnType: string;
+}
+
+export interface ApplicationInsight {
+  AppId: string;
+  Application_Type: string;
+  ApplicationId: string;
+  CreationDate: Date;
+  InstrumentationKey: string;
+  Name: string;
 }

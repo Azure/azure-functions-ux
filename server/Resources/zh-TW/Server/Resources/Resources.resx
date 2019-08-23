@@ -3575,16 +3575,16 @@
     <value>您無權在此專案中建立存放庫。請連絡您的專案系統管理員，或選擇其他專案</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>此專案未啟用 Azure Pipelines 服務。請連絡您的專案系統管理員或選擇其他專案</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>提供的組織名稱無效。請提供其他組織名稱。</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>無法擷取有效的 Azure DevOps 權杖</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>無法擷取 Azure DevOps 權杖。詳細資料: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4343,6 +4343,9 @@
   <data name="debugging" xml:space="preserve">
     <value>偵錯</value>
   </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(已修改)</value>
+  </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>應用程式設定</value>
   </data>
@@ -5090,5 +5093,23 @@
   </data>
   <data name="editBindingCommands" xml:space="preserve">
     <value>編輯繫結命令</value>
+  </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>新函式</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>在此函數應用程式中建立新的函式。您可以從選取下方的範本開始著手，或</value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>前往快速入門。</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>範本</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>詳細資料</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>依範本名稱搜尋</value>
   </data>
 </root>

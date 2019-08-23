@@ -383,19 +383,19 @@
     <value>È in corso un'operazione di salvataggio. Se si esce adesso alcune modifiche potrebbero andare perse.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
-    <value>Add new application setting</value>
+    <value>Aggiungi nuova impostazione applicazione</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>Add new connection string</value>
+    <value>Aggiungi nuova stringa di connessione</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
-    <value>Add new document</value>
+    <value>Aggiungi nuovo documento</value>
   </data>
   <data name="addNewHandlerMapping" xml:space="preserve">
-    <value>Add new handler mapping</value>
+    <value>Aggiungi nuovo mapping del gestore</value>
   </data>
   <data name="addNewVirtualDirectory" xml:space="preserve">
-    <value>Add new virtual application or directory</value>
+    <value>Aggiungi nuova directory o applicazione virtuale</value>
   </data>
   <data name="enterName" xml:space="preserve">
     <value>Immettere un nome</value>
@@ -3575,16 +3575,16 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Non si hanno le autorizzazioni per creare il repository in questo progetto. Contattare l'amministratore di progetto o scegliere un progetto diverso</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>Il servizio Azure Pipelines non è abilitato per questo progetto. Contattare l'amministratore del progetto o scegliere un altro progetto</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Il nome specificato per l'organizzazione non è valido. Specificarne un altro.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Non è stato possibile recuperare un token di Azure DevOps valido</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Non è stato possibile recuperare il token di Azure DevOps. Altri dettagli: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP e FTPS</value>
@@ -4343,6 +4343,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="debugging" xml:space="preserve">
     <value>Debug</value>
   </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(modificato)</value>
+  </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Impostazioni dell'applicazione</value>
   </data>
@@ -4476,7 +4479,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Valore</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Deployment slot setting</value>
+    <value>Impostazione slot di distribuzione</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -5090,5 +5093,23 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="editBindingCommands" xml:space="preserve">
     <value>Modifica comandi associazione</value>
+  </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Nuova funzione</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Creare una nuova funzione in questa app per le funzioni. Per iniziare, selezionare uno dei modelli seguenti oppure</value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>passare all'Avvio rapido.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Modelli</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Dettagli</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Cerca per nome modello</value>
   </data>
 </root>

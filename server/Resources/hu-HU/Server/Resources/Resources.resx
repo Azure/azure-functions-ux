@@ -3575,16 +3575,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Nem jogosult a projektben adattár létrehozására. Forduljon a projekt rendszergazdájához, vagy válasszon másik projektet</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>Az Azure Pipelines szolgáltatás nincs engedélyezve ehhez a projekthez. Forduljon a projekt rendszergazdájához, vagy válasszon másik projektet</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>A megadott cégnév érvénytelen. Adjon meg egy másik cégnevet.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Nem sikerült érvényes Azure DevOps-jogkivonatot beolvasni</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Nem sikerült beolvasni az Azure DevOps-jogkivonatot. További részletek: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -4343,6 +4343,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="debugging" xml:space="preserve">
     <value>Hibakeresés</value>
   </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(módosítva)</value>
+  </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Alkalmazásbeállítások</value>
   </data>
@@ -5090,5 +5093,23 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="editBindingCommands" xml:space="preserve">
     <value>Kötési parancsok szerkesztése</value>
+  </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Új függvény</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Új függvény létrehozása ebben a függvényalkalmazásban. A kezdéshez válasszon az alábbi sablonok közül, vagy </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>nyissa meg a gyorsútmutatót</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Sablonok</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Részletek</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Keresés sablonnév alapján</value>
   </data>
 </root>

@@ -301,27 +301,3 @@ export class ArmFunctionDescriptor extends ArmSiteDescriptor implements Function
     return `${super.getTrimmedResourceId()}/${this._isProxy ? 'proxies' : 'functions'}/${this.name}`;
   }
 }
-
-export class ARMApplicationInsightsDescriptior extends ArmResourceDescriptor {
-  public instanceName: string;
-
-  constructor(resourceId: string) {
-    super(resourceId);
-
-    if (this.parts.length < 8) {
-      throw Error(`resourceId length is too short for Application Insights: ${resourceId}`);
-    }
-
-    this.instanceName = this.parts[7];
-  }
-
-  getTrimmedResourceId() {
-    return `/${this.parts.join('/')}`;
-  }
-
-  getResourceIdForDirectUrl() {
-    // NOTE(michinoy): The aiResourceId is /subscriptions/<sub>/resourceGroups/<rg>/providers/microsoft.insights/components/<name>
-    // to call the app insights instance directly we need /subscriptions/<sub>/resourceGroups/<rg>/components/<name>
-    return `subscriptions/${this.subscription}/resourceGroups/${this.resourceGroup}/components/${this.instanceName}`;
-  }
-}

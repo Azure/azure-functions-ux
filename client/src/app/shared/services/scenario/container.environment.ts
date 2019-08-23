@@ -1,20 +1,13 @@
 import { ScenarioCheckInput } from './scenario.models';
-import { ScenarioIds } from './../../models/constants';
+import { ScenarioIds } from '../../models/constants';
 import { Environment } from './scenario.models';
 import { ArmUtil } from '../../Utilities/arm-utils';
 
-export class DynamicLinuxEnvironment extends Environment {
-  name = 'DynamicLinux';
+export class ContainerEnvironment extends Environment {
+  name = 'Container';
 
   constructor() {
     super();
-
-    this.scenarioChecks[ScenarioIds.deploymentCenter] = {
-      id: ScenarioIds.deploymentCenter,
-      runCheck: () => {
-        return { status: 'disabled' };
-      },
-    };
 
     this.scenarioChecks[ScenarioIds.enableLinkAPIM] = {
       id: ScenarioIds.enableLinkAPIM,

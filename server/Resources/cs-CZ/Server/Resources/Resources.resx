@@ -3575,16 +3575,16 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Nemáte oprávnění vytvářet v tomto projektu úložiště. Obraťte se na správce projektu, nebo zvolte jiný projekt.</value>
   </data>
   <data name="vstsPipelinesNotEnabled" xml:space="preserve">
-    <value>Azure Pipelines service is not enabled for this project. Contact your project administrator or choose a different project</value>
+    <value>Služba Azure Pipelines není pro tento projekt povolená. Obraťte se na správce projektu, nebo zvolte jiný projekt.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Zadaný název organizace není platný. Zadejte prosím nějaký jiný.</value>
   </data>
   <data name="vstsTokenIsInvalid" xml:space="preserve">
-    <value>Could not fetch a valid Azure DevOps token</value>
+    <value>Nepovedlo se načíst platný token Azure DevOps.</value>
   </data>
   <data name="vstsTokenFetchFailed" xml:space="preserve">
-    <value>Could not fetch Azure DevOps token. More details: {0}</value>
+    <value>Nepovedlo se načíst token Azure DevOps. Další podrobnosti: {0}</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP a FTPS</value>
@@ -4343,6 +4343,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="debugging" xml:space="preserve">
     <value>Ladění</value>
   </data>
+  <data name="modifiedTag" xml:space="preserve">
+    <value>(upraveno)</value>
+  </data>
   <data name="applicationSettings" xml:space="preserve">
     <value>Nastavení aplikace</value>
   </data>
@@ -5090,5 +5093,23 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="editBindingCommands" xml:space="preserve">
     <value>Upravit příkazy vazeb</value>
+  </data>
+  <data name="functionCreate_newFunction" xml:space="preserve">
+    <value>Nová funkce</value>
+  </data>
+  <data name="functionCreate_createFunctionMessage" xml:space="preserve">
+    <value>Vytvořte novou funkci v této aplikaci funkcí. Můžete začít tak, že si vyberete nějakou ze šablon níže, nebo </value>
+  </data>
+  <data name="functionCreate_goToQuickstart" xml:space="preserve">
+    <value>přejdete na rychlý start.</value>
+  </data>
+  <data name="functionCreate_templates" xml:space="preserve">
+    <value>Šablony</value>
+  </data>
+  <data name="functionCreate_details" xml:space="preserve">
+    <value>Podrobnosti</value>
+  </data>
+  <data name="functionCreate_searchByTemplateName" xml:space="preserve">
+    <value>Vyhledat podle názvu šablony</value>
   </data>
 </root>

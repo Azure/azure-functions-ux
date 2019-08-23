@@ -1,4 +1,4 @@
-import { Kinds, Links } from '../../../shared/models/constants';
+import { Kinds, Links, Pricing } from '../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
@@ -47,7 +47,7 @@ export class SharedPlanPriceSpec extends PriceSpec {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
@@ -65,7 +65,12 @@ export class SharedPlanPriceSpec extends PriceSpec {
         this.state = 'hidden';
       }
     } else if (input.specPickerInput.data) {
-      if (input.specPickerInput.data.hostingEnvironmentName || input.specPickerInput.data.isLinux || input.specPickerInput.data.isXenon) {
+      if (
+        input.specPickerInput.data.hostingEnvironmentName ||
+        input.specPickerInput.data.isLinux ||
+        input.specPickerInput.data.isXenon ||
+        input.specPickerInput.data.isElastic
+      ) {
         this.state = 'hidden';
       }
     }

@@ -68,7 +68,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
       this.showExpandIcon = false;
     }
 
-    if (this.context.runtimeVersion === FunctionAppVersion.v1) {
+    if (this.context.urlTemplates.runtimeVersion === FunctionAppVersion.v1) {
       if (typeof this.functionInfo.config.disabled === 'string') {
         const settingName = this.functionInfo.config.disabled;
         this._siteService.getAppSettings(this.context.site.id).subscribe(r => {
