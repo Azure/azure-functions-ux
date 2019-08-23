@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsListLayoutMode, IColumn, SelectionMode, IDetailsList } from 'office-ui-fabric-react/lib/DetailsList';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import React, { lazy, Suspense } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
@@ -31,6 +31,7 @@ interface ApplicationSettingsState {
 
 export class ApplicationSettings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ApplicationSettingsState> {
   public static contextType = PermissionsContext;
+  private _appSettingsTable: IDetailsList | null;
   constructor(props) {
     super(props);
     this.state = {
@@ -137,6 +138,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
             return x.name.toLowerCase().includes(filter.toLowerCase());
           })}
           columns={this.getColumns()}
+          componentRef={table => (this._appSettingsTable = table)}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
@@ -187,13 +189,17 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     });
   };
 
-  private _onClosePanel = (item: FormAppSetting): void => {
-    let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
-    const index = appSettings.findIndex(
+  private _getAppSettingIndex = (item: FormAppSetting, appSettings: FormAppSetting[]): number => {
+    return appSettings.findIndex(
       x =>
         x.name.toLowerCase() === item.name.toLowerCase() ||
         (!!this.state.currentAppSetting && this.state.currentAppSetting.name.toLowerCase() === x.name.toLowerCase())
     );
+  };
+
+  private _onClosePanel = (item: FormAppSetting): void => {
+    let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
+    let index = this._getAppSettingIndex(item, appSettings);
     if (index !== -1) {
       appSettings[index] = item;
     } else {
@@ -202,6 +208,10 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     appSettings = sortBy(appSettings, o => o.name.toLowerCase());
     this.props.setFieldValue('appSettings', appSettings);
     this.setState({ showPanel: false });
+    if (this._appSettingsTable) {
+      index = this._getAppSettingIndex(item, appSettings);
+      this._appSettingsTable.focusIndex(index);
+    }
   };
 
   private _onCancel = (): void => {
