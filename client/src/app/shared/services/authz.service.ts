@@ -94,8 +94,8 @@ export class AuthzService implements IAuthzService {
         action = resourceType + action.substring(1);
       }
 
-      return !!permissionSetRegexes.every((availableRegex, idx) => {
-        return this._isAllowed(action, availableRegex, permissionsSet[idx]);
+      return !!permissionSetRegexes.find(availableRegex => {
+        return this._isAllowed(action, availableRegex);
       });
     });
   }
@@ -140,19 +140,13 @@ export class AuthzService implements IAuthzService {
     return regex.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
   }
 
-  private _isAllowed(requestedAction: string, permissionRegex: PermissionsAsRegExp, permission: Permissions): boolean {
-    const actionAllowed = !!permissionRegex.actions.find(action => {
+  private _isAllowed(requestedAction: string, permission: PermissionsAsRegExp): boolean {
+    const actionAllowed = !!permission.actions.find(action => {
       return action.test(requestedAction);
     });
-
-    const requestedActionRegex = this._convertWildCardPatternToRegex(requestedAction);
-    const actionDenied =
-      !!permissionRegex.notActions.find(notActionRegex => {
-        return notActionRegex.test(requestedAction);
-      }) ||
-      !!permission.notActions.find(notAction => {
-        return requestedActionRegex.test(notAction);
-      });
+    const actionDenied = !!permission.notActions.find(notAction => {
+      return notAction.test(requestedAction);
+    });
 
     return actionAllowed && !actionDenied;
   }
