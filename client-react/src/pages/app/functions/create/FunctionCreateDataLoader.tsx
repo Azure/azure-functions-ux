@@ -9,7 +9,8 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { BindingConfigMetadata } from '../../../../models/functions/bindings-config';
 import FunctionCreateData from './FunctionCreate.data';
 
-export const FunctionCreateContext = React.createContext(new FunctionCreateData());
+const functionCreateData = new FunctionCreateData();
+export const FunctionCreateContext = React.createContext(functionCreateData);
 
 export interface FunctionCreateDataLoaderProps {
   resourceId: string;
@@ -22,7 +23,6 @@ export interface FunctionCreateDataLoaderState {
 }
 
 class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderProps, FunctionCreateDataLoaderState> {
-  private functionCreateData = new FunctionCreateData();
   constructor(props: FunctionCreateDataLoaderProps) {
     super(props);
 
@@ -45,7 +45,6 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
     }
 
     const { resourceId } = this.props;
-    const functionCreateData = this.functionCreateData;
     const functionTemplates = this.state.functionTemplates as FunctionTemplate[];
     const functionsInfo = this.state.functionsInfo as ArmObj<FunctionInfo>[];
     const bindingsConfigMetatdata = this.state.bindingsConfigMetatdata as BindingConfigMetadata[];
@@ -63,7 +62,7 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
   }
 
   private _loadTemplates() {
-    this.functionCreateData.getTemplates().then(r => {
+    functionCreateData.getTemplates().then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
@@ -82,7 +81,7 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
   private _loadFunctions() {
     const { resourceId } = this.props;
 
-    this.functionCreateData.getFunctions(resourceId).then(r => {
+    functionCreateData.getFunctions(resourceId).then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
@@ -95,7 +94,7 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
   }
 
   private _loadBindings() {
-    this.functionCreateData.getBindings().then(r => {
+    functionCreateData.getBindings().then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
