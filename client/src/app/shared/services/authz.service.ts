@@ -94,7 +94,7 @@ export class AuthzService implements IAuthzService {
         action = resourceType + action.substring(1);
       }
 
-      return !!permissionSetRegexes.every((availableRegex, idx) => {
+      return !!permissionSetRegexes.find((availableRegex, idx) => {
         return this._isAllowed(action, availableRegex, permissionsSet[idx]);
       });
     });
