@@ -5115,4 +5115,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>Search by template name</value>
   </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>Create Function</value>
+  </data>
 </root>
