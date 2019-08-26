@@ -1,3 +1,4 @@
+import { ArmResourceDescriptor } from './../../shared/resourceDescriptors';
 import { Component, Input, Injector } from '@angular/core';
 import { ComponentNames } from '../../shared/models/constants';
 import { FeatureComponent } from '../../shared/components/feature-component';
@@ -113,6 +114,26 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     this.sidePanelOpened = false;
     this.showDelayWarning = true;
     this.setInput(this.functionMonitorInfo);
+  }
+
+  public openAppMetrics() {
+    const descriptor = new ArmResourceDescriptor(this.functionMonitorInfo.appInsightResource.id);
+
+    this._portalService.openBlade(
+      {
+        detailBlade: 'QuickPulseBladeV2',
+        detailBladeInputs: {
+          ComponentId: {
+            Name: descriptor.resourceName,
+            SubscriptionId: descriptor.subscription,
+            ResourceGroup: descriptor.resourceGroup,
+          },
+          ResourceId: descriptor.resourceId,
+        },
+        extension: 'AppInsightsExtension',
+      },
+      ComponentNames.functionMonitor
+    );
   }
 
   public openInAppInsights() {

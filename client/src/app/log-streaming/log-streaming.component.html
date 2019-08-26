@@ -1,5 +1,5 @@
 <div class="log-streaming-container">
-    <div *ngIf="!isHttpLogs" class="log-toolbar">
+    <div *ngIf="!isHttpLogs && logStreamingEnabled" class="log-toolbar">
         <span class="log-empty-space"></span>
         <span (click)="reconnect()" class="link action"
              role="button" attr.aria-label="{{ 'logStreaming_reconnect' | translate }}">

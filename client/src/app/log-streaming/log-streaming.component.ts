@@ -1,3 +1,4 @@
+import { ScenarioService } from './../shared/services/scenario/scenario.service';
 import { BroadcastService } from './../shared/services/broadcast.service';
 import {
   Component,
@@ -20,14 +21,12 @@ import { UtilitiesService } from '../shared/services/utilities.service';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { ArmUtil } from '../shared/Utilities/arm-utils';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { LogContentComponent } from './log-content.component';
-import { Regex, LogLevel } from '../shared/models/constants';
+import { Regex, LogLevel, ScenarioIds } from '../shared/models/constants';
 import { PortalResources } from '../shared/models/portal-resources';
 import { FunctionService } from 'app/shared/services/function.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'log-streaming',
@@ -40,6 +39,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
   public timerInterval = 1000;
   public isExpanded = false;
   public popOverTimeout = 500;
+  public logStreamingEnabled = false;
   private _isConnectionSuccessful = true;
   private _xhReq: XMLHttpRequest;
   private _timeouts: number[];
@@ -69,7 +69,9 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     private _userService: UserService,
     private _functionAppService: FunctionAppService,
     private _utilities: UtilitiesService,
-    private _componentFactoryResolver: ComponentFactoryResolver
+    private _componentFactoryResolver: ComponentFactoryResolver,
+    private _ts: TranslateService,
+    private _scenarioService: ScenarioService
   ) {
     super('log-streaming', _functionAppService, broadcastService, functionService);
     this._tokenSubscription = this._userService.getStartupInfo().subscribe(s => (this._token = s.token));
@@ -79,6 +81,9 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
 
   setup(): Subscription {
     return this.viewInfoEvents.subscribe(view => {
+      this.logStreamingEnabled =
+        this._scenarioService.checkScenario(ScenarioIds.enableFunctionLogStreaming, { site: this.context.site }).status !== 'disabled';
+
       this._functionInfo = view.functionInfo.isSuccessful && view.functionInfo.result.properties;
       this._functionName = (this._functionInfo && this._functionInfo.name) || '';
       // clear logs on navigation to a new viewInfo
@@ -86,18 +91,6 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
       this._logContentComponent = this._componentFactoryResolver.resolveComponentFactory(LogContentComponent);
       this._initLogs(this.isHttpLogs);
       this.startLogs();
-
-      // On function code change
-      this._broadcastService
-        .getEvents<void>(BroadcastEvent.FunctionCodeUpdate)
-        // or run clicked
-        .merge(this._broadcastService.getEvents(BroadcastEvent.FunctionRunEvent))
-        // Until there is a new viewInfo (skipping current one) or ngUnsubscribe
-        .takeUntil(this.viewInfoEvents.skip(1).merge(this.ngUnsubscribe))
-        // If the app is dynamic linux
-        .filter(() => ArmUtil.isLinuxDynamic(view.context.site))
-        // start polling logs
-        .subscribe(() => this._startPollingRequest());
     });
   }
 
@@ -213,44 +206,15 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
   }
 
   private _initLogs(createEmpty: boolean = true, log?: string) {
-    // Dynamic linux apps don't have a streaming log endpoint
-    // so we have to poll the logs instead
-    if (ArmUtil.isLinuxDynamic(this.context.site)) {
-      this._startPollingRequest();
+    if (!this.logStreamingEnabled) {
+      this._writeUseAIMessage();
     } else {
       this._startStreamingRequest(createEmpty, log);
     }
   }
 
-  private _startPollingRequest() {
-    if (this._pollingActive$) {
-      // if this variable is present, emit a value
-      // this will cancel any ongoing polling
-      this._pollingActive$.next();
-    } else {
-      // otherwise create a new subject
-      this._pollingActive$ = new Subject();
-    }
-
-    let ongoingRequest = false;
-    // Every 2 seconds starting now
-    Observable.timer(1, 2000)
-      // if logging isn't stopped, and there are no ongoing requests
-      // this is done because the getLogs call can be slow due to worker issues
-      // in that case if it always takes longer than 2 seconds, we will never catch up to the timer
-      .filter(() => !this.stopped && !ongoingRequest)
-      // and until this.pollingActive OR 5 minutes have passed, which ever comes first
-      .takeUntil(this._pollingActive$.merge(Observable.timer(5 * 60 * 1000)))
-      // set ongoing request flag
-      .do(() => (ongoingRequest = true))
-      // Get the latest logs, passing force=true and no range (get all the file)
-      .concatMap(() => this._functionAppService.getLogs(this.context, this._functionName, null, true))
-      // clear ongoing request flag
-      .do(() => (ongoingRequest = false))
-      // and only if it was successful
-      .filter(r => !!(r.isSuccessful && r.result))
-      // update the displayed logs
-      .subscribe(t => this._updatePollingLogs(t.result));
+  private _writeUseAIMessage() {
+    this._addLogContent(this._ts.instant('viewLiveAppMetrics'), LogLevel.Info);
   }
 
   private _startStreamingRequest(createEmpty: boolean = true, log?: string) {
@@ -333,31 +297,6 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
       callBack();
     });
     return promise;
-  }
-
-  /**
-   * This function takes in a string representing the current logs content
-   * and should update the displayed log with the value.
-   * @param newLogs string to use to update the update the displayed logs with
-   */
-  private _updatePollingLogs(newLogs: string) {
-    if (this._logStreamIndex <= newLogs.length) {
-      newLogs = newLogs.substring(this._logStreamIndex);
-    } else {
-      this._logStreamIndex = 0;
-    }
-    this.log += newLogs;
-    if (this._logStreamIndex < newLogs.length) {
-      this._processLogs(newLogs.substring(this._logStreamIndex));
-      this._logStreamIndex += newLogs.length;
-      // if we just updated the logs, make sure to scroll down to the latest.
-      window.setTimeout(() => {
-        const el = document.getElementById('log-stream');
-        if (el) {
-          el.scrollTop = el.scrollHeight;
-        }
-      });
-    }
   }
 
   /**
