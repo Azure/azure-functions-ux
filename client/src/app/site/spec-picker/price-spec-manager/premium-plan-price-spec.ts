@@ -76,7 +76,7 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
         input.specPickerInput.data.hostingEnvironmentName ||
         input.specPickerInput.data.isLinux ||
         input.specPickerInput.data.isXenon ||
-        input.specPickerInput.data.isElastic
+        (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic)
       ) {
         this.state = 'hidden';
       }
