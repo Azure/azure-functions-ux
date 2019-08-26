@@ -3388,6 +3388,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Application Insights Instance</value>
   </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Live app metrics</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Navigate to the 'Monitor' section for this function in order to view your live app metrics and logs</value>
+  </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
   </data>
