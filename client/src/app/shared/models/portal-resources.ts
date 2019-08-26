@@ -1086,6 +1086,8 @@ export class PortalResources {
   public static error = 'error';
   public static runInAppInsights = 'runInAppInsights';
   public static appInsightsInstance = 'appInsightsInstance';
+  public static liveAppMetrics = 'liveAppMetrics';
+  public static viewLiveAppMetrics = 'viewLiveAppMetrics';
   public static success = 'success';
   public static duration = 'duration';
   public static functionMonitor_successAggregate_30days = 'functionMonitor_successAggregate_30days';
