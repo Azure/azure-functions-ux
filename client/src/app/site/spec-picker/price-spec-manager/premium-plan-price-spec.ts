@@ -98,9 +98,10 @@ export class PremiumSmallPlanPriceSpec extends PremiumPlanPriceSpec {
   meterFriendlyName = 'Premium Small App Service Hours';
 
   specResourceSet = {
-    id: 'p1',
+    id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -124,9 +125,10 @@ export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
   meterFriendlyName = 'Premium Medium App Service Hours';
 
   specResourceSet = {
-    id: 'p2',
+    id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -150,9 +152,10 @@ export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
   meterFriendlyName = 'Premium Large App Service Hours';
 
   specResourceSet = {
-    id: 'p3',
+    id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },

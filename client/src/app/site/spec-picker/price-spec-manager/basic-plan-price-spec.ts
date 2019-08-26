@@ -75,6 +75,7 @@ export class BasicSmallPlanPriceSpec extends BasicPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -97,6 +98,7 @@ export class BasicMediumPlanPriceSpec extends BasicPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -119,6 +121,7 @@ export class BasicLargePlanPriceSpec extends BasicPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },

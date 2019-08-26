@@ -114,6 +114,7 @@ export class IsolatedSmallPlanPriceSpec extends IsolatedPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -136,6 +137,7 @@ export class IsolatedMediumPlanPriceSpec extends IsolatedPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -158,6 +160,7 @@ export class IsolatedLargePlanPriceSpec extends IsolatedPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },

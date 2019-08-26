@@ -47,6 +47,7 @@ export class SharedPlanPriceSpec extends PriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
