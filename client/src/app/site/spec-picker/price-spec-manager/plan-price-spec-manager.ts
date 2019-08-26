@@ -171,8 +171,8 @@ export class PlanPriceSpecManager {
           g.recommendedSpecs.forEach(s => this._setBillingResourceId(s, meters));
           g.additionalSpecs.forEach(s => this._setBillingResourceId(s, meters));
 
-          specResourceSets = this._concatValidResourceSets(specResourceSets, g.recommendedSpecs);
-          specResourceSets = this._concatValidResourceSets(specResourceSets, g.additionalSpecs);
+          specResourceSets = this._concatAllResourceSetsForSpecs(specResourceSets, g.recommendedSpecs);
+          specResourceSets = this._concatAllResourceSetsForSpecs(specResourceSets, g.additionalSpecs);
 
           specsToAllowZeroCost = specsToAllowZeroCost.concat(
             g.recommendedSpecs.filter(s => s.allowZeroCost).map(s => s.specResourceSet.id)
@@ -575,7 +575,7 @@ export class PlanPriceSpecManager {
       });
   }
 
-  private _concatValidResourceSets(allResourceSets: SpecResourceSet[], specs: PriceSpec[]) {
+  private _concatAllResourceSetsForSpecs(allResourceSets: SpecResourceSet[], specs: PriceSpec[]) {
     const specsFiltered = specs.filter(spec => {
       return (
         !!spec.specResourceSet &&
@@ -618,10 +618,10 @@ export class PlanPriceSpecManager {
       throw Error('Spec must contain a specResourceSet with at least one firstParty item defined');
     }
 
-    spec.specResourceSet.firstParty.forEach(resource => {
+    spec.specResourceSet.firstParty.forEach(firstPartyResource => {
       let billingMeter: ArmObj<BillingMeter>;
-      if (!!resource.id) {
-        billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === resource.id.toLowerCase());
+      if (!!firstPartyResource.id) {
+        billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === firstPartyResource.id.toLowerCase());
       }
       if (!billingMeter) {
         // TODO(shimedh): Remove condition for Free Linux once billingMeters API is updated by backend to return the meters correctly.
@@ -630,14 +630,14 @@ export class PlanPriceSpecManager {
           spec.specResourceSet.firstParty[0].resourceId = 'a90aec9f-eecb-42c7-8421-9b96716996dc';
         } else {
           this._logService.error(LogCategories.specPicker, '/meter-not-found', {
-            resourceId: resource.id,
+            firstPartyResourceMeterId: firstPartyResource.id,
             skuCode: spec.skuCode,
             osType: osType,
             location: this._isUpdateScenario(this._inputs) ? this._plan.location : this._inputs.data.location,
           });
         }
       } else {
-        resource.resourceId = billingMeter.properties.meterId;
+        firstPartyResource.resourceId = billingMeter.properties.meterId;
       }
     });
   }
