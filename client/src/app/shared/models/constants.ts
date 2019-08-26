@@ -646,4 +646,5 @@ export enum HostKeyTypes {
 
 export class Pricing {
   public static hoursInAzureMonth = 730;
+  public static secondsInAzureMonth = 2628000;
 }

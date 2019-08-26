@@ -47,6 +47,7 @@ export class SharedPlanPriceSpec extends PriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -69,7 +70,7 @@ export class SharedPlanPriceSpec extends PriceSpec {
         input.specPickerInput.data.hostingEnvironmentName ||
         input.specPickerInput.data.isLinux ||
         input.specPickerInput.data.isXenon ||
-        input.specPickerInput.data.isElastic
+        (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic)
       ) {
         this.state = 'hidden';
       }

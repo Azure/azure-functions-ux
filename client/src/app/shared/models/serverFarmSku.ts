@@ -61,5 +61,7 @@ export class SkuCode {
     EP1: 'EP1',
     EP2: 'EP2',
     EP3: 'EP3',
+    EPCPU: 'EP-C',
+    EPMemory: 'EP-M',
   };
 }
