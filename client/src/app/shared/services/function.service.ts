@@ -20,7 +20,10 @@ export class FunctionService {
   }
 
   getFunctions(resourceId: string): Result<ArmArrayResult<FunctionInfo>> {
-    const getFunctions = this._cacheService.getArm(`${resourceId}/functions`, false).map(r => r.json());
+    const getFunctions = this._cacheService.getArm(`${resourceId}/functions`, false).map(r => {
+      r.json().value.sort((a, b) => a.name.localeCompare(b.name));
+      return r.json();
+    });
 
     return this._client.execute({ resourceId: resourceId }, t => getFunctions);
   }
