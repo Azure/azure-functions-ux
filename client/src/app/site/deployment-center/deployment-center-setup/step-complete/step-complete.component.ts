@@ -55,6 +55,7 @@ export class StepCompleteComponent {
   }
 
   Save() {
+    this._busyManager.setBusy();
     this._saveDeploymentConfig$.next(true);
   }
 
@@ -65,7 +66,6 @@ export class StepCompleteComponent {
       buildProvider: this.wizard.wizardValues.buildProvider,
       sourceProvider: this.wizard.wizardValues.sourceProvider,
     });
-    this._busyManager.setBusy();
     let notificationId = null;
     this._portalService
       .startNotification(
