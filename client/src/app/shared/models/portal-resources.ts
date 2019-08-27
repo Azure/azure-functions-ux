@@ -1031,7 +1031,7 @@ export class PortalResources {
   public static free = 'free';
   public static pricing_freeLinuxNotAvailable = 'pricing_freeLinuxNotAvailable';
   public static pricing_pricePerMonth = 'pricing_pricePerMonth';
-  public static pricing_pricePerHour = 'pricing_pricePerHour';
+  public static pricing_pricePerMonthBaseline = 'pricing_pricePerMonthBaseline';
   public static pricing_scaleUpDescription = 'pricing_scaleUpDescription';
   public static pricing_applyButtonLabel = 'pricing_applyButtonLabel';
   public static pricing_sharedInfrastructure = 'pricing_sharedInfrastructure';
@@ -1086,6 +1086,8 @@ export class PortalResources {
   public static error = 'error';
   public static runInAppInsights = 'runInAppInsights';
   public static appInsightsInstance = 'appInsightsInstance';
+  public static liveAppMetrics = 'liveAppMetrics';
+  public static viewLiveAppMetrics = 'viewLiveAppMetrics';
   public static success = 'success';
   public static duration = 'duration';
   public static functionMonitor_successAggregate_30days = 'functionMonitor_successAggregate_30days';

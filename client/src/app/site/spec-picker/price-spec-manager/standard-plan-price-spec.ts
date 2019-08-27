@@ -72,7 +72,11 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
         this.state = 'hidden';
       }
     } else if (input.specPickerInput.data) {
-      if (input.specPickerInput.data.hostingEnvironmentName || input.specPickerInput.data.isXenon || input.specPickerInput.data.isElastic) {
+      if (
+        input.specPickerInput.data.hostingEnvironmentName ||
+        input.specPickerInput.data.isXenon ||
+        (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic)
+      ) {
         this.state = 'hidden';
       }
     }
@@ -96,6 +100,7 @@ export class StandardSmallPlanPriceSpec extends StandardPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -118,6 +123,7 @@ export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -144,6 +150,7 @@ export class StandardLargePlanPriceSpec extends StandardPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },

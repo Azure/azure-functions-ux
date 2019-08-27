@@ -43,6 +43,7 @@ export abstract class PriceSpec {
   disabledInfoLink: string;
   priceString: string;
   price: number;
+  priceIsBaseline = false;
 
   protected _billingService: BillingService;
   protected _logService: LogService;
