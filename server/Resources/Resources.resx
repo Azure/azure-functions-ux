@@ -3223,8 +3223,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/Month (Estimated)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/Month (Estimated)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>{0} {1}/Month Baseline (Estimated)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Choose a different pricing tier to add more resources for your plan</value>
@@ -3387,6 +3387,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Application Insights Instance</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Live app metrics</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Navigate to the 'Monitor' section for this function in order to view your live app metrics and logs</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
