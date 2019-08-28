@@ -31,7 +31,7 @@ interface ApplicationSettingsState {
 
 export class ApplicationSettings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ApplicationSettingsState> {
   public static contextType = PermissionsContext;
-  private _appSettingsTable: IDetailsList | null;
+  private _appSettingsTable: IDetailsList;
   constructor(props) {
     super(props);
     this.state = {
@@ -138,7 +138,11 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
             return x.name.toLowerCase().includes(filter.toLowerCase());
           })}
           columns={this.getColumns()}
-          componentRef={table => (this._appSettingsTable = table)}
+          componentRef={table => {
+            if (table) {
+              this._appSettingsTable = table;
+            }
+          }}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
@@ -208,10 +212,8 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     appSettings = sortBy(appSettings, o => o.name.toLowerCase());
     this.props.setFieldValue('appSettings', appSettings);
     this.setState({ showPanel: false });
-    if (this._appSettingsTable) {
-      index = this._getAppSettingIndex(item, appSettings);
-      this._appSettingsTable.focusIndex(index);
-    }
+    index = this._getAppSettingIndex(item, appSettings);
+    this._appSettingsTable.focusIndex(index);
   };
 
   private _onCancel = (): void => {
