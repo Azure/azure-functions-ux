@@ -271,10 +271,10 @@ export interface ArmUpdateRequest {
   httpMethod: 'PUT' | 'PATCH';
   content: any;
   apiVersion: string;
-  notificationTitle?: string;
-  notificationDescription?: string;
-  notificationSuccessDescription?: string;
-  notificationFailureDescription?: string;
+  notificationTitle: string;
+  notificationDescription: string;
+  notificationSuccessDescription: string;
+  notificationFailureDescription: string;
 }
 
 export interface ResponseItem<T = any> {
