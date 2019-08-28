@@ -82,6 +82,7 @@ export class PremiumContainerSmallPriceSpec extends PremiumContainerPlanPriceSpe
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -104,6 +105,7 @@ export class PremiumContainerMediumPriceSpec extends PremiumContainerPlanPriceSp
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -126,6 +128,7 @@ export class PremiumContainerLargePriceSpec extends PremiumContainerPlanPriceSpe
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
