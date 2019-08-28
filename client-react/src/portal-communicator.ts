@@ -20,6 +20,8 @@ import {
   LogEntryLevel,
   Verbs,
   TokenType,
+  ArmUpdateRequest,
+  ResponseItem,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import darkModeTheme from './theme/dark';
@@ -260,6 +262,27 @@ export default class PortalCommunicator {
     });
   }
 
+  public executeArmUpdateRequest(request: ArmUpdateRequest): Promise<ResponseItem> {
+    const operationId = Guid.newGuid();
+
+    const payload: IDataMessage<ArmUpdateRequest> = {
+      operationId,
+      data: request,
+    };
+
+    PortalCommunicator.postMessage(Verbs.executeArmUpdateRequest, this.packageData(payload));
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === operationId),
+          first()
+        )
+        .subscribe((o: IDataMessage<IDataMessageResult<ResponseItem>>) => {
+          resolve(o.data.result);
+        });
+    });
+  }
+
   public broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, metadata?: T): void {
     const info: BroadcastMessage<T> = {
       id,
@@ -315,6 +338,7 @@ export default class PortalCommunicator {
   private setArmEndpointInternal = (endpoint: string) => {
     window.armEndpoint = endpoint;
   };
+
   private packageData = (data: any) => {
     data.frameId = this.frameId;
     return JSON.stringify(data);

@@ -95,6 +95,7 @@ export class Verbs {
   public static openBladeCollectorInputs = 'open-blade-collector-inputs'; // Deprecated
   public static updateBladeInfo = 'update-blade-info';
   public static returnPCV3Results = 'return-pcv3-results';
+  public static executeArmUpdateRequest = 'arm-update-request';
 
   public static closeBlades = 'close-blades';
   public static closeSelf = 'close-self';
@@ -263,4 +264,30 @@ export interface BroadcastMessage<T> {
   id: BroadcastMessageId;
   resourceId: string;
   metadata?: T;
+}
+
+export interface ArmUpdateRequest {
+  resourceId: string;
+  httpMethod: 'PUT' | 'PATCH';
+  content: any;
+  apiVersion: string;
+  notificationTitle?: string;
+  notificationDescription?: string;
+  notificationSuccessDescription?: string;
+  notificationFailureDescription?: string;
+}
+
+export interface ResponseItem<T = any> {
+  isSuccessful: boolean;
+  error?: any;
+  content: T;
+  jqXHR: JqXHR;
+  textStatus?: string;
+}
+
+export interface JqXHR {
+  status: number;
+  statusText: string;
+  responseJSON: any;
+  responseText: string;
 }
