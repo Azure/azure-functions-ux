@@ -9,7 +9,7 @@ import {
   WorkerRuntimeLanguages,
 } from './../models/constants';
 import { UserService } from './user.service';
-import { HostingEnvironment } from './../models/arm/hosting-environment';
+import { HostingEnvironment, InternalLoadBalancingMode } from './../models/arm/hosting-environment';
 import { FunctionAppContext } from './../function-app-context';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Injectable, Injector } from '@angular/core';
@@ -687,14 +687,20 @@ export class FunctionAppService {
       context.site.properties.hostingEnvironmentProfile &&
       context.site.properties.hostingEnvironmentProfile.id
     ) {
-      return this._cacheService.getArm(context.site.properties.hostingEnvironmentProfile.id, false, '2016-09-01').mergeMap(r => {
-        const ase: ArmObj<HostingEnvironment> = r.json();
-        if (ase.properties.internalLoadBalancingMode && ase.properties.internalLoadBalancingMode !== 'None') {
-          return this.pingScmSite(context).map(result => result.isSuccessful);
-        } else {
+      return this._cacheService
+        .getArm(context.site.properties.hostingEnvironmentProfile.id, false, ARMApiVersions.websiteApiVersion20160901)
+        .mergeMap(r => {
+          const ase: ArmObj<HostingEnvironment> = r.json();
+          if (ase.properties.internalLoadBalancingMode && ase.properties.internalLoadBalancingMode !== InternalLoadBalancingMode.None) {
+            return this.pingScmSite(context).map(result => result.isSuccessful);
+          } else {
+            return Observable.of(true);
+          }
+        })
+        .catch(() => {
+          // When ASE fetch fails don't block access to functions list
           return Observable.of(true);
-        }
-      });
+        });
     } else {
       return Observable.of(true);
     }
