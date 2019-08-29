@@ -18,6 +18,10 @@ import {
   EventFilter,
   EventVerbs,
   TokenType,
+  CheckPermissionRequest,
+  CheckPermissionResponse,
+  CheckReadOnlyLockRequest,
+  CheckReadOnlyLockResponse,
 } from './../models/portal';
 import {
   Event,
@@ -43,6 +47,8 @@ import { Subscription } from '../models/subscription';
 import { ConfigService } from 'app/shared/services/config.service';
 import { SlotSwapInfo, SlotNewInfo } from '../models/slot-events';
 import { ByosData } from '../../site/byos/byos';
+import { LogService } from './log.service';
+import { LogCategories } from '../models/constants';
 
 export interface IPortalService {
   getStartupInfo();
@@ -72,6 +78,8 @@ export interface IPortalService {
   returnPcv3Results<T>(results: T);
   broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, metadata?: T);
   returnByosSelections(selections: ByosData);
+  hasPermission(resourceId: string, actions: string[]);
+  hasReadOnlyLock(resourceId: string);
 }
 
 @Injectable()
@@ -111,7 +119,12 @@ export class PortalService implements IPortalService {
   }
 
   private frameId;
-  constructor(private _broadcastService: BroadcastService, private _aiService: AiService, private _configService: ConfigService) {
+  constructor(
+    private _broadcastService: BroadcastService,
+    private _aiService: AiService,
+    private _configService: ConfigService,
+    private _logService: LogService
+  ) {
     this.startupInfoObservable = new ReplaySubject<StartupInfo<void>>(1);
     this.notificationStartStream = new Subject<NotificationStartedInfo>();
     this.frameId = Url.getParameterByName(null, 'frameId');
@@ -262,6 +275,53 @@ export class PortalService implements IPortalService {
         } else {
           return Observable.throw(o.data);
         }
+      });
+  }
+
+  hasPermision(resourceId: string, actions: string[]) {
+    this.logAction('portal-service', `has-permission: ${resourceId}`, null);
+    const operationId = Guid.newGuid();
+
+    const payload: DataMessage<CheckPermissionRequest> = {
+      operationId,
+      data: {
+        resourceId,
+        actions,
+      },
+    };
+
+    this.postMessage(Verbs.hasPermission, this._packageData(payload));
+    return this.operationStream
+      .filter(o => o.operationId === operationId)
+      .first()
+      .switchMap((o: DataMessage<DataMessageResult<CheckPermissionResponse>>) => {
+        if (o.data.status !== 'success') {
+          this._logService.error(LogCategories.portalServiceHasPermission, 'hasPermission', payload);
+        }
+        return Observable.of(o.data.result.hasPermission);
+      });
+  }
+
+  hasReadOnlyLock(resourceId: string) {
+    this.logAction('portal-service', `has-readonly-lock: ${resourceId}`, null);
+    const operationId = Guid.newGuid();
+
+    const payload: DataMessage<CheckReadOnlyLockRequest> = {
+      operationId,
+      data: {
+        resourceId,
+      },
+    };
+
+    this.postMessage(Verbs.hasReadOnlyLock, this._packageData(payload));
+    return this.operationStream
+      .filter(o => o.operationId === operationId)
+      .first()
+      .switchMap((o: DataMessage<DataMessageResult<CheckReadOnlyLockResponse>>) => {
+        if (o.data.status !== 'success') {
+          this._logService.error(LogCategories.portalServiceHasReadOnlyLock, 'hasReadOnlyLock', payload);
+        }
+        return Observable.of(o.data.result.hasReadOnlyLock);
       });
   }
 

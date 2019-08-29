@@ -20,6 +20,10 @@ import {
   LogEntryLevel,
   Verbs,
   TokenType,
+  CheckPermissionRequest,
+  CheckPermissionResponse,
+  CheckReadOnlyLockRequest,
+  CheckReadOnlyLockResponse,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import darkModeTheme from './theme/dark';
@@ -29,6 +33,7 @@ import Url from './utils/url';
 import { Dispatch, SetStateAction } from 'react';
 import { ThemeExtended } from './theme/SemanticColorsExtended';
 import LogService from './utils/LogService';
+import { LogCategories } from './utils/LogCategories';
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
@@ -268,6 +273,70 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.broadcastMessage, this.packageData(info));
+  }
+
+  public hasPermission(resourceId: string, actions: string[]): Promise<boolean> {
+    const operationId = Guid.newGuid();
+
+    const payload: IDataMessage<CheckPermissionRequest> = {
+      operationId,
+      data: {
+        resourceId,
+        actions,
+      },
+    };
+
+    PortalCommunicator.postMessage(Verbs.hasPermission, this.packageData(payload));
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === operationId),
+          first()
+        )
+        .subscribe((o: IDataMessage<IDataMessageResult<CheckPermissionResponse>>) => {
+          if (o.data.status !== 'success') {
+            const data = {
+              resourceId,
+              actions,
+              message: 'Failed to evaluate permissions',
+            };
+            LogService.error(LogCategories.portalCommunicatorHasPermission, 'hasPermission', data);
+          }
+
+          resolve(o.data.result.hasPermission);
+        });
+    });
+  }
+
+  public hasReadOnlyLock(resourceId: string): Promise<boolean> {
+    const operationId = Guid.newGuid();
+
+    const payload: IDataMessage<CheckReadOnlyLockRequest> = {
+      operationId,
+      data: {
+        resourceId,
+      },
+    };
+
+    PortalCommunicator.postMessage(Verbs.hasPermission, this.packageData(payload));
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === operationId),
+          first()
+        )
+        .subscribe((o: IDataMessage<IDataMessageResult<CheckReadOnlyLockResponse>>) => {
+          if (o.data.status !== 'success') {
+            const data = {
+              resourceId,
+              message: 'Failed to evaluate read only lock',
+            };
+            LogService.error(LogCategories.portalCommunicatorHasPermission, 'hasReadOnlyLock', data);
+          }
+
+          resolve(o.data.result.hasReadOnlyLock);
+        });
+    });
   }
 
   private iframeReceivedMsg(event: IEvent): void {

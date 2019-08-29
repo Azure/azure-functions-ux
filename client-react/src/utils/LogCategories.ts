@@ -44,4 +44,6 @@ export class LogCategories {
   public static readonly changeAppPlan = 'ChangeAppPlan';
   public static readonly bindingEditor = 'BindingEditor';
   public static readonly functionCreate = 'FunctionCreate';
+  public static readonly portalCommunicatorHasPermission = 'PortalCommunicatorHasPermission';
+  public static readonly portalCommunicatorHasReadOnlyLock = 'PortalCommunicatorHasReadOnlyLock';
 }
