@@ -175,7 +175,7 @@
       </div>
 
       <div *ngIf="rightTab === 'files' && functionInfo" class="dev-border files-container">
-        <file-explorer [viewInfo]="viewInfo" [selectedFile]="scriptFile" (selectedFileChange)="selectedFileStream.next($event)" (closeClicked)="clickRightTab('files')">
+        <file-explorer [viewInfo]="viewInfo" [selectedFile]="scriptFile" [masterKey]="hostKeys?.masterKey" (selectedFileChange)="selectedFileStream.next($event)" (closeClicked)="clickRightTab('files')">
         </file-explorer>
       </div>
 

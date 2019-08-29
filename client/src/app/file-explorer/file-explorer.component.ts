@@ -28,7 +28,10 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
   busyState: BusyStateComponent;
   @Input()
   selectedFile: VfsObject;
+  @Input()
   functionInfo: FunctionInfo;
+  @Input()
+  masterKey: string;
   @Output()
   selectedFileChange: Subject<VfsObject>;
   @Output()
@@ -65,10 +68,7 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
       this.setBusyState();
       let url = this.currentVfsObject ? this.currentVfsObject.href : this.functionInfo.script_root_path_href;
       url = this.trim(url);
-      this.uploader.setOptions({
-        authToken: `Bearer ${this._globalStateService.CurrentToken}`,
-        headers: [{ name: 'If-Match', value: '*' }],
-      });
+      this._setHeaders();
       for (let i = 0; i < files.length; i++) {
         files[i].method = 'PUT';
         files[i].url = `${url}/${files[i].file.name}`;
@@ -337,5 +337,18 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
       }
     }
     return switchFiles;
+  }
+
+  private _setHeaders() {
+    if (this.context.urlTemplates.useNewUrls) {
+      this.uploader.setOptions({
+        headers: [{ name: 'If-Match', value: '*' }, { name: 'x-functions-key', value: this.masterKey }],
+      });
+    } else {
+      this.uploader.setOptions({
+        authToken: `Bearer ${this._globalStateService.CurrentToken}`,
+        headers: [{ name: 'If-Match', value: '*' }],
+      });
+    }
   }
 }
