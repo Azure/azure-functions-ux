@@ -41,7 +41,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
     return !value ? t('connectionStringPropIsRequired').format('value') : '';
   };
   const updateConnectionStringValue = (e: any, value: string) => {
-    const error = validateConnectionStringValue(name);
+    const error = validateConnectionStringValue(value);
     setValueError(error);
     setCurrentConnectionString({ ...currentConnectionString, value });
   };

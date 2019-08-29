@@ -67,7 +67,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         ]);
       this.wizard.buildSettings.get('vstsProject').setAsyncValidators([]);
       this.wizard.buildSettings.get('vstsAccount').valueChanges.subscribe(account => {
-        this.wizard.buildSettings.get('vstsProject').setValue('MyFirstProject');
+        this.wizard.buildSettings.get('vstsProject').setValue('MyProject');
       });
       this.wizard.buildSettings.get('vstsProject').setValidators([]);
       this.wizard.buildSettings.setAsyncValidators([]);
