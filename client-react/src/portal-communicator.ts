@@ -1,3 +1,4 @@
+import { BatchUpdateSettings, BatchResponseItemEx } from './models/batch-models';
 import { loadTheme } from 'office-ui-fabric-react/lib/Styling';
 import { Observable, Subject } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
@@ -20,8 +21,6 @@ import {
   LogEntryLevel,
   Verbs,
   TokenType,
-  ArmUpdateRequest,
-  ResponseItem,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import darkModeTheme from './theme/dark';
@@ -262,10 +261,10 @@ export default class PortalCommunicator {
     });
   }
 
-  public executeArmUpdateRequest(request: ArmUpdateRequest): Promise<ResponseItem> {
+  public executeArmUpdateRequest<T>(request: BatchUpdateSettings): Promise<BatchResponseItemEx<T>> {
     const operationId = Guid.newGuid();
 
-    const payload: IDataMessage<ArmUpdateRequest> = {
+    const payload: IDataMessage<BatchUpdateSettings> = {
       operationId,
       data: request,
     };
@@ -277,7 +276,7 @@ export default class PortalCommunicator {
           filter(o => o.operationId === operationId),
           first()
         )
-        .subscribe((o: IDataMessage<IDataMessageResult<ResponseItem>>) => {
+        .subscribe((o: IDataMessage<IDataMessageResult<BatchResponseItemEx<T>>>) => {
           resolve(o.data.result);
         });
     });

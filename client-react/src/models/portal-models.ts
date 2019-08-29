@@ -265,29 +265,3 @@ export interface BroadcastMessage<T> {
   resourceId: string;
   metadata?: T;
 }
-
-export interface ArmUpdateRequest {
-  resourceId: string;
-  httpMethod: 'PUT' | 'PATCH';
-  content: any;
-  apiVersion: string;
-  notificationTitle: string;
-  notificationDescription: string;
-  notificationSuccessDescription: string;
-  notificationFailureDescription: string;
-}
-
-export interface ResponseItem<T = any> {
-  isSuccessful: boolean;
-  error?: any;
-  content: T;
-  jqXHR: JqXHR;
-  textStatus?: string;
-}
-
-export interface JqXHR {
-  status: number;
-  statusText: string;
-  responseJSON: any;
-  responseText: string;
-}
