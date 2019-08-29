@@ -113,7 +113,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   public expandLogs = false;
   public functionKeys: FunctionKeys;
   public hostKeys: HostKeys;
-  public masterKey: string;
   public isStandalone: boolean;
   public inTab: boolean;
   public disabled: Observable<boolean>;
