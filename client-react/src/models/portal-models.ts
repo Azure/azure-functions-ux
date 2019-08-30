@@ -111,6 +111,9 @@ export class Verbs {
   public static getSpecCosts = 'get-spec-costs';
   public static broadcastMessage = 'broadcast-message';
 
+  public static hasPermission = 'has-permission';
+  public static hasLock = 'has-lock';
+
   // Requests from Ibiza
   public static sendStartupInfo = 'send-startup-info';
   public static sendAppSettingName = 'send-appSettingName';
@@ -264,4 +267,24 @@ export interface BroadcastMessage<T> {
   id: BroadcastMessageId;
   resourceId: string;
   metadata?: T;
+}
+
+export interface CheckPermissionRequest {
+  resourceId: string;
+  actions: string[];
+}
+
+export interface CheckPermissionResponse {
+  hasPermission: boolean;
+}
+
+export type LockType = 'ReadOnly' | 'Delete';
+
+export interface CheckLockRequest {
+  resourceId: string;
+  type: LockType;
+}
+
+export interface CheckLockResponse {
+  hasLock: boolean;
 }
