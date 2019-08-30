@@ -52,7 +52,7 @@ export class BindingFormBuilder {
 
       // If the stored value is empty, then make the assumption that everything is selected.
       // That's how it works for HTTP, so for now let's assume that's how it works for all checkBoxLists
-      if (setting.value === 'checkBoxList' && !value) {
+      if (setting.value === BindingSettingValue.checkBoxList && !value) {
         value = setting.enum ? setting.enum.map(e => e.value) : [];
       }
 
