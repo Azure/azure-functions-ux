@@ -48,7 +48,7 @@ export class CopyPreComponent implements OnInit {
   }
 
   onKeyPress(event: KeyboardEvent, func: 'hide' | 'show' | 'copy') {
-    if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+    if ((event && event.keyCode === KeyCodes.enter) || event.keyCode === KeyCodes.space) {
       switch (func) {
         case 'hide':
           this.hidePassword();
