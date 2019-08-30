@@ -370,7 +370,7 @@ export class LogCategories {
   public static readonly containerSettings = 'containerSettings';
   public static readonly byos = 'byos';
   public static readonly portalServiceHasPermission = 'PortalServiceHasPermission';
-  public static readonly portalServiceHasReadOnlyLock = 'PortalServiceHasReadOnlyLock';
+  public static readonly portalServiceHasLock = 'PortalServiceHasLock';
 }
 
 export class ARMApiVersions {

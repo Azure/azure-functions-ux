@@ -20,8 +20,9 @@ import {
   TokenType,
   CheckPermissionRequest,
   CheckPermissionResponse,
-  CheckReadOnlyLockRequest,
-  CheckReadOnlyLockResponse,
+  CheckLockRequest,
+  CheckLockResponse,
+  LockType,
 } from './../models/portal';
 import {
   Event,
@@ -79,7 +80,7 @@ export interface IPortalService {
   broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, metadata?: T);
   returnByosSelections(selections: ByosData);
   hasPermission(resourceId: string, actions: string[]);
-  hasReadOnlyLock(resourceId: string);
+  hasLock(resourceId: string, type: LockType);
 }
 
 @Injectable()
@@ -278,7 +279,7 @@ export class PortalService implements IPortalService {
       });
   }
 
-  hasPermision(resourceId: string, actions: string[]) {
+  hasPermission(resourceId: string, actions: string[]) {
     this.logAction('portal-service', `has-permission: ${resourceId}`, null);
     const operationId = Guid.newGuid();
 
@@ -302,26 +303,27 @@ export class PortalService implements IPortalService {
       });
   }
 
-  hasReadOnlyLock(resourceId: string) {
-    this.logAction('portal-service', `has-readonly-lock: ${resourceId}`, null);
+  hasLock(resourceId: string, type: LockType) {
+    this.logAction('portal-service', `has-lock: ${resourceId}`, null);
     const operationId = Guid.newGuid();
 
-    const payload: DataMessage<CheckReadOnlyLockRequest> = {
+    const payload: DataMessage<CheckLockRequest> = {
       operationId,
       data: {
         resourceId,
+        type,
       },
     };
 
-    this.postMessage(Verbs.hasReadOnlyLock, this._packageData(payload));
+    this.postMessage(Verbs.hasLock, this._packageData(payload));
     return this.operationStream
       .filter(o => o.operationId === operationId)
       .first()
-      .switchMap((o: DataMessage<DataMessageResult<CheckReadOnlyLockResponse>>) => {
+      .switchMap((o: DataMessage<DataMessageResult<CheckLockResponse>>) => {
         if (o.data.status !== 'success') {
-          this._logService.error(LogCategories.portalServiceHasReadOnlyLock, 'hasReadOnlyLock', payload);
+          this._logService.error(LogCategories.portalServiceHasLock, 'hasLock', payload);
         }
-        return Observable.of(o.data.result.hasReadOnlyLock);
+        return Observable.of(o.data.result.hasLock);
       });
   }
 

@@ -22,8 +22,9 @@ import {
   TokenType,
   CheckPermissionRequest,
   CheckPermissionResponse,
-  CheckReadOnlyLockRequest,
-  CheckReadOnlyLockResponse,
+  CheckLockRequest,
+  CheckLockResponse,
+  LockType,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import darkModeTheme from './theme/dark';
@@ -308,33 +309,34 @@ export default class PortalCommunicator {
     });
   }
 
-  public hasReadOnlyLock(resourceId: string): Promise<boolean> {
+  public hasLock(resourceId: string, type: LockType): Promise<boolean> {
     const operationId = Guid.newGuid();
 
-    const payload: IDataMessage<CheckReadOnlyLockRequest> = {
+    const payload: IDataMessage<CheckLockRequest> = {
       operationId,
       data: {
         resourceId,
+        type,
       },
     };
 
-    PortalCommunicator.postMessage(Verbs.hasPermission, this.packageData(payload));
+    PortalCommunicator.postMessage(Verbs.hasLock, this.packageData(payload));
     return new Promise((resolve, reject) => {
       this.operationStream
         .pipe(
           filter(o => o.operationId === operationId),
           first()
         )
-        .subscribe((o: IDataMessage<IDataMessageResult<CheckReadOnlyLockResponse>>) => {
+        .subscribe((o: IDataMessage<IDataMessageResult<CheckLockResponse>>) => {
           if (o.data.status !== 'success') {
             const data = {
               resourceId,
-              message: 'Failed to evaluate read only lock',
+              message: 'Failed to evaluate lock',
             };
-            LogService.error(LogCategories.portalCommunicatorHasPermission, 'hasReadOnlyLock', data);
+            LogService.error(LogCategories.portalCommunicatorHasLock, 'hasLock', data);
           }
 
-          resolve(o.data.result.hasReadOnlyLock);
+          resolve(o.data.result.hasLock);
         });
     });
   }

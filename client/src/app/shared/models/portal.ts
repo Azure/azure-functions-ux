@@ -90,7 +90,7 @@ export class Verbs {
   public static setFrameboundEventFilter = 'set-framebound-event-filter';
 
   public static hasPermission = 'has-permission';
-  public static hasReadOnlyLock = 'has-readonly-lock';
+  public static hasLock = 'has-lock';
 
   // Requests from Ibiza
   public static sendStartupInfo = 'send-startup-info';
@@ -262,10 +262,13 @@ export interface CheckPermissionResponse {
   hasPermission: boolean;
 }
 
-export interface CheckReadOnlyLockRequest {
+export type LockType = 'ReadOnly' | 'Delete';
+
+export interface CheckLockRequest {
   resourceId: string;
+  type: LockType;
 }
 
-export interface CheckReadOnlyLockResponse {
-  hasReadOnlyLock: boolean;
+export interface CheckLockResponse {
+  hasLock: boolean;
 }
