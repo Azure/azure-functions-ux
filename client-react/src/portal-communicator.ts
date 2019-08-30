@@ -1,3 +1,4 @@
+import { BatchUpdateSettings, BatchResponseItemEx } from './models/batch-models';
 import { loadTheme } from 'office-ui-fabric-react/lib/Styling';
 import { Observable, Subject } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
@@ -260,6 +261,27 @@ export default class PortalCommunicator {
     });
   }
 
+  public executeArmUpdateRequest<T>(request: BatchUpdateSettings): Promise<BatchResponseItemEx<T>> {
+    const operationId = Guid.newGuid();
+
+    const payload: IDataMessage<BatchUpdateSettings> = {
+      operationId,
+      data: request,
+    };
+
+    PortalCommunicator.postMessage(Verbs.executeArmUpdateRequest, this.packageData(payload));
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === operationId),
+          first()
+        )
+        .subscribe((o: IDataMessage<IDataMessageResult<BatchResponseItemEx<T>>>) => {
+          resolve(o.data.result);
+        });
+    });
+  }
+
   public broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, metadata?: T): void {
     const info: BroadcastMessage<T> = {
       id,
@@ -315,6 +337,7 @@ export default class PortalCommunicator {
   private setArmEndpointInternal = (endpoint: string) => {
     window.armEndpoint = endpoint;
   };
+
   private packageData = (data: any) => {
     data.frameId = this.frameId;
     return JSON.stringify(data);
