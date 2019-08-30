@@ -45,4 +45,6 @@ export class LogCategories {
   public static readonly bindingEditor = 'BindingEditor';
   public static readonly functionCreate = 'FunctionCreate';
   public static readonly bindingResource = 'BindingResource';
+  public static readonly portalCommunicatorHasPermission = 'PortalCommunicatorHasPermission';
+  public static readonly portalCommunicatorHasLock = 'PortalCommunicatorHasLock';
 }

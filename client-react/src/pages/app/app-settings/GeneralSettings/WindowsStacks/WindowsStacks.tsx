@@ -28,6 +28,10 @@ const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           disabled={!editable}
           options={[
             {
+              key: 'dotnetcore',
+              text: '.NET Core',
+            },
+            {
               key: 'dotnet',
               text: '.NET',
             },
