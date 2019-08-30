@@ -29,8 +29,9 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
     return null;
   }
 
-  const options: IDropdownOption[] = resourceAppSettings.map(s => ({ text: s, key: s }));
-  return <Dropdown options={options} {...props} />;
+  const options: IDropdownOption[] = [];
+  resourceAppSettings.forEach((resourceAppSetting, i) => options.push({ text: resourceAppSetting, key: i }));
+  return <Dropdown options={options} defaultSelectedKey={0} {...props} />;
 };
 
 const filterResourcesFromAppSetting = (setting: BindingConfigUIDefinition, appSettings: { [key: string]: string }) => {
