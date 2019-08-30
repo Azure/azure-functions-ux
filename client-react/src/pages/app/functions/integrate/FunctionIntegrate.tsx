@@ -12,6 +12,7 @@ import BindingEditorDataLoader from './binding-editor/BindingEditorDataLoader';
 
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
+  resourceId: string;
 }
 
 const paddingStyle = {
@@ -33,7 +34,7 @@ export interface BindingEditorContextInfo {
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
-  const { functionInfo: initialFunctionInfo } = props;
+  const { functionInfo: initialFunctionInfo, resourceId } = props;
 
   const bindingUpdate$ = useRef(new Subject<BindingUpdateInfo>());
   const [bindingToUpdate, setBindingToUpdate] = useState<BindingInfo | undefined>(undefined);
@@ -75,7 +76,13 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
   return (
     <>
       <BindingEditorContext.Provider value={editorContext}>
-        <BindingEditorDataLoader functionInfo={functionInfo} bindingInfo={bindingToUpdate} onPanelClose={onCancel} onSubmit={onSubmit} />
+        <BindingEditorDataLoader
+          functionInfo={functionInfo}
+          resourceId={resourceId}
+          bindingInfo={bindingToUpdate}
+          onPanelClose={onCancel}
+          onSubmit={onSubmit}
+        />
 
         <div style={paddingStyle}>
           <Stack horizontal gap={50} horizontalAlign={'center'} disableShrink>

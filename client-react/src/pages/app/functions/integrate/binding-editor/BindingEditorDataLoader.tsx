@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import LoadingComponent from '../../../../../components/loading/loading-component';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
-import { BindingConfigMetadata, BindingConfigDirection } from '../../../../../models/functions/bindings-config';
+import { BindingConfigDirection, BindingsConfig } from '../../../../../models/functions/bindings-config';
 import BindingEditor, { getBindingConfigDirection } from './BindingEditor';
 import { BindingInfo } from '../../../../../models/functions/function-binding';
 import LogService from '../../../../../utils/LogService';
@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 
 export interface BindingEditorDataLoaderProps {
   functionInfo: ArmObj<FunctionInfo>;
+  resourceId: string;
   bindingInfo?: BindingInfo;
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
@@ -60,8 +61,8 @@ const panelStyle = {
 };
 
 const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props => {
-  const { functionInfo, bindingInfo } = props;
-  const [bindingsMetadata, setBindingsMetadata] = useState<BindingConfigMetadata[] | undefined>(undefined);
+  const { functionInfo, resourceId, bindingInfo } = props;
+  const [bindingsConfig, setBindingsConfig] = useState<BindingsConfig | undefined>(undefined);
   const { t } = useTranslation();
   useEffect(() => {
     FunctionsService.getBindingConfigMetadata().then(r => {
@@ -74,11 +75,11 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
         return;
       }
 
-      setBindingsMetadata(r.data.bindings);
+      setBindingsConfig(r.data);
     });
   }, []);
 
-  if (!bindingInfo || !bindingsMetadata) {
+  if (!bindingInfo || !bindingsConfig) {
     return null;
   }
 
@@ -88,24 +89,26 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
       type={PanelType.smallFixedFar}
       onRenderNavigationContent={() => onRenderNavigationContent(bindingInfo as BindingInfo, props.onPanelClose, t)}
       styles={panelStyle}>
-      {getEditorOrLoader(functionInfo, props.onSubmit, bindingInfo, bindingsMetadata)}
+      {getEditorOrLoader(functionInfo, resourceId, props.onSubmit, bindingInfo, bindingsConfig)}
     </Panel>
   );
 };
 
 const getEditorOrLoader = (
   functionInfo: ArmObj<FunctionInfo>,
+  resourceId: string,
   onSubmit: (bindingInfo: BindingInfo) => void,
   bindingInfo?: BindingInfo,
-  bindingsMetadata?: BindingConfigMetadata[]
+  bindingsConfig?: BindingsConfig
 ) => {
-  if (bindingsMetadata && bindingInfo) {
+  if (bindingsConfig && bindingInfo) {
     return (
       <div style={{ marginTop: '10px' }}>
         <BindingEditor
           functionInfo={functionInfo}
-          allBindingsConfigMetadata={bindingsMetadata}
+          allBindingsConfig={bindingsConfig}
           currentBindingInfo={bindingInfo}
+          resourceId={resourceId}
           onSubmit={onSubmit}
         />
       </div>
