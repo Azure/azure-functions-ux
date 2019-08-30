@@ -24,7 +24,6 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
     private t: i18next.TFunction
   ) {
     super(bindingInfo, bindingMetadata, resourceId, t, variables);
-    console.log(variables);
   }
 
   public getInitialFormValues() {
