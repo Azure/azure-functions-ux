@@ -95,6 +95,7 @@ export class Verbs {
   public static openBladeCollectorInputs = 'open-blade-collector-inputs'; // Deprecated
   public static updateBladeInfo = 'update-blade-info';
   public static returnPCV3Results = 'return-pcv3-results';
+  public static executeArmUpdateRequest = 'arm-update-request';
 
   public static closeBlades = 'close-blades';
   public static closeSelf = 'close-self';
