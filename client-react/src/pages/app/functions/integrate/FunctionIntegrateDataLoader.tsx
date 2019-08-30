@@ -46,8 +46,9 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     }
 
     const functionInfo = this.state.functionInfo as ArmObj<FunctionInfo>;
+    const resourceId = this.props.resourceId;
 
-    return <FunctionIntegrate functionInfo={functionInfo} />;
+    return <FunctionIntegrate functionInfo={functionInfo} resourceId={resourceId} />;
   }
 }
 

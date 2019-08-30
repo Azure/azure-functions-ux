@@ -6,7 +6,7 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { FunctionCreate } from './FunctionCreate';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
-import { BindingConfigMetadata } from '../../../../models/functions/bindings-config';
+import { BindingsConfig } from '../../../../models/functions/bindings-config';
 import FunctionCreateData from './FunctionCreate.data';
 
 const functionCreateData = new FunctionCreateData();
@@ -19,7 +19,7 @@ export interface FunctionCreateDataLoaderProps {
 export interface FunctionCreateDataLoaderState {
   functionTemplates: FunctionTemplate[] | null;
   functionsInfo: ArmObj<FunctionInfo>[] | null;
-  bindingsConfigMetatdata: BindingConfigMetadata[] | null;
+  bindingsConfig: BindingsConfig | null;
 }
 
 class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderProps, FunctionCreateDataLoaderState> {
@@ -29,7 +29,7 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
     this.state = {
       functionTemplates: null,
       functionsInfo: null,
-      bindingsConfigMetatdata: null,
+      bindingsConfig: null,
     };
   }
 
@@ -40,21 +40,21 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
   }
 
   public render() {
-    if (!this.state.functionTemplates || !this.state.functionsInfo || !this.state.bindingsConfigMetatdata) {
+    if (!this.state.functionTemplates || !this.state.functionsInfo || !this.state.bindingsConfig) {
       return <LoadingComponent />;
     }
 
     const { resourceId } = this.props;
     const functionTemplates = this.state.functionTemplates as FunctionTemplate[];
     const functionsInfo = this.state.functionsInfo as ArmObj<FunctionInfo>[];
-    const bindingsConfigMetatdata = this.state.bindingsConfigMetatdata as BindingConfigMetadata[];
+    const bindingsConfig = this.state.bindingsConfig as BindingsConfig;
 
     return (
       <FunctionCreateContext.Provider value={functionCreateData}>
         <FunctionCreate
           functionTemplates={functionTemplates}
           functionsInfo={functionsInfo}
-          bindingsConfigMetatdata={bindingsConfigMetatdata}
+          bindingsConfig={bindingsConfig}
           resourceId={resourceId}
         />
       </FunctionCreateContext.Provider>
@@ -98,7 +98,7 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
       if (r.metadata.success) {
         this.setState({
           ...this.state,
-          bindingsConfigMetatdata: r.data.bindings,
+          bindingsConfig: r.data,
         });
       } else {
         LogService.trackEvent(
