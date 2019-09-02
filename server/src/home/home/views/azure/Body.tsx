@@ -9,7 +9,7 @@ export const Body = props => {
       <script src={props.versionConfig.main} />
     </>
   );
-  if (props.clientOptimzationsOff || !props.versionConfig) {
+  if (props.clientOptimizationsOff || !props.versionConfig) {
     Scripts = () => (
       <>
         <script src="inline.bundle.js" />

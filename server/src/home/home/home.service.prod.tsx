@@ -33,7 +33,7 @@ export class HomeServiceProd extends HomeService implements OnModuleInit {
         {...this.configService.staticConfig}
         version={this.configService.get('VERSION')}
         versionConfig={this.angularConfig}
-        clientOptimzationsOff={!optimized}
+        clientOptimizationsOff={!optimized}
       />
     );
     return `<!DOCTYPE html>\n${html}`;
