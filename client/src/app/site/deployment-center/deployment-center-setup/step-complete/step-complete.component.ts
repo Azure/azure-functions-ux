@@ -49,10 +49,11 @@ export class StepCompleteComponent {
     this._saveDeploymentConfig$
       .takeUntil(this._ngUnsubscribe$)
       .debounceTime(500)
-      .do(() => {
-        this._busyManager.setBusy();
-      })
       .subscribe(_ => {
+        if (this._busyManager.isBusy()) {
+          return;
+        }
+        this._busyManager.setBusy();
         this._saveDeploymentConfig();
       });
   }
