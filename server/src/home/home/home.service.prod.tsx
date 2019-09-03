@@ -5,7 +5,7 @@ import { exists, readFile } from 'async-file';
 import { HomeService } from './home.service.base';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
-import { Home } from './views';
+import { Home } from './views/home';
 @Injectable()
 export class HomeServiceProd extends HomeService implements OnModuleInit {
   protected angularConfig: any = null;
