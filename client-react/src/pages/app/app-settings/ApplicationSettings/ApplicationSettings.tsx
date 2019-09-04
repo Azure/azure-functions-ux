@@ -323,7 +323,9 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           className={defaultCellStyle}
           id={`app-settings-application-settings-name-${index}`}
           onClick={() => this._onShowPanel(item)}>
-          {item[column.fieldName!]}
+          <span aria-live="assertive" role="region">
+            {item[column.fieldName!]}
+          </span>
         </ActionButton>
       );
     }
