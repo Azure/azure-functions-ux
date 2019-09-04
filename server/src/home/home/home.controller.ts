@@ -8,7 +8,7 @@ export class HomeController {
   constructor(private configService: ConfigService, private homeService: HomeService) {}
 
   @Get('*')
-  root(@Query('appsvc.clientoptimizations') optimized: boolean, @Query('appsvc.react') sendReact: boolean) {
+  root(@Query('appsvc.clientoptimizations') optimized: string, @Query('appsvc.react') sendReact: boolean) {
     if (sendReact) {
       return this.homeService.getReactHomeHtml();
     }

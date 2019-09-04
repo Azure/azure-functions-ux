@@ -27,13 +27,13 @@ export class HomeServiceProd extends HomeService implements OnModuleInit {
     }
   }
 
-  getAngularHomeHtml = (optimized: boolean = true) => {
+  getAngularHomeHtml = (optimized?: string) => {
     const html = ReactDOMServer.renderToString(
       <Home
         {...this.configService.staticConfig}
         version={this.configService.get('VERSION')}
         versionConfig={this.angularConfig}
-        clientOptimizationsOff={!optimized}
+        clientOptimizationsOff={!!(optimized && optimized.toLowerCase() === 'false')}
       />
     );
     return `<!DOCTYPE html>\n${html}`;
