@@ -14,3 +14,9 @@ export interface StaticConfig {
     };
   };
 }
+
+export interface HomeConfig extends StaticConfig {
+  version: string;
+  versionConfig: string;
+  clientOptimizationsOff: boolean;
+}
