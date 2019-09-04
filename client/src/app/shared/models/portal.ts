@@ -89,6 +89,9 @@ export class Verbs {
   public static broadcastMessage = 'broadcast-message';
   public static setFrameboundEventFilter = 'set-framebound-event-filter';
 
+  public static hasPermission = 'has-permission';
+  public static hasLock = 'has-lock';
+
   // Requests from Ibiza
   public static sendStartupInfo = 'send-startup-info';
   public static sendAppSettingName = 'send-appSettingName';
@@ -248,4 +251,24 @@ export interface BladeResult<T> {
 
 export interface EventFilter {
   allowedIFrameEventVerbs: string[];
+}
+
+export interface CheckPermissionRequest {
+  resourceId: string;
+  actions: string[];
+}
+
+export interface CheckPermissionResponse {
+  hasPermission: boolean;
+}
+
+export type LockType = 'ReadOnly' | 'Delete';
+
+export interface CheckLockRequest {
+  resourceId: string;
+  type: LockType;
+}
+
+export interface CheckLockResponse {
+  hasLock: boolean;
 }

@@ -319,7 +319,9 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
           id={`app-settings-connection-strings-name-${index}`}
           className={defaultCellStyle}
           onClick={() => this._onShowPanel(item)}>
-          {item[column.fieldName!]}
+          <span aria-live="assertive" role="region">
+            {item[column.fieldName!]}
+          </span>
         </ActionButton>
       );
     }

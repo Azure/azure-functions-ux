@@ -1,8 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { HttpService } from '../../shared/http/http.service';
-import { LoggingService } from '../../shared/logging/logging.service';
-import { StaticConfig } from '../../types/static-config';
+import { StaticConfig } from '../../types/config';
 export const KeyvaultApiVersion = '2016-10-01';
 export const KeyvaultUri = 'https://vault.azure.net';
 
