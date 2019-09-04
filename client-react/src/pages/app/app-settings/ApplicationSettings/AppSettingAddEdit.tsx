@@ -7,6 +7,7 @@ import { formElementStyle } from '../AppSettings.styles';
 import { FormAppSetting } from '../AppSettings.types';
 import { MessageBarType, MessageBar } from 'office-ui-fabric-react/lib';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import AppSettingKeyVault from './AppSettingKeyVault';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
@@ -109,6 +110,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
           secondaryButton={actionBarSecondaryButtonProps}
         />
       </form>
+      {true && <AppSettingKeyVault />}
     </>
   );
 };
