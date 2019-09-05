@@ -220,19 +220,19 @@
     <value>创建 + 开始使用</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Function App</value>
+    <value>函数应用</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
     <value>开始使用 Azure Functions</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>新建 Function App</value>
+    <value>新建函数应用</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>你的订阅不含任何 Function App。这些是函数执行所在的容器。立即创建一个。</value>
+    <value>你的订阅不含任何函数应用。这些是函数执行所在的容器。立即创建一个。</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>或从 &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure 门户&lt;/a&gt;创建 Function App。</value>
+    <value>或从 &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure 门户&lt;/a&gt;创建函数应用。</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
     <value>选择位置</value>
@@ -244,7 +244,7 @@
     <value>订阅 {{displayName}} ({{ subscriptionId }})未列入运行函数的允许列表中</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>此订阅包含一个或多个 Function App。这些是函数执行所在的容器。选择一个或在下方新建一个。 </value>
+    <value>此订阅包含一个或多个函数应用。这些是函数执行所在的容器。选择一个或在下方新建一个。 </value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
     <value>名称必须包含至少 2 个字符</value>
@@ -256,19 +256,19 @@
     <value>该名称可以包含字母、数字和连字符(但第一个和最后一个字符必须是字母或数字)</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>Function App 名 {{funcName}} 不可用</value>
+    <value>函数应用名称 {{funcName}} 不可用</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
     <value>需要 Azure 订阅才能使用此服务。&lt;a href="https://azure.microsoft.com/en-us/free/"&gt;单击此处&lt;/a&gt;创建免费的试用版订阅</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>你的 Function App</value>
+    <value>你的函数应用</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>你的订阅</value>
   </data>
   <data name="createApp_description" xml:space="preserve">
-    <value>创建 Function App 将自动预配一个新的容器以在其中托管并运行你的代码。</value>
+    <value>创建函数应用将自动预配一个新的容器以在其中托管并运行你的代码。</value>
   </data>
   <data name="createApp_fail" xml:space="preserve">
     <value>未能创建应用</value>
@@ -440,7 +440,7 @@
     <value>搜索功能</value>
   </data>
   <data name="searchFunctionApps" xml:space="preserve">
-    <value>搜索 Function 应用</value>
+    <value>搜索函数应用</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>订阅 ID</value>
@@ -461,7 +461,7 @@
     <value>将丢失对当前函数所做的更改。是否确实要继续?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Function App 设置</value>
+    <value>函数应用设置</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
     <value>Azure Functions 的新版本可用。若要升级，请单击此处</value>
@@ -482,7 +482,7 @@
     <value>应用使用情况(Gb/秒)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Function App 使用情况</value>
+    <value>函数应用使用情况</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
     <value>无可用数据</value>
@@ -590,7 +590,7 @@
     <value>日志</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
-    <value>实时事件流</value>
+    <value>直播活动流</value>
   </data>
   <data name="functionMonitorTable_functionColumn" xml:space="preserve">
     <value>函数</value>
@@ -608,7 +608,7 @@
     <value>参数</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>已为 Function App 启用身份验证。运行该函数前，请禁用身份验证。</value>
+    <value>已为函数应用启用身份验证。运行该函数前，请禁用身份验证。</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
     <value>运行函数({{name}})时出错。检查日志输出以查看完整错误。</value>
@@ -677,7 +677,7 @@
     <value>试用已过期</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>此处所做的更改将影响 Function App 中的所有函数。</value>
+    <value>此处所做的更改将影响函数应用中的所有函数。</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
     <value>&lt;span&gt;创建全新函数&lt;/span&gt; - 开始使用某个预生成函数模板</value>
@@ -689,7 +689,7 @@
     <value>&lt;span&gt;深入了解文档&lt;/span&gt; - 在&lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;此处&lt;/a&gt;浏览 Azure Functions 的所有功能</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Function App 设置</value>
+    <value>函数应用设置</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
     <value>集成</value>
@@ -716,7 +716,7 @@
     <value>&lt;span&gt;调整此示例函数&lt;/span&gt; - 在易于使用的仪表板上进行个性化设置</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>你的函数旨在于 Azure 应用服务内作为 Function App 运行，并可在其中修改该应用的功能。</value>
+    <value>你的函数旨在于 Azure 应用服务内作为函数应用运行，并可在其中修改该应用的功能。</value>
   </data>
   <data name="update" xml:space="preserve">
     <value>更新</value>
@@ -836,16 +836,16 @@
     <value>注册一个免费的 Azure 帐户可解锁所有 Functions 功能而无需担心时间限制!</value>
   </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
-    <value>未对此 Function App 配置 CORS。请将 {{origin}} 添加到 CORS 列表。</value>
+    <value>未对此函数应用配置 CORS。请将 {{origin}} 添加到 CORS 列表。</value>
   </data>
   <data name="error_DnsResolution" xml:space="preserve">
-    <value>我们无法访问你的 Function App。你的应用可能出现暂时性问题或无法启动。可以检查日志，或在几分钟后重试。</value>
+    <value>我们无法访问你的函数应用。你的应用可能出现暂时性问题或无法启动。可以检查日志，或在几分钟后重试。</value>
   </data>
   <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
     <value>无法检索函数应用({{functionApp}})</value>
   </data>
   <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
-    <value>无法访问你的 Function App ({{statusText}})。请稍后重试。</value>
+    <value>无法访问你的函数应用({{statusText}})。请稍后重试。</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
     <value>请再稍后片刻...</value>
@@ -875,7 +875,7 @@
     <value>仅查看推荐选项</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
-    <value>已将一个或多个 Function App 链接到此存储帐户。可以在“文件”或“共享”下看到所有链接到该帐户的 Function App。</value>
+    <value>已将一个或多个函数应用链接到此存储帐户。可以在“文件”或“共享”下看到所有链接到该帐户的函数应用。</value>
   </data>
   <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
     <value>已存在名称为 {{fileName}} 的文件。</value>
@@ -968,7 +968,7 @@
     <value>每日使用配额(GB-秒)</value>
   </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-    <value>Function App 已达到使用配额并将停止使用 24 小时。</value>
+    <value>函数应用已达到使用配额并将停止使用 24 小时。</value>
   </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
     <value>删除配额</value>
@@ -977,7 +977,7 @@
     <value>设置配额</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>超过每日使用量配额时，Function App 停止，直到第二天凌晨 0:00 UTC。</value>
+    <value>超过每日使用量配额时，函数应用停止，直到第二天凌晨 0:00 UTC。</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>是否确实要撤销 {{name}} 关键值?</value>
@@ -986,7 +986,7 @@
     <value>键</value>
   </data>
   <data name="functionNew_nameError" xml:space="preserve">
-    <value>该名称在 Function App 内必须是唯一的。它必须以字母开头，可包含字母、数字(0-9)、短划线("-")和下划线("_")。</value>
+    <value>该名称在函数应用内必须是唯一的。它必须以字母开头，可包含字母、数字(0-9)、短划线("-")和下划线("_")。</value>
   </data>
   <data name="functionDev_loading" xml:space="preserve">
     <value>正在加载..</value>
@@ -1067,7 +1067,7 @@
     <value>选定的方法</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Function App 设置</value>
+    <value>函数应用设置</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
     <value>当前已固定到运行时版本: {{exactExtensionVersion}}。可更新以取消固定，并使用最新版本: ({{latestExtensionVersion}})。</value>
@@ -1175,7 +1175,7 @@
     <value>新函数</value>
   </data>
   <data name="functionApps" xml:space="preserve">
-    <value>Function App</value>
+    <value>函数应用</value>
   </data>
   <data name="stop" xml:space="preserve">
     <value>停止</value>
@@ -1796,7 +1796,7 @@
     <value>设置</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Function App 设置</value>
+    <value>函数应用设置</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>配置</value>
@@ -1808,7 +1808,7 @@
     <value>应用程序设置</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
-    <value>此试用版不支持管理 Function App。</value>
+    <value>此试用版不支持管理函数应用。</value>
   </data>
   <data name="template" xml:space="preserve">
     <value>模板</value>
@@ -1856,7 +1856,7 @@
     <value>选项</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
-    <value>无法访问 Function App 的 Azure 设置。</value>
+    <value>无法访问函数应用的 Azure 设置。</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
     <value>首先，请确保你拥有访问 Azure 资源 {0} 的适当权限。如果没有，请尝试刷新门户以续订身份验证令牌。</value>
@@ -1868,16 +1868,16 @@
     <value>使用有效的存储连接字符串更新应用设置。</value>
   </data>
   <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
-    <value>应用中缺少“{0}”应用程序设置。此设置包含用于托管函数内容的 Azure 存储帐户连接字符串。如不含此设置，应用将完全受损。如果不再有权访问该应用程序设置的值，可能需要删除并重新创建此 Function App。</value>
+    <value>应用中缺少“{0}”应用程序设置。此设置包含用于托管函数内容的 Azure 存储帐户连接字符串。如不含此设置，应用将完全受损。如果不再有权访问该应用程序设置的值，可能需要删除并重新创建此函数应用。</value>
   </data>
   <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
-    <value>应用中缺少“{0}”应用程序设置。此设置包含函数内容所在位置的共享名称。若没有此设置，应用将完全受损。如果不再有权访问该应用程序设置的值，可能需要删除并重新创建此 Function App。</value>
+    <value>应用中缺少“{0}”应用程序设置。此设置包含函数内容所在位置的共享名称。若没有此设置，应用将完全受损。如果不再有权访问该应用程序设置的值，可能需要删除并重新创建此函数应用。</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
     <value>应用中缺少“{0}”应用程序设置。此设置包含函数监视视图所需 Azure 存储帐户的连接字符串。这是聚合并在监视视图中显示调用数据的位置。监视视图可能已损坏。</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
-    <value>应用中缺少“{0}”应用程序设置。此设置包含 Azure 存储帐户的连接字符串，函数运行时需使用 Azure 存储帐户处理多个实例同步、日志调用结果和其他基础结构作业。如不含此设置，Function App 将无法正常工作。</value>
+    <value>应用中缺少“{0}”应用程序设置。此设置包含 Azure 存储帐户的连接字符串，函数运行时需使用 Azure 存储帐户处理多个实例同步、日志调用结果和其他基础结构作业。如不含此设置，函数应用将无法正常工作。</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
     <value>使用有效的存储连接字符串创建应用设置。</value>
@@ -1886,37 +1886,37 @@
     <value>应用中缺少“{0}”应用程序设置。若没有此设置，将始终运行最新版本的运行时，即使在可能包含重大更改的主要版本更新中也一样。建议将此值设置为当前最新的主版本(~1)，设置后，可收到有关较新版本更新的通知。</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
-    <value>存储在“{0}”中的 Azure 存储帐户连接字符串为 null 或为空。运行 Function App 必须使用此连接字符串。</value>
+    <value>存储在“{0}”中的 Azure 存储帐户连接字符串为 null 或为空。运行函数应用必须使用此连接字符串。</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
     <value>使用有效的存储连接字符串更新应用设置。</value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
-    <value>存储帐户 {0} 不存在。删除 Function App 正在使用的存储帐户将导致该 Function App 停止工作。</value>
+    <value>存储帐户 {0} 不存在。删除函数应用正在使用的存储帐户将导致该函数应用停止工作。</value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
     <value>使用有效的现有存储连接字符串更新应用设置。</value>
   </data>
   <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
-    <value>存储帐户 {0} 不支持 Azure 队列存储。函数运行时需要队列才可正常运行。必须使用支持 Azure 队列存储的存储帐户删除并重新创建 Function App。 </value>
+    <value>存储帐户 {0} 不支持 Azure 队列存储。函数运行时需要队列才可正常运行。必须使用支持 Azure 队列存储的存储帐户删除并重新创建函数应用。 </value>
   </data>
   <data name="backend_error_UnexpectedArmError" xml:space="preserve">
-    <value>查询 Function App 的 Azure 后端时似乎出现问题。</value>
+    <value>查询函数应用的 Azure 后端时似乎出现问题。</value>
   </data>
   <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
-    <value>查询 Function App 的 Azure 后端时似乎出现问题。</value>
+    <value>查询函数应用的 Azure 后端时似乎出现问题。</value>
   </data>
   <data name="error_shareCodeWithSupport" xml:space="preserve">
     <value>如果问题仍然存在，请使用以下代码 {{code}} 与支持人员联系</value>
   </data>
   <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
-    <value>无法检索此 Function App 的函数列表。</value>
+    <value>无法检索此函数应用的函数列表。</value>
   </data>
   <data name="error_unableToCreateFunction" xml:space="preserve">
     <value>无法创建函数 {{functionName}}。请稍后再试。</value>
   </data>
   <data name="error_unableToDecryptKeys" xml:space="preserve">
-    <value>无法解密函数访问密钥。如果删除应用并使用相同的名称重新创建，或者从另一 Function App 复制密钥，则可能会发生这种情况。可尝试以下步骤来解决该问题。按此处 https://go.microsoft.com/fwlink/?linkid=844094 的步骤操作</value>
+    <value>无法解密函数访问密钥。如果删除应用并使用相同的名称重新创建，或者从另一函数应用复制密钥，则可能会发生这种情况。可尝试以下步骤来解决该问题。按此处 https://go.microsoft.com/fwlink/?linkid=844094 的步骤操作</value>
   </data>
   <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
     <value>无法删除文件 {{fileName}}。请稍后再试。</value>
@@ -2096,10 +2096,10 @@
     <value>Application Insights</value>
   </data>
   <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
-    <value>更改 Function App 的编辑模式</value>
+    <value>更改函数应用的编辑模式</value>
   </data>
   <data name="appFunctionSettings_editMode" xml:space="preserve">
-    <value>Function App 编辑模式</value>
+    <value>函数应用编辑模式</value>
   </data>
   <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
     <value>只读</value>
@@ -2147,7 +2147,7 @@
     <value>槽名称“{0}”是保留的部署槽名称。</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
-    <value>无法更新 Function App 的编辑模式。请稍后再试。</value>
+    <value>无法更新函数应用的编辑模式。请稍后再试。</value>
   </data>
   <data name="readOnly" xml:space="preserve">
     <value>你的应用当前处于只读模式，因为它已手动设置为只读。若要更改编辑模式，请访问</value>
@@ -2198,7 +2198,7 @@
     <value>终结点</value>
   </data>
   <data name="emptyBrowse_title" xml:space="preserve">
-    <value>没有要显示的功能函数</value>
+    <value>没有要显示的函数应用</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>启用部署槽位(预览)。</value>
@@ -2240,7 +2240,7 @@
     <value>创建新的部署槽位</value>
   </data>
   <data name="slotNew_desc" xml:space="preserve">
-    <value>部署槽位可使你将不同版本的 Function App 部署到不同的 URL。可以测试某个版本，然后在槽位之间交换内容并配置。</value>
+    <value>部署槽位可使你将不同版本的函数应用部署到不同的 URL。可以测试某个版本，然后在槽位之间交换内容并配置。</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
     <value>正在新建槽“{0}”</value>
@@ -2261,7 +2261,7 @@
     <value>请升级计划。</value>
   </data>
   <data name="slotNew_noAccess" xml:space="preserve">
-    <value>没有对创建槽位的访问权限。请确保具有对 Function App 的合适 RBAC 访问权限且未启用读取锁定。</value>
+    <value>没有对创建槽位的访问权限。请确保具有对函数应用的合适 RBAC 访问权限且未启用读取锁定。</value>
   </data>
   <data name="slots_upgrade" xml:space="preserve">
     <value>升级到标准或高级计划以添加槽位。</value>
@@ -2366,7 +2366,7 @@
     <value>Proxies.json 架构验证失败。错误:“{0}”。</value>
   </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-    <value>在“使用”计划中，可通过设置每日使用量配额(以 GB/秒计)，限制平台使用量。一旦达到每日使用量配额，Function App 停止，直到第二天的凌晨 0:00 UTC。</value>
+    <value>在“使用”计划中，可通过设置每日使用量配额(以 GB/秒计)，限制平台使用量。一旦达到每日使用量配额，函数应用停止，直到第二天的凌晨 0:00 UTC。</value>
   </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
     <value>(中心策略)</value>
@@ -2792,7 +2792,7 @@
     <value>隐藏值</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>应用设置中显示了 App Insights 检测密钥，但 Function App 的订阅中未找到 App Insights。请确保 App Insights 与 Function App 在同一订阅中。</value>
+    <value>应用设置中显示了 App Insights 检测密钥，但函数应用的订阅中未找到 App Insights。请确保 App Insights 与函数应用在同一订阅中。</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>行首</value>
@@ -3220,8 +3220,8 @@
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/月(估计值)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/月(估计值)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>{0} {1}/月基线(估计值)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>选择一个不同的定价层，为计划添加更多资源</value>
@@ -3293,7 +3293,7 @@
     <value>高密度</value>
   </data>
   <data name="pricing_highDensityDesc" xml:space="preserve">
-    <value>有效地跨多个 Function App 共享应用服务计划。</value>
+    <value>有效地跨多个函数应用共享应用服务计划。</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>过渡槽</value>
@@ -3384,6 +3384,12 @@
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Application Insights 实例</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>动态应用指标</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>转到此功能的“监视”部分，以查看动态应用指标和日志</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -4137,7 +4143,7 @@
     <value>函数应用运行时堆栈</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>Function Apps v2 现仅支持一种语言。请先设置运行时堆栈，然后在向应用添加函数。</value>
+    <value>函数应用 v2 现仅支持一种语言。请先设置运行时堆栈，然后在向应用添加函数。</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>函数运行时堆栈</value>
@@ -4248,10 +4254,10 @@
     <value>来自 Nginx Web 服务器的静态 HTML 网页。</value>
   </data>
   <data name="singleContainerSample1TitleWindows" xml:space="preserve">
-    <value>Asp.Net Web 窗体</value>
+    <value>ASP.NET Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Windows Server Core 2019 LTSC 容器中部署的 Asp.Net Web 窗体应用程序。</value>
+    <value>Windows Server Core 2019 LTSC 容器中部署的 ASP.NET Web Forms 应用程序。</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>使用 Redis 的 Python Flask</value>
@@ -4326,7 +4332,7 @@
     <value>个人</value>
   </data>
   <data name="swaggerDefinitionReadOnly" xml:space="preserve">
-    <value>API 定义(Swagger)不适用于只读模式下的 Function App。</value>
+    <value>API 定义(Swagger)不适用于只读模式下的函数应用。</value>
   </data>
   <data name="troubleshootYourApp" xml:space="preserve">
     <value>排查应用故障</value>
@@ -4749,7 +4755,7 @@
     <value>将在接下来的几个月内删除“逻辑应用”选项卡。你可继续使用 Azure 门户浏览功能来浏览逻辑应用。</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>此功能仅适用于在 Linux 应用服务计划上运行的 Function App。有关运行时记录，请使用 Application Insights。</value>
+    <value>此功能仅适用于在 Linux 应用服务计划上运行的函数应用。有关运行时记录，请使用 Application Insights。</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>扩大</value>
@@ -4954,7 +4960,7 @@
     <value>筛选连接字符串</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
-    <value>Java Function App 不支持在门户中编辑函数。请使用 Maven 或 VS Code 进行开发。</value>
+    <value>Java 函数应用不支持在门户中编辑函数。请使用 Maven 或 VS Code 进行开发。</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
     <value>工作目录路径应与存储库的根路径相对，且不可以 /、\ 或驱动器名称(C:/)(若为 Windows)开头。如果工作目录位于存储库的 src 文件夹中，则路径应为 src/</value>
@@ -5098,7 +5104,7 @@
     <value>新建函数</value>
   </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-    <value>在此 Function App 中创建一个新函数。可以选择下面的一个模板开始操作，或</value>
+    <value>在此函数应用中创建一个新函数。可以选择下面的一个模板开始操作，或</value>
   </data>
   <data name="functionCreate_goToQuickstart" xml:space="preserve">
     <value>转到快速入门。</value>
@@ -5111,5 +5117,8 @@
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>按模板名称搜索</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>创建函数</value>
   </data>
 </root>

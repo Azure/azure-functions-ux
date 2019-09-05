@@ -1,5 +1,5 @@
 import * as React from 'react';
-export const Body = () => {
+export const Body = props => {
   return (
     <>
       <script src="inline.bundle.js" />

@@ -1,4 +1,4 @@
 export class HomeService {
   getReactHomeHtml: () => string;
-  getAngularHomeHtml: (optimized?: boolean) => string;
+  getAngularHomeHtml: (optimized?: string) => string;
 }

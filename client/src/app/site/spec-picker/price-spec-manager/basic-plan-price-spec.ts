@@ -1,4 +1,4 @@
-import { Kinds, Links } from './../../../shared/models/constants';
+import { Kinds, Links, Pricing } from './../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
@@ -51,7 +51,11 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
         this.state = 'hidden';
       }
     } else if (input.specPickerInput.data) {
-      if (input.specPickerInput.data.hostingEnvironmentName || input.specPickerInput.data.isXenon) {
+      if (
+        input.specPickerInput.data.hostingEnvironmentName ||
+        input.specPickerInput.data.isXenon ||
+        (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic)
+      ) {
         this.state = 'hidden';
       }
     }
@@ -75,7 +79,8 @@ export class BasicSmallPlanPriceSpec extends BasicPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
@@ -97,7 +102,8 @@ export class BasicMediumPlanPriceSpec extends BasicPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],
@@ -119,7 +125,8 @@ export class BasicLargePlanPriceSpec extends BasicPlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
     ],

@@ -1,6 +1,6 @@
-import { BindingConfigMetadata } from './bindings-config';
 import { AADPermissions } from './microsoft-graph';
 import { RuntimeExtension } from './runtime-extension';
+import { BindingInfo } from './function-binding';
 
 export interface FunctionTemplate {
   id: string;
@@ -10,7 +10,7 @@ export interface FunctionTemplate {
 }
 
 export interface FunctionTemplateBindings {
-  bindings: BindingConfigMetadata[];
+  bindings: BindingInfo[];
 }
 
 export interface FunctionTemplateMetadata {

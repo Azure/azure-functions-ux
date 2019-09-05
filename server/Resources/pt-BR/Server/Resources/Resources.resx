@@ -440,7 +440,7 @@
     <value>Procurar recursos</value>
   </data>
   <data name="searchFunctionApps" xml:space="preserve">
-    <value>Aplicativos de Função de pesquisa</value>
+    <value>Pesquisar Aplicativos de Funções</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>ID da Assinatura</value>
@@ -875,7 +875,7 @@
     <value>Ver somente as opções recomendadas</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
-    <value>Um ou mais aplicativos de função foram vinculados a essa conta de armazenamento. Você pode ver todos os aplicativos de função vinculados à conta em 'arquivos' ou 'Compartilhamentos'.</value>
+    <value>Um ou mais aplicativos de funções foram vinculados a essa conta de armazenamento. Você pode ver todos os aplicativos de funções vinculados à conta em 'arquivos' ou 'Compartilhamentos'.</value>
   </data>
   <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
     <value>Já existe um Arquivo com o nome {{fileName}}.</value>
@@ -968,7 +968,7 @@
     <value>Cota de Uso Diário (GB-s)</value>
   </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-    <value>O Aplicativo de Função atingiu a cota de uso diário e foi interrompido até o próximo período de 24 horas.</value>
+    <value>O Aplicativo de Funções atingiu a cota de uso diário e foi interrompido até o próximo período de 24 horas.</value>
   </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
     <value>Remover cota</value>
@@ -977,7 +977,7 @@
     <value>Definir cota</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>Ao atingir a cota de uso diário, o Aplicativo de Função será interrompido até o próximo dia às 00:00 UTC.</value>
+    <value>Ao atingir a cota de uso diário, o Aplicativo de Funções será interrompido até o próximo dia às 00:00 UTC.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>Tem certeza de que deseja revogar a chave {{name}}?</value>
@@ -986,7 +986,7 @@
     <value>Chaves</value>
   </data>
   <data name="functionNew_nameError" xml:space="preserve">
-    <value>O nome deve ser exclusivo dentro de um Aplicativo de Função. Ele deve começar com uma letra e pode conter letras, números (0-9), traços ("-") e sublinhados ("_").</value>
+    <value>O nome deve ser exclusivo dentro de um Aplicativo de Funções. Ele deve começar com uma letra e pode conter letras, números (0-9), traços ("-") e sublinhados ("_").</value>
   </data>
   <data name="functionDev_loading" xml:space="preserve">
     <value>Carregando...</value>
@@ -1013,10 +1013,10 @@
     <value>personalizado</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>O seu aplicativo de função está desabilitado porque ele excedeu a cota de configuração. Você pode alterar isso na exibição de configurações do aplicativo de função na barra esquerda.</value>
+    <value>O seu aplicativo de funções está desabilitado porque ele excedeu a cota de configuração. Você pode alterar isso na exibição de configurações do aplicativo de funções na barra esquerda.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>O seu aplicativo de função está parado. Você não pode usar o portal de funções quando o aplicativo estiver parado. Você pode alterar isso acessando a exibição de configurações do aplicativo de funções na barra esquerda e então acessando a folha de configurações do serviço de aplicativo.</value>
+    <value>O seu aplicativo de funções está parado. Você não pode usar o portal de funções quando o aplicativo estiver parado. Você pode alterar isso acessando a exibição de configurações do aplicativo de funções na barra esquerda e então acessando a folha de configurações do serviço de aplicativo.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
     <value>Você não tem permissões suficientes para acessar este aplicativo de funções. Você ainda pode visualizar as configurações básicas na folha configurações do serviço de aplicativo, que podem ser acessadas pelo link das configurações do aplicativo de funções na barra lateral esquerda.</value>
@@ -1808,7 +1808,7 @@
     <value>Configurações do aplicativo</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
-    <value>O gerenciamento de seu aplicativo de Função não está disponível para esta avaliação.</value>
+    <value>O gerenciamento de seu aplicativo de Funções não está disponível para esta avaliação.</value>
   </data>
   <data name="template" xml:space="preserve">
     <value>Modelo</value>
@@ -1871,7 +1871,7 @@
     <value>Falta a configuração de aplicativo '{0}' do seu aplicativo. Essa configuração contém uma cadeia de conexão para uma conta do Armazenamento do Azure que é usada para hospedar o conteúdo das suas funções. O seu aplicativo fica completamente quebrado sem essa configuração. Pode precisar de excluir e recriar esse aplicativo de funções se já não tiver acesso ao valor dessa configuração do aplicativo.</value>
   </data>
   <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
-    <value>A configuração de aplicativo '{0}' está ausente em seu aplicativo. Essa configuração contém um nome de compartilhamento onde o conteúdo da sua função vive. O seu aplicativo ficarará completamente quebrado sem essa configuração. Talvez seja necessário excluir e recriar esse aplicativo de funções caso você já não tenha acesso a essa configuração de aplicativo.</value>
+    <value>A configuração de aplicativo '{0}' está ausente em seu aplicativo. Essa configuração contém um nome de compartilhamento onde o conteúdo da sua função vive. O seu aplicativo ficará completamente quebrado sem essa configuração. Talvez seja necessário excluir e recriar esse aplicativo de funções caso você já não tenha acesso a essa configuração de aplicativo.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
     <value>Falta a configuração de aplicativo '{0}' do seu aplicativo. Essa configuração contém uma cadeia de conexão para uma conta do Armazenamento do Azure que é necessária para a vista de monitoração das suas funções. É aqui que os dados de invocação se agregam e são exibidos na vista de monitoração. Sua vista de monitoração pode estar quebrada.</value>
@@ -1916,7 +1916,7 @@
     <value>Não é possível criar a função {{functionName}}. Tente novamente mais tarde.</value>
   </data>
   <data name="error_unableToDecryptKeys" xml:space="preserve">
-    <value>Não é possível descriptografar suas chaves de acesso de função. Isso pode acontecer se você excluir e recriar o aplicativo com o mesmo nome, ou se você tiver copiado suas chaves de um aplicativo de função diferente. Siga as etapas aqui para corrigir o problema. Siga as etapas aqui https://go.microsoft.com/fwlink/?linkid=844094</value>
+    <value>Não é possível descriptografar suas chaves de acesso de função. Isso pode acontecer se você excluir e recriar o aplicativo com o mesmo nome, ou se você tiver copiado suas chaves de um aplicativo de funções diferente. Siga as etapas aqui para corrigir o problema. Siga as etapas aqui https://go.microsoft.com/fwlink/?linkid=844094</value>
   </data>
   <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
     <value>Não é possível excluir o arquivo {{fileName}}. Tente novamente mais tarde.</value>
@@ -2096,10 +2096,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Application Insights</value>
   </data>
   <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
-    <value>Alterar o modo de edição de seu aplicativo de função</value>
+    <value>Alterar o modo de edição de seu aplicativo de funções</value>
   </data>
   <data name="appFunctionSettings_editMode" xml:space="preserve">
-    <value>Modo de edição do aplicativo de função</value>
+    <value>Modo de edição do aplicativo de funções</value>
   </data>
   <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
     <value>Somente Leitura</value>
@@ -2147,7 +2147,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>O nome de slot '{0}' é um nome de slot de implantação reservado.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
-    <value>Não é possível atualizar o modo de edição de seu aplicativo de função. Tente novamente mai tarde.</value>
+    <value>Não é possível atualizar o modo de edição de seu aplicativo de funções. Tente novamente mais tarde.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
     <value>No momento, seu aplicativo está no modo somente leitura porque foi definido manualmente como somente leitura. Para alterar o modo de edição, visite </value>
@@ -2198,7 +2198,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Ponto de Extremidade</value>
   </data>
   <data name="emptyBrowse_title" xml:space="preserve">
-    <value>Nenhum aplicativo de função para exibir</value>
+    <value>Nenhum aplicativo de funções para exibir</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Habilite os slots de implantação (visualização).</value>
@@ -2240,7 +2240,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Criar um novo slot de implantação</value>
   </data>
   <data name="slotNew_desc" xml:space="preserve">
-    <value>Os slots de implantação permitem que você implante versões diferentes de seu aplicativo de função para URLs diferentes. Você pode testar uma determinada versão e, em seguida, trocar o conteúdo e a configuração entre os slots.</value>
+    <value>Os slots de implantação permitem que você implante versões diferentes de seu aplicativo de funções para URLs diferentes. Você pode testar uma determinada versão e, em seguida, trocar o conteúdo e a configuração entre os slots.</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
     <value>Criando novo slot '{0}' </value>
@@ -2261,7 +2261,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Atualize seu plano.</value>
   </data>
   <data name="slotNew_noAccess" xml:space="preserve">
-    <value>Não há acesso para criar um slot. Verifique se você possui o acesso RBAC correto para o aplicativo de função e se não há bloqueios de leitura habilitados.</value>
+    <value>Não há acesso para criar um slot. Verifique se você possui o acesso RBAC correto para o aplicativo de funções e se não há bloqueios de leitura habilitados.</value>
   </data>
   <data name="slots_upgrade" xml:space="preserve">
     <value>Atualize para um plano padrão ou premium para adicionar slots.</value>
@@ -2366,7 +2366,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>A validação de esquema proxies.json falhou. Erro: '{0}'.</value>
   </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-    <value>Em um plano de Consumo, você pode limitar o uso da plataforma ao definir uma cota de uso diário, em gigabytes-segundos. Após atingir a cota de uso diário, o Aplicativo de Função será interrompido até o próximo dia às 00:00 UTC.</value>
+    <value>Em um plano de Consumo, você pode limitar o uso da plataforma ao definir uma cota de uso diário, em gigabytes-segundos. Após atingir a cota de uso diário, o Aplicativo de Funções será interrompido até o próximo dia às 00:00 UTC.</value>
   </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
     <value>(política de hub)</value>
@@ -2804,7 +2804,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Não é possível atualizar com as Funções Existentes</value>
   </data>
   <data name="appFunctionSettings_warning_7" xml:space="preserve">
-    <value>As atualizações de versão principal podem introduzir alterações significativas aos idiomas e ligações. Ao atualizar as versões principais do tempo de execução, considere criar um novo aplicativo de função e migrar suas funções para este novo aplicativo.</value>
+    <value>As atualizações de versão principal podem introduzir alterações significativas aos idiomas e ligações. Ao atualizar as versões principais do tempo de execução, considere criar um novo aplicativo de funções e migrar suas funções para este novo aplicativo.</value>
   </data>
   <data name="warning" xml:space="preserve">
     <value>Aviso</value>
@@ -3220,8 +3220,8 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/Mês (Estimado)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/Mês (Estimado)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>{0} {1}/Linha de Base do Mês (Estimado)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Escolha um tipo de preço diferente para adicionar mais recursos ao seu plano</value>
@@ -3263,7 +3263,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Escala rápida</value>
   </data>
   <data name="pricing_rapidScaleDesc" xml:space="preserve">
-    <value>Expandir aplicativos de função com base em um gatilho de evento.</value>
+    <value>Expandir aplicativos de funções com base em um gatilho de evento.</value>
   </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Autoescala</value>
@@ -3384,6 +3384,12 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Instância do Application Insights</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Métricas do aplicativo em tempo real</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Navegue até a seção 'Monitor' dessa função para exibir as métricas e os logs de aplicativo em tempo real</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -3801,7 +3807,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Armazenamento baseado em SSD local para hospedagem de contêineres e armazenamento em disco {0} opcional compartilhado por todos os aplicativos implantados no Plano do Serviço de Aplicativo.</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
-    <value>Nome do aplicativo de função</value>
+    <value>Nome do aplicativo de funções</value>
   </data>
   <data name="languageAria" xml:space="preserve">
     <value>Linguagem de programação de função</value>
@@ -3996,7 +4002,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Uma função que será executada em uma agenda especificada</value>
   </data>
   <data name="quickstartMessage1" xml:space="preserve">
-    <value>Você criou um aplicativo de função.</value>
+    <value>Você criou um aplicativo de funções.</value>
   </data>
   <data name="quickstartMessage2" xml:space="preserve">
     <value>Agora é hora de adicionar o código...</value>
@@ -4248,10 +4254,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Página da Web HTML estática servida do servidor Web Nginx.</value>
   </data>
   <data name="singleContainerSample1TitleWindows" xml:space="preserve">
-    <value>Web Forms do Asp.Net</value>
+    <value>ASP.NET Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>O aplicativo Web Forms do ASP.NET implantado no Contêiner LTSC do Windows Server Core 2019.</value>
+    <value>Aplicativo ASP.NET Web Forms implantado no Contêiner LTSC do Windows Server Core 2019.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask com Redis</value>
@@ -4326,7 +4332,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Pessoal</value>
   </data>
   <data name="swaggerDefinitionReadOnly" xml:space="preserve">
-    <value>A definição de API (Swagger) não está disponível para Aplicativo de Funções em modo somente leitura.</value>
+    <value>A definição de API (Swagger) não está disponível para Aplicativos de Funções em modo somente leitura.</value>
   </data>
   <data name="troubleshootYourApp" xml:space="preserve">
     <value>Solucionar problemas do aplicativo</value>
@@ -4749,7 +4755,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>A guia 'Aplicativos Lógicos' será removida nos próximos meses. Você pode continuar a navegar em seus aplicativos lógicos usando o recurso de navegação do Portal do Azure.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>Este recurso está disponível somente para Aplicativos de função em execução em um plano de Serviço de Aplicativo do Linux. Para registrar em log o tempo de execução, use o Application Insights.</value>
+    <value>Este recurso está disponível somente para Aplicativos de funções em execução em um plano de Serviço de Aplicativo do Linux. Para registrar em log o tempo de execução, use o Application Insights.</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>Escalar horizontalmente</value>
@@ -5111,5 +5117,8 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>Pesquisar por nome do modelo</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>Criar Função</value>
   </data>
 </root>

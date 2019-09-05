@@ -2198,7 +2198,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Punkt końcowy</value>
   </data>
   <data name="emptyBrowse_title" xml:space="preserve">
-    <value>Brak funkcji aplikacji do wyświetlenia</value>
+    <value>Brak aplikacji funkcji do wyświetlenia</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Włącz miejsca wdrożenia (wersja zapoznawcza).</value>
@@ -3220,8 +3220,8 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1} miesięcznie (szacowana)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1} miesięcznie (szacowana)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>Podstawa {0} {1} miesięcznie (szacowana)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Wybierz inną warstwę cenową, aby dodać więcej zasobów do planu</value>
@@ -3384,6 +3384,12 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Wystąpienie usługi Application Insights</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Metryki aplikacji na żywo</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Przejdź do sekcji „Monitor” dla tej funkcji, aby wyświetlić dzienniki i metryki aplikacji na żywo</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -3996,7 +4002,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Funkcja, która będzie uruchamiana zgodnie z określonym harmonogramem</value>
   </data>
   <data name="quickstartMessage1" xml:space="preserve">
-    <value>Funkcja aplikacji została utworzona.</value>
+    <value>Aplikacja funkcji została utworzona.</value>
   </data>
   <data name="quickstartMessage2" xml:space="preserve">
     <value>Czas na dodanie kodu...</value>
@@ -4248,10 +4254,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Statyczna strona internetowa HTML obsługiwana przez serwer internetowy Nginx.</value>
   </data>
   <data name="singleContainerSample1TitleWindows" xml:space="preserve">
-    <value>Formularze internetowe platformy ASP.NET</value>
+    <value>Asp.Net Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Aplikacja formularzy internetowych ASP.Net wdrożona w kontenerze systemu Windows Server Core 2019 LTSC.</value>
+    <value>Aplikacja Asp.Net Web Forms wdrożona w kontenerze systemu Windows Server Core 2019 LTSC.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask z pamięcią podręczną Redis Cache</value>
@@ -5111,5 +5117,8 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>Wyszukaj według nazwy szablonu</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>Utwórz funkcję</value>
   </data>
 </root>

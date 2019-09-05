@@ -250,6 +250,7 @@ export class ScenarioIds {
   public static readonly enableMetrics = 'EnableMetrics';
   public static readonly enableBackups = 'EnableBackups';
   public static readonly enableTinfoil = 'EnableTinfoil';
+  public static readonly enableFunctionLogStreaming = 'EnableFunctionLogStreaming';
   public static readonly dotNetFrameworkSupported = 'DotNetFrameworkSupported';
   public static readonly platform64BitSupported = 'Platform64BitSupported';
   public static readonly webSocketsSupported = 'WebSocketsSupported';
@@ -368,6 +369,8 @@ export class LogCategories {
   public static readonly containerACR = 'containerACR';
   public static readonly containerSettings = 'containerSettings';
   public static readonly byos = 'byos';
+  public static readonly portalServiceHasPermission = 'PortalServiceHasPermission';
+  public static readonly portalServiceHasLock = 'PortalServiceHasLock';
 }
 
 export class ARMApiVersions {
@@ -641,4 +644,9 @@ export enum HostKeyTypes {
   masterKey = 'masterKey',
   functionKeys = 'functionKeys',
   systemKeys = 'systemKeys',
+}
+
+export class Pricing {
+  public static hoursInAzureMonth = 730;
+  public static secondsInAzureMonth = 2628000;
 }

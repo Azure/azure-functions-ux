@@ -469,7 +469,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 resourceId: site.id,
                 apiVersion: ARMApiVersions.websiteApiVersion20180201,
                 systemAssignedStatus: 2, // IdentityStatus.Supported
-                userAssignedStatus: 1, // IdentityStatus.Preview
+                userAssignedStatus: 2, // IdentityStatus.Supported
               },
             },
             this._portalService

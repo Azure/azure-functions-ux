@@ -220,7 +220,7 @@
     <value>Vytvořit a začít</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Aplikace Function App</value>
+    <value>Aplikace funkcí</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
     <value>Začínáme s Azure Functions</value>
@@ -268,7 +268,7 @@
     <value>Vaše předplatné</value>
   </data>
   <data name="createApp_description" xml:space="preserve">
-    <value>Když se vytvoří aplikace Function App, automaticky se zřídí nový kontejner, který dokáže hostovat a spustit váš kód.</value>
+    <value>Když se vytvoří aplikace funkcí, automaticky se zřídí nový kontejner, který dokáže hostovat a spustit váš kód.</value>
   </data>
   <data name="createApp_fail" xml:space="preserve">
     <value>Nepovedlo se vytvořit aplikaci.</value>
@@ -440,7 +440,7 @@
     <value>Funkce pro hledání</value>
   </data>
   <data name="searchFunctionApps" xml:space="preserve">
-    <value>Hledat v aplikacích Function App</value>
+    <value>Hledat v aplikacích funkcí</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>ID předplatného</value>
@@ -461,7 +461,7 @@
     <value>Změny, které jste udělali v aktuální funkci, se ztratí. Opravdu chcete pokračovat?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Nastavení Function App</value>
+    <value>Nastavení aplikace funkcí</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
     <value>Je k dispozici nová verze Azure Functions. Pokud chcete provést upgrade, klikněte sem.</value>
@@ -482,7 +482,7 @@
     <value>Využití aplikace (Gb/s)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Využití Function App</value>
+    <value>Využití aplikace funkcí</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
     <value>Nejsou k dispozici žádná data.</value>
@@ -689,7 +689,7 @@
     <value>&lt;span&gt;Prozkoumejte dokumentaci&lt;/span&gt; – &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;tady&lt;/a&gt; najdete informace o všech funkcích služby Azure Functions.</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Nastavení Function App</value>
+    <value>Nastavení aplikace funkcí</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
     <value>Integrace</value>
@@ -836,16 +836,16 @@
     <value>Když si zaregistrujete bezplatný účet Azure, odemknou se všechny možnosti funkcí a nejste omezení časem!</value>
   </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
-    <value>CORS není pro tuto aplikaci Function App nakonfigurovaný. Přidejte si prosím do seznamu CORS {{origin}}.</value>
+    <value>CORS není pro tuto aplikaci funkcí nakonfigurovaný. Přidejte si prosím do seznamu CORS {{origin}}.</value>
   </data>
   <data name="error_DnsResolution" xml:space="preserve">
-    <value>Nepovedlo se nám kontaktovat vaši aplikaci Function App. Je možné, že s aplikací jsou jenom dočasné problémy nebo se ji nedaří spustit. Můžete se podívat na protokoly nebo to zkusit za pár minut znovu.</value>
+    <value>Nepovedlo se nám kontaktovat vaši aplikaci funkcí. Je možné, že s aplikací jsou jenom dočasné problémy nebo se ji nedaří spustit. Můžete se podívat na protokoly nebo to zkusit za pár minut znovu.</value>
   </data>
   <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
-    <value>Nepovedlo se načíst aplikaci Function App ({{functionApp}}).</value>
+    <value>Nepovedlo se načíst aplikaci funkcí ({{functionApp}}).</value>
   </data>
   <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
-    <value>Nepovedlo se nám kontaktovat vaši aplikaci Function App ({{statusText}}). Zkuste to prosím znovu.</value>
+    <value>Nepovedlo se nám kontaktovat vaši aplikaci funkcí ({{statusText}}). Zkuste to prosím znovu.</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
     <value>Jenom pár sekund...</value>
@@ -875,7 +875,7 @@
     <value>Zobrazit jen doporučené možnosti</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
-    <value>S tímto účtem úložiště je propojená nejméně jedna aplikace Function App. Pokud si chcete zobrazit všechny aplikace Function App propojené s tímto účtem, najdete je v části Soubory nebo Sdílené složky.</value>
+    <value>S tímto účtem úložiště je propojená nejméně jedna aplikace funkcí. Pokud si chcete zobrazit všechny aplikace funkcí propojené s tímto účtem, najdete je v části Soubory nebo Sdílené složky.</value>
   </data>
   <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
     <value>Soubor s názvem {{fileName}} už existuje.</value>
@@ -968,7 +968,7 @@
     <value>Kvóta denního využití (GB/s)</value>
   </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-    <value>Aplikace Function App dosáhla své kvóty denního využití a zastavila se. Obnoví se až během následujících 24 hodin.</value>
+    <value>Aplikace funkcí dosáhla své kvóty denního využití a zastavila se. Obnoví se až během následujících 24 hodin.</value>
   </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
     <value>Odebrat kvótu</value>
@@ -977,7 +977,7 @@
     <value>Nastavit kvótu</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>Jakmile se denní kvóta využití překročí, aplikace Function App se zastaví a zůstane zastavená do 0:00 UTC dalšího dne.</value>
+    <value>Jakmile se denní kvóta využití překročí, aplikace funkcí se zastaví a zůstane zastavená do 0:00 UTC dalšího dne.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>Určitě chcete odvolat klíč {{name}}?</value>
@@ -986,7 +986,7 @@
     <value>Klíče</value>
   </data>
   <data name="functionNew_nameError" xml:space="preserve">
-    <value>Název musí být v rámci aplikace Function App jedinečný. Musí začínat písmenem a může obsahovat písmena, číslice (0–9), spojovníky (-) a podtržítka (_).</value>
+    <value>Název musí být v rámci aplikace funkcí jedinečný. Musí začínat písmenem a může obsahovat písmena, číslice (0–9), spojovníky (-) a podtržítka (_).</value>
   </data>
   <data name="functionDev_loading" xml:space="preserve">
     <value>Načítání...</value>
@@ -1013,13 +1013,13 @@
     <value>vlastní</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Vaše aplikace Function App je zakázaná, protože překročila nastavenou kvótu. Pokud ji chcete změnit, dá se to provést v zobrazení nastavení aplikace Function App na levém bočním panelu.</value>
+    <value>Vaše aplikace funkcí je zakázaná, protože překročila nastavenou kvótu. Pokud ji chcete změnit, dá se to provést v zobrazení nastavení aplikace funkcí na levém bočním panelu.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Vaše aplikace je zastavená. Dokud se nespustí, nemůžete používat portál funkcí. Změnit se to dá tak, že přejdete na zobrazení nastavení aplikace Function App na levém bočním panelu a pak na okno nastavení App Service.</value>
+    <value>Vaše aplikace je zastavená. Dokud se nespustí, nemůžete používat portál funkcí. Změnit se to dá tak, že přejdete na zobrazení nastavení aplikace funkcí na levém bočním panelu a pak na okno nastavení App Service.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>Pro přístup k této Function App nemáte dostatečná oprávnění. Přesto ale může být pro vás viditelné základní nastavení v okně nastavení App Service, do kterého můžete přejít z odkazu na nastavení Function App na levém postranním panelu.</value>
+    <value>Pro přístup k této aplikaci funkcí nemáte dostatečná oprávnění. Přesto ale může být pro vás viditelné základní nastavení v okně nastavení App Service, do kterého můžete přejít z odkazu na nastavení aplikace funkcí na levém postranním panelu.</value>
   </data>
   <data name="errorUniqueParameterName" xml:space="preserve">
     <value>Název parametru musí být jedinečný.</value>
@@ -1067,7 +1067,7 @@
     <value>Vybrané metody</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Nastavení aplikace Function App</value>
+    <value>Nastavení aplikace funkcí</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
     <value>V tuto chvíli jste připnutí k této verzi modulu runtime: {{exactExtensionVersion}}. Pokud se chcete odepnout a použít nejnovější verzi ({{latestExtensionVersion}}), můžete provést aktualizaci.</value>
@@ -1175,7 +1175,7 @@
     <value>Nová funkce</value>
   </data>
   <data name="functionApps" xml:space="preserve">
-    <value>Aplikace Function App</value>
+    <value>Aplikace funkcí</value>
   </data>
   <data name="stop" xml:space="preserve">
     <value>Zastavit</value>
@@ -1796,7 +1796,7 @@
     <value>Nastavení</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Nastavení Function App</value>
+    <value>Nastavení aplikace funkcí</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>Konfigurace</value>
@@ -1808,7 +1808,7 @@
     <value>Nastavení aplikace</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
-    <value>Pro tuto zkušební verzi není správa aplikace Function App k dispozici.</value>
+    <value>Pro tuto zkušební verzi není správa aplikace funkcí k dispozici.</value>
   </data>
   <data name="template" xml:space="preserve">
     <value>Šablona</value>
@@ -1856,7 +1856,7 @@
     <value>Možnosti</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
-    <value>Nedaří se nám získat přístup k nastavením Azure pro vaši aplikaci Function App.</value>
+    <value>Nedaří se nám získat přístup k nastavením Azure pro vaši aplikaci funkcí.</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
     <value>Nejdříve se ujistěte, že máte patřičný přístup k prostředku {0}. Pokud ho máte, zkuste aktualizovat portál, aby se obnovil ověřovací token.</value>
@@ -1868,16 +1868,16 @@
     <value>Zadejte do nastavení aplikace platný připojovací řetězec úložiště.</value>
   </data>
   <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
-    <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Toto nastavení obsahuje připojovací řetězec pro účet Azure Storage, ve kterém se hostuje obsah funkcí. Bez tohoto nastavení vaše aplikace nebude vůbec fungovat. Pokud už k hodnotě daného nastavení aplikace nemáte přístup, budete možná muset tuto aplikaci Function App odstranit a znovu vytvořit.</value>
+    <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Toto nastavení obsahuje připojovací řetězec pro účet Azure Storage, ve kterém se hostuje obsah funkcí. Bez tohoto nastavení vaše aplikace nebude vůbec fungovat. Pokud už k hodnotě daného nastavení aplikace nemáte přístup, budete možná muset tuto aplikaci funkcí odstranit a znovu vytvořit.</value>
   </data>
   <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
-    <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Toto nastavení obsahuje název sdílené složky, která uchovává obsah vaší funkce. Bez toho nastavení aplikace nebude vůbec fungovat. Pokud už k hodnotě daného nastavení aplikace nemáte přístup, budete možná muset tuto aplikaci Function App odstranit a znovu vytvořit.</value>
+    <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Toto nastavení obsahuje název sdílené složky, která uchovává obsah vaší funkce. Bez toho nastavení aplikace nebude vůbec fungovat. Pokud už k hodnotě daného nastavení aplikace nemáte přístup, budete možná muset tuto aplikaci funkcí odstranit a znovu vytvořit.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
     <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Toto nastavení obsahuje připojovací řetězec k účtu Azure Storage, který je nezbytný pro zobrazení monitorování vašich funkcí. Je to místo, kde se data volání agregují a zobrazují v zobrazení monitorování. Vaše zobrazení monitorování nemusí fungovat správně.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
-    <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Toto nastavení obsahuje připojovací řetězec pro účet Azure Storage, bez kterého modul runtime funkcí nemůže zpracovat synchronizaci několika instancí, protokolovat výsledky volání a provádět další úlohy infrastruktury. Bez tohoto nastavení vaše aplikace Function App nebude správně fungovat.</value>
+    <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Toto nastavení obsahuje připojovací řetězec pro účet Azure Storage, bez kterého modul runtime funkcí nemůže zpracovat synchronizaci několika instancí, protokolovat výsledky volání a provádět další úlohy infrastruktury. Bez tohoto nastavení vaše aplikace funkcí nebude správně fungovat.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
     <value>Vytvořte nastavení aplikace s platným připojovacím řetězcem úložiště.</value>
@@ -1886,37 +1886,37 @@
     <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Bez tohoto nastavení budete vždycky spouštět nejnovější verzi modulu runtime, i když se aktualizuje hlavní verze, která může obsahovat rozbíjející změny. Doporučuje se nastavit tuto hodnotu na aktuální poslední hlavní verzi (~1). O nových verzích, na které můžete aktualizovat, dostanete oznámení.</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
-    <value>Připojovací řetězec účtu Azure Storage uložený v {0} je null nebo prázdný. Řetězec je nezbytný, aby vaše aplikace Function App fungovala.</value>
+    <value>Připojovací řetězec účtu Azure Storage uložený v {0} je null nebo prázdný. Řetězec je nezbytný, aby vaše aplikace funkcí fungovala.</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
     <value>Zadejte do nastavení aplikace platný připojovací řetězec úložiště.</value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
-    <value>Účet úložiště {0} neexistuje. Když odstraníte účet úložiště, který používá aplikace Function App, přestane tato aplikace fungovat. </value>
+    <value>Účet úložiště {0} neexistuje. Když odstraníte účet úložiště, který používá aplikace funkcí, přestane tato aplikace fungovat. </value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
     <value>Zadejte do nastavení aplikace platný existující připojovací řetězec úložiště.</value>
   </data>
   <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
-    <value>Účet úložiště {0} nepodporuje Azure Queue Storage. Fronty jsou nezbytné, aby modul runtime funkcí mohl správně fungovat. Budete muset odstranit a znovu vytvořit aplikaci Function App pomocí účtu úložiště, který podporuje Azure Queue Storage.</value>
+    <value>Účet úložiště {0} nepodporuje Azure Queue Storage. Fronty jsou nezbytné, aby modul runtime funkcí mohl správně fungovat. Budete muset odstranit a znovu vytvořit aplikaci funkcí pomocí účtu úložiště, který podporuje Azure Queue Storage.</value>
   </data>
   <data name="backend_error_UnexpectedArmError" xml:space="preserve">
-    <value>Vypadá to, že při dotazování back-endu Azure na vaši aplikaci Function App dochází k problému.</value>
+    <value>Vypadá to, že při dotazování back-endu Azure na vaši aplikaci funkcí dochází k problému.</value>
   </data>
   <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
-    <value>Vypadá to, že při dotazování back-endu Azure na vaši aplikaci Function App dochází k problému.</value>
+    <value>Vypadá to, že při dotazování back-endu Azure na vaši aplikaci funkcí dochází k problému.</value>
   </data>
   <data name="error_shareCodeWithSupport" xml:space="preserve">
     <value>Pokud se problém nevyřeší, obraťte se na podporu s následujícím kódem: {{code}}</value>
   </data>
   <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
-    <value>Nedokážeme načíst seznam funkcí této aplikace Function App.</value>
+    <value>Nedokážeme načíst seznam funkcí této aplikace funkcí.</value>
   </data>
   <data name="error_unableToCreateFunction" xml:space="preserve">
     <value>Nedokážeme vytvořit funkci {{functionName}}. Zkuste to prosím znovu později.</value>
   </data>
   <data name="error_unableToDecryptKeys" xml:space="preserve">
-    <value>Nedokážeme dešifrovat přístupové klíče vaší funkce. To se může stát, když odstraníte a znovu vytvoříte aplikaci se stejným názvem nebo když zkopírujete klíče z jiné aplikace Function App. Tento problém můžete zkusit opravit tímto postupem: https://go.microsoft.com/fwlink/?linkid=844094</value>
+    <value>Nedokážeme dešifrovat přístupové klíče vaší funkce. To se může stát, když odstraníte a znovu vytvoříte aplikaci se stejným názvem nebo když zkopírujete klíče z jiné aplikace funkcí. Tento problém můžete zkusit opravit tímto postupem: https://go.microsoft.com/fwlink/?linkid=844094</value>
   </data>
   <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
     <value>Nedokážeme odstranit soubor {{fileName}}. Zkuste to prosím znovu později.</value>
@@ -2096,10 +2096,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Application Insights</value>
   </data>
   <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
-    <value>Umožňuje změnit režim úprav dané Function App.</value>
+    <value>Umožňuje změnit režim úprav dané aplikace funkcí.</value>
   </data>
   <data name="appFunctionSettings_editMode" xml:space="preserve">
-    <value>Režim úprav pro Function App</value>
+    <value>Režim úprav pro aplikaci funkcí</value>
   </data>
   <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
     <value>Jen pro čtení</value>
@@ -2147,7 +2147,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Název slotu {0} je název rezervovaný pro slot nasazení.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
-    <value>Nedokážeme aktualizovat režim úprav dané Function App. Zkuste to prosím později.</value>
+    <value>Nedokážeme aktualizovat režim úprav dané aplikace funkcí. Zkuste to prosím později.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
     <value>Vaše aplikace se v tuto chvíli nachází v režimu jen pro čtení, protože se tak ručně nastavila. Pokud chcete režim úprav změnit, navštivte </value>
@@ -2198,7 +2198,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Koncový bod</value>
   </data>
   <data name="emptyBrowse_title" xml:space="preserve">
-    <value>Nejsou k dispozici žádné aplikace Function App, které by se daly zobrazit</value>
+    <value>Nejsou k dispozici žádné aplikace funkcí, které by se daly zobrazit</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Povolí sloty nasazení (Preview).</value>
@@ -2240,7 +2240,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Vytvořit nový slot nasazení</value>
   </data>
   <data name="slotNew_desc" xml:space="preserve">
-    <value>Sloty nasazení umožňují nasazovat různé verze aplikace Function App na různé adresy URL. Můžete otestovat určitou verzi a pak mezi sloty přepnout obsah a konfiguraci.</value>
+    <value>Sloty nasazení umožňují nasazovat různé verze aplikace funkcí na různé adresy URL. Můžete otestovat určitou verzi a pak mezi sloty přepnout obsah a konfiguraci.</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
     <value>Vytváří se nový slot {0} </value>
@@ -2261,7 +2261,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Upgradujte prosím svůj plán.</value>
   </data>
   <data name="slotNew_noAccess" xml:space="preserve">
-    <value>K vytvoření slotu nemáte přístup. Ujistěte se prosím, že pro aplikaci Function App máte správný přístup RBAC a že nejsou povolené zámky pro čtení.</value>
+    <value>K vytvoření slotu nemáte přístup. Ujistěte se prosím, že pro aplikaci funkcí máte správný přístup RBAC a že nejsou povolené zámky pro čtení.</value>
   </data>
   <data name="slots_upgrade" xml:space="preserve">
     <value>Pokud chcete přidat sloty, upgradujte na plán Standard nebo Premium.</value>
@@ -2366,7 +2366,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Ověření schématu proxies.json neproběhlo úspěšně. Chyba: {0}</value>
   </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-    <value>V plánu Consumption můžete omezit využití platformy tak, že nastavíte denní kvótu využití v gigabajtech za sekundu. Jakmile se denní kvóta využití naplní, aplikace Function App se zastaví a zůstane zastavená do 0:00 UTC dalšího dne.</value>
+    <value>V plánu Consumption můžete omezit využití platformy tak, že nastavíte denní kvótu využití v gigabajtech za sekundu. Jakmile se denní kvóta využití naplní, aplikace funkcí se zastaví a zůstane zastavená do 0:00 UTC dalšího dne.</value>
   </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
     <value>(zásady centra)</value>
@@ -2792,7 +2792,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>skrýt hodnotu</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>V nastavení aplikace je instrumentační klíč služby App Insights, ale v předplatném aplikace Function App se služba App Insights nenašla. Ujistěte se prosím, že vaše služba App Insights je umístěná ve stejném předplatném jako aplikace Function App.</value>
+    <value>V nastavení aplikace je instrumentační klíč služby App Insights, ale v předplatném aplikace funkcí se služba App Insights nenašla. Ujistěte se prosím, že vaše služba App Insights je umístěná ve stejném předplatném jako aplikace funkcí.</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>Začátek řádku</value>
@@ -3220,8 +3220,8 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/měsíc (odhad)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/měsíc (odhad)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>{0} {1}/měsíc – základní (odhad)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Pokud chcete přidat další prostředky pro svůj plán, zvolte jinou cenovou úroveň.</value>
@@ -3293,7 +3293,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Vysoká hustota</value>
   </data>
   <data name="pricing_highDensityDesc" xml:space="preserve">
-    <value>Plán služby App Service můžete efektivně sdílet s několika aplikacemi Function App.</value>
+    <value>Plán služby App Service můžete efektivně sdílet s několika aplikacemi funkcí.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>Přípravné sloty</value>
@@ -3384,6 +3384,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Instance Application Insights</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Metriky živé aplikace</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Pokud chcete zobrazit metriky a protokoly živé aplikace, přejděte do části pro monitorování této funkce.</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -4134,10 +4140,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>~2 (Preview)</value>
   </data>
   <data name="functionAppRuntimeStackTitle" xml:space="preserve">
-    <value>Zásobník modulu runtime aplikace Function App</value>
+    <value>Zásobník modulu runtime aplikace funkcí</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>Aplikace Function App v2 teď používají jeden jazyk. Než do své aplikace přidáte funkce, nastavte prosím zásobník modulu runtime.</value>
+    <value>Aplikace funkcí v2 teď používají jeden jazyk. Než do své aplikace přidáte funkce, nastavte prosím zásobník modulu runtime.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>Zásobník modulu runtime funkce</value>
@@ -4212,10 +4218,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Dokončit a přejít na Deployment Center</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Úprava funkcí na portálu se pro Function Apps s plánem Využití v Linuxu nepodporuje.</value>
+    <value>Úprava funkcí na portálu se pro aplikace funkcí s plánem Využití v Linuxu nepodporuje.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Úprava funkcí na portálu se pro Function Apps (Preview) s plánem Premium v Linuxu nepodporuje.</value>
+    <value>Úprava funkcí na portálu se pro aplikace funkcí (Preview) s plánem Premium v Linuxu nepodporuje.</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Single Container (Preview)</value>
@@ -4248,10 +4254,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Statická webová stránka HTML načtená z webového serveru Nginx</value>
   </data>
   <data name="singleContainerSample1TitleWindows" xml:space="preserve">
-    <value>Webové formuláře ASP.NET</value>
+    <value>ASP.NET Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Aplikace webových formulářů ASP.NET nasazená do kontejneru Windows Server Core 2019 LTSC</value>
+    <value>Aplikace ASP.NET Web Forms nasazená do kontejneru Windows Server Core 2019 LTSC</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask s Redisem</value>
@@ -4326,7 +4332,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Osobní</value>
   </data>
   <data name="swaggerDefinitionReadOnly" xml:space="preserve">
-    <value>Definice rozhraní API (Swagger) není k dispozici pro aplikace Function App v režimu jen pro čtení.</value>
+    <value>Definice rozhraní API (Swagger) není k dispozici pro aplikace funkcí v režimu jen pro čtení.</value>
   </data>
   <data name="troubleshootYourApp" xml:space="preserve">
     <value>Řešit problémy s aplikací</value>
@@ -4749,7 +4755,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Karta Logic Apps se během několika příštích měsíců odebere. Své aplikace Logic Apps můžete i nadále procházet pomocí funkce Procházet na portálu Azure Portal.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>Tato funkce je k dispozici jen pro aplikace Function App spuštěné v linuxovém plánu služby App Service. Pokud chcete protokolovat modul runtime, použijte prosím Application Insights.</value>
+    <value>Tato funkce je k dispozici jen pro aplikace funkcí spuštěné v linuxovém plánu služby App Service. Pokud chcete protokolovat modul runtime, použijte prosím Application Insights.</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>Horizontálně navýšit kapacitu</value>
@@ -4809,7 +4815,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Úprava funkcí na portálu se pro Python Function Apps nepodporuje. Pro vývoj prosím použijte rozhraní příkazového řádku nebo nástroj VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Další informace&lt;/a&gt;</value>
+    <value>Úprava funkcí na portálu se pro aplikace funkcí pro Python nepodporuje. Pro vývoj prosím použijte rozhraní příkazového řádku nebo nástroj VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Další informace&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Připojení Azure Storage obsahují tajné kódy. K zobrazení nebo úpravám tohoto oddílu se vyžadují oprávnění pro čtení a zápis.</value>
@@ -4954,7 +4960,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Filtrovat připojovací řetězce</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
-    <value>Úprava funkcí na portálu se pro Java Function Apps nepodporuje. Pro vývoj prosím použijte Maven nebo nástroj VS Code.</value>
+    <value>Úprava funkcí na portálu se pro aplikace funkcí pro Javu nepodporuje. Pro vývoj prosím použijte Maven nebo nástroj VS Code.</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
     <value>Cesta k pracovnímu adresáři by měla být relativní vzhledem ke kořenu úložiště a nemůže začínat znaky /, \ ani, v případě Windows, názvy jednotek (C:/). Pokud se pracovní adresář nachází ve složce úložiště src, cesta by měla být src/.</value>
@@ -5111,5 +5117,8 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>Vyhledat podle názvu šablony</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>Vytvořit funkci</value>
   </data>
 </root>

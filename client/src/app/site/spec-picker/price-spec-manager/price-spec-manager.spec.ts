@@ -241,7 +241,8 @@ class MockPriceSpec extends PriceSpec {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: 700,
         resourceId: null,
       },
     ],
