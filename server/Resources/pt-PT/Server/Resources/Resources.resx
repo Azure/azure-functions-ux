@@ -875,7 +875,7 @@
     <value>Ver apenas opções recomendadas</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
-    <value>Uma ou mais aplicações de função foram ligadas a esta conta de armazenamento. Pode visualizar todas as aplicações de função ligadas à conta em "ficheiros" ou "Partilhas".</value>
+    <value>Uma ou mais aplicações de funções foram ligadas a esta conta de armazenamento. Pode visualizar todas as aplicações de funções ligadas à conta em "ficheiros" ou "Partilhas".</value>
   </data>
   <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
     <value>Um Ficheiro com o nome {{fileName}} já existe.</value>
@@ -1013,10 +1013,10 @@
     <value>personalizado</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>A sua Function App está desativada porque tem excedeu a quota do conjunto. Pode alterá-la a partir da vista de definições de aplicação de função na barra do lado esquerdo.</value>
+    <value>A sua Function App está desativada porque tem excedeu a quota do conjunto. Pode alterá-la a partir da vista de definições de aplicação de funções na barra do lado esquerdo.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>A sua Function App está parada. Não é possível utilizar o portal de funções quando a aplicação está parada. Pode alterar na vista de definições de aplicação de função na barra do lado esquerdo e, em seguida, ir ao painel de definições do serviço de aplicação.</value>
+    <value>A sua Function App está parada. Não é possível utilizar o portal de funções quando a aplicação está parada. Pode alterar na vista de definições de aplicação de funções na barra do lado esquerdo e, em seguida, ir ao painel de definições do serviço de aplicação.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
     <value>Não tem permissões suficientes para aceder a esta Function App. Pode ainda conseguir ver as definições básicas no painel das definições do serviço de aplicações ao qual pode aceder a partir do link das definições da Function App na barra lateral esquerda.</value>
@@ -1808,7 +1808,7 @@
     <value>Definições da aplicação</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
-    <value>Gerir a aplicação de Função não está disponível para esta versão de avaliação.</value>
+    <value>Gerir a aplicação de funções não está disponível para esta versão de avaliação.</value>
   </data>
   <data name="template" xml:space="preserve">
     <value>Modelo</value>
@@ -1856,7 +1856,7 @@
     <value>Opções</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
-    <value>Não é possível aceder às definições do Azure para a aplicação de função.</value>
+    <value>Não é possível aceder às definições do Azure para a aplicação de funções.</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
     <value>Certifique-se primeiro de que tem o acesso adequado ao recurso do Azure {0}. Se não tiver, tente atualizar o portal para renovar o token de autenticação.</value>
@@ -1868,16 +1868,16 @@
     <value>Atualize a definição de aplicação com uma cadeia de ligação de armazenamento válida.</value>
   </data>
   <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
-    <value>A definição de aplicação "{0}" está em falta na aplicação. Esta definição contém uma cadeia de ligação para uma conta do Azure Storage que é utilizada para alojar conteúdo de funções. A sua aplicação vai ficar completamente quebrada sem esta definição. Pode ter de eliminar e recriar esta aplicação de função se já não tiver acesso ao valor dessa definição de aplicação.</value>
+    <value>A definição de aplicação "{0}" está em falta na aplicação. Esta definição contém uma cadeia de ligação para uma conta do Azure Storage que é utilizada para alojar conteúdo de funções. A sua aplicação vai ficar completamente quebrada sem esta definição. Pode ter de eliminar e recriar esta aplicação de funções se já não tiver acesso ao valor dessa definição de aplicação.</value>
   </data>
   <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
-    <value>A definição de aplicação "{0}" está em falta na aplicação. Esta definição contém um nome partilhado onde reside o conteúdo da função. A sua aplicação vai ficar completamente quebrada sem esta definição. Pode ter de eliminar e recriar esta aplicação de função se já não tiver acesso ao valor dessa definição de aplicação.</value>
+    <value>A definição de aplicação "{0}" está em falta na aplicação. Esta definição contém um nome partilhado onde reside o conteúdo da função. A sua aplicação vai ficar completamente quebrada sem esta definição. Pode ter de eliminar e recriar esta aplicação de funções se já não tiver acesso ao valor dessa definição de aplicação.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
     <value>A definição de aplicação "{0}" está em falta na aplicação. Esta definição contém uma cadeia de ligação para uma conta do Azure Storage que é necessária para vista de monitorização das suas funções. Isto é onde os dados invocados são agregados e, em seguida, apresentados na vista de monitorização. A vista de monitorização pode estar quebrada.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
-    <value>A definição de aplicação "{0}" está em falta na aplicação. Esta definição contém uma cadeia de ligação para uma conta do Azure Storage que é necessária para o runtime das funções para processar a sincronização de várias instâncias, resultados de invocação de registo e outras tarefas de infraestrutura. A sua aplicação de função não vai funcionar corretamente sem esta definição.</value>
+    <value>A definição de aplicação "{0}" está em falta na aplicação. Esta definição contém uma cadeia de ligação para uma conta do Azure Storage que é necessária para o runtime das funções para processar a sincronização de várias instâncias, resultados de invocação de registo e outras tarefas de infraestrutura. A sua aplicação de funções não vai funcionar corretamente sem esta definição.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
     <value>Crie a definição de aplicação com uma cadeia de ligação de armazenamento válida.</value>
@@ -1886,37 +1886,37 @@
     <value>A definição de aplicação "{0}" está em falta na aplicação. Sem esta definição vai executar sempre a versão mais recente do runtime mesmo através de atualizações de versão principal que podem conter alterações de última hora. É recomendado que defina o valor para a versão principal mais recente atual (~1) e vai ser notificado com versões mais recentes para atualização.</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
-    <value>A cadeia de ligação da conta do Azure Storage "{0}" é nula ou está vazia. Isto é necessário para que a aplicação de função funcione.</value>
+    <value>A cadeia de ligação da conta do Azure Storage "{0}" é nula ou está vazia. Isto é necessário para que a aplicação de funções funcione.</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
     <value>Atualize a definição de aplicação com uma cadeia de ligação de armazenamento válida.</value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
-    <value>A conta de armazenamento {0} não existe. Eliminar a conta de armazenamento que a aplicação de função está a utilizar vai fazer com que ela deixe de funcionar. </value>
+    <value>A conta de armazenamento {0} não existe. Eliminar a conta de armazenamento que a aplicação de funções está a utilizar vai fazer com que ela deixe de funcionar. </value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
     <value>Atualize a definição de aplicação com uma cadeia de ligação de armazenamento existente válida.</value>
   </data>
   <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
-    <value>A conta de armazenamento {0} não suporta o Armazenamento de Filas do Azure. O runtime de funções requer que as filas funcionem corretamente. Vai ter de eliminar e recriar a aplicação de função com uma conta de armazenamento que suporte o Armazenamento de Filas do Azure.</value>
+    <value>A conta de armazenamento {0} não suporta o Armazenamento de Filas do Azure. O runtime de funções requer que as filas funcionem corretamente. Vai ter de eliminar e recriar a aplicação de funções com uma conta de armazenamento que suporte o Armazenamento de Filas do Azure.</value>
   </data>
   <data name="backend_error_UnexpectedArmError" xml:space="preserve">
-    <value>Parece que há um problema ao consultar o back-end do Azure para a aplicação de função.</value>
+    <value>Parece que há um problema ao consultar o back-end do Azure para a aplicação de funções.</value>
   </data>
   <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
-    <value>Parece que há um problema ao consultar o back-end do Azure para a aplicação de função.</value>
+    <value>Parece que há um problema ao consultar o back-end do Azure para a aplicação de funções.</value>
   </data>
   <data name="error_shareCodeWithSupport" xml:space="preserve">
     <value>Se o problema persistir, contacte o suporte com o seguinte código {{code}}</value>
   </data>
   <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
-    <value>Não é possível obter a lista de funções para esta aplicação de função.</value>
+    <value>Não é possível obter a lista de funções para esta aplicação de funções.</value>
   </data>
   <data name="error_unableToCreateFunction" xml:space="preserve">
     <value>Não é possível criar a função {{functionName}}. Tente novamente mais tarde.</value>
   </data>
   <data name="error_unableToDecryptKeys" xml:space="preserve">
-    <value>Não é possível desencriptar as chaves de acesso de função. Isto pode acontecer se eliminar e recriar a aplicação com o mesmo nome ou se copiar as chaves de uma aplicação de função diferente. Pode tentar seguir os passos aqui para corrigir o problema Seguir os passos aqui https://go.microsoft.com/fwlink/?linkid=844094</value>
+    <value>Não é possível desencriptar as chaves de acesso de função. Isto pode acontecer se eliminar e recriar a aplicação com o mesmo nome ou se copiar as chaves de uma aplicação de funções diferente. Pode tentar seguir os passos aqui para corrigir o problema Seguir os passos aqui https://go.microsoft.com/fwlink/?linkid=844094</value>
   </data>
   <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
     <value>Não é possível eliminar o ficheiro {{fileName}}. Tente novamente mais tarde.</value>
@@ -2096,10 +2096,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Application Insights</value>
   </data>
   <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
-    <value>Alterar o modo de edição da aplicação de função</value>
+    <value>Alterar o modo de edição da aplicação de funções</value>
   </data>
   <data name="appFunctionSettings_editMode" xml:space="preserve">
-    <value>Modo de edição da aplicação de função</value>
+    <value>Modo de edição da aplicação de funções</value>
   </data>
   <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
     <value>Só de Leitura</value>
@@ -2147,7 +2147,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>O nome do bloco "{0}" é um nome de bloco de implementação reservado.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
-    <value>Não foi possível atualizar o modo de edição da aplicação de função. Tente novamente mais tarde.</value>
+    <value>Não foi possível atualizar o modo de edição da aplicação de funções. Tente novamente mais tarde.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
     <value>A sua aplicação está no modo só de leitura atualmente, porque foi definida só de leitura manualmente. Para alterar o modo de edição, visite </value>
@@ -2198,7 +2198,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Ponto final</value>
   </data>
   <data name="emptyBrowse_title" xml:space="preserve">
-    <value>Não existem aplicações de função para apresentar</value>
+    <value>Não existem aplicações de funções para apresentar</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Ativar ranhuras de implementação (pré-visualização).</value>
@@ -2240,7 +2240,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Criar nova ranhura de implementação</value>
   </data>
   <data name="slotNew_desc" xml:space="preserve">
-    <value>As ranhuras de implementação permitem-lhe implementar versões diferentes da aplicação de função para URLs diferentes. Pode testar uma determinada versão e, em seguida, mudar o conteúdo e a configuração entre ranhuras.</value>
+    <value>As ranhuras de implementação permitem-lhe implementar versões diferentes da aplicação de funções para URLs diferentes. Pode testar uma determinada versão e, em seguida, mudar o conteúdo e a configuração entre ranhuras.</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
     <value>A criar nova ranhura "{0}"</value>
@@ -2261,7 +2261,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Atualize o seu plano.</value>
   </data>
   <data name="slotNew_noAccess" xml:space="preserve">
-    <value>Não existe acesso para criar uma ranhura. Certifique-se de que tem o acesso de RBAC correto para a aplicação de função e também que não tem os bloqueios de leitura ativados.</value>
+    <value>Não existe acesso para criar uma ranhura. Certifique-se de que tem o acesso de RBAC correto para a aplicação de funções e também que não tem os bloqueios de leitura ativados.</value>
   </data>
   <data name="slots_upgrade" xml:space="preserve">
     <value>Atualize para um plano standard ou premium para adicionar ranhuras.</value>
@@ -2309,7 +2309,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Para uma melhor experiência de monitorização, incluindo métricas dinâmicas e consultas personalizadas:</value>
   </data>
   <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
-    <value>configurar o Application Insights para a sua aplicação de função</value>
+    <value>configurar o Application Insights para a sua aplicação de funções</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Este valor será anexado ao URL da principal aplicação Web e funcionará como endereço público da ranhura. Por exemplo, se tiver uma aplicação Web com o nome "contoso" e uma ranhura denominada "testes", a nova ranhura terá um URL como o que se segue: "http://contoso-staging.azurewebsites.net".</value>
@@ -2792,7 +2792,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>ocultar valor</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>A chave de instrumentação do Application Insights é apresentada nas definições da aplicação mas o Application Insights não foi encontrado na subscrição da Aplicação de Função. Certifique-se que o Application Insights está localizado na mesma subscrição da Aplicação de Função.</value>
+    <value>A chave de instrumentação do Application Insights é apresentada nas definições da aplicação mas o Application Insights não foi encontrado na subscrição da aplicação de funções. Certifique-se que o Application Insights está localizado na mesma subscrição da aplicação de funções.</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>Início da linha</value>
@@ -2804,7 +2804,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Não é possível Atualizar com as Funções Existentes</value>
   </data>
   <data name="appFunctionSettings_warning_7" xml:space="preserve">
-    <value>As atualizações das versões principais podem introduzir alterações de última hora a idiomas e enlaces. Ao atualizar as versões principais do runtime, considere a criação de uma nova aplicação de função e migre as funções para esta nova aplicação.</value>
+    <value>As atualizações das versões principais podem introduzir alterações de última hora a idiomas e enlaces. Ao atualizar as versões principais do runtime, considere a criação de uma nova aplicação de funções e migre as funções para esta nova aplicação.</value>
   </data>
   <data name="warning" xml:space="preserve">
     <value>Aviso</value>
@@ -3220,8 +3220,8 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/Mês (Estimado)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/Mês (Estimado)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>{0} {1}/Linha de Base do Mês (Estimada)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Escolha um escalão de preço diferente para adicionar mais recursos ao seu plano</value>
@@ -3263,7 +3263,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Escala rápida</value>
   </data>
   <data name="pricing_rapidScaleDesc" xml:space="preserve">
-    <value>Expandir as aplicações de função com base no acionador de eventos.</value>
+    <value>Expandir as aplicações de funções com base no acionador de eventos.</value>
   </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Dimensionamento automático</value>
@@ -3384,6 +3384,12 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Instância do Application Insights</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Métricas da aplicação em tempo real</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Navegue para a secção "Monitorizar" nesta função para ver as suas métricas e registos da aplicação em tempo real</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -3705,7 +3711,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Equivalente de computação de série Dv3</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>As cadeias de ligação só podem ser utilizadas com uma aplicação de função se estiver a utilizar o enquadramento de entidades. Para outros cenários, utilize as Definições da Aplicação.</value>
+    <value>As cadeias de ligação só podem ser utilizadas com uma aplicação de funções se estiver a utilizar o enquadramento de entidades. Para outros cenários, utilize as Definições da Aplicação.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Versão de Runtime: a carregar...</value>
@@ -3801,7 +3807,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Armazenamento baseado em SSD local para alojar contentores e armazenamento em disco {0} opcional partilhados por todas as aplicações implementadas no Plano do Serviço de Aplicações.</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
-    <value>Nome da aplicação de função</value>
+    <value>Nome da aplicação de funções</value>
   </data>
   <data name="languageAria" xml:space="preserve">
     <value>Linguagem de programação de funções</value>
@@ -3996,7 +4002,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Uma função que será executada numa agenda especificada</value>
   </data>
   <data name="quickstartMessage1" xml:space="preserve">
-    <value>Criou uma aplicação de função!</value>
+    <value>Criou uma aplicação de funções!</value>
   </data>
   <data name="quickstartMessage2" xml:space="preserve">
     <value>Está na altura de adicionar o seu código...</value>
@@ -4134,7 +4140,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>~2 (Pré-visualização)</value>
   </data>
   <data name="functionAppRuntimeStackTitle" xml:space="preserve">
-    <value>Pilha de runtime da Aplicação de Função</value>
+    <value>Pilha de runtime da aplicação de funções</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
     <value>As Function Apps v2 estão agora na mesma linguagem. Defina a pilha de runtime antes de adicionar funções à sua aplicação.</value>
@@ -4182,7 +4188,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>As funções baseadas em Kubernetes não são atualmente suportadas.</value>
   </data>
   <data name="readOnlyBYOC" xml:space="preserve">
-    <value>Editar funções no portal não é suportado para aplicações de função implementadas como uma imagem de docker.</value>
+    <value>Editar funções no portal não é suportado para aplicações de funções implementadas como uma imagem de docker.</value>
   </data>
   <data name="failedToGetContainerConfigData" xml:space="preserve">
     <value>Falha ao obter os dados de configuração do contentor.</value>
@@ -4224,7 +4230,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Mais modelos...</value>
   </data>
   <data name="moreTemplatesDescription" xml:space="preserve">
-    <value>Ver todos os modelos disponíveis para esta função de aplicação</value>
+    <value>Ver todos os modelos disponíveis para esta aplicação de funções</value>
   </data>
   <data name="moreTemplatesButton" xml:space="preserve">
     <value>Concluir e ver os modelos</value>
@@ -4707,13 +4713,13 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Para alterar a definição de troca automática, tem de ter permissões de escrita na aplicação de produção.</value>
   </data>
   <data name="scriptFunctionApp" xml:space="preserve">
-    <value>Aplicação de Função de script</value>
+    <value>aplicação de funções de script</value>
   </data>
   <data name="precompiledDotNetApp" xml:space="preserve">
-    <value>Aplicação de Função .NET pré-compilada</value>
+    <value>aplicação de funções .NET pré-compilada</value>
   </data>
   <data name="functionAppType" xml:space="preserve">
-    <value>Tipo de Aplicação de Função</value>
+    <value>Tipo de aplicação de funções</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
     <value>Definição do Bloco de Implementação Ativada</value>
@@ -5098,10 +5104,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Nova Função</value>
   </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-    <value>Create a new function in this Function App. You can start by selecting from a template below or </value>
+    <value>Crie uma nova função nesta Aplicação de Funções. Pode começar por selecionar um modelo abaixo ou </value>
   </data>
   <data name="functionCreate_goToQuickstart" xml:space="preserve">
-    <value>go to the quickstart.</value>
+    <value>vá para o início rápido.</value>
   </data>
   <data name="functionCreate_templates" xml:space="preserve">
     <value>Modelos</value>
@@ -5110,6 +5116,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Detalhes</value>
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
-    <value>Search by template name</value>
+    <value>Pesquisar por nome do modelo</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>Criar Função</value>
   </data>
 </root>

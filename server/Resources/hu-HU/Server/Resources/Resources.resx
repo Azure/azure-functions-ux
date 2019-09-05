@@ -3220,8 +3220,8 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/hónap (becsült díj)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/hónap (becsült díj)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>Alapdíj: {0} {1}/hónap (becsült)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>További erőforrások hozzáadásához válasszon másik tarifacsomagot</value>
@@ -3384,6 +3384,12 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Application Insights-példány</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Élő alkalmazások metrikái</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Az élő alkalmazások metrikáinak és naplóinak megtekintéséhez navigáljon a funkció Figyelő szakaszához</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -5111,5 +5117,8 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>Keresés sablonnév alapján</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>Függvény létrehozása</value>
   </data>
 </root>

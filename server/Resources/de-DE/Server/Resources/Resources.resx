@@ -220,19 +220,19 @@
     <value>Erstellen und erste Schritte durchführen</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Funktionen-Apps</value>
+    <value>Funktions-Apps</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
     <value>Erste Schritte mit Azure Functions</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>Neue Funktionen-App</value>
+    <value>Neue Funktions-App</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>Ihr Abonnement enthält keine Funktionen-Apps. Hierbei handelt es sich um Container, in denen Ihre Funktionen ausgeführt werden. Erstellen Sie jetzt eine App.</value>
+    <value>Ihr Abonnement enthält keine Funktions-Apps. Hierbei handelt es sich um Container, in denen Ihre Funktionen ausgeführt werden. Erstellen Sie jetzt eine App.</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>Oder erstellen Sie eine Funktionen-App über das &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure-Portal&lt;/a&gt;.</value>
+    <value>Oder erstellen Sie eine Funktions-App über das &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure-Portal&lt;/a&gt;.</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
     <value>Standort auswählen</value>
@@ -244,7 +244,7 @@
     <value>Das Abonnement "{{displayName}}" ({{ subscriptionId }}) ist für die Ausführung von Funktionen nicht freigegeben.</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>Dieses Abonnement enthält mindestens eine Funktionen-App. Hierbei handelt es sich um Container, in denen Ihre Funktionen ausgeführt werden. Wählen Sie eine aus, oder erstellen Sie unten eine neue.</value>
+    <value>Dieses Abonnement enthält mindestens eine Funktions-App. Hierbei handelt es sich um Container, in denen Ihre Funktionen ausgeführt werden. Wählen Sie eine aus, oder erstellen Sie unten eine neue.</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
     <value>Der Name muss mindestens 2 Zeichen lang sein.</value>
@@ -256,19 +256,19 @@
     <value>Der Name darf Buchstaben, Ziffern und Bindestriche enthalten (wobei das erste und letzte Zeichen ein Buchstabe oder eine Ziffer sein müssen).</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>Der Name der Funktionen-App, {{funcName}}, ist nicht verfügbar.</value>
+    <value>Der Name der Funktions-App, {{funcName}}, ist nicht verfügbar.</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
     <value>Sie benötigen ein Azure-Abonnement, um diesen Dienst zu verwenden. &lt;a href="https://azure.microsoft.com/de-de/free/"&gt;Klicken Sie hier&lt;/a&gt;, um ein kostenloses Testabonnement zu erstellen.</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>Ihre Funktionen-Apps</value>
+    <value>Ihre Funktions-Apps</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>Ihr Abonnement</value>
   </data>
   <data name="createApp_description" xml:space="preserve">
-    <value>Durch das Erstellen einer Funktionen-App wird automatisch ein neuer Container bereitgestellt, in dem Sie Ihren Code hosten und ausführen können.</value>
+    <value>Durch das Erstellen einer Funktions-App wird automatisch ein neuer Container bereitgestellt, in dem Sie Ihren Code hosten und ausführen können.</value>
   </data>
   <data name="createApp_fail" xml:space="preserve">
     <value>Fehler beim Erstellen der App.</value>
@@ -461,7 +461,7 @@
     <value>Änderungen an der aktuellen Funktion gehen verloren. Möchten Sie den Vorgang fortsetzen?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Funktionen-App-Einstellungen</value>
+    <value>Funktions-App-Einstellungen</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
     <value>Eine neue Version von Azure Functions ist verfügbar. Klicken Sie hier, um ein Upgrade durchzuführen.</value>
@@ -482,7 +482,7 @@
     <value>App-Nutzung (GB/Sek.)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Funktionen-App-Nutzung</value>
+    <value>Funktions-App-Nutzung</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
     <value>Keine Daten verfügbar.</value>
@@ -608,7 +608,7 @@
     <value>Parameter</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>Die Authentifizierung ist für die Funktionen-App aktiviert. Deaktivieren Sie die Authentifizierung, bevor Sie die Funktion ausführen.</value>
+    <value>Die Authentifizierung ist für die Funktions-App aktiviert. Deaktivieren Sie die Authentifizierung, bevor Sie die Funktion ausführen.</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
     <value>Fehler beim Ausführen der Funktion ({{name}}). Die vollständige Fehlermeldung finden Sie in den Protokollen.</value>
@@ -677,7 +677,7 @@
     <value>Testversion abgelaufen.</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>Hier vorgenommene Änderungen wirken sich auf alle Funktionen innerhalb Ihrer Funktionen-App aus.</value>
+    <value>Hier vorgenommene Änderungen wirken sich auf alle Funktionen innerhalb Ihrer Funktions-App aus.</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
     <value>&lt;span&gt;Ganz neue Funktion erstellen&lt;/span&gt; – Erste Schritte mit einer der vordefinierten Funktionsvorlagen</value>
@@ -689,7 +689,7 @@
     <value>&lt;span&gt;In die Dokumentation eintauchen&lt;/span&gt; – Erkunden Sie &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;hier&lt;/a&gt; alle Features von Azure Functions.</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Funktionen-App-Einstellungen</value>
+    <value>Funktions-App-Einstellungen</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
     <value>Integrieren</value>
@@ -716,7 +716,7 @@
     <value>&lt;span&gt;Diese Beispielfunktion optimieren&lt;/span&gt; – Passen Sie sie im benutzerfreundlichen Dashboard an.</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>Ihre Funktionen sind so konzipiert, dass sie innerhalb von Azure App Service als Funktionen-App ausgeführt werden. Dort können Sie die Features der App auch bearbeiten.</value>
+    <value>Ihre Funktionen sind so konzipiert, dass sie innerhalb von Azure App Service als Funktions-App ausgeführt werden. Dort können Sie die Features der App auch bearbeiten.</value>
   </data>
   <data name="update" xml:space="preserve">
     <value>Aktualisieren</value>
@@ -836,16 +836,16 @@
     <value>Registrieren Sie sich für ein kostenloses Azure-Konto, um alle Funktionen zu nutzen, ohne sich über Zeitlimits Gedanken zu machen!</value>
   </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
-    <value>CORS ist für diese Funktionen-App nicht konfiguriert. Fügen Sie "{{origin}}" zu Ihrer CORS-Liste hinzu.</value>
+    <value>CORS ist für diese Funktions-App nicht konfiguriert. Fügen Sie "{{origin}}" zu Ihrer CORS-Liste hinzu.</value>
   </data>
   <data name="error_DnsResolution" xml:space="preserve">
-    <value>Wir konnten Ihre Funktionen-App nicht erreichen. Bei Ihrer App liegt möglicherweise ein vorübergehendes Problem oder ein Startfehler vor. Prüfen Sie die Protokolle, oder versuchen Sie es in ein paar Minuten noch mal.</value>
+    <value>Wir konnten Ihre Funktions-App nicht erreichen. Bei Ihrer App liegt möglicherweise ein vorübergehendes Problem oder ein Startfehler vor. Prüfen Sie die Protokolle, oder versuchen Sie es in ein paar Minuten noch mal.</value>
   </data>
   <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
-    <value>Die Funktionen-App ({{functionApp}}) kann nicht abgerufen werden.</value>
+    <value>Die Funktions-App ({{functionApp}}) kann nicht abgerufen werden.</value>
   </data>
   <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
-    <value>Wir konnten Ihre Funktionen-App ({{statusText}}) nicht erreichen. Versuchen Sie es später noch mal.</value>
+    <value>Wir konnten Ihre Funktions-App ({{statusText}}) nicht erreichen. Versuchen Sie es später noch mal.</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
     <value>Aufgrund eines Problems steht zurzeit möglicherweise nicht der gesamte Funktionsumfang zur Verfügung.</value>
@@ -875,7 +875,7 @@
     <value>Nur empfohlene Optionen anzeigen</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
-    <value>Mindestens eine Funktionen-App wurde mit diesem Speicherkonto verknüpft. Sie können alle mit dem Konto verknüpften Funktionen-Apps unter "Dateien" oder "Freigaben" anzeigen.</value>
+    <value>Mindestens eine Funktions-App wurde mit diesem Speicherkonto verknüpft. Sie können alle mit dem Konto verknüpften Funktions-Apps unter "Dateien" oder "Freigaben" anzeigen.</value>
   </data>
   <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
     <value>Eine Datei mit dem Namen "{{fileName}}" ist bereits vorhanden.</value>
@@ -968,7 +968,7 @@
     <value>Kontingent für die tägliche Nutzung (GB-Sek)</value>
   </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-    <value>Für die Funktionen-App wurde das Kontingent für die tägliche Nutzung erreicht, und die App wurde bis zum nächsten 24-Stunden-Zeitraum beendet.</value>
+    <value>Für die Funktions-App wurde das Kontingent für die tägliche Nutzung erreicht, und die App wurde bis zum nächsten 24-Stunden-Zeitraum beendet.</value>
   </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
     <value>Kontingent entfernen</value>
@@ -977,7 +977,7 @@
     <value>Kontingent festlegen</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>Wenn das Kontingent für die tägliche Nutzung ausgeschöpft ist, wird die Funktionen-App bis zum nächsten Tag um 00:00 Uhr (UTC) beendet.</value>
+    <value>Wenn das Kontingent für die tägliche Nutzung ausgeschöpft ist, wird die Funktions-App bis zum nächsten Tag um 00:00 Uhr (UTC) beendet.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>Möchten Sie den Schlüssel "{{name}}" widerrufen?</value>
@@ -986,7 +986,7 @@
     <value>Schlüssel</value>
   </data>
   <data name="functionNew_nameError" xml:space="preserve">
-    <value>Der Name muss innerhalb einer Funktionen-App eindeutig sein. Er muss mit einem Buchstaben beginnen und kann Buchstaben, Ziffern (0-9), Bindestriche ("-") und Unterstriche ("_") enthalten.</value>
+    <value>Der Name muss innerhalb einer Funktions-App eindeutig sein. Er muss mit einem Buchstaben beginnen und kann Buchstaben, Ziffern (0-9), Bindestriche ("-") und Unterstriche ("_") enthalten.</value>
   </data>
   <data name="functionDev_loading" xml:space="preserve">
     <value>Wird geladen...</value>
@@ -1013,13 +1013,13 @@
     <value>benutzerdefiniert</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Ihre Funktionen-App ist deaktiviert, weil das festgelegte Kontingent überschritten wurde. Sie können dies über die Anzeige der Funktionen-App-Einstellungen auf der linken Seitenleiste ändern.</value>
+    <value>Ihre Funktions-App ist deaktiviert, weil das festgelegte Kontingent überschritten wurde. Sie können dies über die Anzeige der Funktions-App-Einstellungen auf der linken Seitenleiste ändern.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Ihre Funktionen-App wurde beendet. Sie können das Funktionenportal nicht verwenden, wenn die App beendet wurde. Sie können dies ändern, indem Sie zur Anzeige der Funktionen-App-Einstellungen auf der linken Seitenleiste und dann zum Blatt mit den App-Diensteinstellungen wechseln.</value>
+    <value>Ihre Funktions-App wurde beendet. Sie können das Funktionenportal nicht verwenden, wenn die App beendet wurde. Sie können dies ändern, indem Sie zur Anzeige der Funktions-App-Einstellungen auf der linken Seitenleiste und dann zum Blatt mit den App-Diensteinstellungen wechseln.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>Sie haben nicht genügend Berechtigungen zum Zugriff auf diese Funktionen-App. Möglicherweise können Sie grundlegende Einstellungen auf dem Blatt für die App-Diensteinstellungen anzeigen, auf das Sie über den Link für die Funktionen-App-Einstellungen auf der linken Seitenleiste zugreifen können.</value>
+    <value>Sie haben nicht genügend Berechtigungen zum Zugriff auf diese Funktions-App. Möglicherweise können Sie grundlegende Einstellungen auf dem Blatt für die App-Diensteinstellungen anzeigen, auf das Sie über den Link für die Funktions-App-Einstellungen auf der linken Seitenleiste zugreifen können.</value>
   </data>
   <data name="errorUniqueParameterName" xml:space="preserve">
     <value>Der Parametername muss eindeutig sein.</value>
@@ -1067,7 +1067,7 @@
     <value>Ausgewählte Methoden</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Funktionen-App-Einstellungen</value>
+    <value>Funktions-App-Einstellungen</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
     <value>Derzeit ist folgende Runtimeversion angeheftet: {{exactExtensionVersion}}. Sie können ein Update durchführen, um diese Version zu lösen und die neueste Version zu verwenden: ({{latestExtensionVersion}}).</value>
@@ -1175,7 +1175,7 @@
     <value>Neue Funktion</value>
   </data>
   <data name="functionApps" xml:space="preserve">
-    <value>Funktionen-Apps</value>
+    <value>Funktions-Apps</value>
   </data>
   <data name="stop" xml:space="preserve">
     <value>Beenden</value>
@@ -1796,7 +1796,7 @@
     <value>Einstellungen</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Funktionen-App-Einstellungen</value>
+    <value>Funktions-App-Einstellungen</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>Konfiguration</value>
@@ -1808,7 +1808,7 @@
     <value>Anwendungseinstellungen</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
-    <value>Die Verwaltung Ihrer Funktionen-App ist für diese Testversion nicht verfügbar.</value>
+    <value>Die Verwaltung Ihrer Funktions-App ist für diese Testversion nicht verfügbar.</value>
   </data>
   <data name="template" xml:space="preserve">
     <value>Vorlage</value>
@@ -1856,7 +1856,7 @@
     <value>Optionen</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
-    <value>Es konnte nicht auf die Azure-Einstellungen für Ihre Funktionen-App zugegriffen werden.</value>
+    <value>Es konnte nicht auf die Azure-Einstellungen für Ihre Funktions-App zugegriffen werden.</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
     <value>Stellen Sie zunächst sicher, dass Sie ordnungsgemäß auf die Azure-Ressource "{0}" zugreifen können. Falls nicht, aktualisieren Sie das Portal, um Ihr Authentifizierungstoken zu erneuern.</value>
@@ -1868,16 +1868,16 @@
     <value>Aktualisieren Sie die App-Einstellung mit einer gültigen Speicherverbindungszeichenfolge.</value>
   </data>
   <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
-    <value>Die Anwendungseinstellung "{0}" fehlt in Ihrer App. Diese Einstellung enthält eine Verbindungszeichenfolge für ein Azure Storage-Konto, das zum Hosten Ihres Funktionsinhalts verwendet wird. Ihre App ist ohne diese Einstellung nicht funktionsfähig. Sie müssen diese Funktionen-App möglicherweise löschen und neu erstellen, wenn Sie auf den Wert dieser Anwendungseinstellung keinen Zugriff mehr haben.</value>
+    <value>Die Anwendungseinstellung "{0}" fehlt in Ihrer App. Diese Einstellung enthält eine Verbindungszeichenfolge für ein Azure Storage-Konto, das zum Hosten Ihres Funktionsinhalts verwendet wird. Ihre App ist ohne diese Einstellung nicht funktionsfähig. Sie müssen diese Funktions-App möglicherweise löschen und neu erstellen, wenn Sie auf den Wert dieser Anwendungseinstellung keinen Zugriff mehr haben.</value>
   </data>
   <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
-    <value>Die Anwendungseinstellung "{0}" fehlt in Ihrer App. Diese Einstellung enthält den Namen einer Freigabe, in der sich Ihr Funktionsinhalt befindet. Ihre App ist ohne diese Einstellung nicht funktionsfähig. Sie müssen diese Funktionen-App möglicherweise löschen und neu erstellen, wenn Sie auf den Wert dieser Anwendungseinstellung keinen Zugriff mehr haben.</value>
+    <value>Die Anwendungseinstellung "{0}" fehlt in Ihrer App. Diese Einstellung enthält den Namen einer Freigabe, in der sich Ihr Funktionsinhalt befindet. Ihre App ist ohne diese Einstellung nicht funktionsfähig. Sie müssen diese Funktions-App möglicherweise löschen und neu erstellen, wenn Sie auf den Wert dieser Anwendungseinstellung keinen Zugriff mehr haben.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
     <value>Die Anwendungseinstellung "{0}" fehlt in Ihrer App. Diese Einstellung enthält eine Verbindungszeichenfolge für ein Azure Storage-Konto, das für die Überwachungsansicht Ihrer Funktionen benötigt wird. In dieser werden Aufrufdaten aggregiert und dann in der Überwachungsansicht angezeigt. Ihre Überwachungsansicht funktioniert möglicherweise nicht ordnungsgemäß.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
-    <value>Die Anwendungseinstellung "{0}" fehlt in Ihrer App. Diese Einstellung enthält eine Verbindungszeichenfolge für ein Azure Storage-Konto, das die Funktionslaufzeit benötigt, um die Synchronisierung mehrerer Instanzen, Protokollaufrufergebnisse und andere Infrastrukturaufträge zu verarbeiten. Ihre Funktionen-App wird ohne diese Einstellung nicht ordnungsgemäß funktionieren.</value>
+    <value>Die Anwendungseinstellung "{0}" fehlt in Ihrer App. Diese Einstellung enthält eine Verbindungszeichenfolge für ein Azure Storage-Konto, das die Funktionslaufzeit benötigt, um die Synchronisierung mehrerer Instanzen, Protokollaufrufergebnisse und andere Infrastrukturaufträge zu verarbeiten. Ihre Funktions-App wird ohne diese Einstellung nicht ordnungsgemäß funktionieren.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
     <value>Erstellen Sie die App-Einstellung mit einer gültigen Speicherverbindungszeichenfolge.</value>
@@ -1886,37 +1886,37 @@
     <value>Die Anwendungseinstellung "{0}" fehlt in Ihrer App. Ohne diese Einstellung führen Sie immer die neueste Version der Laufzeit aus, selbst bei umfangreicheren Versionsupdates, die zu Fehlern führen können. Es wird empfohlen, den Wert auf die neueste Hauptversion (~1) festzulegen. Sie werden dann benachrichtigt, wenn neuere Versionen für das Update verfügbar sind.</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
-    <value>Die in "{0}" gespeicherte Verbindungszeichenfolge für das Azure Storage-Konto ist NULL oder leer. Diese Verbindungszeichenfolge ist erforderlich, damit Ihre Funktionen-App ordnungsgemäß funktioniert.</value>
+    <value>Die in "{0}" gespeicherte Verbindungszeichenfolge für das Azure Storage-Konto ist NULL oder leer. Diese Verbindungszeichenfolge ist erforderlich, damit Ihre Funktions-App ordnungsgemäß funktioniert.</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
     <value>Aktualisieren Sie die App-Einstellung mit einer gültigen Speicherverbindungszeichenfolge.</value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
-    <value>Das Speicherkonto "{0}" ist nicht vorhanden. Die Funktionen-App funktioniert nicht mehr, wenn das von der Funktionen-App verwendete Speicherkonto gelöscht wird. </value>
+    <value>Das Speicherkonto "{0}" ist nicht vorhanden. Die Funktions-App funktioniert nicht mehr, wenn das von der Funktions-App verwendete Speicherkonto gelöscht wird. </value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
     <value>Aktualisieren Sie die App-Einstellung mit einer gültigen, vorhandenen Speicherverbindungszeichenfolge.</value>
   </data>
   <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
-    <value>Das Speicherkonto "{0}" bietet keine Unterstützung für Azure Queue Storage. Die Funktionslaufzeit erfordert Warteschlangen, um ordnungsgemäß zu funktionieren. Sie müssen Ihre Funktionen-App löschen und mit einem Speicherkonto neu erstellen, das Azure Queue Storage unterstützt.</value>
+    <value>Das Speicherkonto "{0}" bietet keine Unterstützung für Azure Queue Storage. Die Funktionslaufzeit erfordert Warteschlangen, um ordnungsgemäß zu funktionieren. Sie müssen Ihre Funktions-App löschen und mit einem Speicherkonto neu erstellen, das Azure Queue Storage unterstützt.</value>
   </data>
   <data name="backend_error_UnexpectedArmError" xml:space="preserve">
-    <value>Es liegt offenbar ein Problem bei der Abfrage des Azure-Back-Ends für Ihre Funktionen-App vor.</value>
+    <value>Es liegt offenbar ein Problem bei der Abfrage des Azure-Back-Ends für Ihre Funktions-App vor.</value>
   </data>
   <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
-    <value>Es liegt offenbar ein Problem bei der Abfrage des Azure-Back-Ends für Ihre Funktionen-App vor.</value>
+    <value>Es liegt offenbar ein Problem bei der Abfrage des Azure-Back-Ends für Ihre Funktions-App vor.</value>
   </data>
   <data name="error_shareCodeWithSupport" xml:space="preserve">
     <value>Wenden Sie sich mit dem Code "{{code}}" an den Support, falls das Problem weiterhin besteht.</value>
   </data>
   <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
-    <value>Wir können für diese Funktionen-App keine Liste von Funktionen abrufen.</value>
+    <value>Wir können für diese Funktions-App keine Liste von Funktionen abrufen.</value>
   </data>
   <data name="error_unableToCreateFunction" xml:space="preserve">
     <value>Wir können die Funktion "{{functionName}}" nicht erstellen. Versuchen Sie es später noch mal.</value>
   </data>
   <data name="error_unableToDecryptKeys" xml:space="preserve">
-    <value>Wir können Ihre Funktionszugriffstasten nicht entschlüsseln. Dies kann passieren, wenn Sie die App mit demselben Namen löschen und neu erstellen oder wenn Sie Ihre Schlüssel aus einer anderen Funktionen-App kopiert haben. Sie können die folgenden Schritte ausprobieren, um das Problem zu beheben: https://go.microsoft.com/fwlink/?linkid=844094</value>
+    <value>Wir können Ihre Funktionszugriffstasten nicht entschlüsseln. Dies kann passieren, wenn Sie die App mit demselben Namen löschen und neu erstellen oder wenn Sie Ihre Schlüssel aus einer anderen Funktions-App kopiert haben. Sie können die folgenden Schritte ausprobieren, um das Problem zu beheben: https://go.microsoft.com/fwlink/?linkid=844094</value>
   </data>
   <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
     <value>Wir können die Datei "{{fileName}}" nicht löschen. Versuchen Sie es später noch mal.</value>
@@ -2096,10 +2096,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Application Insights</value>
   </data>
   <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
-    <value>Hiermit wird der Bearbeitungsmodus Ihrer Funktionen-App geändert.</value>
+    <value>Hiermit wird der Bearbeitungsmodus Ihrer Funktions-App geändert.</value>
   </data>
   <data name="appFunctionSettings_editMode" xml:space="preserve">
-    <value>Bearbeitungsmodus der Funktionen-App</value>
+    <value>Bearbeitungsmodus der Funktions-App</value>
   </data>
   <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
     <value>Schreibgeschützt</value>
@@ -2147,7 +2147,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Der Slotname "{0}" ist ein reservierter Bereitstellungsslotname.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
-    <value>Der Bearbeitungsmodus der Funktionen-App kann nicht aktualisiert werden. Versuchen Sie es später noch mal.</value>
+    <value>Der Bearbeitungsmodus der Funktions-App kann nicht aktualisiert werden. Versuchen Sie es später noch mal.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
     <value>Ihre App befindet sich aktuell im schreibgeschützten Modus, weil sie manuell als schreibgeschützt festgelegt wurde. Sie können den Bearbeitungsmodus hier ändern: </value>
@@ -2198,7 +2198,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Endpunkt</value>
   </data>
   <data name="emptyBrowse_title" xml:space="preserve">
-    <value>Keine Funktionen-Apps zur Anzeige vorhanden</value>
+    <value>Keine Funktions-Apps zur Anzeige vorhanden</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Hiermit werden Bereitstellungsslots aktiviert (Vorschau).</value>
@@ -2240,7 +2240,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Neuen Bereitstellungsslot erstellen</value>
   </data>
   <data name="slotNew_desc" xml:space="preserve">
-    <value>Bereitstellungsslots ermöglichen die Bereitstellung verschiedener Versionen Ihrer Funktionen-App an verschiedene URLs. Sie können eine bestimmte Version testen und dann Inhalt und Konfiguration zwischen Slots tauschen.</value>
+    <value>Bereitstellungsslots ermöglichen die Bereitstellung verschiedener Versionen Ihrer Funktions-App an verschiedene URLs. Sie können eine bestimmte Version testen und dann Inhalt und Konfiguration zwischen Slots tauschen.</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
     <value>Neuer Slot "{0}" wird erstellt </value>
@@ -2261,7 +2261,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Führen Sie ein Upgrade für Ihren Plan durch.</value>
   </data>
   <data name="slotNew_noAccess" xml:space="preserve">
-    <value>Kein Zugriff zum Erstellen eines Slots. Stellen Sie sicher, dass Sie über geeigneten RBAC-Zugriff für die Funktionen-App verfügen und dass keine Lesesperren aktiv sind.</value>
+    <value>Kein Zugriff zum Erstellen eines Slots. Stellen Sie sicher, dass Sie über geeigneten RBAC-Zugriff für die Funktions-App verfügen und dass keine Lesesperren aktiv sind.</value>
   </data>
   <data name="slots_upgrade" xml:space="preserve">
     <value>Führen Sie ein Upgrade auf einen Standard- oder Premium-Plan durch, um Slots hinzuzufügen.</value>
@@ -2366,7 +2366,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Fehler bei der Schemaüberprüfung für "proxies.json". Fehler: {0}.</value>
   </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-    <value>Sie können die Plattformnutzung für einen Verbrauchstarif einschränken, indem Sie ein Kontingent in Gigabyte/Sek. für die tägliche Nutzung festlegen. Sobald das Kontingent für die tägliche Nutzung ausgeschöpft ist, wird die Funktionen-App bis zum nächsten Tag um 00:00 Uhr (UTC) beendet.</value>
+    <value>Sie können die Plattformnutzung für einen Verbrauchstarif einschränken, indem Sie ein Kontingent in Gigabyte/Sek. für die tägliche Nutzung festlegen. Sobald das Kontingent für die tägliche Nutzung ausgeschöpft ist, wird die Funktions-App bis zum nächsten Tag um 00:00 Uhr (UTC) beendet.</value>
   </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
     <value>(Hubrichtlinie)</value>
@@ -3220,8 +3220,8 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/Monat (geschätzt)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/Monat (geschätzt)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>Baseline von {0} {1}/Monat (geschätzt)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Wählen Sie einen anderen Tarif, um weitere Ressourcen für Ihren Plan hinzuzufügen.</value>
@@ -3384,6 +3384,12 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Application Insights-Instanz</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Live-App-Metriken</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Navigieren Sie zum Abschnitt "Monitor" für diese Funktion, um Ihre Live-App-Metriken und -Protokolle anzuzeigen.</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -4749,7 +4755,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Die Registerkarte "Logic Apps" wird in den nächsten Monaten entfernt. Sie können Ihre Logik-Apps weiterhin über die Suchfunktion im Azure-Portal durchsuchen.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>Dieses Feature steht nur für Funktionen-Apps zur Verfügung, die in einem Linux-App Service-Plan ausgeführt werden. Verwenden Sie zur Runtimeprotokollierung Application Insights.</value>
+    <value>Dieses Feature steht nur für Funktions-Apps zur Verfügung, die in einem Linux-App Service-Plan ausgeführt werden. Verwenden Sie zur Runtimeprotokollierung Application Insights.</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>Horizontal hochskalieren</value>
@@ -5098,7 +5104,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Neue Funktion</value>
   </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-    <value>Erstellen Sie eine neue Funktion in dieser Funktionen-App. Sie können mit der Auswahl aus einer der folgenden Vorlagen beginnen, oder </value>
+    <value>Erstellen Sie eine neue Funktion in dieser Funktions-App. Sie können mit der Auswahl aus einer der folgenden Vorlagen beginnen, oder </value>
   </data>
   <data name="functionCreate_goToQuickstart" xml:space="preserve">
     <value>wechseln Sie zum Schnellstart.</value>
@@ -5111,5 +5117,8 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>Nach Vorlangename suchen</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>Funktion erstellen</value>
   </data>
 </root>
