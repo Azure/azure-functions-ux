@@ -298,7 +298,7 @@
     <value>Быстрее приступайте к работе благодаря готовой функции</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>Создайте свою собственную</value>
+    <value>Самостоятельное начало работы</value>
   </data>
   <data name="intro_keepUsingQuickstart" xml:space="preserve">
     <value>Продолжайте использовать это краткое руководство</value>
@@ -1877,7 +1877,7 @@
     <value>В приложении отсутствует параметр "{0}". Этот параметр содержит строку подключения для учетной записи хранения Azure, которая необходима для представления мониторинга для ваших функций. Здесь собираются все данные о вызовах, которые затем отображаются в представлении мониторинга. Представление мониторинга может работать неправильно.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
-    <value>В приложении отсутствует параметр "{0}". Этот параметр содержит строку подключения для учетной записи хранения Azure, которая необходима среде выполнения функций для синхронизации экземпляров, журналирования результатов вызовов и выполнения других задач инфраструктуры. Если этот параметр не указан, функция не сможет работать правильно.</value>
+    <value>В приложении отсутствует параметр "{0}". Этот параметр содержит строку подключения для учетной записи хранения Azure, которая необходима среде выполнения функций для синхронизации экземпляров, журналирования результатов вызовов и выполнения других задач инфраструктуры. Если этот параметр не указан, ваше приложение-функция не сможет работать правильно.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
     <value>Создайте параметр приложения с действительной строкой подключения к хранилищу.</value>
@@ -2288,7 +2288,7 @@
     <value>Временное значение</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>Вы не добавляли слоты развертывания. Щелкните, чтобы приступить.</value>
+    <value>Вы не добавляли слоты развертывания. Щелкните здесь, чтобы начать работу.</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>Имя</value>
@@ -2774,7 +2774,7 @@
     <value>Сборку, тестирование и развертывание функций Java можно выполнять локально с вашего компьютера. Использовать портал не требуется!</value>
   </data>
   <data name="java_splash_line_2" xml:space="preserve">
-    <value>Щелкните ниже, чтобы приступить к работе с документацией по созданию первой функции Azure на основе Java.</value>
+    <value>Щелкните ниже, чтобы начать работу с документацией по созданию первой функции Azure на основе Java.</value>
   </data>
   <data name="appFunctionSettings_proxyEnabled" xml:space="preserve">
     <value>Прокси-серверы включены. Чтобы отключить их, удалите или отключите их все по отдельности.</value>
@@ -3220,8 +3220,8 @@
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1} в месяц (приблизительно)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1} в месяц (приблизительно)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>Базовый план: {0} {1} в месяц (предварительно)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Выберите другую ценовую категорию, чтобы добавить в план больше ресурсов.</value>
@@ -3384,6 +3384,12 @@
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Экземпляр Application Insights</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Метрики активных приложений</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Метрики и журналы по активным приложениям доступны в разделе "Мониторинг" для этой функции.</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -4248,10 +4254,10 @@
     <value>Статическая веб-страница HTML, обслуживаемая с веб-сервера Nginx.</value>
   </data>
   <data name="singleContainerSample1TitleWindows" xml:space="preserve">
-    <value>Веб-формы ASP.NET</value>
+    <value>ASP.NET Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Приложение веб-форм ASP.NET развернуто в контейнере LTSC Windows Server Core 2019.</value>
+    <value>Приложение ASP.NET Web Forms развернуто в контейнере LTSC Windows Server Core 2019.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask с Redis</value>
@@ -5111,5 +5117,8 @@
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>Поиск по имени шаблона</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>Создать функцию</value>
   </data>
 </root>

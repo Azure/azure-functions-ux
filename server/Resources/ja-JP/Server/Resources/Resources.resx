@@ -220,19 +220,19 @@
     <value>作成 + 開始</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Function App</value>
+    <value>関数アプリ</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
     <value>Azure Functions の使用を開始する</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>新しい Function App</value>
+    <value>新しい関数アプリ</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>サブスクリプションに Function App が存在しません。Function App は、関数が実行されるコンテナーです。今すぐ作成してください。</value>
+    <value>サブスクリプションに関数アプリが存在しません。関数アプリは、関数が実行されるコンテナーです。今すぐ作成してください。</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>または、&lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt; から Function App を作成します。</value>
+    <value>または、&lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt; から関数アプリを作成します。</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
     <value>場所の選択</value>
@@ -244,7 +244,7 @@
     <value>サブスクリプション {{displayName}} ({{ subscriptionId }}) は、関数の実行のホワイト リストに存在しません</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>このサブスクリプションには、Function App が 1 つまたは複数存在します。Function App は、関数が実行されるコンテナーです。以下で 1 つ選択するか、新しいものを作成してください。</value>
+    <value>このサブスクリプションには、関数アプリが 1 つまたは複数存在します。関数アプリは、関数が実行されるコンテナーです。以下で 1 つ選択するか、新しいものを作成してください。</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
     <value>名前は 2 文字以上でなければなりません</value>
@@ -256,19 +256,19 @@
     <value>名前には、文字、数字およびハイフンを使用できます (ただし、最初と最後の文字は、文字または数字である必要があります)</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>Function App 名 {{funcName}} は利用できません</value>
+    <value>関数アプリ名 {{funcName}} は利用できません</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
     <value>このサービスを利用するには、Azure サブスクリプションが必要です。無料試用版のサブスクリプションを作成するには、&lt;a href="https://azure.microsoft.com/en-us/free/"&gt;ここをクリック&lt;/a&gt;してください</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>Function App</value>
+    <value>関数アプリ</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>サブスクリプション</value>
   </data>
   <data name="createApp_description" xml:space="preserve">
-    <value>Function App を作成すると、コードのホストと実行が可能な新しいコンテナーが自動でプロビジョニングされます。</value>
+    <value>関数アプリを作成すると、コードのホストと実行が可能な新しいコンテナーが自動でプロビジョニングされます。</value>
   </data>
   <data name="createApp_fail" xml:space="preserve">
     <value>アプリを作成できませんでした</value>
@@ -461,7 +461,7 @@
     <value>現在の関数に対する変更が失われます。続行してもよろしいですか?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Function App の設定</value>
+    <value>関数アプリの設定</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
     <value>新しいバージョンの Azure Functions が利用できます。アップグレードするには、ここをクリックしてください</value>
@@ -482,7 +482,7 @@
     <value>アプリの使用量 (Gb 秒)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Function App の使用量</value>
+    <value>関数アプリの使用量</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
     <value>利用できるデータはありません</value>
@@ -608,7 +608,7 @@
     <value>パラメーター</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>Function App で認証が有効になっています。関数を実行する前に認証を無効にしてください。</value>
+    <value>関数アプリで認証が有効になっています。関数を実行する前に認証を無効にしてください。</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
     <value>関数 ({{name}}) の実行中にエラーが発生しました。エラーの全容については、出力されたログをご確認ください。</value>
@@ -677,7 +677,7 @@
     <value>試用期間が終了しました</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>ここで変更した内容は、Function App 内の関数全部に影響します。</value>
+    <value>ここで変更した内容は、関数アプリ内の関数全部に影響します。</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
     <value>&lt;span&gt;新しい関数を作成する&lt;/span&gt; - あらかじめ用意されている関数テンプレートのいずれかを使って作業を開始します</value>
@@ -689,7 +689,7 @@
     <value>&lt;span&gt;ドキュメントを読む&lt;/span&gt; - Azure Functions の機能の全容を&lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;こちら&lt;/a&gt;で確認します</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Function App の設定</value>
+    <value>関数アプリの設定</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
     <value>統合</value>
@@ -716,7 +716,7 @@
     <value>&lt;span&gt;このサンプル関数を調整する&lt;/span&gt; - 使いやすいダッシュボードで自分の関数を作成します</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>関数は、Azure App Service で Function App として実行される設計になっています。Azure App Service は、アプリの機能を変更できる場所でもあります。</value>
+    <value>関数は、Azure App Service で関数アプリとして実行される設計になっています。Azure App Service は、アプリの機能を変更できる場所でもあります。</value>
   </data>
   <data name="update" xml:space="preserve">
     <value>更新</value>
@@ -836,16 +836,16 @@
     <value>無料の Azure アカウントにサインアップすると、あらゆる関数機能のロックが解除され、時間の制約を気にすることなく使用できます。</value>
   </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
-    <value>この Function App では CORS が構成されていません。CORS リストに {{origin}} を追加してください。</value>
+    <value>この関数アプリでは CORS が構成されていません。CORS リストに {{origin}} を追加してください。</value>
   </data>
   <data name="error_DnsResolution" xml:space="preserve">
-    <value>Function App に到達できません。アプリで一時的な問題が発生しているか、アプリが起動に失敗していることが考えられます。ログを確認するか、数分後にもう一度やり直してください。</value>
+    <value>関数アプリに到達できません。アプリで一時的な問題が発生しているか、アプリが起動に失敗していることが考えられます。ログを確認するか、数分後にもう一度やり直してください。</value>
   </data>
   <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
-    <value>Function App ({{functionApp}}) を取得できません</value>
+    <value>関数アプリ ({{functionApp}}) を取得できません</value>
   </data>
   <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
-    <value>Function App ({{statusText}}) に到達できません。後でもう一度やり直してください。</value>
+    <value>関数アプリ ({{statusText}}) に到達できません。後でもう一度やり直してください。</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
     <value>あと数秒お待ちください...</value>
@@ -875,7 +875,7 @@
     <value>推奨オプションのみを参照する</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
-    <value>いくつかの Function App が、このストレージ アカウントにリンクされました。このアカウントにリンクされている Function App は、[ファイル] または [共有] で確認できます。</value>
+    <value>いくつかの関数アプリが、このストレージ アカウントにリンクされました。このアカウントにリンクされている関数アプリは、[ファイル] または [共有] で確認できます。</value>
   </data>
   <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
     <value>{{fileName}} という名前のファイルが既に存在します。</value>
@@ -968,7 +968,7 @@
     <value>日ごとの使用量クォータ (GB - 秒)</value>
   </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-    <value>Function App は日ごとの使用量クォータに達したため、次の 24 時間の時間枠まで停止しています。</value>
+    <value>関数アプリは日ごとの使用量クォータに達したため、次の 24 時間の時間枠まで停止しています。</value>
   </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
     <value>クォータの削除</value>
@@ -977,7 +977,7 @@
     <value>クォータの設定</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>1 日あたりの使用量のクォータを超過すると、次の日の午前 0:00 UTC まで Function App が停止します。</value>
+    <value>1 日あたりの使用量のクォータを超過すると、次の日の午前 0:00 UTC まで関数アプリが停止します。</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>{{name}} キーを取り消してもよろしいですか?</value>
@@ -986,7 +986,7 @@
     <value>キー</value>
   </data>
   <data name="functionNew_nameError" xml:space="preserve">
-    <value>名前は Function App 内で一意になっている必要があります。名前の先頭には文字、それ以外の部分には文字、数字 (0-9)、ダッシュ ("-")、アンダースコア ("_") を使用できます。</value>
+    <value>名前は関数アプリ内で一意になっている必要があります。名前の先頭には文字、それ以外の部分には文字、数字 (0-9)、ダッシュ ("-")、アンダースコア ("_") を使用できます。</value>
   </data>
   <data name="functionDev_loading" xml:space="preserve">
     <value>読み込んでいます...</value>
@@ -1013,13 +1013,13 @@
     <value>カスタム</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Function App は設定されたクォータを超過しているため、無効になっています。クォータは、左側のサイド バーの Function App の設定ビューから変更できます。</value>
+    <value>関数アプリは設定されたクォータを超過しているため、無効になっています。クォータは、左側のサイド バーの関数アプリの設定ビューから変更できます。</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Function App が停止しています。アプリが停止していると、Functions ポータルを使用できません。左側のサイド バーの Function App の設定ビューから App Service の設定ブレードにアクセスすると、アプリの状態を変更できます。</value>
+    <value>関数アプリが停止しています。アプリが停止していると、Functions ポータルを使用できません。左側のサイド バーの関数アプリの設定ビューから App Service の設定ブレードにアクセスすると、アプリの状態を変更できます。</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>この Function App にアクセスするための十分なアクセス許可がありません。左側のサイド バーの Function App の設定リンクから App Service の設定ブレードにアクセスすると、基本設定を確認できることがあります。</value>
+    <value>この関数アプリにアクセスするための十分なアクセス許可がありません。左側のサイド バーの関数アプリの設定リンクから App Service の設定ブレードにアクセスすると、基本設定を確認できることがあります。</value>
   </data>
   <data name="errorUniqueParameterName" xml:space="preserve">
     <value>パラメーター名は一意になっている必要があります。</value>
@@ -1067,7 +1067,7 @@
     <value>選択したメソッド</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Function App の設定</value>
+    <value>関数アプリの設定</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
     <value>ユーザーは現在ランタイム バージョン: {{exactExtensionVersion}} にピン留めされています。ピン留めを外して、最新バージョン: ({{latestExtensionVersion}}) を使用するように更新できます。</value>
@@ -1175,7 +1175,7 @@
     <value>新しい関数</value>
   </data>
   <data name="functionApps" xml:space="preserve">
-    <value>Function App</value>
+    <value>関数アプリ</value>
   </data>
   <data name="stop" xml:space="preserve">
     <value>停止</value>
@@ -1796,7 +1796,7 @@
     <value>設定</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Function App の設定</value>
+    <value>関数アプリの設定</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>構成</value>
@@ -1808,7 +1808,7 @@
     <value>アプリケーション設定</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
-    <value>この試用版では、Function App の管理機能は利用できません。</value>
+    <value>この試用版では、関数アプリの管理機能は利用できません。</value>
   </data>
   <data name="template" xml:space="preserve">
     <value>テンプレート</value>
@@ -1856,7 +1856,7 @@
     <value>オプション</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
-    <value>Function App の Azure 設定にアクセスできません。</value>
+    <value>関数アプリの Azure 設定にアクセスできません。</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
     <value>まず、Azure リソース {0} に対して適切なアクセス権があるかどうかを確認してください。アクセス権がない場合には、認証トークンの更新のためポータルを最新の情報に更新してください。</value>
@@ -1868,16 +1868,16 @@
     <value>有効なストレージ接続文字列を使ってアプリの設定を更新してください。</value>
   </data>
   <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
-    <value>アプリにアプリケーション設定 '{0}' がありません。この設定には、関数コンテンツのホストに使用する Azure ストレージ アカウントの接続文字列が含まれています。この設定がないと、アプリが完全に破損します。このアプリケーション設定の値にアクセスできなくなった場合には、この Function App の削除および再作成が必要になることがあります。</value>
+    <value>アプリにアプリケーション設定 '{0}' がありません。この設定には、関数コンテンツのホストに使用する Azure ストレージ アカウントの接続文字列が含まれています。この設定がないと、アプリが完全に破損します。このアプリケーション設定の値にアクセスできなくなった場合には、この関数アプリの削除および再作成が必要になることがあります。</value>
   </data>
   <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
-    <value>アプリにアプリケーション設定 '{0}' がありません。この設定には、関数コンテンツが存在する共有の名前が含まれます。この設定がないと、アプリが完全に破損します。このアプリケーション設定の値にアクセスできなくなった場合には、この Function App の削除および再作成が必要になることがあります。</value>
+    <value>アプリにアプリケーション設定 '{0}' がありません。この設定には、関数コンテンツが存在する共有の名前が含まれます。この設定がないと、アプリが完全に破損します。このアプリケーション設定の値にアクセスできなくなった場合には、この関数アプリの削除および再作成が必要になることがあります。</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
     <value>アプリにアプリケーション設定 '{0}' がありません。この設定には、関数の監視ビューで必要になる Azure ストレージ アカウントの接続文字列が含まれています。ここに呼び出しデータが集まり、集まったデータが監視ビューに表示されます。監視ビューが破損している可能性があります。</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
-    <value>アプリにアプリケーション設定 '{0}' がありません。この設定には、関数ランタイムが複数のインスタンスの同期、ログの呼び出し結果、その他のインフラストラクチャ ジョブを処理する際に必要になる Azure ストレージ アカウントの接続文字列が含まれています。この設定がないと、Function App が正しく動作しなくなります。</value>
+    <value>アプリにアプリケーション設定 '{0}' がありません。この設定には、関数ランタイムが複数のインスタンスの同期、ログの呼び出し結果、その他のインフラストラクチャ ジョブを処理する際に必要になる Azure ストレージ アカウントの接続文字列が含まれています。この設定がないと、関数アプリが正しく動作しなくなります。</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
     <value>有効なストレージ接続文字列を使ってアプリの設定を作成してください。</value>
@@ -1886,37 +1886,37 @@
     <value>アプリにアプリケーション設定 '{0}' がありません。この設定がないと、メジャー バージョンの更新により大幅な変更があった場合でも、常に最新バージョンのランタイムが実行されることになります。この値は、最新のメジャー バージョン (1 など) に設定しておくことをお勧めします。更新用に新しいバージョンが公開されたときは、通知を受信します。</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
-    <value>'{0}' に格納されている Azure ストレージ アカウントの接続文字列が null であるか、空です。Function App が動作するには、接続文字列が必要です。</value>
+    <value>'{0}' に格納されている Azure ストレージ アカウントの接続文字列が null であるか、空です。関数アプリが動作するには、接続文字列が必要です。</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
     <value>有効なストレージ接続文字列を使ってアプリの設定を更新してください。</value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
-    <value>ストレージ アカウント {0} が存在しません。Function App が使用しているストレージ アカウントを削除すると、Function App の動作が停止します。</value>
+    <value>ストレージ アカウント {0} が存在しません。Function App が使用しているストレージ アカウントを削除すると、関数アプリの動作が停止します。</value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
     <value>既存の有効なストレージ接続文字列を使ってアプリの設定を更新してください。</value>
   </data>
   <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
-    <value>ストレージ アカウント {0} は、Azure Queue Storage をサポートしていません。Functions ランタイムでは、キューが正常に動作する必要があります。Azure Queue Storage をサポートしているストレージ アカウントを使った Function App をいったん削除してから、もう一度作成する必要があります。</value>
+    <value>ストレージ アカウント {0} は、Azure Queue Storage をサポートしていません。Functions ランタイムでは、キューが正常に動作する必要があります。Azure Queue Storage をサポートしているストレージ アカウントを使った関数アプリをいったん削除してから、もう一度作成する必要があります。</value>
   </data>
   <data name="backend_error_UnexpectedArmError" xml:space="preserve">
-    <value>Function App の Azure バックエンドに対するクエリ実行に問題が発生しているようです。</value>
+    <value>関数アプリの Azure バックエンドに対するクエリ実行に問題が発生しているようです。</value>
   </data>
   <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
-    <value>Function App の Azure バックエンドに対するクエリ実行に問題が発生しているようです。</value>
+    <value>関数アプリの Azure バックエンドに対するクエリ実行に問題が発生しているようです。</value>
   </data>
   <data name="error_shareCodeWithSupport" xml:space="preserve">
     <value>問題が解決しない場合は、サポートにお問い合わせのうえ、コード {{code}} をお伝えください</value>
   </data>
   <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
-    <value>この Function App の関数の一覧を取得できません。</value>
+    <value>この関数アプリの関数の一覧を取得できません。</value>
   </data>
   <data name="error_unableToCreateFunction" xml:space="preserve">
     <value>関数 {{functionName}} を作成できません。後でもう一度やり直してください。</value>
   </data>
   <data name="error_unableToDecryptKeys" xml:space="preserve">
-    <value>関数のアクセス キーの暗号化を解除できません。このエラーは、アプリを一旦削除してから同じ名前で再度作成した場合や、別の Function App からキーをコピーした場合に発生することがあります。この問題を解決するには、こちら (https://go.microsoft.com/fwlink/?linkid=844094) の手順に従ってください</value>
+    <value>関数のアクセス キーの暗号化を解除できません。このエラーは、アプリを一旦削除してから同じ名前で再度作成した場合や、別の関数アプリからキーをコピーした場合に発生することがあります。この問題を解決するには、こちら (https://go.microsoft.com/fwlink/?linkid=844094) の手順に従ってください</value>
   </data>
   <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
     <value>ファイル {{fileName}} を削除できません。後でもう一度やり直してください。</value>
@@ -2096,10 +2096,10 @@
     <value>Application Insights</value>
   </data>
   <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
-    <value>Function App の編集モードの変更</value>
+    <value>関数アプリの編集モードの変更</value>
   </data>
   <data name="appFunctionSettings_editMode" xml:space="preserve">
-    <value>Function App の編集モード</value>
+    <value>関数アプリの編集モード</value>
   </data>
   <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
     <value>読み取り専用</value>
@@ -2147,7 +2147,7 @@
     <value>スロット名 '{0}' は予約済みのデプロイ スロット名です。</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
-    <value>Function App の編集モードを更新できませんでした。後でもう一度やり直してください。</value>
+    <value>関数アプリの編集モードを更新できませんでした。後でもう一度やり直してください。</value>
   </data>
   <data name="readOnly" xml:space="preserve">
     <value>[読み取り専用] に手動で設定されたため、アプリは現在読み取り専用モードになっています。編集モードを変更するには、</value>
@@ -2198,7 +2198,7 @@
     <value>エンドポイント</value>
   </data>
   <data name="emptyBrowse_title" xml:space="preserve">
-    <value>表示する Function App がありません</value>
+    <value>表示する関数アプリがありません</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>デプロイ スロット (プレビュー) を有効にします。</value>
@@ -2240,7 +2240,7 @@
     <value>新しいデプロイ スロットの作成</value>
   </data>
   <data name="slotNew_desc" xml:space="preserve">
-    <value>デプロイ スロットを使うと、さまざまなバージョンの Function App をさまざまな URL にデプロイすることができます。特定のバージョンをテストしたうえで、スロット単位でコンテンツと構成を切り替えることができるようになります。</value>
+    <value>デプロイ スロットを使うと、さまざまなバージョンの関数アプリをさまざまな URL にデプロイすることができます。特定のバージョンをテストしたうえで、スロット単位でコンテンツと構成を切り替えることができるようになります。</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
     <value>新しいスロット '{0}' を作成しています </value>
@@ -2261,7 +2261,7 @@
     <value>プランをアップグレードしてください。</value>
   </data>
   <data name="slotNew_noAccess" xml:space="preserve">
-    <value>スロットの作成にアクセスできません。Function App に対して正しい RBAC アクセス権を持っており、読み取りロックが有効になっていないことを確認してください。</value>
+    <value>スロットの作成にアクセスできません。関数アプリに対して正しい RBAC アクセス権を持っており、読み取りロックが有効になっていないことを確認してください。</value>
   </data>
   <data name="slots_upgrade" xml:space="preserve">
     <value>Standard または Premium プランにアップグレードしてスロットを追加します。</value>
@@ -2366,7 +2366,7 @@
     <value>proxies.json スキーマの検証に失敗しました。エラー: '{0}'。</value>
   </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-    <value>従量課金プランでは、1 日あたりの使用量のクォータをギガバイト/秒単位で設定することによって、プラットフォームの使用量に上限を設けることができます。1 日あたりの使用量のクォータに達すると、次の日の午前 0:00 UTC まで Function App が停止します。</value>
+    <value>従量課金プランでは、1 日あたりの使用量のクォータをギガバイト/秒単位で設定することによって、プラットフォームの使用量に上限を設けることができます。1 日あたりの使用量のクォータに達すると、次の日の午前 0:00 UTC まで関数アプリが停止します。</value>
   </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
     <value>(ハブ ポリシー)</value>
@@ -2792,7 +2792,7 @@
     <value>値を非表示にする</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>App Insights インストルメンテーション キーはアプリ設定に表示されていますが、App Insights は Function App のサブスクリプションで見つかりません。App Insights が Function App と同じサブスクリプションに位置していることをご確認ください。</value>
+    <value>App Insights インストルメンテーション キーはアプリ設定に表示されていますが、App Insights は関数アプリのサブスクリプションで見つかりません。App Insights が関数アプリと同じサブスクリプションに位置していることをご確認ください。</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>行の先頭</value>
@@ -2804,7 +2804,7 @@
     <value>既存の関数を使用してアップグレードすることはできません</value>
   </data>
   <data name="appFunctionSettings_warning_7" xml:space="preserve">
-    <value>メジャー バージョンのアップグレードによって、言語とバインディングに重大な変更が生じる可能性があります。ランタイムのメジャー バージョンをアップグレードする場合、新しい Function App を作成し、その新しいアプリに機能を移行することをご検討ください。</value>
+    <value>メジャー バージョンのアップグレードによって、言語とバインディングに重大な変更が生じる可能性があります。ランタイムのメジャー バージョンをアップグレードする場合、新しい関数アプリを作成し、その新しいアプリに機能を移行することをご検討ください。</value>
   </data>
   <data name="warning" xml:space="preserve">
     <value>警告</value>
@@ -3220,8 +3220,8 @@
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/月 (推定)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/月 (推定)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>{0} {1}/月のベースライン (推定)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>ご利用のプランにさらにリソースを追加するには、別の価格レベルを選択してください</value>
@@ -3384,6 +3384,12 @@
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Application Insights インスタンス</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>ライブ アプリ メトリック</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>ライブ アプリのメトリックとログを表示するには、この機能の '監視' セクションに移動してください</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -3801,7 +3807,7 @@
     <value>コンテナーをホストするためのローカル SSD ベースのストレージと、App Service プランでデプロイされているすべてのアプリで共有されるオプションの {0} ディスク ストレージ。</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
-    <value>Function App 名</value>
+    <value>関数アプリ名</value>
   </data>
   <data name="languageAria" xml:space="preserve">
     <value>関数プログラミング言語</value>
@@ -4134,10 +4140,10 @@
     <value>~2 (プレビュー)</value>
   </data>
   <data name="functionAppRuntimeStackTitle" xml:space="preserve">
-    <value>Function App ランタイム スタック</value>
+    <value>関数アプリ ランタイム スタック</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>Function App v2 は単一の言語になりました。アプリに関数を追加する前に、ランタイム スタックを設定してください。</value>
+    <value>関数アプリ v2 は単一の言語になりました。アプリに関数を追加する前に、ランタイム スタックを設定してください。</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>関数ランタイム スタック</value>
@@ -4248,10 +4254,10 @@
     <value>Nginx Web サーバーから提供される静的 HTML Web ページ。</value>
   </data>
   <data name="singleContainerSample1TitleWindows" xml:space="preserve">
-    <value>ASP.NET Web フォーム</value>
+    <value>ASP.NET Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>ASP.Net Web フォーム アプリケーションを Windows Server Core 2019 LTSC コンテナーにデプロイします。</value>
+    <value>ASP.NET Web Forms アプリケーションを Windows Server Core 2019 LTSC コンテナーにデプロイします。</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Redis による Python Flask</value>
@@ -4713,7 +4719,7 @@
     <value>プリコンパイル済み .NET Function App</value>
   </data>
   <data name="functionAppType" xml:space="preserve">
-    <value>Function App の種類</value>
+    <value>関数アプリの種類</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
     <value>デプロイ スロットの設定が有効です</value>
@@ -4954,7 +4960,7 @@
     <value>接続文字列のフィルター処理</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
-    <value>Java Function Apps ではポータルにおける関数の編集はサポートされていません。開発には Maven または VS Code を使用してください。</value>
+    <value>Java 関数アプリではポータルにおける関数の編集はサポートされていません。開発には Maven または VS Code を使用してください。</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
     <value>作業ディレクトリのパスは、リポジトリのルートからの相対パスである必要があり、Windows の場合は、/、\、ドライブ名 (C:/) で開始することはできません。作業ディレクトリがリポジトリの src フォルダーにある場合、パスは src/ にする必要があります</value>
@@ -5111,5 +5117,8 @@
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>テンプレート名で検索</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>関数の作成</value>
   </data>
 </root>

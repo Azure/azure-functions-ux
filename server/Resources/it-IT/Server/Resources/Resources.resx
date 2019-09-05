@@ -3220,8 +3220,8 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/mese (costi stimati)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/mese (costi stimati)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>{0} {1}/mese baseline (costo stimato)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Per aggiungere più risorse al piano, scegliere un piano tariffario diverso</value>
@@ -3384,6 +3384,12 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Istanza di Application Insights</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Metriche app live</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Passare alla sezione 'Monitoraggio' di questa funzionalità per visualizzare le metriche e i log delle app live</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -4248,7 +4254,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Pagina Web HTML statica gestita dal server Web Nginx.</value>
   </data>
   <data name="singleContainerSample1TitleWindows" xml:space="preserve">
-    <value>Web Form ASP.NET</value>
+    <value>Web Forms ASP.NET</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
     <value>Applicazione Web Forms ASP.NET distribuita in un contenitore Windows Server Core 2019 Long Term Servicing Channel (LTSC).</value>
@@ -5111,5 +5117,8 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>Cerca per nome modello</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>Crea funzione</value>
   </data>
 </root>

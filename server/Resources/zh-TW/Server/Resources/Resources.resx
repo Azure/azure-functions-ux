@@ -2696,10 +2696,10 @@
     <value>此範本需要下列權限:</value>
   </data>
   <data name="aadreg_thisIntegration" xml:space="preserve">
-    <value>此整合需要為函式應用程式設定 AAD。</value>
+    <value>此整合需要為函數應用程式設定 AAD。</value>
   </data>
   <data name="aadreg_thisTemplate" xml:space="preserve">
-    <value>此範本需要為函式應用程式設定 AAD。</value>
+    <value>此範本需要為函數應用程式設定 AAD。</value>
   </data>
   <data name="aadreg_youMayNeed" xml:space="preserve">
     <value>您必須為您需要的功能設定其他權限。如需了解此繫結，請參閱文件。</value>
@@ -2792,7 +2792,7 @@
     <value>隱藏值</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>應用程式設定中有 App Insights 檢測金鑰，但在 Function 應用程式訂中找不到 App Insights。請確定您的 App Insights 與 Function 位於相同的訂閱。</value>
+    <value>應用程式設定中有 App Insights 檢測金鑰，但在函數應用程式訂閱中找不到 App Insights。請確定您的 App Insights 與函數應用程式位於相同的訂閱。</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>列開頭</value>
@@ -3220,8 +3220,8 @@
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/月 (預估)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/月 (預估)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>{0} {1}/月基準 (預估)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>請選擇其他定價層，為您的定價層新增更多資源</value>
@@ -3384,6 +3384,12 @@
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Application Insights 執行個體</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>即時應用程式計量</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>瀏覽至此函式的 [監視] 區段，以檢視您的即時應用程式計量和記錄檔</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -4326,7 +4332,7 @@
     <value>個人</value>
   </data>
   <data name="swaggerDefinitionReadOnly" xml:space="preserve">
-    <value>在唯讀模式中，函式應用程式無法使用 API 定義 (Swagger)。</value>
+    <value>在唯讀模式中，函數應用程式無法使用 API 定義 (Swagger)。</value>
   </data>
   <data name="troubleshootYourApp" xml:space="preserve">
     <value>為您的應用程式進行疑難排解</value>
@@ -4954,7 +4960,7 @@
     <value>篩選連接字串</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
-    <value>Java Function Apps 不支援在入口網站中編輯函式。請使用 Maven 或 VS Code 進行開發。</value>
+    <value>Java 函數應用程式不支援在入口網站中編輯函式。請使用 Maven 或 VS Code 進行開發。</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
     <value>在 Windows 中，工作目錄路徑應相對於存放庫的根目錄，且開頭不得為 /、\ 或磁碟機名稱 (C:/)。若工作目錄位於存放庫的 src 資料夾，則路徑應為 src/</value>
@@ -5111,5 +5117,8 @@
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>依範本名稱搜尋</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>建立函數</value>
   </data>
 </root>

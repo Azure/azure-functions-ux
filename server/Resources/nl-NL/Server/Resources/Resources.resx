@@ -1916,7 +1916,7 @@
     <value>De functie {{functionName}} kan niet worden gemaakt. Probeer het later opnieuw.</value>
   </data>
   <data name="error_unableToDecryptKeys" xml:space="preserve">
-    <value>De functietoegangssleutels kunnen niet worden ontsleuteld. Dit kan gebeuren wanneer u de app verwijdert en opnieuw maakt met dezelfde naam, of als u uw sleutels hebt gekopieerd uit een andere functieapp. U kunt de volgende stappen volgen om het probleem op te lossen Ga naar https://go.microsoft.com/fwlink/?linkid=844094</value>
+    <value>De functietoegangssleutels kunnen niet worden ontsleuteld. Dit kan gebeuren wanneer u de app verwijdert en opnieuw maakt met dezelfde naam, of als u uw sleutels hebt gekopieerd uit een andere functie-app. U kunt de volgende stappen volgen om het probleem op te lossen Ga naar https://go.microsoft.com/fwlink/?linkid=844094</value>
   </data>
   <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
     <value>Het bestand {{fileName}} kan niet worden verwijderd. Probeer het later opnieuw.</value>
@@ -2261,7 +2261,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Voer een upgrade van uw plan uit.</value>
   </data>
   <data name="slotNew_noAccess" xml:space="preserve">
-    <value>Geen toegang voor het maken van een site. Controleer of u beschikt over de juiste toegang voor RBAC en of er geen leesvergrendelingen zijn ingeschakeld.</value>
+    <value>Geen toegang voor het maken van een site. Controleer of u beschikt over de juiste RBAC-toegang voor de functie-app en of er geen leesvergrendelingen zijn ingeschakeld.</value>
   </data>
   <data name="slots_upgrade" xml:space="preserve">
     <value>Upgrade uitvoeren naar een standaard of premium plan om sleuven toe te voegen.</value>
@@ -2793,7 +2793,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>waarde verbergen</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>De App Insights-instrumentatiesleutel wordt weergegeven in de app-instellingen, maar App Insights is niet gevonden in het abonnement van de app Function. Controleer of App Insights zich bevindt in hetzelfde abonnement als de app Function.</value>
+    <value>De App Insights-instrumentatiesleutel wordt weergegeven in de app-instellingen, maar App Insights is niet gevonden in het abonnement van de functie-app. Controleer of App Insights zich bevindt in hetzelfde abonnement als de functie-app.</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>Begin van rij</value>
@@ -3221,8 +3221,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/maand (schatting)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/maand (geschat)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>{0} {1}/maand voor basislijn (schatting)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Kies een andere prijscategorie om meer resources aan uw abonnement toe te voegen</value>
@@ -3385,6 +3385,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Application Insights-instantie</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Metrische gegevens van Live App</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Navigeer naar de sectie Monitor voor deze functie om de metrische gegevens en logboeken van uw Live App weer te geven</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -4249,10 +4255,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Statische HTML-webpagina afgehandeld met NGINX-webserver.</value>
   </data>
   <data name="singleContainerSample1TitleWindows" xml:space="preserve">
-    <value>Asp.Net-webformulieren</value>
+    <value>ASP.NET Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>De ASP.NET-webformulierentoepassing geïmplementeerd in de LTSC-container van Windows Server Core 2019.</value>
+    <value>ASP.NET Web Forms-toepassing geïmplementeerd in de LTSC-container van Windows Server Core 2019.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask met Redis</value>
@@ -5112,5 +5118,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>Zoeken op sjabloonnaam</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>Functie maken</value>
   </data>
 </root>

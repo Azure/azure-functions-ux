@@ -220,19 +220,19 @@
     <value>Créer + commencer</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Applications de fonctions</value>
+    <value>Applications de fonction</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
     <value>Prise en main d'Azure Functions</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>Nouvelle application de fonctions</value>
+    <value>Nouvelle application de fonction</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>Votre abonnement ne contient pas d'applications de fonctions. Il s'agit de conteneurs où vos fonctions sont exécutées. Créez-en une maintenant.</value>
+    <value>Votre abonnement ne contient pas d'applications de fonction. Il s'agit de conteneurs où vos fonctions sont exécutées. Créez-en une maintenant.</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>Vous pouvez aussi créer une application de fonctions depuis le &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Portail Azure&lt;/a&gt;.</value>
+    <value>Vous pouvez aussi créer une application de fonction depuis le &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Portail Azure&lt;/a&gt;.</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
     <value>Sélectionner l'emplacement</value>
@@ -244,7 +244,7 @@
     <value>L'abonnement {{displayName}} ({{ subscriptionId }}) n'est pas dans la liste verte pour l'exécution de fonctions</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>Votre abonnement contient une ou plusieurs applications de fonctions. Il s'agit de conteneurs où vos fonctions sont exécutées. Sélectionnez-en une ou créez-en une ci-dessous.</value>
+    <value>Votre abonnement contient une ou plusieurs applications de fonction. Il s'agit de conteneurs où vos fonctions sont exécutées. Sélectionnez-en une ou créez-en une ci-dessous.</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
     <value>Le nom doit contenir au moins 2 caractères</value>
@@ -256,19 +256,19 @@
     <value>Le nom peut contenir des lettres, des chiffres et des traits d'union (mais le premier et le dernier caractères doivent être une lettre ou un chiffre)</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>Le nom d'application de fonctions {{funcName}} n'est pas disponible</value>
+    <value>Le nom d'application de fonction {{funcName}} n'est pas disponible</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
     <value>Un abonnement Azure est nécessaire pour pouvoir utiliser ce service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Cliquez ici&lt;/a&gt; pour créer un abonnement d'évaluation gratuit</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>Vos applications de fonctions</value>
+    <value>Vos applications de fonction</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>Votre abonnement</value>
   </data>
   <data name="createApp_description" xml:space="preserve">
-    <value>La création d'une application Function App approvisionne automatiquement un nouveau conteneur capable d'héberger et d'exécuter votre code.</value>
+    <value>La création d'une application de fonction approvisionne automatiquement un nouveau conteneur capable d'héberger et d'exécuter votre code.</value>
   </data>
   <data name="createApp_fail" xml:space="preserve">
     <value>Échec de la création de l'application</value>
@@ -461,7 +461,7 @@
     <value>Les modifications apportées à la fonction actuelle seront perdues. Voulez-vous vraiment continuer ?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Paramètres de l'application de fonctions</value>
+    <value>Paramètres de l'application de fonction</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
     <value>Une nouvelle version d'Azure Functions est disponible. Pour effectuer la mise à niveau, cliquez ici</value>
@@ -482,7 +482,7 @@
     <value>Utilisation de l'application (Go/s)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Utilisation de Function App</value>
+    <value>Utilisation de l'application de fonction</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
     <value>Aucune donnée disponible</value>
@@ -608,7 +608,7 @@
     <value>Paramètre</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>L'authentification est activée pour l'application de fonctions. Désactivez l'authentification avant d'exécuter la fonction.</value>
+    <value>L'authentification est activée pour l'application de fonction. Désactivez l'authentification avant d'exécuter la fonction.</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
     <value>Une erreur s'est produite lors de l'exécution de la fonction ({{name}}). Consultez la sortie des journaux pour l'erreur complète.</value>
@@ -677,7 +677,7 @@
     <value>Période d'évaluation expirée</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>Les modifications apportées ici affectent toutes les fonctions de votre application de fonctions.</value>
+    <value>Les modifications apportées ici affectent toutes les fonctions de votre application de fonction.</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
     <value>&lt;span&gt;Créez une toute nouvelle fonction&lt;/span&gt; : commencez avec un des modèles de fonction prédéfinie</value>
@@ -689,7 +689,7 @@
     <value>&lt;span&gt;Explorez la documentation&lt;/span&gt; : découvrez toutes les fonctionnalités d'Azure Functions &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;ici&lt;/a&gt;</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Paramètres Function App</value>
+    <value>Paramètres de l'application de fonction</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
     <value>Intégrer</value>
@@ -716,7 +716,7 @@
     <value>&lt;span&gt;Adaptez cet exemple de fonction&lt;/span&gt; : Personnalisez-la sur le tableau de bord facile à utiliser</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>Vos fonctions sont conçues pour s'exécuter dans Azure App Service comme application de fonctions, et c'est ici que vous modifiez les fonctionnalités de cette application.</value>
+    <value>Vos fonctions sont conçues pour s'exécuter dans Azure App Service comme application de fonction, et c'est ici que vous modifiez les fonctionnalités de cette application.</value>
   </data>
   <data name="update" xml:space="preserve">
     <value>Mettre à jour</value>
@@ -977,7 +977,7 @@
     <value>Définir le quota</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>Si le quota d'utilisation quotidienne est atteint, l'application Function App est arrêtée jusqu'au lendemain à 0h00 UTC.</value>
+    <value>Si le quota d'utilisation quotidienne est atteint, l'application de fonction est arrêtée jusqu'au lendemain à 0h00 UTC.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>Voulez-vous vraiment révoquer la clé {{name}} ?</value>
@@ -986,7 +986,7 @@
     <value>Clés</value>
   </data>
   <data name="functionNew_nameError" xml:space="preserve">
-    <value>Le nom doit être unique dans une Function App. Il doit commencer par une lettre et peut contenir des lettres, des chiffres (0-9), des tirets ("-") et des traits de soulignement ("_").</value>
+    <value>Le nom doit être unique dans une application de fonction. Il doit commencer par une lettre et peut contenir des lettres, des chiffres (0-9), des tirets ("-") et des traits de soulignement ("_").</value>
   </data>
   <data name="functionDev_loading" xml:space="preserve">
     <value>Chargement...</value>
@@ -1067,7 +1067,7 @@
     <value>Méthodes sélectionnées</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Paramètres Function App</value>
+    <value>Paramètres de l'application de fonction</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
     <value>Vous êtes actuellement épinglé à la version du runtime : {{exactExtensionVersion}}. Vous pouvez mettre à jour pour désépingler et utiliser la dernière version : ({{latestExtensionVersion}}).</value>
@@ -1175,7 +1175,7 @@
     <value>Nouvelle fonction</value>
   </data>
   <data name="functionApps" xml:space="preserve">
-    <value>Applications de fonctions</value>
+    <value>Applications de fonction</value>
   </data>
   <data name="stop" xml:space="preserve">
     <value>Arrêter</value>
@@ -1796,7 +1796,7 @@
     <value>Paramètres</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Paramètres de l'application de fonctions</value>
+    <value>Paramètres de l'application de fonction</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>Configuration</value>
@@ -2366,7 +2366,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>La validation du schéma proxies.json a échoué. Erreur : '{0}'.</value>
   </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-    <value>Dans un plan de consommation, vous pouvez limiter l'utilisation de la plateforme en définissant un quota d'utilisation quotidienne en gigaoctets-secondes. Une fois ce quota atteint, l'application Function App est arrêtée jusqu'au lendemain à 0h00 UTC.</value>
+    <value>Dans un plan de consommation, vous pouvez limiter l'utilisation de la plateforme en définissant un quota d'utilisation quotidienne en gigaoctets-secondes. Une fois ce quota atteint, l'application de fonction est arrêtée jusqu'au lendemain à 0h00 UTC.</value>
   </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
     <value>(stratégie de hub)</value>
@@ -2792,7 +2792,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>masquer la valeur</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>La clé d'instrumentation App Insights est présentée dans les paramètres de l'application, mais App Insights est introuvable dans l'abonnement de Function App. Vérifiez que votre application App Insights se trouve dans le même abonnement que Function App.</value>
+    <value>La clé d'instrumentation App Insights est présentée dans les paramètres de l'application, mais App Insights est introuvable dans l'abonnement de l'application de fonction. Vérifiez que votre application App Insights se trouve dans le même abonnement que l'application de fonction.</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>Début de ligne</value>
@@ -3220,8 +3220,8 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/mois (estimé)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/mois (estimé)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>À partir de {0} {1}/mois (estimation)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Choisir un autre niveau tarifaire pour ajouter d'autres ressources à votre plan</value>
@@ -3263,7 +3263,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Mise à l’échelle rapide</value>
   </data>
   <data name="pricing_rapidScaleDesc" xml:space="preserve">
-    <value>Monter en charge les applications de la fonction selon le déclencheur d’événements.</value>
+    <value>Monter en charge les applications de fonction selon le déclencheur d’événements.</value>
   </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Mise à l'échelle automatique</value>
@@ -3293,7 +3293,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Haute densité</value>
   </data>
   <data name="pricing_highDensityDesc" xml:space="preserve">
-    <value>Partager efficacement un plan App Service entre plusieurs applications de la fonction.</value>
+    <value>Partager efficacement un plan App Service entre plusieurs applications de fonction.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>Emplacements de préproduction</value>
@@ -3384,6 +3384,12 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Instance Application Insights</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Métriques de l’application dynamique</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Accédez à la section « Monitor » de cette fonction afin d’afficher vos journaux et métriques d’application dynamique</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -4248,10 +4254,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Page web HTML statique pris issue du serveur web Nginx.</value>
   </data>
   <data name="singleContainerSample1TitleWindows" xml:space="preserve">
-    <value>Web Forms Asp.Net</value>
+    <value>Asp.Net Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Application Web Forms Asp.Net déployée dans un conteneur Windows Server Core 2019 LTSC.</value>
+    <value>Application Asp.Net Web Forms déployée dans un conteneur Windows Server Core 2019 LTSC.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask avec Redis</value>
@@ -4809,7 +4815,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Les fonctions de modification dans le portail ne sont pas prises en charge pour Python Function Apps. Utilisez l’interface CLI ou VS Code pour le développement. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;En savoir plus&lt;/a&gt;</value>
+    <value>Les fonctions de modification dans le portail ne sont pas prises en charge pour les applications de fonction Python. Utilisez l’interface CLI ou VS Code pour le développement. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;En savoir plus&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Les montages Stockage Azure contiennent des secrets. Des autorisations en lecture/écriture sont requises pour afficher/modifier cette section.</value>
@@ -5098,7 +5104,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Nouvelle fonction</value>
   </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-    <value>Créez une fonction dans cette Function App. Vous pouvez commencer par sélectionner un modèle ci-dessous ou </value>
+    <value>Créez une fonction dans cette application de fonction. Vous pouvez commencer par sélectionner un modèle ci-dessous ou </value>
   </data>
   <data name="functionCreate_goToQuickstart" xml:space="preserve">
     <value>accédez au démarrage rapide.</value>
@@ -5111,5 +5117,8 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>Rechercher par nom de modèle</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>Créer une fonction</value>
   </data>
 </root>
