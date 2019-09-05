@@ -9,11 +9,11 @@ const AppSettingKeyVault: React.SFC<AppSettingKeyVaultProps> = props => {
   return (
     <>
       <div id="app-settings-key-vault">
-        <h3>{t('key-vault reference')}</h3>
+        <h3>{t('keyVaultReference')}</h3>
         <div>
           <InformationLabel value="This is value" id="key-vault-name" label="Vault Name" />
           <InformationLabel value="This is Secret" id="key-vault-secret" label="Secret" link="https:/google.com" />
-          <InformationLabel value="Resolved" id="key-vault-status" label="Status" icon="completed" />
+          <InformationLabel value="Resolved" id="key-vault-status" label="Status" icon="completed" type="success" />
         </div>
       </div>
     </>
