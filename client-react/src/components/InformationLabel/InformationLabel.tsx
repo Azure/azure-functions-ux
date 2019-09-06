@@ -31,11 +31,10 @@ const getLabelColor = (type: string, theme: ThemeExtended) => {
   }
 };
 
-const defaultLabelStyle = (theme: ThemeExtended) => {
-  return style({
+const defaultLabelStyle = (theme: ThemeExtended) =>
+  style({
     color: theme.semanticColors.textColor,
   });
-};
 
 const getLabelStyle = (labelProps: any, theme: ThemeExtended) => {
   return labelProps && labelProps.type

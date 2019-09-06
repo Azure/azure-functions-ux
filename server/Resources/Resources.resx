@@ -4506,7 +4506,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>New application setting</value>
   </data>
   <data name="keyVaultReferenceDetails" xml:space="preserve">
-    <value>Key Vault Details</value>
+    <value>Key Vault Reference Details</value>
   </data>
   <data name="keyVaultName" xml:space="preserve">
     <value>Vault Name</value>

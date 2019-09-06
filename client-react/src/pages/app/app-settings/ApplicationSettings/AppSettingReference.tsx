@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import InformationLabel from '../../../../components/InformationLabel/InformationLabel';
 import { KeyVaultReference } from '../../../../models/site/config';
+import { ThemeContext } from '../../../../ThemeContext';
+import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
+import { style } from 'typestyle';
 
 export interface AppSettingReferenceProps {
   appSettingReference: KeyVaultReference;
 }
 
+const elementWrapperStyle = (theme: ThemeExtended) =>
+  style({
+    borderTop: `1px solid ${theme.palette.neutralDark}`,
+    marginTop: '40px',
+    paddingTop: '20px',
+  });
+
 const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
   const { t } = useTranslation();
   const { status, vaultName = '', secretName = '', secretVersion = '', details, identityType = '' } = props.appSettingReference;
+  const theme = useContext(ThemeContext);
 
   const isValidValue = (value: string) => {
     return value && value.length > 0;
@@ -31,14 +42,19 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
     return identityType.toLocaleLowerCase() === 'userassigned' ? 'User' : 'System';
   };
 
+  const appReferenceHeaderStyle = style({
+    textDecoration: 'none',
+    fontWeight: 'normal',
+  });
+
   const vaultNameUri = vaultName ? `https://${vaultName}.vault.azure.net/` : '';
   const secretNameUri = secretName ? `${vaultNameUri}/secrets/${secretName}/` : '';
   const secretVersionUri = secretVersion ? `${secretNameUri}/${secretVersion}` : '';
 
   return (
     <>
-      <div id="app-settings-key-vault">
-        <h3>{t('keyVaultReferenceDetails')}</h3>
+      <div id="app-settings-key-vault" className={elementWrapperStyle(theme)}>
+        <h3 className={appReferenceHeaderStyle}>{t('keyVaultReferenceDetails')}</h3>
         <div>
           {isValidValue(vaultName) && (
             <InformationLabel value={vaultName} id="key-vault-name" link={vaultNameUri} label={t('keyVaultName')} />
