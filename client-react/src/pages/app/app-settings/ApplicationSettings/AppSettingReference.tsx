@@ -38,20 +38,22 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
   return (
     <>
       <div id="app-settings-key-vault">
-        <h3>{t('keyVaultReference')}</h3>
+        <h3>{t('keyVaultReferenceDetails')}</h3>
         <div>
-          {isValidValue(vaultName) && <InformationLabel value={vaultName} id="key-vault-name" link={vaultNameUri} label="Vault Name" />}
+          {isValidValue(vaultName) && (
+            <InformationLabel value={vaultName} id="key-vault-name" link={vaultNameUri} label={t('keyVaultName')} />
+          )}
           {isValidValue(secretName) && (
-            <InformationLabel value={secretName} id="key-secret-name" link={secretNameUri} label="Secret Name" />
+            <InformationLabel value={secretName} id="key-secret-name" link={secretNameUri} label={t('keyVaultSecretName')} />
           )}
           {isValidValue(secretVersion) && (
-            <InformationLabel value={secretVersion} id="key-secret-version" link={secretVersionUri} label="Secret Version" />
+            <InformationLabel value={secretVersion} id="key-secret-version" link={secretVersionUri} label={t('keyVaultSecretVersion')} />
           )}
           {isValidValue(identityType) && (
-            <InformationLabel value={`${getIdentityValue()} assigned managed identity`} id="key-identity" label="Identity" />
+            <InformationLabel value={`${getIdentityValue()} assigned managed identity`} id="key-identity" label={t('identity')} />
           )}
-          <InformationLabel value={status} id="key-status" label="Status" labelProps={getLabelPropsForStatus()} />
-          {!isResolved(status) && <InformationLabel value={details} id="key-error-details" label="Error Details" />}
+          <InformationLabel value={status} id="key-status" label={t('status')} labelProps={getLabelPropsForStatus()} />
+          {!isResolved(status) && <InformationLabel value={details} id="key-error-details" label={t('errorDetails')} />}
         </div>
       </div>
     </>

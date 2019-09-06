@@ -4505,6 +4505,24 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
   </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Key Vault Details</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Vault Name</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Secret Name</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Secret Version</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Identity</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Error Details</value>
+  </data>
   <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
     <value>The selected registry does not exist in same subscription as the current app. Please use the private registry tab to switch registries.</value>
   </data>

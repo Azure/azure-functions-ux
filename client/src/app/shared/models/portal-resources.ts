@@ -1452,6 +1452,12 @@ export class PortalResources {
   public static addEditConnectionStringHeader = 'addEditConnectionStringHeader';
   public static newConnectionString = 'newConnectionString';
   public static addEditApplicationSetting = 'addEditApplicationSetting';
+  public static keyVaultReferenceDetails = 'keyVaultReferenceDetails';
+  public static keyVaultName = 'keyVaultName';
+  public static keyVaultSecretName = 'keyVaultSecretName';
+  public static keyVaultSecretVersion = 'keyVaultSecretVersion';
+  public static identity = 'identity';
+  public static errorDetails = 'errorDetails';
   public static containerACRCrossSubscriptionRegistry = 'containerACRCrossSubscriptionRegistry';
   public static sideNav_Functions_ReadOnly = 'sideNav_Functions_ReadOnly';
   public static sideNav_FunctionsInaccessible = 'sideNav_FunctionsInaccessible';
