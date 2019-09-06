@@ -5,13 +5,15 @@ import { style } from 'typestyle';
 import { ThemeContext } from '../../ThemeContext';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
-interface CustomInformationLabelProps {
+export interface CustomInformationLabelProps {
   id: string;
-  icon?: string;
   value: string;
   label: string;
   link?: string;
-  type?: string;
+  labelProps?: {
+    icon?: string;
+    type?: string;
+  };
 }
 
 const labelIconStyle = style({
@@ -19,26 +21,43 @@ const labelIconStyle = style({
   marginRight: '4px',
 });
 
-const getLabelStyle = (type: string, theme: ThemeExtended) => {
-  return type === 'success'
-    ? style({ color: theme.semanticColors.inlineSuccessText })
-    : style({ color: theme.semanticColors.inlineErrorText });
+const getLabelColor = (type: string, theme: ThemeExtended) => {
+  if (type === 'success') {
+    return theme.semanticColors.inlineSuccessText;
+  } else if (type === 'error') {
+    return theme.semanticColors.inlineErrorText;
+  } else {
+    return theme.semanticColors.textColor;
+  }
+};
+
+const defaultLabelStyle = (theme: ThemeExtended) => {
+  return style({
+    color: theme.semanticColors.textColor,
+  });
+};
+
+const getLabelStyle = (labelProps: any, theme: ThemeExtended) => {
+  return labelProps && labelProps.type
+    ? style({
+        color: getLabelColor(labelProps.type, theme),
+      })
+    : defaultLabelStyle(theme);
 };
 
 const InformationLabel: FC<CustomInformationLabelProps> = props => {
-  const { value, id, link, icon, type } = props;
+  const { value, id, link, labelProps } = props;
   const theme = useContext(ThemeContext);
-  const labelStyle = type ? getLabelStyle(type, theme) : style({ color: theme.semanticColors.textColor });
 
   return (
     <ReactiveFormControl {...props}>
       {link ? (
-        <Link id={`${id}-value-link`} href={link} aria-labelledby={`${id}-label`}>
+        <Link id={`${id}-value-link`} href={link} target="_blank" aria-labelledby={`${id}-label`}>
           {value}
         </Link>
       ) : (
-        <Label id={`${id}-value`} aria-labelledby={`${id}-label`} className={labelStyle}>
-          {icon && <Icon iconName={icon} className={labelIconStyle} />}
+        <Label id={`${id}-value`} aria-labelledby={`${id}-label`} className={labelProps ? getLabelStyle(labelProps, theme) : ''}>
+          {labelProps && labelProps.icon && <Icon iconName={labelProps.icon} className={labelIconStyle} />}
           <span>{value}</span>
         </Label>
       )}

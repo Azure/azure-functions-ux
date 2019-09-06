@@ -72,3 +72,7 @@ export const getProductionAppWritePermissions = async (resourceId: string) => {
 
   return hasRbacPermission && !hasReadonlyLock;
 };
+
+export const fetchApplicationSettingReference = (resourceId: string, appSettingName: string) => {
+  return SiteService.fetchApplicationSettingReference(resourceId, appSettingName);
+};
