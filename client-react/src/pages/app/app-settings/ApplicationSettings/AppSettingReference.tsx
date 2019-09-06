@@ -20,6 +20,7 @@ const elementWrapperStyle = (theme: ThemeExtended) =>
 const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
   const { t } = useTranslation();
   const { status, vaultName = '', secretName = '', secretVersion = '', details, identityType = '' } = props.appSettingReference;
+
   const theme = useContext(ThemeContext);
 
   const isValidValue = (value: string): boolean => {
