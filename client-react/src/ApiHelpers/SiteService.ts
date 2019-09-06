@@ -4,7 +4,7 @@ import { CommonConstants } from '../utils/CommonConstants';
 import LogService from '../utils/LogService';
 import { ArmObj, ArmArray } from '../models/arm-obj';
 import { Site } from '../models/site/site';
-import { SiteConfig, ArmAzureStorageMount, KeyVaultReference } from '../models/site/config';
+import { SiteConfig, ArmAzureStorageMount } from '../models/site/config';
 import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
 
@@ -67,20 +67,6 @@ export default class SiteService {
       method: 'POST',
     });
     LogService.trackEvent('site-service', 'appSettingsLoaded', {
-      success: result.metadata.success,
-      resultCount: result.data && Object.keys(result.data.properties).length,
-    });
-    return result;
-  };
-
-  public static fetchApplicationSettingReference = async (resourceId: string, appSettingName: string) => {
-    const id = `${resourceId}/config/configreferences/appsettings/${appSettingName}`;
-    const result = await MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
-      resourceId: id,
-      commandName: 'fetchApplicationSettingReference',
-      method: 'GET',
-    });
-    LogService.trackEvent('site-service', 'fetchApplicationSettingReference', {
       success: result.metadata.success,
       resultCount: result.data && Object.keys(result.data.properties).length,
     });

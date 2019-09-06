@@ -10,8 +10,9 @@ import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoF
 import AppSettingReference from './AppSettingReference';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
-import { fetchApplicationSettingReference } from '../AppSettings.service';
+import { getApplicationSettingReference } from '../AppSettings.service';
 import { KeyVaultReference } from '../../../../models/site/config';
+import { isLinuxApp } from '../../../../utils/arm-utils';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
@@ -19,11 +20,10 @@ export interface AppSettingAddEditProps {
   otherAppSettings: FormAppSetting[];
   appSetting: FormAppSetting;
   disableSlotSetting: boolean;
-  isLinux: boolean;
   site: ArmObj<Site>;
 }
 const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
-  const { updateAppSetting, otherAppSettings, closeBlade, appSetting, disableSlotSetting, isLinux, site } = props;
+  const { updateAppSetting, otherAppSettings, closeBlade, appSetting, disableSlotSetting, site } = props;
   const [nameError, setNameError] = useState('');
   const [currentAppSetting, setCurrentAppSetting] = useState(appSetting);
   const [currentAppSettingReference, setCurrentAppSettingReference] = useState<
@@ -38,10 +38,12 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     },
   });
 
+  const isLinux = isLinuxApp(site);
+
   const { t } = useTranslation();
 
-  const fetchAppSettingReference = async () => {
-    const appSettingReference = await fetchApplicationSettingReference(site.id, currentAppSetting.name);
+  const getAppSettingReference = async () => {
+    const appSettingReference = await getApplicationSettingReference(site.id, currentAppSetting.name);
     if (appSettingReference.metadata.success) {
       setCurrentAppSettingReference(appSettingReference.data);
     }
@@ -84,7 +86,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     return (
       appSetting.name === currentAppSetting.name &&
       appSetting.value === currentAppSetting.value &&
-      currentAppSetting.value.startsWith('@Microsoft.KeyVault(')
+      currentAppSetting.value.toLocaleLowerCase().startsWith('@microsoft.keyvault(')
     );
   };
 
@@ -112,7 +114,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
 
   useEffect(() => {
     if (isAppSettingValidReference()) {
-      fetchAppSettingReference();
+      getAppSettingReference();
     }
   }, []);
   return (

@@ -22,8 +22,8 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
   const { status, vaultName = '', secretName = '', secretVersion = '', details, identityType = '' } = props.appSettingReference;
   const theme = useContext(ThemeContext);
 
-  const isValidValue = (value: string) => {
-    return value && value.length > 0;
+  const isValidValue = (value: string): boolean => {
+    return !!value && value.length > 0;
   };
 
   const getLabelPropsForStatus = () => {
@@ -34,11 +34,11 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
     }
   };
 
-  const isResolved = (status: string) => {
+  const isResolved = (status: string): boolean => {
     return status.toLocaleLowerCase() === 'resolved';
   };
 
-  const getIdentityValue = () => {
+  const getIdentityValue = (): string => {
     return identityType.toLocaleLowerCase() === 'userassigned' ? 'User' : 'System';
   };
 
