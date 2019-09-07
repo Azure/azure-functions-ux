@@ -111,6 +111,7 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
         if (r.isSuccessful) {
           this.folders = this.getFolders(r.result);
           this.files = this.getFiles(r.result);
+          this._setHeaders();
         }
       });
   }

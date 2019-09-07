@@ -1877,7 +1877,7 @@
     <value>Programinställningen {0} saknas i appen. Den här inställningen innehåller en anslutningssträng för ett Azure Storage-konto som behövs för funktionernas övervakningsvy. Här aggregeras anropsinformation som sedan visas i övervakningsvyn. Övervakningsvyn kan vara skadad.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
-    <value>Programinställningen {0} saknas i appen. Den här inställningen innehåller en anslutningssträng för ett Azure Storage-konto som behövs för att funktionskörningen ska kunna hantera synkronisering av flera instanser, logga anropsresultat och köra andra infrastrukturjobb. Appen fungerar inte som den ska utan den här inställningen.</value>
+    <value>Programinställningen {0} saknas i appen. Den här inställningen innehåller en anslutningssträng för ett Azure Storage-konto som behövs för att funktionskörningen ska kunna hantera synkronisering av flera instanser, logga anropsresultat och köra andra infrastrukturjobb. Funktionsappen fungerar inte som den ska utan den här inställningen.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
     <value>Skapa appinställningen med en giltig lagringsanslutningssträng.</value>
@@ -3220,8 +3220,8 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/månad (uppskattat)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/månad (uppskattat)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>{0} {1}/månad baslinje (uppskattat)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Välj en annan prisnivå om du vill lägga till fler resurser i din plan</value>
@@ -3384,6 +3384,12 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
     <value>Application Insights-instans</value>
+  </data>
+  <data name="liveAppMetrics" xml:space="preserve">
+    <value>Live appmått</value>
+  </data>
+  <data name="viewLiveAppMetrics" xml:space="preserve">
+    <value>Gå till avsnittet Övervaka för den här funktionen för att visa dina Live appmått och loggar</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Success</value>
@@ -4248,10 +4254,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Statisk HTML-webbsida som servas från Nginx-webbservern.</value>
   </data>
   <data name="singleContainerSample1TitleWindows" xml:space="preserve">
-    <value>Asp.Net-webbformulär</value>
+    <value>Asp.Net Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Asp.Net webbformulär distribuerade i Windows Server Core 2019 LTSC-container.</value>
+    <value>Asp.Net Web Forms-app distribuerad i Windows Server Core 2019 LTSC-container.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask med Redis</value>
@@ -5111,5 +5117,8 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="functionCreate_searchByTemplateName" xml:space="preserve">
     <value>Sök efter mallnamn</value>
+  </data>
+  <data name="functionCreate_createFunction" xml:space="preserve">
+    <value>Skapa funktion</value>
   </data>
 </root>
