@@ -127,6 +127,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
           value={currentAppSetting.name}
           errorMessage={nameError}
           onChange={updateAppSettingName}
+          copyButton={true}
           autoFocus
         />
         <TextFieldNoFormik
@@ -135,6 +136,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
           widthOverride="100%"
           value={currentAppSetting.value}
           onChange={updateAppSettingValue}
+          copyButton={true}
         />
         <Checkbox
           label={t('sticky')}
