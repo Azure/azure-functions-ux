@@ -67,7 +67,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
 
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
-      {({ initialFormValues, saving, onSubmit, scaleUpPlan }) => (
+      {({ initialFormValues, saving, onSubmit, scaleUpPlan, refreshAppSettings }) => (
         <SiteContext.Consumer>
           {site => {
             return (
@@ -84,6 +84,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                       <AppSettingsCommandBar
                         submitForm={formProps.submitForm}
                         resetForm={formProps.resetForm}
+                        refreshAppSettings={refreshAppSettings}
                         disabled={!app_write || !editable || saving}
                         dirty={formProps.dirty}
                       />

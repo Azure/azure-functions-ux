@@ -5124,6 +5124,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>Create Function</value>
   </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Refresh all settings for your web application</value>
   <data name="keyVaultReferenceDetails" xml:space="preserve">
     <value>Key Vault Reference Details</value>
   </data>
