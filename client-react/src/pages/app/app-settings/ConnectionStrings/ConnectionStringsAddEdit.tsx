@@ -85,6 +85,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
         value={currentConnectionString.name}
         errorMessage={nameError}
         onChange={updateConnectionStringName}
+        copyButton={true}
         autoFocus
       />
       <TextFieldNoFormik
@@ -94,6 +95,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
         value={currentConnectionString.value}
         errorMessage={valueError}
         onChange={updateConnectionStringValue}
+        copyButton={true}
       />
       <DropdownNoFormik
         label={t('type')}
