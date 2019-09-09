@@ -88,4 +88,9 @@ export const infoIconStyle = (theme: ThemeExtended) =>
     paddingRight: '5px',
   });
 
+export const copyButtonStyle = (theme: ThemeExtended) =>
+  style({
+    paddingLeft: '5px',
+  });
+
 export const learnMoreLinkStyle = style({ minWidth: '70px' });
