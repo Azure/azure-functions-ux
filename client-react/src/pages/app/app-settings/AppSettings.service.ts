@@ -3,8 +3,11 @@ import StorageService from '../../../ApiHelpers/StorageService';
 import RbacHelper from '../../../utils/rbac-helper';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
-import { SiteConfig, ArmAzureStorageMount } from '../../../models/site/config';
+import { SiteConfig, ArmAzureStorageMount, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
+import LogService from '../../../utils/LogService';
+import MakeArmCall from '../../../ApiHelpers/ArmHelper';
+import { HttpResponseObject } from '../../../ArmHelper.types';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
   const [
@@ -71,4 +74,21 @@ export const getProductionAppWritePermissions = async (resourceId: string) => {
   ]);
 
   return hasRbacPermission && !hasReadonlyLock;
+};
+
+export const getApplicationSettingReference = async (
+  resourceId: string,
+  appSettingName: string
+): Promise<HttpResponseObject<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>> => {
+  const id = `${resourceId}/config/configreferences/appsettings/${appSettingName}`;
+  const result = await MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
+    resourceId: id,
+    commandName: 'getApplicationSettingReference',
+    method: 'GET',
+  });
+  LogService.trackEvent('site-service', 'getApplicationSettingReference', {
+    success: result.metadata.success,
+    resultCount: result.data && Object.keys(result.data.properties).length,
+  });
+  return result;
 };
