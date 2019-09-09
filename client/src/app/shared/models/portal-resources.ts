@@ -1651,4 +1651,5 @@ export class PortalResources {
   public static functionCreate_details = 'functionCreate_details';
   public static functionCreate_searchByTemplateName = 'functionCreate_searchByTemplateName';
   public static functionCreate_createFunction = 'functionCreate_createFunction';
+  public static appSettingsRefreshAriaLabel = 'appSettingsRefreshAriaLabel';
 }
