@@ -1652,4 +1652,10 @@ export class PortalResources {
   public static functionCreate_searchByTemplateName = 'functionCreate_searchByTemplateName';
   public static functionCreate_createFunction = 'functionCreate_createFunction';
   public static appSettingsRefreshAriaLabel = 'appSettingsRefreshAriaLabel';
+  public static keyVaultReferenceDetails = 'keyVaultReferenceDetails';
+  public static keyVaultName = 'keyVaultName';
+  public static keyVaultSecretName = 'keyVaultSecretName';
+  public static keyVaultSecretVersion = 'keyVaultSecretVersion';
+  public static identity = 'identity';
+  public static errorDetails = 'errorDetails';
 }

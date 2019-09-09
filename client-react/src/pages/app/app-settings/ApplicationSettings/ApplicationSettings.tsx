@@ -108,7 +108,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           headerText={t('addEditApplicationSetting')}
           closeButtonAriaLabel={t('close')}>
           <AppSettingAddEdit
-            isLinux={isLinuxApp(values.site)}
+            site={values.site}
             appSetting={this.state.currentAppSetting!}
             disableSlotSetting={!production_write}
             otherAppSettings={values.appSettings}
