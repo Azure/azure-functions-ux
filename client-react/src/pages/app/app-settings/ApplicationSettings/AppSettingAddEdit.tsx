@@ -1,5 +1,5 @@
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ActionBar from '../../../../components/ActionBar';
@@ -7,6 +7,12 @@ import { formElementStyle } from '../AppSettings.styles';
 import { FormAppSetting } from '../AppSettings.types';
 import { MessageBarType, MessageBar } from 'office-ui-fabric-react/lib';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import AppSettingReference from './AppSettingReference';
+import { ArmObj } from '../../../../models/arm-obj';
+import { Site } from '../../../../models/site/site';
+import { getApplicationSettingReference } from '../AppSettings.service';
+import { KeyVaultReference } from '../../../../models/site/config';
+import { isLinuxApp } from '../../../../utils/arm-utils';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
@@ -14,13 +20,35 @@ export interface AppSettingAddEditProps {
   otherAppSettings: FormAppSetting[];
   appSetting: FormAppSetting;
   disableSlotSetting: boolean;
-  isLinux: boolean;
+  site: ArmObj<Site>;
 }
 const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
-  const { updateAppSetting, otherAppSettings, closeBlade, appSetting, disableSlotSetting, isLinux } = props;
+  const { updateAppSetting, otherAppSettings, closeBlade, appSetting, disableSlotSetting, site } = props;
   const [nameError, setNameError] = useState('');
   const [currentAppSetting, setCurrentAppSetting] = useState(appSetting);
+  const [currentAppSettingReference, setCurrentAppSettingReference] = useState<
+    ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>
+  >({
+    id: '',
+    name: '',
+    type: '',
+    location: '',
+    properties: {
+      keyToReferenceStatuses: {},
+    },
+  });
+
+  const isLinux = isLinuxApp(site);
+
   const { t } = useTranslation();
+
+  const getAppSettingReference = async () => {
+    const appSettingReference = await getApplicationSettingReference(site.id, currentAppSetting.name);
+    if (appSettingReference.metadata.success) {
+      setCurrentAppSettingReference(appSettingReference.data);
+    }
+  };
+
   const updateAppSettingName = (e: any, name: string) => {
     const error = validateAppSettingName(name);
     setNameError(error);
@@ -45,6 +73,23 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     return otherAppSettings.filter(v => v.name.toLowerCase() === value.toLowerCase()).length >= 1 ? t('appSettingNamesUnique') : '';
   };
 
+  const isAppSettingReferenceVisible = () => {
+    return (
+      appSetting.name === currentAppSetting.name &&
+      appSetting.value === currentAppSetting.value &&
+      currentAppSettingReference &&
+      currentAppSetting.name in currentAppSettingReference.properties.keyToReferenceStatuses
+    );
+  };
+
+  const isAppSettingValidReference = () => {
+    return (
+      appSetting.name === currentAppSetting.name &&
+      appSetting.value === currentAppSetting.value &&
+      currentAppSetting.value.toLocaleLowerCase().startsWith('@microsoft.keyvault(')
+    );
+  };
+
   const save = () => {
     updateAppSetting(currentAppSetting);
   };
@@ -67,6 +112,11 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     disable: false,
   };
 
+  useEffect(() => {
+    if (isAppSettingValidReference()) {
+      getAppSettingReference();
+    }
+  }, []);
   return (
     <>
       <form>
@@ -111,6 +161,9 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
           secondaryButton={actionBarSecondaryButtonProps}
         />
       </form>
+      {isAppSettingReferenceVisible() && isAppSettingValidReference() && (
+        <AppSettingReference appSettingReference={currentAppSettingReference.properties.keyToReferenceStatuses[currentAppSetting.name]} />
+      )}
     </>
   );
 };
