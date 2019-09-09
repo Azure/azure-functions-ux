@@ -21,7 +21,7 @@ const labelIconStyle = style({
   marginRight: '4px',
 });
 
-const getLabelColor = (type: string, theme: ThemeExtended) => {
+const getLabelColor = (type: 'success' | 'error' | undefined, theme: ThemeExtended) => {
   if (type === 'success') {
     return theme.semanticColors.inlineSuccessText;
   } else if (type === 'error') {
