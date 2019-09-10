@@ -5,6 +5,7 @@ import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { HandlerMapping } from '../../../../models/site/config';
+import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 
 export interface HandlerMappingAddEditProps {
   updateHandlerMapping: (item: HandlerMapping) => any;
@@ -67,7 +68,7 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps> = props => {
   };
 
   return (
-    <form>
+    <form className={addEditFormStyle}>
       <TextFieldNoFormik
         label={t('extension')}
         widthOverride="100%"

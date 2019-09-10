@@ -13,6 +13,7 @@ import { Site } from '../../../../models/site/site';
 import { getApplicationSettingReference } from '../AppSettings.service';
 import { KeyVaultReference } from '../../../../models/site/config';
 import { isLinuxApp } from '../../../../utils/arm-utils';
+import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
@@ -119,7 +120,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
   }, []);
   return (
     <>
-      <form>
+      <form className={addEditFormStyle}>
         <TextFieldNoFormik
           label={t('nameRes')}
           id="app-settings-edit-name"
