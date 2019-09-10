@@ -94,3 +94,5 @@ export const copyButtonStyle = (theme: ThemeExtended) =>
   });
 
 export const learnMoreLinkStyle = style({ minWidth: '70px' });
+
+export const editPanelStyle = style({ paddingBottom: '60px' });

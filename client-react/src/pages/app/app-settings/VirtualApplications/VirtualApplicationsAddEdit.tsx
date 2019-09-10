@@ -7,6 +7,7 @@ import { isEqual } from 'lodash-es';
 import StringUtils from '../../../../utils/string';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { VirtualApplication } from '../../../../models/site/config';
+import { editPanelFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 
 export interface HandlerMappingAddEditProps {
   updateVirtualApplication: (item: VirtualApplication) => any;
@@ -108,7 +109,7 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
   };
 
   return (
-    <form>
+    <form className={editPanelFormStyle}>
       <TextFieldNoFormik
         label={t('virtualPath')}
         id="va-virtual-path"

@@ -10,6 +10,7 @@ import { DatabaseType, typeValueToString } from './connectionStringTypes';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
+import { editPanelFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 
 export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: FormConnectionString) => any;
@@ -77,7 +78,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
   };
 
   return (
-    <form>
+    <form className={editPanelFormStyle}>
       <TextFieldNoFormik
         label={t('nameRes')}
         widthOverride="100%"
