@@ -39,6 +39,7 @@ const elementWrapperStyle = (theme: ThemeExtended) =>
     overflow: 'hidden',
     borderTop: `1px solid ${theme.palette.neutralDark}`,
     zIndex: 1,
+    background: theme.semanticColors.bodyFrameBackground,
   });
 
 const buttonsWrapperStyle = style({

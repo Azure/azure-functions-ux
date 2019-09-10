@@ -10,6 +10,7 @@ import { Formik, FormikProps, Field } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
 import { StorageAccountsContext } from '../Contexts';
 import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
+import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 
 export interface AzureStorageMountsAddEditProps {
   updateAzureStorageMount: (item: FormAzureStorageMounts) => any;
@@ -75,7 +76,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
           disable: false,
         };
         return (
-          <form>
+          <form className={addEditFormStyle}>
             <Field
               name={'name'}
               label={t('_name')}
