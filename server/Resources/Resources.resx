@@ -5126,6 +5126,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
     <value>Refresh all settings for your web application</value>
+  </data>
   <data name="keyVaultReferenceDetails" xml:space="preserve">
     <value>Key Vault Reference Details</value>
   </data>
