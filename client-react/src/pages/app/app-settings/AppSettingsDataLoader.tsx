@@ -29,6 +29,7 @@ export interface AppSettingsDataLoaderProps {
     initialFormValues: AppSettingsFormValues;
     saving: boolean;
     scaleUpPlan: () => void;
+    refreshAppSettings: () => void;
     onSubmit: (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => void;
   }) => JSX.Element;
   resourceId: string;
@@ -38,6 +39,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const { resourceId, children } = props;
   const [initialValues, setInitialValues] = useState<AppSettingsFormValues | null>(null);
   const [initialLoading, setInitialLoading] = useState(false);
+  const [refreshValues, setRefreshValues] = useState(false);
   const [currentAvailableStacks, setCurrentAvailableStacks] = useState<ArmArray<AvailableStack>>({ value: [] });
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
@@ -113,6 +115,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     LogService.stopTrackPage('shell', { feature: 'AppSettings' });
     portalCommunicator.loadComplete();
     setInitialLoading(true);
+    setRefreshValues(false);
   };
   const fillSlots = async () => {
     const slots = await fetchSlots(resourceId);
@@ -120,9 +123,14 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       setSlotList(slots.data);
     }
   };
-  useEffect(() => {
+
+  const loadData = () => {
     fetchData();
     fillSlots();
+  };
+
+  useEffect(() => {
+    loadData();
   }, []);
   const scaleUpPlan = async () => {
     await portalCommunicator.openBlade(
@@ -131,6 +139,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     );
     const newSite = await SiteService.fetchSite(resourceId);
     setCurrentSiteNonForm(newSite.data);
+  };
+
+  const refreshAppSettings = () => {
+    setRefreshValues(true);
+    loadData();
   };
 
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
@@ -167,7 +180,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       portalContext.stopNotification(notificationId, false, errMessage);
     }
   };
-  if (!initialLoading || !initialValues) {
+  if (!initialLoading || refreshValues || !initialValues) {
     return <LoadingComponent />;
   }
   return (
@@ -176,7 +189,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         <StorageAccountsContext.Provider value={storageAccountsState}>
           <SiteContext.Provider value={currentSiteNonForm}>
             <SlotsListContext.Provider value={slotList}>
-              {children({ onSubmit, scaleUpPlan, initialFormValues: initialValues, saving: false })}
+              {children({ onSubmit, scaleUpPlan, refreshAppSettings, initialFormValues: initialValues, saving: false })}
             </SlotsListContext.Provider>
           </SiteContext.Provider>
         </StorageAccountsContext.Provider>
