@@ -83,13 +83,15 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       setAppPermissions(false);
       if (!resourceId.includes('/slots/')) {
         setProductionPermissions(false);
-      } else {
-        const productionPermission = await getProductionAppWritePermissions(resourceId);
-        setProductionPermissions(productionPermission);
       }
     } else {
       setMetadataFromApi(metadata.data);
       setSlotConfigNamesFromApi(slotConfigNames.data);
+    }
+
+    if (resourceId.includes('/slots/')) {
+      const productionPermission = await getProductionAppWritePermissions(resourceId);
+      setProductionPermissions(productionPermission);
     }
 
     if (site.data.properties.targetSwapSlot) {
