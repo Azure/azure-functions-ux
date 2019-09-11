@@ -105,6 +105,13 @@ export class LinuxSiteEnvironment extends Environment {
       runCheck: () => ({ status: 'disabled' }),
     };
 
+    this.scenarioChecks[ScenarioIds.skipStackValidation] = {
+      id: ScenarioIds.skipStackValidation,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.linuxAppStack] = {
       id: ScenarioIds.linuxAppStack,
       runCheck: () => {
