@@ -15,16 +15,14 @@ export class AuthzService implements IAuthzService {
   public static deleteScope = './delete';
   public static actionScope = './action';
   public static activeDirectoryWriteScope = 'Microsoft.Authorization/*/Write';
-  public static permissionsSuffix = '/providers/microsoft.authorization/permissions';
-  public static authSuffix = '/providers/Microsoft.Authorization/locks';
 
   constructor(private _portalService: PortalService) {}
 
   hasPermission(resourceId: string, requestedActions: string[]): Observable<boolean> {
-    return this._portalService.hasPermission(resourceId, requestedActions).map(r => r);
+    return this._portalService.hasPermission(resourceId, requestedActions);
   }
 
   hasReadOnlyLock(resourceId: string): Observable<boolean> {
-    return this._portalService.hasLock(resourceId, 'ReadOnly').map(r => r);
+    return this._portalService.hasLock(resourceId, 'ReadOnly');
   }
 }
