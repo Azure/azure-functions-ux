@@ -19,7 +19,6 @@ import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 import { useWindowSize } from 'react-use';
-import RbacHelper from '../../../utils/rbac-helper';
 import { BroadcastMessageId } from '../../../models/portal-models';
 import { FormControlWrapper } from '../../../components/FormControlWrapper/FormControlWrapper';
 import { LogCategories } from '../../../utils/LogCategories';
@@ -107,7 +106,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
 
   // Initialization
   useEffect(() => {
-    checkIfSiteIsLocked(site.id, setSiteIsReadOnlyLocked);
+    checkIfSiteIsLocked(portalCommunicator, site.id, setSiteIsReadOnlyLocked);
   }, []);
 
   useEffect(() => {
@@ -239,8 +238,12 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   );
 };
 
-const checkIfSiteIsLocked = async (resourceId: string, setSiteIsReadOnlyLocked: React.Dispatch<React.SetStateAction<boolean>>) => {
-  const readOnly = await RbacHelper.hasReadOnlyLock(resourceId);
+const checkIfSiteIsLocked = async (
+  portalCommunicator: PortalCommunicator,
+  resourceId: string,
+  setSiteIsReadOnlyLocked: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  const readOnly = await portalCommunicator.hasLock(resourceId, 'ReadOnly');
   setSiteIsReadOnlyLocked(readOnly);
 };
 

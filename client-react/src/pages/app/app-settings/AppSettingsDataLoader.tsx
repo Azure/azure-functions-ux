@@ -44,7 +44,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
-  const portalCommunicator = useContext(PortalContext);
   const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<{ [key: string]: string }>>({
     name: '',
     id: '',
@@ -90,7 +89,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
 
     if (resourceId.includes('/slots/')) {
-      const productionPermission = await getProductionAppWritePermissions(resourceId);
+      const productionPermission = await getProductionAppWritePermissions(portalContext, resourceId);
       setProductionPermissions(productionPermission);
     }
 
@@ -115,7 +114,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       setCurrentAvailableStacks(windowsStacks.data);
     }
     LogService.stopTrackPage('shell', { feature: 'AppSettings' });
-    portalCommunicator.loadComplete();
+    portalContext.loadComplete();
     setInitialLoading(true);
     setRefreshValues(false);
   };
@@ -135,7 +134,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     loadData();
   }, []);
   const scaleUpPlan = async () => {
-    await portalCommunicator.openBlade(
+    await portalContext.openBlade(
       { detailBlade: 'SpecPickerFrameBlade', detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId } },
       'appsettings'
     );
