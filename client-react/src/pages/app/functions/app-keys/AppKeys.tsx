@@ -1,17 +1,15 @@
 import React from 'react';
+import { AppKeysFormValues } from './AppKeys.types';
 
 export interface AppKeysProps {
   resourceId: string;
+  initialValues: AppKeysFormValues;
+  refreshHostKeys: () => void;
+  refreshSystemKeys: () => void;
 }
 
-class AppKeys extends React.Component<AppKeysProps> {
-  constructor(props) {
-    super(props);
-  }
-
-  public render() {
-    return <p>It Works</p>;
-  }
-}
+const AppKeys: React.FC<AppKeysProps> = props => {
+  return <p>It Works!!</p>;
+};
 
 export default AppKeys;
