@@ -1658,4 +1658,5 @@ export class PortalResources {
   public static keyVaultSecretVersion = 'keyVaultSecretVersion';
   public static identity = 'identity';
   public static errorDetails = 'errorDetails';
+  public static appKeysInformationBanner = 'appKeysInformationBanner';
 }

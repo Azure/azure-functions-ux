@@ -56,7 +56,7 @@ const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = 
                 <FunctionIntegrateLoadable resourceId={resourceId} path="/integrate" />
                 <FunctionBindingEditorLoadable resourceId={resourceId} path="/bindingeditor" />
                 <FunctionCreateLoadable resourceId={resourceId} path="/functioncreate" />
-                <FunctionAppKeysLoadable resourceId={resourceId} path="/appkeys" />
+                <FunctionAppKeysLoadable resourceId={resourceId} path="/appKeys" />
               </Router>
             )
           );

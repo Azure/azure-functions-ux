@@ -5145,4 +5145,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="errorDetails" xml:space="preserve">
     <value>Error Details</value>
   </data>
+  <data name="appKeysInformationBanner" xml:space="preserve">
+    <value>Function keys can be found at the function level.</value>
+  </data>
 </root>
