@@ -23,6 +23,7 @@ const FunctionBindingEditorLoadable: any = lazy(() =>
 const FunctionCreateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioncreate" */ './functions/create/FunctionCreateDataLoader')
 );
+const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeys'));
 
 const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = props => {
   const [resourceId, setResourceId] = useState('');
@@ -55,6 +56,7 @@ const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = 
                 <FunctionIntegrateLoadable resourceId={resourceId} path="/integrate" />
                 <FunctionBindingEditorLoadable resourceId={resourceId} path="/bindingeditor" />
                 <FunctionCreateLoadable resourceId={resourceId} path="/functioncreate" />
+                <FunctionAppKeysLoadable resourceId={resourceId} path="/appkeys" />
               </Router>
             )
           );
