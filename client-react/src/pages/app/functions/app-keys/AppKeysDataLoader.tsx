@@ -19,14 +19,6 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   const [initialLoading, setInitialLoading] = useState(true);
   const portalContext = useContext(PortalContext);
 
-  const fetchHostKeys = async () => {
-    // TODO : fetch Host-Keys for the App Here..
-  };
-
-  const fetchSystemKeys = async () => {
-    // TODO : fetch System-Keys for the App Here..
-  };
-
   const refreshData = () => {
     setRefeshLoading(true);
     fetchData();
@@ -34,14 +26,16 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
 
   const fetchData = async () => {
     const site = await appKeysData.getSiteObject(resourceId);
+    const appKeys = await appKeysData.getKeys(resourceId);
 
-    fetchHostKeys();
-    fetchSystemKeys();
+    if (appKeys.metadata.status === 409) {
+      // TODO: read only permissions given
+    }
+
     setInitialValues(
       appKeysData.convertStateToForm({
         site: site.data,
-        hostKeys: [],
-        systemKeys: [],
+        keys: appKeys.metadata.success ? appKeys.data : null,
       })
     );
     portalContext.loadComplete();
@@ -58,13 +52,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
 
   return (
     <AppKeysContext.Provider value={appKeysData}>
-      <AppKeys
-        resourceId={resourceId}
-        initialValues={initialValues}
-        refreshHostKeys={fetchHostKeys}
-        refreshSystemKeys={fetchSystemKeys}
-        refreshData={refreshData}
-      />
+      <AppKeys resourceId={resourceId} initialValues={initialValues} refreshData={refreshData} />
     </AppKeysContext.Provider>
   );
 };

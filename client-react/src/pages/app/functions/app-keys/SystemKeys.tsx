@@ -4,11 +4,12 @@ import { ActionButton, Stack, Panel, PanelType, DetailsListLayoutMode, Selection
 import { useTranslation } from 'react-i18next';
 import { tableActionButtonStyle, filterBoxStyle } from './AppKeys.styles';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { emptyKey } from './AppKeys';
 
 interface SystemKeysProps {
   resourceId: string;
   systemKeys: FormSystemKeys[];
-  refreshSystemKeys: () => void;
+  refreshData: () => void;
 }
 
 const SystemKeys: React.FC<SystemKeysProps> = props => {
@@ -19,16 +20,13 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
   const [showFilter, setShowFilter] = useState(false);
   const [filterValue, setFilterValue] = useState('');
   const [panelItem, setPanelItem] = useState('');
-  const [currentKey, setCurrentKey] = useState({ name: '', value: '' });
+  const [currentKey, setCurrentKey] = useState(emptyKey);
 
   const { t } = useTranslation();
 
   const createKey = () => {
     // TODO: Create Host Key Logic Here
-    setCurrentKey({
-      name: '',
-      value: '',
-    });
+    setCurrentKey(emptyKey);
     setShowPanel(true);
     setPanelItem('add');
   };

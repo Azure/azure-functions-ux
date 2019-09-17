@@ -4,11 +4,12 @@ import { Stack, ActionButton, Panel, PanelType, DetailsListLayoutMode, Selection
 import { tableActionButtonStyle, filterBoxStyle } from './AppKeys.styles';
 import { useTranslation } from 'react-i18next';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { emptyKey } from './AppKeys';
 
 interface HostKeysProps {
   resourceId: string;
   hostKeys: FormHostKeys[];
-  refreshHostKeys: () => void;
+  refreshData: () => void;
 }
 
 const HostKeys: React.FC<HostKeysProps> = props => {
@@ -19,7 +20,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   const [showFilter, setShowFilter] = useState(false);
   const [filterValue, setFilterValue] = useState('');
   const [panelItem, setPanelItem] = useState('');
-  const [currentKey, setCurrentKey] = useState({ name: '', value: '' });
+  const [currentKey, setCurrentKey] = useState(emptyKey);
 
   const { t } = useTranslation();
 
@@ -27,10 +28,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     // TODO: Create Host Key Logic Here
     setShowPanel(true);
     setPanelItem('add');
-    setCurrentKey({
-      name: '',
-      value: '',
-    });
+    setCurrentKey(emptyKey);
   };
 
   const flipHideSwitch = () => {

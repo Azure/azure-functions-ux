@@ -11,6 +11,12 @@ export interface FormSystemKeys {
   value: string;
 }
 
+export interface AppKeysInfo {
+  masterKey: string;
+  functionKeys: { [key: string]: string };
+  systemKeys: { [key: string]: string };
+}
+
 export interface AppKeysFormValues {
   site: ArmObj<Site>;
   hostKeys: FormHostKeys[];

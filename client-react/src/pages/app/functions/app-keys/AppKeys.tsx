@@ -9,13 +9,13 @@ import AppKeysPivot from './AppKeysPivot';
 export interface AppKeysProps {
   resourceId: string;
   initialValues: AppKeysFormValues;
-  refreshHostKeys: () => void;
-  refreshSystemKeys: () => void;
   refreshData: () => void;
 }
 
+export const emptyKey = { name: '', value: '' };
+
 const AppKeys: React.FC<AppKeysProps> = props => {
-  const { refreshData, refreshHostKeys, refreshSystemKeys, initialValues, resourceId } = props;
+  const { refreshData, initialValues, resourceId } = props;
   const { t } = useTranslation();
 
   return (
@@ -25,12 +25,7 @@ const AppKeys: React.FC<AppKeysProps> = props => {
         <InformationBanner id="function-app-keys" infoBubbleMessage={t('appKeysInformationBanner')} learnMoreLink="portal.azure.com" />
       </div>
       <div id="app-keys-data" className={formStyle}>
-        <AppKeysPivot
-          refreshHostKeys={refreshHostKeys}
-          refreshSystemKeys={refreshSystemKeys}
-          initialValues={initialValues}
-          resourceId={resourceId}
-        />
+        <AppKeysPivot refreshData={refreshData} initialValues={initialValues} resourceId={resourceId} />
       </div>
     </div>
   );
