@@ -5149,16 +5149,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Function keys can be found at the function level.</value>
   </data>
   <data name="appKeysHost" xml:space="preserve">
-    <value>Host Keys (all functions)</value>
+    <value>Host keys (all functions)</value>
   </data>
   <data name="appKeysSystem" xml:space="preserve">
-    <value>System Keys</value>
+    <value>System keys</value>
   </data>
   <data name="addHostKey" xml:space="preserve">
     <value>Add host key</value>
   </data>
   <data name="newHostKey" xml:space="preserve">
-    <value>New Host Key</value>
+    <value>New host key</value>
   </data>
   <data name="addSystemKey" xml:space="preserve">
     <value>Add system key</value>
