@@ -3,8 +3,11 @@ import { FormSystemKeys } from './AppKeys.types';
 import { ActionButton, Stack, Panel, PanelType, DetailsListLayoutMode, SelectionMode, IColumn, SearchBox } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { tableActionButtonStyle, filterBoxStyle } from './AppKeys.styles';
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
+import AppKeyAddEdit from './AppKeyAddEdit';
 
 interface SystemKeysProps {
   resourceId: string;
@@ -14,30 +17,31 @@ interface SystemKeysProps {
 
 const SystemKeys: React.FC<SystemKeysProps> = props => {
   const writePermission = false;
-  const { systemKeys } = props;
+  const { systemKeys, resourceId } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [filterValue, setFilterValue] = useState('');
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
+  const [shownValues, setShownValues] = useState<string[]>([]);
 
   const { t } = useTranslation();
 
-  const createKey = () => {
-    // TODO: Create Host Key Logic Here
-    setCurrentKey(emptyKey);
-    setShowPanel(true);
-    setPanelItem('add');
-  };
-
   const flipHideSwitch = () => {
+    setShownValues(showValues ? [] : [...new Set(systemKeys.map(h => h.name))]);
     setShowValues(!showValues);
   };
 
   const onClosePanel = () => {
     setShowPanel(false);
     setPanelItem('');
+  };
+
+  const showAddEditPanel = (key?: FormSystemKeys) => {
+    setShowPanel(true);
+    setCurrentKey(key ? key : emptyKey);
+    setPanelItem(key ? 'edit' : 'add');
   };
 
   const toggleFilter = () => {
@@ -55,6 +59,10 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
     });
   };
 
+  const createSystemKey = (key: FormSystemKeys) => {
+    // TODO: Create Host Key Logic Here..
+  };
+
   const getColumns = (): IColumn[] => {
     return [
       {
@@ -67,6 +75,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: onRenderColumnItem,
       },
       {
         key: 'value',
@@ -77,18 +86,68 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: onRenderColumnItem,
       },
     ];
   };
 
-  console.log(currentKey);
+  const onRenderColumnItem = (item: FormSystemKeys, index: number, column: IColumn) => {
+    const itemKey = item.name;
+    const hidden = !shownValues.includes(itemKey) && !showValues;
+
+    if (!column || !item) {
+      return null;
+    }
+
+    if (column.key === 'value') {
+      return (
+        <>
+          <ActionButton
+            id={`app-keys-host-keys-show-hide-${index}`}
+            className={defaultCellStyle}
+            onClick={() => {
+              const newShownValues = new Set(shownValues);
+              if (!showValues) {
+                newShownValues.add(itemKey);
+              } else {
+                newShownValues.delete(itemKey);
+              }
+              setShowValues(false);
+              setShownValues([...newShownValues]);
+            }}
+            iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
+            {hidden ? (
+              <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
+            ) : (
+              <div className={defaultCellStyle} id={`app-keys-host-keys-value-${index}`}>
+                {item[column.fieldName!]}
+              </div>
+            )}
+          </ActionButton>
+        </>
+      );
+    }
+    if (column.key === 'name') {
+      return (
+        <ActionButton
+          className={defaultCellStyle}
+          id={`app-settings-application-settings-name-${index}`}
+          onClick={() => showAddEditPanel(item)}>
+          <span aria-live="assertive" role="region">
+            {item[column.fieldName!]}
+          </span>
+        </ActionButton>
+      );
+    }
+    return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
+  };
 
   return (
     <>
       <Stack horizontal verticalAlign="center">
         <ActionButton
           id="app-keys-system-keys-add"
-          onClick={createKey}
+          onClick={() => showAddEditPanel()}
           disabled={writePermission}
           styles={tableActionButtonStyle}
           iconProps={{ iconName: 'Add' }}
@@ -131,12 +190,20 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         emptyMessage={t('emptySystemKeys')}
       />
       <Panel
-        isOpen={showPanel && panelItem === 'add'}
+        isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
         type={PanelType.large}
         onDismiss={onClosePanel}
-        headerText={t('addSystemKey')}
-        closeButtonAriaLabel={t('close')}
-      />
+        headerText={panelItem === 'edit' ? t('editSystemKey') : t('addSystemKey')}
+        closeButtonAriaLabel={t('close')}>
+        <AppKeyAddEdit
+          resourceId={resourceId}
+          createAppKey={createSystemKey}
+          closeBlade={onClosePanel}
+          appKey={currentKey}
+          otherAppKeys={systemKeys}
+          panelItem={panelItem}
+        />
+      </Panel>
     </>
   );
 };

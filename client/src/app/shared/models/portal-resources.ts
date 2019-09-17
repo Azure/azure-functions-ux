@@ -1662,11 +1662,17 @@ export class PortalResources {
   public static appKeysHost = 'appKeysHost';
   public static appKeysSystem = 'appKeysSystem';
   public static addHostKey = 'addHostKey';
+  public static editHostKey = 'editHostKey';
   public static newHostKey = 'newHostKey';
   public static addSystemKey = 'addSystemKey';
+  public static editSystemKey = 'editSystemKey';
   public static newSystemKey = 'newSystemKey';
   public static emptyHostKeys = 'emptyHostKeys';
   public static emptySystemKeys = 'emptySystemKeys';
   public static filterHostKeys = 'filterHostKeys';
   public static filterSystemKeys = 'filterSystemKeys';
+  public static appKeyPropIsRequired = 'appKeyPropIsRequired';
+  public static appKeyNamesUnique = 'appKeyNamesUnique';
+  public static enterAppKeyName = 'enterAppKeyName';
+  public static defaultValueAppKey = 'defaultValueAppKey';
 }

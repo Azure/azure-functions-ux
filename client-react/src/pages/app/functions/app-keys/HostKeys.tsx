@@ -3,8 +3,11 @@ import { FormHostKeys } from './AppKeys.types';
 import { Stack, ActionButton, Panel, PanelType, DetailsListLayoutMode, SelectionMode, IColumn, SearchBox } from 'office-ui-fabric-react';
 import { tableActionButtonStyle, filterBoxStyle } from './AppKeys.styles';
 import { useTranslation } from 'react-i18next';
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
+import AppKeyAddEdit from './AppKeyAddEdit';
 
 interface HostKeysProps {
   resourceId: string;
@@ -14,24 +17,19 @@ interface HostKeysProps {
 
 const HostKeys: React.FC<HostKeysProps> = props => {
   const writePermission = false;
-  const { hostKeys } = props;
+  const { hostKeys, resourceId } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [filterValue, setFilterValue] = useState('');
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
+  const [shownValues, setShownValues] = useState<string[]>([]);
 
   const { t } = useTranslation();
 
-  const createKey = () => {
-    // TODO: Create Host Key Logic Here
-    setShowPanel(true);
-    setPanelItem('add');
-    setCurrentKey(emptyKey);
-  };
-
   const flipHideSwitch = () => {
+    setShownValues(showValues ? [] : [...new Set(hostKeys.map(h => h.name))]);
     setShowValues(!showValues);
   };
 
@@ -43,6 +41,12 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   const onClosePanel = () => {
     setShowPanel(false);
     setPanelItem('');
+  };
+
+  const showAddEditPanel = (key?: FormHostKeys) => {
+    setShowPanel(true);
+    setCurrentKey(key ? key : emptyKey);
+    setPanelItem(key ? 'edit' : 'add');
   };
 
   const getColumns = (): IColumn[] => {
@@ -57,6 +61,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: onRenderColumnItem,
       },
       {
         key: 'value',
@@ -67,6 +72,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: onRenderColumnItem,
       },
     ];
   };
@@ -81,14 +87,67 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     });
   };
 
-  console.log(currentKey);
+  const onRenderColumnItem = (item: FormHostKeys, index: number, column: IColumn) => {
+    const itemKey = item.name;
+    const hidden = !shownValues.includes(itemKey) && !showValues;
+
+    if (!column || !item) {
+      return null;
+    }
+
+    if (column.key === 'value') {
+      return (
+        <>
+          <ActionButton
+            id={`app-keys-host-keys-show-hide-${index}`}
+            className={defaultCellStyle}
+            onClick={() => {
+              const newShownValues = new Set(shownValues);
+              if (!showValues) {
+                newShownValues.add(itemKey);
+              } else {
+                newShownValues.delete(itemKey);
+              }
+              setShowValues(false);
+              setShownValues([...newShownValues]);
+            }}
+            iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
+            {hidden ? (
+              <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
+            ) : (
+              <div className={defaultCellStyle} id={`app-keys-host-keys-value-${index}`}>
+                {item[column.fieldName!]}
+              </div>
+            )}
+          </ActionButton>
+        </>
+      );
+    }
+    if (column.key === 'name') {
+      return (
+        <ActionButton
+          className={defaultCellStyle}
+          id={`app-settings-application-settings-name-${index}`}
+          onClick={() => showAddEditPanel(item)}>
+          <span aria-live="assertive" role="region">
+            {item[column.fieldName!]}
+          </span>
+        </ActionButton>
+      );
+    }
+    return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
+  };
+
+  const createHostKey = (key: FormHostKeys) => {
+    // TODO: Create Host Key Logic Here..
+  };
 
   return (
     <>
       <Stack horizontal verticalAlign="center">
         <ActionButton
           id="app-keys-host-keys-add"
-          onClick={createKey}
+          onClick={() => showAddEditPanel()}
           disabled={writePermission}
           styles={tableActionButtonStyle}
           iconProps={{ iconName: 'Add' }}
@@ -131,12 +190,20 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         emptyMessage={t('emptyHostKeys')}
       />
       <Panel
-        isOpen={showPanel && panelItem === 'add'}
+        isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
         type={PanelType.large}
         onDismiss={onClosePanel}
-        headerText={t('addHostKey')}
-        closeButtonAriaLabel={t('close')}
-      />
+        headerText={panelItem === 'edit' ? t('editHostKey') : t('addHostKey')}
+        closeButtonAriaLabel={t('close')}>
+        <AppKeyAddEdit
+          resourceId={resourceId}
+          createAppKey={createHostKey}
+          closeBlade={onClosePanel}
+          appKey={currentKey}
+          otherAppKeys={hostKeys}
+          panelItem={panelItem}
+        />
+      </Panel>
     </>
   );
 };

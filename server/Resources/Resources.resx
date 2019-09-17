@@ -5157,11 +5157,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="addHostKey" xml:space="preserve">
     <value>Add host key</value>
   </data>
+  <data name="editHostKey" xml:space="preserve">
+    <value>Edit host key</value>
+  </data>
   <data name="newHostKey" xml:space="preserve">
     <value>New host key</value>
   </data>
   <data name="addSystemKey" xml:space="preserve">
     <value>Add system key</value>
+  </data>
+  <data name="editSystemKey" xml:space="preserve">
+    <value>Edit system key</value>
   </data>
   <data name="newSystemKey" xml:space="preserve">
     <value>New system key</value>
@@ -5177,5 +5183,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="filterSystemKeys" xml:space="preserve">
     <value>Filter system keys</value>
+  </data>
+  <data name="appKeyPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all app keys</value>
+  </data>
+  <data name="appKeyNamesUnique" xml:space="preserve">
+    <value>App key names must be unique</value>
+  </data>
+  <data name="enterAppKeyName" xml:space="preserve">
+    <value>Enter key name</value>
+  </data>
+  <data name="defaultValueAppKey" xml:space="preserve">
+    <value>Leave empty to auto-generate a key</value>
   </data>
 </root>
