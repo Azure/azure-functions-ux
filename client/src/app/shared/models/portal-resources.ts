@@ -1659,4 +1659,10 @@ export class PortalResources {
   public static identity = 'identity';
   public static errorDetails = 'errorDetails';
   public static appKeysInformationBanner = 'appKeysInformationBanner';
+  public static appKeysHost = 'appKeysHost';
+  public static appKeysSystem = 'appKeysSystem';
+  public static addHostKey = 'addHostKey';
+  public static newHostKey = 'newHostKey';
+  public static addSystemKey = 'addSystemKey';
+  public static newSystemKey = 'newSystemKey';
 }
