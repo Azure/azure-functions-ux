@@ -1665,4 +1665,8 @@ export class PortalResources {
   public static newHostKey = 'newHostKey';
   public static addSystemKey = 'addSystemKey';
   public static newSystemKey = 'newSystemKey';
+  public static emptyHostKeys = 'emptyHostKeys';
+  public static emptySystemKeys = 'emptySystemKeys';
+  public static filterHostKeys = 'filterHostKeys';
+  public static filterSystemKeys = 'filterSystemKeys';
 }

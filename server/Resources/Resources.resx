@@ -5166,4 +5166,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="newSystemKey" xml:space="preserve">
     <value>New system key</value>
   </data>
+  <data name="emptyHostKeys" xml:space="preserve">
+    <value>(no host keys to display)</value>
+  </data>
+  <data name="emptySystemKeys" xml:space="preserve">
+    <value>(no system keys to display)</value>
+  </data>
+  <data name="filterHostKeys" xml:space="preserve">
+    <value>Filter host keys</value>
+  </data>
+  <data name="filterSystemKeys" xml:space="preserve">
+    <value>Filter system keys</value>
+  </data>
 </root>
