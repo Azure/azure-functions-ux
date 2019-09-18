@@ -104,6 +104,8 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     ];
   };
 
+  console.log(site);
+
   const filterValues = () => {
     return hostKeys.filter(x => {
       if (!filterValue) {
