@@ -91,6 +91,13 @@ export const infoIconStyle = (theme: ThemeExtended) =>
 export const copyButtonStyle = (theme: ThemeExtended) =>
   style({
     marginLeft: '5px',
+    backgroundColor: theme.semanticColors.accentButtonBackground,
+    color: theme.semanticColors.buttonTextChecked,
+    $nest: {
+      '&:hover': {
+        color: theme.semanticColors.buttonTextChecked,
+      },
+    },
   });
 
 export const learnMoreLinkStyle = style({ minWidth: '70px' });

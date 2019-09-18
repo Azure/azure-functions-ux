@@ -50,13 +50,13 @@ const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = 
           return (
             value.token && (
               <Router>
-                <AppSettingsLoadable resourceId={resourceId} path="/settings" />
+                <AppSettingsLoadable resourceId={resourceId} path="/settings1" />
                 <LogStreamLoadable resourceId={resourceId} path="/log-stream" />
                 <ChangeAppPlanLoadable resourceId={resourceId} path="/changeappplan" />
                 <FunctionIntegrateLoadable resourceId={resourceId} path="/integrate" />
                 <FunctionBindingEditorLoadable resourceId={resourceId} path="/bindingeditor" />
                 <FunctionCreateLoadable resourceId={resourceId} path="/functioncreate" />
-                <FunctionAppKeysLoadable resourceId={resourceId} path="/appKeys" />
+                <FunctionAppKeysLoadable resourceId={resourceId} path="/settings" />
               </Router>
             )
           );
