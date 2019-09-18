@@ -32,7 +32,7 @@ interface HostKeysProps {
 
 const HostKeys: React.FC<HostKeysProps> = props => {
   const writePermission = false;
-  const { hostKeys, resourceId, refreshData, site } = props;
+  const { hostKeys, resourceId, refreshData } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -103,8 +103,6 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       },
     ];
   };
-
-  console.log(site);
 
   const filterValues = () => {
     return hostKeys.filter(x => {
@@ -194,7 +192,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   };
 
   const createHostKey = (key: FormHostKeys) => {
-    appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.functionKeys, site);
+    appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.functionKeys);
     refreshData();
   };
 

@@ -24,11 +24,7 @@ const AppKeys: React.FC<AppKeysProps> = props => {
     <div>
       <div id="command-bar" className={commandBarSticky}>
         <AppKeysCommandBar refreshFunction={refreshData} />
-        <MessageBar
-          id="function-app-keys-message"
-          isMultiline={false}
-          className={messageBanner(theme)}
-          messageBarType={MessageBarType.info}>
+        <MessageBar id="app-keys-message" isMultiline={false} className={messageBanner(theme)} messageBarType={MessageBarType.info}>
           {t('appKeysInformationBanner')}
         </MessageBar>
       </div>

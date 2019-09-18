@@ -32,7 +32,7 @@ interface SystemKeysProps {
 
 const SystemKeys: React.FC<SystemKeysProps> = props => {
   const writePermission = false;
-  const { systemKeys, resourceId, refreshData, site } = props;
+  const { systemKeys, resourceId, refreshData } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -76,7 +76,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
   };
 
   const createSystemKey = (key: FormSystemKeys) => {
-    appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.systemKeys, site);
+    appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.systemKeys);
     refreshData();
   };
 

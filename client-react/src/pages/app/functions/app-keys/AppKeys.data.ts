@@ -27,23 +27,8 @@ export default class AppKeysData {
     AppKeyService.deleteKey(resourceId, keyName, keyType);
   };
 
-  public createKey = (resourceId: string, keyName: string, keyValue: string, keyType: AppKeysTypes, site: ArmObj<Site>) => {
-    if (!keyValue) {
-      AppKeyService.createKey(resourceId, keyType, keyName, keyValue);
-    } else {
-      const mainUrl = this._getMainUrl(site);
-      if (!mainUrl) {
-        AppKeyService.createKey(resourceId, keyType, keyName, '', mainUrl);
-      }
-    }
-  };
-
-  private _getMainUrl = (site: ArmObj<Site>) => {
-    if (site.properties.defaultHostName) {
-      return `https://${site.properties.defaultHostName}`;
-    } else {
-      return '';
-    }
+  public createKey = (resourceId: string, keyName: string, keyValue: string, keyType: AppKeysTypes) => {
+    AppKeyService.createKey(resourceId, keyType, keyName, keyValue);
   };
 
   private _retrieveHostKeys = (keys: AppKeysInfo | null): FormHostKeys[] => {
