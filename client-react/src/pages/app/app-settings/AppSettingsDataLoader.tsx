@@ -23,12 +23,10 @@ import { ArmArray, ArmObj } from '../../../models/arm-obj';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
-import AppSettingsCommandBar from './AppSettingsCommandBar';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
-    initialFormValues: AppSettingsFormValues;
+    initialFormValues: AppSettingsFormValues | null;
     saving: boolean;
     scaleUpPlan: () => void;
     refreshAppSettings: () => void;
@@ -209,28 +207,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
   };
 
-  if (loadingFailure) {
-    return (
-      <>
-        <AppSettingsCommandBar
-          submitForm={() => {
-            return;
-          }}
-          resetForm={() => {
-            return;
-          }}
-          refreshAppSettings={refreshAppSettings}
-          disabled={false}
-          dirty={false}
-        />
-        <MessageBar messageBarType={MessageBarType.error} isMultiline={false}>
-          {t('configLoadFailure')}
-        </MessageBar>
-      </>
-    );
-  }
-
-  if (!initialLoading || refreshValues || !initialValues) {
+  if (!initialLoading || refreshValues || (!initialValues && !loadingFailure)) {
     return <LoadingComponent />;
   }
 
