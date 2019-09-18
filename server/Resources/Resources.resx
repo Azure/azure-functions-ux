@@ -5196,4 +5196,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="defaultValueAppKey" xml:space="preserve">
     <value>Leave empty to auto-generate a key</value>
   </data>
+  <data name="renewAppKey" xml:space="preserve">
+    <value>Renew and save key value</value>
+  </data>
 </root>

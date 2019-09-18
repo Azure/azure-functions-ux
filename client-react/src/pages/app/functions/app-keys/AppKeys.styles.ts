@@ -19,3 +19,10 @@ export const messageBanner = (theme: ThemeExtended) =>
 
 export const filterBoxStyle = { root: { marginTop: '5px', height: '25px', width: '100%' } };
 export const tableActionButtonStyle = { root: { marginTop: '5px' } };
+export const addPanelCommandBar = (theme: ThemeExtended) =>
+  style({
+    borderBottom: '1px solid rgba(204,204,204,.8)',
+    backgroundColor: theme.semanticColors.bodyBackground,
+    width: '100%',
+    marginBottom: '50px',
+  });

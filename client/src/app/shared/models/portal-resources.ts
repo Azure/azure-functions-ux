@@ -1675,4 +1675,5 @@ export class PortalResources {
   public static appKeyNamesUnique = 'appKeyNamesUnique';
   public static enterAppKeyName = 'enterAppKeyName';
   public static defaultValueAppKey = 'defaultValueAppKey';
+  public static renewAppKey = 'renewAppKey';
 }
