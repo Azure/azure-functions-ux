@@ -22,3 +22,9 @@ export interface AppKeysFormValues {
   hostKeys: FormHostKeys[];
   systemKeys: FormSystemKeys[];
 }
+
+export enum AppKeysTypes {
+  masterKey = 'masterKey',
+  functionKeys = 'functionKeys',
+  systemKeys = 'systemKeys',
+}

@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
-import { FormHostKeys } from './AppKeys.types';
-import { Stack, ActionButton, Panel, PanelType, DetailsListLayoutMode, SelectionMode, IColumn, SearchBox } from 'office-ui-fabric-react';
+import React, { useState, useContext } from 'react';
+import { FormHostKeys, AppKeysTypes } from './AppKeys.types';
+import {
+  Stack,
+  ActionButton,
+  Panel,
+  PanelType,
+  DetailsListLayoutMode,
+  SelectionMode,
+  IColumn,
+  SearchBox,
+  TooltipHost,
+} from 'office-ui-fabric-react';
 import { tableActionButtonStyle, filterBoxStyle } from './AppKeys.styles';
 import { useTranslation } from 'react-i18next';
 import DisplayTableWithEmptyMessage, {
@@ -8,16 +18,21 @@ import DisplayTableWithEmptyMessage, {
 } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
 import AppKeyAddEdit from './AppKeyAddEdit';
+import IconButton from '../../../../components/IconButton/IconButton';
+import { AppKeysContext } from './AppKeysDataLoader';
+import { ArmObj } from '../../../../models/arm-obj';
+import { Site } from '../../../../models/site/site';
 
 interface HostKeysProps {
   resourceId: string;
+  site: ArmObj<Site>;
   hostKeys: FormHostKeys[];
   refreshData: () => void;
 }
 
 const HostKeys: React.FC<HostKeysProps> = props => {
   const writePermission = false;
-  const { hostKeys, resourceId } = props;
+  const { hostKeys, resourceId, refreshData, site } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -27,6 +42,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   const [shownValues, setShownValues] = useState<string[]>([]);
 
   const { t } = useTranslation();
+  const appKeysContext = useContext(AppKeysContext);
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(hostKeys.map(h => h.name))]);
@@ -74,6 +90,17 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         isResizable: true,
         onRender: onRenderColumnItem,
       },
+      {
+        key: 'delete',
+        name: '',
+        fieldName: 'delete',
+        minWidth: 100,
+        maxWidth: 100,
+        isRowHeader: false,
+        isResizable: false,
+        isCollapsable: false,
+        onRender: onRenderColumnItem,
+      },
     ];
   };
 
@@ -85,6 +112,11 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         return x.name.toLowerCase().includes(filterValue.toLowerCase());
       }
     });
+  };
+
+  const deleteHostKey = (itemKey: string) => {
+    appKeysContext.deleteKey(resourceId, itemKey, AppKeysTypes.functionKeys);
+    refreshData();
   };
 
   const onRenderColumnItem = (item: FormHostKeys, index: number, column: IColumn) => {
@@ -103,7 +135,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
             className={defaultCellStyle}
             onClick={() => {
               const newShownValues = new Set(shownValues);
-              if (!showValues) {
+              if (hidden) {
                 newShownValues.add(itemKey);
               } else {
                 newShownValues.delete(itemKey);
@@ -135,11 +167,33 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         </ActionButton>
       );
     }
+    if (column.key === 'delete') {
+      if (item.name === '_master') {
+        return <></>;
+      }
+      return (
+        <TooltipHost
+          content={t('delete')}
+          id={`app-keys-host-keys-delete-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={false}
+            id={`app-settings-application-settings-delete-${index}`}
+            iconProps={{ iconName: 'Delete' }}
+            ariaLabel={t('delete')}
+            onClick={() => deleteHostKey(itemKey)}
+          />
+        </TooltipHost>
+      );
+    }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
   const createHostKey = (key: FormHostKeys) => {
-    // TODO: Create Host Key Logic Here..
+    appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.functionKeys, site);
+    refreshData();
   };
 
   return (

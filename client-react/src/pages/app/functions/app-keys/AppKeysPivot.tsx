@@ -18,11 +18,11 @@ const AppKeysPivot: React.FC<AppKeysPivotProps> = props => {
     <>
       <h3>{t('appKeysHost')}</h3>
       <div id="app-keys-host-keys">
-        <HostKeys hostKeys={initialValues.hostKeys} resourceId={resourceId} refreshData={refreshData} />
+        <HostKeys site={initialValues.site} hostKeys={initialValues.hostKeys} resourceId={resourceId} refreshData={refreshData} />
       </div>
       <h3>{t('appKeysSystem')}</h3>
       <div id="app-keys-system-keys">
-        <SystemKeys systemKeys={initialValues.systemKeys} resourceId={resourceId} refreshData={refreshData} />
+        <SystemKeys site={initialValues.site} systemKeys={initialValues.systemKeys} resourceId={resourceId} refreshData={refreshData} />
       </div>
     </>
   );

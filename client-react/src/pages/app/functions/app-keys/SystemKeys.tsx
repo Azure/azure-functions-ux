@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
-import { FormSystemKeys } from './AppKeys.types';
-import { ActionButton, Stack, Panel, PanelType, DetailsListLayoutMode, SelectionMode, IColumn, SearchBox } from 'office-ui-fabric-react';
+import React, { useState, useContext } from 'react';
+import { FormSystemKeys, AppKeysTypes } from './AppKeys.types';
+import {
+  ActionButton,
+  Stack,
+  Panel,
+  PanelType,
+  DetailsListLayoutMode,
+  SelectionMode,
+  IColumn,
+  SearchBox,
+  TooltipHost,
+} from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { tableActionButtonStyle, filterBoxStyle } from './AppKeys.styles';
 import DisplayTableWithEmptyMessage, {
@@ -8,16 +18,21 @@ import DisplayTableWithEmptyMessage, {
 } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
 import AppKeyAddEdit from './AppKeyAddEdit';
+import IconButton from '../../../../components/IconButton/IconButton';
+import { AppKeysContext } from './AppKeysDataLoader';
+import { Site } from '../../../../models/site/site';
+import { ArmObj } from '../../../../models/arm-obj';
 
 interface SystemKeysProps {
   resourceId: string;
+  site: ArmObj<Site>;
   systemKeys: FormSystemKeys[];
   refreshData: () => void;
 }
 
 const SystemKeys: React.FC<SystemKeysProps> = props => {
   const writePermission = false;
-  const { systemKeys, resourceId } = props;
+  const { systemKeys, resourceId, refreshData, site } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -27,6 +42,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
   const [shownValues, setShownValues] = useState<string[]>([]);
 
   const { t } = useTranslation();
+  const appKeysContext = useContext(AppKeysContext);
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(systemKeys.map(h => h.name))]);
@@ -60,7 +76,8 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
   };
 
   const createSystemKey = (key: FormSystemKeys) => {
-    // TODO: Create Host Key Logic Here..
+    appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.systemKeys, site);
+    refreshData();
   };
 
   const getColumns = (): IColumn[] => {
@@ -91,6 +108,11 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
     ];
   };
 
+  const deleteSystemKey = (itemKey: string) => {
+    appKeysContext.deleteKey(resourceId, itemKey, AppKeysTypes.systemKeys);
+    refreshData();
+  };
+
   const onRenderColumnItem = (item: FormSystemKeys, index: number, column: IColumn) => {
     const itemKey = item.name;
     const hidden = !shownValues.includes(itemKey) && !showValues;
@@ -107,7 +129,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
             className={defaultCellStyle}
             onClick={() => {
               const newShownValues = new Set(shownValues);
-              if (!showValues) {
+              if (hidden) {
                 newShownValues.add(itemKey);
               } else {
                 newShownValues.delete(itemKey);
@@ -137,6 +159,24 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
             {item[column.fieldName!]}
           </span>
         </ActionButton>
+      );
+    }
+    if (column.key === 'delete') {
+      return (
+        <TooltipHost
+          content={t('delete')}
+          id={`app-keys-host-keys-delete-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={false}
+            id={`app-settings-application-settings-delete-${index}`}
+            iconProps={{ iconName: 'Delete' }}
+            ariaLabel={t('delete')}
+            onClick={() => deleteSystemKey(itemKey)}
+          />
+        </TooltipHost>
       );
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;

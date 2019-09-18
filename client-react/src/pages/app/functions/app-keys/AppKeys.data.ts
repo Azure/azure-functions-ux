@@ -1,4 +1,4 @@
-import { AppKeysFormValues, AppKeysInfo, FormHostKeys } from './AppKeys.types';
+import { AppKeysFormValues, AppKeysInfo, FormHostKeys, AppKeysTypes } from './AppKeys.types';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import AppKeyService from '../../../../ApiHelpers/AppKeysService';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -21,6 +21,29 @@ export default class AppKeysData {
 
   public getSiteObject = (resourceId: string) => {
     return SiteService.fetchSite(resourceId);
+  };
+
+  public deleteKey = (resourceId: string, keyName: string, keyType: AppKeysTypes) => {
+    AppKeyService.deleteKey(resourceId, keyName, keyType);
+  };
+
+  public createKey = (resourceId: string, keyName: string, keyValue: string, keyType: AppKeysTypes, site: ArmObj<Site>) => {
+    if (!keyValue) {
+      AppKeyService.createKey(resourceId, keyType, keyName, keyValue);
+    } else {
+      const mainUrl = this._getMainUrl(site);
+      if (!mainUrl) {
+        AppKeyService.createKey(resourceId, keyType, keyName, '', mainUrl);
+      }
+    }
+  };
+
+  private _getMainUrl = (site: ArmObj<Site>) => {
+    if (site.properties.defaultHostName) {
+      return `https://${site.properties.defaultHostName}`;
+    } else {
+      return '';
+    }
   };
 
   private _retrieveHostKeys = (keys: AppKeysInfo | null): FormHostKeys[] => {
