@@ -10,16 +10,17 @@ interface AppSettingsBulkEditProps {
   updateAppSetting: (item: FormAppSetting[]) => void;
   closeBlade: () => void;
   appSettings: FormAppSetting[];
+  disableSlotSetting: boolean;
   isLinux: boolean;
 }
 const AppSettingsBulkEdit: React.FC<AppSettingsBulkEditProps> = props => {
   const { t } = useTranslation();
-  const { updateAppSetting, closeBlade, appSettings, isLinux } = props;
+  const { updateAppSetting, closeBlade, appSettings, disableSlotSetting, isLinux } = props;
   const [errorMessage, setErrorMessage] = useState('');
   const [appSettingsState, setAppSettingsState] = useState(formAppSettingToUseSlotSetting(appSettings));
 
   const validate = newValue => {
-    const err = getErrorMessage(newValue, isLinux, t);
+    const err = getErrorMessage(newValue, disableSlotSetting, isLinux, t);
     setErrorMessage(err);
   };
   const save = () => {

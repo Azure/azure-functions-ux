@@ -1,34 +1,29 @@
 import i18next from 'i18next';
 import { FormAppSetting } from '../AppSettings.types';
 import * as Joi from 'joi';
-const windowsSchema = Joi.array()
-  .unique('name')
-  .items(
-    Joi.object().keys({
-      name: Joi.string().required(),
-      value: Joi.string()
+const getSchema = (disableSlotSetting: boolean, isLinux: boolean): Joi.ArraySchema => {
+  const slotSettingSchema = disableSlotSetting ? Joi.boolean().forbidden() : Joi.boolean().optional();
+  const nameSchema = isLinux
+    ? Joi.string()
         .required()
-        .allow(''),
-      slotSetting: Joi.boolean().optional(),
-    })
-  );
-const linuxSchema = Joi.array()
-  .unique('name')
-  .items(
-    Joi.object().keys({
-      name: Joi.string()
-        .required()
-        .regex(/^[\w|\.]*$/),
-      value: Joi.string()
-        .required()
-        .allow(''),
-      slotSetting: Joi.boolean().optional(),
-    })
-  );
-export const getErrorMessage = (newValue: string, isLinux: boolean, t: i18next.TFunction) => {
+        .regex(/^[\w|\.]*$/)
+    : Joi.string().required();
+  return Joi.array()
+    .unique('name')
+    .items(
+      Joi.object().keys({
+        name: nameSchema,
+        value: Joi.string()
+          .required()
+          .allow(''),
+        slotSetting: slotSettingSchema,
+      })
+    );
+};
+export const getErrorMessage = (newValue: string, disableSlotSetting: boolean, isLinux: boolean, t: i18next.TFunction) => {
   try {
     const obj = JSON.parse(newValue) as unknown;
-    const schema = isLinux ? linuxSchema : windowsSchema;
+    const schema = getSchema(disableSlotSetting, isLinux);
     const result = Joi.validate(obj, schema);
     if (!result.error) {
       return '';
@@ -49,6 +44,10 @@ export const getErrorMessage = (newValue: string, isLinux: boolean, t: i18next.T
         return t('appSettingInvalidProperty').format(details.context!.key);
       case 'array.unique':
         return t('appSettingNamesUnique');
+      case 'any.unknown':
+        return disableSlotSetting && details.context!.key === 'slotSetting'
+          ? t('slotSettingForbiddenProperty').format(details.context!.key)
+          : t('jsonInvalid');
       default:
         return t('jsonInvalid');
     }

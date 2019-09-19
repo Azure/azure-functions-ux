@@ -4856,6 +4856,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="connectionStringNamesUnique" xml:space="preserve">
         <value>Connection string names must be unique</value>
     </data>
+    <data name="slotSettingForbiddenProperty" xml:space="preserve">
+        <value>Updating the '{0}' property requires write access on the production app</value>
+    </data>
     <data name="handlerMappingPropIsRequired" xml:space="preserve">
         <value>{0} is a required property on all handler mappings</value>
     </data>
