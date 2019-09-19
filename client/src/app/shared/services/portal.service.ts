@@ -50,6 +50,7 @@ import { SlotSwapInfo, SlotNewInfo } from '../models/slot-events';
 import { ByosData } from '../../site/byos/byos';
 import { LogService } from './log.service';
 import { LogCategories } from '../models/constants';
+import { BatchUpdateSettings, BatchResponseItemEx } from './../models/batch';
 
 export interface IPortalService {
   getStartupInfo();
@@ -438,6 +439,23 @@ export class PortalService implements IPortalService {
     };
 
     this.postMessage(Verbs.updateDirtyState, this._packageData(info));
+  }
+
+  public executeArmUpdateRequest<T>(request: BatchUpdateSettings): Observable<BatchResponseItemEx<T>> {
+    const operationId = Guid.newGuid();
+
+    const payload: DataMessage<BatchUpdateSettings> = {
+      operationId,
+      data: request,
+    };
+
+    this.postMessage(Verbs.executeArmUpdateRequest, this._packageData(payload));
+    return this.operationStream
+      .filter(o => o.operationId === operationId)
+      .first()
+      .map((o: DataMessage<DataMessageResult<BatchResponseItemEx<T>>>) => {
+        return o.data.result;
+      });
   }
 
   broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, metadata?: T): void {
