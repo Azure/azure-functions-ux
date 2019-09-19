@@ -6,13 +6,12 @@ import BindingEditor, { getBindingConfigDirection } from './BindingEditor';
 import { BindingInfo } from '../../../../../models/functions/function-binding';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
-import { PanelType, Panel } from 'office-ui-fabric-react';
-import { ReactComponent as CloseSvg } from '../../../../../images/Common/close.svg';
-import { style } from 'typestyle';
+import { PanelType } from 'office-ui-fabric-react';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { ArmObj } from '../../../../../models/arm-obj';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
+import Panel from '../../../../../components/Panel/Panel';
 
 export interface BindingEditorDataLoaderProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -20,44 +19,6 @@ export interface BindingEditorDataLoaderProps {
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
 }
-
-const panelHeaderStyle = style({
-  width: '100%',
-
-  $nest: {
-    h3: {
-      display: 'inline-block',
-      marginLeft: '15px',
-      marginTop: '12px',
-      fontSize: '20px',
-    },
-
-    svg: {
-      height: '12px',
-      width: '12px',
-      float: 'right',
-      marginTop: '18px',
-      marginRight: '3px',
-      cursor: 'pointer',
-    },
-  },
-});
-
-const panelStyle = {
-  content: [
-    {
-      padding: '0px',
-      selectors: {
-        '@media screen and (min-width: 1366px)': {
-          padding: '0px',
-        },
-        '@media screen and (min-width: 640px)': {
-          padding: '0px',
-        },
-      },
-    },
-  ],
-};
 
 const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props => {
   const { functionInfo, bindingInfo } = props;
@@ -83,11 +44,7 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
   }
 
   return (
-    <Panel
-      isOpen={true}
-      type={PanelType.smallFixedFar}
-      onRenderNavigationContent={() => onRenderNavigationContent(bindingInfo as BindingInfo, props.onPanelClose, t)}
-      styles={panelStyle}>
+    <Panel type={PanelType.smallFixedFar} headerText={getPanelHeader(bindingInfo, t)} onDismiss={props.onPanelClose}>
       {getEditorOrLoader(functionInfo, props.onSubmit, bindingInfo, bindingsMetadata)}
     </Panel>
   );
@@ -128,17 +85,6 @@ const getPanelHeader = (bindingInfo: BindingInfo, t: i18next.TFunction) => {
       return t('editBindingTrigger');
     }
   }
-};
-
-const onRenderNavigationContent = (bindingInfo: BindingInfo, onClosePanel: () => void, t: i18next.TFunction): JSX.Element => {
-  return (
-    <>
-      <div className={panelHeaderStyle}>
-        <h3>{getPanelHeader(bindingInfo, t)}</h3>
-        <CloseSvg onClick={onClosePanel} tabIndex={0} role="button" aria-label={'Close'} />
-      </div>
-    </>
-  );
 };
 
 export default BindingEditorDataLoader;
