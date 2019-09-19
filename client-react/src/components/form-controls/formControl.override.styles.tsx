@@ -91,6 +91,8 @@ export const infoIconStyle = (theme: ThemeExtended) =>
 export const copyButtonStyle = (theme: ThemeExtended) =>
   style({
     marginLeft: '5px',
+    width: '25px',
+    height: '25px',
     backgroundColor: theme.semanticColors.accentButtonBackground,
     color: theme.semanticColors.buttonTextChecked,
     $nest: {
