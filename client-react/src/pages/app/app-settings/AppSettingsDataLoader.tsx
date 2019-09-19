@@ -63,6 +63,13 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
 
+  const armCallFailed = (response: HttpResponseObject<any>, ignoreRbacAndLocks?: boolean) => {
+    if (response.metadata.success) {
+      return false;
+    }
+    return ignoreRbacAndLocks ? response.metadata.status !== 403 && response.metadata.status !== 409 : true;
+  };
+
   const fetchData = async () => {
     const {
       site,
@@ -78,18 +85,16 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     } = await fetchApplicationSettingValues(resourceId);
 
     const loadingFailed =
-      !site.metadata.success ||
-      !webConfig.metadata.success ||
-      (!metadata.metadata.success && metadata.metadata.status !== 403 && metadata.metadata.status !== 409) ||
-      (!connectionStrings.metadata.success && connectionStrings.metadata.status !== 403 && connectionStrings.metadata.status !== 409) ||
-      (!applicationSettings.metadata.success &&
-        applicationSettings.metadata.status !== 403 &&
-        applicationSettings.metadata.status !== 409) ||
-      !slotConfigNames.metadata.success ||
-      !storageAccounts.metadata.success ||
-      (!azureStorageMounts.metadata.success && azureStorageMounts.metadata.status !== 403 && azureStorageMounts.metadata.status !== 409) ||
-      !windowsStacks.metadata.success ||
-      !linuxStacks.metadata.success;
+      armCallFailed(site) ||
+      armCallFailed(webConfig) ||
+      armCallFailed(metadata, true) ||
+      armCallFailed(connectionStrings, true) ||
+      armCallFailed(applicationSettings, true) ||
+      armCallFailed(slotConfigNames) ||
+      armCallFailed(storageAccounts) ||
+      armCallFailed(azureStorageMounts, true) ||
+      armCallFailed(windowsStacks) ||
+      armCallFailed(linuxStacks);
 
     setLoadingFailure(loadingFailed);
 
