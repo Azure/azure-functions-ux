@@ -385,6 +385,19 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this.progressMessageClass = 'info';
   }
 
+  private _findSlotIdInOptions(slotId: string, options: DropDownElement<string>[]) {
+    if (!!options && !!slotId) {
+      const slotIdToLower = slotId.toLocaleLowerCase();
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].value && options[i].value.toLocaleLowerCase() === slotIdToLower) {
+          return options[i].value;
+        }
+      }
+    }
+
+    return slotId;
+  }
+
   private _setupPhase1() {
     this.swapForm.controls['srcId'].enable();
     this.swapForm.controls['srcAuth'].enable();
@@ -413,9 +426,9 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     const [srcId, destId] = currSlotName === 'production' ? [currSlotTarget.id, this._resourceId] : [this._resourceId, currSlotTarget.id];
 
     this.swapForm.controls['srcId'].markAsTouched();
-    this.swapForm.controls['srcId'].setValue(srcId);
+    this.swapForm.controls['srcId'].setValue(this._findSlotIdInOptions(srcId, this.srcDropDownOptions));
     this.swapForm.controls['destId'].markAsTouched();
-    this.swapForm.controls['destId'].setValue(destId);
+    this.swapForm.controls['destId'].setValue(this._findSlotIdInOptions(destId, this.destDropDownOptions));
 
     this.currentStep = 'phase1';
     this._updatePhaseTracker('current', 'default');
@@ -437,8 +450,8 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   }
 
   private _setupPhase2Loading(srcId: ResourceId, destId: ResourceId) {
-    this.swapForm.controls['srcId'].setValue(srcId);
-    this.swapForm.controls['destId'].setValue(destId);
+    this.swapForm.controls['srcId'].setValue(this._findSlotIdInOptions(srcId, this.srcDropDownOptions));
+    this.swapForm.controls['destId'].setValue(this._findSlotIdInOptions(destId, this.destDropDownOptions));
     this.swapForm.controls['multiPhase'].setValue(true);
     this.swapForm.markAsPristine();
 
