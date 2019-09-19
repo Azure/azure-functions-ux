@@ -4257,7 +4257,7 @@
     <value>Asp.Net Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>在 Windows Server Core 2019 LTSC 容器中部署的 Asp.Net Web Form 應用程式。</value>
+    <value>在 Windows Server Core 2019 LTSC 容器中部署的 Asp.Net Web Forms 應用程式。</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask 與 Redis</value>
@@ -5120,5 +5120,32 @@
   </data>
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>建立函數</value>
+  </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>重新整理您 Web 應用程式的所有設定</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Key Vault 參考詳細資料</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>保存庫名稱</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>密碼名稱</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>祕密版本</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>識別</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>錯誤詳細資料</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
   </data>
 </root>

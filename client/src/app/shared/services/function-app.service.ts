@@ -538,7 +538,7 @@ export class FunctionAppService {
   getVfsObjects(context: FunctionAppContext, fi: FunctionInfo | string): Result<VfsObject[]> {
     const href = typeof fi === 'string' ? fi : fi.script_root_path_href;
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-      this._cacheService.get(href, false, this.headers(t)).map(e => <VfsObject[]>e.json())
+      this._cacheService.get(href, true, this.headers(t)).map(e => <VfsObject[]>e.json())
     );
   }
 

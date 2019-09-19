@@ -27,6 +27,7 @@ export class StepSourceControlComponent {
       authorizedStatus: 'none',
       enabled: true,
       scenarioId: ScenarioIds.vstsSource,
+      deploymentType: 'continuous',
     },
     {
       id: 'github',
@@ -37,6 +38,7 @@ export class StepSourceControlComponent {
       authorizedStatus: 'none',
       enabled: true,
       scenarioId: ScenarioIds.githubSource,
+      deploymentType: 'continuous',
     },
     {
       id: 'bitbucket',
@@ -47,6 +49,7 @@ export class StepSourceControlComponent {
       authorizedStatus: 'none',
       enabled: true,
       scenarioId: ScenarioIds.bitbucketSource,
+      deploymentType: 'continuous',
     },
     {
       id: 'localgit',
@@ -57,6 +60,7 @@ export class StepSourceControlComponent {
       authorizedStatus: 'none',
       enabled: true,
       scenarioId: ScenarioIds.localGitSource,
+      deploymentType: 'continuous',
     },
     {
       id: 'onedrive',
@@ -67,6 +71,7 @@ export class StepSourceControlComponent {
       authorizedStatus: 'none',
       enabled: true,
       scenarioId: ScenarioIds.onedriveSource,
+      deploymentType: 'manual',
     },
     {
       id: 'dropbox',
@@ -77,6 +82,7 @@ export class StepSourceControlComponent {
       authorizedStatus: 'none',
       enabled: true,
       scenarioId: ScenarioIds.dropboxSource,
+      deploymentType: 'manual',
     },
     {
       id: 'external',
@@ -87,6 +93,7 @@ export class StepSourceControlComponent {
       authorizedStatus: 'none',
       enabled: true,
       scenarioId: ScenarioIds.externalSource,
+      deploymentType: 'manual',
     },
     {
       id: 'ftp',
@@ -98,6 +105,7 @@ export class StepSourceControlComponent {
       manual: true,
       enabled: true,
       scenarioId: ScenarioIds.ftpSource,
+      deploymentType: 'manual',
     },
   ];
 
@@ -106,7 +114,8 @@ export class StepSourceControlComponent {
   private _dropboxAuthed = false;
   private _bitbucketAuthed = false;
 
-  providerCards: ProviderCard[] = [];
+  continuousDeploymentProviderCards: ProviderCard[] = [];
+  manualDeploymentProviderCards: ProviderCard[] = [];
 
   githubUserSubject$ = new Subject<boolean>();
   onedriveUserSubject$ = new Subject<boolean>();
@@ -244,7 +253,11 @@ export class StepSourceControlComponent {
         this._allProviders.forEach(provider => {
           provider.enabled = scenarioService.checkScenario(provider.scenarioId, { site: SiteObj }).status !== 'disabled';
           if (provider.enabled) {
-            this.providerCards.push(provider);
+            if (provider.deploymentType === 'continuous') {
+              this.continuousDeploymentProviderCards.push(provider);
+            } else {
+              this.manualDeploymentProviderCards.push(provider);
+            }
           }
         });
         this.refreshAuth();
@@ -279,10 +292,16 @@ export class StepSourceControlComponent {
   }
 
   private setProviderCardStatus(id: string, status: 'loadingAuth' | 'notAuthorized' | 'authorized' | 'none', userId: string = '') {
-    const card = this.providerCards.find(x => x.id === id);
-    if (card) {
-      card.authorizedStatus = status;
-      card.authenticatedId = userId;
+    const continuousDeploymentCard = this.continuousDeploymentProviderCards.find(x => x.id === id);
+    if (continuousDeploymentCard) {
+      continuousDeploymentCard.authorizedStatus = status;
+      continuousDeploymentCard.authenticatedId = userId;
+    }
+
+    const manualDeploymentCard = this.manualDeploymentProviderCards.find(x => x.id === id);
+    if (manualDeploymentCard) {
+      manualDeploymentCard.authorizedStatus = status;
+      manualDeploymentCard.authenticatedId = userId;
     }
   }
   public selectProvider(card: ProviderCard) {

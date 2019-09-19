@@ -26,9 +26,10 @@ import { Site } from '../../../models/site/site';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
-    initialFormValues: AppSettingsFormValues;
+    initialFormValues: AppSettingsFormValues | null;
     saving: boolean;
     scaleUpPlan: () => void;
+    refreshAppSettings: () => void;
     onSubmit: (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => void;
   }) => JSX.Element;
   resourceId: string;
@@ -38,11 +39,12 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const { resourceId, children } = props;
   const [initialValues, setInitialValues] = useState<AppSettingsFormValues | null>(null);
   const [initialLoading, setInitialLoading] = useState(false);
+  const [loadingFailure, setLoadingFailure] = useState(false);
+  const [refreshValues, setRefreshValues] = useState(false);
   const [currentAvailableStacks, setCurrentAvailableStacks] = useState<ArmArray<AvailableStack>>({ value: [] });
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
-  const portalCommunicator = useContext(PortalContext);
   const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<{ [key: string]: string }>>({
     name: '',
     id: '',
@@ -60,6 +62,14 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [storageAccountsState, setStorageAccountsState] = useState<ArmArray<StorageAccount>>({ value: [] });
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
+
+  const armCallFailed = (response: HttpResponseObject<any>, ignoreRbacAndLocks?: boolean) => {
+    if (response.metadata.success) {
+      return false;
+    }
+    return ignoreRbacAndLocks ? response.metadata.status !== 403 && response.metadata.status !== 409 : true;
+  };
+
   const fetchData = async () => {
     const {
       site,
@@ -73,64 +83,101 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       windowsStacks,
       linuxStacks,
     } = await fetchApplicationSettingValues(resourceId);
-    setCurrentSiteNonForm(site.data);
-    if (
-      applicationSettings.metadata.status === 403 || // failing RBAC permissions
-      applicationSettings.metadata.status === 409 // Readonly locked
-    ) {
-      setAppPermissions(false);
-      if (!resourceId.includes('/slots/')) {
-        setProductionPermissions(false);
+
+    const loadingFailed =
+      armCallFailed(site) ||
+      armCallFailed(webConfig) ||
+      armCallFailed(metadata, true) ||
+      armCallFailed(connectionStrings, true) ||
+      armCallFailed(applicationSettings, true) ||
+      armCallFailed(storageAccounts) ||
+      armCallFailed(azureStorageMounts, true) ||
+      armCallFailed(windowsStacks) ||
+      armCallFailed(linuxStacks);
+
+    setLoadingFailure(loadingFailed);
+
+    if (!loadingFailed) {
+      setCurrentSiteNonForm(site.data);
+      if (
+        applicationSettings.metadata.status === 403 || // failing RBAC permissions
+        applicationSettings.metadata.status === 409 // Readonly locked
+      ) {
+        setAppPermissions(false);
+        if (!resourceId.includes('/slots/')) {
+          setProductionPermissions(false);
+        }
       } else {
-        const productionPermission = await getProductionAppWritePermissions(resourceId);
+        setMetadataFromApi(metadata.data);
+        if (slotConfigNames.metadata.success) {
+          setSlotConfigNamesFromApi(slotConfigNames.data);
+        }
+      }
+
+      if (!slotConfigNames.metadata.success) {
+        setProductionPermissions(false);
+      } else if (resourceId.includes('/slots/')) {
+        const productionPermission = await getProductionAppWritePermissions(portalContext, resourceId);
         setProductionPermissions(productionPermission);
       }
-    } else {
-      setMetadataFromApi(metadata.data);
-      setSlotConfigNamesFromApi(slotConfigNames.data);
+
+      if (site.data.properties.targetSwapSlot) {
+        setEditable(false);
+      }
+      setStorageAccountsState(storageAccounts.data);
+      setInitialValues(
+        convertStateToForm({
+          site: site.data,
+          config: webConfig.data,
+          metadata: metadata.metadata.success ? metadata.data : null,
+          connectionStrings: connectionStrings.metadata.success ? connectionStrings.data : null,
+          appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
+          slotConfigNames: slotConfigNames.data,
+          azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
+        })
+      );
+      if (site.data.kind!.includes('linux')) {
+        setCurrentAvailableStacks(linuxStacks.data);
+      } else {
+        setCurrentAvailableStacks(windowsStacks.data);
+      }
     }
 
-    if (site.data.properties.targetSwapSlot) {
-      setEditable(false);
-    }
-    setStorageAccountsState(storageAccounts.data);
-    setInitialValues(
-      convertStateToForm({
-        site: site.data,
-        config: webConfig.data,
-        metadata: metadata.metadata.success ? metadata.data : null,
-        connectionStrings: connectionStrings.metadata.success ? connectionStrings.data : null,
-        appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
-        slotConfigNames: slotConfigNames.data,
-        azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
-      })
-    );
-    if (site.data.kind!.includes('linux')) {
-      setCurrentAvailableStacks(linuxStacks.data);
-    } else {
-      setCurrentAvailableStacks(windowsStacks.data);
-    }
     LogService.stopTrackPage('shell', { feature: 'AppSettings' });
-    portalCommunicator.loadComplete();
+    portalContext.loadComplete();
     setInitialLoading(true);
+    setRefreshValues(false);
   };
+
   const fillSlots = async () => {
     const slots = await fetchSlots(resourceId);
     if (slots.metadata.success) {
       setSlotList(slots.data);
     }
   };
-  useEffect(() => {
+
+  const loadData = () => {
     fetchData();
     fillSlots();
+  };
+
+  useEffect(() => {
+    loadData();
   }, []);
+
   const scaleUpPlan = async () => {
-    await portalCommunicator.openBlade(
+    await portalContext.openBlade(
       { detailBlade: 'SpecPickerFrameBlade', detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId } },
       'appsettings'
     );
     const newSite = await SiteService.fetchSite(resourceId);
     setCurrentSiteNonForm(newSite.data);
+  };
+
+  const refreshAppSettings = () => {
+    setRefreshValues(true);
+    setLoadingFailure(false);
+    loadData();
   };
 
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
@@ -167,16 +214,18 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       portalContext.stopNotification(notificationId, false, errMessage);
     }
   };
-  if (!initialLoading || !initialValues) {
+
+  if (!initialLoading || refreshValues || (!initialValues && !loadingFailure)) {
     return <LoadingComponent />;
   }
+
   return (
     <AvailableStacksContext.Provider value={currentAvailableStacks}>
       <PermissionsContext.Provider value={{ editable, app_write: appPermissions, production_write: productionPermissions }}>
         <StorageAccountsContext.Provider value={storageAccountsState}>
           <SiteContext.Provider value={currentSiteNonForm}>
             <SlotsListContext.Provider value={slotList}>
-              {children({ onSubmit, scaleUpPlan, initialFormValues: initialValues, saving: false })}
+              {children({ onSubmit, scaleUpPlan, refreshAppSettings, initialFormValues: initialValues, saving: false })}
             </SlotsListContext.Provider>
           </SiteContext.Provider>
         </StorageAccountsContext.Provider>

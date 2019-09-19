@@ -19,9 +19,11 @@ import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/T
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
-import RbacHelper from '../../../utils/rbac-helper';
+import RbacConstants from '../../../utils/rbac-constants';
 import { FormControlWrapper, Layout } from '../../../components/FormControlWrapper/FormControlWrapper';
 import { ArmObj } from '../../../models/arm-obj';
+import { PortalContext } from '../../../PortalContext';
+import PortalCommunicator from '../../../portal-communicator';
 
 export interface CreateOrSelectResourceGroupFormProps {
   onRgChange: (rgInfo: ResourceGroupInfo) => void;
@@ -72,6 +74,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
   const [existingRgWritePermissionError, setExistingRgWritePermissionError] = useState('');
   const { t } = useTranslation();
   const createNewLinkElement = useRef<ILink | null>(null);
+  const portalContext = useContext(PortalContext);
 
   const onChangeDropdown = (e: unknown, option: IDropdownOption) => {
     const rgInfo: ResourceGroupInfo = {
@@ -84,7 +87,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
     onChange(rgInfo);
 
     const rgResourceId = option.data === NEW_RG ? '' : (option.data as ArmObj<any>).id;
-    checkWritePermissionOnRg(rgResourceId, setExistingRgWritePermissionError, onRgValidationError, t);
+    checkWritePermissionOnRg(portalContext, rgResourceId, setExistingRgWritePermissionError, onRgValidationError, t);
   };
 
   const menuButtonElement = useRef<HTMLElement | null>(null);
@@ -131,7 +134,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
   // Initialize
   useEffect(() => {
     const rgResourceId = isNewResourceGroup ? '' : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase();
-    checkWritePermissionOnRg(rgResourceId, setExistingRgWritePermissionError, onRgValidationError, t);
+    checkWritePermissionOnRg(portalContext, rgResourceId, setExistingRgWritePermissionError, onRgValidationError, t);
   }, []);
 
   return (
@@ -188,6 +191,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 };
 
 const checkWritePermissionOnRg = (
+  portalContext: PortalCommunicator,
   rgResourceId: string,
   setExistingRgWritePermissionError: React.Dispatch<React.SetStateAction<string>>,
   onRgValidationError: (error: string) => void,
@@ -199,7 +203,7 @@ const checkWritePermissionOnRg = (
     return;
   }
 
-  return RbacHelper.hasPermission(rgResourceId, [RbacHelper.writeScope]).then(hasPermission => {
+  return portalContext.hasPermission(rgResourceId, [RbacConstants.writeScope]).then(hasPermission => {
     const validationError = hasPermission ? '' : t('changePlanNoWritePermissionRg');
     setExistingRgWritePermissionError(validationError);
     onRgValidationError(validationError);

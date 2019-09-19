@@ -5121,4 +5121,31 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>Crear función</value>
   </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Guardar todas las opciones de configuración de la aplicación web</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Detalles de referencia de Key Vault</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Nombre del almacén</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Nombre del secreto:</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Versión del secreto</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Identidad</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Detalles del error</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
+  </data>
 </root>
