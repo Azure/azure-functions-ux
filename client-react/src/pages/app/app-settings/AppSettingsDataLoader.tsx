@@ -90,7 +90,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       armCallFailed(metadata, true) ||
       armCallFailed(connectionStrings, true) ||
       armCallFailed(applicationSettings, true) ||
-      armCallFailed(slotConfigNames) ||
       armCallFailed(storageAccounts) ||
       armCallFailed(azureStorageMounts, true) ||
       armCallFailed(windowsStacks) ||
@@ -110,10 +109,14 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         }
       } else {
         setMetadataFromApi(metadata.data);
-        setSlotConfigNamesFromApi(slotConfigNames.data);
+        if (slotConfigNames.metadata.success) {
+          setSlotConfigNamesFromApi(slotConfigNames.data);
+        }
       }
 
-      if (resourceId.includes('/slots/')) {
+      if (!slotConfigNames.metadata.success) {
+        setProductionPermissions(false);
+      } else if (resourceId.includes('/slots/')) {
         const productionPermission = await getProductionAppWritePermissions(portalContext, resourceId);
         setProductionPermissions(productionPermission);
       }
