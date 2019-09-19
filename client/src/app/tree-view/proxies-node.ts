@@ -11,6 +11,7 @@ import { ProxyNode } from './proxy-node';
 import { BroadcastEvent } from './../shared/models/broadcast-event';
 import { ErrorEvent } from './../shared/models/error-event';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
+import { errorIds } from 'app/shared/models/error-ids';
 
 export class ProxiesNode extends BaseFunctionsProxiesNode {
   public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies);
@@ -114,13 +115,15 @@ export class ProxiesNode extends BaseFunctionsProxiesNode {
             fcNodes.push(new ProxyNode(this.sideNav, proxy, this._context.site, this));
           });
         } else {
-          this.requiresAdvancedEditor = true;
+          if (!response.error || response.error.errorId !== errorIds.proxyJsonNotFound) {
+            this.requiresAdvancedEditor = true;
 
-          this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-            errorId: response.error.errorId,
-            message: response.error.message,
-            resourceId: this._context.site.id,
-          });
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+              errorId: response.error.errorId,
+              message: response.error.message,
+              resourceId: this._context.site.id,
+            });
+          }
         }
 
         this.children = fcNodes;
