@@ -5121,4 +5121,31 @@
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>创建函数</value>
   </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>刷新 Web 应用程序的所有设置</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Key Vault 引用详细信息</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>保管库名称</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>机密名称</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>机密版本</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>标识</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>错误详细信息</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
+  </data>
 </root>

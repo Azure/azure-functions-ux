@@ -4960,7 +4960,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bağlantı dizelerini filtrele</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
-    <value>Portalda işlev düzenleme Java Function Apps için desteklenmemektedir. Geliştirmek için lütfen Maven veya VS Code kullanın.</value>
+    <value>Portalda işlev düzenleme Java işlev uygulamaları için desteklenmemektedir. Geliştirmek için lütfen Maven veya VS Code kullanın.</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
     <value>Çalışma dizini yolu, deponun köküne göreli olmalıdır ve Windows kullanılıyorsa /, \ veya sürücü adlarıyla (C:/) başlayamaz. Çalışma dizini deponun src klasöründe ise, yol src/ olmalıdır</value>
@@ -5120,5 +5120,32 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>İşlev Oluştur</value>
+  </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Web uygulamanız için tüm ayarları yenileyin</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Key Vault Başvuru Ayrıntıları</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Kasa Adı</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Gizli Dizi Adı</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Gizli Dizi Sürümü</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Kimlik</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Hata Ayrıntıları</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
   </data>
 </root>

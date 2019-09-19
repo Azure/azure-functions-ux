@@ -5121,4 +5121,31 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>Utwórz funkcję</value>
   </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Odśwież wszystkie ustawienia aplikacji internetowej</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Szczegóły odwołania do magazynu kluczy</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Nazwa magazynu</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Nazwa wpisu tajnego</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Wersja wpisu tajnego</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Tożsamość</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Szczegóły błędu</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
+  </data>
 </root>
