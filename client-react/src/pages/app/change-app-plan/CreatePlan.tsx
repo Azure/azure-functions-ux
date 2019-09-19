@@ -2,7 +2,7 @@ import { NewPlanInfo } from './CreateOrSelectPlan';
 import { IDropdownOption, Panel, PrimaryButton, DefaultButton, PanelType, Link, MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { ResourceGroupInfo, CreateOrSelectResourceGroup } from './CreateOrSelectResourceGroup';
 import { TextField as OfficeTextField } from 'office-ui-fabric-react/lib/TextField';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { getServerFarmValidator } from '../../../utils/formValidation/serverFarmValidator';
@@ -11,11 +11,13 @@ import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { AppKind } from '../../../utils/AppKind';
 import { CommonConstants } from '../../../utils/CommonConstants';
-import RbacHelper from '../../../utils/rbac-helper';
+import RbacConstants from '../../../utils/rbac-constants';
 import { FormControlWrapper, Layout } from '../../../components/FormControlWrapper/FormControlWrapper';
 import { ArmObj } from '../../../models/arm-obj';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
+import { PortalContext } from '../../../PortalContext';
+import PortalCommunicator from '../../../portal-communicator';
 
 export interface CreatePlanProps {
   newPlanInfo: NewPlanInfo;
@@ -39,11 +41,12 @@ export const CreatePlan = (props: CreatePlanProps) => {
 
   const newPlanInfo$ = useRef(new Subject<NewPlanInfo>());
   const { t } = useTranslation();
+  const portalContext = useContext(PortalContext);
 
   // Initialization
   useEffect(() => {
     watchForPlanUpdates(subscriptionId, newPlanInfo$.current, setNewPlanInfo, serverFarmsInWebspace, setNewPlanNameValidationError, t);
-    checkIfHasSubscriptionWriteAccess(`/subscriptions/${subscriptionId}`, setHasSubscriptionWritePermission);
+    checkIfHasSubscriptionWriteAccess(portalContext, `/subscriptions/${subscriptionId}`, setHasSubscriptionWritePermission);
 
     return () => {
       newPlanInfo$.current.unsubscribe();
@@ -62,7 +65,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
     newPlanInfo$.current.next(info);
   };
 
-  const onRenderFooterContent = (t: i18next.TFunction) => {
+  const onRenderFooterContent = (_t: i18next.TFunction) => {
     return (
       <div>
         <PrimaryButton
@@ -119,10 +122,11 @@ const onRgValidationError = (error: string, setHasResourceGroupWritePermission: 
 };
 
 const checkIfHasSubscriptionWriteAccess = async (
+  portalContext: PortalCommunicator,
   resourceId: string,
   hasSubscriptionWritePermission: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  const hasPermission = await RbacHelper.hasPermission(resourceId, [RbacHelper.writeScope]);
+  const hasPermission = await portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
   hasSubscriptionWritePermission(hasPermission);
 };
 

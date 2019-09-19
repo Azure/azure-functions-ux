@@ -5121,4 +5121,31 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>Vytvořit funkci</value>
   </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Aktualizovat všechna nastavení pro webovou aplikaci</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Podrobnosti o odkazu na trezor klíčů</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Název trezoru</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Název tajného kódu</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Tajná verze</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Identita</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Podrobnosti o chybě</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
+  </data>
 </root>

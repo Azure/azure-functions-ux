@@ -1892,7 +1892,7 @@
     <value>有効なストレージ接続文字列を使ってアプリの設定を更新してください。</value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
-    <value>ストレージ アカウント {0} が存在しません。Function App が使用しているストレージ アカウントを削除すると、関数アプリの動作が停止します。</value>
+    <value>ストレージ アカウント {0} が存在しません。関数アプリが使用しているストレージ アカウントを削除すると、関数アプリの動作が停止します。</value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
     <value>既存の有効なストレージ接続文字列を使ってアプリの設定を更新してください。</value>
@@ -4218,10 +4218,10 @@
     <value>終了して、デプロイ センターに移動する</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>ポータルでの関数の編集は、Linux Consumption Function Apps ではサポートされていません。</value>
+    <value>ポータルでの関数の編集は、Linux Consumption 関数アプリではサポートされていません。</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>ポータルでの関数の編集は、Linux Premium Function Apps (プレビュー) ではサポートされていません。</value>
+    <value>ポータルでの関数の編集は、Linux Premium 関数アプリ (プレビュー) ではサポートされていません。</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>単一コンテナー (プレビュー)</value>
@@ -4713,10 +4713,10 @@
     <value>自動スワップ設定を変更するには、運用アプリにおける書き込みアクセス許可が必要です。</value>
   </data>
   <data name="scriptFunctionApp" xml:space="preserve">
-    <value>スクリプト Function App</value>
+    <value>スクリプト関数アプリ</value>
   </data>
   <data name="precompiledDotNetApp" xml:space="preserve">
-    <value>プリコンパイル済み .NET Function App</value>
+    <value>プリコンパイル済み .NET 関数アプリ</value>
   </data>
   <data name="functionAppType" xml:space="preserve">
     <value>関数アプリの種類</value>
@@ -4815,7 +4815,7 @@
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>Python Function Apps ではポータルにおける関数の編集はサポートされていません。開発には CLI または VS Code を使用してください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
+    <value>Python 関数アプリではポータルにおける関数の編集はサポートされていません。開発には CLI または VS Code を使用してください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure Storage のマウントに秘密が含まれています。このセクションを表示または編集するには、読み取りまたは書き込みのアクセス許可が必要です。</value>
@@ -5120,5 +5120,32 @@
   </data>
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>関数の作成</value>
+  </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Web アプリケーションのすべての設定を更新する</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Key Vault 参照の詳細</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>コンテナーの名前</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>シークレット名</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>シークレットのバージョン</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>エラーの詳細</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
   </data>
 </root>

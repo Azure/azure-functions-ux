@@ -13,7 +13,7 @@ interface StateToFormParams {
   appSettings: ArmObj<{ [key: string]: string }> | null;
   connectionStrings: ArmObj<{ [key: string]: { type: string; value: string } }> | null;
   azureStorageMounts: ArmObj<ArmAzureStorageMount> | null;
-  slotConfigNames: ArmObj<SlotConfigNames>;
+  slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<{ [key: string]: string }> | null;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
@@ -137,11 +137,14 @@ export function getStickySettings(
     },
   };
 }
-export function getFormAppSetting(settingsData: ArmObj<{ [key: string]: string }> | null, slotConfigNames?: ArmObj<SlotConfigNames>) {
-  if (!settingsData || !slotConfigNames) {
+export function getFormAppSetting(
+  settingsData: ArmObj<{ [key: string]: string }> | null,
+  slotConfigNames?: ArmObj<SlotConfigNames> | null
+) {
+  if (!settingsData) {
     return [];
   }
-  const { appSettingNames } = slotConfigNames.properties;
+  const appSettingNames = !!slotConfigNames ? slotConfigNames.properties.appSettingNames : null;
   return sortBy(
     Object.keys(settingsData.properties).map((key, i) => ({
       name: key,
@@ -198,10 +201,10 @@ export function getFormConnectionStrings(
   settingsData: ArmObj<{ [key: string]: { type: string; value: string } }> | null,
   slotConfigNames: ArmObj<SlotConfigNames> | null
 ) {
-  if (!settingsData || !slotConfigNames) {
+  if (!settingsData) {
     return [];
   }
-  const { connectionStringNames } = slotConfigNames.properties;
+  const connectionStringNames = slotConfigNames ? slotConfigNames.properties.connectionStringNames : null;
   return sortBy(
     Object.keys(settingsData.properties).map((key, i) => ({
       name: key,

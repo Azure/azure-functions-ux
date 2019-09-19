@@ -5121,4 +5121,31 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>Skapa funktion</value>
   </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Uppdatera alla inställningar för ditt webbprogram</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Key Vault-referensinformation</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Valvnamn</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Hemlighetens namn</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Hemlig version</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Identitet</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Felinformation</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
+  </data>
 </root>

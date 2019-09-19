@@ -13,8 +13,13 @@ import { commandBarSticky, formStyle } from './AppSettings.styles';
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 
-const validate = (values: AppSettingsFormValues, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
+const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
+  if (!values) {
+    return {};
+  }
+
   const duplicateDefaultDocumentsValidation = (value: string) => {
     return values.config.properties.defaultDocuments.filter(v => v === value).length > 1 ? t('fieldMustBeUnique') : null;
   };
@@ -67,7 +72,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
 
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
-      {({ initialFormValues, saving, onSubmit, scaleUpPlan }) => (
+      {({ initialFormValues, saving, onSubmit, scaleUpPlan, refreshAppSettings }) => (
         <SiteContext.Consumer>
           {site => {
             return (
@@ -84,16 +89,24 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                       <AppSettingsCommandBar
                         submitForm={formProps.submitForm}
                         resetForm={formProps.resetForm}
+                        refreshAppSettings={refreshAppSettings}
                         disabled={!app_write || !editable || saving}
                         dirty={formProps.dirty}
                       />
-                      {scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
-                        <UpsellBanner onClick={scaleUpPlan} />
-                      )}
+                      {!!initialFormValues &&
+                        scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
+                          <UpsellBanner onClick={scaleUpPlan} />
+                        )}
                     </div>
-                    <div className={formStyle}>
-                      <AppSettingsForm {...formProps} />
-                    </div>
+                    {!!initialFormValues ? (
+                      <div className={formStyle}>
+                        <AppSettingsForm {...formProps} />
+                      </div>
+                    ) : (
+                      <MessageBar messageBarType={MessageBarType.error} isMultiline={false}>
+                        {t('configLoadFailure')}
+                      </MessageBar>
+                    )}
                   </form>
                 )}
               </Formik>
