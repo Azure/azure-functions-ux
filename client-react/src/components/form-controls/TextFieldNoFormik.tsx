@@ -32,6 +32,10 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     setCopied(true);
   };
 
+  const getCopiedLabel = () => {
+    return copied ? t('copypre_copied') : t('copypre_copyClipboard');
+  };
+
   return (
     <ReactiveFormControl {...props}>
       <OfficeTextField
@@ -47,7 +51,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
       />
       {copyButton && (
         <TooltipHost
-          content={copied ? t('copypre_copied') : t('copypre_copyClipboard')}
+          content={getCopiedLabel()}
           calloutProps={{ gapSpace: 0 }}
           onTooltipToggle={isVisible => {
             if (copied && !isVisible) {
@@ -59,6 +63,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
             id={`${id}-copy-button`}
             iconProps={{ iconName: 'Copy' }}
             onClick={copyToClipboard}
+            ariaLabel={getCopiedLabel()}
           />
         </TooltipHost>
       )}
