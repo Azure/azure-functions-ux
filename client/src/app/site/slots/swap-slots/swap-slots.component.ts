@@ -1,6 +1,6 @@
 import { Component, Injector, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Response } from '@angular/http';
+//  import { Response } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -8,7 +8,7 @@ import { InfoBoxType } from './../../../controls/info-box/info-box.component';
 import { ProgressBarStep, ProgressBarStepStatus } from './../../../controls/form-wizard/components/progress-bar.component';
 import { ArmSiteDescriptor } from './../../../shared/resourceDescriptors';
 import { FeatureComponent } from './../../../shared/components/feature-component';
-import { LogCategories, SiteTabIds, SlotOperationState, SwapOperationType } from './../../../shared/models/constants';
+import { ARMApiVersions, LogCategories, SiteTabIds, SlotOperationState, SwapOperationType } from './../../../shared/models/constants';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { HttpResult } from './../../../shared/models/http-result';
 import { errorIds } from './../../../shared/models/error-ids';
@@ -21,12 +21,13 @@ import { Site } from './../../../shared/models/arm/site';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { SlotsDiff, SimpleSlotsDiff } from './../../../shared/models/arm/slots-diff';
 import { AuthzService } from './../../../shared/services/authz.service';
-import { CacheService } from './../../../shared/services/cache.service';
+//  import { CacheService } from './../../../shared/services/cache.service';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalService } from '../../../shared/services/portal.service';
 import { SiteService } from './../../../shared/services/site.service';
 import { SlotSwapGroupValidator } from './slotSwapGroupValidator';
 import { SlotSwapSlotIdValidator } from './slotSwapSlotIdValidator';
+import { BatchUpdateSettings } from 'app/shared/models/batch';
 
 export type SwapStep =
   | 'loading'
@@ -106,7 +107,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
 
   constructor(
     private _authZService: AuthzService,
-    private _cacheService: CacheService,
+    //  private _cacheService: CacheService,
     private _fb: FormBuilder,
     private _logService: LogService,
     private _portalService: PortalService,
@@ -538,11 +539,23 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this._portalService.broadcastMessage(BroadcastMessageId.slotSwap, params.srcId, params);
     this._portalService.broadcastMessage(BroadcastMessageId.slotSwap, params.destId, params);
 
+    const request: BatchUpdateSettings = {
+      type: 'POST',
+      uri: `${params.uri}?api-version=${ARMApiVersions.websiteApiVersion20180201}`,
+      content: params.content,
+      notificationTitle: this._translateService.instant(PortalResources.swapStarted, { operation: operation }),
+      notificationDescription: this._translateService.instant(PortalResources.swapStarted, { operation: operation }),
+      notificationSuccessDescription: this._translateService.instant(PortalResources.swapSuccess, { operation: operation }),
+      notificationFailureDescription: this._translateService.instant(PortalResources.swapFailure, { operation: operation, error: '-' }),
+    };
+
     this.setBusy();
-    this._cacheService
-      .postArm(params.uri, null, null, params.content)
+    //  this._cacheService
+    //    .postArm(params.uri, null, null, params.content)
+    this._portalService
+      .executeArmUpdateRequest<any>(request)
       .mergeMap(r => {
-        return Observable.of({ success: true, error: null });
+        return Observable.of({ success: r.isSuccessful, error: r.error });
       })
       .catch(e => {
         return Observable.of({ success: false, error: e });
@@ -587,11 +600,26 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this._portalService.broadcastMessage(BroadcastMessageId.slotSwap, params.srcId, params);
     this._portalService.broadcastMessage(BroadcastMessageId.slotSwap, params.destId, params);
 
+    const request: BatchUpdateSettings = {
+      type: 'POST',
+      uri: `${params.uri}?api-version=${ARMApiVersions.websiteApiVersion20180201}`,
+      content: params.content,
+      notificationTitle: this._translateService.instant(PortalResources.swapCancelStarted, { operation: operation }),
+      notificationDescription: this._translateService.instant(PortalResources.swapCancelStarted, { operation: operation }),
+      notificationSuccessDescription: this._translateService.instant(PortalResources.swapCancelSuccess, { operation: operation }),
+      notificationFailureDescription: this._translateService.instant(PortalResources.swapCancelFailure, {
+        operation: operation,
+        error: '-',
+      }),
+    };
+
     this.setBusy();
-    this._cacheService
-      .postArm(params.uri, null, null, params.content)
+    //  this._cacheService
+    //    .postArm(params.uri, null, null, params.content)
+    this._portalService
+      .executeArmUpdateRequest<any>(request)
       .mergeMap(r => {
-        return Observable.of({ success: true, error: null });
+        return Observable.of({ success: r.isSuccessful, error: r.error });
       })
       .catch(e => {
         return Observable.of({ success: false, error: e });
@@ -634,40 +662,32 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this._portalService.broadcastMessage(BroadcastMessageId.slotSwap, params.srcId, params);
     this._portalService.broadcastMessage(BroadcastMessageId.slotSwap, params.destId, params);
 
+    const request: BatchUpdateSettings = {
+      type: 'POST',
+      uri: `${params.uri}?api-version=${ARMApiVersions.websiteApiVersion20180201}`,
+      content: params.content,
+      notificationTitle: this._translateService.instant(PortalResources.swapStarted, { operation: operation }),
+      notificationDescription: this._translateService.instant(PortalResources.swapStarted, { operation: operation }),
+      notificationSuccessDescription: this._translateService.instant(PortalResources.swapSuccess, { operation: operation }),
+      notificationFailureDescription: this._translateService.instant(PortalResources.swapFailure, {
+        operation: operation,
+        error: '-',
+      }),
+    };
+
     this.setBusy();
-    this._cacheService
-      .postArm(params.uri, null, null, params.content)
-      .mergeMap(swapResult => {
-        const location = swapResult.headers.get('Location');
-        if (!location) {
-          return Observable.of({ success: false, timeout: false, error: 'no location header' });
-        } else {
-          const pollingInterval = 5000; // poll every 5 seconds
-          const pollingTimeout = 120; // time out after 120 polling attempts (10 minutes)
-          let pollingCount = 0;
-          // In the 'filter' and 'map' below, we only need to handle status 200 and status 202.
-          // Responses with error status codes will go directly to the 'catch'.
-          return Observable.interval(pollingInterval)
-            .concatMap(_ => this._cacheService.get(location, true))
-            .map((pollResponse: Response) => pollResponse.status)
-            .take(pollingTimeout)
-            .filter((status: number) => status !== 202 || ++pollingCount === pollingTimeout)
-            .map((status: number) => ({ success: status === 200, timeout: status === 202, error: null }))
-            .catch(e => Observable.of({ success: false, timeout: false, error: e }))
-            .take(1);
-        }
+    this._portalService
+      .executeArmUpdateRequest<any>(request)
+      .mergeMap(r => {
+        return Observable.of({ success: r.isSuccessful, error: r.error });
       })
       .catch(e => {
-        return Observable.of({ success: false, timeout: false, error: e });
+        return Observable.of({ success: false, error: e });
       })
       .subscribe(r => {
         if (r.success) {
           this.progressMessage = this._translateService.instant(PortalResources.swapSuccess, { operation: operation });
           this.progressMessageClass = 'success';
-        } else if (r.timeout) {
-          this.progressMessage = this._translateService.instant(PortalResources.swapTimeout, { operation: operation });
-          this.progressMessageClass = 'warning';
-          this._logService.error(LogCategories.swapSlots, errorIds.timedOutPollingSwapSlots, { id: this._resourceId });
         } else {
           this.progressMessage = this._translateService.instant(PortalResources.swapFailure, {
             operation: operation,
@@ -686,6 +706,59 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         this.clearBusy();
         this._setupCompletedPhase(multiPhase, r.success);
       });
+
+    // this.setBusy();
+    // this._cacheService
+    //   .postArm(params.uri, null, null, params.content)
+    //   .mergeMap(swapResult => {
+    //     const location = swapResult.headers.get('Location');
+    //     if (!location) {
+    //       return Observable.of({ success: false, timeout: false, error: 'no location header' });
+    //     } else {
+    //       const pollingInterval = 5000; // poll every 5 seconds
+    //       const pollingTimeout = 120; // time out after 120 polling attempts (10 minutes)
+    //       let pollingCount = 0;
+    //       // In the 'filter' and 'map' below, we only need to handle status 200 and status 202.
+    //       // Responses with error status codes will go directly to the 'catch'.
+    //       return Observable.interval(pollingInterval)
+    //         .concatMap(_ => this._cacheService.get(location, true))
+    //         .map((pollResponse: Response) => pollResponse.status)
+    //         .take(pollingTimeout)
+    //         .filter((status: number) => status !== 202 || ++pollingCount === pollingTimeout)
+    //         .map((status: number) => ({ success: status === 200, timeout: status === 202, error: null }))
+    //         .catch(e => Observable.of({ success: false, timeout: false, error: e }))
+    //         .take(1);
+    //     }
+    //   })
+    //   .catch(e => {
+    //     return Observable.of({ success: false, timeout: false, error: e });
+    //   })
+    //   .subscribe(r => {
+    //     if (r.success) {
+    //       this.progressMessage = this._translateService.instant(PortalResources.swapSuccess, { operation: operation });
+    //       this.progressMessageClass = 'success';
+    //     } else if (r.timeout) {
+    //       this.progressMessage = this._translateService.instant(PortalResources.swapTimeout, { operation: operation });
+    //       this.progressMessageClass = 'warning';
+    //       this._logService.error(LogCategories.swapSlots, errorIds.timedOutPollingSwapSlots, { id: this._resourceId });
+    //     } else {
+    //       this.progressMessage = this._translateService.instant(PortalResources.swapFailure, {
+    //         operation: operation,
+    //         error: JSON.stringify(r.error),
+    //       });
+    //       this.progressMessageClass = 'error';
+    //       this._logService.error(LogCategories.swapSlots, errorIds.failedToSwapSlots, { error: r.error, id: this._resourceId });
+    //     }
+
+    //     params.success = r.success;
+    //     params.state = SlotOperationState.completed;
+    //     this._portalService.broadcastMessage(BroadcastMessageId.slotSwap, params.srcId, params);
+    //     this._portalService.broadcastMessage(BroadcastMessageId.slotSwap, params.destId, params);
+
+    //     this.swapping = false;
+    //     this.clearBusy();
+    //     this._setupCompletedPhase(multiPhase, r.success);
+    //   });
   }
 
   private _getOperationInputs(operationType: SwapOperationType): SwapSlotParameters {
