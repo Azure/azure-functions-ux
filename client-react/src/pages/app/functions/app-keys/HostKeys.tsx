@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { FormHostKeys, AppKeysTypes } from './AppKeys.types';
+import { AppKeysModel, AppKeysTypes } from './AppKeys.types';
 import {
   Stack,
   ActionButton,
@@ -26,7 +26,7 @@ import { Site } from '../../../../models/site/site';
 interface HostKeysProps {
   resourceId: string;
   site: ArmObj<Site>;
-  hostKeys: FormHostKeys[];
+  hostKeys: AppKeysModel[];
   refreshData: () => void;
 }
 
@@ -59,7 +59,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     setPanelItem('');
   };
 
-  const showAddEditPanel = (key?: FormHostKeys) => {
+  const showAddEditPanel = (key?: AppKeysModel) => {
     setShowPanel(true);
     setCurrentKey(key ? key : emptyKey);
     setPanelItem(key ? 'edit' : 'add');
@@ -119,7 +119,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     refreshData();
   };
 
-  const onRenderColumnItem = (item: FormHostKeys, index: number, column: IColumn) => {
+  const onRenderColumnItem = (item: AppKeysModel, index: number, column: IColumn) => {
     const itemKey = item.name;
     const hidden = !shownValues.includes(itemKey) && !showValues;
 
@@ -191,7 +191,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
-  const createHostKey = (key: FormHostKeys) => {
+  const createHostKey = (key: AppKeysModel) => {
     appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.functionKeys);
     refreshData();
   };

@@ -1,7 +1,7 @@
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 
-export interface FormHostKeys {
+export interface AppKeysModel {
   name: string;
   value: string;
 }
@@ -19,8 +19,8 @@ export interface AppKeysInfo {
 
 export interface AppKeysFormValues {
   site: ArmObj<Site>;
-  hostKeys: FormHostKeys[];
-  systemKeys: FormSystemKeys[];
+  hostKeys: AppKeysModel[];
+  systemKeys: AppKeysModel[];
 }
 
 export enum AppKeysTypes {

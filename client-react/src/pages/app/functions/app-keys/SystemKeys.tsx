@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { FormSystemKeys, AppKeysTypes } from './AppKeys.types';
+import { AppKeysModel, AppKeysTypes } from './AppKeys.types';
 import {
   ActionButton,
   Stack,
@@ -26,7 +26,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 interface SystemKeysProps {
   resourceId: string;
   site: ArmObj<Site>;
-  systemKeys: FormSystemKeys[];
+  systemKeys: AppKeysModel[];
   refreshData: () => void;
 }
 
@@ -54,7 +54,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
     setPanelItem('');
   };
 
-  const showAddEditPanel = (key?: FormSystemKeys) => {
+  const showAddEditPanel = (key?: AppKeysModel) => {
     setShowPanel(true);
     setCurrentKey(key ? key : emptyKey);
     setPanelItem(key ? 'edit' : 'add');
@@ -75,7 +75,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
     });
   };
 
-  const createSystemKey = (key: FormSystemKeys) => {
+  const createSystemKey = (key: AppKeysModel) => {
     appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.systemKeys);
     refreshData();
   };
@@ -113,7 +113,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
     refreshData();
   };
 
-  const onRenderColumnItem = (item: FormSystemKeys, index: number, column: IColumn) => {
+  const onRenderColumnItem = (item: AppKeysModel, index: number, column: IColumn) => {
     const itemKey = item.name;
     const hidden = !shownValues.includes(itemKey) && !showValues;
 

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { FormHostKeys, FormSystemKeys } from './AppKeys.types';
+import { AppKeysModel } from './AppKeys.types';
 import { useTranslation } from 'react-i18next';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
@@ -9,10 +9,10 @@ import { tableActionButtonStyle, addPanelCommandBar } from './AppKeys.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 
 export interface AppKeyAddEditProps {
-  createAppKey: (item: FormHostKeys | FormSystemKeys) => void;
+  createAppKey: (item: AppKeysModel) => void;
   closeBlade: () => void;
-  appKey: FormHostKeys | FormSystemKeys;
-  otherAppKeys: FormHostKeys[] | FormSystemKeys[];
+  appKey: AppKeysModel;
+  otherAppKeys: AppKeysModel[];
   resourceId: string;
   panelItem: string;
 }

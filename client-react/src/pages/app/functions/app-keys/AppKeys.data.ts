@@ -1,4 +1,4 @@
-import { AppKeysFormValues, AppKeysInfo, FormHostKeys, AppKeysTypes } from './AppKeys.types';
+import { AppKeysFormValues, AppKeysInfo, AppKeysModel, AppKeysTypes } from './AppKeys.types';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import AppKeyService from '../../../../ApiHelpers/AppKeysService';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -31,7 +31,7 @@ export default class AppKeysData {
     AppKeyService.createKey(resourceId, keyType, keyName, keyValue);
   };
 
-  private _retrieveHostKeys = (keys: AppKeysInfo | null): FormHostKeys[] => {
+  private _retrieveHostKeys = (keys: AppKeysInfo | null): AppKeysModel[] => {
     if (!keys) {
       return [];
     }
@@ -44,7 +44,7 @@ export default class AppKeysData {
     return sortBy(hostKeys, h => h.name.toLowerCase());
   };
 
-  private _retrieveSystemKeys = (keys: AppKeysInfo | null): FormHostKeys[] => {
+  private _retrieveSystemKeys = (keys: AppKeysInfo | null): AppKeysModel[] => {
     if (!keys) {
       return [];
     }
