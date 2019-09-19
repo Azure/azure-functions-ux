@@ -5145,4 +5145,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="errorDetails" xml:space="preserve">
     <value>Error Details</value>
   </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
+  </data>
 </root>
