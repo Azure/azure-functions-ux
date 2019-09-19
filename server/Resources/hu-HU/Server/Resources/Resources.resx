@@ -4218,10 +4218,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Befejezés és a Deployment Center megnyitása</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>A függvények portálon való szerkesztése nem támogatott a Linuxhoz készült használatalapú Function Apps esetében.</value>
+    <value>A függvények portálon való szerkesztése nem támogatott a Linuxhoz készült használatalapú függvényalkalmazások esetében.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>A függvények portálon való szerkesztése nem támogatott a prémium szintű, Linuxhoz készült Function Apps (előzetes verzió) esetében.</value>
+    <value>A függvények portálon való szerkesztése nem támogatott a prémium szintű, Linuxhoz készült függvényalkalmazások (előzetes verzió) esetében.</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Single Container (Előzetes verzió)</value>
@@ -4815,7 +4815,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
   <data name="readOnlyPython" xml:space="preserve">
-    <value>A Python Function Apps nem támogatja a függvények portálon való szerkesztését. A fejlesztéshez használja a parancssori felületet vagy a VS Code-ot. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;További információ&lt;/a&gt;</value>
+    <value>A Python-függvényalkalmazások nem támogatják a függvények portálon való szerkesztését. A fejlesztéshez használja a parancssori felületet vagy a VS Code-ot. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;További információ&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Az Azure Storage-csatlakozások titkos kulcsokat tartalmaznak. A szakasz megtekintéséhez vagy szerkesztéséhez olvasási/írási jogosultság szükséges.</value>
@@ -4960,7 +4960,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Kapcsolati sztringek szűrése</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
-    <value>A Java Function Apps nem támogatja a függvények portálon való szerkesztését. A fejlesztéshez használja a Mavent vagy a VS Code-ot.</value>
+    <value>A Java-függvényalkalmazások nem támogatják a függvények portálon való szerkesztését. A fejlesztéshez használja a Mavent vagy a VS Code-ot.</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
     <value>A munkakönyvtár elérési útjának az adattár gyökeréhez képest relatívnak kell lennie, és nem kezdődhet / vagy \ jellel, vagy meghajtónévvel (C:/) Windows esetén. Ha a munkakönyvtár az adattár src mappájában található, az elérési útnak a következőnek kell lennie: src/</value>
@@ -5120,5 +5120,32 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>Függvény létrehozása</value>
+  </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>A webalkalmazáshoz tartozó összes beállítás frissítése</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Kulcstartó-hivatkozás részletei</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Tár neve</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Titkos kód neve</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Titkos kód verziója</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Identitás</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Hiba részletei</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
   </data>
 </root>

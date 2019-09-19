@@ -5121,4 +5121,31 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>Funktion erstellen</value>
   </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Alle Einstellungen für Ihre Webanwendung aktualisieren</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Key Vault-Verweisdetails</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Tresorname</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Geheimnisname</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Version des Geheimnisses</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Identität</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Fehlerdetails</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
+  </data>
 </root>

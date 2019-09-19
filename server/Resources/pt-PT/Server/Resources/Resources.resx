@@ -268,7 +268,7 @@
     <value>A sua subscrição</value>
   </data>
   <data name="createApp_description" xml:space="preserve">
-    <value>Criar uma Function App provisiona automaticamente um novo contentor capaz de alojar e executar o seu código.</value>
+    <value>Criar uma aplicação de funções provisiona automaticamente um novo contentor capaz de alojar e executar o seu código.</value>
   </data>
   <data name="createApp_fail" xml:space="preserve">
     <value>Falha ao criar a aplicação</value>
@@ -842,7 +842,7 @@
     <value>Não é possível alcançar a sua aplicação de funções. A sua aplicação pode ter um problema temporário ou pode estar a falhar ao iniciar. Pode verificar os registos ou tente novamente daqui a alguns minutos.</value>
   </data>
   <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
-    <value>Não foi possível obter a Function App ({{functionApp}})</value>
+    <value>Não foi possível obter a aplicação de funções ({{functionApp}})</value>
   </data>
   <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
     <value>Não é possível alcançar a sua aplicação de funções ({{statusText}}). Tente novamente mais tarde.</value>
@@ -968,7 +968,7 @@
     <value>Quota de Utilização Diária (GB-Seg)</value>
   </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-    <value>A Function App atingiu a quota de utilização diária e foi parada até ao próximo período de tempo de 24 horas.</value>
+    <value>A aplicação de funções atingiu a quota de utilização diária e foi parada até ao próximo período de tempo de 24 horas.</value>
   </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
     <value>Remover quota</value>
@@ -977,7 +977,7 @@
     <value>Definir quota</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>Quando a quota de utilização diária é excedida, a Function App é parada até ao dia seguinte às 0:00 UTC.</value>
+    <value>Quando a quota de utilização diária é excedida, a aplicação de funções é parada até ao dia seguinte às 0:00 UTC.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>Quer mesmo revogar a chave {{name}}?</value>
@@ -986,7 +986,7 @@
     <value>Chaves</value>
   </data>
   <data name="functionNew_nameError" xml:space="preserve">
-    <value>O nome tem de ser único na Function App. Tem de começar por uma letra e pode conter letrar, números (0-9), traços ("-") e carateres de sublinhado ("_").</value>
+    <value>O nome tem de ser único na aplicação de funções. Tem de começar por uma letra e pode conter letrar, números (0-9), traços ("-") e carateres de sublinhado ("_").</value>
   </data>
   <data name="functionDev_loading" xml:space="preserve">
     <value>A carregar...</value>
@@ -1013,13 +1013,13 @@
     <value>personalizado</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>A sua Function App está desativada porque tem excedeu a quota do conjunto. Pode alterá-la a partir da vista de definições de aplicação de funções na barra do lado esquerdo.</value>
+    <value>A sua aplicação de funções está desativada porque tem excedeu a quota do conjunto. Pode alterá-la a partir da vista de definições de aplicação de funções na barra do lado esquerdo.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>A sua Function App está parada. Não é possível utilizar o portal de funções quando a aplicação está parada. Pode alterar na vista de definições de aplicação de funções na barra do lado esquerdo e, em seguida, ir ao painel de definições do serviço de aplicação.</value>
+    <value>A sua Aplicação de Funções está parada. Não é possível utilizar o portal de funções quando a aplicação está parada. Pode alterar na vista de definições de aplicação de funções na barra do lado esquerdo e, em seguida, ir ao painel de definições do serviço de aplicação.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>Não tem permissões suficientes para aceder a esta Function App. Pode ainda conseguir ver as definições básicas no painel das definições do serviço de aplicações ao qual pode aceder a partir do link das definições da Function App na barra lateral esquerda.</value>
+    <value>Não tem permissões suficientes para aceder a esta aplicação de funções. Pode ainda conseguir ver as definições básicas no painel das definições do serviço de aplicações ao qual pode aceder a partir do link das definições da aplicação de funções na barra lateral esquerda.</value>
   </data>
   <data name="errorUniqueParameterName" xml:space="preserve">
     <value>O nome do parâmetro tem de ser exclusivo.</value>
@@ -2366,7 +2366,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>A validação de esquema proxies.json falhou. Erro: "{0}".</value>
   </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-    <value>Num plano de Consumo, pode limitar a utilização da plataforma definindo uma quota de utilização diária em gigabytes-segundo. Uma vez que a quota de utilização diária é atingida, a Function App é parada até ao dia seguinte às 0:00 UTC.</value>
+    <value>Num plano de Consumo, pode limitar a utilização da plataforma definindo uma quota de utilização diária em gigabytes-segundo. Uma vez que a quota de utilização diária é atingida, a aplicação de funções é parada até ao dia seguinte às 0:00 UTC.</value>
   </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
     <value>(política do hub)</value>
@@ -4143,7 +4143,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Pilha de runtime da aplicação de funções</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>As Function Apps v2 estão agora na mesma linguagem. Defina a pilha de runtime antes de adicionar funções à sua aplicação.</value>
+    <value>As aplicações de funções v2 estão agora na mesma linguagem. Defina a pilha de runtime antes de adicionar funções à sua aplicação.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>Pilha de Runtime de Função</value>
@@ -4254,10 +4254,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Página Web HTML estática servida a partir do servidor Web Nginx.</value>
   </data>
   <data name="singleContainerSample1TitleWindows" xml:space="preserve">
-    <value>Formulários Web do Asp.Net</value>
+    <value>Asp.Net Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Aplicação de Formulários Web Asp.Net implementada no Windows Server Core 2019 LTSC Container.</value>
+    <value>Aplicação Asp.Net Web Forms implementada no Windows Server Core 2019 LTSC Container.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask com Redis</value>
@@ -4960,7 +4960,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Filtrar cadeias de ligação</value>
   </data>
   <data name="readOnlyJava" xml:space="preserve">
-    <value>A edição de funções no portal não é suportada no Java Function Apps. Utilize Maven ou VS Code no desenvolvimento.</value>
+    <value>A edição de funções no portal não é suportada nas aplicações de funções Java. Utilize Maven ou VS Code no desenvolvimento.</value>
   </data>
   <data name="validate_workingDirectory" xml:space="preserve">
     <value>O caminho do diretório de trabalho deve ser relativo à raiz do repositório e não pode começar com /, \ ou nomes das unidades (C:/) no caso do Windows. Se o diretório de trabalho estiver na pasta src do repositório, o caminho deve ser src/</value>
@@ -5120,5 +5120,32 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>Criar Função</value>
+  </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Atualizar todas as definições da sua aplicação Web</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Detalhes de Referência do Key Vault</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Nome do Cofre</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Nome do Segredo</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Versão do Segredo</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Identidade</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Detalhes do Erro</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
   </data>
 </root>

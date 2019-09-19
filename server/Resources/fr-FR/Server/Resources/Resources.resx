@@ -5121,4 +5121,31 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>Créer une fonction</value>
   </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Actualiser tous les paramètres pour votre application web</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Détails de la référence Key Vault</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Nom de l'archivage</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Nom du secret</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Version du secret</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Identité</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Détails de l'erreur</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
+  </data>
 </root>
