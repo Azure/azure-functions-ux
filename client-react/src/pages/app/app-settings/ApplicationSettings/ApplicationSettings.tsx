@@ -5,19 +5,17 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import React, { lazy, Suspense } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage, {
-  defaultCellStyle,
-} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, TooltipHost } from 'office-ui-fabric-react';
+import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
-import TopActionBar from '../../../../components/TopActionBar/TopActionBar';
+import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 interface ApplicationSettingsState {
@@ -56,7 +54,26 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
 
     return (
       <>
-        <TopActionBar items={this._getTopActionBarItems()} />
+        <DisplayTableWithCommandBar
+          commandBarItems={this._getCommandBarItems()}
+          items={values.appSettings.filter(x => {
+            if (!filter) {
+              return true;
+            }
+            return x.name.toLowerCase().includes(filter.toLowerCase());
+          })}
+          columns={this.getColumns()}
+          componentRef={table => {
+            if (table) {
+              this._appSettingsTable = table;
+            }
+          }}
+          isHeaderVisible={true}
+          layoutMode={DetailsListLayoutMode.justified}
+          selectionMode={SelectionMode.none}
+          selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('emptyAppSettings')}
+        />
         {showFilter && (
           <SearchBox
             id="app-settings-application-settings-search"
@@ -97,30 +114,11 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
             />
           </Suspense>
         </Panel>
-        <DisplayTableWithEmptyMessage
-          items={values.appSettings.filter(x => {
-            if (!filter) {
-              return true;
-            }
-            return x.name.toLowerCase().includes(filter.toLowerCase());
-          })}
-          columns={this.getColumns()}
-          componentRef={table => {
-            if (table) {
-              this._appSettingsTable = table;
-            }
-          }}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyAppSettings')}
-        />
       </>
     );
   }
 
-  private _getTopActionBarItems = () => {
+  private _getCommandBarItems = (): ICommandBarItemProps[] => {
     const { editable } = this.context;
     const { t, values } = this.props;
     const { showAllValues, shownValues } = this.state;
@@ -128,35 +126,35 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
 
     return [
       {
-        id: 'app-settings-application-settings-add',
+        key: 'app-settings-application-settings-add',
         onClick: this._createNewItem,
-        styles: tableActionButtonStyle,
         disabled: !editable,
-        iconName: 'Add',
-        buttonText: t('newApplicationSetting'),
+        iconProps: { iconName: 'Add' },
+        name: t('newApplicationSetting'),
         ariaLabel: t('addNewSetting'),
+        buttonStyles: tableActionButtonStyle,
       },
       {
-        id: 'app-settings-application-settings-show-hide',
+        key: 'app-settings-application-settings-show-hide',
         onClick: this._flipHideSwitch,
-        styles: tableActionButtonStyle,
-        iconName: allShown ? 'RedEye' : 'Hide',
-        buttonText: allShown ? t('showValues') : t('hideValues'),
+        iconProps: { iconName: allShown ? 'RedEye' : 'Hide' },
+        name: allShown ? t('showValues') : t('hideValues'),
+        buttonStyles: tableActionButtonStyle,
       },
       {
-        id: 'app-settings-application-settings-bulk-edit',
+        key: 'app-settings-application-settings-bulk-edit',
         onClick: this._openBulkEdit,
-        styles: tableActionButtonStyle,
         disabled: !editable,
-        iconName: 'Edit',
-        buttonText: t('advancedEdit'),
+        iconProps: { iconName: 'Edit' },
+        name: t('advancedEdit'),
+        buttonStyles: tableActionButtonStyle,
       },
       {
-        id: 'app-settings-application-settings-show-filter',
+        key: 'app-settings-application-settings-show-filter',
         onClick: this._toggleFilter,
-        styles: tableActionButtonStyle,
-        iconName: 'Filter',
-        buttonText: t('filter'),
+        iconProps: { iconName: 'Filter' },
+        name: t('filter'),
+        buttonStyles: tableActionButtonStyle,
       },
     ];
   };
