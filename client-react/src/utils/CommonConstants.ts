@@ -54,5 +54,6 @@ export class CommonConstants {
 
   public static readonly Pricing = {
     hoursInAzureMonth: 730,
+    secondsInAzureMonth: 2628000,
   };
 }
