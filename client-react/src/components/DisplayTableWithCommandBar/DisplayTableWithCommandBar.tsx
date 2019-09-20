@@ -19,6 +19,7 @@ const DisplayTableWithCommandBar: React.SFC<DisplayTableWithCommandBarProps & ID
       {commandBarItems && (
         <CommandBar items={commandBarItems} aria-role="nav" styles={commandBarStyles(theme)} buttonAs={DisplayTableCommandBarButton} />
       )}
+      {props.children}
       <DisplayTableWithEmptyMessage {...props} />
     </>
   );

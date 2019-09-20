@@ -72,19 +72,19 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyAppSettings')}
-        />
-        {showFilter && (
-          <SearchBox
-            id="app-settings-application-settings-search"
-            className="ms-slideDownIn20"
-            autoFocus
-            iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
-            placeholder={t('filterAppSettings')}
-            onChange={newValue => this.setState({ filter: newValue })}
-          />
-        )}
+          emptyMessage={t('emptyAppSettings')}>
+          {showFilter && (
+            <SearchBox
+              id="app-settings-application-settings-search"
+              className="ms-slideDownIn20"
+              autoFocus
+              iconProps={{ iconName: 'Filter' }}
+              styles={filterBoxStyle}
+              placeholder={t('filterAppSettings')}
+              onChange={newValue => this.setState({ filter: newValue })}
+            />
+          )}
+        </DisplayTableWithCommandBar>
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'add'}
           type={PanelType.large}

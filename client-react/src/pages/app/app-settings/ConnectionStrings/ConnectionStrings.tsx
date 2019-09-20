@@ -68,19 +68,19 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyConnectionStrings')}
-        />
-        {showFilter && (
-          <SearchBox
-            id="app-settings-connection-strings-search"
-            className="ms-slideDownIn20"
-            autoFocus
-            iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
-            placeholder={t('filterConnectionStrings')}
-            onChange={newValue => this.setState({ filter: newValue })}
-          />
-        )}
+          emptyMessage={t('emptyConnectionStrings')}>
+          {showFilter && (
+            <SearchBox
+              id="app-settings-connection-strings-search"
+              className="ms-slideDownIn20"
+              autoFocus
+              iconProps={{ iconName: 'Filter' }}
+              styles={filterBoxStyle}
+              placeholder={t('filterConnectionStrings')}
+              onChange={newValue => this.setState({ filter: newValue })}
+            />
+          )}
+        </DisplayTableWithCommandBar>
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'add'}
           type={PanelType.large}
