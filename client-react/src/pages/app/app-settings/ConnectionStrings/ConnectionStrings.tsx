@@ -16,8 +16,9 @@ import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
-import { Stack, SearchBox, TooltipHost } from 'office-ui-fabric-react';
+import { SearchBox, TooltipHost } from 'office-ui-fabric-react';
 import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
+import TopActionBar from '../../../../components/TopActionBar/TopActionBar';
 
 interface ConnectionStringsState {
   showPanel: boolean;
@@ -47,48 +48,16 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
   }
 
   public render() {
-    const { filter, showFilter, showAllValues, shownValues } = this.state;
+    const { filter, showFilter } = this.state;
     const { values, t } = this.props;
-    const { editable, production_write } = this.context;
+    const { production_write } = this.context;
     if (!values.connectionStrings) {
       return null;
     }
-    const allShown = showAllValues || (values.connectionStrings.length > 0 && shownValues.length === values.connectionStrings.length);
+
     return (
       <>
-        <Stack horizontal verticalAlign="center">
-          <ActionButton
-            id="app-settings-connection-strings-add"
-            onClick={this._createNewItem}
-            disabled={!editable}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Add' }}
-            ariaLabel={t('addNewConnectionString')}>
-            {t('newConnectionString')}
-          </ActionButton>
-          <ActionButton
-            id="app-settings-connection-strings-show-hide"
-            onClick={this._flipHideSwitch}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: !allShown ? 'RedEye' : 'Hide' }}>
-            {!allShown ? t('showValues') : t('hideValues')}
-          </ActionButton>
-          <ActionButton
-            id="app-settings-connection-strings-bulk-edit"
-            onClick={this._openBulkEdit}
-            disabled={!editable}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Edit' }}>
-            {t('advancedEdit')}
-          </ActionButton>
-          <ActionButton
-            id="app-settings-connection-strings-show-filter"
-            onClick={this._toggleFilter}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Filter' }}>
-            {t('filter')}
-          </ActionButton>
-        </Stack>
+        <TopActionBar items={this._getTopActionBarItems()} />
         {showFilter && (
           <SearchBox
             id="app-settings-connection-strings-search"
@@ -144,6 +113,48 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
       </>
     );
   }
+
+  private _getTopActionBarItems = () => {
+    const { editable } = this.context;
+    const { t, values } = this.props;
+    const { showAllValues, shownValues } = this.state;
+    const allShown = showAllValues || (values.connectionStrings.length > 0 && shownValues.length === values.connectionStrings.length);
+
+    return [
+      {
+        id: 'app-settings-connection-strings-add',
+        onClick: this._createNewItem,
+        styles: tableActionButtonStyle,
+        disabled: !editable,
+        iconName: 'Add',
+        buttonText: t('newConnectionString'),
+        ariaLabel: t('addNewConnectionString'),
+      },
+      {
+        id: 'app-settings-connection-strings-show-hide',
+        onClick: this._flipHideSwitch,
+        styles: tableActionButtonStyle,
+        iconName: allShown ? 'RedEye' : 'Hide',
+        buttonText: allShown ? t('showValues') : t('hideValues'),
+      },
+      {
+        id: 'app-settings-connection-strings-bulk-edit',
+        onClick: this._openBulkEdit,
+        styles: tableActionButtonStyle,
+        disabled: !editable,
+        iconName: 'Edit',
+        buttonText: t('advancedEdit'),
+      },
+      {
+        id: 'app-settings-connection-strings-show-filter',
+        onClick: this._toggleFilter,
+        styles: tableActionButtonStyle,
+        iconName: 'Filter',
+        buttonText: t('filter'),
+      },
+    ];
+  };
+
   private _saveBulkEdit = (appSettings: FormConnectionString[]) => {
     const newConnectionStrings = sortBy(appSettings, o => o.name.toLowerCase());
 
