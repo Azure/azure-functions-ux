@@ -2,7 +2,7 @@ import React from 'react';
 import { Panel as OfficePanel, IPanelProps, PanelType } from 'office-ui-fabric-react';
 import { ReactComponent as CloseSvg } from '../../images/Common/close.svg';
 import { useTranslation } from 'react-i18next';
-import { panelStyle, panelHeaderStyle } from './Panel.styles';
+import { panelStyle, panelHeaderStyle, panelBodyStyle } from './Panel.styles';
 
 interface CustomPanelProps {
   style?: {};
@@ -34,7 +34,7 @@ const Panel: React.SFC<CustomPanelProps & IPanelProps> = props => {
       type={type ? type : PanelType.large}
       styles={allPanelStyle}
       closeButtonAriaLabel={t('close')}>
-      {props.children}
+      <div style={panelBodyStyle}>{props.children}</div>
     </OfficePanel>
   );
 };

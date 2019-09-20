@@ -58,14 +58,12 @@ const getEditorOrLoader = (
 ) => {
   if (bindingsMetadata && bindingInfo) {
     return (
-      <div style={{ marginTop: '10px' }}>
-        <BindingEditor
-          functionInfo={functionInfo}
-          allBindingsConfigMetadata={bindingsMetadata}
-          currentBindingInfo={bindingInfo}
-          onSubmit={onSubmit}
-        />
-      </div>
+      <BindingEditor
+        functionInfo={functionInfo}
+        allBindingsConfigMetadata={bindingsMetadata}
+        currentBindingInfo={bindingInfo}
+        onSubmit={onSubmit}
+      />
     );
   }
 
