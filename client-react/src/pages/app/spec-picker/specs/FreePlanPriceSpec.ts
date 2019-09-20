@@ -45,6 +45,7 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
       id: this.skuCode,
       firstParty: [
         {
+          id: this.skuCode,
           quantity: CommonConstants.Pricing.hoursInAzureMonth,
         },
       ],
