@@ -80,6 +80,7 @@ export abstract class PriceSpec {
   public disabledInfoLink: string;
   public priceString: string;
   public price: number;
+  public priceIsBaseline = false;
 
   protected _billingService: BillingService;
   protected _logService: LogService;

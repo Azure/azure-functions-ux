@@ -14,6 +14,7 @@ export abstract class PremiumContainerMediumPlanPriceSpec extends PremiumContain
       id: this.skuCode,
       firstParty: [
         {
+          id: this.skuCode,
           quantity: CommonConstants.Pricing.hoursInAzureMonth,
         },
       ],
