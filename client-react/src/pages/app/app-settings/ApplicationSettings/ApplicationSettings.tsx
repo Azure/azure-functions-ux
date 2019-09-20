@@ -13,7 +13,7 @@ import { PermissionsContext } from '../Contexts';
 import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
-import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
+import { filterBoxStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 
@@ -132,14 +132,12 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         iconProps: { iconName: 'Add' },
         name: t('newApplicationSetting'),
         ariaLabel: t('addNewSetting'),
-        buttonStyles: tableActionButtonStyle,
       },
       {
         key: 'app-settings-application-settings-show-hide',
         onClick: this._flipHideSwitch,
-        iconProps: { iconName: allShown ? 'RedEye' : 'Hide' },
-        name: allShown ? t('showValues') : t('hideValues'),
-        buttonStyles: tableActionButtonStyle,
+        iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
+        name: !allShown ? t('showValues') : t('hideValues'),
       },
       {
         key: 'app-settings-application-settings-bulk-edit',
@@ -147,14 +145,12 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         disabled: !editable,
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
-        buttonStyles: tableActionButtonStyle,
       },
       {
         key: 'app-settings-application-settings-show-filter',
         onClick: this._toggleFilter,
         iconProps: { iconName: 'Filter' },
         name: t('filter'),
-        buttonStyles: tableActionButtonStyle,
       },
     ];
   };
