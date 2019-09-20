@@ -12,11 +12,12 @@ import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, Stack, TooltipHost } from 'office-ui-fabric-react';
+import { SearchBox, TooltipHost } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
+import TopActionBar from '../../../../components/TopActionBar/TopActionBar';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 interface ApplicationSettingsState {
@@ -47,49 +48,15 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
 
   public render() {
     const { t, values } = this.props;
-    const { production_write, editable } = this.context;
-    const { filter, showFilter, showAllValues, shownValues } = this.state;
+    const { production_write } = this.context;
+    const { filter, showFilter } = this.state;
     if (!values.appSettings) {
       return null;
     }
 
-    const allShown = showAllValues || (values.appSettings.length > 0 && shownValues.length === values.appSettings.length);
     return (
       <>
-        <Stack horizontal verticalAlign="center">
-          <ActionButton
-            id="app-settings-application-settings-add"
-            onClick={this._createNewItem}
-            disabled={!editable}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Add' }}
-            ariaLabel={t('addNewSetting')}>
-            {t('newApplicationSetting')}
-          </ActionButton>
-          <ActionButton
-            id="app-settings-application-settings-show-hide"
-            onClick={this._flipHideSwitch}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: !allShown ? 'RedEye' : 'Hide' }}>
-            {!allShown ? t('showValues') : t('hideValues')}
-          </ActionButton>
-
-          <ActionButton
-            id="app-settings-application-settings-bulk-edit"
-            onClick={this._openBulkEdit}
-            disabled={!editable}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Edit' }}>
-            {t('advancedEdit')}
-          </ActionButton>
-          <ActionButton
-            id="app-settings-application-settings-show-filter"
-            onClick={this._toggleFilter}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Filter' }}>
-            {t('filter')}
-          </ActionButton>
-        </Stack>
+        <TopActionBar items={this._getTopActionBarItems()} />
         {showFilter && (
           <SearchBox
             id="app-settings-application-settings-search"
@@ -152,6 +119,47 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
       </>
     );
   }
+
+  private _getTopActionBarItems = () => {
+    const { editable } = this.context;
+    const { t, values } = this.props;
+    const { showAllValues, shownValues } = this.state;
+    const allShown = showAllValues || (values.appSettings.length > 0 && shownValues.length === values.appSettings.length);
+
+    return [
+      {
+        id: 'app-settings-application-settings-add',
+        onClick: this._createNewItem,
+        styles: tableActionButtonStyle,
+        disabled: !editable,
+        iconName: 'Add',
+        buttonText: t('newApplicationSetting'),
+        ariaLabel: t('addNewSetting'),
+      },
+      {
+        id: 'app-settings-application-settings-show-hide',
+        onClick: this._flipHideSwitch,
+        styles: tableActionButtonStyle,
+        iconName: allShown ? 'RedEye' : 'Hide',
+        buttonText: allShown ? t('showValues') : t('hideValues'),
+      },
+      {
+        id: 'app-settings-application-settings-bulk-edit',
+        onClick: this._openBulkEdit,
+        styles: tableActionButtonStyle,
+        disabled: !editable,
+        iconName: 'Edit',
+        buttonText: t('advancedEdit'),
+      },
+      {
+        id: 'app-settings-application-settings-show-filter',
+        onClick: this._toggleFilter,
+        styles: tableActionButtonStyle,
+        iconName: 'Filter',
+        buttonText: t('filter'),
+      },
+    ];
+  };
 
   private _flipHideSwitch = () => {
     const { showAllValues } = this.state;
