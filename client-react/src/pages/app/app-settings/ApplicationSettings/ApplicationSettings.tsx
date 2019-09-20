@@ -1,10 +1,8 @@
 import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode, IDetailsList } from 'office-ui-fabric-react/lib/DetailsList';
-//import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import React, { lazy, Suspense } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-
 import DisplayTableWithEmptyMessage, {
   defaultCellStyle,
 } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
