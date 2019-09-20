@@ -1,7 +1,6 @@
 import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
@@ -14,6 +13,7 @@ import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { VirtualApplication } from '../../../../models/site/config';
 import { TooltipHost } from 'office-ui-fabric-react';
+import Panel from '../../../../components/Panel/Panel';
 
 export interface VirtualApplicationsState {
   showPanel: boolean;
@@ -51,12 +51,7 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
           ariaLabel={t('addNewVirtualDirectory')}>
           {t('addNewVirtualDirectoryV3')}
         </ActionButton>
-        <Panel
-          isOpen={this.state.showPanel}
-          type={PanelType.large}
-          onDismiss={this.onCancelPanel}
-          headerText={t('newApp')}
-          closeButtonAriaLabel={t('close')}>
+        <Panel isOpen={this.state.showPanel} onDismiss={this.onCancelPanel} headerText={t('newApp')} closeButtonAriaLabel={t('close')}>
           <VirtualApplicationsAddEdit
             virtualApplication={this.state.currentVirtualApplication!}
             otherVirtualApplications={values.virtualApplications}

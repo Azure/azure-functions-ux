@@ -1,7 +1,6 @@
 import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import React from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
@@ -14,6 +13,7 @@ import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { HandlerMapping } from '../../../../models/site/config';
 import { TooltipHost } from 'office-ui-fabric-react';
+import Panel from '../../../../components/Panel/Panel';
 
 export interface HandlerMappingState {
   showPanel: boolean;
@@ -54,7 +54,6 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
-          type={PanelType.large}
           onDismiss={this._onCancel}
           headerText={t('newHandlerMapping')}
           closeButtonAriaLabel={t('close')}>
