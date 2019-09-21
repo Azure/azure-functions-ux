@@ -160,12 +160,22 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
   };
 
   private _flipHideSwitch = () => {
-    const { showAllValues } = this.state;
-    let shownValues: string[] = [];
-    if (!showAllValues) {
-      shownValues = this.props.values.connectionStrings.map(x => x.name);
+    const { showAllValues, shownValues } = this.state;
+    const { values } = this.props;
+
+    if (this.props.values.connectionStrings.length === 0) {
+      this.setState({ showAllValues: !showAllValues });
+    } else {
+      const noneShown = shownValues.length === 0;
+      const allShown = shownValues.length === values.connectionStrings.length;
+      const someShown = !noneShown && !allShown;
+
+      if (noneShown || (someShown && !showAllValues)) {
+        this.setState({ showAllValues: true, shownValues: values.connectionStrings.map(x => x.name) });
+      } else if (allShown || (someShown && showAllValues)) {
+        this.setState({ showAllValues: false, shownValues: [] });
+      }
     }
-    this.setState({ shownValues, showAllValues: !showAllValues });
   };
 
   private _createNewItem = () => {

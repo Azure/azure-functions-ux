@@ -151,12 +151,22 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
   }
 
   private _flipHideSwitch = () => {
-    const { showAllValues } = this.state;
-    let shownValues: string[] = [];
-    if (!showAllValues) {
-      shownValues = this.props.values.appSettings.map(x => x.name);
+    const { showAllValues, shownValues } = this.state;
+    const { values } = this.props;
+
+    if (this.props.values.appSettings.length === 0) {
+      this.setState({ showAllValues: !showAllValues });
+    } else {
+      const noneShown = shownValues.length === 0;
+      const allShown = shownValues.length === values.appSettings.length;
+      const someShown = !noneShown && !allShown;
+
+      if (noneShown || (someShown && !showAllValues)) {
+        this.setState({ showAllValues: true, shownValues: values.appSettings.map(x => x.name) });
+      } else if (allShown || (someShown && showAllValues)) {
+        this.setState({ showAllValues: false, shownValues: [] });
+      }
     }
-    this.setState({ shownValues, showAllValues: !showAllValues });
   };
 
   private _openBulkEdit = () => {
