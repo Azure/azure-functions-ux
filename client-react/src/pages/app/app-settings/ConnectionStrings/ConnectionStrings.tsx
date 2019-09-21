@@ -1,7 +1,6 @@
 import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import React, { Suspense } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
@@ -17,6 +16,7 @@ import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
 import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
 import { filterBoxStyle } from '../AppSettings.styles';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import Panel from '../../../../components/Panel/Panel';
 
 interface ConnectionStringsState {
   showPanel: boolean;
@@ -83,7 +83,6 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         </DisplayTableWithCommandBar>
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'add'}
-          type={PanelType.large}
           onDismiss={this._onCancel}
           headerText={t('addEditConnectionStringHeader')}
           closeButtonAriaLabel={t('close')}>
@@ -97,7 +96,6 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         </Panel>
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'bulk'}
-          type={PanelType.large}
           onDismiss={this._onCancel}
           closeButtonAriaLabel={t('close')}>
           <Suspense fallback={<LoadingComponent />}>
