@@ -8,12 +8,12 @@ import DisplayTableWithEmptyMessage, {
 import { AppSettingsFormValues, FormAzureStorageMounts } from '../AppSettings.types';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import AzureStorageMountsAddEdit from './AzureStorageMountsAddEdit';
 import { MessageBar, MessageBarType, TooltipHost } from 'office-ui-fabric-react';
 import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import { ArmAzureStorageMount, StorageType } from '../../../../models/site/config';
+import Panel from '../../../../components/Panel/Panel';
 
 export interface AzureStorageMountLocalState {
   showPanel: boolean;
@@ -62,7 +62,6 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
-          type={PanelType.large}
           onDismiss={this._onCancel}
           headerText={t('newAzureStorageMount')}
           closeButtonAriaLabel={t('close')}>
