@@ -3,14 +3,16 @@ import { ICommandBarItemProps, CommandBar, IDetailsListProps } from 'office-ui-f
 import { ThemeContext } from '../../ThemeContext';
 import { commandBarStyles } from './DisplayTableWithCommandBar.style';
 import DisplayTableCommandBarButton from './DisplayTableCommandBarButton';
-import DisplayTableWithEmptyMessage from '../DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage, {
+  DisplayTableWithEmptyMessageProps,
+} from '../DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 
 interface DisplayTableWithCommandBarProps {
   commandBarItems?: ICommandBarItemProps[];
-  emptyMessage?: string;
 }
 
-const DisplayTableWithCommandBar: React.SFC<DisplayTableWithCommandBarProps & IDetailsListProps> = props => {
+type Props = DisplayTableWithEmptyMessageProps & DisplayTableWithCommandBarProps & IDetailsListProps;
+const DisplayTableWithCommandBar: React.SFC<Props> = props => {
   const { commandBarItems } = props;
   const theme = useContext(ThemeContext);
 
