@@ -5198,6 +5198,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="renewAppKey" xml:space="preserve">
     <value>Renew and save key value</value>
+  </data>
   <data name="continousDeploymentSectionTitle" xml:space="preserve">
     <value>Continuous Deployment (CI / CD)</value>
   </data>

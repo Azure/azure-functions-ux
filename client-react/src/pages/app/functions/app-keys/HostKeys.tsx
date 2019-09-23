@@ -1,27 +1,25 @@
 import React, { useState, useContext } from 'react';
 import { AppKeysModel, AppKeysTypes } from './AppKeys.types';
 import {
-  Stack,
   ActionButton,
-  Panel,
-  PanelType,
   DetailsListLayoutMode,
   SelectionMode,
   IColumn,
   SearchBox,
   TooltipHost,
+  ICommandBarItemProps,
 } from 'office-ui-fabric-react';
-import { tableActionButtonStyle, filterBoxStyle } from './AppKeys.styles';
+import { filterBoxStyle } from './AppKeys.styles';
 import { useTranslation } from 'react-i18next';
-import DisplayTableWithEmptyMessage, {
-  defaultCellStyle,
-} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
 import AppKeyAddEdit from './AppKeyAddEdit';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppKeysContext } from './AppKeysDataLoader';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
+import Panel from '../../../../components/Panel/Panel';
+import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 
 interface HostKeysProps {
   resourceId: string;
@@ -191,6 +189,31 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
+  const getCommandBarItems = (): ICommandBarItemProps[] => {
+    return [
+      {
+        key: 'app-keys-host-keys-add',
+        onClick: () => showAddEditPanel(),
+        disabled: writePermission,
+        iconProps: { iconName: 'Add' },
+        name: t('newHostKey'),
+        ariaLabel: t('addHostKey'),
+      },
+      {
+        key: 'app-keys-host-keys-show-hide',
+        onClick: flipHideSwitch,
+        iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
+        name: !showValues ? t('showValues') : t('hideValues'),
+      },
+      {
+        key: 'app-keys-host-keys-show-filter',
+        onClick: toggleFilter,
+        iconProps: { iconName: 'Filter' },
+        name: t('filter'),
+      },
+    ];
+  };
+
   const createHostKey = (key: AppKeysModel) => {
     appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.functionKeys);
     refreshData();
@@ -198,54 +221,29 @@ const HostKeys: React.FC<HostKeysProps> = props => {
 
   return (
     <>
-      <Stack horizontal verticalAlign="center">
-        <ActionButton
-          id="app-keys-host-keys-add"
-          onClick={() => showAddEditPanel()}
-          disabled={writePermission}
-          styles={tableActionButtonStyle}
-          iconProps={{ iconName: 'Add' }}
-          ariaLabel={t('addHostKey')}>
-          {t('newHostKey')}
-        </ActionButton>
-        <ActionButton
-          id="app-keys-host-keys-show-hide"
-          onClick={flipHideSwitch}
-          styles={tableActionButtonStyle}
-          iconProps={{ iconName: !showValues ? 'RedEye' : 'Hide' }}>
-          {!showValues ? t('showValues') : t('hideValues')}
-        </ActionButton>
-        <ActionButton
-          id="app-keys-host-keys-show-filter"
-          onClick={toggleFilter}
-          styles={tableActionButtonStyle}
-          iconProps={{ iconName: 'Filter' }}>
-          {t('filter')}
-        </ActionButton>
-      </Stack>
-      {showFilter && (
-        <SearchBox
-          id="app-keys-host-keys-search"
-          className="ms-slideDownIn20"
-          autoFocus
-          iconProps={{ iconName: 'Filter' }}
-          styles={filterBoxStyle}
-          placeholder={t('filterHostKeys')}
-          onChange={newValue => setFilterValue(newValue)}
-        />
-      )}
-      <DisplayTableWithEmptyMessage
+      <DisplayTableWithCommandBar
+        commandBarItems={getCommandBarItems()}
         columns={getColumns()}
         items={filterValues()}
         isHeaderVisible={true}
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
-        emptyMessage={t('emptyHostKeys')}
-      />
+        emptyMessage={t('emptyHostKeys')}>
+        {showFilter && (
+          <SearchBox
+            id="app-keys-host-keys-search"
+            className="ms-slideDownIn20"
+            autoFocus
+            iconProps={{ iconName: 'Filter' }}
+            styles={filterBoxStyle}
+            placeholder={t('filterHostKeys')}
+            onChange={newValue => setFilterValue(newValue)}
+          />
+        )}
+      </DisplayTableWithCommandBar>
       <Panel
         isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
-        type={PanelType.large}
         onDismiss={onClosePanel}
         headerText={panelItem === 'edit' ? t('editHostKey') : t('addHostKey')}
         closeButtonAriaLabel={t('close')}>
