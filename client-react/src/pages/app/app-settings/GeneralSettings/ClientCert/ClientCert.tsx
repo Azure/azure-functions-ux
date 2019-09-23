@@ -5,12 +5,13 @@ import RadioButton from '../../../../../components/form-controls/RadioButton';
 import { useTranslation } from 'react-i18next';
 import { PermissionsContext, SiteContext } from '../../Contexts';
 import TextField from '../../../../../components/form-controls/TextField';
-import { Stack, Panel, PanelType } from 'office-ui-fabric-react';
+import { Stack, PanelType } from 'office-ui-fabric-react';
 import IconButton from '../../../../../components/IconButton/IconButton';
 import EditClientExclusionPaths from './EditClientExclusionPaths';
 import { AppSettingsFormValues } from '../../AppSettings.types';
 import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
+import Panel from '../../../../../components/Panel/Panel';
 const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values, setFieldValue } = props;
   const site = useContext(SiteContext);

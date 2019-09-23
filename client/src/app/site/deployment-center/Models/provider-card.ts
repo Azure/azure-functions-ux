@@ -13,4 +13,5 @@ export interface ProviderCard {
   authenticatedId?: string;
   scenarioId?: string;
   manual?: boolean;
+  deploymentType?: 'continuous' | 'manual';
 }

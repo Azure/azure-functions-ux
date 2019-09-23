@@ -5121,4 +5121,31 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>Criar Função</value>
   </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Atualizar todas as configurações do aplicativo Web</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Detalhes de Referência do Key Vault</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Nome do Cofre</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Nome do Segredo</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Versão do Segredo</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Identidade</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Detalhes do Erro</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
+  </data>
 </root>

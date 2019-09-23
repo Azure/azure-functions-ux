@@ -26,7 +26,7 @@ import { Site } from '../../../models/site/site';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
-    initialFormValues: AppSettingsFormValues;
+    initialFormValues: AppSettingsFormValues | null;
     saving: boolean;
     scaleUpPlan: () => void;
     refreshAppSettings: () => void;
@@ -39,6 +39,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const { resourceId, children } = props;
   const [initialValues, setInitialValues] = useState<AppSettingsFormValues | null>(null);
   const [initialLoading, setInitialLoading] = useState(false);
+  const [loadingFailure, setLoadingFailure] = useState(false);
   const [refreshValues, setRefreshValues] = useState(false);
   const [currentAvailableStacks, setCurrentAvailableStacks] = useState<ArmArray<AvailableStack>>({ value: [] });
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
@@ -61,6 +62,14 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [storageAccountsState, setStorageAccountsState] = useState<ArmArray<StorageAccount>>({ value: [] });
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
+
+  const armCallFailed = (response: HttpResponseObject<any>, ignoreRbacAndLocks?: boolean) => {
+    if (response.metadata.success) {
+      return false;
+    }
+    return ignoreRbacAndLocks ? response.metadata.status !== 403 && response.metadata.status !== 409 : true;
+  };
+
   const fetchData = async () => {
     const {
       site,
@@ -74,50 +83,72 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       windowsStacks,
       linuxStacks,
     } = await fetchApplicationSettingValues(resourceId);
-    setCurrentSiteNonForm(site.data);
-    if (
-      applicationSettings.metadata.status === 403 || // failing RBAC permissions
-      applicationSettings.metadata.status === 409 // Readonly locked
-    ) {
-      setAppPermissions(false);
-      if (!resourceId.includes('/slots/')) {
-        setProductionPermissions(false);
+
+    const loadingFailed =
+      armCallFailed(site) ||
+      armCallFailed(webConfig) ||
+      armCallFailed(metadata, true) ||
+      armCallFailed(connectionStrings, true) ||
+      armCallFailed(applicationSettings, true) ||
+      armCallFailed(storageAccounts) ||
+      armCallFailed(azureStorageMounts, true) ||
+      armCallFailed(windowsStacks) ||
+      armCallFailed(linuxStacks);
+
+    setLoadingFailure(loadingFailed);
+
+    if (!loadingFailed) {
+      setCurrentSiteNonForm(site.data);
+      if (
+        applicationSettings.metadata.status === 403 || // failing RBAC permissions
+        applicationSettings.metadata.status === 409 // Readonly locked
+      ) {
+        setAppPermissions(false);
+        if (!resourceId.includes('/slots/')) {
+          setProductionPermissions(false);
+        }
+      } else {
+        setMetadataFromApi(metadata.data);
+        if (slotConfigNames.metadata.success) {
+          setSlotConfigNamesFromApi(slotConfigNames.data);
+        }
       }
-    } else {
-      setMetadataFromApi(metadata.data);
-      setSlotConfigNamesFromApi(slotConfigNames.data);
+
+      if (!slotConfigNames.metadata.success) {
+        setProductionPermissions(false);
+      } else if (resourceId.includes('/slots/')) {
+        const productionPermission = await getProductionAppWritePermissions(portalContext, resourceId);
+        setProductionPermissions(productionPermission);
+      }
+
+      if (site.data.properties.targetSwapSlot) {
+        setEditable(false);
+      }
+      setStorageAccountsState(storageAccounts.data);
+      setInitialValues(
+        convertStateToForm({
+          site: site.data,
+          config: webConfig.data,
+          metadata: metadata.metadata.success ? metadata.data : null,
+          connectionStrings: connectionStrings.metadata.success ? connectionStrings.data : null,
+          appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
+          slotConfigNames: slotConfigNames.data,
+          azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
+        })
+      );
+      if (site.data.kind!.includes('linux')) {
+        setCurrentAvailableStacks(linuxStacks.data);
+      } else {
+        setCurrentAvailableStacks(windowsStacks.data);
+      }
     }
 
-    if (resourceId.includes('/slots/')) {
-      const productionPermission = await getProductionAppWritePermissions(portalContext, resourceId);
-      setProductionPermissions(productionPermission);
-    }
-
-    if (site.data.properties.targetSwapSlot) {
-      setEditable(false);
-    }
-    setStorageAccountsState(storageAccounts.data);
-    setInitialValues(
-      convertStateToForm({
-        site: site.data,
-        config: webConfig.data,
-        metadata: metadata.metadata.success ? metadata.data : null,
-        connectionStrings: connectionStrings.metadata.success ? connectionStrings.data : null,
-        appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
-        slotConfigNames: slotConfigNames.data,
-        azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
-      })
-    );
-    if (site.data.kind!.includes('linux')) {
-      setCurrentAvailableStacks(linuxStacks.data);
-    } else {
-      setCurrentAvailableStacks(windowsStacks.data);
-    }
     LogService.stopTrackPage('shell', { feature: 'AppSettings' });
     portalContext.loadComplete();
     setInitialLoading(true);
     setRefreshValues(false);
   };
+
   const fillSlots = async () => {
     const slots = await fetchSlots(resourceId);
     if (slots.metadata.success) {
@@ -133,6 +164,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   useEffect(() => {
     loadData();
   }, []);
+
   const scaleUpPlan = async () => {
     await portalContext.openBlade(
       { detailBlade: 'SpecPickerFrameBlade', detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId } },
@@ -144,6 +176,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   const refreshAppSettings = () => {
     setRefreshValues(true);
+    setLoadingFailure(false);
     loadData();
   };
 
@@ -181,9 +214,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       portalContext.stopNotification(notificationId, false, errMessage);
     }
   };
-  if (!initialLoading || refreshValues || !initialValues) {
+
+  if (!initialLoading || refreshValues || (!initialValues && !loadingFailure)) {
     return <LoadingComponent />;
   }
+
   return (
     <AvailableStacksContext.Provider value={currentAvailableStacks}>
       <PermissionsContext.Provider value={{ editable, app_write: appPermissions, production_write: productionPermissions }}>

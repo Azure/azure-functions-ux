@@ -5,7 +5,7 @@ import { style } from 'typestyle';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../ThemeContext';
 
-interface DisplayTableWithEmptyMessageProps {
+export interface DisplayTableWithEmptyMessageProps {
   emptyMessage?: string;
 }
 const emptyTableMessageStyle = (theme: ThemeExtended) =>

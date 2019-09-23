@@ -104,7 +104,7 @@ export class ElasticPremiumSmallPlanPriceSpec extends ElasticPremiumPlanPriceSpe
 }
 
 export class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSpec {
-  private readonly _ep2CpuCore = 3;
+  private readonly _ep2CpuCore = 2;
   private readonly _ep2Memory = 7;
   skuCode = SkuCode.ElasticPremium.EP2;
   legacySkuName = 'medium_elastic_premium';

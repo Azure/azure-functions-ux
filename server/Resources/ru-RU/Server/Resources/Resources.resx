@@ -5121,4 +5121,31 @@
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>Создать функцию</value>
   </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Обновите все параметры для своего веб-приложения</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Сведения о ссылке Key Vault</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Имя хранилища</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Имя секрета</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Версия секрета</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Удостоверение</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Сведения об ошибке</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
+  </data>
 </root>

@@ -4,6 +4,9 @@ import { CommonConstants } from '../../../../../utils/CommonConstants';
 import i18next from 'i18next';
 
 export abstract class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSpec {
+  private readonly _ep2CpuCore = 2;
+  private readonly _ep2Memory = 7;
+
   constructor(t: i18next.TFunction) {
     super(t);
     this.skuCode = ServerFarmSkuConstants.SkuCode.ElasticPremium.EP2;
@@ -14,7 +17,12 @@ export abstract class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPl
       id: this.skuCode,
       firstParty: [
         {
-          quantity: CommonConstants.Pricing.hoursInAzureMonth,
+          id: ServerFarmSkuConstants.SkuCode.ElasticPremium.EPCPU,
+          quantity: (CommonConstants.Pricing.secondsInAzureMonth * this._ep2CpuCore) / 100,
+        },
+        {
+          id: ServerFarmSkuConstants.SkuCode.ElasticPremium.EPMemory,
+          quantity: (CommonConstants.Pricing.secondsInAzureMonth * this._ep2Memory) / 100,
         },
       ],
     };

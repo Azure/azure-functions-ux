@@ -1676,4 +1676,6 @@ export class PortalResources {
   public static enterAppKeyName = 'enterAppKeyName';
   public static defaultValueAppKey = 'defaultValueAppKey';
   public static renewAppKey = 'renewAppKey';
+  public static continousDeploymentSectionTitle = 'continousDeploymentSectionTitle';
+  public static manualDeploymentSectionTitle = 'manualDeploymentSectionTitle';
 }

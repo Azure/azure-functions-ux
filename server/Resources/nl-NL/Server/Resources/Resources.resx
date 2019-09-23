@@ -5122,4 +5122,31 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="functionCreate_createFunction" xml:space="preserve">
     <value>Functie maken</value>
   </data>
+  <data name="appSettingsRefreshAriaLabel" xml:space="preserve">
+    <value>Alle instellingen voor uw webtoepassing vernieuwen</value>
+  </data>
+  <data name="keyVaultReferenceDetails" xml:space="preserve">
+    <value>Referentiedetails voor Key Vault</value>
+  </data>
+  <data name="keyVaultName" xml:space="preserve">
+    <value>Naam van kluis</value>
+  </data>
+  <data name="keyVaultSecretName" xml:space="preserve">
+    <value>Geheime naam</value>
+  </data>
+  <data name="keyVaultSecretVersion" xml:space="preserve">
+    <value>Geheimversie</value>
+  </data>
+  <data name="identity" xml:space="preserve">
+    <value>Identiteit</value>
+  </data>
+  <data name="errorDetails" xml:space="preserve">
+    <value>Foutdetails</value>
+  </data>
+  <data name="continousDeploymentSectionTitle" xml:space="preserve">
+    <value>Continuous Deployment (CI / CD)</value>
+  </data>
+  <data name="manualDeploymentSectionTitle" xml:space="preserve">
+    <value>Manual Deployment (push / sync)</value>
+  </data>
 </root>

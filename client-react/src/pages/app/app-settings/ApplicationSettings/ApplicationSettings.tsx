@@ -1,22 +1,20 @@
 import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode, IDetailsList } from 'office-ui-fabric-react/lib/DetailsList';
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import React, { lazy, Suspense } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-
-import DisplayTableWithEmptyMessage, {
-  defaultCellStyle,
-} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, Stack, TooltipHost } from 'office-ui-fabric-react';
+import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
-import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
+import { filterBoxStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
+import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import Panel from '../../../../components/Panel/Panel';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 interface ApplicationSettingsState {
@@ -47,90 +45,16 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
 
   public render() {
     const { t, values } = this.props;
-    const { production_write, editable } = this.context;
-    const { filter, showFilter, showAllValues, shownValues } = this.state;
+    const { production_write } = this.context;
+    const { filter, showFilter } = this.state;
     if (!values.appSettings) {
       return null;
     }
 
-    const allShown = showAllValues || (values.appSettings.length > 0 && shownValues.length === values.appSettings.length);
     return (
       <>
-        <Stack horizontal verticalAlign="center">
-          <ActionButton
-            id="app-settings-application-settings-add"
-            onClick={this._createNewItem}
-            disabled={!editable}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Add' }}
-            ariaLabel={t('addNewSetting')}>
-            {t('newApplicationSetting')}
-          </ActionButton>
-          <ActionButton
-            id="app-settings-application-settings-show-hide"
-            onClick={this._flipHideSwitch}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: !allShown ? 'RedEye' : 'Hide' }}>
-            {!allShown ? t('showValues') : t('hideValues')}
-          </ActionButton>
-
-          <ActionButton
-            id="app-settings-application-settings-bulk-edit"
-            onClick={this._openBulkEdit}
-            disabled={!editable}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Edit' }}>
-            {t('advancedEdit')}
-          </ActionButton>
-          <ActionButton
-            id="app-settings-application-settings-show-filter"
-            onClick={this._toggleFilter}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Filter' }}>
-            {t('filter')}
-          </ActionButton>
-        </Stack>
-        {showFilter && (
-          <SearchBox
-            id="app-settings-application-settings-search"
-            className="ms-slideDownIn20"
-            autoFocus
-            iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
-            placeholder={t('filterAppSettings')}
-            onChange={newValue => this.setState({ filter: newValue })}
-          />
-        )}
-        <Panel
-          isOpen={this.state.showPanel && this.state.panelItem === 'add'}
-          type={PanelType.large}
-          onDismiss={this._onCancel}
-          headerText={t('addEditApplicationSetting')}
-          closeButtonAriaLabel={t('close')}>
-          <AppSettingAddEdit
-            site={values.site}
-            appSetting={this.state.currentAppSetting!}
-            disableSlotSetting={!production_write}
-            otherAppSettings={values.appSettings}
-            updateAppSetting={this._onClosePanel.bind(this)}
-            closeBlade={this._onCancel}
-          />
-        </Panel>
-        <Panel
-          isOpen={this.state.showPanel && this.state.panelItem === 'bulk'}
-          type={PanelType.large}
-          onDismiss={this._onCancel}
-          closeButtonAriaLabel={t('close')}>
-          <Suspense fallback={<LoadingComponent />}>
-            <AppSettingsBulkEdit
-              isLinux={isLinuxApp(values.site)}
-              updateAppSetting={this._saveBulkEdit}
-              closeBlade={this._onCancel}
-              appSettings={values.appSettings}
-            />
-          </Suspense>
-        </Panel>
-        <DisplayTableWithEmptyMessage
+        <DisplayTableWithCommandBar
+          commandBarItems={this._getCommandBarItems()}
           items={values.appSettings.filter(x => {
             if (!filter) {
               return true;
@@ -147,11 +71,86 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyAppSettings')}
-        />
+          emptyMessage={t('emptyAppSettings')}>
+          {showFilter && (
+            <SearchBox
+              id="app-settings-application-settings-search"
+              className="ms-slideDownIn20"
+              autoFocus
+              iconProps={{ iconName: 'Filter' }}
+              styles={filterBoxStyle}
+              placeholder={t('filterAppSettings')}
+              onChange={newValue => this.setState({ filter: newValue })}
+            />
+          )}
+        </DisplayTableWithCommandBar>
+        <Panel
+          isOpen={this.state.showPanel && this.state.panelItem === 'add'}
+          onDismiss={this._onCancel}
+          headerText={t('addEditApplicationSetting')}
+          closeButtonAriaLabel={t('close')}>
+          <AppSettingAddEdit
+            site={values.site}
+            appSetting={this.state.currentAppSetting!}
+            disableSlotSetting={!production_write}
+            otherAppSettings={values.appSettings}
+            updateAppSetting={this._onClosePanel.bind(this)}
+            closeBlade={this._onCancel}
+          />
+        </Panel>
+        <Panel
+          isOpen={this.state.showPanel && this.state.panelItem === 'bulk'}
+          onDismiss={this._onCancel}
+          closeButtonAriaLabel={t('close')}>
+          <Suspense fallback={<LoadingComponent />}>
+            <AppSettingsBulkEdit
+              isLinux={isLinuxApp(values.site)}
+              updateAppSetting={this._saveBulkEdit}
+              closeBlade={this._onCancel}
+              appSettings={values.appSettings}
+            />
+          </Suspense>
+        </Panel>
       </>
     );
   }
+
+  private _getCommandBarItems = (): ICommandBarItemProps[] => {
+    const { editable } = this.context;
+    const { t, values } = this.props;
+    const { showAllValues, shownValues } = this.state;
+    const allShown = showAllValues || (values.appSettings.length > 0 && shownValues.length === values.appSettings.length);
+
+    return [
+      {
+        key: 'app-settings-application-settings-add',
+        onClick: this._createNewItem,
+        disabled: !editable,
+        iconProps: { iconName: 'Add' },
+        name: t('newApplicationSetting'),
+        ariaLabel: t('addNewSetting'),
+      },
+      {
+        key: 'app-settings-application-settings-show-hide',
+        onClick: this._flipHideSwitch,
+        iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
+        name: !allShown ? t('showValues') : t('hideValues'),
+      },
+      {
+        key: 'app-settings-application-settings-bulk-edit',
+        onClick: this._openBulkEdit,
+        disabled: !editable,
+        iconProps: { iconName: 'Edit' },
+        name: t('advancedEdit'),
+      },
+      {
+        key: 'app-settings-application-settings-show-filter',
+        onClick: this._toggleFilter,
+        iconProps: { iconName: 'Filter' },
+        name: t('filter'),
+      },
+    ];
+  };
 
   private _flipHideSwitch = () => {
     const { showAllValues } = this.state;

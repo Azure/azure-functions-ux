@@ -1,19 +1,17 @@
 import { FormikProps } from 'formik';
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import React from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage, {
-  defaultCellStyle,
-} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, Permissions } from '../AppSettings.types';
 import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { HandlerMapping } from '../../../../models/site/config';
-import { TooltipHost } from 'office-ui-fabric-react';
+import { TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
+import Panel from '../../../../components/Panel/Panel';
+import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 
 export interface HandlerMappingState {
   showPanel: boolean;
@@ -37,24 +35,23 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
 
   public render() {
     const { values, t } = this.props;
-    const { app_write, editable } = this.context;
     if (!values.config) {
       return null;
     }
     return (
       <>
-        <ActionButton
-          id="app-settings-new-handler-mappings-button"
-          disabled={!app_write || !editable}
-          onClick={this.createNewItem}
-          styles={{ root: { marginTop: '5px' } }}
-          iconProps={{ iconName: 'Add' }}
-          ariaLabel={t('addNewHandlerMapping')}>
-          {t('addNewHandler')}
-        </ActionButton>
+        <DisplayTableWithCommandBar
+          commandBarItems={this._getCommandBarItems()}
+          items={values.config.properties.handlerMappings || []}
+          columns={this._getColumns()}
+          isHeaderVisible={true}
+          layoutMode={DetailsListLayoutMode.justified}
+          selectionMode={SelectionMode.none}
+          selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('emptyHandlerMappings')}
+        />
         <Panel
           isOpen={this.state.showPanel}
-          type={PanelType.large}
           onDismiss={this._onCancel}
           headerText={t('newHandlerMapping')}
           closeButtonAriaLabel={t('close')}>
@@ -64,20 +61,26 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
             closeBlade={this._onCancel.bind(this)}
           />
         </Panel>
-        <DisplayTableWithEmptyMessage
-          items={values.config.properties.handlerMappings || []}
-          columns={this._getColumns()}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyHandlerMappings')}
-        />
       </>
     );
   }
 
-  private createNewItem = () => {
+  private _getCommandBarItems = (): ICommandBarItemProps[] => {
+    const { app_write, editable } = this.context;
+    const { t } = this.props;
+    return [
+      {
+        key: 'app-settings-new-handler-mappings-button',
+        onClick: this._createNewItem,
+        disabled: !app_write || !editable,
+        iconProps: { iconName: 'Add' },
+        ariaLabel: t('addNewHandlerMapping'),
+        name: t('addNewHandler'),
+      },
+    ];
+  };
+
+  private _createNewItem = () => {
     const blankConnectionString: HandlerMapping = {
       extension: '',
       scriptProcessor: '',
