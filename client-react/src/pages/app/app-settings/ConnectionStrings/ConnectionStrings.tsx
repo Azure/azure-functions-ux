@@ -4,9 +4,7 @@ import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-
 import React, { Suspense } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage, {
-  defaultCellStyle,
-} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormConnectionString, Permissions } from '../AppSettings.types';
 import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
@@ -15,8 +13,9 @@ import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
-import { Stack, SearchBox, TooltipHost } from 'office-ui-fabric-react';
-import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
+import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { filterBoxStyle } from '../AppSettings.styles';
+import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import Panel from '../../../../components/Panel/Panel';
 
 interface ConnectionStringsState {
@@ -47,59 +46,41 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
   }
 
   public render() {
-    const { filter, showFilter, showAllValues, shownValues } = this.state;
+    const { filter, showFilter } = this.state;
     const { values, t } = this.props;
-    const { editable, production_write } = this.context;
+    const { production_write } = this.context;
     if (!values.connectionStrings) {
       return null;
     }
-    const allShown = showAllValues || (values.connectionStrings.length > 0 && shownValues.length === values.connectionStrings.length);
+
     return (
       <>
-        <Stack horizontal verticalAlign="center">
-          <ActionButton
-            id="app-settings-connection-strings-add"
-            onClick={this._createNewItem}
-            disabled={!editable}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Add' }}
-            ariaLabel={t('addNewConnectionString')}>
-            {t('newConnectionString')}
-          </ActionButton>
-          <ActionButton
-            id="app-settings-connection-strings-show-hide"
-            onClick={this._flipHideSwitch}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: !allShown ? 'RedEye' : 'Hide' }}>
-            {!allShown ? t('showValues') : t('hideValues')}
-          </ActionButton>
-          <ActionButton
-            id="app-settings-connection-strings-bulk-edit"
-            onClick={this._openBulkEdit}
-            disabled={!editable}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Edit' }}>
-            {t('advancedEdit')}
-          </ActionButton>
-          <ActionButton
-            id="app-settings-connection-strings-show-filter"
-            onClick={this._toggleFilter}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Filter' }}>
-            {t('filter')}
-          </ActionButton>
-        </Stack>
-        {showFilter && (
-          <SearchBox
-            id="app-settings-connection-strings-search"
-            className="ms-slideDownIn20"
-            autoFocus
-            iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
-            placeholder={t('filterConnectionStrings')}
-            onChange={newValue => this.setState({ filter: newValue })}
-          />
-        )}
+        <DisplayTableWithCommandBar
+          commandBarItems={this._getCommandBarItems()}
+          items={values.connectionStrings.filter(x => {
+            if (!filter) {
+              return true;
+            }
+            return x.name.toLowerCase().includes(filter.toLowerCase()) || x.type.toLowerCase() === filter.toLowerCase();
+          })}
+          columns={this._getColumns()}
+          isHeaderVisible={true}
+          layoutMode={DetailsListLayoutMode.justified}
+          selectionMode={SelectionMode.none}
+          selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('emptyConnectionStrings')}>
+          {showFilter && (
+            <SearchBox
+              id="app-settings-connection-strings-search"
+              className="ms-slideDownIn20"
+              autoFocus
+              iconProps={{ iconName: 'Filter' }}
+              styles={filterBoxStyle}
+              placeholder={t('filterConnectionStrings')}
+              onChange={newValue => this.setState({ filter: newValue })}
+            />
+          )}
+        </DisplayTableWithCommandBar>
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'add'}
           onDismiss={this._onCancel}
@@ -125,23 +106,47 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
             />
           </Suspense>
         </Panel>
-        <DisplayTableWithEmptyMessage
-          items={values.connectionStrings.filter(x => {
-            if (!filter) {
-              return true;
-            }
-            return x.name.toLowerCase().includes(filter.toLowerCase()) || x.type.toLowerCase() === filter.toLowerCase();
-          })}
-          columns={this._getColumns()}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyConnectionStrings')}
-        />
       </>
     );
   }
+
+  private _getCommandBarItems = (): ICommandBarItemProps[] => {
+    const { editable } = this.context;
+    const { t, values } = this.props;
+    const { showAllValues, shownValues } = this.state;
+    const allShown = showAllValues || (values.appSettings.length > 0 && shownValues.length === values.appSettings.length);
+
+    return [
+      {
+        key: 'app-settings-connection-strings-add',
+        onClick: this._createNewItem,
+        disabled: !editable,
+        iconProps: { iconName: 'Add' },
+        name: t('newConnectionString'),
+        ariaLabel: t('addNewConnectionString'),
+      },
+      {
+        key: 'app-settings-connection-strings-show-hide',
+        onClick: this._flipHideSwitch,
+        iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
+        name: !allShown ? t('showValues') : t('hideValues'),
+      },
+      {
+        key: 'app-settings-connection-strings-bulk-edit',
+        onClick: this._openBulkEdit,
+        disabled: !editable,
+        iconProps: { iconName: 'Edit' },
+        name: t('advancedEdit'),
+      },
+      {
+        key: 'app-settings-connection-strings-show-filter',
+        onClick: this._toggleFilter,
+        iconProps: { iconName: 'Filter' },
+        name: t('filter'),
+      },
+    ];
+  };
+
   private _saveBulkEdit = (appSettings: FormConnectionString[]) => {
     const newConnectionStrings = sortBy(appSettings, o => o.name.toLowerCase());
 
