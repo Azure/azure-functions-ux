@@ -5205,4 +5205,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="manualDeploymentSectionTitle" xml:space="preserve">
     <value>Manual Deployment (push / sync)</value>
   </data>
+  <data name="renewKeyValue" xml:space="preserve">
+    <value>Renew key value</value>
+  </data>
+  <data name="renewKeyValueContent" xml:space="preserve">
+    <value>The existing key value of {0} will be replaced by a randomly generated key.</value>
+  </data>
 </root>

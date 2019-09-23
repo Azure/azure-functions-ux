@@ -1678,4 +1678,6 @@ export class PortalResources {
   public static renewAppKey = 'renewAppKey';
   public static continousDeploymentSectionTitle = 'continousDeploymentSectionTitle';
   public static manualDeploymentSectionTitle = 'manualDeploymentSectionTitle';
+  public static renewKeyValue = 'renewKeyValue';
+  public static renewKeyValueContent = 'renewKeyValueContent';
 }

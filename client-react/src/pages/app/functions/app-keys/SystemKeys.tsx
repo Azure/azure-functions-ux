@@ -10,7 +10,7 @@ import {
   ICommandBarItemProps,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { filterBoxStyle } from './AppKeys.styles';
+import { filterBoxStyle, renewTextStyle } from './AppKeys.styles';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
 import AppKeyAddEdit from './AppKeyAddEdit';
@@ -20,6 +20,8 @@ import { Site } from '../../../../models/site/site';
 import { ArmObj } from '../../../../models/arm-obj';
 import Panel from '../../../../components/Panel/Panel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import { ThemeContext } from '../../../../ThemeContext';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 
 interface SystemKeysProps {
   resourceId: string;
@@ -34,6 +36,8 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
+  const [showRenewDialog, setShowRenewDialog] = useState(false);
+  const [renewKey, setRenewKey] = useState(emptyKey);
   const [filterValue, setFilterValue] = useState('');
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
@@ -41,6 +45,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
 
   const { t } = useTranslation();
   const appKeysContext = useContext(AppKeysContext);
+  const theme = useContext(ThemeContext);
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(systemKeys.map(h => h.name))]);
@@ -101,6 +106,28 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: onRenderColumnItem,
+      },
+      {
+        key: 'renew',
+        name: '',
+        fieldName: 'renew',
+        minWidth: 100,
+        isRowHeader: false,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+        onRender: onRenderColumnItem,
+      },
+      {
+        key: 'delete',
+        name: '',
+        fieldName: 'delete',
+        minWidth: 100,
+        maxWidth: 100,
+        isRowHeader: false,
+        isResizable: false,
+        isCollapsable: false,
         onRender: onRenderColumnItem,
       },
     ];
@@ -177,7 +204,31 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         </TooltipHost>
       );
     }
+    if (column.key === 'renew') {
+      return (
+        <span className={renewTextStyle(theme)} onClick={() => showRenewKeyDialog(item)}>
+          {t('renewKeyValue')}
+        </span>
+      );
+    }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
+  };
+
+  const closeRenewKeyDialog = () => {
+    setRenewKey(emptyKey);
+    setShowRenewDialog(false);
+  };
+
+  const showRenewKeyDialog = (item: AppKeysModel) => {
+    setRenewKey(item);
+    setShowRenewDialog(true);
+  };
+
+  const renewHostKey = () => {
+    if (renewKey.name) {
+      createSystemKey({ name: renewKey.name, value: '' });
+    }
+    closeRenewKeyDialog();
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
@@ -207,6 +258,20 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
 
   return (
     <>
+      <ConfirmDialog
+        primaryActionButton={{
+          title: t('functionKeys_renew'),
+          onClick: renewHostKey,
+        }}
+        defaultActionButton={{
+          title: t('cancel'),
+          onClick: closeRenewKeyDialog,
+        }}
+        title={t('renewKeyValue')}
+        content={t('renewKeyValueContent').format(renewKey.name)}
+        hidden={!showRenewDialog}
+        onDismiss={closeRenewKeyDialog}
+      />
       <DisplayTableWithCommandBar
         commandBarItems={getCommandBarItems()}
         columns={getColumns()}

@@ -9,7 +9,7 @@ import {
   TooltipHost,
   ICommandBarItemProps,
 } from 'office-ui-fabric-react';
-import { filterBoxStyle } from './AppKeys.styles';
+import { filterBoxStyle, renewTextStyle } from './AppKeys.styles';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
@@ -20,6 +20,8 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import Panel from '../../../../components/Panel/Panel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import { ThemeContext } from '../../../../ThemeContext';
 
 interface HostKeysProps {
   resourceId: string;
@@ -34,6 +36,8 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
+  const [showRenewDialog, setShowRenewDialog] = useState(false);
+  const [renewKey, setRenewKey] = useState(emptyKey);
   const [filterValue, setFilterValue] = useState('');
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
@@ -41,6 +45,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
 
   const { t } = useTranslation();
   const appKeysContext = useContext(AppKeysContext);
+  const theme = useContext(ThemeContext);
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(hostKeys.map(h => h.name))]);
@@ -82,6 +87,17 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         name: t('value'),
         fieldName: 'value',
         minWidth: 210,
+        isRowHeader: false,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+        onRender: onRenderColumnItem,
+      },
+      {
+        key: 'renew',
+        name: '',
+        fieldName: 'renew',
+        minWidth: 100,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
@@ -186,6 +202,13 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         </TooltipHost>
       );
     }
+    if (column.key === 'renew') {
+      return (
+        <span className={renewTextStyle(theme)} onClick={() => showRenewKeyDialog(item)}>
+          {t('renewKeyValue')}
+        </span>
+      );
+    }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
@@ -219,8 +242,39 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     refreshData();
   };
 
+  const closeRenewKeyDialog = () => {
+    setRenewKey(emptyKey);
+    setShowRenewDialog(false);
+  };
+
+  const showRenewKeyDialog = (item: AppKeysModel) => {
+    setRenewKey(item);
+    setShowRenewDialog(true);
+  };
+
+  const renewHostKey = () => {
+    if (renewKey.name) {
+      createHostKey({ name: renewKey.name, value: '' });
+    }
+    closeRenewKeyDialog();
+  };
+
   return (
     <>
+      <ConfirmDialog
+        primaryActionButton={{
+          title: t('functionKeys_renew'),
+          onClick: renewHostKey,
+        }}
+        defaultActionButton={{
+          title: t('cancel'),
+          onClick: closeRenewKeyDialog,
+        }}
+        title={t('renewKeyValue')}
+        content={t('renewKeyValueContent').format(renewKey.name)}
+        hidden={!showRenewDialog}
+        onDismiss={closeRenewKeyDialog}
+      />
       <DisplayTableWithCommandBar
         commandBarItems={getCommandBarItems()}
         columns={getColumns()}

@@ -26,3 +26,9 @@ export const addPanelCommandBar = (theme: ThemeExtended) =>
     width: '100%',
     marginBottom: '50px',
   });
+
+export const renewTextStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.actionLink,
+    cursor: 'pointer',
+  });
