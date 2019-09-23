@@ -1,19 +1,17 @@
 import { FormikProps } from 'formik';
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage, {
-  defaultCellStyle,
-} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, Permissions } from '../AppSettings.types';
 import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { VirtualApplication } from '../../../../models/site/config';
-import { TooltipHost } from 'office-ui-fabric-react';
+import { TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
 import Panel from '../../../../components/Panel/Panel';
+import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 
 export interface VirtualApplicationsState {
   showPanel: boolean;
@@ -36,21 +34,22 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
 
   public render() {
     const { values, t } = this.props;
-    const { editable, app_write } = this.context;
+
     if (!values.virtualApplications) {
       return null;
     }
     return (
       <>
-        <ActionButton
-          id="app-settings-new-virtual-app-button"
-          disabled={!app_write || !editable}
-          onClick={this.createNewItem}
-          styles={{ root: { marginTop: '5px' } }}
-          iconProps={{ iconName: 'Add' }}
-          ariaLabel={t('addNewVirtualDirectory')}>
-          {t('addNewVirtualDirectoryV3')}
-        </ActionButton>
+        <DisplayTableWithCommandBar
+          commandBarItems={this._getCommandBarItems()}
+          items={values.virtualApplications || []}
+          columns={this._getColumns()}
+          isHeaderVisible={true}
+          layoutMode={DetailsListLayoutMode.justified}
+          selectionMode={SelectionMode.none}
+          selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('emptyVirtualDirectories')}
+        />
         <Panel isOpen={this.state.showPanel} onDismiss={this.onCancelPanel} headerText={t('newApp')} closeButtonAriaLabel={t('close')}>
           <VirtualApplicationsAddEdit
             virtualApplication={this.state.currentVirtualApplication!}
@@ -59,20 +58,26 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
             closeBlade={this.onCancelPanel.bind(this)}
           />
         </Panel>
-        <DisplayTableWithEmptyMessage
-          items={values.virtualApplications}
-          columns={this._getColumns()}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyVirtualDirectories')}
-        />
       </>
     );
   }
 
-  private createNewItem = () => {
+  private _getCommandBarItems = (): ICommandBarItemProps[] => {
+    const { app_write, editable } = this.context;
+    const { t } = this.props;
+    return [
+      {
+        key: 'app-settings-new-virtual-app-button',
+        onClick: this._createNewItem,
+        disabled: !app_write || !editable,
+        iconProps: { iconName: 'Add' },
+        ariaLabel: t('addNewVirtualDirectory'),
+        name: t('addNewVirtualDirectoryV3'),
+      },
+    ];
+  };
+
+  private _createNewItem = () => {
     const blank: VirtualApplication = {
       physicalPath: '',
       virtualPath: '',
