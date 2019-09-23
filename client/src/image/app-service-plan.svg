@@ -1,1 +1,23 @@
-<svg viewBox="0 0 50 50" class=" fxs-portal-svg" role="presentation" focusable="false" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"><g><path d="M29.364 47.462A2.538 2.538 0 0 1 26.826 50H2.538A2.538 2.538 0 0 1 0 47.462V2.538A2.538 2.538 0 0 1 2.538 0h24.288a2.538 2.538 0 0 1 2.538 2.538v44.924z" class="msportalfx-svg-c05"></path><path d="M4.316 27.024a3.191 3.191 0 0 1 3.191-3.191h14.614a3.191 3.191 0 0 1 0 6.382H7.507a3.19 3.19 0 0 1-3.191-3.191z" class="msportalfx-svg-c06"></path><circle cx="7.643" cy="27.024" r="2.142" class="msportalfx-svg-c13"></circle><path d="M4.316 17.545a3.191 3.191 0 0 1 3.191-3.191h14.614a3.191 3.191 0 0 1 0 6.382H7.507a3.191 3.191 0 0 1-3.191-3.191z" class="msportalfx-svg-c06"></path><circle cx="7.643" cy="17.545" r="2.142" class="msportalfx-svg-c13"></circle><path d="M4.316 8.065a3.191 3.191 0 0 1 3.191-3.191h14.614a3.191 3.191 0 0 1 0 6.382H7.507a3.19 3.19 0 0 1-3.191-3.191z" class="msportalfx-svg-c06"></path><circle cx="7.643" cy="8.065" r="2.142" class="msportalfx-svg-c13"></circle><path d="M49.949 45.373c0-2.555-2.051-4.626-4.585-4.626-.191 0-.379.015-.559.04.28-1.039.434-2.132.434-3.261 0-6.81-5.475-12.331-12.227-12.331-5.395 0-9.969 3.523-11.594 8.413a8.206 8.206 0 0 0-2.73-.471c-4.619 0-8.357 3.775-8.357 8.43 0 4.658 3.738 8.433 8.357 8.433l.012-.003V50h27.036l-.005-.023c2.359-.186 4.218-2.173 4.218-4.604" class="msportalfx-svg-c15"></path><path opacity="0.2" d="M23.128 50a8.447 8.447 0 0 1-2.29-4.123c-1.036-4.538 1.768-9.051 6.271-10.079a8.207 8.207 0 0 1 2.766-.149c.409-4.24 2.995-8.011 6.848-9.872a12.117 12.117 0 0 0-3.712-.583c-5.395 0-9.969 3.523-11.594 8.413a8.201 8.201 0 0 0-2.73-.471c-4.619 0-8.357 3.775-8.357 8.43 0 4.658 3.738 8.433 8.357 8.433l.012-.003V50h4.429z" class="msportalfx-svg-c01"></path></g></svg>
+<svg id="fca2105f-c039-4f34-bd65-8ab95d4ecdb9" data-name="fluent_icons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18">
+  <defs>
+    <linearGradient id="a773af38-43e4-4fd2-9485-f8aac63ca91b" x1="5.57" y1="17.5" x2="5.57" y2="0.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0.05" stop-color="#949494"/>
+      <stop offset="0.36" stop-color="#979797"/>
+      <stop offset="0.54" stop-color="#9f9f9f"/>
+      <stop offset="0.69" stop-color="#adadad"/>
+      <stop offset="0.73" stop-color="#b3b3b3"/>
+    </linearGradient>
+    <linearGradient id="b4779ae6-74a5-486d-8aad-cd011859785a" x1="10.56" y1="6.02" x2="10.56" y2="19.71" gradientUnits="userSpaceOnUse">
+      <stop offset="0.18" stop-color="#5ea0ef"/>
+      <stop offset="1" stop-color="#0078d4"/>
+    </linearGradient>
+  </defs>
+  <title>Icon-web-46</title>
+  <path d="M10.56,16.93a.56.56,0,0,1-.57.57H1.14a.56.56,0,0,1-.56-.57V1.07A.56.56,0,0,1,1.14.5H10a.56.56,0,0,1,.57.57Z" fill="url(#a773af38-43e4-4fd2-9485-f8aac63ca91b)"/>
+  <path d="M2,6.46A1.08,1.08,0,0,1,3.13,5.38h5A1.08,1.08,0,0,1,9.18,6.46h0A1.08,1.08,0,0,1,8.1,7.55h-5A1.09,1.09,0,0,1,2,6.46Z" fill="#003067"/>
+  <path d="M2,3.24A1.09,1.09,0,0,1,3.13,2.15h5A1.08,1.08,0,0,1,9.18,3.24h0A1.08,1.08,0,0,1,8.1,4.32h-5A1.08,1.08,0,0,1,2,3.24Z" fill="#003067"/>
+  <circle cx="3.17" cy="3.24" r="0.73" fill="#50e6ff"/>
+  <circle cx="3.17" cy="6.46" r="0.73" fill="#50e6ff"/>
+  <path d="M17.42,14.38a3.12,3.12,0,0,0-2.67-3,3.93,3.93,0,0,0-4-3.8,4,4,0,0,0-3.83,2.66A3.7,3.7,0,0,0,3.7,13.83,3.77,3.77,0,0,0,7.56,17.5l.34,0h6.26l.17,0A3.15,3.15,0,0,0,17.42,14.38Z" fill="url(#b4779ae6-74a5-486d-8aad-cd011859785a)"/>
+  <rect width="18" height="18" fill="none"/>
+</svg>
