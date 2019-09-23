@@ -63,19 +63,21 @@ const AppKeyAddEdit: React.FC<AppKeyAddEditProps> = props => {
 
   return (
     <>
-      <div className={addPanelCommandBar(theme)}>
-        <Stack horizontal verticalAlign="center">
-          <ActionButton
-            id="app-keys-renew-key"
-            disabled={false}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Refresh' }}
-            ariaLabel={t('renewAppKey')}
-            onClick={renewAppKey}>
-            {t('renewAppKey')}
-          </ActionButton>
-        </Stack>
-      </div>
+      {appKey.name && (
+        <div className={addPanelCommandBar(theme)}>
+          <Stack horizontal verticalAlign="center">
+            <ActionButton
+              id="app-keys-renew-key"
+              disabled={false}
+              styles={tableActionButtonStyle}
+              iconProps={{ iconName: 'Refresh' }}
+              ariaLabel={t('renewAppKey')}
+              onClick={renewAppKey}>
+              {t('renewAppKey')}
+            </ActionButton>
+          </Stack>
+        </div>
+      )}
       <form className={addEditFormStyle}>
         <TextFieldNoFormik
           label={t('nameRes')}
