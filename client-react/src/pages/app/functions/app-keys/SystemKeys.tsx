@@ -224,7 +224,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
     setShowRenewDialog(true);
   };
 
-  const renewHostKey = () => {
+  const renewSystemKey = () => {
     if (renewKey.name) {
       createSystemKey({ name: renewKey.name, value: '' });
     }
@@ -261,7 +261,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
       <ConfirmDialog
         primaryActionButton={{
           title: t('functionKeys_renew'),
-          onClick: renewHostKey,
+          onClick: renewSystemKey,
         }}
         defaultActionButton={{
           title: t('cancel'),

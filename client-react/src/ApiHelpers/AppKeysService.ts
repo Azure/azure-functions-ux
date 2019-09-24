@@ -3,11 +3,11 @@ import { ArmObj } from '../models/arm-obj';
 import MakeArmCall from './ArmHelper';
 
 export default class AppKeyService {
-  public static getKeys = (resourceId: string) => {
+  public static fetchKeys = (resourceId: string) => {
     const id = `${resourceId}/host/default/listkeys`;
     return MakeArmCall<AppKeysInfo>({
       resourceId: id,
-      commandName: 'getAppKeys',
+      commandName: 'fetchAppKeys',
       method: 'POST',
     });
   };
@@ -17,12 +17,9 @@ export default class AppKeyService {
       id: '',
       location: '',
       name: '',
-      properties: {},
+      properties: keyValue ? { name: keyName, value: keyValue } : {},
     };
-    if (keyValue && keyValue.length > 0) {
-      body.properties['name'] = keyName;
-      body.properties['value'] = keyValue;
-    }
+
     const id = `${resourceId}/host/default/${keyType}/${keyName}`;
 
     return MakeArmCall<ArmObj<{ [key: string]: string }>>({

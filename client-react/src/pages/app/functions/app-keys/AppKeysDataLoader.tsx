@@ -26,7 +26,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
 
   const fetchData = async () => {
     const site = await appKeysData.getSiteObject(resourceId);
-    const appKeys = await appKeysData.getKeys(resourceId);
+    const appKeys = await appKeysData.fetchKeys(resourceId);
 
     if (appKeys.metadata.status === 409) {
       // TODO: read only permissions given

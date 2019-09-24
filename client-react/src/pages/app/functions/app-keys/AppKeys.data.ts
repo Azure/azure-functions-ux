@@ -15,8 +15,8 @@ export default class AppKeysData {
     };
   };
 
-  public getKeys = (resourceId: string) => {
-    return AppKeyService.getKeys(resourceId);
+  public fetchKeys = (resourceId: string) => {
+    return AppKeyService.fetchKeys(resourceId);
   };
 
   public getSiteObject = (resourceId: string) => {
