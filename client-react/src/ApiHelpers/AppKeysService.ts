@@ -12,17 +12,17 @@ export default class AppKeyService {
     });
   };
 
-  public static createKey = (resourceId: string, keyType: AppKeysTypes, keyName: string, keyValue?: string) => {
+  public static createKey = (resourceId: string, keyType: AppKeysTypes, keyName: string, keyValue: string) => {
     const body = {
       id: '',
       location: '',
       name: '',
-      properties: keyValue ? { name: keyName, value: keyValue } : {},
+      properties: keyName && keyValue ? { name: keyName, value: keyValue } : {},
     };
 
     const id = `${resourceId}/host/default/${keyType}/${keyName}`;
 
-    return MakeArmCall<ArmObj<{ [key: string]: string }>>({
+    return MakeArmCall<ArmObj<{ name?: string; value?: string }>>({
       resourceId: id,
       commandName: 'createAppKey',
       method: 'PUT',
