@@ -79,4 +79,38 @@ export default class FunctionsService {
       headers: getJsonHeaders(),
     });
   };
+
+  public static fetchKeys = (resourceId: string) => {
+    const id = `${resourceId}/listkeys`;
+    return MakeArmCall<{ [key: string]: string }>({
+      resourceId: id,
+      commandName: 'fetchKeys',
+      method: 'POST',
+    });
+  };
+
+  public static deleteKey = (resourceId: string, keyName: string) => {
+    const id = `${resourceId}/keys/${keyName}`;
+    return MakeArmCall<{ [key: string]: string }>({
+      resourceId: id,
+      commandName: 'deleteKey',
+      method: 'DELETE',
+    });
+  };
+
+  public static createKey = (resourceId: string, keyName: string, keyValue: string) => {
+    const id = `${resourceId}/keys/${keyName}`;
+    const body = {
+      id: '',
+      location: '',
+      name: '',
+      properties: keyName && keyValue ? { name: keyName, value: keyValue } : {},
+    };
+    return MakeArmCall<{ name?: string; value?: string }>({
+      resourceId: id,
+      commandName: 'createKey',
+      method: 'PUT',
+      body: body,
+    });
+  };
 }

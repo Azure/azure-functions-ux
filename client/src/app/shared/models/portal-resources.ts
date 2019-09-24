@@ -1660,4 +1660,12 @@ export class PortalResources {
   public static errorDetails = 'errorDetails';
   public static continousDeploymentSectionTitle = 'continousDeploymentSectionTitle';
   public static manualDeploymentSectionTitle = 'manualDeploymentSectionTitle';
+  public static functionKeysRefreshAriaLabel = 'functionKeysRefreshAriaLabel';
+  public static functionKeysCommandBarAriaLabel = 'functionKeysCommandBarAriaLabel';
+  public static newFunctionKey = 'newFunctionKey';
+  public static filterFunctionKeys = 'filterFunctionKeys';
+  public static editFunctionKey = 'editFunctionKey';
+  public static addFunctionKey = 'addFunctionKey';
+  public static functionKeyPropIsRequired = 'functionKeyPropIsRequired';
+  public static functionKeyNamesUnique = 'functionKeyNamesUnique';
 }
