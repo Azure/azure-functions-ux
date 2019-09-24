@@ -5151,4 +5151,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="manualDeploymentSectionTitle" xml:space="preserve">
     <value>Manual Deployment (push / sync)</value>
   </data>
+  <data name="apimUpsell" xml:space="preserve">
+    <value>Azure API Management gives enhanced capabilities when working with APIs and Functions. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2104075"&gt;Learn more&lt;/a&gt;</value>
+  </data>
 </root>
