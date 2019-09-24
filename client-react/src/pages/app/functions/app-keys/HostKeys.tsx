@@ -128,6 +128,18 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     });
   };
 
+  const onShowHideButtonClick = (itemKey: string) => {
+    const hidden = !shownValues.includes(itemKey) && !showValues;
+    const newShownValues = new Set(shownValues);
+    if (hidden) {
+      newShownValues.add(itemKey);
+    } else {
+      newShownValues.delete(itemKey);
+    }
+    setShowValues(newShownValues.size === hostKeys.length);
+    setShownValues([...newShownValues]);
+  };
+
   const deleteHostKey = (itemKey: string) => {
     appKeysContext.deleteKey(resourceId, itemKey, AppKeysTypes.functionKeys);
     refreshData();
@@ -147,16 +159,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
           <ActionButton
             id={`app-keys-host-keys-show-hide-${index}`}
             className={defaultCellStyle}
-            onClick={() => {
-              const newShownValues = new Set(shownValues);
-              if (hidden) {
-                newShownValues.add(itemKey);
-              } else {
-                newShownValues.delete(itemKey);
-              }
-              setShowValues(false);
-              setShownValues([...newShownValues]);
-            }}
+            onClick={() => onShowHideButtonClick(itemKey)}
             iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
             {hidden ? (
               <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
