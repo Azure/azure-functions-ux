@@ -8,9 +8,11 @@
         iconUrl="image/open-external.svg"></command>
 </command-bar>
 
-<div class="alert alert-info alert-dismissible" role="alert"
-  [innerHtml]="('apimUpsell' | translate)">
-</div>
+<info-box
+  typeClass="upsell"
+  [infoText]="'apimUpsell' | translate"
+  [infoLink]="apimLearnMoreLink">
+</info-box>
 
 <div class="browse-container">
 
