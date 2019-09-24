@@ -207,7 +207,12 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         const workerRuntime = appSettings && appSettings[Constants.functionsWorkerRuntimeAppSettingsName];
         const isPowershell = workerRuntime && WorkerRuntimeLanguages[workerRuntime] === WorkerRuntimeLanguages.powershell;
 
-        if (r.functionsInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && r.runtime === FunctionAppVersion.v2) {
+        if (
+          r.functionsInfo.length === 0 &&
+          !this.isStandalone &&
+          this.hasWriteAccess &&
+          (r.runtime === FunctionAppVersion.v2 || r.runtime === FunctionAppVersion.v3)
+        ) {
           this.showQuickstart = true;
         }
 

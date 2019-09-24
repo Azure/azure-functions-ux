@@ -28,7 +28,7 @@ export class UrlTemplates {
   }
 
   get useNewUrls(): boolean {
-    return this.runtimeVersion === FunctionAppVersion.v2;
+    return this.runtimeVersion === FunctionAppVersion.v2 || this.runtimeVersion === FunctionAppVersion.v3;
   }
 
   public getScmUrl() {

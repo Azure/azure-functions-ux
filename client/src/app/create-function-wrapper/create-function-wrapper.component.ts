@@ -55,7 +55,7 @@ export class CreateFunctionWrapperComponent extends NavigableComponent {
             })
             .map(r => {
               if (r.functionsInfo.length === 0 && !this._configService.isStandalone()) {
-                if (r.runtimeVersion === FunctionAppVersion.v2) {
+                if (r.runtimeVersion === FunctionAppVersion.v2 || r.runtimeVersion === FunctionAppVersion.v3) {
                   this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);
                   this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
                     operation: 'navigate',
