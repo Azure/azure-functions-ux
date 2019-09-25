@@ -120,7 +120,7 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
   }, []);
 
   if (initialLoading) {
-    return null;
+    return <></>;
   }
 
   return (
