@@ -61,18 +61,20 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
     textDecoration: 'none',
   });
 
-  const fetchKeyVaultData = async () => {
-    const armSubcriptionDescriptor = new ArmSubcriptionDescriptor(resourceId);
-    const keyVaultReference = await KeyVaultService.fetchKeyVaultReference(armSubcriptionDescriptor.getSubsriptionId(), vaultNameUri);
-    if (keyVaultReference && keyVaultReference[0]) {
-      setKeyVaultResourceId(keyVaultReference[0].id);
-    }
-    setInitialLoading(false);
-  };
-
   const vaultNameUri = vaultName ? `https://${vaultName}.vault.azure.net/` : '';
   const secretNameUri = secretName ? `${vaultNameUri}secrets/${secretName}/` : '';
   const secretVersionUri = secretVersion ? `${secretNameUri}/${secretVersion}` : '';
+
+  const fetchKeyVaultData = async () => {
+    const armSubcriptionDescriptor = new ArmSubcriptionDescriptor(resourceId);
+    if (vaultNameUri) {
+      const keyVaultReference = await KeyVaultService.fetchKeyVaultReference(armSubcriptionDescriptor.getSubsriptionId(), vaultNameUri);
+      if (keyVaultReference && keyVaultReference[0]) {
+        setKeyVaultResourceId(keyVaultReference[0].id);
+      }
+    }
+    setInitialLoading(false);
+  };
 
   const onVaultNameClick = async () => {
     if (keyVaultResourceId) {
@@ -154,7 +156,7 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
           )}
           {isValidValue(secretVersion) && (
             <InformationLabel
-              value={vaultName}
+              value={secretVersion}
               id="key-secret-version"
               className={keyVaultResourceId ? bladeLinkStyle() : ''}
               onClick={() => {
