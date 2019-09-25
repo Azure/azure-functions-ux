@@ -23,7 +23,7 @@ const FunctionBindingEditorLoadable: any = lazy(() =>
 const FunctionCreateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioncreate" */ './functions/create/FunctionCreateDataLoader')
 );
-const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeys'));
+const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeysDataLoader'));
 
 const FunctionKeysLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functionappkeys" */ './functions/function-keys/FunctionKeysDataLoader')

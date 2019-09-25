@@ -1660,6 +1660,7 @@ export class PortalResources {
   public static errorDetails = 'errorDetails';
   public static continousDeploymentSectionTitle = 'continousDeploymentSectionTitle';
   public static manualDeploymentSectionTitle = 'manualDeploymentSectionTitle';
+  public static apimUpsell = 'apimUpsell';
   public static functionKeysRefreshAriaLabel = 'functionKeysRefreshAriaLabel';
   public static functionKeysCommandBarAriaLabel = 'functionKeysCommandBarAriaLabel';
   public static newFunctionKey = 'newFunctionKey';
