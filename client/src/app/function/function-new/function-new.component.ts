@@ -233,7 +233,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
         if (
           this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName) &&
-          runtimeIsV2OrV3(this.runtime)
+          runtimeIsV2OrV3(this.runtimeVersion)
         ) {
           const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
           this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];
