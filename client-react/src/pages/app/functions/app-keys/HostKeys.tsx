@@ -149,10 +149,6 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     const itemKey = item.name;
     const hidden = !shownValues.includes(itemKey) && !showValues;
 
-    if (!column || !item) {
-      return null;
-    }
-
     if (column.key === 'value') {
       return (
         <>
