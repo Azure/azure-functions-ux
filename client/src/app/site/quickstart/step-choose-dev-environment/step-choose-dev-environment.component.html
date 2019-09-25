@@ -6,7 +6,7 @@
       [attr.aria-checked]="selectedDevEnvironmentCard?.name === card.name"
       (keydown)="onKeyPress($event, card)">
       <div class="cardHeader">
-        <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}}
+        <img [src]="card.icon"/> {{card.name}}
       </div>
       <div class="cardDescription">
         {{card.description}}

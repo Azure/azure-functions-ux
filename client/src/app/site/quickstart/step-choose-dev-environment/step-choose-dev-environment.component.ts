@@ -18,7 +18,6 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
     id: 'vs',
     name: this._translateService.instant(PortalResources.vsCardTitle),
     icon: 'image/visual_studio.svg',
-    color: '#865FC5',
     description: this._translateService.instant(PortalResources.vsCardDescription),
   };
 
@@ -26,7 +25,6 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
     id: 'vscode',
     name: this._translateService.instant(PortalResources.vscodeCardTitle),
     icon: 'image/vs_code.svg',
-    color: '#0067B8',
     description: this._translateService.instant(PortalResources.vscodeCardDescription),
   };
 
@@ -34,7 +32,6 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
     id: 'coretools',
     name: this._translateService.instant(PortalResources.coretoolsCardTitle),
     icon: 'image/terminal.svg',
-    color: '#54B4D9',
     description: this._translateService.instant(PortalResources.coretoolsCardDescription),
   };
 
@@ -42,7 +39,6 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
     id: 'maven',
     name: this._translateService.instant(PortalResources.mavenCardTitle),
     icon: 'image/terminal.svg',
-    color: '#54B4D9',
     description: this._translateService.instant(PortalResources.mavenCardDescription),
   };
 
@@ -50,7 +46,6 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
     id: 'portal',
     name: this._translateService.instant(PortalResources.portalCardTitle),
     icon: 'image/azure_mgmt_portal.svg',
-    color: '#54B4D9',
     description: this._translateService.instant(PortalResources.portalCardDescription),
   };
 
