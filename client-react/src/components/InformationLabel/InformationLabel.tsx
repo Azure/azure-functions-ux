@@ -47,17 +47,14 @@ const getLabelStyle = (labelProps: any, theme: ThemeExtended) => {
 };
 
 const InformationLabel: FC<CustomInformationLabelProps> = props => {
-  const { value, id, link, labelProps, onClick, className } = props;
+  const { value, id, link, labelProps, className, onClick } = props;
   const theme = useContext(ThemeContext);
 
-  const getClassNameForLabel = () => {
+  const getClassNameFromProps = () => {
     if (className) {
       return className;
-    } else if (labelProps) {
-      return getLabelStyle(labelProps, theme);
-    } else {
-      return '';
     }
+    return labelProps ? getLabelStyle(labelProps, theme) : '';
   };
 
   return (
@@ -67,15 +64,7 @@ const InformationLabel: FC<CustomInformationLabelProps> = props => {
           {value}
         </Link>
       ) : (
-        <Label
-          id={`${id}-value`}
-          aria-labelledby={`${id}-label`}
-          onClick={() => {
-            if (onClick) {
-              onClick();
-            }
-          }}
-          className={getClassNameForLabel()}>
+        <Label id={`${id}-value`} aria-labelledby={`${id}-label`} onClick={onClick} className={getClassNameFromProps()}>
           {labelProps && labelProps.icon && <Icon iconName={labelProps.icon} className={labelIconStyle} />}
           <span>{value}</span>
         </Label>
