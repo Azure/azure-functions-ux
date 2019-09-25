@@ -1658,9 +1658,26 @@ export class PortalResources {
   public static keyVaultSecretVersion = 'keyVaultSecretVersion';
   public static identity = 'identity';
   public static errorDetails = 'errorDetails';
+  public static appKeysInformationBanner = 'appKeysInformationBanner';
+  public static appKeysHost = 'appKeysHost';
+  public static appKeysSystem = 'appKeysSystem';
+  public static addHostKey = 'addHostKey';
+  public static editHostKey = 'editHostKey';
+  public static newHostKey = 'newHostKey';
+  public static addSystemKey = 'addSystemKey';
+  public static editSystemKey = 'editSystemKey';
+  public static newSystemKey = 'newSystemKey';
+  public static emptyHostKeys = 'emptyHostKeys';
+  public static emptySystemKeys = 'emptySystemKeys';
+  public static filterHostKeys = 'filterHostKeys';
+  public static filterSystemKeys = 'filterSystemKeys';
+  public static appKeyPropIsRequired = 'appKeyPropIsRequired';
+  public static appKeyNamesUnique = 'appKeyNamesUnique';
+  public static enterAppKeyName = 'enterAppKeyName';
+  public static defaultValueAppKey = 'defaultValueAppKey';
+  public static renewAppKey = 'renewAppKey';
   public static continousDeploymentSectionTitle = 'continousDeploymentSectionTitle';
   public static manualDeploymentSectionTitle = 'manualDeploymentSectionTitle';
-  public static apimUpsell = 'apimUpsell';
   public static functionKeysRefreshAriaLabel = 'functionKeysRefreshAriaLabel';
   public static functionKeysCommandBarAriaLabel = 'functionKeysCommandBarAriaLabel';
   public static newFunctionKey = 'newFunctionKey';
@@ -1669,4 +1686,7 @@ export class PortalResources {
   public static addFunctionKey = 'addFunctionKey';
   public static functionKeyPropIsRequired = 'functionKeyPropIsRequired';
   public static functionKeyNamesUnique = 'functionKeyNamesUnique';
+  public static renewKeyValue = 'renewKeyValue';
+  public static renewKeyValueContent = 'renewKeyValueContent';
+  public static apimUpsell = 'apimUpsell';
 }

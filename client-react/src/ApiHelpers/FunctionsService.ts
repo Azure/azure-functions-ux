@@ -98,13 +98,13 @@ export default class FunctionsService {
     });
   };
 
-  public static createKey = (resourceId: string, keyName: string, keyValue: string) => {
+  public static createKey = (resourceId: string, keyName: string, keyValue?: string) => {
     const id = `${resourceId}/keys/${keyName}`;
     const body = {
       id: '',
       location: '',
       name: '',
-      properties: keyName && keyValue ? { name: keyName, value: keyValue } : {},
+      properties: keyValue ? { name: keyName, value: keyValue } : {},
     };
     return MakeArmCall<{ name?: string; value?: string }>({
       resourceId: id,

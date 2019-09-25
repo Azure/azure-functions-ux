@@ -19,11 +19,13 @@ import { ThemeContext } from '../../../../ThemeContext';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import Panel from '../../../../components/Panel/Panel';
 import FunctionKeyAddEdit from './FunctionKeyAddEdit';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 
 interface FunctionKeysProps {
   resourceId: string;
   initialValues: FunctionKeysFormValues;
   refreshData: () => void;
+  setRefeshLoading: (loading: boolean) => void;
 }
 
 const emptyKey = { name: '', value: '' };
@@ -34,13 +36,14 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     refreshData,
     initialValues: { keys },
     resourceId,
+    setRefeshLoading,
   } = props;
   const { t } = useTranslation();
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
-  // const [showRenewDialog, setShowRenewDialog] = useState(false);
-  // const [renewKey, setRenewKey] = useState(emptyKey);
+  const [showRenewDialog, setShowRenewDialog] = useState(false);
+  const [renewKey, setRenewKey] = useState(emptyKey);
   const [filterValue, setFilterValue] = useState('');
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
@@ -130,6 +133,18 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     });
   };
 
+  const onShowHideButtonClick = (itemKey: string) => {
+    const hidden = !shownValues.includes(itemKey) && !showValues;
+    const newShownValues = new Set(shownValues);
+    if (hidden) {
+      newShownValues.add(itemKey);
+    } else {
+      newShownValues.delete(itemKey);
+    }
+    setShowValues(newShownValues.size === keys.length);
+    setShownValues([...newShownValues]);
+  };
+
   const deleteHostKey = (itemKey: string) => {
     functionKeysContext.deleteKey(resourceId, itemKey);
     refreshData();
@@ -139,26 +154,13 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     const itemKey = item.name;
     const hidden = !shownValues.includes(itemKey) && !showValues;
 
-    if (!column || !item) {
-      return null;
-    }
-
     if (column.key === 'value') {
       return (
         <>
           <ActionButton
             id={`function-keys-show-hide-${index}`}
             className={defaultCellStyle}
-            onClick={() => {
-              const newShownValues = new Set(shownValues);
-              if (hidden) {
-                newShownValues.add(itemKey);
-              } else {
-                newShownValues.delete(itemKey);
-              }
-              setShowValues(false);
-              setShownValues([...newShownValues]);
-            }}
+            onClick={() => onShowHideButtonClick(itemKey)}
             iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
             {hidden ? (
               <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
@@ -195,32 +197,37 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
       );
     }
     if (column.key === 'renew') {
-      return <span className={renewTextStyle(theme)}>{t('renewKeyValue')}</span>;
+      return (
+        <span className={renewTextStyle(theme)} onClick={() => showRenewKeyDialog(item)}>
+          {t('renewKeyValue')}
+        </span>
+      );
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
-  const createHostKey = (key: FunctionKeysModel) => {
-    functionKeysContext.createKey(resourceId, key.name, key.value);
+  const createFunctionKey = async (key: FunctionKeysModel) => {
+    setRefeshLoading(true);
+    await functionKeysContext.createKey(resourceId, key.name, key.value);
     refreshData();
   };
 
-  // const closeRenewKeyDialog = () => {
-  //     setRenewKey(emptyKey);
-  //     setShowRenewDialog(false);
-  // };
+  const closeRenewKeyDialog = () => {
+    setRenewKey(emptyKey);
+    setShowRenewDialog(false);
+  };
 
-  // const showRenewKeyDialog = (item: FunctionKeysModel) => {
-  //     setRenewKey(item);
-  //     setShowRenewDialog(true);
-  // };
+  const showRenewKeyDialog = (item: FunctionKeysModel) => {
+    setRenewKey(item);
+    setShowRenewDialog(true);
+  };
 
-  // const renewHostKey = () => {
-  //     if (renewKey.name) {
-  //         createHostKey({ name: renewKey.name, value: '' });
-  //     }
-  //     closeRenewKeyDialog();
-  // };
+  const renewFunctionKey = () => {
+    if (renewKey.name) {
+      createFunctionKey({ name: renewKey.name, value: '' });
+    }
+    closeRenewKeyDialog();
+  };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     return [
@@ -275,6 +282,20 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
             />
           )}
         </DisplayTableWithCommandBar>
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('functionKeys_renew'),
+            onClick: renewFunctionKey,
+          }}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: closeRenewKeyDialog,
+          }}
+          title={t('renewKeyValue')}
+          content={t('renewKeyValueContent').format(renewKey.name)}
+          hidden={!showRenewDialog}
+          onDismiss={closeRenewKeyDialog}
+        />
         <Panel
           isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
           onDismiss={onClosePanel}
@@ -282,7 +303,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
           closeButtonAriaLabel={t('close')}>
           <FunctionKeyAddEdit
             resourceId={resourceId}
-            createAppKey={createHostKey}
+            createAppKey={createFunctionKey}
             closeBlade={onClosePanel}
             appKey={currentKey}
             otherAppKeys={keys}

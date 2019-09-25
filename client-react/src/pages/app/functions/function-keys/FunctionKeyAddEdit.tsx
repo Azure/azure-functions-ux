@@ -1,12 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import ActionBar from '../../../../components/ActionBar';
-import { Stack, ActionButton } from 'office-ui-fabric-react';
-import { ThemeContext } from '../../../../ThemeContext';
 import { FunctionKeysModel } from './FunctionKeys.types';
-import { addPanelCommandBar, tableActionButtonStyle } from './FunctionKeys.styles';
 
 export interface FunctionKeyAddEditProps {
   createAppKey: (item: FunctionKeysModel) => void;
@@ -23,7 +20,6 @@ const FunctionKeyAddEdit: React.FC<FunctionKeyAddEditProps> = props => {
   const [currentAppKey, setCurrentAppKey] = useState(appKey);
 
   const { t } = useTranslation();
-  const theme = useContext(ThemeContext);
 
   const updateAppKeyName = (e: any, name: string) => {
     const error = validateAppKeyName(name);
@@ -56,28 +52,8 @@ const FunctionKeyAddEdit: React.FC<FunctionKeyAddEditProps> = props => {
     return otherAppKeys.filter(v => v.name.toLowerCase() === value.toLowerCase()).length >= 1 ? t('functionKeyNamesUnique') : '';
   };
 
-  const renewAppKey = () => {
-    createAppKey({ name: appKey.name, value: '' });
-    closeBlade();
-  };
-
   return (
     <>
-      {appKey.name && (
-        <div className={addPanelCommandBar(theme)}>
-          <Stack horizontal verticalAlign="center">
-            <ActionButton
-              id="function-keys-renew-key"
-              disabled={false}
-              styles={tableActionButtonStyle}
-              iconProps={{ iconName: 'Refresh' }}
-              ariaLabel={t('renewAppKey')}
-              onClick={renewAppKey}>
-              {t('renewAppKey')}
-            </ActionButton>
-          </Stack>
-        </div>
-      )}
       <form className={addEditFormStyle}>
         <TextFieldNoFormik
           label={t('nameRes')}

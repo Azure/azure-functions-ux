@@ -51,7 +51,7 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
 
   return (
     <FunctionKeysContext.Provider value={functionKeysData}>
-      <FunctionKeys resourceId={resourceId} initialValues={initialValues} refreshData={refreshData} />
+      <FunctionKeys resourceId={resourceId} initialValues={initialValues} refreshData={refreshData} setRefeshLoading={setRefeshLoading} />
     </FunctionKeysContext.Provider>
   );
 };

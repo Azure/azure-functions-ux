@@ -24,7 +24,7 @@ export default class FunctionKeysData {
   };
 
   public createKey = (resourceId: string, keyName: string, keyValue: string) => {
-    FunctionsService.createKey(resourceId, keyName, keyValue);
+    return FunctionsService.createKey(resourceId, keyName, keyValue);
   };
 
   private _retrieveFunctionKeys = (keys: { [key: string]: string } | null): FunctionKeysModel[] => {
