@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { TextField as OfficeTextField, ITextFieldProps } from 'office-ui-fabric-react/lib/TextField';
 import ReactiveFormControl from './ReactiveFormControl';
 import { useWindowSize } from 'react-use';
@@ -25,9 +25,21 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
   const fullpage = width > 1000;
+  const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
     TextUtilitiesService.copyContentToClipboard(value || '');
+    setCopied(true);
+  };
+
+  const getCopiedLabel = () => {
+    return copied ? t('copypre_copied') : t('copypre_copyClipboard');
+  };
+
+  const changeCopiedLabel = isToolTipVisible => {
+    if (copied && !isToolTipVisible) {
+      setCopied(false);
+    }
   };
 
   return (
@@ -44,12 +56,13 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
         {...rest}
       />
       {copyButton && (
-        <TooltipHost content={t('copypre_copyClipboard')} calloutProps={{ gapSpace: 0 }}>
+        <TooltipHost content={getCopiedLabel()} calloutProps={{ gapSpace: 0 }} onTooltipToggle={isVisible => changeCopiedLabel(isVisible)}>
           <IconButton
             className={copyButtonStyle(theme)}
             id={`${id}-copy-button`}
             iconProps={{ iconName: 'Copy' }}
             onClick={copyToClipboard}
+            ariaLabel={getCopiedLabel()}
           />
         </TooltipHost>
       )}
