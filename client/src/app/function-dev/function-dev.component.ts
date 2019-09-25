@@ -508,7 +508,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
       }
 
       if (this.functionAppVersion === FunctionAppVersion.v1) {
-        this._functionAppService.getHostJson(this.context).subscribe(jsonObj => {
+        this._functionAppService.getHostV1Json(this.context).subscribe(jsonObj => {
           const result =
             jsonObj.isSuccessful &&
             jsonObj.result.http &&
@@ -520,7 +520,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           this._updateFunctionInvokeUrl(result, queryParams);
         });
       } else {
-        this._functionAppService.getHostV2Json(this.context).subscribe(jsonObj => {
+        this._functionAppService.getHostV2V3Json(this.context).subscribe(jsonObj => {
           const result =
             jsonObj.isSuccessful &&
             jsonObj.result.extensions &&

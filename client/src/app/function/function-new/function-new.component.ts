@@ -42,6 +42,7 @@ import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BillingService } from './../../shared/services/billing.service';
 import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 import { FunctionService } from './../../shared/services/function.service';
+import { runtimeIsV2OrV3 } from 'app/shared/models/functions-version-info';
 
 interface CategoryOrder {
   name: string;
@@ -232,7 +233,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
         if (
           this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName) &&
-          this.runtimeVersion === FunctionAppVersion.v2
+          runtimeIsV2OrV3(this.runtimeVersion)
         ) {
           const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
           this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];

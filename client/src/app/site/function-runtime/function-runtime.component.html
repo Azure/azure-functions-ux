@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </ng-container>
-            <div *ngIf="disableRuntimeSelector" class="alert alert-warning">
+            <div *ngIf="disableRuntimeSelector || disableSomeVersionSwaps" class="alert alert-warning">
                 <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
                 <div class="alert-message">
                     <span class="title-label">{{ 'appFunctionSettings_warning_6' | translate }}</span><br/>

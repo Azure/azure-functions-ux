@@ -13,7 +13,6 @@ import {
   NotificationIds,
   SlotOperationState,
   SwapOperationType,
-  FunctionAppVersion,
   ARMApiVersions,
   Constants,
 } from './../../shared/models/constants';
@@ -49,6 +48,7 @@ import { OpenBladeInfo, EventVerbs } from '../../shared/models/portal';
 import { SlotSwapInfo } from '../../shared/models/slot-events';
 import { FlightingUtil } from 'app/shared/Utilities/flighting-utility';
 import { FunctionService } from 'app/shared/services/function.service';
+import { runtimeIsV2OrV3 } from 'app/shared/models/functions-version-info';
 
 @Component({
   selector: 'site-summary',
@@ -207,7 +207,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         const workerRuntime = appSettings && appSettings[Constants.functionsWorkerRuntimeAppSettingsName];
         const isPowershell = workerRuntime && WorkerRuntimeLanguages[workerRuntime] === WorkerRuntimeLanguages.powershell;
 
-        if (r.functionsInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && r.runtime === FunctionAppVersion.v2) {
+        if (r.functionsInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && runtimeIsV2OrV3(r.runtime)) {
           this.showQuickstart = true;
         }
 

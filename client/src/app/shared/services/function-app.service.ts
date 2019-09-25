@@ -413,13 +413,13 @@ export class FunctionAppService {
     }
   }
 
-  getHostJson(context: FunctionAppContext): Result<Host> {
+  getHostV1Json(context: FunctionAppContext): Result<Host> {
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
     );
   }
 
-  getHostV2Json(context: FunctionAppContext): Result<HostV2> {
+  getHostV2V3Json(context: FunctionAppContext): Result<HostV2> {
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
     );
