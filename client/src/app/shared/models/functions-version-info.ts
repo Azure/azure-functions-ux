@@ -5,6 +5,10 @@ export interface FunctionsVersionInfo {
   runtimeDefault: string;
 }
 
+export function runtimeIsV2OrV3(runtimeVersion: string): boolean {
+  return runtimeVersion === FunctionAppVersion.v2 || runtimeVersion === FunctionAppVersion.v3;
+}
+
 export class FunctionsVersionInfoHelper {
   public static needToUpdateRuntime(version: FunctionsVersionInfo, extensionVersion: string) {
     const match = version.runtimeStable.find(v => {

@@ -6,7 +6,7 @@ import { PortalService } from './services/portal.service';
 import { Injector } from '@angular/core';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
-import { FunctionAppVersion } from './models/constants';
+import { runtimeIsV2OrV3 } from './models/functions-version-info';
 
 export class UrlTemplates {
   private configService: ConfigService;
@@ -28,7 +28,7 @@ export class UrlTemplates {
   }
 
   get useNewUrls(): boolean {
-    return this.runtimeVersion === FunctionAppVersion.v2 || this.runtimeVersion === FunctionAppVersion.v3;
+    return runtimeIsV2OrV3(this.runtimeVersion);
   }
 
   public getScmUrl() {

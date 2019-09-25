@@ -496,39 +496,24 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   // Will update logic for V3 public preview
   private _handleV3Option() {
     if (this.extensionVersion === '~3') {
+      this.functionRutimeOptions = [
+        {
+          displayLabel: '~1',
+          value: '~1',
+          disabled: this.disableRuntimeSelector,
+        },
+        {
+          displayLabel: '~2',
+          value: '~2',
+        },
+        {
+          displayLabel: '~3 (Preview)',
+          value: '~3',
+        },
+      ];
       if (this.disableRuntimeSelector) {
-        this.functionRutimeOptions = [
-          {
-            displayLabel: '~1',
-            value: '~1',
-            disabled: true,
-          },
-          {
-            displayLabel: '~2',
-            value: '~2',
-          },
-          {
-            displayLabel: '~3 (Preview)',
-            value: '~3',
-          },
-        ];
         this.disableSomeVersionSwaps = true;
         this.disableRuntimeSelector = false;
-      } else {
-        this.functionRutimeOptions = [
-          {
-            displayLabel: '~1',
-            value: '~1',
-          },
-          {
-            displayLabel: '~2',
-            value: '~2',
-          },
-          {
-            displayLabel: '~3 (Preview)',
-            value: '~3',
-          },
-        ];
       }
     }
   }
