@@ -13,7 +13,6 @@ import {
   NotificationIds,
   SlotOperationState,
   SwapOperationType,
-  FunctionAppVersion,
   ARMApiVersions,
   Constants,
 } from './../../shared/models/constants';
