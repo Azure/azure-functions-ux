@@ -8,7 +8,6 @@ import { style } from 'typestyle';
 import { PortalContext } from '../../../../PortalContext';
 import { ArmSubcriptionDescriptor } from '../../../../utils/resourceDescriptors';
 import KeyVaultService from '../../../../ApiHelpers/KeyVaultService';
-import { bladeLinkStyle } from '../AppSettings.styles';
 
 export interface AppSettingReferenceProps {
   appSettingReference: KeyVaultReference;
@@ -43,6 +42,12 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
       return { icon: 'ErrorBadge', type: 'error' };
     }
   };
+
+  const bladeLinkStyle = () =>
+    style({
+      color: theme.semanticColors.actionLink,
+      cursor: 'pointer',
+    });
 
   const isResolved = (status: string): boolean => {
     return status.toLocaleLowerCase() === 'resolved';
@@ -127,7 +132,7 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
             <InformationLabel
               value={vaultName}
               id="key-vault-name"
-              className={keyVaultResourceId ? bladeLinkStyle(theme) : ''}
+              className={keyVaultResourceId ? bladeLinkStyle() : ''}
               onClick={() => {
                 if (keyVaultResourceId) {
                   onVaultNameClick();
@@ -140,7 +145,7 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
             <InformationLabel
               value={secretName}
               id="key-secret-name"
-              className={keyVaultResourceId ? bladeLinkStyle(theme) : ''}
+              className={keyVaultResourceId ? bladeLinkStyle() : ''}
               onClick={() => {
                 if (keyVaultResourceId) {
                   onSecretNameClick();
@@ -153,7 +158,7 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
             <InformationLabel
               value={secretVersion}
               id="key-secret-version"
-              className={keyVaultResourceId ? bladeLinkStyle(theme) : ''}
+              className={keyVaultResourceId ? bladeLinkStyle() : ''}
               onClick={() => {
                 if (keyVaultResourceId) {
                   onSecretVersionClick();

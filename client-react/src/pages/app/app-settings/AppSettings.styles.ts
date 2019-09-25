@@ -43,9 +43,3 @@ export const textBoxInListDeleteButtonStyle = style({ display: 'inline-block', w
 
 export const filterBoxStyle = { root: { marginTop: '5px', height: '25px', width: '100%' } };
 export const tableActionButtonStyle = { root: { marginTop: '5px' } };
-
-export const bladeLinkStyle = (theme: ThemeExtended) =>
-  style({
-    color: theme.semanticColors.actionLink,
-    cursor: 'pointer',
-  });
