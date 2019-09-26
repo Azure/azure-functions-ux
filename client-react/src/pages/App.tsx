@@ -1,7 +1,7 @@
 import { Router } from '@reach/router';
 import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
 import React, { useState, useEffect, Suspense } from 'react';
-import AppServiceRouter from './app/AppServiceRouter';
+import SiteRouter from './app/SiteRouter';
 import LandingPage from './LandingPage/LandingPage';
 import ErrorLogger from '../components/ErrorLogger';
 import { I18nextProvider } from 'react-i18next';
@@ -35,9 +35,9 @@ export const App: React.FC = () => {
                 <Fabric>
                   <ErrorLogger>
                     <Router>
-                      <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
-                      <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/*" />
-                      <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/functions/:functionName/*" />
+                      <SiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
+                      <SiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/*" />
+                      <SiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/functions/:functionName/*" />
                       <LandingPage path="/*" />
                     </Router>
                   </ErrorLogger>

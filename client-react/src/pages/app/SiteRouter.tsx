@@ -3,7 +3,7 @@ import { RouteComponentProps, Router } from '@reach/router';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-export interface AppSeriviceRouterProps {
+export interface SiteRouterProps {
   subscriptionId?: string;
   resourcegroup?: string;
   siteName?: string;
@@ -25,7 +25,7 @@ const FunctionCreateLoadable: any = lazy(() =>
 );
 const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeysDataLoader'));
 
-const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = props => {
+const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [resourceId, setResourceId] = useState('');
   const theme = useContext(ThemeContext);
 
@@ -65,4 +65,4 @@ const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = 
     </main>
   );
 };
-export default AppServiceRouter;
+export default SiteRouter;
