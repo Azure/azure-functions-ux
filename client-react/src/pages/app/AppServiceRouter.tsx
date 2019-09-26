@@ -26,7 +26,7 @@ const FunctionCreateLoadable: any = lazy(() =>
 const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeysDataLoader'));
 
 const FunctionKeysLoadable: any = lazy(() =>
-  import(/* webpackChunkName:"functionappkeys" */ './functions/function-keys/FunctionKeysDataLoader')
+  import(/* webpackChunkName:"functionKeys" */ './functions/function-keys/FunctionKeysDataLoader')
 );
 
 const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = props => {
