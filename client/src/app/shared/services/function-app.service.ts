@@ -17,7 +17,7 @@ import { Headers, Response, ResponseType, ResponseContentType } from '@angular/h
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { HttpResult } from './../models/http-result';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
-import { FunctionsVersionInfoHelper } from 'app/shared/models/functions-version-info';
+import { FunctionsVersionInfoHelper, runtimeIsV1 } from 'app/shared/models/functions-version-info';
 import { Constants } from 'app/shared/models/constants';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { Observable } from 'rxjs/Observable';
@@ -1030,7 +1030,7 @@ export class FunctionAppService {
     return Observable.zip(this.getSystemKey(context), this.getRuntimeGeneration(context)).map(tuple => {
       if (tuple[0].isSuccessful) {
         const generation = tuple[1];
-        const eventGridName = generation === FunctionAppVersion.v1 ? Constants.eventGridName_v1 : Constants.eventGridName_v2;
+        const eventGridName = runtimeIsV1(generation) ? Constants.eventGridName_v1 : Constants.eventGridName_v2;
         const key = tuple[0].result.keys.find(k => k.name === eventGridName);
         return {
           isSuccessful: true,

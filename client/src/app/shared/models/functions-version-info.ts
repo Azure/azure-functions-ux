@@ -5,8 +5,16 @@ export interface FunctionsVersionInfo {
   runtimeDefault: string;
 }
 
-export function runtimeIsV2OrV3(runtimeVersion: string): boolean {
-  return runtimeVersion === FunctionAppVersion.v2 || runtimeVersion === FunctionAppVersion.v3;
+export function runtimeIsV1(runtimeVersion: string): boolean {
+  return runtimeVersion === FunctionAppVersion.v1;
+}
+
+export function runtimeIsV2(runtimeVersion: string): boolean {
+  return runtimeVersion === FunctionAppVersion.v2;
+}
+
+export function runtimeIsV3(runtimeVersion: string): boolean {
+  return runtimeVersion === FunctionAppVersion.v3;
 }
 
 export class FunctionsVersionInfoHelper {
