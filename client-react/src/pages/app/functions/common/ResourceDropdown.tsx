@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BindingConfigUIDefinition, BindingSettingResource } from '../../../../models/functions/bindings-config';
 import { FieldProps, FormikProps } from 'formik';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
-import { IDropdownOption, IDropdownProps, DefaultButton, Callout } from 'office-ui-fabric-react';
+import { IDropdownOption, IDropdownProps, Link, Callout } from 'office-ui-fabric-react';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
@@ -16,7 +16,7 @@ export interface ResourceDropdownProps {
 }
 
 const paddingStyle = {
-  paddingLeft: '20px',
+  marginTop: '-5px',
   paddingBottom: '30px',
 };
 
@@ -58,7 +58,9 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         {...props}
       />
       <div style={paddingStyle}>
-        <DefaultButton id="target" onClick={() => setIsCalloutVisible(!isCalloutVisible)} text={isCalloutVisible ? 'Cancel' : 'New'} />
+        <Link id="target" onClick={() => setIsCalloutVisible(!isCalloutVisible)}>
+          {isCalloutVisible ? 'Cancel' : 'New'}
+        </Link>
         <Callout onDismiss={() => setIsCalloutVisible(false)} target={'#target'} hidden={!isCalloutVisible}>
           <NewResourceConnection
             resourceId={resourceId}
