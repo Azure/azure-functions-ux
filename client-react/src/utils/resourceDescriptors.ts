@@ -40,6 +40,10 @@ export class ArmSubcriptionDescriptor extends Descriptor {
   public getTrimmedResourceId() {
     return `/subscriptions/${this.subscriptionId}`;
   }
+
+  public getSubsriptionId() {
+    return this.subscriptionId;
+  }
 }
 
 // tslint:disable-next-line:max-classes-per-file
