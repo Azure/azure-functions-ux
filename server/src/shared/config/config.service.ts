@@ -35,7 +35,7 @@ export class ConfigService implements OnModuleInit {
         cacheBreakQuery: process.env.CACHE_BREAK_QUERY,
         isAzure: !!process.env.WEBSITE_SITE_NAME,
         functionsVersionInfo: {
-          runtimeStable: ['~1', 'beta', '~2', 'latest'],
+          runtimeStable: ['~1', 'beta', '~2', 'latest', '~3'],
           runtimeDefault: '~1',
         },
       },

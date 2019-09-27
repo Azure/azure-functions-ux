@@ -14,6 +14,7 @@
     <div *ngFor="let option of options"
         role="radio"
         [id]="id + '-' + option.id"
+        [attr.aria-disabled]="option.disabled"
         [attr.aria-checked]="option.value === selectedValue"
         (click)="select(option)">
         {{option.displayLabel}}

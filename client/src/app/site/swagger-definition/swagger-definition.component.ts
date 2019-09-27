@@ -101,7 +101,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
     return this.viewInfoEvents
       .switchMap(viewInfo => {
         return Observable.zip(
-          this._functionAppService.getHostJson(this.context),
+          this._functionAppService.getHostV1Json(this.context),
           this._functionAppService.getRuntimeGeneration(this.context),
           this._functionAppService.getFunctionAppEditMode(this.context),
           (a: HttpResult<Host>, b: string, c: HttpResult<FunctionAppEditMode>) => ({
@@ -227,7 +227,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
 
   private setSwaggerEndpointState(swaggerEnabled: boolean) {
     return this._functionAppService
-      .getHostJson(this.context)
+      .getHostV1Json(this.context)
       .concatMap(jsonObj => {
         if (jsonObj.isSuccessful) {
           jsonObj.result.swagger = { enabled: swaggerEnabled };

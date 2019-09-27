@@ -639,6 +639,13 @@ export class SupportedFeatures {
 export enum FunctionAppVersion {
   v1 = 'V1',
   v2 = 'V2',
+  v3 = 'V3',
+}
+
+export enum FunctionAppRuntimeSetting {
+  tilda1 = '~1',
+  tilda2 = '~2',
+  tilda3 = '~3',
 }
 
 export enum HostKeyTypes {

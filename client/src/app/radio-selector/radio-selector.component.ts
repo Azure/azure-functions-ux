@@ -172,7 +172,7 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges, AfterViewIn
   }
 
   select(option: SelectOption<T>) {
-    if (this.control ? !this.control.disabled : !this.disabled) {
+    if ((this.control ? !this.control.disabled : !this.disabled) && !option.disabled) {
       this._setControlValue(option.value);
       this.selectedValue = option.value;
       this.value.next(option.value);
