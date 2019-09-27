@@ -45,11 +45,7 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
   }
 
   return (
-    <Panel
-      isOpen={true}
-      type={PanelType.smallFixedFar}
-      onRenderNavigationContent={() => onRenderNavigationContent(bindingInfo as BindingInfo, props.onPanelClose, t)}
-      styles={panelStyle}>
+    <Panel isOpen={true} type={PanelType.smallFixedFar} headerText={getPanelHeader(bindingInfo, t)} onDismiss={props.onPanelClose}>
       {getEditorOrLoader(functionInfo, resourceId, props.onSubmit, bindingInfo, bindingsConfig)}
     </Panel>
   );
