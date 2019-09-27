@@ -24,7 +24,7 @@ const elementWrapperStyle = (theme: ThemeExtended) =>
 
 const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
   const { t } = useTranslation();
-  const [keyVaultResourceId, setKeyVaultResourceId] = useState('');
+  const [keyVaultResourceId, setKeyVaultResourceId] = useState<string | undefined>(undefined);
   const [initialLoading, setInitialLoading] = useState(true);
   const { resourceId } = props;
   const { status, vaultName = '', secretName = '', secretVersion = '', details, identityType = '' } = props.appSettingReference;

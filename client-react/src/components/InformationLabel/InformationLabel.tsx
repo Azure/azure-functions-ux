@@ -50,7 +50,7 @@ const InformationLabel: FC<CustomInformationLabelProps> = props => {
   const { value, id, link, labelProps, className, onClick } = props;
   const theme = useContext(ThemeContext);
 
-  const getClassNameForLabel = () => {
+  const getClassNameFromProps = () => {
     if (className) {
       return className;
     }
@@ -64,7 +64,7 @@ const InformationLabel: FC<CustomInformationLabelProps> = props => {
           {value}
         </Link>
       ) : (
-        <Label id={`${id}-value`} aria-labelledby={`${id}-label`} onClick={onClick} className={getClassNameForLabel()}>
+        <Label id={`${id}-value`} aria-labelledby={`${id}-label`} onClick={onClick} className={getClassNameFromProps()}>
           {labelProps && labelProps.icon && <Icon iconName={labelProps.icon} className={labelIconStyle} />}
           <span>{value}</span>
         </Label>
