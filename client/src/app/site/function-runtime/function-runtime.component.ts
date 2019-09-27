@@ -1,4 +1,4 @@
-import { NotificationIds, SiteTabIds, Constants } from './../../shared/models/constants';
+import { NotificationIds, SiteTabIds, Constants, FunctionAppRuntimeSetting } from './../../shared/models/constants';
 import { ScenarioIds } from './../../shared/models/constants';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
@@ -123,12 +123,12 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
     this.functionRutimeOptions = [
       {
-        displayLabel: '~1',
-        value: '~1',
+        displayLabel: FunctionAppRuntimeSetting.tilda1,
+        value: FunctionAppRuntimeSetting.tilda1,
       },
       {
-        displayLabel: '~2',
-        value: '~2',
+        displayLabel: FunctionAppRuntimeSetting.tilda2,
+        value: FunctionAppRuntimeSetting.tilda2,
       },
     ];
 
@@ -470,11 +470,11 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
       return match;
     } else if (!!version) {
       if (version.startsWith('1.')) {
-        return '~1';
+        return FunctionAppRuntimeSetting.tilda1;
       } else if (version.startsWith('2.')) {
-        return '~2';
+        return FunctionAppRuntimeSetting.tilda2;
       } else if (version.startsWith('3.')) {
-        return '~3';
+        return FunctionAppRuntimeSetting.tilda3;
       }
     }
     return this._configService.FunctionsVersionInfo.runtimeDefault;
@@ -495,20 +495,20 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   // Currently we will only show the V3 option when user has V3 running
   // Will update logic for V3 public preview
   private _handleV3Option() {
-    if (this.extensionVersion === '~3') {
+    if (this.extensionVersion === FunctionAppRuntimeSetting.tilda3) {
       this.functionRutimeOptions = [
         {
-          displayLabel: '~1',
-          value: '~1',
+          displayLabel: FunctionAppRuntimeSetting.tilda1,
+          value: FunctionAppRuntimeSetting.tilda1,
           disabled: this.disableRuntimeSelector,
         },
         {
-          displayLabel: '~2',
-          value: '~2',
+          displayLabel: FunctionAppRuntimeSetting.tilda2,
+          value: FunctionAppRuntimeSetting.tilda2,
         },
         {
-          displayLabel: '~3 (Preview)',
-          value: '~3',
+          displayLabel: this._translateService.instant(PortalResources.version3Preview),
+          value: FunctionAppRuntimeSetting.tilda3,
         },
       ];
       if (this.disableRuntimeSelector) {

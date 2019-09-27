@@ -1,11 +1,9 @@
-import { FunctionAppVersion } from './../shared/models/constants';
 import { Component, Input, ElementRef, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import { TranslateService } from '@ngx-translate/core';
-
 import { AiService } from './../shared/services/ai.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { FunctionTemplate } from '../shared/models/function-template';
@@ -28,6 +26,7 @@ import { ArmObj } from '../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../shared/models/arm/application-settings';
 import { SiteService } from '../shared/services/site.service';
 import { FunctionService } from 'app/shared/services/function.service';
+import { runtimeIsV1 } from 'app/shared/models/functions-version-info';
 
 type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
 
@@ -96,7 +95,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
       })
       .subscribe(tuple => {
         this.functionsInfo = tuple[0].isSuccessful ? tuple[0].result.value : [];
-        this.isV1 = tuple[1] === FunctionAppVersion.v1;
+        this.isV1 = runtimeIsV1(tuple[1]);
         this.appSettingsArm = tuple[2].result;
 
         if (this.isV1) {
