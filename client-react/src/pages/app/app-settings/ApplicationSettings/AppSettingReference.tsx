@@ -60,6 +60,9 @@ const AppSettingReference: React.SFC<AppSettingReferenceProps> = props => {
   const secretNameUri = secretName ? `${vaultNameUri}secrets/${secretName}/` : '';
   const secretVersionUri = secretVersion ? `${secretNameUri}/${secretVersion}` : '';
 
+  /**
+   * TODO: [krmitta] Move this to separate file while making the changes for the WI: Task 5460706
+   */
   const fetchKeyVaultData = async () => {
     const armSubcriptionDescriptor = new ArmSubcriptionDescriptor(resourceId);
     if (vaultNameUri) {
