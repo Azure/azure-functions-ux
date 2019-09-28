@@ -244,17 +244,11 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
     if (!this._isMessageFormatJSON(message)) {
       messageToAdd = this._createDeploymentLogFromStringMessage(item, date);
     } else {
-      let destinationSlotName = '';
       const messageJSON: KuduLogMessage = JSON.parse(item.message);
       const logType: VSTSLogMessageType = this._assignLogType(messageJSON.type);
 
-      if (logType === VSTSLogMessageType.CDDisconnect) {
-        destinationSlotName = messageJSON.prodAppName;
-      } else {
-        destinationSlotName = messageJSON.slotName;
-      }
       if (logType !== VSTSLogMessageType.Other) {
-        messageToAdd = this._createDeploymentLogFromJSONMessage(item, messageJSON, date, logType, destinationSlotName);
+        messageToAdd = this._createDeploymentLogFromJSONMessage(item, messageJSON, date, logType);
         if (item.active && item.status === 4) {
           // Set active deployment
           this.activeDeployment = messageJSON;
@@ -268,8 +262,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
     item: any,
     messageJSON: KuduLogMessage,
     date: moment.Moment,
-    logType: VSTSLogMessageType,
-    targetApp?: string
+    logType: VSTSLogMessageType
   ): ActivityDetailsLog {
     const t = moment(date);
     return {
@@ -281,13 +274,14 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
       date: t.format('YYYY/M/D'),
 
       time: date.toDate(),
-      message: this._getMessage(messageJSON, item.status, logType, targetApp),
+      message: this._getMessage(messageJSON, item.status, logType),
       urlInfo: this._getUrlInfoFromJSONMessage(messageJSON),
     };
   }
 
-  private _getMessage(messageJSON: KuduLogMessage, status: number, logType: VSTSLogMessageType, targetApp?: string): string {
-    targetApp = targetApp ? targetApp : messageJSON.slotName;
+  private _getMessage(messageJSON: KuduLogMessage, status: number, logType: VSTSLogMessageType): string {
+    const targetApp = messageJSON.prodAppName;
+
     switch (logType) {
       case VSTSLogMessageType.Deployment:
         return status === 4
@@ -611,12 +605,11 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
     );
   }
 
-  get SlotName() {
+  get AppName() {
     if (!this.deploymentObject || !this.deploymentObject.siteMetadata) {
       return this._translateService.instant('loading');
     }
-    const slotName = this.deploymentObject.siteMetadata.properties['VSTSRM_SlotName'];
-    return !!slotName ? slotName : null;
+    return this.deploymentObject.siteMetadata.properties['VSTSRM_ProdAppName'];
   }
 
   syncScm() {
@@ -683,22 +676,6 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
           });
       })
       .subscribe();
-  }
-
-  slotOnClick() {
-    if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-      return;
-    }
-    const slotName = this.deploymentObject.siteMetadata.properties['VSTSRM_SlotName'];
-    this._portalService.openBladeDeprecated(
-      {
-        detailBlade: 'AppsOverviewBlade',
-        detailBladeInputs: {
-          id: `${this.deploymentObject.site.id}/slots/${slotName}`,
-        },
-      },
-      'deployment-center'
-    );
   }
 
   showDeploymentCredentials() {
