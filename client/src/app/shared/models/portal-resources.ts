@@ -1682,4 +1682,5 @@ export class PortalResources {
   public static renewKeyValueContent = 'renewKeyValueContent';
   public static apimUpsell = 'apimUpsell';
   public static version3Preview = 'version3Preview';
+  public static sourceControlAuthStateFailure = 'sourceControlAuthStateFailure';
 }
