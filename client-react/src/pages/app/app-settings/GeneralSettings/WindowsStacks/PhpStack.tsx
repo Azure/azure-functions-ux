@@ -15,7 +15,7 @@ export interface StateProps {
 type Props = StateProps & FormikProps<AppSettingsFormValues>;
 
 const PhpStack: React.SFC<Props> = props => {
-  const { stacks } = props;
+  const { stacks, values, initialValues } = props;
   const { t } = useTranslation();
   const { app_write, editable } = useContext(PermissionsContext);
   const phpStack = stacks.find(x => x.name === 'php');
@@ -25,6 +25,10 @@ const PhpStack: React.SFC<Props> = props => {
   return (
     <Field
       name="config.properties.phpVersion"
+      isDirty={
+        values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
+        values.config.properties.phpVersion !== initialValues.config.properties.phpVersion
+      }
       component={Dropdown}
       fullpage
       label={t('phpVersion')}

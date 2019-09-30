@@ -15,7 +15,7 @@ export interface StateProps {
 type Props = StateProps & FormikProps<AppSettingsFormValues>;
 
 const DotNetStack: React.SFC<Props> = props => {
-  const { stacks } = props;
+  const { stacks, values, initialValues } = props;
   const { app_write, editable } = useContext(PermissionsContext);
   const { t } = useTranslation();
   const aspNetStack = stacks.find(x => x.name === 'aspnet');
@@ -25,6 +25,10 @@ const DotNetStack: React.SFC<Props> = props => {
   return (
     <Field
       name="config.properties.netFrameworkVersion"
+      isDirty={
+        values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
+        values.config.properties.netFrameworkVersion !== initialValues.config.properties.netFrameworkVersion
+      }
       component={Dropdown}
       fullpage
       label={t('netFrameWorkVersionLabel')}
