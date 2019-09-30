@@ -12,40 +12,35 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const availableStacks = useContext(AvailableStacksContext);
   const [enabledStack, setEnabledStack] = useState(false);
 
-  const remoteDebuggingEnabledStacks = useMemo(
-    () => {
-      return availableStacks.value
-        .flatMap(value => {
-          return value.properties.majorVersions.flatMap(majorVersion => {
-            return majorVersion.minorVersions.flatMap(minorVersion => ({
-              runtimeVersion: minorVersion.runtimeVersion,
-              isRemoteDebuggingEnabled: minorVersion.isRemoteDebuggingEnabled,
-            }));
-          });
-        })
-        .filter(x => x.isRemoteDebuggingEnabled)
-        .map(x => x.runtimeVersion.toLowerCase());
-    },
-    [availableStacks.value]
-  );
+  const remoteDebuggingEnabledStacks = useMemo(() => {
+    return availableStacks.value
+      .flatMap(value => {
+        return value.properties.majorVersions.flatMap(majorVersion => {
+          return majorVersion.minorVersions.flatMap(minorVersion => ({
+            runtimeVersion: minorVersion.runtimeVersion,
+            isRemoteDebuggingEnabled: minorVersion.isRemoteDebuggingEnabled,
+          }));
+        });
+      })
+      .filter(x => x.isRemoteDebuggingEnabled)
+      .map(x => x.runtimeVersion.toLowerCase());
+  }, [availableStacks.value]);
 
-  useEffect(
-    () => {
-      const currentLinuxFxVersion = props.values.config.properties.linuxFxVersion;
-      const enabled = remoteDebuggingEnabledStacks.includes(currentLinuxFxVersion);
-      setEnabledStack(enabled);
-      if (!enabled) {
-        props.setFieldValue('config.properties.remoteDebuggingEnabled', false);
-      }
-    },
-    [props.values.config.properties.linuxFxVersion, remoteDebuggingEnabledStacks]
-  );
+  useEffect(() => {
+    const currentLinuxFxVersion = props.values.config.properties.linuxFxVersion;
+    const enabled = remoteDebuggingEnabledStacks.includes(currentLinuxFxVersion);
+    setEnabledStack(enabled);
+    if (!enabled) {
+      props.setFieldValue('config.properties.remoteDebuggingEnabled', false);
+    }
+  }, [props.values.config.properties.linuxFxVersion, remoteDebuggingEnabledStacks]);
   return (
     <div id="app-settings-remote-debugging-section">
       <h3>{t('debugging')}</h3>
       <div className={settingsWrapper}>
         <Field
           name="config.properties.remoteDebuggingEnabled"
+          isDirty={props.values.config.properties.remoteDebuggingEnabled !== props.initialValues.config.properties.remoteDebuggingEnabled}
           component={RadioButton}
           fullpage
           label={t('remoteDebuggingEnabledLabel')}
