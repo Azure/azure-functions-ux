@@ -5217,4 +5217,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="version3Preview" xml:space="preserve">
         <value>~3 (Preview)</value>
     </data>
+    <data name="sourceControlAuthStateFailure" xml:space="preserve">
+        <value>Unable to retrieve authentication state. Please try again in a few minutes.</value>
+    </data>
 </root>
