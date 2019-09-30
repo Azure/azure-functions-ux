@@ -228,7 +228,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
     }
     if (column.key === 'name') {
       column.className = '';
-      if (isAppSettingDirty(item[column.fieldName!])) {
+      if (isAppSettingDirty(item[column.fieldName!].toLowerCase())) {
         column.className = dirtyElementStyle(theme);
       }
       return (
@@ -247,11 +247,12 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
     const currentAppSettings = values.appSettings;
     for (let i = 0; i < initialAppSettings.length; ++i) {
       const appSetting = initialAppSettings[i];
-      if (appSetting.name === name) {
-        const currentAppSettingIndex = getAppSettingIndex(appSetting, currentAppSettings);
+      if (appSetting.name.toLowerCase() === name) {
+        const currentAppSettingIndex = currentAppSettings.findIndex(x => x.name.toLowerCase() === name);
         if (
-          appSetting.value === currentAppSettings[currentAppSettingIndex].value &&
-          appSetting.sticky === currentAppSettings[currentAppSettingIndex].sticky
+          currentAppSettingIndex === -1 ||
+          (appSetting.value === currentAppSettings[currentAppSettingIndex].value &&
+            appSetting.sticky === currentAppSettings[currentAppSettingIndex].sticky)
         ) {
           return false;
         } else {
