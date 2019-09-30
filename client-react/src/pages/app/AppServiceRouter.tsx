@@ -9,7 +9,6 @@ export interface AppSeriviceRouterProps {
   siteName?: string;
   slotName?: string;
   functionName?: string;
-  resourceId?: string;
 }
 
 const AppSettingsLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-settings/AppSettings'));
