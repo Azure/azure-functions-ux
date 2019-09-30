@@ -1,17 +1,19 @@
 import { FormikProps } from 'formik';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormValues, Permissions } from '../AppSettings.types';
+import { AppSettingsFormValues } from '../AppSettings.types';
 import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { HandlerMapping } from '../../../../models/site/config';
 import { TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
 import Panel from '../../../../components/Panel/Panel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import { ThemeContext } from '../../../../ThemeContext';
+import { dirtyElementStyle } from '../AppSettings.styles';
 
 export interface HandlerMappingState {
   showPanel: boolean;
@@ -20,59 +22,23 @@ export interface HandlerMappingState {
   createNewItem: boolean;
 }
 
-export class HandlerMappings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, HandlerMappingState> {
-  public static contextType = PermissionsContext;
-  public context: Permissions;
-  constructor(props) {
-    super(props);
-    this.state = {
-      showPanel: false,
-      currentHandlerMapping: null,
-      currentItemIndex: null,
-      createNewItem: false,
-    };
-  }
+const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
+  const permissionContext = useContext(PermissionsContext);
+  const theme = useContext(ThemeContext);
 
-  public render() {
-    const { values, t } = this.props;
-    if (!values.config) {
-      return null;
-    }
-    return (
-      <>
-        <DisplayTableWithCommandBar
-          commandBarItems={this._getCommandBarItems()}
-          items={values.config.properties.handlerMappings || []}
-          columns={this._getColumns()}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyHandlerMappings')}
-        />
-        <Panel
-          isOpen={this.state.showPanel}
-          onDismiss={this._onCancel}
-          headerText={t('newHandlerMapping')}
-          closeButtonAriaLabel={t('close')}>
-          <HandlerMappingsAddEdit
-            handlerMapping={this.state.currentHandlerMapping!}
-            updateHandlerMapping={this._onClosePanel.bind(this)}
-            closeBlade={this._onCancel.bind(this)}
-          />
-        </Panel>
-      </>
-    );
-  }
+  const [showPanel, setShowPanel] = useState(false);
+  const [currentHandlerMapping, setCurrentHandlerMapping] = useState<HandlerMapping | null>(null);
+  const [currentItemIndex, setCurrentItemIndex] = useState<number | null>(null);
+  const [createNewItem, setCreateNewItem] = useState(false);
 
-  private _getCommandBarItems = (): ICommandBarItemProps[] => {
-    const { app_write, editable } = this.context;
-    const { t } = this.props;
+  const { t, values } = props;
+
+  const getCommandBarItems = (): ICommandBarItemProps[] => {
     return [
       {
         key: 'app-settings-new-handler-mappings-button',
-        onClick: this._createNewItem,
-        disabled: !app_write || !editable,
+        onClick: createNewHandlerMapping,
+        disabled: !permissionContext.app_write || !permissionContext.editable,
         iconProps: { iconName: 'Add' },
         ariaLabel: t('addNewHandlerMapping'),
         name: t('addNewHandler'),
@@ -80,27 +46,24 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
     ];
   };
 
-  private _createNewItem = () => {
-    const blankConnectionString: HandlerMapping = {
+  const createNewHandlerMapping = () => {
+    const blankHandlerMapping: HandlerMapping = {
       extension: '',
       scriptProcessor: '',
       arguments: '',
     };
-    this.setState({
-      showPanel: true,
-      currentHandlerMapping: blankConnectionString,
-      createNewItem: true,
-      currentItemIndex: -1,
-    });
+    setShowPanel(true);
+    setCurrentHandlerMapping(blankHandlerMapping);
+    setCreateNewItem(true);
+    setCurrentItemIndex(-1);
   };
 
-  private _onClosePanel = (item: HandlerMapping): void => {
-    const { values, setValues } = this.props;
+  const onClosePanel = (item: HandlerMapping): void => {
     const handlerMappingsItem = values.config.properties.handlerMappings || [];
     const handlerMappings = [...handlerMappingsItem];
-    if (!this.state.createNewItem) {
-      handlerMappings[this.state.currentItemIndex!] = item;
-      setValues({
+    if (!createNewItem) {
+      handlerMappings[currentItemIndex!] = item;
+      props.setValues({
         ...values,
         config: {
           ...values.config,
@@ -112,7 +75,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
       });
     } else {
       handlerMappings.push(item);
-      setValues({
+      props.setValues({
         ...values,
         config: {
           ...values.config,
@@ -123,26 +86,25 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         },
       });
     }
-    this.setState({ createNewItem: false, showPanel: false });
+    setCreateNewItem(false);
+    setShowPanel(false);
   };
 
-  private _onCancel = (): void => {
-    this.setState({ createNewItem: false, showPanel: false });
+  const onCancel = (): void => {
+    setCreateNewItem(false);
+    setShowPanel(false);
   };
 
-  private _onShowPanel = (item: HandlerMapping, index: number): void => {
-    this.setState({
-      showPanel: true,
-      currentHandlerMapping: item,
-      currentItemIndex: index,
-    });
+  const onShowPanel = (item: HandlerMapping, index: number): void => {
+    setShowPanel(true);
+    setCurrentHandlerMapping(item);
+    setCurrentItemIndex(index);
   };
 
-  private removeItem(index: number) {
-    const { values, setValues } = this.props;
+  const removeItem = (index: number) => {
     const handlerMappings: HandlerMapping[] = [...values.config.properties.handlerMappings];
     handlerMappings.splice(index, 1);
-    setValues({
+    props.setValues({
       ...values,
       config: {
         ...values.config,
@@ -152,11 +114,31 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         },
       },
     });
-  }
+  };
 
-  private onRenderItemColumn = (item: HandlerMapping, index: number, column: IColumn) => {
-    const { t } = this.props;
-    const { editable, app_write } = this.context;
+  const isAppSettingDirty = (extension: string): boolean => {
+    const initialAppSettings = props.initialValues.config.properties.handlerMappings || [];
+    const currentAppSettings = values.config.properties.handlerMappings || [];
+    for (let i = 0; i < initialAppSettings.length; ++i) {
+      const appSetting = initialAppSettings[i];
+      if (appSetting.extension.toLowerCase() === extension) {
+        const currentAppSettingIndex = currentAppSettings.findIndex(x => x.extension.toLowerCase() === name);
+        if (
+          currentAppSettingIndex === -1 ||
+          (appSetting.extension === currentAppSettings[currentAppSettingIndex].extension &&
+            appSetting.arguments === currentAppSettings[currentAppSettingIndex].arguments &&
+            appSetting.scriptProcessor === currentAppSettings[currentAppSettingIndex].scriptProcessor)
+        ) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    }
+    return true;
+  };
+
+  const onRenderItemColumn = (item: HandlerMapping, index: number, column: IColumn) => {
     if (!column || !item) {
       return null;
     }
@@ -170,11 +152,11 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!app_write || !editable}
+            disabled={!permissionContext.app_write || !permissionContext.editable}
             id={`app-settings-handler-mappings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
-            onClick={() => this.removeItem(index)}
+            onClick={() => removeItem(index)}
           />
         </TooltipHost>
       );
@@ -188,21 +170,26 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!app_write || !editable}
+            disabled={!permissionContext.app_write || !permissionContext.editable}
             id={`app-settings-handler-mappings-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}
-            onClick={() => this._onShowPanel(item, index)}
+            onClick={() => onShowPanel(item, index)}
           />
         </TooltipHost>
       );
+    }
+    if (column.key === 'extension') {
+      column.className = '';
+      if (isAppSettingDirty(item[column.fieldName!].toLowerCase())) {
+        column.className = dirtyElementStyle(theme);
+      }
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
   // tslint:disable-next-line:member-ordering
-  private _getColumns = () => {
-    const { t } = this.props;
+  const getColumns = () => {
     return [
       {
         key: 'extension',
@@ -214,7 +201,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: onRenderItemColumn,
       },
       {
         key: 'scriptProcessor',
@@ -226,7 +213,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: onRenderItemColumn,
       },
       {
         key: 'arguments',
@@ -238,7 +225,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: onRenderItemColumn,
       },
       {
         key: 'delete',
@@ -249,7 +236,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         isRowHeader: false,
         isResizable: false,
         isCollapsable: false,
-        onRender: this.onRenderItemColumn,
+        onRender: onRenderItemColumn,
       },
       {
         key: 'edit',
@@ -260,10 +247,31 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         isRowHeader: false,
         isResizable: false,
         isCollapsable: false,
-        onRender: this.onRenderItemColumn,
+        onRender: onRenderItemColumn,
       },
     ];
   };
-}
+
+  if (!values.config) {
+    return null;
+  }
+  return (
+    <>
+      <DisplayTableWithCommandBar
+        commandBarItems={getCommandBarItems()}
+        items={values.config.properties.handlerMappings || []}
+        columns={getColumns()}
+        isHeaderVisible={true}
+        layoutMode={DetailsListLayoutMode.justified}
+        selectionMode={SelectionMode.none}
+        selectionPreservedOnEmptyClick={true}
+        emptyMessage={t('emptyHandlerMappings')}
+      />
+      <Panel isOpen={showPanel} onDismiss={onCancel} headerText={t('newHandlerMapping')} closeButtonAriaLabel={t('close')}>
+        <HandlerMappingsAddEdit handlerMapping={currentHandlerMapping!} updateHandlerMapping={onClosePanel} closeBlade={onCancel} />
+      </Panel>
+    </>
+  );
+};
 
 export default withTranslation('translation')(HandlerMappings);
