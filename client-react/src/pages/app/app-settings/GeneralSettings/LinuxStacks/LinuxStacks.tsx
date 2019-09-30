@@ -106,8 +106,21 @@ const getMinorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string
 
   return linuxFxVersionOptions;
 };
+
+const getSelectedMinorVersion = (builtInStacks: ArmObj<AvailableStack>[], stack: string, majorVersion: string) => {
+  const currentStack = builtInStacks.find(s => s.name === stack);
+  if (!currentStack) {
+    return '';
+  }
+  const currentVersion = currentStack.properties.majorVersions.find(m => m.runtimeVersion.toLowerCase() === majorVersion);
+  if (currentVersion) {
+    return currentVersion.displayVersion;
+  }
+  return '';
+};
+
 const LinuxStacks: React.FC<PropsType> = props => {
-  const { values, setFieldValue } = props;
+  const { values, setFieldValue, initialValues } = props;
   const { site } = values;
   const { app_write, editable } = useContext(PermissionsContext);
   const stacks = useContext(AvailableStacksContext);
@@ -118,6 +131,19 @@ const LinuxStacks: React.FC<PropsType> = props => {
   const [majorVersion, setMajorVersion] = useState<string | null>(
     getSelectedMajorVersion(stacks.value, values.config.properties.linuxFxVersion)
   );
+
+  const getInitialMinorVersion = () => {
+    const initialRunTimeStack = getSelectedRuntimeStack(stacks.value, initialValues.config.properties.linuxFxVersion);
+    if (!initialRunTimeStack) {
+      return '';
+    }
+    const initialMajorVersion = getSelectedMajorVersion(stacks.value, initialValues.config.properties.linuxFxVersion);
+    if (!initialMajorVersion) {
+      return '';
+    }
+    return getSelectedMinorVersion(stacks.value, initialRunTimeStack, initialMajorVersion);
+  };
+
   useEffect(() => {
     setRuntimeStack(getSelectedRuntimeStack(stacks.value, values.config.properties.linuxFxVersion));
     setMajorVersion(getSelectedMajorVersion(stacks.value, values.config.properties.linuxFxVersion));
@@ -129,6 +155,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
         <>
           <DropdownNoFormik
             value={runtimeStack}
+            isDirty={runtimeStack !== getSelectedRuntimeStack(stacks.value, initialValues.config.properties.linuxFxVersion)}
             onChange={(e, newVal) => {
               const majorVersions = getMajorVersions(stacks.value, newVal.key);
               setRuntimeStack(newVal.key);
@@ -150,6 +177,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
           {runtimeStack && (
             <DropdownNoFormik
               value={majorVersion || ''}
+              isDirty={majorVersion !== getSelectedMajorVersion(stacks.value, initialValues.config.properties.linuxFxVersion)}
               onChange={(e, newVal) => {
                 const minorVersions = getMinorVersions(stacks.value, runtimeStack, newVal.key);
                 setMajorVersion(newVal.key);
@@ -166,6 +194,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
           {majorVersion && (
             <Field
               name="config.properties.linuxFxVersion"
+              isDirty={getSelectedMinorVersion(stacks.value, runtimeStack, majorVersion) !== getInitialMinorVersion()}
               component={Dropdown}
               disabled={!app_write || !editable}
               label={t('minorVersion')}
@@ -178,6 +207,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
       <Field
         name="config.properties.appCommandLine"
         component={TextField}
+        isDirty={values.config.properties.appCommandLine !== initialValues.config.properties.appCommandLine}
         disabled={!app_write || !editable}
         label={t('appCommandLineLabel')}
         id="linux-fx-version-appCommandLine"

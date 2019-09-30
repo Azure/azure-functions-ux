@@ -71,9 +71,10 @@ export const controlContainerStyle = (upsellIcon: boolean, fullpage: boolean) =>
 
 export const upsellIconStyle = style({ marginRight: '6px' });
 
-export const labelStyle = (upsellIcon: boolean, fullpage: boolean) =>
+export const labelStyle = (upsellIcon: boolean, fullpage: boolean, label: boolean = false) =>
   style({
     width: upsellIcon && fullpage ? '220px' : '200px',
+    paddingLeft: label ? '5px' : '0px',
   });
 
 export const infoMessageStyle = (fullpage: boolean) =>

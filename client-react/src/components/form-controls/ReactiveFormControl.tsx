@@ -12,6 +12,7 @@ import UpsellIcon from '../TooltipIcons/UpsellIcon';
 import { useWindowSize } from 'react-use';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../ThemeContext';
+import { dirtyElementStyle } from '../../pages/app/app-settings/AppSettings.styles';
 
 interface ReactiveFormControlProps {
   children: ReactNode;
@@ -20,10 +21,11 @@ interface ReactiveFormControlProps {
   infoBubbleMessage?: string;
   label: string;
   learnMoreLink?: string;
+  isDirty?: boolean;
 }
 
 const ReactiveFormControl = (props: ReactiveFormControlProps) => {
-  const { upsellMessage, label, infoBubbleMessage, learnMoreLink } = props;
+  const { upsellMessage, label, infoBubbleMessage, learnMoreLink, isDirty } = props;
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
@@ -37,7 +39,9 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
               <UpsellIcon upsellMessage={upsellMessage} />
             </div>
           )}
-          <Label className={labelStyle(!!upsellMessage, fullpage)} id={`${props.id}-label`}>
+          <Label
+            className={`${labelStyle(!!upsellMessage, fullpage, true)} ${isDirty ? dirtyElementStyle(theme) : ''}`}
+            id={`${props.id}-label`}>
             {label}
           </Label>
         </Stack>

@@ -17,6 +17,7 @@ interface CustomDropdownProps {
   onChange: (e: unknown, option: IDropdownOption) => void;
   learnMoreLink?: string;
   widthOverride?: string;
+  isDirty?: boolean;
 }
 
 const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {

@@ -16,6 +16,7 @@ interface CustomTextFieldProps {
   infoBubbleMessage?: string;
   label: string;
   learnMoreLink?: string;
+  isDirty?: boolean;
 }
 class TextField extends React.Component<FieldProps & ITextFieldProps & CustomTextFieldProps, any> {
   private inputDebouncer = new Subject<EventMsg>();

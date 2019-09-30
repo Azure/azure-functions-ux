@@ -18,6 +18,7 @@ interface CustomTextFieldProps {
   dirty?: boolean;
   widthOverride?: string;
   copyButton?: boolean;
+  isDirty?: boolean;
 }
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   const { value, onChange, onBlur, errorMessage, label, dirty = false, widthOverride, styles, id, copyButton, ...rest } = props;
