@@ -48,3 +48,11 @@ export const bladeLinkStyle = (theme: ThemeExtended) =>
     color: theme.semanticColors.actionLink,
     cursor: 'pointer',
   });
+
+export const dirtyElementStyle = (theme: ThemeExtended) =>
+  style({
+    borderLeftStyle: 'solid',
+    borderLeftWidth: '1px',
+    borderLeftColor: theme.semanticColors.controlDirtyOutline,
+    boxSizing: 'border-box',
+  });
