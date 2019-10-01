@@ -108,6 +108,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
               updateAppSetting={this._saveBulkEdit}
               closeBlade={this._onCancel}
               appSettings={values.appSettings}
+              disableSlotSetting={!production_write}
             />
           </Suspense>
         </Panel>
