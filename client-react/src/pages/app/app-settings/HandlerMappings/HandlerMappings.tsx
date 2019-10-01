@@ -15,13 +15,6 @@ import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithC
 import { ThemeContext } from '../../../../ThemeContext';
 import { dirtyElementStyle } from '../AppSettings.styles';
 
-export interface HandlerMappingState {
-  showPanel: boolean;
-  currentHandlerMapping: HandlerMapping | null;
-  currentItemIndex: number | null;
-  createNewItem: boolean;
-}
-
 const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const permissionContext = useContext(PermissionsContext);
   const theme = useContext(ThemeContext);
@@ -116,24 +109,23 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
     });
   };
 
-  const isAppSettingDirty = (extension: string): boolean => {
-    const initialAppSettings = props.initialValues.config.properties.handlerMappings || [];
-    const currentAppSettings = values.config.properties.handlerMappings || [];
-    for (let i = 0; i < initialAppSettings.length; ++i) {
-      const appSetting = initialAppSettings[i];
-      if (appSetting.extension.toLowerCase() === extension) {
-        const currentAppSettingIndex = currentAppSettings.findIndex(x => x.extension.toLowerCase() === name);
-        if (
-          currentAppSettingIndex === -1 ||
-          (appSetting.extension === currentAppSettings[currentAppSettingIndex].extension &&
-            appSetting.arguments === currentAppSettings[currentAppSettingIndex].arguments &&
-            appSetting.scriptProcessor === currentAppSettings[currentAppSettingIndex].scriptProcessor)
-        ) {
-          return false;
-        } else {
-          return true;
-        }
-      }
+  const isHandlerMappingEqual = (handlerMapping1: HandlerMapping, handlerMapping2: HandlerMapping): boolean => {
+    if (
+      handlerMapping1.extension === handlerMapping2.extension &&
+      handlerMapping1.scriptProcessor === handlerMapping2.scriptProcessor &&
+      handlerMapping1.arguments === handlerMapping2.arguments
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const isAppSettingDirty = (index: number): boolean => {
+    const initialHandlerMappings = props.initialValues.config.properties.handlerMappings || [];
+    const currentRow = values.config.properties.handlerMappings[index] || null;
+    const initialHandlerMappingIndex = initialHandlerMappings.findIndex(x => isHandlerMappingEqual(x, currentRow));
+    if (initialHandlerMappingIndex >= 0) {
+      return false;
     }
     return true;
   };
@@ -181,7 +173,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
     }
     if (column.key === 'extension') {
       column.className = '';
-      if (isAppSettingDirty(item[column.fieldName!].toLowerCase())) {
+      if (isAppSettingDirty(index)) {
         column.className = dirtyElementStyle(theme);
       }
     }
