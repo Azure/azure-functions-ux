@@ -31,7 +31,7 @@ export default class LogService {
     const errorId = `/errors/${category}/${id}`;
 
     if (AppInsights) {
-      const properties = typeof data === 'object' ? data : { message: data };
+      const properties = this._appendIdentifiersToTrackingData(typeof data === 'object' ? data : { message: data });
       AppInsights.trackEvent(errorId, properties);
     }
     if (this._logToConsole) {
@@ -47,7 +47,7 @@ export default class LogService {
     const warningId = `/warnings/${category}/${id}`;
 
     if (AppInsights) {
-      const properties = typeof data === 'object' ? data : { message: data };
+      const properties = this._appendIdentifiersToTrackingData(typeof data === 'object' ? data : { message: data });
       AppInsights.trackEvent(warningId, properties);
     }
     if (this._logToConsole) {
@@ -63,7 +63,7 @@ export default class LogService {
     const warningId = `/event/${category}/${id}`;
 
     if (AppInsights) {
-      const properties = typeof data === 'object' ? data : { message: data };
+      const properties = this._appendIdentifiersToTrackingData(typeof data === 'object' ? data : { message: data });
       AppInsights.trackEvent(warningId, properties);
     }
     if (this._logToConsole) {
@@ -140,5 +140,17 @@ export default class LogService {
     if (!data) {
       throw Error('You must provide data');
     }
+  }
+
+  private static _appendIdentifiersToTrackingData(properties: any) {
+    return {
+      identifiers: {
+        fusionAppName: window.appsvc && window.appsvc.env && window.appsvc.env.appName,
+        fusionVersion: window.appsvc && window.appsvc.version,
+        resourceId: window.appsvc && window.appsvc.resourceId,
+        feature: window.appsvc && window.appsvc.feature,
+      },
+      ...properties,
+    };
   }
 }
