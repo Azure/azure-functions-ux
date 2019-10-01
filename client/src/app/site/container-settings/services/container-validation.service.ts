@@ -39,6 +39,6 @@ export class ContainerValidationService {
       resourceDescriptor.resourceGroup
     }/providers/Microsoft.Web/validate`;
 
-    return this._cacheService.postArm(validateResourceId, true, ARMApiVersions.websiteApiVersion20160301, validateRequest);
+    return this._cacheService.postArm(validateResourceId, true, ARMApiVersions.antaresApiVersion20181101, validateRequest);
   }
 }

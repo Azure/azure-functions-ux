@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConsoleService } from './../shared/services/console.service';
-import { Site } from '../../../shared/models/arm/site';
+import { Site, HostType } from '../../../shared/models/arm/site';
 import { ArmObj } from '../../../shared/models/arm/arm-obj';
 import { Subscription } from 'rxjs/Subscription';
 import { BusyStateScopeManager } from '../../../busy-state/busy-state-scope-manager';
 import { BroadcastService } from '../../../shared/services/broadcast.service';
-import { SiteTabIds, HostTypes } from '../../../shared/models/constants';
+import { SiteTabIds } from '../../../shared/models/constants';
 
 @Component({
   selector: 'app-ssh',
@@ -56,7 +56,7 @@ export class SSHComponent implements OnInit, OnDestroy {
    * Get Kudu API URL
    */
   public getKuduUri(): string {
-    const scmHostName = this.site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.scm).name;
+    const scmHostName = this.site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
     return `https://${scmHostName}/webssh/host`;
   }
 }

@@ -13,7 +13,7 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { fade } from './shared/animations/fade.animation';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { PublishingCredentials } from '../../shared/models/publishing-credentials';
-import { Site } from '../../shared/models/arm/site';
+import { Site, HostType } from '../../shared/models/arm/site';
 import { errorIds } from '../../shared/models/error-ids';
 import { FunctionAppContext } from '../../shared/function-app-context';
 import { EditModeWarningComponent } from '../../edit-mode-warning/edit-mode-warning.component';
@@ -150,7 +150,7 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
   private _siteDetailAvailable(site: ArmObj<Site>, publishingCredentials: ArmObj<PublishingCredentials>): boolean {
     if (
       !site ||
-      !site.properties.hostNameSslStates.find(h => h.hostType === 1) ||
+      !site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository) ||
       !publishingCredentials ||
       publishingCredentials.properties.publishingPassword === '' ||
       publishingCredentials.properties.publishingUserName === ''

@@ -38,7 +38,7 @@ import { Url } from './../../shared/Utilities/url';
 import { CacheService } from '../../shared/services/cache.service';
 import { AuthzService } from '../../shared/services/authz.service';
 import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../shared/resourceDescriptors';
-import { Site, SiteAvailabilitySates } from '../../shared/models/arm/site';
+import { Site, SiteAvailabilityState } from '../../shared/models/arm/site';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
@@ -132,7 +132,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       })
       .switchMap(context => {
         this.context = context;
-        this.siteAvailabilityStateNormal = context.site.properties.availabilityState === SiteAvailabilitySates.Normal;
+        this.siteAvailabilityStateNormal = context.site.properties.availabilityState === SiteAvailabilityState.Normal;
         this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
 
         this._setResourceInformation(context);
@@ -352,7 +352,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       return;
     }
 
-    this._armService.post(`${this.context.site.id}/publishxml`, null, ARMApiVersions.websiteApiVersion20160301).subscribe(response => {
+    this._armService.post(`${this.context.site.id}/publishxml`, null, ARMApiVersions.antaresApiVersion20181101).subscribe(response => {
       const publishXml = response.text();
 
       // http://stackoverflow.com/questions/24501358/how-to-set-a-header-for-a-http-get-request-and-trigger-file-download/24523253#24523253
@@ -772,7 +772,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
   }
 
   private _setAppState(context: FunctionAppContext) {
-    if (context.site.properties.availabilityState !== SiteAvailabilitySates.Normal) {
+    if (context.site.properties.availabilityState !== SiteAvailabilityState.Normal) {
       this.state = this.ts.instant(PortalResources.limited);
       this.stateIcon = 'image/warning.svg';
     } else {
