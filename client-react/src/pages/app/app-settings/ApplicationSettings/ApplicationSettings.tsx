@@ -247,7 +247,6 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
     const currentRow = values.appSettings[index];
     const currentAppSettingIndex = initialAppSettings.findIndex(x => {
       if (
-        x === currentRow &&
         x.name.toLowerCase() === currentRow.name.toLowerCase() &&
         x.value.toLowerCase() === currentRow.value.toLowerCase() &&
         x.sticky === currentRow.sticky
