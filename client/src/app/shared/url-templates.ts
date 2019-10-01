@@ -5,7 +5,7 @@ import { ConfigService } from 'app/shared/services/config.service';
 import { PortalService } from './services/portal.service';
 import { Injector } from '@angular/core';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
-import { Site } from 'app/shared/models/arm/site';
+import { Site, HostType } from 'app/shared/models/arm/site';
 import { runtimeIsV2, runtimeIsV3 } from './models/functions-version-info';
 
 export class UrlTemplates {
@@ -37,7 +37,8 @@ export class UrlTemplates {
     } else if (this.isEmbeddedFunctions) {
       return null;
     } else {
-      const scmHostName = this.site.properties.hostNameSslStates && this.site.properties.hostNameSslStates.find(s => s.hostType === 1);
+      const scmHostName =
+        this.site.properties.hostNameSslStates && this.site.properties.hostNameSslStates.find(s => s.hostType === HostType.Repository);
       return scmHostName ? `https://${scmHostName.name}` : this.getMainUrl();
     }
   }

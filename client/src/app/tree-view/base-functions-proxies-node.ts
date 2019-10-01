@@ -1,6 +1,6 @@
 import { PortalResources } from './../shared/models/portal-resources';
 import { FunctionAppContext } from './../shared/function-app-context';
-import { Site, SiteAvailabilitySates } from './../shared/models/arm/site';
+import { Site, SiteAvailabilityState } from './../shared/models/arm/site';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { BroadcastService } from './../shared/services/broadcast.service';
 import { LogCategories } from './../shared/models/constants';
@@ -59,7 +59,7 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
       .getArm(this._context.site.id)
       .map(i => i.json() as ArmObj<Site>)
       .concatMap(site => {
-        if (site.properties.availabilityState !== SiteAvailabilitySates.Normal) {
+        if (site.properties.availabilityState !== SiteAvailabilityState.Normal) {
           this.disabledReason = this.sideNav.translateService.instant(PortalResources.limitedMode);
           return this._updateTreeForNonUsableState(errorTitles.limitedTitle);
         } else if (site.properties.state === 'Running') {
