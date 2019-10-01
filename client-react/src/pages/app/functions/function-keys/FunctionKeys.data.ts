@@ -1,5 +1,4 @@
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
-import SiteService from '../../../../ApiHelpers/SiteService';
 import { FunctionKeysFormValues, FunctionKeysModel } from './FunctionKeys.types';
 import { sortBy } from 'lodash-es';
 
@@ -13,10 +12,6 @@ export default class FunctionKeysData {
 
   public fetchKeys = (resourceId: string) => {
     return FunctionsService.fetchKeys(resourceId);
-  };
-
-  public getSiteObject = (resourceId: string) => {
-    return SiteService.fetchSite(resourceId);
   };
 
   public deleteKey = (resourceId: string, keyName: string) => {
