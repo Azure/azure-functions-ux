@@ -1,9 +1,9 @@
-import React, { useEffect, useState, lazy, useContext } from 'react';
+import React, { useEffect, useState, lazy, useContext, createContext } from 'react';
 import { RouteComponentProps, Router } from '@reach/router';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import { SiteRouterContext, siteRouterData } from './SiteRouterContext';
+import { SiteRouterData } from './SiteRouter.data';
 export interface SiteRouterProps {
   subscriptionId?: string;
   resourcegroup?: string;
@@ -11,6 +11,9 @@ export interface SiteRouterProps {
   slotName?: string;
   functionName?: string;
 }
+
+export const siteRouterData = new SiteRouterData();
+export const SiteRouterContext = createContext(siteRouterData);
 
 const AppSettingsLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-settings/AppSettings'));
 const LogStreamLoadable: any = lazy(() => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamDataLoader'));

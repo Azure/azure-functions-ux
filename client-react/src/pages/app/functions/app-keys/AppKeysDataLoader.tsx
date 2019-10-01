@@ -4,7 +4,7 @@ import AppKeys from './AppKeys';
 import { AppKeysFormValues } from './AppKeys.types';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { PortalContext } from '../../../../PortalContext';
-import { SiteRouterContext } from '../../SiteRouterContext';
+import { SiteRouterContext } from '../../SiteRouter';
 
 const appKeysData = new AppKeysData();
 export const AppKeysContext = React.createContext(appKeysData);

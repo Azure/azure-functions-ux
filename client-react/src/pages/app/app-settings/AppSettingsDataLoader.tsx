@@ -23,7 +23,7 @@ import { ArmArray, ArmObj } from '../../../models/arm-obj';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
-import { SiteRouterContext } from '../SiteRouterContext';
+import { SiteRouterContext } from '../SiteRouter';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
