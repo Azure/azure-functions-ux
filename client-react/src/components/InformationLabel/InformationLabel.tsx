@@ -14,6 +14,8 @@ export interface CustomInformationLabelProps {
     icon?: string;
     type?: string;
   };
+  className?: string;
+  onClick?: () => void;
 }
 
 const labelIconStyle = style({
@@ -45,8 +47,15 @@ const getLabelStyle = (labelProps: any, theme: ThemeExtended) => {
 };
 
 const InformationLabel: FC<CustomInformationLabelProps> = props => {
-  const { value, id, link, labelProps } = props;
+  const { value, id, link, labelProps, className, onClick } = props;
   const theme = useContext(ThemeContext);
+
+  const getClassNameFromProps = () => {
+    if (className) {
+      return className;
+    }
+    return labelProps ? getLabelStyle(labelProps, theme) : '';
+  };
 
   return (
     <ReactiveFormControl {...props}>
@@ -55,7 +64,7 @@ const InformationLabel: FC<CustomInformationLabelProps> = props => {
           {value}
         </Link>
       ) : (
-        <Label id={`${id}-value`} aria-labelledby={`${id}-label`} className={labelProps ? getLabelStyle(labelProps, theme) : ''}>
+        <Label id={`${id}-value`} aria-labelledby={`${id}-label`} onClick={onClick} className={getClassNameFromProps()}>
           {labelProps && labelProps.icon && <Icon iconName={labelProps.icon} className={labelIconStyle} />}
           <span>{value}</span>
         </Label>

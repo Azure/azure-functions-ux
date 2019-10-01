@@ -21,6 +21,7 @@ import { SiteService } from 'app/shared/services/site.service';
 import { HttpResult } from 'app/shared/models/http-result';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
+import { runtimeIsV1 } from 'app/shared/models/functions-version-info';
 
 @Component({
   selector: 'function-manage',
@@ -111,9 +112,7 @@ export class FunctionManageComponent extends NavigableComponent {
         Observable.zip(
           Observable.of(tuple[0]),
           this._functionService.getFunction(tuple[0].site.id, tuple[1].functionDescriptor.name),
-          tuple[0].urlTemplates.runtimeVersion === FunctionAppVersion.v1
-            ? Observable.of(null)
-            : this._siteService.getAppSettings(tuple[0].site.id)
+          runtimeIsV1(tuple[0].urlTemplates.runtimeVersion) ? Observable.of(null) : this._siteService.getAppSettings(tuple[0].site.id)
         )
       )
       .do(tuple => {

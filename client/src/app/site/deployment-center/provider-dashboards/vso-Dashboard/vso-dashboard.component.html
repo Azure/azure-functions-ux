@@ -84,18 +84,8 @@
       <div class="essentials-col">
         <div>
           <label id="siteStatusLabel">{{ 'slot' | translate }}</label>
-          <div *ngIf="!SlotName" tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-            Production
-          </div>
-          <div *ngIf="SlotName">
-            <a
-              (click)="slotOnClick()"
-              tabindex="0"
-              id="siteSubscriptionNameLink"
-              aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink"
-            >
-              {{ SlotName }}
-            </a>
+          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
+            {{ AppName }}
           </div>
         </div>
       </div>

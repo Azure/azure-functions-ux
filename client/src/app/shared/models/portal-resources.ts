@@ -1678,6 +1678,11 @@ export class PortalResources {
   public static renewAppKey = 'renewAppKey';
   public static continousDeploymentSectionTitle = 'continousDeploymentSectionTitle';
   public static manualDeploymentSectionTitle = 'manualDeploymentSectionTitle';
+  public static renewKeyValue = 'renewKeyValue';
+  public static renewKeyValueContent = 'renewKeyValueContent';
+  public static apimUpsell = 'apimUpsell';
+  public static version3Preview = 'version3Preview';
+  public static sourceControlAuthStateFailure = 'sourceControlAuthStateFailure';
   public static functionKeysRefreshAriaLabel = 'functionKeysRefreshAriaLabel';
   public static functionKeysCommandBarAriaLabel = 'functionKeysCommandBarAriaLabel';
   public static newFunctionKey = 'newFunctionKey';
@@ -1686,7 +1691,4 @@ export class PortalResources {
   public static addFunctionKey = 'addFunctionKey';
   public static functionKeyPropIsRequired = 'functionKeyPropIsRequired';
   public static functionKeyNamesUnique = 'functionKeyNamesUnique';
-  public static renewKeyValue = 'renewKeyValue';
-  public static renewKeyValueContent = 'renewKeyValueContent';
-  public static apimUpsell = 'apimUpsell';
 }

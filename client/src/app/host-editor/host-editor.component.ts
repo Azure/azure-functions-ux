@@ -67,7 +67,7 @@ export class HostEditorComponent extends ErrorableComponent implements OnInit, O
       .do(() => this._globalStateService.setBusyState())
       .switchMap(context => {
         this.context = context;
-        return this._functionAppService.getHostJson(context);
+        return this._functionAppService.getHostV1Json(context);
       })
       .subscribe(hostJson => {
         const hostJsonResult = hostJson;

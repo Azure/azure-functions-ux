@@ -5,6 +5,18 @@ export interface FunctionsVersionInfo {
   runtimeDefault: string;
 }
 
+export function runtimeIsV1(runtimeVersion: string): boolean {
+  return runtimeVersion === FunctionAppVersion.v1;
+}
+
+export function runtimeIsV2(runtimeVersion: string): boolean {
+  return runtimeVersion === FunctionAppVersion.v2;
+}
+
+export function runtimeIsV3(runtimeVersion: string): boolean {
+  return runtimeVersion === FunctionAppVersion.v3;
+}
+
 export class FunctionsVersionInfoHelper {
   public static needToUpdateRuntime(version: FunctionsVersionInfo, extensionVersion: string) {
     const match = version.runtimeStable.find(v => {
@@ -16,11 +28,13 @@ export class FunctionsVersionInfoHelper {
   public static getFunctionGeneration(runtimeVersion: string) {
     if (!runtimeVersion) {
       return FunctionAppVersion.v1;
+    } else if (runtimeVersion.startsWith('~2') || runtimeVersion.startsWith('2') || runtimeVersion.startsWith('beta')) {
+      return FunctionAppVersion.v2;
+    } else if (runtimeVersion.startsWith('~3') || runtimeVersion.startsWith('3')) {
+      return FunctionAppVersion.v3;
     }
 
-    return runtimeVersion.startsWith('~2') || runtimeVersion.startsWith('2') || runtimeVersion.startsWith('beta')
-      ? FunctionAppVersion.v2
-      : FunctionAppVersion.v1;
+    return FunctionAppVersion.v1;
   }
 
   public static getEventGridUri(generation: string, mainSiteUrl: string, functionName: string, code: string) {

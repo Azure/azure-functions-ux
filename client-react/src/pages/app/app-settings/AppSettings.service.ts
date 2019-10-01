@@ -13,7 +13,6 @@ import PortalCommunicator from '../../../portal-communicator';
 export const fetchApplicationSettingValues = async (resourceId: string) => {
   const [
     webConfig,
-    site,
     metadata,
     slotConfigNames,
     connectionStrings,
@@ -24,7 +23,6 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     linuxStacks,
   ] = await Promise.all([
     SiteService.fetchWebConfig(resourceId),
-    SiteService.fetchSite(resourceId),
     SiteService.fetchMetadata(resourceId),
     SiteService.fetchSlotConfigNames(resourceId),
     SiteService.fetchConnectionStrings(resourceId),
@@ -36,7 +34,6 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
   ]);
   return {
     webConfig,
-    site,
     metadata,
     slotConfigNames,
     connectionStrings,
