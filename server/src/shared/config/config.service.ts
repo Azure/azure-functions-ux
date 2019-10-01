@@ -30,6 +30,7 @@ export class ConfigService implements OnModuleInit {
           runtimeType: 'Azure',
           hostName: process.env.WEBSITE_HOSTNAME,
           azureResourceManagerEndpoint: 'https://management.azure.com',
+          appName: process.env.WEBSITE_SITE_NAME,
         },
         version: process.env.VERSION,
         cacheBreakQuery: process.env.CACHE_BREAK_QUERY,

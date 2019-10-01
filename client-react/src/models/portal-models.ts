@@ -288,3 +288,8 @@ export interface CheckLockRequest {
 export interface CheckLockResponse {
   hasLock: boolean;
 }
+
+export interface FusionPortalDebugInformation {
+  appName: string;
+  version: string;
+}

@@ -145,7 +145,7 @@ export class PortalService implements IPortalService {
 
     const appsvc = window.appsvc;
     const getStartupInfoObj: GetStartupInfo = {
-      iframeHostName: appsvc && appsvc.env && appsvc.env.hostName ? appsvc.env.hostName : null,
+      iframeHostName: appsvc && appsvc.env && appsvc.env.appName ? appsvc.env.appName : null,
     };
 
     // This is a required message. It tells the shell that your iframe is ready to receive messages.
@@ -506,6 +506,9 @@ export class PortalService implements IPortalService {
       // Prefer whatever Ibiza sends us if hosted in iframe.  This is mainly for national clouds
       ArmServiceHelper.armEndpoint = this.startupInfo.armEndpoint ? this.startupInfo.armEndpoint : ArmServiceHelper.armEndpoint;
       window.appsvc.env.azureResourceManagerEndpoint = ArmServiceHelper.armEndpoint;
+      window.appsvc.env.authToken = this.startupInfo.token;
+      window.appsvc.resourceId = this.startupInfo.resourceId;
+      window.appsvc.feature = this.startupInfo.featureInfo && this.startupInfo.featureInfo.feature;
 
       this.startupInfoObservable.next(this.startupInfo);
       this.logTokenExpiration(this.startupInfo.token, '/portal-service/token-new-startupInfo');

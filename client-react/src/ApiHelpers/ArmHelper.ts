@@ -75,9 +75,10 @@ const armObs$ = armSubject$.pipe(
 
 const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise<AxiosResponse<T>> => {
   const { method, resourceId, body, apiVersion, queryString } = armObj;
-  const url = Url.appendQueryString(`${window.armEndpoint}${resourceId}${queryString || ''}`, `api-version=${apiVersion}`);
+  const armEndpoint = window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint;
+  const url = Url.appendQueryString(`${armEndpoint}${resourceId}${queryString || ''}`, `api-version=${apiVersion}`);
   const headers: { [key: string]: string } = {
-    Authorization: `Bearer ${window.authToken}`,
+    Authorization: `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.authToken}`,
     'x-ms-client-request-id': armObj.id,
   };
   if (sessionId) {
@@ -94,7 +95,11 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
     if (retry < 2 && result.status === 401) {
       if (window.updateAuthToken) {
         const newToken = await window.updateAuthToken('');
-        window.authToken = newToken;
+        if (window.appsvc && window.appsvc.env) {
+          window.appsvc.env.authToken = newToken;
+        } else {
+          throw Error('window.appsvc not available');
+        }
         return makeArmRequest(armObj, retry + 1);
       }
     }
