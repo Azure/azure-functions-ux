@@ -1,3 +1,5 @@
+import Url from '../utils/url';
+
 export class CommonConstants {
   public static readonly Links = {
     standaloneCreateLearnMore: 'https://go.microsoft.com/fwlink/?linkid=848756',
@@ -33,8 +35,8 @@ export class CommonConstants {
   };
 
   public static readonly ApiVersions = {
-    websiteApiVersion20160301: '2016-03-01',
-    websiteApiVersion20180201: '2018-02-01',
+    websiteApiVersion20160301: Url.getParameterByName(null, 'useApiVersion20181101') === 'true' ? '2018-11-01' : '2016-03-01',
+    websiteApiVersion20180201: Url.getParameterByName(null, 'useApiVersion20181101') === 'true' ? '2018-11-01' : '2018-02-01',
     websiteApiVersion20181101: '2018-11-01',
     armBatchApi: '2015-11-01',
     armLocksApiVersion: '2015-01-01',
