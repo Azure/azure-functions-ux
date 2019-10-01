@@ -163,7 +163,10 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
         />
       </form>
       {isAppSettingReferenceVisible() && isAppSettingValidReference() && (
-        <AppSettingReference appSettingReference={currentAppSettingReference.properties.keyToReferenceStatuses[currentAppSetting.name]} />
+        <AppSettingReference
+          resourceId={site.id}
+          appSettingReference={currentAppSettingReference.properties.keyToReferenceStatuses[currentAppSetting.name]}
+        />
       )}
     </>
   );

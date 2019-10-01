@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy, useContext, createContext } from 'react';
+import React, { lazy, useContext, createContext } from 'react';
 import { RouteComponentProps, Router } from '@reach/router';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
@@ -30,22 +30,7 @@ const FunctionCreateLoadable: any = lazy(() =>
 const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeysDataLoader'));
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
-  const [resourceId, setResourceId] = useState('');
   const theme = useContext(ThemeContext);
-
-  useEffect(() => {
-    const { subscriptionId, resourcegroup, siteName, slotName, functionName } = props;
-    let id = `/subscriptions/${subscriptionId}/resourcegroups/${resourcegroup}/providers/Microsoft.Web/sites/${siteName}`;
-    if (slotName) {
-      id = `${id}/slots/${slotName}`;
-    }
-
-    if (functionName) {
-      id = `${id}/functions/${functionName}`;
-    }
-
-    setResourceId(id);
-  }, []);
 
   return (
     <main className={iconStyles(theme)}>
@@ -55,13 +40,13 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             return (
               value.token && (
                 <Router>
-                  <AppSettingsLoadable resourceId={resourceId} path="/settings" />
-                  <LogStreamLoadable resourceId={resourceId} path="/log-stream" />
-                  <ChangeAppPlanLoadable resourceId={resourceId} path="/changeappplan" />
-                  <FunctionIntegrateLoadable resourceId={resourceId} path="/integrate" />
-                  <FunctionBindingEditorLoadable resourceId={resourceId} path="/bindingeditor" />
-                  <FunctionCreateLoadable resourceId={resourceId} path="/functioncreate" />
-                  <FunctionAppKeysLoadable resourceId={resourceId} path="/appkeys" />
+                  <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
+                  <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
+                  <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
+                  <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
+                  <FunctionBindingEditorLoadable resourceId={value.resourceId} path="/bindingeditor" />
+                  <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
+                  <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
                 </Router>
               )
             );

@@ -642,6 +642,12 @@ export enum FunctionAppVersion {
   v3 = 'V3',
 }
 
+export enum FunctionAppRuntimeSetting {
+  tilda1 = '~1',
+  tilda2 = '~2',
+  tilda3 = '~3',
+}
+
 export enum HostKeyTypes {
   masterKey = 'masterKey',
   functionKeys = 'functionKeys',

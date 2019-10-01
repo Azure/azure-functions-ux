@@ -1,4 +1,3 @@
-import { FunctionAppVersion } from 'app/shared/models/constants';
 import { EmbeddedFunctionsNode } from './embedded-functions-node';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { GlobalStateService } from './../shared/services/global-state.service';
@@ -21,6 +20,7 @@ import { ScenarioIds, LogCategories } from './../shared/models/constants';
 import { SiteService } from 'app/shared/services/site.service';
 import { LogService } from './../shared/services/log.service';
 import { errorIds } from '../shared/models/error-ids';
+import { runtimeIsV1 } from 'app/shared/models/functions-version-info';
 
 export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
   public dashboardType = DashboardType.FunctionDashboard;
@@ -68,7 +68,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
       this.showExpandIcon = false;
     }
 
-    if (this.context.urlTemplates.runtimeVersion === FunctionAppVersion.v1) {
+    if (runtimeIsV1(this.context.urlTemplates.runtimeVersion)) {
       if (typeof this.functionInfo.config.disabled === 'string') {
         const settingName = this.functionInfo.config.disabled;
         this._siteService.getAppSettings(this.context.site.id).subscribe(r => {

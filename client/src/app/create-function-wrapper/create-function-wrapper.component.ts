@@ -10,7 +10,7 @@ import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { SiteTabIds } from 'app/shared/models/constants';
 import { FunctionService } from 'app/shared/services/function.service';
-import { runtimeIsV2OrV3 } from 'app/shared/models/functions-version-info';
+import { runtimeIsV2, runtimeIsV3 } from 'app/shared/models/functions-version-info';
 
 @Component({
   selector: 'create-function-wrapper',
@@ -56,7 +56,7 @@ export class CreateFunctionWrapperComponent extends NavigableComponent {
             })
             .map(r => {
               if (r.functionsInfo.length === 0 && !this._configService.isStandalone()) {
-                if (runtimeIsV2OrV3(r.runtimeVersion)) {
+                if (runtimeIsV2(r.runtimeVersion) || runtimeIsV3(r.runtimeVersion)) {
                   this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);
                   this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
                     operation: 'navigate',
