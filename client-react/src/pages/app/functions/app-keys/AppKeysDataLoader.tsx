@@ -31,7 +31,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
     const appKeys = await appKeysData.fetchKeys(resourceId);
 
     if (appKeys.metadata.status === 409) {
-      // TODO: read only permissions given
+      // TODO: [krmitta] read only permission given (WI: TASK 5476044)
     }
 
     setInitialValues(

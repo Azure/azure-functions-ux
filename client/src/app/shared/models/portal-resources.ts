@@ -1683,4 +1683,12 @@ export class PortalResources {
   public static apimUpsell = 'apimUpsell';
   public static version3Preview = 'version3Preview';
   public static sourceControlAuthStateFailure = 'sourceControlAuthStateFailure';
+  public static functionKeysRefreshAriaLabel = 'functionKeysRefreshAriaLabel';
+  public static functionKeysCommandBarAriaLabel = 'functionKeysCommandBarAriaLabel';
+  public static newFunctionKey = 'newFunctionKey';
+  public static filterFunctionKeys = 'filterFunctionKeys';
+  public static editFunctionKey = 'editFunctionKey';
+  public static addFunctionKey = 'addFunctionKey';
+  public static functionKeyPropIsRequired = 'functionKeyPropIsRequired';
+  public static functionKeyNamesUnique = 'functionKeyNamesUnique';
 }
