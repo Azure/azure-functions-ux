@@ -228,7 +228,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
     }
     if (column.key === 'name') {
       column.className = '';
-      if (isAppSettingDirty(item[column.fieldName!].toLowerCase())) {
+      if (isAppSettingDirty(index)) {
         column.className = dirtyElementStyle(theme);
       }
       return (
@@ -242,25 +242,26 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
-  const isAppSettingDirty = (name: string): boolean => {
+  const isAppSettingDirty = (index: number): boolean => {
     const initialAppSettings = props.initialValues.appSettings;
-    const currentAppSettings = values.appSettings;
-    for (let i = 0; i < initialAppSettings.length; ++i) {
-      const appSetting = initialAppSettings[i];
-      if (appSetting.name.toLowerCase() === name) {
-        const currentAppSettingIndex = currentAppSettings.findIndex(x => x.name.toLowerCase() === name);
-        if (
-          currentAppSettingIndex === -1 ||
-          (appSetting.value === currentAppSettings[currentAppSettingIndex].value &&
-            appSetting.sticky === currentAppSettings[currentAppSettingIndex].sticky)
-        ) {
-          return false;
-        } else {
-          return true;
-        }
+    const currentRow = values.appSettings[index];
+    const currentAppSettingIndex = initialAppSettings.findIndex(x => {
+      if (
+        x === currentRow &&
+        x.name.toLowerCase() === currentRow.name.toLowerCase() &&
+        x.value.toLowerCase() === currentRow.value.toLowerCase() &&
+        x.sticky === currentRow.sticky
+      ) {
+        return true;
+      } else {
+        return false;
       }
+    });
+    if (currentAppSettingIndex >= 0) {
+      return false;
+    } else {
+      return true;
     }
-    return true;
   };
 
   // tslint:disable-next-line:member-ordering

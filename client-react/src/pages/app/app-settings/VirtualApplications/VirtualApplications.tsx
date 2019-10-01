@@ -114,8 +114,6 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       return false;
     }
     return true;
-
-    return true;
   };
 
   const onRenderItemColumn = (item: VirtualApplication, index: number, column: IColumn) => {

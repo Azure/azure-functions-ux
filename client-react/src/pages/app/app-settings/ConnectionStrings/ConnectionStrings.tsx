@@ -145,29 +145,30 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
     } else {
       newShownValues.delete(itemKey);
     }
-    setShowAllValues(newShownValues.size === values.appSettings.length);
+    setShowAllValues(newShownValues.size === values.connectionStrings.length);
     setShownValues([...newShownValues]);
   };
 
-  const isConnectionStringDirty = (name: string): boolean => {
+  const isConnectionStringDirty = (index: number): boolean => {
     const initialAppSettings = props.initialValues.connectionStrings;
-    const currentAppSettings = values.connectionStrings;
-    for (let i = 0; i < initialAppSettings.length; ++i) {
-      const appSetting = initialAppSettings[i];
-      if (appSetting.name.toLowerCase() === name) {
-        const currentAppSettingIndex = currentAppSettings.findIndex(x => x.name.toLowerCase() === name);
-        if (
-          currentAppSettingIndex === -1 ||
-          (appSetting.value === currentAppSettings[currentAppSettingIndex].value &&
-            appSetting.sticky === currentAppSettings[currentAppSettingIndex].sticky)
-        ) {
-          return false;
-        } else {
-          return true;
-        }
+    const currentRow = values.appSettings[index];
+    const currentAppSettingIndex = initialAppSettings.findIndex(x => {
+      if (
+        x === currentRow &&
+        x.name.toLowerCase() === currentRow.name.toLowerCase() &&
+        x.value.toLowerCase() === currentRow.value.toLowerCase() &&
+        x.sticky === currentRow.sticky
+      ) {
+        return true;
+      } else {
+        return false;
       }
+    });
+    if (currentAppSettingIndex >= 0) {
+      return false;
+    } else {
+      return true;
     }
-    return true;
   };
 
   const onRenderItemColumn = (item: FormConnectionString, index: number, column: IColumn) => {
@@ -252,7 +253,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
     }
     if (column.key === 'name') {
       column.className = '';
-      if (isConnectionStringDirty(item[column.fieldName!].toLowerCase())) {
+      if (isConnectionStringDirty(index)) {
         column.className = dirtyElementStyle(theme);
       }
       return (
