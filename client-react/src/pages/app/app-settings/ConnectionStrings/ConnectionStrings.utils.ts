@@ -51,24 +51,44 @@ export const getErrorMessage = (newValue: string, disableSlotSetting: boolean, t
   }
 };
 
-export const formConnectionStringsoUseSlotSetting = (connectionStrings: FormConnectionString[]): string => {
-  return JSON.stringify(
-    connectionStrings.map(x => ({
-      name: x.name,
-      value: x.value,
-      type: x.type,
-      slotSetting: x.sticky,
-    })),
-    null,
-    2
-  );
+const getConnectionStringObjectForMonacoEditor = (connectionString: FormConnectionString, disableSlotSetting: boolean) => {
+  return disableSlotSetting
+    ? {
+        name: connectionString.name,
+        value: connectionString.value,
+        type: connectionString.type,
+      }
+    : {
+        name: connectionString.name,
+        value: connectionString.value,
+        type: connectionString.type,
+        slotSetting: connectionString.sticky,
+      };
 };
 
-export const formAppSettingToUseStickySetting = (connectionStrings: string): FormConnectionString[] => {
+const getConnectionStringStickyValue = (connectionStringName: string, initialConnectionStrings: FormConnectionString[]): boolean => {
+  const connectionStringIndex = initialConnectionStrings.findIndex(x => {
+    if (x.name.toLowerCase() === connectionStringName.toLowerCase()) {
+      return true;
+    }
+    return false;
+  });
+  return connectionStringIndex >= 0 ? initialConnectionStrings[connectionStringIndex].sticky : false;
+};
+
+export const formConnectionStringsoUseSlotSetting = (connectionStrings: FormConnectionString[], disableSlotSetting: boolean): string => {
+  return JSON.stringify(connectionStrings.map(x => getConnectionStringObjectForMonacoEditor(x, disableSlotSetting)), null, 2);
+};
+
+export const formAppSettingToUseStickySetting = (
+  connectionStrings: string,
+  disableSlotSetting: boolean,
+  initialConnectionStrings: FormConnectionString[]
+): FormConnectionString[] => {
   return JSON.parse(connectionStrings).map(x => ({
     name: x.name,
     value: x.value,
     type: x.type,
-    sticky: x.slotSetting,
+    sticky: disableSlotSetting ? getConnectionStringStickyValue(x.name, initialConnectionStrings) : x.slotSetting,
   }));
 };
