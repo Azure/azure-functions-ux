@@ -93,6 +93,7 @@ export default class PortalCommunicator {
     if (shellSrc) {
       const getStartupInfoObj = {
         iframeHostName: '',
+        iframeAppName: '',
       };
 
       window.appsvc = {
@@ -108,7 +109,8 @@ export default class PortalCommunicator {
       this.getDebugInformation()
         .then(response => {
           if (response.metadata.success && response.data) {
-            getStartupInfoObj.iframeHostName = response.data.appName;
+            getStartupInfoObj.iframeHostName = response.data.hostName;
+            getStartupInfoObj.iframeAppName = response.data.appName;
             window.appsvc = {
               version: response.data.version,
               env: {

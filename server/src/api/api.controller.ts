@@ -23,6 +23,7 @@ export class ApiController {
   @Get('debug')
   debug() {
     return {
+      hostName: this.config.get('WEBSITE_HOSTNAME'),
       appName: this.config.get('WEBSITE_SITE_NAME') || 'DevMachine',
       version: this.config.get('VERSION'),
     };

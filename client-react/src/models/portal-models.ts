@@ -290,6 +290,7 @@ export interface CheckLockResponse {
 }
 
 export interface FusionPortalDebugInformation {
+  hostName: string;
   appName: string;
   version: string;
 }

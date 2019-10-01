@@ -145,7 +145,8 @@ export class PortalService implements IPortalService {
 
     const appsvc = window.appsvc;
     const getStartupInfoObj: GetStartupInfo = {
-      iframeHostName: appsvc && appsvc.env && appsvc.env.appName ? appsvc.env.appName : null,
+      iframeHostName: appsvc && appsvc.env && appsvc.env.hostName ? appsvc.env.hostName : '',
+      iframeAppName: appsvc && appsvc.env && appsvc.env.appName ? appsvc.env.appName : '',
     };
 
     // This is a required message. It tells the shell that your iframe is ready to receive messages.
