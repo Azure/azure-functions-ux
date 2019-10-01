@@ -25,7 +25,7 @@ export default class SiteService {
     return MakeArmCall<ArmObj<SiteConfig>>({
       resourceId: id,
       commandName: 'fetchConfig',
-      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
   };
 
@@ -41,7 +41,7 @@ export default class SiteService {
       commandName: 'updateWebConfig',
       method: 'PUT',
       body: siteConfig,
-      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
   };
 

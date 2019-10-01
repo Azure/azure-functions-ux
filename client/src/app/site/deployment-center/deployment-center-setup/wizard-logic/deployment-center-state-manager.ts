@@ -148,7 +148,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
 
     if (this.wizardValues.sourceProvider === 'localgit') {
       return this._cacheService
-        .patchArm(`${this._resourceId}/config/web`, ARMApiVersions.websiteApiVersion20181101, {
+        .patchArm(`${this._resourceId}/config/web`, ARMApiVersions.antaresApiVersion20181101, {
           properties: {
             scmType: 'LocalGit',
           },
@@ -156,7 +156,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         .map(r => r.json());
     } else {
       return this._cacheService
-        .putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.websiteApiVersion, {
+        .putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.antaresApiVersion20181101, {
           properties: payload,
         })
         .map(r => r.json());

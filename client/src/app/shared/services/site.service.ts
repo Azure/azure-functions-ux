@@ -41,13 +41,13 @@ export class SiteService {
   getSlots(resourceId: string, force?: boolean): Result<ArmArrayResult<Site>> {
     const siteDescriptor = new ArmSiteDescriptor(resourceId);
     const slotsId = `${siteDescriptor.getSiteOnlyResourceId()}/slots`;
-    const getSlots = this._cacheService.getArm(slotsId, force, ARMApiVersions.websiteApiVersion20180201).map(r => r.json());
+    const getSlots = this._cacheService.getArm(slotsId, force, ARMApiVersions.antaresApiVersion20181101).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getSlots);
   }
 
   getSiteConfig(resourceId: string, force?: boolean): Result<ArmObj<SiteConfig>> {
-    const getSiteConfig = this._cacheService.getArm(`${resourceId}/config/web`, force, ARMApiVersions.websiteApiVersion20181101).map(r => {
+    const getSiteConfig = this._cacheService.getArm(`${resourceId}/config/web`, force, ARMApiVersions.antaresApiVersion20181101).map(r => {
       const siteConfig: ArmObj<SiteConfig> = r.json();
 
       if (siteConfig && siteConfig.properties && siteConfig.properties.azureStorageAccounts) {
@@ -121,7 +121,7 @@ export class SiteService {
 
   getPublishingProfile(resourceId: string): Result<string> {
     const getPublishingProfile = this._cacheService
-      .postArm(`${resourceId}/publishxml`, true, ARMApiVersions.websiteApiVersion20160301)
+      .postArm(`${resourceId}/publishxml`, true, ARMApiVersions.antaresApiVersion20181101)
       .map(r => r.text());
     return this._client.execute({ resourceId: resourceId }, t => getPublishingProfile);
   }
@@ -162,7 +162,7 @@ export class SiteService {
       },
     });
     const newSlotId = `${resourceId}/slots/${slotName}`;
-    const createSlot = this._cacheService.putArm(newSlotId, ARMApiVersions.websiteApiVersion20180201, payload).map(r => r.json());
+    const createSlot = this._cacheService.putArm(newSlotId, ARMApiVersions.antaresApiVersion20181101, payload).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => createSlot);
   }
@@ -185,7 +185,7 @@ export class SiteService {
   }
 
   updateSiteConfig(resourceId: string, siteConfig: ArmObj<SiteConfig>) {
-    const putSiteConfig = this._cacheService.putArm(`${resourceId}/config/web`, ARMApiVersions.websiteApiVersion20181101, siteConfig);
+    const putSiteConfig = this._cacheService.putArm(`${resourceId}/config/web`, ARMApiVersions.antaresApiVersion20181101, siteConfig);
     return this._client.execute({ resourceId: resourceId }, t => putSiteConfig);
   }
 
@@ -196,13 +196,13 @@ export class SiteService {
 
   getAzureStorageAccounts(resourceId: string, force?: boolean): Result<ArmObj<ByosStorageAccounts>> {
     const getSiteConfig = this._cacheService
-      .postArm(`${resourceId}/config/azureStorageAccounts/list`, force, ARMApiVersions.websiteApiVersion20180201)
+      .postArm(`${resourceId}/config/azureStorageAccounts/list`, force, ARMApiVersions.antaresApiVersion20181101)
       .map(r => r.json());
     return this._client.execute({ resourceId: resourceId }, t => getSiteConfig);
   }
 
   getHostingEnvironment(resourceId: string, force?: boolean): Result<ArmObj<HostingEnvironment>> {
-    const getHostingEnvironment = this._cacheService.getArm(resourceId, force, ARMApiVersions.websiteApiVersion20160901).map(r => r.json());
+    const getHostingEnvironment = this._cacheService.getArm(resourceId, force, ARMApiVersions.antaresApiVersion20181101).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getHostingEnvironment);
   }
