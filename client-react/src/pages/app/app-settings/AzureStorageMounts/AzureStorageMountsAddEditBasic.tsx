@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { StorageAccountsContext, SiteContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import requiredValidation from '../../../../utils/formValidation/required';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -36,6 +37,19 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
   const setAccessKey = (accessKey: string) => {
     setValues({ ...values, accessKey });
+  };
+
+  const validateStorageContainer = (value: string): string | undefined => {
+    if (
+      sharesLoading ||
+      (value && values.type === 'AzureBlob'
+        ? blobContainerOptions.find(x => x.key === value)
+        : filesContainerOptions.find(x => x.key === value))
+    ) {
+      return undefined;
+    }
+
+    return t('validation_requiredError');
   };
 
   const storageAccount = storageAccounts.value.find(x => x.name === values.accountName);
@@ -118,10 +132,12 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           root: formElementStyle,
         }}
         errorMessage={errors.accountName}
-        validate={() => {
+        validate={(value: string) => {
           if (accountError) {
-            throw accountError;
+            return accountError;
           }
+
+          return requiredValidation(value, t('validation_requiredError'));
         }}
       />
       {showStorageTypeOption && (
@@ -156,16 +172,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           root: formElementStyle,
         }}
         validate={(value: any) => {
-          if (
-            sharesLoading ||
-            (value && values.type === 'AzureBlob'
-              ? blobContainerOptions.find(x => x.key === value)
-              : filesContainerOptions.find(x => x.key === value))
-          ) {
-            return undefined;
-          }
-
-          return t('validation_requiredError');
+          return validateStorageContainer(value);
         }}
         errorMessage={errors.shareName}
       />
