@@ -56,22 +56,41 @@ export const getErrorMessage = (newValue: string, disableSlotSetting: boolean, i
   }
 };
 
-export const formAppSettingToUseSlotSetting = (appSettings: FormAppSetting[]): string => {
-  return JSON.stringify(
-    appSettings.map(x => ({
-      name: x.name,
-      value: x.value,
-      slotSetting: x.sticky,
-    })),
-    null,
-    2
-  );
+const getAppSettingObjectForMonacoEditor = (appSetting: FormAppSetting, disableSlotSetting: boolean) => {
+  return disableSlotSetting
+    ? {
+        name: appSetting.name,
+        value: appSetting.value,
+      }
+    : {
+        name: appSetting.name,
+        value: appSetting.value,
+        slotSetting: appSetting.sticky,
+      };
 };
 
-export const formAppSettingToUseStickySetting = (appSettings: string): FormAppSetting[] => {
+const getAppSettingStickyValue = (appSettingName: string, initialAppSettings: FormAppSetting[]): boolean => {
+  const appSettingIndex = initialAppSettings.findIndex(x => {
+    if (x.name.toLowerCase() === appSettingName.toLowerCase()) {
+      return true;
+    }
+    return false;
+  });
+  return appSettingIndex >= 0 ? initialAppSettings[appSettingIndex].sticky : false;
+};
+
+export const formAppSettingToUseSlotSetting = (appSettings: FormAppSetting[], disableSlotSetting: boolean): string => {
+  return JSON.stringify(appSettings.map(x => getAppSettingObjectForMonacoEditor(x, disableSlotSetting)), null, 2);
+};
+
+export const formAppSettingToUseStickySetting = (
+  appSettings: string,
+  disableSlotSetting: boolean,
+  initialAppSetting: FormAppSetting[]
+): FormAppSetting[] => {
   return JSON.parse(appSettings).map(x => ({
     name: x.name,
     value: x.value,
-    sticky: x.slotSetting,
+    sticky: disableSlotSetting ? getAppSettingStickyValue(x.name, initialAppSetting) : x.slotSetting,
   }));
 };

@@ -17,14 +17,14 @@ const AppSettingsBulkEdit: React.FC<AppSettingsBulkEditProps> = props => {
   const { t } = useTranslation();
   const { updateAppSetting, closeBlade, appSettings, disableSlotSetting, isLinux } = props;
   const [errorMessage, setErrorMessage] = useState('');
-  const [appSettingsState, setAppSettingsState] = useState(formAppSettingToUseSlotSetting(appSettings));
+  const [appSettingsState, setAppSettingsState] = useState(formAppSettingToUseSlotSetting(appSettings, disableSlotSetting));
 
   const validate = newValue => {
     const err = getErrorMessage(newValue, disableSlotSetting, isLinux, t);
     setErrorMessage(err);
   };
   const save = () => {
-    updateAppSetting(formAppSettingToUseStickySetting(appSettingsState));
+    updateAppSetting(formAppSettingToUseStickySetting(appSettingsState, disableSlotSetting, appSettings));
   };
 
   const cancel = () => {
