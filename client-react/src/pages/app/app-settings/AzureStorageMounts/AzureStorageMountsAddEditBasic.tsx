@@ -37,7 +37,9 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const setAccessKey = (accessKey: string) => {
     setValues({ ...values, accessKey });
   };
+
   const storageAccount = storageAccounts.value.find(x => x.name === values.accountName);
+
   useEffect(() => {
     setAccountError('');
     if (storageAccount) {
@@ -96,10 +98,12 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
         });
     }
   }, [values.accountName]);
+
   const blobContainerOptions = accountSharesBlob.map((x: any) => ({ key: x.name, text: x.name }));
   const filesContainerOptions = accountSharesFiles.map((x: any) => ({ key: x.name, text: x.name }));
 
   const showStorageTypeOption = supportsBlobStorage && (!storageAccount || storageAccount.kind !== storageKinds.BlobStorage);
+
   return (
     <>
       <Field
@@ -151,18 +155,17 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
         styles={{
           root: formElementStyle,
         }}
-        validate={val => {
-          if (sharesLoading) {
-            return;
+        validate={(value: any) => {
+          if (
+            sharesLoading ||
+            (value && values.type === 'AzureBlob'
+              ? blobContainerOptions.find(x => x.key === value)
+              : filesContainerOptions.find(x => x.key === value))
+          ) {
+            return undefined;
           }
-          if (!val) {
-            throw t('required');
-          }
-          const foundVal =
-            values.type === 'AzureBlob' ? blobContainerOptions.find(x => x.key === val) : filesContainerOptions.find(x => x.key === val);
-          if (!foundVal) {
-            throw t('required');
-          }
+
+          return t('validation_requiredError');
         }}
         errorMessage={errors.shareName}
       />
