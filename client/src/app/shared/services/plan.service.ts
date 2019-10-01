@@ -1,4 +1,4 @@
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, ARMApiVersions } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { BillingMeter } from './../models/arm/billingMeter';
 import { ArmService } from 'app/shared/services/arm.service';
@@ -149,7 +149,11 @@ export class PlanService implements IPlanService {
   }
 
   private _getProviderLocations(subscriptionId: string, resourceType: string): Observable<string[]> {
-    const getProviderInfo = this._cacheService.getArm(`/subscriptions/${subscriptionId}/providers/microsoft.web`, false, '2018-01-01');
+    const getProviderInfo = this._cacheService.getArm(
+      `/subscriptions/${subscriptionId}/providers/microsoft.web`,
+      false,
+      ARMApiVersions.websiteApiVersion20180101
+    );
 
     return this._client
       .execute({ resourceId: '' }, t => getProviderInfo)
