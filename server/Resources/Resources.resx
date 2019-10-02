@@ -5248,7 +5248,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
       <value>Function key names must be unique</value>
     </data>
     <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Action (Preview)</value>
+        <value>GitHub Actions (Preview)</value>
     </data>
     <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
