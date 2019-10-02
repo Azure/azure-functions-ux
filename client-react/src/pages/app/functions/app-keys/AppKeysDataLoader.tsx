@@ -4,6 +4,7 @@ import AppKeys from './AppKeys';
 import { AppKeysFormValues } from './AppKeys.types';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { PortalContext } from '../../../../PortalContext';
+import { SiteRouterContext } from '../../SiteRouter';
 
 const appKeysData = new AppKeysData();
 export const AppKeysContext = React.createContext(appKeysData);
@@ -18,6 +19,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   const [refreshLoading, setRefeshLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const portalContext = useContext(PortalContext);
+  const siteContext = useContext(SiteRouterContext);
 
   const refreshData = () => {
     setRefeshLoading(true);
@@ -25,11 +27,11 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   };
 
   const fetchData = async () => {
-    const site = await appKeysData.getSiteObject(resourceId);
+    const site = await siteContext.fetchSite(resourceId);
     const appKeys = await appKeysData.fetchKeys(resourceId);
 
     if (appKeys.metadata.status === 409) {
-      // TODO: read only permissions given
+      // TODO: [krmitta] read only permission given (WI: TASK 5476044)
     }
 
     setInitialValues(
