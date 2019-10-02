@@ -1,4 +1,5 @@
 import { HostingEnvironmentProfile } from './hosting-environment';
+import { Url } from 'app/shared/Utilities/url';
 
 export enum ComputeMode {
   Shared,
@@ -6,15 +7,18 @@ export enum ComputeMode {
   Dynamic,
 }
 
-export enum SiteAvailabilityState {
-  Normal = 'Normal',
-  Limited = 'Limited',
-  DisasterRecoveryMode = 'DisasterRecoveryMode',
+export type SiteAvailabilityState = 'Normal' | 'Limited' | 'DisasterRecoveryMode' | number;
+export class SiteAvailabilityStates {
+  static Normal: SiteAvailabilityState = Url.getParameterByName(null, 'useApiVersion20181101') === 'true' ? 'Normal' : 0;
+  static Limited: SiteAvailabilityState = Url.getParameterByName(null, 'useApiVersion20181101') === 'true' ? 'Limited' : 1;
+  static DisasterRecoveryMode: SiteAvailabilityState =
+    Url.getParameterByName(null, 'useApiVersion20181101') === 'true' ? 'DisasterRecoveryMode' : 2;
 }
 
-export enum HostType {
-  Standard = 'Standard',
-  Repository = 'Repository',
+export type HostType = 'Standard' | 'Repository' | number;
+export class HostTypes {
+  static Standard: HostType = Url.getParameterByName(null, 'useApiVersion20181101') === 'true' ? 'Standard' : 0;
+  static Repository: HostType = Url.getParameterByName(null, 'useApiVersion20181101') === 'true' ? 'Repository' : 1;
 }
 
 export class SiteProperties {

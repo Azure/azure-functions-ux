@@ -2,7 +2,7 @@ import { AbstractConsoleComponent } from './abstract.console.component';
 import { ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService } from '../services/console.service';
 import { ConsoleConstants, HttpMethods } from '../../../../shared/models/constants';
-import { HostType } from '../../../../shared/models/arm/site';
+import { HostTypes } from '../../../../shared/models/arm/site';
 
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
   private _defaultDirectory = 'D:\\home\\site\\wwwroot';
@@ -48,7 +48,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
    * Get Kudu API URL
    */
   protected getKuduUri(): string {
-    const scmHostName = this.site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
+    const scmHostName = this.site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.Repository).name;
     return `https://${scmHostName}/api/command`;
   }
 

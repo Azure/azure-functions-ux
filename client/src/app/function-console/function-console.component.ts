@@ -15,7 +15,7 @@ import { BroadcastService } from '../shared/services/broadcast.service';
 import { Subscription } from 'rxjs/Subscription';
 import { SiteService } from '../shared/services/site.service';
 import { ArmObj } from '../shared/models/arm/arm-obj';
-import { Site, HostType } from '../shared/models/arm/site';
+import { Site, HostTypes } from '../shared/models/arm/site';
 import { PublishingCredentials } from '../shared/models/publishing-credentials';
 import { CacheService } from '../shared/services/cache.service';
 import { ArmUtil } from '../shared/Utilities/arm-utils';
@@ -667,7 +667,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
    * Get API Url according to the app type
    */
   private _getKuduUri() {
-    const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
+    const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.Repository).name;
     if (this.isLinux) {
       return `https://${scmHostName}/command`;
     }

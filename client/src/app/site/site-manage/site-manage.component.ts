@@ -20,7 +20,7 @@ import {
 import { FeatureGroup } from './../../feature-group/feature-group';
 import { AuthzService } from '../../shared/services/authz.service';
 import { PortalService } from '../../shared/services/portal.service';
-import { Site, HostType } from '../../shared/models/arm/site';
+import { Site, HostTypes } from '../../shared/models/arm/site';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { Url } from '../../shared/Utilities/url';
@@ -907,7 +907,7 @@ export class OpenKuduFeature extends DisableableFeature {
   }
 
   click() {
-    const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
+    const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.Repository).name;
     window.open(`https://${scmHostName}`);
   }
 }
@@ -932,7 +932,7 @@ export class OpenEditorFeature extends DisableableFeature {
   }
 
   click() {
-    const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
+    const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.Repository).name;
     window.open(`https://${scmHostName}/dev`);
   }
 }
