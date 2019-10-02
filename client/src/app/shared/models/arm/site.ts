@@ -1,6 +1,8 @@
 import { HostingEnvironmentProfile } from './hosting-environment';
 import { Url } from 'app/shared/Utilities/url';
 
+const useApiVersion20180201 = Url.getParameterByName(null, 'useApiVersion20180201') === 'true';
+
 export enum ComputeMode {
   Shared,
   Dedicated,
@@ -9,16 +11,15 @@ export enum ComputeMode {
 
 export type SiteAvailabilityState = 'Normal' | 'Limited' | 'DisasterRecoveryMode' | number;
 export class SiteAvailabilityStates {
-  static Normal: SiteAvailabilityState = Url.getParameterByName(null, 'useApiVersion20181101') === 'true' ? 'Normal' : 0;
-  static Limited: SiteAvailabilityState = Url.getParameterByName(null, 'useApiVersion20181101') === 'true' ? 'Limited' : 1;
-  static DisasterRecoveryMode: SiteAvailabilityState =
-    Url.getParameterByName(null, 'useApiVersion20181101') === 'true' ? 'DisasterRecoveryMode' : 2;
+  static Normal: SiteAvailabilityState = useApiVersion20180201 ? 'Normal' : 0;
+  static Limited: SiteAvailabilityState = useApiVersion20180201 ? 'Limited' : 1;
+  static DisasterRecoveryMode: SiteAvailabilityState = useApiVersion20180201 ? 'DisasterRecoveryMode' : 2;
 }
 
 export type HostType = 'Standard' | 'Repository' | number;
 export class HostTypes {
-  static Standard: HostType = Url.getParameterByName(null, 'useApiVersion20181101') === 'true' ? 'Standard' : 0;
-  static Repository: HostType = Url.getParameterByName(null, 'useApiVersion20181101') === 'true' ? 'Repository' : 1;
+  static Standard: HostType = useApiVersion20180201 ? 'Standard' : 0;
+  static Repository: HostType = useApiVersion20180201 ? 'Repository' : 1;
 }
 
 export class SiteProperties {
