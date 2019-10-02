@@ -3,46 +3,15 @@ import { HostingEnvironmentProfile } from '../hostingEnvironment/hosting-environ
 import { Certificate, Csr } from './certificate';
 import { SiteConfig } from './config';
 import { CloningInfo } from './cloning-info';
+import Url from '../../utils/url';
 
-export enum ContentAvailabilityState {
-  Normal = 'Normal',
-  ReadOnly = 'ReadOnly',
-}
-
-export enum RuntimeAvailabilityState {
-  Normal = 'Normal',
-  Degraded = 'Degraded',
-  NotAvailable = 'NotAvailable',
-}
-
-export enum SiteAvailabilityState {
-  Normal = 'Normal',
-  Limited = 'Limited',
-  DisasterRecoveryMode = 'DisasterRecoveryMode',
-}
-
-export enum UsageState {
-  Normal = 'Normal',
-  Exceeded = 'Exceeded',
-}
-
-export enum SslState {
-  Disabled = 'Disabled',
-  SniEnabled = 'SniEnabled',
-  IpBasedEnabled = 'IpBasedEnabled',
-}
-
-export enum HostType {
-  Standard = 'Standard',
-  Repository = 'Repository',
-}
-
-export enum IpBasedSslState {
-  NotConfigured = 'NotConfigured',
-  InProgress = 'InProgress',
-  Configured = 'Configured',
-  ConfigurationReverted = 'ConfigurationReverted',
-}
+export type ContentAvailabilityState = 'Normal' | 'ReadOnly' | number;
+export type RuntimeAvailabilityState = 'Normal' | 'Degraded' | 'NotAvailable' | number;
+export type SiteAvailabilityState = 'Normal' | 'Limited' | 'DisasterRecoveryMode' | number;
+export type UsageState = 'Normal' | 'Exceeded' | number;
+export type SslState = 'Disabled' | 'SniEnabled' | 'IpBasedEnabled' | number;
+export type HostType = 'Standard' | 'Repository' | number;
+export type IpBasedSslState = 'NotConfigured' | 'InProgress' | 'Configured' | 'ConfigurationReverted' | number;
 
 export interface Site {
   name: string;
@@ -109,4 +78,93 @@ export interface HostNameSslState {
   toUpdateIpBasedSsl: boolean;
   iPBasedSslState: IpBasedSslState;
   hostType: HostType;
+}
+
+export class SiteContants {
+  public static ContentAvailabilityStates =
+    Url.getParameterByName(null, 'useApiVersion20181101') === 'true'
+      ? {
+          Normal: 'Normal' as ContentAvailabilityState,
+          ReadOnly: 'ReadOnly' as ContentAvailabilityState,
+        }
+      : {
+          Normal: 0 as ContentAvailabilityState,
+          ReadOnly: 1 as ContentAvailabilityState,
+        };
+
+  public static RuntimeAvailabilityStates =
+    Url.getParameterByName(null, 'useApiVersion20181101') === 'true'
+      ? {
+          Normal: 'Normal' as RuntimeAvailabilityState,
+          Degraded: 'Degraded' as RuntimeAvailabilityState,
+          NotAvailable: 'NotAvailable' as RuntimeAvailabilityState,
+        }
+      : {
+          Normal: 0 as RuntimeAvailabilityState,
+          Degraded: 1 as RuntimeAvailabilityState,
+          NotAvailable: 2 as RuntimeAvailabilityState,
+        };
+
+  public static SiteAvailabilityStates =
+    Url.getParameterByName(null, 'useApiVersion20181101') === 'true'
+      ? {
+          Normal: 'Normal' as SiteAvailabilityState,
+          Limited: 'Limited' as SiteAvailabilityState,
+          DisasterRecoveryMode: 'DisasterRecoveryMode' as SiteAvailabilityState,
+        }
+      : {
+          Normal: 0 as SiteAvailabilityState,
+          Limited: 1 as SiteAvailabilityState,
+          DisasterRecoveryMode: 2 as SiteAvailabilityState,
+        };
+
+  public static UsageStates =
+    Url.getParameterByName(null, 'useApiVersion20181101') === 'true'
+      ? {
+          Normal: 'Normal' as UsageState,
+          Exceeded: 'Exceeded' as UsageState,
+        }
+      : {
+          Normal: 0 as UsageState,
+          Exceeded: 1 as UsageState,
+        };
+
+  public static SslStates =
+    Url.getParameterByName(null, 'useApiVersion20181101') === 'true'
+      ? {
+          Disabled: 'Disabled' as SslState,
+          SniEnabled: 'SniEnabled' as SslState,
+          IpBasedEnabled: 'IpBasedEnabled' as SslState,
+        }
+      : {
+          Disabled: 0 as SslState,
+          SniEnabled: 1 as SslState,
+          IpBasedEnabled: 2 as SslState,
+        };
+
+  public static HostTypes =
+    Url.getParameterByName(null, 'useApiVersion20181101') === 'true'
+      ? {
+          Standard: 'Standard' as HostType,
+          Repository: 'Repository' as HostType,
+        }
+      : {
+          Standard: 0 as HostType,
+          Repository: 1 as HostType,
+        };
+
+  public static IpBasedSslStates =
+    Url.getParameterByName(null, 'useApiVersion20181101') === 'true'
+      ? {
+          NotConfigured: 'NotConfigured' as IpBasedSslState,
+          InProgress: 'InProgress' as IpBasedSslState,
+          Configured: 'Configured' as IpBasedSslState,
+          ConfigurationReverted: 'ConfigurationReverted' as IpBasedSslState,
+        }
+      : {
+          NotConfigured: 0 as IpBasedSslState,
+          InProgress: 1 as IpBasedSslState,
+          Configured: 2 as IpBasedSslState,
+          ConfigurationReverted: 3 as IpBasedSslState,
+        };
 }
