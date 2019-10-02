@@ -630,6 +630,7 @@ export class FeatureFlags {
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
   public static AllowFreeLinux = 'allowfreelinux';
+  public static enableGitHubAction = 'enableGitHubAction';
 }
 
 export class SupportedFeatures {

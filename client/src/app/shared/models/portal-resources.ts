@@ -1683,4 +1683,5 @@ export class PortalResources {
   public static apimUpsell = 'apimUpsell';
   public static version3Preview = 'version3Preview';
   public static sourceControlAuthStateFailure = 'sourceControlAuthStateFailure';
+  public static gitHubActionBuildServerTitle = 'gitHubActionBuildServerTitle';
 }

@@ -5220,4 +5220,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>Unable to retrieve authentication state. Please try again in a few minutes.</value>
     </data>
+    <data name="gitHubActionBuildServerTitle" xml:space="preserve">
+        <value>GitHub Action (Preview)</value>
+    </data>
 </root>
