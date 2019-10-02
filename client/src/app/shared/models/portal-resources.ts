@@ -1692,4 +1692,6 @@ export class PortalResources {
   public static addFunctionKey = 'addFunctionKey';
   public static functionKeyPropIsRequired = 'functionKeyPropIsRequired';
   public static functionKeyNamesUnique = 'functionKeyNamesUnique';
+  public static gitHubActionBuildServerTitle = 'gitHubActionBuildServerTitle';
+  public static gitHubActionBuildServerDesc = 'gitHubActionBuildServerDesc';
 }

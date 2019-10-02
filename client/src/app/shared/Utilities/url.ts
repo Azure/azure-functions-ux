@@ -1,6 +1,10 @@
 export class Url {
   private static _queryStrings: { [key: string]: string };
 
+  public static getFeatureValue(featureName: string): string {
+    return Url.getParameterByName(null, `appsvc.${featureName}`);
+  }
+
   public static getParameterByName(url, name) {
     if (url === null) {
       url = window.location.href;
