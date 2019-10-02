@@ -41,7 +41,7 @@ export class SiteService {
   getSlots(resourceId: string, force?: boolean): Result<ArmArrayResult<Site>> {
     const siteDescriptor = new ArmSiteDescriptor(resourceId);
     const slotsId = `${siteDescriptor.getSiteOnlyResourceId()}/slots`;
-    const getSlots = this._cacheService.getArm(slotsId, force, ARMApiVersions.websiteApiVersion20180201).map(r => r.json());
+    const getSlots = this._cacheService.getArm(slotsId, force, ARMApiVersions.websiteApiVersion20181101Was20180201).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getSlots);
   }
@@ -121,7 +121,7 @@ export class SiteService {
 
   getPublishingProfile(resourceId: string): Result<string> {
     const getPublishingProfile = this._cacheService
-      .postArm(`${resourceId}/publishxml`, true, ARMApiVersions.websiteApiVersion20160301)
+      .postArm(`${resourceId}/publishxml`, true, ARMApiVersions.websiteApiVersion20181101Was20160301)
       .map(r => r.text());
     return this._client.execute({ resourceId: resourceId }, t => getPublishingProfile);
   }
@@ -162,7 +162,9 @@ export class SiteService {
       },
     });
     const newSlotId = `${resourceId}/slots/${slotName}`;
-    const createSlot = this._cacheService.putArm(newSlotId, ARMApiVersions.websiteApiVersion20180201, payload).map(r => r.json());
+    const createSlot = this._cacheService
+      .putArm(newSlotId, ARMApiVersions.websiteApiVersion20181101Was20180201, payload)
+      .map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => createSlot);
   }
@@ -196,13 +198,15 @@ export class SiteService {
 
   getAzureStorageAccounts(resourceId: string, force?: boolean): Result<ArmObj<ByosStorageAccounts>> {
     const getSiteConfig = this._cacheService
-      .postArm(`${resourceId}/config/azureStorageAccounts/list`, force, ARMApiVersions.websiteApiVersion20180201)
+      .postArm(`${resourceId}/config/azureStorageAccounts/list`, force, ARMApiVersions.websiteApiVersion20181101Was20180201)
       .map(r => r.json());
     return this._client.execute({ resourceId: resourceId }, t => getSiteConfig);
   }
 
   getHostingEnvironment(resourceId: string, force?: boolean): Result<ArmObj<HostingEnvironment>> {
-    const getHostingEnvironment = this._cacheService.getArm(resourceId, force, ARMApiVersions.websiteApiVersion20160901).map(r => r.json());
+    const getHostingEnvironment = this._cacheService
+      .getArm(resourceId, force, ARMApiVersions.websiteApiVersion20181101Was20160901)
+      .map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getHostingEnvironment);
   }

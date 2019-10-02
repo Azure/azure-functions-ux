@@ -352,30 +352,32 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       return;
     }
 
-    this._armService.post(`${this.context.site.id}/publishxml`, null, ARMApiVersions.websiteApiVersion20160301).subscribe(response => {
-      const publishXml = response.text();
+    this._armService
+      .post(`${this.context.site.id}/publishxml`, null, ARMApiVersions.websiteApiVersion20181101Was20160301)
+      .subscribe(response => {
+        const publishXml = response.text();
 
-      // http://stackoverflow.com/questions/24501358/how-to-set-a-header-for-a-http-get-request-and-trigger-file-download/24523253#24523253
-      const windowUrl = window.URL || (<any>window).webkitURL;
-      const blob = new Blob([publishXml], { type: 'application/octet-stream' });
-      this._cleanupBlob();
+        // http://stackoverflow.com/questions/24501358/how-to-set-a-header-for-a-http-get-request-and-trigger-file-download/24523253#24523253
+        const windowUrl = window.URL || (<any>window).webkitURL;
+        const blob = new Blob([publishXml], { type: 'application/octet-stream' });
+        this._cleanupBlob();
 
-      if (window.navigator.msSaveOrOpenBlob) {
-        // Currently, Edge doesn' respect the "download" attribute to name the file from blob
-        // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7260192/
-        window.navigator.msSaveOrOpenBlob(blob, `${this.context.site.name}.PublishSettings`);
-      } else {
-        // http://stackoverflow.com/questions/37432609/how-to-avoid-adding-prefix-unsafe-to-link-by-angular2
-        this._blobUrl = windowUrl.createObjectURL(blob);
-        this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
+        if (window.navigator.msSaveOrOpenBlob) {
+          // Currently, Edge doesn' respect the "download" attribute to name the file from blob
+          // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7260192/
+          window.navigator.msSaveOrOpenBlob(blob, `${this.context.site.name}.PublishSettings`);
+        } else {
+          // http://stackoverflow.com/questions/37432609/how-to-avoid-adding-prefix-unsafe-to-link-by-angular2
+          this._blobUrl = windowUrl.createObjectURL(blob);
+          this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
 
-        setTimeout(() => {
-          const hiddenLink = document.getElementById('hidden-publish-profile-link');
-          hiddenLink.click();
-          this.publishProfileLink = null;
-        });
-      }
-    });
+          setTimeout(() => {
+            const hiddenLink = document.getElementById('hidden-publish-profile-link');
+            hiddenLink.click();
+            this.publishProfileLink = null;
+          });
+        }
+      });
   }
 
   openDownloadFunctionAppModal() {

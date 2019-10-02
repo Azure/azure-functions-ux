@@ -152,7 +152,7 @@ export class PlanService implements IPlanService {
     const getProviderInfo = this._cacheService.getArm(
       `/subscriptions/${subscriptionId}/providers/microsoft.web`,
       false,
-      ARMApiVersions.websiteApiVersion20180101
+      ARMApiVersions.websiteApiVersion20181101Was20180101
     );
 
     return this._client

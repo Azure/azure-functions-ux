@@ -688,7 +688,7 @@ export class FunctionAppService {
       context.site.properties.hostingEnvironmentProfile.id
     ) {
       return this._cacheService
-        .getArm(context.site.properties.hostingEnvironmentProfile.id, false, ARMApiVersions.websiteApiVersion20160901)
+        .getArm(context.site.properties.hostingEnvironmentProfile.id, false, ARMApiVersions.websiteApiVersion20181101Was20160901)
         .mergeMap(r => {
           const ase: ArmObj<HostingEnvironment> = r.json();
           if (ase.properties.internalLoadBalancingMode && ase.properties.internalLoadBalancingMode !== InternalLoadBalancingMode.None) {

@@ -3,57 +3,54 @@ import { HostingEnvironmentProfile } from '../hostingEnvironment/hosting-environ
 import { Certificate, Csr } from './certificate';
 import { SiteConfig } from './config';
 import { CloningInfo } from './cloning-info';
-import Url from '../../utils/url';
 
-const useApiVersion20181101 = Url.getParameterByName(null, 'useApiVersion20181101') === 'true';
-
-export type ContentAvailabilityState = 'Normal' | 'ReadOnly' | number;
-export type RuntimeAvailabilityState = 'Normal' | 'Degraded' | 'NotAvailable' | number;
-export type SiteAvailabilityState = 'Normal' | 'Limited' | 'DisasterRecoveryMode' | number;
-export type UsageState = 'Normal' | 'Exceeded' | number;
-export type SslState = 'Disabled' | 'SniEnabled' | 'IpBasedEnabled' | number;
-export type HostType = 'Standard' | 'Repository' | number;
-export type IpBasedSslState = 'NotConfigured' | 'InProgress' | 'Configured' | 'ConfigurationReverted' | number;
+export type ContentAvailabilityState = 'Normal' | 'ReadOnly';
+export type RuntimeAvailabilityState = 'Normal' | 'Degraded' | 'NotAvailable';
+export type SiteAvailabilityState = 'Normal' | 'Limited' | 'DisasterRecoveryMode';
+export type UsageState = 'Normal' | 'Exceeded';
+export type SslState = 'Disabled' | 'SniEnabled' | 'IpBasedEnabled';
+export type HostType = 'Standard' | 'Repository';
+export type IpBasedSslState = 'NotConfigured' | 'InProgress' | 'Configured' | 'ConfigurationReverted';
 
 export class SiteContants {
   public static ContentAvailabilityStates = {
-    Normal: (useApiVersion20181101 ? 'Normal' : 0) as ContentAvailabilityState,
-    ReadOnly: (useApiVersion20181101 ? 'ReadOnly' : 1) as ContentAvailabilityState,
+    Normal: 'Normal' as ContentAvailabilityState,
+    ReadOnly: 'ReadOnly' as ContentAvailabilityState,
   };
 
   public static RuntimeAvailabilityStates = {
-    Normal: (useApiVersion20181101 ? 'Normal' : 0) as RuntimeAvailabilityState,
-    Degraded: (useApiVersion20181101 ? 'Degraded' : 1) as RuntimeAvailabilityState,
-    NotAvailable: (useApiVersion20181101 ? 'NotAvailable' : 2) as RuntimeAvailabilityState,
+    Normal: 'Normal' as RuntimeAvailabilityState,
+    Degraded: 'Degraded' as RuntimeAvailabilityState,
+    NotAvailable: 'NotAvailable' as RuntimeAvailabilityState,
   };
 
   public static SiteAvailabilityStates = {
-    Normal: (useApiVersion20181101 ? 'Normal' : 0) as SiteAvailabilityState,
-    Limited: (useApiVersion20181101 ? 'Limited' : 1) as SiteAvailabilityState,
-    DisasterRecoveryMode: (useApiVersion20181101 ? 'DisasterRecoveryMode' : 2) as SiteAvailabilityState,
+    Normal: 'Normal' as SiteAvailabilityState,
+    Limited: 'Limited' as SiteAvailabilityState,
+    DisasterRecoveryMode: 'DisasterRecoveryMode' as SiteAvailabilityState,
   };
 
   public static UsageStates = {
-    Normal: (useApiVersion20181101 ? 'Normal' : 0) as UsageState,
-    Exceeded: (useApiVersion20181101 ? 'Exceeded' : 1) as UsageState,
+    Normal: 'Normal' as UsageState,
+    Exceeded: 'Exceeded' as UsageState,
   };
 
   public static SslStates = {
-    Disabled: (useApiVersion20181101 ? 'Disabled' : 0) as SslState,
-    SniEnabled: (useApiVersion20181101 ? 'SniEnabled' : 1) as SslState,
-    IpBasedEnabled: (useApiVersion20181101 ? 'IpBasedEnabled' : 2) as SslState,
+    Disabled: 'Disabled' as SslState,
+    SniEnabled: 'SniEnabled' as SslState,
+    IpBasedEnabled: 'IpBasedEnabled' as SslState,
   };
 
   public static HostTypes = {
-    Standard: (useApiVersion20181101 ? 'Standard' : 0) as HostType,
-    Repository: (useApiVersion20181101 ? 'Repository' : 1) as HostType,
+    Standard: 'Standard' as HostType,
+    Repository: 'Repository' as HostType,
   };
 
   public static IpBasedSslStates = {
-    NotConfigured: (useApiVersion20181101 ? 'NotConfigured' : 0) as IpBasedSslState,
-    InProgress: (useApiVersion20181101 ? 'InProgress' : 1) as IpBasedSslState,
-    Configured: (useApiVersion20181101 ? 'Configured' : 2) as IpBasedSslState,
-    ConfigurationReverted: (useApiVersion20181101 ? 'ConfigurationReverted' : 3) as IpBasedSslState,
+    NotConfigured: 'NotConfigured' as IpBasedSslState,
+    InProgress: 'InProgress' as IpBasedSslState,
+    Configured: 'Configured' as IpBasedSslState,
+    ConfigurationReverted: 'ConfigurationReverted' as IpBasedSslState,
   };
 }
 

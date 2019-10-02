@@ -227,7 +227,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._putArm(saveConfigs.appSettingsArm),
             this._putArm(saveConfigs.connectionStringsArm),
             this._putArm(saveConfigs.siteArm),
-            this._putArm(saveConfigs.siteConfigArm, ARMApiVersions.websiteApiVersion20180201),
+            this._putArm(saveConfigs.siteConfigArm, ARMApiVersions.websiteApiVersion20181101Was20180201),
             this._putArm(saveConfigs.slotConfigNamesArm),
             this._putArm(saveConfigs.azureStorageAccountsArm)
           );

@@ -118,7 +118,7 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
     queryString,
     id,
     method: method || 'GET',
-    apiVersion: apiVersion !== null ? apiVersion || CommonConstants.ApiVersions.websiteApiVersion20180201 : null,
+    apiVersion: apiVersion !== null ? apiVersion || CommonConstants.ApiVersions.websiteApiVersion20181101Was20180201 : null,
   };
 
   if (!skipBuffer && !alwaysSkipBatch) {

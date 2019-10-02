@@ -73,7 +73,7 @@ export namespace Preconditions {
           const app: ArmObj<Site> = context.site;
           if (app.properties.hostingEnvironmentProfile && app.properties.hostingEnvironmentProfile.id) {
             return this.cacheService
-              .getArm(app.properties.hostingEnvironmentProfile.id, false, ARMApiVersions.websiteApiVersion20160901)
+              .getArm(app.properties.hostingEnvironmentProfile.id, false, ARMApiVersions.websiteApiVersion20181101Was20160901)
               .concatMap(a => {
                 const ase: ArmObj<HostingEnvironment> = a.json();
                 if (

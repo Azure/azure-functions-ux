@@ -1,8 +1,4 @@
-﻿import { Url } from '../Utilities/url';
-
-const useApiVersion20181101 = Url.getParameterByName(null, 'useApiVersion20181101') === 'true';
-
-export class HttpMethods {
+﻿export class HttpMethods {
   public static GET = 'get';
   public static POST = 'post';
   public static DELETE = 'delete';
@@ -379,11 +375,11 @@ export class LogCategories {
 }
 
 export class ARMApiVersions {
-  public static websiteApiVersion = useApiVersion20181101 ? '2018-11-01' : '2015-08-01';
-  public static websiteApiVersion20160301 = useApiVersion20181101 ? '2018-11-01' : '2016-03-01';
-  public static websiteApiVersion20160901 = useApiVersion20181101 ? '2018-11-01' : '2016-09-01';
-  public static websiteApiVersion20180101 = useApiVersion20181101 ? '2018-11-01' : '2018-01-01';
-  public static websiteApiVersion20180201 = useApiVersion20181101 ? '2018-11-01' : '2018-02-01';
+  public static websiteApiVersion = '2018-11-01'; // was '2015-08-01' TODO (andimarc): Task 5482541 - Clean up AntaresApiVersion constants
+  public static websiteApiVersion20181101Was20160301 = '2018-11-01'; // was '2016-03-01' TODO (andimarc): Task 5482541 - Clean up AntaresApiVersion constants
+  public static websiteApiVersion20181101Was20160901 = '2018-11-01'; // was '2016-09-01' TODO (andimarc): Task 5482541 - Clean up AntaresApiVersion constants
+  public static websiteApiVersion20181101Was20180101 = '2018-11-01'; // was '2018-01-01' TODO (andimarc): Task 5482541 - Clean up AntaresApiVersion constants
+  public static websiteApiVersion20181101Was20180201 = '2018-11-01'; // was '2018-02-01' TODO (andimarc): Task 5482541 - Clean up AntaresApiVersion constants
   public static websiteApiVersion20181101 = '2018-11-01';
   public static armApiVersion = '2014-04-01';
   public static acrApiversion = '2017-03-01';
