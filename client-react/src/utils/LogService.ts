@@ -147,6 +147,7 @@ export default class LogService {
 
     return {
       identifiers: {
+        fusionHostName: window.appsvc && window.appsvc.env && window.appsvc.env.hostName,
         fusionAppName: window.appsvc && window.appsvc.env && window.appsvc.env.appName,
         fusionVersion: window.appsvc && window.appsvc.version,
         resourceId: window.appsvc && window.appsvc.resourceId,

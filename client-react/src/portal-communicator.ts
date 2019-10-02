@@ -114,7 +114,7 @@ export default class PortalCommunicator {
             window.appsvc = {
               version: response.data.version,
               env: {
-                hostName: '',
+                hostName: response.data.hostName,
                 appName: response.data.appName,
                 azureResourceManagerEndpoint: '',
                 runtimeType: 'Azure',
