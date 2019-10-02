@@ -4856,6 +4856,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="connectionStringNamesUnique" xml:space="preserve">
         <value>Connection string names must be unique</value>
     </data>
+    <data name="slotSettingForbiddenProperty" xml:space="preserve">
+        <value>Updating the '{0}' property requires write access on the production app</value>
+    </data>
     <data name="handlerMappingPropIsRequired" xml:space="preserve">
         <value>{0} is a required property on all handler mappings</value>
     </data>
@@ -5219,6 +5222,30 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>Unable to retrieve authentication state. Please try again in a few minutes.</value>
+    </data>
+    <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
+      <value>Refresh all keys for the function</value>
+    </data>
+    <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
+      <value>Use left and right arrow keys to navigate between commands</value>
+    </data>
+    <data name="newFunctionKey" xml:space="preserve">
+      <value>New function key</value>
+    </data>
+    <data name="filterFunctionKeys" xml:space="preserve">
+      <value>Filter functions keys</value>
+    </data>
+    <data name="editFunctionKey" xml:space="preserve">
+      <value>Edit key</value>
+    </data>
+    <data name="addFunctionKey" xml:space="preserve">
+      <value>Add key</value>
+    </data>
+    <data name="functionKeyPropIsRequired" xml:space="preserve">
+      <value>{0} is a required property on all function keys</value>
+    </data>
+    <data name="functionKeyNamesUnique" xml:space="preserve">
+      <value>Function key names must be unique</value>
     </data>
     <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>GitHub Action (Preview)</value>

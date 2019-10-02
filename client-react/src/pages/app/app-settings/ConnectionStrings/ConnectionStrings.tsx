@@ -103,6 +103,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
               updateAppSetting={this._saveBulkEdit}
               closeBlade={this._onCancel}
               connectionStrings={this.props.values.connectionStrings}
+              disableSlotSetting={!production_write}
             />
           </Suspense>
         </Panel>

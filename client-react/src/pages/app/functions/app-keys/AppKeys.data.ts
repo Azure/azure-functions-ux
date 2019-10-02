@@ -1,5 +1,4 @@
 import { AppKeysFormValues, AppKeysInfo, AppKeysModel, AppKeysTypes } from './AppKeys.types';
-import SiteService from '../../../../ApiHelpers/SiteService';
 import AppKeyService from '../../../../ApiHelpers/AppKeysService';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
@@ -17,10 +16,6 @@ export default class AppKeysData {
 
   public fetchKeys = (resourceId: string) => {
     return AppKeyService.fetchKeys(resourceId);
-  };
-
-  public getSiteObject = (resourceId: string) => {
-    return SiteService.fetchSite(resourceId);
   };
 
   public deleteKey = (resourceId: string, keyName: string, keyType: AppKeysTypes) => {

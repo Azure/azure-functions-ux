@@ -2,21 +2,24 @@ import i18next from 'i18next';
 import { FormConnectionString } from '../AppSettings.types';
 import * as Joi from 'joi';
 import { TypeStrings } from './connectionStringTypes';
-const schema = Joi.array()
-  .unique('name')
-  .items(
-    Joi.object().keys({
-      name: Joi.string().required(),
-      value: Joi.string().required(),
-      type: Joi.required().valid(TypeStrings),
-      slotSetting: Joi.boolean().optional(),
-    })
-  );
-export const getErrorMessage = (newValue: string, t: i18next.TFunction) => {
+const getSchema = (disableSlotSetting: boolean): Joi.ArraySchema => {
+  const slotSettingSchema = disableSlotSetting ? Joi.boolean().forbidden() : Joi.boolean().optional();
+  return Joi.array()
+    .unique('name')
+    .items(
+      Joi.object().keys({
+        name: Joi.string().required(),
+        value: Joi.string().required(),
+        type: Joi.required().valid(TypeStrings),
+        slotSetting: slotSettingSchema,
+      })
+    );
+};
+export const getErrorMessage = (newValue: string, disableSlotSetting: boolean, t: i18next.TFunction) => {
   try {
     const obj = JSON.parse(newValue) as unknown;
 
-    const result = Joi.validate(obj, schema);
+    const result = Joi.validate(obj, getSchema(disableSlotSetting));
     if (!result.error) {
       return '';
     }
@@ -36,6 +39,10 @@ export const getErrorMessage = (newValue: string, t: i18next.TFunction) => {
         return t('connectionStringNamesUnique');
       case 'any.allowOnly':
         return details.message;
+      case 'any.unknown':
+        return disableSlotSetting && details.context!.key === 'slotSetting'
+          ? t('slotSettingForbiddenProperty').format(details.context!.key)
+          : t('jsonInvalid');
       default:
         return t('jsonInvalid');
     }
@@ -44,24 +51,44 @@ export const getErrorMessage = (newValue: string, t: i18next.TFunction) => {
   }
 };
 
-export const formConnectionStringsoUseSlotSetting = (connectionStrings: FormConnectionString[]): string => {
-  return JSON.stringify(
-    connectionStrings.map(x => ({
-      name: x.name,
-      value: x.value,
-      type: x.type,
-      slotSetting: x.sticky,
-    })),
-    null,
-    2
-  );
+const getConnectionStringObjectForMonacoEditor = (connectionString: FormConnectionString, disableSlotSetting: boolean) => {
+  return disableSlotSetting
+    ? {
+        name: connectionString.name,
+        value: connectionString.value,
+        type: connectionString.type,
+      }
+    : {
+        name: connectionString.name,
+        value: connectionString.value,
+        type: connectionString.type,
+        slotSetting: connectionString.sticky,
+      };
 };
 
-export const formAppSettingToUseStickySetting = (connectionStrings: string): FormConnectionString[] => {
+const getConnectionStringStickyValue = (connectionStringName: string, initialConnectionStrings: FormConnectionString[]): boolean => {
+  const connectionStringIndex = initialConnectionStrings.findIndex(x => {
+    if (x.name.toLowerCase() === connectionStringName.toLowerCase()) {
+      return true;
+    }
+    return false;
+  });
+  return connectionStringIndex >= 0 ? initialConnectionStrings[connectionStringIndex].sticky : false;
+};
+
+export const formConnectionStringsoUseSlotSetting = (connectionStrings: FormConnectionString[], disableSlotSetting: boolean): string => {
+  return JSON.stringify(connectionStrings.map(x => getConnectionStringObjectForMonacoEditor(x, disableSlotSetting)), null, 2);
+};
+
+export const formAppSettingToUseStickySetting = (
+  connectionStrings: string,
+  disableSlotSetting: boolean,
+  initialConnectionStrings: FormConnectionString[]
+): FormConnectionString[] => {
   return JSON.parse(connectionStrings).map(x => ({
     name: x.name,
     value: x.value,
     type: x.type,
-    sticky: x.slotSetting,
+    sticky: disableSlotSetting ? getConnectionStringStickyValue(x.name, initialConnectionStrings) : x.slotSetting,
   }));
 };
