@@ -289,7 +289,7 @@ export interface CheckLockResponse {
   hasLock: boolean;
 }
 
-export interface FusionPortalDebugInformation {
+export interface PortalDebugInformation {
   hostName: string;
   appName: string;
   version: string;

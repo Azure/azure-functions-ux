@@ -14,7 +14,7 @@ interface Environment {
   hostName: string;
   runtimeType: 'OnPrem' | 'Azure' | 'Standalone';
   azureResourceManagerEndpoint?: string;
-  authToken?: string;
+  armToken?: string;
   appName: string;
 }
 

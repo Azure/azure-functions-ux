@@ -26,7 +26,7 @@ import {
   CheckLockRequest,
   CheckLockResponse,
   LockType,
-  FusionPortalDebugInformation,
+  PortalDebugInformation,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import darkModeTheme from './theme/dark';
@@ -441,7 +441,7 @@ export default class PortalCommunicator {
   private setArmTokenInternal = (token: string) => {
     this.setArmToken(token);
     if (window.appsvc && window.appsvc.env) {
-      window.appsvc.env.authToken = token;
+      window.appsvc.env.armToken = token;
     }
   };
 
@@ -457,7 +457,7 @@ export default class PortalCommunicator {
   };
 
   private getDebugInformation = () => {
-    return sendHttpRequest<FusionPortalDebugInformation>({
+    return sendHttpRequest<PortalDebugInformation>({
       url: '/api/debug',
       method: 'GET',
       headers: getJsonHeaders(),

@@ -78,7 +78,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
   const armEndpoint = window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint;
   const url = Url.appendQueryString(`${armEndpoint}${resourceId}${queryString || ''}`, `api-version=${apiVersion}`);
   const headers: { [key: string]: string } = {
-    Authorization: `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.authToken}`,
+    Authorization: `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`,
     'x-ms-client-request-id': armObj.id,
   };
   if (sessionId) {
@@ -96,7 +96,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
       if (window.updateAuthToken) {
         const newToken = await window.updateAuthToken('');
         if (window.appsvc && window.appsvc.env) {
-          window.appsvc.env.authToken = newToken;
+          window.appsvc.env.armToken = newToken;
         } else {
           throw Error('window.appsvc not available');
         }
