@@ -5223,4 +5223,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>GitHub Action (Preview)</value>
     </data>
+    <data name="gitHubActionBuildServerDesc" xml:space="preserve">
+        <value>Setup build/test/deploy workflow directly in your repository via a YML configuration file.</value>
+    </data>
 </root>

@@ -1684,4 +1684,5 @@ export class PortalResources {
   public static version3Preview = 'version3Preview';
   public static sourceControlAuthStateFailure = 'sourceControlAuthStateFailure';
   public static gitHubActionBuildServerTitle = 'gitHubActionBuildServerTitle';
+  public static gitHubActionBuildServerDesc = 'gitHubActionBuildServerDesc';
 }
