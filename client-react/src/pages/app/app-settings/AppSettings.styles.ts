@@ -1,4 +1,4 @@
-import { IButtonProps } from 'office-ui-fabric-react';
+import { IButtonProps, ICommandBarStyles } from 'office-ui-fabric-react';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 import { style } from 'typestyle';
 
@@ -26,6 +26,15 @@ export const commandBarSticky = style({
 export const formStyle = style({
   padding: '5px 20px',
 });
+export const customCommandBarStyles = (theme: ThemeExtended): ICommandBarStyles => {
+  return {
+    root: [
+      {
+        backgroundColor: theme.semanticColors.bodyBackground,
+      },
+    ],
+  };
+};
 
 export const newButtonOfficeFabricStyle = { root: { marginTop: '5px' } };
 export const textBoxListStyle = style({ marginBottom: '5px', marginLeft: '0px', listStyle: 'none' });
@@ -34,3 +43,8 @@ export const textBoxInListDeleteButtonStyle = style({ display: 'inline-block', w
 
 export const filterBoxStyle = { root: { marginTop: '5px', height: '25px', width: '100%' } };
 export const tableActionButtonStyle = { root: { marginTop: '5px' } };
+export const bladeLinkStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.actionLink,
+    cursor: 'pointer',
+  });

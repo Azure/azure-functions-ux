@@ -51,7 +51,16 @@ $border-light: 1px $primary-color solid;
 }
 
 [role='radiogroup']:not([aria-disabled='true']) {
-  [role='radio']:hover {
+  [role='radio'][aria-disabled='true'] {
+    border-color: $disabled-color;
+    color: $disabled-color;
+
+    &:hover {
+      cursor: default;
+    }
+  }
+
+  [role='radio']:not([aria-disabled='true']):hover {
     background-color: $item-hover-color;
     color: $primary-color;
   }
@@ -108,7 +117,16 @@ $border-light: 1px $primary-color solid;
   }
 
   [role='radiogroup']:not([aria-disabled='true']) {
-    [role='radio']:hover {
+    [role='radio'][aria-disabled='true'] {
+      border-color: $disabled-color;
+      color: $disabled-color;
+
+      &:hover {
+        cursor: default;
+      }
+    }
+
+    [role='radio']:not([aria-disabled='true']):hover {
       background-color: $item-hover-color-dark;
       color: $primary-color-dark;
     }

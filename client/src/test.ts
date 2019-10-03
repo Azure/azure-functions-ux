@@ -44,6 +44,7 @@ window.appsvc = {
     hostName: '',
     runtimeType: 'Azure',
     azureResourceManagerEndpoint: '',
+    appName: '',
   },
   cacheBreakQuery: 'test',
   functionsVersionInfo: null,

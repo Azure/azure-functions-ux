@@ -23,6 +23,7 @@ import { ArmArray, ArmObj } from '../../../models/arm-obj';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
+import { SiteRouterContext } from '../SiteRouter';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -62,6 +63,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [storageAccountsState, setStorageAccountsState] = useState<ArmArray<StorageAccount>>({ value: [] });
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
+  const siteContext = useContext(SiteRouterContext);
 
   const armCallFailed = (response: HttpResponseObject<any>, ignoreRbacAndLocks?: boolean) => {
     if (response.metadata.success) {
@@ -71,8 +73,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchData = async () => {
+    const site = await siteContext.fetchSite(resourceId);
     const {
-      site,
       webConfig,
       metadata,
       connectionStrings,

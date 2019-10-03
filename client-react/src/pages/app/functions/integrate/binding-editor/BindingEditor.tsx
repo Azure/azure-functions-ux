@@ -23,7 +23,7 @@ export interface BindingEditorFormValues {
 }
 
 const fieldWrapperStyle = style({
-  padding: '20px',
+  paddingTop: '20px',
 });
 
 const BindingEditor: React.SFC<BindingEditorProps> = props => {

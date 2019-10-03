@@ -24,49 +24,46 @@ export default class LogService {
   }
 
   public static error(category: string, id: string, data: any) {
-    this._validateCategory(category);
-    this._validateId(id);
-    this._validateData(data);
+    LogService._validateCategory(category);
+    LogService._validateId(id);
+    LogService._validateData(data);
 
     const errorId = `/errors/${category}/${id}`;
 
     if (AppInsights) {
-      const properties = typeof data === 'object' ? data : { message: data };
-      AppInsights.trackEvent(errorId, properties);
+      LogService._trackEvent(errorId, data);
     }
-    if (this._logToConsole) {
+    if (LogService._logToConsole) {
       console.error(`[${category}] - ${data}`);
     }
   }
 
   public static warn(category: string, id: string, data: any) {
-    this._validateCategory(category);
-    this._validateId(id);
-    this._validateData(data);
+    LogService._validateCategory(category);
+    LogService._validateId(id);
+    LogService._validateData(data);
 
     const warningId = `/warnings/${category}/${id}`;
 
     if (AppInsights) {
-      const properties = typeof data === 'object' ? data : { message: data };
-      AppInsights.trackEvent(warningId, properties);
+      LogService._trackEvent(warningId, data);
     }
-    if (this._logToConsole) {
+    if (LogService._logToConsole) {
       console.warn(`[${category}] - ${data}`);
     }
   }
 
   public static trackEvent(category: string, id: string, data: any) {
-    this._validateCategory(category);
-    this._validateId(id);
-    this._validateData(data);
+    LogService._validateCategory(category);
+    LogService._validateId(id);
+    LogService._validateData(data);
 
-    const warningId = `/event/${category}/${id}`;
+    const eventId = `/event/${category}/${id}`;
 
     if (AppInsights) {
-      const properties = typeof data === 'object' ? data : { message: data };
-      AppInsights.trackEvent(warningId, properties);
+      LogService._trackEvent(eventId, data);
     }
-    if (this._logToConsole) {
+    if (LogService._logToConsole) {
       console.log(`%c[${category}] - ${data}`, 'color: #ff8c00');
     }
   }
@@ -75,8 +72,8 @@ export default class LogService {
     if (AppInsights) {
       AppInsights.startTrackPage(pageName);
     }
-    if (this._logToConsole) {
-      console.log(`${this._getTime()} [Start Track Page] - ${pageName}`);
+    if (LogService._logToConsole) {
+      console.log(`${LogService._getTime()} [Start Track Page] - ${pageName}`);
     }
   }
 
@@ -85,8 +82,8 @@ export default class LogService {
       AppInsights.stopTrackPage(pageName, window.location.href, data);
     }
 
-    if (this._logToConsole) {
-      console.log(`${this._getTime()} [Stop Track Page] - ${pageName}`);
+    if (LogService._logToConsole) {
+      console.log(`${LogService._getTime()} [Stop Track Page] - ${pageName}`);
     }
   }
 
@@ -94,27 +91,27 @@ export default class LogService {
     if (AppInsights) {
       AppInsights.startTrackEvent(eventName);
     }
-    if (this._logToConsole) {
-      console.log(`${this._getTime()} [Start Track Event] - ${eventName}`);
+    if (LogService._logToConsole) {
+      console.log(`${LogService._getTime()} [Start Track Event] - ${eventName}`);
     }
   }
 
   public static stopTrackEvent(eventName: string, data: any) {
-    this._validateData(data);
+    LogService._validateData(data);
     if (AppInsights) {
       AppInsights.stopTrackEvent(eventName, data);
     }
-    if (this._logToConsole) {
-      console.log(`${this._getTime()} [Stop Track Event] - ${eventName}`);
+    if (LogService._logToConsole) {
+      console.log(`${LogService._getTime()} [Stop Track Event] - ${eventName}`);
     }
   }
 
   public static debug(category: string, data: any) {
-    this._validateCategory(category);
-    this._validateData(data);
+    LogService._validateCategory(category);
+    LogService._validateData(data);
 
-    if (this._logToConsole) {
-      console.debug(`${this._getTime()} %c[${category}] - ${data}`);
+    if (LogService._logToConsole) {
+      console.debug(`${LogService._getTime()} %c[${category}] - ${data}`);
     }
   }
   private static _logToConsole = process.env.NODE_ENV !== 'production';
@@ -140,5 +137,25 @@ export default class LogService {
     if (!data) {
       throw Error('You must provide data');
     }
+  }
+
+  private static _trackEvent(name: string, data: any) {
+    const properties = LogService._getTrackingData(data);
+    AppInsights.trackEvent(name, properties);
+  }
+
+  private static _getTrackingData(data: any) {
+    const properties = typeof data === 'object' ? data : { message: data };
+
+    return {
+      identifiers: {
+        hostName: window.appsvc && window.appsvc.env && window.appsvc.env.hostName,
+        appName: window.appsvc && window.appsvc.env && window.appsvc.env.appName,
+        version: window.appsvc && window.appsvc.version,
+        resourceId: window.appsvc && window.appsvc.resourceId,
+        feature: window.appsvc && window.appsvc.feature,
+      },
+      ...properties,
+    };
   }
 }

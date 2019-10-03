@@ -14,6 +14,7 @@ export abstract class IsolatedSmallPlanPriceSpec extends IsolatedPlanPriceSpec {
       id: this.skuCode,
       firstParty: [
         {
+          id: this.skuCode,
           quantity: CommonConstants.Pricing.hoursInAzureMonth,
         },
       ],
