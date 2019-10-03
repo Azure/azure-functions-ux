@@ -153,21 +153,13 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
     const initialAppSettings = props.initialValues.connectionStrings;
     const currentRow = values.appSettings[index];
     const currentAppSettingIndex = initialAppSettings.findIndex(x => {
-      if (
+      return (
         x.name.toLowerCase() === currentRow.name.toLowerCase() &&
         x.value.toLowerCase() === currentRow.value.toLowerCase() &&
         x.sticky === currentRow.sticky
-      ) {
-        return true;
-      } else {
-        return false;
-      }
+      );
     });
-    if (currentAppSettingIndex >= 0) {
-      return false;
-    } else {
-      return true;
-    }
+    return currentAppSettingIndex < 0;
   };
 
   const onRenderItemColumn = (item: FormConnectionString, index: number, column: IColumn) => {

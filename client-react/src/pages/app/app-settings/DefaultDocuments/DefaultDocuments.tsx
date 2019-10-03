@@ -61,10 +61,7 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
     const initialDefaultDocuments = props.initialValues.config.properties.defaultDocuments;
     const currentRow = values.config.properties.defaultDocuments[index];
     const initialDefaultDocumentIndex = initialDefaultDocuments.findIndex(x => x.toLowerCase() === currentRow.toLowerCase());
-    if (initialDefaultDocumentIndex >= 0) {
-      return false;
-    }
-    return true;
+    return initialDefaultDocumentIndex < 0;
   };
 
   if (!values.config.properties.defaultDocuments) {

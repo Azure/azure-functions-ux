@@ -71,12 +71,6 @@ export const controlContainerStyle = (upsellIcon: boolean, fullpage: boolean) =>
 
 export const upsellIconStyle = style({ marginRight: '6px' });
 
-export const labelStyle = (upsellIcon: boolean, fullpage: boolean, label: boolean = false) =>
-  style({
-    width: upsellIcon && fullpage ? '220px' : '200px',
-    paddingLeft: label ? '5px' : '0px',
-  });
-
 export const infoMessageStyle = (fullpage: boolean) =>
   style({
     paddingLeft: fullpage ? '10px' : 0,
@@ -106,3 +100,14 @@ export const copyButtonStyle = (theme: ThemeExtended) =>
 export const learnMoreLinkStyle = style({ minWidth: '70px' });
 
 export const addEditFormStyle = style({ paddingBottom: '60px' });
+
+export const formStackStyle = (upsellIcon: boolean, fullpage: boolean) =>
+  style({
+    width: upsellIcon && fullpage ? '220px' : '200px',
+  });
+
+export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean) =>
+  style({
+    width: upsellIcon && fullpage ? '220px' : '200px',
+    paddingLeft: '5px',
+  });

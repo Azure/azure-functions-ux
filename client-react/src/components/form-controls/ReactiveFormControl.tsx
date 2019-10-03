@@ -3,10 +3,11 @@ import { Stack, Label, Link, Icon } from 'office-ui-fabric-react';
 import {
   controlContainerStyle,
   upsellIconStyle,
-  labelStyle,
   infoMessageStyle,
   infoIconStyle,
   learnMoreLinkStyle,
+  formStackStyle,
+  formLabelStyle,
 } from './formControl.override.styles';
 import UpsellIcon from '../TooltipIcons/UpsellIcon';
 import { useWindowSize } from 'react-use';
@@ -33,14 +34,14 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
   return (
     <Stack horizontal={fullpage} verticalAlign="center" className={controlContainerStyle(!!upsellMessage, fullpage)}>
       {label && (
-        <Stack horizontal verticalAlign="center" className={labelStyle(!!upsellMessage, fullpage)}>
+        <Stack horizontal verticalAlign="center" className={formStackStyle(!!upsellMessage, fullpage)}>
           {upsellMessage && (
             <div className={upsellIconStyle}>
               <UpsellIcon upsellMessage={upsellMessage} />
             </div>
           )}
           <Label
-            className={`${labelStyle(!!upsellMessage, fullpage, true)} ${isDirty ? dirtyElementStyle(theme) : ''}`}
+            className={`${formLabelStyle(!!upsellMessage, fullpage)} ${isDirty ? dirtyElementStyle(theme) : ''}`}
             id={`${props.id}-label`}>
             {label}
           </Label>
