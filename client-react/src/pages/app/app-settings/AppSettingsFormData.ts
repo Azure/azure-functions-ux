@@ -57,66 +57,56 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
   return newConfig;
 };
 
-export const getCleanedConfigForSave = (config: ArmObj<SiteConfig>) => {
-  let linuxFxVersion = config.properties.linuxFxVersion ? config.properties.linuxFxVersion : '';
+export const getCleanedConfigForSave = (config: SiteConfig) => {
+  let linuxFxVersion = config.linuxFxVersion ? config.linuxFxVersion : '';
   if (linuxFxVersion) {
     const linuxFxVersionParts = linuxFxVersion.split('|');
     linuxFxVersionParts[0] = linuxFxVersionParts[0].toUpperCase();
     linuxFxVersion = linuxFxVersionParts.join('|');
   }
-  const newConfig: ArmObj<SiteConfig> = {
+  const newConfig: SiteConfig = {
     ...config,
-    properties: {
-      ...config.properties,
-      linuxFxVersion,
-    },
+    linuxFxVersion,
   };
   return newConfig;
 };
 
 export interface ApiSetupReturn {
   site: ArmObj<Site>;
-  config: ArmObj<SiteConfig>;
   slotConfigNames: ArmObj<SlotConfigNames>;
-  storageMounts: ArmObj<ArmAzureStorageMount>;
 }
 export const convertFormToState = (
   values: AppSettingsFormValues,
   currentMetadata: ArmObj<{ [key: string]: string }>,
   oldSlotNameSettings: ArmObj<SlotConfigNames>
 ): ApiSetupReturn => {
-  const config = values.config;
-  config.properties.virtualApplications = unFlattenVirtualApplicationsList(values.virtualApplications);
-  config.properties.azureStorageAccounts = undefined;
-  const site = values.site;
-
-  site.properties.siteConfig = {
-    appSettings: getAppSettingsFromForm(values.appSettings),
-    connectionStrings: getConnectionStringsFromForm(values.connectionStrings),
-    metadata: getMetadataToSet(currentMetadata, values.currentlySelectedStack),
-  };
-
   const slotConfigNames = getStickySettings(values.appSettings, values.connectionStrings, oldSlotNameSettings);
-  const configWithStack = getConfigWithStackSettings(config, values);
-  const storageMounts = getAzureStorageMountFromForm(values.azureStorageMounts);
+  const site = { ...values.site };
+
+  let config = { ...values.config.properties };
+  config.virtualApplications = unFlattenVirtualApplicationsList(values.virtualApplications);
+  config.azureStorageAccounts = getAzureStorageMountFromForm(values.azureStorageMounts);
+  config.appSettings = getAppSettingsFromForm(values.appSettings);
+  config.connectionStrings = getConnectionStringsFromForm(values.connectionStrings);
+  config.metadata = getMetadataToSet(currentMetadata, values.currentlySelectedStack);
+  config = getConfigWithStackSettings(config, values);
+  config = getCleanedConfigForSave(config);
+
+  site.properties.siteConfig = config;
 
   if (site) {
     const [id, location] = [site.id, site.location];
     if (id) {
       slotConfigNames.id = `${SiteService.getProductionId(id)}/config/slotconfignames`;
-      storageMounts.id = `${id}/config/azureStorageAccounts`;
     }
     if (location) {
       slotConfigNames.location = location;
-      storageMounts.location = location;
     }
   }
 
   return {
     site,
     slotConfigNames,
-    storageMounts,
-    config: configWithStack,
   };
 };
 
@@ -180,18 +170,13 @@ export function getFormAzureStorageMount(storageData: ArmObj<ArmAzureStorageMoun
   );
 }
 
-export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts[]): ArmObj<ArmAzureStorageMount> {
+export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts[]): ArmAzureStorageMount {
   const storageMountFromForm: ArmAzureStorageMount = {};
   storageData.forEach(store => {
     const { name, ...rest } = store;
     storageMountFromForm[name] = rest;
   });
-  return {
-    id: '',
-    location: '',
-    name: 'azurestorageaccounts',
-    properties: storageMountFromForm,
-  };
+  return storageMountFromForm;
 }
 
 export function getAppSettingsFromForm(appSettings: FormAppSetting[]): NameValuePair[] {
@@ -304,12 +289,12 @@ export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata?: Arm
   return 'dotnet';
 }
 
-export function getConfigWithStackSettings(config: ArmObj<SiteConfig>, values: AppSettingsFormValues): ArmObj<SiteConfig> {
+export function getConfigWithStackSettings(config: SiteConfig, values: AppSettingsFormValues): SiteConfig {
   const configCopy = { ...config };
   if (values.currentlySelectedStack !== 'java') {
-    configCopy.properties.javaContainer = '';
-    configCopy.properties.javaContainerVersion = '';
-    configCopy.properties.javaVersion = '';
+    configCopy.javaContainer = '';
+    configCopy.javaContainerVersion = '';
+    configCopy.javaVersion = '';
   }
   return configCopy;
 }

@@ -1,22 +1,14 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues, AppSettingsReferences, AppSettingsAsyncData, LoadingStates } from './AppSettings.types';
-import {
-  convertStateToForm,
-  convertFormToState,
-  flattenVirtualApplicationsList,
-  getCleanedConfigForSave,
-  getCleanedReferences,
-} from './AppSettingsFormData';
+import { convertStateToForm, convertFormToState, getCleanedReferences } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
 import {
   fetchApplicationSettingValues,
   fetchSlots,
   updateSite,
-  updateWebConfig,
   updateSlotConfigNames,
   getProductionAppWritePermissions,
-  updateStorageMounts,
   getAllAppSettingReferences,
   fetchAzureStorageAccounts,
   getFunctions,
@@ -275,24 +267,14 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
     setSaving(true);
-    const { site, config, slotConfigNames, storageMounts } = convertFormToState(values, metadataFromApi, slotConfigNamesFromApi);
+    const { site, slotConfigNames } = convertFormToState(values, metadataFromApi, slotConfigNamesFromApi);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
     const siteUpdate = updateSite(resourceId, site);
-    const configUpdate = updateWebConfig(resourceId, getCleanedConfigForSave(config));
     const slotConfigUpdates = productionPermissions ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null);
-    const storageUpdateCall = updateStorageMounts(resourceId, storageMounts);
-    const [siteResult, configResult, slotConfigResults] = await Promise.all([
-      siteUpdate,
-      configUpdate,
-      slotConfigUpdates,
-      storageUpdateCall,
-    ]);
+    const [siteResult, slotConfigResults] = await Promise.all([siteUpdate, slotConfigUpdates]);
 
-    if (siteResult.metadata.success && configResult.metadata.success && (!slotConfigResults || slotConfigResults.metadata.success)) {
-      setInitialValues({
-        ...values,
-        virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
-      });
+    if (siteResult.metadata.success && (!slotConfigResults || slotConfigResults.metadata.success)) {
+      setInitialValues({ ...values });
       fetchReferences();
       if (isFunctionApp(site)) {
         fetchAsyncData();
@@ -300,9 +282,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
       const siteError = siteResult.metadata.error && siteResult.metadata.error.Message;
-      const configError = configResult.metadata.error && configResult.metadata.error.Message;
       const slotConfigError = slotConfigResults && slotConfigResults.metadata.error && slotConfigResults.metadata.error.Message;
-      const errMessage = siteError || configError || slotConfigError || t('configUpdateFailure');
+      const errMessage = siteError || slotConfigError || t('configUpdateFailure');
       portalContext.stopNotification(notificationId, false, errMessage);
     }
     setSaving(false);
