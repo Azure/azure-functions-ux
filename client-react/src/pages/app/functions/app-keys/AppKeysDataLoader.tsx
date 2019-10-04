@@ -5,8 +5,7 @@ import { AppKeysFormValues } from './AppKeys.types';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { PortalContext } from '../../../../PortalContext';
 import { SiteRouterContext } from '../../SiteRouter';
-import { disableBladeStyle } from './AppKeys.styles';
-import { ThemeContext } from '../../../../ThemeContext';
+import { disableIFrameStyle } from './AppKeys.styles';
 
 const appKeysData = new AppKeysData();
 export const AppKeysContext = React.createContext(appKeysData);
@@ -22,7 +21,6 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   const [initialLoading, setInitialLoading] = useState(true);
   const portalContext = useContext(PortalContext);
   const siteContext = useContext(SiteRouterContext);
-  const theme = useContext(ThemeContext);
 
   const refreshData = () => {
     setRefeshLoading(true);
@@ -60,7 +58,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
       {refreshLoading && (
         <div>
           <LoadingComponent />
-          <div className={disableBladeStyle(theme)} />
+          <div className={disableIFrameStyle} />
         </div>
       )}
       <AppKeys resourceId={resourceId} initialValues={initialValues} refreshData={refreshData} />
