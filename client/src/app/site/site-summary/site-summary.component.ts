@@ -303,6 +303,48 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           this._globalStateService.setTopBarNotifications(this.notifications);
         }
 
+        if (
+          ArmUtil.isContainerApp(this.context.site) &&
+          r.siteConfig &&
+          r.siteConfig.isSuccessful &&
+          r.siteConfig.result.properties.linuxFxVersion &&
+          r.siteConfig.result.properties.linuxFxVersion === Constants.defaultFunctionAppDockerImage
+        ) {
+          this.notifications.push({
+            id: 'containerSettings',
+            message: this.ts.instant(PortalResources.containerSettingsNotConfigured),
+            iconClass: 'fa fa-exclamation-triangle warning',
+            learnMoreLink: null,
+            clickCallback: () => {
+              const containerSettingsBladeInput = {
+                detailBlade: 'ContainerSettingsFrameBlade',
+                detailBladeInputs: {
+                  id: this.context.site.id,
+                  data: {
+                    resourceId: this.context.site.id,
+                    isFunctionApp: true,
+                    subscriptionId: this.subscriptionId,
+                    location: this.context.site.location,
+                    os: 'linux',
+                    fromMenu: true,
+                    containerFormData: null,
+                  },
+                },
+              };
+
+              this._portalService.openBlade(containerSettingsBladeInput, 'top-overview-banner').subscribe(
+                result => {
+                  this._viewInfo.node.refresh(null, true);
+                },
+                err => {
+                  this._logService.error(LogCategories.containerSettings, errorIds.containerSettingsConfigure, err);
+                }
+              );
+            },
+          });
+          this._globalStateService.setTopBarNotifications(this.notifications);
+        }
+
         return !this.hideAvailability ? this._siteService.getAvailability(this.context.site.id) : Observable.of(null);
       })
       .do(res => {

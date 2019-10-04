@@ -1,7 +1,7 @@
 import { ScenarioResult } from './../../shared/services/scenario/scenario.models';
 import { SiteService } from '../../shared/services/site.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { ScenarioIds, SiteTabIds, ARMApiVersions, SupportedFeatures } from './../../shared/models/constants';
+import { ScenarioIds, SiteTabIds, ARMApiVersions, SupportedFeatures, Kinds } from './../../shared/models/constants';
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -163,49 +163,49 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
   private _initCol1Groups(site: ArmObj<Site>) {
     const codeDeployFeatures = [];
-    const deploymentCenterKeywords =
-      this._translateService.instant(PortalResources.continuousDeployment) +
-      ' ' +
-      this._translateService.instant(PortalResources.source) +
-      ' ' +
-      this._translateService.instant(PortalResources.options) +
-      '  github bitbucket dropbox onedrive vsts vso';
+    const containerSettingsKeywords =
+      this._translateService.instant(PortalResources.containerSettingsTitle) + ' ' + this._translateService.instant(PortalResources.linux);
 
     if (ArmUtil.isContainerApp(site)) {
-      const deploymentCenterFeature = new DisableableBladeFeature(
-        this._translateService.instant(PortalResources.deploymentCenterTitle),
-        deploymentCenterKeywords,
-        this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
-        'image/deployment-source.svg',
+      const containerSettingsFeature = new DisableableBladeFeature(
+        this._translateService.instant(PortalResources.containerSettingsTitle),
+        containerSettingsKeywords,
+        this._translateService.instant(PortalResources.feature_containerSettingsInfo),
+        'image/singlecontainer.svg',
         {
-          detailBlade: 'ContinuousIntegrationBlade',
+          detailBlade: 'ContainerSettingsFrameBlade',
           detailBladeInputs: {
-            websiteResourceUri: this._descriptor.resourceId,
+            id: site.id,
+            data: {
+              resourceId: site.id,
+              isFunctionApp: true,
+              subscriptionId: this._descriptor.subscription,
+              location: site.location,
+              os: site.kind && site.kind.indexOf(Kinds.linux) > -1 ? 'linux' : 'windows',
+              fromMenu: true,
+              containerFormData: null,
+            },
           },
-          extension: 'AzureTfsExtension',
         },
         this._portalService,
         this._hasSiteWritePermissionStream,
-        this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, { site: site })
+        this._scenarioService.checkScenario(ScenarioIds.containerSettings, { site: site })
       );
-      codeDeployFeatures.push(deploymentCenterFeature);
+      codeDeployFeatures.push(containerSettingsFeature);
     } else {
-      const deploymentCenterFeature = new DisableableTabFeature(
-        this._translateService.instant(PortalResources.deploymentCenterTitle),
-        this._translateService.instant(PortalResources.continuousDeployment) +
+      const containerSettingsFeature = new DisableableTabFeature(
+        this._translateService.instant(PortalResources.containerSettingsTitle),
+        this._translateService.instant(PortalResources.containerSettingsTitle) +
           ' ' +
-          this._translateService.instant(PortalResources.source) +
-          ' ' +
-          this._translateService.instant(PortalResources.options) +
-          '  github bitbucket dropbox onedrive vsts vso',
-        this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
-        'image/deployment-source.svg',
+          this._translateService.instant(PortalResources.linux),
+        this._translateService.instant(PortalResources.feature_containerSettingsInfo),
+        'image/singlecontainer.svg',
         SiteTabIds.continuousDeployment,
         this._broadcastService,
         null,
-        this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, { site })
+        this._scenarioService.checkScenario(ScenarioIds.containerSettings, { site })
       );
-      codeDeployFeatures.push(deploymentCenterFeature);
+      codeDeployFeatures.push(containerSettingsFeature);
     }
 
     const developmentToolFeatures = [];
