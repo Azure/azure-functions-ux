@@ -13,7 +13,7 @@ interface RadioButtonProps {
     learnMoreLink: string;
     learnMoreText: string;
   };
-  isDirty?: boolean;
+  dirty?: boolean;
 }
 
 const fieldStyle = style({

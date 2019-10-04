@@ -64,7 +64,7 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
             <div className={settingsWrapper} data-cy="auto-swap-control-set">
               <RadioButtonNoFormik
                 label={t('autoSwapEnabled')}
-                isDirty={!!values.config.properties.autoSwapSlotName !== !!initialValues.config.properties.autoSwapSlotName}
+                dirty={!!values.config.properties.autoSwapSlotName !== !!initialValues.config.properties.autoSwapSlotName}
                 ariaLabelledBy={`app-settings-auto-swap-enabled-label`}
                 id="app-settings-auto-swap-enabled"
                 disabled={!editable}
@@ -90,7 +90,7 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
               {!!props.values.config.properties.autoSwapSlotName && (
                 <Field
                   name="config.properties.autoSwapSlotName"
-                  isDirty={values.config.properties.autoSwapSlotName !== initialValues.config.properties.autoSwapSlotName}
+                  dirty={values.config.properties.autoSwapSlotName !== initialValues.config.properties.autoSwapSlotName}
                   disabled={!editable}
                   component={Dropdown}
                   fullpage

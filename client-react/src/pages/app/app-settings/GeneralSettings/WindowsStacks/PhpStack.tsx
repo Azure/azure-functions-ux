@@ -25,7 +25,7 @@ const PhpStack: React.SFC<Props> = props => {
   return (
     <Field
       name="config.properties.phpVersion"
-      isDirty={
+      dirty={
         values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
         values.config.properties.phpVersion !== initialValues.config.properties.phpVersion
       }

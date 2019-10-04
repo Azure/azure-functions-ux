@@ -95,7 +95,7 @@ const JavaStack: React.SFC<Props> = props => {
     <div>
       <DropdownNoFormik
         label={t('javaVersionLabel')}
-        isDirty={isJavaMajorVersionDirty()}
+        dirty={isJavaMajorVersionDirty()}
         value={currentJavaMajorVersion}
         id="app-settings-java-major-verison"
         disabled={!app_write || !editable}
@@ -104,7 +104,7 @@ const JavaStack: React.SFC<Props> = props => {
       />
       <Field
         name="config.properties.javaVersion"
-        isDirty={isJavaMinorVersionDirty()}
+        dirty={isJavaMinorVersionDirty()}
         component={Dropdown}
         fullpage
         required
@@ -115,7 +115,7 @@ const JavaStack: React.SFC<Props> = props => {
       />
       <Field
         name="config.properties.javaContainer"
-        isDirty={isJavaContainerDirty()}
+        dirty={isJavaContainerDirty()}
         component={Dropdown}
         fullpage
         required
@@ -127,7 +127,7 @@ const JavaStack: React.SFC<Props> = props => {
       {javaFrameworkVersionOptions.length > 0 && (
         <Field
           name="config.properties.javaContainerVersion"
-          isDirty={isJavaContainerVersionDirty()}
+          dirty={isJavaContainerVersionDirty()}
           component={Dropdown}
           fullpage
           required

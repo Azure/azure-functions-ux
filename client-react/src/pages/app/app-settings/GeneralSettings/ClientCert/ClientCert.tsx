@@ -37,7 +37,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       <div className={settingsWrapper}>
         <Field
           name="site.properties.clientCertEnabled"
-          isDirty={values.site.properties.clientCertEnabled !== initialValues.site.properties.clientCertEnabled}
+          dirty={values.site.properties.clientCertEnabled !== initialValues.site.properties.clientCertEnabled}
           component={RadioButton}
           label={t('requireIncomingClientCertificates')}
           disabled={!app_write || !editable || clientCertEnabled.status === 'disabled'}
@@ -58,7 +58,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           <Stack horizontal>
             <Field
               name="site.properties.clientCertExclusionPaths"
-              isDirty={values.site.properties.clientCertExclusionPaths !== initialValues.site.properties.clientCertExclusionPaths}
+              dirty={values.site.properties.clientCertExclusionPaths !== initialValues.site.properties.clientCertExclusionPaths}
               component={TextField}
               disabled
               placeholder={t('noExclusionRulesDefined')}

@@ -104,18 +104,18 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
     setCurrentConnectionString(blankConnectionString);
   };
 
-  const onClosePanel = (currentConnectionString: FormConnectionString): void => {
-    setCurrentConnectionString(currentConnectionString);
+  const onClosePanel = (newConnectionString: FormConnectionString): void => {
+    setCurrentConnectionString(newConnectionString);
     const connectionStrings: FormConnectionString[] = [...values.connectionStrings];
     const index = connectionStrings.findIndex(
       x =>
-        x.name.toLowerCase() === currentConnectionString.name.toLowerCase() ||
+        x.name.toLowerCase() === newConnectionString.name.toLowerCase() ||
         (!!currentConnectionString && currentConnectionString.name.toLowerCase() === x.name.toLowerCase())
     );
     if (index !== -1) {
-      connectionStrings[index] = currentConnectionString;
+      connectionStrings[index] = newConnectionString;
     } else {
-      connectionStrings.push({ ...currentConnectionString });
+      connectionStrings.push({ ...newConnectionString });
     }
     const sortedConnectionStrings = sortBy(connectionStrings, o => o.name.toLowerCase());
     props.setFieldValue('connectionStrings', sortedConnectionStrings);
@@ -151,12 +151,13 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
 
   const isConnectionStringDirty = (index: number): boolean => {
     const initialAppSettings = props.initialValues.connectionStrings;
-    const currentRow = values.appSettings[index];
+    const currentRow = values.connectionStrings[index];
     const currentAppSettingIndex = initialAppSettings.findIndex(x => {
       return (
         x.name.toLowerCase() === currentRow.name.toLowerCase() &&
         x.value.toLowerCase() === currentRow.value.toLowerCase() &&
-        x.sticky === currentRow.sticky
+        x.sticky === currentRow.sticky &&
+        x.type === currentRow.type
       );
     });
     return currentAppSettingIndex < 0;

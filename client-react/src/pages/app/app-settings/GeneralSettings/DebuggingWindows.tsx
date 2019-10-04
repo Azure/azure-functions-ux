@@ -19,7 +19,7 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
       <div className={settingsWrapper}>
         <Field
           name="config.properties.remoteDebuggingEnabled"
-          isDirty={values.config.properties.remoteDebuggingEnabled !== initialValues.config.properties.remoteDebuggingEnabled}
+          dirty={values.config.properties.remoteDebuggingEnabled !== initialValues.config.properties.remoteDebuggingEnabled}
           component={RadioButton}
           fullpage
           label={t('remoteDebuggingEnabledLabel')}
@@ -39,7 +39,7 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
         {props.values.config.properties.remoteDebuggingEnabled && (
           <Field
             name="config.properties.remoteDebuggingVersion"
-            isDirty={values.config.properties.remoteDebuggingVersion !== initialValues.config.properties.remoteDebuggingVersion}
+            dirty={values.config.properties.remoteDebuggingVersion !== initialValues.config.properties.remoteDebuggingVersion}
             component={Dropdown}
             disabled={!app_write || !editable}
             options={[

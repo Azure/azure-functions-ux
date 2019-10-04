@@ -39,7 +39,7 @@ const PythonStack: React.StatelessComponent<Props> = props => {
   return (
     <Field
       name="config.properties.pythonVersion"
-      isDirty={
+      dirty={
         values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
         values.config.properties.pythonVersion !== initialValues.config.properties.pythonVersion
       }

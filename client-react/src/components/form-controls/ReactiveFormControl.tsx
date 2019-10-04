@@ -22,11 +22,11 @@ interface ReactiveFormControlProps {
   infoBubbleMessage?: string;
   label: string;
   learnMoreLink?: string;
-  isDirty?: boolean;
+  dirty?: boolean;
 }
 
 const ReactiveFormControl = (props: ReactiveFormControlProps) => {
-  const { upsellMessage, label, infoBubbleMessage, learnMoreLink, isDirty } = props;
+  const { upsellMessage, label, infoBubbleMessage, learnMoreLink, dirty } = props;
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
@@ -41,7 +41,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
             </div>
           )}
           <Label
-            className={`${formLabelStyle(!!upsellMessage, fullpage)} ${isDirty ? dirtyElementStyle(theme) : ''}`}
+            className={`${formLabelStyle(!!upsellMessage, fullpage)} ${dirty ? dirtyElementStyle(theme) : ''}`}
             id={`${props.id}-label`}>
             {label}
           </Label>

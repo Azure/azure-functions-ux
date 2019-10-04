@@ -24,7 +24,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.use32BitWorkerProcess"
-          isDirty={values.config.properties.use32BitWorkerProcess !== initialValues.config.properties.use32BitWorkerProcess}
+          dirty={values.config.properties.use32BitWorkerProcess !== initialValues.config.properties.use32BitWorkerProcess}
           component={Dropdown}
           upsellMessage={platformOptionEnable.status === 'disabled' ? platformOptionEnable.data : ''}
           label={t('platform')}
@@ -45,7 +45,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.classicPipelineModeSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.managedPipelineMode"
-          isDirty={values.config.properties.managedPipelineMode !== initialValues.config.properties.managedPipelineMode}
+          dirty={values.config.properties.managedPipelineMode !== initialValues.config.properties.managedPipelineMode}
           component={Dropdown}
           label={t('managedPipelineVersion')}
           id="app-settings-managed-pipeline-mode"
@@ -65,7 +65,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.addFTPOptions, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.ftpsState"
-          isDirty={values.config.properties.ftpsState !== initialValues.config.properties.ftpsState}
+          dirty={values.config.properties.ftpsState !== initialValues.config.properties.ftpsState}
           component={Dropdown}
           infoBubbleMessage={t('ftpsInfoMessage')}
           learnMoreLink={Links.ftpInfo}
@@ -91,7 +91,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.addHTTPSwitch, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.http20Enabled"
-          isDirty={values.config.properties.http20Enabled !== initialValues.config.properties.http20Enabled}
+          dirty={values.config.properties.http20Enabled !== initialValues.config.properties.http20Enabled}
           component={Dropdown}
           fullpage
           label={t('httpVersion')}
@@ -112,7 +112,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.webSocketsSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.webSocketsEnabled"
-          isDirty={values.config.properties.webSocketsEnabled !== initialValues.config.properties.webSocketsEnabled}
+          dirty={values.config.properties.webSocketsEnabled !== initialValues.config.properties.webSocketsEnabled}
           component={RadioButton}
           upsellMessage={websocketsEnable.status === 'disabled' ? websocketsEnable.data : ''}
           label={t('webSocketsEnabledLabel')}
@@ -133,7 +133,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.alwaysOnSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.alwaysOn"
-          isDirty={values.config.properties.alwaysOn !== initialValues.config.properties.alwaysOn}
+          dirty={values.config.properties.alwaysOn !== initialValues.config.properties.alwaysOn}
           component={RadioButton}
           infoBubbleMessage={t('alwaysOnInfoMessage')}
           learnMoreLink={Links.alwaysOnInfo}
@@ -156,7 +156,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.clientAffinitySupported, { site }).status !== 'disabled' && (
         <Field
           name="site.properties.clientAffinityEnabled"
-          isDirty={values.site.properties.clientAffinityEnabled !== initialValues.site.properties.clientAffinityEnabled}
+          dirty={values.site.properties.clientAffinityEnabled !== initialValues.site.properties.clientAffinityEnabled}
           component={RadioButton}
           infoBubbleMessage={t('arrAffinityInfoMessage')}
           learnMoreLink={Links.clientAffinityInfo}

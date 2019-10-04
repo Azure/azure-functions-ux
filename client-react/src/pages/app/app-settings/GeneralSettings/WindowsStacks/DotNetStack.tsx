@@ -25,7 +25,7 @@ const DotNetStack: React.SFC<Props> = props => {
   return (
     <Field
       name="config.properties.netFrameworkVersion"
-      isDirty={
+      dirty={
         values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
         values.config.properties.netFrameworkVersion !== initialValues.config.properties.netFrameworkVersion
       }

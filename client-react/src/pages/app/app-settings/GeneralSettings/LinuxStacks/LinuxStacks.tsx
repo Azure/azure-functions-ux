@@ -155,7 +155,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
         <>
           <DropdownNoFormik
             value={runtimeStack}
-            isDirty={runtimeStack !== getSelectedRuntimeStack(stacks.value, initialValues.config.properties.linuxFxVersion)}
+            dirty={runtimeStack !== getSelectedRuntimeStack(stacks.value, initialValues.config.properties.linuxFxVersion)}
             onChange={(e, newVal) => {
               const majorVersions = getMajorVersions(stacks.value, newVal.key);
               setRuntimeStack(newVal.key);
@@ -177,7 +177,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
           {runtimeStack && (
             <DropdownNoFormik
               value={majorVersion || ''}
-              isDirty={majorVersion !== getSelectedMajorVersion(stacks.value, initialValues.config.properties.linuxFxVersion)}
+              dirty={majorVersion !== getSelectedMajorVersion(stacks.value, initialValues.config.properties.linuxFxVersion)}
               onChange={(e, newVal) => {
                 const minorVersions = getMinorVersions(stacks.value, runtimeStack, newVal.key);
                 setMajorVersion(newVal.key);
@@ -194,7 +194,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
           {majorVersion && (
             <Field
               name="config.properties.linuxFxVersion"
-              isDirty={getSelectedMinorVersion(stacks.value, runtimeStack, majorVersion) !== getInitialMinorVersion()}
+              dirty={getSelectedMinorVersion(stacks.value, runtimeStack, majorVersion) !== getInitialMinorVersion()}
               component={Dropdown}
               disabled={!app_write || !editable}
               label={t('minorVersion')}
@@ -207,7 +207,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
       <Field
         name="config.properties.appCommandLine"
         component={TextField}
-        isDirty={values.config.properties.appCommandLine !== initialValues.config.properties.appCommandLine}
+        dirty={values.config.properties.appCommandLine !== initialValues.config.properties.appCommandLine}
         disabled={!app_write || !editable}
         label={t('appCommandLineLabel')}
         id="linux-fx-version-appCommandLine"

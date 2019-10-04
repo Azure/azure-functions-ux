@@ -90,7 +90,6 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
               }}>
               <Field
                 name={`config.properties.defaultDocuments[${index}]`}
-                isDirty={true}
                 component={TextField}
                 componentRef={field => {
                   lastFieldRef = field;

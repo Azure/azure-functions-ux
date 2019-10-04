@@ -40,7 +40,7 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       <div className={settingsWrapper}>
         <Field
           name="config.properties.remoteDebuggingEnabled"
-          isDirty={props.values.config.properties.remoteDebuggingEnabled !== props.initialValues.config.properties.remoteDebuggingEnabled}
+          dirty={props.values.config.properties.remoteDebuggingEnabled !== props.initialValues.config.properties.remoteDebuggingEnabled}
           component={RadioButton}
           fullpage
           label={t('remoteDebuggingEnabledLabel')}

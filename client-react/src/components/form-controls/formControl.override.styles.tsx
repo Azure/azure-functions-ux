@@ -6,7 +6,7 @@ import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Text
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
 
 const formDefaultWidth = '275px';
-export const dropdownStyleOverrides = (dirty: boolean, theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => styleProps => {
+export const dropdownStyleOverrides = (theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => styleProps => {
   const baseStyle = DropDownStyles({ ...styleProps, widthOverride });
   return {
     ...baseStyle,
@@ -16,12 +16,7 @@ export const dropdownStyleOverrides = (dirty: boolean, theme: ThemeExtended, ful
         width: widthOverride || formDefaultWidth,
       },
     ],
-    title: [
-      ...baseStyle.title,
-      dirty && {
-        borderColor: theme.semanticColors.controlDirtyOutline,
-      },
-    ],
+    title: [...baseStyle.title],
     errorMessage: [
       ...baseStyle.errorMessage,
       fullpage && {
@@ -34,17 +29,11 @@ export const dropdownStyleOverrides = (dirty: boolean, theme: ThemeExtended, ful
         width: widthOverride || formDefaultWidth,
         maxWidth: widthOverride || baseStyle.dropdown[1].maxWidth,
       },
-      dirty && {
-        selectors: {
-          ['&:focus .ms-Dropdown-title']: [{ borderColor: theme.semanticColors.controlDirtyOutline }],
-          ['&:hover .ms-Dropdown-title']: [{ borderColor: theme.semanticColors.controlDirtyOutline }],
-        },
-      },
     ],
   } as IDropdownStyles;
 };
 
-export const comboboxStyleOverrides = (dirty: boolean, theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => {
+export const comboboxStyleOverrides = (theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => {
   const baseStyle = ComboBoxStyles(theme);
   return {
     ...baseStyle,
@@ -57,7 +46,7 @@ export const comboboxStyleOverrides = (dirty: boolean, theme: ThemeExtended, ful
   } as IDropdownStyles;
 };
 
-export const textFieldStyleOverrides = (dirty: boolean, theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => styleProps => {
+export const textFieldStyleOverrides = (theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => styleProps => {
   const baseStyle = TextFieldStyles(styleProps);
   return {
     ...baseStyle,

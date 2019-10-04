@@ -110,24 +110,18 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
   };
 
   const isHandlerMappingEqual = (handlerMapping1: HandlerMapping, handlerMapping2: HandlerMapping): boolean => {
-    if (
+    return (
       handlerMapping1.extension === handlerMapping2.extension &&
       handlerMapping1.scriptProcessor === handlerMapping2.scriptProcessor &&
       handlerMapping1.arguments === handlerMapping2.arguments
-    ) {
-      return true;
-    }
-    return false;
+    );
   };
 
   const isAppSettingDirty = (index: number): boolean => {
     const initialHandlerMappings = props.initialValues.config.properties.handlerMappings || [];
     const currentRow = values.config.properties.handlerMappings[index] || null;
     const initialHandlerMappingIndex = initialHandlerMappings.findIndex(x => isHandlerMappingEqual(x, currentRow));
-    if (initialHandlerMappingIndex >= 0) {
-      return false;
-    }
-    return true;
+    return initialHandlerMappingIndex < 0;
   };
 
   const onRenderItemColumn = (item: HandlerMapping, index: number, column: IColumn) => {

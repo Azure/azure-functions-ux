@@ -23,7 +23,7 @@ const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {!readonly && (
         <Field
           name="currentlySelectedStack"
-          isDirty={values.currentlySelectedStack !== initialValues.currentlySelectedStack}
+          dirty={values.currentlySelectedStack !== initialValues.currentlySelectedStack}
           component={Dropdown}
           fullpage
           disabled={!editable}
