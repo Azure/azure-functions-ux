@@ -198,15 +198,15 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
         // TODO (andimarc): If only siteConfigResult fails, don't fail entire UI, just disable controls for routing rules
         if (!siteResult.isSuccessful) {
-          this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', siteResult.error.result);
+          this._logService.error(LogCategories.deploymentSlots, '/get-site', siteResult.error.result);
           success = false;
         }
         if (!slotsResult.isSuccessful) {
-          this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', slotsResult.error.result);
+          this._logService.error(LogCategories.deploymentSlots, '/get-slots', slotsResult.error.result);
           success = false;
         }
         if (!siteConfigResult.isSuccessful) {
-          this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', siteConfigResult.error.result);
+          this._logService.error(LogCategories.deploymentSlots, '/get-tip-rules', siteConfigResult.error.result);
           if (!this.isSlot) {
             success = false;
           }
@@ -493,7 +493,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         })
         .do(null, error => {
           this.dirtyMessage = null;
-          this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', error);
+          this._logService.error(LogCategories.deploymentSlots, '/update-tip-rules', error);
           this.saving = false;
           this.clearBusy();
           this._portalService.stopNotification(
