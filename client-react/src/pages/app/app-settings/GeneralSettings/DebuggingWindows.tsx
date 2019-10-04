@@ -39,7 +39,10 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
         {props.values.config.properties.remoteDebuggingEnabled && (
           <Field
             name="config.properties.remoteDebuggingVersion"
-            dirty={values.config.properties.remoteDebuggingVersion !== initialValues.config.properties.remoteDebuggingVersion}
+            dirty={
+              values.config.properties.remoteDebuggingEnabled !== initialValues.config.properties.remoteDebuggingEnabled ||
+              values.config.properties.remoteDebuggingVersion !== initialValues.config.properties.remoteDebuggingVersion
+            }
             component={Dropdown}
             disabled={!app_write || !editable}
             options={[
