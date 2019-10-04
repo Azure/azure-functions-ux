@@ -166,6 +166,7 @@ export class Links {
   public static clientCertEnabledLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086188';
   public static powershellPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086831';
   public static appDensityWarningLink = 'https://go.microsoft.com/fwlink/?linkid=2098431';
+  public static apimUpsellLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104075';
 }
 
 export class Kinds {
@@ -250,6 +251,7 @@ export class ScenarioIds {
   public static readonly enableMetrics = 'EnableMetrics';
   public static readonly enableBackups = 'EnableBackups';
   public static readonly enableTinfoil = 'EnableTinfoil';
+  public static readonly enableFunctionLogStreaming = 'EnableFunctionLogStreaming';
   public static readonly dotNetFrameworkSupported = 'DotNetFrameworkSupported';
   public static readonly platform64BitSupported = 'Platform64BitSupported';
   public static readonly webSocketsSupported = 'WebSocketsSupported';
@@ -368,6 +370,8 @@ export class LogCategories {
   public static readonly containerACR = 'containerACR';
   public static readonly containerSettings = 'containerSettings';
   public static readonly byos = 'byos';
+  public static readonly portalServiceHasPermission = 'PortalServiceHasPermission';
+  public static readonly portalServiceHasLock = 'PortalServiceHasLock';
 }
 
 export class ARMApiVersions {
@@ -626,6 +630,7 @@ export class FeatureFlags {
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
   public static AllowFreeLinux = 'allowfreelinux';
+  public static enableGitHubAction = 'enableGitHubAction';
 }
 
 export class SupportedFeatures {
@@ -635,6 +640,13 @@ export class SupportedFeatures {
 export enum FunctionAppVersion {
   v1 = 'V1',
   v2 = 'V2',
+  v3 = 'V3',
+}
+
+export enum FunctionAppRuntimeSetting {
+  tilda1 = '~1',
+  tilda2 = '~2',
+  tilda3 = '~3',
 }
 
 export enum HostKeyTypes {
@@ -645,4 +657,5 @@ export enum HostKeyTypes {
 
 export class Pricing {
   public static hoursInAzureMonth = 730;
+  public static secondsInAzureMonth = 2628000;
 }

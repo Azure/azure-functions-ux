@@ -9,7 +9,7 @@ import {
   WorkerRuntimeLanguages,
 } from './../models/constants';
 import { UserService } from './user.service';
-import { HostingEnvironment } from './../models/arm/hosting-environment';
+import { HostingEnvironment, InternalLoadBalancingMode } from './../models/arm/hosting-environment';
 import { FunctionAppContext } from './../function-app-context';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Injectable, Injector } from '@angular/core';
@@ -17,7 +17,7 @@ import { Headers, Response, ResponseType, ResponseContentType } from '@angular/h
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { HttpResult } from './../models/http-result';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
-import { FunctionsVersionInfoHelper } from 'app/shared/models/functions-version-info';
+import { FunctionsVersionInfoHelper, runtimeIsV1 } from 'app/shared/models/functions-version-info';
 import { Constants } from 'app/shared/models/constants';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { Observable } from 'rxjs/Observable';
@@ -413,13 +413,13 @@ export class FunctionAppService {
     }
   }
 
-  getHostJson(context: FunctionAppContext): Result<Host> {
+  getHostV1Json(context: FunctionAppContext): Result<Host> {
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
     );
   }
 
-  getHostV2Json(context: FunctionAppContext): Result<HostV2> {
+  getHostV2V3Json(context: FunctionAppContext): Result<HostV2> {
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
     );
@@ -538,7 +538,7 @@ export class FunctionAppService {
   getVfsObjects(context: FunctionAppContext, fi: FunctionInfo | string): Result<VfsObject[]> {
     const href = typeof fi === 'string' ? fi : fi.script_root_path_href;
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-      this._cacheService.get(href, false, this.headers(t)).map(e => <VfsObject[]>e.json())
+      this._cacheService.get(href, true, this.headers(t)).map(e => <VfsObject[]>e.json())
     );
   }
 
@@ -687,14 +687,20 @@ export class FunctionAppService {
       context.site.properties.hostingEnvironmentProfile &&
       context.site.properties.hostingEnvironmentProfile.id
     ) {
-      return this._cacheService.getArm(context.site.properties.hostingEnvironmentProfile.id, false, '2016-09-01').mergeMap(r => {
-        const ase: ArmObj<HostingEnvironment> = r.json();
-        if (ase.properties.internalLoadBalancingMode && ase.properties.internalLoadBalancingMode !== 'None') {
-          return this.pingScmSite(context).map(result => result.isSuccessful);
-        } else {
+      return this._cacheService
+        .getArm(context.site.properties.hostingEnvironmentProfile.id, false, ARMApiVersions.websiteApiVersion20160901)
+        .mergeMap(r => {
+          const ase: ArmObj<HostingEnvironment> = r.json();
+          if (ase.properties.internalLoadBalancingMode && ase.properties.internalLoadBalancingMode !== InternalLoadBalancingMode.None) {
+            return this.pingScmSite(context).map(result => result.isSuccessful);
+          } else {
+            return Observable.of(true);
+          }
+        })
+        .catch(() => {
+          // When ASE fetch fails don't block access to functions list
           return Observable.of(true);
-        }
-      });
+        });
     } else {
       return Observable.of(true);
     }
@@ -1024,7 +1030,7 @@ export class FunctionAppService {
     return Observable.zip(this.getSystemKey(context), this.getRuntimeGeneration(context)).map(tuple => {
       if (tuple[0].isSuccessful) {
         const generation = tuple[1];
-        const eventGridName = generation === FunctionAppVersion.v1 ? Constants.eventGridName_v1 : Constants.eventGridName_v2;
+        const eventGridName = runtimeIsV1(generation) ? Constants.eventGridName_v1 : Constants.eventGridName_v2;
         const key = tuple[0].result.keys.find(k => k.name === eventGridName);
         return {
           isSuccessful: true,

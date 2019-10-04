@@ -33,9 +33,8 @@
     title="{{ 'copypre_copyClipboard' | translate }}"
     (click)="copyToClipboard()"
     role="button"
-    (keyup)="onKeyPress($event.target.value, 'copy')"
-    tabindex="0" >
-    <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300" tabIndex="-1">
+    (keyup)="onKeyPress($event, 'copy')" >
+    <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
       <i class="link fa fa-copy clickable">
         <span class="fix-font">&nbsp;{{ 'copypre_copy' | translate }}</span>
       </i>

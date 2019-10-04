@@ -14,6 +14,7 @@ export abstract class PremiumV2SmallPlanPriceSpec extends PremiumV2PlanPriceSpec
       id: this.skuCode,
       firstParty: [
         {
+          id: this.skuCode,
           quantity: CommonConstants.Pricing.hoursInAzureMonth,
         },
       ],

@@ -1,3 +1,4 @@
+import { BatchUpdateSettings, BatchResponseItemEx } from './models/batch-models';
 import { loadTheme } from 'office-ui-fabric-react/lib/Styling';
 import { Observable, Subject } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
@@ -20,6 +21,12 @@ import {
   LogEntryLevel,
   Verbs,
   TokenType,
+  CheckPermissionRequest,
+  CheckPermissionResponse,
+  CheckLockRequest,
+  CheckLockResponse,
+  LockType,
+  PortalDebugInformation,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import darkModeTheme from './theme/dark';
@@ -29,6 +36,8 @@ import Url from './utils/url';
 import { Dispatch, SetStateAction } from 'react';
 import { ThemeExtended } from './theme/SemanticColorsExtended';
 import LogService from './utils/LogService';
+import { LogCategories } from './utils/LogCategories';
+import { sendHttpRequest, getJsonHeaders } from './ApiHelpers/HttpClient';
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
@@ -83,12 +92,42 @@ export default class PortalCommunicator {
     PortalCommunicator.shellSrc = shellSrc;
     if (shellSrc) {
       const getStartupInfoObj = {
-        iframeHostName: null,
+        iframeHostName: '',
+        iframeAppName: '',
       };
-      // This is a required message. It tells the shell that your iframe is ready to receive messages.
-      PortalCommunicator.postMessage(Verbs.ready, null);
-      PortalCommunicator.postMessage(Verbs.initializationcomplete, null);
-      PortalCommunicator.postMessage(Verbs.getStartupInfo, this.packageData(getStartupInfoObj));
+
+      window.appsvc = {
+        version: '',
+        env: {
+          hostName: '',
+          appName: '',
+          azureResourceManagerEndpoint: '',
+          runtimeType: 'Azure',
+        },
+      };
+
+      this.getDebugInformation()
+        .then(response => {
+          if (response.metadata.success && response.data) {
+            getStartupInfoObj.iframeHostName = response.data.hostName;
+            getStartupInfoObj.iframeAppName = response.data.appName;
+            window.appsvc = {
+              version: response.data.version,
+              env: {
+                hostName: response.data.hostName,
+                appName: response.data.appName,
+                azureResourceManagerEndpoint: '',
+                runtimeType: 'Azure',
+              },
+            };
+          }
+        })
+        .finally(() => {
+          // This is a required message. It tells the shell that your iframe is ready to receive messages.
+          PortalCommunicator.postMessage(Verbs.ready, null);
+          PortalCommunicator.postMessage(Verbs.initializationcomplete, null);
+          PortalCommunicator.postMessage(Verbs.getStartupInfo, this.packageData(getStartupInfoObj));
+        });
     }
   }
 
@@ -260,6 +299,27 @@ export default class PortalCommunicator {
     });
   }
 
+  public executeArmUpdateRequest<T>(request: BatchUpdateSettings): Promise<BatchResponseItemEx<T>> {
+    const operationId = Guid.newGuid();
+
+    const payload: IDataMessage<BatchUpdateSettings> = {
+      operationId,
+      data: request,
+    };
+
+    PortalCommunicator.postMessage(Verbs.executeArmUpdateRequest, this.packageData(payload));
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === operationId),
+          first()
+        )
+        .subscribe((o: IDataMessage<IDataMessageResult<BatchResponseItemEx<T>>>) => {
+          resolve(o.data.result);
+        });
+    });
+  }
+
   public broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, metadata?: T): void {
     const info: BroadcastMessage<T> = {
       id,
@@ -268,6 +328,71 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.broadcastMessage, this.packageData(info));
+  }
+
+  public hasPermission(resourceId: string, actions: string[]): Promise<boolean> {
+    const operationId = Guid.newGuid();
+
+    const payload: IDataMessage<CheckPermissionRequest> = {
+      operationId,
+      data: {
+        resourceId,
+        actions,
+      },
+    };
+
+    PortalCommunicator.postMessage(Verbs.hasPermission, this.packageData(payload));
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === operationId),
+          first()
+        )
+        .subscribe((o: IDataMessage<IDataMessageResult<CheckPermissionResponse>>) => {
+          if (o.data.status !== 'success') {
+            const data = {
+              resourceId,
+              actions,
+              message: 'Failed to evaluate permissions',
+            };
+            LogService.error(LogCategories.portalCommunicatorHasPermission, 'hasPermission', data);
+          }
+
+          resolve(o.data.result.hasPermission);
+        });
+    });
+  }
+
+  public hasLock(resourceId: string, type: LockType): Promise<boolean> {
+    const operationId = Guid.newGuid();
+
+    const payload: IDataMessage<CheckLockRequest> = {
+      operationId,
+      data: {
+        resourceId,
+        type,
+      },
+    };
+
+    PortalCommunicator.postMessage(Verbs.hasLock, this.packageData(payload));
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === operationId),
+          first()
+        )
+        .subscribe((o: IDataMessage<IDataMessageResult<CheckLockResponse>>) => {
+          if (o.data.status !== 'success') {
+            const data = {
+              resourceId,
+              message: 'Failed to evaluate lock',
+            };
+            LogService.error(LogCategories.portalCommunicatorHasLock, 'hasLock', data);
+          }
+
+          resolve(o.data.result.hasLock);
+        });
+    });
   }
 
   private iframeReceivedMsg(event: IEvent): void {
@@ -298,6 +423,12 @@ export default class PortalCommunicator {
       this.setArmTokenInternal(startupInfo.token);
       this.i18n.changeLanguage(startupInfo.effectiveLocale);
       this.setStartupInfo(startupInfo);
+
+      if (window.appsvc) {
+        window.appsvc.env.azureResourceManagerEndpoint = startupInfo.armEndpoint;
+        window.appsvc.resourceId = startupInfo.resourceId;
+        window.appsvc.feature = startupInfo.featureInfo && startupInfo.featureInfo.feature;
+      }
     } else if (methodName === Verbs.sendToken2) {
       this.setArmTokenInternal(data.token);
     } else if (methodName === Verbs.sendNotificationStarted) {
@@ -309,14 +440,27 @@ export default class PortalCommunicator {
 
   private setArmTokenInternal = (token: string) => {
     this.setArmToken(token);
-    window.authToken = token;
+    if (window.appsvc && window.appsvc.env) {
+      window.appsvc.env.armToken = token;
+    }
   };
 
   private setArmEndpointInternal = (endpoint: string) => {
-    window.armEndpoint = endpoint;
+    if (window.appsvc && window.appsvc.env.azureResourceManagerEndpoint) {
+      window.appsvc.env.azureResourceManagerEndpoint = endpoint;
+    }
   };
+
   private packageData = (data: any) => {
     data.frameId = this.frameId;
     return JSON.stringify(data);
+  };
+
+  private getDebugInformation = () => {
+    return sendHttpRequest<PortalDebugInformation>({
+      url: '/api/debug',
+      method: 'GET',
+      headers: getJsonHeaders(),
+    });
   };
 }

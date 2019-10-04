@@ -3,12 +3,14 @@ import { DeploymentCenterStateManager } from 'app/site/deployment-center/deploym
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { ProviderCard } from '../../Models/provider-card';
-import { ScenarioIds, KeyCodes } from '../../../../shared/models/constants';
+import { ScenarioIds, KeyCodes, FeatureFlags } from '../../../../shared/models/constants';
 import { from } from 'rxjs/observable/from';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { of } from 'rxjs/observable/of';
 import { Subject } from 'rxjs/Subject';
+import { sourceControlProvider } from '../wizard-logic/deployment-center-setup-models';
+import { Url } from 'app/shared/Utilities/url';
 @Component({
   selector: 'app-step-build-provider',
   templateUrl: './step-build-provider.component.html',
@@ -26,6 +28,15 @@ export class StepBuildProviderComponent implements OnDestroy {
       enabled: true,
     },
     {
+      id: 'github',
+      name: this._translateService.instant(PortalResources.gitHubActionBuildServerTitle),
+      icon: 'image/deployment-center/GitHubLogo.svg',
+      color: '#68217A',
+      description: this._translateService.instant(PortalResources.gitHubActionBuildServerDesc),
+      authorizedStatus: 'none',
+      enabled: true,
+    },
+    {
       id: 'vsts',
       name: `${this._translateService.instant(PortalResources.vstsBuildServerTitle)}`,
       icon: 'image/deployment-center/AzurePipelines.svg',
@@ -38,7 +49,7 @@ export class StepBuildProviderComponent implements OnDestroy {
   ];
 
   private _vstsKuduSourceScenarioBlocked = false;
-  private _currentSourceControlProvider: string;
+  private _currentSourceControlProvider: sourceControlProvider;
   private _ngUnsubscribe = new Subject();
   constructor(
     public wizard: DeploymentCenterStateManager,
@@ -67,6 +78,7 @@ export class StepBuildProviderComponent implements OnDestroy {
     this.wizard.wizardForm.controls.sourceProvider.valueChanges.takeUntil(this._ngUnsubscribe).subscribe(provider => {
       if (provider !== this._currentSourceControlProvider) {
         this._currentSourceControlProvider = provider;
+
         const kuduCard = this.providerCards.find(x => x.id === 'kudu');
         if (provider === 'vsts' && this._vstsKuduSourceScenarioBlocked) {
           this.chooseBuildProvider({ id: 'vsts', enabled: true } as ProviderCard);
@@ -74,6 +86,14 @@ export class StepBuildProviderComponent implements OnDestroy {
         } else {
           this.chooseBuildProvider({ id: 'kudu', enabled: true } as ProviderCard);
           kuduCard.hidden = false;
+        }
+
+        const enableGitHubAction = Url.getFeatureValue(FeatureFlags.enableGitHubAction);
+        const githubActionCard = this.providerCards.find(x => x.id === 'github');
+        if (this._currentSourceControlProvider === 'github' && enableGitHubAction) {
+          this.chooseBuildProvider({ id: 'github', enabled: true } as ProviderCard);
+        } else {
+          githubActionCard.hidden = true;
         }
       }
     });

@@ -1,22 +1,20 @@
 import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
+import { DetailsListLayoutMode, IColumn, SelectionMode, IDetailsList } from 'office-ui-fabric-react/lib/DetailsList';
 import React, { lazy, Suspense } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-
-import DisplayTableWithEmptyMessage, {
-  defaultCellStyle,
-} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, Stack, TooltipHost } from 'office-ui-fabric-react';
+import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
-import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
+import { filterBoxStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
+import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import Panel from '../../../../components/Panel/Panel';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 interface ApplicationSettingsState {
@@ -31,6 +29,7 @@ interface ApplicationSettingsState {
 
 export class ApplicationSettings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ApplicationSettingsState> {
   public static contextType = PermissionsContext;
+  private _appSettingsTable: IDetailsList;
   constructor(props) {
     super(props);
     this.state = {
@@ -46,68 +45,52 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
 
   public render() {
     const { t, values } = this.props;
-    const { production_write, editable } = this.context;
-    const { filter, showFilter, showAllValues, shownValues } = this.state;
+    const { production_write } = this.context;
+    const { filter, showFilter } = this.state;
     if (!values.appSettings) {
       return null;
     }
 
-    const allShown = showAllValues || (values.appSettings.length > 0 && shownValues.length === values.appSettings.length);
     return (
       <>
-        <Stack horizontal verticalAlign="center">
-          <ActionButton
-            id="app-settings-application-settings-add"
-            onClick={this._createNewItem}
-            disabled={!editable}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Add' }}
-            ariaLabel={t('addNewSetting')}>
-            {t('newApplicationSetting')}
-          </ActionButton>
-          <ActionButton
-            id="app-settings-application-settings-show-hide"
-            onClick={this._flipHideSwitch}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: !allShown ? 'RedEye' : 'Hide' }}>
-            {!allShown ? t('showValues') : t('hideValues')}
-          </ActionButton>
-
-          <ActionButton
-            id="app-settings-application-settings-bulk-edit"
-            onClick={this._openBulkEdit}
-            disabled={!editable}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Edit' }}>
-            {t('advancedEdit')}
-          </ActionButton>
-          <ActionButton
-            id="app-settings-application-settings-show-filter"
-            onClick={this._toggleFilter}
-            styles={tableActionButtonStyle}
-            iconProps={{ iconName: 'Filter' }}>
-            {t('filter')}
-          </ActionButton>
-        </Stack>
-        {showFilter && (
-          <SearchBox
-            id="app-settings-application-settings-search"
-            className="ms-slideDownIn20"
-            autoFocus
-            iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
-            placeholder={t('filterAppSettings')}
-            onChange={newValue => this.setState({ filter: newValue })}
-          />
-        )}
+        <DisplayTableWithCommandBar
+          commandBarItems={this._getCommandBarItems()}
+          items={values.appSettings.filter(x => {
+            if (!filter) {
+              return true;
+            }
+            return x.name.toLowerCase().includes(filter.toLowerCase());
+          })}
+          columns={this.getColumns()}
+          componentRef={table => {
+            if (table) {
+              this._appSettingsTable = table;
+            }
+          }}
+          isHeaderVisible={true}
+          layoutMode={DetailsListLayoutMode.justified}
+          selectionMode={SelectionMode.none}
+          selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('emptyAppSettings')}>
+          {showFilter && (
+            <SearchBox
+              id="app-settings-application-settings-search"
+              className="ms-slideDownIn20"
+              autoFocus
+              iconProps={{ iconName: 'Filter' }}
+              styles={filterBoxStyle}
+              placeholder={t('filterAppSettings')}
+              onChange={newValue => this.setState({ filter: newValue })}
+            />
+          )}
+        </DisplayTableWithCommandBar>
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'add'}
-          type={PanelType.large}
           onDismiss={this._onCancel}
           headerText={t('addEditApplicationSetting')}
           closeButtonAriaLabel={t('close')}>
           <AppSettingAddEdit
-            isLinux={isLinuxApp(values.site)}
+            site={values.site}
             appSetting={this.state.currentAppSetting!}
             disableSlotSetting={!production_write}
             otherAppSettings={values.appSettings}
@@ -117,7 +100,6 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         </Panel>
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'bulk'}
-          type={PanelType.large}
           onDismiss={this._onCancel}
           closeButtonAriaLabel={t('close')}>
           <Suspense fallback={<LoadingComponent />}>
@@ -126,26 +108,50 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
               updateAppSetting={this._saveBulkEdit}
               closeBlade={this._onCancel}
               appSettings={values.appSettings}
+              disableSlotSetting={!production_write}
             />
           </Suspense>
         </Panel>
-        <DisplayTableWithEmptyMessage
-          items={values.appSettings.filter(x => {
-            if (!filter) {
-              return true;
-            }
-            return x.name.toLowerCase().includes(filter.toLowerCase());
-          })}
-          columns={this.getColumns()}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyAppSettings')}
-        />
       </>
     );
   }
+
+  private _getCommandBarItems = (): ICommandBarItemProps[] => {
+    const { editable } = this.context;
+    const { t, values } = this.props;
+    const { showAllValues, shownValues } = this.state;
+    const allShown = showAllValues || (values.appSettings.length > 0 && shownValues.length === values.appSettings.length);
+
+    return [
+      {
+        key: 'app-settings-application-settings-add',
+        onClick: this._createNewItem,
+        disabled: !editable,
+        iconProps: { iconName: 'Add' },
+        name: t('newApplicationSetting'),
+        ariaLabel: t('addNewSetting'),
+      },
+      {
+        key: 'app-settings-application-settings-show-hide',
+        onClick: this._flipHideSwitch,
+        iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
+        name: !allShown ? t('showValues') : t('hideValues'),
+      },
+      {
+        key: 'app-settings-application-settings-bulk-edit',
+        onClick: this._openBulkEdit,
+        disabled: !editable,
+        iconProps: { iconName: 'Edit' },
+        name: t('advancedEdit'),
+      },
+      {
+        key: 'app-settings-application-settings-show-filter',
+        onClick: this._toggleFilter,
+        iconProps: { iconName: 'Filter' },
+        name: t('filter'),
+      },
+    ];
+  };
 
   private _flipHideSwitch = () => {
     const { showAllValues } = this.state;
@@ -187,13 +193,17 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     });
   };
 
-  private _onClosePanel = (item: FormAppSetting): void => {
-    let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
-    const index = appSettings.findIndex(
+  private _getAppSettingIndex = (item: FormAppSetting, appSettings: FormAppSetting[]): number => {
+    return appSettings.findIndex(
       x =>
         x.name.toLowerCase() === item.name.toLowerCase() ||
         (!!this.state.currentAppSetting && this.state.currentAppSetting.name.toLowerCase() === x.name.toLowerCase())
     );
+  };
+
+  private _onClosePanel = (item: FormAppSetting): void => {
+    let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
+    let index = this._getAppSettingIndex(item, appSettings);
     if (index !== -1) {
       appSettings[index] = item;
     } else {
@@ -202,6 +212,8 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     appSettings = sortBy(appSettings, o => o.name.toLowerCase());
     this.props.setFieldValue('appSettings', appSettings);
     this.setState({ showPanel: false });
+    index = this._getAppSettingIndex(item, appSettings);
+    this._appSettingsTable.focusIndex(index);
   };
 
   private _onCancel = (): void => {
@@ -311,7 +323,9 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           className={defaultCellStyle}
           id={`app-settings-application-settings-name-${index}`}
           onClick={() => this._onShowPanel(item)}>
-          {item[column.fieldName!]}
+          <span aria-live="assertive" role="region">
+            {item[column.fieldName!]}
+          </span>
         </ActionButton>
       );
     }

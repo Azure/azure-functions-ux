@@ -9,11 +9,22 @@ import { CustomCommandBarButton } from '../../../components/CustomCommandBarButt
 const getItems = (
   saveFunction: any,
   discardFunction: any,
+  refreshFunction: any,
   dirty: boolean,
   disabled: boolean,
   t: (string) => string
 ): ICommandBarItemProps[] => {
   return [
+    {
+      key: 'refresh',
+      name: t('refresh'),
+      iconProps: {
+        iconName: 'Refresh',
+      },
+      disabled: disabled,
+      ariaLabel: t('appSettingsRefreshAriaLabel'),
+      onClick: refreshFunction,
+    },
     {
       key: 'save',
       name: t('save'),
@@ -39,13 +50,14 @@ const getItems = (
 interface AppSettingsCommandBarProps {
   submitForm: () => void;
   resetForm: () => void;
+  refreshAppSettings: () => void;
   dirty: boolean;
   disabled: boolean;
 }
 
 type AppSettingsCommandBarPropsCombined = AppSettingsCommandBarProps;
 const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = props => {
-  const { submitForm, resetForm, dirty, disabled } = props;
+  const { submitForm, resetForm, refreshAppSettings, dirty, disabled } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
   useEffect(() => {
@@ -53,7 +65,7 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
   }, [dirty]);
   return (
     <CommandBar
-      items={getItems(submitForm, () => resetForm(), dirty, disabled, t)}
+      items={getItems(submitForm, () => resetForm(), refreshAppSettings, dirty, disabled, t)}
       aria-role="nav"
       styles={CommandBarStyles}
       ariaLabel={t('appSettingsCommandBarAriaLabel')}

@@ -69,7 +69,7 @@ export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
   }
 
   protected _shouldHideForNewPlan(data: PlanSpecPickerData): boolean {
-    return !!data.hostingEnvironmentName || data.isXenon || !data.isElastic;
+    return !!data.hostingEnvironmentName || data.isXenon || (data.isNewFunctionAppCreate && data.isElastic);
   }
 
   protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {
@@ -96,6 +96,7 @@ export class PremiumV2SmallPlanPriceSpec extends PremiumV2PlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -118,6 +119,7 @@ export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },
@@ -140,6 +142,7 @@ export class PremiumV2LargePlanPriceSpec extends PremiumV2PlanPriceSpec {
     id: this.skuCode,
     firstParty: [
       {
+        id: this.skuCode,
         quantity: Pricing.hoursInAzureMonth,
         resourceId: null,
       },

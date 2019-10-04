@@ -4,6 +4,7 @@ import MakeArmCall from './ArmHelper';
 import { FunctionInfo } from '../models/functions/function-info';
 import { sendHttpRequest, getJsonHeaders } from './HttpClient';
 import { FunctionTemplate } from '../models/functions/function-template';
+import { FunctionConfig } from '../models/functions/function-config';
 
 export default class FunctionsService {
   public static getFunctions = (resourceId: string) => {
@@ -14,6 +15,37 @@ export default class FunctionsService {
 
   public static getFunction = (resourceId: string) => {
     return MakeArmCall<ArmObj<FunctionInfo>>({ resourceId, commandName: 'fetchFunction' });
+  };
+
+  public static createFunction = (
+    functionAppId: string,
+    functionName: string,
+    files: { [key: string]: string },
+    functionConfig: FunctionConfig
+  ) => {
+    const resourceId = `${functionAppId}/functions/${functionName}`;
+    const filesCopy = Object.assign({}, files);
+    const sampleData = filesCopy['sample.dat'];
+    delete filesCopy['sample.dat'];
+
+    const functionInfo: ArmObj<FunctionInfo> = {
+      id: resourceId,
+      name: '',
+      location: '',
+      properties: {
+        name: functionName,
+        files: filesCopy,
+        test_data: sampleData,
+        config: functionConfig,
+      },
+    };
+
+    return MakeArmCall<ArmObj<FunctionInfo>>({
+      resourceId,
+      commandName: 'createFunction',
+      method: 'PUT',
+      body: functionInfo,
+    });
   };
 
   // The current implementation should be temporary.  In the future, we need to support extension bundles
@@ -45,6 +77,40 @@ export default class FunctionsService {
       url: '/api/templates?runtime=~2',
       method: 'GET',
       headers: getJsonHeaders(),
+    });
+  };
+
+  public static fetchKeys = (resourceId: string) => {
+    const id = `${resourceId}/listkeys`;
+    return MakeArmCall<{ [key: string]: string }>({
+      resourceId: id,
+      commandName: 'fetchKeys',
+      method: 'POST',
+    });
+  };
+
+  public static deleteKey = (resourceId: string, keyName: string) => {
+    const id = `${resourceId}/keys/${keyName}`;
+    return MakeArmCall<{ [key: string]: string }>({
+      resourceId: id,
+      commandName: 'deleteKey',
+      method: 'DELETE',
+    });
+  };
+
+  public static createKey = (resourceId: string, keyName: string, keyValue?: string) => {
+    const id = `${resourceId}/keys/${keyName}`;
+    const body = {
+      id: '',
+      location: '',
+      name: '',
+      properties: keyValue ? { name: keyName, value: keyValue } : {},
+    };
+    return MakeArmCall<{ name?: string; value?: string }>({
+      resourceId: id,
+      commandName: 'createKey',
+      method: 'PUT',
+      body: body,
     });
   };
 }

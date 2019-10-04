@@ -10,6 +10,7 @@ import { DatabaseType, typeValueToString } from './connectionStringTypes';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
+import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 
 export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: FormConnectionString) => any;
@@ -41,7 +42,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
     return !value ? t('connectionStringPropIsRequired').format('value') : '';
   };
   const updateConnectionStringValue = (e: any, value: string) => {
-    const error = validateConnectionStringValue(name);
+    const error = validateConnectionStringValue(value);
     setValueError(error);
     setCurrentConnectionString({ ...currentConnectionString, value });
   };
@@ -77,7 +78,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
   };
 
   return (
-    <form>
+    <form className={addEditFormStyle}>
       <TextFieldNoFormik
         label={t('nameRes')}
         widthOverride="100%"
@@ -85,6 +86,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
         value={currentConnectionString.name}
         errorMessage={nameError}
         onChange={updateConnectionStringName}
+        copyButton={true}
         autoFocus
       />
       <TextFieldNoFormik
@@ -94,6 +96,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
         value={currentConnectionString.value}
         errorMessage={valueError}
         onChange={updateConnectionStringValue}
+        copyButton={true}
       />
       <DropdownNoFormik
         label={t('type')}

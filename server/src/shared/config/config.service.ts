@@ -1,8 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { HttpService } from '../../shared/http/http.service';
-import { LoggingService } from '../../shared/logging/logging.service';
-import { StaticConfig } from '../../types/static-config';
+import { StaticConfig } from '../../types/config';
 export const KeyvaultApiVersion = '2016-10-01';
 export const KeyvaultUri = 'https://vault.azure.net';
 
@@ -31,12 +30,13 @@ export class ConfigService implements OnModuleInit {
           runtimeType: 'Azure',
           hostName: process.env.WEBSITE_HOSTNAME,
           azureResourceManagerEndpoint: 'https://management.azure.com',
+          appName: process.env.WEBSITE_SITE_NAME,
         },
         version: process.env.VERSION,
         cacheBreakQuery: process.env.CACHE_BREAK_QUERY,
         isAzure: !!process.env.WEBSITE_SITE_NAME,
         functionsVersionInfo: {
-          runtimeStable: ['~1', 'beta', '~2', 'latest'],
+          runtimeStable: ['~1', 'beta', '~2', 'latest', '~3'],
           runtimeDefault: '~1',
         },
       },

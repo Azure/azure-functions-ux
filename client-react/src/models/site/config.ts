@@ -196,3 +196,15 @@ export interface SiteAuthSettings {
 export interface Cors {
   allowedOrigins: string;
 }
+
+export interface KeyVaultReference {
+  reference: string;
+  status: string;
+  vaultName?: string;
+  secretName?: string;
+  secretVersion?: string;
+  identityType?: string;
+  details: string;
+  source?: string;
+  location?: 'ApplicationSetting' | 'ConnectionString';
+}

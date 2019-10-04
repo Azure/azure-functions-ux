@@ -7,6 +7,7 @@ import { ProxyNode } from './../tree-view/proxy-node';
 import { ProxiesNode } from './../tree-view/proxies-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 import { errorIds } from '../shared/models/error-ids';
+import { Links } from 'app/shared/models/constants';
 
 interface ProxyItem {
   name: string;
@@ -23,7 +24,8 @@ export class ProxiesListComponent implements OnDestroy {
   public viewInfoStream: Subject<TreeViewInfo<any>>;
   public proxies: ProxyItem[] = [];
   public isLoading: boolean;
-  public requiresAdvancedEditor: boolean = false;
+  public requiresAdvancedEditor = false;
+  public apimLearnMoreLink = Links.apimUpsellLearnMore;
 
   private _ngUnsubscribe: Subject<void> = new Subject<void>();
 

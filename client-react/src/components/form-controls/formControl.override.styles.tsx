@@ -88,4 +88,20 @@ export const infoIconStyle = (theme: ThemeExtended) =>
     paddingRight: '5px',
   });
 
+export const copyButtonStyle = (theme: ThemeExtended) =>
+  style({
+    marginLeft: '5px',
+    width: '25px',
+    height: '25px',
+    backgroundColor: theme.semanticColors.accentButtonBackground,
+    color: theme.semanticColors.buttonTextChecked,
+    $nest: {
+      '&:hover': {
+        color: theme.semanticColors.buttonTextChecked,
+      },
+    },
+  });
+
 export const learnMoreLinkStyle = style({ minWidth: '70px' });
+
+export const addEditFormStyle = style({ paddingBottom: '60px' });

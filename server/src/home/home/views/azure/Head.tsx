@@ -1,6 +1,6 @@
 import * as React from 'react';
 export const Head = props => {
-  if ((props.config && props.config.clientOptimzationsOff) || !props.versionConfig) {
+  if (props.clientOptimizationsOff || !props.versionConfig) {
     return <base href="/ng-full/" />;
   }
   return (

@@ -1,6 +1,26 @@
 <div class="sourceContainer">
+  <h3 class="first-config-heading">{{ 'continousDeploymentSectionTitle' | translate }}</h3>
   <div class="selectionContainer" role="radiogroup" flex-list>
-    <div *ngFor="let card of providerCards" role="radio" [attr.aria-checked]="selectedProvider?.name === card.name" class="cardContainer" [class.selected]="selectedProvider?.name === card.name"
+    <div *ngFor="let card of continuousDeploymentProviderCards" role="radio" [attr.aria-checked]="selectedProvider?.name === card.name" class="cardContainer" [class.selected]="selectedProvider?.name === card.name"
+      (click)="selectProvider(card)" [hidden]="card.hidden"  (keydown)="onKeyPress($event, card)">
+      <div class="cardHeader">
+        <img [src]="card.icon" [style.background-color]="card.color" alt="{{card.name}}"/> {{card.name}}
+      </div>
+      <div class="cardDescription" title="{{ card.description }}">
+        {{card.description}}
+      </div>
+      <div class="cardFooter">
+        <div *ngIf="card.authorizedStatus==='authorized'">{{card.authenticatedId}}</div>
+        <div *ngIf="card.authorizedStatus==='loadingAuth'">
+          <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'loading' | translate }}</div>
+        <div *ngIf="card.authorizedStatus==='notAuthorized'">{{ 'notAuthorized' | translate}}</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="first-config-heading">{{ 'manualDeploymentSectionTitle' | translate }}</h3>
+  <div class="selectionContainer" role="radiogroup" flex-list>
+    <div *ngFor="let card of manualDeploymentProviderCards" role="radio" [attr.aria-checked]="selectedProvider?.name === card.name" class="cardContainer" [class.selected]="selectedProvider?.name === card.name"
       (click)="selectProvider(card)" [hidden]="card.hidden"  (keydown)="onKeyPress($event, card)">
       <div class="cardHeader">
         <img [src]="card.icon" [style.background-color]="card.color" alt="{{card.name}}"/> {{card.name}}
@@ -17,13 +37,17 @@
     </div>
   </div>
 </div>
+
 <div class="footer">
-    <button type="button" *ngIf="selectedProvider?.authorizedStatus === 'notAuthorized'" class="custom-button form-button"
+    <button type="button" *ngIf="!authStateError && selectedProvider?.authorizedStatus === 'notAuthorized'" class="custom-button form-button"
       (click)="authorize()">{{'authorize' | translate}}</button>
-    <button type="button" *ngIf="selectedProvider?.authorizedStatus === 'authorized'" class="custom-button form-button"
+    <button type="button" *ngIf="!authStateError && selectedProvider?.authorizedStatus === 'authorized'" class="custom-button form-button"
       (click)="authorize()">{{'changeAuthorization' | translate}}</button>
-    <button type="button" *ngIf="(selectedProvider?.authorizedStatus === 'authorized' || selectedProvider?.authorizedStatus === 'none') && !selectedProvider?.manual"
+    <button type="button" *ngIf="!authStateError && (selectedProvider?.authorizedStatus === 'authorized' || selectedProvider?.authorizedStatus === 'none') && !selectedProvider?.manual"
       class="custom-button form-button" nextStep>{{'continue' | translate}}</button>
-  <button id="step-complete-show-dashboard-button" type="button" *ngIf="selectedProvider?.manual" class="custom-button form-button"
-    (click)="renderDashboard()">{{'dashboard' | translate}}</button>
+    <button id="step-complete-show-dashboard-button" type="button" *ngIf="!authStateError && selectedProvider?.manual" class="custom-button form-button"
+      (click)="renderDashboard()">{{'dashboard' | translate}}</button>
+    <span class="message-text" *ngIf='authStateError'>
+        {{ 'sourceControlAuthStateFailure' | translate}}
+    </span>
 </div>

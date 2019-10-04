@@ -47,10 +47,11 @@ import { FunctionKeys, HostKeys } from '../shared/models/function-key';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 import { LogService } from '../shared/services/log.service';
-import { LogCategories, WebhookTypes, FunctionAppVersion } from '../shared/models/constants';
+import { LogCategories, WebhookTypes } from '../shared/models/constants';
 import { ArmUtil } from '../shared/Utilities/arm-utils';
 import { AiService } from 'app/shared/services/ai.service';
 import { FunctionService } from 'app/shared/services/function.service';
+import { runtimeIsV1 } from 'app/shared/models/functions-version-info';
 
 type FileSelectionEvent = VfsObject | [VfsObject, monaco.editor.IMarkerData[], monaco.editor.IMarkerData];
 
@@ -113,7 +114,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   public expandLogs = false;
   public functionKeys: FunctionKeys;
   public hostKeys: HostKeys;
-  public masterKey: string;
   public isStandalone: boolean;
   public inTab: boolean;
   public disabled: Observable<boolean>;
@@ -358,7 +358,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           this._setFunctionInvokeUrl();
         }
         this.functionAppVersion = tuple[4];
-        this.showErrorsAndWarnings = this.functionAppVersion === FunctionAppVersion.v1;
+        this.showErrorsAndWarnings = runtimeIsV1(this.functionAppVersion);
       });
   }
 
@@ -508,8 +508,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent
         queryParams = queryParams ? `${queryParams}&clientId=${clientId}` : `?clientId=${clientId}`;
       }
 
-      if (this.functionAppVersion === FunctionAppVersion.v1) {
-        this._functionAppService.getHostJson(this.context).subscribe(jsonObj => {
+      if (runtimeIsV1(this.functionAppVersion)) {
+        this._functionAppService.getHostV1Json(this.context).subscribe(jsonObj => {
           const result =
             jsonObj.isSuccessful &&
             jsonObj.result.http &&
@@ -521,7 +521,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           this._updateFunctionInvokeUrl(result, queryParams);
         });
       } else {
-        this._functionAppService.getHostV2Json(this.context).subscribe(jsonObj => {
+        this._functionAppService.getHostV2V3Json(this.context).subscribe(jsonObj => {
           const result =
             jsonObj.isSuccessful &&
             jsonObj.result.extensions &&

@@ -9,7 +9,6 @@ import {
   Links,
   SiteTabIds,
   SubscriptionQuotaIds,
-  FunctionAppVersion,
 } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
 import { Binding } from './../../shared/models/binding';
@@ -42,6 +41,7 @@ import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BillingService } from './../../shared/services/billing.service';
 import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 import { FunctionService } from './../../shared/services/function.service';
+import { runtimeIsV1, runtimeIsV2, runtimeIsV3 } from 'app/shared/models/functions-version-info';
 
 interface CategoryOrder {
   name: string;
@@ -232,7 +232,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
         if (
           this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName) &&
-          this.runtimeVersion === FunctionAppVersion.v2
+          (runtimeIsV2(this.runtimeVersion) || runtimeIsV3(this.runtimeVersion))
         ) {
           const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
           this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];
@@ -444,7 +444,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
   private _languageIsExperimental(language: string): boolean {
     return (
-      this.runtimeVersion === FunctionAppVersion.v1 &&
+      runtimeIsV1(this.runtimeVersion) &&
       !!this.allExperimentalLanguages.find(l => {
         return l === language;
       })
@@ -846,7 +846,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
   }
 
   quickstart() {
-    if (this.runtimeVersion === FunctionAppVersion.v1) {
+    if (runtimeIsV1(this.runtimeVersion)) {
       this.functionsNode.openCreateDashboard(DashboardType.CreateFunctionQuickstartDashboard);
     } else {
       this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);

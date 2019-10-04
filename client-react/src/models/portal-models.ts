@@ -95,6 +95,7 @@ export class Verbs {
   public static openBladeCollectorInputs = 'open-blade-collector-inputs'; // Deprecated
   public static updateBladeInfo = 'update-blade-info';
   public static returnPCV3Results = 'return-pcv3-results';
+  public static executeArmUpdateRequest = 'arm-update-request';
 
   public static closeBlades = 'close-blades';
   public static closeSelf = 'close-self';
@@ -109,6 +110,9 @@ export class Verbs {
   public static getSubscriptionInfo = 'get-subscription-info';
   public static getSpecCosts = 'get-spec-costs';
   public static broadcastMessage = 'broadcast-message';
+
+  public static hasPermission = 'has-permission';
+  public static hasLock = 'has-lock';
 
   // Requests from Ibiza
   public static sendStartupInfo = 'send-startup-info';
@@ -263,4 +267,30 @@ export interface BroadcastMessage<T> {
   id: BroadcastMessageId;
   resourceId: string;
   metadata?: T;
+}
+
+export interface CheckPermissionRequest {
+  resourceId: string;
+  actions: string[];
+}
+
+export interface CheckPermissionResponse {
+  hasPermission: boolean;
+}
+
+export type LockType = 'ReadOnly' | 'Delete';
+
+export interface CheckLockRequest {
+  resourceId: string;
+  type: LockType;
+}
+
+export interface CheckLockResponse {
+  hasLock: boolean;
+}
+
+export interface PortalDebugInformation {
+  hostName: string;
+  appName: string;
+  version: string;
 }

@@ -4,6 +4,7 @@ export interface StaticConfig {
       runtimeType: 'Azure' | 'OnPrem' | 'Standalone';
       hostName: string | undefined;
       azureResourceManagerEndpoint: string;
+      appName: string;
     };
     cacheBreakQuery: string;
     isAzure: boolean;
@@ -13,4 +14,10 @@ export interface StaticConfig {
       runtimeDefault: string;
     };
   };
+}
+
+export interface HomeConfig extends StaticConfig {
+  version: string;
+  versionConfig: string;
+  clientOptimizationsOff: boolean;
 }

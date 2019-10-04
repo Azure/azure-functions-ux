@@ -1,34 +1,29 @@
 import i18next from 'i18next';
 import { FormAppSetting } from '../AppSettings.types';
 import * as Joi from 'joi';
-const windowsSchema = Joi.array()
-  .unique('name')
-  .items(
-    Joi.object().keys({
-      name: Joi.string().required(),
-      value: Joi.string()
+const getSchema = (disableSlotSetting: boolean, isLinux: boolean): Joi.ArraySchema => {
+  const slotSettingSchema = disableSlotSetting ? Joi.boolean().forbidden() : Joi.boolean().optional();
+  const nameSchema = isLinux
+    ? Joi.string()
         .required()
-        .allow(''),
-      slotSetting: Joi.boolean().optional(),
-    })
-  );
-const linuxSchema = Joi.array()
-  .unique('name')
-  .items(
-    Joi.object().keys({
-      name: Joi.string()
-        .required()
-        .regex(/^[\w|\.]*$/),
-      value: Joi.string()
-        .required()
-        .allow(''),
-      slotSetting: Joi.boolean().optional(),
-    })
-  );
-export const getErrorMessage = (newValue: string, isLinux: boolean, t: i18next.TFunction) => {
+        .regex(/^[\w|\.]*$/)
+    : Joi.string().required();
+  return Joi.array()
+    .unique('name')
+    .items(
+      Joi.object().keys({
+        name: nameSchema,
+        value: Joi.string()
+          .required()
+          .allow(''),
+        slotSetting: slotSettingSchema,
+      })
+    );
+};
+export const getErrorMessage = (newValue: string, disableSlotSetting: boolean, isLinux: boolean, t: i18next.TFunction) => {
   try {
     const obj = JSON.parse(newValue) as unknown;
-    const schema = isLinux ? linuxSchema : windowsSchema;
+    const schema = getSchema(disableSlotSetting, isLinux);
     const result = Joi.validate(obj, schema);
     if (!result.error) {
       return '';
@@ -49,6 +44,10 @@ export const getErrorMessage = (newValue: string, isLinux: boolean, t: i18next.T
         return t('appSettingInvalidProperty').format(details.context!.key);
       case 'array.unique':
         return t('appSettingNamesUnique');
+      case 'any.unknown':
+        return disableSlotSetting && details.context!.key === 'slotSetting'
+          ? t('slotSettingForbiddenProperty').format(details.context!.key)
+          : t('jsonInvalid');
       default:
         return t('jsonInvalid');
     }
@@ -57,22 +56,41 @@ export const getErrorMessage = (newValue: string, isLinux: boolean, t: i18next.T
   }
 };
 
-export const formAppSettingToUseSlotSetting = (appSettings: FormAppSetting[]): string => {
-  return JSON.stringify(
-    appSettings.map(x => ({
-      name: x.name,
-      value: x.value,
-      slotSetting: x.sticky,
-    })),
-    null,
-    2
-  );
+const getAppSettingObjectForMonacoEditor = (appSetting: FormAppSetting, disableSlotSetting: boolean) => {
+  return disableSlotSetting
+    ? {
+        name: appSetting.name,
+        value: appSetting.value,
+      }
+    : {
+        name: appSetting.name,
+        value: appSetting.value,
+        slotSetting: appSetting.sticky,
+      };
 };
 
-export const formAppSettingToUseStickySetting = (appSettings: string): FormAppSetting[] => {
+const getAppSettingStickyValue = (appSettingName: string, initialAppSettings: FormAppSetting[]): boolean => {
+  const appSettingIndex = initialAppSettings.findIndex(x => {
+    if (x.name.toLowerCase() === appSettingName.toLowerCase()) {
+      return true;
+    }
+    return false;
+  });
+  return appSettingIndex >= 0 ? initialAppSettings[appSettingIndex].sticky : false;
+};
+
+export const formAppSettingToUseSlotSetting = (appSettings: FormAppSetting[], disableSlotSetting: boolean): string => {
+  return JSON.stringify(appSettings.map(x => getAppSettingObjectForMonacoEditor(x, disableSlotSetting)), null, 2);
+};
+
+export const formAppSettingToUseStickySetting = (
+  appSettings: string,
+  disableSlotSetting: boolean,
+  initialAppSetting: FormAppSetting[]
+): FormAppSetting[] => {
   return JSON.parse(appSettings).map(x => ({
     name: x.name,
     value: x.value,
-    sticky: x.slotSetting,
+    sticky: disableSlotSetting ? getAppSettingStickyValue(x.name, initialAppSetting) : x.slotSetting,
   }));
 };

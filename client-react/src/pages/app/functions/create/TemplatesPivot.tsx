@@ -8,11 +8,12 @@ import { useTranslation } from 'react-i18next';
 
 interface TemplatesPivotProps {
   functionTemplates: FunctionTemplate[];
+  setSelectedFunctionTemplate: (FunctionTemplate) => void;
   setPivotStateKey: (PivotState) => void;
 }
 
 const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
-  const { functionTemplates, setPivotStateKey } = props;
+  const { functionTemplates, setSelectedFunctionTemplate, setPivotStateKey } = props;
   const { t } = useTranslation();
   setPivotStateKey(PivotState.templates);
   const [filterValue, setFilterValue] = useState<string | undefined>(undefined);
@@ -30,7 +31,14 @@ const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
             return !filterValue || template.metadata.name.toLowerCase().includes(filterValue.toLowerCase());
           })
           .map((template, index) => {
-            return <CreateCard functionTemplate={template} key={index} setPivotStateKey={setPivotStateKey} />;
+            return (
+              <CreateCard
+                functionTemplate={template}
+                key={index}
+                setSelectedFunctionTemplate={setSelectedFunctionTemplate}
+                setPivotStateKey={setPivotStateKey}
+              />
+            );
           })}
     </>
   );

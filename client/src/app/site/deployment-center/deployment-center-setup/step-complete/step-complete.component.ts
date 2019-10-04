@@ -32,6 +32,7 @@ export class StepCompleteComponent {
   private _busyManager: BusyStateScopeManager;
   private _ngUnsubscribe$ = new Subject();
   private _saveDeploymentConfig$ = new Subject();
+  private _isSaveDeploymentConfigInProgress = false;
 
   constructor(
     public wizard: DeploymentCenterStateManager,
@@ -50,6 +51,11 @@ export class StepCompleteComponent {
       .takeUntil(this._ngUnsubscribe$)
       .debounceTime(500)
       .subscribe(_ => {
+        if (this._isSaveDeploymentConfigInProgress) {
+          return;
+        }
+        this._isSaveDeploymentConfigInProgress = true;
+        this._busyManager.setBusy();
         this._saveDeploymentConfig();
       });
   }
@@ -65,7 +71,6 @@ export class StepCompleteComponent {
       buildProvider: this.wizard.wizardValues.buildProvider,
       sourceProvider: this.wizard.wizardValues.sourceProvider,
     });
-    this._busyManager.setBusy();
     let notificationId = null;
     this._portalService
       .startNotification(
@@ -125,6 +130,7 @@ export class StepCompleteComponent {
 
   clearBusy() {
     this._busyManager.clearBusy();
+    this._isSaveDeploymentConfigInProgress = false;
   }
 
   get SummaryGroups(): SummaryGroup[] {
