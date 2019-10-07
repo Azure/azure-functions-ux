@@ -8,6 +8,7 @@ import StorageService from '../../../../ApiHelpers/StorageService';
 import { ArmObj } from '../../../../models/arm-obj';
 import { StorageAccount } from '../../../../models/storage-account';
 import { BindingEditorFormValues } from './BindingFormBuilder';
+import { useTranslation } from 'react-i18next';
 
 export interface NewResourceConnectionProps {
   resourceId: string;
@@ -22,6 +23,7 @@ const NewResourceConnection: React.SFC<NewResourceConnectionProps & CustomDropdo
   const { resourceId, setNewAppSettingName, setIsCalloutVisible, form: formProps, field } = props;
   const [storageAccounts, setStorageAccounts] = useState<ArmObj<StorageAccount>[] | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<IDropdownOption | undefined>(undefined);
+  const { t } = useTranslation();
   useEffect(() => {
     StorageService.fetchAzureStorageAccounts(resourceId).then(r => {
       if (!r.metadata.success) {
@@ -52,7 +54,7 @@ const NewResourceConnection: React.SFC<NewResourceConnectionProps & CustomDropdo
       <DefaultButton
         disabled={!selectedItem}
         onClick={() => createStorageAccountConnection(selectedItem, setNewAppSettingName, setIsCalloutVisible, formProps, field)}>
-        {'Create storage account connection'}
+        {t('ok')}
       </DefaultButton>
     </form>
   );
