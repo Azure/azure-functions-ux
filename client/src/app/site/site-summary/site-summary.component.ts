@@ -204,8 +204,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           !this.siteAvailabilityStateNormal;
 
         const appSettings = r.appSettings && r.appSettings.result && r.appSettings.result.properties;
-        const workerRuntime = appSettings && appSettings[Constants.functionsWorkerRuntimeAppSettingsName];
-        const isPowershell = workerRuntime && WorkerRuntimeLanguages[workerRuntime] === WorkerRuntimeLanguages.powershell;
 
         if (
           r.functionsInfo.length === 0 &&
