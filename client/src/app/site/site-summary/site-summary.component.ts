@@ -44,7 +44,7 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { errorIds } from '../../shared/models/error-ids';
 import { TopBarNotification } from 'app/top-bar/top-bar-models';
-import { OpenBladeInfo, EventVerbs } from '../../shared/models/portal';
+import { OpenBladeInfo, EventVerbs, FrameBladeParams } from '../../shared/models/portal';
 import { SlotSwapInfo } from '../../shared/models/slot-events';
 import { FlightingUtil } from 'app/shared/Utilities/flighting-utility';
 import { FunctionService } from 'app/shared/services/function.service';
@@ -240,7 +240,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             iconClass: 'fa fa-exclamation-triangle warning',
             learnMoreLink: null,
             clickCallback: () => {
-              const containerSettingsBladeInput = {
+              const containerSettingsBladeInput: OpenBladeInfo<FrameBladeParams> = {
                 detailBlade: 'ContainerSettingsFrameBlade',
                 detailBladeInputs: {
                   id: this.context.site.id,
@@ -567,7 +567,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       detailBladeInputs: { resourceUri: this.context.site.id },
     };
 
-    const newBladeInfo: OpenBladeInfo = {
+    const newBladeInfo: OpenBladeInfo<FrameBladeParams> = {
       detailBlade: 'SwapSlotsFrameBlade',
       detailBladeInputs: { id: this.context.site.id },
       openAsContextBlade: true,
