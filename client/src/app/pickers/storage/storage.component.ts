@@ -93,7 +93,7 @@ export class StorageComponent extends FunctionAppContextComponent {
           this.option === this.optionTypes.azure
             ? storageConnectionStringFormat.format(this.accountName, this.accountKey)
             : explicitStorageConnectionStringFormat.format(this.endpoint, this.accountName, this.accountKey);
-        return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+        return this._cacheService.putArm(appSettings.id, this._armService.antaresApiVersion20181101, appSettings);
       })
       .do(null, e => {
         this._globalStateService.clearBusyState();

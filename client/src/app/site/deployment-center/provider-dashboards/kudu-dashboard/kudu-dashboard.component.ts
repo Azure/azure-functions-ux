@@ -83,7 +83,7 @@ export class KuduDashboardComponent extends DeploymentDashboard implements OnCha
       .switchMap(resourceId => {
         return Observable.zip(
           this._cacheService.getArm(resourceId, this._forceLoad),
-          this._cacheService.getArm(`${resourceId}/config/web`, this._forceLoad, ARMApiVersions.websiteApiVersion20181101),
+          this._cacheService.getArm(`${resourceId}/config/web`, this._forceLoad, ARMApiVersions.antaresApiVersion20181101),
           this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`, this._forceLoad),
           this._cacheService.getArm(`${resourceId}/sourcecontrols/web`, this._forceLoad),
           this._cacheService.getArm(`${resourceId}/deployments`, true),
@@ -304,7 +304,7 @@ export class KuduDashboardComponent extends DeploymentDashboard implements OnCha
             scmType: 'None',
           },
         },
-        ARMApiVersions.websiteApiVersion20181101
+        ARMApiVersions.antaresApiVersion20181101
       );
       let sourceControlsConfig = of(null);
       if (this.deploymentObject.siteConfig.properties.scmType !== 'LocalGit') {

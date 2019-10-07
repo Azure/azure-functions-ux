@@ -5,7 +5,7 @@ import { ConfigService } from 'app/shared/services/config.service';
 import { PortalService } from './services/portal.service';
 import { Injector } from '@angular/core';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
-import { Site } from 'app/shared/models/arm/site';
+import { Site, HostType } from 'app/shared/models/arm/site';
 import { runtimeIsV2, runtimeIsV3 } from './models/functions-version-info';
 
 export class UrlTemplates {
@@ -37,7 +37,8 @@ export class UrlTemplates {
     } else if (this.isEmbeddedFunctions) {
       return null;
     } else {
-      const scmHostName = this.site.properties.hostNameSslStates && this.site.properties.hostNameSslStates.find(s => s.hostType === 1);
+      const scmHostName =
+        this.site.properties.hostNameSslStates && this.site.properties.hostNameSslStates.find(s => s.hostType === HostType.Repository);
       return scmHostName ? `https://${scmHostName.name}` : this.getMainUrl();
     }
   }
@@ -63,10 +64,10 @@ export class UrlTemplates {
           .filter(part => !!part)
           .slice(0, 4)
           .join('/');
-        return `${ArmEmbeddedService.url}/${smallerSiteId}/functions?api-version=${this.armService.websiteApiVersion}`;
+        return `${ArmEmbeddedService.url}/${smallerSiteId}/functions?api-version=${this.armService.antaresApiVersion20181101}`;
       }
       // url to get all functions for the entity
-      return `${ArmEmbeddedService.url}${this.site.id}/functions?api-version=${this.armService.websiteApiVersion}`;
+      return `${ArmEmbeddedService.url}${this.site.id}/functions?api-version=${this.armService.antaresApiVersion20181101}`;
     }
 
     return this.useNewUrls ? `${this.mainSiteUrl}/admin/functions` : `${this.scmUrl}/api/functions`;
@@ -90,10 +91,10 @@ export class UrlTemplates {
           .slice(0, 6)
           .join('/');
         return `${ArmEmbeddedService.url}/${smallerSiteId}/entities/${functionEntity}/functions/${functionName}?api-version=${
-          this.armService.websiteApiVersion
+          this.armService.antaresApiVersion20181101
         }`;
       }
-      return `${ArmEmbeddedService.url}${this.site.id}/functions/${functionName}?api-version=${this.armService.websiteApiVersion}`;
+      return `${ArmEmbeddedService.url}${this.site.id}/functions/${functionName}?api-version=${this.armService.antaresApiVersion20181101}`;
     }
 
     return this.useNewUrls ? `${this.mainSiteUrl}/admin/functions/${functionName}` : `${this.scmUrl}/api/functions/${functionName}`;

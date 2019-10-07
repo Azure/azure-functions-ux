@@ -1,4 +1,5 @@
 import { style } from 'typestyle';
+import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
 export const panelHeaderStyle = style({
   width: '100%',
@@ -42,3 +43,8 @@ export const panelBodyStyle = {
   marginTop: '10px',
   padding: '20px',
 };
+
+export const closeButtonStyle = (theme: ThemeExtended) =>
+  style({
+    fill: theme.semanticColors.bodyText,
+  });

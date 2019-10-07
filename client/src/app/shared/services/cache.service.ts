@@ -52,12 +52,12 @@ export class CacheService {
   }
 
   getArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean): Observable<Response> {
-    const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.websiteApiVersion);
+    const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.antaresApiVersion20181101);
     return this.send(url, 'GET', force, null, null, invokeApi);
   }
 
   deleteArm(resourceId: string, apiVersion?: string, invokeApi?: boolean): Observable<Response> {
-    const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.websiteApiVersion);
+    const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.antaresApiVersion20181101);
     return this.send(url, 'DELETE', true, null, null, invokeApi);
   }
 
@@ -69,12 +69,12 @@ export class CacheService {
     cacheKeyPrefix?: string,
     responseContentType?: ResponseContentType
   ): Observable<Response> {
-    const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.websiteApiVersion);
+    const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.antaresApiVersion20181101);
     return this.send(url, 'POST', force, null, content, null, cacheKeyPrefix, responseContentType);
   }
 
   putArm(resourceId: string, apiVersion?: string, content?: any) {
-    const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.websiteApiVersion);
+    const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.antaresApiVersion20181101);
     return this._armService.send('PUT', url, content);
   }
 
@@ -363,7 +363,7 @@ export class CacheService {
 
   private _getArmUrl(resourceId: string, apiVersion?: string) {
     const url = `${this._armService.armUrl}${resourceId}`;
-    return this._updateQueryString(url, 'api-version', apiVersion ? apiVersion : this._armService.websiteApiVersion);
+    return this._updateQueryString(url, 'api-version', apiVersion ? apiVersion : this._armService.antaresApiVersion20181101);
   }
 
   // private _getArmUrlWithQueryString(resourceId : string, queryString : string){
