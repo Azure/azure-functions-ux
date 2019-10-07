@@ -9,7 +9,7 @@ export default class ServerFarmService {
     return MakeArmCall<ArmObj<ServerFarm>>({
       resourceId,
       commandName: 'FetchServerFarm',
-      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
   };
 
@@ -32,7 +32,7 @@ export default class ServerFarmService {
     return MakeArmCall<ArmObj<ServerFarm>>({
       resourceId,
       commandName: 'UpdateServerFarm',
-      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
       method: 'PUT',
       body: serverFarm,
     });

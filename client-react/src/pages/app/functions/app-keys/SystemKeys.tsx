@@ -80,6 +80,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
 
   const createSystemKey = (key: AppKeysModel) => {
     appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.systemKeys);
+    onClosePanel();
     refreshData();
   };
 

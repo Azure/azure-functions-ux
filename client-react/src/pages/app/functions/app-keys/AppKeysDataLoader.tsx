@@ -5,6 +5,7 @@ import { AppKeysFormValues } from './AppKeys.types';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { PortalContext } from '../../../../PortalContext';
 import { SiteRouterContext } from '../../SiteRouter';
+import { disableIFrameStyle } from './AppKeys.styles';
 
 const appKeysData = new AppKeysData();
 export const AppKeysContext = React.createContext(appKeysData);
@@ -48,12 +49,18 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   useEffect(() => {
     fetchData();
   }, []);
-  if (initialLoading || !initialValues || refreshLoading) {
+  if (initialLoading || !initialValues) {
     return <LoadingComponent />;
   }
 
   return (
     <AppKeysContext.Provider value={appKeysData}>
+      {refreshLoading && (
+        <div>
+          <LoadingComponent />
+          <div className={disableIFrameStyle} />
+        </div>
+      )}
       <AppKeys resourceId={resourceId} initialValues={initialValues} refreshData={refreshData} />
     </AppKeysContext.Provider>
   );

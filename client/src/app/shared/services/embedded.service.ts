@@ -71,7 +71,7 @@ export class EmbeddedService {
       .first()
       .switchMap(info => {
         const headers = this._getHeaders(info);
-        const url = this._armService.getArmUrl(resourceId, this._armService.websiteApiVersion);
+        const url = this._armService.getArmUrl(resourceId, this._armService.antaresApiVersion20181101);
         return this._cacheService.delete(url, headers);
       })
       .map(r => {
