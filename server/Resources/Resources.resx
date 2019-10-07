@@ -4079,6 +4079,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>Source and Destination cannot be the same deployment slot</value>
     </data>
+    <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>Swap with preview cannot be performed because you do not have the necessary permissions on the following slots: '{{slotNames}}'</value>
+    </data>
     <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
     </data>
