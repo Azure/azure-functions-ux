@@ -15,14 +15,14 @@ import Panel from '../../../../../components/Panel/Panel';
 
 export interface BindingEditorDataLoaderProps {
   functionInfo: ArmObj<FunctionInfo>;
-  resourceId: string;
+  functionAppId: string;
   bindingInfo?: BindingInfo;
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
 }
 
 const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props => {
-  const { functionInfo, resourceId, bindingInfo } = props;
+  const { functionInfo, functionAppId, bindingInfo } = props;
   const [bindingsConfig, setBindingsConfig] = useState<BindingsConfig | undefined>(undefined);
   const { t } = useTranslation();
   useEffect(() => {
@@ -46,7 +46,7 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
 
   return (
     <Panel isOpen={true} type={PanelType.smallFixedFar} headerText={getPanelHeader(bindingInfo, t)} onDismiss={props.onPanelClose}>
-      {getEditorOrLoader(functionInfo, resourceId, props.onSubmit, bindingInfo, bindingsConfig)}
+      {getEditorOrLoader(functionInfo, functionAppId, props.onSubmit, bindingInfo, bindingsConfig)}
     </Panel>
   );
 };
