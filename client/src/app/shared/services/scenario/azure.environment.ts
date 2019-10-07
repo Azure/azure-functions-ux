@@ -1,4 +1,4 @@
-import { ScenarioIds, FeatureFlags } from './../../models/constants';
+import { ScenarioIds, FeatureFlags, Kinds } from './../../models/constants';
 import { Tier } from './../../models/serverFarmSku';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
@@ -262,7 +262,7 @@ export class AzureEnvironment extends Environment {
 
   private _vstsPermissionsCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
     let requestedActions: string[] = [];
-    if (IsPublishProfileBasedDeploymentEnabled && input.site.kind.toLowerCase() === 'app') {
+    if (IsPublishProfileBasedDeploymentEnabled && input.site.kind.toLowerCase() === Kinds.app) {
       requestedActions = [AuthzService.websiteContributorScope];
     } else {
       requestedActions = [AuthzService.activeDirectoryWriteScope];
