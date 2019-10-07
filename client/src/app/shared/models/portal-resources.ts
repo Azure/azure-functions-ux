@@ -721,6 +721,7 @@ export class PortalResources {
   public static slotNew_startCreateSuccessNotifyTitle = 'slotNew_startCreateSuccessNotifyTitle';
   public static slotNew_startCreateFailureNotifyTitle = 'slotNew_startCreateFailureNotifyTitle';
   public static error_unableToLoadSlotsList = 'error_unableToLoadSlotsList';
+  public static error_unableToLoadTipConfig = 'error_unableToLoadTipConfig';
   public static slotNew_quotaReached = 'slotNew_quotaReached';
   public static slotNew_quotaUpgrade = 'slotNew_quotaUpgrade';
   public static slotNew_noAccess = 'slotNew_noAccess';
@@ -1313,6 +1314,7 @@ export class PortalResources {
   public static noWritePermission = 'noWritePermission';
   public static slotReadOnlyLock = 'slotReadOnlyLock';
   public static swapSrcDestNotUnique = 'swapSrcDestNotUnique';
+  public static swapMultiPhasePermissionsFailure = 'swapMultiPhasePermissionsFailure';
   public static swapMultiPhaseAuthConflict = 'swapMultiPhaseAuthConflict';
   public static swapMultiPhaseNoStickySettings = 'swapMultiPhaseNoStickySettings';
   public static swapMultiPhasePreviewMessage = 'swapMultiPhasePreviewMessage';
