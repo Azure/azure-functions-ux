@@ -64,9 +64,9 @@
 
     </div>
 
-    <div *ngIf="keepVisible || featureSupported || loadingFailed" class="config-wrapper">
+    <div *ngIf="keepVisible || featureSupported || !!loadingSlotsFailureMessage || !!loadingConfigFailureMessage" class="config-wrapper">
         <info-box
-            *ngIf="!fetchingContent && !!prodSiteArm && (!deploymentSlotsArm || deploymentSlotsArm.length === 0)"
+            *ngIf="!fetchingContent && !!prodSiteArm && !!deploymentSlotsArm && deploymentSlotsArm.length === 0 && !addSlotCommandDisabled"
             [isBanner]="true"
             [infoText]="'slotsList_noSlots' | translate"
             typeClass="upsell"
@@ -89,7 +89,7 @@
             <ng-container *ngIf="!fetchingPermissions">
 
                 <info-box
-                    *ngIf="!hasWriteAccess"
+                    *ngIf="!hasWriteAccess && !isSlot"
                     typeClass="warning"
                     [infoText]="'noWritePermission' | translate"
                     [dismissable]="true">
@@ -106,9 +106,15 @@
 
             <!-- TODO [andiamrc]: Provide more granular details for loading failures -->
             <info-box
-                *ngIf="loadingFailed"
+                *ngIf="!!loadingSlotsFailureMessage"
                 typeClass="error"
-                [infoText]="'error_unableToLoadSlotsList' | translate">
+                [infoText]="loadingSlotsFailureMessage">
+            </info-box>
+
+            <info-box
+                *ngIf="!!loadingConfigFailureMessage"
+                typeClass="error"
+                [infoText]="loadingConfigFailureMessage">
             </info-box>
 
             <info-box
@@ -148,15 +154,15 @@
                     <th class="padded-col" table-cell>
                         {{ 'slotsList_serverfarmHeader' | translate }}
                     </th>
-                    <th *ngIf="!!prodSiteConfigArm" class="padded-col" table-cell>
+                    <th *ngIf="!!mainForm" class="padded-col" table-cell>
                         {{ 'slotsList_trafficPercentHeader' | translate }}
                     </th>
                 </tr>
 
-                <tr *ngIf="prodSiteArm" table-row>
+                <tr *ngIf="!!deploymentSlotsArm" table-row>
 
                     <td class="padded-col" table-cell>
-                        {{ (prodSiteArm && prodSiteArm.name) || '-' }}
+                        {{ (prodSiteArm && prodSiteArm.name) || prodSiteName || '-' }}
                         <div class="pill">
                             {{ 'production' | translate }}
                         </div>
@@ -170,7 +176,7 @@
                         {{ prodSiteArm ? getSegment(prodSiteArm.properties.serverFarmId, 8) : '-' }}
                     </td>
 
-                    <td *ngIf="!!prodSiteConfigArm" class="padded-col" table-cell>
+                    <td *ngIf="!!mainForm" class="padded-col" table-cell>
                         <div class="pct-wrapper">
                             <textbox
                                 disabled="true"
@@ -182,7 +188,7 @@
 
                 </tr>
 
-                <tr *ngFor="let deploymentSlotArm of (prodSiteArm ? deploymentSlotsArm : [])" table-row>
+                <tr *ngFor="let deploymentSlotArm of (deploymentSlotsArm || [])" table-row>
 
                     <td class="padded-col" table-cell>
 
@@ -195,11 +201,6 @@
                         <span *ngIf="!!navigationDisabled">
                             {{ deploymentSlotArm.name ? deploymentSlotArm.name.replace('/', '-') : '-' }}
                         </span>
-                        <div
-                            *ngIf="deploymentSlotArm.type === 'Microsoft.Web/sites'"
-                            class="pill">
-                            {{ 'production' | translate }}
-                        </div>
                     </td>
 
                     <td class="padded-col" table-cell>
@@ -210,12 +211,12 @@
                         {{ getSegment(deploymentSlotArm.properties.serverFarmId, 8) }}
                     </td>
 
-                    <td *ngIf="!!prodSiteConfigArm" class="padded-col" table-cell [editable]="!isSlot">
+                    <td *ngIf="!!mainForm" class="padded-col" table-cell [editable]="!isSlot && !!prodSiteConfigArm && hasWriteAccess">
                         <div class="pct-wrapper">
                             <textbox
-                                [disabled]="isSlot"
-                                [readonly]="isSlot"
-                                [control]="(mainForm && mainForm.controls['rulesGroup']) ? mainForm.controls['rulesGroup'].controls[deploymentSlotArm.name] : null"
+                                [disabled]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
+                                [readonly]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
+                                [control]="mainForm.controls['rulesGroup'] ? mainForm.controls['rulesGroup'].controls[deploymentSlotArm.name] : null"
                                 [placeholder]="0"
                                 [highlightDirty]="true">
                             </textbox>
@@ -226,13 +227,13 @@
 
                 <!-- Placeholder/Message Row -->
                 <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-                <tr *ngIf="!prodSiteArm || !deploymentSlotsArm || deploymentSlotsArm.length === 0" table-row>
+                <tr *ngIf="!deploymentSlotsArm" table-row>
 
-                    <td *ngIf="fetchingContent" class="message-row" [attr.colspan]="!!prodSiteConfigArm ? 4 : 3" table-cell>
+                    <td *ngIf="fetchingContent" class="message-row" [attr.colspan]="!!mainForm ? 4 : 3" table-cell>
                         {{ 'loading' | translate }}
                     </td>
 
-                    <td *ngIf="!fetchingContent && !prodSiteArm" class="message-row" [attr.colspan]="!!prodSiteConfigArm ? 4 : 3" table-cell>
+                    <td *ngIf="!fetchingContent" class="message-row" [attr.colspan]="!!mainForm ? 4 : 3" table-cell>
                         {{ 'error_unableToLoadSlotsList' | translate }}
                     </td>
 
