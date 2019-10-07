@@ -56,3 +56,11 @@ export const dirtyElementStyle = (theme: ThemeExtended) =>
     borderLeftColor: theme.semanticColors.controlDirtyOutline,
     boxSizing: 'border-box',
   });
+
+export const keyVaultIconStyle = (theme: ThemeExtended, resolved: boolean) =>
+  style({
+    color: resolved ? theme.semanticColors.inlineSuccessText : theme.semanticColors.inlineErrorText,
+    marginLeft: '3px',
+    marginTop: '2px',
+    position: 'absolute',
+  });

@@ -1694,4 +1694,5 @@ export class PortalResources {
   public static functionKeyNamesUnique = 'functionKeyNamesUnique';
   public static gitHubActionBuildServerTitle = 'gitHubActionBuildServerTitle';
   public static gitHubActionBuildServerDesc = 'gitHubActionBuildServerDesc';
+  public static azureKeyVault = 'azureKeyVault';
 }

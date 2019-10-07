@@ -1,7 +1,13 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
-import { convertStateToForm, convertFormToState, flattenVirtualApplicationsList, getCleanedConfigForSave } from './AppSettingsFormData';
+import {
+  convertStateToForm,
+  convertFormToState,
+  flattenVirtualApplicationsList,
+  getCleanedConfigForSave,
+  getCleanedReferences,
+} from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
 import {
   fetchApplicationSettingValues,
@@ -11,6 +17,7 @@ import {
   updateSlotConfigNames,
   getProductionAppWritePermissions,
   updateStorageMounts,
+  getAllAppSettingReferences,
 } from './AppSettings.service';
 import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
@@ -86,6 +93,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       linuxStacks,
     } = await fetchApplicationSettingValues(resourceId);
 
+    const appSettingReferences = await getAllAppSettingReferences(resourceId);
+
     const loadingFailed =
       armCallFailed(site) ||
       armCallFailed(webConfig) ||
@@ -127,8 +136,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         setEditable(false);
       }
       setStorageAccountsState(storageAccounts.data);
-      setInitialValues(
-        convertStateToForm({
+      setInitialValues({
+        ...convertStateToForm({
           site: site.data,
           config: webConfig.data,
           metadata: metadata.metadata.success ? metadata.data : null,
@@ -136,15 +145,17 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
-        })
-      );
+        }),
+        references: {
+          appSettings: appSettingReferences.metadata.success ? getCleanedReferences(appSettingReferences.data) : [],
+        },
+      });
       if (site.data.kind!.includes('linux')) {
         setCurrentAvailableStacks(linuxStacks.data);
       } else {
         setCurrentAvailableStacks(windowsStacks.data);
       }
     }
-
     LogService.stopTrackPage('shell', { feature: 'AppSettings' });
     portalContext.loadComplete();
     setInitialLoading(true);
@@ -166,7 +177,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   useEffect(() => {
     loadData();
   }, []);
-
   const scaleUpPlan = async () => {
     await portalContext.openBlade(
       { detailBlade: 'SpecPickerFrameBlade', detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId } },

@@ -3,7 +3,7 @@ import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureS
 import { sortBy } from 'lodash-es';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
-import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication } from '../../../models/site/config';
+import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 
@@ -301,4 +301,17 @@ export function getConfigWithStackSettings(config: ArmObj<SiteConfig>, values: A
     configCopy.properties.javaVersion = '';
   }
   return configCopy;
+}
+
+export function getCleanedReferences(references: ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>) {
+  if (!references.properties.keyToReferenceStatuses) {
+    return [];
+  }
+  const keyReferenceStatuses = references.properties.keyToReferenceStatuses;
+  return Object.keys(keyReferenceStatuses).map((key, i) => ({
+    name: key,
+    reference: keyReferenceStatuses[key].reference,
+    status: keyReferenceStatuses[key].status,
+    details: keyReferenceStatuses[key].details,
+  }));
 }

@@ -5253,4 +5253,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
     </data>
+    <data name="azureKeyVault" xml:space="preserve">
+        <value>Azure key vault</value>
+    </data>
 </root>
