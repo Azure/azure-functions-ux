@@ -26,6 +26,7 @@ import {
   CheckLockRequest,
   CheckLockResponse,
   LockType,
+  PortalDebugInformation,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import darkModeTheme from './theme/dark';
@@ -36,6 +37,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { ThemeExtended } from './theme/SemanticColorsExtended';
 import LogService from './utils/LogService';
 import { LogCategories } from './utils/LogCategories';
+import { sendHttpRequest, getJsonHeaders } from './ApiHelpers/HttpClient';
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
@@ -89,13 +91,44 @@ export default class PortalCommunicator {
     const shellSrc = Url.getParameterByName(shellUrl, 'trustedAuthority') || '';
     PortalCommunicator.shellSrc = shellSrc;
     if (shellSrc) {
-      const getStartupInfoObj = {
-        iframeHostName: null,
+      const startupInfo = {
+        iframeHostName: '',
+        iframeAppName: '',
       };
-      // This is a required message. It tells the shell that your iframe is ready to receive messages.
-      PortalCommunicator.postMessage(Verbs.ready, null);
-      PortalCommunicator.postMessage(Verbs.initializationcomplete, null);
-      PortalCommunicator.postMessage(Verbs.getStartupInfo, this.packageData(getStartupInfoObj));
+
+      window.appsvc = {
+        version: '',
+        env: {
+          hostName: '',
+          appName: '',
+          azureResourceManagerEndpoint: '',
+          runtimeType: 'Azure',
+        },
+      };
+
+      this.getDebugInformation()
+        .then(response => {
+          if (response.metadata.success && response.data) {
+            startupInfo.iframeHostName = response.data.hostName;
+            startupInfo.iframeAppName = response.data.appName;
+            window.appsvc = {
+              version: response.data.version,
+              env: {
+                hostName: response.data.hostName,
+                appName: response.data.appName,
+                azureResourceManagerEndpoint: '',
+                runtimeType: 'Azure',
+              },
+            };
+          }
+          this.postInitializeMessage(startupInfo);
+        })
+        .catch(() => {
+          // NOTE(michinoy): '.finally' is not supported on promises on IE and Edge.
+          // Explore adding a polyfill - https://github.com/babel/babel/issues/8111
+          // WI - https://msazure.visualstudio.com/Antares/_workitems/edit/5493047
+          this.postInitializeMessage(startupInfo);
+        });
     }
   }
 
@@ -391,6 +424,12 @@ export default class PortalCommunicator {
       this.setArmTokenInternal(startupInfo.token);
       this.i18n.changeLanguage(startupInfo.effectiveLocale);
       this.setStartupInfo(startupInfo);
+
+      if (window.appsvc) {
+        window.appsvc.env.azureResourceManagerEndpoint = startupInfo.armEndpoint;
+        window.appsvc.resourceId = startupInfo.resourceId;
+        window.appsvc.feature = startupInfo.featureInfo && startupInfo.featureInfo.feature;
+      }
     } else if (methodName === Verbs.sendToken2) {
       this.setArmTokenInternal(data.token);
     } else if (methodName === Verbs.sendNotificationStarted) {
@@ -402,15 +441,34 @@ export default class PortalCommunicator {
 
   private setArmTokenInternal = (token: string) => {
     this.setArmToken(token);
-    window.authToken = token;
+    if (window.appsvc && window.appsvc.env) {
+      window.appsvc.env.armToken = token;
+    }
   };
 
   private setArmEndpointInternal = (endpoint: string) => {
-    window.armEndpoint = endpoint;
+    if (window.appsvc && window.appsvc.env.azureResourceManagerEndpoint) {
+      window.appsvc.env.azureResourceManagerEndpoint = endpoint;
+    }
   };
 
   private packageData = (data: any) => {
     data.frameId = this.frameId;
     return JSON.stringify(data);
+  };
+
+  private getDebugInformation = () => {
+    return sendHttpRequest<PortalDebugInformation>({
+      url: '/api/debug',
+      method: 'GET',
+      headers: getJsonHeaders(),
+    });
+  };
+
+  private postInitializeMessage = (startupInfo: any) => {
+    // This is a required message. It tells the shell that your iframe is ready to receive messages.
+    PortalCommunicator.postMessage(Verbs.ready, null);
+    PortalCommunicator.postMessage(Verbs.initializationcomplete, null);
+    PortalCommunicator.postMessage(Verbs.getStartupInfo, this.packageData(startupInfo));
   };
 }

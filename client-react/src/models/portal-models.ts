@@ -288,3 +288,9 @@ export interface CheckLockRequest {
 export interface CheckLockResponse {
   hasLock: boolean;
 }
+
+export interface PortalDebugInformation {
+  hostName: string;
+  appName: string;
+  version: string;
+}

@@ -12,6 +12,7 @@ export interface Data {
 }
 
 export interface GetStartupInfo {
+  iframeAppName: string;
   iframeHostName: string;
 }
 

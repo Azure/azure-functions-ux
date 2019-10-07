@@ -1,8 +1,3 @@
-const requiredValidation = (value: unknown, errorMessage: string) => {
-  let error;
-  if (!value) {
-    error = errorMessage;
-  }
-  return error;
-};
+const requiredValidation = (value: unknown, errorMessage: string): string | undefined => (!value ? errorMessage : undefined);
+
 export default requiredValidation;

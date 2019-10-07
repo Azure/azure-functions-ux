@@ -238,6 +238,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
 
   const createHostKey = (key: AppKeysModel) => {
     appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.functionKeys);
+    onClosePanel();
     refreshData();
   };
 

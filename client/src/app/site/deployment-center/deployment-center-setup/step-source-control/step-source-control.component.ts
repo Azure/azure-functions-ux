@@ -109,6 +109,7 @@ export class StepSourceControlComponent {
     },
   ];
 
+  public authStateError = false;
   private _githubAuthed = false;
   private _onedriveAuthed = false;
   private _dropboxAuthed = false;
@@ -244,6 +245,7 @@ export class StepSourceControlComponent {
           this.refreshAuth();
         },
         err => {
+          this.authStateError = true;
           this._logService.error(LogCategories.cicd, '/fetch-current-auth-state', err);
         }
       );

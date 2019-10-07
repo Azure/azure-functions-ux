@@ -29,6 +29,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   const [showFilter, setShowFilter] = useState(false);
   const [showAllValues, setShowAllValues] = useState(false);
 
+
   const { t, values } = props;
   const theme = useContext(ThemeContext);
   let appSettingsTable: IDetailsList;
@@ -377,6 +378,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
             updateAppSetting={saveBulkEdit}
             closeBlade={onCancel}
             appSettings={values.appSettings}
+            disableSlotSetting={!permissionContext.production_write}
           />
         </Suspense>
       </Panel>

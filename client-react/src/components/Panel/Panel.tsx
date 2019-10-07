@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Panel as OfficePanel, IPanelProps, PanelType } from 'office-ui-fabric-react';
 import { ReactComponent as CloseSvg } from '../../images/Common/close.svg';
 import { useTranslation } from 'react-i18next';
-import { panelStyle, panelHeaderStyle, panelBodyStyle } from './Panel.styles';
+import { panelStyle, panelHeaderStyle, panelBodyStyle, closeButtonStyle } from './Panel.styles';
+import { ThemeContext } from '../../ThemeContext';
 
 interface CustomPanelProps {
   style?: {};
@@ -10,6 +11,7 @@ interface CustomPanelProps {
 
 const Panel: React.SFC<CustomPanelProps & IPanelProps> = props => {
   const { headerText, onDismiss, isOpen, type, style: customPanelStyle } = props;
+  const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
   let allPanelStyle = panelStyle;
@@ -22,7 +24,13 @@ const Panel: React.SFC<CustomPanelProps & IPanelProps> = props => {
     return (
       <div className={panelHeaderStyle}>
         {headerText && <h3>{headerText}</h3>}
-        <CloseSvg onClick={() => onDismiss && onDismiss()} tabIndex={0} role="button" aria-label={t('close')} />
+        <CloseSvg
+          onClick={() => onDismiss && onDismiss()}
+          tabIndex={0}
+          role="button"
+          aria-label={t('close')}
+          className={closeButtonStyle(theme)}
+        />
       </div>
     );
   };

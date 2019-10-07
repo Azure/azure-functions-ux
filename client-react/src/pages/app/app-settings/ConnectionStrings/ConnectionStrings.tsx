@@ -380,7 +380,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
       </Panel>
       <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel} closeButtonAriaLabel={t('close')}>
         <Suspense fallback={<LoadingComponent />}>
-          <ConnectionStringsBulkEdit updateAppSetting={saveBulkEdit} closeBlade={onCancel} connectionStrings={values.connectionStrings} />
+          <ConnectionStringsBulkEdit updateAppSetting={saveBulkEdit} closeBlade={onCancel} connectionStrings={values.connectionStrings} disableSlotSetting={!permissionContext.production_write} />
         </Suspense>
       </Panel>
     </>

@@ -1,7 +1,7 @@
 import { Component, EventEmitter } from '@angular/core';
 import { SiteService } from '../shared/services/site.service';
 import { CacheService } from '../shared/services/cache.service';
-import { Constants } from '../shared/models/constants';
+import { Constants, ARMApiVersions } from '../shared/models/constants';
 import { UploadOutput, UploadFile, UploadInput, UploaderOptions } from 'ngx-uploader';
 import { Observable } from 'rxjs/Observable';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -108,7 +108,7 @@ export class ProdFunctionInitialUploadComponent {
         delete settings.NEW_PROD_FUNCTION;
         return r.result;
       })
-      .switchMap(r => this._cacheService.putArm(`${this.resourceId}/config/appSettings`, '2015-08-01', r))
+      .switchMap(r => this._cacheService.putArm(`${this.resourceId}/config/appSettings`, ARMApiVersions.antaresApiVersion20181101, r))
       .subscribe(r => {
         this.show = false;
         this.loading = false;
