@@ -1,7 +1,7 @@
 import { ScenarioResult } from './../../shared/services/scenario/scenario.models';
 import { SiteService } from '../../shared/services/site.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { ScenarioIds, SiteTabIds, ARMApiVersions, SupportedFeatures, Kinds } from './../../shared/models/constants';
+import { ScenarioIds, SiteTabIds, ARMApiVersions, SupportedFeatures } from './../../shared/models/constants';
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
