@@ -248,6 +248,13 @@ export class OnPremEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.containerSettings] = {
+      id: ScenarioIds.containerSettings,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   private _showSiteQuotas(input: ScenarioCheckInput) {

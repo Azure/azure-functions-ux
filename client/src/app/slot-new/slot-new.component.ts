@@ -190,7 +190,7 @@ export class SlotNewComponent extends NavigableComponent {
     this.setBusy();
 
     this._portalService
-      .openBlade(
+      .openFrameBlade(
         {
           detailBlade: 'SpecPickerFrameBlade',
           detailBladeInputs: {
