@@ -1,4 +1,4 @@
-import { ScenarioIds } from './../../models/constants';
+import { ScenarioIds, FeatureFlags } from './../../models/constants';
 import { Tier } from './../../models/serverFarmSku';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
@@ -8,6 +8,9 @@ import { ApplicationInsightsService } from '../application-insights.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AuthzService } from '../authz.service';
+import { Url } from 'app/shared/Utilities/url';
+
+const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
 
 export class AzureEnvironment extends Environment {
   name = 'Azure';
@@ -105,6 +108,13 @@ export class AzureEnvironment extends Environment {
       id: ScenarioIds.vstsDeploymentHide,
       runCheckAsync: (input: ScenarioCheckInput) => this._vstsPermissionsCheck(input),
     };
+
+    if (IsPublishProfileBasedDeploymentEnabled) {
+      this.scenarioChecks[ScenarioIds.hasRoleAssignmentPermission] = {
+        id: ScenarioIds.hasRoleAssignmentPermission,
+        runCheckAsync: (input: ScenarioCheckInput) => this._hasRoleAssignmentPermissionCheck(input),
+      };
+    }
 
     this.scenarioChecks[ScenarioIds.addScaleOut] = {
       id: ScenarioIds.addScaleOut,
@@ -251,7 +261,21 @@ export class AzureEnvironment extends Environment {
   }
 
   private _vstsPermissionsCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
-    return this._authZService.hasPermission(input.site.id, [AuthzService.activeDirectoryWriteScope]).map(value => {
+    let requestedActions: string[] = [];
+    if (IsPublishProfileBasedDeploymentEnabled && input.site.kind.toLowerCase() === 'app') {
+      requestedActions = [AuthzService.websiteContributorScope];
+    } else {
+      requestedActions = [AuthzService.activeDirectoryWriteScope];
+    }
+    return this._checkAzureRolePermissions(input.site.id, requestedActions);
+  }
+
+  private _hasRoleAssignmentPermissionCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
+    return this._checkAzureRolePermissions(input.site.id, [AuthzService.activeDirectoryWriteScope]);
+  }
+
+  private _checkAzureRolePermissions(resourceId: string, requestedActions: string[]): Observable<ScenarioResult> {
+    return this._authZService.hasPermission(resourceId, requestedActions).map(value => {
       return <ScenarioResult>{
         status: value ? 'enabled' : 'disabled',
         data: {

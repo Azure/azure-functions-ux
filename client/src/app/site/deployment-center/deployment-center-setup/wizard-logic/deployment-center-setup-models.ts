@@ -70,7 +70,7 @@ export type sourceControlProvider =
  */
 
 export interface ProvisioningConfiguration {
-  authToken: string;
+  authToken?: string;
   /**
    * Gets or sets the CI/CD configuration details.
    */
@@ -78,15 +78,22 @@ export interface ProvisioningConfiguration {
   /**
    * Gets or sets the unique identifier of the provisioning configuration.
    */
-  id: string;
+  id?: string;
   /**
    * Gets or sets the deployment source.
    */
-  source: DeploymentSource;
+  source?: DeploymentSource;
   /**
    * Gets or sets one or more deployment targets.
    */
-  targets: DeploymentTarget[];
+  targets?: DeploymentTarget[];
+
+  /* Below parameters are for pipelineTemplate API*/
+  pipelineTemplateId?: string;
+
+  pipelineTemplateParameters?: { [key: string]: string };
+
+  repository?: CodeRepository;
 }
 
 export enum DeploymentTargetProvider {

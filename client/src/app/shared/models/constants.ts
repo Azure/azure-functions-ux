@@ -320,6 +320,7 @@ export class ScenarioIds {
   public static readonly enableKudu = 'EnableKudu';
   public static readonly enableCORS = 'EnableCORS';
   public static readonly enableQuotas = 'EnableQuotas';
+  public static readonly hasRoleAssignmentPermission = 'hasRoleAssignmentPermission';
 }
 
 export class NationalCloudArmUris {
@@ -623,6 +624,7 @@ export class FeatureFlags {
   public static oldDeploymentCenter = 'oldvsts';
   public static AllowFreeLinux = 'allowfreelinux';
   public static enableGitHubAction = 'enableGitHubAction';
+  public static enablePublishProfileBasedDeployment = 'enablePublishProfileBasedDeployment';
 }
 
 export class SupportedFeatures {

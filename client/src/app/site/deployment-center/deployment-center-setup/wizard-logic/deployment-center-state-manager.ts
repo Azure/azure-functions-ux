@@ -25,7 +25,7 @@ import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { ARMApiVersions, ScenarioIds, DeploymentCenterConstants, Kinds } from '../../../../shared/models/constants';
+import { ARMApiVersions, ScenarioIds, DeploymentCenterConstants, Kinds, FeatureFlags } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -38,8 +38,11 @@ import { ScenarioService } from '../../../../shared/services/scenario/scenario.s
 import { VSOAccount } from '../../Models/vso-repo';
 import { AzureDevOpsService } from './azure-devops.service';
 import { LocalStorageService } from '../../../../shared/services/local-storage.service';
+import { Url } from 'app/shared/Utilities/url';
 
 const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
+const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
+
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
   public resourceIdStream$ = new ReplaySubject<string>(1);
@@ -50,6 +53,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   private _token: string;
   private _vstsApiToken: string;
   private _sessionId: string;
+  private _shouldUsePublishProfile = false;
   public siteArm: ArmObj<Site>;
   public siteArmObj$ = new ReplaySubject<ArmObj<Site>>();
   public updateSourceProviderConfig$ = new Subject();
@@ -60,6 +64,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public hideVstsBuildConfigure = false;
   public isLinuxApp = false;
   public isFunctionApp = false;
+  public isWindowsApp = false;
   public vstsKuduOnly = false;
   public vsoAccounts: VSOAccount[] = [];
   public hideConfigureStepContinueButton = false;
@@ -72,7 +77,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _portalService: PortalService,
     siteService: SiteService,
     userService: UserService,
-    scenarioService: ScenarioService
+    private _scenarioService: ScenarioService
   ) {
     this.resourceIdStream$
       .switchMap(r => {
@@ -88,10 +93,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
         this.siteArm = site.result;
         this.isLinuxApp = this.siteArm.kind.toLowerCase().includes(Kinds.linux);
         this.isFunctionApp = this.siteArm.kind.toLowerCase().includes(Kinds.functionApp);
+        this.isWindowsApp = this.siteArm.kind.toLowerCase() === Kinds.app;
         this.siteArmObj$.next(this.siteArm);
         this.subscriptionName = sub.json().displayName;
         this._location = this.siteArm.location;
-        return scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm });
+        return this._scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm });
       })
       .subscribe(vstsScenarioCheck => {
         this.hideBuild = vstsScenarioCheck.status === 'disabled';
@@ -169,9 +175,20 @@ export class DeploymentCenterStateManager implements OnDestroy {
         if (r.status !== 'succeeded') {
           return Observable.of(r);
         }
-
         this._vstsApiToken = r.result;
-        return this._canCreateAadApp();
+        return this.usePublishProfileToDeploy();
+      })
+      .switchMap(r => {
+        this._shouldUsePublishProfile = r.result;
+        if (this._shouldUsePublishProfile) {
+          return Observable.of({
+            status: 'succeeded',
+            statusMessage: null,
+            result: null,
+          });
+        } else {
+          return this._canCreateAadApp();
+        }
       })
       .switchMap(r => {
         if (r.status !== 'succeeded') {
@@ -210,13 +227,19 @@ export class DeploymentCenterStateManager implements OnDestroy {
   }
 
   private _startVstsDeployment() {
-    const deploymentObject: ProvisioningConfiguration = {
-      authToken: this.getToken(),
-      ciConfiguration: this._ciConfig,
-      id: null,
-      source: this._deploymentSource,
-      targets: this._deploymentTargets,
-    };
+    let deploymentObject: ProvisioningConfiguration;
+
+    if (this.usePipelineTemplateAPI()) {
+      deploymentObject = this.createPipelineTemplateProvisioningConfigurationObject();
+    } else {
+      deploymentObject = {
+        authToken: this.getToken(),
+        ciConfiguration: this._ciConfig,
+        id: null,
+        source: this._deploymentSource,
+        targets: this._deploymentTargets,
+      };
+    }
 
     const setupvsoCall = this._azureDevOpsService.startDeployment(
       this.wizardValues.buildSettings.vstsAccount,
@@ -522,5 +545,149 @@ export class DeploymentCenterStateManager implements OnDestroy {
         this.markSectionAsTouched(control);
       }
     });
+  }
+
+  private usePipelineTemplateAPI(): boolean {
+    return IsPublishProfileBasedDeploymentEnabled && this.isWindowsApp;
+  }
+
+  private usePublishProfileToDeploy(): Observable<{ status: string; statusMessage: string; result: any }> {
+    const success = {
+      status: 'succeeded',
+      statusMessage: null,
+      result: true,
+    };
+
+    const fail = {
+      status: 'failed',
+      statusMessage: null,
+      result: false,
+    };
+
+    if (IsPublishProfileBasedDeploymentEnabled && this.isWindowsApp) {
+      return this._scenarioService
+        .checkScenarioAsync(ScenarioIds.hasRoleAssignmentPermission, { site: this.siteArm })
+        .take(1)
+        .map(scenarioCheck => {
+          if (scenarioCheck.status === 'disabled') {
+            return success;
+          } else {
+            return fail;
+          }
+        });
+    }
+    return Observable.of(fail);
+  }
+
+  private createPipelineTemplateProvisioningConfigurationObject(): ProvisioningConfiguration {
+    return {
+      pipelineTemplateId: this.getPipelineTemplateId(),
+      pipelineTemplateParameters: this.getPipelineTemplateParameters(),
+      ciConfiguration: this._ciConfig,
+      repository: this._repoInfo,
+    };
+  }
+
+  private getPipelineTemplateId(): string {
+    switch (this._applicationType) {
+      case ApplicationType.AspNetWap:
+        return 'ms.vss-continuous-delivery-pipeline-templates.aspnet-windowswebapp-cd';
+
+      case ApplicationType.AspNetCore:
+        return 'ms.vss-continuous-delivery-pipeline-templates.aspnetcore-windowswebapp-cd';
+
+      case ApplicationType.StaticWebapp:
+        return 'ms.vss-continuous-delivery-pipeline-templates.staticwebsite-windowswebapp-cd';
+
+      case ApplicationType.NodeJS:
+        return 'ms.vss-continuous-delivery-pipeline-templates.nodejs-windowswebapp-cd';
+
+      case ApplicationType.PHP:
+        return 'ms.vss-continuous-delivery-pipeline-templates.simplephp-windowswebapp-cd';
+
+      case ApplicationType.Python:
+        switch (this.wizardValues.buildSettings.pythonSettings.framework) {
+          case PythonFrameworkType.Flask:
+            return 'ms.vss-continuous-delivery-pipeline-templates.pythonflask-windowswebapp-cd';
+
+          case PythonFrameworkType.Bottle:
+            return 'ms.vss-continuous-delivery-pipeline-templates.pythonbottle-windowswebapp-cd';
+
+          case PythonFrameworkType.Django:
+            return 'ms.vss-continuous-delivery-pipeline-templates.pythondjango-windowswebapp-cd';
+        }
+
+      default:
+        return null;
+    }
+  }
+
+  private getPipelineTemplateParameters() {
+    const tid = parseToken(this._token).tid;
+    const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
+
+    const pipelineTemplateParameters = {
+      subscriptionId: siteDescriptor.subscription,
+      subscriptionName: this.subscriptionName,
+      tenantId: tid,
+      resourceGroupName: siteDescriptor.resourceGroup,
+      webAppName: siteDescriptor.site,
+      usePublishProfile: String(this._shouldUsePublishProfile),
+      authorizationInfo: JSON.stringify({
+        scheme: 'Headers',
+        parameters: {
+          Authorization: `Bearer ${this._vstsApiToken}`,
+        },
+      }),
+    };
+
+    switch (this._applicationType) {
+      case ApplicationType.AspNetWap:
+      case ApplicationType.AspNetCore:
+        return pipelineTemplateParameters;
+
+      case ApplicationType.StaticWebapp:
+      case ApplicationType.PHP:
+        return {
+          pathToApplicationCode: this.wizardValues.buildSettings.workingDirectory,
+          ...pipelineTemplateParameters,
+        };
+
+      case ApplicationType.NodeJS:
+        return {
+          pathToApplicationCode: this.wizardValues.buildSettings.workingDirectory,
+          taskRunner: this.wizardValues.buildSettings.nodejsTaskRunner,
+          ...pipelineTemplateParameters,
+        };
+
+      case ApplicationType.Python:
+        switch (this.wizardValues.buildSettings.pythonSettings.framework) {
+          case PythonFrameworkType.Flask:
+            return {
+              pathToApplicationCode: this.wizardValues.buildSettings.workingDirectory,
+              pythonExtensionVersion: this.wizardValues.buildSettings.pythonSettings.version,
+              djangoSettingModule: this.wizardValues.buildSettings.pythonSettings.djangoSettingsModule,
+              ...pipelineTemplateParameters,
+            };
+
+          case PythonFrameworkType.Bottle:
+            return {
+              pathToApplicationCode: this.wizardValues.buildSettings.workingDirectory,
+              pythonExtensionVersion: this.wizardValues.buildSettings.pythonSettings.version,
+              ...pipelineTemplateParameters,
+            };
+
+          case PythonFrameworkType.Django:
+            return {
+              pathToApplicationCode: this.wizardValues.buildSettings.workingDirectory,
+              pythonExtensionVersion: this.wizardValues.buildSettings.pythonSettings.version,
+              flaskProjectName: this.wizardValues.buildSettings.pythonSettings.flaskProjectName,
+              ...pipelineTemplateParameters,
+            };
+        }
+
+      default:
+        return null;
+    }
   }
 }
