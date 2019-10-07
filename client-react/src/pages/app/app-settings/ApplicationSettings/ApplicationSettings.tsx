@@ -248,7 +248,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
             {appSettingReference ? t('azureKeyVault') : t('value')}
             {appSettingReference && (
               <Icon
-                iconName={appSettingReference.status.toLowerCase() === 'resolved' ? 'completed' : 'error'}
+                iconName={appSettingReference.status.toLowerCase() === 'resolved' ? 'Completed' : 'ErrorBadge'}
                 className={keyVaultIconStyle(theme, appSettingReference.status.toLowerCase() === 'resolved')}
                 ariaLabel={t('azureKeyVault')}
               />
