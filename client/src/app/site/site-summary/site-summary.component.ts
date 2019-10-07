@@ -227,82 +227,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         }
 
         this.notifications = [];
-        if (isPowershell) {
-          this.notifications.push({
-            id: NotificationIds.powershellPreview,
-            message: this.ts.instant(PortalResources.powershellPreview),
-            iconClass: 'fa fa-exclamation-triangle warning',
-            learnMoreLink: Links.powershellPreviewLearnMore,
-            clickCallback: null,
-          });
-          this._globalStateService.setTopBarNotifications(this.notifications);
-        }
-
-        if (
-          r.appInsightsEnablement &&
-          r.appInsightsEnablement.status === 'enabled' &&
-          appSettings &&
-          !appSettings[Constants.instrumentationKeySettingName]
-        ) {
-          this.notifications.push({
-            id: 'testnote',
-            message: this.ts.instant(PortalResources.appInsightsNotConfigured),
-            iconClass: 'fa fa-exclamation-triangle warning',
-            learnMoreLink: null,
-            clickCallback: () => {
-              const appInsightBladeInput = {
-                detailBlade: 'AppServicesEnablementBlade',
-                detailBladeInputs: {
-                  resourceUri: this.context.site.id,
-                  linkedComponent: null,
-                },
-                extension: 'AppInsightsExtension',
-              };
-
-              this._portalService.openBlade(appInsightBladeInput, 'top-overview-banner').subscribe(
-                result => {
-                  this._viewInfo.node.refresh(null, true);
-                },
-                err => {
-                  this._logService.error(LogCategories.applicationInsightsConfigure, errorIds.applicationInsightsConfigure, err);
-                }
-              );
-            },
-          });
-          this._globalStateService.setTopBarNotifications(this.notifications);
-        }
-
-        if (r.siteConfig && r.siteConfig.isSuccessful) {
-          const siteConfig = r.siteConfig.result && r.siteConfig.result.properties;
-          const showIpRestrictionsWarning =
-            siteConfig &&
-            ((siteConfig.ipSecurityRestrictions && siteConfig.ipSecurityRestrictions.length > 1) ||
-              (siteConfig.scmIpSecurityRestrictions && siteConfig.scmIpSecurityRestrictions.length > 1));
-          if (showIpRestrictionsWarning) {
-            this.notifications.push({
-              id: NotificationIds.ipRestrictions,
-              message: this.ts.instant(PortalResources.ipRestrictionsWarning),
-              iconClass: 'fa fa-exclamation-triangle warning',
-              learnMoreLink: Links.ipRestrictionsLearnMore,
-              clickCallback: null,
-            });
-            this._globalStateService.setTopBarNotifications(this.notifications);
-          }
-        } else {
-          this._logService.error(LogCategories.siteConfig, errorIds.failedToGetSiteConfig, r.siteConfig.error);
-        }
-
-        if (this.context.site.properties && this.context.site.properties.clientCertEnabled) {
-          this.notifications.push({
-            id: NotificationIds.clientCertEnabled,
-            message: this.ts.instant(PortalResources.clientCertWarning),
-            iconClass: 'fa fa-exclamation-triangle warning',
-            learnMoreLink: Links.clientCertEnabledLearnMore,
-            clickCallback: null,
-          });
-          this._globalStateService.setTopBarNotifications(this.notifications);
-        }
-
         if (
           ArmUtil.isContainerApp(this.context.site) &&
           r.siteConfig &&
@@ -343,6 +267,82 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             },
           });
           this._globalStateService.setTopBarNotifications(this.notifications);
+        } else {
+          if (isPowershell) {
+            this.notifications.push({
+              id: NotificationIds.powershellPreview,
+              message: this.ts.instant(PortalResources.powershellPreview),
+              iconClass: 'fa fa-exclamation-triangle warning',
+              learnMoreLink: Links.powershellPreviewLearnMore,
+              clickCallback: null,
+            });
+            this._globalStateService.setTopBarNotifications(this.notifications);
+          }
+
+          if (
+            r.appInsightsEnablement &&
+            r.appInsightsEnablement.status === 'enabled' &&
+            appSettings &&
+            !appSettings[Constants.instrumentationKeySettingName]
+          ) {
+            this.notifications.push({
+              id: 'testnote',
+              message: this.ts.instant(PortalResources.appInsightsNotConfigured),
+              iconClass: 'fa fa-exclamation-triangle warning',
+              learnMoreLink: null,
+              clickCallback: () => {
+                const appInsightBladeInput = {
+                  detailBlade: 'AppServicesEnablementBlade',
+                  detailBladeInputs: {
+                    resourceUri: this.context.site.id,
+                    linkedComponent: null,
+                  },
+                  extension: 'AppInsightsExtension',
+                };
+
+                this._portalService.openBlade(appInsightBladeInput, 'top-overview-banner').subscribe(
+                  result => {
+                    this._viewInfo.node.refresh(null, true);
+                  },
+                  err => {
+                    this._logService.error(LogCategories.applicationInsightsConfigure, errorIds.applicationInsightsConfigure, err);
+                  }
+                );
+              },
+            });
+            this._globalStateService.setTopBarNotifications(this.notifications);
+          }
+
+          if (r.siteConfig && r.siteConfig.isSuccessful) {
+            const siteConfig = r.siteConfig.result && r.siteConfig.result.properties;
+            const showIpRestrictionsWarning =
+              siteConfig &&
+              ((siteConfig.ipSecurityRestrictions && siteConfig.ipSecurityRestrictions.length > 1) ||
+                (siteConfig.scmIpSecurityRestrictions && siteConfig.scmIpSecurityRestrictions.length > 1));
+            if (showIpRestrictionsWarning) {
+              this.notifications.push({
+                id: NotificationIds.ipRestrictions,
+                message: this.ts.instant(PortalResources.ipRestrictionsWarning),
+                iconClass: 'fa fa-exclamation-triangle warning',
+                learnMoreLink: Links.ipRestrictionsLearnMore,
+                clickCallback: null,
+              });
+              this._globalStateService.setTopBarNotifications(this.notifications);
+            }
+          } else {
+            this._logService.error(LogCategories.siteConfig, errorIds.failedToGetSiteConfig, r.siteConfig.error);
+          }
+
+          if (this.context.site.properties && this.context.site.properties.clientCertEnabled) {
+            this.notifications.push({
+              id: NotificationIds.clientCertEnabled,
+              message: this.ts.instant(PortalResources.clientCertWarning),
+              iconClass: 'fa fa-exclamation-triangle warning',
+              learnMoreLink: Links.clientCertEnabledLearnMore,
+              clickCallback: null,
+            });
+            this._globalStateService.setTopBarNotifications(this.notifications);
+          }
         }
 
         return !this.hideAvailability ? this._siteService.getAvailability(this.context.site.id) : Observable.of(null);
