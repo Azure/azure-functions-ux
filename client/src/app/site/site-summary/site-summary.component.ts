@@ -268,17 +268,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           });
           this._globalStateService.setTopBarNotifications(this.notifications);
         } else {
-          if (isPowershell) {
-            this.notifications.push({
-              id: NotificationIds.powershellPreview,
-              message: this.ts.instant(PortalResources.powershellPreview),
-              iconClass: 'fa fa-exclamation-triangle warning',
-              learnMoreLink: Links.powershellPreviewLearnMore,
-              clickCallback: null,
-            });
-            this._globalStateService.setTopBarNotifications(this.notifications);
-          }
-
           if (
             r.appInsightsEnablement &&
             r.appInsightsEnablement.status === 'enabled' &&
