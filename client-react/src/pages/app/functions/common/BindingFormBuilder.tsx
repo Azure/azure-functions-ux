@@ -25,6 +25,7 @@ export class BindingFormBuilder {
     if (s.startsWith('$')) {
       result = result.substring(1, result.length);
     } else if (s.startsWith('[variables(')) {
+      // Temporary logic to grab string from variables, which will be removed with ANT86 APIs
       for (const key in variables) {
         if (variables.hasOwnProperty(key)) {
           result = result.replace(`[variables('${key}')]`, variables[key]);
