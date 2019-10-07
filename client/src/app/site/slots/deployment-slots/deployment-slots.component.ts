@@ -6,15 +6,7 @@ import { CustomFormControl } from '../../../controls/click-to-edit/click-to-edit
 import { ArmSiteDescriptor } from '../../../shared/resourceDescriptors';
 import { FeatureComponent } from '../../../shared/components/feature-component';
 import { BroadcastEvent, EventMessage } from '../../../shared/models/broadcast-event';
-import {
-  Links,
-  LogCategories,
-  ScenarioIds,
-  SiteTabIds,
-  SlotOperationState,
-  SwapOperationType,
-  ARMApiVersions,
-} from '../../../shared/models/constants';
+import { Links, LogCategories, ScenarioIds, SiteTabIds, SlotOperationState, SwapOperationType } from '../../../shared/models/constants';
 import { OpenBladeInfo, EventVerbs, FrameBladeParams } from '../../../shared/models/portal';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { SlotSwapInfo, SlotNewInfo } from '../../../shared/models/slot-events';
@@ -23,7 +15,6 @@ import { RoutingRule } from '../../../shared/models/arm/routing-rule';
 import { Site } from '../../../shared/models/arm/site';
 import { SiteConfig } from '../../../shared/models/arm/site-config';
 import { AuthzService } from '../../../shared/services/authz.service';
-import { CacheService } from '../../../shared/services/cache.service';
 import { LogService } from '../../../shared/services/log.service';
 import { PortalService } from '../../../shared/services/portal.service';
 import { SiteService } from '../../../shared/services/site.service';
@@ -94,7 +85,6 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
   constructor(
     private _authZService: AuthzService,
-    private _cacheService: CacheService,
     private _fb: FormBuilder,
     private _logService: LogService,
     private _portalService: PortalService,
@@ -497,30 +487,29 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
           if (siteConfigArm.properties && siteConfigArm.properties.azureStorageAccounts) {
             delete siteConfigArm.properties.azureStorageAccounts;
           }
-
-          return this._cacheService.putArm(`${this.resourceId}/config/web`, ARMApiVersions.antaresApiVersion20181101, siteConfigArm);
-        })
-        .do(null, error => {
-          this.dirtyMessage = null;
-          this._logService.error(LogCategories.deploymentSlots, '/update-tip-rules', error);
-          this.saving = false;
-          this.clearBusy();
-          this._portalService.stopNotification(
-            notificationId,
-            false,
-            this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(error)
-          );
-          this._updateDisabledState();
+          return this._siteService.updateSiteConfig(this.resourceId, siteConfigArm);
         })
         .subscribe(r => {
-          this.dirtyMessage = null;
-          this.saving = false;
-          this.clearBusy();
-          this._portalService.stopNotification(notificationId, true, this._translateService.instant(PortalResources.configUpdateSuccess));
-
-          this.prodSiteConfigArm = r.json();
-          this._updateDisabledState();
-          this._setupForm();
+          if (r.isSuccessful) {
+            this.dirtyMessage = null;
+            this.saving = false;
+            this.clearBusy();
+            this._portalService.stopNotification(notificationId, true, this._translateService.instant(PortalResources.configUpdateSuccess));
+            this.prodSiteConfigArm = r.result.json();
+            this._updateDisabledState();
+            this._setupForm();
+          } else {
+            this.dirtyMessage = null;
+            this._logService.error(LogCategories.deploymentSlots, '/update-tip-rules', r.error);
+            this.saving = false;
+            this.clearBusy();
+            this._portalService.stopNotification(
+              notificationId,
+              false,
+              this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(r.error)
+            );
+            this._updateDisabledState();
+          }
         });
     }
   }
