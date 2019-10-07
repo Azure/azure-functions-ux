@@ -168,7 +168,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   }, []);
 
   const scaleUpPlan = async () => {
-    await portalContext.openBlade(
+    await portalContext.openFrameBlade(
       { detailBlade: 'SpecPickerFrameBlade', detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId } },
       'appsettings'
     );

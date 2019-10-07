@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { DisableInfo } from './feature-item';
 import { PortalService } from '../shared/services/portal.service';
-import { OpenBladeInfo } from '../shared/models/portal';
+import { OpenBladeInfo, FrameBladeParams } from '../shared/models/portal';
 import { SiteTabIds } from 'app/shared/models/constants';
 import { PortalResources } from 'app/shared/models/portal-resources';
 
@@ -99,39 +99,55 @@ export class DisableableFeature extends FeatureItem {
   }
 }
 
-export class DisableableBladeFeature extends DisableableFeature {
+abstract class BaseDisableableBladeFeature<T = any> extends DisableableFeature {
   constructor(
     title: string,
     keywords: string,
     info: string,
     imageUrl: string,
-    protected _bladeInfo: OpenBladeInfo,
+    protected _bladeInfo: OpenBladeInfo<T>,
     protected _portalService: PortalService,
     disableInfoStream?: Subject<DisableInfo>,
     overrideDisableInfo?: ScenarioResult
   ) {
     super(title, keywords, info, imageUrl, null, disableInfoStream, overrideDisableInfo);
   }
+}
 
+export class DisableableBladeFeature extends BaseDisableableBladeFeature<any> {
   click() {
     this._portalService.openBlade(this._bladeInfo, 'site-manage');
   }
 }
 
-export class BladeFeature extends FeatureItem {
+export class DisableableFrameBladeFeature<T = any> extends BaseDisableableBladeFeature<FrameBladeParams<T>> {
+  click() {
+    this._portalService.openFrameBlade(this._bladeInfo, 'site-manage');
+  }
+}
+
+abstract class BaseBladeFeature<T = any> extends FeatureItem {
   constructor(
     title: string,
     keywords: string,
     info: string,
     imageUrl: string,
-    public bladeInfo: OpenBladeInfo,
-    private _portalService: PortalService
+    public bladeInfo: OpenBladeInfo<T>,
+    protected _portalService: PortalService
   ) {
     super(title, keywords, info, imageUrl);
   }
+}
 
+export class BladeFeature extends BaseBladeFeature<any> {
   click() {
     this._portalService.openBlade(this.bladeInfo, 'site-manage');
+  }
+}
+
+export class FrameBladeFeature<T = any> extends BaseBladeFeature<FrameBladeParams<T>> {
+  click() {
+    this._portalService.openFrameBlade(this.bladeInfo, 'site-manage');
   }
 }
 

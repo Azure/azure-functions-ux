@@ -16,6 +16,7 @@ import {
   DisableableBladeFeature,
   DisableableFeature,
   DisableableTabFeature,
+  DisableableFrameBladeFeature,
 } from './../../feature-group/feature-item';
 import { FeatureGroup } from './../../feature-group/feature-group';
 import { AuthzService } from '../../shared/services/authz.service';
@@ -167,7 +168,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
       this._translateService.instant(PortalResources.containerSettingsTitle) + ' ' + this._translateService.instant(PortalResources.linux);
 
     if (ArmUtil.isContainerApp(site)) {
-      const containerSettingsFeature = new DisableableBladeFeature(
+      const containerSettingsFeature = new DisableableFrameBladeFeature(
         this._translateService.instant(PortalResources.containerSettingsTitle),
         containerSettingsKeywords,
         this._translateService.instant(PortalResources.feature_containerSettingsInfo),
@@ -704,7 +705,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     const resourceManagementFeatures = [];
     if (this._scenarioService.checkScenario(ScenarioIds.addDiagnoseAndSolve).status !== 'disabled') {
       resourceManagementFeatures.push(
-        new DisableableBladeFeature(
+        new DisableableFrameBladeFeature(
           this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
           this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
           this._translateService.instant(PortalResources.feature_diagnoseAndSolveInfo),
