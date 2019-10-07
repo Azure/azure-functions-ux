@@ -89,7 +89,7 @@
             <ng-container *ngIf="!fetchingPermissions">
 
                 <info-box
-                    *ngIf="!hasWriteAccess"
+                    *ngIf="!hasWriteAccess && !isSlot"
                     typeClass="warning"
                     [infoText]="'noWritePermission' | translate"
                     [dismissable]="true">
@@ -148,7 +148,7 @@
                     <th class="padded-col" table-cell>
                         {{ 'slotsList_serverfarmHeader' | translate }}
                     </th>
-                    <th *ngIf="!!prodSiteConfigArm" class="padded-col" table-cell>
+                    <th *ngIf="!!prodSiteConfigArm || !slot" class="padded-col" table-cell>
                         {{ 'slotsList_trafficPercentHeader' | translate }}
                     </th>
                 </tr>
@@ -170,7 +170,7 @@
                         {{ prodSiteArm ? getSegment(prodSiteArm.properties.serverFarmId, 8) : '-' }}
                     </td>
 
-                    <td *ngIf="!!prodSiteConfigArm" class="padded-col" table-cell>
+                    <td *ngIf="!!prodSiteConfigArm || !slot" class="padded-col" table-cell>
                         <div class="pct-wrapper">
                             <textbox
                                 disabled="true"
@@ -210,11 +210,20 @@
                         {{ getSegment(deploymentSlotArm.properties.serverFarmId, 8) }}
                     </td>
 
-                    <td *ngIf="!!prodSiteConfigArm" class="padded-col" table-cell [editable]="!isSlot">
+                    <!--
+
+                        isSlot && !prodSiteConfigArm
+                        isSlot && !!prodSiteConfigArm
+
+                        !!isSlot && !prodSiteConfigArm
+                        !!isSlot && !!prodSiteConfigArm && !writeAccess
+                        !!isSlot && !!prodSiteConfigArm && writeAccess
+                    -->
+                    <td *ngIf="!!prodSiteConfigArm || !slot" class="padded-col" table-cell [editable]="!isSlot && !!prodSiteConfigArm && hasWriteAccess">
                         <div class="pct-wrapper">
                             <textbox
-                                [disabled]="isSlot"
-                                [readonly]="isSlot"
+                                [disabled]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
+                                [readonly]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
                                 [control]="(mainForm && mainForm.controls['rulesGroup']) ? mainForm.controls['rulesGroup'].controls[deploymentSlotArm.name] : null"
                                 [placeholder]="0"
                                 [highlightDirty]="true">

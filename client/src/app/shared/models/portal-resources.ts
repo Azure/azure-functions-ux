@@ -1312,6 +1312,7 @@ export class PortalResources {
   public static noWritePermission = 'noWritePermission';
   public static slotReadOnlyLock = 'slotReadOnlyLock';
   public static swapSrcDestNotUnique = 'swapSrcDestNotUnique';
+  public static swapMultiPhasePermissionsFailure = 'swapMultiPhasePermissionsFailure';
   public static swapMultiPhaseAuthConflict = 'swapMultiPhaseAuthConflict';
   public static swapMultiPhaseNoStickySettings = 'swapMultiPhaseNoStickySettings';
   public static swapMultiPhasePreviewMessage = 'swapMultiPhasePreviewMessage';
