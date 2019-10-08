@@ -4972,7 +4972,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
     </data>
     <data name="mountedStorageInfo" xml:space="preserve">
-        <value>Mounted storage lets you map Azure Files or Blob containers for use with your app.</value>
+        <value>Mounted storage lets you map up to 5 Azure Files or Blob containers for use with your app.</value>
     </data>
     <data name="changePlanName" xml:space="preserve">
         <value>Change App Service plan</value>
