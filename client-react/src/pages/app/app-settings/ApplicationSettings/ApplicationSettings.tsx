@@ -30,7 +30,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   const [showAllValues, setShowAllValues] = useState(false);
 
   const { t, values } = props;
-  console.log(values);
+
   const theme = useContext(ThemeContext);
   let appSettingsTable: IDetailsList;
 
