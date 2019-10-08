@@ -1,6 +1,6 @@
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { BindingInfo } from '../../../../models/functions/function-binding';
-import { BindingConfigMetadata } from '../../../../models/functions/bindings-config';
+import { BindingConfigMetadata, BindingsConfig } from '../../../../models/functions/bindings-config';
 
 export function getTriggerBinding(functionTemplate: FunctionTemplate): BindingInfo {
   return functionTemplate.function.bindings.find(binding => binding.type.toLowerCase().includes('trigger')) as BindingInfo;
@@ -10,9 +10,10 @@ export function getTriggerBinding(functionTemplate: FunctionTemplate): BindingIn
 // Only display bindings that are list in the funciton template 'userPrompt'
 export function getRequiredBindingMetadata(
   triggerBinding: BindingInfo,
-  bindingsConfigMetatdata: BindingConfigMetadata[],
+  bindingsConfig: BindingsConfig,
   userPrompt: string[]
 ): BindingConfigMetadata {
+  const bindingsConfigMetatdata = bindingsConfig.bindings;
   const currentBindingMetadata = bindingsConfigMetatdata.find(b => b.type === triggerBinding.type) as BindingConfigMetadata;
   const requiredBindings = currentBindingMetadata;
   requiredBindings.settings = currentBindingMetadata.settings.filter(setting => {
