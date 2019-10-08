@@ -25,6 +25,7 @@ const NewResourceConnection: React.SFC<NewResourceConnectionProps & CustomDropdo
   const [selectedItem, setSelectedItem] = useState<IDropdownOption | undefined>(undefined);
   const { t } = useTranslation();
   useEffect(() => {
+    // This will need to be moved to a resource data file to handle requests
     StorageService.fetchAzureStorageAccounts(resourceId).then(r => {
       if (!r.metadata.success) {
         LogService.trackEvent(LogCategories.bindingResource, 'getStorageAccounts', `Failed to get storage accounts: ${r.metadata.error}`);
