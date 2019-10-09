@@ -6,6 +6,39 @@ import { Site } from '../../../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
+import { HostStatus } from '../../../models/functions/host-status';
+
+enum FunctionRuntimeVersions {
+  v1 = '~1',
+  v2 = '~2',
+  v3 = '~3',
+  custom = 'custom',
+}
+
+const isMajorVersion = (version: string | null) => {
+  return version === FunctionRuntimeVersions.v1 || version === FunctionRuntimeVersions.v2 || version === FunctionRuntimeVersions.v3;
+};
+
+// const getRuntimeCustomEdit = (appSettings: { [key: string]: string } | null) => {
+//   const version = appSettings ? appSettings['FUNCTIONS_EXTENSION_VERSION'] : null;
+//   const isCustomVersion = !isMajorVersion(version);
+//   return { active: isCustomVersion, latestValue: isCustomVersion ? version : null };
+// };
+
+export const getRuntimeCustomEdit = (appSettings: FormAppSetting[], runtimeCustomEdit?: { active: boolean; latestValue: string }) => {
+  const index = !appSettings ? -1 : appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
+  const version = index === -1 ? '' : appSettings[index].value;
+
+  if (!isMajorVersion(version)) {
+    return { active: true, latestValue: version };
+  }
+
+  if (runtimeCustomEdit && runtimeCustomEdit.active && runtimeCustomEdit.latestValue === version) {
+    return { ...runtimeCustomEdit };
+  }
+
+  return { active: false, latestValue: runtimeCustomEdit ? runtimeCustomEdit.latestValue : '' };
+};
 
 interface StateToFormParams {
   site: ArmObj<Site>;
@@ -15,17 +48,22 @@ interface StateToFormParams {
   azureStorageMounts: ArmObj<ArmAzureStorageMount> | null;
   slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<{ [key: string]: string }> | null;
+  hostStatus: ArmObj<HostStatus> | null;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
-  const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata } = props;
+  const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata, hostStatus } = props;
+  const formAppSetting = getFormAppSetting(appSettings, slotConfigNames);
+
   return {
     site,
+    hostStatus,
     config: getCleanedConfig(config),
-    appSettings: getFormAppSetting(appSettings, slotConfigNames),
+    appSettings: formAppSetting,
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config, metadata),
     azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
+    runtimeCustomEdit: getRuntimeCustomEdit(formAppSetting),
   };
 };
 

@@ -3,6 +3,7 @@ import { AvailableStack } from '../../../models/available-stacks';
 import { AzureStorageMount, SiteConfig, VirtualApplication } from '../../../models/site/config';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
+import { HostStatus } from '../../../models/functions/host-status';
 
 export interface Permissions {
   production_write: boolean;
@@ -34,6 +35,8 @@ export interface AppSettingsFormValues {
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
   references?: AppSettingsReferences;
+  hostStatus: ArmObj<HostStatus> | null;
+  runtimeCustomEdit: { active: boolean; latestValue: string };
 }
 
 export interface FormState {

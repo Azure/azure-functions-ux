@@ -5,6 +5,7 @@ import {
   convertStateToForm,
   convertFormToState,
   flattenVirtualApplicationsList,
+  getRuntimeCustomEdit,
   getCleanedConfigForSave,
   getCleanedReferences,
 } from './AppSettingsFormData';
@@ -19,6 +20,7 @@ import {
   updateStorageMounts,
   getAllAppSettingReferences,
   fetchAzureStorageAccounts,
+  getHostStatus,
 } from './AppSettings.service';
 import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
@@ -32,6 +34,7 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
+import { isFunctionApp } from '../../../utils/arm-utils';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -101,6 +104,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     setLoadingFailure(loadingFailed);
 
     if (!loadingFailed) {
+      const hostStatus = !isFunctionApp(site.data) ? null : await getHostStatus(resourceId);
+
       setCurrentSiteNonForm(site.data);
 
       if (
@@ -138,6 +143,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
+          hostStatus: hostStatus && hostStatus.metadata.success ? hostStatus.data : null,
         }),
       });
 
@@ -203,32 +209,29 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
     const siteUpdate = updateSite(resourceId, site);
     const configUpdate = updateWebConfig(resourceId, getCleanedConfigForSave(config));
-    let slotConfigUpdates: Promise<HttpResponseObject<unknown>> | undefined;
-    if (productionPermissions) {
-      slotConfigUpdates = updateSlotConfigNames(resourceId, slotConfigNames);
-    }
+    const slotConfigUpdates = productionPermissions ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null);
     const storageUpdateCall = updateStorageMounts(resourceId, storageMounts);
-    const [siteResult, configResult] = await Promise.all([siteUpdate, configUpdate, storageUpdateCall]);
-    const slotConfigResults = !!slotConfigUpdates
-      ? await slotConfigUpdates
-      : {
-          metadata: {
-            success: true,
-            error: null,
-          },
-        };
+    const [siteResult, configResult, slotConfigResults] = await Promise.all([
+      siteUpdate,
+      configUpdate,
+      slotConfigUpdates,
+      storageUpdateCall,
+    ]);
+    const hostStatus = !isFunctionApp(site) ? null : await getHostStatus(resourceId);
 
-    if (siteResult.metadata.success && configResult.metadata.success && slotConfigResults.metadata.success) {
+    if (siteResult.metadata.success && configResult.metadata.success && (!slotConfigResults || slotConfigResults.metadata.success)) {
       setInitialValues({
         ...values,
         virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
+        hostStatus: hostStatus && hostStatus.metadata.success ? hostStatus.data : null,
+        runtimeCustomEdit: getRuntimeCustomEdit(values.appSettings),
       });
       fetchReferences();
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
       const siteError = siteResult.metadata.error && siteResult.metadata.error.Message;
       const configError = configResult.metadata.error && configResult.metadata.error.Message;
-      const slotConfigError = slotConfigResults.metadata.error && slotConfigResults.metadata.error.Message;
+      const slotConfigError = slotConfigResults && slotConfigResults.metadata.error && slotConfigResults.metadata.error.Message;
       const errMessage = siteError || configError || slotConfigError || t('configUpdateFailure');
       portalContext.stopNotification(notificationId, false, errMessage);
     }
