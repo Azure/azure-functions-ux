@@ -4361,6 +4361,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="connectionStrings" xml:space="preserve">
         <value>Connection strings</value>
     </data>
+    <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>Function runtime settings</value>
+    </data>
     <data name="generalSettings" xml:space="preserve">
         <value>General settings</value>
     </data>
