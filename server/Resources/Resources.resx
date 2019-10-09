@@ -4972,7 +4972,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
     </data>
     <data name="mountedStorageInfo" xml:space="preserve">
-        <value>Mounted storage lets you map Azure Files or Blob containers for use with your app.</value>
+        <value>Mounted storage lets you map up to 5 Azure Files or Blob containers for use with your app.</value>
     </data>
     <data name="changePlanName" xml:space="preserve">
         <value>Change App Service plan</value>
@@ -5252,5 +5252,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+    </data>
+    <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>Click here to configure container settings.</value>
+    </data>
+    <data name="containerSettingsTitle" xml:space="preserve">
+        <value>Container settings</value>
+    </data>
+    <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>Configure and manage container settings for your app.</value>
+    </data>
+    <data name="linux" xml:space="preserve">
+        <value>Linux</value>
     </data>
 </root>

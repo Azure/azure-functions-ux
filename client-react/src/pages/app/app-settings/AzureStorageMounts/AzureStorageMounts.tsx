@@ -77,14 +77,14 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
 
   private _getCommandBarItems = (): ICommandBarItemProps[] => {
     const { editable } = this.context;
-    const { t } = this.props;
+    const { t, values } = this.props;
     return [
       {
         key: 'app-settings-new-azure-storage-mount-button',
         onClick: this._createNewItem,
-        disabled: !editable,
+        disabled: !editable || values.azureStorageMounts.length >= 5,
         iconProps: { iconName: 'Add' },
-        name: t('newAzureStorageMount'),
+        text: t('newAzureStorageMount'),
       },
     ];
   };

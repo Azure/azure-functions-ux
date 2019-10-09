@@ -1694,4 +1694,8 @@ export class PortalResources {
   public static functionKeyNamesUnique = 'functionKeyNamesUnique';
   public static gitHubActionBuildServerTitle = 'gitHubActionBuildServerTitle';
   public static gitHubActionBuildServerDesc = 'gitHubActionBuildServerDesc';
+  public static containerSettingsNotConfigured = 'containerSettingsNotConfigured';
+  public static containerSettingsTitle = 'containerSettingsTitle';
+  public static feature_containerSettingsInfo = 'feature_containerSettingsInfo';
+  public static linux = 'linux';
 }

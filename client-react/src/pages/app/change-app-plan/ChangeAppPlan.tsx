@@ -316,7 +316,7 @@ const openSpecPicker = async (
   linkElement: React.MutableRefObject<ILink | null>,
   portalCommunicator: PortalCommunicator
 ) => {
-  const result = await portalCommunicator.openBlade<SpecPickerOutput>(
+  const result = await portalCommunicator.openFrameBlade<SpecPickerOutput>(
     {
       detailBlade: 'SpecPickerFrameBlade',
       detailBladeInputs: {

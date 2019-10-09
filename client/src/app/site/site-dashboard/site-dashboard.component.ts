@@ -128,7 +128,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
         // the blade, then we'll automatically open the troubleshoot blade again for the first app they load.
         this._openTroubleshoot = Url.getParameterByName(null, 'appsvc.troubleshoot') === 'true';
         if (this._openTroubleshoot) {
-          this._portalService.openBlade(
+          this._portalService.openFrameBlade(
             {
               detailBlade: 'SCIFrameBlade',
               detailBladeInputs: {

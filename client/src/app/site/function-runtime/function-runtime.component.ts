@@ -381,7 +381,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   }
 
   openAppSettings() {
-    this._portalService.openBlade(
+    this._portalService.openFrameBlade(
       {
         detailBlade: 'SiteConfigSettingsFrameBladeReact',
         detailBladeInputs: {

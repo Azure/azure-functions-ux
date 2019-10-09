@@ -192,7 +192,7 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
             iconClass: 'fa fa-exclamation-triangle warning',
             learnMoreLink: 'https://go.microsoft.com/fwlink/?linkid=830855',
             clickCallback: () => {
-              this._portalService.openBlade(
+              this._portalService.openFrameBlade(
                 {
                   detailBlade: 'SiteConfigSettingsFrameBladeReact',
                   detailBladeInputs: {

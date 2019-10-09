@@ -185,7 +185,7 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
       });
     }
 
-    this._portalService.openBlade(
+    this._portalService.openFrameBlade(
       {
         detailBlade: 'ByosPickerFrameBlade',
         detailBladeInputs: {
