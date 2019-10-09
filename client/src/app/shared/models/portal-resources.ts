@@ -1695,4 +1695,6 @@ export class PortalResources {
   public static gitHubActionBuildServerTitle = 'gitHubActionBuildServerTitle';
   public static gitHubActionBuildServerDesc = 'gitHubActionBuildServerDesc';
   public static azureKeyVault = 'azureKeyVault';
+  public static appConfigValue = 'appConfigValue';
+  public static appSettingKeyvaultAPIError = 'appSettingKeyvaultAPIError';
 }

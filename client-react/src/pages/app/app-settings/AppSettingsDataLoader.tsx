@@ -167,9 +167,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   const fetchReferences = async () => {
     const appSettingReferences = await getAllAppSettingReferences(resourceId);
-    if (appSettingReferences.metadata.success) {
-      setReferences({ appSettings: getCleanedReferences(appSettingReferences.data) });
-    }
+    setReferences({ appSettings: appSettingReferences.metadata.success ? getCleanedReferences(appSettingReferences.data) : null });
   };
 
   const loadData = () => {
@@ -221,6 +219,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         ...values,
         virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
       });
+      fetchReferences();
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
       const siteError = siteResult.metadata.error && siteResult.metadata.error.Message;

@@ -5254,6 +5254,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
     </data>
     <data name="azureKeyVault" xml:space="preserve">
-        <value>Azure key vault</value>
+        <value>Key vault Reference</value>
+    </data>
+    <data name="appConfigValue" xml:space="preserve">
+        <value>App Config</value>
+    </data>
+    <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Error: Could not access key vault reference metadata</value>
     </data>
 </root>

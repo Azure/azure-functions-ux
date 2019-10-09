@@ -5,13 +5,13 @@ import React, { lazy, Suspense, useState, useContext } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
+import { AppSettingsFormValues, FormAppSetting, AppSettingReferenceSummary } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { SearchBox, TooltipHost, ICommandBarItemProps, Icon } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
-import { filterBoxStyle, dirtyElementStyle, keyVaultIconStyle } from '../AppSettings.styles';
+import { filterBoxStyle, dirtyElementStyle, keyVaultIconStyle, sourceTextStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import Panel from '../../../../components/Panel/Panel';
@@ -30,7 +30,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   const [showAllValues, setShowAllValues] = useState(false);
 
   const { t, values } = props;
-  console.log(values);
+
   const theme = useContext(ThemeContext);
   let appSettingsTable: IDetailsList;
 
@@ -241,23 +241,37 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       );
     }
     if (column.key === 'source') {
-      if (values.references) {
+      if (values.references && values.references.appSettings) {
         const appSettingReference = values.references.appSettings.filter(ref => ref.name === item.name);
         return (
-          <div className={defaultCellStyle} aria-label={t('source')}>
-            {appSettingReference.length > 0 ? t('azureKeyVault') : t('value')}
-            {appSettingReference.length > 0 && (
-              <Icon
-                iconName={appSettingReference[0].status.toLowerCase() === 'resolved' ? 'Completed' : 'ErrorBadge'}
-                className={keyVaultIconStyle(theme, appSettingReference[0].status.toLowerCase() === 'resolved')}
-                ariaLabel={t('azureKeyVault')}
-              />
+          <div
+            className={defaultCellStyle}
+            aria-label={
+              appSettingReference.length > 0
+                ? `${t('azureKeyVault')} ${!isAppSettingReferenceResolved(appSettingReference[0]) && 'not'} resolved`
+                : t('appConfigValue')
+            }>
+            {appSettingReference.length > 0 ? (
+              <div>
+                <Icon
+                  iconName={isAppSettingReferenceResolved(appSettingReference[0]) ? 'Completed' : 'ErrorBadge'}
+                  className={keyVaultIconStyle(theme, isAppSettingReferenceResolved(appSettingReference[0]))}
+                  ariaLabel={t('azureKeyVault')}
+                />
+                <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
+              </div>
+            ) : (
+              t('appConfigValue')
             )}
           </div>
         );
       }
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
+  };
+
+  const isAppSettingReferenceResolved = (reference: AppSettingReferenceSummary) => {
+    return reference.status.toLowerCase() === 'resolved';
   };
 
   const isAppSettingDirty = (index: number): boolean => {

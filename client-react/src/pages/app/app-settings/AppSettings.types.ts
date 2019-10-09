@@ -66,5 +66,5 @@ export interface AppSettingReferenceSummary {
 }
 
 export interface AppSettingsReferences {
-  appSettings: AppSettingReferenceSummary[];
+  appSettings: AppSettingReferenceSummary[] | null;
 }
