@@ -14,13 +14,14 @@ interface RadioButtonProps {
     learnMoreText: string;
   };
   dirty?: boolean;
+  vertical?: boolean;
 }
 
-const fieldStyle = style({
-  marginRight: '10px',
-});
 const RadioButtonNoFormik: React.SFC<IChoiceGroupProps & RadioButtonProps> = props => {
-  const { options, learnMore, label, subLabel, upsellMessage, theme, onChange, ...rest } = props;
+  const { options, learnMore, label, subLabel, upsellMessage, theme, onChange, vertical, ...rest } = props;
+
+  const [choiceGroupStyles, fieldStyle] = vertical ? [undefined, undefined] : [ChoiceGroupStyles, style({ marginRight: '10px' })];
+
   const optionsWithMargin: IChoiceGroupOption[] | undefined =
     options &&
     options.map(option => {
@@ -35,7 +36,7 @@ const RadioButtonNoFormik: React.SFC<IChoiceGroupProps & RadioButtonProps> = pro
         id={props.id}
         options={optionsWithMargin}
         onChange={onChange}
-        styles={ChoiceGroupStyles}
+        styles={choiceGroupStyles}
         {...rest}
       />
     </ReactiveFormControl>

@@ -32,7 +32,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
   const theme = useContext(ThemeContext);
   const fullpage = width > 1000;
   return (
-    <Stack horizontal={fullpage} verticalAlign="center" className={controlContainerStyle(!!upsellMessage, fullpage)}>
+    <Stack horizontal={fullpage} verticalAlign="baseline" className={controlContainerStyle(!!upsellMessage, fullpage)}>
       {label && (
         <Stack horizontal verticalAlign="center" className={formStackStyle(!!upsellMessage, fullpage)}>
           {upsellMessage && (
