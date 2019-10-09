@@ -17,44 +17,46 @@ import { ThemeContext } from '../../../../ThemeContext';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
+import { sortBy } from 'lodash-es';
 
 const FunctionRuntimeSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const theme = useContext(ThemeContext);
   const site = useContext(SiteContext);
-  const { t, values, initialValues, setFieldValue } = props;
+  const { t, values } = props;
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable } = useContext(PermissionsContext);
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [showAllValues, setShowAllValues] = useState(false);
 
-  const getFunctionExtensionVersionSetting = (appSettings: FormAppSetting[]) => {
-    const index = appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
-    return index === -1 ? null : appSettings[index];
-  };
-
   const updateRuntimeVersionSetting = (version: string) => {
-    const appSettings: FormAppSetting[] = [...values.appSettings];
-    const setting = getFunctionExtensionVersionSetting(appSettings);
-    if (!setting) {
+    let appSettings: FormAppSetting[] = [...values.appSettings];
+    const index = appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
+    if (index === -1) {
       appSettings.push({
         name: 'FUNCTIONS_EXTENSION_VERSION',
         value: version,
         sticky: false,
       });
     } else {
-      setting.value = version;
+      const setting = appSettings[index];
+      appSettings[index] = {
+        name: 'FUNCTIONS_EXTENSION_VERSION',
+        value: version,
+        sticky: setting.sticky,
+      };
     }
-    setFieldValue('appSettings', appSettings);
+    appSettings = sortBy(appSettings, o => o.name.toLowerCase());
+    props.setFieldValue('appSettings', appSettings);
   };
 
   const getRuntimeVersion = (appSettings: FormAppSetting[]) => {
-    const setting = getFunctionExtensionVersionSetting(appSettings);
-    return !setting ? '' : setting.value;
+    const index = appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
+    return index === -1 ? '' : appSettings[index].value;
   };
 
   const removeItem = (key: string) => {
     const appSettings: FormAppSetting[] = [...values.appSettings].filter(val => val.name !== key);
-    setFieldValue('appSettings', appSettings);
+    props.setFieldValue('appSettings', appSettings);
   };
 
   const onShowHideButtonClick = (itemKey: string) => {
@@ -218,8 +220,8 @@ const FunctionRuntimeSettings: React.FC<FormikProps<AppSettingsFormValues> & Wit
         />
       )}
       <RadioButtonNoFormik
-        selectedKey={getRuntimeVersion(values.appSettings)}
-        dirty={getRuntimeVersion(values.appSettings) !== getRuntimeVersion(initialValues.appSettings)}
+        selectedKey={getRuntimeVersion(props.values.appSettings)}
+        dirty={getRuntimeVersion(values.appSettings) !== getRuntimeVersion(props.initialValues.appSettings)}
         label={t('runtimeVersion')}
         id="functions-runtime-version"
         disabled={!app_write || !editable}
@@ -244,7 +246,7 @@ const FunctionRuntimeSettings: React.FC<FormikProps<AppSettingsFormValues> & Wit
       {scenarioChecker.checkScenario(ScenarioIds.dailyUsageQuotaSupported, { site }).status === 'enabled' && (
         <Field
           name="site.properties.dailyMemoryTimeQuota"
-          dirty={values.site.properties.dailyMemoryTimeQuota !== initialValues.site.properties.dailyMemoryTimeQuota}
+          dirty={values.site.properties.dailyMemoryTimeQuota !== props.initialValues.site.properties.dailyMemoryTimeQuota}
           component={TextField}
           label={t('dailyUsageQuotaLabel')}
           id="app-settings-daily-memory-time-quota"
