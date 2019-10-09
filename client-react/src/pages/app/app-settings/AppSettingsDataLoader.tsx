@@ -1,6 +1,6 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
-import { AppSettingsFormValues } from './AppSettings.types';
+import { AppSettingsFormValues, AppSettingsReferences } from './AppSettings.types';
 import {
   convertStateToForm,
   convertFormToState,
@@ -53,6 +53,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
+  const [references, setReferences] = useState<AppSettingsReferences | null>(null);
   const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<{ [key: string]: string }>>({
     name: '',
     id: '',
@@ -92,8 +93,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       windowsStacks,
       linuxStacks,
     } = await fetchApplicationSettingValues(resourceId);
-
-    const appSettingReferences = await getAllAppSettingReferences(resourceId);
 
     const loadingFailed =
       armCallFailed(site) ||
@@ -146,9 +145,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
         }),
-        references: {
-          appSettings: appSettingReferences.metadata.success ? getCleanedReferences(appSettingReferences.data) : [],
-        },
       });
       if (site.data.kind!.includes('linux')) {
         setCurrentAvailableStacks(linuxStacks.data);
@@ -169,9 +165,17 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
   };
 
+  const fetchReferences = async () => {
+    const appSettingReferences = await getAllAppSettingReferences(resourceId);
+    if (appSettingReferences.metadata.success) {
+      setReferences({ appSettings: getCleanedReferences(appSettingReferences.data) });
+    }
+  };
+
   const loadData = () => {
     fetchData();
     fillSlots();
+    fetchReferences();
   };
 
   useEffect(() => {
@@ -229,6 +233,14 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   if (!initialLoading || refreshValues || (!initialValues && !loadingFailure)) {
     return <LoadingComponent />;
+  }
+
+  if (initialValues && references) {
+    setInitialValues({
+      ...initialValues,
+      references,
+    });
+    setReferences(null);
   }
 
   return (

@@ -5,7 +5,7 @@ import React, { lazy, Suspense, useState, useContext } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormValues, FormAppSetting, AppSettingReferenceSummary } from '../AppSettings.types';
+import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { SearchBox, TooltipHost, ICommandBarItemProps, Icon } from 'office-ui-fabric-react';
@@ -30,7 +30,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   const [showAllValues, setShowAllValues] = useState(false);
 
   const { t, values } = props;
-
+  console.log(values);
   const theme = useContext(ThemeContext);
   let appSettingsTable: IDetailsList;
 
@@ -242,14 +242,14 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
     }
     if (column.key === 'source') {
       if (values.references) {
-        const appSettingReference = getAppSettingReference(item);
+        const appSettingReference = values.references.appSettings.filter(ref => ref.name === item.name);
         return (
           <div className={defaultCellStyle} aria-label={t('source')}>
-            {appSettingReference ? t('azureKeyVault') : t('value')}
-            {appSettingReference && (
+            {appSettingReference.length > 0 ? t('azureKeyVault') : t('value')}
+            {appSettingReference.length > 0 && (
               <Icon
-                iconName={appSettingReference.status.toLowerCase() === 'resolved' ? 'Completed' : 'ErrorBadge'}
-                className={keyVaultIconStyle(theme, appSettingReference.status.toLowerCase() === 'resolved')}
+                iconName={appSettingReference[0].status.toLowerCase() === 'resolved' ? 'Completed' : 'ErrorBadge'}
+                className={keyVaultIconStyle(theme, appSettingReference[0].status.toLowerCase() === 'resolved')}
                 ariaLabel={t('azureKeyVault')}
               />
             )}
@@ -258,14 +258,6 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       }
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
-  };
-
-  const getAppSettingReference = (item: FormAppSetting): AppSettingReferenceSummary | null => {
-    if (!values.references) {
-      return null;
-    }
-    const references = values.references.appSettings.filter(ref => ref.name === item.name);
-    return references.length > 0 ? references[0] : null;
   };
 
   const isAppSettingDirty = (index: number): boolean => {
