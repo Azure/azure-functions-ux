@@ -19,7 +19,7 @@ interface CustomComboboxProps {
 }
 
 const ComboBoxNoFormik = (props: IComboBoxProps & CustomComboboxProps) => {
-  const { dirty = false, value, onChange, errorMessage, options, label, ...rest } = props;
+  const { value, onChange, errorMessage, options, label, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
 
@@ -35,7 +35,7 @@ const ComboBoxNoFormik = (props: IComboBoxProps & CustomComboboxProps) => {
         errorMessage={errorMessage}
         useComboBoxAsMenuWidth={true}
         {...rest}
-        styles={comboboxStyleOverrides(dirty, theme, fullpage)}
+        styles={comboboxStyleOverrides(theme, fullpage)}
       />
     </ReactiveFormControl>
   );

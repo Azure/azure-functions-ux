@@ -166,7 +166,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           .mergeMap(r => {
             const response: ArmObj<any> = r.json();
             response.properties[Constants.functionAppEditModeSettingName] = appSetting;
-            return this._cacheService.putArm(response.id, this._armService.websiteApiVersion, response);
+            return this._cacheService.putArm(response.id, this._armService.antaresApiVersion20181101, response);
           })
           .catch(() => {
             throw originalState;
@@ -381,7 +381,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   }
 
   openAppSettings() {
-    this._portalService.openBlade(
+    this._portalService.openFrameBlade(
       {
         detailBlade: 'SiteConfigSettingsFrameBladeReact',
         detailBladeInputs: {
@@ -428,7 +428,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
       delete appSettings.properties[Constants.routingExtensionVersionAppSettingName];
     }
 
-    return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+    return this._cacheService.putArm(appSettings.id, this._armService.antaresApiVersion20181101, appSettings);
   }
 
   private _updateDailyMemory(site: ArmObj<Site>, value: number) {
@@ -440,14 +440,14 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
       },
     });
 
-    return this._cacheService.putArm(site.id, this._armService.websiteApiVersion, body);
+    return this._cacheService.putArm(site.id, this._armService.antaresApiVersion20181101, body);
   }
 
   private _updateMemorySize(site: ArmObj<Site>, memorySize: string | number) {
     const nMemorySize = typeof memorySize === 'string' ? parseInt(memorySize, 10) : memorySize;
     site.properties.containerSize = nMemorySize;
 
-    return this._cacheService.putArm(site.id, this._armService.websiteApiVersion, site).map(r => <ArmObj<Site>>r.json());
+    return this._cacheService.putArm(site.id, this._armService.antaresApiVersion20181101, site).map(r => <ArmObj<Site>>r.json());
   }
 
   public get GlobalDisabled() {

@@ -21,7 +21,7 @@ export class QuotaService {
       resourceId: id,
       commandName: '',
       method: 'GET',
-      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20160301,
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
 
     if (!quotaSettings.metadata.success) {

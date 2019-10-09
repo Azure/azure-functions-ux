@@ -13,7 +13,7 @@ import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
 import Panel from '../../../../../components/Panel/Panel';
 const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
-  const { values, setFieldValue } = props;
+  const { values, setFieldValue, initialValues } = props;
   const site = useContext(SiteContext);
   const { t } = useTranslation();
   const { app_write, editable } = useContext(PermissionsContext);
@@ -37,6 +37,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       <div className={settingsWrapper}>
         <Field
           name="site.properties.clientCertEnabled"
+          dirty={values.site.properties.clientCertEnabled !== initialValues.site.properties.clientCertEnabled}
           component={RadioButton}
           label={t('requireIncomingClientCertificates')}
           disabled={!app_write || !editable || clientCertEnabled.status === 'disabled'}
@@ -57,6 +58,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           <Stack horizontal>
             <Field
               name="site.properties.clientCertExclusionPaths"
+              dirty={values.site.properties.clientCertExclusionPaths !== initialValues.site.properties.clientCertExclusionPaths}
               component={TextField}
               disabled
               placeholder={t('noExclusionRulesDefined')}
