@@ -29,6 +29,9 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   const [basicDisabled, setBasicDisabled] = useState(false);
   const [initialName] = useState(azureStorageMount.name);
   const [initialMountPath] = useState(azureStorageMount.mountPath);
+  const mountPathRegex = /^\/[a-zA-Z0-9\[\]\(\)\-_\/]*$/;
+  const shareNameMaxLength = 64;
+  const shareNameRegex = /^[a-zA-Z0-9\[\]\(\)\-_]+$/;
   const cancel = () => {
     closeBlade();
   };
@@ -39,19 +42,19 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       .test('uniqueName', t('azureStorageMountMustBeUnique'), value => {
         return (
           !value ||
-          value === initialName ||
+          value.toLowerCase() === initialName.toLowerCase() ||
           !otherAzureStorageMounts.some(storageMount => storageMount.name.toLowerCase() === value.toLowerCase())
         );
       }),
     accountName: Yup.string().required(t('validation_requiredError')),
     shareName: Yup.string()
       .required(t('validation_requiredError'))
-      .max(64, t('validation_fieldMaxCharacters').format(64))
-      .matches(/^[a-zA-Z0-9\[\]\(\)\-_]+$/, t('validation_shareNameAllowedCharacters')),
+      .max(shareNameMaxLength, t('validation_fieldMaxCharacters').format(shareNameMaxLength))
+      .matches(shareNameRegex, t('validation_shareNameAllowedCharacters')),
     accessKey: Yup.string().required(t('validation_requiredError')),
     mountPath: Yup.string()
       .required(t('validation_requiredError'))
-      .matches(/^\/[a-zA-Z0-9\[\]\(\)\-_\/]*$/, t('validation_mountNameAllowedCharacters'))
+      .matches(mountPathRegex, t('validation_mountNameAllowedCharacters'))
       .test('cannotMountHomeDirectory', t('validation_mountPathNotHome'), (value: string) => value !== '/home')
       .test('uniqueMountPath', t('mouthPathMustBeUnique'), value => {
         return (
