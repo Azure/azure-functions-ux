@@ -103,7 +103,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     id: 'save',
     title: t('ok'),
     onClick: save,
-    disable: !!nameError,
+    disable: !!nameError || !currentAppSetting.name,
   };
 
   const actionBarSecondaryButtonProps = {

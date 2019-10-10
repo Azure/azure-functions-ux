@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BindingConfigMetadata, BindingConfigDirection } from '../../../../../models/functions/bindings-config';
+import { BindingConfigMetadata, BindingConfigDirection, BindingsConfig } from '../../../../../models/functions/bindings-config';
 import { BindingInfo, BindingDirection } from '../../../../../models/functions/function-binding';
 import { useTranslation } from 'react-i18next';
 import { FormikProps, Formik } from 'formik';
@@ -12,9 +12,10 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 
 export interface BindingEditorProps {
-  allBindingsConfigMetadata: BindingConfigMetadata[];
+  allBindingsConfig: BindingsConfig;
   currentBindingInfo: BindingInfo;
   functionInfo: ArmObj<FunctionInfo>;
+  resourceId: string;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
 }
 
@@ -27,10 +28,11 @@ const fieldWrapperStyle = style({
 });
 
 const BindingEditor: React.SFC<BindingEditorProps> = props => {
-  const { allBindingsConfigMetadata: bindingsConfigMetadata, currentBindingInfo, onSubmit } = props;
+  const { allBindingsConfig: bindingsConfig, currentBindingInfo, onSubmit, resourceId } = props;
   const { t } = useTranslation();
   const [isDisabled, setIsDisabled] = useState(false);
 
+  const bindingsConfigMetadata = bindingsConfig.bindings;
   const currentBindingMetadata = bindingsConfigMetadata.find(b => b.type === currentBindingInfo.type) as BindingConfigMetadata;
 
   if (!currentBindingMetadata) {
@@ -38,7 +40,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
     return <div />;
   }
 
-  const builder = new BindingFormBuilder(currentBindingInfo, currentBindingMetadata, t);
+  const builder = new BindingFormBuilder(currentBindingInfo, currentBindingMetadata, resourceId, t, bindingsConfig.variables);
   const initialFormValues = builder.getInitialFormValues();
 
   const submit = (newBindingInfo: BindingInfo) => {
