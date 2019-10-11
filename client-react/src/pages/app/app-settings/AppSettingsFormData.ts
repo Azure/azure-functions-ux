@@ -6,6 +6,7 @@ import { Site } from '../../../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
+import { HostStatus } from '../../../models/functions/host-status';
 
 interface StateToFormParams {
   site: ArmObj<Site>;
@@ -15,11 +16,25 @@ interface StateToFormParams {
   azureStorageMounts: ArmObj<ArmAzureStorageMount> | null;
   slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<{ [key: string]: string }> | null;
+  hostStatus: ArmObj<HostStatus> | null;
+  functionsRuntimeVersions: string[] | null;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
-  const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata } = props;
+  const {
+    site,
+    config,
+    appSettings,
+    connectionStrings,
+    azureStorageMounts,
+    slotConfigNames,
+    metadata,
+    hostStatus,
+    functionsRuntimeVersions,
+  } = props;
   return {
     site,
+    hostStatus,
+    functionsRuntimeVersions,
     config: getCleanedConfig(config),
     appSettings: getFormAppSetting(appSettings, slotConfigNames),
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),

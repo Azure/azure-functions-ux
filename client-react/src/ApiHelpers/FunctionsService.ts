@@ -1,3 +1,4 @@
+import axios, { AxiosResponse } from 'axios';
 import { BindingsConfig } from './../models/functions/bindings-config';
 import { ArmArray, ArmObj } from './../models/arm-obj';
 import MakeArmCall from './ArmHelper';
@@ -5,8 +6,110 @@ import { FunctionInfo } from '../models/functions/function-info';
 import { sendHttpRequest, getJsonHeaders } from './HttpClient';
 import { FunctionTemplate } from '../models/functions/function-template';
 import { FunctionConfig } from '../models/functions/function-config';
+import { HostStatus } from '../models/functions/host-status';
+import { VfsObject } from '../models/functions/vsf-object';
+import { MethodTypes } from '../ArmHelper.types';
+import Url from '../utils/url';
+import LogService from '../utils/LogService';
+import { LogCategories } from '../utils/LogCategories';
+import { Guid } from '../utils/Guid';
+import { Site, HostType } from '../models/site/site';
+
+export interface RequestObject {
+  method: MethodTypes;
+  url: string;
+  id?: string;
+  commandName?: string;
+  body: any;
+  queryString?: string;
+}
+
+export interface ResponseObject<T> {
+  metadata: {
+    success: boolean;
+    status: number;
+    error?: any;
+    headers: { [key: string]: string };
+  };
+  data: T;
+}
 
 export default class FunctionsService {
+  public static MakeScmRequest = async <T>(reqObj: RequestObject, retry = 0): Promise<AxiosResponse<T>> => {
+    const { method, url, body, queryString } = reqObj;
+    const urlWithQuery = `${url}${queryString || ''}`;
+    const sessionId = Url.getParameterByName(null, 'sessionId');
+    const headers: { [key: string]: string } = {
+      Authorization: `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`,
+      'x-ms-client-request-id': reqObj.id || Guid.newGuid(),
+    };
+    if (sessionId) {
+      headers['x-ms-client-session-id'] = sessionId;
+    }
+    try {
+      const result = await axios({
+        method,
+        headers,
+        url: urlWithQuery,
+        data: body,
+        validateStatus: () => true, // never throw on an error, we can check the status and handle the error in the UI
+      });
+      if (retry < 2 && result.status === 401) {
+        if (window.updateAuthToken) {
+          const newToken = await window.updateAuthToken('');
+          if (window.appsvc && window.appsvc.env) {
+            window.appsvc.env.armToken = newToken;
+          } else {
+            throw Error('window.appsvc not available');
+          }
+          return FunctionsService.MakeScmRequest(reqObj, retry + 1);
+        }
+      }
+      LogService.trackEvent(LogCategories.functionsService, 'makeScmRequest', { url, method, sessionId, correlationId: reqObj.id });
+      return result;
+    } catch (err) {
+      // This shouldn't be hit since we're telling axios to not throw on error
+      LogService.error(LogCategories.functionsService, 'makeScmRequest', err);
+      throw err;
+    }
+  };
+
+  public static MakeScmCall = async <T>(requestObject: RequestObject): Promise<ResponseObject<T>> => {
+    requestObject.id = requestObject.id || Guid.newGuid();
+    const response = await FunctionsService.MakeScmRequest<T>(requestObject);
+    const responseSuccess = response.status < 300;
+    const retObj: ResponseObject<T> = {
+      metadata: {
+        success: responseSuccess,
+        status: response.status,
+        headers: response.headers,
+        error: responseSuccess ? null : response.data,
+      },
+      data: response.data,
+    };
+    return retObj;
+  };
+
+  public static getRuntimeVersions = async (site: ArmObj<Site>) => {
+    const hostNameSslStates = site.properties.hostNameSslStates;
+    const scmHostName = hostNameSslStates.find(h => h.hostType === HostType.Repository)!.name;
+    const folderUrl = `https://${scmHostName}//api/vfs/SystemDrive/Program%20Files%20(x86)/SiteExtensions/Functions`;
+    const folderObjectsResult = await FunctionsService.MakeScmCall<VfsObject[]>({
+      method: 'GET',
+      url: folderUrl,
+      body: null,
+    });
+
+    const versions = !folderObjectsResult.metadata.success
+      ? null
+      : folderObjectsResult.data.filter(v => v.mime === 'inode/directory').map(d => d.name);
+
+    return {
+      ...folderObjectsResult,
+      data: versions,
+    };
+  };
+
   public static getFunctions = (resourceId: string) => {
     const id = `${resourceId}/functions`;
 
@@ -111,6 +214,15 @@ export default class FunctionsService {
       commandName: 'createKey',
       method: 'PUT',
       body: body,
+    });
+  };
+
+  public static getHostStatus = (resourceId: string) => {
+    const id = `${resourceId}//host/default/properties/status`;
+    return MakeArmCall<ArmObj<HostStatus>>({
+      resourceId: id,
+      commandName: 'getHostStatus',
+      method: 'GET',
     });
   };
 }
