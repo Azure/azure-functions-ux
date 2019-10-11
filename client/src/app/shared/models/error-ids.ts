@@ -89,4 +89,5 @@ export namespace errorIds {
   export const failedToUpdateContainerConfigData = 'error/failedToUpdateContainerConfigData';
   export const failedToGetAzureContainerRegistries = 'error/failedToGetAzureContainerRegistries';
   export const failedToUpdateACRWebhook = 'error/failedToUpdateACRWebhook';
+  export const containerSettingsConfigure = 'errors/containerSettings/configure';
 }

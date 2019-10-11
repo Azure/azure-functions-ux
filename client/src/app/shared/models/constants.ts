@@ -59,6 +59,7 @@ export class Constants {
   public static WebhookHandlerFunctionId = 'TimerTrigger-CSharpWebhookHandler';
   public static WebhookFunctionName = 'MSGraphWebhook';
   public static appDensityLimit = 8;
+  public static defaultFunctionAppDockerImage = 'DOCKER|mcr.microsoft.com/azure-functions/dotnet:2.0-appservice-quickstart';
 }
 
 export class TabCommunicationVerbs {
@@ -320,6 +321,7 @@ export class ScenarioIds {
   public static readonly enableKudu = 'EnableKudu';
   public static readonly enableCORS = 'EnableCORS';
   public static readonly enableQuotas = 'EnableQuotas';
+  public static readonly containerSettings = 'containerSettings';
 }
 
 export class NationalCloudArmUris {
@@ -650,4 +652,10 @@ export enum HostKeyTypes {
 export class Pricing {
   public static hoursInAzureMonth = 730;
   public static secondsInAzureMonth = 2628000;
+}
+
+export class RuntimeStacks {
+  public static node = 'node';
+  public static python = 'python';
+  public static dotnetcore = 'dotnetcore';
 }
