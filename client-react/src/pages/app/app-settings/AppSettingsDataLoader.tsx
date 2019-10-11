@@ -11,6 +11,8 @@ import {
   updateSlotConfigNames,
   getProductionAppWritePermissions,
   updateStorageMounts,
+  getHostStatus,
+  getFunctionsRuntimeVersions,
 } from './AppSettings.service';
 import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
@@ -24,6 +26,7 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
+import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -74,18 +77,22 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchData = async () => {
-    const site = await siteContext.fetchSite(resourceId);
-    const {
-      webConfig,
-      metadata,
-      connectionStrings,
-      applicationSettings,
-      slotConfigNames,
-      storageAccounts,
-      azureStorageMounts,
-      windowsStacks,
-      linuxStacks,
-    } = await fetchApplicationSettingValues(resourceId);
+    const [
+      site,
+      {
+        webConfig,
+        metadata,
+        connectionStrings,
+        applicationSettings,
+        slotConfigNames,
+        storageAccounts,
+        azureStorageMounts,
+        windowsStacks,
+        linuxStacks,
+      },
+    ] = await Promise.all([siteContext.fetchSite(resourceId), fetchApplicationSettingValues(resourceId)]);
+
+    await Promise.resolve(null);
 
     const loadingFailed =
       armCallFailed(site) ||
@@ -101,6 +108,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     setLoadingFailure(loadingFailed);
 
     if (!loadingFailed) {
+      const hostStatusPromise = isFunctionApp(site.data) ? getHostStatus(resourceId) : Promise.resolve(null);
+      const runtimeVersionsPromise =
+        isFunctionApp(site.data) && !isLinuxApp(site.data) ? getFunctionsRuntimeVersions(site.data) : Promise.resolve(null);
+      const [hostStatus, functionsRuntimeVersions] = await Promise.all([hostStatusPromise, runtimeVersionsPromise]);
+
       setCurrentSiteNonForm(site.data);
       if (
         applicationSettings.metadata.status === 403 || // failing RBAC permissions
@@ -137,6 +149,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
+          hostStatus: hostStatus && hostStatus.metadata.success ? hostStatus.data : null,
+          functionsRuntimeVersions:
+            functionsRuntimeVersions && functionsRuntimeVersions.metadata.success ? functionsRuntimeVersions.data : null,
         })
       );
       if (site.data.kind!.includes('linux')) {
@@ -204,10 +219,17 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           },
         };
 
+    const hostStatusPromise = isFunctionApp(site) ? getHostStatus(resourceId) : Promise.resolve(null);
+    const runtimeVersionsPromise = isFunctionApp(site) && !isLinuxApp(site) ? getFunctionsRuntimeVersions(site) : Promise.resolve(null);
+    const [hostStatus, functionsRuntimeVersions] = await Promise.all([hostStatusPromise, runtimeVersionsPromise]);
+
     if (siteResult.metadata.success && configResult.metadata.success && slotConfigResults.metadata.success) {
       setInitialValues({
         ...values,
         virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
+        hostStatus: hostStatus && hostStatus.metadata.success ? hostStatus.data : null,
+        functionsRuntimeVersions:
+          functionsRuntimeVersions && functionsRuntimeVersions.metadata.success ? functionsRuntimeVersions.data : null,
       });
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {

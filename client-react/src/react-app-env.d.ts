@@ -18,6 +18,11 @@ interface Environment {
   appName: string;
 }
 
+interface FunctionsVersionInfo {
+  runtimeStable: string[];
+  runtimeDefault: string;
+}
+
 interface AppSvc {
   env: Environment;
   version: string;
@@ -25,6 +30,7 @@ interface AppSvc {
   feature?: string;
   cdn?: string;
   cacheBreakQuery?: string;
+  functionsVersionInfo?: FunctionsVersionInfo;
 }
 
 declare global {
