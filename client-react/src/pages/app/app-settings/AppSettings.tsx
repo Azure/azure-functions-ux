@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import i18n from 'i18next';
 import { PermissionsContext, SiteContext } from './Contexts';
-import { commandBarSticky, formStyle, messageBanner } from './AppSettings.styles';
+import { commandBarSticky, messageBannerStyle } from './AppSettings.styles';
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
@@ -81,7 +81,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
 
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
-      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings }) => (
+      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings, asyncData }) => (
         <Formik
           initialValues={initialFormValues}
           onSubmit={onSubmit}
@@ -102,22 +102,14 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                 {!!initialFormValues && scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
                   <UpsellBanner onClick={scaleUpPlan} />
                 )}
-                {!!initialFormValues && initialFormValues.references && !initialFormValues.references.appSettings && (
-                  <MessageBar
-                    id="appSettings-keyvault-error"
-                    isMultiline={false}
-                    className={messageBanner(theme)}
-                    messageBarType={MessageBarType.error}>
-                    {t('appSettingKeyvaultAPIError')}
-                  </MessageBar>
-                )}
               </div>
               {!!initialFormValues ? (
-                <div className={formStyle}>
-                  <AppSettingsForm {...formProps} />
-                </div>
+                <AppSettingsForm asyncData={asyncData} {...formProps} />
               ) : (
-                <MessageBar messageBarType={MessageBarType.error} isMultiline={false}>
+                <MessageBar
+                  isMultiline={false}
+                  className={messageBannerStyle(theme, MessageBarType.error)}
+                  messageBarType={MessageBarType.error}>
                   {t('configLoadFailure')}
                 </MessageBar>
               )}

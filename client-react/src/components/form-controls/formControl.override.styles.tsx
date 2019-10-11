@@ -72,6 +72,18 @@ export const infoIconStyle = (theme: ThemeExtended) =>
     paddingRight: '5px',
   });
 
+export const warningIconStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.warningIcon,
+    paddingRight: '5px',
+  });
+
+export const errorIconStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.errorIcon,
+    paddingRight: '5px',
+  });
+
 export const copyButtonStyle = (theme: ThemeExtended) =>
   style({
     marginLeft: '5px',

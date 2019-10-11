@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
@@ -7,7 +7,7 @@ import { FormikProps } from 'formik';
 import ApplicationSettings from '../ApplicationSettings/ApplicationSettings';
 import ConnectionStrings from '../ConnectionStrings/ConnectionStrings';
 import { isEqual } from 'lodash-es';
-import { PermissionsContext, SiteContext } from '../Contexts';
+import { PermissionsContext, SiteContext, BannerMessageContext } from '../Contexts';
 import { infoIconStyle, learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 import { Links } from '../../../../utils/FwLinks';
@@ -22,6 +22,19 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
   const scenarioChecker = new ScenarioService(t);
   const showFunctionAppMessage =
     scenarioChecker.checkScenario(ScenarioIds.showConnnectionStringFunctionInfo, { site }).status === 'enabled';
+
+  const bannerMessageContext = useContext(BannerMessageContext);
+  useEffect(() => {
+    if (!!props.initialValues && props.initialValues.references && !props.initialValues.references.appSettings) {
+      bannerMessageContext.updateBanner({
+        type: MessageBarType.error,
+        text: t('appSettingKeyvaultAPIError'),
+      });
+    } else {
+      bannerMessageContext.updateBanner();
+    }
+  }, []);
+
   return (
     <>
       <h3>{t('applicationSettings')}</h3>
