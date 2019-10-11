@@ -68,9 +68,21 @@ const FunctionRuntimeSettings: React.FC<FormikProps<AppSettingsFormValues> & Wit
     setFieldValue('appSettings', appSettings);
   };
 
-  const getRuntimeVersion = (appSettings: FormAppSetting[]) => {
-    const index = appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
+  const getSettingValue = (settingName: string, appSettings: FormAppSetting[]) => {
+    if (!settingName || !appSettings) {
+      return null;
+    }
+
+    const index = appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase());
     return index === -1 ? null : appSettings[index].value;
+  };
+
+  const getRuntimeVersion = () => {
+    return getSettingValue('FUNCTIONS_EXTENSION_VERSION', values.appSettings);
+  };
+
+  const getInitialRuntimeVersion = () => {
+    return getSettingValue('FUNCTIONS_EXTENSION_VERSION', initialValues.appSettings);
   };
 
   const getExactRuntimeVersion = () => {
@@ -79,7 +91,7 @@ const FunctionRuntimeSettings: React.FC<FormikProps<AppSettingsFormValues> & Wit
 
   const getOptions = () => {
     const options = getAvailableRuntimeVersions();
-    const initialRuntimeVersion = getRuntimeVersion(initialValues.appSettings);
+    const initialRuntimeVersion = getInitialRuntimeVersion();
 
     if (!!initialRuntimeVersion && options.findIndex(x => x.key === initialRuntimeVersion) === -1) {
       options.push({
@@ -94,7 +106,7 @@ const FunctionRuntimeSettings: React.FC<FormikProps<AppSettingsFormValues> & Wit
   const isValidRuntimeVersion = () => {
     const runtimeStable = ['~1', 'beta', '~2', 'latest', '~3'];
 
-    const runtimeVersion = getRuntimeVersion(values.appSettings);
+    const runtimeVersion = getRuntimeVersion();
     const exactRuntimeVersion = getExactRuntimeVersion();
 
     if (!runtimeVersion) {
@@ -120,12 +132,12 @@ const FunctionRuntimeSettings: React.FC<FormikProps<AppSettingsFormValues> & Wit
 
   return (
     <>
-      <div>Runtime Version: {getRuntimeVersion(values.appSettings)}</div>
+      <div>Runtime Version: {getRuntimeVersion()}</div>
       <div>Exact Runtime Version: {getExactRuntimeVersion()}</div>
       {isValidRuntimeVersion() ? <div>VALID</div> : <div>NOT VALID</div>}
       <RadioButtonNoFormik
-        selectedKey={getRuntimeVersion(values.appSettings) || '~1'}
-        dirty={(getRuntimeVersion(values.appSettings) || '-') !== (getRuntimeVersion(initialValues.appSettings) || '-')}
+        selectedKey={getRuntimeVersion() || '~1'}
+        dirty={(getRuntimeVersion() || '-') !== (getInitialRuntimeVersion() || '-')}
         label={t('runtimeVersion')}
         id="functions-runtime-version"
         disabled={!app_write || !editable}
