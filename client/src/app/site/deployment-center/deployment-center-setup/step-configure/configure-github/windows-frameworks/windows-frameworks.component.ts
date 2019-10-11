@@ -5,12 +5,6 @@ import { DropDownElement } from '../../../../../../shared/models/drop-down-eleme
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 
-export const TaskRunner = {
-  None: 'None',
-  Gulp: 'Gulp',
-  Grunt: 'Grunt',
-};
-
 export const WebAppFramework = {
   AspNetCore: 'AspNetCore',
   Node: 'Node',
@@ -27,13 +21,6 @@ export const WebAppFramework = {
   ],
 })
 export class WindowsFrameworksComponent implements OnInit, OnDestroy {
-  defaultNodeTaskRunner = 'none';
-  nodeJsTaskRunners: DropDownElement<string>[] = [
-    { value: 'gulp', displayLabel: TaskRunner.Gulp },
-    { value: 'grunt', displayLabel: TaskRunner.Grunt },
-    { value: 'none', displayLabel: TaskRunner.None },
-  ];
-
   webApplicationFrameworks: DropDownElement<string>[] = [
     {
       displayLabel: 'ASP.NET Core',
@@ -52,7 +39,6 @@ export class WindowsFrameworksComponent implements OnInit, OnDestroy {
   private _ngUnsubscribe$ = new Subject();
   selectedPythonVersion = '';
   selectedFramework = WebAppFramework.AspNetCore;
-  selectedTaskRunner = this.defaultNodeTaskRunner;
   requiredValidator: RequiredValidator;
 
   constructor(public wizard: DeploymentCenterStateManager, private _translateService: TranslateService) {

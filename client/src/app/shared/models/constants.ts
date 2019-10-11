@@ -322,7 +322,6 @@ export class ScenarioIds {
   public static readonly enableCORS = 'EnableCORS';
   public static readonly enableQuotas = 'EnableQuotas';
   public static readonly containerSettings = 'containerSettings';
-  public static readonly githubActionsBuildProvider = 'githubActionsBuildProvider';
 }
 
 export class NationalCloudArmUris {
@@ -653,4 +652,10 @@ export enum HostKeyTypes {
 export class Pricing {
   public static hoursInAzureMonth = 730;
   public static secondsInAzureMonth = 2628000;
+}
+
+export class RuntimeStacks {
+  public static node = 'node';
+  public static python = 'python';
+  public static dotnetcore = 'dotnetcore';
 }

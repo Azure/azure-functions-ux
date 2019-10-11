@@ -36,7 +36,6 @@ export class StepBuildProviderComponent implements OnDestroy {
       authorizedStatus: 'none',
       enabled: true,
       hidden: true,
-      scenarioId: ScenarioIds.githubActionsBuildProvider,
     },
     {
       id: 'vsts',

@@ -1698,4 +1698,5 @@ export class PortalResources {
   public static containerSettingsTitle = 'containerSettingsTitle';
   public static feature_containerSettingsInfo = 'feature_containerSettingsInfo';
   public static linux = 'linux';
+  public static none = 'none';
 }
