@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { BindingsConfig } from './../models/functions/bindings-config';
 import { ArmArray, ArmObj } from './../models/arm-obj';
 import MakeArmCall from './ArmHelper';
@@ -35,17 +35,14 @@ export interface ResponseObject<T> {
 }
 
 export default class FunctionsService {
-  public static MakeScmRequest = async <T>(reqObj: RequestObject, retry = 0): Promise<AxiosResponse<T>> => {
+  public static MakeScmCall = async <T>(reqObj: RequestObject, retry = 0): Promise<ResponseObject<T>> => {
     const { method, url, body, queryString } = reqObj;
     const urlWithQuery = `${url}${queryString || ''}`;
     const sessionId = Url.getParameterByName(null, 'sessionId');
-    const headers: { [key: string]: string } = {
-      Authorization: `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`,
-      'x-ms-client-request-id': reqObj.id || Guid.newGuid(),
-    };
-    if (sessionId) {
-      headers['x-ms-client-session-id'] = sessionId;
-    }
+    const headers: { [key: string]: string } = sessionId ? { 'x-ms-client-session-id': sessionId } : {};
+    headers['Authorization'] = `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`;
+    headers['x-ms-client-request-id'] = reqObj.id || Guid.newGuid();
+
     try {
       const result = await axios({
         method,
@@ -54,6 +51,7 @@ export default class FunctionsService {
         data: body,
         validateStatus: () => true, // never throw on an error, we can check the status and handle the error in the UI
       });
+
       if (retry < 2 && result.status === 401) {
         if (window.updateAuthToken) {
           const newToken = await window.updateAuthToken('');
@@ -62,32 +60,27 @@ export default class FunctionsService {
           } else {
             throw Error('window.appsvc not available');
           }
-          return FunctionsService.MakeScmRequest(reqObj, retry + 1);
+          return FunctionsService.MakeScmCall(reqObj, retry + 1);
         }
       }
-      LogService.trackEvent(LogCategories.functionsService, 'makeScmRequest', { url, method, sessionId, correlationId: reqObj.id });
-      return result;
+
+      LogService.trackEvent(LogCategories.functionsService, 'makeScmCall', { url, method, sessionId, correlationId: reqObj.id });
+
+      const responseSuccess = result.status < 300;
+      return {
+        metadata: {
+          success: responseSuccess,
+          status: result.status,
+          headers: result.headers,
+          error: responseSuccess ? null : result.data,
+        },
+        data: result.data,
+      };
     } catch (err) {
       // This shouldn't be hit since we're telling axios to not throw on error
-      LogService.error(LogCategories.functionsService, 'makeScmRequest', err);
+      LogService.error(LogCategories.functionsService, 'makeScmCall', err);
       throw err;
     }
-  };
-
-  public static MakeScmCall = async <T>(requestObject: RequestObject): Promise<ResponseObject<T>> => {
-    requestObject.id = requestObject.id || Guid.newGuid();
-    const response = await FunctionsService.MakeScmRequest<T>(requestObject);
-    const responseSuccess = response.status < 300;
-    const retObj: ResponseObject<T> = {
-      metadata: {
-        success: responseSuccess,
-        status: response.status,
-        headers: response.headers,
-        error: responseSuccess ? null : response.data,
-      },
-      data: response.data,
-    };
-    return retObj;
   };
 
   public static getRuntimeVersions = async (site: ArmObj<Site>) => {
