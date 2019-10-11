@@ -70,4 +70,9 @@
       </div>
     </div>
   </div>
+
+  <h3 class="first-config-heading">{{ 'build' | translate }}</h3>
+  <app-linux-frameworks *ngIf="buildProvider === 'github' && wizard.isLinuxApp && !wizard.isFunctionApp" ></app-linux-frameworks>
+  <app-windows-frameworks *ngIf="buildProvider === 'github' && !wizard.isLinuxApp && !wizard.isFunctionApp" ></app-windows-frameworks>
+
 </div>

@@ -35,6 +35,8 @@ export class StepBuildProviderComponent implements OnDestroy {
       description: this._translateService.instant(PortalResources.gitHubActionBuildServerDesc),
       authorizedStatus: 'none',
       enabled: true,
+      hidden: true,
+      scenarioId: ScenarioIds.githubActionsBuildProvider,
     },
     {
       id: 'vsts',
@@ -70,7 +72,7 @@ export class StepBuildProviderComponent implements OnDestroy {
       })
       .subscribe(([provider, scenarioCheck]) => {
         if (provider) {
-          provider.enabled = scenarioCheck.status !== 'disabled';
+          provider.enabled = !!scenarioCheck.status && scenarioCheck.status !== 'disabled';
           provider.errorMessage = scenarioCheck.data && scenarioCheck.data.errorMessage;
         }
       });
@@ -90,11 +92,7 @@ export class StepBuildProviderComponent implements OnDestroy {
 
         const enableGitHubAction = Url.getFeatureValue(FeatureFlags.enableGitHubAction);
         const githubActionCard = this.providerCards.find(x => x.id === 'github');
-        if (this._currentSourceControlProvider === 'github' && enableGitHubAction) {
-          this.chooseBuildProvider({ id: 'github', enabled: true } as ProviderCard);
-        } else {
-          githubActionCard.hidden = true;
-        }
+        githubActionCard.hidden = this._currentSourceControlProvider !== 'github' || !enableGitHubAction;
       }
     });
     // this says if kudu should be hidden then default to vsts instead

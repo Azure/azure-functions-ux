@@ -322,6 +322,7 @@ export class ScenarioIds {
   public static readonly enableCORS = 'EnableCORS';
   public static readonly enableQuotas = 'EnableQuotas';
   public static readonly containerSettings = 'containerSettings';
+  public static readonly githubActionsBuildProvider = 'githubActionsBuildProvider';
 }
 
 export class NationalCloudArmUris {
