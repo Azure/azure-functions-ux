@@ -37,7 +37,6 @@ export interface ResponseObject<T> {
 export default class FunctionsService {
   public static MakeScmCall = async <T>(reqObj: RequestObject, retry = 0): Promise<ResponseObject<T>> => {
     const { method, url, body, queryString } = reqObj;
-    const urlWithQuery = `${url}${queryString || ''}`;
     const sessionId = Url.getParameterByName(null, 'sessionId');
     const headers: { [key: string]: string } = sessionId ? { 'x-ms-client-session-id': sessionId } : {};
     headers['Authorization'] = `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`;
@@ -47,7 +46,7 @@ export default class FunctionsService {
       const result = await axios({
         method,
         headers,
-        url: urlWithQuery,
+        url: `${url}${queryString || ''}`,
         data: body,
         validateStatus: () => true, // never throw on an error, we can check the status and handle the error in the UI
       });
@@ -84,21 +83,15 @@ export default class FunctionsService {
   };
 
   public static getRuntimeVersions = async (site: ArmObj<Site>) => {
-    const hostNameSslStates = site.properties.hostNameSslStates;
-    const scmHostName = hostNameSslStates.find(h => h.hostType === HostType.Repository)!.name;
-    const folderUrl = `https://${scmHostName}//api/vfs/SystemDrive/Program%20Files%20(x86)/SiteExtensions/Functions`;
-    const folderObjectsResult = await FunctionsService.MakeScmCall<VfsObject[]>({
+    const scmHostName = site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository)!.name;
+    const result = await FunctionsService.MakeScmCall<VfsObject[]>({
       method: 'GET',
-      url: folderUrl,
+      url: `https://${scmHostName}//api/vfs/SystemDrive/Program%20Files%20(x86)/SiteExtensions/Functions`,
       body: null,
     });
-
-    const versions = !folderObjectsResult.metadata.success
-      ? null
-      : folderObjectsResult.data.filter(v => v.mime === 'inode/directory').map(d => d.name);
-
+    const versions = !result.metadata.success ? null : result.data.filter(v => v.mime === 'inode/directory').map(d => d.name);
     return {
-      ...folderObjectsResult,
+      ...result,
       data: versions,
     };
   };
