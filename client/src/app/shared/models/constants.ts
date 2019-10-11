@@ -653,3 +653,9 @@ export class Pricing {
   public static hoursInAzureMonth = 730;
   public static secondsInAzureMonth = 2628000;
 }
+
+export class RuntimeStacks {
+  public static node = 'node';
+  public static python = 'python';
+  public static dotnetcore = 'dotnetcore';
+}

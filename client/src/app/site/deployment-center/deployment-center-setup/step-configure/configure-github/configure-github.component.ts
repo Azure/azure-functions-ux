@@ -23,10 +23,6 @@ export class ConfigureGithubComponent implements OnDestroy {
   public OrgList: DropDownElement<string>[] = [];
   public RepoList: DropDownElement<string>[] = [];
   public BranchList: DropDownElement<string>[] = [];
-
-  private reposStream = new ReplaySubject<string>();
-  private _ngUnsubscribe$ = new Subject();
-  private orgStream$ = new ReplaySubject<string>();
   public reposLoading = false;
   public branchesLoading = false;
   public permissionInfoLink = DeploymentCenterConstants.permissionsInfoLink;
@@ -34,7 +30,11 @@ export class ConfigureGithubComponent implements OnDestroy {
   public selectedRepo = '';
   public selectedBranch = '';
 
-  private repoUrlToNameMap: { [key: string]: string } = {};
+  private _repoUrlToNameMap: { [key: string]: string } = {};
+  private _buildProvider: string;
+  private _reposStream = new ReplaySubject<string>();
+  private _ngUnsubscribe$ = new Subject();
+  private _orgStream$ = new ReplaySubject<string>();
 
   constructor(
     public wizard: DeploymentCenterStateManager,
@@ -42,11 +42,11 @@ export class ConfigureGithubComponent implements OnDestroy {
     private _logService: LogService,
     private _translateService: TranslateService
   ) {
-    this.orgStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
+    this._orgStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
       this.reposLoading = true;
       this.fetchRepos(r);
     });
-    this.reposStream.takeUntil(this._ngUnsubscribe$).subscribe(r => {
+    this._reposStream.takeUntil(this._ngUnsubscribe$).subscribe(r => {
       this.branchesLoading = true;
       this.fetchBranches(r);
     });
@@ -174,7 +174,7 @@ export class ConfigureGithubComponent implements OnDestroy {
         .subscribe(
           r => {
             const newRepoList: DropDownElement<string>[] = [];
-            this.repoUrlToNameMap = {};
+            this._repoUrlToNameMap = {};
             r.filter(repo => {
               return !repo.permissions || repo.permissions.admin;
             }).forEach(repo => {
@@ -182,7 +182,7 @@ export class ConfigureGithubComponent implements OnDestroy {
                 displayLabel: repo.name,
                 value: repo.html_url,
               });
-              this.repoUrlToNameMap[repo.html_url] = repo.full_name;
+              this._repoUrlToNameMap[repo.html_url] = repo.full_name;
             });
 
             this.RepoList = newRepoList;
@@ -201,7 +201,7 @@ export class ConfigureGithubComponent implements OnDestroy {
       this.BranchList = [];
       this._cacheService
         .post(Constants.serviceHost + `api/github/passthrough?branch=${repo}`, true, null, {
-          url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100`,
+          url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this._repoUrlToNameMap[repo]}/branches?per_page=100`,
           authToken: this.wizard.getToken(),
         })
         .switchMap(r => {
@@ -213,7 +213,7 @@ export class ConfigureGithubComponent implements OnDestroy {
             for (let i = 2; i <= lastPageNumber; i++) {
               pageCalls.push(
                 this._cacheService.post(Constants.serviceHost + `api/github/passthrough?t=${Guid.newTinyGuid()}`, true, null, {
-                  url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100&page=${i}`,
+                  url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this._repoUrlToNameMap[repo]}/branches?per_page=100&page=${i}`,
                   authToken: this.wizard.getToken(),
                 })
               );
@@ -250,18 +250,28 @@ export class ConfigureGithubComponent implements OnDestroy {
   }
 
   RepoChanged(repo: DropDownElement<string>) {
-    this.reposStream.next(repo.value);
+    this._reposStream.next(repo.value);
     this.selectedBranch = '';
   }
 
   OrgChanged(org: DropDownElement<string>) {
-    this.orgStream$.next(org.value);
+    this._orgStream$.next(org.value);
     this.selectedRepo = '';
     this.selectedBranch = '';
   }
 
   ngOnDestroy(): void {
     this._ngUnsubscribe$.next();
+  }
+
+  get buildProvider() {
+    const values = this.wizard.wizardValues;
+    const buildProvider = values && values.buildProvider;
+    if (buildProvider !== this._buildProvider) {
+      this._buildProvider = buildProvider;
+      this.wizard.resetSection(this.wizard.buildSettings);
+    }
+    return buildProvider;
   }
 
   private _getLastPage(links) {

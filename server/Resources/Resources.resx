@@ -5277,6 +5277,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="linux" xml:space="preserve">
         <value>Linux</value>
     </data>
+    <data name="none" xml:space="preserve">
+        <value>None</value>
+    </data>
     <data name="functionEditorSaveAriaLabel" xml:space="preserve">
         <value>Save changes to your function.</value>
     </data>
