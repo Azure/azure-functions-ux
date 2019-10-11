@@ -36,17 +36,8 @@ export const WebAppFramework = {
 })
 export class LinuxFrameworksComponent implements OnDestroy {
   defaultNodeTaskRunner = 'none';
-  nodeJsTaskRunners: DropDownElement<string>[] = [
-    { value: 'gulp', displayLabel: 'Gulp' },
-    { value: 'grunt', displayLabel: 'Grunt' },
-    { value: 'none', displayLabel: 'None' },
-  ];
-
-  aspNetCoreVersions: DropDownElement<string>[] = [
-    { value: 'gulp', displayLabel: 'Gulp' },
-    { value: 'grunt', displayLabel: 'Grunt' },
-    { value: 'none', displayLabel: 'None' },
-  ];
+  nodeJsTaskRunners: DropDownElement<string>[] = [];
+  aspNetCoreVersions: DropDownElement<string>[] = [];
 
   webApplicationFrameworks: DropDownElement<string>[] = [
     {
