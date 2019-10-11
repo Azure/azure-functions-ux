@@ -85,7 +85,14 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
   );
 };
 
+const removeIndex = (objects: any[]) => {
+  return objects.map(c => ({ ...c, index: undefined }));
+};
+
 export const applicationSettingsDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
-  return !isEqual(values.connectionStrings, initialValues.connectionStrings) || !isEqual(values.appSettings, initialValues.appSettings);
+  return (
+    !isEqual(removeIndex(values.connectionStrings), removeIndex(initialValues.connectionStrings)) ||
+    !isEqual(removeIndex(values.appSettings), removeIndex(initialValues.appSettings))
+  );
 };
 export default ApplicationSettingsPivot;
