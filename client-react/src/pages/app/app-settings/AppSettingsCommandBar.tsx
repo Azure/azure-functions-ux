@@ -11,6 +11,7 @@ const getItems = (
   discardFunction: any,
   refreshFunction: any,
   dirty: boolean,
+  isValid: boolean,
   disabled: boolean,
   t: (string) => string
 ): ICommandBarItemProps[] => {
@@ -32,6 +33,7 @@ const getItems = (
         iconName: 'Save',
       },
       disabled: !dirty || disabled,
+      // disabled: !dirty || !isValid || disabled,
       ariaLabel: t('appSettingsSaveAriaLabel'),
       onClick: saveFunction,
     },
@@ -52,12 +54,13 @@ interface AppSettingsCommandBarProps {
   resetForm: () => void;
   refreshAppSettings: () => void;
   dirty: boolean;
+  isValid: boolean;
   disabled: boolean;
 }
 
 type AppSettingsCommandBarPropsCombined = AppSettingsCommandBarProps;
 const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = props => {
-  const { submitForm, resetForm, refreshAppSettings, dirty, disabled } = props;
+  const { submitForm, resetForm, refreshAppSettings, dirty, isValid, disabled } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
   useEffect(() => {
@@ -65,7 +68,7 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
   }, [dirty]);
   return (
     <CommandBar
-      items={getItems(submitForm, () => resetForm(), refreshAppSettings, dirty, disabled, t)}
+      items={getItems(submitForm, () => resetForm(), refreshAppSettings, dirty, isValid, disabled, t)}
       aria-role="nav"
       styles={CommandBarStyles}
       ariaLabel={t('appSettingsCommandBarAriaLabel')}

@@ -20,7 +20,7 @@ import Panel from '../../../../components/Panel/Panel';
 import { ThemeContext } from '../../../../ThemeContext';
 
 const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
-  const permissionContext = useContext(PermissionsContext);
+  const { production_write, editable, saving } = useContext(PermissionsContext);
   const [showPanel, setShowPanel] = useState(false);
   const [panelItem, setPanelItem] = useState('add');
   const [currentConnectionString, setCurrentConnectionString] = useState<FormConnectionString | null>(null);
@@ -39,7 +39,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
       {
         key: 'app-settings-connection-strings-add',
         onClick: createNewItem,
-        disabled: !permissionContext.editable,
+        disabled: !editable || saving,
         iconProps: { iconName: 'Add' },
         name: t('newConnectionString'),
         ariaLabel: t('addNewConnectionString'),
@@ -53,7 +53,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
       {
         key: 'app-settings-connection-strings-bulk-edit',
         onClick: openBulkEdit,
-        disabled: !permissionContext.editable,
+        disabled: !editable || saving,
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
       },
@@ -179,7 +179,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!permissionContext.editable}
+            disabled={!editable || saving}
             id={`app-settings-connection-strings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -197,7 +197,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!permissionContext.editable}
+            disabled={!editable || saving}
             id={`app-settings-connection-strings-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}
@@ -249,7 +249,11 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
         column.className = dirtyElementStyle(theme);
       }
       return (
-        <ActionButton id={`app-settings-connection-strings-name-${index}`} className={defaultCellStyle} onClick={() => onShowPanel(item)}>
+        <ActionButton
+          id={`app-settings-connection-strings-name-${index}`}
+          className={defaultCellStyle}
+          disabled={!editable || saving}
+          onClick={() => onShowPanel(item)}>
           <span aria-live="assertive" role="region">
             {item[column.fieldName!]}
           </span>
@@ -365,22 +369,23 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
           />
         )}
       </DisplayTableWithCommandBar>
-      <Panel
-        isOpen={showPanel && panelItem === 'add'}
-        onDismiss={onCancel}
-        headerText={t('addEditConnectionStringHeader')}
-        closeButtonAriaLabel={t('close')}>
+      <Panel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>
         <ConnectionStringsAddEdit
           connectionString={currentConnectionString!}
           otherConnectionStrings={values.connectionStrings}
           updateConnectionString={onClosePanel}
-          disableSlotSetting={!permissionContext.production_write}
+          disableSlotSetting={!production_write}
           closeBlade={onCancel}
         />
       </Panel>
-      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel} closeButtonAriaLabel={t('close')}>
+      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel}>
         <Suspense fallback={<LoadingComponent />}>
-          <ConnectionStringsBulkEdit updateAppSetting={saveBulkEdit} closeBlade={onCancel} connectionStrings={values.connectionStrings} disableSlotSetting={!permissionContext.production_write} />
+          <ConnectionStringsBulkEdit
+            updateAppSetting={saveBulkEdit}
+            closeBlade={onCancel}
+            connectionStrings={values.connectionStrings}
+            disableSlotSetting={!production_write}
+          />
         </Suspense>
       </Panel>
     </>

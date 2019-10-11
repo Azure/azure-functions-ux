@@ -1,11 +1,59 @@
 import SiteService from '../../../ApiHelpers/SiteService';
-import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
+import {
+  AppSettingsFormValues,
+  FormAppSetting,
+  FormConnectionString,
+  FormAzureStorageMounts,
+  FunctionsRuntimeMajorVersions,
+  FunctionsRuntimeGenerations,
+} from './AppSettings.types';
 import { sortBy } from 'lodash-es';
-import { ArmObj } from '../../../models/arm-obj';
+import { ArmObj /*, ArmArray*/ } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
+// import { HostStatus } from '../../../models/functions/host-status';
+// import { FunctionInfo } from '../../../models/functions/function-info';
+
+export const getFunctionsRuntimeMajorVersion = (version: string | null) => {
+  switch (version) {
+    case FunctionsRuntimeMajorVersions.v1:
+      return FunctionsRuntimeMajorVersions.v1;
+    case FunctionsRuntimeMajorVersions.v2:
+      return FunctionsRuntimeMajorVersions.v2;
+    case FunctionsRuntimeMajorVersions.v3:
+      return FunctionsRuntimeMajorVersions.v3;
+    default:
+      return FunctionsRuntimeMajorVersions.custom;
+  }
+};
+
+export const getFunctionsRuntimeGeneration = (version: string | null) => {
+  if (!version) {
+    return FunctionsRuntimeGenerations.v3;
+  }
+  if (version.startsWith('~1') || version.startsWith('1.')) {
+    return FunctionsRuntimeGenerations.v2;
+  }
+  if (version.startsWith('~2') || version.startsWith('2')) {
+    return FunctionsRuntimeGenerations.v2;
+  }
+  if (version.startsWith('~3') || version.startsWith('3') || version.toLowerCase() === 'beta' || version.toLowerCase() === 'latest') {
+    return FunctionsRuntimeGenerations.v3;
+  }
+
+  return FunctionsRuntimeGenerations.v3;
+};
+
+export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
+  return !appSettings || !settingName ? -1 : appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase());
+};
+
+export const findFormAppSetting = (appSettings: FormAppSetting[], settingName: string) => {
+  const index = findFormAppSettingIndex(appSettings, settingName);
+  return index >= 0 ? appSettings[index] : null;
+};
 
 interface StateToFormParams {
   site: ArmObj<Site>;
@@ -15,13 +63,19 @@ interface StateToFormParams {
   azureStorageMounts: ArmObj<ArmAzureStorageMount> | null;
   slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<{ [key: string]: string }> | null;
+  // hostStatus: ArmObj<HostStatus> | null;
+  // functions: ArmArray<FunctionInfo> | null;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
-  const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata } = props;
+  const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata /*, hostStatus, functions*/ } = props;
+  const formAppSetting = getFormAppSetting(appSettings, slotConfigNames);
+
   return {
     site,
+    // hostStatus,
+    // functions,
     config: getCleanedConfig(config),
-    appSettings: getFormAppSetting(appSettings, slotConfigNames),
+    appSettings: formAppSetting,
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config, metadata),

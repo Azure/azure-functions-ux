@@ -1450,6 +1450,9 @@
     <data name="loading" xml:space="preserve">
         <value>Loading...</value>
     </data>
+    <data name="loadingFailed" xml:space="preserve">
+        <value>Loading failed</value>
+    </data>
     <data name="configUpdating" xml:space="preserve">
         <value>Updating web app settings</value>
     </data>
@@ -4373,6 +4376,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="connectionStrings" xml:space="preserve">
         <value>Connection strings</value>
     </data>
+    <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>Function runtime settings</value>
+    </data>
     <data name="generalSettings" xml:space="preserve">
         <value>General settings</value>
     </data>
@@ -5333,5 +5339,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
         <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+    </data>
+    <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active.</value>
+    </data>
+    <data name="appFunctionSettings_cutomRuntimeVersionError" xml:space="preserve">
+        <value>To pin your app to version '{0}' select the option above.</value>
+    </data>
+    <data name="appFunctionSettings_cutomRuntimeVersionPlaceholder" xml:space="preserve">
+        <value>e.g. 2.0.12742.0, latest</value>
+    </data>
+    <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>Read/Write permissions are required to view/edit this section.</value>
     </data>
 </root>

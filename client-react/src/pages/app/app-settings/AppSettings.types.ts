@@ -1,13 +1,29 @@
 import { FormikProps } from 'formik';
 import { AvailableStack } from '../../../models/available-stacks';
 import { AzureStorageMount, SiteConfig, VirtualApplication } from '../../../models/site/config';
-import { ArmObj } from '../../../models/arm-obj';
+import { ArmObj /*, ArmArray*/ } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
+import { HostStatus } from '../../../models/functions/host-status';
+// import { FunctionInfo } from '../../../models/functions/function-info';
+
+export enum FunctionsRuntimeMajorVersions {
+  v1 = '~1',
+  v2 = '~2',
+  v3 = '~3',
+  custom = 'custom',
+}
+
+export enum FunctionsRuntimeGenerations {
+  v1 = 'V1',
+  v2 = 'V2',
+  v3 = 'V3',
+}
 
 export interface Permissions {
   production_write: boolean;
   app_write: boolean;
   editable: boolean; // Can show write-only fields like app settings but can't edit anything
+  saving: boolean;
 }
 export interface FormAppSetting {
   name: string;
@@ -34,6 +50,8 @@ export interface AppSettingsFormValues {
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
   references?: AppSettingsReferences;
+  // hostStatus: ArmObj<HostStatus> | null;
+  // functions: ArmArray<FunctionInfo> | null;
 }
 
 export interface FormState {
@@ -67,4 +85,18 @@ export interface AppSettingReferenceSummary {
 
 export interface AppSettingsReferences {
   appSettings: AppSettingReferenceSummary[] | null;
+}
+
+export interface AsyncObj<T> {
+  loadingState: 'loading' | 'complete' | 'failed';
+  value?: T;
+}
+
+export interface AppSettingsAsyncData {
+  functionsHostStatus: AsyncObj<ArmObj<HostStatus>>;
+  functionsCount: AsyncObj<number>;
+}
+
+export interface AppSettingsFormProps extends FormikProps<AppSettingsFormValues> {
+  asyncData: AppSettingsAsyncData;
 }

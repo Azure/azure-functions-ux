@@ -1,14 +1,14 @@
 import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode, IDetailsList } from 'office-ui-fabric-react/lib/DetailsList';
-import React, { lazy, Suspense, useState, useContext } from 'react';
+import React, { lazy, Suspense, useState, useContext, useEffect } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting, AppSettingReferenceSummary } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
-import { PermissionsContext } from '../Contexts';
-import { SearchBox, TooltipHost, ICommandBarItemProps, Icon } from 'office-ui-fabric-react';
+import { PermissionsContext, BannerMessageContext } from '../Contexts';
+import { SearchBox, TooltipHost, ICommandBarItemProps, Icon, MessageBarType } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { filterBoxStyle, dirtyElementStyle, keyVaultIconStyle, sourceTextStyle } from '../AppSettings.styles';
@@ -20,7 +20,19 @@ import { ThemeContext } from '../../../../ThemeContext';
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 
 const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
-  const permissionContext = useContext(PermissionsContext);
+  useEffect(() => {
+    if (!!initialValues && initialValues.references && !initialValues.references.appSettings) {
+      bannerMessageContext.updateBanner({
+        type: MessageBarType.error,
+        text: t('appSettingKeyvaultAPIError'),
+      });
+    } else {
+      bannerMessageContext.updateBanner();
+    }
+  }, []);
+
+  const bannerMessageContext = useContext(BannerMessageContext);
+  const { production_write, editable, saving } = useContext(PermissionsContext);
   const [showPanel, setShowPanel] = useState(false);
   const [panelItem, setPanelItem] = useState('add');
   const [currentAppSetting, setCurrentAppSetting] = useState<FormAppSetting | null>(null);
@@ -29,7 +41,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   const [showFilter, setShowFilter] = useState(false);
   const [showAllValues, setShowAllValues] = useState(false);
 
-  const { t, values } = props;
+  const { t, values, initialValues } = props;
 
   const theme = useContext(ThemeContext);
   let appSettingsTable: IDetailsList;
@@ -41,7 +53,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       {
         key: 'app-settings-application-settings-add',
         onClick: createNewItem,
-        disabled: !permissionContext.editable,
+        disabled: !editable || saving,
         iconProps: { iconName: 'Add' },
         name: t('newApplicationSetting'),
         ariaLabel: t('addNewSetting'),
@@ -55,7 +67,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       {
         key: 'app-settings-application-settings-bulk-edit',
         onClick: openBulkEdit,
-        disabled: !permissionContext.editable,
+        disabled: !editable || saving,
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
       },
@@ -170,7 +182,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!permissionContext.editable}
+            disabled={!editable || saving}
             id={`app-settings-application-settings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -188,7 +200,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!permissionContext.editable}
+            disabled={!editable || saving}
             id={`app-settings-application-settings-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}
@@ -233,7 +245,11 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         column.className = dirtyElementStyle(theme);
       }
       return (
-        <ActionButton className={defaultCellStyle} id={`app-settings-application-settings-name-${index}`} onClick={() => onShowPanel(item)}>
+        <ActionButton
+          className={defaultCellStyle}
+          disabled={!editable || saving}
+          id={`app-settings-application-settings-name-${index}`}
+          onClick={() => onShowPanel(item)}>
           <span aria-live="assertive" role="region">
             {item[column.fieldName!]}
           </span>
@@ -395,28 +411,24 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           />
         )}
       </DisplayTableWithCommandBar>
-      <Panel
-        isOpen={showPanel && panelItem === 'add'}
-        onDismiss={onCancel}
-        headerText={t('addEditApplicationSetting')}
-        closeButtonAriaLabel={t('close')}>
+      <Panel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditApplicationSetting')}>
         <AppSettingAddEdit
           site={values.site}
           appSetting={currentAppSetting!}
-          disableSlotSetting={!permissionContext.production_write}
+          disableSlotSetting={!production_write}
           otherAppSettings={values.appSettings}
           updateAppSetting={onClosePanel}
           closeBlade={onCancel}
         />
       </Panel>
-      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel} closeButtonAriaLabel={t('close')}>
+      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel}>
         <Suspense fallback={<LoadingComponent />}>
           <AppSettingsBulkEdit
             isLinux={isLinuxApp(values.site)}
             updateAppSetting={saveBulkEdit}
             closeBlade={onCancel}
             appSettings={values.appSettings}
-            disableSlotSetting={!permissionContext.production_write}
+            disableSlotSetting={!production_write}
           />
         </Suspense>
       </Panel>

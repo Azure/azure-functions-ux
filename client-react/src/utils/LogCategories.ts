@@ -47,4 +47,5 @@ export class LogCategories {
   public static readonly portalCommunicatorHasPermission = 'PortalCommunicatorHasPermission';
   public static readonly portalCommunicatorHasLock = 'PortalCommunicatorHasLock';
   public static readonly bindingResource = 'BindingResource';
+  public static readonly functionsService = 'FunctionsService';
 }

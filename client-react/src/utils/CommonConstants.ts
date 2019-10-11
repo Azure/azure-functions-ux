@@ -55,4 +55,12 @@ export class CommonConstants {
     hoursInAzureMonth: 730,
     secondsInAzureMonth: 2628000,
   };
+
+  public static readonly AppSettingNames = {
+    functionsExtensionVersion: 'FUNCTIONS_EXTENSION_VERSION',
+  };
+
+  public static readonly SiteStates = {
+    running: 'Running',
+  };
 }

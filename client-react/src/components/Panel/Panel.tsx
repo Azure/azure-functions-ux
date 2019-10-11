@@ -5,12 +5,14 @@ import { useTranslation } from 'react-i18next';
 import { panelStyle, panelHeaderStyle, panelBodyStyle, closeButtonStyle } from './Panel.styles';
 import { ThemeContext } from '../../ThemeContext';
 
+type IPanelPropsReduced = Pick<IPanelProps, Exclude<keyof IPanelProps, 'styles' | 'closeButtonAriaLabel' | 'onRenderNavigationContent'>>;
+
 interface CustomPanelProps {
   style?: {};
 }
 
-const Panel: React.SFC<CustomPanelProps & IPanelProps> = props => {
-  const { headerText, onDismiss, isOpen, type, style: customPanelStyle } = props;
+const Panel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
+  const { headerText, isOpen, type, style: customPanelStyle, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
@@ -20,17 +22,12 @@ const Panel: React.SFC<CustomPanelProps & IPanelProps> = props => {
     allPanelStyle = Object.assign(panelStyle, customPanelStyle);
   }
 
-  const onRenderNavigationContent = () => {
+  const onRenderNavigationContent = p => {
+    const onClick = p.onDismiss && (() => p.onDismiss!());
     return (
       <div className={panelHeaderStyle}>
         {headerText && <h3>{headerText}</h3>}
-        <CloseSvg
-          onClick={() => onDismiss && onDismiss()}
-          tabIndex={0}
-          role="button"
-          aria-label={t('close')}
-          className={closeButtonStyle(theme)}
-        />
+        <CloseSvg onClick={onClick} tabIndex={0} role="button" aria-label={t('close')} className={closeButtonStyle(theme)} />
       </div>
     );
   };
@@ -38,10 +35,10 @@ const Panel: React.SFC<CustomPanelProps & IPanelProps> = props => {
   return (
     <OfficePanel
       isOpen={isOpen === undefined ? true : isOpen}
-      onRenderNavigationContent={onRenderNavigationContent}
       type={type ? type : PanelType.large}
       styles={allPanelStyle}
-      closeButtonAriaLabel={t('close')}>
+      onRenderNavigationContent={onRenderNavigationContent}
+      {...rest}>
       <div style={panelBodyStyle}>{props.children}</div>
     </OfficePanel>
   );

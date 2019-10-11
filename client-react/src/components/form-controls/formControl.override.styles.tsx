@@ -62,13 +62,25 @@ export const upsellIconStyle = style({ marginRight: '6px' });
 
 export const infoMessageStyle = (fullpage: boolean) =>
   style({
-    paddingLeft: fullpage ? '10px' : 0,
+    paddingLeft: fullpage ? '10px' : '5px',
     paddingTop: fullpage ? 0 : '5px',
   });
 
 export const infoIconStyle = (theme: ThemeExtended) =>
   style({
     color: theme.semanticColors.infoIcon,
+    paddingRight: '5px',
+  });
+
+export const warningIconStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.warningIcon,
+    paddingRight: '5px',
+  });
+
+export const errorIconStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.errorIcon,
     paddingRight: '5px',
   });
 
