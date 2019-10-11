@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { BindingsConfig } from './../models/functions/bindings-config';
 import { ArmArray, ArmObj } from './../models/arm-obj';
 import MakeArmCall from './ArmHelper';
@@ -8,94 +7,13 @@ import { FunctionTemplate } from '../models/functions/function-template';
 import { FunctionConfig } from '../models/functions/function-config';
 import { HostStatus } from '../models/functions/host-status';
 import { VfsObject } from '../models/functions/vsf-object';
-import { MethodTypes } from '../ArmHelper.types';
 import Url from '../utils/url';
 import LogService from '../utils/LogService';
 import { LogCategories } from '../utils/LogCategories';
 import { Guid } from '../utils/Guid';
 import { Site, HostType } from '../models/site/site';
 
-export interface RequestObject {
-  method: MethodTypes;
-  url: string;
-  id?: string;
-  commandName?: string;
-  body: any;
-  queryString?: string;
-}
-
-export interface ResponseObject<T> {
-  metadata: {
-    success: boolean;
-    status: number;
-    error?: any;
-    headers: { [key: string]: string };
-  };
-  data: T;
-}
-
 export default class FunctionsService {
-  public static MakeScmCall = async <T>(reqObj: RequestObject, retry = 0): Promise<ResponseObject<T>> => {
-    const { method, url, body, queryString } = reqObj;
-    const sessionId = Url.getParameterByName(null, 'sessionId');
-    const headers: { [key: string]: string } = sessionId ? { 'x-ms-client-session-id': sessionId } : {};
-    headers['Authorization'] = `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`;
-    headers['x-ms-client-request-id'] = reqObj.id || Guid.newGuid();
-
-    try {
-      const result = await axios({
-        method,
-        headers,
-        url: `${url}${queryString || ''}`,
-        data: body,
-        validateStatus: () => true, // never throw on an error, we can check the status and handle the error in the UI
-      });
-
-      if (retry < 2 && result.status === 401) {
-        if (window.updateAuthToken) {
-          const newToken = await window.updateAuthToken('');
-          if (window.appsvc && window.appsvc.env) {
-            window.appsvc.env.armToken = newToken;
-          } else {
-            throw Error('window.appsvc not available');
-          }
-          return FunctionsService.MakeScmCall(reqObj, retry + 1);
-        }
-      }
-
-      LogService.trackEvent(LogCategories.functionsService, 'makeScmCall', { url, method, sessionId, correlationId: reqObj.id });
-
-      const responseSuccess = result.status < 300;
-      return {
-        metadata: {
-          success: responseSuccess,
-          status: result.status,
-          headers: result.headers,
-          error: responseSuccess ? null : result.data,
-        },
-        data: result.data,
-      };
-    } catch (err) {
-      // This shouldn't be hit since we're telling axios to not throw on error
-      LogService.error(LogCategories.functionsService, 'makeScmCall', err);
-      throw err;
-    }
-  };
-
-  public static getRuntimeVersions = async (site: ArmObj<Site>) => {
-    const scmHostName = site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository)!.name;
-    const result = await FunctionsService.MakeScmCall<VfsObject[]>({
-      method: 'GET',
-      url: `https://${scmHostName}//api/vfs/SystemDrive/Program%20Files%20(x86)/SiteExtensions/Functions`,
-      body: null,
-    });
-    const versions = !result.metadata.success ? null : result.data.filter(v => v.mime === 'inode/directory').map(d => d.name);
-    return {
-      ...result,
-      data: versions,
-    };
-  };
-
   public static getFunctions = (resourceId: string) => {
     const id = `${resourceId}/functions`;
 
@@ -210,5 +128,24 @@ export default class FunctionsService {
       commandName: 'getHostStatus',
       method: 'GET',
     });
+  };
+
+  public static getRuntimeVersions = async (site: ArmObj<Site>) => {
+    const scmHostName = site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository)!.name;
+    const url = `https://${scmHostName}/api/vfs/SystemDrive/Program%20Files%20(x86)/SiteExtensions/Functions`;
+    const method = 'GET';
+    const [sessionId, correlationId] = [Url.getParameterByName(null, 'sessionId'), Guid.newGuid()];
+    const headers: { [key: string]: string } = sessionId ? { 'x-ms-client-session-id': sessionId } : {};
+    headers['Authorization'] = `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`;
+    headers['x-ms-client-request-id'] = correlationId;
+
+    LogService.trackEvent(LogCategories.functionsService, 'getRuntimeVersions', { url, method, sessionId, correlationId });
+
+    const result = await sendHttpRequest<VfsObject[]>({ url, method, headers });
+    const versions = !result.metadata.success ? null : result.data.filter(v => v.mime === 'inode/directory').map(d => d.name);
+    return {
+      ...result,
+      data: versions,
+    };
   };
 }
