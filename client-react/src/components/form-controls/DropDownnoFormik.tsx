@@ -10,6 +10,7 @@ interface CustomDropdownProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
+  notificationMessage?: string;
   label: string;
   errorMessage?: string;
   dirty?: boolean;

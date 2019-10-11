@@ -1,13 +1,14 @@
-import { FormikProps } from 'formik';
 import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react/lib/Pivot';
-import React, { useRef, useContext } from 'react';
+import PivotItemContent, { BannerMessageProps } from '../../../components/Pivot/PivotItemContent';
+import React, { useRef, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 
-import { AppSettingsFormValues } from './AppSettings.types';
+import { AppSettingsFormProps } from './AppSettings.types';
 
 import GeneralSettings, { generalSettingsDirty, generalSettingsError } from './Sections/GeneralSettings';
 import ApplicationSettingsPivot, { applicationSettingsDirty } from './Sections/ApplicationSettingsPivot';
+import FunctionRuntimeSettingsPivot, { functionRuntimeSettingsDirty } from './Sections/FunctionRuntimeSettingsPivot';
 import DefaultDocumentsPivot, { defaultDocumentsDirty, defaultDocumentsError } from './Sections/DefaultDocumentsPivot';
 import PathMappingsPivot, { pathMappingsDirty } from './Sections/PathMappingsPivot';
 import CustomTabRenderer from './Sections/CustomTabRenderer';
@@ -20,7 +21,16 @@ export const settingsWrapper = style({
   padding: '5px 20px',
 });
 
-const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+const pivotStylesOverride = {
+  root: {
+    paddingLeft: '20px',
+    paddingTop: '5px',
+    paddingRight: '20px',
+  },
+};
+
+const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
+  const [bannerMessageProps, setBannerMessageProps] = useState<BannerMessageProps | undefined>(undefined);
   const theme = useContext(ThemeContext);
   const { values, initialValues, errors } = props;
   const site = useContext(SiteContext);
@@ -34,6 +44,10 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   const applicationSettingsDirtyCheck = () => {
     return applicationSettingsDirty(values, initialValues);
+  };
+
+  const functionRuntimeSettingsDirtyCheck = () => {
+    return functionRuntimeSettingsDirty(values, initialValues);
   };
 
   const pathMappingsDirtyCheck = () => {
@@ -51,21 +65,40 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const generalSettingsErrorCheck = () => {
     return generalSettingsError(errors);
   };
+
   const dirtyLabel = t('modifiedTag');
   const enableDefaultDocuments = scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site }).status !== 'disabled';
   const enablePathMappings = scenarioChecker.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site }).status !== 'disabled';
   const enableAzureStorageMount = scenarioChecker.checkScenario(ScenarioIds.azureStorageMount, { site }).status === 'enabled';
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
+  const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
   return (
-    <Pivot getTabId={getPivotTabId}>
+    <Pivot styles={pivotStylesOverride} getTabId={getPivotTabId} onLinkClick={() => setBannerMessageProps(undefined)}>
       <PivotItem
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
           CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
         }
         itemKey="applicationSettings"
         linkText={t('applicationSettings')}>
-        <ApplicationSettingsPivot {...props} />
+        <PivotItemContent bannerMessageProps={bannerMessageProps}>
+          <ApplicationSettingsPivot {...props} />
+        </PivotItemContent>
       </PivotItem>
+
+      {showFunctionRuntimeSettings ? (
+        <PivotItem
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(link, defaultRenderer, theme, functionRuntimeSettingsDirtyCheck, dirtyLabel)
+          }
+          itemKey="functionRuntimeSettings"
+          linkText={t('functionRuntimeSettings')}>
+          <PivotItemContent bannerMessageProps={bannerMessageProps}>
+            <FunctionRuntimeSettingsPivot {...props} />
+          </PivotItemContent>
+        </PivotItem>
+      ) : (
+        <></>
+      )}
 
       {showGeneralSettings ? (
         <PivotItem
@@ -74,7 +107,9 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           }
           itemKey="generalSettings"
           linkText={t('generalSettings')}>
-          <GeneralSettings {...props} />
+          <PivotItemContent bannerMessageProps={bannerMessageProps}>
+            <GeneralSettings {...props} />
+          </PivotItemContent>
         </PivotItem>
       ) : (
         <></>
@@ -87,7 +122,9 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           }
           itemKey="defaultDocuments"
           linkText={t('defaultDocuments')}>
-          <DefaultDocumentsPivot {...props} />
+          <PivotItemContent bannerMessageProps={bannerMessageProps}>
+            <DefaultDocumentsPivot {...props} />
+          </PivotItemContent>
         </PivotItem>
       ) : (
         <></>
@@ -100,7 +137,9 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           }
           itemKey="pathMappings"
           linkText={t('pathMappings')}>
-          <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
+          <PivotItemContent bannerMessageProps={bannerMessageProps}>
+            <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
+          </PivotItemContent>
         </PivotItem>
       ) : (
         <></>
@@ -119,6 +158,8 @@ const getPivotTabId = (itemKey: string, index: number) => {
       return 'app-settings-default-documents-tab';
     case 'applicationSettings':
       return 'app-settings-application-settings-tab';
+    case 'functionRuntimeSettings':
+      return 'app-settings-function-runtime-settings-tab';
   }
   return '';
 };
