@@ -2149,6 +2149,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="validation_slotNameReserved" xml:space="preserve">
         <value>The slot name '{0}' is a reserved deployment slot name.</value>
     </data>
+    <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>The field must be fewer than {0} characters</value>
+    </data>
+    <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
+    </data>
+    <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis</value>
+    </data>
+    <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>Mount path cannot be '/home'</value>
+    </data>
     <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>We are unable to update your function app's edit mode. Please try again later.</value>
     </data>
@@ -5267,5 +5279,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="none" xml:space="preserve">
         <value>None</value>
+    </data>
+    <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>Save changes to your function.</value>
+    </data>
+    <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>Discard changes to your function.</value>
+    </data>
+    <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>Open test panel to test run your function.</value>
+    </data>
+    <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>Open popup to get function URL for your function.</value>
+    </data>
+    <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>Use left and right arrow keys to navigate between commands</value>
     </data>
 </root>
