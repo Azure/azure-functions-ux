@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import i18n from 'i18next';
 import { PermissionsContext, SiteContext } from './Contexts';
-import { commandBarSticky, formStyle, messageBanner } from './AppSettings.styles';
+import { commandBarSticky, formStyle, messageBannerStyle } from './AppSettings.styles';
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
@@ -134,7 +134,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               <MessageBar
                                 id="appSettings-keyvault-error"
                                 isMultiline={false}
-                                className={messageBanner(theme)}
+                                className={messageBannerStyle(theme, MessageBarType.error)}
                                 messageBarType={MessageBarType.error}>
                                 {t('appSettingKeyvaultAPIError')}
                               </MessageBar>
@@ -145,7 +145,10 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               <AppSettingsForm {...formProps} />
                             </div>
                           ) : (
-                            <MessageBar messageBarType={MessageBarType.error} isMultiline={false}>
+                            <MessageBar
+                              isMultiline={false}
+                              className={messageBannerStyle(theme, MessageBarType.error)}
+                              messageBarType={MessageBarType.error}>
                               {t('configLoadFailure')}
                             </MessageBar>
                           )}

@@ -1,5 +1,6 @@
 import { FormikProps } from 'formik';
 import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react/lib/Pivot';
+import PivotItemContent from '../../../components/Pivot/PivotItemContent';
 import React, { useRef, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
@@ -19,6 +20,14 @@ export const settingsWrapper = style({
   paddingLeft: '15px',
   padding: '5px 20px',
 });
+
+const pivotStylesOverride = {
+  root: {
+    paddingLeft: '20px',
+    paddingTop: '5px',
+    paddingRight: '20px',
+  },
+};
 
 const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const theme = useContext(ThemeContext);
@@ -57,14 +66,16 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const enableAzureStorageMount = scenarioChecker.checkScenario(ScenarioIds.azureStorageMount, { site }).status === 'enabled';
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
   return (
-    <Pivot getTabId={getPivotTabId}>
+    <Pivot styles={pivotStylesOverride} getTabId={getPivotTabId}>
       <PivotItem
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
           CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
         }
         itemKey="applicationSettings"
         linkText={t('applicationSettings')}>
-        <ApplicationSettingsPivot {...props} />
+        <PivotItemContent>
+          <ApplicationSettingsPivot {...props} />
+        </PivotItemContent>
       </PivotItem>
 
       {showGeneralSettings ? (
@@ -74,7 +85,9 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           }
           itemKey="generalSettings"
           linkText={t('generalSettings')}>
-          <GeneralSettings {...props} />
+          <PivotItemContent>
+            <GeneralSettings {...props} />
+          </PivotItemContent>
         </PivotItem>
       ) : (
         <></>
@@ -87,7 +100,9 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           }
           itemKey="defaultDocuments"
           linkText={t('defaultDocuments')}>
-          <DefaultDocumentsPivot {...props} />
+          <PivotItemContent>
+            <DefaultDocumentsPivot {...props} />
+          </PivotItemContent>
         </PivotItem>
       ) : (
         <></>
@@ -100,7 +115,9 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           }
           itemKey="pathMappings"
           linkText={t('pathMappings')}>
-          <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
+          <PivotItemContent>
+            <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
+          </PivotItemContent>
         </PivotItem>
       ) : (
         <></>
