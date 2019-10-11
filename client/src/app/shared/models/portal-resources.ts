@@ -1698,4 +1698,9 @@ export class PortalResources {
   public static containerSettingsTitle = 'containerSettingsTitle';
   public static feature_containerSettingsInfo = 'feature_containerSettingsInfo';
   public static linux = 'linux';
+  public static functionEditorSaveAriaLabel = 'functionEditorSaveAriaLabel';
+  public static functionEditorDiscardAriaLabel = 'functionEditorDiscardAriaLabel';
+  public static functionEditorTestAriaLabel = 'functionEditorTestAriaLabel';
+  public static functionEditorGetFunctionUrlAriaLabel = 'functionEditorGetFunctionUrlAriaLabel';
+  public static functionEditorCommandBarAriaLabel = 'functionEditorCommandBarAriaLabel';
 }
