@@ -40,7 +40,7 @@ const FunctionRuntimeSettings: React.FC<FormikProps<AppSettingsFormValues> & Wit
       version = allVersions[index];
       if (generation !== version.charAt(0)) {
         generation = version.charAt(0);
-        latestVersions.push({
+        latestVersions.unshift({
           key: `~${generation}`,
           text: `~${generation} (${version})`,
           disabled: false,
