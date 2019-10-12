@@ -229,7 +229,7 @@ export class StepCompleteComponent {
       if (buildProvider === 'github') {
         returnSummaryItems.push({
           label: this._translateService.instant(PortalResources.provider),
-          value: 'Github Actions',
+          value: this._translateService.instant(PortalResources.gitHubActionBuildServerTitle),
         });
       } else {
         returnSummaryItems.push({
