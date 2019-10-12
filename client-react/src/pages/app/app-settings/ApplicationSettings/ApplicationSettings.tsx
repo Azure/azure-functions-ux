@@ -243,26 +243,20 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
     if (column.key === 'source') {
       if (values.references && values.references.appSettings) {
         const appSettingReference = values.references.appSettings.filter(ref => ref.name === item.name);
-        return (
+        return appSettingReference.length > 0 ? (
           <div
             className={defaultCellStyle}
-            aria-label={
-              appSettingReference.length > 0
-                ? `${t('azureKeyVault')} ${!isAppSettingReferenceResolved(appSettingReference[0]) && 'not'} resolved`
-                : t('appConfigValue')
-            }>
-            {appSettingReference.length > 0 ? (
-              <div>
-                <Icon
-                  iconName={isAppSettingReferenceResolved(appSettingReference[0]) ? 'Completed' : 'ErrorBadge'}
-                  className={keyVaultIconStyle(theme, isAppSettingReferenceResolved(appSettingReference[0]))}
-                  ariaLabel={t('azureKeyVault')}
-                />
-                <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
-              </div>
-            ) : (
-              t('appConfigValue')
-            )}
+            aria-label={`${t('azureKeyVault')} ${!isAppSettingReferenceResolved(appSettingReference[0]) && 'not'} resolved`}>
+            <Icon
+              iconName={isAppSettingReferenceResolved(appSettingReference[0]) ? 'Completed' : 'ErrorBadge'}
+              className={keyVaultIconStyle(theme, isAppSettingReferenceResolved(appSettingReference[0]))}
+              ariaLabel={t('azureKeyVault')}
+            />
+            <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
+          </div>
+        ) : (
+          <div className={defaultCellStyle} aria-label={t('appConfigValue')}>
+            {t('appConfigValue')}
           </div>
         );
       }
