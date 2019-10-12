@@ -18,6 +18,7 @@ interface StateToFormParams {
   metadata: ArmObj<{ [key: string]: string }> | null;
   hostStatus: ArmObj<HostStatus> | null;
   functionsRuntimeVersions: string[] | null;
+  hasFunctions: boolean;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
   const {
@@ -29,11 +30,13 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     slotConfigNames,
     metadata,
     hostStatus,
+    hasFunctions,
     functionsRuntimeVersions,
   } = props;
   return {
     site,
     hostStatus,
+    hasFunctions,
     functionsRuntimeVersions,
     config: getCleanedConfig(config),
     appSettings: getFormAppSetting(appSettings, slotConfigNames),
