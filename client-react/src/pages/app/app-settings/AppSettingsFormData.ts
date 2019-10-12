@@ -17,27 +17,12 @@ interface StateToFormParams {
   slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<{ [key: string]: string }> | null;
   hostStatus: ArmObj<HostStatus> | null;
-  functionsRuntimeVersions: string[] | null;
-  hasFunctions: boolean;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
-  const {
-    site,
-    config,
-    appSettings,
-    connectionStrings,
-    azureStorageMounts,
-    slotConfigNames,
-    metadata,
-    hostStatus,
-    hasFunctions,
-    functionsRuntimeVersions,
-  } = props;
+  const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata, hostStatus } = props;
   return {
     site,
     hostStatus,
-    hasFunctions,
-    functionsRuntimeVersions,
     config: getCleanedConfig(config),
     appSettings: getFormAppSetting(appSettings, slotConfigNames),
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
