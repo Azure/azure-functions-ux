@@ -3707,9 +3707,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="sync" xml:space="preserve">
         <value>Sync</value>
     </data>
-    <data name="deploymentCredentials" xml:space="preserve">
-        <value>FTP/Credentials</value>
-    </data>
     <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
         <value>Dv3-Series compute equivalent</value>
     </data>
@@ -5264,5 +5261,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="linux" xml:space="preserve">
         <value>Linux</value>
+    </data>
+    <data name="deploymentCredentialsCommand" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+    <data name="deploymentCredentialsTitle" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+    <data name="deploymentCredentialsDescription" xml:space="preserve">
+        <value>This is the description for deployment credentials.</value>
+    </data>
+    <data name="deploymentCredentialsLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+    <data name="deploymentCredentialsFtps" xml:space="preserve">
+        <value>FTP/FTPS</value>
     </data>
 </root>

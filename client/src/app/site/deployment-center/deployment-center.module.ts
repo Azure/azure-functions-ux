@@ -27,6 +27,7 @@ import { LinuxFramworksComponent } from './deployment-center-setup/step-configur
 import { WindowsFramworksComponent } from './deployment-center-setup/step-configure/configure-vsts-build/windows-frameworks/windows-frameworks.component';
 import { NgxDatatableModule } from 'ngx-datatable-accessable';
 import { FunctionsFramworksComponent } from './deployment-center-setup/step-configure/configure-vsts-build/functions-frameworks/functions-frameworks.component';
+import { CredentialsDashboardComponent } from './provider-dashboards/credentials-dashboard/credentials-dashboard.component';
 
 @NgModule({
   entryComponents: [DeploymentCenterComponent],
@@ -53,6 +54,7 @@ import { FunctionsFramworksComponent } from './deployment-center-setup/step-conf
     LinuxFramworksComponent,
     WindowsFramworksComponent,
     FunctionsFramworksComponent,
+    CredentialsDashboardComponent,
   ],
   imports: [TranslateModule.forChild(), SharedModule, WizardModule, SidebarModule, NgSelectModule, NgxDatatableModule],
   exports: [DeploymentCenterComponent],
