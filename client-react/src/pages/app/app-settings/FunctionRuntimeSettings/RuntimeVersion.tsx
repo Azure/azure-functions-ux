@@ -8,9 +8,21 @@ import { PermissionsContext } from '../Contexts';
 import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import { IChoiceGroupOption } from 'office-ui-fabric-react';
 
 // ROUTING_EXTENSION_VERSION
 // disabled
+
+enum FunctionRuntimeVersions {
+  v1 = '~1',
+  v2 = '~2',
+  v3 = '~3',
+  custom = 'custom',
+}
+
+const isMajorVersion = (version: string | null) => {
+  return version === FunctionRuntimeVersions.v1 || version === FunctionRuntimeVersions.v2 || version === FunctionRuntimeVersions.v3;
+};
 
 const getSettingValue = (settingName: string, appSettings: FormAppSetting[]) => {
   if (!settingName || !appSettings) {
@@ -25,26 +37,26 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
   const { t, values, initialValues, setFieldValue } = props;
   const { app_write, editable } = useContext(PermissionsContext);
 
-  const options = [
+  if (customEditMode && !props.dirty) {
+    setCustomEditMode(false);
+  }
+
+  const options: IChoiceGroupOption[] = [
     {
-      key: '~1',
+      key: FunctionRuntimeVersions.v1,
       text: t('~1'),
-      disabled: false,
     },
     {
-      key: '~2',
+      key: FunctionRuntimeVersions.v2,
       text: t('~2'),
-      disabled: false,
     },
     {
-      key: '~3',
+      key: FunctionRuntimeVersions.v3,
       text: t('~3'),
-      disabled: false,
     },
     {
-      key: '%CUSTOM%',
+      key: FunctionRuntimeVersions.custom,
       text: t('custom'),
-      disabled: false,
     },
   ];
 
@@ -58,17 +70,16 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
 
   const getRuntimeVersionOption = () => {
     if (customEditMode) {
-      return '%CUSTOM%';
+      return FunctionRuntimeVersions.custom;
     }
 
     const configuredValue = getRuntimeVersion();
-    const index = options.findIndex(o => o.key === configuredValue);
-    if (index === -1) {
-      setCustomEditMode(true);
-      return '%CUSTOM%';
+    if (isMajorVersion(configuredValue)) {
+      return configuredValue!;
     }
 
-    return options[index].key;
+    setCustomEditMode(true);
+    return FunctionRuntimeVersions.custom;
   };
 
   const runtimeVersionDirty = () => {
@@ -119,10 +130,10 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
   const onRadioButtonChange = (version: string) => {
     const appSettings: FormAppSetting[] = [...values.appSettings];
     const index = appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
-    if (version === '%CUSTOM%') {
+    if (version === FunctionRuntimeVersions.custom) {
       setCustomEditMode(true);
       const value = index === -1 ? null : appSettings[index].value;
-      if (value === '~1' || value === '~2' || value === '~3') {
+      if (value && isMajorVersion(value)) {
         // appSettings[index] = { ...appSettings[index], value: '' };
         appSettings.splice(index, 1);
         setFieldValue('appSettings', appSettings);
@@ -210,7 +221,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
             options={options}
             vertical={true}
           />
-          {getRuntimeVersionOption() === '%CUSTOM%' && (
+          {getRuntimeVersionOption() === FunctionRuntimeVersions.custom && (
             <Field
               // dirty={values.site.properties.dailyMemoryTimeQuota !== initialValues.site.properties.dailyMemoryTimeQuota}
               component={TextFieldNoFormik}
