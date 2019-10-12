@@ -23,6 +23,7 @@ import {
   CheckLockRequest,
   CheckLockResponse,
   LockType,
+  FrameBladeParams,
 } from './../models/portal';
 import {
   Event,
@@ -170,7 +171,7 @@ export class PortalService implements IPortalService {
   }
 
   // Deprecated
-  openBladeDeprecated(bladeInfo: OpenBladeInfo, source: string) {
+  openBladeDeprecated<T = any>(bladeInfo: OpenBladeInfo<T>, source: string) {
     this.logAction(source, 'open-blade ' + bladeInfo.detailBlade);
     this._aiService.trackEvent('/site/open-blade', {
       targetBlade: bladeInfo.detailBlade,
@@ -181,10 +182,15 @@ export class PortalService implements IPortalService {
     this.postMessage(Verbs.openBlade, this._packageData(bladeInfo));
   }
 
+  // Deprecated
+  openFrameBladeDeprecated<T = any>(bladeInfo: OpenBladeInfo<FrameBladeParams<T>>, source: string) {
+    this.openBladeDeprecated(bladeInfo, source);
+  }
+
   // Returns an Observable which resolves when blade is close.
   // Optionally may also return a value
-  openBlade(bladeInfo: OpenBladeInfo, source: string): Observable<BladeResult<any>> {
-    const payload: DataMessage<OpenBladeInfo> = {
+  openBlade<T = any>(bladeInfo: OpenBladeInfo<T>, source: string): Observable<BladeResult<any>> {
+    const payload: DataMessage<OpenBladeInfo<T>> = {
       operationId: Guid.newGuid(),
       data: bladeInfo,
     };
@@ -196,6 +202,10 @@ export class PortalService implements IPortalService {
       .map((r: DataMessage<DataMessageResult<BladeResult<any>>>) => {
         return r.data.result;
       });
+  }
+
+  openFrameBlade<T = any>(bladeInfo: OpenBladeInfo<FrameBladeParams<T>>, source: string): Observable<BladeResult<any>> {
+    return this.openBlade(bladeInfo, source);
   }
 
   openCollectorBlade(resourceId: string, name: string, source: string, getAppSettingCallback: (appSettingName: string) => void): void {

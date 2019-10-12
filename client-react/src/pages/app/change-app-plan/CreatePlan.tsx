@@ -5,7 +5,7 @@ import { TextField as OfficeTextField } from 'office-ui-fabric-react/lib/TextFie
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { getServerFarmValidator } from '../../../utils/formValidation/serverFarmValidator';
+import { getServerFarmValidator } from '../../../utils/validation/serverFarmValidator';
 import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';

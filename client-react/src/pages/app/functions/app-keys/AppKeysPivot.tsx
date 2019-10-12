@@ -6,23 +6,34 @@ import SystemKeys from './SystemKeys';
 
 interface AppKeysPivotProps {
   resourceId: string;
-  initialValues: AppKeysFormValues;
+  initialValues: AppKeysFormValues | null;
+  initialLoading: boolean;
   refreshData: () => void;
 }
 
 const AppKeysPivot: React.FC<AppKeysPivotProps> = props => {
   const { t } = useTranslation();
-  const { refreshData, initialValues, resourceId } = props;
+  const { refreshData, initialValues, resourceId, initialLoading } = props;
 
   return (
     <>
       <h3>{t('appKeysHost')}</h3>
       <div id="app-keys-host-keys">
-        <HostKeys site={initialValues.site} hostKeys={initialValues.hostKeys} resourceId={resourceId} refreshData={refreshData} />
+        <HostKeys
+          initialLoading={initialLoading}
+          hostKeys={initialValues ? initialValues.hostKeys : []}
+          resourceId={resourceId}
+          refreshData={refreshData}
+        />
       </div>
       <h3>{t('appKeysSystem')}</h3>
       <div id="app-keys-system-keys">
-        <SystemKeys site={initialValues.site} systemKeys={initialValues.systemKeys} resourceId={resourceId} refreshData={refreshData} />
+        <SystemKeys
+          initialLoading={initialLoading}
+          systemKeys={initialValues ? initialValues.systemKeys : []}
+          resourceId={resourceId}
+          refreshData={refreshData}
+        />
       </div>
     </>
   );

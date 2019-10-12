@@ -69,6 +69,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [currentSiteNonForm, setCurrentSiteNonForm] = useState({} as any);
   const [slotList, setSlotList] = useState<ArmArray<Site>>({ value: [] });
   const [storageAccountsState, setStorageAccountsState] = useState<ArmArray<StorageAccount>>({ value: [] });
+  const [saving, setSaving] = useState(false);
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
   const siteContext = useContext(SiteRouterContext);
@@ -180,7 +181,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     loadData();
   }, []);
   const scaleUpPlan = async () => {
-    await portalContext.openBlade(
+    await portalContext.openFrameBlade(
       { detailBlade: 'SpecPickerFrameBlade', detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId } },
       'appsettings'
     );
@@ -195,6 +196,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
+    setSaving(true);
     const { site, config, slotConfigNames, storageMounts } = convertFormToState(values, metadataFromApi, slotConfigNamesFromApi);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
     const siteUpdate = updateSite(resourceId, site);
@@ -228,6 +230,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       const errMessage = siteError || configError || slotConfigError || t('configUpdateFailure');
       portalContext.stopNotification(notificationId, false, errMessage);
     }
+    setSaving(false);
   };
 
   if (!initialLoading || refreshValues || (!initialValues && !loadingFailure)) {
@@ -248,7 +251,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         <StorageAccountsContext.Provider value={storageAccountsState}>
           <SiteContext.Provider value={currentSiteNonForm}>
             <SlotsListContext.Provider value={slotList}>
-              {children({ onSubmit, scaleUpPlan, refreshAppSettings, initialFormValues: initialValues, saving: false })}
+              {children({ onSubmit, scaleUpPlan, refreshAppSettings, saving, initialFormValues: initialValues })}
             </SlotsListContext.Provider>
           </SiteContext.Provider>
         </StorageAccountsContext.Provider>
