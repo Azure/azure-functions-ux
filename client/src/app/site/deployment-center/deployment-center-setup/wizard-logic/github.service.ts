@@ -90,7 +90,7 @@ export class GithubService implements OnDestroy {
   commitWorkflowConfiguration(authToken: string, repoName: string, content: any) {
     const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/${this._workflowYmlPath}`;
 
-    return this._cacheService.put(Constants.serviceHost + `api/github/workflowAction`, null, {
+    return this._cacheService.put(Constants.serviceHost + `api/github/fileContent`, null, {
       url,
       content,
       authToken,

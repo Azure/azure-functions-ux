@@ -37,9 +37,9 @@ export class GithubController {
     }
   }
 
-  @Put('api/github/workflowAction')
+  @Put('api/github/fileContent')
   @HttpCode(200)
-  async workflowAction(@Body('authToken') authToken: string, @Body('url') url: string, @Body('content') content: any) {
+  async fileContent(@Body('authToken') authToken: string, @Body('url') url: string, @Body('content') content: any) {
     const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
 
     try {
