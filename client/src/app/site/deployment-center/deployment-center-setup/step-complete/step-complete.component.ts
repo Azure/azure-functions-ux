@@ -226,35 +226,42 @@ export class StepCompleteComponent {
     } else {
       const appFramework = wizValues.buildSettings.applicationFramework;
 
-      returnSummaryItems.push({
-        label: this._translateService.instant(PortalResources.provider),
-        value: this._translateService.instant(PortalResources.vstsBuildServerTitle),
-      });
-
-      returnSummaryItems.push({
-        label: this._translateService.instant(PortalResources.newAccount),
-        value: buildSettings.createNewVsoAccount
-          ? this._translateService.instant(PortalResources.yes)
-          : this._translateService.instant(PortalResources.no),
-      });
-
-      returnSummaryItems.push({
-        label: this._translateService.instant(PortalResources.account),
-        value: buildSettings.vstsAccount,
-      });
-
-      if (!wizValues.buildSettings.createNewVsoAccount) {
+      if (buildProvider === 'github') {
         returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.project),
-          value: buildSettings.vstsProject,
+          label: this._translateService.instant(PortalResources.provider),
+          value: 'Github Actions',
         });
-      }
-
-      if (wizValues.buildSettings.createNewVsoAccount) {
+      } else {
         returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.location),
-          value: buildSettings.location,
+          label: this._translateService.instant(PortalResources.provider),
+          value: this._translateService.instant(PortalResources.vstsBuildServerTitle),
         });
+
+        returnSummaryItems.push({
+          label: this._translateService.instant(PortalResources.newAccount),
+          value: buildSettings.createNewVsoAccount
+            ? this._translateService.instant(PortalResources.yes)
+            : this._translateService.instant(PortalResources.no),
+        });
+
+        returnSummaryItems.push({
+          label: this._translateService.instant(PortalResources.account),
+          value: buildSettings.vstsAccount,
+        });
+
+        if (!wizValues.buildSettings.createNewVsoAccount) {
+          returnSummaryItems.push({
+            label: this._translateService.instant(PortalResources.project),
+            value: buildSettings.vstsProject,
+          });
+        }
+
+        if (wizValues.buildSettings.createNewVsoAccount) {
+          returnSummaryItems.push({
+            label: this._translateService.instant(PortalResources.location),
+            value: buildSettings.location,
+          });
+        }
       }
 
       returnSummaryItems.push({

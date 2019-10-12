@@ -204,14 +204,14 @@ export class ConfigureGithubComponent implements OnDestroy {
   }
 
   private _fetchUserRepos(org: string) {
-    return this._githubService.fetchUserRepos(this.wizard.getToken(), org, null, false).switchMap(r => {
+    return this._githubService.fetchUserRepos(this.wizard.getToken(), org, null, true).switchMap(r => {
       const linkHeader = r.headers.toJSON().link;
       const pageCalls: Observable<any>[] = [Observable.of(r)];
       if (linkHeader) {
         const links = ResponseHeader.getLinksFromLinkHeader(linkHeader);
         const lastPageNumber = this._getLastPage(links);
         for (let i = 2; i <= lastPageNumber; i++) {
-          pageCalls.push(this._githubService.fetchUserRepos(this.wizard.getToken(), org, i, false));
+          pageCalls.push(this._githubService.fetchUserRepos(this.wizard.getToken(), org, i, true));
         }
       }
       return Observable.forkJoin(pageCalls);
