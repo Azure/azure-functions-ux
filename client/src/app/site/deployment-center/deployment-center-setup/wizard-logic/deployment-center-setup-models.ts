@@ -3,6 +3,7 @@ export class WizardForm {
   public buildProvider: sourceControlProvider;
   public sourceSettings: SourceSettings;
   public buildSettings: VstsBuildSettings;
+  public githubActionsConfigContent: string;
 }
 
 export class VstsBuildSettings {
@@ -37,6 +38,7 @@ export class SourceSettings {
   public repoUrl: string;
   public branch: string;
   public isManualIntegration: boolean;
+  public isGitHubAction: boolean;
   public deploymentRollbackEnabled: boolean;
   public isMercurial: boolean;
   public privateRepo: boolean;

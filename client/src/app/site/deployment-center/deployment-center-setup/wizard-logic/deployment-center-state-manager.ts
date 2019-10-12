@@ -38,6 +38,8 @@ import { ScenarioService } from '../../../../shared/services/scenario/scenario.s
 import { VSOAccount } from '../../Models/vso-repo';
 import { AzureDevOpsService } from './azure-devops.service';
 import { LocalStorageService } from '../../../../shared/services/local-storage.service';
+import { GithubService } from './github.service';
+import { WorkflowCommit } from '../../Models/github';
 
 const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
 @Injectable()
@@ -70,6 +72,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _translateService: TranslateService,
     private _localStorageService: LocalStorageService,
     private _portalService: PortalService,
+    private _githubService: GithubService,
     siteService: SiteService,
     userService: UserService,
     scenarioService: ScenarioService
@@ -125,6 +128,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
     switch (this.wizardValues.buildProvider) {
       case 'vsts':
         return this._deployVsts();
+      case 'github':
+        return this._deployGithubActions().map(result => ({ status: 'succeeded', statusMessage: null, result }));
       default:
         return this._deployKudu().map(result => ({ status: 'succeeded', statusMessage: null, result }));
     }
@@ -140,11 +145,37 @@ export class DeploymentCenterStateManager implements OnDestroy {
     });
   }
 
+  private _deployGithubActions() {
+    const repo = this.wizardValues.sourceSettings.repoUrl.replace('https://github.com/', '');
+    const branch = this.wizardValues.sourceSettings.branch || 'master';
+    const commitInfo: WorkflowCommit = {
+      message: this._translateService.instant(PortalResources.githubActionWorkflowCommitMessage),
+      content: this.wizardValues.githubActionsConfigContent,
+      committer: {
+        name: 'Azure App Service',
+        email: 'antareseee@microsoft.com',
+      },
+      branch,
+    };
+
+    return this._githubService
+      .fetchWorkflowConfiguration(this.getToken(), this.wizardValues.sourceSettings.repoUrl, repo, branch)
+      .switchMap(fileContentResponse => {
+        if (fileContentResponse) {
+          commitInfo.sha = fileContentResponse.sha;
+        }
+
+        return this._githubService.commitWorkflowConfiguration(this.getToken(), repo, commitInfo).switchMap(response => {
+          return this._deployKudu();
+        });
+      });
+  }
+
   private _deployKudu() {
     const payload = this.wizardValues.sourceSettings;
-    if (this.wizardValues.sourceProvider === 'external') {
-      payload.isManualIntegration = true;
-    }
+
+    payload.isGitHubAction = this.wizardValues.buildProvider === 'github';
+    payload.isManualIntegration = this.wizardValues.sourceProvider === 'external';
 
     if (this.wizardValues.sourceProvider === 'localgit') {
       return this._cacheService

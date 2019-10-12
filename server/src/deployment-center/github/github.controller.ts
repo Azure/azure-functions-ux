@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, Response, Get, Session, HttpCode, Res } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, Response, Get, Session, HttpCode, Res, Put } from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
@@ -29,6 +29,25 @@ export class GithubController {
         res.setHeader('link', response.headers.link);
       }
       res.json(response.data);
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
+  @Put('api/github/workflowAction')
+  @HttpCode(200)
+  async workflowAction(@Body('authToken') authToken: string, @Body('url') url: string, @Body('content') content: any) {
+    const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
+
+    try {
+      await this.httpService.put(url, content, {
+        headers: {
+          Authorization: `Bearer ${tokenData.token}`,
+        },
+      });
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);

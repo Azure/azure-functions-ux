@@ -6,6 +6,15 @@
       <span class="summary-value">{{item.value}}</span>
     </div>
   </div>
+
+  
+  <div *ngIf="wizard.wizardValues.sourceProvider === 'github' && wizard.wizardValues.buildProvider === 'github'" class="summary-wrapper">
+    <div class="summary-group">
+      <h3 class="heading">{{ 'githubActionWorkflowConfiguration' | translate }}</h3>
+      <pre>{{GithubActionsWorkflowConfig}}</pre>
+      <br/><br/>
+    </div>
+  </div>
 </div>
 <div class="footer">
   <button id="step-complete-back-button" type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
