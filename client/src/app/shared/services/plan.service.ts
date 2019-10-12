@@ -179,12 +179,15 @@ export class PlanService implements IPlanService {
   }
 
   private _getAvailableGeoRegionsList(geoRegions: ArmObj<GeoRegion>[], providerLocations: string[]) {
+    const normalizeGeoRegions = geoRegions.map(geoRegion => geoRegion.properties.displayName.toLowerCase().replace(' ', ''));
+    const normalizeProviderLocations = providerLocations.map(providerLocation => providerLocation.toLowerCase().replace(' ', ''));
     const itemsToRemove: ArmObj<GeoRegion>[] = [];
-    geoRegions.forEach(geoRegion => {
-      if (providerLocations.indexOf(geoRegion.properties.displayName) === -1) {
-        itemsToRemove.push(geoRegion);
+
+    for (let i = 0; i < geoRegions.length; i++) {
+      if (normalizeProviderLocations.indexOf(normalizeGeoRegions[i]) === -1) {
+        itemsToRemove.push(geoRegions[i]);
       }
-    });
+    }
 
     return geoRegions.filter(geoRegion => itemsToRemove.indexOf(geoRegion) === -1);
   }

@@ -94,6 +94,7 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
     closeEditor,
     updateFunctionInfo: setFunctionInfo,
   };
+  const functionAppId = functionInfo.properties.function_app_id || functionInfo.id.split('/function')[0];
 
   const tokens: IStackTokens = {
     childrenGap: 0,
@@ -102,7 +103,13 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
   return (
     <>
       <BindingEditorContext.Provider value={editorContext}>
-        <BindingEditorDataLoader functionInfo={functionInfo} bindingInfo={bindingToUpdate} onPanelClose={onCancel} onSubmit={onSubmit} />
+        <BindingEditorDataLoader
+          functionInfo={functionInfo}
+          functionAppId={functionAppId}
+          bindingInfo={bindingToUpdate}
+          onPanelClose={onCancel}
+          onSubmit={onSubmit}
+        />
 
         <div className={diagramWrapperStyle}>
           <Stack horizontal horizontalAlign={'center'} tokens={tokens}>
