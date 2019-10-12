@@ -50,6 +50,10 @@ export const getHostStatus = (resourceId: string) => {
   return FunctionsService.getHostStatus(resourceId);
 };
 
+export const getFunctions = (resourceId: string) => {
+  return FunctionsService.getFunctions(resourceId);
+};
+
 export const getFunctionsRuntimeVersions = (site: ArmObj<Site>) => {
   return FunctionsService.getRuntimeVersions(site);
 };

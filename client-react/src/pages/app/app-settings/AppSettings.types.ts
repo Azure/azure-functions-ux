@@ -36,6 +36,7 @@ export interface AppSettingsFormValues {
   currentlySelectedStack: string;
   references?: AppSettingsReferences;
   hostStatus: ArmObj<HostStatus> | null;
+  hasFunctions: boolean;
   functionsRuntimeVersions: string[] | null;
 }
 

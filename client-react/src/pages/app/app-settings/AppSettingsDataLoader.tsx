@@ -20,6 +20,7 @@ import {
   getAllAppSettingReferences,
   getHostStatus,
   getFunctionsRuntimeVersions,
+  getFunctions,
 } from './AppSettings.service';
 import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
@@ -117,9 +118,16 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
     if (!loadingFailed) {
       const hostStatusPromise = isFunctionApp(site.data) ? getHostStatus(resourceId) : Promise.resolve(null);
-      const runtimeVersionsPromise =
-        isFunctionApp(site.data) && !isLinuxApp(site.data) ? getFunctionsRuntimeVersions(site.data) : Promise.resolve(null);
-      const [hostStatus, functionsRuntimeVersions] = await Promise.all([hostStatusPromise, runtimeVersionsPromise]);
+      const [runtimeVersionsPromise, functionsPromise] =
+        isFunctionApp(site.data) && !isLinuxApp(site.data)
+          ? [getFunctionsRuntimeVersions(site.data), getFunctions(resourceId)]
+          : [Promise.resolve(null), Promise.resolve(null)];
+
+      const [hostStatus, functionsRuntimeVersions, functions] = await Promise.all([
+        hostStatusPromise,
+        runtimeVersionsPromise,
+        functionsPromise,
+      ]);
 
       setCurrentSiteNonForm(site.data);
       if (
@@ -158,6 +166,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
           hostStatus: hostStatus && hostStatus.metadata.success ? hostStatus.data : null,
+          hasFunctions: functions && functions.metadata.success ? functions.data.value.length > 0 : true,
           functionsRuntimeVersions:
             functionsRuntimeVersions && functionsRuntimeVersions.metadata.success ? functionsRuntimeVersions.data : null,
         }),
@@ -232,14 +241,23 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         };
 
     const hostStatusPromise = isFunctionApp(site) ? getHostStatus(resourceId) : Promise.resolve(null);
-    const runtimeVersionsPromise = isFunctionApp(site) && !isLinuxApp(site) ? getFunctionsRuntimeVersions(site) : Promise.resolve(null);
-    const [hostStatus, functionsRuntimeVersions] = await Promise.all([hostStatusPromise, runtimeVersionsPromise]);
+    const [runtimeVersionsPromise, functionsPromise] =
+      isFunctionApp(site) && !isLinuxApp(site)
+        ? [getFunctionsRuntimeVersions(site), getFunctions(resourceId)]
+        : [Promise.resolve(null), Promise.resolve(null)];
+
+    const [hostStatus, functionsRuntimeVersions, functions] = await Promise.all([
+      hostStatusPromise,
+      runtimeVersionsPromise,
+      functionsPromise,
+    ]);
 
     if (siteResult.metadata.success && configResult.metadata.success && slotConfigResults.metadata.success) {
       setInitialValues({
         ...values,
         virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
         hostStatus: hostStatus && hostStatus.metadata.success ? hostStatus.data : null,
+        hasFunctions: functions && functions.metadata.success ? functions.data.value.length > 0 : true,
         functionsRuntimeVersions:
           functionsRuntimeVersions && functionsRuntimeVersions.metadata.success ? functionsRuntimeVersions.data : null,
       });

@@ -121,13 +121,25 @@ export default class FunctionsService {
     });
   };
 
-  public static getHostStatus = (resourceId: string) => {
-    const id = `${resourceId}//host/default/properties/status`;
-    return MakeArmCall<ArmObj<HostStatus>>({
-      resourceId: id,
-      commandName: 'getHostStatus',
-      method: 'GET',
-    });
+  public static getHostStatus = async (resourceId: string) => {
+    let retries = 3;
+    let result: any;
+
+    while (retries) {
+      result = await MakeArmCall<ArmObj<HostStatus>>({
+        resourceId: `${resourceId}/host/default/properties/status`,
+        commandName: 'getHostStatus',
+        method: 'GET',
+      });
+
+      if (result.metadata.status !== 400) {
+        return result;
+      }
+
+      retries = retries - 1;
+    }
+
+    return result;
   };
 
   public static getRuntimeVersions = async (site: ArmObj<Site>) => {
@@ -141,7 +153,7 @@ export default class FunctionsService {
 
     LogService.trackEvent(LogCategories.functionsService, 'getRuntimeVersions', { url, method, sessionId, correlationId });
 
-    const result = await sendHttpRequest<VfsObject[]>({ url, method, headers });
+    const result = await sendHttpRequest<VfsObject[]>({ url, method, headers }, 2);
     const versions = !result.metadata.success ? null : result.data.filter(v => v.mime === 'inode/directory').map(d => d.name);
     return {
       ...result,
