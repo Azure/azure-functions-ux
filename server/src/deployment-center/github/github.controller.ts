@@ -66,12 +66,13 @@ export class GithubController {
       this.loggingService.error({}, '', 'session-not-found');
       throw new HttpException('Session Not Found', 500);
     }
+
     res.redirect(
       `${Constants.oauthApis.githubApiUri}/authorize?client_id=${this.configService.get(
         'GITHUB_CLIENT_ID'
       )}&redirect_uri=${this.configService.get(
         'GITHUB_REDIRECT_URL'
-      )}&scope=admin:repo_hook+repo&response_type=code&state=${this.dcService.hashStateGuid(stateKey)}`
+      )}&scope=admin:repo_hook+repo+workflow&response_type=code&state=${this.dcService.hashStateGuid(stateKey)}`
     );
   }
 
