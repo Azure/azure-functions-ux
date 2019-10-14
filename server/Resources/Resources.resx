@@ -5304,4 +5304,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
         <value>Use left and right arrow keys to navigate between commands</value>
     </data>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select your function directory or files in your root directory.</value>
+    </data>
+    <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select files in your function directory.</value>
+    </data>
 </root>
