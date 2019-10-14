@@ -108,7 +108,7 @@ export class EventHubComponent extends FunctionAppContextComponent {
         const id = `/subscriptions/${descriptor.subscription}/providers/Microsoft.EventHub/namespaces`;
         const devicesId = `/subscriptions/${descriptor.subscription}/providers/Microsoft.Devices/IotHubs`;
         return Observable.zip(
-          this._cacheService.getArm(id, true).catch(() => Observable.of(null)),
+          this._cacheService.getArm(id, true, this._armService.serviceBusAndEventHubApiVersion20150801).catch(() => Observable.of(null)),
           this._cacheService.getArm(devicesId, true, '2017-01-19').catch(() => Observable.of(null))
         );
       })

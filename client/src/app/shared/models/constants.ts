@@ -381,6 +381,7 @@ export class ARMApiVersions {
   public static armApiVersion = '2014-04-01';
   public static acrApiversion = '2017-03-01';
   public static acrWebhookApiVersion = '2017-10-01';
+  public static serviceBusAndEventHubApiVersion20150801 = '2015-08-01';
   public static storageApiVersion = '2018-07-01';
 }
 export class SubscriptionQuotaIds {
