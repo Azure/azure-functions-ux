@@ -8,6 +8,21 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 import { HostStatus } from '../../../models/functions/host-status';
 
+enum FunctionRuntimeVersions {
+  v1 = '~1',
+  v2 = '~2',
+  v3 = '~3',
+  custom = 'custom',
+}
+
+const isMajorVersion = (version: string | null) => {
+  return version === FunctionRuntimeVersions.v1 || version === FunctionRuntimeVersions.v2 || version === FunctionRuntimeVersions.v3;
+};
+
+const getRuntimeCustomEdit = (appSettings: { [key: string]: string }) => {
+  return !isMajorVersion(appSettings['FUNCTIONS_EXTENSION_VERSION']);
+};
+
 interface StateToFormParams {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
@@ -29,6 +44,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config, metadata),
     azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
+    runtimeCustomEdit: !!appSettings && getRuntimeCustomEdit(appSettings.properties),
   };
 };
 
