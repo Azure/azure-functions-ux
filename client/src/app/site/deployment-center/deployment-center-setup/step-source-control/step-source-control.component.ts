@@ -133,7 +133,7 @@ export class StepSourceControlComponent {
     private _logService: LogService,
     private _translateService: TranslateService,
     private _broadcastService: BroadcastService,
-    scenarioService: ScenarioService
+    private _scenarioService: ScenarioService
   ) {
     this.githubUserSubject$
       .takeUntil(this._ngUnsubscribe$)
@@ -228,32 +228,34 @@ export class StepSourceControlComponent {
         }
       );
 
-    this._wizardService.resourceIdStream$
-      .takeUntil(this._ngUnsubscribe$)
-      .switchMap(r =>
-        this._cacheService.post(Constants.serviceHost + 'api/SourceControlAuthenticationState', true, null, {
-          authToken: this._wizardService.getToken(),
-        })
-      )
-      .subscribe(
-        dep => {
-          const r = dep.json();
-          this._onedriveAuthed = r.onedrive;
-          this._dropboxAuthed = r.dropbox;
-          this._bitbucketAuthed = r.bitbucket;
-          this._githubAuthed = r.github;
-          this.refreshAuth();
-        },
-        err => {
-          this.authStateError = true;
-          this._logService.error(LogCategories.cicd, '/fetch-current-auth-state', err);
-        }
-      );
+    if (this._shouldFetchSourceControlTokens()) {
+      this._wizardService.resourceIdStream$
+        .takeUntil(this._ngUnsubscribe$)
+        .switchMap(r =>
+          this._cacheService.post(Constants.serviceHost + 'api/SourceControlAuthenticationState', true, null, {
+            authToken: this._wizardService.getToken(),
+          })
+        )
+        .subscribe(
+          dep => {
+            const r = dep.json();
+            this._onedriveAuthed = r.onedrive;
+            this._dropboxAuthed = r.dropbox;
+            this._bitbucketAuthed = r.bitbucket;
+            this._githubAuthed = r.github;
+            this.refreshAuth();
+          },
+          err => {
+            this.authStateError = true;
+            this._logService.error(LogCategories.cicd, '/fetch-current-auth-state', err);
+          }
+        );
+    }
 
     this._wizardService.siteArmObj$.subscribe(SiteObj => {
       if (SiteObj) {
         this._allProviders.forEach(provider => {
-          provider.enabled = scenarioService.checkScenario(provider.scenarioId, { site: SiteObj }).status !== 'disabled';
+          provider.enabled = this._scenarioService.checkScenario(provider.scenarioId, { site: SiteObj }).status !== 'disabled';
           if (provider.enabled) {
             if (provider.deploymentType === 'continuous') {
               this.continuousDeploymentProviderCards.push(provider);
@@ -265,6 +267,22 @@ export class StepSourceControlComponent {
         this.refreshAuth();
       }
     });
+  }
+
+  private _shouldFetchSourceControlTokens(): boolean {
+    const oneDriveSourceScenario = this._scenarioService.checkScenario(ScenarioIds.onedriveSource);
+    const dropboxSourceScenario = this._scenarioService.checkScenario(ScenarioIds.dropboxSource);
+    const gitHubSourceScenario = this._scenarioService.checkScenario(ScenarioIds.githubSource);
+    const bitBucketSourceScenario = this._scenarioService.checkScenario(ScenarioIds.bitbucketSource);
+    const vstsSourceScenario = this._scenarioService.checkScenario(ScenarioIds.vstsSource);
+
+    return (
+      oneDriveSourceScenario.status !== 'disabled' ||
+      dropboxSourceScenario.status !== 'disabled' ||
+      gitHubSourceScenario.status !== 'disabled' ||
+      bitBucketSourceScenario.status !== 'disabled' ||
+      vstsSourceScenario.status !== 'disabled'
+    );
   }
 
   public refreshAuth() {
