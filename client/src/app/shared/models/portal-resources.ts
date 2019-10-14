@@ -1715,4 +1715,7 @@ export class PortalResources {
   public static functionEditorTestAriaLabel = 'functionEditorTestAriaLabel';
   public static functionEditorGetFunctionUrlAriaLabel = 'functionEditorGetFunctionUrlAriaLabel';
   public static functionEditorCommandBarAriaLabel = 'functionEditorCommandBarAriaLabel';
+  public static localGitDescription = 'localGitDescription';
+  public static ftpsDescription = 'ftpsDescription';
+  public static gitCloneUrlLabel = 'gitCloneUrlLabel';
 }

@@ -1,10 +1,12 @@
 import { FeatureComponent } from 'app/shared/components/feature-component';
-import { OnDestroy, Component, Injector, Input } from '@angular/core';
+import { OnDestroy, Component, Injector, Input, ViewChild, ElementRef } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { CredentialsData } from '../../Models/deployment-data';
 import { SiteService } from 'app/shared/services/site.service';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { SiteAvailabilityState } from 'app/shared/models/arm/site';
+import { Dom } from '../../../../shared/Utilities/dom';
+import { KeyCodes } from '../../../../shared/models/constants';
 
 @Component({
   selector: 'app-credentials-dashboard',
@@ -14,10 +16,18 @@ import { SiteAvailabilityState } from 'app/shared/models/arm/site';
 export class CredentialsDashboardComponent extends FeatureComponent<CredentialsData> implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
   private _credentialsData: CredentialsData;
+  private _currentTabIndex: number;
+
   public siteAvailabilityStateNormal = false;
   public hasWriteAccess = false;
-  public localGitTabClass = 'link link-selected';
-  public ftpsTabClass = 'link';
+  public localGitTabClass = 'credential-tab credential-tab-selected';
+  public ftpsTabClass = 'credential-tab';
+  public activeTab: 'localGit' | 'ftps' = 'localGit';
+  public ftpsEndpoint = 'FTPS endpoint';
+  public gitEndpoint = 'Git endpoint';
+
+  @ViewChild('credsTabs')
+  groupElements: ElementRef;
 
   @Input()
   set credentialsData(credentialsData: CredentialsData) {
@@ -64,18 +74,58 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
 
   public resetPublishCredentials() {}
 
-  public showLocalGitCredentials() {
-    this._resetTabs();
-    this.localGitTabClass = 'link link-selected';
+  public selectTab(tab) {
+    this.activeTab = tab;
+    this._currentTabIndex = this.activeTab === 'localGit' ? 0 : 1;
   }
 
-  public showFtpsCredentials() {
-    this._resetTabs();
-    this.ftpsTabClass = 'link link-selected';
+  public onKeyPress(event: KeyboardEvent, info: 'app' | 'user') {
+    if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+      this.selectTab(info);
+      event.preventDefault();
+    } else if (event.keyCode === KeyCodes.arrowRight) {
+      const tabElements = this._getTabElements();
+      this._clearFocusOnTab(tabElements, this._currentTabIndex);
+      this._setFocusOnTab(tabElements, this._currentTabIndex + 1);
+      event.preventDefault();
+    } else if (event.keyCode === KeyCodes.arrowLeft) {
+      const tabElements = this._getTabElements();
+      this._clearFocusOnTab(tabElements, this._currentTabIndex);
+      this._setFocusOnTab(tabElements, this._currentTabIndex - 1);
+      event.preventDefault();
+    }
   }
 
-  private _resetTabs() {
-    this.localGitTabClass = 'link';
-    this.ftpsTabClass = 'link';
+  private _getTabElements() {
+    return this.groupElements.nativeElement.children;
+  }
+
+  private _clearFocusOnTab(elements: HTMLCollection, index: number) {
+    const oldFeature = Dom.getTabbableControl(<HTMLElement>elements[index]);
+    Dom.clearFocus(oldFeature);
+  }
+
+  private _setFocusOnTab(elements: HTMLCollection, index: number) {
+    let finalIndex = -1;
+    let destFeature: Element;
+
+    // Wrap around logic for navigating through a tab list
+    if (elements.length > 0) {
+      if (index > 0 && index < elements.length) {
+        finalIndex = index;
+      } else if (index === -1) {
+        finalIndex = elements.length - 1;
+      } else {
+        finalIndex = 0;
+      }
+      destFeature = elements[finalIndex];
+    }
+
+    this._currentTabIndex = finalIndex;
+
+    if (destFeature) {
+      const newFeature = Dom.getTabbableControl(<HTMLElement>destFeature);
+      Dom.setFocus(<HTMLElement>newFeature);
+    }
   }
 }

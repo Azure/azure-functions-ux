@@ -5316,4 +5316,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
         <value>Use left and right arrow keys to navigate between commands</value>
     </data>
+    <data name="localGitDescription" xml:space="preserve">
+        <value>Use Git to push changes directly to your app.</value>
+    </data>
+    <data name="ftpsDescription" xml:space="preserve">
+        <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+    <data name="gitCloneUrlLabel" xml:space="preserve">
+        <value>Git Clone URL</value>
+    </data>
 </root>
