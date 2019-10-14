@@ -5,13 +5,13 @@ import React, { lazy, Suspense, useState, useContext } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
+import { AppSettingsFormValues, FormAppSetting, AppSettingReferenceSummary } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { SearchBox, TooltipHost, ICommandBarItemProps, Icon } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
-import { filterBoxStyle, dirtyElementStyle } from '../AppSettings.styles';
+import { filterBoxStyle, dirtyElementStyle, keyVaultIconStyle, sourceTextStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import Panel from '../../../../components/Panel/Panel';
@@ -29,8 +29,8 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   const [showFilter, setShowFilter] = useState(false);
   const [showAllValues, setShowAllValues] = useState(false);
 
-
   const { t, values } = props;
+
   const theme = useContext(ThemeContext);
   let appSettingsTable: IDetailsList;
 
@@ -240,7 +240,32 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         </ActionButton>
       );
     }
+    if (column.key === 'source') {
+      if (values.references && values.references.appSettings) {
+        const appSettingReference = values.references.appSettings.filter(ref => ref.name === item.name);
+        return appSettingReference.length > 0 ? (
+          <div
+            className={defaultCellStyle}
+            aria-label={`${t('azureKeyVault')} ${!isAppSettingReferenceResolved(appSettingReference[0]) && 'not'} resolved`}>
+            <Icon
+              iconName={isAppSettingReferenceResolved(appSettingReference[0]) ? 'Completed' : 'ErrorBadge'}
+              className={keyVaultIconStyle(theme, isAppSettingReferenceResolved(appSettingReference[0]))}
+              ariaLabel={t('azureKeyVault')}
+            />
+            <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
+          </div>
+        ) : (
+          <div className={defaultCellStyle} aria-label={t('appConfigValue')}>
+            {t('appConfigValue')}
+          </div>
+        );
+      }
+    }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
+  };
+
+  const isAppSettingReferenceResolved = (reference: AppSettingReferenceSummary) => {
+    return reference.status.toLowerCase() === 'resolved';
   };
 
   const isAppSettingDirty = (index: number): boolean => {
@@ -280,6 +305,19 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: onRenderItemColumn,
+      },
+      {
+        key: 'source',
+        name: t('source'),
+        fieldName: 'source',
+        minWidth: 180,
+        maxWidth: 180,
+        isRowHeader: false,
+        data: 'string',
+        isPadded: true,
+        isResizable: false,
+        isCollapsable: false,
         onRender: onRenderItemColumn,
       },
       {
