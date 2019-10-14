@@ -5161,7 +5161,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Error Details</value>
     </data>
     <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Function keys can be found at the function level.</value>
+        <value>Function keys can be configured in function settings.</value>
     </data>
     <data name="appKeysHost" xml:space="preserve">
         <value>Host keys (all functions)</value>
@@ -5264,6 +5264,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+    </data>
+    <data name="azureKeyVault" xml:space="preserve">
+        <value>Key vault Reference</value>
+    </data>
+    <data name="appConfigValue" xml:space="preserve">
+        <value>App Config</value>
+    </data>
+    <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Error: Could not access key vault reference metadata</value>
     </data>
     <data name="containerSettingsNotConfigured" xml:space="preserve">
         <value>Click here to configure container settings.</value>

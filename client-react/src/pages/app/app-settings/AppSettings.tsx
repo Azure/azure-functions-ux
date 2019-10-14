@@ -9,11 +9,12 @@ import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import i18n from 'i18next';
 import { PermissionsContext, SiteContext } from './Contexts';
-import { commandBarSticky, formStyle } from './AppSettings.styles';
+import { commandBarSticky, formStyle, messageBanner } from './AppSettings.styles';
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { ThemeContext } from '../../../ThemeContext';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -66,6 +67,7 @@ interface AppSettingsProps {
 const AppSettings: React.FC<AppSettingsProps> = props => {
   const { resourceId } = props;
   const { t } = useTranslation();
+  const theme = useContext(ThemeContext);
   const { app_write, editable } = useContext(PermissionsContext);
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
@@ -97,6 +99,15 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                         scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
                           <UpsellBanner onClick={scaleUpPlan} />
                         )}
+                      {!!initialFormValues && initialFormValues.references && !initialFormValues.references.appSettings && (
+                        <MessageBar
+                          id="appSettings-keyvault-error"
+                          isMultiline={false}
+                          className={messageBanner(theme)}
+                          messageBarType={MessageBarType.error}>
+                          {t('appSettingKeyvaultAPIError')}
+                        </MessageBar>
+                      )}
                     </div>
                     {!!initialFormValues ? (
                       <div className={formStyle}>
