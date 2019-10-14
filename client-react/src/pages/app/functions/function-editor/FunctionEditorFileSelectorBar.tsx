@@ -2,7 +2,7 @@ import { Dropdown as OfficeDropdown, IDropdownOption, Stack, Label } from 'offic
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export interface FunctionEditorFileSelctorValue {
+export interface FunctionEditorFileSelectorValue {
   isDirectory: boolean;
   fileOrDirectoryName: string;
 }
@@ -14,7 +14,7 @@ interface FunctionEditorFileSelectorBarProps {
   functionAppDirectoryDropdownSelectedKey: string;
   functionDirectoryDropdownSelectedKey: string;
   isFunctionDirectoryDropdownVisible: boolean;
-  onChangeDropdown: (functionEditorFileSelectorValue: FunctionEditorFileSelctorValue) => void;
+  onChangeDropdown: (functionEditorFileSelectorValue: FunctionEditorFileSelectorValue) => void;
 }
 
 const FunctionEditorFileSelectorBar: React.FC<FunctionEditorFileSelectorBarProps> = props => {
@@ -31,18 +31,10 @@ const FunctionEditorFileSelectorBar: React.FC<FunctionEditorFileSelectorBarProps
 
   const [showFunctionDirectoryDropdown, setFunctionDirectoryDropdownVisibility] = useState<boolean>(isFunctionDirectoryDropdownVisible);
 
-  const onChangeFunctionAppDirectoryDropdown = (e: unknown, option: IDropdownOption) => {
+  const onChangeDirectoryDropdown = (e: unknown, option: IDropdownOption) => {
     setFunctionDirectoryDropdownVisibility(option.data.isDirectory);
     onChangeDropdown({
       isDirectory: option.data.isDirectory,
-      fileOrDirectoryName: option.key as string,
-    });
-  };
-
-  const onChangeFunctionDirectoryDropdown = (e: unknown, option: IDropdownOption) => {
-    setFunctionDirectoryDropdownVisibility(true);
-    onChangeDropdown({
-      isDirectory: false,
       fileOrDirectoryName: option.key as string,
     });
   };
@@ -54,14 +46,14 @@ const FunctionEditorFileSelectorBar: React.FC<FunctionEditorFileSelectorBarProps
         <OfficeDropdown
           selectedKey={functionAppDirectoryDropdownSelectedKey}
           options={functionAppDirectoryDropdownOptions}
-          onChange={onChangeFunctionAppDirectoryDropdown}
+          onChange={onChangeDirectoryDropdown}
           ariaLabel={t('functionAppDirectoryDropdownAriaLabel')}
         />
         {showFunctionDirectoryDropdown && (
           <OfficeDropdown
             selectedKey={functionDirectoryDropdownSelectedKey}
             options={functionDirectoryDropdownOptions}
-            onChange={onChangeFunctionDirectoryDropdown}
+            onChange={onChangeDirectoryDropdown}
             ariaLabel={t('functionDirectoryDropdownAriaLabel')}
           />
         )}
