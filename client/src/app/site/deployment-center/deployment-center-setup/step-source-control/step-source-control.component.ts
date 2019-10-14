@@ -270,6 +270,8 @@ export class StepSourceControlComponent {
   }
 
   private _shouldFetchSourceControlTokens(): boolean {
+    // NOTE(michinoy): Only attempt to fetch the source control token if at least one source control provider
+    // is supported.
     const oneDriveSourceScenario = this._scenarioService.checkScenario(ScenarioIds.onedriveSource);
     const dropboxSourceScenario = this._scenarioService.checkScenario(ScenarioIds.dropboxSource);
     const gitHubSourceScenario = this._scenarioService.checkScenario(ScenarioIds.githubSource);
