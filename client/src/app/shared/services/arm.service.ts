@@ -20,6 +20,7 @@ export class ArmService {
   public armLocksApiVersion = '2015-01-01';
   public storageApiVersion = '2015-05-01-preview';
   public antaresApiVersion20181101 = ARMApiVersions.antaresApiVersion20181101;
+  public serviceBusAndEventHubApiVersion20150801 = ARMApiVersions.serviceBusAndEventHubApiVersion20150801;
   public appInsightsApiVersion = '2015-05-01';
   public notificationHubApiVersion = '2017-04-01';
   public logicAppsApiVersion = '2017-07-01';
