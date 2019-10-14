@@ -96,13 +96,15 @@ export class ServiceBusComponent extends FunctionAppContextComponent {
     if (this._subscription) {
       this._subscription.unsubscribe();
     }
-    this._subscription = this._cacheService.getArm(value + '/AuthorizationRules', true).subscribe(r => {
-      this.polices = r.json();
-      if (this.polices.value.length > 0) {
-        this.selectedPolicy = this.polices.value[0].id;
-        this.setSelect();
-      }
-    });
+    this._subscription = this._cacheService
+      .getArm(value + '/AuthorizationRules', true, this._armService.serviceBusAndEventHubApiVersion20150801)
+      .subscribe(r => {
+        this.polices = r.json();
+        if (this.polices.value.length > 0) {
+          this.selectedPolicy = this.polices.value[0].id;
+          this.setSelect();
+        }
+      });
   }
 
   onClose() {
