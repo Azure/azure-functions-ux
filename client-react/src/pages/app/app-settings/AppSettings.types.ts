@@ -35,6 +35,7 @@ export interface AppSettingsFormValues {
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
   hostStatus: ArmObj<HostStatus> | null;
+  runtimeCustomEdit: boolean;
 }
 
 export interface FormState {

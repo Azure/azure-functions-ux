@@ -1,6 +1,6 @@
 import { FormikProps, Field } from 'formik';
-// import { FormikProps, Field } from 'formik';
-import React, { useContext, useState } from 'react';
+// import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
@@ -32,14 +32,15 @@ const getSettingValue = (settingName: string, appSettings: FormAppSetting[]) => 
   return index === -1 ? null : appSettings[index].value;
 };
 
+// const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
 const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
-  const [customEditMode, setCustomEditMode] = useState(false);
+  // const [customEditMode, setCustomEditMode] = useState(false);
   const { t, values, initialValues, setFieldValue } = props;
   const { app_write, editable } = useContext(PermissionsContext);
 
-  if (customEditMode && !props.dirty) {
-    setCustomEditMode(false);
-  }
+  // if (customEditMode && !props.dirty) {
+  //   setCustomEditMode(false);
+  // }
 
   const options: IChoiceGroupOption[] = [
     {
@@ -69,7 +70,8 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
   };
 
   const getRuntimeVersionOption = () => {
-    if (customEditMode) {
+    // if (customEditMode) {
+    if (values.runtimeCustomEdit) {
       return FunctionRuntimeVersions.custom;
     }
 
@@ -78,7 +80,8 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
       return configuredValue!;
     }
 
-    setCustomEditMode(true);
+    // setCustomEditMode(true);
+    setFieldValue('runtimeCustomEdit', true);
     return FunctionRuntimeVersions.custom;
   };
 
@@ -131,7 +134,8 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
     const appSettings: FormAppSetting[] = [...values.appSettings];
     const index = appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
     if (version === FunctionRuntimeVersions.custom) {
-      setCustomEditMode(true);
+      // setCustomEditMode(true);
+      setFieldValue('runtimeCustomEdit', true);
       const value = index === -1 ? null : appSettings[index].value;
       if (value && isMajorVersion(value)) {
         // appSettings[index] = { ...appSettings[index], value: '' };
@@ -139,7 +143,8 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
         setFieldValue('appSettings', appSettings);
       }
     } else {
-      setCustomEditMode(false);
+      // setCustomEditMode(false);
+      setFieldValue('runtimeCustomEdit', false);
       if (index === -1) {
         appSettings.push({
           name: 'FUNCTIONS_EXTENSION_VERSION',

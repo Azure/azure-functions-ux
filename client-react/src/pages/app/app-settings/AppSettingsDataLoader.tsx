@@ -211,6 +211,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         ...values,
         virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
         hostStatus: hostStatus && hostStatus.metadata.success ? hostStatus.data : null,
+        // runtimeCustomEdit: false,
       });
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
