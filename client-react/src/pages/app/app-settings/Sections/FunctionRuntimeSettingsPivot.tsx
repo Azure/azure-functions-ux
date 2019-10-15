@@ -28,19 +28,19 @@ const FunctionRuntimeSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>>
         {(!app_write || !editable) && (
           <div id="function-runtime-settings-rbac-message">
             <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
-              {t('NO WRITE ACCESS')}
+              {t('applicationSettingsNoPermission')}
             </MessageBar>
           </div>
         )}
 
         <RuntimeVersion {...props} />
 
-        {scenarioChecker.checkScenario(ScenarioIds.dailyUsageQuotaSupported, { site }).status === 'enabled' && (
-          <DailyUsageQuota {...props} />
-        )}
-
         {scenarioChecker.checkScenario(ScenarioIds.runtimeScaleMonitoringSupported, { site }).status === 'enabled' && (
           <RuntimeScaleMonitoring {...props} />
+        )}
+
+        {scenarioChecker.checkScenario(ScenarioIds.dailyUsageQuotaSupported, { site }).status === 'enabled' && (
+          <DailyUsageQuota {...props} />
         )}
       </div>
     </>
@@ -63,7 +63,15 @@ const dailyMemoryTimeQuotaDirty = (values: AppSettingsFormValues, initialValues:
   return !isEqual(values.site.properties.dailyMemoryTimeQuota, initialValues.site.properties.dailyMemoryTimeQuota);
 };
 
+const runtimeScaleMonitoringDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
+  return !isEqual(values.config.properties.runtimeScaleMonitoringEnabled, initialValues.config.properties.runtimeScaleMonitoringEnabled);
+};
+
 export const functionRuntimeSettingsDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
-  return runtimeVersionDirty(values, initialValues) || dailyMemoryTimeQuotaDirty(values, initialValues);
+  return (
+    runtimeVersionDirty(values, initialValues) ||
+    dailyMemoryTimeQuotaDirty(values, initialValues) ||
+    runtimeScaleMonitoringDirty(values, initialValues)
+  );
 };
 export default FunctionRuntimeSettingsPivot;

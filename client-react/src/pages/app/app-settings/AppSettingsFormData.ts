@@ -19,8 +19,10 @@ const isMajorVersion = (version: string | null) => {
   return version === FunctionRuntimeVersions.v1 || version === FunctionRuntimeVersions.v2 || version === FunctionRuntimeVersions.v3;
 };
 
-const getRuntimeCustomEdit = (appSettings: { [key: string]: string }) => {
-  return !isMajorVersion(appSettings['FUNCTIONS_EXTENSION_VERSION']);
+const getRuntimeCustomEdit = (appSettings: { [key: string]: string } | null) => {
+  const version = appSettings ? appSettings['FUNCTIONS_EXTENSION_VERSION'] : null;
+  const isCustomVersion = !isMajorVersion(version);
+  return { active: isCustomVersion, latestValue: isCustomVersion ? version : null };
 };
 
 interface StateToFormParams {
@@ -44,7 +46,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config, metadata),
     azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
-    runtimeCustomEdit: !!appSettings && getRuntimeCustomEdit(appSettings.properties),
+    runtimeCustomEdit: getRuntimeCustomEdit(appSettings ? appSettings.properties : null),
   };
 };
 

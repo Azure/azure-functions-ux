@@ -25,8 +25,11 @@ const RadioButtonNoFormik: React.SFC<IChoiceGroupProps & RadioButtonProps> = pro
   const optionsWithMargin: IChoiceGroupOption[] | undefined =
     options &&
     options.map(option => {
+      const { onRenderField } = option;
       const newOption: IChoiceGroupOption = option;
-      newOption.onRenderField = (fieldProps, defaultRenderer) => <div className={fieldStyle}>{defaultRenderer!(fieldProps)}</div>;
+      newOption.onRenderField = (fieldProps, defaultRenderer) => (
+        <div className={fieldStyle}>{!onRenderField ? defaultRenderer!(fieldProps) : onRenderField!(fieldProps, defaultRenderer)}</div>
+      );
       return newOption;
     });
   return (
