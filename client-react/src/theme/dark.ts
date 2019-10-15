@@ -2,7 +2,7 @@ import { IPalette } from 'office-ui-fabric-react/lib/Styling';
 import { ThemeExtended } from './SemanticColorsExtended';
 
 const AzurePortalColors = {
-  lineSeperator: 'rgba(107, 132, 156, 0.25)',
+  lineSeparator: 'rgba(107, 132, 156, 0.25)',
   sectionDividerScrollbar: 'rgba(107, 132, 156, 0.35)',
   background: '#111111',
   sectionBackground: 'rgba(107, 132, 156, 0.06)',
