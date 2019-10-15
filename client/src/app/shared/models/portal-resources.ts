@@ -1713,4 +1713,5 @@ export class PortalResources {
   public static functionEditorCommandBarAriaLabel = 'functionEditorCommandBarAriaLabel';
   public static functionAppDirectoryDropdownAriaLabel = 'functionAppDirectoryDropdownAriaLabel';
   public static functionDirectoryDropdownAriaLabel = 'functionDirectoryDropdownAriaLabel';
+  public static closeGetFunctionUrlModal = 'closeGetFunctionUrlModal';
 }

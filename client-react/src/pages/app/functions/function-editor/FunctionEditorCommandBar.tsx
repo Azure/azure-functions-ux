@@ -11,16 +11,17 @@ interface FunctionEditorCommandBarProps {
   resetFunction: () => void;
   testFunction: () => void;
   getFunctionUrl: () => void;
+  showGetFunctionUrlCommand: boolean;
   dirty: boolean;
   disabled: boolean;
 }
 
 const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props => {
-  const { saveFunction, resetFunction, testFunction, getFunctionUrl, dirty, disabled } = props;
+  const { saveFunction, resetFunction, testFunction, getFunctionUrl, showGetFunctionUrlCommand, dirty, disabled } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
   const getItems = (): ICommandBarItemProps[] => {
-    return [
+    const items = [
       {
         key: 'save',
         name: t('save'),
@@ -51,7 +52,10 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         ariaLabel: t('functionEditorTestAriaLabel'),
         onClick: testFunction,
       },
-      {
+    ];
+
+    if (showGetFunctionUrlCommand) {
+      items.push({
         key: 'getFunctionUrl',
         name: t('keysDialog_getFunctionUrl'),
         iconProps: {
@@ -60,8 +64,10 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         disabled: disabled,
         ariaLabel: t('functionEditorGetFunctionUrlAriaLabel'),
         onClick: getFunctionUrl,
-      },
-    ];
+      });
+    }
+
+    return items;
   };
 
   useEffect(() => {
