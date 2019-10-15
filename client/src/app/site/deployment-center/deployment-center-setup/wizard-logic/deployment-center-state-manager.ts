@@ -17,6 +17,8 @@ import {
   PythonFrameworkType,
   PermissionsResultCreationParameters,
   PermissionsResult,
+  ProvisioningConfigurationBase,
+  ProvisioningConfigurationV2,
 } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { Headers } from '@angular/http';
@@ -75,9 +77,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _translateService: TranslateService,
     private _localStorageService: LocalStorageService,
     private _portalService: PortalService,
+    private _scenarioService: ScenarioService,
     siteService: SiteService,
-    userService: UserService,
-    private _scenarioService: ScenarioService
+    userService: UserService
   ) {
     this.resourceIdStream$
       .switchMap(r => {
@@ -227,10 +229,15 @@ export class DeploymentCenterStateManager implements OnDestroy {
   }
 
   private _startVstsDeployment() {
-    let deploymentObject: ProvisioningConfiguration;
+    let deploymentObject: ProvisioningConfigurationBase;
 
     if (this.usePipelineTemplateAPI()) {
-      deploymentObject = this.createPipelineTemplateProvisioningConfigurationObject();
+      deploymentObject = {
+        pipelineTemplateId: this.getPipelineTemplateId(),
+        pipelineTemplateParameters: this.getPipelineTemplateParameters(),
+        ciConfiguration: this._ciConfig,
+        repository: this._repoInfo,
+      } as ProvisioningConfigurationV2;
     } else {
       deploymentObject = {
         authToken: this.getToken(),
@@ -238,7 +245,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         id: null,
         source: this._deploymentSource,
         targets: this._deploymentTargets,
-      };
+      } as ProvisioningConfiguration;
     }
 
     const setupvsoCall = this._azureDevOpsService.startDeployment(
@@ -579,15 +586,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
     return Observable.of(fail);
   }
 
-  private createPipelineTemplateProvisioningConfigurationObject(): ProvisioningConfiguration {
-    return {
-      pipelineTemplateId: this.getPipelineTemplateId(),
-      pipelineTemplateParameters: this.getPipelineTemplateParameters(),
-      ciConfiguration: this._ciConfig,
-      repository: this._repoInfo,
-    };
-  }
-
   private getPipelineTemplateId(): string {
     switch (this._applicationType) {
       case ApplicationType.AspNetWap:
@@ -615,6 +613,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
 
           case PythonFrameworkType.Django:
             return 'ms.vss-continuous-delivery-pipeline-templates.pythondjango-windowswebapp-cd';
+
+          default:
+            return null;
         }
 
       default:
@@ -684,6 +685,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
               flaskProjectName: this.wizardValues.buildSettings.pythonSettings.flaskProjectName,
               ...pipelineTemplateParameters,
             };
+
+          default:
+            return null;
         }
 
       default:
