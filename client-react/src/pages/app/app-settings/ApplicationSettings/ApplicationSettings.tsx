@@ -9,13 +9,47 @@ import { AppSettingsFormValues, FormAppSetting, AppSettingReferenceSummary } fro
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { SearchBox, TooltipHost, ICommandBarItemProps, Icon } from 'office-ui-fabric-react';
-import { sortBy } from 'lodash-es';
+import { sortBy, isEqual } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { filterBoxStyle, dirtyElementStyle, keyVaultIconStyle, sourceTextStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import Panel from '../../../../components/Panel/Panel';
 import { ThemeContext } from '../../../../ThemeContext';
+
+enum FunctionRuntimeVersions {
+  v1 = '~1',
+  v2 = '~2',
+  v3 = '~3',
+  custom = 'custom',
+}
+
+const isMajorVersion = (version: string | null) => {
+  return version === FunctionRuntimeVersions.v1 || version === FunctionRuntimeVersions.v2 || version === FunctionRuntimeVersions.v3;
+};
+
+const getRuntimeCustomEdit = (appSettings: FormAppSetting[], runtimeCustomEdit?: { active: boolean; latestValue: string }) => {
+  const index = !appSettings ? -1 : appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
+  const version = index === -1 ? '' : appSettings[index].value;
+
+  if (!isMajorVersion(version)) {
+    return { active: true, latestValue: version };
+  }
+
+  if (runtimeCustomEdit && runtimeCustomEdit.active && runtimeCustomEdit.latestValue === version) {
+    return { ...runtimeCustomEdit };
+  }
+
+  return { active: false, latestValue: runtimeCustomEdit ? runtimeCustomEdit.latestValue : '' };
+};
+
+const setAppSettingsFieldValue = (appSettings: FormAppSetting[], props: FormikProps<AppSettingsFormValues>) => {
+  const runtimeCustomEdit = getRuntimeCustomEdit(appSettings, props.values.runtimeCustomEdit);
+  if (!isEqual(runtimeCustomEdit, props.values.runtimeCustomEdit)) {
+    props.setFieldValue('runtimeCustomEdit', runtimeCustomEdit);
+  }
+  props.setFieldValue('appSettings', appSettings);
+};
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 
@@ -89,7 +123,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
 
   const saveBulkEdit = (appSettings: FormAppSetting[]) => {
     const newAppSettings = sortBy(appSettings, o => o.name.toLowerCase());
-    props.setFieldValue('appSettings', newAppSettings);
+    setAppSettingsFieldValue(newAppSettings, props);
     setShowPanel(false);
   };
 
@@ -121,7 +155,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       appSettings.push(item);
     }
     appSettings = sortBy(appSettings, o => o.name.toLowerCase());
-    props.setFieldValue('appSettings', appSettings);
+    setAppSettingsFieldValue(appSettings, props);
     setShowPanel(false);
     index = getAppSettingIndex(item, appSettings);
     appSettingsTable.focusIndex(index);
@@ -139,7 +173,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
 
   const removeItem = (key: string) => {
     const appSettings: FormAppSetting[] = [...values.appSettings].filter(val => val.name !== key);
-    props.setFieldValue('appSettings', appSettings);
+    setAppSettingsFieldValue(appSettings, props);
   };
 
   const onShowHideButtonClick = (itemKey: string) => {

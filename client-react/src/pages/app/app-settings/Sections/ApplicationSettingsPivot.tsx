@@ -86,7 +86,7 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
 };
 
 const removeIndex = (objects: any[]) => {
-  return objects.map(c => ({ ...c, index: undefined }));
+  return objects.map(c => ({ ...c, index: undefined })).sort((a, b) => (a.name >= b.name ? 1 : 0));
 };
 
 export const applicationSettingsDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {

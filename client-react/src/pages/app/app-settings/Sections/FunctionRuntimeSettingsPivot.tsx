@@ -55,8 +55,9 @@ const getSettingValue = (name: string, appSettings: FormAppSetting[]): string | 
 const runtimeVersionDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
   const value = getSettingValue('FUNCTIONS_EXTENSION_VERSION', values.appSettings);
   const initialValue = getSettingValue('FUNCTIONS_EXTENSION_VERSION', initialValues.appSettings);
-  const clean = (value === null && initialValue === null) || value === initialValue;
-  return !clean;
+  // const clean = (value === null && initialValue === null) || value === initialValue;
+  // return !clean;
+  return !isEqual(value, initialValue);
 };
 
 const dailyMemoryTimeQuotaDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
