@@ -71,7 +71,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
                       onTextFieldChange(newVal);
                     }
                   }}
-                  value={values.runtimeCustomEdit.active ? getRuntimeVersion() : values.runtimeCustomEdit.latestValue}
+                  value={values.runtimeCustomEdit.latestValue}
                   style={{ marginLeft: '1px', marginTop: '1px', width: '250px' }}
                   placeholder={'e.g. 1.0.12615.0, 2.0.12742.0, latest'}
                   componentRef={instance => {
@@ -86,7 +86,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
     },
   ];
 
-  const setRuntimeCustomEdit = (runtimeCustomEdit: { active: boolean; latestValue: string | null }) => {
+  const setRuntimeCustomEdit = (runtimeCustomEdit: { active: boolean; latestValue: string }) => {
     if (!isEqual(runtimeCustomEdit, values.runtimeCustomEdit)) {
       setFieldValue('runtimeCustomEdit', runtimeCustomEdit);
     }
@@ -101,36 +101,31 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
   };
 
   const getRuntimeVersionOption = () => {
-    const appSettingValue = getRuntimeVersion();
-
-    if (!isMajorVersion(appSettingValue)) {
-      setRuntimeCustomEdit({
-        active: true,
-        latestValue: appSettingValue,
-      });
+    if (values.runtimeCustomEdit.active) {
       return FunctionRuntimeVersions.custom;
     }
 
-    if (!values.runtimeCustomEdit.active || values.runtimeCustomEdit.latestValue !== appSettingValue) {
-      setRuntimeCustomEdit({ ...values.runtimeCustomEdit, active: false });
-      return appSettingValue!;
-    }
-
-    return FunctionRuntimeVersions.custom;
+    return getRuntimeVersion()!;
   };
 
+  // const runtimeVersionDirty = () => {
+  //   if (!values.runtimeCustomEdit.active !== !initialValues.runtimeCustomEdit.active) {
+  //     return true;
+  //   }
+
+  //   if (values.runtimeCustomEdit.active) {
+  //     return false;
+  //   }
+
+  //   const initialValue = getInitialRuntimeVersion();
+  //   const value = getRuntimeVersion();
+  //   return !(value === null && initialValue === null) && value !== initialValue;
+  // };
+
   const runtimeVersionDirty = () => {
-    if (!values.runtimeCustomEdit.active !== !initialValues.runtimeCustomEdit.active) {
-      return true;
-    }
-
-    if (values.runtimeCustomEdit.active) {
-      return false;
-    }
-
     const initialValue = getInitialRuntimeVersion();
     const value = getRuntimeVersion();
-    return !(value === null && initialValue === null) && value !== initialValue;
+    return !isEqual(value, initialValue);
   };
 
   const customRuntimeVersionDirty = () => {
@@ -183,9 +178,9 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
     const index = appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
     if (version === FunctionRuntimeVersions.custom) {
       setRuntimeCustomEdit({ ...values.runtimeCustomEdit, active: true });
-      const value = index === -1 ? null : appSettings[index].value;
+      const value = index === -1 ? '' : appSettings[index].value;
       if (value && isMajorVersion(value)) {
-        if (values.runtimeCustomEdit.latestValue === null) {
+        if (!values.runtimeCustomEdit.latestValue) {
           appSettings.splice(index, 1);
         } else {
           appSettings[index] = { ...appSettings[index], value: values.runtimeCustomEdit.latestValue };
@@ -214,13 +209,17 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
     const appSettings: FormAppSetting[] = [...values.appSettings];
     const index = appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
     if (index === -1) {
-      appSettings.push({
-        name: 'FUNCTIONS_EXTENSION_VERSION',
-        value: version,
-        sticky: false,
-      });
-    } else {
+      if (version) {
+        appSettings.push({
+          name: 'FUNCTIONS_EXTENSION_VERSION',
+          value: version,
+          sticky: false,
+        });
+      }
+    } else if (version) {
       appSettings[index] = { ...appSettings[index], value: version };
+    } else {
+      appSettings.splice(index, 1);
     }
     setRuntimeCustomEdit({ ...values.runtimeCustomEdit, latestValue: version });
     setFieldValue('appSettings', appSettings);

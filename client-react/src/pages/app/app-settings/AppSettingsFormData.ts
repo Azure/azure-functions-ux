@@ -19,10 +19,25 @@ const isMajorVersion = (version: string | null) => {
   return version === FunctionRuntimeVersions.v1 || version === FunctionRuntimeVersions.v2 || version === FunctionRuntimeVersions.v3;
 };
 
-const getRuntimeCustomEdit = (appSettings: { [key: string]: string } | null) => {
-  const version = appSettings ? appSettings['FUNCTIONS_EXTENSION_VERSION'] : null;
-  const isCustomVersion = !isMajorVersion(version);
-  return { active: isCustomVersion, latestValue: isCustomVersion ? version : null };
+// const getRuntimeCustomEdit = (appSettings: { [key: string]: string } | null) => {
+//   const version = appSettings ? appSettings['FUNCTIONS_EXTENSION_VERSION'] : null;
+//   const isCustomVersion = !isMajorVersion(version);
+//   return { active: isCustomVersion, latestValue: isCustomVersion ? version : null };
+// };
+
+export const getRuntimeCustomEdit = (appSettings: FormAppSetting[], runtimeCustomEdit?: { active: boolean; latestValue: string }) => {
+  const index = !appSettings ? -1 : appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
+  const version = index === -1 ? '' : appSettings[index].value;
+
+  if (!isMajorVersion(version)) {
+    return { active: true, latestValue: version };
+  }
+
+  if (runtimeCustomEdit && runtimeCustomEdit.active && runtimeCustomEdit.latestValue === version) {
+    return { ...runtimeCustomEdit };
+  }
+
+  return { active: false, latestValue: runtimeCustomEdit ? runtimeCustomEdit.latestValue : '' };
 };
 
 interface StateToFormParams {
@@ -37,16 +52,18 @@ interface StateToFormParams {
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
   const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata, hostStatus } = props;
+  const formAppSetting = getFormAppSetting(appSettings, slotConfigNames);
+
   return {
     site,
     hostStatus,
     config: getCleanedConfig(config),
-    appSettings: getFormAppSetting(appSettings, slotConfigNames),
+    appSettings: formAppSetting,
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config, metadata),
     azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
-    runtimeCustomEdit: getRuntimeCustomEdit(appSettings ? appSettings.properties : null),
+    runtimeCustomEdit: getRuntimeCustomEdit(formAppSetting),
   };
 };
 

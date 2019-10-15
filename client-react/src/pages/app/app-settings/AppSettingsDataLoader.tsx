@@ -1,7 +1,13 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
-import { convertStateToForm, convertFormToState, flattenVirtualApplicationsList, getCleanedConfigForSave } from './AppSettingsFormData';
+import {
+  convertStateToForm,
+  convertFormToState,
+  flattenVirtualApplicationsList,
+  getRuntimeCustomEdit,
+  getCleanedConfigForSave,
+} from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
 import {
   fetchApplicationSettingValues,
@@ -210,6 +216,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         ...values,
         virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
         hostStatus: hostStatus && hostStatus.metadata.success ? hostStatus.data : null,
+        runtimeCustomEdit: getRuntimeCustomEdit(values.appSettings),
       });
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
