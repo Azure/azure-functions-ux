@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { Stack, IStackTokens } from 'office-ui-fabric-react';
@@ -11,35 +11,20 @@ import { Subject, Observable } from 'rxjs';
 import BindingEditorDataLoader from './binding-editor/BindingEditorDataLoader';
 import { ReactComponent as DoubleArrow } from '../../../../images/Functions/double-arrow-left-right.svg';
 import { ReactComponent as SingleArrow } from '../../../../images/Functions/single-arrow-left-right.svg';
-import { style, classes } from 'typestyle';
+import { classes } from 'typestyle';
+import {
+  diagramWrapperStyle,
+  doubleArrowStyle,
+  singleCardStackStyle,
+  singleArrowStyle,
+  defaultArrowStyle,
+  arrowProps,
+} from './FunctionIntegrate.style';
+import { ThemeContext } from '../../../../ThemeContext';
 
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
 }
-
-const diagramWrapperStyle = style({
-  padding: '20px',
-  maxWidth: '1200px',
-  minWidth: '930px',
-});
-
-const arrowStyle = style({
-  width: '100%',
-});
-
-const doubleArrowStyle = style({
-  height: '115px',
-  marginTop: '37px',
-});
-
-const singleArrowStyle = style({
-  height: '13px',
-  marginTop: '90px',
-});
-
-const singleCardStackStyle = style({
-  marginTop: '58px',
-});
 
 export interface BindingUpdateInfo {
   newBindingInfo?: BindingInfo;
@@ -57,6 +42,7 @@ export const BindingEditorContext = React.createContext<BindingEditorContextInfo
 
 export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
   const { functionInfo: initialFunctionInfo } = props;
+  const theme = useContext(ThemeContext);
 
   const bindingUpdate$ = useRef(new Subject<BindingUpdateInfo>());
   const [bindingToUpdate, setBindingToUpdate] = useState<BindingInfo | undefined>(undefined);
@@ -121,7 +107,7 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
             </Stack.Item>
 
             <Stack.Item grow>
-              <DoubleArrow className={classes(arrowStyle, doubleArrowStyle)} />
+              <DoubleArrow className={classes(defaultArrowStyle(theme), doubleArrowStyle)} {...arrowProps} />
             </Stack.Item>
 
             <Stack.Item grow>
@@ -131,7 +117,7 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
             </Stack.Item>
 
             <Stack.Item grow>
-              <SingleArrow className={classes(arrowStyle, singleArrowStyle)} />
+              <SingleArrow className={classes(defaultArrowStyle(theme), singleArrowStyle)} {...arrowProps} />
             </Stack.Item>
 
             <Stack.Item grow>
