@@ -161,7 +161,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
   }
 
   public openDiagnoseAndSolveProblemsBlade() {
-    this._portalService.openBlade(
+    this._portalService.openFrameBlade(
       {
         detailBlade: 'SCIFrameBlade',
         detailBladeInputs: {

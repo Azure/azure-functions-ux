@@ -20,7 +20,7 @@ interface CustomTextFieldProps {
   copyButton?: boolean;
 }
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
-  const { value, onChange, onBlur, errorMessage, label, dirty = false, widthOverride, styles, id, copyButton, ...rest } = props;
+  const { value, onChange, onBlur, errorMessage, label, widthOverride, styles, id, copyButton, ...rest } = props;
   const { width } = useWindowSize();
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
@@ -52,7 +52,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
         onChange={onChange}
         onBlur={onBlur}
         errorMessage={errorMessage}
-        styles={textFieldStyleOverrides(dirty, theme, fullpage, widthOverride)}
+        styles={textFieldStyleOverrides(theme, fullpage, widthOverride)}
         {...rest}
       />
       {copyButton && (

@@ -5,7 +5,6 @@ import { FormAzureStorageMounts } from '../AppSettings.types';
 import TextField from '../../../../components/form-controls/TextField';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { useTranslation } from 'react-i18next';
-import requiredValidation from '../../../../utils/formValidation/required';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
   const { errors } = props;
@@ -19,7 +18,6 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         label={t('storageAccount')}
         id="azure-storage-mounts-account-name"
         errorMessage={errors.accountName}
-        validate={(value: string) => requiredValidation(value, t('validation_requiredError'))}
       />
       <Field
         component={RadioButton}
@@ -42,7 +40,6 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         label={t('shareName')}
         id="azure-storage-mounts-share-name"
         errorMessage={errors.shareName}
-        validate={(value: string) => requiredValidation(value, t('validation_requiredError'))}
       />
       <Field
         component={TextField}
@@ -52,7 +49,6 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         multiline
         rows={4}
         errorMessage={errors.accessKey}
-        validate={(value: string) => requiredValidation(value, t('validation_requiredError'))}
       />
     </>
   );

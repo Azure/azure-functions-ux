@@ -145,7 +145,7 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
           selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase()}
           options={options}
           onChange={onChangeDropdown}
-          styles={dropdownStyleOverrides(false, theme, false, '260px')}
+          styles={dropdownStyleOverrides(theme, false, '260px')}
           errorMessage={existingRgWritePermissionError}
         />
       </FormControlWrapper>
