@@ -80,7 +80,7 @@ export class ServiceBusComponent extends FunctionAppContextComponent {
   setup(): Subscription {
     return this.viewInfoEvents.subscribe(view => {
       const id = `/subscriptions/${(<ArmSiteDescriptor>view.siteDescriptor).subscription}/providers/Microsoft.ServiceBus/namespaces`;
-      this._cacheService.getArm(id, true).subscribe(r => {
+      this._cacheService.getArm(id, true, this._armService.serviceBusAndEventHubApiVersion20150801).subscribe(r => {
         this.namespaces = r.json();
         if (this.namespaces.value.length > 0) {
           this.selectedNamespace = this.namespaces.value[0].id;
@@ -96,13 +96,15 @@ export class ServiceBusComponent extends FunctionAppContextComponent {
     if (this._subscription) {
       this._subscription.unsubscribe();
     }
-    this._subscription = this._cacheService.getArm(value + '/AuthorizationRules', true).subscribe(r => {
-      this.polices = r.json();
-      if (this.polices.value.length > 0) {
-        this.selectedPolicy = this.polices.value[0].id;
-        this.setSelect();
-      }
-    });
+    this._subscription = this._cacheService
+      .getArm(value + '/AuthorizationRules', true, this._armService.serviceBusAndEventHubApiVersion20150801)
+      .subscribe(r => {
+        this.polices = r.json();
+        if (this.polices.value.length > 0) {
+          this.selectedPolicy = this.polices.value[0].id;
+          this.setSelect();
+        }
+      });
   }
 
   onClose() {
