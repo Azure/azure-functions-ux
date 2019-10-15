@@ -37,6 +37,7 @@ export class CommonConstants {
     armBatchApi: '2015-11-01',
     armLocksApiVersion: '2015-01-01',
     armRbacApiVersion: '2015-07-01',
+    storageApiVersion20180701: '2018-07-01',
   };
   public static readonly NonThemeColors = {
     upsell: '#804998',
