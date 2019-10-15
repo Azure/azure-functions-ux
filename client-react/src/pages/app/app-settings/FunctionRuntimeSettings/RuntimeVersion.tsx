@@ -36,7 +36,7 @@ const getSettingValue = (settingName: string, appSettings: FormAppSetting[]) => 
 const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   // const [customEditMode, setCustomEditMode] = useState(false);
   const { t, values, initialValues, setFieldValue } = props;
-  const { app_write, editable } = useContext(PermissionsContext);
+  const { app_write, editable, saving } = useContext(PermissionsContext);
 
   // if (customEditMode && !props.dirty) {
   //   setCustomEditMode(false);
@@ -219,7 +219,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
             dirty={runtimeVersionDirty()}
             label={t('runtimeVersion')}
             id="functions-runtime-version"
-            disabled={!app_write || !editable}
+            disabled={!app_write || !editable || saving}
             onChange={(e, newVal) => {
               onRadioButtonChange(newVal ? newVal.key : '');
             }}
@@ -232,7 +232,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
               component={TextFieldNoFormik}
               label={t('Custom runtime version')}
               id="functions-runtime-version-custom"
-              disabled={!app_write || !editable}
+              disabled={!app_write || !editable || saving}
               onChange={(e, newVal) => {
                 onTextFieldChange(newVal);
               }}
