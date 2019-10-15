@@ -36,7 +36,7 @@ const getSettingValue = (settingName: string, appSettings: FormAppSetting[]) => 
 
 const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { t, values, initialValues, setFieldValue } = props;
-  const { app_write, editable } = useContext(PermissionsContext);
+  const { app_write, editable, saving } = useContext(PermissionsContext);
   let fieldRef: any;
 
   const options: IChoiceGroupOption[] = [
@@ -65,7 +65,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
                   dirty={customRuntimeVersionDirty()}
                   component={TextFieldNoLabel}
                   id="function-app-settings-runtime-version-custom"
-                  disabled={!app_write || !editable || !values.runtimeCustomEdit.active}
+                  disabled={!app_write || !editable || saving || !values.runtimeCustomEdit.active}
                   onChange={(e, newVal) => {
                     if (values.runtimeCustomEdit.active) {
                       onTextFieldChange(newVal);
@@ -273,7 +273,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
               dirty={runtimeVersionDirty()}
               label={t('runtimeVersion')}
               id="function-app-settings-runtime-version"
-              disabled={!app_write || !editable}
+              disabled={!app_write || !editable || saving}
               onChange={(e, newVal) => {
                 onRadioButtonChange(newVal ? newVal.key : '');
               }}
@@ -286,7 +286,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
                 component={TextFieldNoFormik}
                 label={t('Custom runtime version')}
                 id="function-app-settings-runtime-version-custom"
-                disabled={!app_write || !editable}
+                disabled={!app_write || !editable || saving}
                 onChange={(e, newVal) => {
                   onTextFieldChange(newVal);
                 }}

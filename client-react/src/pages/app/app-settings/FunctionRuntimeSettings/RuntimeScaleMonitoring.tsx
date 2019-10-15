@@ -9,7 +9,7 @@ import { settingsWrapper } from '../AppSettingsForm';
 
 const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { t, values, initialValues } = props;
-  const { app_write, editable } = useContext(PermissionsContext);
+  const { app_write, editable, saving } = useContext(PermissionsContext);
 
   if (!values.config) {
     return null;
@@ -30,7 +30,7 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
           component={RadioButton}
           label={t('Runtime scale monitoring')}
           id="function-app-settings-runtime-scale-monitoring-enabled"
-          disabled={!app_write || !editable}
+          disabled={!app_write || !editable || saving}
           options={[
             {
               key: true,

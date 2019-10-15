@@ -54,7 +54,7 @@ const setAppSettingsFieldValue = (appSettings: FormAppSetting[], props: FormikPr
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 
 const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
-  const permissionContext = useContext(PermissionsContext);
+  const { production_write, editable, saving } = useContext(PermissionsContext);
   const [showPanel, setShowPanel] = useState(false);
   const [panelItem, setPanelItem] = useState('add');
   const [currentAppSetting, setCurrentAppSetting] = useState<FormAppSetting | null>(null);
@@ -75,7 +75,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       {
         key: 'app-settings-application-settings-add',
         onClick: createNewItem,
-        disabled: !permissionContext.editable,
+        disabled: !editable || saving,
         iconProps: { iconName: 'Add' },
         name: t('newApplicationSetting'),
         ariaLabel: t('addNewSetting'),
@@ -89,7 +89,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       {
         key: 'app-settings-application-settings-bulk-edit',
         onClick: openBulkEdit,
-        disabled: !permissionContext.editable,
+        disabled: !editable || saving,
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
       },
@@ -204,7 +204,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!permissionContext.editable}
+            disabled={!editable || saving}
             id={`app-settings-application-settings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -222,7 +222,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!permissionContext.editable}
+            disabled={!editable || saving}
             id={`app-settings-application-settings-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}
@@ -267,7 +267,11 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         column.className = dirtyElementStyle(theme);
       }
       return (
-        <ActionButton className={defaultCellStyle} id={`app-settings-application-settings-name-${index}`} onClick={() => onShowPanel(item)}>
+        <ActionButton
+          className={defaultCellStyle}
+          disabled={!editable || saving}
+          id={`app-settings-application-settings-name-${index}`}
+          onClick={() => onShowPanel(item)}>
           <span aria-live="assertive" role="region">
             {item[column.fieldName!]}
           </span>
@@ -437,7 +441,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         <AppSettingAddEdit
           site={values.site}
           appSetting={currentAppSetting!}
-          disableSlotSetting={!permissionContext.production_write}
+          disableSlotSetting={!production_write}
           otherAppSettings={values.appSettings}
           updateAppSetting={onClosePanel}
           closeBlade={onCancel}
@@ -450,7 +454,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
             updateAppSetting={saveBulkEdit}
             closeBlade={onCancel}
             appSettings={values.appSettings}
-            disableSlotSetting={!permissionContext.production_write}
+            disableSlotSetting={!production_write}
           />
         </Suspense>
       </Panel>

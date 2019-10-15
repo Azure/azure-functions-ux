@@ -15,7 +15,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const { values, initialValues } = props;
   const scenarioChecker = new ScenarioService(t);
-  const { app_write, editable } = useContext(PermissionsContext);
+  const { app_write, editable, saving } = useContext(PermissionsContext);
   const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
   const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
   const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
@@ -29,7 +29,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           upsellMessage={platformOptionEnable.status === 'disabled' ? platformOptionEnable.data : ''}
           label={t('platform')}
           id="app-settings-worker-process"
-          disabled={!app_write || !editable || platformOptionEnable.status === 'disabled'}
+          disabled={!app_write || !editable || saving || platformOptionEnable.status === 'disabled'}
           options={[
             {
               key: true,
@@ -49,7 +49,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           component={Dropdown}
           label={t('managedPipelineVersion')}
           id="app-settings-managed-pipeline-mode"
-          disabled={!app_write || !editable}
+          disabled={!app_write || !editable || saving}
           options={[
             {
               key: 'Integrated',
@@ -71,7 +71,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           learnMoreLink={Links.ftpInfo}
           label={t('ftpState')}
           id="app-settings-ftps-state"
-          disabled={!app_write || !editable}
+          disabled={!app_write || !editable || saving}
           options={[
             {
               key: 'AllAllowed',
@@ -96,7 +96,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           fullpage
           label={t('httpVersion')}
           id="app-settings-http-enabled"
-          disabled={!app_write || !editable}
+          disabled={!app_write || !editable || saving}
           options={[
             {
               key: true,
@@ -117,7 +117,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           upsellMessage={websocketsEnable.status === 'disabled' ? websocketsEnable.data : ''}
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
-          disabled={!app_write || !editable || websocketsEnable.status === 'disabled'}
+          disabled={!app_write || !editable || saving || websocketsEnable.status === 'disabled'}
           options={[
             {
               key: true,
@@ -140,7 +140,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           upsellMessage={alwaysOnEnable.status === 'disabled' ? alwaysOnEnable.data : ''}
           label={t('alwaysOn')}
           id="app-settings-always-on"
-          disabled={!app_write || !editable || alwaysOnEnable.status === 'disabled'}
+          disabled={!app_write || !editable || saving || alwaysOnEnable.status === 'disabled'}
           options={[
             {
               key: true,
@@ -162,7 +162,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           learnMoreLink={Links.clientAffinityInfo}
           label={t('clientAffinityEnabledLabel')}
           id="app-settings-clientAffinityEnabled"
-          disabled={!app_write || !editable}
+          disabled={!app_write || !editable || saving}
           options={[
             {
               key: true,
