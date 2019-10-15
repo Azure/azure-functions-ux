@@ -56,3 +56,20 @@ export const dirtyElementStyle = (theme: ThemeExtended) =>
     borderLeftColor: theme.semanticColors.controlDirtyOutline,
     boxSizing: 'border-box',
   });
+
+export const keyVaultIconStyle = (theme: ThemeExtended, resolved: boolean) =>
+  style({
+    color: resolved ? theme.semanticColors.inlineSuccessText : theme.semanticColors.inlineErrorText,
+    position: 'absolute',
+    marginTop: '2px',
+  });
+
+export const sourceTextStyle = style({
+  marginLeft: '15px',
+});
+
+export const messageBanner = (theme: ThemeExtended) =>
+  style({
+    backgroundColor: theme.semanticColors.errorBackground,
+    paddingLeft: '5px',
+  });

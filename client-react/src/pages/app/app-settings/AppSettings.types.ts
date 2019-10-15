@@ -33,6 +33,7 @@ export interface AppSettingsFormValues {
   azureStorageMounts: FormAzureStorageMounts[];
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
+  references?: AppSettingsReferences;
 }
 
 export interface FormState {
@@ -55,4 +56,15 @@ export interface StackProps extends StacksProps {
   config?: any;
   configLoading?: boolean;
   fetchConfig?: () => any;
+}
+
+export interface AppSettingReferenceSummary {
+  name: string;
+  reference: string;
+  status: string;
+  details: string;
+}
+
+export interface AppSettingsReferences {
+  appSettings: AppSettingReferenceSummary[] | null;
 }

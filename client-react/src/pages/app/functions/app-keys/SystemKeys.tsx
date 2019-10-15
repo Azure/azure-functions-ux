@@ -16,8 +16,6 @@ import { emptyKey } from './AppKeys';
 import AppKeyAddEdit from './AppKeyAddEdit';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppKeysContext } from './AppKeysDataLoader';
-import { Site } from '../../../../models/site/site';
-import { ArmObj } from '../../../../models/arm-obj';
 import Panel from '../../../../components/Panel/Panel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -25,14 +23,14 @@ import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 
 interface SystemKeysProps {
   resourceId: string;
-  site: ArmObj<Site>;
+  initialLoading: boolean;
   systemKeys: AppKeysModel[];
   refreshData: () => void;
 }
 
 const SystemKeys: React.FC<SystemKeysProps> = props => {
   const writePermission = false;
-  const { systemKeys, resourceId, refreshData } = props;
+  const { systemKeys, resourceId, refreshData, initialLoading } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -236,7 +234,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
       {
         key: 'app-keys-system-keys-add',
         onClick: () => showAddEditPanel(),
-        disabled: writePermission,
+        disabled: writePermission || initialLoading,
         iconProps: { iconName: 'Add' },
         name: t('newSystemKey'),
         ariaLabel: t('addSystemKey'),
@@ -244,12 +242,14 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
       {
         key: 'app-keys-system-keys-show-hide',
         onClick: flipHideSwitch,
+        disabled: initialLoading,
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
       },
       {
         key: 'app-keys-system-keys-show-filter',
         onClick: toggleFilter,
+        disabled: initialLoading,
         iconProps: { iconName: 'Filter' },
         name: t('filter'),
       },
@@ -280,6 +280,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
+        shimmer={{ lines: 2, show: initialLoading }}
         emptyMessage={t('emptySystemKeys')}>
         {showFilter && (
           <SearchBox

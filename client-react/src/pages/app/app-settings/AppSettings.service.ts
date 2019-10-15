@@ -90,3 +90,17 @@ export const getApplicationSettingReference = async (
   });
   return result;
 };
+
+export const getAllAppSettingReferences = async (resourceId: string) => {
+  const id = `${resourceId}/config/configreferences/appsettings`;
+  const result = await MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
+    resourceId: id,
+    commandName: 'getAllAppSettingReferences',
+    method: 'GET',
+  });
+  LogService.trackEvent('site-service', 'getAllAppSettingReferences', {
+    success: result.metadata.success,
+    resultCount: result.data && Object.keys(result.data.properties).length,
+  });
+  return result;
+};

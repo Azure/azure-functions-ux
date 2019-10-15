@@ -49,9 +49,6 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   useEffect(() => {
     fetchData();
   }, []);
-  if (initialLoading || !initialValues) {
-    return <LoadingComponent />;
-  }
 
   return (
     <AppKeysContext.Provider value={appKeysData}>
@@ -61,7 +58,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
           <div className={disableIFrameStyle} />
         </div>
       )}
-      <AppKeys resourceId={resourceId} initialValues={initialValues} refreshData={refreshData} />
+      <AppKeys initialLoading={initialLoading} resourceId={resourceId} initialValues={initialValues} refreshData={refreshData} />
     </AppKeysContext.Provider>
   );
 };
