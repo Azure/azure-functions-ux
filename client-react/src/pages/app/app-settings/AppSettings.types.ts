@@ -37,7 +37,7 @@ export interface AppSettingsFormValues {
   currentlySelectedStack: string;
   references?: AppSettingsReferences;
   hostStatus: ArmObj<HostStatus> | null;
-  runtimeCustomEdit: boolean;
+  runtimeCustomEdit: { active: boolean; latestValue: string | null };
 }
 
 export interface FormState {

@@ -3,28 +3,46 @@ import React, { useContext } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
-import TextField from '../../../../components/form-controls/TextField';
+import RadioButton from '../../../../components/form-controls/RadioButton';
+import { isEqual } from 'lodash-es';
+import { settingsWrapper } from '../AppSettingsForm';
 
 const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { t, values, initialValues } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
 
-  if (!values.site) {
+  if (!values.config) {
     return null;
   }
 
   return (
     <>
-      <Field
-        name="site.properties.dailyMemoryTimeQuota"
-        dirty={values.site.properties.dailyMemoryTimeQuota !== initialValues.site.properties.dailyMemoryTimeQuota}
-        component={TextField}
-        label={t('dailyUsageQuotaLabel')}
-        id="app-settings-daily-memory-time-quota"
-        disabled={!app_write || !editable || saving}
-        style={{ marginLeft: '1px', marginTop: '1px' }}
-      />
-      {!values.site.properties.enabled && values.site.properties.siteDisabledReason === 1 && <div>WARNING</div>}
+      <h3>{t('Runtime scale monitoring')}</h3>
+      <div className={settingsWrapper}>
+        <Field
+          name="config.properties.runtimeScaleMonitoringEnabled"
+          dirty={
+            !isEqual(values.config.properties.runtimeScaleMonitoringEnabled, initialValues.config.properties.runtimeScaleMonitoringEnabled)
+          }
+          component={RadioButton}
+          label={t('Runtime scale monitoring')}
+          id="function-app-settings-runtime-scale-monitoring-enabled"
+          disabled={!app_write || !editable || saving}
+          options={[
+            {
+              key: true,
+              text: t('enabled'),
+              disabled: !values.config.properties.reservedInstanceCount,
+            },
+            {
+              key: false,
+              text: t('disabled'),
+              disabled: !!values.config.properties.vnetName,
+            },
+          ]}
+          vertical={false}
+        />
+      </div>
     </>
   );
 };
