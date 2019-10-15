@@ -5310,4 +5310,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
         <value>Select files in your function directory.</value>
     </data>
+    <data name="noPlanWritePermissions" xml:space="preserve">
+        <value>This feature requires write permissions on the plan hosting your app</value>
+    </data>
 </root>
