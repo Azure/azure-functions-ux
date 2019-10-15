@@ -95,6 +95,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
           onClick: cancel,
           disable: false,
         };
+
         return (
           <Form className={addEditFormStyle}>
             <Field
@@ -105,7 +106,6 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               ariaLabel={t('_name')}
               errorMessage={formProps.errors && formProps.errors.name}
               autoFocus
-              {...formProps}
             />
             <Field
               id="azure-storage-mounts-configuration-options"
@@ -135,7 +135,6 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               component={TextField}
               id={`azure-storage-mounts-path`}
               errorMessage={formProps.errors && formProps.errors.mountPath}
-              {...formProps}
             />
             <ActionBar
               id="handler-mappings-edit-footer"
