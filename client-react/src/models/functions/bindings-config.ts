@@ -48,4 +48,8 @@ export enum BindingSettingValue {
 
 export enum BindingSettingResource {
   Storage = 'Storage',
+  EventHub = 'EventHub',
+  ServiceBus = 'ServiceBus',
+  AppSetting = 'AppSetting',
+  DocumentDB = 'DocumentDB',
 }
