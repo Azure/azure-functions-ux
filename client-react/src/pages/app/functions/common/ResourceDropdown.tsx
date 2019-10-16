@@ -119,12 +119,10 @@ const filterResourcesFromAppSetting = (
 
 const _getStorageSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
-  for (const key in appSettings) {
-    if (key in appSettings) {
-      const value = appSettings[key].toLowerCase();
-      if (value.indexOf('accountname') > -1 && value.indexOf('accountkey') > -1) {
-        result.push(key);
-      }
+  for (const key of Object.keys(appSettings)) {
+    const value = appSettings[key].toLowerCase();
+    if (value.indexOf('accountname') > -1 && value.indexOf('accountkey') > -1) {
+      result.push(key);
     }
   }
   return result;
@@ -132,12 +130,10 @@ const _getStorageSettings = (appSettings: { [key: string]: string }, newAppSetti
 
 const _getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
-  for (const key in appSettings) {
-    if (key in appSettings) {
-      const value = appSettings[key].toLowerCase();
-      if (value.indexOf('sb://') > -1 && value.indexOf('sharedaccesskeyname') > -1) {
-        result.push(key);
-      }
+  for (const key of Object.keys(appSettings)) {
+    const value = appSettings[key].toLowerCase();
+    if (value.indexOf('sb://') > -1 && value.indexOf('sharedaccesskeyname') > -1) {
+      result.push(value);
     }
   }
   return result;
@@ -145,22 +141,19 @@ const _getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string 
 
 const _getAppSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
-  for (const key in appSettings) {
-    if (key in appSettings) {
-      result.push(key);
-    }
+  for (const key of Object.keys(appSettings)) {
+    result.push(key);
   }
+
   return result;
 };
 
 const _getDocumentDBSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
-  for (const key in appSettings) {
-    if (key in appSettings) {
-      const value = appSettings[key].toLowerCase();
-      if (value.indexOf('accountendpoint') > -1 && value.indexOf('documents.azure.com') > -1) {
-        result.push(key);
-      }
+  for (const key of Object.keys(appSettings)) {
+    const value = appSettings[key].toLowerCase();
+    if (value.indexOf('accountendpoint') > -1 && value.indexOf('documents.azure.com') > -1) {
+      result.push(key);
     }
   }
   return result;
