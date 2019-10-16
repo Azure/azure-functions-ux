@@ -6,10 +6,10 @@ import { IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import NewStorageAccountConnectionDialog from './NewStorageAccountConnectionDialog';
+import NewStorageAccountConnectionDialog from './dialog/NewStorageAccountConnectionDialog';
 import { ArmObj } from '../../../../models/arm-obj';
 import { BindingEditorFormValues } from './BindingFormBuilder';
-import NewEventHubConnectionDialog from './NewEventHubConnectionDialog';
+import NewEventHubConnectionDialog from './dialog/NewEventHubConnectionDialog';
 import LoadingComponent from '../../../../components/loading/loading-component';
 
 export interface ResourceDropdownProps {

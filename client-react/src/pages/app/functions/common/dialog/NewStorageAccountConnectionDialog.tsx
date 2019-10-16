@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { FieldProps, FormikProps } from 'formik';
-import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
+import Dropdown, { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
 import { IDropdownOption, IDropdownProps, DefaultButton, Dialog, DialogType } from 'office-ui-fabric-react';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import StorageService from '../../../../ApiHelpers/StorageService';
-import { ArmObj } from '../../../../models/arm-obj';
-import { StorageAccount } from '../../../../models/storage-account';
-import { BindingEditorFormValues } from './BindingFormBuilder';
+import LogService from '../../../../../utils/LogService';
+import { LogCategories } from '../../../../../utils/LogCategories';
+import StorageService from '../../../../../ApiHelpers/StorageService';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { StorageAccount } from '../../../../../models/storage-account';
+import { BindingEditorFormValues } from '../BindingFormBuilder';
 import { useTranslation } from 'react-i18next';
-import LoadingComponent from '../../../../components/loading/loading-component';
-
-export interface NewStorageAccountConnectionDialogProps {
-  resourceId: string;
-  setNewAppSettingName: (string) => void;
-  setIsDialogVisible: (boolean) => void;
-}
+import LoadingComponent from '../../../../../components/loading/loading-component';
+import { NewConnectionDialogProps } from './DialogProperties';
 
 const NewStorageAccountConnectionDialog: React.SFC<
-  NewStorageAccountConnectionDialogProps & CustomDropdownProps & FieldProps & IDropdownProps
+  NewConnectionDialogProps & CustomDropdownProps & FieldProps & IDropdownProps
 > = props => {
   const { resourceId, setNewAppSettingName, setIsDialogVisible, form: formProps, field } = props;
   const [storageAccounts, setStorageAccounts] = useState<ArmObj<StorageAccount>[] | undefined>(undefined);
