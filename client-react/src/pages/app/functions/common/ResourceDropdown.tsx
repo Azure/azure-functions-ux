@@ -133,7 +133,7 @@ const _getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string 
   for (const key of Object.keys(appSettings)) {
     const value = appSettings[key].toLowerCase();
     if (value.indexOf('sb://') > -1 && value.indexOf('sharedaccesskeyname') > -1) {
-      result.push(value);
+      result.push(key);
     }
   }
   return result;
