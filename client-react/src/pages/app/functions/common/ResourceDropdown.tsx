@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { BindingConfigUIDefinition, BindingSettingResource } from '../../../../models/functions/bindings-config';
 import { FieldProps, FormikProps } from 'formik';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
-import { IDropdownOption, IDropdownProps, Link, Callout } from 'office-ui-fabric-react';
+import { IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import NewStorageConnectionDropdown from './NewStorageConnectionDropdown';
+import NewStorageAccountConnectionDialog from './NewStorageAccountConnectionDialog';
 import { ArmObj } from '../../../../models/arm-obj';
 import { BindingEditorFormValues } from './BindingFormBuilder';
-import NewEventHubConnectionDialog from './NewEventHubDialog';
+import NewEventHubConnectionDialog from './NewEventHubConnectionDialog';
+import LoadingComponent from '../../../../components/loading/loading-component';
 
 export interface ResourceDropdownProps {
   setting: BindingConfigUIDefinition;
@@ -18,7 +19,7 @@ export interface ResourceDropdownProps {
 
 const paddingStyle = {
   marginTop: '-5px',
-  paddingBottom: '30px',
+  paddingBottom: '20px',
 };
 
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
@@ -26,7 +27,8 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   const [appSettings, setAppSettings] = useState<ArmObj<{ [key: string]: string }> | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<IDropdownOption | undefined>(undefined);
   const [newAppSettingName, setNewAppSettingName] = useState<string | undefined>(undefined);
-  const [isNewVisible, setIsNewVisible] = useState<boolean>(false);
+  const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+
   useEffect(() => {
     SiteService.fetchApplicationSettings(resourceId).then(r => {
       if (!r.metadata.success) {
@@ -38,7 +40,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   }, []);
 
   if (!appSettings) {
-    return null;
+    return <LoadingComponent />;
   }
 
   const options: IDropdownOption[] = [];
@@ -59,26 +61,26 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         {...props}
       />
       <div style={paddingStyle}>
-        <Link id="target" onClick={() => setIsNewVisible(!isNewVisible)}>
-          {isNewVisible ? 'Cancel' : 'New'}
-        </Link>
-        {setting.resource === BindingSettingResource.Storage && (
-          <Callout onDismiss={() => setIsNewVisible(false)} target={'#target'} hidden={!isNewVisible}>
-            <NewStorageConnectionDropdown
-              resourceId={resourceId}
-              setNewAppSettingName={setNewAppSettingName}
-              setIsNewVisible={setIsNewVisible}
-              {...props}
-            />
-          </Callout>
-        )}
-        {setting.resource === BindingSettingResource.EventHub && isNewVisible && (
-          <NewEventHubConnectionDialog
-            resourceId={resourceId}
-            setNewAppSettingName={setNewAppSettingName}
-            setIsNewVisible={setIsNewVisible}
-            {...props}
-          />
+        <Link onClick={() => setIsDialogVisible(true)}>{'New'}</Link>
+        {isDialogVisible && (
+          <>
+            {setting.resource === BindingSettingResource.Storage && (
+              <NewStorageAccountConnectionDialog
+                resourceId={resourceId}
+                setNewAppSettingName={setNewAppSettingName}
+                setIsDialogVisible={setIsDialogVisible}
+                {...props}
+              />
+            )}
+            {setting.resource === BindingSettingResource.EventHub && (
+              <NewEventHubConnectionDialog
+                resourceId={resourceId}
+                setNewAppSettingName={setNewAppSettingName}
+                setIsDialogVisible={setIsDialogVisible}
+                {...props}
+              />
+            )}
+          </>
         )}
       </div>
     </div>
