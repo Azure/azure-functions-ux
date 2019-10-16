@@ -1,6 +1,11 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { FormGroup, FormControl } from '@angular/forms';
-import { WizardForm, PermissionsResultCreationParameters, PermissionsResult } from './deployment-center-setup-models';
+import {
+  WizardForm,
+  PermissionsResultCreationParameters,
+  PermissionsResult,
+  ProvisioningConfigurationV2,
+} from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { Headers } from '@angular/http';
 import { CacheService } from '../../../../shared/services/cache.service';
@@ -214,6 +219,16 @@ export class DeploymentCenterStateManager implements OnDestroy {
       this._vstsApiToken,
       this._azureDevOpsDeploymentMethod
     );
+
+    this._portalService.logAction('deploymentcenter', 'azureDevOpsDeployment', {
+      buildProvider: this.wizardValues.buildProvider,
+      sourceProvider: this.wizardValues.sourceProvider,
+      pipelineTemplateId: !!(<ProvisioningConfigurationV2>deploymentObject).pipelineTemplateId
+        ? (<ProvisioningConfigurationV2>deploymentObject).pipelineTemplateId
+        : '',
+      azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod[this._azureDevOpsDeploymentMethod],
+    });
+
     const setupvsoCall = this._azureDevOpsService.startDeployment(
       this.wizardValues.buildSettings.vstsAccount,
       deploymentObject,
