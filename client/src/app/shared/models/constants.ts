@@ -323,6 +323,7 @@ export class ScenarioIds {
   public static readonly enableQuotas = 'EnableQuotas';
   public static readonly hasRoleAssignmentPermission = 'hasRoleAssignmentPermission';
   public static readonly containerSettings = 'containerSettings';
+  public static readonly isPublishProfileBasedDeploymentEnabled = 'isPublishProfileBasedDeploymentEnabled';
 }
 
 export class NationalCloudArmUris {

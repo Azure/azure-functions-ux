@@ -109,13 +109,6 @@ export class AzureEnvironment extends Environment {
       runCheckAsync: (input: ScenarioCheckInput) => this._vstsPermissionsCheck(input),
     };
 
-    if (IsPublishProfileBasedDeploymentEnabled) {
-      this.scenarioChecks[ScenarioIds.hasRoleAssignmentPermission] = {
-        id: ScenarioIds.hasRoleAssignmentPermission,
-        runCheckAsync: (input: ScenarioCheckInput) => this._hasRoleAssignmentPermissionCheck(input),
-      };
-    }
-
     this.scenarioChecks[ScenarioIds.addScaleOut] = {
       id: ScenarioIds.addScaleOut,
       runCheck: (input: ScenarioCheckInput) => {
@@ -267,15 +260,8 @@ export class AzureEnvironment extends Environment {
     } else {
       requestedActions = [AuthzService.activeDirectoryWriteScope];
     }
-    return this._checkAzureRolePermissions(input.site.id, requestedActions);
-  }
 
-  private _hasRoleAssignmentPermissionCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
-    return this._checkAzureRolePermissions(input.site.id, [AuthzService.activeDirectoryWriteScope]);
-  }
-
-  private _checkAzureRolePermissions(resourceId: string, requestedActions: string[]): Observable<ScenarioResult> {
-    return this._authZService.hasPermission(resourceId, requestedActions).map(value => {
+    return this._authZService.hasPermission(input.site.id, requestedActions).map(value => {
       return <ScenarioResult>{
         status: value ? 'enabled' : 'disabled',
         data: {
