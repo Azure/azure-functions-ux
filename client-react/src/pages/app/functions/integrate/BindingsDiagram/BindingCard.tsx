@@ -1,48 +1,30 @@
 import React, { useContext } from 'react';
 import { BindingInfo, BindingDirection } from '../../../../../models/functions/function-binding';
-import { Link } from 'office-ui-fabric-react';
 import { ThemeContext } from '../../../../../ThemeContext';
-import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
-import { cardStyle, headerStyle, listStyle } from './BindingDiagram.styles';
+import { cardStyle, headerStyle } from './BindingDiagram.styles';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { ArmObj } from '../../../../../models/arm-obj';
-import { getBindingConfigDirection } from '../binding-editor/BindingEditor';
-import { BindingConfigDirection } from '../../../../../models/functions/bindings-config';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import PortalCommunicator from '../../../../../portal-communicator';
-import { PortalContext } from '../../../../../PortalContext';
-import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
+import { BindingEditorContextInfo } from '../FunctionIntegrate';
 import { first } from 'rxjs/operators';
-import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
+import { BindingConfigMetadata, BindingsConfig, BindingConfigDirection } from '../../../../../models/functions/bindings-config';
 
 export interface BindingCardChildProps {
   functionInfo: ArmObj<FunctionInfo>;
 }
 
 export interface BindingCardProps extends BindingCardChildProps {
-  items: BindingInfo[];
   title: string;
   Svg: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  emptyMessage: string;
-  supportsMultipleItems?: boolean;
-
-  // Only used for the FunctionNameBindingCard.  When set, it doesn't show links or an add button
-  functionName?: string;
-}
-
-export interface BindingCardState {
-  items: BindingInfo[];
+  content: JSX.Element;
 }
 
 const BindingCard: React.SFC<BindingCardProps> = props => {
-  const { functionInfo, title, emptyMessage, Svg, functionName, items, supportsMultipleItems } = props;
+  const { title, Svg, content } = props;
 
   const theme = useContext(ThemeContext);
-  const portalCommunicator = useContext(PortalContext);
-
-  const { t } = useTranslation();
-  const bindingEditor = useContext(BindingEditorContext) as BindingEditorContextInfo;
 
   return (
     <>
@@ -51,75 +33,28 @@ const BindingCard: React.SFC<BindingCardProps> = props => {
           <h3>{title}</h3>
           <Svg />
         </div>
-        {getItemsList(portalCommunicator, functionInfo, items, emptyMessage, t, bindingEditor, theme, functionName, supportsMultipleItems)}
+        {content}
       </div>
     </>
   );
 };
 
-export const getTriggers = (bindings: BindingInfo[]) => {
-  const trigger = bindings.find(b => {
-    return getBindingConfigDirection(b) === BindingConfigDirection.trigger;
-  });
-
-  return trigger ? [trigger] : [];
-};
-
-export const getBindings = (bindings: BindingInfo[], direction: BindingDirection) => {
-  return bindings.filter(b => {
-    return getBindingConfigDirection(b).toString() === direction.toString();
-  });
-};
-
-const getItemsList = (
+export const createNew = (
   portalCommunicator: PortalCommunicator,
-  functionInfo: ArmObj<FunctionInfo>,
-  items: BindingInfo[],
-  emptyMessage: string,
   t: i18next.TFunction,
-  bindingEditorContext: BindingEditorContextInfo,
-  theme: ThemeExtended,
-  functionName?: string,
-  supportsMultipleItems?: boolean
+  functionInfo: ArmObj<FunctionInfo>,
+  functionBindings: BindingConfigMetadata[],
+  bindingEditorContext: BindingEditorContextInfo
 ) => {
-  let list: JSX.Element[] = [];
-
-  if (functionName) {
-    list.push(
-      <li key={'0'}>
-        <Link>{functionName}</Link>
-      </li>
-    );
-  } else if (items.length === 0) {
-    list.push(
-      <li key={'0'} className="emptyMessage">
-        {emptyMessage}
-      </li>
-    );
-  } else {
-    list = items.map((item, i) => {
-      const name = item.name ? `(${item.name})` : '';
-      const linkName = `${item.type} ${name}`;
-      return (
-        <li key={i.toString()}>
-          <Link onClick={() => onClick(portalCommunicator, t, functionInfo, item, bindingEditorContext)}>{linkName}</Link>
-        </li>
-      );
-    });
-  }
-
-  if (supportsMultipleItems) {
-    list.push(
-      <li key={list.length}>
-        <Link>{t('integrateAddInput')}</Link>
-      </li>
-    );
-  }
-
-  return <ul className={listStyle(theme)}>{list}</ul>;
+  const newBinding: BindingInfo = {
+    name: '',
+    type: '',
+    direction: BindingDirection.in,
+  };
+  editExisting(portalCommunicator, t, functionInfo, newBinding, bindingEditorContext);
 };
 
-const onClick = (
+export const editExisting = (
   portalCommunicator: PortalCommunicator,
   t: i18next.TFunction,
   functionInfo: ArmObj<FunctionInfo>,
@@ -134,6 +69,14 @@ const onClick = (
         submit(bindingEditorContext, portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo, info.currentBindingInfo);
       }
     });
+};
+
+export const emptyList = (emptyMessage: string): JSX.Element => {
+  return (
+    <li key={'0'} className="emptyMessage">
+      {emptyMessage}
+    </li>
+  );
 };
 
 const submit = (

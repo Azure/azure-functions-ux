@@ -82,7 +82,7 @@ const getPanelHeader = (bindingInfo: BindingInfo, t: i18next.TFunction) => {
       return t('editBindingInput');
     }
     case BindingConfigDirection.out: {
-      return t('editBindingOuput');
+      return t('editBindingOuput'); // XXX
     }
     default: {
       return t('editBindingTrigger');
