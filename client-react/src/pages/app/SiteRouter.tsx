@@ -33,7 +33,7 @@ const FunctionKeysLoadable: any = lazy(() =>
   import(/* webpackChunkName: "functionKeys" */ './functions/function-keys/FunctionKeysDataLoader')
 );
 const FunctionEditorLoadable: any = lazy(() =>
-  import(/* webpackChunkName:"functionintegrate" */ './functions/function-editor/FunctionEditorDataLoader')
+  import(/* webpackChunkName:"functioneditor" */ './functions/function-editor/FunctionEditorDataLoader')
 );
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
