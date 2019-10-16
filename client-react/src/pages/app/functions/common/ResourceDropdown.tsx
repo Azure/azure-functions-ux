@@ -6,9 +6,10 @@ import { IDropdownOption, IDropdownProps, Link, Callout } from 'office-ui-fabric
 import SiteService from '../../../../ApiHelpers/SiteService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import NewResourceConnection from './NewResourceConnection';
+import NewStorageConnectionDropdown from './NewStorageConnectionDropdown';
 import { ArmObj } from '../../../../models/arm-obj';
 import { BindingEditorFormValues } from './BindingFormBuilder';
+import NewEventHubConnectionDialog from './NewEventHubDialog';
 
 export interface ResourceDropdownProps {
   setting: BindingConfigUIDefinition;
@@ -25,7 +26,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   const [appSettings, setAppSettings] = useState<ArmObj<{ [key: string]: string }> | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<IDropdownOption | undefined>(undefined);
   const [newAppSettingName, setNewAppSettingName] = useState<string | undefined>(undefined);
-  const [isCalloutVisible, setIsCalloutVisible] = useState<boolean>(false);
+  const [isNewVisible, setIsNewVisible] = useState<boolean>(false);
   useEffect(() => {
     SiteService.fetchApplicationSettings(resourceId).then(r => {
       if (!r.metadata.success) {
@@ -58,17 +59,27 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         {...props}
       />
       <div style={paddingStyle}>
-        <Link id="target" onClick={() => setIsCalloutVisible(!isCalloutVisible)}>
-          {isCalloutVisible ? 'Cancel' : 'New'}
+        <Link id="target" onClick={() => setIsNewVisible(!isNewVisible)}>
+          {isNewVisible ? 'Cancel' : 'New'}
         </Link>
-        <Callout onDismiss={() => setIsCalloutVisible(false)} target={'#target'} hidden={!isCalloutVisible}>
-          <NewResourceConnection
+        {setting.resource === BindingSettingResource.Storage && (
+          <Callout onDismiss={() => setIsNewVisible(false)} target={'#target'} hidden={!isNewVisible}>
+            <NewStorageConnectionDropdown
+              resourceId={resourceId}
+              setNewAppSettingName={setNewAppSettingName}
+              setIsNewVisible={setIsNewVisible}
+              {...props}
+            />
+          </Callout>
+        )}
+        {setting.resource === BindingSettingResource.EventHub && isNewVisible && (
+          <NewEventHubConnectionDialog
             resourceId={resourceId}
             setNewAppSettingName={setNewAppSettingName}
-            setIsCalloutVisible={setIsCalloutVisible}
+            setIsNewVisible={setIsNewVisible}
             {...props}
           />
-        </Callout>
+        )}
       </div>
     </div>
   );
@@ -89,19 +100,66 @@ const filterResourcesFromAppSetting = (
   setting: BindingConfigUIDefinition,
   appSettings: { [key: string]: string },
   newAppSettingName?: string
-) => {
-  const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
+): string[] => {
   switch (setting.resource) {
     case BindingSettingResource.Storage:
-      for (const key in appSettings) {
-        if (key in appSettings) {
-          const value = appSettings[key].toLowerCase();
-          if (value.indexOf('accountname') > -1 && value.indexOf('accountkey') > -1) {
-            result.push(key);
-          }
-        }
+      return _getStorageSettings(appSettings, newAppSettingName);
+    case BindingSettingResource.EventHub:
+    case BindingSettingResource.ServiceBus:
+      return _getEventHubAndServiceBusSettings(appSettings, newAppSettingName);
+    case BindingSettingResource.AppSetting:
+      return _getAppSettings(appSettings, newAppSettingName);
+    case BindingSettingResource.DocumentDB:
+      return _getDocumentDBSettings(appSettings, newAppSettingName);
+  }
+  return [];
+};
+
+const _getStorageSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
+  const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
+  for (const key in appSettings) {
+    if (key in appSettings) {
+      const value = appSettings[key].toLowerCase();
+      if (value.indexOf('accountname') > -1 && value.indexOf('accountkey') > -1) {
+        result.push(key);
       }
-      break;
+    }
+  }
+  return result;
+};
+
+const _getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
+  const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
+  for (const key in appSettings) {
+    if (key in appSettings) {
+      const value = appSettings[key].toLowerCase();
+      if (value.indexOf('sb://') > -1 && value.indexOf('sharedaccesskeyname') > -1) {
+        result.push(key);
+      }
+    }
+  }
+  return result;
+};
+
+const _getAppSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
+  const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
+  for (const key in appSettings) {
+    if (key in appSettings) {
+      result.push(key);
+    }
+  }
+  return result;
+};
+
+const _getDocumentDBSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
+  const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
+  for (const key in appSettings) {
+    if (key in appSettings) {
+      const value = appSettings[key].toLowerCase();
+      if (value.indexOf('accountendpoint') > -1 && value.indexOf('documents.azure.com') > -1) {
+        result.push(key);
+      }
+    }
   }
   return result;
 };

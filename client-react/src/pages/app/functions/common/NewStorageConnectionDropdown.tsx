@@ -13,14 +13,14 @@ import { useTranslation } from 'react-i18next';
 export interface NewResourceConnectionProps {
   resourceId: string;
   setNewAppSettingName: (string) => void;
-  setIsCalloutVisible: (boolean) => void;
+  setIsNewVisible: (boolean) => void;
 }
 const paddingStyle = {
   padding: '20px',
 };
 
-const NewResourceConnection: React.SFC<NewResourceConnectionProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
-  const { resourceId, setNewAppSettingName, setIsCalloutVisible, form: formProps, field } = props;
+const NewStorageConnectionDropdown: React.SFC<NewResourceConnectionProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
+  const { resourceId, setNewAppSettingName, setIsNewVisible, form: formProps, field } = props;
   const [storageAccounts, setStorageAccounts] = useState<ArmObj<StorageAccount>[] | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<IDropdownOption | undefined>(undefined);
   const { t } = useTranslation();
@@ -54,7 +54,7 @@ const NewResourceConnection: React.SFC<NewResourceConnectionProps & CustomDropdo
       />
       <DefaultButton
         disabled={!selectedItem}
-        onClick={() => createStorageAccountConnection(selectedItem, setNewAppSettingName, setIsCalloutVisible, formProps, field)}>
+        onClick={() => createStorageAccountConnection(selectedItem, setNewAppSettingName, setIsNewVisible, formProps, field)}>
         {t('ok')}
       </DefaultButton>
     </form>
@@ -64,16 +64,16 @@ const NewResourceConnection: React.SFC<NewResourceConnectionProps & CustomDropdo
 const createStorageAccountConnection = (
   selectedItem: IDropdownOption | undefined,
   setNewAppSettingName: any,
-  setIsCalloutVisible: any,
+  setIsNewVisible: any,
   formProps: FormikProps<BindingEditorFormValues>,
   field: { name: string; value: any }
 ) => {
   if (selectedItem) {
     const appSettingName = `${selectedItem.text}_STORAGE`;
     formProps.setFieldValue(field.name, appSettingName);
-    setIsCalloutVisible(false);
+    setIsNewVisible(false);
     setNewAppSettingName(appSettingName);
   }
 };
 
-export default NewResourceConnection;
+export default NewStorageConnectionDropdown;
