@@ -11,7 +11,7 @@ import ResourceGroupService from '../../../ApiHelpers/ResourceGroupService';
 import ServerFarmService from '../../../ApiHelpers/ServerFarmService';
 import { PortalContext } from '../../../PortalContext';
 import PortalCommunicator from '../../../portal-communicator';
-import { getDefaultServerFarmName } from '../../../utils/formValidation/serverFarmValidator';
+import { getDefaultServerFarmName } from '../../../utils/validation/serverFarmValidator';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
 import LogService from '../../../utils/LogService';
 import { ReactComponent as AppServicePlanSvg } from '../../../images/AppService/app-service-plan.svg';
@@ -316,7 +316,7 @@ const openSpecPicker = async (
   linkElement: React.MutableRefObject<ILink | null>,
   portalCommunicator: PortalCommunicator
 ) => {
-  const result = await portalCommunicator.openFrameBlade<SpecPickerOutput>(
+  const result = await portalCommunicator.openBlade<SpecPickerOutput>(
     {
       detailBlade: 'SpecPickerFrameBlade',
       detailBladeInputs: {

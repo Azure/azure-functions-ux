@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" preserveAspectRatio="none" viewBox="179 214.7823046210672 201.14285714285722 188.21769537893286" width="197.14" height="184.22">
+<svg xmlns="http://www.w3.org/2000/svg" 
+   xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" preserveAspectRatio="none" viewBox="179 214.7823046210672 201.14285714285722 188.21769537893286" width="197.14" height="184.22">
    <defs>
       <path d="M375.92 308.21C351.6 308.21 316.3 308.21 301.39 308.21C289.58 308.21 280 317.78 280 329.6C280 343.68 280 361.49 280 374.81C280 388.72 268.72 400 254.81 400C244.83 400 219.9 400 180 400" id="c2DKuMhC3I" />
       <path d="M371.24 301.17C372.19 302.38 374.07 304.81 376.91 308.46" id="b5ZQugPZ2w" />
@@ -10,22 +11,22 @@
    <g>
       <g>
          <g>
-            <use xlink:href="#c2DKuMhC3I" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="0.5" stroke-opacity="1" />
+            <use xlink:href="#c2DKuMhC3I" />
          </g>
       </g>
       <g>
          <g>
-            <use xlink:href="#b5ZQugPZ2w" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="0.5" stroke-opacity="1" />
+            <use xlink:href="#b5ZQugPZ2w" />
          </g>
       </g>
       <g>
          <g>
-            <use xlink:href="#a5vBp6pUmb" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="0.5" stroke-opacity="1" />
+            <use xlink:href="#a5vBp6pUmb" />
          </g>
       </g>
       <g>
          <g>
-            <use xlink:href="#cWVBs1r92" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="0.5" stroke-opacity="1" />
+            <use xlink:href="#cWVBs1r92" />
          </g>
       </g>
    </g>

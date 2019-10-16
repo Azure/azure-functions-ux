@@ -2149,6 +2149,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="validation_slotNameReserved" xml:space="preserve">
         <value>The slot name '{0}' is a reserved deployment slot name.</value>
     </data>
+    <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>The field must be fewer than {0} characters</value>
+    </data>
+    <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
+    </data>
+    <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis</value>
+    </data>
+    <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>Mount path cannot be '/home'</value>
+    </data>
     <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>We are unable to update your function app's edit mode. Please try again later.</value>
     </data>
@@ -5149,7 +5161,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Error Details</value>
     </data>
     <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Function keys can be found at the function level.</value>
+        <value>Function keys can be configured in function settings.</value>
     </data>
     <data name="appKeysHost" xml:space="preserve">
         <value>Host keys (all functions)</value>
@@ -5253,6 +5265,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
     </data>
+    <data name="azureKeyVault" xml:space="preserve">
+        <value>Key vault Reference</value>
+    </data>
+    <data name="appConfigValue" xml:space="preserve">
+        <value>App Config</value>
+    </data>
+    <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Error: Could not access key vault reference metadata</value>
+    </data>
     <data name="containerSettingsNotConfigured" xml:space="preserve">
         <value>Click here to configure container settings.</value>
     </data>
@@ -5264,5 +5285,32 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="linux" xml:space="preserve">
         <value>Linux</value>
+    </data>
+    <data name="none" xml:space="preserve">
+        <value>None</value>
+    </data>
+    <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>Save changes to your function.</value>
+    </data>
+    <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>Discard changes to your function.</value>
+    </data>
+    <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>Open test panel to test run your function.</value>
+    </data>
+    <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>Open popup to get function URL for your function.</value>
+    </data>
+    <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>Use left and right arrow keys to navigate between commands</value>
+    </data>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select your function directory or files in your root directory.</value>
+    </data>
+    <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select files in your function directory.</value>
+    </data>
+    <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
     </data>
 </root>

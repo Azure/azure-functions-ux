@@ -11,6 +11,7 @@ import TextField from '../../../../components/form-controls/TextField';
 import { StorageAccountsContext } from '../Contexts';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RadioButton from '../../../../components/form-controls/RadioButton';
+import * as Yup from 'yup';
 
 export interface AzureStorageMountsAddEditProps {
   updateAzureStorageMount: (item: FormAzureStorageMounts) => any;
@@ -27,23 +28,42 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   const { t } = useTranslation();
   const [basicDisabled, setBasicDisabled] = useState(false);
   const [initialName] = useState(azureStorageMount.name);
+  const [initialMountPath] = useState(azureStorageMount.mountPath);
+  const mountPathRegex = /^\/[a-zA-Z0-9\[\]\(\)\-_\/]*$/;
+  const shareNameMaxLength = 64;
+  const shareNameRegex = /^[a-zA-Z0-9\[\]\(\)\-_]+$/;
   const cancel = () => {
     closeBlade();
   };
 
-  const validateAppSettingName = (value: string) => {
-    if (initialName && value === initialName) {
-      return undefined;
-    }
-
-    if (!value) {
-      return t('validation_requiredError');
-    }
-
-    return otherAzureStorageMounts.filter(v => v.name.toLowerCase() === value.toLowerCase()).length >= 1
-      ? t('azureStorageMountMustBeUnique')
-      : undefined;
-  };
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required(t('validation_requiredError'))
+      .test('uniqueName', t('azureStorageMountMustBeUnique'), value => {
+        return (
+          !value ||
+          value.toLowerCase() === initialName.toLowerCase() ||
+          !otherAzureStorageMounts.some(storageMount => storageMount.name.toLowerCase() === value.toLowerCase())
+        );
+      }),
+    accountName: Yup.string().required(t('validation_requiredError')),
+    shareName: Yup.string()
+      .required(t('validation_requiredError'))
+      .max(shareNameMaxLength, t('validation_fieldMaxCharacters').format(shareNameMaxLength))
+      .matches(shareNameRegex, t('validation_shareNameAllowedCharacters')),
+    accessKey: Yup.string().required(t('validation_requiredError')),
+    mountPath: Yup.string()
+      .required(t('validation_requiredError'))
+      .matches(mountPathRegex, t('validation_mountNameAllowedCharacters'))
+      .test('cannotMountHomeDirectory', t('validation_mountPathNotHome'), (value: string) => value !== '/home')
+      .test('uniqueMountPath', t('mouthPathMustBeUnique'), value => {
+        return (
+          !value ||
+          value === initialMountPath ||
+          !otherAzureStorageMounts.some(storageMount => storageMount.mountPath.toLowerCase() === value.toLowerCase())
+        );
+      }),
+  });
 
   useEffect(() => {
     if (storageAccounts.value.length === 0) {
@@ -60,6 +80,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       onSubmit={values => {
         updateAzureStorageMount(values);
       }}
+      validationSchema={validationSchema}
       render={(formProps: FormikProps<FormAzureStorageMounts>) => {
         const actionBarPrimaryButtonProps = {
           id: 'save',
@@ -74,6 +95,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
           onClick: cancel,
           disable: false,
         };
+
         return (
           <Form className={addEditFormStyle}>
             <Field
@@ -83,14 +105,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               id={`azure-storage-mounts-name`}
               ariaLabel={t('_name')}
               errorMessage={formProps.errors && formProps.errors.name}
-              validate={(value: string) => {
-                const error = validateAppSettingName(value);
-                if (error) {
-                  throw error;
-                }
-              }}
               autoFocus
-              {...formProps}
             />
             <Field
               id="azure-storage-mounts-configuration-options"
@@ -120,7 +135,6 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               component={TextField}
               id={`azure-storage-mounts-path`}
               errorMessage={formProps.errors && formProps.errors.mountPath}
-              {...formProps}
             />
             <ActionBar
               id="handler-mappings-edit-footer"
