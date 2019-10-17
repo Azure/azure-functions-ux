@@ -1194,6 +1194,7 @@ export class PortalResources {
   public static disconnect = 'disconnect';
   public static edit = 'edit';
   public static sync = 'sync';
+  public static deploymentCredentials = 'deploymentCredentials';
   public static pricing_dv3SeriesComputeEquivalent = 'pricing_dv3SeriesComputeEquivalent';
   public static funcConnStringsInfoText = 'funcConnStringsInfoText';
   public static appFunctionSettings_functionAppSettings_versionLoading = 'appFunctionSettings_functionAppSettings_versionLoading';
@@ -1718,4 +1719,11 @@ export class PortalResources {
   public static localGitDescription = 'localGitDescription';
   public static ftpsDescription = 'ftpsDescription';
   public static gitCloneUrlLabel = 'gitCloneUrlLabel';
+  public static githubActionWorkflowConfiguration = 'githubActionWorkflowConfiguration';
+  public static githubActionSavingSettings = 'githubActionSavingSettings';
+  public static githubActionSettingsSavedSuccessfully = 'githubActionSettingsSavedSuccessfully';
+  public static githubActionWorkflowCommitMessage = 'githubActionWorkflowCommitMessage';
+  public static functionAppDirectoryDropdownAriaLabel = 'functionAppDirectoryDropdownAriaLabel';
+  public static functionDirectoryDropdownAriaLabel = 'functionDirectoryDropdownAriaLabel';
+  public static closeGetFunctionUrlModal = 'closeGetFunctionUrlModal';
 }
