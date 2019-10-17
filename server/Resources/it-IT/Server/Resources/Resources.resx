@@ -2146,6 +2146,18 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="validation_slotNameReserved" xml:space="preserve">
         <value>Il nome dello slot '{0}' è un nome di slot di distribuzione riservato.</value>
     </data>
+  <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>Il campo deve contenere meno di {0} caratteri</value>
+    </data>
+  <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>Il nome della condivisione può includere solo caratteri alfanumerici, caratteri di sottolineatura, trattini, parentesi quadre e parentesi</value>
+    </data>
+  <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>Il percorso di montaggio deve essere un percorso completo e può includere solo caratteri alfanumerici, caratteri di sottolineatura, trattini, barre, parentesi quadre e parentesi</value>
+    </data>
+  <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>Il percorso di montaggio non può essere '/home'</value>
+    </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>Non è possibile aggiornare la modalità di modifica dell'app per le funzioni. Riprovare più tardi.</value>
     </data>
@@ -4969,7 +4981,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Il percorso della directory di lavoro dovrebbe essere relativo alla radice del repository e non può iniziare con /, \ o nomi di unità (C:/) nel caso di Windows. Se la directory di lavoro risiede nella cartella src del repository, il percorso sarà src/</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>L'archiviazione montata consente di mappare i file di Azure o i contenitori BLOB da usare con l'app.</value>
+        <value>La risorsa di archiviazione montata consente di mappare fino a 5 file di Azure o contenitori BLOB da usare con l'app.</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>Cambia il piano di servizio app</value>
@@ -5146,7 +5158,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Dettagli errore</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Le chiavi di funzione sono disponibili a livello della funzione.</value>
+        <value>È possibile configurare le chiavi di funzione nelle impostazioni della funzione.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Chiavi host (tutte le funzioni)</value>
@@ -5245,9 +5257,69 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
       <value>I nomi delle chiavi di funzione devono essere univoci</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
+        <value>Azioni GitHub (anteprima)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+        <value>È possibile automatizzare gratuitamente le attività di compilazione, test e distribuzione con le Azioni GitHub. Verrà aggiunto un flusso di lavoro di YML al repository con la procedura per compilare e distribuire l'applicazione nel servizio app.</value>
+    </data>
+  <data name="azureKeyVault" xml:space="preserve">
+        <value>Riferimenti dell'insieme di credenziali delle chiavi</value>
+    </data>
+  <data name="appConfigValue" xml:space="preserve">
+        <value>Configurazione app</value>
+    </data>
+  <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Errore: non è stato possibile accedere ai metadati dei riferimenti dell'insieme di credenziali delle chiavi</value>
+    </data>
+  <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>Fare clic qui per configurare le impostazioni del contenitore.</value>
+    </data>
+  <data name="containerSettingsTitle" xml:space="preserve">
+        <value>Impostazioni contenitore</value>
+    </data>
+  <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>Configurare e gestire le impostazioni del contenitore per l'app.</value>
+    </data>
+  <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+  <data name="none" xml:space="preserve">
+        <value>Nessuno</value>
+    </data>
+  <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>Salva le modifiche alla funzione.</value>
+    </data>
+  <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>Rimuove le modifiche alla funzione.</value>
+    </data>
+  <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>Apre il riquadro del test per testare l'esecuzione della funzione.</value>
+    </data>
+  <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>Apre la finestra popup per ottenere l'URL della funzione per la funzione corrente.</value>
+    </data>
+  <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>Usare i tasti freccia SINISTRA e DESTRA per spostarsi tra i comandi</value>
+    </data>
+  <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>GitHub Action Workflow Configuration</value>
+    </data>
+  <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>Adding workflow configuration to GitHub Actions</value>
+    </data>
+  <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+    </data>
+  <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Selezionare i file o la directory delle funzioni nella directory radice.</value>
+    </data>
+    </data>
+  <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Selezionare i file nella directory delle funzioni.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Chiudi finestra modale della funzione Get.</value>
     </data>
 </root>

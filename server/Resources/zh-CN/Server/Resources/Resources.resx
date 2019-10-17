@@ -2146,6 +2146,18 @@
   <data name="validation_slotNameReserved" xml:space="preserve">
         <value>槽名称“{0}”是保留的部署槽名称。</value>
     </data>
+  <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>此字段的长度必须少于 {0} 个字符</value>
+    </data>
+  <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>共享名只能包含字母数字字符、下划线、连字符、方括号和圆括号</value>
+    </data>
+  <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>装载路径必须是完全限定的路径，并且只能包含字母数字字符、下划线、连字符、正斜杠、方括号和圆括号</value>
+    </data>
+  <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>装载路径不能是 "/home"</value>
+    </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>无法更新函数应用的编辑模式。请稍后再试。</value>
     </data>
@@ -4854,7 +4866,7 @@
         <value>连接字符串名称必须是唯一的</value>
     </data>
   <data name="slotSettingForbiddenProperty" xml:space="preserve">
-        <value>Updating the '{0}' property requires write access on the production app</value>
+        <value>更新“{0}”属性需要对生产应用具有写入访问权限</value>
     </data>
   <data name="handlerMappingPropIsRequired" xml:space="preserve">
         <value>{0} 是所有处理程序映射的必需属性</value>
@@ -4969,7 +4981,7 @@
         <value>工作目录路径应与存储库的根路径相对，且不可以 /、\ 或驱动器名称(C:/)(若为 Windows)开头。如果工作目录位于存储库的 src 文件夹中，则路径应为 src/</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>通过载入的存储，可映射 Azure 文件或 BLOB 容器供应用使用。</value>
+        <value>通过载入的存储，可映射最多 5 个 Azure 文件存储或 Blob 容器供应用使用。</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>更改应用服务计划</value>
@@ -5146,7 +5158,7 @@
         <value>错误详细信息</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>可以在函数级别找到功能键。</value>
+        <value>可以在功能设置中配置功能键。</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>主机键(所有功能)</value>
@@ -5218,36 +5230,96 @@
         <value>~3 (预览)</value>
     </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
-        <value>Unable to retrieve authentication state. Please try again in a few minutes.</value>
+        <value>无法检索身份验证状态。请在几分钟后重试。</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Refresh all keys for the function</value>
+      <value>刷新此功能所有的键</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
       <value>使用向左键和向右键浏览命令</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>New function key</value>
+      <value>新功能键</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Filter functions keys</value>
+      <value>筛选功能键</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Edit key</value>
+      <value>编辑键</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
       <value>添加键</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} is a required property on all function keys</value>
+      <value>{0} 是所有功能密钥的必需属性</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Function key names must be unique</value>
+      <value>功能密钥名称必须唯一</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
+        <value>GitHub 操作(预览)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+        <value>免费实现 GitHub 操作的生成、测试和部署步骤自动化。这将向存储库添加 YML 工作流，其中包含生成应用程序并将其部署到应用服务的步骤。</value>
+    </data>
+  <data name="azureKeyVault" xml:space="preserve">
+        <value>密钥保管库引用</value>
+    </data>
+  <data name="appConfigValue" xml:space="preserve">
+        <value>应用配置</value>
+    </data>
+  <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>错误: 无法访问密钥保管库引用元数据</value>
+    </data>
+  <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>单击此处以配置容器设置。</value>
+    </data>
+  <data name="containerSettingsTitle" xml:space="preserve">
+        <value>容器设置</value>
+    </data>
+  <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>配置和管理应用的容器设置。</value>
+    </data>
+  <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+  <data name="none" xml:space="preserve">
+        <value>无</value>
+    </data>
+  <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>保存对函数所做的更改。</value>
+    </data>
+  <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>放弃对函数所做的更改。</value>
+    </data>
+  <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>打开测试面板以测试运行函数。</value>
+    </data>
+  <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>打开弹出式菜单以获取函数的函数 URL。</value>
+    </data>
+  <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>使用向左键和向右键浏览命令</value>
+    </data>
+  <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>GitHub Action Workflow Configuration</value>
+    </data>
+  <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>Adding workflow configuration to GitHub Actions</value>
+    </data>
+  <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+    </data>
+  <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>选择你的函数目录或根目录中的文件。</value>
+    </data>
+    </data>
+  <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>选择函数目录中的文件。</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>关闭 get 函数 URL 模式。</value>
     </data>
 </root>
