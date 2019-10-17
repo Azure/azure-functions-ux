@@ -99,9 +99,9 @@ export class LogicAppsComponent extends FunctionAppContextComponent {
 
         return Observable.zip(
           this._cacheService.getArm(
-            `/subscriptions/${
-              this.subId
-            }/providers/Microsoft.Logic/workflows?api-version=2017-07-01&$filter=contains(referencedResourceId, '${logicAppResId}')`,
+            `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows?api-version=${
+              this._armService.logicAppsApiVersion
+            }&$filter=contains(referencedResourceId, '${logicAppResId}')`,
             true,
             this._armService.logicAppsApiVersion,
             true

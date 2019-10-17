@@ -5315,5 +5315,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select your function directory or files in your root directory.</value>
+    </data>
+    </data>
+    <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select files in your function directory.</value>
+    </data>
+    <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
     </data>
 </root>
