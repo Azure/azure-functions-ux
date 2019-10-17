@@ -20,13 +20,14 @@ export interface BindingConfigMetadata {
 
 export interface BindingConfigUIDefinition {
   name: string;
-  value: 'string' | 'enum' | 'checkBoxList';
+  value: BindingSettingValue;
   defaultValue: string;
   required: boolean;
   label: string;
   help: string;
   validators?: BindingConfigUIValidator[];
   enum?: BindingEnumUIDefinition[];
+  resource?: BindingSettingResource;
 }
 
 export interface BindingConfigUIValidator {
@@ -37,4 +38,18 @@ export interface BindingConfigUIValidator {
 export interface BindingEnumUIDefinition {
   value: string;
   display: string;
+}
+
+export enum BindingSettingValue {
+  string = 'string',
+  enum = 'enum',
+  checkBoxList = 'checkBoxList',
+}
+
+export enum BindingSettingResource {
+  Storage = 'Storage',
+  EventHub = 'EventHub',
+  ServiceBus = 'ServiceBus',
+  AppSetting = 'AppSetting',
+  DocumentDB = 'DocumentDB',
 }

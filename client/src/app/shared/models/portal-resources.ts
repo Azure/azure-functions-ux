@@ -678,6 +678,10 @@ export class PortalResources {
   public static validation_siteNameNotAvailable = 'validation_siteNameNotAvailable';
   public static validation_slotNameNotAvailable = 'validation_slotNameNotAvailable';
   public static validation_slotNameReserved = 'validation_slotNameReserved';
+  public static validation_fieldMaxCharacters = 'validation_fieldMaxCharacters';
+  public static validation_shareNameAllowedCharacters = 'validation_shareNameAllowedCharacters';
+  public static validation_mountNameAllowedCharacters = 'validation_mountNameAllowedCharacters';
+  public static validation_mountPathNotHome = 'validation_mountPathNotHome';
   public static error_unableToUpdateFunctionAppEditMode = 'error_unableToUpdateFunctionAppEditMode';
   public static readOnly = 'readOnly';
   public static readWriteSourceControlled = 'readWriteSourceControlled';
@@ -1694,4 +1698,24 @@ export class PortalResources {
   public static functionKeyNamesUnique = 'functionKeyNamesUnique';
   public static gitHubActionBuildServerTitle = 'gitHubActionBuildServerTitle';
   public static gitHubActionBuildServerDesc = 'gitHubActionBuildServerDesc';
+  public static azureKeyVault = 'azureKeyVault';
+  public static appConfigValue = 'appConfigValue';
+  public static appSettingKeyvaultAPIError = 'appSettingKeyvaultAPIError';
+  public static containerSettingsNotConfigured = 'containerSettingsNotConfigured';
+  public static containerSettingsTitle = 'containerSettingsTitle';
+  public static feature_containerSettingsInfo = 'feature_containerSettingsInfo';
+  public static linux = 'linux';
+  public static none = 'none';
+  public static functionEditorSaveAriaLabel = 'functionEditorSaveAriaLabel';
+  public static functionEditorDiscardAriaLabel = 'functionEditorDiscardAriaLabel';
+  public static functionEditorTestAriaLabel = 'functionEditorTestAriaLabel';
+  public static functionEditorGetFunctionUrlAriaLabel = 'functionEditorGetFunctionUrlAriaLabel';
+  public static functionEditorCommandBarAriaLabel = 'functionEditorCommandBarAriaLabel';
+  public static githubActionWorkflowConfiguration = 'githubActionWorkflowConfiguration';
+  public static githubActionSavingSettings = 'githubActionSavingSettings';
+  public static githubActionSettingsSavedSuccessfully = 'githubActionSettingsSavedSuccessfully';
+  public static githubActionWorkflowCommitMessage = 'githubActionWorkflowCommitMessage';
+  public static functionAppDirectoryDropdownAriaLabel = 'functionAppDirectoryDropdownAriaLabel';
+  public static functionDirectoryDropdownAriaLabel = 'functionDirectoryDropdownAriaLabel';
+  public static closeGetFunctionUrlModal = 'closeGetFunctionUrlModal';
 }

@@ -3,7 +3,7 @@ import { FunctionTemplate } from '../../../../models/functions/function-template
 import { DefaultButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
-import { BindingConfigMetadata } from '../../../../models/functions/bindings-config';
+import { BindingsConfig } from '../../../../models/functions/bindings-config';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -13,13 +13,13 @@ import { getTriggerBinding, getRequiredBindingMetadata } from './DetailsPivot.he
 
 interface DetailsPivotProps {
   functionsInfo: ArmObj<FunctionInfo>[];
-  bindingsConfigMetatdata: BindingConfigMetadata[];
+  bindingsConfig: BindingsConfig;
   selectedFunctionTemplate: FunctionTemplate | undefined;
   resourceId: string;
 }
 
 const DetailsPivot: React.FC<DetailsPivotProps> = props => {
-  const { functionsInfo, bindingsConfigMetatdata, selectedFunctionTemplate, resourceId } = props;
+  const { functionsInfo, bindingsConfig, selectedFunctionTemplate, resourceId } = props;
   const functionCreateData = useContext(FunctionCreateContext);
   const { t } = useTranslation();
 
@@ -27,12 +27,14 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
     const triggerBinding = getTriggerBinding(selectedFunctionTemplate);
     const requiredBindingMetadata = getRequiredBindingMetadata(
       triggerBinding,
-      bindingsConfigMetatdata,
+      bindingsConfig,
       selectedFunctionTemplate.metadata.userPrompt || []
     );
     const builder = new CreateFunctionFormBuilder(
       triggerBinding,
       requiredBindingMetadata,
+      resourceId,
+      bindingsConfig.variables,
       functionsInfo,
       selectedFunctionTemplate.metadata.defaultFunctionName || 'NewFunction',
       t

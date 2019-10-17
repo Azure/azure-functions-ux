@@ -6,10 +6,10 @@ import { TreeViewInfo, SiteData } from '../../tree-view/models/tree-view-info';
 import { Subject } from 'rxjs/Subject';
 import { SelectOption } from '../../shared/models/select-option';
 import { SiteService } from '../../shared/services/site.service';
-import { SiteTabIds, LogLevel, Regex, ConsoleConstants, HostTypes, ScenarioIds, LogCategories } from '../../shared/models/constants';
+import { SiteTabIds, LogLevel, Regex, ConsoleConstants, ScenarioIds, LogCategories } from '../../shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
-import { Site } from '../../shared/models/arm/site';
+import { Site, HostType } from '../../shared/models/arm/site';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { UserService } from '../../shared/services/user.service';
@@ -182,7 +182,7 @@ export class AppLogStreamComponent extends FeatureComponent<TreeViewInfo<SiteDat
    * Get api url for the current type of logs.
    */
   private _getLogUrl(): string {
-    const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.scm).name;
+    const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
     return `https://${scmHostName}/api/logstream/` + (this.toggleLog ? '' : this._logStreamType);
   }
 

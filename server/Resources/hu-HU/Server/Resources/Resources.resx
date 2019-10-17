@@ -2146,6 +2146,18 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="validation_slotNameReserved" xml:space="preserve">
         <value>A(z) {0} tárolóhelynév egy fenntartott üzembe helyezési pont neve.</value>
     </data>
+  <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>The field must be fewer than {0} characters</value>
+    </data>
+  <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
+    </data>
+  <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis</value>
+    </data>
+  <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>Mount path cannot be '/home'</value>
+    </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>Nem tudtuk megváltoztatni a függvényalkalmazás szerkesztési módját. Próbálja újra később.</value>
     </data>
@@ -4854,7 +4866,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A kapcsolati sztringek neveinek egyedinek kell lenniük</value>
     </data>
   <data name="slotSettingForbiddenProperty" xml:space="preserve">
-        <value>Updating the '{0}' property requires write access on the production app</value>
+        <value>A(z) {0} tulajdonság frissítéséhez az éles alkalmazásra vonatkozó írási hozzáférés szükséges</value>
     </data>
   <data name="handlerMappingPropIsRequired" xml:space="preserve">
         <value>A(z) {0} tulajdonság minden kezelőleképezés esetében kötelező</value>
@@ -4969,7 +4981,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A munkakönyvtár elérési útjának az adattár gyökeréhez képest relatívnak kell lennie, és nem kezdődhet / vagy \ jellel, vagy meghajtónévvel (C:/) Windows esetén. Ha a munkakönyvtár az adattár src mappájában található, az elérési útnak a következőnek kell lennie: src/</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>A csatlakoztatott tárolóval leképezheti az Azure Files- vagy -blobtárolókat az alkalmazáshoz való használatra.</value>
+        <value>Mounted storage lets you map up to 5 Azure Files or Blob containers for use with your app.</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>Váltás másik App Service-csomagra</value>
@@ -5146,7 +5158,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Hiba részletei</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>A funkcióbillentyűk a függvény szintjén találhatók.</value>
+        <value>Function keys can be configured in function settings.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Állomáskulcsok (minden függvény)</value>
@@ -5221,33 +5233,93 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem sikerült beolvasni a hitelesítési állapotot. Próbálkozzon újra néhány perc múlva.</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Refresh all keys for the function</value>
+      <value>A függvény összes kulcsának frissítése</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
       <value>A balra és jobbra mutató nyilakkal lépkedhet a parancsok között</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>New function key</value>
+      <value>Új függvénykulcs</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Filter functions keys</value>
+      <value>Függvények kulcsainak szűrése</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Edit key</value>
+      <value>Kulcs szerkesztése</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
       <value>Kulcs hozzáadása</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} is a required property on all function keys</value>
+      <value>A(z) {0} tulajdonság minden függvénykulcs esetében kötelező</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Function key names must be unique</value>
+      <value>A függvénykulcsok nevének egyedinek kell lennie</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
+        <value>GitHub Actions (előzetes verzió)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+        <value>A GitHub Actions segítségével ingyenes automatizálhatja a buildelési, tesztelési és üzembe helyezési lépéseket. Ez a funkció hozzáad egy olyan YML-munkafolyamatot a tárházhoz, amely tartalmazza az alkalmazás App Service-ben való létrehozásához és üzembe helyezéséhez szükséges lépéseket.</value>
+    </data>
+  <data name="azureKeyVault" xml:space="preserve">
+        <value>Key vault Reference</value>
+    </data>
+  <data name="appConfigValue" xml:space="preserve">
+        <value>App Config</value>
+    </data>
+  <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Error: Could not access key vault reference metadata</value>
+    </data>
+  <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>Kattintson ide a tároló beállításainak konfigurálásához.</value>
+    </data>
+  <data name="containerSettingsTitle" xml:space="preserve">
+        <value>Tárolóbeállítások</value>
+    </data>
+  <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>Az alkalmazás tárolóbeállításainak konfigurálása és kezelése.</value>
+    </data>
+  <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+  <data name="none" xml:space="preserve">
+        <value>Nincs</value>
+    </data>
+  <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>Save changes to your function.</value>
+    </data>
+  <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>Discard changes to your function.</value>
+    </data>
+  <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>Open test panel to test run your function.</value>
+    </data>
+  <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>Open popup to get function URL for your function.</value>
+    </data>
+  <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>A balra és jobbra mutató nyilakkal lépkedhet a parancsok között</value>
+    </data>
+  <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>GitHub Action Workflow Configuration</value>
+    </data>
+  <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>Adding workflow configuration to GitHub Actions</value>
+    </data>
+  <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+    </data>
+  <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select your function directory or files in your root directory.</value>
+    </data>
+    </data>
+  <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select files in your function directory.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
     </data>
 </root>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" 
+   xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" preserveAspectRatio="none" viewBox="179 214.7823046210672 201.14285714285722 188.21769537893286" width="197.14" height="184.22">
+   <defs>
+      <path d="M375.92 308.21C351.6 308.21 316.3 308.21 301.39 308.21C289.58 308.21 280 317.78 280 329.6C280 343.68 280 361.49 280 374.81C280 388.72 268.72 400 254.81 400C244.83 400 219.9 400 180 400" id="c2DKuMhC3I" />
+      <path d="M371.24 301.17C372.19 302.38 374.07 304.81 376.91 308.46" id="b5ZQugPZ2w" />
+      <path d="M371 315C372.01 313.83 374.04 311.48 377.07 307.96" id="a5vBp6pUmb" />
+      <path d="M377.14 308.3C352.82 308.3 317.65 308.3 302.78 308.3C290.88 308.3 281.22 298.65 281.22 286.74C281.22 272.55 281.22 254.6 281.22 241.17C281.22 227.15 269.86 215.78 255.83 215.78C245.89 215.78 221.02 215.78 181.22 215.78" id="cWVBs1r92" />
+   </defs>
+   <g>
+      <g>
+         <g>
+            <use xlink:href="#c2DKuMhC3I" />
+         </g>
+      </g>
+      <g>
+         <g>
+            <use xlink:href="#b5ZQugPZ2w" />
+         </g>
+      </g>
+      <g>
+         <g>
+            <use xlink:href="#a5vBp6pUmb" />
+         </g>
+      </g>
+      <g>
+         <g>
+            <use xlink:href="#cWVBs1r92" />
+         </g>
+      </g>
+   </g>
+</svg>

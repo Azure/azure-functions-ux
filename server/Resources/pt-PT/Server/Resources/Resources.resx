@@ -2146,6 +2146,18 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="validation_slotNameReserved" xml:space="preserve">
         <value>O nome do bloco "{0}" é um nome de bloco de implementação reservado.</value>
     </data>
+  <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>O campo tem de ter menos de {0} carateres</value>
+    </data>
+  <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>O nome da partilha só pode incluir carateres alfanuméricos, carateres de sublinhado, hífenes, colchetes quadrados e parênteses</value>
+    </data>
+  <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>O caminho de montagem tem de ser um caminho totalmente qualificado e só pode incluir carateres alfanuméricos, carateres de sublinhado, hífenes, barras, colchetes quadrados e parênteses</value>
+    </data>
+  <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>O caminho de montagem não pode ser "/home"</value>
+    </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>Não foi possível atualizar o modo de edição da aplicação de funções. Tente novamente mais tarde.</value>
     </data>
@@ -4854,7 +4866,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Os nomes das cadeias de ligação têm de ser exclusivos</value>
     </data>
   <data name="slotSettingForbiddenProperty" xml:space="preserve">
-        <value>Updating the '{0}' property requires write access on the production app</value>
+        <value>A atualização da propriedade "{0}" exige acesso de escrita à aplicação de produção</value>
     </data>
   <data name="handlerMappingPropIsRequired" xml:space="preserve">
         <value>{0} é uma propriedade necessária em todos os mapeamentos do processador</value>
@@ -4969,7 +4981,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>O caminho do diretório de trabalho deve ser relativo à raiz do repositório e não pode começar com /, \ ou nomes das unidades (C:/) no caso do Windows. Se o diretório de trabalho estiver na pasta src do repositório, o caminho deve ser src/</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>O armazenamento montado permite-lhe mapear Ficheiros do Azure ou contentores Blob a serem utilizados juntamente com a sua aplicação.</value>
+        <value>O armazenamento instalado permite-lhe mapear até 5 Ficheiros do Azure ou contentores Blob a serem utilizados juntamente com a sua aplicação.</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>Alterar plano do Serviço de Aplicações</value>
@@ -5146,7 +5158,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>Detalhes do Erro</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>As teclas de função podem ser encontradas no nível de função.</value>
+        <value>As teclas de função podem ser configuradas em definições de funções.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Chaves de anfitrião (todas as funções)</value>
@@ -5218,36 +5230,96 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>~3 (Pré-visualização)</value>
     </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
-        <value>Unable to retrieve authentication state. Please try again in a few minutes.</value>
+        <value>Não pode obter o estado de autenticação. Volte a tentar dentro de alguns minutos.</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Refresh all keys for the function</value>
+      <value>Atualizar todas as chaves para a função</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
       <value>Utilizar as teclas de seta para a esquerda e direita para navegar entre os comandos</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>New function key</value>
+      <value>Nova chave de função</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Filter functions keys</value>
+      <value>Filtrar chaves de funções</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Edit key</value>
+      <value>Editar chave</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
       <value>Adicionar chave</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} is a required property on all function keys</value>
+      <value>{0} é uma propriedade exigida em todas as chaves de função</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Function key names must be unique</value>
+      <value>Os nomes das chaves de função têm de ser únicos</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
+        <value>Ações do GitHub (Pré-visualização)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+        <value>Automatize os passos de compilação, teste e implementação com as Ações do GitHub gratuitamente. Esta ação vai adicionar um fluxo de trabalho do ficheiro YML ao seu repositório com passos para criar e implementar a sua aplicação no Serviço de Aplicações.</value>
+    </data>
+  <data name="azureKeyVault" xml:space="preserve">
+        <value>Referência do cofre de chaves</value>
+    </data>
+  <data name="appConfigValue" xml:space="preserve">
+        <value>Configuração da Aplicação</value>
+    </data>
+  <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Erro: não foi possível aceder aos metadados de referência do cofre de chaves</value>
+    </data>
+  <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>Clique aqui para configurar as definições do contentor.</value>
+    </data>
+  <data name="containerSettingsTitle" xml:space="preserve">
+        <value>Definições de contentor</value>
+    </data>
+  <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>Configure e faça a gestão das definições do contentor para a sua aplicação.</value>
+    </data>
+  <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+  <data name="none" xml:space="preserve">
+        <value>Nenhum</value>
+    </data>
+  <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>Guarde as alterações à sua função.</value>
+    </data>
+  <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>Elimine as alterações à sua função.</value>
+    </data>
+  <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>Abra o painel de teste para testar a execução da sua função.</value>
+    </data>
+  <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>Abra o pop-up para obter o URL de função da sua função.</value>
+    </data>
+  <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>Utilizar as teclas de seta para a esquerda e direita para navegar entre os comandos</value>
+    </data>
+  <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>GitHub Action Workflow Configuration</value>
+    </data>
+  <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>Adding workflow configuration to GitHub Actions</value>
+    </data>
+  <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+    </data>
+  <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Selecione o diretório de funções ou os ficheiros no diretório de raiz.</value>
+    </data>
+    </data>
+  <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Selecione os ficheiros no seu diretório de funções.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Fechar obtenção de URL de função modal.</value>
     </data>
 </root>

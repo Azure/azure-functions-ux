@@ -142,12 +142,18 @@ export interface IWebsiteId {
   SubscriptionId: string;
 }
 
-export interface IOpenBladeInfo {
+export interface IOpenBladeInfo<T = any> {
   detailBlade: string;
-  detailBladeInputs: any;
+  detailBladeInputs: T;
   extension?: string;
   openAsContextBlade?: boolean;
   openAsSubJourney?: boolean;
+}
+
+export interface FrameBladeParams<T> {
+  id?: string;
+  feature?: string;
+  data?: T;
 }
 
 export interface ITimerEvent {

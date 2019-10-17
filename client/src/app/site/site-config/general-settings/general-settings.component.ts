@@ -286,7 +286,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     this.setBusy();
     if (!this.useOldScaleUpBlade) {
       this._portalService
-        .openBlade(
+        .openFrameBlade(
           {
             detailBlade: 'SpecPickerFrameBlade',
             detailBladeInputs: {

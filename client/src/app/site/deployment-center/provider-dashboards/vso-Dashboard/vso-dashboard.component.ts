@@ -160,7 +160,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
           this._armService.patch(
             `${this.resourceId}/config/web`,
             { properties: { scmType: 'None' } },
-            ARMApiVersions.websiteApiVersion20181101
+            ARMApiVersions.antaresApiVersion20181101
           )
         )
         .subscribe(
