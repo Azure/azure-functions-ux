@@ -2146,6 +2146,18 @@
   <data name="validation_slotNameReserved" xml:space="preserve">
         <value>Имя слота "{0}" является зарезервированным именем слота развертывания.</value>
     </data>
+  <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>The field must be fewer than {0} characters</value>
+    </data>
+  <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
+    </data>
+  <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis</value>
+    </data>
+  <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>Mount path cannot be '/home'</value>
+    </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>Не удалось изменить режим правки приложения-функции. Повторите попытку позже.</value>
     </data>
@@ -4854,7 +4866,7 @@
         <value>Имена строк подключения должны быть уникальными.</value>
     </data>
   <data name="slotSettingForbiddenProperty" xml:space="preserve">
-        <value>Updating the '{0}' property requires write access on the production app</value>
+        <value>Для обновления свойства "{0}" требуется доступ на запись в рабочем приложении.</value>
     </data>
   <data name="handlerMappingPropIsRequired" xml:space="preserve">
         <value>Свойство {0} является обязательным для всех сопоставлений обработчика.</value>
@@ -4969,7 +4981,7 @@
         <value>Путь к рабочему каталогу должен указываться относительно корня репозитория и не может начинаться с "/", "\" или с букв дисков ("C:/") в Windows. Если рабочий каталог находится в папке "src" репозитория, путь должен начинаться с "src/".</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>Подключенное хранилище позволяет сопоставить контейнеры BLOB-объектов или Файлы Azure для использования с вашим приложением.</value>
+        <value>Подключенное хранилище позволяет сопоставить контейнеры BLOB-объектов или Файлы Azure для использования с вашим приложением (до пяти).</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>Изменить план служб приложений</value>
@@ -5146,7 +5158,7 @@
         <value>Сведения об ошибке</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Ключи функции можно найти на уровне функции.</value>
+        <value>Function keys can be configured in function settings.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Ключи узла (все функции)</value>
@@ -5245,9 +5257,69 @@
       <value>Имена ключей функции должны быть уникальными</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
+        <value>Действия GitHub (предварительная версия)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+        <value>Автоматизируйте шаги сборки, тестирования и развертывания с помощью действий GitHub. Это приведет к добавлению рабочего процесса YML в репозиторий с шагами для создания и развертывания приложения в Службе приложений.</value>
+    </data>
+  <data name="azureKeyVault" xml:space="preserve">
+        <value>Key vault Reference</value>
+    </data>
+  <data name="appConfigValue" xml:space="preserve">
+        <value>App Config</value>
+    </data>
+  <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Error: Could not access key vault reference metadata</value>
+    </data>
+  <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>Щелкните здесь, чтобы настроить параметры контейнера.</value>
+    </data>
+  <data name="containerSettingsTitle" xml:space="preserve">
+        <value>Параметры контейнера</value>
+    </data>
+  <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>Настройка параметров контейнеров для приложения и управление ими.</value>
+    </data>
+  <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+  <data name="none" xml:space="preserve">
+        <value>нет</value>
+    </data>
+  <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>Save changes to your function.</value>
+    </data>
+  <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>Discard changes to your function.</value>
+    </data>
+  <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>Open test panel to test run your function.</value>
+    </data>
+  <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>Open popup to get function URL for your function.</value>
+    </data>
+  <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>Использовать клавиши со стрелками влево и вправо для навигации между командами.</value>
+    </data>
+  <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>GitHub Action Workflow Configuration</value>
+    </data>
+  <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>Adding workflow configuration to GitHub Actions</value>
+    </data>
+  <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+    </data>
+  <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select your function directory or files in your root directory.</value>
+    </data>
+    </data>
+  <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select files in your function directory.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
     </data>
 </root>

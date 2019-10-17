@@ -2146,6 +2146,18 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="validation_slotNameReserved" xml:space="preserve">
         <value>Nazwa miejsca „{0}” jest zastrzeżoną nazwą miejsce wdrożenia.</value>
     </data>
+  <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>Pole musi składać się z mniej niż {0} znaków.</value>
+    </data>
+  <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>Nazwa udziału może zawierać tylko znaki alfanumeryczne, znaki podkreślenia, łączniki, nawiasy kwadratowe i nawiasy</value>
+    </data>
+  <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>Ścieżka instalacji musi być ścieżką w pełni kwalifikowaną i może zawierać tylko znaki alfanumeryczne, znaki podkreślenia, łączniki, ukośniki, kreski ukośne, nawiasy kwadratowe i nawiasy</value>
+    </data>
+  <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>Ścieżką instalacji nie może być „/home”</value>
+    </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>Nie możemy zaktualizować trybu edycji Twojej aplikacji funkcji. Spróbuj ponownie później.</value>
     </data>
@@ -4969,7 +4981,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Ścieżka katalogu roboczego powinna być podana względem katalogu głównego repozytorium oraz nie może zaczynać się od znaków / i \ ani nazw dysków (C:/) w przypadku systemu Windows. Jeśli katalog roboczy znajduje się w folderze src repozytorium, ścieżka powinna mieć wartość src/</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>Zainstalowany magazyn umożliwia mapowanie kontenerów obiektów blob lub usługi Azure Files na potrzeby użycia w aplikacji.</value>
+        <value>Zainstalowany magazyn umożliwia mapowanie do 5 kontenerów obiektów blob lub usługi Azure Files na potrzeby użycia w aplikacji.</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>Zmień plan usługi App Service</value>
@@ -5146,7 +5158,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Szczegóły błędu</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Klucze funkcji znajdują się na poziomie funkcji.</value>
+        <value>Klucze funkcyjne można skonfigurować w ustawieniach funkcji.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Klucze hosta (wszystkie funkcje)</value>
@@ -5245,9 +5257,69 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
       <value>Nazwy kluczy funkcji muszą być unikatowe</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
+        <value>Akcje usługi GitHub (wersja zapoznawcza)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+        <value>Bezpłatnie automatyzuj kroki kompilacji, testowania i wdrażania za pomocą akcji usługi GitHub. Spowoduje to dodanie do Twojego repozytorium przepływu pracy YML z krokami kompilowania i wdrażania aplikacji w usłudze App Service.</value>
+    </data>
+  <data name="azureKeyVault" xml:space="preserve">
+        <value>Odwołanie do magazynu kluczy</value>
+    </data>
+  <data name="appConfigValue" xml:space="preserve">
+        <value>Konfiguracja aplikacji</value>
+    </data>
+  <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Błąd: nie można uzyskać dostępu do metadanych odwołania do magazynu kluczy</value>
+    </data>
+  <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>Kliknij tutaj, aby skonfigurować ustawienia kontenera.</value>
+    </data>
+  <data name="containerSettingsTitle" xml:space="preserve">
+        <value>Ustawienia kontenera</value>
+    </data>
+  <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>Konfiguruj ustawienia kontenera i zarządzaj nimi dla aplikacji.</value>
+    </data>
+  <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+  <data name="none" xml:space="preserve">
+        <value>Brak</value>
+    </data>
+  <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>Zapisz zmiany w funkcji.</value>
+    </data>
+  <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>Odrzuć zmiany funkcji.</value>
+    </data>
+  <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>Otwórz panel testu, aby przetestować działanie funkcji.</value>
+    </data>
+  <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>Otwórz okno podręczne, aby uzyskać adres URL funkcji.</value>
+    </data>
+  <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>Przechodź między poleceniami za pomocą klawiszy ze strzałkami w lewo i w prawo</value>
+    </data>
+  <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>GitHub Action Workflow Configuration</value>
+    </data>
+  <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>Adding workflow configuration to GitHub Actions</value>
+    </data>
+  <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+    </data>
+  <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select your function directory or files in your root directory.</value>
+    </data>
+    </data>
+  <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select files in your function directory.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
     </data>
 </root>
