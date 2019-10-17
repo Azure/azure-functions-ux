@@ -4,6 +4,46 @@ import { Certificate, Csr } from './certificate';
 import { SiteConfig } from './config';
 import { CloningInfo } from './cloning-info';
 
+export enum ContentAvailabilityState {
+  Normal = 'Normal',
+  ReadOnly = 'ReadOnly',
+}
+
+export enum RuntimeAvailabilityState {
+  Normal = 'Normal',
+  Degraded = 'Degraded',
+  NotAvailable = 'NotAvailable',
+}
+
+export enum SiteAvailabilityState {
+  Normal = 'Normal',
+  Limited = 'Limited',
+  DisasterRecoveryMode = 'DisasterRecoveryMode',
+}
+
+export enum UsageState {
+  Normal = 'Normal',
+  Exceeded = 'Exceeded',
+}
+
+export enum SslState {
+  Disabled = 'Disabled',
+  SniEnabled = 'SniEnabled',
+  IpBasedEnabled = 'IpBasedEnabled',
+}
+
+export enum HostType {
+  Standard = 'Standard',
+  Repository = 'Repository',
+}
+
+export enum IpBasedSslState {
+  NotConfigured = 'NotConfigured',
+  InProgress = 'InProgress',
+  Configured = 'Configured',
+  ConfigurationReverted = 'ConfigurationReverted',
+}
+
 export interface Site {
   name: string;
   state: string;
@@ -13,12 +53,12 @@ export interface Site {
   selfLink: string;
   repositorySiteName: string;
   owner: string;
-  usageState: number;
+  usageState: UsageState;
   enabled: boolean;
   adminEnabled: boolean;
   enabledHostNames: string[];
   siteProperties: Partial<SiteProperties>;
-  availabilityState: number;
+  availabilityState: SiteAvailabilityState;
   sSLCertificates: Certificate;
   csrs: Csr[];
   cers: Certificate;
@@ -29,8 +69,8 @@ export interface Site {
   serverFarmId: string;
   lastModifiedTimeUtc: string;
   storageRecoveryDefaultState: string;
-  contentAvailabilityState: number;
-  runtimeAvailabilityState: number;
+  contentAvailabilityState: ContentAvailabilityState;
+  runtimeAvailabilityState: RuntimeAvailabilityState;
   siteConfig: Partial<SiteConfig>;
   deploymentId: string;
   trafficManagerHostNames: string;
@@ -61,12 +101,12 @@ export interface Site {
 
 export interface HostNameSslState {
   name: string;
-  sslState: number;
+  sslState: SslState;
   ipBasedSslResult: string;
   virtualIP: string;
   thumbprint: string;
   toUpdate: boolean;
   toUpdateIpBasedSsl: boolean;
-  iPBasedSslState: number;
-  hostType: number;
+  iPBasedSslState: IpBasedSslState;
+  hostType: HostType;
 }

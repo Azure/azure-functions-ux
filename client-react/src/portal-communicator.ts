@@ -27,6 +27,7 @@ import {
   CheckLockResponse,
   LockType,
   PortalDebugInformation,
+  FrameBladeParams,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import darkModeTheme from './theme/dark';
@@ -132,8 +133,8 @@ export default class PortalCommunicator {
     }
   }
 
-  public openBlade<T>(bladeInfo: IOpenBladeInfo, source: string): Promise<IBladeResult<T>> {
-    const payload: IDataMessage<IOpenBladeInfo> = {
+  public openBlade<T, U = any>(bladeInfo: IOpenBladeInfo<U>, source: string): Promise<IBladeResult<T>> {
+    const payload: IDataMessage<IOpenBladeInfo<U>> = {
       operationId: Guid.newGuid(),
       data: bladeInfo,
     };
@@ -152,6 +153,10 @@ export default class PortalCommunicator {
           resolve(data);
         });
     });
+  }
+
+  public openFrameBlade<T, U = any>(bladeInfo: IOpenBladeInfo<FrameBladeParams<U>>, source: string): Promise<IBladeResult<T>> {
+    return this.openBlade(bladeInfo, source);
   }
 
   public getSpecCosts(query: SpecCostQueryInput): Observable<SpecCostQueryResult> {

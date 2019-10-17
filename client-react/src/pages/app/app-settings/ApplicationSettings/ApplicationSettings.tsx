@@ -1,242 +1,160 @@
 import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode, IDetailsList } from 'office-ui-fabric-react/lib/DetailsList';
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useState, useContext } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
+import { AppSettingsFormValues, FormAppSetting, AppSettingReferenceSummary } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { SearchBox, TooltipHost, ICommandBarItemProps, Icon } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
-import { filterBoxStyle } from '../AppSettings.styles';
+import { filterBoxStyle, dirtyElementStyle, keyVaultIconStyle, sourceTextStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import Panel from '../../../../components/Panel/Panel';
+import { ThemeContext } from '../../../../ThemeContext';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
-interface ApplicationSettingsState {
-  showPanel: boolean;
-  panelItem: 'add' | 'bulk';
-  currentAppSetting: FormAppSetting | null;
-  shownValues: string[];
-  filter: string;
-  showFilter: boolean;
-  showAllValues: boolean;
-}
 
-export class ApplicationSettings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ApplicationSettingsState> {
-  public static contextType = PermissionsContext;
-  private _appSettingsTable: IDetailsList;
-  constructor(props) {
-    super(props);
-    this.state = {
-      showPanel: false,
-      panelItem: 'add',
-      currentAppSetting: null,
-      shownValues: [],
-      filter: '',
-      showFilter: false,
-      showAllValues: false,
-    };
-  }
+const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
+  const permissionContext = useContext(PermissionsContext);
+  const [showPanel, setShowPanel] = useState(false);
+  const [panelItem, setPanelItem] = useState('add');
+  const [currentAppSetting, setCurrentAppSetting] = useState<FormAppSetting | null>(null);
+  const [shownValues, setShownValues] = useState<string[]>([]);
+  const [filter, setFilter] = useState('');
+  const [showFilter, setShowFilter] = useState(false);
+  const [showAllValues, setShowAllValues] = useState(false);
 
-  public render() {
-    const { t, values } = this.props;
-    const { production_write } = this.context;
-    const { filter, showFilter } = this.state;
-    if (!values.appSettings) {
-      return null;
-    }
+  const { t, values } = props;
 
-    return (
-      <>
-        <DisplayTableWithCommandBar
-          commandBarItems={this._getCommandBarItems()}
-          items={values.appSettings.filter(x => {
-            if (!filter) {
-              return true;
-            }
-            return x.name.toLowerCase().includes(filter.toLowerCase());
-          })}
-          columns={this.getColumns()}
-          componentRef={table => {
-            if (table) {
-              this._appSettingsTable = table;
-            }
-          }}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyAppSettings')}>
-          {showFilter && (
-            <SearchBox
-              id="app-settings-application-settings-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterBoxStyle}
-              placeholder={t('filterAppSettings')}
-              onChange={newValue => this.setState({ filter: newValue })}
-            />
-          )}
-        </DisplayTableWithCommandBar>
-        <Panel
-          isOpen={this.state.showPanel && this.state.panelItem === 'add'}
-          onDismiss={this._onCancel}
-          headerText={t('addEditApplicationSetting')}
-          closeButtonAriaLabel={t('close')}>
-          <AppSettingAddEdit
-            site={values.site}
-            appSetting={this.state.currentAppSetting!}
-            disableSlotSetting={!production_write}
-            otherAppSettings={values.appSettings}
-            updateAppSetting={this._onClosePanel.bind(this)}
-            closeBlade={this._onCancel}
-          />
-        </Panel>
-        <Panel
-          isOpen={this.state.showPanel && this.state.panelItem === 'bulk'}
-          onDismiss={this._onCancel}
-          closeButtonAriaLabel={t('close')}>
-          <Suspense fallback={<LoadingComponent />}>
-            <AppSettingsBulkEdit
-              isLinux={isLinuxApp(values.site)}
-              updateAppSetting={this._saveBulkEdit}
-              closeBlade={this._onCancel}
-              appSettings={values.appSettings}
-              disableSlotSetting={!production_write}
-            />
-          </Suspense>
-        </Panel>
-      </>
-    );
-  }
+  const theme = useContext(ThemeContext);
+  let appSettingsTable: IDetailsList;
 
-  private _getCommandBarItems = (): ICommandBarItemProps[] => {
-    const { editable } = this.context;
-    const { t, values } = this.props;
-    const { showAllValues, shownValues } = this.state;
+  const getCommandBarItems = (): ICommandBarItemProps[] => {
     const allShown = showAllValues || (values.appSettings.length > 0 && shownValues.length === values.appSettings.length);
 
     return [
       {
         key: 'app-settings-application-settings-add',
-        onClick: this._createNewItem,
-        disabled: !editable,
+        onClick: createNewItem,
+        disabled: !permissionContext.editable,
         iconProps: { iconName: 'Add' },
         name: t('newApplicationSetting'),
         ariaLabel: t('addNewSetting'),
       },
       {
         key: 'app-settings-application-settings-show-hide',
-        onClick: this._flipHideSwitch,
+        onClick: flipHideSwitch,
         iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
         name: !allShown ? t('showValues') : t('hideValues'),
       },
       {
         key: 'app-settings-application-settings-bulk-edit',
-        onClick: this._openBulkEdit,
-        disabled: !editable,
+        onClick: openBulkEdit,
+        disabled: !permissionContext.editable,
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
       },
       {
         key: 'app-settings-application-settings-show-filter',
-        onClick: this._toggleFilter,
+        onClick: toggleFilter,
         iconProps: { iconName: 'Filter' },
         name: t('filter'),
       },
     ];
   };
 
-  private _flipHideSwitch = () => {
-    const { showAllValues } = this.state;
-    let shownValues: string[] = [];
+  const flipHideSwitch = () => {
+    let newShownValues: string[] = [];
     if (!showAllValues) {
-      shownValues = this.props.values.appSettings.map(x => x.name);
+      newShownValues = values.appSettings.map(x => x.name);
     }
-    this.setState({ shownValues, showAllValues: !showAllValues });
+    setShownValues(newShownValues);
+    setShowAllValues(!showAllValues);
   };
 
-  private _openBulkEdit = () => {
-    this.setState({
-      showPanel: true,
-      panelItem: 'bulk',
-    });
+  const openBulkEdit = () => {
+    setShowPanel(true);
+    setPanelItem('bulk');
   };
 
-  private _toggleFilter = () => {
-    const { showFilter } = this.state;
-    this.setState({ showFilter: !showFilter, filter: '' });
+  const toggleFilter = () => {
+    setShowFilter(!showFilter);
+    setFilter('');
   };
 
-  private _saveBulkEdit = (appSettings: FormAppSetting[]) => {
+  const saveBulkEdit = (appSettings: FormAppSetting[]) => {
     const newAppSettings = sortBy(appSettings, o => o.name.toLowerCase());
-
-    this.props.setFieldValue('appSettings', newAppSettings);
-    this.setState({ showPanel: false });
+    props.setFieldValue('appSettings', newAppSettings);
+    setShowPanel(false);
   };
-  private _createNewItem = () => {
+
+  const createNewItem = () => {
     const blankAppSetting = {
       name: '',
       value: '',
       sticky: false,
     };
-    this.setState({
-      showPanel: true,
-      panelItem: 'add',
-      currentAppSetting: blankAppSetting,
-    });
+    setShowPanel(true);
+    setPanelItem('add');
+    setCurrentAppSetting(blankAppSetting);
   };
 
-  private _getAppSettingIndex = (item: FormAppSetting, appSettings: FormAppSetting[]): number => {
+  const getAppSettingIndex = (item: FormAppSetting, appSettings: FormAppSetting[]): number => {
     return appSettings.findIndex(
       x =>
         x.name.toLowerCase() === item.name.toLowerCase() ||
-        (!!this.state.currentAppSetting && this.state.currentAppSetting.name.toLowerCase() === x.name.toLowerCase())
+        (!!currentAppSetting && currentAppSetting.name.toLowerCase() === x.name.toLowerCase())
     );
   };
 
-  private _onClosePanel = (item: FormAppSetting): void => {
-    let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
-    let index = this._getAppSettingIndex(item, appSettings);
+  const onClosePanel = (item: FormAppSetting): void => {
+    let appSettings: FormAppSetting[] = [...values.appSettings];
+    let index = getAppSettingIndex(item, appSettings);
     if (index !== -1) {
       appSettings[index] = item;
     } else {
       appSettings.push(item);
     }
     appSettings = sortBy(appSettings, o => o.name.toLowerCase());
-    this.props.setFieldValue('appSettings', appSettings);
-    this.setState({ showPanel: false });
-    index = this._getAppSettingIndex(item, appSettings);
-    this._appSettingsTable.focusIndex(index);
+    props.setFieldValue('appSettings', appSettings);
+    setShowPanel(false);
+    index = getAppSettingIndex(item, appSettings);
+    appSettingsTable.focusIndex(index);
   };
 
-  private _onCancel = (): void => {
-    this.setState({ showPanel: false });
+  const onCancel = (): void => {
+    setShowPanel(false);
   };
 
-  private _onShowPanel = (item: FormAppSetting): void => {
-    this.setState({
-      showPanel: true,
-      panelItem: 'add',
-      currentAppSetting: item,
-    });
+  const onShowPanel = (item: FormAppSetting): void => {
+    setShowPanel(true);
+    setPanelItem('add');
+    setCurrentAppSetting(item);
   };
 
-  private _removeItem(key: string) {
-    const appSettings: FormAppSetting[] = [...this.props.values.appSettings].filter(val => val.name !== key);
-    this.props.setFieldValue('appSettings', appSettings);
-  }
+  const removeItem = (key: string) => {
+    const appSettings: FormAppSetting[] = [...values.appSettings].filter(val => val.name !== key);
+    props.setFieldValue('appSettings', appSettings);
+  };
 
-  private _onRenderItemColumn = (item: FormAppSetting, index: number, column: IColumn) => {
-    const { t } = this.props;
-    const { editable } = this.context;
-    const { shownValues, showAllValues } = this.state;
+  const onShowHideButtonClick = (itemKey: string) => {
+    const hidden = !shownValues.includes(itemKey) && !showAllValues;
+    const newShownValues = new Set(shownValues);
+    if (hidden) {
+      newShownValues.add(itemKey);
+    } else {
+      newShownValues.delete(itemKey);
+    }
+    setShowAllValues(newShownValues.size === values.appSettings.length);
+    setShownValues([...newShownValues]);
+  };
+
+  const onRenderItemColumn = (item: FormAppSetting, index: number, column: IColumn) => {
     const itemKey = item.name;
     const hidden = !shownValues.includes(itemKey) && !showAllValues;
     if (!column || !item) {
@@ -252,11 +170,11 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!editable}
+            disabled={!permissionContext.editable}
             id={`app-settings-application-settings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
-            onClick={() => this._removeItem(itemKey)}
+            onClick={() => removeItem(itemKey)}
           />
         </TooltipHost>
       );
@@ -270,11 +188,11 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!editable}
+            disabled={!permissionContext.editable}
             id={`app-settings-application-settings-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}
-            onClick={() => this._onShowPanel(item)}
+            onClick={() => onShowPanel(item)}
           />
         </TooltipHost>
       );
@@ -296,15 +214,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           <ActionButton
             id={`app-settings-application-settings-show-hide-${index}`}
             className={defaultCellStyle}
-            onClick={() => {
-              const newShownValues = new Set(shownValues);
-              if (hidden) {
-                newShownValues.add(itemKey);
-              } else {
-                newShownValues.delete(itemKey);
-              }
-              this.setState({ shownValues: [...newShownValues], showAllValues: false });
-            }}
+            onClick={() => onShowHideButtonClick(itemKey)}
             iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
             {hidden ? (
               <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
@@ -318,23 +228,61 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
       );
     }
     if (column.key === 'name') {
+      column.className = '';
+      if (isAppSettingDirty(index)) {
+        column.className = dirtyElementStyle(theme);
+      }
       return (
-        <ActionButton
-          className={defaultCellStyle}
-          id={`app-settings-application-settings-name-${index}`}
-          onClick={() => this._onShowPanel(item)}>
+        <ActionButton className={defaultCellStyle} id={`app-settings-application-settings-name-${index}`} onClick={() => onShowPanel(item)}>
           <span aria-live="assertive" role="region">
             {item[column.fieldName!]}
           </span>
         </ActionButton>
       );
     }
+    if (column.key === 'source') {
+      if (values.references && values.references.appSettings) {
+        const appSettingReference = values.references.appSettings.filter(ref => ref.name === item.name);
+        return appSettingReference.length > 0 ? (
+          <div
+            className={defaultCellStyle}
+            aria-label={`${t('azureKeyVault')} ${!isAppSettingReferenceResolved(appSettingReference[0]) && 'not'} resolved`}>
+            <Icon
+              iconName={isAppSettingReferenceResolved(appSettingReference[0]) ? 'Completed' : 'ErrorBadge'}
+              className={keyVaultIconStyle(theme, isAppSettingReferenceResolved(appSettingReference[0]))}
+              ariaLabel={t('azureKeyVault')}
+            />
+            <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
+          </div>
+        ) : (
+          <div className={defaultCellStyle} aria-label={t('appConfigValue')}>
+            {t('appConfigValue')}
+          </div>
+        );
+      }
+    }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
+  const isAppSettingReferenceResolved = (reference: AppSettingReferenceSummary) => {
+    return reference.status.toLowerCase() === 'resolved';
+  };
+
+  const isAppSettingDirty = (index: number): boolean => {
+    const initialAppSettings = props.initialValues.appSettings;
+    const currentRow = values.appSettings[index];
+    const currentAppSettingIndex = initialAppSettings.findIndex(x => {
+      return (
+        x.name.toLowerCase() === currentRow.name.toLowerCase() &&
+        x.value.toLowerCase() === currentRow.value.toLowerCase() &&
+        x.sticky === currentRow.sticky
+      );
+    });
+    return currentAppSettingIndex < 0;
+  };
+
   // tslint:disable-next-line:member-ordering
-  private getColumns = () => {
-    const { t } = this.props;
+  const getColumns = () => {
     return [
       {
         key: 'name',
@@ -346,7 +294,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this._onRenderItemColumn,
+        onRender: onRenderItemColumn,
       },
       {
         key: 'value',
@@ -357,7 +305,20 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this._onRenderItemColumn,
+        onRender: onRenderItemColumn,
+      },
+      {
+        key: 'source',
+        name: t('source'),
+        fieldName: 'source',
+        minWidth: 180,
+        maxWidth: 180,
+        isRowHeader: false,
+        data: 'string',
+        isPadded: true,
+        isResizable: false,
+        isCollapsable: false,
+        onRender: onRenderItemColumn,
       },
       {
         key: 'sticky',
@@ -370,7 +331,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         isPadded: true,
         isResizable: false,
         isCollapsable: false,
-        onRender: this._onRenderItemColumn,
+        onRender: onRenderItemColumn,
       },
       {
         key: 'delete',
@@ -381,7 +342,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         isRowHeader: false,
         isResizable: false,
         isCollapsable: false,
-        onRender: this._onRenderItemColumn,
+        onRender: onRenderItemColumn,
       },
       {
         key: 'edit',
@@ -392,10 +353,75 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         isRowHeader: false,
         isResizable: false,
         isCollapsable: false,
-        onRender: this._onRenderItemColumn,
+        onRender: onRenderItemColumn,
       },
     ];
   };
-}
+
+  if (!values.appSettings) {
+    return null;
+  }
+
+  return (
+    <>
+      <DisplayTableWithCommandBar
+        commandBarItems={getCommandBarItems()}
+        items={values.appSettings.filter(x => {
+          if (!filter) {
+            return true;
+          }
+          return x.name.toLowerCase().includes(filter.toLowerCase());
+        })}
+        columns={getColumns()}
+        componentRef={table => {
+          if (table) {
+            appSettingsTable = table;
+          }
+        }}
+        isHeaderVisible={true}
+        layoutMode={DetailsListLayoutMode.justified}
+        selectionMode={SelectionMode.none}
+        selectionPreservedOnEmptyClick={true}
+        emptyMessage={t('emptyAppSettings')}>
+        {showFilter && (
+          <SearchBox
+            id="app-settings-application-settings-search"
+            className="ms-slideDownIn20"
+            autoFocus
+            iconProps={{ iconName: 'Filter' }}
+            styles={filterBoxStyle}
+            placeholder={t('filterAppSettings')}
+            onChange={newValue => setFilter(newValue)}
+          />
+        )}
+      </DisplayTableWithCommandBar>
+      <Panel
+        isOpen={showPanel && panelItem === 'add'}
+        onDismiss={onCancel}
+        headerText={t('addEditApplicationSetting')}
+        closeButtonAriaLabel={t('close')}>
+        <AppSettingAddEdit
+          site={values.site}
+          appSetting={currentAppSetting!}
+          disableSlotSetting={!permissionContext.production_write}
+          otherAppSettings={values.appSettings}
+          updateAppSetting={onClosePanel}
+          closeBlade={onCancel}
+        />
+      </Panel>
+      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel} closeButtonAriaLabel={t('close')}>
+        <Suspense fallback={<LoadingComponent />}>
+          <AppSettingsBulkEdit
+            isLinux={isLinuxApp(values.site)}
+            updateAppSetting={saveBulkEdit}
+            closeBlade={onCancel}
+            appSettings={values.appSettings}
+            disableSlotSetting={!permissionContext.production_write}
+          />
+        </Suspense>
+      </Panel>
+    </>
+  );
+};
 
 export default withTranslation('translation')(ApplicationSettings);

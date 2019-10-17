@@ -159,7 +159,7 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
       .takeUntil(this.ngUnsubscribe)
       .concatMap(() => {
         return Observable.zip(
-          this._cacheService.getArm(`${this.context.site.id}/config/web`, null, ARMApiVersions.websiteApiVersion20181101),
+          this._cacheService.getArm(`${this.context.site.id}/config/web`, null, ARMApiVersions.antaresApiVersion20181101),
           this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`),
           this._functionAppService.getSlotsList(this.context),
           this._functionAppService.pingScmSite(this.context),
@@ -192,7 +192,7 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
             iconClass: 'fa fa-exclamation-triangle warning',
             learnMoreLink: 'https://go.microsoft.com/fwlink/?linkid=830855',
             clickCallback: () => {
-              this._portalService.openBlade(
+              this._portalService.openFrameBlade(
                 {
                   detailBlade: 'SiteConfigSettingsFrameBladeReact',
                   detailBladeInputs: {

@@ -1,7 +1,13 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
-import { AppSettingsFormValues } from './AppSettings.types';
-import { convertStateToForm, convertFormToState, flattenVirtualApplicationsList, getCleanedConfigForSave } from './AppSettingsFormData';
+import { AppSettingsFormValues, AppSettingsReferences } from './AppSettings.types';
+import {
+  convertStateToForm,
+  convertFormToState,
+  flattenVirtualApplicationsList,
+  getCleanedConfigForSave,
+  getCleanedReferences,
+} from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
 import {
   fetchApplicationSettingValues,
@@ -11,6 +17,7 @@ import {
   updateSlotConfigNames,
   getProductionAppWritePermissions,
   updateStorageMounts,
+  getAllAppSettingReferences,
 } from './AppSettings.service';
 import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
@@ -46,6 +53,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
+  const [references, setReferences] = useState<AppSettingsReferences | null>(null);
   const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<{ [key: string]: string }>>({
     name: '',
     id: '',
@@ -61,6 +69,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [currentSiteNonForm, setCurrentSiteNonForm] = useState({} as any);
   const [slotList, setSlotList] = useState<ArmArray<Site>>({ value: [] });
   const [storageAccountsState, setStorageAccountsState] = useState<ArmArray<StorageAccount>>({ value: [] });
+  const [saving, setSaving] = useState(false);
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
   const siteContext = useContext(SiteRouterContext);
@@ -127,8 +136,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         setEditable(false);
       }
       setStorageAccountsState(storageAccounts.data);
-      setInitialValues(
-        convertStateToForm({
+      setInitialValues({
+        ...convertStateToForm({
           site: site.data,
           config: webConfig.data,
           metadata: metadata.metadata.success ? metadata.data : null,
@@ -136,15 +145,14 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
-        })
-      );
+        }),
+      });
       if (site.data.kind!.includes('linux')) {
         setCurrentAvailableStacks(linuxStacks.data);
       } else {
         setCurrentAvailableStacks(windowsStacks.data);
       }
     }
-
     LogService.stopTrackPage('shell', { feature: 'AppSettings' });
     portalContext.loadComplete();
     setInitialLoading(true);
@@ -158,17 +166,22 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
   };
 
+  const fetchReferences = async () => {
+    const appSettingReferences = await getAllAppSettingReferences(resourceId);
+    setReferences({ appSettings: appSettingReferences.metadata.success ? getCleanedReferences(appSettingReferences.data) : null });
+  };
+
   const loadData = () => {
     fetchData();
     fillSlots();
+    fetchReferences();
   };
 
   useEffect(() => {
     loadData();
   }, []);
-
   const scaleUpPlan = async () => {
-    await portalContext.openBlade(
+    await portalContext.openFrameBlade(
       { detailBlade: 'SpecPickerFrameBlade', detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId } },
       'appsettings'
     );
@@ -183,6 +196,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
+    setSaving(true);
     const { site, config, slotConfigNames, storageMounts } = convertFormToState(values, metadataFromApi, slotConfigNamesFromApi);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
     const siteUpdate = updateSite(resourceId, site);
@@ -207,6 +221,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         ...values,
         virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
       });
+      fetchReferences();
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
       const siteError = siteResult.metadata.error && siteResult.metadata.error.Message;
@@ -215,10 +230,19 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       const errMessage = siteError || configError || slotConfigError || t('configUpdateFailure');
       portalContext.stopNotification(notificationId, false, errMessage);
     }
+    setSaving(false);
   };
 
   if (!initialLoading || refreshValues || (!initialValues && !loadingFailure)) {
     return <LoadingComponent />;
+  }
+
+  if (initialValues && references) {
+    setInitialValues({
+      ...initialValues,
+      references,
+    });
+    setReferences(null);
   }
 
   return (
@@ -227,7 +251,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         <StorageAccountsContext.Provider value={storageAccountsState}>
           <SiteContext.Provider value={currentSiteNonForm}>
             <SlotsListContext.Provider value={slotList}>
-              {children({ onSubmit, scaleUpPlan, refreshAppSettings, initialFormValues: initialValues, saving: false })}
+              {children({ onSubmit, scaleUpPlan, refreshAppSettings, saving, initialFormValues: initialValues })}
             </SlotsListContext.Provider>
           </SiteContext.Provider>
         </StorageAccountsContext.Provider>

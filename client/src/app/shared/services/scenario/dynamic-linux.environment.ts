@@ -1,8 +1,9 @@
 import { TranslateService } from '@ngx-translate/core';
-import { ScenarioIds } from './../../models/constants';
+import { ScenarioIds, FeatureFlags } from './../../models/constants';
 import { PortalResources } from './../../models/portal-resources';
 import { ArmUtil } from '../../Utilities/arm-utils';
 import { Environment, ScenarioCheckInput, ScenarioResult } from './scenario.models';
+import { Url } from 'app/shared/Utilities/url';
 
 export class DynamicLinuxEnvironment extends Environment {
   name = 'DynamicLinux';
@@ -13,6 +14,10 @@ export class DynamicLinuxEnvironment extends Environment {
     const disabledResult: ScenarioResult = {
       status: 'disabled',
       data: translateService.instant(PortalResources.featureNotSupportedForLinuxConsumptionApps),
+    };
+
+    const enabledResult: ScenarioResult = {
+      status: 'enabled',
     };
 
     this.scenarioChecks[ScenarioIds.listExtensionsArm] = {
@@ -58,7 +63,7 @@ export class DynamicLinuxEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.enableCORS] = {
       id: ScenarioIds.enableCORS,
-      runCheck: () => disabledResult,
+      runCheck: () => (Url.getFeatureValue(FeatureFlags.enableLinuxCors) ? enabledResult : disabledResult),
     };
 
     this.scenarioChecks[ScenarioIds.enableQuotas] = {
@@ -74,6 +79,13 @@ export class DynamicLinuxEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.enableFunctionLogStreaming] = {
       id: ScenarioIds.enableFunctionLogStreaming,
       runCheck: () => disabledResult,
+    };
+
+    this.scenarioChecks[ScenarioIds.containerSettings] = {
+      id: ScenarioIds.containerSettings,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
     };
   }
 

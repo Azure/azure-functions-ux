@@ -70,4 +70,11 @@
       </div>
     </div>
   </div>
+
+  <ng-container *ngIf="!wizard.isFunctionApp && buildProvider === 'github'">
+    <h3 class="first-config-heading">{{ 'build' | translate }}</h3>
+    <app-linux-frameworks *ngIf="wizard.isLinuxApp" ></app-linux-frameworks>
+    <app-windows-frameworks *ngIf="!wizard.isLinuxApp" ></app-windows-frameworks>
+  </ng-container>
+
 </div>

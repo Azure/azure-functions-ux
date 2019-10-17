@@ -1,7 +1,8 @@
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
 import { AbstractConsoleComponent } from '../shared/components/abstract.console.component';
-import { ConsoleConstants, HttpMethods, HostTypes } from '../../../shared/models/constants';
+import { ConsoleConstants, HttpMethods } from '../../../shared/models/constants';
+import { HostType } from '../../../shared/models/arm/site';
 
 @Component({
   selector: 'app-bash',
@@ -37,7 +38,7 @@ export class BashComponent extends AbstractConsoleComponent {
    * Get Kudu API URL
    */
   protected getKuduUri(): string {
-    const scmHostName = this.site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.scm).name;
+    const scmHostName = this.site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
     return `https://${scmHostName}/command`;
   }
 
