@@ -11,6 +11,7 @@ import { PortalResources } from '../../../../shared/models/portal-resources';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { Guid } from 'app/shared/Utilities/Guid';
 import { PythonFrameworkType } from '../wizard-logic/deployment-center-setup-models';
+import { GithubService } from '../wizard-logic/github.service';
 
 interface SummaryItem {
   label: string;
@@ -39,7 +40,8 @@ export class StepCompleteComponent {
     private _broadcastService: BroadcastService,
     private _translateService: TranslateService,
     private _portalService: PortalService,
-    private _logService: LogService
+    private _logService: LogService,
+    private _githubService: GithubService
   ) {
     this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
 
@@ -139,7 +141,6 @@ export class StepCompleteComponent {
 
   private _saveGithubActionsDeploymentSettings(saveGuid: string) {
     let notificationId = null;
-    this.wizard.wizardValues.githubActionsConfigContent = btoa(this.GithubActionsWorkflowConfig);
     this._portalService
       .startNotification(
         this._translateService.instant(PortalResources.settingupDeployment),
@@ -157,7 +158,9 @@ export class StepCompleteComponent {
             this._portalService.stopNotification(
               notificationId,
               true,
-              this._translateService.instant(PortalResources.githubActionSettingsSavedSuccessfully)
+              this._translateService
+                .instant(PortalResources.githubActionSettingsSavedSuccessfully)
+                .format(this.wizard.wizardValues.sourceSettings.branch, this.wizard.wizardValues.sourceSettings.repoUrl)
             );
             this._broadcastService.broadcastEvent<void>(BroadcastEvent.ReloadDeploymentCenter);
             this._portalService.logAction('deploymentcenter', 'save', {
@@ -183,7 +186,7 @@ export class StepCompleteComponent {
 
           const errorMessage =
             err && err.json() && err.json().message
-              ? err && err.json() && err.json().message
+              ? err.json().message
               : this._translateService.instant(PortalResources.settingupDeploymentFail);
 
           this._portalService.stopNotification(notificationId, false, errorMessage);
@@ -208,9 +211,16 @@ export class StepCompleteComponent {
   }
 
   get GithubActionsWorkflowConfig() {
-    return this.wizard.wizardValues.buildSettings.applicationFramework === 'Node'
-      ? this._getNodeGithubActionsWorkflowConfig(this.wizard.siteArm.name)
-      : this._getDefaultGithubActionsWorkflowConfig(this.wizard.siteArm.name);
+    const information = this._githubService.getWorkflowInformation(
+      this.wizard.wizardValues.buildSettings,
+      this.wizard.wizardValues.sourceSettings,
+      this.wizard.isLinuxApp,
+      this.wizard.gitHubPublishProfileSecretGuid,
+      this.wizard.siteName,
+      this.wizard.slotName
+    );
+
+    return information.content;
   }
 
   private _buildControlgroup(): SummaryGroup {
@@ -370,46 +380,5 @@ export class StepCompleteComponent {
       label: this._translateService.instant(PortalResources.sourceControl),
       items: returnSummaryItems,
     };
-  }
-
-  // TODO(michinoy): Need to implement templated github action workflow generation.
-  private _getNodeGithubActionsWorkflowConfig(appName: string) {
-    return `# .github/workflows/appsvc-portal.yml
-on: push
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-    # checkout the repo
-    - uses: actions/checkout@master
-    # install dependencies, build, and test
-    - name: npm install, build, and test
-      run: |
-        npm install
-        npm run build --if-present
-        npm run test --if-present
-    # deploy web app using publish profile credentials
-    - uses: azure/appservice-actions/webapp@master
-      with:
-        app-name: ${appName}
-        package: '.'
-        publish-profile: \${{ secrets.michinoyWebAppPublishProfile }}`;
-  }
-
-  // TODO(michinoy): Need to implement templated github action workflow generation.
-  private _getDefaultGithubActionsWorkflowConfig(appName: string) {
-    return `# .github/workflows/appsvc-portal.yml
-on: push
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-    # checkout the repo
-    - uses: actions/checkout@master
-    # deploy web app using publish profile credentials
-    - uses: azure/appservice-actions/webapp@master
-      with:
-        app-name: ${appName}
-        publish-profile: \${{ secrets.azureWebAppPublishProfile }}`;
   }
 }

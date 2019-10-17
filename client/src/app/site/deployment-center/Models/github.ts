@@ -18,3 +18,16 @@ export class WorkflowCommit {
   branch: string;
   sha?: string;
 }
+
+export class WorkflowInformation {
+  fileName: string;
+  secretName: string;
+  content: string; // base64 encoded contents
+}
+
+export class WorkflowFramework {
+  isLinuxApp: boolean;
+  stack: string;
+  version: string;
+  startupCommand: string;
+}

@@ -40,6 +40,7 @@ import { AzureDevOpsService } from './azure-devops.service';
 import { LocalStorageService } from '../../../../shared/services/local-storage.service';
 import { GithubService } from './github.service';
 import { WorkflowCommit } from '../../Models/github';
+import { Guid } from 'app/shared/Utilities/Guid';
 
 const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
 @Injectable()
@@ -65,6 +66,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public vstsKuduOnly = false;
   public vsoAccounts: VSOAccount[] = [];
   public hideConfigureStepContinueButton = false;
+  public siteName = '';
+  public slotName = '';
+  public gitHubPublishProfileSecretGuid = '';
 
   constructor(
     private _cacheService: CacheService,
@@ -81,6 +85,16 @@ export class DeploymentCenterStateManager implements OnDestroy {
       .switchMap(r => {
         this._resourceId = r;
         const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
+        this.siteName = siteDescriptor.site;
+        this.slotName = siteDescriptor.slot;
+
+        // TODO (michinoy): Figure out a way to only generate this guid IF github actions build provider
+        // is selected. This might require refactoring a ton of stuff in step-complete component to understand
+        // what build provider is selected.
+        this.gitHubPublishProfileSecretGuid = Guid.newGuid()
+          .toLowerCase()
+          .replace(/[-]/g, '');
+
         return forkJoin(
           siteService.getSite(this._resourceId),
           this._cacheService.getArm(`/subscriptions/${siteDescriptor.subscription}`, false, ARMApiVersions.armApiVersion)
@@ -148,26 +162,38 @@ export class DeploymentCenterStateManager implements OnDestroy {
   private _deployGithubActions() {
     const repo = this.wizardValues.sourceSettings.repoUrl.replace('https://github.com/', '');
     const branch = this.wizardValues.sourceSettings.branch || 'master';
+    const workflowInformation = this._githubService.getWorkflowInformation(
+      this.wizardValues.buildSettings,
+      this.wizardValues.sourceSettings,
+      this.isLinuxApp,
+      this.gitHubPublishProfileSecretGuid,
+      this.siteName,
+      this.slotName
+    );
+
     const commitInfo: WorkflowCommit = {
       message: this._translateService.instant(PortalResources.githubActionWorkflowCommitMessage),
-      content: this.wizardValues.githubActionsConfigContent,
+      content: btoa(workflowInformation.content),
       committer: {
         name: 'Azure App Service',
-        email: 'antareseee@microsoft.com',
+        email: 'donotreply@microsoft.com',
       },
       branch,
     };
 
+    const workflowYmlPath = `.github/workflow/${workflowInformation.fileName}`;
+
     return this._githubService
-      .fetchWorkflowConfiguration(this.getToken(), this.wizardValues.sourceSettings.repoUrl, repo, branch)
+      .fetchWorkflowConfiguration(this.getToken(), this.wizardValues.sourceSettings.repoUrl, repo, branch, workflowYmlPath)
       .switchMap(fileContentResponse => {
         if (fileContentResponse) {
           commitInfo.sha = fileContentResponse.sha;
         }
 
-        return this._githubService.commitWorkflowConfiguration(this.getToken(), repo, commitInfo).switchMap(response => {
-          return this._deployKudu();
-        });
+        return this._githubService.commitWorkflowConfiguration(this.getToken(), repo, workflowYmlPath, commitInfo);
+      })
+      .switchMap(_ => {
+        return this._deployKudu();
       });
   }
 

@@ -5311,7 +5311,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Adding workflow configuration to GitHub Actions</value>
     </data>
     <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully committed {0} workflow file to {1}.</value>
+        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
     </data>
     <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>

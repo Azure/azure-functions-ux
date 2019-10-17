@@ -3,14 +3,9 @@ export class WizardForm {
   public buildProvider: sourceControlProvider;
   public sourceSettings: SourceSettings;
   public buildSettings: VstsBuildSettings;
-  public githubActionsConfigContent: string;
 }
 
-export class VstsBuildSettings {
-  public createNewVsoAccount: boolean;
-  public vstsAccount: string;
-  public vstsProject: string;
-  public location: string;
+export class BuildSettings {
   public applicationFramework:
     | 'AspNetWap'
     | 'AspNetCore'
@@ -26,6 +21,13 @@ export class VstsBuildSettings {
   public pythonSettings: PythonSettings;
   public frameworkVersion: string;
   public startupCommand: string;
+}
+
+export class VstsBuildSettings extends BuildSettings {
+  public createNewVsoAccount: boolean;
+  public vstsAccount: string;
+  public vstsProject: string;
+  public location: string;
 }
 
 export class PythonSettings {
