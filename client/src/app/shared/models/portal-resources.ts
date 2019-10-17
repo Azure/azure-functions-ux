@@ -1711,6 +1711,10 @@ export class PortalResources {
   public static functionEditorTestAriaLabel = 'functionEditorTestAriaLabel';
   public static functionEditorGetFunctionUrlAriaLabel = 'functionEditorGetFunctionUrlAriaLabel';
   public static functionEditorCommandBarAriaLabel = 'functionEditorCommandBarAriaLabel';
+  public static githubActionWorkflowConfiguration = 'githubActionWorkflowConfiguration';
+  public static githubActionSavingSettings = 'githubActionSavingSettings';
+  public static githubActionSettingsSavedSuccessfully = 'githubActionSettingsSavedSuccessfully';
+  public static githubActionWorkflowCommitMessage = 'githubActionWorkflowCommitMessage';
   public static functionAppDirectoryDropdownAriaLabel = 'functionAppDirectoryDropdownAriaLabel';
   public static functionDirectoryDropdownAriaLabel = 'functionDirectoryDropdownAriaLabel';
   public static closeGetFunctionUrlModal = 'closeGetFunctionUrlModal';

@@ -6,12 +6,13 @@ import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { TranslateService } from '@ngx-translate/core';
 import { MovingDirection } from '../../../controls/form-wizard/util/moving-direction.enum';
 import { AzureDevOpsService } from './wizard-logic/azure-devops.service';
+import { GithubService } from './wizard-logic/github.service';
 
 @Component({
   selector: 'app-deployment-center-setup',
   templateUrl: './deployment-center-setup.component.html',
   styleUrls: ['./deployment-center-setup.component.scss'],
-  providers: [DeploymentCenterStateManager, AzureDevOpsService],
+  providers: [DeploymentCenterStateManager, AzureDevOpsService, GithubService],
 })
 export class DeploymentCenterSetupComponent implements OnChanges {
   @Input()

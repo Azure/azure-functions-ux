@@ -11,6 +11,7 @@ import { PortalResources } from '../../../../shared/models/portal-resources';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { Guid } from 'app/shared/Utilities/Guid';
 import { PythonFrameworkType } from '../wizard-logic/deployment-center-setup-models';
+import { GithubService } from '../wizard-logic/github.service';
 
 interface SummaryItem {
   label: string;
@@ -39,7 +40,8 @@ export class StepCompleteComponent {
     private _broadcastService: BroadcastService,
     private _translateService: TranslateService,
     private _portalService: PortalService,
-    private _logService: LogService
+    private _logService: LogService,
+    private _githubService: GithubService
   ) {
     this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
 
@@ -71,6 +73,15 @@ export class StepCompleteComponent {
       buildProvider: this.wizard.wizardValues.buildProvider,
       sourceProvider: this.wizard.wizardValues.sourceProvider,
     });
+
+    if (this.wizard.wizardValues.sourceProvider === 'github' && this.wizard.wizardValues.buildProvider === 'github') {
+      this._saveGithubActionsDeploymentSettings(saveGuid);
+    } else {
+      this._saveAppServiceDeploymentSettings(saveGuid);
+    }
+  }
+
+  private _saveAppServiceDeploymentSettings(saveGuid: string) {
     let notificationId = null;
     this._portalService
       .startNotification(
@@ -128,6 +139,66 @@ export class StepCompleteComponent {
       );
   }
 
+  private _saveGithubActionsDeploymentSettings(saveGuid: string) {
+    let notificationId = null;
+    this._portalService
+      .startNotification(
+        this._translateService.instant(PortalResources.settingupDeployment),
+        this._translateService.instant(PortalResources.githubActionSavingSettings)
+      )
+      .take(1)
+      .do(notification => {
+        notificationId = notification.id;
+      })
+      .concatMap(() => this.wizard.deploy())
+      .subscribe(
+        r => {
+          this.clearBusy();
+          if (r.status === 'succeeded') {
+            this._portalService.stopNotification(
+              notificationId,
+              true,
+              this._translateService
+                .instant(PortalResources.githubActionSettingsSavedSuccessfully)
+                .format(this.wizard.wizardValues.sourceSettings.branch, this.wizard.wizardValues.sourceSettings.repoUrl)
+            );
+            this._broadcastService.broadcastEvent<void>(BroadcastEvent.ReloadDeploymentCenter);
+            this._portalService.logAction('deploymentcenter', 'save', {
+              id: saveGuid,
+              succeeded: 'true',
+            });
+          } else {
+            this._portalService.stopNotification(
+              notificationId,
+              false,
+              this._translateService.instant(PortalResources.settingupDeploymentFailWithStatusMessage).format(r.statusMessage)
+            );
+            this._logService.error(LogCategories.cicd, '/save-cicd', r.statusMessage);
+            this._portalService.logAction('deploymentcenter', 'save', {
+              id: saveGuid,
+              succeeded: 'false',
+              statusMessage: r.statusMessage,
+            });
+          }
+        },
+        err => {
+          this.clearBusy();
+
+          const errorMessage =
+            err && err.json() && err.json().message
+              ? err.json().message
+              : this._translateService.instant(PortalResources.settingupDeploymentFail);
+
+          this._portalService.stopNotification(notificationId, false, errorMessage);
+          this._logService.error(LogCategories.cicd, '/save-cicd', err);
+          this._portalService.logAction('deploymentcenter', 'save', {
+            id: saveGuid,
+            succeeded: 'false',
+          });
+        }
+      );
+  }
+
   clearBusy() {
     this._busyManager.clearBusy();
     this._isSaveDeploymentConfigInProgress = false;
@@ -137,6 +208,19 @@ export class StepCompleteComponent {
     const returnVal = [this._sourceControlGroup(), this._buildControlgroup()];
 
     return returnVal;
+  }
+
+  get GithubActionsWorkflowConfig() {
+    const information = this._githubService.getWorkflowInformation(
+      this.wizard.wizardValues.buildSettings,
+      this.wizard.wizardValues.sourceSettings,
+      this.wizard.isLinuxApp,
+      this.wizard.gitHubPublishProfileSecretGuid,
+      this.wizard.siteName,
+      this.wizard.slotName
+    );
+
+    return information.content;
   }
 
   private _buildControlgroup(): SummaryGroup {
@@ -152,35 +236,42 @@ export class StepCompleteComponent {
     } else {
       const appFramework = wizValues.buildSettings.applicationFramework;
 
-      returnSummaryItems.push({
-        label: this._translateService.instant(PortalResources.provider),
-        value: this._translateService.instant(PortalResources.vstsBuildServerTitle),
-      });
-
-      returnSummaryItems.push({
-        label: this._translateService.instant(PortalResources.newAccount),
-        value: buildSettings.createNewVsoAccount
-          ? this._translateService.instant(PortalResources.yes)
-          : this._translateService.instant(PortalResources.no),
-      });
-
-      returnSummaryItems.push({
-        label: this._translateService.instant(PortalResources.account),
-        value: buildSettings.vstsAccount,
-      });
-
-      if (!wizValues.buildSettings.createNewVsoAccount) {
+      if (buildProvider === 'github') {
         returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.project),
-          value: buildSettings.vstsProject,
+          label: this._translateService.instant(PortalResources.provider),
+          value: this._translateService.instant(PortalResources.gitHubActionBuildServerTitle),
         });
-      }
-
-      if (wizValues.buildSettings.createNewVsoAccount) {
+      } else {
         returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.location),
-          value: buildSettings.location,
+          label: this._translateService.instant(PortalResources.provider),
+          value: this._translateService.instant(PortalResources.vstsBuildServerTitle),
         });
+
+        returnSummaryItems.push({
+          label: this._translateService.instant(PortalResources.newAccount),
+          value: buildSettings.createNewVsoAccount
+            ? this._translateService.instant(PortalResources.yes)
+            : this._translateService.instant(PortalResources.no),
+        });
+
+        returnSummaryItems.push({
+          label: this._translateService.instant(PortalResources.account),
+          value: buildSettings.vstsAccount,
+        });
+
+        if (!wizValues.buildSettings.createNewVsoAccount) {
+          returnSummaryItems.push({
+            label: this._translateService.instant(PortalResources.project),
+            value: buildSettings.vstsProject,
+          });
+        }
+
+        if (wizValues.buildSettings.createNewVsoAccount) {
+          returnSummaryItems.push({
+            label: this._translateService.instant(PortalResources.location),
+            value: buildSettings.location,
+          });
+        }
       }
 
       returnSummaryItems.push({
