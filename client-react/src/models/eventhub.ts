@@ -1,0 +1,26 @@
+export interface Namespace {
+  createdAt: string;
+  critical: boolean;
+  enabled: boolean;
+  eventHubEnabled: true;
+  messagingSku: number;
+  metricId: string;
+  namespaceType: string;
+  provisioningState: string;
+  status: string;
+  updatedAt: string;
+}
+
+export interface EventHub {
+  createdAt: string;
+  messageRetentionINDays: number;
+  partitionCount: number;
+  partitionIds: string[];
+  path: string;
+  status: string;
+  updatedAt: string;
+}
+
+export interface AuthorizationRule {
+  rights: string[];
+}
