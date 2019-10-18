@@ -38,7 +38,7 @@ export default class EventHubService {
     return MakeArmCall<KeyList>({
       method: 'POST',
       resourceId: id,
-      commandName: 'fetchKey',
+      commandName: 'fetchKeyList',
       apiVersion: CommonConstants.ApiVersions.eventHubApiVersion20150801,
     });
   };

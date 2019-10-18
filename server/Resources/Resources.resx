@@ -5365,12 +5365,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
     <data name="eventHubPicker_noNamespaces" xml:space="preserve">
-        <value>'No Namespaces in this subscription'</value>
+        <value>There are no namespaces in this subscription</value>
     </data>
     <data name="eventHubPicker_noEventHubs" xml:space="preserve">
-        <value>No Event Hubs in this Namespace</value>
+        <value>There are no Event Hubs in this namespace</value>
     </data>
     <data name="eventHubPicker_noPolicies" xml:space="preserve">
-        <value>No Policies in this Namespace and Event Hub</value>
+        <value>There are no policies in this namespace and Event Hub</value>
     </data>
 </root>

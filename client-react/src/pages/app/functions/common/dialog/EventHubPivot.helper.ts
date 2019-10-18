@@ -59,8 +59,8 @@ export function fetchKeyList(resourceId: string, setKeyList: any) {
 export function createEventHubConnection(
   selectedNamespace: IDropdownOption | undefined,
   keyList: KeyList | undefined,
-  setNewAppSettingName: any,
-  setIsDialogVisilbe: any,
+  setNewAppSettingName: (e: string) => void,
+  setIsDialogVisible: (d: boolean) => void,
   formProps: FormikProps<BindingEditorFormValues>,
   field: { name: string; value: any }
 ) {
@@ -68,18 +68,18 @@ export function createEventHubConnection(
     const appSettingName = `${selectedNamespace.text}_${keyList.keyName}_EVENTHUB`;
     formProps.setFieldValue(field.name, appSettingName);
     setNewAppSettingName(appSettingName);
-    setIsDialogVisilbe(false);
+    setIsDialogVisible(false);
   }
 }
 
 export function onNamespaceChange(
   namespace: IDropdownOption | undefined,
-  setSelectedNamespace: any,
-  setEventHubs: any,
-  setSelectedEventHub: any,
-  setNamespaceAuthRules: any,
-  setSelectedPolicy: any,
-  setKeyList: any
+  setSelectedNamespace: (n: IDropdownOption | undefined) => void,
+  setEventHubs: (e: undefined) => void,
+  setSelectedEventHub: (e: undefined) => void,
+  setNamespaceAuthRules: (a: undefined) => void,
+  setSelectedPolicy: (p: undefined) => void,
+  setKeyList: (k: undefined) => void
 ) {
   setSelectedNamespace(namespace);
   setEventHubs(undefined);
@@ -91,10 +91,10 @@ export function onNamespaceChange(
 
 export function onEventHubChange(
   eventHub: IDropdownOption | undefined,
-  setSelectedEventHub: any,
-  setEventHubAuthRules: any,
-  setSelectedPolicy: any,
-  setKeyList: any
+  setSelectedEventHub: (s: IDropdownOption | undefined) => void,
+  setEventHubAuthRules: (a: undefined) => void,
+  setSelectedPolicy: (p: undefined) => void,
+  setKeyList: (k: undefined) => void
 ) {
   setSelectedEventHub(eventHub);
   setEventHubAuthRules(undefined);
@@ -102,7 +102,11 @@ export function onEventHubChange(
   setKeyList(undefined);
 }
 
-export function onPolicyChange(policy: IDropdownOption | undefined, setSelectedPolicy: any, setKeyList: any) {
+export function onPolicyChange(
+  policy: IDropdownOption | undefined,
+  setSelectedPolicy: (p: IDropdownOption | undefined) => void,
+  setKeyList: (k: undefined) => void
+) {
   setSelectedPolicy(policy);
   setKeyList(undefined);
 }
