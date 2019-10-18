@@ -80,7 +80,7 @@ const EventHubPivot: React.SFC<NewConnectionDialogProps & CustomDropdownProps & 
 
   return (
     <form style={paddingSidesStyle}>
-      {namespaces && namespaces.length === 0 && <p>{'No Namespaces in this subscription'}</p>}
+      {namespaces && namespaces.length === 0 && <p>{t('eventHubPicker_noNamespaces')}</p>}
       <Dropdown
         label={t('eventHubPicker_namespace')}
         options={namespaceOptions}
@@ -98,7 +98,7 @@ const EventHubPivot: React.SFC<NewConnectionDialogProps & CustomDropdownProps & 
         }
       />
       {!eventHubs && <LoadingComponent />}
-      {eventHubs && eventHubs.length === 0 && <p>{'No Event Hubs in this Namespace'}</p>}
+      {eventHubs && eventHubs.length === 0 && <p>{t('eventHubPicker_noEventHubs')}</p>}
       <Dropdown
         label={t('eventHubPicker_eventHub')}
         options={eventHubOptions}
@@ -107,7 +107,7 @@ const EventHubPivot: React.SFC<NewConnectionDialogProps & CustomDropdownProps & 
       />
       {(!namespaceAuthRules || !eventHubAuthRules) && <LoadingComponent />}
       {namespaceAuthRules && namespaceAuthRules.length === 0 && (eventHubAuthRules && eventHubAuthRules.length === 0) && (
-        <p>{'No Policies in this Namespace and Event Hub'}</p>
+        <p>{t('eventHubPicker_noPolicies')}</p>
       )}
       <Dropdown
         label={t('eventHubPicker_policy')}

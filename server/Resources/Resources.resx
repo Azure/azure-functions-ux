@@ -5364,4 +5364,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="refreshAppSettingsMessage" xml:space="preserve">
         <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
+    <data name="eventHubPicker_noNamespaces" xml:space="preserve">
+        <value>'No Namespaces in this subscription'</value>
+    </data>
+    <data name="eventHubPicker_noEventHubs" xml:space="preserve">
+        <value>No Event Hubs in this Namespace</value>
+    </data>
+    <data name="eventHubPicker_noPolicies" xml:space="preserve">
+        <value>No Policies in this Namespace and Event Hub</value>
+    </data>
 </root>
