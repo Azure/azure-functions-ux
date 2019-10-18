@@ -24,3 +24,11 @@ export interface EventHub {
 export interface AuthorizationRule {
   rights: string[];
 }
+
+export interface KeyList {
+  keyName: string;
+  primaryConnectionString: string;
+  primaryKey: string;
+  secondaryConnectionSTring: string;
+  secondaryKey: string;
+}

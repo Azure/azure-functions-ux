@@ -2,7 +2,7 @@ import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
 import MakeArmCall from './ArmHelper';
 import { ArmArray } from '../models/arm-obj';
 import { CommonConstants } from '../utils/CommonConstants';
-import { Namespace, EventHub, AuthorizationRule } from '../models/eventhub';
+import { Namespace, EventHub, AuthorizationRule, KeyList } from '../models/eventhub';
 
 export default class EventHubService {
   public static fetchNamespaces = (resourceId: string) => {
@@ -29,6 +29,16 @@ export default class EventHubService {
     return MakeArmCall<ArmArray<AuthorizationRule>>({
       resourceId: id,
       commandName: 'fetchAuthorizationRules',
+      apiVersion: CommonConstants.ApiVersions.eventHubApiVersion20150801,
+    });
+  };
+
+  public static fetchKeyList = (resourceId: string) => {
+    const id = `${resourceId}/listKeys`;
+    return MakeArmCall<KeyList>({
+      method: 'POST',
+      resourceId: id,
+      commandName: 'fetchKey',
       apiVersion: CommonConstants.ApiVersions.eventHubApiVersion20150801,
     });
   };
