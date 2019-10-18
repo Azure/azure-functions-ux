@@ -83,17 +83,10 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchData = async () => {
-    const site = await siteContext.fetchSite(resourceId);
-    const {
-      webConfig,
-      metadata,
-      connectionStrings,
-      applicationSettings,
-      slotConfigNames,
-      azureStorageMounts,
-      windowsStacks,
-      linuxStacks,
-    } = await fetchApplicationSettingValues(resourceId);
+    const [
+      site,
+      { webConfig, metadata, connectionStrings, applicationSettings, slotConfigNames, azureStorageMounts, windowsStacks, linuxStacks },
+    ] = await Promise.all([siteContext.fetchSite(resourceId), fetchApplicationSettingValues(resourceId)]);
 
     const loadingFailed =
       armCallFailed(site) ||
