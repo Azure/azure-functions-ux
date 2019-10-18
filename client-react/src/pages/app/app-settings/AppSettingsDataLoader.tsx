@@ -18,6 +18,7 @@ import {
   getProductionAppWritePermissions,
   updateStorageMounts,
   getAllAppSettingReferences,
+  fetchAzureStorageAccounts,
 } from './AppSettings.service';
 import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
@@ -89,7 +90,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       connectionStrings,
       applicationSettings,
       slotConfigNames,
-      storageAccounts,
       azureStorageMounts,
       windowsStacks,
       linuxStacks,
@@ -101,7 +101,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       armCallFailed(metadata, true) ||
       armCallFailed(connectionStrings, true) ||
       armCallFailed(applicationSettings, true) ||
-      armCallFailed(storageAccounts) ||
       armCallFailed(azureStorageMounts, true) ||
       armCallFailed(windowsStacks) ||
       armCallFailed(linuxStacks);
@@ -110,6 +109,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
     if (!loadingFailed) {
       setCurrentSiteNonForm(site.data);
+
       if (
         applicationSettings.metadata.status === 403 || // failing RBAC permissions
         applicationSettings.metadata.status === 409 // Readonly locked
@@ -135,7 +135,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (site.data.properties.targetSwapSlot) {
         setEditable(false);
       }
-      setStorageAccountsState(storageAccounts.data);
+
       setInitialValues({
         ...convertStateToForm({
           site: site.data,
@@ -147,6 +147,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
         }),
       });
+
       if (site.data.kind!.includes('linux')) {
         setCurrentAvailableStacks(linuxStacks.data);
       } else {
@@ -171,10 +172,18 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     setReferences({ appSettings: appSettingReferences.metadata.success ? getCleanedReferences(appSettingReferences.data) : null });
   };
 
+  const fetchStorageAccounts = async () => {
+    const storageAccounts = await fetchAzureStorageAccounts(resourceId);
+    if (storageAccounts.metadata.success) {
+      setStorageAccountsState(storageAccounts.data);
+    }
+  };
+
   const loadData = () => {
     fetchData();
     fillSlots();
     fetchReferences();
+    fetchStorageAccounts();
   };
 
   useEffect(() => {
