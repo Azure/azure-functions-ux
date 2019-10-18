@@ -1,7 +1,7 @@
 import { ISemanticColors, ITheme } from '@uifabric/styling';
 
 export interface AzurePortalColors {
-  lineSeperator: string;
+  lineSeparator: string;
   sectionDividerScrollbar: string;
   background: string;
   sectionBackground: string;

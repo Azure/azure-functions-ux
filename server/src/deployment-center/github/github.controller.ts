@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, Response, Get, Session, HttpCode, Res } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, Response, Get, Session, HttpCode, Res, Put } from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
@@ -37,6 +37,25 @@ export class GithubController {
     }
   }
 
+  @Put('api/github/fileContent')
+  @HttpCode(200)
+  async fileContent(@Body('authToken') authToken: string, @Body('url') url: string, @Body('content') content: any) {
+    const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
+
+    try {
+      await this.httpService.put(url, content, {
+        headers: {
+          Authorization: `Bearer ${tokenData.token}`,
+        },
+      });
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
   @Get('auth/github/authorize')
   async authorize(@Session() session, @Response() res) {
     let stateKey = '';
@@ -47,12 +66,13 @@ export class GithubController {
       this.loggingService.error({}, '', 'session-not-found');
       throw new HttpException('Session Not Found', 500);
     }
+
     res.redirect(
       `${Constants.oauthApis.githubApiUri}/authorize?client_id=${this.configService.get(
         'GITHUB_CLIENT_ID'
       )}&redirect_uri=${this.configService.get(
         'GITHUB_REDIRECT_URL'
-      )}&scope=admin:repo_hook+repo&response_type=code&state=${this.dcService.hashStateGuid(stateKey)}`
+      )}&scope=admin:repo_hook+repo+workflow&response_type=code&state=${this.dcService.hashStateGuid(stateKey)}`
     );
   }
 
