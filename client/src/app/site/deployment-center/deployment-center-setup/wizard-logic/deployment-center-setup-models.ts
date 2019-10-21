@@ -94,11 +94,11 @@ export interface ProvisioningConfiguration extends ProvisioningConfigurationBase
 
 export interface ProvisioningConfigurationV2 extends ProvisioningConfigurationBase {
   /* Below parameters are for pipelineTemplate API*/
-  pipelineTemplateId?: string;
+  pipelineTemplateId: string;
 
-  pipelineTemplateParameters?: { [key: string]: string };
+  pipelineTemplateParameters: { [key: string]: string };
 
-  repository?: CodeRepository;
+  repository: CodeRepository;
 }
 
 export enum DeploymentTargetProvider {

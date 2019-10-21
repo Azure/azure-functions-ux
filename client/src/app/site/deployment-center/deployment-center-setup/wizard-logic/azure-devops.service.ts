@@ -435,6 +435,8 @@ export class AzureDevOpsService implements OnDestroy {
       subscriptionName: subscriptionName,
       resourceGroupName: siteDescriptor.resourceGroup,
       webAppName: siteDescriptor.site,
+      stagingOption: !!siteDescriptor.slot ? 'true' : 'false',
+      webAppSlotName: !!siteDescriptor.slot ? siteDescriptor.slot : '',
       usePublishProfile: azureDevOpsDeploymentMethod === AzureDevOpsDeploymentMethod.UsePublishProfile ? 'true' : 'false',
       azureDevOpsAuth: JSON.stringify({
         scheme: 'Headers',
@@ -465,28 +467,29 @@ export class AzureDevOpsService implements OnDestroy {
         };
 
       case ApplicationType.Python:
+        let pythonParameters = {
+          pathToApplicationCode: buildSettings.workingDirectory,
+          pythonExtensionVersion: buildSettings.pythonSettings.version,
+        };
         switch (buildSettings.pythonSettings.framework) {
-          case PythonFrameworkType.Flask:
+          case PythonFrameworkType.Django:
             return {
-              pathToApplicationCode: buildSettings.workingDirectory,
-              pythonExtensionVersion: buildSettings.pythonSettings.version,
               djangoSettingModule: buildSettings.pythonSettings.djangoSettingsModule,
               ...pipelineTemplateParameters,
+              ...pythonParameters,
             };
 
           case PythonFrameworkType.Bottle:
             return {
-              pathToApplicationCode: buildSettings.workingDirectory,
-              pythonExtensionVersion: buildSettings.pythonSettings.version,
               ...pipelineTemplateParameters,
+              ...pythonParameters,
             };
 
-          case PythonFrameworkType.Django:
+          case PythonFrameworkType.Flask:
             return {
-              pathToApplicationCode: buildSettings.workingDirectory,
-              pythonExtensionVersion: buildSettings.pythonSettings.version,
               flaskProjectName: buildSettings.pythonSettings.flaskProjectName,
               ...pipelineTemplateParameters,
+              ...pythonParameters,
             };
 
           default:
