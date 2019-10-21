@@ -161,6 +161,32 @@
             </div>
         </div>
     </div>
+    <div class="setting-wrapper" *ngIf="isElasticPremium">
+        <label id="runtimeScalingRadioLabel" class="title-label">{{ 'appFunctionSettings_runtimeScaleMonitoring' | translate }}</label>
+        <div class="features-wrapper">
+            <div>
+                <div *ngIf="(preWarmedInstanceCount === 0 && functionsRuntimeScaleMonitoring) || (!vnetEnabled && !functionsRuntimeScaleMonitoring)" class="alert alert-warning">
+                    <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
+                    <div class="alert-message">
+                        <span [innerHtml]="(functionAppEditModeForcedWarning | translate)"></span>
+                    </div>
+                </div>
+                <div>
+                    <radio-selector
+                        [(ngModel)]="functionsRuntimeScaleMonitoring"
+                        [defaultValue]="functionsRuntimeScaleMonitoringOriginal"
+                        [options]="functionsRuntimeScaleMonitoringOptions"
+                        (value)="functionsRuntimeScaleMonitoringStream.next($event)"
+                        id="runtimeScalingRadioButton"
+                        aria-labelledby="runtimeScalingRadioLabel runtimeScalingRadioButton"
+                        [disabled]="(preWarmedInstanceCount === 0 && functionsRuntimeScaleMonitoring) || (!vnetEnabled && !functionsRuntimeScaleMonitoring)">
+                    </radio-selector>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <function-keys
         *ngIf="!isStopped"
         [autoSelect]="true"

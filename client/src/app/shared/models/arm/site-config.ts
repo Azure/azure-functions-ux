@@ -56,4 +56,7 @@ export interface SiteConfig extends ContainerSiteConfig {
   http20Enabled: boolean;
   azureStorageAccounts: ByosStorageAccounts;
   ipSecurityRestrictions: IpRestriction[];
+  functionsRuntimeScaleMonitoringEnabled?: boolean;
+  preWarmedInstanceCount?: number | null;
+  vnet?: string;
 }

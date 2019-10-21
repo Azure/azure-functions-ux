@@ -61,6 +61,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   public functionRuntimeValueStream: Subject<string>;
   public proxySettingValueStream: Subject<boolean>;
   public functionEditModeValueStream: Subject<boolean>;
+  public functionsRuntimeScaleMonitoringStream: Subject<boolean>;
   public isLinuxApp: boolean;
   public isStopped: boolean;
   public hasFunctions: boolean;
@@ -76,6 +77,14 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   public betaDisabled = false;
   public disableRuntimeSelector = false;
   public disableSomeVersionSwaps = false;
+
+  public functionsRuntimeScaleMonitoring = false;
+  public functionsRuntimeScaleMonitoringOriginal = false;
+  public functionsRuntimeScaleMonitoringOptions: SelectOption<Boolean>[];
+  public preWarmedInstanceCount = 0;
+  public vnetEnabled = false;
+  public isElasticPremium = false;
+
   private _busyManager: BusyStateScopeManager;
 
   constructor(
@@ -118,6 +127,17 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
       {
         displayLabel: this._translateService.instant(PortalResources.appFunctionSettings_readOnlyMode),
         value: false,
+      },
+    ];
+
+    this.functionsRuntimeScaleMonitoringOptions = [
+      {
+        displayLabel: this._translateService.instant(PortalResources.off),
+        value: false,
+      },
+      {
+        displayLabel: this._translateService.instant(PortalResources.on),
+        value: true,
       },
     ];
 
@@ -196,6 +216,11 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     this.functionRuntimeValueStream.subscribe((value: string) => {
       this.updateVersion(value);
     });
+
+    this.functionsRuntimeScaleMonitoringStream = new Subject<boolean>();
+    this.functionsRuntimeScaleMonitoringStream.subscribe((value: boolean) => {
+      this._updateFunctionRuntimeScaleMonitoring(value);
+    });
   }
 
   setup(): Subscription {
@@ -206,13 +231,15 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           this.context.site.properties.state && this.context.site.properties.state.toLocaleLowerCase() !== 'Running'.toLocaleLowerCase();
         this.isLinuxApp = ArmUtil.isLinuxApp(this.context.site);
         this.isLinuxDynamic = ArmUtil.isLinuxDynamic(this.context.site);
+        this.isElasticPremium = ArmUtil.isElastic(this.context.site);
 
         return Observable.forkJoin(
           this._cacheService.postArm(`${this.viewInfo.resourceId}/config/appsettings/list`, true),
           this._functionAppService.getSlotsList(this.context),
           this._functionAppService.getFunctionAppEditMode(this.context),
           this._functionAppService.getFunctionHostStatus(this.context),
-          this._functionService.getFunctions(this.context.site.id)
+          this._functionService.getFunctions(this.context.site.id),
+          this._siteService.getSiteConfig(this.context.site.id)
         );
       })
       .do(() => this._busyManager.clearBusy())
@@ -263,6 +290,14 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           this.functionAppEditMode = true;
           this.functionAppEditModeForcedWarning = null;
         }
+
+        if (tuple[5].isSuccessful) {
+          const siteConfig = tuple[5].result;
+          this.functionsRuntimeScaleMonitoringOriginal = siteConfig.properties.functionsRuntimeScaleMonitoringEnabled;
+          this.preWarmedInstanceCount = siteConfig.properties.preWarmedInstanceCount ? siteConfig.properties.preWarmedInstanceCount : 0;
+          this.vnetEnabled = !!siteConfig.properties.vnet;
+        }
+
         this._busyManager.clearBusy();
         this._aiService.stopTrace('/timings/site/tab/function-runtime/revealed', this.viewInfo.data.siteTabRevealedTraceKey);
       });
@@ -401,6 +436,38 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         }
       }
     }
+  }
+
+  private _updateFunctionRuntimeScaleMonitoring(value: boolean) {
+    if (value === this.functionsRuntimeScaleMonitoringOriginal) {
+      return;
+    }
+    this._aiService.trackEvent('/actions/site_config/update_runtime_scale_monitoring');
+    this._busyManager.setBusy();
+    this._siteService
+      .getSiteConfig(this.context.site.id)
+      .mergeMap(r => {
+        if (r.isSuccessful) {
+          r.result.properties.functionsRuntimeScaleMonitoringEnabled = value;
+          return this._siteService.updateSiteConfig(this.context.site.id, r.result).map(siteConfig => {
+            if (siteConfig.isSuccessful) {
+              return siteConfig.result;
+            }
+            throw Observable.throw(siteConfig.error);
+          });
+        } else {
+          throw Observable.throw(r.error);
+        }
+      })
+      .do(null, e => {
+        this._busyManager.clearBusy();
+        this._aiService.trackException(e, '/errors/rutime-scale-monitoring-updated');
+        console.error(e);
+      })
+      .subscribe(siteConfig => {
+        console.log(siteConfig);
+        this._busyManager.clearBusy();
+      });
   }
 
   private _updateContainerVersion(appSettings: ArmObj<any>, version: string) {
