@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BindingConfigUIDefinition, BindingSettingResource } from '../../../../models/functions/bindings-config';
 import { FieldProps, FormikProps } from 'formik';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
-import { IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
+import { IDropdownOption, IDropdownProps, Link, Callout } from 'office-ui-fabric-react';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
@@ -18,8 +18,14 @@ export interface ResourceDropdownProps {
 }
 
 const paddingStyle = {
-  marginTop: '-5px',
-  paddingBottom: '20px',
+  marginTop: '-10px',
+  paddingBottom: '10px',
+};
+
+const calloutSyle = {
+  padding: '10px',
+  height: 300,
+  width: 400,
 };
 
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
@@ -61,27 +67,27 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         {...props}
       />
       <div style={paddingStyle}>
-        <Link onClick={() => setIsDialogVisible(true)}>{'New'}</Link>
-        {isDialogVisible && (
-          <>
-            {setting.resource === BindingSettingResource.Storage && (
-              <NewStorageAccountConnectionDialog
-                resourceId={resourceId}
-                setNewAppSettingName={setNewAppSettingName}
-                setIsDialogVisible={setIsDialogVisible}
-                {...props}
-              />
-            )}
-            {setting.resource === BindingSettingResource.EventHub && (
-              <NewEventHubConnectionDialog
-                resourceId={resourceId}
-                setNewAppSettingName={setNewAppSettingName}
-                setIsDialogVisible={setIsDialogVisible}
-                {...props}
-              />
-            )}
-          </>
-        )}
+        <Link id="target" onClick={() => setIsDialogVisible(true)}>
+          {'New'}
+        </Link>
+        <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutSyle}>
+          {setting.resource === BindingSettingResource.Storage && (
+            <NewStorageAccountConnectionDialog
+              resourceId={resourceId}
+              setNewAppSettingName={setNewAppSettingName}
+              setIsDialogVisible={setIsDialogVisible}
+              {...props}
+            />
+          )}
+          {setting.resource === BindingSettingResource.EventHub && (
+            <NewEventHubConnectionDialog
+              resourceId={resourceId}
+              setNewAppSettingName={setNewAppSettingName}
+              setIsDialogVisible={setIsDialogVisible}
+              {...props}
+            />
+          )}
+        </Callout>
       </div>
     </div>
   );
