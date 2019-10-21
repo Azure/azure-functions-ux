@@ -20,9 +20,12 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
       <h3>{t('Runtime scale monitoring')}</h3>
       <div className={settingsWrapper}>
         <Field
-          name="config.properties.runtimeScaleMonitoringEnabled"
+          name="config.properties.functionsRuntimeScaleMonitoringEnabled"
           dirty={
-            !isEqual(values.config.properties.runtimeScaleMonitoringEnabled, initialValues.config.properties.runtimeScaleMonitoringEnabled)
+            !isEqual(
+              values.config.properties.functionsRuntimeScaleMonitoringEnabled,
+              initialValues.config.properties.functionsRuntimeScaleMonitoringEnabled
+            )
           }
           component={RadioButton}
           label={t('Runtime scale monitoring')}

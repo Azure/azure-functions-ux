@@ -62,7 +62,7 @@ export interface SiteConfig {
   appCommandLine: string;
   ipSecurityRestrictions: IpRestriction[];
   reservedInstanceCount?: number;
-  runtimeScaleMonitoringEnabled?: boolean;
+  functionsRuntimeScaleMonitoringEnabled?: boolean;
 }
 
 export interface IpRestriction {

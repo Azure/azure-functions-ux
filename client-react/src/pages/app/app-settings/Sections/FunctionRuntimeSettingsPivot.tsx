@@ -65,7 +65,10 @@ const dailyMemoryTimeQuotaDirty = (values: AppSettingsFormValues, initialValues:
 };
 
 const runtimeScaleMonitoringDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
-  return !isEqual(values.config.properties.runtimeScaleMonitoringEnabled, initialValues.config.properties.runtimeScaleMonitoringEnabled);
+  return !isEqual(
+    values.config.properties.functionsRuntimeScaleMonitoringEnabled,
+    initialValues.config.properties.functionsRuntimeScaleMonitoringEnabled
+  );
 };
 
 export const functionRuntimeSettingsDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
