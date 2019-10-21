@@ -119,7 +119,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
         this._hasPlanWritePermissionStream.next({
           enabled: hasPlanWritePermissions,
-          disableMessage: 'This feature requires write permissions on the plan',
+          disableMessage: this._translateService.instant(PortalResources.noPlanWritePermissions),
         });
       });
   }

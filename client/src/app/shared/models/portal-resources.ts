@@ -1717,5 +1717,6 @@ export class PortalResources {
   public static githubActionWorkflowCommitMessage = 'githubActionWorkflowCommitMessage';
   public static functionAppDirectoryDropdownAriaLabel = 'functionAppDirectoryDropdownAriaLabel';
   public static functionDirectoryDropdownAriaLabel = 'functionDirectoryDropdownAriaLabel';
+  public static noPlanWritePermissions = 'noPlanWritePermissions';
   public static closeGetFunctionUrlModal = 'closeGetFunctionUrlModal';
 }
