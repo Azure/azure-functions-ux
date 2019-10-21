@@ -79,7 +79,6 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   public disableSomeVersionSwaps = false;
 
   public functionsRuntimeScaleMonitoring = false;
-  public functionsRuntimeScaleMonitoringOriginal = false;
   public functionsRuntimeScaleMonitoringOptions: SelectOption<Boolean>[];
   public preWarmedInstanceCount = 0;
   public vnetEnabled = false;
@@ -232,7 +231,6 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         this.isLinuxApp = ArmUtil.isLinuxApp(this.context.site);
         this.isLinuxDynamic = ArmUtil.isLinuxDynamic(this.context.site);
         this.isElasticPremium = ArmUtil.isElastic(this.context.site);
-        console.log(this.context.site);
 
         return Observable.forkJoin(
           this._cacheService.postArm(`${this.viewInfo.resourceId}/config/appsettings/list`, true),
@@ -294,10 +292,9 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
         if (tuple[5].isSuccessful) {
           const siteConfig = tuple[5].result;
-          this.functionsRuntimeScaleMonitoringOriginal = siteConfig.properties.functionsRuntimeScaleMonitoringEnabled;
+          this.functionsRuntimeScaleMonitoring = siteConfig.properties.functionsRuntimeScaleMonitoringEnabled;
           this.preWarmedInstanceCount = siteConfig.properties.preWarmedInstanceCount ? siteConfig.properties.preWarmedInstanceCount : 0;
           this.vnetEnabled = !!siteConfig.properties.vnet;
-          this.functionsRuntimeScaleMonitoring = this.functionsRuntimeScaleMonitoringOriginal;
         }
 
         this._busyManager.clearBusy();
@@ -463,14 +460,13 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
       })
       .do(null, e => {
         this._busyManager.clearBusy();
-        this._aiService.trackException(e, '/errors/rutime-scale-monitoring-updated');
+        this._aiService.trackException(e, '/errors/runtime-scale-monitoring-updated');
         console.error(e);
       })
       .subscribe(result => {
         const siteConfig = result.json();
-        this.functionsRuntimeScaleMonitoringOriginal =
+        this.functionsRuntimeScaleMonitoring =
           siteConfig && siteConfig.properties && siteConfig.properties.functionsRuntimeScaleMonitoringEnabled;
-        this.functionsRuntimeScaleMonitoring = this.functionsRuntimeScaleMonitoringOriginal;
         this._busyManager.clearBusy();
       });
   }
