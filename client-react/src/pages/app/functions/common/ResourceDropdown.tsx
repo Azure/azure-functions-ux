@@ -6,10 +6,10 @@ import { IDropdownOption, IDropdownProps, Link, Callout } from 'office-ui-fabric
 import SiteService from '../../../../ApiHelpers/SiteService';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import NewStorageAccountConnectionDialog from './dialog/NewStorageAccountConnectionDialog';
+import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
 import { ArmObj } from '../../../../models/arm-obj';
 import { BindingEditorFormValues } from './BindingFormBuilder';
-import NewEventHubConnectionDialog from './dialog/NewEventHubConnectionDialog';
+import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
 import LoadingComponent from '../../../../components/loading/loading-component';
 
 export interface ResourceDropdownProps {
@@ -72,7 +72,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         </Link>
         <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutSyle}>
           {setting.resource === BindingSettingResource.Storage && (
-            <NewStorageAccountConnectionDialog
+            <NewStorageAccountConnectionCallout
               resourceId={resourceId}
               setNewAppSettingName={setNewAppSettingName}
               setIsDialogVisible={setIsDialogVisible}
@@ -80,7 +80,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
             />
           )}
           {setting.resource === BindingSettingResource.EventHub && (
-            <NewEventHubConnectionDialog
+            <NewEventHubConnectionCallout
               resourceId={resourceId}
               setNewAppSettingName={setNewAppSettingName}
               setIsDialogVisible={setIsDialogVisible}

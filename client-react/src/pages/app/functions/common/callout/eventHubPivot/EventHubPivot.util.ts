@@ -1,11 +1,11 @@
-import { BindingEditorFormValues } from '../BindingFormBuilder';
-import { KeyList, Namespace, EventHub, AuthorizationRule } from '../../../../../models/eventhub';
+import { BindingEditorFormValues } from '../../BindingFormBuilder';
+import { KeyList, Namespace, EventHub, AuthorizationRule } from '../../../../../../models/eventhub';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import { FormikProps } from 'formik';
-import { ArmObj } from '../../../../../models/arm-obj';
-import { NewConnectionDialogProps } from './DialogProperties';
+import { ArmObj } from '../../../../../../models/arm-obj';
+import { NewConnectionCalloutProps } from '../Callout.properties';
 
-export interface EventHubPivotProps extends NewConnectionDialogProps {
+export interface EventHubPivotProps extends NewConnectionCalloutProps {
   namespaces: ArmObj<Namespace>[];
   eventHubs: ArmObj<EventHub>[] | undefined;
   setEventHubs: (e: ArmObj<EventHub>[] | undefined) => void;

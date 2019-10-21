@@ -1,8 +1,8 @@
 import React from 'react';
 import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import LoadingComponent from '../../../../../components/loading/loading-component';
-import { paddingSidesStyle, paddingTopStyle } from './Dialog.styles';
+import LoadingComponent from '../../../../../../components/loading/loading-component';
+import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { createEventHubConnection, onNamespaceChange, onEventHubChange, onPolicyChange, EventHubPivotProps } from './EventHubPivot.util';
 import { FieldProps } from 'formik/dist/Field';
 

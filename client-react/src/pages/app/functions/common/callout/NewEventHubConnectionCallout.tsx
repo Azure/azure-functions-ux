@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import { FieldProps } from 'formik';
-import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
-import { IDropdownProps, Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react';
-import { NewConnectionDialogProps } from './DialogProperties';
+import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react';
+import { NewConnectionCalloutProps } from './Callout.properties';
 import CustomTabRenderer from '../../../app-settings/Sections/CustomTabRenderer';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { useTranslation } from 'react-i18next';
-import EventHubPivotDataLoader from './EventHubPivotDataLoader';
+import EventHubPivotDataLoader from './eventHubPivot/EventHubPivotDataLoader';
 
 export enum PivotState {
   eventHub = 'eventHub',
@@ -14,7 +13,7 @@ export enum PivotState {
   custom = 'custom',
 }
 
-const NewEventHubConnectionDialogProps: React.SFC<NewConnectionDialogProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
+const NewEventHubConnectionCalloutProps: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
@@ -58,4 +57,4 @@ const getPivotTabId = (itemKey: string) => {
   return '';
 };
 
-export default NewEventHubConnectionDialogProps;
+export default NewEventHubConnectionCalloutProps;

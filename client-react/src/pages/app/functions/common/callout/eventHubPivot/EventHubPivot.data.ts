@@ -1,6 +1,6 @@
-import LogService from '../../../../../utils/LogService';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import EventHubService from '../../../../../ApiHelpers/EventHubService';
+import LogService from '../../../../../../utils/LogService';
+import { LogCategories } from '../../../../../../utils/LogCategories';
+import EventHubService from '../../../../../../ApiHelpers/EventHubService';
 
 export function fetchNamespaces(resourceId: string, setNamespaces: any) {
   EventHubService.fetchNamespaces(resourceId).then(r => {
