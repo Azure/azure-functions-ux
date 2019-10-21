@@ -1,59 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { IDropdownOption, Dropdown, DefaultButton, IDropdownProps } from 'office-ui-fabric-react';
+import React from 'react';
+import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { Namespace, EventHub, AuthorizationRule, KeyList } from '../../../../../models/eventhub';
-import { ArmObj } from '../../../../../models/arm-obj';
 import LoadingComponent from '../../../../../components/loading/loading-component';
-import { NewConnectionDialogProps } from './DialogProperties';
-import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
-import { FieldProps } from 'formik';
 import { paddingSidesStyle, paddingTopStyle } from './Dialog.styles';
-import {
-  fetchNamespaces,
-  fetchEventHubs,
-  fetchNamespaceAuthRules,
-  fetchEventHubAuthRules,
-  fetchKeyList,
-  createEventHubConnection,
-  onNamespaceChange,
-  onEventHubChange,
-  onPolicyChange,
-} from './EventHubPivot.helper';
+import { createEventHubConnection, onNamespaceChange, onEventHubChange, onPolicyChange, EventHubPivotProps } from './EventHubPivot.util';
+import { FieldProps } from 'formik/dist/Field';
 
-const EventHubPivot: React.SFC<NewConnectionDialogProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
+const EventHubPivot: React.SFC<EventHubPivotProps & FieldProps> = props => {
   const { t } = useTranslation();
-  const { resourceId, setNewAppSettingName, setIsDialogVisible, form: formProps, field } = props;
-  const [namespaces, setNamespaces] = useState<ArmObj<Namespace>[] | undefined>(undefined);
-  const [selectedNamespace, setSelectedNamespace] = useState<IDropdownOption | undefined>(undefined);
-  const [eventHubs, setEventHubs] = useState<ArmObj<EventHub>[] | undefined>(undefined);
-  const [selectedEventHub, setSelectedEventHub] = useState<IDropdownOption | undefined>(undefined);
-  const [namespaceAuthRules, setNamespaceAuthRules] = useState<ArmObj<AuthorizationRule>[] | undefined>(undefined);
-  const [eventHubAuthRules, setEventHubAuthRules] = useState<ArmObj<AuthorizationRule>[] | undefined>(undefined);
-  const [selectedPolicy, setSelectedPolicy] = useState<IDropdownOption | undefined>(undefined);
-  const [keyList, setKeyList] = useState<KeyList | undefined>(undefined);
-
-  useEffect(() => {
-    if (!namespaces) {
-      fetchNamespaces(resourceId, setNamespaces);
-    } else if (selectedNamespace) {
-      if (!eventHubs) {
-        fetchEventHubs(String(selectedNamespace.key), setEventHubs);
-      }
-      if (!namespaceAuthRules) {
-        fetchNamespaceAuthRules(String(selectedNamespace.key), setNamespaceAuthRules);
-      }
-      if (selectedEventHub && !eventHubAuthRules) {
-        fetchEventHubAuthRules(String(selectedEventHub.key), setEventHubAuthRules);
-      }
-      if (selectedPolicy && !keyList) {
-        fetchKeyList(String(selectedPolicy.key), setKeyList);
-      }
-    }
-  }, [selectedNamespace, selectedEventHub, selectedPolicy]);
-
-  if (!namespaces) {
-    return <LoadingComponent />;
-  }
+  const {
+    namespaces,
+    eventHubs,
+    setEventHubs,
+    namespaceAuthRules,
+    setNamespaceAuthRules,
+    eventHubAuthRules,
+    setEventHubAuthRules,
+    selectedNamespace,
+    setSelectedNamespace,
+    selectedEventHub,
+    setSelectedEventHub,
+    selectedPolicy,
+    setSelectedPolicy,
+    keyList,
+    setKeyList,
+  } = props;
 
   const namespaceOptions: IDropdownOption[] = [];
   namespaces.forEach(namespace => namespaceOptions.push({ text: namespace.name, key: namespace.id }));
@@ -119,7 +90,16 @@ const EventHubPivot: React.SFC<NewConnectionDialogProps & CustomDropdownProps & 
         {!keyList && <LoadingComponent />}
         <DefaultButton
           disabled={!keyList}
-          onClick={() => createEventHubConnection(selectedNamespace, keyList, setNewAppSettingName, setIsDialogVisible, formProps, field)}>
+          onClick={() =>
+            createEventHubConnection(
+              selectedNamespace,
+              keyList,
+              props.setNewAppSettingName,
+              props.setIsDialogVisible,
+              props.form,
+              props.field
+            )
+          }>
           {t('ok')}
         </DefaultButton>
       </footer>

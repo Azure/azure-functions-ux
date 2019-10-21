@@ -6,7 +6,7 @@ import { NewConnectionDialogProps } from './DialogProperties';
 import CustomTabRenderer from '../../../app-settings/Sections/CustomTabRenderer';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { useTranslation } from 'react-i18next';
-import EventHubPivot from './EventHubPivot';
+import EventHubPivotDataLoader from './EventHubPivotDataLoader';
 
 export enum PivotState {
   eventHub = 'eventHub',
@@ -26,7 +26,7 @@ const NewEventHubConnectionDialogProps: React.SFC<NewConnectionDialogProps & Cus
         }
         itemKey={PivotState.eventHub}
         headerText={t('eventHubPicker_eventHub')}>
-        <EventHubPivot {...props} />
+        <EventHubPivotDataLoader {...props} />
       </PivotItem>
       <PivotItem
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
