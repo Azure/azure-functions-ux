@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dropdown as OfficeDropdown, IDropdownOption, Stack, Dialog, DialogType } from 'office-ui-fabric-react';
-import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import { Dropdown as OfficeDropdown, IDropdownOption, Stack, Callout, DirectionalHint, Label, TextField } from 'office-ui-fabric-react';
+import { formLabelStyle } from '../../../../components/form-controls/formControl.override.styles';
 
-interface HostUrl {
+export interface HostUrl {
   key: string;
   url: string;
 }
@@ -12,16 +12,25 @@ interface FunctionEditorGetFunctionUrlDialogProps {
   hostKeyDropdownOptions: IDropdownOption[];
   hostKeyDropdownSelectedKey: string;
   hostUrls: HostUrl[];
+  setIsDialogVisible: (isVisible: boolean) => void;
+  dialogTarget: any;
 }
 
 const FunctionEditorGetFunctionUrlDialog: React.FC<FunctionEditorGetFunctionUrlDialogProps> = props => {
-  const { hostKeyDropdownOptions, hostKeyDropdownSelectedKey, hostUrls } = props;
+  const { hostKeyDropdownOptions, hostKeyDropdownSelectedKey, hostUrls, setIsDialogVisible, dialogTarget } = props;
   const { t } = useTranslation();
-  const [hideDialog, setDialogVisibility] = useState<boolean>(false);
-  const [url, setUrl] = useState<string>(hostUrls[hostKeyDropdownSelectedKey]);
+  const [url, setUrl] = useState<string>(() => {
+    for (const hostUrl of hostUrls) {
+      if (hostUrl.key === hostKeyDropdownSelectedKey) {
+        return hostUrl.url;
+      }
+    }
+
+    return '';
+  });
 
   const onCloseDialog = () => {
-    setDialogVisibility(!hideDialog);
+    setIsDialogVisible(false);
   };
 
   const onChangeHostKeyDropdown = (e: unknown, option: IDropdownOption) => {
@@ -29,26 +38,31 @@ const FunctionEditorGetFunctionUrlDialog: React.FC<FunctionEditorGetFunctionUrlD
   };
 
   return (
-    <Dialog
-      hidden={hideDialog}
+    <Callout
+      style={{ minWidth: '600px', padding: '20px' }}
+      role="alertdialog"
+      gapSpace={50}
+      target={dialogTarget}
       onDismiss={onCloseDialog}
-      modalProps={{
-        isBlocking: false,
-      }}
-      dialogContentProps={{
-        type: DialogType.close,
-        title: t('keysDialog_getFunctionUrl'),
-      }}>
-      <Stack horizontal>
-        <OfficeDropdown
-          selectedKey={hostKeyDropdownSelectedKey}
-          options={hostKeyDropdownOptions}
-          onChange={onChangeHostKeyDropdown}
-          ariaLabel={t('functionAppDirectoryDropdownAriaLabel')}
-        />
-        <TextFieldNoFormik label={t('nameRes')} id="function-editor-function-url" value={url} disabled={true} copyButton={true} />
+      setInitialFocus={true}
+      hidden={false}
+      directionalHint={DirectionalHint.bottomRightEdge}>
+      <div className="ms-CalloutExample-header">
+        <h4 className="ms-CalloutExample-title">{t('keysDialog_getFunctionUrl')}</h4>
+      </div>
+      <Stack>
+        <Stack horizontal>
+          <Label className={`${formLabelStyle(false, false)}`}>{t('keysDialog_key')}</Label>
+          <OfficeDropdown
+            selectedKey={hostKeyDropdownSelectedKey}
+            options={hostKeyDropdownOptions}
+            onChange={onChangeHostKeyDropdown}
+            ariaLabel={t('functionAppDirectoryDropdownAriaLabel')}
+          />
+        </Stack>
+        <TextField title={t('keysDialog_url')} id="function-editor-function-url" value={url} disabled={true} />
       </Stack>
-    </Dialog>
+    </Callout>
   );
 };
 
