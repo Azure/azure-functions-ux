@@ -232,6 +232,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         this.isLinuxApp = ArmUtil.isLinuxApp(this.context.site);
         this.isLinuxDynamic = ArmUtil.isLinuxDynamic(this.context.site);
         this.isElasticPremium = ArmUtil.isElastic(this.context.site);
+        console.log(this.context.site);
 
         return Observable.forkJoin(
           this._cacheService.postArm(`${this.viewInfo.resourceId}/config/appsettings/list`, true),
@@ -296,6 +297,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           this.functionsRuntimeScaleMonitoringOriginal = siteConfig.properties.functionsRuntimeScaleMonitoringEnabled;
           this.preWarmedInstanceCount = siteConfig.properties.preWarmedInstanceCount ? siteConfig.properties.preWarmedInstanceCount : 0;
           this.vnetEnabled = !!siteConfig.properties.vnet;
+          this.functionsRuntimeScaleMonitoring = this.functionsRuntimeScaleMonitoringOriginal;
         }
 
         this._busyManager.clearBusy();
@@ -464,8 +466,11 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         this._aiService.trackException(e, '/errors/rutime-scale-monitoring-updated');
         console.error(e);
       })
-      .subscribe(siteConfig => {
-        console.log(siteConfig);
+      .subscribe(result => {
+        const siteConfig = result.json();
+        this.functionsRuntimeScaleMonitoringOriginal =
+          siteConfig && siteConfig.properties && siteConfig.properties.functionsRuntimeScaleMonitoringEnabled;
+        this.functionsRuntimeScaleMonitoring = this.functionsRuntimeScaleMonitoringOriginal;
         this._busyManager.clearBusy();
       });
   }

@@ -165,7 +165,7 @@
         <label id="runtimeScalingRadioLabel" class="title-label">{{ 'appFunctionSettings_runtimeScaleMonitoring' | translate }}</label>
         <div class="features-wrapper">
             <div>
-                <div *ngIf="(preWarmedInstanceCount === 0 && functionsRuntimeScaleMonitoring) || (!vnetEnabled && !functionsRuntimeScaleMonitoring)" class="alert alert-warning">
+                <div *ngIf="(!functionsRuntimeScaleMonitoring && (preWarmedInstanceCount === 0 || !vnetEnabled))" class="alert alert-warning">
                     <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
                     <div class="alert-message">
                         <span [innerHtml]="(functionAppEditModeForcedWarning | translate)"></span>
@@ -179,7 +179,7 @@
                         (value)="functionsRuntimeScaleMonitoringStream.next($event)"
                         id="runtimeScalingRadioButton"
                         aria-labelledby="runtimeScalingRadioLabel runtimeScalingRadioButton"
-                        [disabled]="(preWarmedInstanceCount === 0 && functionsRuntimeScaleMonitoring) || (!vnetEnabled && !functionsRuntimeScaleMonitoring)">
+                        [disabled]="(!functionsRuntimeScaleMonitoring && (preWarmedInstanceCount === 0 || !vnetEnabled))">
                     </radio-selector>
                 </div>
             </div>
