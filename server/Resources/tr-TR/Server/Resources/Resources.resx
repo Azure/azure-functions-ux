@@ -2146,6 +2146,18 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="validation_slotNameReserved" xml:space="preserve">
         <value>'{0}' yuva adı bir ayrılmış dağıtım yuvası adıdır.</value>
     </data>
+  <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>Alan {0} karakterden daha az olmalıdır</value>
+    </data>
+  <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>Paylaşım adı yalnızca alfasayısal karakterler, alt çizgiler, kısa çizgiler, köşeli parantezler ve ayraçlar içerebilir</value>
+    </data>
+  <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>Bağlama yolu tam yol olmalıdır ve yalnızca alfasayısal karakterler, alt çizgiler, kısa çizgiler, eğik çizgiler, köşeli parantezler ve ayraçlar içerebilir</value>
+    </data>
+  <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>Bağlama yolu '/home' olamaz</value>
+    </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>İşlev uygulamanızın düzenleme modunu güncelleştiremiyoruz. Lütfen daha sonra yeniden deneyin.</value>
     </data>
@@ -4854,7 +4866,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Bağlantı dizesi adları benzersiz olmalıdır</value>
     </data>
   <data name="slotSettingForbiddenProperty" xml:space="preserve">
-        <value>Updating the '{0}' property requires write access on the production app</value>
+        <value>'{0}' özelliğinin güncelleştirilmesi, üretim uygulamasında yazma erişimi gerektirir</value>
     </data>
   <data name="handlerMappingPropIsRequired" xml:space="preserve">
         <value>{0} tüm işleyici eşlemelerinde gerekli bir özelliktir</value>
@@ -4969,7 +4981,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Çalışma dizini yolu, deponun köküne göreli olmalıdır ve Windows kullanılıyorsa /, \ veya sürücü adlarıyla (C:/) başlayamaz. Çalışma dizini deponun src klasöründe ise, yol src/ olmalıdır</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>Bağlı depolama, uygulamanızla kullanılacak Azure Dosyalar veya Blob kapsayıcılarını eşlemenizi sağlar.</value>
+        <value>Bağlı depolama, uygulamanızla kullanılacak en fazla 5 Azure Dosyalar veya Blob kapsayıcısını eşlemenizi sağlar.</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>App Service planını değiştir</value>
@@ -5146,7 +5158,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Hata Ayrıntıları</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>İşlev anahtarları, işlev düzeyinde bulunamıyor.</value>
+        <value>İşlev anahtarları, işlev ayarlarında yapılandırılabilir.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Ana bilgisayar anahtarları (tüm işlevler)</value>
@@ -5218,36 +5230,96 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>~3 (Önizleme)</value>
     </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
-        <value>Unable to retrieve authentication state. Please try again in a few minutes.</value>
+        <value>Kimlik doğrulama durumu alınamıyor. Lütfen birkaç dakika içinde yeniden deneyin.</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Refresh all keys for the function</value>
+      <value>İşlev için tüm anahtarları yenile</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
       <value>Komutlar arasında gezinmek için sol ve sağ ok tuşlarını kullanın</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>New function key</value>
+      <value>Yeni işlev anahtarı</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Filter functions keys</value>
+      <value>Filtre işlevleri anahtarları</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Edit key</value>
+      <value>Anahtarı düzenle</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
       <value>Anahtar ekle</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} is a required property on all function keys</value>
+      <value>{0}, tüm işlev anahtarlarında gerekli bir özelliktir</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Function key names must be unique</value>
+      <value>İşlev anahtarı adları benzersiz olmalıdır</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
+        <value>GitHub Eylemleri (Önizleme)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+        <value>GitHub Eylemleri ile derleme, test ve dağıtım adımlarınızı ücretsiz olarak otomatikleştirin. Bu, uygulamanızı derleyip App Service'e dağıtma adımlarını içeren bir YML iş akışını deponuza ekler.</value>
+    </data>
+  <data name="azureKeyVault" xml:space="preserve">
+        <value>Anahtar Kasası Başvurusu</value>
+    </data>
+  <data name="appConfigValue" xml:space="preserve">
+        <value>Uygulama Yapılandırması</value>
+    </data>
+  <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Hata: Anahtar Kasası başvuru meta verilerine erişilemedi</value>
+    </data>
+  <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>Kapsayıcı ayarlarını yapılandırmak için buraya tıklayın.</value>
+    </data>
+  <data name="containerSettingsTitle" xml:space="preserve">
+        <value>Kapsayıcı ayarları</value>
+    </data>
+  <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>Uygulamanız için kapsayıcı ayarlarını yapılandırın ve yönetin.</value>
+    </data>
+  <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+  <data name="none" xml:space="preserve">
+        <value>Yok</value>
+    </data>
+  <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>İşlevinizdeki değişiklikleri kaydedin.</value>
+    </data>
+  <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>İşlevinizdeki değişiklikleri atın.</value>
+    </data>
+  <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>İşlevinizi test etmek için test panelini açın.</value>
+    </data>
+  <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>İşleviniz için işlev URL'sini almak üzere açılan pencereyi açın.</value>
+    </data>
+  <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>Komutlar arasında gezinmek için sol ve sağ ok tuşlarını kullanın</value>
+    </data>
+  <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>GitHub Action Workflow Configuration</value>
+    </data>
+  <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>Adding workflow configuration to GitHub Actions</value>
+    </data>
+  <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+    </data>
+  <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>İşlev dizininizi veya kök dizininizdeki dosyaları seçin.</value>
+    </data>
+    </data>
+  <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>İşlev dizininizdeki dosyaları seçin.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
     </data>
 </root>
