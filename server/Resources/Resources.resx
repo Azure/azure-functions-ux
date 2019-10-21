@@ -5329,6 +5329,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Virtual network trigger support</value>
     </data>
     <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside virtual network. It also requires 1 pre-warmed instance to be active. &lt;a target="_blank" href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-premium-plan"&gt;Read more here&lt;/a&gt;</value>
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a target="_blank" href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-premium-plan"&gt;Read more here&lt;/a&gt;</value>
     </data>
 </root>

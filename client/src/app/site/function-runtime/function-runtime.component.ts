@@ -438,7 +438,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   }
 
   private _updateFunctionRuntimeScaleMonitoring(value: boolean) {
-    if (value === this.functionsRuntimeScaleMonitoringOriginal) {
+    if (value === this.functionsRuntimeScaleMonitoring) {
       return;
     }
     this._aiService.trackEvent('/actions/site_config/update_runtime_scale_monitoring');
