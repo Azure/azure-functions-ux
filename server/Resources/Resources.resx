@@ -3648,7 +3648,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>App Credentials</value>
     </data>
     <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy.</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They can not be configured manually, but can be reset anytime.</value>
     </data>
     <data name="username" xml:space="preserve">
         <value>Username</value>
@@ -5290,7 +5290,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Deployment Credentials</value>
     </data>
     <data name="deploymentCredentialsDescription" xml:space="preserve">
-        <value>This is the description for deployment credentials.</value>
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
     </data>
     <data name="deploymentCredentialsLocalGit" xml:space="preserve">
         <value>Local Git</value>
@@ -5342,6 +5342,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
         <value>Select files in your function directory.</value>
+    </data>
+    <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
     </data>
     <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>

@@ -1194,7 +1194,6 @@ export class PortalResources {
   public static disconnect = 'disconnect';
   public static edit = 'edit';
   public static sync = 'sync';
-  public static deploymentCredentials = 'deploymentCredentials';
   public static pricing_dv3SeriesComputeEquivalent = 'pricing_dv3SeriesComputeEquivalent';
   public static funcConnStringsInfoText = 'funcConnStringsInfoText';
   public static appFunctionSettings_functionAppSettings_versionLoading = 'appFunctionSettings_functionAppSettings_versionLoading';
