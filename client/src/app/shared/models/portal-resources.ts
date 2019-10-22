@@ -1725,4 +1725,5 @@ export class PortalResources {
   public static functionAppDirectoryDropdownAriaLabel = 'functionAppDirectoryDropdownAriaLabel';
   public static functionDirectoryDropdownAriaLabel = 'functionDirectoryDropdownAriaLabel';
   public static closeGetFunctionUrlModal = 'closeGetFunctionUrlModal';
+  public static scope = 'scope';
 }

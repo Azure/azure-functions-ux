@@ -5349,4 +5349,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
     </data>
+    <data name="scope" xml:space="preserve">
+        <value>Scope</value>
+    </data>
 </root>
