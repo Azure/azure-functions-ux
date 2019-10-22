@@ -2146,6 +2146,18 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="validation_slotNameReserved" xml:space="preserve">
         <value>Název slotu {0} je název rezervovaný pro slot nasazení.</value>
     </data>
+  <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>Pole musí mít méně než tento počet znaků: {0}</value>
+    </data>
+  <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>Název sdílené složky může obsahovat jen alfanumerické znaky, podtržítka, spojovníky a hranaté a kulaté závorky.</value>
+    </data>
+  <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>Cesta pro připojení musí být plně kvalifikovaná cesta a může obsahovat jen alfanumerické znaky, podtržítka, spojovníky, lomítka a hranaté a kulaté závorky.</value>
+    </data>
+  <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>Cesta pro připojení nemůže být /home.</value>
+    </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>Nedokážeme aktualizovat režim úprav dané aplikace funkcí. Zkuste to prosím později.</value>
     </data>
@@ -4854,7 +4866,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Názvy připojovacích řetězců musí být jedinečné.</value>
     </data>
   <data name="slotSettingForbiddenProperty" xml:space="preserve">
-        <value>Updating the '{0}' property requires write access on the production app</value>
+        <value>Aktualizace vlastnosti {0} vyžaduje oprávnění k zápisu do produkční aplikace.</value>
     </data>
   <data name="handlerMappingPropIsRequired" xml:space="preserve">
         <value>{0} je ve všech mapováních obslužných rutin povinná vlastnost.</value>
@@ -4969,7 +4981,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Cesta k pracovnímu adresáři by měla být relativní vzhledem ke kořenu úložiště a nemůže začínat znaky /, \ ani, v případě Windows, názvy jednotek (C:/). Pokud se pracovní adresář nachází ve složce úložiště src, cesta by měla být src/.</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>Připojené úložiště umožňuje mapovat kontejnery Azure Files nebo Blob tak, aby se daly používat ve vaší aplikaci.</value>
+        <value>Připojené úložiště umožňuje mapovat až 5 kontejnerů Azure Files nebo Blob tak, aby se daly používat ve vaší aplikaci.</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>Změnit plán služby App Service</value>
@@ -5146,7 +5158,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Podrobnosti o chybě</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Klíče funkcí se dají najít na úrovni funkcí.</value>
+        <value>V nastaveních funkce se dají nakonfigurovat funkční klávesy.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Klíče hostitelů (všechny funkce)</value>
@@ -5248,6 +5260,66 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>GitHub Actions (Preview)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+        <value>Umožňuje bezplatně automatizovat postup vytváření, testování a nasazení pomocí GitHub Actions. Tato možnost přidá do úložiště pracovní postup YML s postupem, jak vytvářet a nasazovat aplikaci do služby App Service.</value>
+    </data>
+  <data name="azureKeyVault" xml:space="preserve">
+        <value>Odkaz na trezor klíčů</value>
+    </data>
+  <data name="appConfigValue" xml:space="preserve">
+        <value>Konfigurace aplikace</value>
+    </data>
+  <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Chyba: Nepovedlo se získat přístup k metadatům odkazu na trezor klíčů.</value>
+    </data>
+  <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>Pokud chcete nakonfigurovat nastavení kontejneru, klikněte sem.</value>
+    </data>
+  <data name="containerSettingsTitle" xml:space="preserve">
+        <value>Nastavení kontejneru</value>
+    </data>
+  <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>Nakonfigurujte a spravujte nastavení kontejneru pro svou aplikaci.</value>
+    </data>
+  <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+  <data name="none" xml:space="preserve">
+        <value>Žádný</value>
+    </data>
+  <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>Uložte změny své funkce.</value>
+    </data>
+  <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>Zahoďte změny funkce.</value>
+    </data>
+  <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>Pokud chcete otestovat svou funkci, otevřete testovací panel.</value>
+    </data>
+  <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>Pokud chcete získat adresu URL vaší funkce, otevřete automaticky otevírané okno.</value>
+    </data>
+  <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>Navigovat mezi příkazy můžete pomocí šipek doleva a doprava.</value>
+    </data>
+  <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>GitHub Action Workflow Configuration</value>
+    </data>
+  <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>Adding workflow configuration to GitHub Actions</value>
+    </data>
+  <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+    </data>
+  <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Vyberte adresář nebo soubory funkce v kořenovém adresáři.</value>
+    </data>
+    </data>
+  <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Vyberte soubory v adresáři funkce.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Zavřít modální okno pro získání adresy URL funkce</value>
     </data>
 </root>
