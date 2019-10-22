@@ -7,7 +7,6 @@ import { AuthzService } from 'app/shared/services/authz.service';
 import { SiteAvailabilityState } from 'app/shared/models/arm/site';
 import { Dom } from '../../../../shared/Utilities/dom';
 import { KeyCodes } from '../../../../shared/models/constants';
-import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
@@ -20,6 +19,8 @@ import { PublishingProfile } from '../../Models/publishing-profile';
 import { PublishingUser } from 'app/shared/models/arm/publishing-users';
 import { PortalService } from 'app/shared/services/portal.service';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
+import { SelectOption } from 'app/shared/models/select-option';
+import { PublishingCredentials } from 'app/shared/models/publishing-credentials';
 
 export type CredentialScopeType = 'AppCredentials' | 'UserCredentials';
 
@@ -52,7 +53,7 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
   public resetting = false;
   public publishProfileLink: SafeUrl;
 
-  public scopeItems: DropDownElement<CredentialScopeType>[] = [
+  public scopeItems: SelectOption<CredentialScopeType>[] = [
     {
       displayLabel: 'App Credentials',
       value: 'AppCredentials',
@@ -100,12 +101,14 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
           this._siteService
             .getPublishingProfile(this._credentialsData.resourceId)
             .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)).filter(x => x.publishMethod === 'FTP')),
-          (hasWriteAccess, siteResponse, siteConfigResponse, publishingUser, publishingFtpProfile) => ({
+          this._siteService.getPublishingCredentials(this._credentialsData.resourceId),
+          (hasWriteAccess, siteResponse, siteConfigResponse, publishingUser, publishingFtpProfile, publishingCredentials) => ({
             hasWriteAccess,
             siteResponse,
             siteConfigResponse,
             publishingUser,
             publishingFtpProfile,
+            publishingCredentials,
           })
         );
       })
@@ -120,6 +123,7 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
         this.localGit = responses.siteConfigResponse.result.properties.scmType === 'LocalGit';
         this.activeTab = this.localGit ? 'localGit' : 'ftps';
 
+        this._setupEndpoints(responses.publishingFtpProfile, responses.publishingCredentials.result.properties);
         this._setupAppCredentials(responses.publishingFtpProfile);
         this._setupUserCredentials(responses.publishingUser.result.properties);
       });
@@ -172,8 +176,8 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
 
   public saveUserCredentails = () => this._saveUserCredentials$.next();
 
-  public scopeChanged(scope: DropDownElement<CredentialScopeType>) {
-    this.selectedScope = scope.value;
+  public scopeChanged(scope: CredentialScopeType) {
+    this.selectedScope = scope;
   }
 
   public selectTab(tab) {
@@ -366,5 +370,14 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
       windowUrl.revokeObjectURL(this._blobUrl);
       this._blobUrl = null;
     }
+  }
+
+  private _setupEndpoints(ftpProfile: PublishingProfile, publishingCredentials: PublishingCredentials) {
+    const siteDescriptor = new ArmSiteDescriptor(this._credentialsData.resourceId);
+    const siteName = siteDescriptor.site; // If site is a slot, we only care abou the primary site name, not the slot name
+    const scmUri = publishingCredentials.scmUri.split('@')[1];
+
+    this.gitEndpoint = `https://${scmUri}:443/${siteName}.git`;
+    this.ftpsEndpoint = ftpProfile.publishUrl.replace('ftp:/', 'ftps:/');
   }
 }
