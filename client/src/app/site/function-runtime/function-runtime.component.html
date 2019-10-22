@@ -165,7 +165,7 @@
         <label id="runtimeScalingRadioLabel" class="title-label">{{ 'appFunctionSettings_virtualNetworkTriggerSupport' | translate }}</label>
         <div class="features-wrapper">
             <div>
-                <label class="title-spacing" [innerHtml]="( 'appFunctionSettings_runtimeScalingMonitoredText' | translate)"></label>
+                <label class="title-spacing" [innerHtml]="functionsRuntimeScaleMonitoringLink"></label>
                 <div>
                     <radio-selector
                         [(ngModel)]="functionsRuntimeScaleMonitoring"
@@ -174,7 +174,7 @@
                         (value)="functionsRuntimeScaleMonitoringStream.next($event)"
                         id="runtimeScalingRadioButton"
                         aria-labelledby="runtimeScalingRadioLabel runtimeScalingRadioButton"
-                        [disabled]="(!functionsRuntimeScaleMonitoring && (preWarmedInstanceCount === 0 || !vnetEnabled))">
+                        [disabled]="(!functionsRuntimeScaleMonitoring && (reservedInstanceCount === 0 || !vnetEnabled))">
                     </radio-selector>
                 </div>
             </div>

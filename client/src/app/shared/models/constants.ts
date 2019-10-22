@@ -168,6 +168,7 @@ export class Links {
   public static powershellPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086831';
   public static appDensityWarningLink = 'https://go.microsoft.com/fwlink/?linkid=2098431';
   public static apimUpsellLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104075';
+  public static runtimeScaleMonitoringLearnMore = 'https://docs.microsoft.com/en-us/azure/azure-functions/functions-premium-plan';
 }
 
 export class Kinds {

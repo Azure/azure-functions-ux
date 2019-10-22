@@ -1,4 +1,4 @@
-import { NotificationIds, SiteTabIds, Constants, FunctionAppRuntimeSetting } from './../../shared/models/constants';
+import { NotificationIds, SiteTabIds, Constants, FunctionAppRuntimeSetting, Links } from './../../shared/models/constants';
 import { ScenarioIds } from './../../shared/models/constants';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
@@ -80,7 +80,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
   public functionsRuntimeScaleMonitoring = false;
   public functionsRuntimeScaleMonitoringOptions: SelectOption<Boolean>[];
-  public preWarmedInstanceCount = 0;
+  public readonly functionsRuntimeScaleMonitoringLink: string;
+  public reservedInstanceCount = 0;
   public vnetEnabled = false;
   public isElasticPremium = false;
 
@@ -220,6 +221,10 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     this.functionsRuntimeScaleMonitoringStream.subscribe((value: boolean) => {
       this._updateFunctionRuntimeScaleMonitoring(value);
     });
+
+    this.functionsRuntimeScaleMonitoringLink = this._translateService
+      .instant(PortalResources.appFunctionSettings_runtimeScalingMonitoredText)
+      .format(Links.runtimeScaleMonitoringLearnMore);
   }
 
   setup(): Subscription {
@@ -293,7 +298,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         if (tuple[5].isSuccessful) {
           const siteConfig = tuple[5].result;
           this.functionsRuntimeScaleMonitoring = siteConfig.properties.functionsRuntimeScaleMonitoringEnabled;
-          this.preWarmedInstanceCount = siteConfig.properties.preWarmedInstanceCount ? siteConfig.properties.preWarmedInstanceCount : 0;
+          this.reservedInstanceCount = siteConfig.properties.reservedInstanceCount ? siteConfig.properties.reservedInstanceCount : 0;
           this.vnetEnabled = !!siteConfig.properties.vnet;
         }
 
