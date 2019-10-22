@@ -7,129 +7,178 @@ import { FieldProps } from 'formik/dist/Field';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Namespace, EventHub, AuthorizationRule, KeyList } from '../../../../../../models/eventhub';
 import { NewConnectionCalloutProps } from '../Callout.properties';
-import { FormikProps } from 'formik';
+import { FormikProps, Formik } from 'formik';
 import { BindingEditorFormValues } from '../../BindingFormBuilder';
 import { EventHubPivotContext } from './EventHubPivotDataLoader';
+import LogService from '../../../../../../utils/LogService';
+import { LogCategories } from '../../../../../../utils/LogCategories';
+
+export interface EventHubPivotFormValues {
+  namespace: ArmObj<Namespace> | undefined;
+  eventHub: ArmObj<EventHub> | undefined;
+  policy: ArmObj<AuthorizationRule> | undefined;
+}
 
 const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+  const provider = useContext(EventHubPivotContext);
   const { t } = useTranslation();
   const { resourceId } = props;
-  const provider = useContext(EventHubPivotContext);
+  const [formValues, setFormValues] = useState<EventHubPivotFormValues>({ namespace: undefined, eventHub: undefined, policy: undefined });
   const [namespaces, setNamespaces] = useState<ArmObj<Namespace>[] | undefined>(undefined);
-  const [selectedNamespace, setSelectedNamespace] = useState<IDropdownOption | undefined>(undefined);
   const [eventHubs, setEventHubs] = useState<ArmObj<EventHub>[] | undefined>(undefined);
-  const [selectedEventHub, setSelectedEventHub] = useState<IDropdownOption | undefined>(undefined);
   const [namespaceAuthRules, setNamespaceAuthRules] = useState<ArmObj<AuthorizationRule>[] | undefined>(undefined);
   const [eventHubAuthRules, setEventHubAuthRules] = useState<ArmObj<AuthorizationRule>[] | undefined>(undefined);
-  const [selectedPolicy, setSelectedPolicy] = useState<IDropdownOption | undefined>(undefined);
   const [keyList, setKeyList] = useState<KeyList | undefined>(undefined);
 
   useEffect(() => {
     if (!namespaces) {
-      provider.fetchNamespaces(resourceId, setNamespaces);
-    } else if (selectedNamespace) {
+      provider.fetchNamespaces(resourceId).then(r => {
+        if (!r.metadata.success) {
+          LogService.trackEvent(LogCategories.bindingResource, 'getNamespaces', `Failed to get Namespaces: ${r.metadata.error}`);
+          return;
+        }
+        setNamespaces(r.data.value);
+      });
+    } else if (formValues.namespace) {
       if (!eventHubs) {
-        provider.fetchEventHubs(String(selectedNamespace.key), setEventHubs);
+        provider.fetchEventHubs(formValues.namespace.id).then(r => {
+          if (!r.metadata.success) {
+            LogService.trackEvent(LogCategories.bindingResource, 'getEventHubs', `Failed to get EventHubs: ${r.metadata.error}`);
+            return;
+          }
+          setEventHubs(r.data.value);
+        });
       }
       if (!namespaceAuthRules) {
-        provider.fetchNamespaceAuthRules(String(selectedNamespace.key), setNamespaceAuthRules);
+        provider.fetchAuthRules(formValues.namespace.id).then(r => {
+          if (!r.metadata.success) {
+            LogService.trackEvent(LogCategories.bindingResource, 'getAuthRules', `Failed to get Authorization Rules: ${r.metadata.error}`);
+            return;
+          }
+          setNamespaceAuthRules(r.data.value);
+        });
       }
-      if (selectedEventHub && !eventHubAuthRules) {
-        provider.fetchEventHubAuthRules(String(selectedEventHub.key), setEventHubAuthRules);
+      if (formValues.eventHub && !eventHubAuthRules) {
+        provider.fetchAuthRules(formValues.eventHub.id).then(r => {
+          if (!r.metadata.success) {
+            LogService.trackEvent(LogCategories.bindingResource, 'getAuthRules', `Failed to get Authorization Rules: ${r.metadata.error}`);
+            return;
+          }
+          setEventHubAuthRules(r.data.value);
+        });
       }
-      if (selectedPolicy && !keyList) {
-        provider.fetchKeyList(String(selectedPolicy.key), setKeyList);
+      if (formValues.policy && !keyList) {
+        provider.fetchKeyList(formValues.policy.id).then(r => {
+          if (!r.metadata.success) {
+            LogService.trackEvent(LogCategories.bindingResource, 'getKeyList', `Failed to get Key List: ${r.metadata.error}`);
+            return;
+          }
+          setKeyList(r.data);
+        });
       }
     }
-  }, [selectedNamespace, selectedEventHub, selectedPolicy]);
+  }, [formValues]);
 
   if (!namespaces) {
     return <LoadingComponent />;
   }
 
   const namespaceOptions: IDropdownOption[] = [];
-  namespaces.forEach(namespace => namespaceOptions.push({ text: namespace.name, key: namespace.id }));
-  if (!selectedNamespace && namespaceOptions.length > 0) {
-    setSelectedNamespace(namespaceOptions[0]);
+  namespaces.forEach(namespace => namespaceOptions.push({ text: namespace.name, key: namespace.id, data: namespace }));
+  if (!formValues.namespace && namespaceOptions.length > 0) {
+    setFormValues({ ...formValues, namespace: namespaces[0] });
   }
 
   const eventHubOptions: IDropdownOption[] = [];
   if (eventHubs) {
-    eventHubs.forEach(eventHub => eventHubOptions.push({ text: eventHub.name, key: eventHub.id }));
-    if (!selectedEventHub && eventHubOptions.length > 0) {
-      setSelectedEventHub(eventHubOptions[0]);
+    eventHubs.forEach(eventHub => eventHubOptions.push({ text: eventHub.name, key: eventHub.id, data: eventHub }));
+    if (!formValues.eventHub && eventHubOptions.length > 0) {
+      setFormValues({ ...formValues, eventHub: eventHubs[0] });
     }
   }
 
   const policyOptions: IDropdownOption[] = [];
   if (namespaceAuthRules && eventHubAuthRules) {
-    namespaceAuthRules.forEach(rule => policyOptions.push({ text: `${rule.name} ${t('eventHubPicker_namespacePolicy')}`, key: rule.id }));
-    eventHubAuthRules.forEach(rule => policyOptions.push({ text: `${rule.name} ${t('eventHubPicker_eventHubPolicy')}`, key: rule.id }));
-    if (!selectedPolicy && policyOptions.length > 0) {
-      setSelectedPolicy(policyOptions[0]);
+    namespaceAuthRules.forEach(rule =>
+      policyOptions.push({ text: `${rule.name} ${t('eventHubPicker_namespacePolicy')}`, key: rule.id, data: rule })
+    );
+    eventHubAuthRules.forEach(rule =>
+      policyOptions.push({ text: `${rule.name} ${t('eventHubPicker_eventHubPolicy')}`, key: rule.id, data: rule })
+    );
+    if (!formValues.policy && policyOptions.length > 0) {
+      const policies = namespaceAuthRules.concat(eventHubAuthRules);
+      setFormValues({ ...formValues, policy: policies[0] });
     }
   }
 
   return (
-    <form style={paddingSidesStyle}>
-      {!!namespaces && namespaces.length === 0 && <p>{t('eventHubPicker_noNamespaces')}</p>}
-      <Dropdown
-        label={t('eventHubPicker_namespace')}
-        options={namespaceOptions}
-        selectedKey={selectedNamespace ? selectedNamespace.key : undefined}
-        onChange={(o, e) =>
-          onNamespaceChange(
-            e,
-            setSelectedNamespace,
-            setEventHubs,
-            setSelectedEventHub,
-            setNamespaceAuthRules,
-            setSelectedPolicy,
-            setKeyList
-          )
-        }
-      />
-      {!eventHubs && <LoadingComponent />}
-      {!!eventHubs && eventHubs.length === 0 && <p>{t('eventHubPicker_noEventHubs')}</p>}
-      <Dropdown
-        label={t('eventHubPicker_eventHub')}
-        options={eventHubOptions}
-        selectedKey={selectedEventHub ? selectedEventHub.key : undefined}
-        onChange={(o, e) => onEventHubChange(e, setSelectedEventHub, setEventHubAuthRules, setSelectedPolicy, setKeyList)}
-      />
-      {(!namespaceAuthRules || !eventHubAuthRules) && <LoadingComponent />}
-      {!!namespaceAuthRules && namespaceAuthRules.length === 0 && (!!eventHubAuthRules && eventHubAuthRules.length === 0) && (
-        <p>{t('eventHubPicker_noPolicies')}</p>
-      )}
-      <Dropdown
-        label={t('eventHubPicker_policy')}
-        options={policyOptions}
-        selectedKey={selectedPolicy ? selectedPolicy.key : undefined}
-        onChange={(o, e) => onPolicyChange(e, setSelectedPolicy, setKeyList)}
-      />
-      <footer style={paddingTopStyle}>
-        {!keyList && <LoadingComponent />}
-        <DefaultButton
-          disabled={!keyList}
-          onClick={() =>
-            createEventHubConnection(
-              selectedNamespace,
-              keyList,
-              props.setNewAppSettingName,
-              props.setIsDialogVisible,
-              props.form,
-              props.field
-            )
-          }>
-          {t('ok')}
-        </DefaultButton>
-      </footer>
-    </form>
+    <Formik
+      initialValues={formValues}
+      onSubmit={() =>
+        createEventHubConnection(
+          formValues.namespace,
+          keyList,
+          props.setNewAppSettingName,
+          props.setIsDialogVisible,
+          props.form,
+          props.field
+        )
+      }>
+      {(formProps: FormikProps<EventHubPivotFormValues>) => {
+        return (
+          <form style={paddingSidesStyle}>
+            {!!namespaces && namespaces.length === 0 && <p>{t('eventHubPicker_noNamespaces')}</p>}
+            <Dropdown
+              label={t('eventHubPicker_namespace')}
+              options={namespaceOptions}
+              selectedKey={formValues.namespace && formValues.namespace.id}
+              onChange={(o, e) => {
+                setFormValues({ namespace: e && e.data, eventHub: undefined, policy: undefined });
+                setEventHubs(undefined);
+                setNamespaceAuthRules(undefined);
+                setKeyList(undefined);
+              }}
+            />
+            {!eventHubs && <LoadingComponent />}
+            {!!eventHubs && eventHubs.length === 0 && <p>{t('eventHubPicker_noEventHubs')}</p>}
+            <Dropdown
+              label={t('eventHubPicker_eventHub')}
+              options={eventHubOptions}
+              selectedKey={formValues.eventHub && formValues.eventHub.id}
+              onChange={(o, e) => {
+                setFormValues({ ...formValues, eventHub: e && e.data, policy: undefined });
+                setEventHubAuthRules(undefined);
+                setKeyList(undefined);
+              }}
+            />
+            {(!namespaceAuthRules || !eventHubAuthRules) && <LoadingComponent />}
+            {!!namespaceAuthRules && namespaceAuthRules.length === 0 && (!!eventHubAuthRules && eventHubAuthRules.length === 0) && (
+              <p>{t('eventHubPicker_noPolicies')}</p>
+            )}
+            <Dropdown
+              label={t('eventHubPicker_policy')}
+              options={policyOptions}
+              selectedKey={formValues.policy && formValues.policy.id}
+              onChange={(o, e) => {
+                setFormValues({ ...formValues, policy: e && e.data });
+                setKeyList(undefined);
+              }}
+            />
+            <footer style={paddingTopStyle}>
+              {!keyList && <LoadingComponent />}
+              <DefaultButton disabled={!keyList} onClick={formProps.submitForm}>
+                {t('ok')}
+              </DefaultButton>
+            </footer>
+          </form>
+        );
+      }}
+    </Formik>
   );
 };
 
 const createEventHubConnection = (
-  selectedNamespace: IDropdownOption | undefined,
+  selectedNamespace: ArmObj<Namespace> | undefined,
   keyList: KeyList | undefined,
   setNewAppSettingName: (e: string) => void,
   setIsDialogVisible: (d: boolean) => void,
@@ -137,50 +186,11 @@ const createEventHubConnection = (
   field: { name: string; value: any }
 ) => {
   if (selectedNamespace && keyList) {
-    const appSettingName = `${selectedNamespace.text}_${keyList.keyName}_EVENTHUB`;
+    const appSettingName = `${selectedNamespace.name}_${keyList.keyName}_EVENTHUB`;
     formProps.setFieldValue(field.name, appSettingName);
     setNewAppSettingName(appSettingName);
     setIsDialogVisible(false);
   }
-};
-
-const onNamespaceChange = (
-  namespace: IDropdownOption | undefined,
-  setSelectedNamespace: (n: IDropdownOption | undefined) => void,
-  setEventHubs: (e: undefined) => void,
-  setSelectedEventHub: (e: undefined) => void,
-  setNamespaceAuthRules: (a: undefined) => void,
-  setSelectedPolicy: (p: undefined) => void,
-  setKeyList: (k: undefined) => void
-) => {
-  setSelectedNamespace(namespace);
-  setEventHubs(undefined);
-  setSelectedEventHub(undefined);
-  setNamespaceAuthRules(undefined);
-  setSelectedPolicy(undefined);
-  setKeyList(undefined);
-};
-
-const onEventHubChange = (
-  eventHub: IDropdownOption | undefined,
-  setSelectedEventHub: (s: IDropdownOption | undefined) => void,
-  setEventHubAuthRules: (a: undefined) => void,
-  setSelectedPolicy: (p: undefined) => void,
-  setKeyList: (k: undefined) => void
-) => {
-  setSelectedEventHub(eventHub);
-  setEventHubAuthRules(undefined);
-  setSelectedPolicy(undefined);
-  setKeyList(undefined);
-};
-
-const onPolicyChange = (
-  policy: IDropdownOption | undefined,
-  setSelectedPolicy: (p: IDropdownOption | undefined) => void,
-  setKeyList: (k: undefined) => void
-) => {
-  setSelectedPolicy(policy);
-  setKeyList(undefined);
 };
 
 export default EventHubPivot;
