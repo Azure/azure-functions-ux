@@ -52,6 +52,7 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
   public saving = false;
   public resetting = false;
   public publishProfileLink: SafeUrl;
+  public profileName: string = '';
 
   public scopeItems: SelectOption<CredentialScopeType>[] = [
     {
@@ -123,9 +124,15 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
         this.localGit = responses.siteConfigResponse.result.properties.scmType === 'LocalGit';
         this.activeTab = this.localGit ? 'localGit' : 'ftps';
 
-        this._setupEndpoints(responses.publishingFtpProfile, responses.publishingCredentials.result.properties);
+        const siteDescriptor = new ArmSiteDescriptor(this._credentialsData.resourceId);
+        const siteName = siteDescriptor.site;
+        const slotName = siteDescriptor.slot;
+
+        this.profileName = slotName ? `${siteName}_${slotName}` : siteName;
+
+        this._setupEndpoints(responses.publishingFtpProfile, responses.publishingCredentials.result.properties, siteName);
         this._setupAppCredentials(responses.publishingFtpProfile);
-        this._setupUserCredentials(responses.publishingUser.result.properties);
+        this._setupUserCredentials(responses.publishingUser.result.properties, siteName, slotName);
       });
   }
 
@@ -212,11 +219,7 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
     this.appPwd = ftpProfile.userPWD;
   }
 
-  private _setupUserCredentials(publishingUser: PublishingUser) {
-    const siteDescriptor = new ArmSiteDescriptor(this._credentialsData.resourceId);
-    let siteName = siteDescriptor.site;
-    const slotName = siteDescriptor.slot;
-
+  private _setupUserCredentials(publishingUser: PublishingUser, siteName: string, slotName: string) {
     if (slotName) {
       siteName = `${siteName}__${slotName}`;
     }
@@ -372,9 +375,7 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
     }
   }
 
-  private _setupEndpoints(ftpProfile: PublishingProfile, publishingCredentials: PublishingCredentials) {
-    const siteDescriptor = new ArmSiteDescriptor(this._credentialsData.resourceId);
-    const siteName = siteDescriptor.site; // If site is a slot, we only care abou the primary site name, not the slot name
+  private _setupEndpoints(ftpProfile: PublishingProfile, publishingCredentials: PublishingCredentials, siteName: string) {
     const scmUri = publishingCredentials.scmUri.split('@')[1];
 
     this.gitEndpoint = `https://${scmUri}:443/${siteName}.git`;
