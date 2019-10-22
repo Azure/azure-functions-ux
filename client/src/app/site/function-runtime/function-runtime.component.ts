@@ -299,7 +299,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           const siteConfig = tuple[5].result;
           this.functionsRuntimeScaleMonitoring = siteConfig.properties.functionsRuntimeScaleMonitoringEnabled;
           this.reservedInstanceCount = siteConfig.properties.reservedInstanceCount ? siteConfig.properties.reservedInstanceCount : 0;
-          this.vnetEnabled = !!siteConfig.properties.vnet;
+          this.vnetEnabled = !!siteConfig.properties.vnetName;
         }
 
         this._busyManager.clearBusy();

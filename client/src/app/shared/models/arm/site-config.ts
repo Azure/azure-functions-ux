@@ -60,5 +60,5 @@ export interface SiteConfig extends ContainerSiteConfig {
   // NOTE: We'll need to rename this property to "preWarmedInstanceCount",
   // whenever we start using api-version "2019-03-01" (or higher) for getting/setting site-config
   reservedInstanceCount?: number;
-  vnet?: string;
+  vnetName?: string;
 }
