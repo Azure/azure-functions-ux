@@ -1,30 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import LoadingComponent from '../../../../../../components/loading/loading-component';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
-import { createEventHubConnection, onNamespaceChange, onEventHubChange, onPolicyChange, EventHubPivotProps } from './EventHubPivot.util';
 import { FieldProps } from 'formik/dist/Field';
+import { ArmObj } from '../../../../../../models/arm-obj';
+import { Namespace, EventHub, AuthorizationRule, KeyList } from '../../../../../../models/eventhub';
+import { NewConnectionCalloutProps } from '../Callout.properties';
+import { FormikProps } from 'formik';
+import { BindingEditorFormValues } from '../../BindingFormBuilder';
+import { EventHubPivotContext } from './EventHubPivotDataLoader';
 
-const EventHubPivot: React.SFC<EventHubPivotProps & FieldProps> = props => {
+const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
   const { t } = useTranslation();
-  const {
-    namespaces,
-    eventHubs,
-    setEventHubs,
-    namespaceAuthRules,
-    setNamespaceAuthRules,
-    eventHubAuthRules,
-    setEventHubAuthRules,
-    selectedNamespace,
-    setSelectedNamespace,
-    selectedEventHub,
-    setSelectedEventHub,
-    selectedPolicy,
-    setSelectedPolicy,
-    keyList,
-    setKeyList,
-  } = props;
+  const { resourceId } = props;
+  const provider = useContext(EventHubPivotContext);
+  const [namespaces, setNamespaces] = useState<ArmObj<Namespace>[] | undefined>(undefined);
+  const [selectedNamespace, setSelectedNamespace] = useState<IDropdownOption | undefined>(undefined);
+  const [eventHubs, setEventHubs] = useState<ArmObj<EventHub>[] | undefined>(undefined);
+  const [selectedEventHub, setSelectedEventHub] = useState<IDropdownOption | undefined>(undefined);
+  const [namespaceAuthRules, setNamespaceAuthRules] = useState<ArmObj<AuthorizationRule>[] | undefined>(undefined);
+  const [eventHubAuthRules, setEventHubAuthRules] = useState<ArmObj<AuthorizationRule>[] | undefined>(undefined);
+  const [selectedPolicy, setSelectedPolicy] = useState<IDropdownOption | undefined>(undefined);
+  const [keyList, setKeyList] = useState<KeyList | undefined>(undefined);
+
+  useEffect(() => {
+    if (!namespaces) {
+      provider.fetchNamespaces(resourceId, setNamespaces);
+    } else if (selectedNamespace) {
+      if (!eventHubs) {
+        provider.fetchEventHubs(String(selectedNamespace.key), setEventHubs);
+      }
+      if (!namespaceAuthRules) {
+        provider.fetchNamespaceAuthRules(String(selectedNamespace.key), setNamespaceAuthRules);
+      }
+      if (selectedEventHub && !eventHubAuthRules) {
+        provider.fetchEventHubAuthRules(String(selectedEventHub.key), setEventHubAuthRules);
+      }
+      if (selectedPolicy && !keyList) {
+        provider.fetchKeyList(String(selectedPolicy.key), setKeyList);
+      }
+    }
+  }, [selectedNamespace, selectedEventHub, selectedPolicy]);
+
+  if (!namespaces) {
+    return <LoadingComponent />;
+  }
 
   const namespaceOptions: IDropdownOption[] = [];
   namespaces.forEach(namespace => namespaceOptions.push({ text: namespace.name, key: namespace.id }));
@@ -105,6 +126,61 @@ const EventHubPivot: React.SFC<EventHubPivotProps & FieldProps> = props => {
       </footer>
     </form>
   );
+};
+
+const createEventHubConnection = (
+  selectedNamespace: IDropdownOption | undefined,
+  keyList: KeyList | undefined,
+  setNewAppSettingName: (e: string) => void,
+  setIsDialogVisible: (d: boolean) => void,
+  formProps: FormikProps<BindingEditorFormValues>,
+  field: { name: string; value: any }
+) => {
+  if (selectedNamespace && keyList) {
+    const appSettingName = `${selectedNamespace.text}_${keyList.keyName}_EVENTHUB`;
+    formProps.setFieldValue(field.name, appSettingName);
+    setNewAppSettingName(appSettingName);
+    setIsDialogVisible(false);
+  }
+};
+
+const onNamespaceChange = (
+  namespace: IDropdownOption | undefined,
+  setSelectedNamespace: (n: IDropdownOption | undefined) => void,
+  setEventHubs: (e: undefined) => void,
+  setSelectedEventHub: (e: undefined) => void,
+  setNamespaceAuthRules: (a: undefined) => void,
+  setSelectedPolicy: (p: undefined) => void,
+  setKeyList: (k: undefined) => void
+) => {
+  setSelectedNamespace(namespace);
+  setEventHubs(undefined);
+  setSelectedEventHub(undefined);
+  setNamespaceAuthRules(undefined);
+  setSelectedPolicy(undefined);
+  setKeyList(undefined);
+};
+
+const onEventHubChange = (
+  eventHub: IDropdownOption | undefined,
+  setSelectedEventHub: (s: IDropdownOption | undefined) => void,
+  setEventHubAuthRules: (a: undefined) => void,
+  setSelectedPolicy: (p: undefined) => void,
+  setKeyList: (k: undefined) => void
+) => {
+  setSelectedEventHub(eventHub);
+  setEventHubAuthRules(undefined);
+  setSelectedPolicy(undefined);
+  setKeyList(undefined);
+};
+
+const onPolicyChange = (
+  policy: IDropdownOption | undefined,
+  setSelectedPolicy: (p: IDropdownOption | undefined) => void,
+  setKeyList: (k: undefined) => void
+) => {
+  setSelectedPolicy(policy);
+  setKeyList(undefined);
 };
 
 export default EventHubPivot;
