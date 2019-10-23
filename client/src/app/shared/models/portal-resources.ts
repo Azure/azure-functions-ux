@@ -1728,4 +1728,6 @@ export class PortalResources {
   public static scope = 'scope';
   public static appFunctionSettings_virtualNetworkTriggerSupport = 'appFunctionSettings_virtualNetworkTriggerSupport';
   public static appFunctionSettings_runtimeScalingMonitoredText = 'appFunctionSettings_runtimeScalingMonitoredText';
+  public static refreshAppSettingsTitle = 'refreshAppSettingsTitle';
+  public static refreshAppSettingsMessage = 'refreshAppSettingsMessage';
 }
