@@ -1715,8 +1715,9 @@ export class PortalResources {
   public static githubActionSavingSettings = 'githubActionSavingSettings';
   public static githubActionSettingsSavedSuccessfully = 'githubActionSettingsSavedSuccessfully';
   public static githubActionWorkflowCommitMessage = 'githubActionWorkflowCommitMessage';
-  public static functionAppDirectoryDropdownAriaLabel = 'functionAppDirectoryDropdownAriaLabel';
   public static functionDirectoryDropdownAriaLabel = 'functionDirectoryDropdownAriaLabel';
   public static noPlanWritePermissions = 'noPlanWritePermissions';
   public static closeGetFunctionUrlModal = 'closeGetFunctionUrlModal';
+  public static appFunctionSettings_virtualNetworkTriggerSupport = 'appFunctionSettings_virtualNetworkTriggerSupport';
+  public static appFunctionSettings_runtimeScalingMonitoredText = 'appFunctionSettings_runtimeScalingMonitoredText';
 }
