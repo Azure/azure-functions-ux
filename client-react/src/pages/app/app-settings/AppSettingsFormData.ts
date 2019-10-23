@@ -1,5 +1,12 @@
 import SiteService from '../../../ApiHelpers/SiteService';
-import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
+import {
+  AppSettingsFormValues,
+  FormAppSetting,
+  FormConnectionString,
+  FormAzureStorageMounts,
+  FunctionRuntimeVersions,
+  RuntimeCustomEdit,
+} from './AppSettings.types';
 import { sortBy } from 'lodash-es';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
@@ -8,24 +15,11 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 import { HostStatus } from '../../../models/functions/host-status';
 
-enum FunctionRuntimeVersions {
-  v1 = '~1',
-  v2 = '~2',
-  v3 = '~3',
-  custom = 'custom',
-}
-
-const isMajorVersion = (version: string | null) => {
+export const isMajorVersion = (version: string | null) => {
   return version === FunctionRuntimeVersions.v1 || version === FunctionRuntimeVersions.v2 || version === FunctionRuntimeVersions.v3;
 };
 
-// const getRuntimeCustomEdit = (appSettings: { [key: string]: string } | null) => {
-//   const version = appSettings ? appSettings['FUNCTIONS_EXTENSION_VERSION'] : null;
-//   const isCustomVersion = !isMajorVersion(version);
-//   return { active: isCustomVersion, latestValue: isCustomVersion ? version : null };
-// };
-
-export const getRuntimeCustomEdit = (appSettings: FormAppSetting[], runtimeCustomEdit?: { active: boolean; latestValue: string }) => {
+export const getRuntimeCustomEdit = (appSettings: FormAppSetting[], runtimeCustomEdit?: RuntimeCustomEdit) => {
   const index = !appSettings ? -1 : appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
   const version = index === -1 ? '' : appSettings[index].value;
 

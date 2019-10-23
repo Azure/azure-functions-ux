@@ -1,30 +1,23 @@
 import { FormikProps, Field } from 'formik';
 import React, { useContext } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
+import { AppSettingsFormValues, FormAppSetting, FunctionRuntimeVersions, RuntimeCustomEdit } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 // import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import TextFieldNoLabel from '../../../../components/form-controls/TextFieldNoLabel';
-import { IChoiceGroupOption } from 'office-ui-fabric-react';
+import { IChoiceGroupOption, Stack, Icon, Link } from 'office-ui-fabric-react';
 import { isEqual } from 'lodash-es';
 import { settingsWrapper } from '../AppSettingsForm';
 import { style } from 'typestyle';
+import { isMajorVersion } from '../AppSettingsFormData';
+import { infoIconStyle, learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { Links } from '../../../../utils/FwLinks';
+import { ThemeContext } from '../../../../ThemeContext';
 
 // ROUTING_EXTENSION_VERSION
 // disabled
-
-enum FunctionRuntimeVersions {
-  v1 = '~1',
-  v2 = '~2',
-  v3 = '~3',
-  custom = 'custom',
-}
-
-const isMajorVersion = (version: string | null) => {
-  return version === FunctionRuntimeVersions.v1 || version === FunctionRuntimeVersions.v2 || version === FunctionRuntimeVersions.v3;
-};
 
 const getSettingValue = (settingName: string, appSettings: FormAppSetting[]) => {
   if (!settingName || !appSettings) {
@@ -37,6 +30,7 @@ const getSettingValue = (settingName: string, appSettings: FormAppSetting[]) => 
 const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { t, values, initialValues, setFieldValue } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const theme = useContext(ThemeContext);
   let fieldRef: any;
 
   const options: IChoiceGroupOption[] = [
@@ -86,7 +80,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
     },
   ];
 
-  const setRuntimeCustomEdit = (runtimeCustomEdit: { active: boolean; latestValue: string }) => {
+  const setRuntimeCustomEdit = (runtimeCustomEdit: RuntimeCustomEdit) => {
     if (!isEqual(runtimeCustomEdit, values.runtimeCustomEdit)) {
       setFieldValue('runtimeCustomEdit', runtimeCustomEdit);
     }
@@ -267,6 +261,21 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
       ) : (
         <>
           <h3>{t('Runtime version')}</h3>
+          <Stack horizontal verticalAlign="center">
+            <Icon iconName="Info" className={infoIconStyle(theme)} />
+            <p>
+              <span id="connection-strings-info-message">{t('connectionStringsInfoMessage')}</span>
+              <span id="func-conn-strings-info-text">{` ${t('funcConnStringsInfoText')} `}</span>
+              <Link
+                id="func-conn-strings-info-learnMore"
+                href={Links.funcConnStringsLearnMore}
+                target="_blank"
+                className={learnMoreLinkStyle}
+                aria-labelledby="connection-strings-info-message func-conn-strings-info-text func-conn-strings-info-learnMore">
+                {` ${t('learnMore')}`}
+              </Link>
+            </p>
+          </Stack>
           <div className={settingsWrapper}>
             <RadioButtonNoFormik
               selectedKey={getRuntimeVersionOption()}

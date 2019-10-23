@@ -16,32 +16,7 @@ import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import Panel from '../../../../components/Panel/Panel';
 import { ThemeContext } from '../../../../ThemeContext';
-
-enum FunctionRuntimeVersions {
-  v1 = '~1',
-  v2 = '~2',
-  v3 = '~3',
-  custom = 'custom',
-}
-
-const isMajorVersion = (version: string | null) => {
-  return version === FunctionRuntimeVersions.v1 || version === FunctionRuntimeVersions.v2 || version === FunctionRuntimeVersions.v3;
-};
-
-const getRuntimeCustomEdit = (appSettings: FormAppSetting[], runtimeCustomEdit?: { active: boolean; latestValue: string }) => {
-  const index = !appSettings ? -1 : appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
-  const version = index === -1 ? '' : appSettings[index].value;
-
-  if (!isMajorVersion(version)) {
-    return { active: true, latestValue: version };
-  }
-
-  if (runtimeCustomEdit && runtimeCustomEdit.active && runtimeCustomEdit.latestValue === version) {
-    return { ...runtimeCustomEdit };
-  }
-
-  return { active: false, latestValue: runtimeCustomEdit ? runtimeCustomEdit.latestValue : '' };
-};
+import { getRuntimeCustomEdit } from '../AppSettingsFormData';
 
 const setAppSettingsFieldValue = (appSettings: FormAppSetting[], props: FormikProps<AppSettingsFormValues>) => {
   const runtimeCustomEdit = getRuntimeCustomEdit(appSettings, props.values.runtimeCustomEdit);

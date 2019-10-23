@@ -5,6 +5,18 @@ import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { HostStatus } from '../../../models/functions/host-status';
 
+export enum FunctionRuntimeVersions {
+  v1 = '~1',
+  v2 = '~2',
+  v3 = '~3',
+  custom = 'custom',
+}
+
+export interface RuntimeCustomEdit {
+  active: boolean;
+  latestValue: string;
+}
+
 export interface Permissions {
   production_write: boolean;
   app_write: boolean;
@@ -37,7 +49,7 @@ export interface AppSettingsFormValues {
   currentlySelectedStack: string;
   references?: AppSettingsReferences;
   hostStatus: ArmObj<HostStatus> | null;
-  runtimeCustomEdit: { active: boolean; latestValue: string };
+  runtimeCustomEdit: RuntimeCustomEdit;
 }
 
 export interface FormState {

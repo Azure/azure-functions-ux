@@ -6,10 +6,15 @@ import { PermissionsContext } from '../Contexts';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { isEqual } from 'lodash-es';
 import { settingsWrapper } from '../AppSettingsForm';
+import { Stack, Icon, Link } from 'office-ui-fabric-react';
+import { infoIconStyle, learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { Links } from '../../../../utils/FwLinks';
+import { ThemeContext } from '../../../../ThemeContext';
 
 const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { t, values, initialValues } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const theme = useContext(ThemeContext);
 
   if (!values.config) {
     return null;
@@ -18,6 +23,21 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
   return (
     <>
       <h3>{t('Runtime scale monitoring')}</h3>
+      <Stack horizontal verticalAlign="center">
+        <Icon iconName="Info" className={infoIconStyle(theme)} />
+        <p>
+          <span id="connection-strings-info-message">{t('connectionStringsInfoMessage')}</span>
+          <span id="func-conn-strings-info-text">{` ${t('funcConnStringsInfoText')} `}</span>
+          <Link
+            id="func-conn-strings-info-learnMore"
+            href={Links.funcConnStringsLearnMore}
+            target="_blank"
+            className={learnMoreLinkStyle}
+            aria-labelledby="connection-strings-info-message func-conn-strings-info-text func-conn-strings-info-learnMore">
+            {` ${t('learnMore')}`}
+          </Link>
+        </p>
+      </Stack>
       <div className={settingsWrapper}>
         <Field
           name="config.properties.functionsRuntimeScaleMonitoringEnabled"
