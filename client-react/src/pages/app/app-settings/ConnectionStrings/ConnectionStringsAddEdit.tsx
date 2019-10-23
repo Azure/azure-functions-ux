@@ -11,6 +11,9 @@ import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { isLinuxApp } from '../../../../utils/arm-utils';
+import { ArmObj } from '../../../../models/arm-obj';
+import { Site } from '../../../../models/site/site';
 
 export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: FormConnectionString) => any;
@@ -18,17 +21,24 @@ export interface ConnectionStringAddEditProps {
   otherConnectionStrings: FormConnectionString[];
   connectionString: FormConnectionString;
   disableSlotSetting: boolean;
+  site: ArmObj<Site>;
 }
 
 const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props => {
-  const { updateConnectionString, otherConnectionStrings, closeBlade, connectionString, disableSlotSetting } = props;
+  const { updateConnectionString, otherConnectionStrings, closeBlade, connectionString, disableSlotSetting, site } = props;
   const [nameError, setNameError] = useState('');
   const [valueError, setValueError] = useState('');
   const [currentConnectionString, setCurrentConnectionString] = useState(connectionString);
   const { t } = useTranslation();
+
+  const isLinux = isLinuxApp(site);
+
   const validateConnectionStringName = (value: string) => {
     if (!value) {
       return t('connectionStringPropIsRequired').format('name');
+    }
+    if (isLinux && /[^\w\.]/.test(value)) {
+      return t('validation_linuxConnectionStringNameError');
     }
     return otherConnectionStrings.filter(v => v.name === value).length >= 1 ? t('connectionStringNamesUnique') : '';
   };
