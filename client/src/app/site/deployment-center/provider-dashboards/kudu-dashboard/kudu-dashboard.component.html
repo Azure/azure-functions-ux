@@ -5,7 +5,7 @@
       <command displayText="{{ 'refresh' | translate }}" iconUrl="image/refresh.svg" (click)="refresh()"></command>
       <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/Disconnect.svg" (click)="disconnect()"></command>
       <command *ngIf="deploymentObject?.siteConfig?.properties?.scmType !== 'LocalGit'" displayText="{{ 'sync' | translate }}" iconUrl="image/swap.svg" (click)="syncScm()"></command>
-      <command displayText="{{ 'deploymentCredentials' | translate }}" iconUrl="image/key.svg" (click)="showDeploymentCredentials()"></command>
+      <command displayText="{{ 'deploymentCredentialsTitle' | translate }}" iconUrl="image/key.svg" (click)="showDeploymentCredentials()"></command>
     </command-bar>
 
     <div id="essentials-container">

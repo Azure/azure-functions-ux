@@ -24,6 +24,7 @@ import { DeploymentCredentialsComponent } from './provider-dashboards/deployment
 import { NgxDatatableModule } from 'ngx-datatable-accessable';
 import { ConfigureVstsBuildModule } from './deployment-center-setup/step-configure/configure-vsts-build/configure-vsts-build.module';
 import { ConfigureGithubModule } from './deployment-center-setup/step-configure/configure-github/configure-github.module';
+import { CredentialsDashboardComponent } from './provider-dashboards/credentials-dashboard/credentials-dashboard.component';
 
 @NgModule({
   entryComponents: [DeploymentCenterComponent],
@@ -45,6 +46,7 @@ import { ConfigureGithubModule } from './deployment-center-setup/step-configure/
     ConfigureLocalGitComponent,
     FtpDashboardComponent,
     DeploymentCredentialsComponent,
+    CredentialsDashboardComponent,
   ],
   imports: [
     TranslateModule.forChild(),
