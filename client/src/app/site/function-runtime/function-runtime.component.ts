@@ -150,6 +150,10 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         displayLabel: FunctionAppRuntimeSetting.tilda2,
         value: FunctionAppRuntimeSetting.tilda2,
       },
+      {
+        displayLabel: this._translateService.instant(PortalResources.version3Preview),
+        value: FunctionAppRuntimeSetting.tilda3,
+      },
     ];
 
     this.proxySettingValueStream = new Subject<boolean>();
@@ -276,7 +280,10 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
         this.disableRuntimeSelector = this.extensionVersion !== Constants.latest && (this.hasFunctions || this.betaDisabled);
 
-        this._handleV3Option();
+        if (this.disableRuntimeSelector && this.extensionVersion !== FunctionAppRuntimeSetting.tilda1) {
+          this.functionRutimeOptions[0].disabled = true;
+          this.disableRuntimeSelector = false;
+        }
 
         this.badRuntimeVersion = !this._validRuntimeVersion();
 
@@ -562,32 +569,6 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
       return !!this._configService.FunctionsVersionInfo.runtimeStable.find(v => {
         return this.extensionVersion.toLowerCase() === v;
       });
-    }
-  }
-
-  // Currently we will only show the V3 option when user has V3 running
-  // Will update logic for V3 public preview
-  private _handleV3Option() {
-    if (this.extensionVersion === FunctionAppRuntimeSetting.tilda3) {
-      this.functionRutimeOptions = [
-        {
-          displayLabel: FunctionAppRuntimeSetting.tilda1,
-          value: FunctionAppRuntimeSetting.tilda1,
-          disabled: this.disableRuntimeSelector,
-        },
-        {
-          displayLabel: FunctionAppRuntimeSetting.tilda2,
-          value: FunctionAppRuntimeSetting.tilda2,
-        },
-        {
-          displayLabel: this._translateService.instant(PortalResources.version3Preview),
-          value: FunctionAppRuntimeSetting.tilda3,
-        },
-      ];
-      if (this.disableRuntimeSelector) {
-        this.disableSomeVersionSwaps = true;
-        this.disableRuntimeSelector = false;
-      }
     }
   }
 }
