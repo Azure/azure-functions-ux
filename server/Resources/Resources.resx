@@ -3648,7 +3648,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>App Credentials</value>
     </data>
     <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They can not be configured manually, but can be reset anytime.</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
     <data name="username" xml:space="preserve">
         <value>Username</value>
@@ -5282,9 +5282,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="linux" xml:space="preserve">
         <value>Linux</value>
-    </data>
-    <data name="deploymentCredentialsCommand" xml:space="preserve">
-        <value>Deployment Credentials</value>
     </data>
     <data name="deploymentCredentialsTitle" xml:space="preserve">
         <value>Deployment Credentials</value>

@@ -23,6 +23,7 @@ import { SelectOption } from 'app/shared/models/select-option';
 import { PublishingCredentials } from 'app/shared/models/publishing-credentials';
 
 export type CredentialScopeType = 'AppCredentials' | 'UserCredentials';
+export type CredentialsType = 'localGit' | 'ftps';
 
 @Component({
   selector: 'app-credentials-dashboard',
@@ -54,16 +55,7 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
   public publishProfileLink: SafeUrl;
   public profileName: string = '';
 
-  public scopeItems: SelectOption<CredentialScopeType>[] = [
-    {
-      displayLabel: 'App Credentials',
-      value: 'AppCredentials',
-    },
-    {
-      displayLabel: 'User Credentials',
-      value: 'UserCredentials',
-    },
-  ];
+  public scopeItems: SelectOption<CredentialScopeType>[] = [];
 
   public selectedScope: CredentialScopeType = 'AppCredentials';
 
@@ -84,6 +76,18 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
     injector: Injector
   ) {
     super('CredentialsDashboardComponent', injector);
+
+    this.scopeItems = [
+      {
+        displayLabel: this._translateService.instant(PortalResources.appCreds),
+        value: 'AppCredentials',
+      },
+      {
+        displayLabel: this._translateService.instant(PortalResources.userCreds),
+        value: 'UserCredentials',
+      },
+    ];
+
     this._setupUserPasswordForm();
     this._setupResetPublishProfileEvent();
     this._setupSaveCredentialsEvent();
@@ -187,12 +191,24 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
     this.selectedScope = scope;
   }
 
-  public selectTab(tab) {
+  public selectTab(tab: CredentialsType) {
     this.activeTab = tab;
     this._currentTabIndex = this.activeTab === 'localGit' ? 0 : 1;
   }
 
-  public onKeyPress(event: KeyboardEvent, info: 'app' | 'user') {
+  public get disableRefreshCommand() {
+    return !this.siteAvailabilityStateNormal || !this.hasWriteAccess;
+  }
+
+  public get disableDownloadPublishProfileCommand() {
+    return !this.siteAvailabilityStateNormal || !this.hasWriteAccess;
+  }
+
+  public get disableResetPublishProfileCommand() {
+    return !this.siteAvailabilityStateNormal || !this.hasWriteAccess || this.resetting || this.selectedScope === 'UserCredentials';
+  }
+
+  public onKeyPress(event: KeyboardEvent, info: CredentialsType) {
     if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
       this.selectTab(info);
       event.preventDefault();
@@ -266,8 +282,13 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
 
   private _setupUserPasswordForm() {
     const requiredValidation = new RequiredValidator(this._translateService, true);
+
+    //The password should be at least eight characters long and must contain letters and numbers.
+    const passwordMinimumRequirementsRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d@$!%*#?&]{8,}$/;
+
+    //The specified password does not meet the minimum requirements.
     const passwordValidator = RegexValidator.create(
-      /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d@$!%*#?&]{8,}$/, //The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain letters and numbers.
+      passwordMinimumRequirementsRegex,
       this._translateService.instant(PortalResources.userCredsError)
     );
 

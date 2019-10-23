@@ -1704,7 +1704,6 @@ export class PortalResources {
   public static containerSettingsTitle = 'containerSettingsTitle';
   public static feature_containerSettingsInfo = 'feature_containerSettingsInfo';
   public static linux = 'linux';
-  public static deploymentCredentialsCommand = 'deploymentCredentialsCommand';
   public static deploymentCredentialsTitle = 'deploymentCredentialsTitle';
   public static deploymentCredentialsDescription = 'deploymentCredentialsDescription';
   public static deploymentCredentialsLocalGit = 'deploymentCredentialsLocalGit';
