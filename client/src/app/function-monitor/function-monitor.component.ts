@@ -88,6 +88,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
           functionAppContext: tuple[0],
           functionAppSettings: tuple[2].result.properties,
           functionName: tuple[1],
+          appInsightResourceEnabled: tuple[3].status === 'enabled',
           appInsightResource: tuple[3].status === 'enabled' ? <ArmObj<ApplicationInsight>>tuple[3].data : null,
           appInsightToken: tuple[3].status === 'enabled' && tuple[4].result ? tuple[4].result.token : null,
         })
@@ -132,7 +133,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
 
     // NOTE(michinoy): Load the classic view if the app insights feature is not enabled on the environment OR
     // the user has selected to switch to classic view and has not setup an instrumentation key.
-    return !this.functionMonitorInfo.appInsightResource || loadClassicView;
+    return !this.functionMonitorInfo.appInsightResourceEnabled || loadClassicView;
   }
 
   private _shouldLoadApplicationInsightsView(): boolean {
