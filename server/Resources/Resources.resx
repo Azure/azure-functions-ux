@@ -3648,7 +3648,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>App Credentials</value>
     </data>
     <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy.</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
     <data name="username" xml:space="preserve">
         <value>Username</value>
@@ -3718,9 +3718,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="sync" xml:space="preserve">
         <value>Sync</value>
-    </data>
-    <data name="deploymentCredentials" xml:space="preserve">
-        <value>FTP/Credentials</value>
     </data>
     <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
         <value>Dv3-Series compute equivalent</value>
@@ -5286,6 +5283,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="linux" xml:space="preserve">
         <value>Linux</value>
     </data>
+    <data name="deploymentCredentialsTitle" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+    <data name="deploymentCredentialsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+    </data>
+    <data name="deploymentCredentialsLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+    <data name="deploymentCredentialsFtps" xml:space="preserve">
+        <value>FTP/FTPS</value>
+    </data>
     <data name="none" xml:space="preserve">
         <value>None</value>
     </data>
@@ -5304,6 +5313,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
         <value>Use left and right arrow keys to navigate between commands</value>
     </data>
+    <data name="localGitDescription" xml:space="preserve">
+        <value>Use Git to push changes directly to your app.</value>
+    </data>
+    <data name="ftpsDescription" xml:space="preserve">
+        <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+    <data name="gitCloneUrlLabel" xml:space="preserve">
+        <value>Git Clone URL</value>
+    </data>
     <data name="githubActionWorkflowConfiguration" xml:space="preserve">
         <value>GitHub Action Workflow Configuration</value>
     </data>
@@ -5315,9 +5333,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
+    </data>
     <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
         <value>Select your function directory or files in your root directory.</value>
-    </data>
     </data>
     <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
         <value>Select files in your function directory.</value>
@@ -5327,6 +5345,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
+    </data>
+    <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
+    </data>
+    <data name="scope" xml:space="preserve">
+        <value>Scope</value>
     </data>
     <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
         <value>Virtual network trigger support</value>

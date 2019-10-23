@@ -22,6 +22,7 @@ import { PublishingCredentials } from '../models/publishing-credentials';
 import { ARMApiVersions } from '../models/constants';
 import { ByosStorageAccounts } from 'app/site/byos/byos';
 import { HostingEnvironment } from '../models/arm/hosting-environment';
+import { PublishingUser } from '../models/arm/publishing-users';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -205,5 +206,25 @@ export class SiteService {
     const getHostingEnvironment = this._cacheService.getArm(resourceId, force, ARMApiVersions.antaresApiVersion20181101).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getHostingEnvironment);
+  }
+
+  resetPublishProfile(resourceId: string): Result<any> {
+    const resetPublishProfile = this._cacheService.postArm(`${resourceId}/newpassword`, true).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => resetPublishProfile);
+  }
+
+  getPublishingUser(): Result<ArmObj<PublishingUser>> {
+    const getPublishingUser = this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, true).map(r => r.json());
+
+    return this._client.execute({ resourceId: '' }, t => getPublishingUser);
+  }
+
+  updatePublishingUser(properties: PublishingUser): Result<ArmObj<PublishingUser>> {
+    const updatePublishingUser = this._cacheService
+      .putArm(`/providers/Microsoft.Web/publishingUsers/web`, null, { properties })
+      .map(r => r.json());
+
+    return this._client.execute({ resourceId: '' }, t => updatePublishingUser);
   }
 }
