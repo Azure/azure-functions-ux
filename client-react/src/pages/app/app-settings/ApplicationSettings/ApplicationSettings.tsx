@@ -283,7 +283,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
 
   // tslint:disable-next-line:member-ordering
   const getColumns = () => {
-    return [
+    const columns = [
       {
         key: 'name',
         name: t('nameRes'),
@@ -356,6 +356,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         onRender: onRenderItemColumn,
       },
     ];
+    return !!values.references ? columns : columns.filter(column => column.key !== 'source');
   };
 
   if (!values.appSettings) {
