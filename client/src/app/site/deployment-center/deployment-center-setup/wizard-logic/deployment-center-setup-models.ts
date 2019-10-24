@@ -73,16 +73,20 @@ export type sourceControlProvider =
  * DEPLOYMENT TARGET MODELS
  */
 
-export interface ProvisioningConfiguration {
-  authToken: string;
-  /**
-   * Gets or sets the CI/CD configuration details.
-   */
-  ciConfiguration: CiConfiguration;
+export interface ProvisioningConfigurationBase {
   /**
    * Gets or sets the unique identifier of the provisioning configuration.
    */
   id: string;
+
+  /**
+   * Gets or sets the CI/CD configuration details.
+   */
+  ciConfiguration: CiConfiguration;
+}
+
+export interface ProvisioningConfiguration extends ProvisioningConfigurationBase {
+  authToken: string;
   /**
    * Gets or sets the deployment source.
    */
@@ -91,6 +95,15 @@ export interface ProvisioningConfiguration {
    * Gets or sets one or more deployment targets.
    */
   targets: DeploymentTarget[];
+}
+
+export interface ProvisioningConfigurationV2 extends ProvisioningConfigurationBase {
+  /* Below parameters are for pipelineTemplate API*/
+  pipelineTemplateId: string;
+
+  pipelineTemplateParameters: { [key: string]: string };
+
+  repository: CodeRepository;
 }
 
 export enum DeploymentTargetProvider {

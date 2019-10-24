@@ -2,21 +2,9 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { FormGroup, FormControl } from '@angular/forms';
 import {
   WizardForm,
-  ProvisioningConfiguration,
-  CiConfiguration,
-  DeploymentTarget,
-  DeploymentSourceType,
-  CodeRepositoryDeploymentSource,
-  ApplicationType,
-  DeploymentTargetProvider,
-  AzureAppServiceDeploymentTarget,
-  AzureResourceType,
-  TargetEnvironmentType,
-  CodeRepository,
-  BuildConfiguration,
-  PythonFrameworkType,
   PermissionsResultCreationParameters,
   PermissionsResult,
+  ProvisioningConfigurationV2,
 } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { Headers } from '@angular/http';
@@ -36,23 +24,24 @@ import { SiteService } from '../../../../shared/services/site.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { VSOAccount } from '../../Models/vso-repo';
-import { AzureDevOpsService } from './azure-devops.service';
+import { AzureDevOpsService, AzureDevOpsDeploymentMethod } from './azure-devops.service';
 import { LocalStorageService } from '../../../../shared/services/local-storage.service';
 import { GithubService } from './github.service';
 import { WorkflowCommit } from '../../Models/github';
 import { Guid } from 'app/shared/Utilities/Guid';
 
 const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
+
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
   public resourceIdStream$ = new ReplaySubject<string>(1);
   public wizardForm: FormGroup = new FormGroup({});
   private _resourceId = '';
-  private _location = '';
   private _ngUnsubscribe$ = new Subject();
   private _token: string;
   private _vstsApiToken: string;
   private _sessionId: string;
+  private _azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod = AzureDevOpsDeploymentMethod.UseV1Api;
   public siteArm: ArmObj<Site>;
   public siteArmObj$ = new ReplaySubject<ArmObj<Site>>();
   public updateSourceProviderConfig$ = new Subject();
@@ -76,10 +65,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _translateService: TranslateService,
     private _localStorageService: LocalStorageService,
     private _portalService: PortalService,
+    private _scenarioService: ScenarioService,
     private _githubService: GithubService,
     siteService: SiteService,
-    userService: UserService,
-    scenarioService: ScenarioService
+    userService: UserService
   ) {
     this.resourceIdStream$
       .switchMap(r => {
@@ -107,8 +96,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         this.isFunctionApp = this.siteArm.kind.toLowerCase().includes(Kinds.functionApp);
         this.siteArmObj$.next(this.siteArm);
         this.subscriptionName = sub.json().displayName;
-        this._location = this.siteArm.location;
-        return scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm });
+        return this._scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm });
       })
       .subscribe(vstsScenarioCheck => {
         this.hideBuild = vstsScenarioCheck.status === 'disabled';
@@ -226,9 +214,20 @@ export class DeploymentCenterStateManager implements OnDestroy {
         if (r.status !== 'succeeded') {
           return Observable.of(r);
         }
-
         this._vstsApiToken = r.result;
-        return this._canCreateAadApp();
+        return this._azureDevOpsService.getAzureDevOpsDeploymentMethod(this.siteArm);
+      })
+      .switchMap(r => {
+        this._azureDevOpsDeploymentMethod = r.result;
+        if (this._azureDevOpsDeploymentMethod === AzureDevOpsDeploymentMethod.UsePublishProfile) {
+          return Observable.of({
+            status: 'succeeded',
+            statusMessage: null,
+            result: null,
+          });
+        } else {
+          return this._canCreateAadApp();
+        }
       })
       .switchMap(r => {
         if (r.status !== 'succeeded') {
@@ -267,13 +266,25 @@ export class DeploymentCenterStateManager implements OnDestroy {
   }
 
   private _startVstsDeployment() {
-    const deploymentObject: ProvisioningConfiguration = {
-      authToken: this.getToken(),
-      ciConfiguration: this._ciConfig,
-      id: null,
-      source: this._deploymentSource,
-      targets: this._deploymentTargets,
-    };
+    if (this.wizardValues.sourceProvider === 'vsts') {
+      this.wizardValues.sourceSettings.repoUrl = this.selectedVstsRepoId;
+    }
+    const deploymentObject = this._azureDevOpsService.getAzureDevOpsProvisioningConfiguration(
+      this.wizardValues,
+      this.siteArm,
+      this.subscriptionName,
+      this._vstsApiToken,
+      this._azureDevOpsDeploymentMethod
+    );
+
+    this._portalService.logAction('deploymentcenter', 'azureDevOpsDeployment', {
+      buildProvider: this.wizardValues.buildProvider,
+      sourceProvider: this.wizardValues.sourceProvider,
+      pipelineTemplateId: !!(<ProvisioningConfigurationV2>deploymentObject).pipelineTemplateId
+        ? (<ProvisioningConfigurationV2>deploymentObject).pipelineTemplateId
+        : '',
+      azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod[this._azureDevOpsDeploymentMethod],
+    });
 
     const setupvsoCall = this._azureDevOpsService.startDeployment(
       this.wizardValues.buildSettings.vstsAccount,
@@ -293,7 +304,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             'VisualStudio.Services.HostResolution.UseCodexDomainForHostCreation': true,
           }
         )
-        .switchMap(r => setupvsoCall)
+        .switchMap(() => setupvsoCall)
         .switchMap(r => Observable.of(r.id));
     }
     return setupvsoCall.switchMap(r => {
@@ -330,166 +341,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
       });
     } else {
       return Observable.of(success);
-    }
-  }
-
-  private get _ciConfig(): CiConfiguration {
-    return {
-      project: {
-        name: this.wizardValues.buildSettings.vstsProject,
-      },
-    };
-  }
-
-  private get _deploymentSource(): CodeRepositoryDeploymentSource {
-    return {
-      type: DeploymentSourceType.CodeRepository,
-      buildConfiguration: this._buildConfiguration,
-      repository: this._repoInfo,
-    };
-  }
-
-  private get _buildConfiguration(): BuildConfiguration {
-    const buildConfig: BuildConfiguration = {
-      type: this._applicationType,
-      workingDirectory: this.wizardValues.buildSettings.workingDirectory,
-      version: this.wizardValues.buildSettings.frameworkVersion,
-    };
-
-    if (this.isLinuxApp) {
-      buildConfig.startupCommand = this.wizardValues.buildSettings.startupCommand;
-    }
-    if (this.wizardValues.buildSettings.applicationFramework === 'Ruby') {
-      buildConfig.rubyFramework = 1;
-    }
-    if (this.wizardValues.buildSettings.applicationFramework === 'Python') {
-      buildConfig.pythonExtensionId = this.wizardValues.buildSettings.pythonSettings.version;
-      buildConfig.pythonFramework = this.wizardValues.buildSettings.pythonSettings.framework;
-      if (buildConfig.pythonFramework === PythonFrameworkType.Flask) {
-        buildConfig.flaskProjectName = this.wizardValues.buildSettings.pythonSettings.flaskProjectName;
-      }
-      if (buildConfig.pythonFramework === PythonFrameworkType.Django) {
-        buildConfig.djangoSettingsModule = this.wizardValues.buildSettings.pythonSettings.djangoSettingsModule;
-      }
-    }
-    return buildConfig;
-  }
-
-  private get _repoInfo(): CodeRepository {
-    switch (this.wizardValues.sourceProvider) {
-      case 'github':
-        return this._githubRepoInfo;
-      case 'vsts':
-        return this._vstsRepoInfo;
-      case 'external':
-        return this._externalRepoInfo;
-      default:
-        return this._localGitInfo;
-    }
-  }
-
-  private get _githubRepoInfo(): CodeRepository {
-    const repoId = this.wizardValues.sourceSettings.repoUrl.replace('https://github.com/', '');
-    return {
-      authorizationInfo: {
-        scheme: 'PersonalAccessToken',
-        parameters: {
-          AccessToken: `#{GithubToken}#`,
-        },
-      },
-      defaultBranch: `refs/heads/${this.wizardValues.sourceSettings.branch}`,
-      type: 'GitHub',
-      id: repoId,
-    };
-  }
-
-  private get _localGitInfo(): CodeRepository {
-    return {
-      type: 'LocalGit',
-      id: null,
-      defaultBranch: 'refs/heads/master',
-      authorizationInfo: null,
-    };
-  }
-
-  private get _vstsRepoInfo(): CodeRepository {
-    return {
-      type: 'TfsGit',
-      id: this.selectedVstsRepoId,
-      defaultBranch: `refs/heads/${this.wizardValues.sourceSettings.branch}`,
-      authorizationInfo: null,
-    };
-  }
-
-  private get _externalRepoInfo(): CodeRepository {
-    const sourceSettings = this.wizardValues.sourceSettings;
-    const privateRepo = sourceSettings.privateRepo;
-    return {
-      type: 'Git',
-      id: sourceSettings.repoUrl,
-      defaultBranch: sourceSettings.branch,
-      authorizationInfo: {
-        scheme: 'UsernamePassword',
-        parameters: {
-          username: privateRepo ? sourceSettings.username : '',
-          password: privateRepo ? sourceSettings.password : '',
-        },
-      },
-    };
-  }
-
-  private get _deploymentTargets(): DeploymentTarget[] {
-    return [this._primaryTarget];
-  }
-
-  private get _primaryTarget(): AzureAppServiceDeploymentTarget {
-    const tid = parseToken(this._token).tid;
-    const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
-    const targetObject = {
-      provider: DeploymentTargetProvider.Azure,
-      type: this.isLinuxApp ? AzureResourceType.LinuxAppService : AzureResourceType.WindowsAppService,
-      environmentType: TargetEnvironmentType.Production,
-      friendlyName: 'Production',
-      subscriptionId: siteDescriptor.subscription,
-      subscriptionName: this.subscriptionName,
-      tenantId: tid,
-      resourceIdentifier: siteDescriptor.getFormattedTargetSiteName(),
-      location: this._location,
-      resourceGroupName: siteDescriptor.resourceGroup,
-      authorizationInfo: {
-        scheme: 'Headers',
-        parameters: {
-          Authorization: `Bearer ${this._vstsApiToken}`,
-        },
-      },
-      createOptions: null,
-      slotSwapConfiguration: null,
-    };
-    return targetObject;
-  }
-
-  private get _applicationType(): ApplicationType {
-    switch (this.wizardValues.buildSettings.applicationFramework) {
-      case 'AspNetWap':
-        return ApplicationType.AspNetWap;
-      case 'AspNetCore':
-        return ApplicationType.AspNetCore;
-      case 'Node':
-        return ApplicationType.NodeJS;
-      case 'PHP':
-        return ApplicationType.PHP;
-      case 'Python':
-        return ApplicationType.Python;
-      case 'Ruby':
-        return ApplicationType.Ruby;
-      case 'ScriptFunction':
-        return ApplicationType.ScriptFunctionApp;
-      case 'PrecompiledFunction':
-        return ApplicationType.DotNetPreCompiledFunctionApp;
-      case 'StaticWebapp':
-        return ApplicationType.StaticWebapp;
-      default:
-        return ApplicationType.Undefined;
     }
   }
 
