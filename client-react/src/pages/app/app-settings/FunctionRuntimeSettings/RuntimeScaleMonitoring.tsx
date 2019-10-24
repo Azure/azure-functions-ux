@@ -10,6 +10,7 @@ import { Stack, Icon, Link } from 'office-ui-fabric-react';
 import { infoIconStyle, learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { Links } from '../../../../utils/FwLinks';
 import { ThemeContext } from '../../../../ThemeContext';
+import InfoBox from '../../../../components/InfoBox/InfoBox';
 
 const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { t, values, initialValues } = props;
@@ -23,6 +24,12 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
   return (
     <>
       <h3>{t('Runtime scale monitoring')}</h3>
+      <InfoBox
+        id="runtime-version-info"
+        type="Error"
+        message={t('connectionStringsInfoMessage')}
+        additionalInfoLink={{ url: Links.funcConnStringsLearnMore, text: t('learnMore') }}
+      />
       <Stack horizontal verticalAlign="center">
         <Icon iconName="Info" className={infoIconStyle(theme)} />
         <p>
