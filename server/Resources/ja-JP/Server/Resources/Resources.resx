@@ -3645,7 +3645,7 @@
         <value>アプリの資格情報</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>アプリケーションの資格情報は自動生成され、この特定のアプリまたはデプロイ スロットへのアクセスのみを提供します。これらの資格情報は、FTP、ローカル Git、WebDeploy で使用できます。</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>ユーザー名</value>
@@ -3715,9 +3715,6 @@
     </data>
   <data name="sync" xml:space="preserve">
         <value>同期</value>
-    </data>
-  <data name="deploymentCredentials" xml:space="preserve">
-        <value>FTP/資格情報</value>
     </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
         <value>Dv3 シリーズ コンピューティングと同等 </value>
@@ -5283,6 +5280,18 @@
   <data name="linux" xml:space="preserve">
         <value>Linux</value>
     </data>
+  <data name="deploymentCredentialsTitle" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+  <data name="deploymentCredentialsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCredentialsLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+  <data name="deploymentCredentialsFtps" xml:space="preserve">
+        <value>FTP/FTPS</value>
+    </data>
   <data name="none" xml:space="preserve">
         <value>なし</value>
     </data>
@@ -5301,25 +5310,55 @@
   <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
         <value>左右の矢印キーを使用してコマンド間を移動します</value>
     </data>
+  <data name="localGitDescription" xml:space="preserve">
+        <value>Use Git to push changes directly to your app.</value>
+    </data>
+  <data name="ftpsDescription" xml:space="preserve">
+        <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+  <data name="gitCloneUrlLabel" xml:space="preserve">
+        <value>Git Clone URL</value>
+    </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
-        <value>GitHub Action Workflow Configuration</value>
+        <value>GitHub アクションのワークフロー構成</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Adding workflow configuration to GitHub Actions</value>
+        <value>GitHub アクションにワークフローの構成を追加しています</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+        <value>GitHub アクションのワークフロー定義が、リポジトリ '{1}' のブランチ '{0}' に正常にコミットされました。</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
-        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
-    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
-        <value>Select your function directory or files in your root directory.</value>
+        <value>Azure portal から App Service デプロイのワークフロー構成を追加または更新します。</value>
     </data>
+  <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>ルート ディレクトリ内の関数ディレクトリまたはファイルを選択します。</value>
     </data>
   <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
-        <value>Select files in your function directory.</value>
+        <value>関数ディレクトリ内のファイルを選択します。</value>
+    </data>
+  <data name="noPlanWritePermissions" xml:space="preserve">
+        <value>This feature requires write permissions on the plan hosting your app</value>
     </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Get 関数 URL のモーダルを閉じます。</value>
+    </data>
+  <data name="scope" xml:space="preserve">
+        <value>Scope</value>
+    </data>
+  <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
+        <value>Virtual network trigger support</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+    </data>
+  <data name="refreshAppSettingsTitle" xml:space="preserve">
+        <value>Refresh App Settings</value>
+    </data>
+  <data name="refreshAppSettingsMessage" xml:space="preserve">
+        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
 </root>
