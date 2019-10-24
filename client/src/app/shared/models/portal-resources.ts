@@ -1733,4 +1733,8 @@ export class PortalResources {
   public static eventHubPicker_noNamespaces = 'eventHubPicker_noNamespaces';
   public static eventHubPicker_noEventHubs = 'eventHubPicker_noEventHubs';
   public static eventHubPicker_noPolicies = 'eventHubPicker_noPolicies';
+  public static iotHubPivot_noIoTHubs = 'iotHubPivot_noIoTHubs';
+  public static iotHubPivot_IoTHub = 'iotHubPivot_IoTHub';
+  public static iotHubPivot_noEndpoints = 'iotHubPivot_noEndpoints';
+  public static iotHubPivot_Endpoint = 'iotHubPivot_Endpoint';
 }

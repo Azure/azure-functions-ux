@@ -39,6 +39,7 @@ export class CommonConstants {
     armRbacApiVersion: '2015-07-01',
     storageApiVersion20180701: '2018-07-01',
     eventHubApiVersion20150801: '2015-08-01',
+    iotHubApiVersion20170119: '2017-01-19',
   };
   public static readonly NonThemeColors = {
     upsell: '#804998',
