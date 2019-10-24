@@ -438,7 +438,7 @@ export class AzureDevOpsService implements OnDestroy {
       webAppName: siteDescriptor.site,
       stagingOption: !!siteDescriptor.slot ? 'true' : 'false',
       webAppSlotName: !!siteDescriptor.slot ? siteDescriptor.slot : '',
-      usePublishProfile: usePublishProfile,
+      usePublishProfile: usePublishProfile ? 'true' : 'false',
       azureDevOpsAuth: JSON.stringify({
         scheme: 'Headers',
         parameters: {
