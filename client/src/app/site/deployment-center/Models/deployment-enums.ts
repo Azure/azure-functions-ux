@@ -27,4 +27,4 @@ export type ProviderType =
   | 'OneDrive'
   | 'VSO';
 
-export type ProviderDashboardType = '' | 'zip' | 'ftp' | 'webdeploy' | 'reset';
+export type ProviderDashboardType = '' | 'zip' | 'ftp' | 'webdeploy' | 'reset' | 'credentials-dashboard';

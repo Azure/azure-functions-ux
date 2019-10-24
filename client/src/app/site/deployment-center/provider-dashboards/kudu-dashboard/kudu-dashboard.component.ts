@@ -397,7 +397,7 @@ export class KuduDashboardComponent extends DeploymentDashboard implements OnCha
   }
 
   showDeploymentCredentials() {
-    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, 'ftp');
+    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, 'credentials-dashboard');
   }
 
   browseToSite() {

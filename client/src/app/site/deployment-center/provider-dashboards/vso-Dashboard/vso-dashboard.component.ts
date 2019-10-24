@@ -682,7 +682,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
   }
 
   showDeploymentCredentials() {
-    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, 'ftp');
+    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, 'credentials-dashboard');
   }
 
   ngOnDestroy(): void {

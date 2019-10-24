@@ -2146,6 +2146,18 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="validation_slotNameReserved" xml:space="preserve">
         <value>El nombre de ranura "{0}" es un nombre de ranura de implementación reservado.</value>
     </data>
+  <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>El campo debe contener menos de {0} caracteres.</value>
+    </data>
+  <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>El nombre del recurso compartido solo puede incluir caracteres alfanuméricos, guiones bajos, guiones, corchetes y paréntesis.</value>
+    </data>
+  <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>La ruta de acceso de montaje debe ser una ruta de acceso completa y solo puede incluir caracteres alfanuméricos, guiones bajos, guiones, barras diagonales, corchetes y paréntesis.</value>
+    </data>
+  <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>La ruta de acceso de montaje no puede ser "/home".</value>
+    </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>No podemos actualizar el modo de edición de la aplicación de funciones. Inténtelo de nuevo más tarde.</value>
     </data>
@@ -4854,7 +4866,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Los nombres de las cadenas de conexión deben ser únicos.</value>
     </data>
   <data name="slotSettingForbiddenProperty" xml:space="preserve">
-        <value>Updating the '{0}' property requires write access on the production app</value>
+        <value>Para actualizar la propiedad "{0}", es necesario obtener acceso de escritura en la aplicación de producción.</value>
     </data>
   <data name="handlerMappingPropIsRequired" xml:space="preserve">
         <value>{0} es una propiedad necesaria en todas las asignaciones de controladores.</value>
@@ -4969,7 +4981,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>La ruta de acceso al directorio de trabajo debe ser relativa a la raíz del repositorio y no puede comenzar con /, \ o nombres de unidad (C:/) en el caso de Windows. Si el directorio de trabajo está en la carpeta src del repositorio, la ruta de acceso debe ser src/.</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>El almacenamiento montado le permite asignar contenedores de Azure Files o de blob para usarlos con la aplicación.</value>
+        <value>El almacenamiento montado le permite asignar hasta cinco contenedores de Azure Files o de blob para usarlos con la aplicación.</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>Cambiar el plan de App Service</value>
@@ -5146,7 +5158,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Detalles del error</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Las claves de función están disponibles en el nivel de función.</value>
+        <value>Las teclas de función se pueden definir en la configuración de las funciones.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Claves de host (todas las funciones)</value>
@@ -5245,9 +5257,69 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
       <value>Los nombres de las claves de función deben ser únicos.</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
+        <value>GitHub Actions (versión preliminar)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+        <value>Automatice los pasos de compilación, prueba e implementación con GitHub Actions de forma gratuita. Se agregará un flujo de trabajo de YML al repositorio con los pasos para compilar e implementar la aplicación en App Service.</value>
+    </data>
+  <data name="azureKeyVault" xml:space="preserve">
+        <value>Referencia del almacén de claves</value>
+    </data>
+  <data name="appConfigValue" xml:space="preserve">
+        <value>Configuración de aplicaciones</value>
+    </data>
+  <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Error: No se pudo acceder a los metadatos de referencia del almacén de claves.</value>
+    </data>
+  <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>Haga clic aquí para establecer la configuración del contenedor.</value>
+    </data>
+  <data name="containerSettingsTitle" xml:space="preserve">
+        <value>Configuración del contenedor</value>
+    </data>
+  <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>Configure y administre las opciones de configuración de los contenedores de la aplicación.</value>
+    </data>
+  <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+  <data name="none" xml:space="preserve">
+        <value>Ninguno</value>
+    </data>
+  <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>Guarde los cambios de la función.</value>
+    </data>
+  <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>Descarte los cambios de la función.</value>
+    </data>
+  <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>Abra el panel de prueba para probar la ejecución de la función.</value>
+    </data>
+  <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>Abra el elemento emergente para obtener la URL de la función.</value>
+    </data>
+  <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>Utilice las teclas de dirección derecha e izquierda para navegar entre los comandos.</value>
+    </data>
+  <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>GitHub Action Workflow Configuration</value>
+    </data>
+  <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>Adding workflow configuration to GitHub Actions</value>
+    </data>
+  <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+    </data>
+  <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Seleccione su directorio de funciones o archivos en el directorio raíz.</value>
+    </data>
+    </data>
+  <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Seleccione archivos del directorio de funciones.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Cierre el elemento modal de la URL de la función GET.</value>
     </data>
 </root>
