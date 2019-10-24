@@ -207,7 +207,7 @@ export class AzureDevOpsService implements OnDestroy {
           siteArm.id,
           subscriptionName,
           azureDevOpsAuthToken,
-          azureDevOpsDeploymentMethod
+          azureDevOpsDeploymentMethod === AzureDevOpsDeploymentMethod.UsePublishProfile
         ),
         ciConfiguration: this._ciConfig(wizardValues.buildSettings.vstsProject),
         repository: this._repoInfo(wizardValues),
@@ -426,7 +426,7 @@ export class AzureDevOpsService implements OnDestroy {
     resourceId: string,
     subscriptionName: string,
     azureDevOpsAuthToken: string,
-    azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod
+    usePublishProfile: boolean
   ) {
     const tid = parseToken(this._token).tid;
     const siteDescriptor = new ArmSiteDescriptor(resourceId);
@@ -438,7 +438,7 @@ export class AzureDevOpsService implements OnDestroy {
       webAppName: siteDescriptor.site,
       stagingOption: !!siteDescriptor.slot ? 'true' : 'false',
       webAppSlotName: !!siteDescriptor.slot ? siteDescriptor.slot : '',
-      usePublishProfile: azureDevOpsDeploymentMethod === AzureDevOpsDeploymentMethod.UsePublishProfile ? 'true' : 'false',
+      usePublishProfile: usePublishProfile,
       azureDevOpsAuth: JSON.stringify({
         scheme: 'Headers',
         parameters: {
