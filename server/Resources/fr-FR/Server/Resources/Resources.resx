@@ -3645,7 +3645,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Informations d'identification de l'application</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Les informations d'identification de l'application sont générées automatiquement et fournissent un accès uniquement à cet emplacement de déploiement ou à cette application spécifique. Ces informations d'identification peuvent être utilisées avec FTP, Local Git et WebDeploy.</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>Nom d’utilisateur</value>
@@ -3715,9 +3715,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="sync" xml:space="preserve">
         <value>Synchroniser</value>
-    </data>
-  <data name="deploymentCredentials" xml:space="preserve">
-        <value>FTP/Informations d’identification</value>
     </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
         <value>Équivalent de calcul Série Dv3</value>
@@ -5283,6 +5280,18 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="linux" xml:space="preserve">
         <value>Linux</value>
     </data>
+  <data name="deploymentCredentialsTitle" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+  <data name="deploymentCredentialsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCredentialsLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+  <data name="deploymentCredentialsFtps" xml:space="preserve">
+        <value>FTP/FTPS</value>
+    </data>
   <data name="none" xml:space="preserve">
         <value>Aucun</value>
     </data>
@@ -5301,25 +5310,55 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
         <value>Utiliser les touches de direction gauche et droite pour naviguer entre les commandes</value>
     </data>
+  <data name="localGitDescription" xml:space="preserve">
+        <value>Use Git to push changes directly to your app.</value>
+    </data>
+  <data name="ftpsDescription" xml:space="preserve">
+        <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+  <data name="gitCloneUrlLabel" xml:space="preserve">
+        <value>Git Clone URL</value>
+    </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
-        <value>GitHub Action Workflow Configuration</value>
+        <value>Configuration du workflow d'action GitHub</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Adding workflow configuration to GitHub Actions</value>
+        <value>Ajout d'une configuration de workflow à GitHub Actions</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+        <value>La définition du workflow d'action GitHub a été validée dans la branche « {0} » dans le dépôt « {1} ».</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
-        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
-    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
-        <value>Sélectionnez le répertoire de votre fonction ou des fichiers dans votre répertoire racine.</value>
+        <value>Ajoutez ou mettez à jour la configuration de workflow du déploiement App Service à partir du portail Azure.</value>
     </data>
+  <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Sélectionnez le répertoire de votre fonction ou des fichiers dans votre répertoire racine.</value>
     </data>
   <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
         <value>Sélectionnez des fichiers dans le répertoire de votre fonction.</value>
     </data>
+  <data name="noPlanWritePermissions" xml:space="preserve">
+        <value>Cette fonctionnalité nécessite des autorisations d'écriture sur le plan hébergeant votre application</value>
+    </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Fermez la fenêtre modale Obtenir l'URL de la fonction.</value>
+    </data>
+  <data name="scope" xml:space="preserve">
+        <value>Scope</value>
+    </data>
+  <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
+        <value>Virtual network trigger support</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+    </data>
+  <data name="refreshAppSettingsTitle" xml:space="preserve">
+        <value>Refresh App Settings</value>
+    </data>
+  <data name="refreshAppSettingsMessage" xml:space="preserve">
+        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
 </root>

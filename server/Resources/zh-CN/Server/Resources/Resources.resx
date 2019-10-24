@@ -3645,7 +3645,7 @@
         <value>应用凭据</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>应用程序凭据是自动生成的，它提供仅对此特定应用和部署槽位的访问权限。这些凭据可以用于 FTP、本地 GIT 和 WebDeploy。</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>用户名</value>
@@ -3715,9 +3715,6 @@
     </data>
   <data name="sync" xml:space="preserve">
         <value>同步</value>
-    </data>
-  <data name="deploymentCredentials" xml:space="preserve">
-        <value>FTP/凭据</value>
     </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
         <value>Dv3 序列计算等效项</value>
@@ -5283,6 +5280,18 @@
   <data name="linux" xml:space="preserve">
         <value>Linux</value>
     </data>
+  <data name="deploymentCredentialsTitle" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+  <data name="deploymentCredentialsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCredentialsLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+  <data name="deploymentCredentialsFtps" xml:space="preserve">
+        <value>FTP/FTPS</value>
+    </data>
   <data name="none" xml:space="preserve">
         <value>无</value>
     </data>
@@ -5301,25 +5310,55 @@
   <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
         <value>使用向左键和向右键浏览命令</value>
     </data>
+  <data name="localGitDescription" xml:space="preserve">
+        <value>Use Git to push changes directly to your app.</value>
+    </data>
+  <data name="ftpsDescription" xml:space="preserve">
+        <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+  <data name="gitCloneUrlLabel" xml:space="preserve">
+        <value>Git Clone URL</value>
+    </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
-        <value>GitHub Action Workflow Configuration</value>
+        <value>GitHub 操作工作流配置</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Adding workflow configuration to GitHub Actions</value>
+        <value>正在将工作流配置添加到 GitHub 操作</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+        <value>已成功将 GitHub 操作工作流定义提交到存储库“{1}”中的分支“{0}”。</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
-        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
-    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
-        <value>选择你的函数目录或根目录中的文件。</value>
+        <value>从 Azure 门户添加或更新应用服务部署工作流配置。</value>
     </data>
+  <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>选择你的函数目录或根目录中的文件。</value>
     </data>
   <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
         <value>选择函数目录中的文件。</value>
     </data>
+  <data name="noPlanWritePermissions" xml:space="preserve">
+        <value>此功能要求对托管应用的计划具有写权限</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
+    </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>关闭 get 函数 URL 模式。</value>
+    </data>
+  <data name="scope" xml:space="preserve">
+        <value>Scope</value>
+    </data>
+  <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
+        <value>Virtual network trigger support</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+    </data>
+  <data name="refreshAppSettingsTitle" xml:space="preserve">
+        <value>Refresh App Settings</value>
+    </data>
+  <data name="refreshAppSettingsMessage" xml:space="preserve">
+        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
 </root>

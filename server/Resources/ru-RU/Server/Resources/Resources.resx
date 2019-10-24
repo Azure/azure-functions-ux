@@ -2147,16 +2147,16 @@
         <value>Имя слота "{0}" является зарезервированным именем слота развертывания.</value>
     </data>
   <data name="validation_fieldMaxCharacters" xml:space="preserve">
-        <value>The field must be fewer than {0} characters</value>
+        <value>Длина поля должна быть меньше {0} символов</value>
     </data>
   <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
-        <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
+        <value>Имя общей папки может содержать только буквы, цифры, знаки подчеркивания, дефисы, квадратные и круглые скобки</value>
     </data>
   <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
-        <value>Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis</value>
+        <value>Путь подключения может быть полным путем и содержать только буквы, цифры, знаки подчеркивания, дефисы, символы косой черты, квадратные скобки и круглые скобки.</value>
     </data>
   <data name="validation_mountPathNotHome" xml:space="preserve">
-        <value>Mount path cannot be '/home'</value>
+        <value>В качестве пути подключения не может использоваться "/home"</value>
     </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>Не удалось изменить режим правки приложения-функции. Повторите попытку позже.</value>
@@ -3645,7 +3645,7 @@
         <value>Учетные данные приложения</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Учетные данные приложения создаются автоматически и дают доступ только к этому приложению или слоту развертывания. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy.</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>Имя пользователя</value>
@@ -3715,9 +3715,6 @@
     </data>
   <data name="sync" xml:space="preserve">
         <value>Синхронизация</value>
-    </data>
-  <data name="deploymentCredentials" xml:space="preserve">
-        <value>FTP или учетные данные</value>
     </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
         <value>Эквивалент вычислительных ресурсов серии Dv3</value>
@@ -5158,7 +5155,7 @@
         <value>Сведения об ошибке</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Function keys can be configured in function settings.</value>
+        <value>Функциональные клавиши можно настраивать в параметрах функции.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Ключи узла (все функции)</value>
@@ -5263,13 +5260,13 @@
         <value>Автоматизируйте шаги сборки, тестирования и развертывания с помощью действий GitHub. Это приведет к добавлению рабочего процесса YML в репозиторий с шагами для создания и развертывания приложения в Службе приложений.</value>
     </data>
   <data name="azureKeyVault" xml:space="preserve">
-        <value>Key vault Reference</value>
+        <value>Ссылка на хранилище ключей</value>
     </data>
   <data name="appConfigValue" xml:space="preserve">
-        <value>App Config</value>
+        <value>Конфигурация приложения</value>
     </data>
   <data name="appSettingKeyvaultAPIError" xml:space="preserve">
-        <value>Error: Could not access key vault reference metadata</value>
+        <value>Ошибка: не удалось получить доступ к метаданным ссылки на хранилище ключей</value>
     </data>
   <data name="containerSettingsNotConfigured" xml:space="preserve">
         <value>Щелкните здесь, чтобы настроить параметры контейнера.</value>
@@ -5283,43 +5280,85 @@
   <data name="linux" xml:space="preserve">
         <value>Linux</value>
     </data>
+  <data name="deploymentCredentialsTitle" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+  <data name="deploymentCredentialsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCredentialsLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+  <data name="deploymentCredentialsFtps" xml:space="preserve">
+        <value>FTP/FTPS</value>
+    </data>
   <data name="none" xml:space="preserve">
         <value>нет</value>
     </data>
   <data name="functionEditorSaveAriaLabel" xml:space="preserve">
-        <value>Save changes to your function.</value>
+        <value>Сохранить изменения в функции.</value>
     </data>
   <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
-        <value>Discard changes to your function.</value>
+        <value>Отменить изменения функции.</value>
     </data>
   <data name="functionEditorTestAriaLabel" xml:space="preserve">
-        <value>Open test panel to test run your function.</value>
+        <value>Откройте панель тестирования, чтобы проверить работу функции.</value>
     </data>
   <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
-        <value>Open popup to get function URL for your function.</value>
+        <value>Откройте всплывающее окно, чтобы получить URL-адрес функции.</value>
     </data>
   <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
         <value>Использовать клавиши со стрелками влево и вправо для навигации между командами.</value>
     </data>
+  <data name="localGitDescription" xml:space="preserve">
+        <value>Use Git to push changes directly to your app.</value>
+    </data>
+  <data name="ftpsDescription" xml:space="preserve">
+        <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+  <data name="gitCloneUrlLabel" xml:space="preserve">
+        <value>Git Clone URL</value>
+    </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
-        <value>GitHub Action Workflow Configuration</value>
+        <value>Конфигурация рабочего процесса действия GitHub</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Adding workflow configuration to GitHub Actions</value>
+        <value>Добавление конфигурации рабочего процесса в GitHub Actions</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+        <value>Определение рабочего процесса действия GitHub зафиксировано в ветви "{0}" репозитория "{1}".</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
-        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
-    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
-        <value>Select your function directory or files in your root directory.</value>
+        <value>Добавьте или измените конфигурацию рабочего процесса развертывания Службы приложений на портале Azure.</value>
     </data>
+  <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Выберите файлы или каталог функции в корневом каталоге.</value>
     </data>
   <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
-        <value>Select files in your function directory.</value>
+        <value>Выберите файлы в каталоге функций.</value>
+    </data>
+  <data name="noPlanWritePermissions" xml:space="preserve">
+        <value>This feature requires write permissions on the plan hosting your app</value>
     </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Закрыть модальное окно "Получить URL-адрес функции".</value>
+    </data>
+  <data name="scope" xml:space="preserve">
+        <value>Scope</value>
+    </data>
+  <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
+        <value>Virtual network trigger support</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+    </data>
+  <data name="refreshAppSettingsTitle" xml:space="preserve">
+        <value>Refresh App Settings</value>
+    </data>
+  <data name="refreshAppSettingsMessage" xml:space="preserve">
+        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
 </root>
