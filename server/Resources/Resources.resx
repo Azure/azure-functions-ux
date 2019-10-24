@@ -5385,4 +5385,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="iotHubPivot_Endpoint" xml:space="preserve">
         <value>Endpoint</value>
     </data>
+    <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>Events (built-in endpoint)</value>
+    </data>
+    <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>Operations monitoring</value>
+    </data>
+    <data name="customPivot_key" xml:space="preserve">
+        <value>Key</value>
+    </data>
+    <data name="customPivot_value" xml:space="preserve">
+        <value>Value</value>
+    </data>
 </root>

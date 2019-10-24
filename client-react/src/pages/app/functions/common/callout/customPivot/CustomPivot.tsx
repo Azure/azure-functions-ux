@@ -23,13 +23,13 @@ const CustomPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => 
         return (
           <form style={paddingSidesStyle}>
             <TextField
-              label={t('eventHubPicker_appSettingName')}
+              label={t('customPivot_key')}
               onChange={(o, e) => {
                 setFormValues({ ...formValues, key: e });
               }}
             />
             <TextField
-              label={t('eventHubPicker_appSettingValue')}
+              label={t('customPivot_value')}
               onChange={(o, e) => {
                 setFormValues({ ...formValues, value: e });
               }}

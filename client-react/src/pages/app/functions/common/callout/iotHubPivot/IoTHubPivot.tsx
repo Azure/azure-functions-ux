@@ -60,8 +60,8 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => 
     const serviceKey = keyList.value.find(key => key.rights.toLowerCase().indexOf('registry') > -1);
     if (serviceKey) {
       endpointOptions = [
-        { text: t('eventHubPicker_IOTEvents'), key: 'events', data: 'events' },
-        { text: t('eventHubPicker_IOTMonitoring'), key: 'monitoring', data: 'monitoring' },
+        { text: t('iotHubPivot_IOTEvents'), key: 'events', data: 'events' },
+        { text: t('iotHubPivot_IOTMonitoring'), key: 'monitoring', data: 'monitoring' },
       ];
     }
     if (!formValues.endpoint && endpointOptions.length > 0) {
@@ -95,19 +95,22 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => 
                 {!!keyList && !!endpointOptions && endpointOptions.length === 0 ? (
                   <p>{t('iotHubPivot_noEndpoints')}</p>
                 ) : (
-                  <Dropdown
-                    label={t('iotHubPivot_Endpoint')}
-                    options={endpointOptions}
-                    selectedKey={formValues.endpoint}
-                    onChange={(o, e) => {
-                      setFormValues({ ...formValues, endpoint: e && e.data });
-                    }}
-                  />
+                  <>
+                    <Dropdown
+                      label={t('iotHubPivot_Endpoint')}
+                      options={endpointOptions}
+                      selectedKey={formValues.endpoint}
+                      onChange={(o, e) => {
+                        setFormValues({ ...formValues, endpoint: e && e.data });
+                      }}
+                    />
+                    {!keyList && <LoadingComponent />}
+                  </>
                 )}
               </>
             )}
             <footer style={paddingTopStyle}>
-              <DefaultButton disabled={!keyList || !formValues.endpoint} onClick={formProps.submitForm}>
+              <DefaultButton disabled={!formValues.endpoint} onClick={formProps.submitForm}>
                 {t('ok')}
               </DefaultButton>
             </footer>

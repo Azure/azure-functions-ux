@@ -1737,4 +1737,8 @@ export class PortalResources {
   public static iotHubPivot_IoTHub = 'iotHubPivot_IoTHub';
   public static iotHubPivot_noEndpoints = 'iotHubPivot_noEndpoints';
   public static iotHubPivot_Endpoint = 'iotHubPivot_Endpoint';
+  public static iotHubPivot_IOTEvents = 'iotHubPivot_IOTEvents';
+  public static iotHubPivot_IOTMonitoring = 'iotHubPivot_IOTMonitoring';
+  public static customPivot_key = 'customPivot_key';
+  public static customPivot_value = 'customPivot_value';
 }
