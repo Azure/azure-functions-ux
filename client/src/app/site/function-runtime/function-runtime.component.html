@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </ng-container>
-            <div *ngIf="disableRuntimeSelector || disableSomeVersionSwaps" class="alert alert-warning">
+            <div *ngIf="disableRuntimeSelector || functionRutimeOptions[0].disabled" class="alert alert-warning">
                 <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
                 <div class="alert-message">
                     <span class="title-label">{{ 'appFunctionSettings_warning_6' | translate }}</span><br/>
@@ -161,6 +161,27 @@
             </div>
         </div>
     </div>
+    <div class="setting-wrapper" *ngIf="isElasticPremium">
+        <label id="runtimeScalingRadioLabel" class="title-label">{{ 'appFunctionSettings_virtualNetworkTriggerSupport' | translate }}</label>
+        <div class="features-wrapper">
+            <div>
+                <label class="title-spacing" [innerHtml]="functionsRuntimeScaleMonitoringLink"></label>
+                <div>
+                    <radio-selector
+                        [(ngModel)]="functionsRuntimeScaleMonitoring"
+                        [defaultValue]="functionsRuntimeScaleMonitoring"
+                        [options]="functionsRuntimeScaleMonitoringOptions"
+                        (value)="functionsRuntimeScaleMonitoringStream.next($event)"
+                        id="runtimeScalingRadioButton"
+                        aria-labelledby="runtimeScalingRadioLabel runtimeScalingRadioButton"
+                        [disabled]="(!functionsRuntimeScaleMonitoring && (reservedInstanceCount === 0 || !vnetEnabled))">
+                    </radio-selector>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <function-keys
         *ngIf="!isStopped"
         [autoSelect]="true"

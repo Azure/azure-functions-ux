@@ -41,3 +41,7 @@ export interface Deployment {
   log_url: string;
   site_name: string;
 }
+
+export interface CredentialsData {
+  resourceId: string;
+}

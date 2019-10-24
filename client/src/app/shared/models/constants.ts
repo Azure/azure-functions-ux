@@ -168,6 +168,7 @@ export class Links {
   public static powershellPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086831';
   public static appDensityWarningLink = 'https://go.microsoft.com/fwlink/?linkid=2098431';
   public static apimUpsellLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104075';
+  public static runtimeScaleMonitoringLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104710';
 }
 
 export class Kinds {
@@ -321,7 +322,9 @@ export class ScenarioIds {
   public static readonly enableKudu = 'EnableKudu';
   public static readonly enableCORS = 'EnableCORS';
   public static readonly enableQuotas = 'EnableQuotas';
+  public static readonly hasRoleAssignmentPermission = 'hasRoleAssignmentPermission';
   public static readonly containerSettings = 'containerSettings';
+  public static readonly isPublishProfileBasedDeploymentEnabled = 'isPublishProfileBasedDeploymentEnabled';
 }
 
 export class NationalCloudArmUris {
@@ -627,6 +630,7 @@ export class FeatureFlags {
   public static AllowFreeLinux = 'allowfreelinux';
   public static enableGitHubAction = 'enableGitHubAction';
   public static enableLinuxCors = 'enableLinuxCors';
+  public static enablePublishProfileBasedDeployment = 'enablePublishProfileBasedDeployment';
 }
 
 export class SupportedFeatures {
