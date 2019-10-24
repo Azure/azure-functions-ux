@@ -31,6 +31,7 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
+import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -167,7 +168,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchReferences = async () => {
-    if (!resourceId.includes('/slots/')) {
+    if (!isSlot()) {
       const appSettingReferences = await getAllAppSettingReferences(resourceId);
       setReferences({ appSettings: appSettingReferences.metadata.success ? getCleanedReferences(appSettingReferences.data) : null });
     }
@@ -177,6 +178,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     fetchData();
     fillSlots();
     fetchReferences();
+  };
+
+  const isSlot = () => {
+    const siteDescriptor = new ArmSiteDescriptor(resourceId);
+    return siteDescriptor.slot;
   };
 
   useEffect(() => {
