@@ -2354,7 +2354,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Manage application settings</value>
     </data>
     <data name="eventHubPicker_IOTHub" xml:space="preserve">
-        <value>IoT hub</value>
+        <value>IoT Hub</value>
     </data>
     <data name="eventHubPicker_appSettingName" xml:space="preserve">
         <value>Key</value>
@@ -5233,28 +5233,28 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Unable to retrieve authentication state. Please try again in a few minutes.</value>
     </data>
     <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Refresh all keys for the function</value>
+        <value>Refresh all keys for the function</value>
     </data>
     <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
-      <value>Use left and right arrow keys to navigate between commands</value>
+        <value>Use left and right arrow keys to navigate between commands</value>
     </data>
     <data name="newFunctionKey" xml:space="preserve">
-      <value>New function key</value>
+        <value>New function key</value>
     </data>
     <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Filter functions keys</value>
+        <value>Filter functions keys</value>
     </data>
     <data name="editFunctionKey" xml:space="preserve">
-      <value>Edit key</value>
+        <value>Edit key</value>
     </data>
     <data name="addFunctionKey" xml:space="preserve">
-      <value>Add key</value>
+        <value>Add key</value>
     </data>
     <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} is a required property on all function keys</value>
+        <value>{0} is a required property on all function keys</value>
     </data>
     <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Function key names must be unique</value>
+        <value>Function key names must be unique</value>
     </data>
     <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>GitHub Actions (Preview)</value>
@@ -5363,5 +5363,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="refreshAppSettingsMessage" xml:space="preserve">
         <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+    </data>
+    <data name="eventHubPicker_noNamespaces" xml:space="preserve">
+        <value>There are no namespaces in this subscription</value>
+    </data>
+    <data name="eventHubPicker_noEventHubs" xml:space="preserve">
+        <value>There are no Event Hubs in this namespace</value>
+    </data>
+    <data name="eventHubPicker_noPolicies" xml:space="preserve">
+        <value>There are no policies in this namespace and Event Hub</value>
     </data>
 </root>

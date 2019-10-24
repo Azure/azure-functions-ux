@@ -1730,4 +1730,7 @@ export class PortalResources {
   public static appFunctionSettings_runtimeScalingMonitoredText = 'appFunctionSettings_runtimeScalingMonitoredText';
   public static refreshAppSettingsTitle = 'refreshAppSettingsTitle';
   public static refreshAppSettingsMessage = 'refreshAppSettingsMessage';
+  public static eventHubPicker_noNamespaces = 'eventHubPicker_noNamespaces';
+  public static eventHubPicker_noEventHubs = 'eventHubPicker_noEventHubs';
+  public static eventHubPicker_noPolicies = 'eventHubPicker_noPolicies';
 }
