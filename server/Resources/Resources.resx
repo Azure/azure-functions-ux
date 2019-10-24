@@ -5373,4 +5373,28 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="eventHubPicker_noPolicies" xml:space="preserve">
         <value>There are no policies in this namespace and Event Hub</value>
     </data>
+    <data name="iotHubPivot_noIoTHubs" xml:space="preserve">
+        <value>There are no IoT Hubs in this subscription</value>
+    </data>
+    <data name="iotHubPivot_IoTHub" xml:space="preserve">
+        <value>IoT Hub</value>
+    </data>
+    <data name="iotHubPivot_noEndpoints" xml:space="preserve">
+        <value>There are no endpoints available for this IoT Hub</value>
+    </data>
+    <data name="iotHubPivot_Endpoint" xml:space="preserve">
+        <value>Endpoint</value>
+    </data>
+    <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>Events (built-in endpoint)</value>
+    </data>
+    <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>Operations monitoring</value>
+    </data>
+    <data name="customPivot_key" xml:space="preserve">
+        <value>Key</value>
+    </data>
+    <data name="customPivot_value" xml:space="preserve">
+        <value>Value</value>
+    </data>
 </root>

@@ -115,57 +115,63 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props =
     <Formik
       initialValues={formValues}
       onSubmit={() =>
-        createEventHubConnection(
-          formValues.namespace,
-          keyList,
-          props.setNewAppSettingName,
-          props.setIsDialogVisible,
-          props.form,
-          props.field
-        )
+        setEventHubConnection(formValues.namespace, keyList, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)
       }>
       {(formProps: FormikProps<EventHubPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
-            {!!namespaces && namespaces.length === 0 && <p>{t('eventHubPicker_noNamespaces')}</p>}
-            <Dropdown
-              label={t('eventHubPicker_namespace')}
-              options={namespaceOptions}
-              selectedKey={formValues.namespace && formValues.namespace.id}
-              onChange={(o, e) => {
-                setFormValues({ namespace: e && e.data, eventHub: undefined, policy: undefined });
-                setEventHubs(undefined);
-                setNamespaceAuthRules(undefined);
-                setKeyList(undefined);
-              }}
-            />
-            {!eventHubs && <LoadingComponent />}
-            {!!eventHubs && eventHubs.length === 0 && <p>{t('eventHubPicker_noEventHubs')}</p>}
-            <Dropdown
-              label={t('eventHubPicker_eventHub')}
-              options={eventHubOptions}
-              selectedKey={formValues.eventHub && formValues.eventHub.id}
-              onChange={(o, e) => {
-                setFormValues({ ...formValues, eventHub: e && e.data, policy: undefined });
-                setEventHubAuthRules(undefined);
-                setKeyList(undefined);
-              }}
-            />
-            {(!namespaceAuthRules || !eventHubAuthRules) && <LoadingComponent />}
-            {!!namespaceAuthRules && namespaceAuthRules.length === 0 && (!!eventHubAuthRules && eventHubAuthRules.length === 0) && (
-              <p>{t('eventHubPicker_noPolicies')}</p>
+            {!!namespaces && namespaces.length === 0 ? (
+              <p>{t('eventHubPicker_noNamespaces')}</p>
+            ) : (
+              <>
+                <Dropdown
+                  label={t('eventHubPicker_namespace')}
+                  options={namespaceOptions}
+                  selectedKey={formValues.namespace && formValues.namespace.id}
+                  onChange={(o, e) => {
+                    setFormValues({ namespace: e && e.data, eventHub: undefined, policy: undefined });
+                    setEventHubs(undefined);
+                    setNamespaceAuthRules(undefined);
+                    setKeyList(undefined);
+                  }}
+                />
+                {!eventHubs && <LoadingComponent />}
+                {!!eventHubs && eventHubs.length === 0 ? (
+                  <p>{t('eventHubPicker_noEventHubs')}</p>
+                ) : (
+                  <>
+                    <Dropdown
+                      label={t('eventHubPicker_eventHub')}
+                      options={eventHubOptions}
+                      selectedKey={formValues.eventHub && formValues.eventHub.id}
+                      onChange={(o, e) => {
+                        setFormValues({ ...formValues, eventHub: e && e.data, policy: undefined });
+                        setEventHubAuthRules(undefined);
+                        setKeyList(undefined);
+                      }}
+                    />
+                    {(!namespaceAuthRules || !eventHubAuthRules) && <LoadingComponent />}
+                    {!!namespaceAuthRules && namespaceAuthRules.length === 0 && (!!eventHubAuthRules && eventHubAuthRules.length === 0) ? (
+                      <p>{t('eventHubPicker_noPolicies')}</p>
+                    ) : (
+                      <>
+                        <Dropdown
+                          label={t('eventHubPicker_policy')}
+                          options={policyOptions}
+                          selectedKey={formValues.policy && formValues.policy.id}
+                          onChange={(o, e) => {
+                            setFormValues({ ...formValues, policy: e && e.data });
+                            setKeyList(undefined);
+                          }}
+                        />
+                        {!keyList && <LoadingComponent />}
+                      </>
+                    )}
+                  </>
+                )}
+              </>
             )}
-            <Dropdown
-              label={t('eventHubPicker_policy')}
-              options={policyOptions}
-              selectedKey={formValues.policy && formValues.policy.id}
-              onChange={(o, e) => {
-                setFormValues({ ...formValues, policy: e && e.data });
-                setKeyList(undefined);
-              }}
-            />
             <footer style={paddingTopStyle}>
-              {!keyList && <LoadingComponent />}
               <DefaultButton disabled={!keyList} onClick={formProps.submitForm}>
                 {t('ok')}
               </DefaultButton>
@@ -177,7 +183,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props =
   );
 };
 
-const createEventHubConnection = (
+const setEventHubConnection = (
   selectedNamespace: ArmObj<Namespace> | undefined,
   keyList: KeyList | undefined,
   setNewAppSettingName: (e: string) => void,

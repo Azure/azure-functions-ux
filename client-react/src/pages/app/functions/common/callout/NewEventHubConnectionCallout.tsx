@@ -6,6 +6,8 @@ import CustomTabRenderer from '../../../app-settings/Sections/CustomTabRenderer'
 import { ThemeContext } from '../../../../../ThemeContext';
 import { useTranslation } from 'react-i18next';
 import EventHubPivotDataLoader from './eventHubPivot/EventHubPivotDataLoader';
+import IoTHubPivotDataLoader from './iotHubPivot/IoTHubPivotDataLoader';
+import CustomPivot from './customPivot/CustomPivot';
 
 export enum PivotState {
   eventHub = 'eventHub',
@@ -32,15 +34,17 @@ const NewEventHubConnectionCalloutProps: React.SFC<NewConnectionCalloutProps & F
           CustomTabRenderer(link, defaultRenderer, theme)
         }
         itemKey={PivotState.iotHub}
-        headerText={t('eventHubPicker_IOTHub')}
-      />
+        headerText={t('eventHubPicker_IOTHub')}>
+        <IoTHubPivotDataLoader {...props} />
+      </PivotItem>
       <PivotItem
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
           CustomTabRenderer(link, defaultRenderer, theme)
         }
         itemKey={PivotState.custom}
-        headerText={t('eventHubPicker_custom')}
-      />
+        headerText={t('eventHubPicker_custom')}>
+        <CustomPivot {...props} />
+      </PivotItem>
     </Pivot>
   );
 };
