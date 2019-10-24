@@ -73,7 +73,7 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => 
     <Formik
       initialValues={formValues}
       onSubmit={() =>
-        createIoTHubConnection(formValues, keyList, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)
+        setIoTHubConnection(formValues, keyList, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)
       }>
       {(formProps: FormikProps<IoTHubPivotFormValues>) => {
         return (
@@ -95,17 +95,14 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => 
                 {!!keyList && !!endpointOptions && endpointOptions.length === 0 ? (
                   <p>{t('iotHubPivot_noEndpoints')}</p>
                 ) : (
-                  <>
-                    <Dropdown
-                      label={t('iotHubPivot_Endpoint')}
-                      options={endpointOptions}
-                      selectedKey={formValues.endpoint}
-                      onChange={(o, e) => {
-                        setFormValues({ ...formValues, endpoint: e && e.data });
-                      }}
-                    />
-                    {!keyList && <LoadingComponent />}
-                  </>
+                  <Dropdown
+                    label={t('iotHubPivot_Endpoint')}
+                    options={endpointOptions}
+                    selectedKey={formValues.endpoint}
+                    onChange={(o, e) => {
+                      setFormValues({ ...formValues, endpoint: e && e.data });
+                    }}
+                  />
                 )}
               </>
             )}
@@ -121,7 +118,7 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => 
   );
 };
 
-const createIoTHubConnection = (
+const setIoTHubConnection = (
   formValues: IoTHubPivotFormValues,
   keyList: KeyList | undefined,
   setNewAppSettingName: (e: string) => void,

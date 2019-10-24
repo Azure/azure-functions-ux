@@ -18,7 +18,7 @@ const CustomPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => 
   return (
     <Formik
       initialValues={formValues}
-      onSubmit={() => createCustomConnection(formValues, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)}>
+      onSubmit={() => setCustomConnection(formValues, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)}>
       {(formProps: FormikProps<CustomPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
@@ -46,7 +46,7 @@ const CustomPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => 
   );
 };
 
-const createCustomConnection = (
+const setCustomConnection = (
   formValues: CustomPivotFormValues,
   setNewAppSettingName: (e: string) => void,
   setIsDialogVisible: (d: boolean) => void,

@@ -115,14 +115,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props =
     <Formik
       initialValues={formValues}
       onSubmit={() =>
-        createEventHubConnection(
-          formValues.namespace,
-          keyList,
-          props.setNewAppSettingName,
-          props.setIsDialogVisible,
-          props.form,
-          props.field
-        )
+        setEventHubConnection(formValues.namespace, keyList, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)
       }>
       {(formProps: FormikProps<EventHubPivotFormValues>) => {
         return (
@@ -190,7 +183,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props =
   );
 };
 
-const createEventHubConnection = (
+const setEventHubConnection = (
   selectedNamespace: ArmObj<Namespace> | undefined,
   keyList: KeyList | undefined,
   setNewAppSettingName: (e: string) => void,
