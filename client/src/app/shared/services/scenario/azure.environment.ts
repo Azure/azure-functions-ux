@@ -10,8 +10,6 @@ import { PortalResources } from './../../../shared/models/portal-resources';
 import { AuthzService } from '../authz.service';
 import { Url } from 'app/shared/Utilities/url';
 
-const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
-
 export class AzureEnvironment extends Environment {
   name = 'Azure';
   private _applicationInsightsService: ApplicationInsightsService;
@@ -255,6 +253,7 @@ export class AzureEnvironment extends Environment {
 
   private _vstsPermissionsCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
     let requestedActions: string[] = [];
+    const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
     if (IsPublishProfileBasedDeploymentEnabled && input.site.kind.toLowerCase() === Kinds.app) {
       requestedActions = [AuthzService.websiteContributorScope];
     } else {

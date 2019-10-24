@@ -8,8 +8,6 @@ import { PortalResources } from 'app/shared/models/portal-resources';
 import { Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
-
 export class WindowsCodeEnvironment extends Environment {
   name = 'WindowsCode';
   private _translateService: TranslateService;
@@ -30,6 +28,7 @@ export class WindowsCodeEnvironment extends Environment {
       runCheck: () => disabledResult,
     };
 
+    const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
     this.scenarioChecks[ScenarioIds.isPublishProfileBasedDeploymentEnabled] = {
       id: ScenarioIds.isPublishProfileBasedDeploymentEnabled,
       runCheck: () =>
