@@ -75,6 +75,11 @@ export type sourceControlProvider =
 
 export interface ProvisioningConfigurationBase {
   /**
+   * Gets or sets the unique identifier of the provisioning configuration.
+   */
+  id: string;
+
+  /**
    * Gets or sets the CI/CD configuration details.
    */
   ciConfiguration: CiConfiguration;
@@ -82,10 +87,6 @@ export interface ProvisioningConfigurationBase {
 
 export interface ProvisioningConfiguration extends ProvisioningConfigurationBase {
   authToken: string;
-  /**
-   * Gets or sets the unique identifier of the provisioning configuration.
-   */
-  id: string;
   /**
    * Gets or sets the deployment source.
    */
