@@ -211,6 +211,7 @@ export class AzureDevOpsService implements OnDestroy {
         ),
         ciConfiguration: this._ciConfig(wizardValues.buildSettings.vstsProject),
         repository: this._repoInfo(wizardValues),
+        id: null,
       } as ProvisioningConfigurationV2;
     } else {
       deploymentObject = {
