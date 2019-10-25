@@ -248,7 +248,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyVirtualDirectories')}
       />
-      <Panel isOpen={showPanel} onDismiss={onCancelPanel} headerText={t('newApp')} closeButtonAriaLabel={t('close')}>
+      <Panel isOpen={showPanel} onDismiss={onCancelPanel} headerText={t('newApp')}>
         <VirtualApplicationsAddEdit
           virtualApplication={currentVirtualApplication!}
           otherVirtualApplications={values.virtualApplications}
