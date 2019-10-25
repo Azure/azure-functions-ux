@@ -20,7 +20,7 @@ interface ReactiveFormControlProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
-  label: string;
+  label?: string;
   learnMoreLink?: string;
   dirty?: boolean;
 }
