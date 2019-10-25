@@ -10,6 +10,7 @@ import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConne
 import { ArmObj } from '../../../../models/arm-obj';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
+import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import LoadingComponent from '../../../../components/loading/loading-component';
 
 export interface ResourceDropdownProps {
@@ -81,6 +82,14 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
           )}
           {setting.resource === BindingSettingResource.EventHub && (
             <NewEventHubConnectionCallout
+              resourceId={resourceId}
+              setNewAppSettingName={setNewAppSettingName}
+              setIsDialogVisible={setIsDialogVisible}
+              {...props}
+            />
+          )}
+          {setting.resource === BindingSettingResource.ServiceBus && (
+            <NewServiceBusConnectionCallout
               resourceId={resourceId}
               setNewAppSettingName={setNewAppSettingName}
               setIsDialogVisible={setIsDialogVisible}
