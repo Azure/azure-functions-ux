@@ -4,8 +4,9 @@ import {
   FormAppSetting,
   FormConnectionString,
   FormAzureStorageMounts,
-  FunctionRuntimeVersions,
-  RuntimeCustomEdit,
+  FunctionsRuntimeMajorVersions,
+  FunctionsRuntimeVersionInfo,
+  FunctionsRuntimeGenerations,
 } from './AppSettings.types';
 import { sortBy } from 'lodash-es';
 import { ArmObj } from '../../../models/arm-obj';
@@ -14,24 +15,70 @@ import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, K
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 import { HostStatus } from '../../../models/functions/host-status';
+import { CommonConstants } from '../../../utils/CommonConstants';
 
-export const isMajorVersion = (version: string | null) => {
-  return version === FunctionRuntimeVersions.v1 || version === FunctionRuntimeVersions.v2 || version === FunctionRuntimeVersions.v3;
+export const getFunctionsRuntimeMajorVersion = (version: string | null) => {
+  switch (version) {
+    case FunctionsRuntimeMajorVersions.v1:
+      return FunctionsRuntimeMajorVersions.v1;
+    case FunctionsRuntimeMajorVersions.v2:
+      return FunctionsRuntimeMajorVersions.v2;
+    case FunctionsRuntimeMajorVersions.v3:
+      return FunctionsRuntimeMajorVersions.v3;
+    default:
+      return FunctionsRuntimeMajorVersions.custom;
+  }
 };
 
-export const getRuntimeCustomEdit = (appSettings: FormAppSetting[], runtimeCustomEdit?: RuntimeCustomEdit) => {
-  const index = !appSettings ? -1 : appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
-  const version = index === -1 ? '' : appSettings[index].value;
-
-  if (!isMajorVersion(version)) {
-    return { active: true, latestValue: version };
+export const getFunctionsRuntimeGeneration = (version: string | null) => {
+  if (!version) {
+    return FunctionsRuntimeGenerations.v3;
+  }
+  if (version.startsWith('~1') || version.startsWith('1.')) {
+    return FunctionsRuntimeGenerations.v2;
+  }
+  if (version.startsWith('~2') || version.startsWith('2') || version.startsWith('beta')) {
+    return FunctionsRuntimeGenerations.v2;
+  }
+  if (version.startsWith('~3') || version.startsWith('3')) {
+    return FunctionsRuntimeGenerations.v3;
   }
 
-  if (runtimeCustomEdit && runtimeCustomEdit.active && runtimeCustomEdit.latestValue === version) {
-    return { ...runtimeCustomEdit };
+  return FunctionsRuntimeGenerations.v3;
+};
+
+export const getFunctionsRuntimeVersionInfo = (
+  appSettings: FormAppSetting[],
+  functionsRuntimeVersionInfo?: FunctionsRuntimeVersionInfo
+): FunctionsRuntimeVersionInfo => {
+  const appSetting = findFormAppSetting(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
+  const appSettingValue = !appSetting ? '' : appSetting.value;
+
+  const majorVersion = getFunctionsRuntimeMajorVersion(appSettingValue);
+  // const generation = getFunctionsRuntimeGeneration(appSettingValue);
+
+  if (majorVersion === FunctionsRuntimeMajorVersions.custom) {
+    return { isCustom: true, latestCustomValue: appSettingValue };
   }
 
-  return { active: false, latestValue: runtimeCustomEdit ? runtimeCustomEdit.latestValue : '' };
+  if (
+    functionsRuntimeVersionInfo &&
+    functionsRuntimeVersionInfo.isCustom &&
+    functionsRuntimeVersionInfo.latestCustomValue === appSettingValue
+  ) {
+    return { ...functionsRuntimeVersionInfo };
+  }
+
+  return { isCustom: false, latestCustomValue: functionsRuntimeVersionInfo ? functionsRuntimeVersionInfo.latestCustomValue : '' };
+};
+
+export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
+  return !appSettings || !settingName ? -1 : appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase());
+};
+
+export const findFormAppSetting = (appSettings: FormAppSetting[], settingName: string) => {
+  const index = findFormAppSettingIndex(appSettings, settingName);
+  return index >= 0 ? appSettings[index] : null;
 };
 
 interface StateToFormParams {
@@ -57,7 +104,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config, metadata),
     azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
-    runtimeCustomEdit: getRuntimeCustomEdit(formAppSetting),
+    functionsRuntimeVersionInfo: getFunctionsRuntimeVersionInfo(formAppSetting),
   };
 };
 

@@ -1,7 +1,7 @@
 import { FormikProps, Field } from 'formik';
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { AppSettingsFormValues, FormAppSetting, FunctionRuntimeVersions, RuntimeCustomEdit } from '../AppSettings.types';
+import { AppSettingsFormValues, FormAppSetting, FunctionsRuntimeMajorVersions, FunctionsRuntimeVersionInfo } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
 import { isLinuxApp } from '../../../../utils/arm-utils';
@@ -11,139 +11,49 @@ import { IChoiceGroupOption, Stack, Icon, Link } from 'office-ui-fabric-react';
 import { isEqual } from 'lodash-es';
 import { settingsWrapper } from '../AppSettingsForm';
 import { style } from 'typestyle';
-import { isMajorVersion } from '../AppSettingsFormData';
+import { getFunctionsRuntimeMajorVersion, findFormAppSetting, findFormAppSettingIndex } from '../AppSettingsFormData';
 import { infoIconStyle, learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { Links } from '../../../../utils/FwLinks';
 import { ThemeContext } from '../../../../ThemeContext';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
-// ROUTING_EXTENSION_VERSION
-// disabled
-
-const getSettingValue = (settingName: string, appSettings: FormAppSetting[]) => {
-  if (!settingName || !appSettings) {
-    return null;
-  }
-  const index = appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase());
-  return index === -1 ? null : appSettings[index].value;
+const getRuntimeVersion = (appSettings: FormAppSetting[]) => {
+  const appSetting = findFormAppSetting(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
+  return appSetting && appSetting.value;
 };
 
 const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { t, values, initialValues, setFieldValue } = props;
+  const [focusTextField, setFocusTextField] = useState(false);
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const theme = useContext(ThemeContext);
   let fieldRef: any;
 
-  const options: IChoiceGroupOption[] = [
-    {
-      key: FunctionRuntimeVersions.v1,
-      text: t('~1'),
-    },
-    {
-      key: FunctionRuntimeVersions.v2,
-      text: t('~2'),
-    },
-    {
-      key: FunctionRuntimeVersions.v3,
-      text: t('~3'),
-    },
-    {
-      key: FunctionRuntimeVersions.custom,
-      text: t('custom'),
-      onRenderField: (fieldProps, render) => {
-        return (
-          <>
-            {render!(fieldProps)}
-            {(values.runtimeCustomEdit.active || true) && (
-              <div className={style({ display: 'inline-block', marginLeft: '5px', verticalAlign: 'baseline' })}>
-                <Field
-                  dirty={customRuntimeVersionDirty()}
-                  component={TextFieldNoLabel}
-                  id="function-app-settings-runtime-version-custom"
-                  disabled={!app_write || !editable || saving || !values.runtimeCustomEdit.active}
-                  onChange={(e, newVal) => {
-                    if (values.runtimeCustomEdit.active) {
-                      onTextFieldChange(newVal);
-                    }
-                  }}
-                  value={values.runtimeCustomEdit.latestValue}
-                  style={{ marginLeft: '1px', marginTop: '1px', width: '250px' }}
-                  placeholder={'e.g. 1.0.12615.0, 2.0.12742.0, latest'}
-                  componentRef={instance => {
-                    fieldRef = instance;
-                  }}
-                />
-              </div>
-            )}
-          </>
-        );
-      },
-    },
-  ];
-
-  const setRuntimeCustomEdit = (runtimeCustomEdit: RuntimeCustomEdit) => {
-    if (!isEqual(runtimeCustomEdit, values.runtimeCustomEdit)) {
-      setFieldValue('runtimeCustomEdit', runtimeCustomEdit);
+  useEffect(() => {
+    if (focusTextField) {
+      if (fieldRef) {
+        fieldRef.focus();
+      }
+      setFocusTextField(false);
     }
-  };
+  }, [focusTextField]);
 
-  const getRuntimeVersion = () => {
-    return getSettingValue('FUNCTIONS_EXTENSION_VERSION', values.appSettings);
-  };
+  const exactRuntimeVersion = !!values.hostStatus ? values.hostStatus.properties.version : null;
 
-  const getInitialRuntimeVersion = () => {
-    return getSettingValue('FUNCTIONS_EXTENSION_VERSION', initialValues.appSettings);
-  };
+  const runtimeVersion = getRuntimeVersion(values.appSettings);
+  const initialRuntimeVersion = getRuntimeVersion(initialValues.appSettings);
 
-  const getRuntimeVersionOption = () => {
-    if (values.runtimeCustomEdit.active) {
-      return FunctionRuntimeVersions.custom;
-    }
+  const selectedVersionOption = values.functionsRuntimeVersionInfo.isCustom ? FunctionsRuntimeMajorVersions.custom : runtimeVersion!;
 
-    return getRuntimeVersion()!;
-  };
+  const customVersionErrorMessage =
+    values.functionsRuntimeVersionInfo.isCustom &&
+    getFunctionsRuntimeMajorVersion(values.functionsRuntimeVersionInfo.latestCustomValue) !== FunctionsRuntimeMajorVersions.custom
+      ? `Select the '${values.functionsRuntimeVersionInfo.latestCustomValue}' option above.`
+      : '';
 
-  // const runtimeVersionDirty = () => {
-  //   if (!values.runtimeCustomEdit.active !== !initialValues.runtimeCustomEdit.active) {
-  //     return true;
-  //   }
-
-  //   if (values.runtimeCustomEdit.active) {
-  //     return false;
-  //   }
-
-  //   const initialValue = getInitialRuntimeVersion();
-  //   const value = getRuntimeVersion();
-  //   return !(value === null && initialValue === null) && value !== initialValue;
-  // };
-
-  const runtimeVersionDirty = () => {
-    const initialValue = getInitialRuntimeVersion();
-    const value = getRuntimeVersion();
-    return !isEqual(value, initialValue);
-  };
-
-  const customRuntimeVersionDirty = () => {
-    const initialValue = getInitialRuntimeVersion();
-    const value = getRuntimeVersion();
-
-    return !(value === null && initialValue === null) && value !== initialValue;
-  };
-
-  const getExactRuntimeVersion = () => {
-    return !!values.hostStatus ? values.hostStatus.properties.version : null;
-  };
-
-  const initialRuntimeVersion = getInitialRuntimeVersion();
-  const exactRuntimeVersion = getExactRuntimeVersion();
-  const runtimeVersion = getRuntimeVersion();
   // const needUpdateExtensionVersion = false;
   // const badRuntimeVersion = false;
   // const disableRuntimeSelector = false;
-
-  // const showProxyEnable = false;
-
-  // const functionAppEditMode = '';
-  // const functionAppEditModeComputed = '';
 
   // runtimeVersion (app setting value)
   // value
@@ -167,45 +77,116 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
   //   setExactRuntimeVersion(getExactRuntimeVersion());
   // }, [initialValues.appSettings]);
 
-  const onRadioButtonChange = (version: string) => {
+  // const needToUpdateRuntime = (version: string | null) => {
+  //   const runtimeStable = ['~1', 'beta', '~2', 'latest', '~3'];
+
+  //   const match =
+  //     !!version &&
+  //     runtimeStable.find(v => {
+  //       return version.toLowerCase() === v;
+  //     });
+  //   return !match;
+  // };
+
+  // const getLatestVersion = (version: string | null) => {
+  //   const runtimeStable = ['~1', 'beta', '~2', 'latest', '~3'];
+  //   const match =
+  //     !!version &&
+  //     runtimeStable.find(v => {
+  //       return version.toLowerCase() === v;
+  //     });
+
+  //   if (match) {
+  //     return match;
+  //   }
+
+  //   if (!!version) {
+  //     if (version.startsWith('1.')) {
+  //       return FunctionsRuntimeMajorVersions.v1;
+  //     }
+  //     if (version.startsWith('2.')) {
+  //       return FunctionsRuntimeMajorVersions.v2;
+  //     }
+  //     if (version.startsWith('3.')) {
+  //       return FunctionsRuntimeMajorVersions.v3;
+  //     }
+  //   }
+
+  //   return FunctionsRuntimeMajorVersions.v3;
+  // };
+
+  // const setNeedUpdateExtensionVersion = () => {
+  //   const needUpdateExtensionVersion = needToUpdateRuntime(initialRuntimeVersion);
+  //   const latestExtensionVersion = getLatestVersion(initialRuntimeVersion);
+  // };
+
+  const isValidRuntimeVersion = () => {
+    const runtimeStable = ['~1', 'beta', '~2', 'latest', '~3'];
+
+    if (!initialRuntimeVersion) {
+      return false;
+    }
+
+    if (initialRuntimeVersion === exactRuntimeVersion) {
+      return true;
+    }
+
+    if (!!exactRuntimeVersion && initialRuntimeVersion === exactRuntimeVersion.replace(/.0$/, '-alpha')) {
+      return true;
+    }
+
+    return !!runtimeStable.find(v => {
+      return initialRuntimeVersion.toLowerCase() === v;
+    });
+  };
+
+  const onSelectCustomVersion = () => {
     const appSettings: FormAppSetting[] = [...values.appSettings];
-    const index = appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
-    if (version === FunctionRuntimeVersions.custom) {
-      setRuntimeCustomEdit({ ...values.runtimeCustomEdit, active: true });
-      const value = index === -1 ? '' : appSettings[index].value;
-      if (value && isMajorVersion(value)) {
-        if (!values.runtimeCustomEdit.latestValue) {
-          appSettings.splice(index, 1);
-        } else {
-          appSettings[index] = { ...appSettings[index], value: values.runtimeCustomEdit.latestValue };
-        }
-        setFieldValue('appSettings', appSettings);
-      }
-      if (fieldRef) {
-        fieldRef.focus();
-      }
+    const index = findFormAppSettingIndex(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
+    // const value = index !== -1 ? '' : appSettings[index].value;
+    // if (value && getFunctionsRuntimeMajorVersion(value) === FunctionsRuntimeMajorVersions.custom) {
+    if (!values.functionsRuntimeVersionInfo.latestCustomValue) {
+      appSettings.splice(index, 1);
     } else {
-      setRuntimeCustomEdit({ ...values.runtimeCustomEdit, active: false });
-      if (index === -1) {
-        appSettings.push({
-          name: 'FUNCTIONS_EXTENSION_VERSION',
-          value: version,
-          sticky: false,
-        });
-      } else {
-        appSettings[index] = { ...appSettings[index], value: version };
-      }
-      setFieldValue('appSettings', appSettings);
+      appSettings[index] = { ...appSettings[index], value: values.functionsRuntimeVersionInfo.latestCustomValue };
+    }
+    setFieldValue('appSettings', appSettings);
+    // }
+    setRuntimeCustomEdit({ ...values.functionsRuntimeVersionInfo, isCustom: true });
+    setFocusTextField(true);
+  };
+
+  const onSelectNonCustomVersion = (version: string) => {
+    const appSettings: FormAppSetting[] = [...values.appSettings];
+    const index = findFormAppSettingIndex(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
+    if (index === -1) {
+      appSettings.push({
+        name: CommonConstants.AppSettingNames.functionsExtensionVersion,
+        value: version,
+        sticky: false,
+      });
+    } else {
+      appSettings[index] = { ...appSettings[index], value: version };
+    }
+    setRuntimeCustomEdit({ ...values.functionsRuntimeVersionInfo, isCustom: false });
+    setFieldValue('appSettings', appSettings);
+  };
+
+  const onRadioButtonChange = (version: string) => {
+    if (version === FunctionsRuntimeMajorVersions.custom) {
+      onSelectCustomVersion();
+    } else {
+      onSelectNonCustomVersion(version);
     }
   };
 
   const onTextFieldChange = (version: string) => {
     const appSettings: FormAppSetting[] = [...values.appSettings];
-    const index = appSettings.findIndex(x => x.name.toLowerCase() === 'FUNCTIONS_EXTENSION_VERSION'.toLowerCase());
+    const index = findFormAppSettingIndex(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
     if (index === -1) {
       if (version) {
         appSettings.push({
-          name: 'FUNCTIONS_EXTENSION_VERSION',
+          name: CommonConstants.AppSettingNames.functionsExtensionVersion,
           value: version,
           sticky: false,
         });
@@ -215,31 +196,67 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
     } else {
       appSettings.splice(index, 1);
     }
-    setRuntimeCustomEdit({ ...values.runtimeCustomEdit, latestValue: version });
+    setRuntimeCustomEdit({ ...values.functionsRuntimeVersionInfo, latestCustomValue: version });
     setFieldValue('appSettings', appSettings);
   };
 
-  const isValidRuntimeVersion = () => {
-    const runtimeStable = ['~1', 'beta', '~2', 'latest', '~3'];
+  const onRenderCustomVersionField = (
+    fieldProps: IChoiceGroupOption | undefined,
+    render: (props: IChoiceGroupOption | undefined) => JSX.Element | null
+  ) => {
+    return (
+      <>
+        {render!(fieldProps)}
+        {(values.functionsRuntimeVersionInfo.isCustom || true) && (
+          <div className={style({ display: 'inline-block', marginLeft: '5px', verticalAlign: 'baseline' })}>
+            <Field
+              dirty={!isEqual(runtimeVersion, initialRuntimeVersion)}
+              component={TextFieldNoLabel}
+              id="function-app-settings-runtime-version-custom"
+              errorMessage={customVersionErrorMessage}
+              disabled={!app_write || !editable || saving || !values.functionsRuntimeVersionInfo.isCustom}
+              onChange={(e, newVal) => {
+                if (values.functionsRuntimeVersionInfo.isCustom) {
+                  onTextFieldChange(newVal);
+                }
+              }}
+              value={values.functionsRuntimeVersionInfo.latestCustomValue}
+              style={{ marginLeft: '1px', marginTop: '1px', width: '250px' }}
+              placeholder={'e.g. 1.0.12615.0, 2.0.12742.0, latest'}
+              componentRef={instance => {
+                fieldRef = instance;
+              }}
+            />
+          </div>
+        )}
+      </>
+    );
+  };
 
-    // const runtimeVersion = getRuntimeVersion();
-    // const exactRuntimeVersion = getExactRuntimeVersion();
+  const options: IChoiceGroupOption[] = [
+    {
+      key: FunctionsRuntimeMajorVersions.v1,
+      text: t('~1'),
+    },
+    {
+      key: FunctionsRuntimeMajorVersions.v2,
+      text: t('~2'),
+    },
+    {
+      key: FunctionsRuntimeMajorVersions.v3,
+      text: t('~3'),
+    },
+    {
+      key: FunctionsRuntimeMajorVersions.custom,
+      text: t('custom'),
+      onRenderField: onRenderCustomVersionField,
+    },
+  ];
 
-    if (!runtimeVersion) {
-      return false;
+  const setRuntimeCustomEdit = (functionsRuntimeVersionInfo: FunctionsRuntimeVersionInfo) => {
+    if (!isEqual(functionsRuntimeVersionInfo, values.functionsRuntimeVersionInfo)) {
+      setFieldValue('functionsRuntimeVersionInfo', functionsRuntimeVersionInfo);
     }
-
-    if (runtimeVersion === exactRuntimeVersion) {
-      return true;
-    }
-
-    if (!!exactRuntimeVersion && runtimeVersion === exactRuntimeVersion.replace(/.0$/, '-alpha')) {
-      return true;
-    }
-
-    return !!runtimeStable.find(v => {
-      return runtimeVersion.toLowerCase() === v;
-    });
   };
 
   if (!values.appSettings) {
@@ -248,13 +265,10 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
 
   return (
     <>
-      {false && <div>Initial Runtime Version: {initialRuntimeVersion}</div>}
-      {false && <div>Exact Runtime Version: {exactRuntimeVersion}</div>}
-      {false && <div>Runtime Version: {runtimeVersion}</div>}
-      {false && <br />}
-      {false && <div>Runtime Version: {getRuntimeVersion()}</div>}
-      {false && <div>Exact Runtime Version: {getExactRuntimeVersion()}</div>}
-      {false && <div>{isValidRuntimeVersion() ? 'VALID' : 'NOT VALID'}</div>}
+      {<div>Exact Runtime Version: {exactRuntimeVersion}</div>}
+      {<div>Runtime Version: {runtimeVersion}</div>}
+      {<div>Initial Runtime Version: {initialRuntimeVersion}</div>}
+      {<div>{isValidRuntimeVersion() ? 'VALID' : 'NOT VALID'}</div>}
       {<div>{!fieldRef ? 'UNDEFINED' : 'DEFINED'}</div>}
       {isLinuxApp(props.initialValues.site) || !values.appSettings ? (
         <div>IsLinux OR NoAppSettings</div>
@@ -278,8 +292,8 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
           </Stack>
           <div className={settingsWrapper}>
             <RadioButtonNoFormik
-              selectedKey={getRuntimeVersionOption()}
-              dirty={runtimeVersionDirty()}
+              selectedKey={selectedVersionOption}
+              dirty={!isEqual(runtimeVersion, initialRuntimeVersion)}
               label={t('runtimeVersion')}
               id="function-app-settings-runtime-version"
               disabled={!app_write || !editable || saving}
@@ -289,21 +303,6 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
               options={options}
               vertical={true}
             />
-            {/* {getRuntimeVersionOption() === FunctionRuntimeVersions.custom && (
-              <Field
-                dirty={customRuntimeVersionDirty()}
-                component={TextFieldNoFormik}
-                label={t('Custom runtime version')}
-                id="function-app-settings-runtime-version-custom"
-                disabled={!app_write || !editable || saving}
-                onChange={(e, newVal) => {
-                  onTextFieldChange(newVal);
-                }}
-                value={getRuntimeVersion()}
-                style={{ marginLeft: '1px', marginTop: '1px' }}
-                placeholder={'e.g. 1.0.12615.0, 2.0.12742.0, latest'}
-              />
-            )} */}
           </div>
         </>
       )}

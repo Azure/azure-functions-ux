@@ -5,7 +5,7 @@ import {
   convertStateToForm,
   convertFormToState,
   flattenVirtualApplicationsList,
-  getRuntimeCustomEdit,
+  getFunctionsRuntimeVersionInfo,
   getCleanedConfigForSave,
   getCleanedReferences,
 } from './AppSettingsFormData';
@@ -223,7 +223,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         ...values,
         virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
         hostStatus: hostStatus && hostStatus.metadata.success ? hostStatus.data : null,
-        runtimeCustomEdit: getRuntimeCustomEdit(values.appSettings),
+        functionsRuntimeVersionInfo: getFunctionsRuntimeVersionInfo(values.appSettings),
       });
       fetchReferences();
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));

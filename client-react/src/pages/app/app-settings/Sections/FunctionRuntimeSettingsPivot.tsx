@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
+import { AppSettingsFormValues, FunctionsRuntimeMajorVersions } from '../AppSettings.types';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { FormikProps } from 'formik';
 import RuntimeVersion from '../FunctionRuntimeSettings/RuntimeVersion';
@@ -11,6 +11,8 @@ import DailyUsageQuota from '../FunctionRuntimeSettings/DailyUsageQuota';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import RuntimeScaleMonitoring from '../FunctionRuntimeSettings/RuntimeScaleMonitoring';
+import { getFunctionsRuntimeMajorVersion, findFormAppSetting } from '../AppSettingsFormData';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const FunctionRuntimeSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
@@ -33,7 +35,9 @@ const FunctionRuntimeSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>>
           </div>
         )}
 
-        <RuntimeVersion {...props} />
+        {site.properties.state && site.properties.state.toLocaleLowerCase() === 'Running'.toLocaleLowerCase() && (
+          <RuntimeVersion {...props} />
+        )}
 
         {scenarioChecker.checkScenario(ScenarioIds.runtimeScaleMonitoringSupported, { site }).status === 'enabled' && (
           <RuntimeScaleMonitoring {...props} />
@@ -47,17 +51,13 @@ const FunctionRuntimeSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>>
   );
 };
 
-const getSettingValue = (name: string, appSettings: FormAppSetting[]): string | null => {
-  const index = !name ? -1 : appSettings.findIndex(x => x.name.toLowerCase() === name.toLowerCase());
-  return index === -1 ? null : appSettings[index].value;
-};
-
 const runtimeVersionDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
-  const value = getSettingValue('FUNCTIONS_EXTENSION_VERSION', values.appSettings);
-  const initialValue = getSettingValue('FUNCTIONS_EXTENSION_VERSION', initialValues.appSettings);
-  // const clean = (value === null && initialValue === null) || value === initialValue;
-  // return !clean;
-  return !isEqual(value, initialValue);
+  const current = findFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
+  const initial = findFormAppSetting(initialValues.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
+
+  const currentValue = (current && current.value) || '';
+  const initialValue = (initial && initial.value) || '';
+  return !isEqual(currentValue, initialValue);
 };
 
 const dailyMemoryTimeQuotaDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
@@ -78,4 +78,12 @@ export const functionRuntimeSettingsDirty = (values: AppSettingsFormValues, init
     runtimeScaleMonitoringDirty(values, initialValues)
   );
 };
+
+export const functionRuntimeSettingsError = (values: AppSettingsFormValues) => {
+  return (
+    values.functionsRuntimeVersionInfo.isCustom &&
+    getFunctionsRuntimeMajorVersion(values.functionsRuntimeVersionInfo.latestCustomValue) !== FunctionsRuntimeMajorVersions.custom
+  );
+};
+
 export default FunctionRuntimeSettingsPivot;

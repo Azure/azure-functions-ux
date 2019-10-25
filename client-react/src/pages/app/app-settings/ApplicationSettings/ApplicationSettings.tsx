@@ -16,12 +16,12 @@ import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import Panel from '../../../../components/Panel/Panel';
 import { ThemeContext } from '../../../../ThemeContext';
-import { getRuntimeCustomEdit } from '../AppSettingsFormData';
+import { getFunctionsRuntimeVersionInfo } from '../AppSettingsFormData';
 
 const setAppSettingsFieldValue = (appSettings: FormAppSetting[], props: FormikProps<AppSettingsFormValues>) => {
-  const runtimeCustomEdit = getRuntimeCustomEdit(appSettings, props.values.runtimeCustomEdit);
-  if (!isEqual(runtimeCustomEdit, props.values.runtimeCustomEdit)) {
-    props.setFieldValue('runtimeCustomEdit', runtimeCustomEdit);
+  const functionsRuntimeVersionInfo = getFunctionsRuntimeVersionInfo(appSettings, props.values.functionsRuntimeVersionInfo);
+  if (!isEqual(functionsRuntimeVersionInfo, props.values.functionsRuntimeVersionInfo)) {
+    props.setFieldValue('functionsRuntimeVersionInfo', functionsRuntimeVersionInfo);
   }
   props.setFieldValue('appSettings', appSettings);
 };
