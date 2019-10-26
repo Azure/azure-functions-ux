@@ -605,7 +605,7 @@ export class FunctionAppService {
     return this.azure.executeWithConditions(
       [],
       { resourceId: context.site.id },
-      this._cacheService.getArm(`${context.site.id}/config/web`, null, ARMApiVersions.websiteApiVersion20181101).map(r => {
+      this._cacheService.getArm(`${context.site.id}/config/web`, null, ARMApiVersions.antaresApiVersion20181101).map(r => {
         const config: ArmObj<SiteConfig> = r.json();
         return !config.properties['scmType'] || config.properties['scmType'] !== 'None';
       })
@@ -688,7 +688,7 @@ export class FunctionAppService {
       context.site.properties.hostingEnvironmentProfile.id
     ) {
       return this._cacheService
-        .getArm(context.site.properties.hostingEnvironmentProfile.id, false, ARMApiVersions.websiteApiVersion20160901)
+        .getArm(context.site.properties.hostingEnvironmentProfile.id, false, ARMApiVersions.antaresApiVersion20181101)
         .mergeMap(r => {
           const ase: ArmObj<HostingEnvironment> = r.json();
           if (ase.properties.internalLoadBalancingMode && ase.properties.internalLoadBalancingMode !== InternalLoadBalancingMode.None) {
@@ -1053,7 +1053,7 @@ export class FunctionAppService {
   //                     return Observable.of(r);
   //                 }
   //                 appSettings.properties[appSettingName] = appSettingValue;
-  //                 return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+  //                 return this._cacheService.putArm(appSettings.id, this._armService.antaresApiVersion20181101, appSettings);
   //             });
   //     } else {
   //         return null;

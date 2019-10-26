@@ -60,7 +60,7 @@ export class SqlComponent extends FunctionAppContextComponent {
           this.userName,
           this.password
         );
-        return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+        return this._cacheService.putArm(appSettings.id, this._armService.antaresApiVersion20181101, appSettings);
       })
       .do(null, e => {
         this._globalStateService.clearBusyState();

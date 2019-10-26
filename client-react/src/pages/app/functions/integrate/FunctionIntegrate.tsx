@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import { Stack } from 'office-ui-fabric-react';
+import { Stack, IStackTokens } from 'office-ui-fabric-react';
 import TriggerBindingCard from './BindingsDiagram/TriggerBindingCard';
 import OutputBindingCard from './BindingsDiagram/OutputBindingCard';
 import InputBindingCard from './BindingsDiagram/InputBindingCard';
@@ -9,14 +9,22 @@ import FunctionNameBindingCard from './BindingsDiagram/FunctionNameBindingCard';
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import { Subject, Observable } from 'rxjs';
 import BindingEditorDataLoader from './binding-editor/BindingEditorDataLoader';
+import { ReactComponent as DoubleArrow } from '../../../../images/Functions/double-arrow-left-right.svg';
+import { ReactComponent as SingleArrow } from '../../../../images/Functions/single-arrow-left-right.svg';
+import { classes } from 'typestyle';
+import {
+  diagramWrapperStyle,
+  doubleArrowStyle,
+  singleCardStackStyle,
+  singleArrowStyle,
+  defaultArrowStyle,
+  arrowProps,
+} from './FunctionIntegrate.style';
+import { ThemeContext } from '../../../../ThemeContext';
 
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
 }
-
-const paddingStyle = {
-  padding: '20px',
-};
 
 export interface BindingUpdateInfo {
   newBindingInfo?: BindingInfo;
@@ -34,6 +42,7 @@ export const BindingEditorContext = React.createContext<BindingEditorContextInfo
 
 export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
   const { functionInfo: initialFunctionInfo } = props;
+  const theme = useContext(ThemeContext);
 
   const bindingUpdate$ = useRef(new Subject<BindingUpdateInfo>());
   const [bindingToUpdate, setBindingToUpdate] = useState<BindingInfo | undefined>(undefined);
@@ -71,27 +80,48 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
     closeEditor,
     updateFunctionInfo: setFunctionInfo,
   };
+  const functionAppId = functionInfo.properties.function_app_id || functionInfo.id.split('/function')[0];
+
+  const tokens: IStackTokens = {
+    childrenGap: 0,
+  };
 
   return (
     <>
       <BindingEditorContext.Provider value={editorContext}>
-        <BindingEditorDataLoader functionInfo={functionInfo} bindingInfo={bindingToUpdate} onPanelClose={onCancel} onSubmit={onSubmit} />
+        <BindingEditorDataLoader
+          functionInfo={functionInfo}
+          functionAppId={functionAppId}
+          bindingInfo={bindingToUpdate}
+          onPanelClose={onCancel}
+          onSubmit={onSubmit}
+        />
 
-        <div style={paddingStyle}>
-          <Stack horizontal gap={50} horizontalAlign={'center'} disableShrink>
+        <div className={diagramWrapperStyle}>
+          <Stack horizontal horizontalAlign={'center'} tokens={tokens}>
             <Stack.Item grow>
-              <Stack gap={100}>
+              <Stack gap={40}>
                 <TriggerBindingCard functionInfo={functionInfo} />
                 <InputBindingCard functionInfo={functionInfo} />
               </Stack>
             </Stack.Item>
+
             <Stack.Item grow>
-              <Stack verticalAlign="center" verticalFill={true}>
+              <DoubleArrow className={classes(defaultArrowStyle(theme), doubleArrowStyle)} {...arrowProps} />
+            </Stack.Item>
+
+            <Stack.Item grow>
+              <Stack verticalFill={true} className={singleCardStackStyle}>
                 <FunctionNameBindingCard functionInfo={functionInfo} />
               </Stack>
             </Stack.Item>
+
             <Stack.Item grow>
-              <Stack verticalAlign="center" verticalFill={true}>
+              <SingleArrow className={classes(defaultArrowStyle(theme), singleArrowStyle)} {...arrowProps} />
+            </Stack.Item>
+
+            <Stack.Item grow>
+              <Stack verticalFill={true} className={singleCardStackStyle}>
                 <OutputBindingCard functionInfo={functionInfo} />
               </Stack>
             </Stack.Item>

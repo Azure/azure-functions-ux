@@ -5,11 +5,7 @@ export class WizardForm {
   public buildSettings: VstsBuildSettings;
 }
 
-export class VstsBuildSettings {
-  public createNewVsoAccount: boolean;
-  public vstsAccount: string;
-  public vstsProject: string;
-  public location: string;
+export class BuildSettings {
   public applicationFramework:
     | 'AspNetWap'
     | 'AspNetCore'
@@ -27,6 +23,13 @@ export class VstsBuildSettings {
   public startupCommand: string;
 }
 
+export class VstsBuildSettings extends BuildSettings {
+  public createNewVsoAccount: boolean;
+  public vstsAccount: string;
+  public vstsProject: string;
+  public location: string;
+}
+
 export class PythonSettings {
   public framework: PythonFrameworkType;
   public version: string;
@@ -37,6 +40,7 @@ export class SourceSettings {
   public repoUrl: string;
   public branch: string;
   public isManualIntegration: boolean;
+  public isGitHubAction: boolean;
   public deploymentRollbackEnabled: boolean;
   public isMercurial: boolean;
   public privateRepo: boolean;
@@ -69,16 +73,20 @@ export type sourceControlProvider =
  * DEPLOYMENT TARGET MODELS
  */
 
-export interface ProvisioningConfiguration {
-  authToken: string;
-  /**
-   * Gets or sets the CI/CD configuration details.
-   */
-  ciConfiguration: CiConfiguration;
+export interface ProvisioningConfigurationBase {
   /**
    * Gets or sets the unique identifier of the provisioning configuration.
    */
   id: string;
+
+  /**
+   * Gets or sets the CI/CD configuration details.
+   */
+  ciConfiguration: CiConfiguration;
+}
+
+export interface ProvisioningConfiguration extends ProvisioningConfigurationBase {
+  authToken: string;
   /**
    * Gets or sets the deployment source.
    */
@@ -87,6 +95,15 @@ export interface ProvisioningConfiguration {
    * Gets or sets one or more deployment targets.
    */
   targets: DeploymentTarget[];
+}
+
+export interface ProvisioningConfigurationV2 extends ProvisioningConfigurationBase {
+  /* Below parameters are for pipelineTemplate API*/
+  pipelineTemplateId: string;
+
+  pipelineTemplateParameters: { [key: string]: string };
+
+  repository: CodeRepository;
 }
 
 export enum DeploymentTargetProvider {

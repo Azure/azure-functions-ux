@@ -11,7 +11,7 @@ import PythonStack from './PythonStack';
 import { AvailableStacksContext, PermissionsContext } from '../../Contexts';
 
 const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
-  const { values } = props;
+  const { values, initialValues } = props;
   const { t } = useTranslation();
   const { app_write, editable } = useContext(PermissionsContext);
   const readonly = !app_write;
@@ -23,6 +23,7 @@ const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {!readonly && (
         <Field
           name="currentlySelectedStack"
+          dirty={values.currentlySelectedStack !== initialValues.currentlySelectedStack}
           component={Dropdown}
           fullpage
           disabled={!editable}

@@ -181,7 +181,7 @@ export class NotificationHubComponent extends FunctionAppContextComponent {
             const appSettings: ArmObj<any> = r.appSettings.json();
             appSettings.properties[appSettingName] = appSettingValue;
 
-            return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+            return this._cacheService.putArm(appSettings.id, this._armService.antaresApiVersion20181101, appSettings);
           })
           .do(null, e => {
             this._globalStateService.clearBusyState();
@@ -205,7 +205,7 @@ export class NotificationHubComponent extends FunctionAppContextComponent {
           .flatMap(r => {
             const appSettings: ArmObj<any> = r.json();
             appSettings.properties[appSettingName] = appSettingValue;
-            return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+            return this._cacheService.putArm(appSettings.id, this._armService.antaresApiVersion20181101, appSettings);
           })
           .do(null, e => {
             this._globalStateService.clearBusyState();

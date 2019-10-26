@@ -79,7 +79,7 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
     const providerLocationsFetch = await MakeArmCall<{ value: ArmProviderInfo }>({
       resourceId,
       commandName: '_getProviderLocations',
-      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
 
     const result = providerLocationsFetch;
@@ -98,7 +98,7 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
     const geoRegionsFetch = await MakeArmCall<ArmArray<GeoRegion>>({
       resourceId: id,
       commandName: '_getProviderLocations',
-      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
       queryString: isLinux ? `sku=${sku}&linuxWorkersEnabled=true` : `sku=${sku}`,
     });
 

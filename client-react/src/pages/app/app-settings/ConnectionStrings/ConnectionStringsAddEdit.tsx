@@ -67,7 +67,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
     id: 'save',
     title: t('ok'),
     onClick: save,
-    disable: !!nameError,
+    disable: !!nameError || !currentConnectionString.name,
   };
 
   const actionBarSecondaryButtonProps = {

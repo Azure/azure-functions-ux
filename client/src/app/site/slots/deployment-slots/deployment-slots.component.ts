@@ -489,7 +489,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             delete siteConfigArm.properties.azureStorageAccounts;
           }
 
-          return this._cacheService.putArm(`${this.resourceId}/config/web`, ARMApiVersions.websiteApiVersion20181101, siteConfigArm);
+          return this._cacheService.putArm(`${this.resourceId}/config/web`, ARMApiVersions.antaresApiVersion20181101, siteConfigArm);
         })
         .do(null, error => {
           this.dirtyMessage = null;

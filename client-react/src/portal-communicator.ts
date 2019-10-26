@@ -27,6 +27,7 @@ import {
   CheckLockResponse,
   LockType,
   PortalDebugInformation,
+  FrameBladeParams,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import darkModeTheme from './theme/dark';
@@ -91,7 +92,7 @@ export default class PortalCommunicator {
     const shellSrc = Url.getParameterByName(shellUrl, 'trustedAuthority') || '';
     PortalCommunicator.shellSrc = shellSrc;
     if (shellSrc) {
-      const getStartupInfoObj = {
+      const startupInfo = {
         iframeHostName: '',
         iframeAppName: '',
       };
@@ -109,8 +110,8 @@ export default class PortalCommunicator {
       this.getDebugInformation()
         .then(response => {
           if (response.metadata.success && response.data) {
-            getStartupInfoObj.iframeHostName = response.data.hostName;
-            getStartupInfoObj.iframeAppName = response.data.appName;
+            startupInfo.iframeHostName = response.data.hostName;
+            startupInfo.iframeAppName = response.data.appName;
             window.appsvc = {
               version: response.data.version,
               env: {
@@ -121,18 +122,19 @@ export default class PortalCommunicator {
               },
             };
           }
+          this.postInitializeMessage(startupInfo);
         })
-        .finally(() => {
-          // This is a required message. It tells the shell that your iframe is ready to receive messages.
-          PortalCommunicator.postMessage(Verbs.ready, null);
-          PortalCommunicator.postMessage(Verbs.initializationcomplete, null);
-          PortalCommunicator.postMessage(Verbs.getStartupInfo, this.packageData(getStartupInfoObj));
+        .catch(() => {
+          // NOTE(michinoy): '.finally' is not supported on promises on IE and Edge.
+          // Explore adding a polyfill - https://github.com/babel/babel/issues/8111
+          // WI - https://msazure.visualstudio.com/Antares/_workitems/edit/5493047
+          this.postInitializeMessage(startupInfo);
         });
     }
   }
 
-  public openBlade<T>(bladeInfo: IOpenBladeInfo, source: string): Promise<IBladeResult<T>> {
-    const payload: IDataMessage<IOpenBladeInfo> = {
+  public openBlade<T, U = any>(bladeInfo: IOpenBladeInfo<U>, source: string): Promise<IBladeResult<T>> {
+    const payload: IDataMessage<IOpenBladeInfo<U>> = {
       operationId: Guid.newGuid(),
       data: bladeInfo,
     };
@@ -151,6 +153,10 @@ export default class PortalCommunicator {
           resolve(data);
         });
     });
+  }
+
+  public openFrameBlade<T, U = any>(bladeInfo: IOpenBladeInfo<FrameBladeParams<U>>, source: string): Promise<IBladeResult<T>> {
+    return this.openBlade(bladeInfo, source);
   }
 
   public getSpecCosts(query: SpecCostQueryInput): Observable<SpecCostQueryResult> {
@@ -462,5 +468,12 @@ export default class PortalCommunicator {
       method: 'GET',
       headers: getJsonHeaders(),
     });
+  };
+
+  private postInitializeMessage = (startupInfo: any) => {
+    // This is a required message. It tells the shell that your iframe is ready to receive messages.
+    PortalCommunicator.postMessage(Verbs.ready, null);
+    PortalCommunicator.postMessage(Verbs.initializationcomplete, null);
+    PortalCommunicator.postMessage(Verbs.getStartupInfo, this.packageData(startupInfo));
   };
 }

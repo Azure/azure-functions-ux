@@ -162,7 +162,7 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
 
           const appSettings: ArmObj<any> = r.appSettings.result;
           appSettings.properties[appSettingName] = appSettingValue;
-          return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+          return this._cacheService.putArm(appSettings.id, this._armService.antaresApiVersion20181101, appSettings);
         })
         .do(null, e => {
           this._globalStateService.clearBusyState();
@@ -192,7 +192,7 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
         .flatMap(r => {
           const appSettings: ArmObj<any> = r.result;
           appSettings.properties[appSettingName] = appSettingValue;
-          return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+          return this._cacheService.putArm(appSettings.id, this._armService.antaresApiVersion20181101, appSettings);
         })
         .do(null, e => {
           this._globalStateService.clearBusyState();

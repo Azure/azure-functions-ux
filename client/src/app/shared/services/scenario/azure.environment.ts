@@ -1,4 +1,4 @@
-import { ScenarioIds } from './../../models/constants';
+import { ScenarioIds, FeatureFlags, Kinds } from './../../models/constants';
 import { Tier } from './../../models/serverFarmSku';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
@@ -8,6 +8,7 @@ import { ApplicationInsightsService } from '../application-insights.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AuthzService } from '../authz.service';
+import { Url } from 'app/shared/Utilities/url';
 
 export class AzureEnvironment extends Environment {
   name = 'Azure';
@@ -251,7 +252,15 @@ export class AzureEnvironment extends Environment {
   }
 
   private _vstsPermissionsCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
-    return this._authZService.hasPermission(input.site.id, [AuthzService.activeDirectoryWriteScope]).map(value => {
+    let requestedActions: string[] = [];
+    const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
+    if (IsPublishProfileBasedDeploymentEnabled && input.site.kind.toLowerCase() === Kinds.app) {
+      requestedActions = [AuthzService.websiteContributorScope];
+    } else {
+      requestedActions = [AuthzService.activeDirectoryWriteScope];
+    }
+
+    return this._authZService.hasPermission(input.site.id, requestedActions).map(value => {
       return <ScenarioResult>{
         status: value ? 'enabled' : 'disabled',
         data: {

@@ -138,13 +138,6 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       },
     };
 
-    // this.scenarioChecks[ScenarioIds.configureAADSupported] = {
-    //   id: ScenarioIds.configureAADSupported,
-    //   runCheck: () => {
-    //     return { status: 'disabled' };
-    //   },
-    // };
-
     this.scenarioChecks[ScenarioIds.configureAADSupported] = {
       id: ScenarioIds.configureAADSupported,
       runCheckAsync: (input: ScenarioCheckInput) => {

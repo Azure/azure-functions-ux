@@ -2149,6 +2149,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="validation_slotNameReserved" xml:space="preserve">
         <value>The slot name '{0}' is a reserved deployment slot name.</value>
     </data>
+    <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>The field must be fewer than {0} characters</value>
+    </data>
+    <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
+    </data>
+    <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis</value>
+    </data>
+    <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>Mount path cannot be '/home'</value>
+    </data>
     <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>We are unable to update your function app's edit mode. Please try again later.</value>
     </data>
@@ -2342,7 +2354,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Manage application settings</value>
     </data>
     <data name="eventHubPicker_IOTHub" xml:space="preserve">
-        <value>IoT hub</value>
+        <value>IoT Hub</value>
     </data>
     <data name="eventHubPicker_appSettingName" xml:space="preserve">
         <value>Key</value>
@@ -3636,7 +3648,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>App Credentials</value>
     </data>
     <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy.</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
     <data name="username" xml:space="preserve">
         <value>Username</value>
@@ -3706,9 +3718,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="sync" xml:space="preserve">
         <value>Sync</value>
-    </data>
-    <data name="deploymentCredentials" xml:space="preserve">
-        <value>FTP/Credentials</value>
     </data>
     <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
         <value>Dv3-Series compute equivalent</value>
@@ -4972,7 +4981,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
     </data>
     <data name="mountedStorageInfo" xml:space="preserve">
-        <value>Mounted storage lets you map Azure Files or Blob containers for use with your app.</value>
+        <value>Mounted storage lets you map up to 5 Azure Files or Blob containers for use with your app.</value>
     </data>
     <data name="changePlanName" xml:space="preserve">
         <value>Change App Service plan</value>
@@ -5149,7 +5158,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Error Details</value>
     </data>
     <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Function keys can be found at the function level.</value>
+        <value>Function keys can be configured in function settings.</value>
     </data>
     <data name="appKeysHost" xml:space="preserve">
         <value>Host keys (all functions)</value>
@@ -5224,33 +5233,168 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Unable to retrieve authentication state. Please try again in a few minutes.</value>
     </data>
     <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Refresh all keys for the function</value>
+        <value>Refresh all keys for the function</value>
     </data>
     <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
-      <value>Use left and right arrow keys to navigate between commands</value>
+        <value>Use left and right arrow keys to navigate between commands</value>
     </data>
     <data name="newFunctionKey" xml:space="preserve">
-      <value>New function key</value>
+        <value>New function key</value>
     </data>
     <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Filter functions keys</value>
+        <value>Filter functions keys</value>
     </data>
     <data name="editFunctionKey" xml:space="preserve">
-      <value>Edit key</value>
+        <value>Edit key</value>
     </data>
     <data name="addFunctionKey" xml:space="preserve">
-      <value>Add key</value>
+        <value>Add key</value>
     </data>
     <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} is a required property on all function keys</value>
+        <value>{0} is a required property on all function keys</value>
     </data>
     <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Function key names must be unique</value>
+        <value>Function key names must be unique</value>
     </data>
     <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>GitHub Actions (Preview)</value>
     </data>
     <data name="gitHubActionBuildServerDesc" xml:space="preserve">
         <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+    </data>
+    <data name="azureKeyVault" xml:space="preserve">
+        <value>Key vault Reference</value>
+    </data>
+    <data name="appConfigValue" xml:space="preserve">
+        <value>App Config</value>
+    </data>
+    <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Error: Could not access key vault reference metadata</value>
+    </data>
+    <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>Click here to configure container settings.</value>
+    </data>
+    <data name="containerSettingsTitle" xml:space="preserve">
+        <value>Container settings</value>
+    </data>
+    <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>Configure and manage container settings for your app.</value>
+    </data>
+    <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+    <data name="deploymentCredentialsTitle" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+    <data name="deploymentCredentialsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+    </data>
+    <data name="deploymentCredentialsLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+    <data name="deploymentCredentialsFtps" xml:space="preserve">
+        <value>FTP/FTPS</value>
+    </data>
+    <data name="none" xml:space="preserve">
+        <value>None</value>
+    </data>
+    <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>Save changes to your function.</value>
+    </data>
+    <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>Discard changes to your function.</value>
+    </data>
+    <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>Open test panel to test run your function.</value>
+    </data>
+    <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>Open popup to get function URL for your function.</value>
+    </data>
+    <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>Use left and right arrow keys to navigate between commands</value>
+    </data>
+    <data name="localGitDescription" xml:space="preserve">
+        <value>Use Git to push changes directly to your app.</value>
+    </data>
+    <data name="ftpsDescription" xml:space="preserve">
+        <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+    <data name="gitCloneUrlLabel" xml:space="preserve">
+        <value>Git Clone URL</value>
+    </data>
+    <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>GitHub Action Workflow Configuration</value>
+    </data>
+    <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>Adding workflow configuration to GitHub Actions</value>
+    </data>
+    <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+    </data>
+    <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
+    </data>
+    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select your function directory or files in your root directory.</value>
+    </data>
+    <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Select files in your function directory.</value>
+    </data>
+    <data name="noPlanWritePermissions" xml:space="preserve">
+        <value>This feature requires write permissions on the plan hosting your app</value>
+    </data>
+    <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
+    </data>
+    <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
+    </data>
+    <data name="scope" xml:space="preserve">
+        <value>Scope</value>
+    </data>
+    <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
+        <value>Virtual network trigger support</value>
+    </data>
+    <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+    </data>
+    <data name="refreshAppSettingsTitle" xml:space="preserve">
+        <value>Refresh App Settings</value>
+    </data>
+    <data name="refreshAppSettingsMessage" xml:space="preserve">
+        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+    </data>
+    <data name="eventHubPicker_noNamespaces" xml:space="preserve">
+        <value>There are no namespaces in this subscription</value>
+    </data>
+    <data name="eventHubPicker_noEventHubs" xml:space="preserve">
+        <value>There are no Event Hubs in this namespace</value>
+    </data>
+    <data name="eventHubPicker_noPolicies" xml:space="preserve">
+        <value>There are no policies in this namespace and Event Hub</value>
+    </data>
+    <data name="iotHubPivot_noIoTHubs" xml:space="preserve">
+        <value>There are no IoT Hubs in this subscription</value>
+    </data>
+    <data name="iotHubPivot_IoTHub" xml:space="preserve">
+        <value>IoT Hub</value>
+    </data>
+    <data name="iotHubPivot_noEndpoints" xml:space="preserve">
+        <value>There are no endpoints available for this IoT Hub</value>
+    </data>
+    <data name="iotHubPivot_Endpoint" xml:space="preserve">
+        <value>Endpoint</value>
+    </data>
+    <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>Events (built-in endpoint)</value>
+    </data>
+    <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>Operations monitoring</value>
+    </data>
+    <data name="customPivot_key" xml:space="preserve">
+        <value>Key</value>
+    </data>
+    <data name="customPivot_value" xml:space="preserve">
+        <value>Value</value>
     </data>
 </root>

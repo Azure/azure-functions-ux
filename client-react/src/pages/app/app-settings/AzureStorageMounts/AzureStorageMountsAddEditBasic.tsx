@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import { StorageAccountsContext, SiteContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import requiredValidation from '../../../../utils/formValidation/required';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -132,12 +131,10 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           root: formElementStyle,
         }}
         errorMessage={errors.accountName}
-        validate={(value: string) => {
+        validate={() => {
           if (accountError) {
             return accountError;
           }
-
-          return requiredValidation(value, t('validation_requiredError'));
         }}
       />
       {showStorageTypeOption && (

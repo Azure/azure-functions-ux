@@ -1,12 +1,22 @@
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
-import { ScenarioIds, Kinds } from '../../models/constants';
+import { ScenarioIds, Kinds, FeatureFlags } from '../../models/constants';
 import { Environment } from './scenario.models';
+import { Url } from 'app/shared/Utilities/url';
+import { Observable } from 'rxjs';
+import { AuthzService } from '../authz.service';
+import { PortalResources } from 'app/shared/models/portal-resources';
+import { Injector } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 export class WindowsCodeEnvironment extends Environment {
   name = 'WindowsCode';
+  private _translateService: TranslateService;
+  private _authZService: AuthzService;
 
-  constructor() {
+  constructor(injector: Injector) {
     super();
+    this._translateService = injector.get(TranslateService);
+    this._authZService = injector.get(AuthzService);
 
     const disabledResult: ScenarioResult = {
       status: 'disabled',
@@ -17,6 +27,21 @@ export class WindowsCodeEnvironment extends Environment {
       id: ScenarioIds.byosSupported,
       runCheck: () => disabledResult,
     };
+
+    const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
+    this.scenarioChecks[ScenarioIds.isPublishProfileBasedDeploymentEnabled] = {
+      id: ScenarioIds.isPublishProfileBasedDeploymentEnabled,
+      runCheck: () =>
+        <ScenarioResult>{
+          status: IsPublishProfileBasedDeploymentEnabled ? 'enabled' : 'disabled',
+          data: null,
+        },
+    };
+
+    this.scenarioChecks[ScenarioIds.hasRoleAssignmentPermission] = {
+      id: ScenarioIds.hasRoleAssignmentPermission,
+      runCheckAsync: (input: ScenarioCheckInput) => this._hasRoleAssignmentPermissionCheck(input),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
@@ -25,5 +50,16 @@ export class WindowsCodeEnvironment extends Environment {
       !!input.site &&
       (input.site.kind!.toLowerCase() === Kinds.app.toLowerCase() || input.site.kind!.toLowerCase() === Kinds.api.toLowerCase())
     );
+  }
+
+  private _hasRoleAssignmentPermissionCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
+    return this._authZService.hasPermission(input.site.id, [AuthzService.activeDirectoryWriteScope]).map(value => {
+      return <ScenarioResult>{
+        status: value ? 'enabled' : 'disabled',
+        data: {
+          errorMessage: this._translateService.instant(PortalResources.vsts_permissions_error),
+        },
+      };
+    });
   }
 }
