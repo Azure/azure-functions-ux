@@ -20,6 +20,7 @@ import {
   updateStorageMounts,
   getAllAppSettingReferences,
   fetchAzureStorageAccounts,
+  getFunctions,
   getHostStatus,
 } from './AppSettings.service';
 import { AvailableStack } from '../../../models/available-stacks';
@@ -103,7 +104,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     setLoadingFailure(loadingFailed);
 
     if (!loadingFailed) {
-      const hostStatus = !isFunctionApp(site.data) ? null : await getHostStatus(resourceId);
+      const [hostStatus, functions] = !isFunctionApp(site.data)
+        ? [null, null]
+        : await Promise.all([getHostStatus(resourceId), getFunctions(resourceId)]);
 
       setCurrentSiteNonForm(site.data);
 
@@ -143,6 +146,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
           hostStatus: hostStatus && hostStatus.metadata.success ? hostStatus.data : null,
+          functions: functions && functions.metadata.success ? functions.data : null,
         }),
       });
 
