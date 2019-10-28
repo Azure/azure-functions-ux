@@ -1,10 +1,10 @@
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { PortalContext } from '../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
-import FunctionEditorGetFunctionUrlDialog, { HostUrl } from './FunctionEditorGetFunctionUrlDialog';
+import FunctionEditorGetFunctionUrlCallout, { HostUrl } from './FunctionEditorGetFunctionUrlCallout';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { IContextualMenuRenderItem } from 'office-ui-fabric-react';
 
@@ -13,7 +13,6 @@ interface FunctionEditorCommandBarProps {
   saveFunction: () => void;
   resetFunction: () => void;
   testFunction: () => void;
-  // getFunctionUrl: () => void;
   showGetFunctionUrlCommand: boolean;
   dirty: boolean;
   disabled: boolean;
@@ -39,10 +38,9 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const onClickGetFunctionUrlCommand = () => {
     setIsDialogVisible(true);
-    // getFunctionUrl();
   };
 
-  const [getFunctionUrlButtonRef, setFunctionUrlButtonRef] = useState<IContextualMenuRenderItem | null>(null);
+  const getFunctionUrlButtonRef = useRef<IContextualMenuRenderItem | null>(null);
 
   const getItems = (): ICommandBarItemProps[] => {
     const items: ICommandBarItemProps[] = [
@@ -88,7 +86,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         disabled: disabled,
         ariaLabel: t('functionEditorGetFunctionUrlAriaLabel'),
         onClick: onClickGetFunctionUrlCommand,
-        componentRef: ref => setFunctionUrlButtonRef(ref),
+        componentRef: ref => (getFunctionUrlButtonRef.current = ref),
       });
     }
 
@@ -110,12 +108,12 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       />
       {isDialogVisible && (
         <>
-          <FunctionEditorGetFunctionUrlDialog
+          <FunctionEditorGetFunctionUrlCallout
             hostKeyDropdownOptions={hostKeyDropdownOptions}
             hostKeyDropdownSelectedKey={hostKeyDropdownSelectedKey}
             hostUrls={hostUrls}
             setIsDialogVisible={setIsDialogVisible}
-            dialogTarget={getFunctionUrlButtonRef}
+            dialogTarget={getFunctionUrlButtonRef.current}
           />
         </>
       )}
