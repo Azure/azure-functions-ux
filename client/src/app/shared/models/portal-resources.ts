@@ -1721,4 +1721,7 @@ export class PortalResources {
   public static closeGetFunctionUrlModal = 'closeGetFunctionUrlModal';
   public static appFunctionSettings_virtualNetworkTriggerSupport = 'appFunctionSettings_virtualNetworkTriggerSupport';
   public static appFunctionSettings_runtimeScalingMonitoredText = 'appFunctionSettings_runtimeScalingMonitoredText';
+  public static appFunctionSettings_runtimeScalingMonitoringMessage = 'appFunctionSettings_runtimeScalingMonitoringMessage';
+  public static appFunctionSettings_cutomRuntimeVersionError = 'appFunctionSettings_cutomRuntimeVersionError';
+  public static appFunctionSettings_cutomRuntimeVersionPlaceholder = 'appFunctionSettings_cutomRuntimeVersionPlaceholder';
 }

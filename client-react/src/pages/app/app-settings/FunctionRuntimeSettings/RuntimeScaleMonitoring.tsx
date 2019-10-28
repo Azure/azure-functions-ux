@@ -5,7 +5,6 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { isEqual } from 'lodash-es';
-import { settingsWrapper } from '../AppSettingsForm';
 import { Links } from '../../../../utils/FwLinks';
 import InfoBox from '../../../../components/InfoBox/InfoBox';
 
@@ -19,41 +18,38 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
 
   return (
     <>
-      <h3>{t('appFunctionSettings_virtualNetworkTriggerSupport')}</h3>
       <InfoBox
-        id="runtime-version-info"
-        type="Error"
-        message={t('appFunctionSettings_runtimeScalingMonitoredText')}
-        additionalInfoLink={{ url: Links.funcConnStringsLearnMore, text: t('learnMore') }}
+        id="function-app-settings-runtime-scale-monitoring-info"
+        type="Info"
+        message={t('appFunctionSettings_runtimeScalingMonitoringMessage')}
+        additionalInfoLink={{ url: Links.runtimeScaleMonitoringLearnMore, text: t('learnMore') }}
       />
-      <div className={settingsWrapper}>
-        <Field
-          name="config.properties.functionsRuntimeScaleMonitoringEnabled"
-          dirty={
-            !isEqual(
-              values.config.properties.functionsRuntimeScaleMonitoringEnabled,
-              initialValues.config.properties.functionsRuntimeScaleMonitoringEnabled
-            )
-          }
-          component={RadioButton}
-          label={t('appFunctionSettings_virtualNetworkTriggerSupport')}
-          id="function-app-settings-runtime-scale-monitoring-enabled"
-          disabled={!app_write || !editable || saving}
-          options={[
-            {
-              key: true,
-              text: t('enabled'),
-              disabled: !values.config.properties.reservedInstanceCount,
-            },
-            {
-              key: false,
-              text: t('disabled'),
-              disabled: !!values.config.properties.vnetName,
-            },
-          ]}
-          vertical={false}
-        />
-      </div>
+      <Field
+        name="config.properties.functionsRuntimeScaleMonitoringEnabled"
+        dirty={
+          !isEqual(
+            values.config.properties.functionsRuntimeScaleMonitoringEnabled,
+            initialValues.config.properties.functionsRuntimeScaleMonitoringEnabled
+          )
+        }
+        component={RadioButton}
+        label={t('appFunctionSettings_virtualNetworkTriggerSupport')}
+        id="function-app-settings-runtime-scale-monitoring-enabled"
+        disabled={!app_write || !editable || saving}
+        options={[
+          {
+            key: true,
+            text: t('enabled'),
+            disabled: !values.config.properties.reservedInstanceCount || !values.config.properties.vnetName,
+          },
+          {
+            key: false,
+            text: t('disabled'),
+            disabled: !!values.config.properties.vnetName,
+          },
+        ]}
+        vertical={true}
+      />
     </>
   );
 };

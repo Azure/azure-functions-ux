@@ -4,16 +4,18 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import TextField from '../../../../components/form-controls/TextField';
-import { settingsWrapper } from '../AppSettingsForm';
-import { ThemeContext } from '../../../../ThemeContext';
-import { Stack, Icon, Link } from 'office-ui-fabric-react';
-import { infoIconStyle, learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
-import { Links } from '../../../../utils/FwLinks';
+import InfoBox from '../../../../components/InfoBox/InfoBox';
+
+const onKeyDown = keyEvent => {
+  const keyCode = keyEvent.charCode || keyEvent.keyCode;
+  if (keyCode < 48 || keyCode > 57) {
+    keyEvent.preventDefault();
+  }
+};
 
 const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { t, values, initialValues } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
-  const theme = useContext(ThemeContext);
 
   if (!values.site) {
     return null;
@@ -21,34 +23,26 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
 
   return (
     <>
-      <h3>{t('Usage quota')}</h3>
-      <Stack horizontal verticalAlign="center">
-        <Icon iconName="Info" className={infoIconStyle(theme)} />
-        <p>
-          <span id="connection-strings-info-message">{t('connectionStringsInfoMessage')}</span>
-          <span id="func-conn-strings-info-text">{` ${t('funcConnStringsInfoText')} `}</span>
-          <Link
-            id="func-conn-strings-info-learnMore"
-            href={Links.funcConnStringsLearnMore}
-            target="_blank"
-            className={learnMoreLinkStyle}
-            aria-labelledby="connection-strings-info-message func-conn-strings-info-text func-conn-strings-info-learnMore">
-            {` ${t('learnMore')}`}
-          </Link>
-        </p>
-      </Stack>
-      <div className={settingsWrapper}>
-        <Field
-          name="site.properties.dailyMemoryTimeQuota"
-          dirty={values.site.properties.dailyMemoryTimeQuota !== initialValues.site.properties.dailyMemoryTimeQuota}
-          component={TextField}
-          label={t('dailyUsageQuotaLabel')}
-          id="function-app-settings-daily-memory-time-quota"
-          disabled={!app_write || !editable || saving}
-          style={{ marginLeft: '1px', marginTop: '1px' }}
+      {!!values.site.properties.dailyMemoryTimeQuota && (
+        <InfoBox id="function-app-settings-daily-memory-time-quota-info" type="Info" message={t('functionAppSettings_quotaInfo')} />
+      )}
+      {!values.site.properties.enabled && values.site.properties.siteDisabledReason === 1 && (
+        <InfoBox
+          id="function-app-settings-daily-memory-time-quota-warning"
+          type="Warning"
+          message={t('functionAppSettings_quotaWarning')}
         />
-        {!values.site.properties.enabled && values.site.properties.siteDisabledReason === 1 && <div>WARNING</div>}
-      </div>
+      )}
+      <Field
+        name="site.properties.dailyMemoryTimeQuota"
+        dirty={values.site.properties.dailyMemoryTimeQuota !== initialValues.site.properties.dailyMemoryTimeQuota}
+        component={TextField}
+        onKeyPress={e => onKeyDown(e)}
+        label={t('functionAppSettings_dailyUsageQuota')}
+        id="function-app-settings-daily-memory-time-quota"
+        disabled={!app_write || !editable || saving}
+        style={{ marginLeft: '1px', marginTop: '1px' }}
+      />
     </>
   );
 };

@@ -16,6 +16,12 @@ import { Site } from '../../../models/site/site';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { ThemeContext } from '../../../ThemeContext';
 
+const onKeyDown = keyEvent => {
+  if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+    keyEvent.preventDefault();
+  }
+};
+
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
     return {};
@@ -94,7 +100,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                       validateOnBlur={false}
                       validateOnChange={false}>
                       {(formProps: FormikProps<AppSettingsFormValues>) => (
-                        <form>
+                        <form onKeyDown={onKeyDown}>
                           <div className={commandBarSticky}>
                             <AppSettingsCommandBar
                               submitForm={formProps.submitForm}

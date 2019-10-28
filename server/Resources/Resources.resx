@@ -5337,4 +5337,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
         <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
+    <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active.</value>
+    </data>
+    <data name="appFunctionSettings_cutomRuntimeVersionError" xml:space="preserve">
+        <value>To pin your app to version '{0}' select the option above.</value>
+    </data>
+    <data name="appFunctionSettings_cutomRuntimeVersionPlaceholder" xml:space="preserve">
+        <value>e.g. 2.0.12742.0, latest</value>
+    </data>
 </root>
