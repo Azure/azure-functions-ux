@@ -96,6 +96,14 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
               {...props}
             />
           )}
+          {setting.resource === BindingSettingResource.DocumentDB && (
+            <NewServiceBusConnectionCallout
+              resourceId={resourceId}
+              setNewAppSettingName={setNewAppSettingName}
+              setIsDialogVisible={setIsDialogVisible}
+              {...props}
+            />
+          )}
         </Callout>
       </div>
     </div>
