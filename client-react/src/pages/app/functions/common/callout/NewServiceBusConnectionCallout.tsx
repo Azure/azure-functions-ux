@@ -2,21 +2,19 @@ import React, { useState } from 'react';
 import { FieldProps } from 'formik';
 import { NewConnectionCalloutProps } from './Callout.properties';
 import { useTranslation } from 'react-i18next';
-import EventHubPivotDataLoader from './eventHubPivot/EventHubPivotDataLoader';
-import IoTHubPivotDataLoader from './iotHubPivot/IoTHubPivotDataLoader';
 import CustomPivot from './customPivot/CustomPivot';
 import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
 import { paddingSidesStyle } from './Callout.styles';
+import ServiceBusPivotDataLoader from './serviceBusPivot/ServiceBusPivotDataLoader';
 
-export enum RadioState {
-  eventHub = 'eventHub',
-  iotHub = 'iotHub',
+enum RadioState {
+  serviceBus = 'serviceBus',
   custom = 'custom',
 }
 
-const NewEventHubConnectionCalloutProps: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const NewServiceBusConnectionCalloutProps: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
   const { t } = useTranslation();
-  const [radioState, setRadioState] = useState<RadioState>(RadioState.eventHub);
+  const [radioState, setRadioState] = useState<RadioState>(RadioState.serviceBus);
 
   return (
     <div style={paddingSidesStyle}>
@@ -26,12 +24,8 @@ const NewEventHubConnectionCalloutProps: React.SFC<NewConnectionCalloutProps & F
         selectedKey={radioState}
         options={[
           {
-            key: RadioState.eventHub,
-            text: t('eventHubPicker_eventHub'),
-          },
-          {
-            key: RadioState.iotHub,
-            text: t('eventHubPicker_IOTHub'),
+            key: RadioState.serviceBus,
+            text: t('serviceBusCallout_serviceBus'),
           },
           {
             key: RadioState.custom,
@@ -40,11 +34,10 @@ const NewEventHubConnectionCalloutProps: React.SFC<NewConnectionCalloutProps & F
         ]}
         onChange={(o, e) => e && setRadioState(e.key as RadioState)}
       />
-      {radioState === RadioState.eventHub && <EventHubPivotDataLoader {...props} />}
-      {radioState === RadioState.iotHub && <IoTHubPivotDataLoader {...props} />}
+      {radioState === RadioState.serviceBus && <ServiceBusPivotDataLoader {...props} />}
       {radioState === RadioState.custom && <CustomPivot {...props} />}
     </div>
   );
 };
 
-export default NewEventHubConnectionCalloutProps;
+export default NewServiceBusConnectionCalloutProps;
