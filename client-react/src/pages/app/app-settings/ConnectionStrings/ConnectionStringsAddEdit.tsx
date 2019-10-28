@@ -14,6 +14,7 @@ import { addEditFormStyle } from '../../../../components/form-controls/formContr
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
+import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 
 export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: FormConnectionString) => any;
@@ -37,7 +38,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
     if (!value) {
       return t('connectionStringPropIsRequired').format('name');
     }
-    if (isLinux && /[^\w\.]/.test(value)) {
+    if (isLinux && ValidationRegex.appSettingName.test(value)) {
       return t('validation_linuxConnectionStringNameError');
     }
     return otherConnectionStrings.filter(v => v.name === value).length >= 1 ? t('connectionStringNamesUnique') : '';
