@@ -32,7 +32,7 @@ export class FtpDashboardComponent extends FeatureComponent<string> implements O
     return inputEvents
       .switchMap(() => this._siteService.getPublishingProfile(this.resourceId))
       .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)))
-      .filter(x => x.publishMethod === 'FTP')
+      .first(x => x.publishMethod === 'FTP')
       .do(ftpProfile => {
         this.ftpsEndpoint = ftpProfile.publishUrl.replace('ftp:/', 'ftps:/');
       });
