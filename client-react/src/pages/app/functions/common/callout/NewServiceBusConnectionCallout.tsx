@@ -25,11 +25,11 @@ const NewServiceBusConnectionCalloutProps: React.SFC<NewConnectionCalloutProps &
         options={[
           {
             key: RadioState.serviceBus,
-            text: t('serviceBusPicker_serviceBus'),
+            text: t('serviceBusCallout_serviceBus'),
           },
           {
             key: RadioState.custom,
-            text: t('eventHubPicker_custom'),
+            text: t('resourceCallout_customAppSetting'),
           },
         ]}
         onChange={(o, e) => e && setRadioState(e.key as RadioState)}

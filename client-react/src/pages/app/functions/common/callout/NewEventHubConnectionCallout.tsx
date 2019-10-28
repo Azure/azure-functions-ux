@@ -35,7 +35,7 @@ const NewEventHubConnectionCalloutProps: React.SFC<NewConnectionCalloutProps & F
           },
           {
             key: RadioState.custom,
-            text: t('eventHubPicker_custom'),
+            text: t('resourceCallout_customAppSetting'),
           },
         ]}
         onChange={(o, e) => e && setRadioState(e.key as RadioState)}
