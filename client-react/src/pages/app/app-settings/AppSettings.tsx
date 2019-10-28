@@ -35,6 +35,7 @@ const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scena
     config: {
       properties: {} as any,
     },
+    appSettings: {} as any,
   };
   if (scenarioChecker.checkScenario(ScenarioIds.skipStackValidation, { site }).status !== 'disabled') {
     if (isJavaApp && !values.config.properties.javaContainer) {
@@ -55,6 +56,11 @@ const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scena
     errors.config.properties.defaultDocuments = values.config.properties.defaultDocuments.map(value => {
       return duplicateDefaultDocumentsValidation(value);
     });
+  }
+
+  if (values.functionsRuntimeVersionInfo.isCustom && values.functionsRuntimeVersionInfo.errorMessage) {
+    hasAnyError = true;
+    errors.appSettings.functionsRuntimeVersion = values.functionsRuntimeVersionInfo.errorMessage;
   }
 
   return hasAnyError ? errors : {};
@@ -96,6 +102,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               refreshAppSettings={refreshAppSettings}
                               disabled={!permissions.app_write || !permissions.editable || permissions.saving}
                               dirty={formProps.dirty}
+                              isValid={formProps.isValid}
                             />
                             {!!initialFormValues &&
                               scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
