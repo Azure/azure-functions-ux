@@ -1,3 +1,4 @@
+import { ISubscription } from './portal-models';
 export interface ISubscription {
   subscriptionId: string;
   displayName: string;
@@ -7,4 +8,8 @@ export interface ISubscription {
 
 export interface ISubscriptionPolicies {
   quotaId: string;
+}
+
+export interface Subscriptions {
+  value: ISubscription[];
 }

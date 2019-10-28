@@ -8,13 +8,13 @@ import CustomPivot from './customPivot/CustomPivot';
 import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
 import { paddingSidesStyle } from './Callout.styles';
 
-export enum RadioState {
+enum RadioState {
   eventHub = 'eventHub',
   iotHub = 'iotHub',
   custom = 'custom',
 }
 
-const NewEventHubConnectionCalloutProps: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const NewEventHubConnectionCallout: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
   const { t } = useTranslation();
   const [radioState, setRadioState] = useState<RadioState>(RadioState.eventHub);
 
@@ -47,4 +47,4 @@ const NewEventHubConnectionCalloutProps: React.SFC<NewConnectionCalloutProps & F
   );
 };
 
-export default NewEventHubConnectionCalloutProps;
+export default NewEventHubConnectionCallout;
