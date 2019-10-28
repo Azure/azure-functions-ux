@@ -107,15 +107,13 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         buttonAs={CustomCommandBarButton}
       />
       {isDialogVisible && (
-        <>
-          <FunctionEditorGetFunctionUrlCallout
-            hostKeyDropdownOptions={hostKeyDropdownOptions}
-            hostKeyDropdownSelectedKey={hostKeyDropdownSelectedKey}
-            hostUrls={hostUrls}
-            setIsDialogVisible={setIsDialogVisible}
-            dialogTarget={getFunctionUrlButtonRef.current}
-          />
-        </>
+        <FunctionEditorGetFunctionUrlCallout
+          hostKeyDropdownOptions={hostKeyDropdownOptions}
+          hostKeyDropdownSelectedKey={hostKeyDropdownSelectedKey}
+          hostUrls={hostUrls}
+          setIsDialogVisible={setIsDialogVisible}
+          dialogTarget={getFunctionUrlButtonRef.current}
+        />
       )}
     </>
   );

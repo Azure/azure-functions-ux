@@ -21,14 +21,14 @@ interface FunctionEditorGetFunctionUrlCalloutProps {
 const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrlCalloutProps> = props => {
   const { hostKeyDropdownOptions, hostKeyDropdownSelectedKey, hostUrls, setIsDialogVisible, dialogTarget } = props;
   const { t } = useTranslation();
-  const [url, setUrl] = useState<string>(() => {
+  const [url, setUrl] = useState<string | undefined>(() => {
     for (const hostUrl of hostUrls) {
       if (hostUrl.key === hostKeyDropdownSelectedKey) {
         return hostUrl.url;
       }
     }
 
-    return '';
+    return undefined;
   });
 
   const onCloseDialog = () => {
@@ -70,7 +70,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
           </Stack>
           <Stack horizontal>
             <Label className={`${formLabelStyle(false, false)}`}>{t('keysDialog_url')}</Label>
-            <TextFieldNoFormik label={''} id="function-editor-function-url" value={url} disabled={true} copyButton={true} />
+            <TextFieldNoFormik id="function-editor-function-url" value={url} disabled={true} copyButton={true} />
           </Stack>
         </Stack>
       </div>
