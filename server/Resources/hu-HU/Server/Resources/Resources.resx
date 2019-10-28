@@ -2147,16 +2147,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A(z) {0} tárolóhelynév egy fenntartott üzembe helyezési pont neve.</value>
     </data>
   <data name="validation_fieldMaxCharacters" xml:space="preserve">
-        <value>The field must be fewer than {0} characters</value>
+        <value>A mezőnek {0} karakternél rövidebbnek kell lennie</value>
     </data>
   <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
-        <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
+        <value>A megosztás neve csak alfanumerikus karaktereket, aláhúzást, kötőjelet, szögletes zárójelet és zárójelet tartalmazhat</value>
     </data>
   <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
-        <value>Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis</value>
+        <value>A csatlakoztatási útvonalnak teljes elérési útnak kell lennie, és csak alfanumerikus karaktereket, aláhúzást, kötőjelet, perjelet, szögletes zárójelet és zárójelet tartalmazhat</value>
     </data>
   <data name="validation_mountPathNotHome" xml:space="preserve">
-        <value>Mount path cannot be '/home'</value>
+        <value>A csatlakoztatási útvonal nem lehet a következő: „/home”</value>
     </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>Nem tudtuk megváltoztatni a függvényalkalmazás szerkesztési módját. Próbálja újra később.</value>
@@ -3645,7 +3645,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Alkalmazás hitelesítő adatai</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Az alkalmazás automatikusan létrehozott hitelesítő adatai csak ehhez az alkalmazáshoz üzembe helyezési ponthoz biztosítanak hozzáférést. Ezek a hitelesítő adatok FTP-vel, helyi gittel és a WebDeployjal egyaránt használhatók.</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>Felhasználónév</value>
@@ -3715,9 +3715,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="sync" xml:space="preserve">
         <value>Szinkronizálás</value>
-    </data>
-  <data name="deploymentCredentials" xml:space="preserve">
-        <value>FTP/Hitelesítő adatok</value>
     </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
         <value>Dv3 sorozatú számítási erőforrás egyenértéke</value>
@@ -4981,7 +4978,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A munkakönyvtár elérési útjának az adattár gyökeréhez képest relatívnak kell lennie, és nem kezdődhet / vagy \ jellel, vagy meghajtónévvel (C:/) Windows esetén. Ha a munkakönyvtár az adattár src mappájában található, az elérési útnak a következőnek kell lennie: src/</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>Mounted storage lets you map up to 5 Azure Files or Blob containers for use with your app.</value>
+        <value>Csatlakoztatott tároló esetén legfeljebb öt Azure-beli fájlt vagy blobtárolót rendelhet hozzá az alkalmazással való használat céljából.</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>Váltás másik App Service-csomagra</value>
@@ -5158,7 +5155,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Hiba részletei</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Function keys can be configured in function settings.</value>
+        <value>A függvénykulcsok a függvénybeállításoknál konfigurálhatók.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Állomáskulcsok (minden függvény)</value>
@@ -5263,13 +5260,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A GitHub Actions segítségével ingyenes automatizálhatja a buildelési, tesztelési és üzembe helyezési lépéseket. Ez a funkció hozzáad egy olyan YML-munkafolyamatot a tárházhoz, amely tartalmazza az alkalmazás App Service-ben való létrehozásához és üzembe helyezéséhez szükséges lépéseket.</value>
     </data>
   <data name="azureKeyVault" xml:space="preserve">
-        <value>Key vault Reference</value>
+        <value>Kulcstároló-referencia</value>
     </data>
   <data name="appConfigValue" xml:space="preserve">
-        <value>App Config</value>
+        <value>Alkalmazáskonfiguráció</value>
     </data>
   <data name="appSettingKeyvaultAPIError" xml:space="preserve">
-        <value>Error: Could not access key vault reference metadata</value>
+        <value>Hiba: Nem sikerült hozzáférni a kulcstároló referencia-metaadataihoz</value>
     </data>
   <data name="containerSettingsNotConfigured" xml:space="preserve">
         <value>Kattintson ide a tároló beállításainak konfigurálásához.</value>
@@ -5283,43 +5280,85 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="linux" xml:space="preserve">
         <value>Linux</value>
     </data>
+  <data name="deploymentCredentialsTitle" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+  <data name="deploymentCredentialsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCredentialsLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+  <data name="deploymentCredentialsFtps" xml:space="preserve">
+        <value>FTP/FTPS</value>
+    </data>
   <data name="none" xml:space="preserve">
         <value>Nincs</value>
     </data>
   <data name="functionEditorSaveAriaLabel" xml:space="preserve">
-        <value>Save changes to your function.</value>
+        <value>Mentse a függvény módosításait.</value>
     </data>
   <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
-        <value>Discard changes to your function.</value>
+        <value>Vesse el a függvény módosításait.</value>
     </data>
   <data name="functionEditorTestAriaLabel" xml:space="preserve">
-        <value>Open test panel to test run your function.</value>
+        <value>Nyissa meg a tesztpanelt a függvény tesztfuttatásához.</value>
     </data>
   <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
-        <value>Open popup to get function URL for your function.</value>
+        <value>Nyissa meg az előugró ablakot a függvény URL-címének lekéréséhez.</value>
     </data>
   <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
         <value>A balra és jobbra mutató nyilakkal lépkedhet a parancsok között</value>
     </data>
+  <data name="localGitDescription" xml:space="preserve">
+        <value>Use Git to push changes directly to your app.</value>
+    </data>
+  <data name="ftpsDescription" xml:space="preserve">
+        <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+  <data name="gitCloneUrlLabel" xml:space="preserve">
+        <value>Git Clone URL</value>
+    </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
-        <value>GitHub Action Workflow Configuration</value>
+        <value>GitHub-művelet munkafolyamatának konfigurációja</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Adding workflow configuration to GitHub Actions</value>
+        <value>Munkafolyamat-konfiguráció hozzáadása GitHub-műveletekhez</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+        <value>Sikerült véglegesíteni a GitHub-művelet munkafolyamat-definícióját a(z) {1} adattár {0} ágán.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
-        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
-    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
-        <value>Select your function directory or files in your root directory.</value>
+        <value>Adja hozzá vagy frissítse az App Service üzembehelyezési munkafolyamatának konfigurációját az Azure Portalról.</value>
     </data>
+  <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Válassza ki a függvénytárat vagy -fájlokat a gyökérkönyvtárban.</value>
     </data>
   <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
-        <value>Select files in your function directory.</value>
+        <value>Válassza ki a fájlokat a függvénytárban.</value>
+    </data>
+  <data name="noPlanWritePermissions" xml:space="preserve">
+        <value>This feature requires write permissions on the plan hosting your app</value>
     </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Zárja be a get függvény URL modálisát.</value>
+    </data>
+  <data name="scope" xml:space="preserve">
+        <value>Scope</value>
+    </data>
+  <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
+        <value>Virtual network trigger support</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+    </data>
+  <data name="refreshAppSettingsTitle" xml:space="preserve">
+        <value>Refresh App Settings</value>
+    </data>
+  <data name="refreshAppSettingsMessage" xml:space="preserve">
+        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
 </root>

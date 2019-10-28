@@ -3645,7 +3645,7 @@
         <value>앱 자격 증명</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>응용 프로그램 자격 증명은 자동으로 생성되며 이 특정 앱 또는 배포 슬롯에만 액세스할 수 있습니다. 이러한 자격 증명은 FTP, 로컬 Git 및 WebDeploy에서 사용할 수 있습니다.</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>사용자 이름</value>
@@ -3715,9 +3715,6 @@
     </data>
   <data name="sync" xml:space="preserve">
         <value>동기화</value>
-    </data>
-  <data name="deploymentCredentials" xml:space="preserve">
-        <value>FTP/자격 증명</value>
     </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
         <value>Dv3 시리즈 계산과 동일</value>
@@ -5283,6 +5280,18 @@
   <data name="linux" xml:space="preserve">
         <value>Linux</value>
     </data>
+  <data name="deploymentCredentialsTitle" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+  <data name="deploymentCredentialsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCredentialsLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+  <data name="deploymentCredentialsFtps" xml:space="preserve">
+        <value>FTP/FTPS</value>
+    </data>
   <data name="none" xml:space="preserve">
         <value>없음</value>
     </data>
@@ -5301,25 +5310,55 @@
   <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
         <value>왼쪽 및 오른쪽 화살표 키를 사용하여 명령 간 이동</value>
     </data>
+  <data name="localGitDescription" xml:space="preserve">
+        <value>Use Git to push changes directly to your app.</value>
+    </data>
+  <data name="ftpsDescription" xml:space="preserve">
+        <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+  <data name="gitCloneUrlLabel" xml:space="preserve">
+        <value>Git Clone URL</value>
+    </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
-        <value>GitHub Action Workflow Configuration</value>
+        <value>GitHub 작업 워크플로 구성</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Adding workflow configuration to GitHub Actions</value>
+        <value>GitHub 작업에 워크플로 구성을 추가하는 중</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+        <value>'{1}' 리포지토리의 '{0}' 분기에 대한 GitHub 작업 워크플로 정의를 커밋했습니다.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
-        <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
-    <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
-        <value>루트 디렉터리에서 함수 디렉터리 또는 파일을 선택합니다.</value>
+        <value>Azure Portal에서 App Service 배포 워크플로 구성을 추가하거나 업데이트합니다.</value>
     </data>
+  <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>루트 디렉터리에서 함수 디렉터리 또는 파일을 선택합니다.</value>
     </data>
   <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
         <value>함수 디렉터리에서 파일을 선택합니다.</value>
     </data>
+  <data name="noPlanWritePermissions" xml:space="preserve">
+        <value>This feature requires write permissions on the plan hosting your app</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
+    </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Get 함수 URL 모달을 닫습니다.</value>
+    </data>
+  <data name="scope" xml:space="preserve">
+        <value>Scope</value>
+    </data>
+  <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
+        <value>Virtual network trigger support</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+    </data>
+  <data name="refreshAppSettingsTitle" xml:space="preserve">
+        <value>Refresh App Settings</value>
+    </data>
+  <data name="refreshAppSettingsMessage" xml:space="preserve">
+        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
 </root>

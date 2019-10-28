@@ -1731,4 +1731,15 @@ export class PortalResources {
   public static appFunctionSettings_runtimeScalingMonitoredText = 'appFunctionSettings_runtimeScalingMonitoredText';
   public static refreshAppSettingsTitle = 'refreshAppSettingsTitle';
   public static refreshAppSettingsMessage = 'refreshAppSettingsMessage';
+  public static eventHubPicker_noNamespaces = 'eventHubPicker_noNamespaces';
+  public static eventHubPicker_noEventHubs = 'eventHubPicker_noEventHubs';
+  public static eventHubPicker_noPolicies = 'eventHubPicker_noPolicies';
+  public static iotHubPivot_noIoTHubs = 'iotHubPivot_noIoTHubs';
+  public static iotHubPivot_IoTHub = 'iotHubPivot_IoTHub';
+  public static iotHubPivot_noEndpoints = 'iotHubPivot_noEndpoints';
+  public static iotHubPivot_Endpoint = 'iotHubPivot_Endpoint';
+  public static iotHubPivot_IOTEvents = 'iotHubPivot_IOTEvents';
+  public static iotHubPivot_IOTMonitoring = 'iotHubPivot_IOTMonitoring';
+  public static customPivot_key = 'customPivot_key';
+  public static customPivot_value = 'customPivot_value';
 }
