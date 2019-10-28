@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { FieldProps } from 'formik';
 import { NewConnectionCalloutProps } from './Callout.properties';
 import { useTranslation } from 'react-i18next';
-import EventHubPivotDataLoader from './eventHubPivot/EventHubPivotDataLoader';
 import CustomPivot from './customPivot/CustomPivot';
 import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
 import { paddingSidesStyle } from './Callout.styles';
+import ServiceBusPivotDataLoader from './serviceBusPivot/ServiceBusPivotDataLoader';
 
 enum RadioState {
   serviceBus = 'serviceBus',
@@ -34,7 +34,7 @@ const NewServiceBusConnectionCalloutProps: React.SFC<NewConnectionCalloutProps &
         ]}
         onChange={(o, e) => e && setRadioState(e.key as RadioState)}
       />
-      {radioState === RadioState.serviceBus && <EventHubPivotDataLoader {...props} />}
+      {radioState === RadioState.serviceBus && <ServiceBusPivotDataLoader {...props} />}
       {radioState === RadioState.custom && <CustomPivot {...props} />}
     </div>
   );
