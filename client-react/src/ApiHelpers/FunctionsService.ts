@@ -14,6 +14,11 @@ import { Guid } from '../utils/Guid';
 import { Site, HostType } from '../models/site/site';
 
 export default class FunctionsService {
+  public static FunctionsVersionInfo = {
+    runtimeStable: ['~1', 'beta', '~2', 'latest', '~3'],
+    runtimeDefault: '~3',
+  };
+
   public static getFunctions = (resourceId: string) => {
     const id = `${resourceId}/functions`;
 

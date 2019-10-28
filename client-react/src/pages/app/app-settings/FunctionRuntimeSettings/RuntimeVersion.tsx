@@ -11,7 +11,12 @@ import { IChoiceGroupOption, Stack, Icon, Link } from 'office-ui-fabric-react';
 import { isEqual } from 'lodash-es';
 import { settingsWrapper } from '../AppSettingsForm';
 import { style } from 'typestyle';
-import { getFunctionsRuntimeMajorVersion, findFormAppSetting, findFormAppSettingIndex } from '../AppSettingsFormData';
+import {
+  getFunctionsRuntimeMajorVersion,
+  findFormAppSetting,
+  findFormAppSettingIndex,
+  getFunctionsRuntimeGeneration,
+} from '../AppSettingsFormData';
 import { infoIconStyle, learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { Links } from '../../../../utils/FwLinks';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -38,7 +43,8 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
     }
   }, [focusTextField]);
 
-  const exactRuntimeVersion = !!values.hostStatus ? values.hostStatus.properties.version : null;
+  const exactRuntimeVersion = !!initialValues.hostStatus ? initialValues.hostStatus.properties.version : null;
+  const exactRuntimeGeneration = getFunctionsRuntimeGeneration(exactRuntimeVersion);
 
   const runtimeVersion = getRuntimeVersion(values.appSettings);
   const initialRuntimeVersion = getRuntimeVersion(initialValues.appSettings);
@@ -273,6 +279,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
   return (
     <>
       {<div>Exact Runtime Version: {exactRuntimeVersion}</div>}
+      {<div>Exact Runtime Generation: {exactRuntimeGeneration}</div>}
       {<div>Runtime Version: {runtimeVersion}</div>}
       {<div>Initial Runtime Version: {initialRuntimeVersion}</div>}
       {<div>{isValidRuntimeVersion() ? 'VALID' : 'NOT VALID'}</div>}

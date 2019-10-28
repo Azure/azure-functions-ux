@@ -38,10 +38,10 @@ export const getFunctionsRuntimeGeneration = (version: string | null) => {
   if (version.startsWith('~1') || version.startsWith('1.')) {
     return FunctionsRuntimeGenerations.v2;
   }
-  if (version.startsWith('~2') || version.startsWith('2') || version.startsWith('beta')) {
+  if (version.startsWith('~2') || version.startsWith('2')) {
     return FunctionsRuntimeGenerations.v2;
   }
-  if (version.startsWith('~3') || version.startsWith('3')) {
+  if (version.startsWith('~3') || version.startsWith('3') || version.toLowerCase() === 'beta' || version.toLowerCase() === 'latest') {
     return FunctionsRuntimeGenerations.v3;
   }
 
