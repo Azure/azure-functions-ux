@@ -22,6 +22,7 @@ export enum FunctionsRuntimeGenerations {
 export interface FunctionsRuntimeVersionInfo {
   isCustom: boolean;
   latestCustomValue: string;
+  errorMessage: string;
 }
 
 export interface Permissions {

@@ -59,7 +59,7 @@ export const getFunctionsRuntimeVersionInfo = (
   // const generation = getFunctionsRuntimeGeneration(appSettingValue);
 
   if (majorVersion === FunctionsRuntimeMajorVersions.custom) {
-    return { isCustom: true, latestCustomValue: appSettingValue };
+    return { isCustom: true, errorMessage: '', latestCustomValue: appSettingValue };
   }
 
   if (
@@ -70,7 +70,11 @@ export const getFunctionsRuntimeVersionInfo = (
     return { ...functionsRuntimeVersionInfo };
   }
 
-  return { isCustom: false, latestCustomValue: functionsRuntimeVersionInfo ? functionsRuntimeVersionInfo.latestCustomValue : '' };
+  return {
+    isCustom: false,
+    errorMessage: '',
+    latestCustomValue: functionsRuntimeVersionInfo ? functionsRuntimeVersionInfo.latestCustomValue : '',
+  };
 };
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {

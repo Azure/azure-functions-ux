@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { AppSettingsFormValues, FunctionsRuntimeMajorVersions } from '../AppSettings.types';
+import { AppSettingsFormValues } from '../AppSettings.types';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { FormikProps } from 'formik';
 import RuntimeVersion from '../FunctionRuntimeSettings/RuntimeVersion';
@@ -11,7 +11,7 @@ import DailyUsageQuota from '../FunctionRuntimeSettings/DailyUsageQuota';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import RuntimeScaleMonitoring from '../FunctionRuntimeSettings/RuntimeScaleMonitoring';
-import { getFunctionsRuntimeMajorVersion, findFormAppSetting } from '../AppSettingsFormData';
+import { findFormAppSetting } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const FunctionRuntimeSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
@@ -80,10 +80,7 @@ export const functionRuntimeSettingsDirty = (values: AppSettingsFormValues, init
 };
 
 export const functionRuntimeSettingsError = (values: AppSettingsFormValues) => {
-  return (
-    values.functionsRuntimeVersionInfo.isCustom &&
-    getFunctionsRuntimeMajorVersion(values.functionsRuntimeVersionInfo.latestCustomValue) !== FunctionsRuntimeMajorVersions.custom
-  );
+  return values.functionsRuntimeVersionInfo.isCustom && !!values.functionsRuntimeVersionInfo.errorMessage;
 };
 
 export default FunctionRuntimeSettingsPivot;

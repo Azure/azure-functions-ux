@@ -45,11 +45,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
 
   const selectedVersionOption = values.functionsRuntimeVersionInfo.isCustom ? FunctionsRuntimeMajorVersions.custom : runtimeVersion!;
 
-  const customVersionErrorMessage =
-    values.functionsRuntimeVersionInfo.isCustom &&
-    getFunctionsRuntimeMajorVersion(values.functionsRuntimeVersionInfo.latestCustomValue) !== FunctionsRuntimeMajorVersions.custom
-      ? `Select the '${values.functionsRuntimeVersionInfo.latestCustomValue}' option above.`
-      : '';
+  const customVersionErrorMessage = values.functionsRuntimeVersionInfo.isCustom && values.functionsRuntimeVersionInfo.errorMessage;
 
   // const needUpdateExtensionVersion = false;
   // const badRuntimeVersion = false;
@@ -181,6 +177,8 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
   };
 
   const onTextFieldChange = (version: string) => {
+    const errorMessage =
+      getFunctionsRuntimeMajorVersion(version) !== FunctionsRuntimeMajorVersions.custom ? `Select the '${version}' option above.` : '';
     const appSettings: FormAppSetting[] = [...values.appSettings];
     const index = findFormAppSettingIndex(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
     if (index === -1) {
@@ -196,7 +194,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
     } else {
       appSettings.splice(index, 1);
     }
-    setRuntimeCustomEdit({ ...values.functionsRuntimeVersionInfo, latestCustomValue: version });
+    setRuntimeCustomEdit({ ...values.functionsRuntimeVersionInfo, errorMessage, latestCustomValue: version });
     setFieldValue('appSettings', appSettings);
   };
 
