@@ -1725,6 +1725,7 @@ export class PortalResources {
   public static functionDirectoryDropdownAriaLabel = 'functionDirectoryDropdownAriaLabel';
   public static noPlanWritePermissions = 'noPlanWritePermissions';
   public static closeGetFunctionUrlModal = 'closeGetFunctionUrlModal';
+  public static validation_linuxConnectionStringNameError = 'validation_linuxConnectionStringNameError';
   public static scope = 'scope';
   public static appFunctionSettings_virtualNetworkTriggerSupport = 'appFunctionSettings_virtualNetworkTriggerSupport';
   public static appFunctionSettings_runtimeScalingMonitoredText = 'appFunctionSettings_runtimeScalingMonitoredText';
