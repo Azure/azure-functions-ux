@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import CustomPivot from './customPivot/CustomPivot';
 import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
 import { paddingSidesStyle } from './Callout.styles';
-import ServiceBusPivotDataLoader from './serviceBusPivot/ServiceBusPivotDataLoader';
+import DocumentDBPivotDataLoader from './documentDBPivot/DocumentDBDataLoader';
 
 enum RadioState {
   documentAccount = 'documentAccount',
@@ -34,7 +34,7 @@ const NewDocumentDBConnectionCallout: React.SFC<NewConnectionCalloutProps & Fiel
         ]}
         onChange={(o, e) => e && setRadioState(e.key as RadioState)}
       />
-      {radioState === RadioState.documentAccount && <ServiceBusPivotDataLoader {...props} />}
+      {radioState === RadioState.documentAccount && <DocumentDBPivotDataLoader {...props} />}
       {radioState === RadioState.custom && <CustomPivot {...props} />}
     </div>
   );

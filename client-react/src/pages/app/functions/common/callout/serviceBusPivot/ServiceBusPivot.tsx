@@ -13,7 +13,7 @@ import { ServiceBusPivotContext } from './ServiceBusPivotDataLoader';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 
-export interface EventHubPivotFormValues {
+export interface ServiceBusPivotFormValues {
   namespace: ArmObj<Namespace> | undefined;
   policy: ArmObj<AuthorizationRule> | undefined;
 }
@@ -22,7 +22,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props =
   const provider = useContext(ServiceBusPivotContext);
   const { t } = useTranslation();
   const { resourceId } = props;
-  const [formValues, setFormValues] = useState<EventHubPivotFormValues>({ namespace: undefined, policy: undefined });
+  const [formValues, setFormValues] = useState<ServiceBusPivotFormValues>({ namespace: undefined, policy: undefined });
   const [namespaces, setNamespaces] = useState<ArmObj<Namespace>[] | undefined>(undefined);
   const [namespaceAuthRules, setNamespaceAuthRules] = useState<ArmObj<AuthorizationRule>[] | undefined>(undefined);
   const [keyList, setKeyList] = useState<KeyList | undefined>(undefined);
@@ -89,7 +89,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props =
           props.field
         )
       }>
-      {(formProps: FormikProps<EventHubPivotFormValues>) => {
+      {(formProps: FormikProps<ServiceBusPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
             {!!namespaces && namespaces.length === 0 ? (
