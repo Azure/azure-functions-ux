@@ -9,7 +9,3 @@ export interface ISubscription {
 export interface ISubscriptionPolicies {
   quotaId: string;
 }
-
-export interface Subscriptions {
-  value: ISubscription[];
-}
