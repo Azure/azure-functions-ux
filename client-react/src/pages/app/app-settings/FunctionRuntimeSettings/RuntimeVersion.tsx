@@ -137,17 +137,17 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
   };
 
   const onSelectCustomVersion = () => {
-    const appSettings: FormAppSetting[] = [...values.appSettings];
-    const index = findFormAppSettingIndex(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
-    // const value = index !== -1 ? '' : appSettings[index].value;
-    // if (value && getFunctionsRuntimeMajorVersion(value) === FunctionsRuntimeMajorVersions.custom) {
-    if (!values.functionsRuntimeVersionInfo.latestCustomValue) {
-      appSettings.splice(index, 1);
-    } else {
-      appSettings[index] = { ...appSettings[index], value: values.functionsRuntimeVersionInfo.latestCustomValue };
-    }
-    setFieldValue('appSettings', appSettings);
+    // const appSettings: FormAppSetting[] = [...values.appSettings];
+    // const index = findFormAppSettingIndex(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
+    // // const value = index !== -1 ? '' : appSettings[index].value;
+    // // if (value && getFunctionsRuntimeMajorVersion(value) === FunctionsRuntimeMajorVersions.custom) {
+    // if (!values.functionsRuntimeVersionInfo.latestCustomValue) {
+    //   appSettings.splice(index, 1);
+    // } else {
+    //   appSettings[index] = { ...appSettings[index], value: values.functionsRuntimeVersionInfo.latestCustomValue };
     // }
+    // setFieldValue('appSettings', appSettings);
+    // // }
     setRuntimeCustomEdit({ ...values.functionsRuntimeVersionInfo, isCustom: true });
     setFocusTextField(true);
   };
@@ -179,6 +179,11 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
   const onTextFieldChange = (version: string) => {
     const errorMessage =
       getFunctionsRuntimeMajorVersion(version) !== FunctionsRuntimeMajorVersions.custom ? `Select the '${version}' option above.` : '';
+    setRuntimeCustomEdit({ ...values.functionsRuntimeVersionInfo, errorMessage, latestCustomValue: version });
+  };
+
+  const onTextFieldBlur = () => {
+    const version = values.functionsRuntimeVersionInfo.latestCustomValue;
     const appSettings: FormAppSetting[] = [...values.appSettings];
     const index = findFormAppSettingIndex(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
     if (index === -1) {
@@ -194,7 +199,6 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
     } else {
       appSettings.splice(index, 1);
     }
-    setRuntimeCustomEdit({ ...values.functionsRuntimeVersionInfo, errorMessage, latestCustomValue: version });
     setFieldValue('appSettings', appSettings);
   };
 
@@ -216,6 +220,11 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
               onChange={(e, newVal) => {
                 if (values.functionsRuntimeVersionInfo.isCustom) {
                   onTextFieldChange(newVal);
+                }
+              }}
+              onBlur={() => {
+                if (values.functionsRuntimeVersionInfo.isCustom) {
+                  onTextFieldBlur();
                 }
               }}
               value={values.functionsRuntimeVersionInfo.latestCustomValue}
