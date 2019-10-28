@@ -18,8 +18,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const test = () => {};
 
-  const getFunctionUrl = () => {};
-
   const onFileSelectorChange = () => {};
 
   const inputBinding =
@@ -53,16 +51,33 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     },
   ];
 
+  const hostKeyDropdownOptions = [
+    {
+      key: 'master',
+      text: 'master',
+      selected: true,
+    },
+  ];
+
+  const hostUrls = [
+    {
+      key: 'master',
+      url: 'https://test.com/key1',
+    },
+  ];
+
   return (
     <>
       <FunctionEditorCommandBar
         saveFunction={save}
         resetFunction={discard}
         testFunction={test}
-        getFunctionUrl={getFunctionUrl}
         showGetFunctionUrlCommand={!!inputBinding}
         dirty={dirty}
         disabled={false}
+        hostKeyDropdownOptions={hostKeyDropdownOptions}
+        hostKeyDropdownSelectedKey={'master'}
+        hostUrls={hostUrls}
       />
       <FunctionEditorFileSelectorBar
         functionAppNameLabel={'FunctionAppName /'}
