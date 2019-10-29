@@ -25,11 +25,11 @@ const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps & Fiel
         options={[
           {
             key: RadioState.existing,
-            text: t('existing'),
+            text: t('stoageAccountCallout_existingStorageAccount'),
           },
           {
             key: RadioState.new,
-            text: t('new'),
+            text: t('stoageAccountCallout_newStorageAccount'),
           },
         ]}
         onChange={(o, e) => e && setRadioState(e.key as RadioState)}

@@ -22,7 +22,7 @@ const NewPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
         return (
           <form style={paddingSidesStyle}>
             <TextField
-              label={t('_name')}
+              label={t('newPivot_name')}
               onChange={(o, e) => {
                 setFormValues({ ...formValues, name: e });
               }}
