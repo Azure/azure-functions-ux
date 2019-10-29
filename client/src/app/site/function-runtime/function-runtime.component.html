@@ -161,7 +161,7 @@
             </div>
         </div>
     </div>
-    <div class="setting-wrapper" *ngIf="functionsRuntimeScaleMonitoringSupported || functionsRuntimeScaleMonitoring">
+    <div class="setting-wrapper" *ngIf="isElasticPremium">
         <label id="runtimeScalingRadioLabel" class="title-label">{{ 'appFunctionSettings_virtualNetworkTriggerSupport' | translate }}</label>
         <div class="features-wrapper">
             <div>
@@ -174,7 +174,7 @@
                         (value)="functionsRuntimeScaleMonitoringStream.next($event)"
                         id="runtimeScalingRadioButton"
                         aria-labelledby="runtimeScalingRadioLabel runtimeScalingRadioButton"
-                        [disabled]="(!functionsRuntimeScaleMonitoring && (reservedInstanceCount === 0 || !vnetEnabled))">
+                        [disabled]="(!functionsRuntimeScaleMonitoring && (reservedInstanceCount === 0 || !vnetEnabled || !runtimeVersionSupportsScaleMonitoring))">
                     </radio-selector>
                 </div>
             </div>

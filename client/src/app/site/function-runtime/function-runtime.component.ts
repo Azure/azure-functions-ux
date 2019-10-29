@@ -85,8 +85,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   public disableRuntimeSelector = false;
   public disableSomeVersionSwaps = false;
 
+  public runtimeVersionSupportsScaleMonitoring = false;
   public functionsRuntimeScaleMonitoring = false;
-  public functionsRuntimeScaleMonitoringSupported = false;
   public functionsRuntimeScaleMonitoringOptions: SelectOption<Boolean>[];
   public readonly functionsRuntimeScaleMonitoringLink: string;
   public reservedInstanceCount = 0;
@@ -317,7 +317,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           this.vnetEnabled = !!siteConfig.properties.vnetName;
         }
 
-        this._updateFunctionsRuntimeScaleMonitoringSupported();
+        this._setRuntimeVersionSupportsScaleMonitoring();
         this._busyManager.clearBusy();
         this._aiService.stopTrace('/timings/site/tab/function-runtime/revealed', this.viewInfo.data.siteTabRevealedTraceKey);
       });
@@ -398,7 +398,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         this.exactExtensionVersion = hostStatus ? hostStatus.version : '';
         this.extensionVersion = version;
         this._setNeedUpdateExtensionVersion();
-        this._updateFunctionsRuntimeScaleMonitoringSupported();
+        this._setRuntimeVersionSupportsScaleMonitoring();
         this._busyManager.clearBusy();
         this._cacheService.clearArmIdCachePrefix(this.context.site.id);
         this._appNode.clearNotification(NotificationIds.newRuntimeVersion);
@@ -459,39 +459,31 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     }
   }
 
-  private _updateFunctionsRuntimeScaleMonitoringSupported() {
+  private _setRuntimeVersionSupportsScaleMonitoring() {
     let supported = false;
-    if (!this.isElasticPremium) {
-      // only supported for Premium Functions
-      supported = false;
-    } else if (
+
+    const isV3 =
+      this.extensionVersion === FunctionAppRuntimeSetting.tilda3 ||
+      FunctionsVersionInfoHelper.getFunctionGeneration(this.exactExtensionVersion) === FunctionAppVersion.v3;
+    const isV2 =
+      this.extensionVersion === FunctionAppRuntimeSetting.tilda2 ||
+      FunctionsVersionInfoHelper.getFunctionGeneration(this.exactExtensionVersion) === FunctionAppVersion.v2;
+    const isV1 =
       this.extensionVersion === FunctionAppRuntimeSetting.tilda1 ||
-      FunctionsVersionInfoHelper.getFunctionGeneration(this.exactExtensionVersion) === FunctionAppVersion.v1
-    ) {
+      FunctionsVersionInfoHelper.getFunctionGeneration(this.exactExtensionVersion) === FunctionAppVersion.v1;
+
+    if (isV3 || isV2) {
+      // supported for any V3 version and some V2 versions
+      supported = true;
+    } else if (isV1) {
       // not supported for any V1 version
       supported = false;
-    } else if (
-      this.extensionVersion === FunctionAppRuntimeSetting.tilda3 ||
-      FunctionsVersionInfoHelper.getFunctionGeneration(this.exactExtensionVersion) === FunctionAppVersion.v3
-    ) {
-      // supported for all V3 versions
-      supported = true;
-    } else if (
-      !this.extensionVersion || // TODO (andimarc): confirm that the latest V2 version is used when FUNCTIONS_EXTENSION_VERSION is not set or is set to empty
-      this.extensionVersion.toLowerCase() === 'beta' || // TODO (andimarc): confirm that the latest V2 version is used when FUNCTIONS_EXTENSION_VERSION is set to 'beta')
-      this.extensionVersion.toLowerCase() === 'latest' || // TODO (andimarc): confirm that the latest V2 version is used when FUNCTIONS_EXTENSION_VERSION is set to 'latest'
-      this.extensionVersion === FunctionAppRuntimeSetting.tilda2
-    ) {
-      // supported for the latest V2 version
-      supported = true;
-    } else if (this.exactExtensionVersion) {
-      // supported for the latest version '' and above
-      supported = this.exactExtensionVersion >= '<minimum version supporting runtime scale monitoring>';
     } else {
-      supported = this.extensionVersion >= '<minimum version supporting runtime scale monitoring>';
+      // can't determine if supported
+      supported = false;
     }
 
-    this.functionsRuntimeScaleMonitoringSupported = supported;
+    this.runtimeVersionSupportsScaleMonitoring = supported;
   }
 
   private _updateFunctionRuntimeScaleMonitoring(value: boolean) {
