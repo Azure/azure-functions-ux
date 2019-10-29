@@ -1,4 +1,3 @@
-import { ISubscription } from './portal-models';
 export interface ISubscription {
   subscriptionId: string;
   displayName: string;
