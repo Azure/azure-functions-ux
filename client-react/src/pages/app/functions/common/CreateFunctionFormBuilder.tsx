@@ -15,8 +15,8 @@ export interface CreateFunctionFormValues extends BindingEditorFormValues {
 
 export class CreateFunctionFormBuilder extends BindingFormBuilder {
   constructor(
-    bindingInfo: BindingInfo,
-    bindingMetadata: BindingConfigMetadata,
+    bindingInfo: BindingInfo[],
+    bindingMetadata: BindingConfigMetadata[],
     resourceId: string,
     variables: { [key: string]: string },
     private _functionsInfo: ArmObj<FunctionInfo>[],

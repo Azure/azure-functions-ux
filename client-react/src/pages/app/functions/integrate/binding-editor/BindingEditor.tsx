@@ -40,7 +40,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
     return <div />;
   }
 
-  const builder = new BindingFormBuilder(currentBindingInfo, currentBindingMetadata, resourceId, t, bindingsConfig.variables);
+  const builder = new BindingFormBuilder([currentBindingInfo], [currentBindingMetadata], resourceId, t, bindingsConfig.variables);
   const initialFormValues = builder.getInitialFormValues();
 
   const submit = (newBindingInfo: BindingInfo) => {
