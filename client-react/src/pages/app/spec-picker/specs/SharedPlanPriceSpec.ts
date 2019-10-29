@@ -24,13 +24,6 @@ export abstract class SharedPlanPriceSpec extends PriceSpec {
 
     this.hardwareItems = [
       {
-        id: 'pricing_includedHardware_azureComputeUnits',
-        iconUrl: 'image/app-service-plan.svg',
-        title: t('pricing_includedHardware_azureComputeUnits'),
-        description: t('pricing_computeDedicatedAcu'),
-        learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
-      },
-      {
         id: 'memory',
         iconUrl: 'image/website-power.svg',
         title: t('memory'),
