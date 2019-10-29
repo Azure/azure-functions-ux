@@ -5418,4 +5418,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>Policy</value>
     </data>
+    <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
+        <value>Azure Cosmos DB Account</value>
+    </data>
+    <data name="documentDBPivot_noDatabaseAccounts" xml:space="preserve">
+        <value>There are no database accounts in this subscription</value>
+    </data>
+    <data name="documentDBPivot_databaseAccount" xml:space="preserve">
+        <value>Database Account</value>
+    </data>
 </root>

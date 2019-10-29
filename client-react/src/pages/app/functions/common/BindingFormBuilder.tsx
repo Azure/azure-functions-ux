@@ -14,6 +14,7 @@ import Dropdown from '../../../../components/form-controls/DropDown';
 import { IDropdownOption } from 'office-ui-fabric-react';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
+import Toggle from '../../../../components/form-controls/Toggle';
 
 export interface BindingEditorFormValues {
   [key: string]: any;
@@ -87,6 +88,9 @@ export class BindingFormBuilder {
         case BindingSettingValue.checkBoxList:
           fields.push(this._getMultiSelectDropdown(key, setting, formProps, isDisabled));
           break;
+        case BindingSettingValue.boolean:
+          fields.push(this._getBooleanToggle(key, setting, formProps, isDisabled));
+          break;
       }
 
       key = key + 1;
@@ -131,6 +135,30 @@ export class BindingFormBuilder {
         tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
         key={key}>
         <Field name={setting.name} component={Dropdown} {...formProps} options={options} disabled={isDisabled} />
+      </FormControlWrapper>
+    );
+  }
+
+  private _getBooleanToggle(
+    key: number,
+    setting: BindingConfigUIDefinition,
+    formProps: FormikProps<BindingEditorFormValues>,
+    isDisabled: boolean
+  ) {
+    return (
+      <FormControlWrapper
+        label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
+        layout={Layout.vertical}
+        tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+        key={key}>
+        <Field
+          name={setting.name}
+          component={Toggle}
+          disabled={isDisabled}
+          onText={this._t('yes')}
+          offText={this._t('no')}
+          {...formProps}
+        />
       </FormControlWrapper>
     );
   }

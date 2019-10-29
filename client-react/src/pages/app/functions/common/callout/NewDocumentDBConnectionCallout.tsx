@@ -5,16 +5,16 @@ import { useTranslation } from 'react-i18next';
 import CustomPivot from './customPivot/CustomPivot';
 import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
 import { paddingSidesStyle } from './Callout.styles';
-import ServiceBusPivotDataLoader from './serviceBusPivot/ServiceBusPivotDataLoader';
+import DocumentDBPivotDataLoader from './documentDBPivot/DocumentDBDataLoader';
 
 enum RadioState {
-  serviceBus = 'serviceBus',
+  documentAccount = 'documentAccount',
   custom = 'custom',
 }
 
-const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const NewDocumentDBConnectionCallout: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
   const { t } = useTranslation();
-  const [radioState, setRadioState] = useState<RadioState>(RadioState.serviceBus);
+  const [radioState, setRadioState] = useState<RadioState>(RadioState.documentAccount);
 
   return (
     <div style={paddingSidesStyle}>
@@ -24,8 +24,8 @@ const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps & Fiel
         selectedKey={radioState}
         options={[
           {
-            key: RadioState.serviceBus,
-            text: t('serviceBusCallout_serviceBus'),
+            key: RadioState.documentAccount,
+            text: t('documentDBCallout_azureCosmosDBAccount'),
           },
           {
             key: RadioState.custom,
@@ -34,10 +34,10 @@ const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps & Fiel
         ]}
         onChange={(o, e) => e && setRadioState(e.key as RadioState)}
       />
-      {radioState === RadioState.serviceBus && <ServiceBusPivotDataLoader {...props} />}
+      {radioState === RadioState.documentAccount && <DocumentDBPivotDataLoader {...props} />}
       {radioState === RadioState.custom && <CustomPivot {...props} />}
     </div>
   );
 };
 
-export default NewServiceBusConnectionCallout;
+export default NewDocumentDBConnectionCallout;
