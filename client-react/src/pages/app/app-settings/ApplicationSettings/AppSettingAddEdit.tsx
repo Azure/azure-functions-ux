@@ -14,6 +14,7 @@ import { getApplicationSettingReference } from '../AppSettings.service';
 import { KeyVaultReference } from '../../../../models/site/config';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
@@ -68,7 +69,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     if (!value) {
       return t('appSettingPropIsRequired').format('name');
     }
-    if (isLinux && /[^\w\.]/.test(value)) {
+    if (isLinux && ValidationRegex.appSettingName.test(value)) {
       return t('validation_linuxAppSettingNameError');
     }
     return otherAppSettings.filter(v => v.name.toLowerCase() === value.toLowerCase()).length >= 1 ? t('appSettingNamesUnique') : '';

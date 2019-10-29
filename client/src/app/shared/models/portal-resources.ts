@@ -1725,6 +1725,7 @@ export class PortalResources {
   public static functionDirectoryDropdownAriaLabel = 'functionDirectoryDropdownAriaLabel';
   public static noPlanWritePermissions = 'noPlanWritePermissions';
   public static closeGetFunctionUrlModal = 'closeGetFunctionUrlModal';
+  public static validation_linuxConnectionStringNameError = 'validation_linuxConnectionStringNameError';
   public static scope = 'scope';
   public static appFunctionSettings_virtualNetworkTriggerSupport = 'appFunctionSettings_virtualNetworkTriggerSupport';
   public static appFunctionSettings_runtimeScalingMonitoredText = 'appFunctionSettings_runtimeScalingMonitoredText';
@@ -1741,4 +1742,10 @@ export class PortalResources {
   public static iotHubPivot_IOTMonitoring = 'iotHubPivot_IOTMonitoring';
   public static customPivot_key = 'customPivot_key';
   public static customPivot_value = 'customPivot_value';
+  public static serviceBusCallout_serviceBus = 'serviceBusCallout_serviceBus';
+  public static resourceCallout_customAppSetting = 'resourceCallout_customAppSetting';
+  public static serviceBusPicker_noNamespaces = 'serviceBusPicker_noNamespaces';
+  public static serviceBusPicker_noPolicies = 'serviceBusPicker_noPolicies';
+  public static serviceBusPicker_namespace = 'serviceBusPicker_namespace';
+  public static serviceBusPicker_policy = 'serviceBusPicker_policy';
 }

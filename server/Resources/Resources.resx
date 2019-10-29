@@ -5346,6 +5346,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
     </data>
+    <data name="validation_linuxConnectionStringNameError" xml:space="preserve">
+        <value>Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")</value>
+    </data>
     <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
     </data>
@@ -5396,5 +5399,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="customPivot_value" xml:space="preserve">
         <value>Value</value>
+    </data>
+    <data name="serviceBusCallout_serviceBus" xml:space="preserve">
+        <value>Service Bus</value>
+    </data>
+    <data name="resourceCallout_customAppSetting" xml:space="preserve">
+        <value>Custom App Setting</value>
+    </data>
+    <data name="serviceBusPicker_noNamespaces" xml:space="preserve">
+        <value>There are no namespaces in this subscription</value>
+    </data>
+    <data name="serviceBusPicker_noPolicies" xml:space="preserve">
+        <value>There are no policies in this namespace</value>
+    </data>
+    <data name="serviceBusPicker_namespace" xml:space="preserve">
+        <value>Namespace</value>
+    </data>
+    <data name="serviceBusPicker_policy" xml:space="preserve">
+        <value>Policy</value>
     </data>
 </root>
