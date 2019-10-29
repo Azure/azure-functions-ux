@@ -1748,4 +1748,7 @@ export class PortalResources {
   public static serviceBusPicker_noPolicies = 'serviceBusPicker_noPolicies';
   public static serviceBusPicker_namespace = 'serviceBusPicker_namespace';
   public static serviceBusPicker_policy = 'serviceBusPicker_policy';
+  public static documentDBCallout_azureCosmosDBAccount = 'documentDBCallout_azureCosmosDBAccount';
+  public static documentDBPivot_noDatabaseAccounts = 'documentDBPivot_noDatabaseAccounts';
+  public static documentDBPivot_databaseAccount = 'documentDBPivot_databaseAccount';
 }

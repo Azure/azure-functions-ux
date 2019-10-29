@@ -25,7 +25,7 @@ const NewDocumentDBConnectionCallout: React.SFC<NewConnectionCalloutProps & Fiel
         options={[
           {
             key: RadioState.documentAccount,
-            text: t('serviceBusCallout_serviceBus'),
+            text: t('documentDBCallout_azureCosmosDBAccount'),
           },
           {
             key: RadioState.custom,

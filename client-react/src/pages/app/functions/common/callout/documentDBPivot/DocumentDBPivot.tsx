@@ -68,11 +68,11 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props
         return (
           <form style={paddingSidesStyle}>
             {!!databaseAccounts && databaseAccounts.length === 0 ? (
-              <p>{t('iotHubPivot_noIoTHubs')}</p>
+              <p>{t('documentDBPivot_noDatabaseAccounts')}</p>
             ) : (
               <>
                 <Dropdown
-                  label={t('iotHubPivot_IoTHub')}
+                  label={t('documentDBPivot_databaseAccount')}
                   options={databaseAccountOptions}
                   selectedKey={formValues.databaseAccount && formValues.databaseAccount.id}
                   onChange={(o, e) => {
