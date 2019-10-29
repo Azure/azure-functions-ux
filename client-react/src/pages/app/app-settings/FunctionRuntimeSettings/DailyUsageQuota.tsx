@@ -26,13 +26,6 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
       {!!values.site.properties.dailyMemoryTimeQuota && (
         <InfoBox id="function-app-settings-daily-memory-time-quota-info" type="Info" message={t('functionAppSettings_quotaInfo')} />
       )}
-      {!values.site.properties.enabled && values.site.properties.siteDisabledReason === 1 && (
-        <InfoBox
-          id="function-app-settings-daily-memory-time-quota-warning"
-          type="Warning"
-          message={t('functionAppSettings_quotaWarning')}
-        />
-      )}
       <Field
         name="site.properties.dailyMemoryTimeQuota"
         dirty={values.site.properties.dailyMemoryTimeQuota !== initialValues.site.properties.dailyMemoryTimeQuota}
@@ -43,6 +36,13 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         disabled={!app_write || !editable || saving}
         style={{ marginLeft: '1px', marginTop: '1px' }}
       />
+      {!values.site.properties.enabled && values.site.properties.siteDisabledReason === 1 && (
+        <InfoBox
+          id="function-app-settings-daily-memory-time-quota-warning"
+          type="Warning"
+          message={t('functionAppSettings_quotaWarning')}
+        />
+      )}
     </>
   );
 };

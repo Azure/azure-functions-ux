@@ -19,12 +19,6 @@ export enum FunctionsRuntimeGenerations {
   v3 = 'V3',
 }
 
-export interface FunctionsRuntimeVersionInfo {
-  isCustom: boolean;
-  latestCustomValue: string;
-  errorMessage: string;
-}
-
 export interface Permissions {
   production_write: boolean;
   app_write: boolean;
@@ -56,7 +50,6 @@ export interface AppSettingsFormValues {
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
   references?: AppSettingsReferences;
-  functionsRuntimeVersionInfo: FunctionsRuntimeVersionInfo;
   hostStatus: ArmObj<HostStatus> | null;
   functions: ArmArray<FunctionInfo> | null;
 }

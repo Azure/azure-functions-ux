@@ -9,22 +9,13 @@ import { AppSettingsFormValues, FormAppSetting, AppSettingReferenceSummary } fro
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { SearchBox, TooltipHost, ICommandBarItemProps, Icon } from 'office-ui-fabric-react';
-import { sortBy, isEqual } from 'lodash-es';
+import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { filterBoxStyle, dirtyElementStyle, keyVaultIconStyle, sourceTextStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import Panel from '../../../../components/Panel/Panel';
 import { ThemeContext } from '../../../../ThemeContext';
-import { getFunctionsRuntimeVersionInfo } from '../AppSettingsFormData';
-
-const setAppSettingsFieldValue = (appSettings: FormAppSetting[], props: FormikProps<AppSettingsFormValues>) => {
-  const functionsRuntimeVersionInfo = getFunctionsRuntimeVersionInfo(appSettings, props.values.functionsRuntimeVersionInfo);
-  if (!isEqual(functionsRuntimeVersionInfo, props.values.functionsRuntimeVersionInfo)) {
-    props.setFieldValue('functionsRuntimeVersionInfo', functionsRuntimeVersionInfo);
-  }
-  props.setFieldValue('appSettings', appSettings);
-};
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 
@@ -98,7 +89,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
 
   const saveBulkEdit = (appSettings: FormAppSetting[]) => {
     const newAppSettings = sortBy(appSettings, o => o.name.toLowerCase());
-    setAppSettingsFieldValue(newAppSettings, props);
+    props.setFieldValue('appSettings', newAppSettings);
     setShowPanel(false);
   };
 
@@ -130,7 +121,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       appSettings.push(item);
     }
     appSettings = sortBy(appSettings, o => o.name.toLowerCase());
-    setAppSettingsFieldValue(appSettings, props);
+    props.setFieldValue('appSettings', appSettings);
     setShowPanel(false);
     index = getAppSettingIndex(item, appSettings);
     appSettingsTable.focusIndex(index);
@@ -148,7 +139,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
 
   const removeItem = (key: string) => {
     const appSettings: FormAppSetting[] = [...values.appSettings].filter(val => val.name !== key);
-    setAppSettingsFieldValue(appSettings, props);
+    props.setFieldValue('appSettings', appSettings);
   };
 
   const onShowHideButtonClick = (itemKey: string) => {

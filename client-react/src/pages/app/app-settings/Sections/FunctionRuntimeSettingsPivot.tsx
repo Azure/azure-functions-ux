@@ -13,11 +13,14 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import RuntimeScaleMonitoring from '../FunctionRuntimeSettings/RuntimeScaleMonitoring';
 import { findFormAppSetting } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { messageBannerStyle } from '../AppSettings.styles';
+import { ThemeContext } from '../../../../ThemeContext';
 
 const FunctionRuntimeSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable } = useContext(PermissionsContext);
+  const theme = useContext(ThemeContext);
   const site = props.initialValues.site;
 
   if (!site) {
@@ -29,7 +32,10 @@ const FunctionRuntimeSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>>
       <div id="function-runtime-settings">
         {(!app_write || !editable) && (
           <div id="function-runtime-settings-rbac-message">
-            <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
+            <MessageBar
+              isMultiline={false}
+              className={messageBannerStyle(theme, MessageBarType.warning)}
+              messageBarType={MessageBarType.warning}>
               {t('applicationSettingsNoPermission')}
             </MessageBar>
           </div>
@@ -77,10 +83,6 @@ export const functionRuntimeSettingsDirty = (values: AppSettingsFormValues, init
     dailyMemoryTimeQuotaDirty(values, initialValues) ||
     runtimeScaleMonitoringDirty(values, initialValues)
   );
-};
-
-export const functionRuntimeSettingsError = (values: AppSettingsFormValues) => {
-  return values.functionsRuntimeVersionInfo.isCustom && !!values.functionsRuntimeVersionInfo.errorMessage;
 };
 
 export default FunctionRuntimeSettingsPivot;

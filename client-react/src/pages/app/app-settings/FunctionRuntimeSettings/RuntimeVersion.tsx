@@ -1,18 +1,13 @@
-import { FormikProps, Field } from 'formik';
-import React, { useContext, useState, useEffect } from 'react';
+import { FormikProps } from 'formik';
+import React, { useContext, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { AppSettingsFormValues, FormAppSetting, FunctionsRuntimeMajorVersions, FunctionsRuntimeVersionInfo } from '../AppSettings.types';
+import { AppSettingsFormValues, FormAppSetting, FunctionsRuntimeMajorVersions } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
-import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
-import TextFieldNoLabel from '../../../../components/form-controls/TextFieldNoLabel';
-import { IChoiceGroupOption } from 'office-ui-fabric-react';
-import { isEqual } from 'lodash-es';
-import { style } from 'typestyle';
 import {
-  getFunctionsRuntimeMajorVersion,
   findFormAppSetting,
   findFormAppSettingIndex,
-  getFunctionsRuntimeGeneration,
+  // getFunctionsRuntimeGeneration,
+  getFunctionsRuntimeMajorVersion,
 } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
@@ -20,6 +15,10 @@ import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import InfoBox from '../../../../components/InfoBox/InfoBox';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
+import { IDropdownOption, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { messageBannerStyle } from '../AppSettings.styles';
+import { ThemeContext } from '../../../../ThemeContext';
 
 const getRuntimeVersion = (appSettings: FormAppSetting[]) => {
   const appSetting = findFormAppSetting(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
@@ -27,34 +26,24 @@ const getRuntimeVersion = (appSettings: FormAppSetting[]) => {
 };
 
 const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
-  const [hideDebugText, setHideDebugText] = useState(false);
+  const [latestCustomRuntimeVersion, setLatestCustomRuntimeVersion] = useState<string | null | undefined>(undefined);
+  // const [hideDebugText, setHideDebugText] = useState(false);
   const { t, values, initialValues, setFieldValue } = props;
   const scenarioChecker = new ScenarioService(t);
-  const [focusTextField, setFocusTextField] = useState(false);
   const { app_write, editable, saving } = useContext(PermissionsContext);
-  let fieldRef: any;
-
-  useEffect(() => {
-    if (focusTextField) {
-      if (fieldRef) {
-        fieldRef.focus();
-      }
-      setFocusTextField(false);
-    }
-  }, [focusTextField]);
+  const theme = useContext(ThemeContext);
 
   const isStopped =
     initialValues.site.properties.state && initialValues.site.properties.state.toLocaleLowerCase() !== 'Running'.toLocaleLowerCase();
 
   const exactRuntimeVersion = !!initialValues.hostStatus ? initialValues.hostStatus.properties.version : null;
-  const exactRuntimeGeneration = getFunctionsRuntimeGeneration(exactRuntimeVersion);
+  // const exactRuntimeGeneration = getFunctionsRuntimeGeneration(exactRuntimeVersion);
 
   const runtimeVersion = getRuntimeVersion(values.appSettings);
   const initialRuntimeVersion = getRuntimeVersion(initialValues.appSettings);
 
-  const selectedVersionOption = values.functionsRuntimeVersionInfo.isCustom ? FunctionsRuntimeMajorVersions.custom : runtimeVersion!;
-
-  const customVersionErrorMessage = values.functionsRuntimeVersionInfo.isCustom && values.functionsRuntimeVersionInfo.errorMessage;
+  const runtimeMajorVersion = getFunctionsRuntimeMajorVersion(runtimeVersion);
+  const initialRuntimeMajorVersion = getFunctionsRuntimeMajorVersion(initialRuntimeVersion);
 
   const checkConfiguredVersion = () => {
     if (!initialRuntimeVersion) {
@@ -96,105 +85,23 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
   };
 
   const { needToUpdateVersion, badRuntimeVersion, latestVersion } = checkConfiguredVersion();
+
+  const bannerMessage =
+    !needToUpdateVersion && !badRuntimeVersion
+      ? latestVersion && exactRuntimeVersion
+        ? t('appFunctionSettings_functionAppSettings2')
+        : t('appFunctionSettings_functionAppSettings_versionLoading')
+      : needToUpdateVersion && !badRuntimeVersion
+      ? latestVersion && exactRuntimeVersion
+        ? t('appFunctionSettings_functionAppSettings1')
+        : t('appFunctionSettings_functionAppSettings_versionLoading')
+      : badRuntimeVersion
+      ? t('appFunctionSettings_functionAppSettings_badVersion')
+      : null;
+
   // const disableRuntimeSelector = false;
 
-  const onSelectCustomVersion = () => {
-    setRuntimeCustomEdit({ ...values.functionsRuntimeVersionInfo, isCustom: true });
-    setFocusTextField(true);
-  };
-
-  const onSelectNonCustomVersion = (version: string) => {
-    const appSettings: FormAppSetting[] = [...values.appSettings];
-    const index = findFormAppSettingIndex(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
-    if (index === -1) {
-      appSettings.push({
-        name: CommonConstants.AppSettingNames.functionsExtensionVersion,
-        value: version,
-        sticky: false,
-      });
-    } else {
-      appSettings[index] = { ...appSettings[index], value: version };
-    }
-    setRuntimeCustomEdit({ ...values.functionsRuntimeVersionInfo, isCustom: false });
-    setFieldValue('appSettings', appSettings);
-  };
-
-  const onRadioButtonChange = (version: string) => {
-    if (version === FunctionsRuntimeMajorVersions.custom) {
-      onSelectCustomVersion();
-    } else {
-      onSelectNonCustomVersion(version);
-    }
-  };
-
-  const onTextFieldChange = (version: string) => {
-    const errorMessage =
-      getFunctionsRuntimeMajorVersion(version) !== FunctionsRuntimeMajorVersions.custom
-        ? t('appFunctionSettings_cutomRuntimeVersionError').format(version)
-        : '';
-    setRuntimeCustomEdit({ ...values.functionsRuntimeVersionInfo, errorMessage, latestCustomValue: version });
-  };
-
-  const onTextFieldBlur = () => {
-    const version = values.functionsRuntimeVersionInfo.latestCustomValue;
-    const appSettings: FormAppSetting[] = [...values.appSettings];
-    const index = findFormAppSettingIndex(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
-    if (index === -1) {
-      if (version) {
-        appSettings.push({
-          name: CommonConstants.AppSettingNames.functionsExtensionVersion,
-          value: version,
-          sticky: false,
-        });
-      }
-    } else if (version) {
-      appSettings[index] = { ...appSettings[index], value: version };
-    } else {
-      appSettings.splice(index, 1);
-    }
-    setFieldValue('appSettings', appSettings);
-  };
-
-  const onRenderCustomVersionField = (
-    fieldProps: IChoiceGroupOption | undefined,
-    render: (props: IChoiceGroupOption | undefined) => JSX.Element | null
-  ) => {
-    return (
-      <>
-        {render!(fieldProps)}
-        {(values.functionsRuntimeVersionInfo.isCustom || true) && (
-          // <div className={style({ display: 'inline-block', marginLeft: '5px', verticalAlign: 'baseline' })}>
-          <div className={style({ display: 'block', marginTop: '5px', width: '275px' })}>
-            <Field
-              dirty={!isEqual(runtimeVersion, initialRuntimeVersion)}
-              component={TextFieldNoLabel}
-              id="function-app-settings-runtime-version-custom"
-              errorMessage={customVersionErrorMessage}
-              disabled={!app_write || !editable || saving || !values.functionsRuntimeVersionInfo.isCustom}
-              onChange={(e, newVal) => {
-                if (values.functionsRuntimeVersionInfo.isCustom) {
-                  onTextFieldChange(newVal);
-                }
-              }}
-              onBlur={() => {
-                if (values.functionsRuntimeVersionInfo.isCustom) {
-                  onTextFieldBlur();
-                }
-              }}
-              value={values.functionsRuntimeVersionInfo.latestCustomValue}
-              // style={{ marginLeft: '1px', marginTop: '1px', width: '250px' }}
-              placeholder={t('appFunctionSettings_cutomRuntimeVersionPlaceholder')}
-              componentRef={instance => {
-                fieldRef = instance;
-              }}
-            />
-          </div>
-        )}
-      </>
-    );
-  };
-
-  const options: IChoiceGroupOption[] = [
+  const options: IDropdownOption[] = [
     {
       key: FunctionsRuntimeMajorVersions.v1,
       text: t('~1'),
@@ -205,19 +112,49 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
     },
     {
       key: FunctionsRuntimeMajorVersions.v3,
-      text: t('~3'),
-    },
-    {
-      key: FunctionsRuntimeMajorVersions.custom,
-      text: t('custom'),
-      onRenderField: onRenderCustomVersionField,
+      text: t('version3Preview'),
     },
   ];
 
-  const setRuntimeCustomEdit = (functionsRuntimeVersionInfo: FunctionsRuntimeVersionInfo) => {
-    if (!isEqual(functionsRuntimeVersionInfo, values.functionsRuntimeVersionInfo)) {
-      setFieldValue('functionsRuntimeVersionInfo', functionsRuntimeVersionInfo);
+  if (latestCustomRuntimeVersion !== undefined || runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom) {
+    options.push({
+      key: FunctionsRuntimeMajorVersions.custom,
+      text: t('custom'),
+    });
+  }
+
+  const getLatestCustomRuntimeVersion = () => {
+    if (latestCustomRuntimeVersion !== undefined) {
+      return latestCustomRuntimeVersion;
     }
+
+    // if (initialRuntimeMajorVersion === FunctionsRuntimeMajorVersions.custom) {
+    return initialRuntimeMajorVersion;
+    // }
+  };
+
+  const onDropDownChange = (event, option) => {
+    if (runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom) {
+      setLatestCustomRuntimeVersion(runtimeVersion);
+    }
+
+    const version = option.key === FunctionsRuntimeMajorVersions.custom ? getLatestCustomRuntimeVersion() : option.key;
+    const appSettings: FormAppSetting[] = [...values.appSettings];
+    const index = findFormAppSettingIndex(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
+    if (index === -1) {
+      if (version !== null) {
+        appSettings.push({
+          name: CommonConstants.AppSettingNames.functionsExtensionVersion,
+          value: version,
+          sticky: false,
+        });
+      }
+    } else if (version !== null) {
+      appSettings[index] = { ...appSettings[index], value: version };
+    } else {
+      appSettings.splice(index, 1);
+    }
+    setFieldValue('appSettings', appSettings);
   };
 
   if (!values.appSettings) {
@@ -228,36 +165,43 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
     <>
       {!isStopped && (
         <>
-          <ReactiveFormControl label={t('Exact Runtime Version')} id="function-app-settings-exact-runtime-version">
-            <div
-              id="function-app-settings-exact-runtime-version"
-              aria-labelledby="function-app-settings-exact-runtime-version-label"
-              onClick={() => setHideDebugText(!hideDebugText)}>
+          {bannerMessage && (
+            <MessageBar
+              id="function-app-settings-runtime-version-banner"
+              isMultiline={false}
+              className={messageBannerStyle(theme, MessageBarType.info)}
+              messageBarType={MessageBarType.info}>
+              {bannerMessage}
+            </MessageBar>
+          )}
+          <ReactiveFormControl label={t('Current Runtime Version')} id="function-app-settings-exact-runtime-version">
+            <div id="function-app-settings-exact-runtime-version" aria-labelledby="function-app-settings-exact-runtime-version-label">
               {exactRuntimeVersion}
             </div>
           </ReactiveFormControl>
-          {!hideDebugText && <div>Exact Runtime Generation: {exactRuntimeGeneration}</div>}
-          {!hideDebugText && <div>Runtime Version: {runtimeVersion}</div>}
-          {!hideDebugText && <div>Initial Runtime Version: {initialRuntimeVersion}</div>}
-          {!hideDebugText && <div>{needToUpdateVersion ? 'NEED TO UPDATE' : 'DONT NEED TO UPDATE'}</div>}
-          {!hideDebugText && <div>{badRuntimeVersion ? 'NOT VALID' : 'VALID'}</div>}
-          {!hideDebugText && <div>Latest Runtime Version: {latestVersion}</div>}
-          !hideDebugText && <div>{!fieldRef ? 'UNDEFINED' : 'DEFINED'}</div>
           {scenarioChecker.checkScenario(ScenarioIds.functionsRuntimeVersion, { site: props.initialValues.site }).status !== 'disabled' && (
             <>
-              <InfoBox id="function-app-settings-runtime-version-info" type="Info" message={t('appFunctionSettings_runtimeVersionInfo')} />
-              <RadioButtonNoFormik
-                selectedKey={selectedVersionOption}
-                dirty={!isEqual(runtimeVersion, initialRuntimeVersion)}
+              <DropdownNoFormik
+                value={runtimeMajorVersion}
+                dirty={runtimeMajorVersion !== initialRuntimeMajorVersion}
+                onChange={onDropDownChange}
+                options={options}
+                disabled={!app_write || !editable || saving}
                 label={t('runtimeVersion')}
                 id="function-app-settings-runtime-version"
-                disabled={!app_write || !editable || saving}
-                onChange={(e, newVal) => {
-                  onRadioButtonChange(newVal ? newVal.key : '');
-                }}
-                options={options}
-                vertical={true}
+                infoBubbleMessage={
+                  runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom
+                    ? t('The runtime version is controlled by the FUNCTIONS_EXTENSION_VERSION app setting.')
+                    : undefined
+                }
               />
+              {false && runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom && (
+                <InfoBox
+                  id="function-app-settings-custom-runtime-version-info"
+                  type="Info"
+                  message={t('The runtime version is controlled by the FUNCTIONS_EXTENSION_VERSION app setting.')}
+                />
+              )}
             </>
           )}
         </>

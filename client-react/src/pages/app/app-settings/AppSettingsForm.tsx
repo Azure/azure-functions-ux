@@ -8,10 +8,7 @@ import { AppSettingsFormValues } from './AppSettings.types';
 
 import GeneralSettings, { generalSettingsDirty, generalSettingsError } from './Sections/GeneralSettings';
 import ApplicationSettingsPivot, { applicationSettingsDirty } from './Sections/ApplicationSettingsPivot';
-import FunctionRuntimeSettingsPivot, {
-  functionRuntimeSettingsDirty,
-  functionRuntimeSettingsError,
-} from './Sections/FunctionRuntimeSettingsPivot';
+import FunctionRuntimeSettingsPivot, { functionRuntimeSettingsDirty } from './Sections/FunctionRuntimeSettingsPivot';
 import DefaultDocumentsPivot, { defaultDocumentsDirty, defaultDocumentsError } from './Sections/DefaultDocumentsPivot';
 import PathMappingsPivot, { pathMappingsDirty } from './Sections/PathMappingsPivot';
 import CustomTabRenderer from './Sections/CustomTabRenderer';
@@ -42,10 +39,6 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   const functionRuntimeSettingsDirtyCheck = () => {
     return functionRuntimeSettingsDirty(values, initialValues);
-  };
-
-  const functionRuntimeSettingsErrorCheck = () => {
-    return functionRuntimeSettingsError(values);
   };
 
   const pathMappingsDirtyCheck = () => {
@@ -84,14 +77,7 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {showFunctionRuntimeSettings ? (
         <PivotItem
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(
-              link,
-              defaultRenderer,
-              theme,
-              functionRuntimeSettingsDirtyCheck,
-              dirtyLabel,
-              functionRuntimeSettingsErrorCheck
-            )
+            CustomTabRenderer(link, defaultRenderer, theme, functionRuntimeSettingsDirtyCheck, dirtyLabel)
           }
           itemKey="functionRuntimeSettings"
           linkText={t('functionRuntimeSettings')}>

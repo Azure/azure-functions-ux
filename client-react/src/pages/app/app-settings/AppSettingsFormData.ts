@@ -5,7 +5,6 @@ import {
   FormConnectionString,
   FormAzureStorageMounts,
   FunctionsRuntimeMajorVersions,
-  FunctionsRuntimeVersionInfo,
   FunctionsRuntimeGenerations,
 } from './AppSettings.types';
 import { sortBy } from 'lodash-es';
@@ -15,7 +14,6 @@ import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, K
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 import { HostStatus } from '../../../models/functions/host-status';
-import { CommonConstants } from '../../../utils/CommonConstants';
 import { FunctionInfo } from '../../../models/functions/function-info';
 
 export const getFunctionsRuntimeMajorVersion = (version: string | null) => {
@@ -46,35 +44,6 @@ export const getFunctionsRuntimeGeneration = (version: string | null) => {
   }
 
   return FunctionsRuntimeGenerations.v3;
-};
-
-export const getFunctionsRuntimeVersionInfo = (
-  appSettings: FormAppSetting[],
-  functionsRuntimeVersionInfo?: FunctionsRuntimeVersionInfo
-): FunctionsRuntimeVersionInfo => {
-  const appSetting = findFormAppSetting(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
-  const appSettingValue = !appSetting ? '' : appSetting.value;
-
-  const majorVersion = getFunctionsRuntimeMajorVersion(appSettingValue);
-  // const generation = getFunctionsRuntimeGeneration(appSettingValue);
-
-  if (majorVersion === FunctionsRuntimeMajorVersions.custom) {
-    return { isCustom: true, errorMessage: '', latestCustomValue: appSettingValue };
-  }
-
-  if (
-    functionsRuntimeVersionInfo &&
-    functionsRuntimeVersionInfo.isCustom &&
-    functionsRuntimeVersionInfo.latestCustomValue === appSettingValue
-  ) {
-    return { ...functionsRuntimeVersionInfo };
-  }
-
-  return {
-    isCustom: false,
-    errorMessage: '',
-    latestCustomValue: functionsRuntimeVersionInfo ? functionsRuntimeVersionInfo.latestCustomValue : '',
-  };
 };
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
@@ -111,7 +80,6 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config, metadata),
     azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
-    functionsRuntimeVersionInfo: getFunctionsRuntimeVersionInfo(formAppSetting),
   };
 };
 
