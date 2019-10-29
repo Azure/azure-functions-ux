@@ -62,7 +62,7 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props
     <Formik
       initialValues={formValues}
       onSubmit={() =>
-        setIoTHubConnection(formValues, keyList, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)
+        setDocumentDBConnection(formValues, keyList, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)
       }>
       {(formProps: FormikProps<DocumentDBPivotFormValues>) => {
         return (
@@ -95,7 +95,7 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props
   );
 };
 
-const setIoTHubConnection = (
+const setDocumentDBConnection = (
   formValues: DocumentDBPivotFormValues,
   keyList: KeyList | undefined,
   setNewAppSettingName: (e: string) => void,
