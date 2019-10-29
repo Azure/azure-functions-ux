@@ -75,7 +75,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
   }
 
   public async runInitialization(input: PriceSpecInput): Promise<void> {
-    if (NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isMooncake()) {
+    if (NationalCloudEnvironment.isBlackforest()) {
       this.state = 'hidden';
     } else if (input.plan) {
       if (
