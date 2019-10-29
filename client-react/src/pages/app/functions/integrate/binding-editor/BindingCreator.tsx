@@ -35,8 +35,8 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
     }
 
     const builder = new BindingFormBuilder(
-      formProps.values as BindingInfo,
-      typeSpecificMetadata,
+      [formProps.values as BindingInfo],
+      [typeSpecificMetadata],
       functionAppId,
       t,
       bindingsConfig.variables

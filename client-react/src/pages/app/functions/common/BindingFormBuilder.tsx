@@ -89,10 +89,10 @@ export class BindingFormBuilder {
             fields.push(this._getDropdown(setting, formProps, isDisabled));
             break;
           case BindingSettingValue.checkBoxList:
-            fields.push(this._getMultiSelectDropdown(setting, formProps, isDisabled));
+            fields.push(this._getMultiSelectDropdown(setting, formProps, isDisabled, i));
             break;
           case BindingSettingValue.boolean:
-            fields.push(this._getBooleanToggle(key, setting, formProps, isDisabled));
+            fields.push(this._getBooleanToggle(setting, formProps, isDisabled));
             break;
         }
       }
@@ -148,20 +148,16 @@ export class BindingFormBuilder {
     );
   }
 
-  private _getBooleanToggle(
-    key: number,
-    setting: BindingConfigUIDefinition,
-    formProps: FormikProps<BindingEditorFormValues>,
-    isDisabled: boolean
-  ) {
+  private _getBooleanToggle(setting: BindingConfigUIDefinition, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
       <FormControlWrapper
         label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
         layout={Layout.vertical}
         tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
-        key={key}>
+        key={setting.name}>
         <Field
           name={setting.name}
+          id={setting.name}
           component={Toggle}
           disabled={isDisabled}
           onText={this._t('yes')}
