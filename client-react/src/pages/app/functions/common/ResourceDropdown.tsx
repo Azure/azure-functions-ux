@@ -13,6 +13,7 @@ import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout
 import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCallout';
+import NewAppSettingCallout from './callout/NewAppSettingCallout';
 
 export interface ResourceDropdownProps {
   setting: BindingConfigUIDefinition;
@@ -99,6 +100,14 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
           )}
           {setting.resource === BindingSettingResource.DocumentDB && (
             <NewDocumentDBConnectionCallout
+              resourceId={resourceId}
+              setNewAppSettingName={setNewAppSettingName}
+              setIsDialogVisible={setIsDialogVisible}
+              {...props}
+            />
+          )}
+          {setting.resource === BindingSettingResource.AppSetting && (
+            <NewAppSettingCallout
               resourceId={resourceId}
               setNewAppSettingName={setNewAppSettingName}
               setIsDialogVisible={setIsDialogVisible}
