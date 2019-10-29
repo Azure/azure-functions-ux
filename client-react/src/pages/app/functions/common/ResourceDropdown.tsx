@@ -10,7 +10,9 @@ import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConne
 import { ArmObj } from '../../../../models/arm-obj';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
+import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import LoadingComponent from '../../../../components/loading/loading-component';
+import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCallout';
 
 export interface ResourceDropdownProps {
   setting: BindingConfigUIDefinition;
@@ -87,6 +89,22 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
               {...props}
             />
           )}
+          {setting.resource === BindingSettingResource.ServiceBus && (
+            <NewServiceBusConnectionCallout
+              resourceId={resourceId}
+              setNewAppSettingName={setNewAppSettingName}
+              setIsDialogVisible={setIsDialogVisible}
+              {...props}
+            />
+          )}
+          {setting.resource === BindingSettingResource.DocumentDB && (
+            <NewDocumentDBConnectionCallout
+              resourceId={resourceId}
+              setNewAppSettingName={setNewAppSettingName}
+              setIsDialogVisible={setIsDialogVisible}
+              {...props}
+            />
+          )}
         </Callout>
       </div>
     </div>
@@ -111,19 +129,19 @@ const filterResourcesFromAppSetting = (
 ): string[] => {
   switch (setting.resource) {
     case BindingSettingResource.Storage:
-      return _getStorageSettings(appSettings, newAppSettingName);
+      return getStorageSettings(appSettings, newAppSettingName);
     case BindingSettingResource.EventHub:
     case BindingSettingResource.ServiceBus:
-      return _getEventHubAndServiceBusSettings(appSettings, newAppSettingName);
+      return getEventHubAndServiceBusSettings(appSettings, newAppSettingName);
     case BindingSettingResource.AppSetting:
-      return _getAppSettings(appSettings, newAppSettingName);
+      return getAppSettings(appSettings, newAppSettingName);
     case BindingSettingResource.DocumentDB:
-      return _getDocumentDBSettings(appSettings, newAppSettingName);
+      return getDocumentDBSettings(appSettings, newAppSettingName);
   }
   return [];
 };
 
-const _getStorageSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
+const getStorageSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
   for (const key of Object.keys(appSettings)) {
     const value = appSettings[key].toLowerCase();
@@ -134,7 +152,7 @@ const _getStorageSettings = (appSettings: { [key: string]: string }, newAppSetti
   return result;
 };
 
-const _getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
+const getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
   for (const key of Object.keys(appSettings)) {
     const value = appSettings[key].toLowerCase();
@@ -145,7 +163,7 @@ const _getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string 
   return result;
 };
 
-const _getAppSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
+const getAppSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
   for (const key of Object.keys(appSettings)) {
     result.push(key);
@@ -154,7 +172,7 @@ const _getAppSettings = (appSettings: { [key: string]: string }, newAppSettingNa
   return result;
 };
 
-const _getDocumentDBSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
+const getDocumentDBSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
   for (const key of Object.keys(appSettings)) {
     const value = appSettings[key].toLowerCase();
