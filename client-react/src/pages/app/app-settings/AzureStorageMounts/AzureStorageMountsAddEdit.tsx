@@ -29,7 +29,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   const [basicDisabled, setBasicDisabled] = useState(false);
   const [initialName] = useState(azureStorageMount.name);
   const [initialMountPath] = useState(azureStorageMount.mountPath);
-  const mountPathRegex = /^\/[a-zA-Z0-9\[\]\(\)\-_\/]*$/;
+  const mountPathRegex = /^\/[a-zA-Z0-9.\[\]\(\)\-_\/]*$/;
   const shareNameMaxLength = 64;
   const shareNameRegex = /^[a-zA-Z0-9\[\]\(\)\-_]+$/;
   const cancel = () => {
