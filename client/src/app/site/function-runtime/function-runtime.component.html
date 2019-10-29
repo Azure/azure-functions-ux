@@ -161,7 +161,7 @@
             </div>
         </div>
     </div>
-    <div class="setting-wrapper" *ngIf="isElasticPremium">
+    <div class="setting-wrapper" *ngIf="functionsRuntimeScaleMonitoringSupported || functionsRuntimeScaleMonitoring">
         <label id="runtimeScalingRadioLabel" class="title-label">{{ 'appFunctionSettings_virtualNetworkTriggerSupport' | translate }}</label>
         <div class="features-wrapper">
             <div>
