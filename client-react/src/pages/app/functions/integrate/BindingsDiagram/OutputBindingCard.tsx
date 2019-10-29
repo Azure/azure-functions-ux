@@ -47,10 +47,12 @@ const getContent = (
 ): JSX.Element => {
   const outputList: JSX.Element[] = outputBindings.map((item, i) => {
     const name = item.name ? `(${item.name})` : '';
-    const linkName = `${item.type} ${name}`;
+    const linkName = `${t(item.type)} ${name}`;
     return (
       <li key={i.toString()}>
-        <Link onClick={() => editExisting(portalCommunicator, t, functionInfo, item, bindingEditorContext)}>{linkName}</Link>
+        <Link onClick={() => editExisting(portalCommunicator, t, functionInfo, item, bindingEditorContext, BindingConfigDirection.out)}>
+          {linkName}
+        </Link>
       </li>
     );
   });

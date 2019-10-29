@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
-import { BindingInfo, BindingDirection } from '../../../../../models/functions/function-binding';
-import { ThemeContext } from '../../../../../ThemeContext';
 import i18next from 'i18next';
-import { cardStyle, headerStyle } from './BindingDiagram.styles';
-import { FunctionInfo } from '../../../../../models/functions/function-info';
-import { ArmObj } from '../../../../../models/arm-obj';
-import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
-import PortalCommunicator from '../../../../../portal-communicator';
-import { BindingEditorContextInfo } from '../FunctionIntegrate';
+import React, { useContext } from 'react';
 import { first } from 'rxjs/operators';
-import { BindingConfigMetadata, BindingsConfig, BindingConfigDirection } from '../../../../../models/functions/bindings-config';
+import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { BindingConfigDirection } from '../../../../../models/functions/bindings-config';
+import { BindingInfo } from '../../../../../models/functions/function-binding';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import PortalCommunicator from '../../../../../portal-communicator';
+import { ThemeContext } from '../../../../../ThemeContext';
+import { BindingEditorContextInfo } from '../FunctionIntegrate';
+import { cardStyle, headerStyle } from './BindingDiagram.styles';
 
 export interface BindingCardChildProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -43,15 +43,20 @@ export const createNew = (
   portalCommunicator: PortalCommunicator,
   t: i18next.TFunction,
   functionInfo: ArmObj<FunctionInfo>,
-  functionBindings: BindingConfigMetadata[],
-  bindingEditorContext: BindingEditorContextInfo
+  bindingEditorContext: BindingEditorContextInfo,
+  bindingDirection: BindingConfigDirection
 ) => {
-  const newBinding: BindingInfo = {
-    name: '',
-    type: '',
-    direction: BindingDirection.in,
-  };
-  editExisting(portalCommunicator, t, functionInfo, newBinding, bindingEditorContext);
+  bindingEditorContext
+    .openEditor(bindingDirection)
+    .pipe(first())
+    .subscribe(info => {
+      if (info.closedReason === 'save') {
+        const newFunctionInfo = submit(portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo);
+
+        bindingEditorContext.closeEditor();
+        bindingEditorContext.updateFunctionInfo(newFunctionInfo);
+      }
+    });
 };
 
 export const editExisting = (
@@ -59,34 +64,37 @@ export const editExisting = (
   t: i18next.TFunction,
   functionInfo: ArmObj<FunctionInfo>,
   functionBinding: BindingInfo,
-  bindingEditorContext: BindingEditorContextInfo
+  bindingEditorContext: BindingEditorContextInfo,
+  bindingDirection: BindingConfigDirection
 ) => {
   bindingEditorContext
-    .openEditor(functionBinding)
+    .openEditor(bindingDirection, functionBinding)
     .pipe(first())
     .subscribe(info => {
       if (info.closedReason === 'save') {
-        submit(bindingEditorContext, portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo, info.currentBindingInfo);
+        const newFunctionInfo = submit(portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo, info.currentBindingInfo);
+
+        bindingEditorContext.closeEditor();
+        bindingEditorContext.updateFunctionInfo(newFunctionInfo);
       }
     });
 };
 
-export const emptyList = (emptyMessage: string): JSX.Element => {
-  return (
+export const emptyList = (emptyMessage: string): JSX.Element[] => {
+  return [
     <li key={'0'} className="emptyMessage">
       {emptyMessage}
-    </li>
-  );
+    </li>,
+  ];
 };
 
 const submit = (
-  bindingEditorContext: BindingEditorContextInfo,
   portalCommunicator: PortalCommunicator,
   t: i18next.TFunction,
   functionInfo: ArmObj<FunctionInfo>,
   newBindingInfo: BindingInfo,
   currentBindingInfo?: BindingInfo
-) => {
+): ArmObj<FunctionInfo> => {
   const newFunctionInfo = {
     ...functionInfo,
   };
@@ -127,10 +135,9 @@ const submit = (
       true,
       t('updateBindingNotificationSuccess').format(newFunctionInfo.properties.name, newBindingInfo.name)
     );
-
-    bindingEditorContext.closeEditor();
-    bindingEditorContext.updateFunctionInfo(newFunctionInfo);
   });
+
+  return newFunctionInfo;
 };
 
 export default BindingCard;

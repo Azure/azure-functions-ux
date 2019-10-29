@@ -47,9 +47,10 @@ const getContent = (
     <ul className={listStyle(theme)}>
       {trigger ? (
         <li key="0">
-          <Link onClick={() => editExisting(portalCommunicator, t, functionInfo, trigger, bindingEditorContext)}>{`${trigger.type} ${
-            trigger.name
-          }`}</Link>
+          <Link
+            onClick={() =>
+              editExisting(portalCommunicator, t, functionInfo, trigger, bindingEditorContext, BindingConfigDirection.trigger)
+            }>{`${trigger.type} ${trigger.name}`}</Link>
         </li>
       ) : (
         emptyList(t('integrateNoTriggerDefined'))
