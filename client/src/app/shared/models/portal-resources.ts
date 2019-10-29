@@ -1755,4 +1755,9 @@ export class PortalResources {
   public static documentDBCallout_azureCosmosDBAccount = 'documentDBCallout_azureCosmosDBAccount';
   public static documentDBPivot_noDatabaseAccounts = 'documentDBPivot_noDatabaseAccounts';
   public static documentDBPivot_databaseAccount = 'documentDBPivot_databaseAccount';
+  public static stoageAccountCallout_existingStorageAccount = 'stoageAccountCallout_existingStorageAccount';
+  public static stoageAccountCallout_newStorageAccount = 'stoageAccountCallout_newStorageAccount';
+  public static storageAccountPivot_noStorageAccounts = 'storageAccountPivot_noStorageAccounts';
+  public static storageAccountPivot_storageAccount = 'storageAccountPivot_storageAccount';
+  public static newPivot_name = 'newPivot_name';
 }
