@@ -12,15 +12,15 @@ import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { BindingEditorFormValues } from '../../BindingFormBuilder';
 import { StorageAccount } from '../../../../../../models/storage-account';
 
-interface DocumentDBPivotFormValues {
+interface StorageAccountPivotFormValues {
   storageAccount: ArmObj<StorageAccount> | undefined;
 }
 
-const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
   const provider = useContext(StorageAccountPivotContext);
   const { t } = useTranslation();
   const { resourceId } = props;
-  const [formValues, setFormValues] = useState<DocumentDBPivotFormValues>({ storageAccount: undefined });
+  const [formValues, setFormValues] = useState<StorageAccountPivotFormValues>({ storageAccount: undefined });
   const [storageAccounts, setStorageAccounts] = useState<ArmObj<StorageAccount>[] | undefined>(undefined);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props
       onSubmit={() =>
         setStorageAccountConnection(formValues, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)
       }>
-      {(formProps: FormikProps<DocumentDBPivotFormValues>) => {
+      {(formProps: FormikProps<StorageAccountPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
             {!!storageAccounts && storageAccounts.length === 0 ? (
@@ -81,7 +81,7 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props
 };
 
 const setStorageAccountConnection = (
-  formValues: DocumentDBPivotFormValues,
+  formValues: StorageAccountPivotFormValues,
   setNewAppSettingName: (e: string) => void,
   setIsDialogVisible: (d: boolean) => void,
   formProps: FormikProps<BindingEditorFormValues>,
@@ -95,4 +95,4 @@ const setStorageAccountConnection = (
   }
 };
 
-export default DocumentDBPivot;
+export default StorageAccountPivot;
