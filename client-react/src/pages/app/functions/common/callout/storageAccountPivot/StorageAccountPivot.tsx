@@ -27,11 +27,7 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props
     if (!storageAccounts) {
       provider.fetchAzureStorageAccounts(resourceId).then(r => {
         if (!r.metadata.success) {
-          LogService.trackEvent(
-            LogCategories.bindingResource,
-            'getDatabaseAccounts',
-            `Failed to get Database Accounts: ${r.metadata.error}`
-          );
+          LogService.trackEvent(LogCategories.bindingResource, 'getStorageAccounts', `Failed to get Storage Accounts: ${r.metadata.error}`);
           return;
         }
         setStorageAccounts(r.data.value);

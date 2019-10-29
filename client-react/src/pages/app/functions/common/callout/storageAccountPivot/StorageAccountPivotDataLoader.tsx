@@ -7,7 +7,7 @@ import StorageAccountPivot from './StorageAccountPivot';
 const storageAccountPivotData = new StorageAccountData();
 export const StorageAccountPivotContext = React.createContext(storageAccountPivotData);
 
-const DocumentDBDataLoader: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const StorageAccountDataLoader: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
   return (
     <StorageAccountPivotContext.Provider value={storageAccountPivotData}>
       <StorageAccountPivot {...props} />
@@ -15,4 +15,4 @@ const DocumentDBDataLoader: React.SFC<NewConnectionCalloutProps & FieldProps> = 
   );
 };
 
-export default DocumentDBDataLoader;
+export default StorageAccountDataLoader;
