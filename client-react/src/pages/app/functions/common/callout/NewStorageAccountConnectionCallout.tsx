@@ -12,7 +12,7 @@ enum RadioState {
   new = 'new',
 }
 
-const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const NewStorageAccountConnectionCallout: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
   const { t } = useTranslation();
   const [radioState, setRadioState] = useState<RadioState>(RadioState.existing);
 
@@ -40,4 +40,4 @@ const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps & Fiel
   );
 };
 
-export default NewServiceBusConnectionCallout;
+export default NewStorageAccountConnectionCallout;
