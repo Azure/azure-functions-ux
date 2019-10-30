@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import i18n from 'i18next';
 import { PermissionsContext, SiteContext } from './Contexts';
-import { commandBarSticky, formStyle, messageBannerStyle } from './AppSettings.styles';
+import { commandBarSticky, messageBannerStyle } from './AppSettings.styles';
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
@@ -109,20 +109,9 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
                                 <UpsellBanner onClick={scaleUpPlan} />
                               )}
-                            {!!initialFormValues && initialFormValues.references && !initialFormValues.references.appSettings && (
-                              <MessageBar
-                                id="appSettings-keyvault-error"
-                                isMultiline={false}
-                                className={messageBannerStyle(theme, MessageBarType.error)}
-                                messageBarType={MessageBarType.error}>
-                                {t('appSettingKeyvaultAPIError')}
-                              </MessageBar>
-                            )}
                           </div>
                           {!!initialFormValues ? (
-                            <div className={formStyle}>
-                              <AppSettingsForm {...formProps} />
-                            </div>
+                            <AppSettingsForm {...formProps} />
                           ) : (
                             <MessageBar
                               isMultiline={false}

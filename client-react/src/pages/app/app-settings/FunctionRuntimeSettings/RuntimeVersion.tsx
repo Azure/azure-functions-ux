@@ -1,8 +1,8 @@
 import { FormikProps } from 'formik';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { AppSettingsFormValues, FormAppSetting, FunctionsRuntimeMajorVersions } from '../AppSettings.types';
-import { PermissionsContext } from '../Contexts';
+import { PermissionsContext, BannerMessageContext } from '../Contexts';
 import {
   findFormAppSetting,
   findFormAppSettingIndex,
@@ -16,9 +16,10 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import InfoBox from '../../../../components/InfoBox/InfoBox';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
-import { IDropdownOption, MessageBar, MessageBarType } from 'office-ui-fabric-react';
-import { messageBannerStyle } from '../AppSettings.styles';
-import { ThemeContext } from '../../../../ThemeContext';
+import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
+// import { ThemeContext } from '../../../../ThemeContext';
+// import { MessageBar } from 'office-ui-fabric-react';
+// import { messageBannerStyle } from '../AppSettings.styles';
 
 const getRuntimeVersion = (appSettings: FormAppSetting[]) => {
   const appSetting = findFormAppSetting(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
@@ -26,12 +27,24 @@ const getRuntimeVersion = (appSettings: FormAppSetting[]) => {
 };
 
 const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
+  useEffect(() => {
+    if (bannerMessage) {
+      bannerMessageContext.updateBanner({
+        type: MessageBarType.info,
+        text: bannerMessage,
+      });
+    } else {
+      bannerMessageContext.updateBanner();
+    }
+  }, []);
+
   const [latestCustomRuntimeVersion, setLatestCustomRuntimeVersion] = useState<string | null | undefined>(undefined);
   // const [hideDebugText, setHideDebugText] = useState(false);
   const { t, values, initialValues, setFieldValue } = props;
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable, saving } = useContext(PermissionsContext);
-  const theme = useContext(ThemeContext);
+  // const theme = useContext(ThemeContext);
+  const bannerMessageContext = useContext(BannerMessageContext);
 
   const isStopped =
     initialValues.site.properties.state && initialValues.site.properties.state.toLocaleLowerCase() !== 'Running'.toLocaleLowerCase();
@@ -165,7 +178,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
     <>
       {!isStopped && (
         <>
-          {bannerMessage && (
+          {/* {bannerMessage && (
             <MessageBar
               id="function-app-settings-runtime-version-banner"
               isMultiline={false}
@@ -173,7 +186,7 @@ const RuntimeVersion: React.FC<FormikProps<AppSettingsFormValues> & WithTranslat
               messageBarType={MessageBarType.info}>
               {bannerMessage}
             </MessageBar>
-          )}
+          )} */}
           <ReactiveFormControl label={t('Current Runtime Version')} id="function-app-settings-exact-runtime-version">
             <div id="function-app-settings-exact-runtime-version" aria-labelledby="function-app-settings-exact-runtime-version-label">
               {exactRuntimeVersion}

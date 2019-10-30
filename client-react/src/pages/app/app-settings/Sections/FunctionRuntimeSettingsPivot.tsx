@@ -16,6 +16,41 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { messageBannerStyle } from '../AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 
+/*
+
+!write_app
+
+
+!exactRuntimeVersion && !runtimeVersion
+	Banner: '{0}' application setting is missing from your app. Without this setting you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.
+	Current Runtime Version: Loading... | Failed to load.
+
+!exactRuntimeVersion && !!runtimeVersion && isValid
+	Banner: ''
+	Current Runtime Version: Loading... | Failed to load.
+
+!exactRuntimeVersion && !!runtimeVersion && !isValid -> Can't determine this?
+	Banner: Your custom runtime version ({0}) is not supported. As a result the latest runtime version is being used.
+	Current Runtime Version: Loading... | Failed to load.
+
+
+!!exactRuntimeVersion && !runtimeVersion
+	Banner: '{0}' application setting is missing from your app. Without this setting you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.
+	Current Runtime Version: Loading... | {exactRuntimeVersion}
+
+!!exactRuntimeVersion && !!runtimeVersion && isValid && !needsUpdate
+	Banner: ''
+	Current Runtime Version: Loading... | {exactRuntimeVersion}
+
+!!exactRuntimeVersion && !!runtimeVersion && isValid && needsUpdate
+	Banner: You are currently pinned to runtime version: {{exactExtensionVersion}}. You may update to unpin and use the latest: ({{latestExtensionVersion}}).
+	Current Runtime Version: Loading... | {exactRuntimeVersion}
+
+!!exactRuntimeVersion && !!runtimeVersion && !isValid
+	Banner: Your custom runtime version ({0}) is not supported. As a result the latest runtime version ({1}) is being used.
+	Current Runtime Version: Loading... | {exactRuntimeVersion}
+*/
+
 const FunctionRuntimeSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const scenarioChecker = new ScenarioService(t);

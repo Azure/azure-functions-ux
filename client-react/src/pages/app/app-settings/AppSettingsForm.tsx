@@ -1,6 +1,7 @@
 import { FormikProps } from 'formik';
 import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react/lib/Pivot';
-import React, { useRef, useContext } from 'react';
+import PivotItemContent, { BannerMessageProps } from '../../../components/Pivot/PivotItemContent';
+import React, { useRef, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 
@@ -15,19 +16,37 @@ import CustomTabRenderer from './Sections/CustomTabRenderer';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { ThemeContext } from '../../../ThemeContext';
-import { SiteContext } from './Contexts';
+import { SiteContext, BannerMessageContext } from './Contexts';
+import { isEqual } from 'lodash-es';
 export const settingsWrapper = style({
   paddingLeft: '15px',
   padding: '5px 20px',
 });
 
+const pivotStylesOverride = {
+  root: {
+    paddingLeft: '20px',
+    paddingTop: '5px',
+    paddingRight: '20px',
+  },
+};
+
 const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+  const [bannerMessageProps, setBannerMessageProps] = useState<BannerMessageProps | undefined>(undefined);
   const theme = useContext(ThemeContext);
   const { values, initialValues, errors } = props;
   const site = useContext(SiteContext);
   const { t } = useTranslation();
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
+
+  const bannerMessageContext = {
+    updateBanner: (bannerMsgProps?: BannerMessageProps) => {
+      if (!isEqual(bannerMessageProps, bannerMsgProps)) {
+        setBannerMessageProps(bannerMsgProps);
+      }
+    },
+  };
 
   const generalSettingsDirtyCheck = () => {
     return generalSettingsDirty(values, initialValues);
@@ -64,68 +83,80 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
   return (
-    <Pivot getTabId={getPivotTabId}>
-      <PivotItem
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
-        }
-        itemKey="applicationSettings"
-        linkText={t('applicationSettings')}>
-        <ApplicationSettingsPivot {...props} />
-      </PivotItem>
-
-      {showFunctionRuntimeSettings ? (
+    <BannerMessageContext.Provider value={bannerMessageContext}>
+      <Pivot styles={pivotStylesOverride} getTabId={getPivotTabId} onLinkClick={() => setBannerMessageProps(undefined)}>
         <PivotItem
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, functionRuntimeSettingsDirtyCheck, dirtyLabel)
+            CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel, undefined)
           }
-          itemKey="functionRuntimeSettings"
-          linkText={t('functionRuntimeSettings')}>
-          <FunctionRuntimeSettingsPivot {...props} />
+          itemKey="applicationSettings"
+          linkText={t('applicationSettings')}>
+          <PivotItemContent bannerMessageProps={bannerMessageProps}>
+            <ApplicationSettingsPivot {...props} />
+          </PivotItemContent>
         </PivotItem>
-      ) : (
-        <></>
-      )}
 
-      {showGeneralSettings ? (
-        <PivotItem
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, generalSettingsDirtyCheck, dirtyLabel, generalSettingsErrorCheck)
-          }
-          itemKey="generalSettings"
-          linkText={t('generalSettings')}>
-          <GeneralSettings {...props} />
-        </PivotItem>
-      ) : (
-        <></>
-      )}
+        {showFunctionRuntimeSettings ? (
+          <PivotItem
+            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+              CustomTabRenderer(link, defaultRenderer, theme, functionRuntimeSettingsDirtyCheck, dirtyLabel)
+            }
+            itemKey="functionRuntimeSettings"
+            linkText={t('functionRuntimeSettings')}>
+            <PivotItemContent bannerMessageProps={bannerMessageProps}>
+              <FunctionRuntimeSettingsPivot {...props} />
+            </PivotItemContent>
+          </PivotItem>
+        ) : (
+          <></>
+        )}
 
-      {enableDefaultDocuments ? (
-        <PivotItem
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, defaultDocumentsDirtyCheck, dirtyLabel, defaultDocumentsErrorCheck)
-          }
-          itemKey="defaultDocuments"
-          linkText={t('defaultDocuments')}>
-          <DefaultDocumentsPivot {...props} />
-        </PivotItem>
-      ) : (
-        <></>
-      )}
+        {showGeneralSettings ? (
+          <PivotItem
+            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+              CustomTabRenderer(link, defaultRenderer, theme, generalSettingsDirtyCheck, dirtyLabel, generalSettingsErrorCheck)
+            }
+            itemKey="generalSettings"
+            linkText={t('generalSettings')}>
+            <PivotItemContent bannerMessageProps={bannerMessageProps}>
+              <GeneralSettings {...props} />
+            </PivotItemContent>
+          </PivotItem>
+        ) : (
+          <></>
+        )}
 
-      {enablePathMappings || enableAzureStorageMount ? (
-        <PivotItem
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, pathMappingsDirtyCheck, dirtyLabel)
-          }
-          itemKey="pathMappings"
-          linkText={t('pathMappings')}>
-          <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
-        </PivotItem>
-      ) : (
-        <></>
-      )}
-    </Pivot>
+        {enableDefaultDocuments ? (
+          <PivotItem
+            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+              CustomTabRenderer(link, defaultRenderer, theme, defaultDocumentsDirtyCheck, dirtyLabel, defaultDocumentsErrorCheck)
+            }
+            itemKey="defaultDocuments"
+            linkText={t('defaultDocuments')}>
+            <PivotItemContent bannerMessageProps={bannerMessageProps}>
+              <DefaultDocumentsPivot {...props} />
+            </PivotItemContent>
+          </PivotItem>
+        ) : (
+          <></>
+        )}
+
+        {enablePathMappings || enableAzureStorageMount ? (
+          <PivotItem
+            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+              CustomTabRenderer(link, defaultRenderer, theme, pathMappingsDirtyCheck, dirtyLabel)
+            }
+            itemKey="pathMappings"
+            linkText={t('pathMappings')}>
+            <PivotItemContent bannerMessageProps={bannerMessageProps}>
+              <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
+            </PivotItemContent>
+          </PivotItem>
+        ) : (
+          <></>
+        )}
+      </Pivot>
+    </BannerMessageContext.Provider>
   );
 };
 
