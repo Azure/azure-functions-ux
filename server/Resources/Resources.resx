@@ -5071,10 +5071,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>No inputs defined</value>
     </data>
     <data name="integrateNoOutputsDefined" xml:space="preserve">
-        <value>No outpus defined</value>
+        <value>No outputs defined</value>
     </data>
     <data name="integrateAddInput" xml:space="preserve">
         <value>+ Add input</value>
+    </data>
+    <data name="integrateCreateInput" xml:space="preserve">
+        <value>Create Input</value>
+    </data>
+    <data name="integrateCreateInputInstructions" xml:space="preserve">
+        <value>Start by selecting the type of input binding you want to add.</value>
+    </data>
+    <data name="integrateBindingType" xml:space="preserve">
+        <value>Binding Type</value>
+    </data>
+    <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
+        <value>{0} details</value>
     </data>
     <data name="_function" xml:space="preserve">
         <value>Function</value>
@@ -5104,13 +5116,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Succeeded in updating {0} ({1})</value>
     </data>
     <data name="editBindingInput" xml:space="preserve">
-        <value>Edit input</value>
+        <value>Edit Input</value>
     </data>
-    <data name="editBindingOuput" xml:space="preserve">
-        <value>Edit output</value>
+    <data name="editBindingOutput" xml:space="preserve">
+        <value>Edit Output</value>
     </data>
     <data name="editBindingTrigger" xml:space="preserve">
-        <value>Edit trigger</value>
+        <value>Edit Trigger</value>
     </data>
     <data name="editBindingCommands" xml:space="preserve">
         <value>Edit binding commands</value>
