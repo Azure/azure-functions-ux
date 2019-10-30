@@ -78,9 +78,8 @@ const getItems = (props: EditBindingCommandBarProps, t: i18next.TFunction): ICom
       iconProps: {
         iconName: 'Delete',
       },
-      disabled: !props.dirty,
       ariaLabel: t('delete'),
-      onClick: props.resetForm,
+      onClick: props.delete,
     },
   ];
 };

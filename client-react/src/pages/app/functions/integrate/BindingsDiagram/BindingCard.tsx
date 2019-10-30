@@ -77,6 +77,8 @@ export const editExisting = (
 
         bindingEditorContext.closeEditor();
         bindingEditorContext.updateFunctionInfo(newFunctionInfo);
+      } else if (info.closedReason === ClosedReason.Delete) {
+        deleteBinding(bindingEditorContext, portalCommunicator, t, functionInfo, info.currentBindingInfo as BindingInfo);
       }
     });
 };
@@ -139,6 +141,57 @@ const submit = (
   });
 
   return newFunctionInfo;
+};
+
+export const deleteBinding = (
+  bindingEditorContext: BindingEditorContextInfo,
+  portalCommunicator: PortalCommunicator,
+  t: i18next.TFunction,
+  functionInfo: ArmObj<FunctionInfo>,
+  currentBindingInfo: BindingInfo
+) => {
+  const newFunctionInfo = {
+    ...functionInfo,
+  };
+
+  const bindings = [...newFunctionInfo.properties.config.bindings];
+  const index = functionInfo.properties.config.bindings.findIndex(b => b === currentBindingInfo);
+
+  if (index > -1) {
+    bindings.splice(index, 1);
+  }
+
+  newFunctionInfo.properties.config = {
+    ...newFunctionInfo.properties.config,
+    bindings,
+  };
+
+  const notificationId = portalCommunicator.startNotification(
+    t('deleteBindingNotification'),
+    t('deleteBindingNotificationDetails').format(newFunctionInfo.properties.name, currentBindingInfo.name)
+  );
+
+  FunctionsService.updateFunction(functionInfo.id, newFunctionInfo).then(r => {
+    if (!r.metadata.success) {
+      const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
+      portalCommunicator.stopNotification(
+        notificationId,
+        false,
+        t('deleteBindingNotificationFailed').format(newFunctionInfo.properties.name, currentBindingInfo.name, errorMessage)
+      );
+
+      return;
+    }
+
+    portalCommunicator.stopNotification(
+      notificationId,
+      true,
+      t('deleteBindingNotificationSuccess').format(newFunctionInfo.properties.name, currentBindingInfo.name)
+    );
+
+    bindingEditorContext.closeEditor();
+    bindingEditorContext.updateFunctionInfo(newFunctionInfo);
+  });
 };
 
 export default BindingCard;

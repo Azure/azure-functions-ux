@@ -22,10 +22,11 @@ export interface BindingEditorDataLoaderProps {
   isOpen: boolean;
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
+  onDelete: (currentBindingInfo: BindingInfo) => void;
 }
 
 const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props => {
-  const { functionInfo, functionAppId, bindingInfo, bindingDirection, isOpen, onPanelClose } = props;
+  const { functionInfo, functionAppId, bindingInfo, bindingDirection, isOpen, onPanelClose, onSubmit, onDelete } = props;
   const [bindingsConfig, setBindingsConfig] = useState<BindingsConfig | undefined>(undefined);
   const { t } = useTranslation();
 
@@ -70,7 +71,8 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
                 allBindingsConfig={bindingsConfig}
                 currentBindingInfo={bindingInfo}
                 resourceId={functionAppId}
-                onSubmit={props.onSubmit}
+                onSubmit={onSubmit}
+                onDelete={onDelete}
               />
             ))}
         </div>
