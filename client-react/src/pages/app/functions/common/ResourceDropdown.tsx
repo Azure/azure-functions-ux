@@ -14,22 +14,12 @@ import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCal
 import LoadingComponent from '../../../../components/loading/loading-component';
 import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCallout';
 import NewAppSettingCallout from './callout/NewAppSettingCallout';
+import { linkPaddingStyle, calloutStyle3Fields, calloutStyle2Fields, calloutStyle1Field } from './callout/Callout.styles';
 
 export interface ResourceDropdownProps {
   setting: BindingConfigUIDefinition;
   resourceId: string;
 }
-
-const paddingStyle = {
-  marginTop: '-10px',
-  paddingBottom: '10px',
-};
-
-const calloutSyle = {
-  padding: '10px',
-  height: 300,
-  width: 400,
-};
 
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const { setting, resourceId, form: formProps, field } = props;
@@ -69,52 +59,60 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         }}
         {...props}
       />
-      <div style={paddingStyle}>
+      <div style={linkPaddingStyle}>
         <Link id="target" onClick={() => setIsDialogVisible(true)}>
           {'New'}
         </Link>
-        <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutSyle}>
-          {setting.resource === BindingSettingResource.Storage && (
+        {setting.resource === BindingSettingResource.Storage && (
+          <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle1Field}>
             <NewStorageAccountConnectionCallout
               resourceId={resourceId}
               setNewAppSettingName={setNewAppSettingName}
               setIsDialogVisible={setIsDialogVisible}
               {...props}
             />
-          )}
-          {setting.resource === BindingSettingResource.EventHub && (
+          </Callout>
+        )}
+        {setting.resource === BindingSettingResource.EventHub && (
+          <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle3Fields}>
             <NewEventHubConnectionCallout
               resourceId={resourceId}
               setNewAppSettingName={setNewAppSettingName}
               setIsDialogVisible={setIsDialogVisible}
               {...props}
             />
-          )}
-          {setting.resource === BindingSettingResource.ServiceBus && (
+          </Callout>
+        )}
+        {setting.resource === BindingSettingResource.ServiceBus && (
+          <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
             <NewServiceBusConnectionCallout
               resourceId={resourceId}
               setNewAppSettingName={setNewAppSettingName}
               setIsDialogVisible={setIsDialogVisible}
               {...props}
             />
-          )}
-          {setting.resource === BindingSettingResource.DocumentDB && (
+          </Callout>
+        )}
+        {setting.resource === BindingSettingResource.DocumentDB && (
+          <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
             <NewDocumentDBConnectionCallout
               resourceId={resourceId}
               setNewAppSettingName={setNewAppSettingName}
               setIsDialogVisible={setIsDialogVisible}
               {...props}
             />
-          )}
-          {setting.resource === BindingSettingResource.AppSetting && (
+          </Callout>
+        )}
+        {setting.resource === BindingSettingResource.AppSetting && (
+          <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
             <NewAppSettingCallout
               resourceId={resourceId}
               setNewAppSettingName={setNewAppSettingName}
               setIsDialogVisible={setIsDialogVisible}
               {...props}
             />
-          )}
-        </Callout>
+          </Callout>
+        )}
       </div>
     </div>
   );
