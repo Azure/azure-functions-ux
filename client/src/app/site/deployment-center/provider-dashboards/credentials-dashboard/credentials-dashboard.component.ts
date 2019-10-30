@@ -105,7 +105,7 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
           this._siteService.getPublishingUser(),
           this._siteService
             .getPublishingProfile(this._credentialsData.resourceId)
-            .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)).filter(x => x.publishMethod === 'FTP')),
+            .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)).first(x => x.publishMethod === 'FTP')),
           this._siteService.getPublishingCredentials(this._credentialsData.resourceId),
           (hasWriteAccess, siteResponse, siteConfigResponse, publishingUser, publishingFtpProfile, publishingCredentials) => ({
             hasWriteAccess,
