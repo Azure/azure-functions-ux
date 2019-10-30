@@ -10,6 +10,7 @@ import PortalCommunicator from '../../../../../portal-communicator';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { BindingEditorContextInfo } from '../FunctionIntegrate';
 import { cardStyle, headerStyle } from './BindingDiagram.styles';
+import { ClosedReason } from '../binding-editor/BindingEditor';
 
 export interface BindingCardChildProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -50,7 +51,7 @@ export const createNew = (
     .openEditor(bindingDirection)
     .pipe(first())
     .subscribe(info => {
-      if (info.closedReason === 'save') {
+      if (info.closedReason === ClosedReason.Save) {
         const newFunctionInfo = submit(portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo);
 
         bindingEditorContext.closeEditor();
@@ -71,7 +72,7 @@ export const editExisting = (
     .openEditor(bindingDirection, functionBinding)
     .pipe(first())
     .subscribe(info => {
-      if (info.closedReason === 'save') {
+      if (info.closedReason === ClosedReason.Save) {
         const newFunctionInfo = submit(portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo, info.currentBindingInfo);
 
         bindingEditorContext.closeEditor();

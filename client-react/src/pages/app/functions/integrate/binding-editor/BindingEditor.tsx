@@ -25,6 +25,12 @@ export interface BindingEditorFormValues {
   [key: string]: any;
 }
 
+export enum ClosedReason {
+  Save = 'save',
+  Cancel = 'cancel',
+  Delete = 'delete',
+}
+
 const fieldWrapperStyle = style({
   paddingTop: '20px',
 });

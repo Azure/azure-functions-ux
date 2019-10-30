@@ -22,6 +22,7 @@ import {
   singleArrowStyle,
   singleCardStackStyle,
 } from './FunctionIntegrate.style';
+import { ClosedReason } from './binding-editor/BindingEditor';
 
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -30,7 +31,7 @@ export interface FunctionIntegrateProps {
 export interface BindingUpdateInfo {
   newBindingInfo?: BindingInfo;
   currentBindingInfo?: BindingInfo;
-  closedReason: 'cancel' | 'save' | 'delete';
+  closedReason: ClosedReason;
 }
 
 export interface BindingEditorContextInfo {
@@ -67,7 +68,7 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
     bindingUpdate$.current.next({
       newBindingInfo,
       currentBindingInfo,
-      closedReason: 'save',
+      closedReason: ClosedReason.Save,
     });
   };
 
@@ -75,7 +76,7 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
     bindingUpdate$.current.next({
       newBindingInfo: undefined,
       currentBindingInfo: bindingToUpdate,
-      closedReason: 'cancel',
+      closedReason: ClosedReason.Cancel,
     });
 
     setBindingToUpdate(undefined);

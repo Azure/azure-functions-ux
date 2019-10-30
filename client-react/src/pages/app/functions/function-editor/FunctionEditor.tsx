@@ -3,6 +3,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
+import { BindingType } from '../../../../models/functions/function-binding';
 
 // TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
@@ -22,7 +23,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const inputBinding =
     functionInfo.properties.config && functionInfo.properties.config.bindings
-      ? functionInfo.properties.config.bindings.find(e => e.type.toLowerCase() === 'httptrigger')
+      ? functionInfo.properties.config.bindings.find(e => e.type === BindingType.httpTrigger)
       : null;
 
   const [dirty /*, setDirtyState*/] = useState<boolean>(false);

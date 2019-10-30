@@ -11,7 +11,7 @@ import {
   BindingConfigUIDefinition,
   BindingSettingValue,
 } from '../../../../models/functions/bindings-config';
-import { BindingInfo } from '../../../../models/functions/function-binding';
+import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
 import Toggle from '../../../../components/form-controls/Toggle';
@@ -200,7 +200,7 @@ export class BindingFormBuilder {
     isDisabled: boolean,
     i: number
   ) {
-    if (this._bindingInfoList[i].type.toLowerCase() === 'httptrigger') {
+    if (this._bindingInfoList[i].type === BindingType.httpTrigger) {
       return (
         <FormControlWrapper
           label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}

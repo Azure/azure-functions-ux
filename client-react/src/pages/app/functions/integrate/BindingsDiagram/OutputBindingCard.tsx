@@ -23,8 +23,8 @@ const OutputBindingCard: React.SFC<BindingCardChildProps> = props => {
   const portalCommunicator = useContext(PortalContext);
   const bindingEditorContext = useContext(BindingEditorContext) as BindingEditorContextInfo;
 
-  const inputs = getOutputBindings(functionInfo.properties.config.bindings);
-  const content = getContent(portalCommunicator, functionInfo, t, bindingEditorContext, theme, inputs);
+  const outputs = getOutputBindings(functionInfo.properties.config.bindings);
+  const content = getContent(portalCommunicator, functionInfo, t, bindingEditorContext, theme, outputs);
 
   return <BindingCard title={t('output')} Svg={OutputSvg} content={content} {...props} />;
 };
