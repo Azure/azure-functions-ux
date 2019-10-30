@@ -15,6 +15,7 @@ import { findFormAppSetting } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { messageBannerStyle } from '../AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
+import CurrentRuntimeVersion from '../FunctionRuntimeSettings/CurrentRuntimeVersion';
 
 /*
 
@@ -71,12 +72,14 @@ const FunctionRuntimeSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>>
               isMultiline={false}
               className={messageBannerStyle(theme, MessageBarType.warning)}
               messageBarType={MessageBarType.warning}>
-              {t('applicationSettingsNoPermission')}
+              {t('readWritePermissionsRequired')}
             </MessageBar>
           </div>
         )}
 
-        {site.properties.state && site.properties.state.toLocaleLowerCase() === 'Running'.toLocaleLowerCase() && (
+        <CurrentRuntimeVersion {...props} />
+
+        {site.properties.state && site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.running.toLocaleLowerCase() && (
           <RuntimeVersion {...props} />
         )}
 

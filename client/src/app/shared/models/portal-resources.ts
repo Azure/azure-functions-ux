@@ -1724,4 +1724,5 @@ export class PortalResources {
   public static appFunctionSettings_runtimeScalingMonitoringMessage = 'appFunctionSettings_runtimeScalingMonitoringMessage';
   public static appFunctionSettings_cutomRuntimeVersionError = 'appFunctionSettings_cutomRuntimeVersionError';
   public static appFunctionSettings_cutomRuntimeVersionPlaceholder = 'appFunctionSettings_cutomRuntimeVersionPlaceholder';
+  public static readWritePermissionsRequired = 'readWritePermissionsRequired';
 }

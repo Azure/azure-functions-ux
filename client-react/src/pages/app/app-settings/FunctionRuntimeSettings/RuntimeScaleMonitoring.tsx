@@ -53,12 +53,12 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         options={[
           {
             key: true,
-            text: t('enabled'),
+            text: t('on'),
             disabled: !values.config.properties.reservedInstanceCount || !values.config.properties.vnetName,
           },
           {
             key: false,
-            text: t('disabled'),
+            text: t('off'),
             disabled: !!values.config.properties.vnetName,
           },
         ]}

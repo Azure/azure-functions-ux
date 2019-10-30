@@ -59,4 +59,8 @@ export class CommonConstants {
   public static readonly AppSettingNames = {
     functionsExtensionVersion: 'FUNCTIONS_EXTENSION_VERSION',
   };
+
+  public static readonly SiteStates = {
+    running: 'Running',
+  };
 }

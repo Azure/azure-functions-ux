@@ -5346,4 +5346,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="appFunctionSettings_cutomRuntimeVersionPlaceholder" xml:space="preserve">
         <value>e.g. 2.0.12742.0, latest</value>
     </data>
+    <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>Read/Write permissions are required to view/edit this section.</value>
+    </data>
 </root>
