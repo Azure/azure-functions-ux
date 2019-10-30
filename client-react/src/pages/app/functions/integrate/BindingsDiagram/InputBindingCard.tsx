@@ -59,7 +59,7 @@ const getContent = (
 
   const completeInputList = inputList.length > 0 ? inputList : emptyList(t('integrateNoInputsDefined'));
   completeInputList.push(
-    <li key={inputList.length}>
+    <li key={'newInput'}>
       <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingConfigDirection.in)}>
         {t('integrateAddInput')}
       </Link>
