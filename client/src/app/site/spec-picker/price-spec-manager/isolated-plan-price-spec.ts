@@ -68,7 +68,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
   }
 
   runInitialization(input: PriceSpecInput) {
-    if (NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isMooncake()) {
+    if (NationalCloudEnvironment.isBlackforest()) {
       this.state = 'hidden';
     } else if (input.plan) {
       if (

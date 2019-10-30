@@ -12,15 +12,15 @@ enum RadioState {
   custom = 'custom',
 }
 
-const NewServiceBusConnectionCalloutProps: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
   const { t } = useTranslation();
   const [radioState, setRadioState] = useState<RadioState>(RadioState.serviceBus);
 
   return (
     <div style={paddingSidesStyle}>
       <RadioButtonNoFormik
-        id="event-hub-connection-callout-options"
-        ariaLabelledBy={`event-hub-connection-callout-options-label`}
+        id="service-bus-connection-callout-options"
+        ariaLabelledBy={`service-bus-connection-callout-options-label`}
         selectedKey={radioState}
         options={[
           {
@@ -40,4 +40,4 @@ const NewServiceBusConnectionCalloutProps: React.SFC<NewConnectionCalloutProps &
   );
 };
 
-export default NewServiceBusConnectionCalloutProps;
+export default NewServiceBusConnectionCallout;
