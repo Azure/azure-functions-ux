@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import BindingCard, { BindingCardChildProps, emptyList, editExisting } from './BindingCard';
+import BindingCard, { BindingCardChildProps, emptyList, editExisting, createNew } from './BindingCard';
 import { ReactComponent as OutputSvg } from '../../../../../images/Common/output.svg';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../../../../ThemeContext';
@@ -57,7 +57,16 @@ const getContent = (
     );
   });
 
-  return <ul className={listStyle(theme)}>{outputBindings.length > 0 ? outputList : emptyList(t('integrateNoOutputsDefined'))}</ul>;
+  const completeOutputList = outputList.length > 0 ? outputList : emptyList(t('integrateNoOutputsDefined'));
+  completeOutputList.push(
+    <li key={outputList.length}>
+      <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingConfigDirection.out)}>
+        {t('integrateAddOutput')}
+      </Link>
+    </li>
+  );
+
+  return <ul className={listStyle(theme)}>{completeOutputList}</ul>;
 };
 
 export default OutputBindingCard;
