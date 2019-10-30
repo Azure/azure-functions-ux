@@ -59,7 +59,7 @@ const getContent = (
 
   const completeOutputList = outputList.length > 0 ? outputList : emptyList(t('integrateNoOutputsDefined'));
   completeOutputList.push(
-    <li key={outputList.length}>
+    <li key={'newOutput'}>
       <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingConfigDirection.out)}>
         {t('integrateAddOutput')}
       </Link>
