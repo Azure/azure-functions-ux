@@ -1762,4 +1762,8 @@ export class PortalResources {
   public static newPivot_name = 'newPivot_name';
   public static integrateAddOutput = 'integrateAddOutput';
   public static integrateCreateOutput = 'integrateCreateOutput';
+  public static deleteBindingNotification = 'deleteBindingNotification';
+  public static deleteBindingNotificationDetails = 'deleteBindingNotificationDetails';
+  public static deleteBindingNotificationFailed = 'deleteBindingNotificationFailed';
+  public static deleteBindingNotificationSuccess = 'deleteBindingNotificationSuccess';
 }
