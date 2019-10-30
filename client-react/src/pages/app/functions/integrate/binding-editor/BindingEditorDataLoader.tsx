@@ -1,30 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import LoadingComponent from '../../../../../components/loading/loading-component';
-import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
-import { BindingConfigDirection, BindingsConfig } from '../../../../../models/functions/bindings-config';
-import BindingEditor, { getBindingConfigDirection } from './BindingEditor';
-import { BindingInfo } from '../../../../../models/functions/function-binding';
-import LogService from '../../../../../utils/LogService';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import { PanelType } from 'office-ui-fabric-react';
-import { FunctionInfo } from '../../../../../models/functions/function-info';
-import { ArmObj } from '../../../../../models/arm-obj';
 import i18next from 'i18next';
+import { PanelType } from 'office-ui-fabric-react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import LoadingComponent from '../../../../../components/loading/loading-component';
 import Panel from '../../../../../components/Panel/Panel';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { BindingConfigDirection, BindingsConfig } from '../../../../../models/functions/bindings-config';
+import { BindingInfo } from '../../../../../models/functions/function-binding';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import { LogCategories } from '../../../../../utils/LogCategories';
+import LogService from '../../../../../utils/LogService';
+import BindingCreator from './BindingCreator';
+import BindingEditor, { getBindingConfigDirection } from './BindingEditor';
 
 export interface BindingEditorDataLoaderProps {
   functionInfo: ArmObj<FunctionInfo>;
   functionAppId: string;
   bindingInfo?: BindingInfo;
+  bindingDirection: BindingConfigDirection;
+  isOpen: boolean;
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
 }
 
 const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props => {
-  const { functionInfo, functionAppId, bindingInfo } = props;
+  const { functionInfo, functionAppId, bindingInfo, bindingDirection, isOpen, onPanelClose } = props;
   const [bindingsConfig, setBindingsConfig] = useState<BindingsConfig | undefined>(undefined);
   const { t } = useTranslation();
+
   useEffect(() => {
     FunctionsService.getBindingConfigMetadata().then(r => {
       if (!r.metadata.success) {
@@ -40,49 +44,43 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
     });
   }, []);
 
-  if (!bindingInfo || !bindingsConfig) {
-    return null;
+  if (!bindingsConfig) {
+    return <LoadingComponent />;
   }
 
-  return (
-    <Panel isOpen={true} type={PanelType.smallFixedFar} headerText={getPanelHeader(bindingInfo, t)} onDismiss={props.onPanelClose}>
-      {getEditorOrLoader(functionInfo, functionAppId, props.onSubmit, bindingInfo, bindingsConfig)}
-    </Panel>
-  );
-};
-
-const getEditorOrLoader = (
-  functionInfo: ArmObj<FunctionInfo>,
-  resourceId: string,
-  onSubmit: (bindingInfo: BindingInfo) => void,
-  bindingInfo?: BindingInfo,
-  bindingsConfig?: BindingsConfig
-) => {
-  if (bindingsConfig && bindingInfo) {
+  {
     return (
-      <div style={{ marginTop: '10px' }}>
-        <BindingEditor
-          functionInfo={functionInfo}
-          allBindingsConfig={bindingsConfig}
-          currentBindingInfo={bindingInfo}
-          resourceId={resourceId}
-          onSubmit={onSubmit}
-        />
-      </div>
+      <Panel isOpen={isOpen} type={PanelType.smallFixedFar} headerText={getPanelHeader(t, bindingInfo)} onDismiss={onPanelClose}>
+        <div style={{ marginTop: '10px' }}>
+          {!bindingInfo ? (
+            <BindingCreator bindingsConfig={bindingsConfig} functionAppId={functionAppId} bindingDirection={bindingDirection} {...props} />
+          ) : (
+            <BindingEditor
+              functionInfo={functionInfo}
+              allBindingsConfig={bindingsConfig}
+              currentBindingInfo={bindingInfo}
+              resourceId={functionAppId}
+              onSubmit={props.onSubmit}
+            />
+          )}
+        </div>
+      </Panel>
     );
   }
-
-  return <LoadingComponent />;
 };
 
-const getPanelHeader = (bindingInfo: BindingInfo, t: i18next.TFunction) => {
+const getPanelHeader = (t: i18next.TFunction, bindingInfo?: BindingInfo) => {
+  if (!bindingInfo) {
+    return t('integrateCreateInput');
+  }
+
   const direction = getBindingConfigDirection(bindingInfo);
   switch (direction) {
     case BindingConfigDirection.in: {
       return t('editBindingInput');
     }
     case BindingConfigDirection.out: {
-      return t('editBindingOuput');
+      return t('editBindingOutput');
     }
     default: {
       return t('editBindingTrigger');
