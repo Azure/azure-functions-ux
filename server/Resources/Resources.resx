@@ -5439,4 +5439,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>Database Account</value>
     </data>
+    <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existing Storage Account</value>
+    </data>
+    <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
+        <value>New Storage Account</value>
+    </data>
+    <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
+        <value>There are no storage accounts in this subscription</value>
+    </data>
+    <data name="storageAccountPivot_storageAccount" xml:space="preserve">
+        <value>Storage Account</value>
+    </data>
+    <data name="newPivot_name" xml:space="preserve">
+        <value>Name</value>
+    </data>
 </root>

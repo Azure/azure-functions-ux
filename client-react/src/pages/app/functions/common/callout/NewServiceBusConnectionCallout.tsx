@@ -19,8 +19,8 @@ const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps & Fiel
   return (
     <div style={paddingSidesStyle}>
       <RadioButtonNoFormik
-        id="event-hub-connection-callout-options"
-        ariaLabelledBy={`event-hub-connection-callout-options-label`}
+        id="service-bus-connection-callout-options"
+        ariaLabelledBy={`service-bus-connection-callout-options-label`}
         selectedKey={radioState}
         options={[
           {
