@@ -12,7 +12,7 @@ import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import BindingCreator from './BindingCreator';
-import BindingEditor, { getBindingConfigDirection } from './BindingEditor';
+import BindingEditor from './BindingEditor';
 
 export interface BindingEditorDataLoaderProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -50,7 +50,11 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
 
   {
     return (
-      <Panel isOpen={isOpen} type={PanelType.smallFixedFar} headerText={getPanelHeader(t, bindingInfo)} onDismiss={onPanelClose}>
+      <Panel
+        isOpen={isOpen}
+        type={PanelType.smallFixedFar}
+        headerText={getPanelHeader(t, bindingDirection, bindingInfo)}
+        onDismiss={onPanelClose}>
         <div style={{ marginTop: '10px' }}>
           {isOpen &&
             (!bindingInfo ? (
@@ -75,13 +79,20 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
   }
 };
 
-const getPanelHeader = (t: i18next.TFunction, bindingInfo?: BindingInfo) => {
+// If binding info is undefined that means you are creating a new binding info, otherwise you are editing
+const getPanelHeader = (t: i18next.TFunction, bindingDirection: BindingConfigDirection, bindingInfo?: BindingInfo) => {
   if (!bindingInfo) {
-    return t('integrateCreateInput');
+    switch (bindingDirection) {
+      case BindingConfigDirection.in: {
+        return t('integrateCreateInput');
+      }
+      case BindingConfigDirection.out: {
+        return t('integrateCreateOutput');
+      }
+    }
   }
 
-  const direction = getBindingConfigDirection(bindingInfo);
-  switch (direction) {
+  switch (bindingDirection) {
     case BindingConfigDirection.in: {
       return t('editBindingInput');
     }

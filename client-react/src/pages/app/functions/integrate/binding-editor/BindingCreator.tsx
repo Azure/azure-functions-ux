@@ -7,8 +7,9 @@ import Dropdown from '../../../../../components/form-controls/DropDown';
 import { FormControlWrapper, Layout } from '../../../../../components/FormControlWrapper/FormControlWrapper';
 import LoadingComponent from '../../../../../components/loading/loading-component';
 import { BindingConfigDirection, BindingsConfig, BindingConfigMetadata } from '../../../../../models/functions/bindings-config';
-import { BindingDirection, BindingInfo, BindingType } from '../../../../../models/functions/function-binding';
+import { BindingInfo, BindingType } from '../../../../../models/functions/function-binding';
 import { BindingEditorFormValues, BindingFormBuilder } from '../../common/BindingFormBuilder';
+import { getBindingDirection } from './BindingEditor';
 
 export interface BindingCreatorProps {
   bindingsConfig: BindingsConfig;
@@ -69,7 +70,7 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
     return { key: binding.type, text: t(binding.displayName.substring(1)) };
   });
 
-  const initialFormValues: BindingInfo = { name: '', direction: BindingDirection.in, type: BindingType.blob };
+  const initialFormValues: BindingInfo = { name: '', direction: getBindingDirection(bindingDirection), type: BindingType.blob };
 
   return (
     <Formik
@@ -80,7 +81,7 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
       {(formProps: FormikProps<BindingEditorFormValues>) => {
         return (
           <form>
-            <p>{t('integrateCreateInputInstructions')}</p>
+            <p>{t('integrateCreateBindingInstructions').format(formProps.values.direction)}</p>
             <FormControlWrapper label={t('integrateBindingType')} layout={Layout.vertical}>
               <Field component={Dropdown} name="type" options={dropdownOptions} {...formProps} />
             </FormControlWrapper>

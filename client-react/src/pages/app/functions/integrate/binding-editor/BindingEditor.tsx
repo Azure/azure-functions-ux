@@ -106,12 +106,16 @@ const onDelete = (currentBindingInfo: BindingInfo) => {
   console.log(`delete ${currentBindingInfo.name}!`);
 };
 
-export const getBindingConfigDirection = (bindingInfo: BindingInfo) => {
+export const getBindingConfigDirection = (bindingInfo: BindingInfo): BindingConfigDirection => {
   if (bindingInfo.direction === BindingDirection.in) {
     return bindingInfo.type.toLowerCase().indexOf('trigger') > -1 ? BindingConfigDirection.trigger : BindingConfigDirection.in;
   }
 
   return BindingConfigDirection.out;
+};
+
+export const getBindingDirection = (bindingConfigDirection: BindingConfigDirection): BindingDirection => {
+  return bindingConfigDirection === BindingConfigDirection.out ? BindingDirection.out : BindingDirection.in;
 };
 
 export default BindingEditor;
