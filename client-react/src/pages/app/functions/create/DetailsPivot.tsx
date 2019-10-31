@@ -10,6 +10,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { paddingStyle } from './FunctionCreate.styles';
 import { FunctionCreateContext } from './FunctionCreateDataLoader';
 import { getRequiredCreationBindings } from './DetailsPivot.helper';
+import { PortalContext } from '../../../../PortalContext';
 
 interface DetailsPivotProps {
   functionsInfo: ArmObj<FunctionInfo>[];
@@ -20,7 +21,8 @@ interface DetailsPivotProps {
 
 const DetailsPivot: React.FC<DetailsPivotProps> = props => {
   const { functionsInfo, bindingsConfig, selectedFunctionTemplate, resourceId } = props;
-  const functionCreateData = useContext(FunctionCreateContext);
+  const provider = useContext(FunctionCreateContext);
+  const portalCommunicator = useContext(PortalContext);
   const { t } = useTranslation();
 
   if (selectedFunctionTemplate) {
@@ -44,7 +46,7 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
       <>
         <Formik
           initialValues={initialFormValues}
-          onSubmit={formValues => functionCreateData.createFunction(resourceId, selectedFunctionTemplate, formValues)}>
+          onSubmit={formValues => provider.createFunction(portalCommunicator, t, resourceId, selectedFunctionTemplate, formValues)}>
           {(formProps: FormikProps<CreateFunctionFormValues>) => {
             return (
               <form>

@@ -4,6 +4,8 @@ import { CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { BindingEditorFormValues } from '../common/BindingFormBuilder';
 import { FunctionConfig } from '../../../../models/functions/function-config';
+import PortalCommunicator from '../../../../portal-communicator';
+import i18next from 'i18next';
 
 export default class FunctionCreateData {
   public getTemplates() {
@@ -18,9 +20,25 @@ export default class FunctionCreateData {
     return FunctionsService.getBindingConfigMetadata();
   }
 
-  public createFunction(resourceId: string, functionTemplate: FunctionTemplate, formValues: CreateFunctionFormValues) {
+  public createFunction(
+    portalCommunicator: PortalCommunicator,
+    t: i18next.TFunction,
+    resourceId: string,
+    functionTemplate: FunctionTemplate,
+    formValues: CreateFunctionFormValues
+  ) {
     const config = this._buildFunctionConfig(functionTemplate.function.bindings, formValues);
-    FunctionsService.createFunction(resourceId, formValues.functionName, functionTemplate.files, config);
+    const notificationId = portalCommunicator.startNotification(t('newFunction'), t('newFunction'));
+
+    FunctionsService.createFunction(resourceId, formValues.functionName, functionTemplate.files, config).then(r => {
+      if (!r.metadata.success) {
+        const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
+        portalCommunicator.stopNotification(notificationId, false, errorMessage);
+        return;
+      }
+
+      portalCommunicator.stopNotification(notificationId, true, formValues.functionName);
+    });
   }
 
   private _buildFunctionConfig(defaultBindingInfo: BindingInfo[], formValues: BindingEditorFormValues): FunctionConfig {
