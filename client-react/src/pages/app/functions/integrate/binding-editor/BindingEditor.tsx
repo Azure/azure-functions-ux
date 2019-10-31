@@ -19,6 +19,7 @@ export interface BindingEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   resourceId: string;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
+  onDelete: (currentBindingInfo: BindingInfo) => void;
 }
 
 export interface BindingEditorFormValues {
@@ -36,7 +37,7 @@ const fieldWrapperStyle = style({
 });
 
 const BindingEditor: React.SFC<BindingEditorProps> = props => {
-  const { allBindingsConfig: bindingsConfig, currentBindingInfo, onSubmit, resourceId } = props;
+  const { allBindingsConfig: bindingsConfig, currentBindingInfo, resourceId, onSubmit, onDelete } = props;
   const { t } = useTranslation();
   const [isDisabled, setIsDisabled] = useState(false);
 
@@ -100,10 +101,6 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
       }}
     </Formik>
   );
-};
-
-const onDelete = (currentBindingInfo: BindingInfo) => {
-  console.log(`delete ${currentBindingInfo.name}!`);
 };
 
 export const getBindingConfigDirection = (bindingInfo: BindingInfo): BindingConfigDirection => {

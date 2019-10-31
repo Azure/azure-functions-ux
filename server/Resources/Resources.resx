@@ -5460,4 +5460,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrateCreateOutput" xml:space="preserve">
         <value>Create Output</value>
     </data>
+    <data name="deleteBindingNotification" xml:space="preserve">
+        <value>Deleting binding</value>
+    </data>
+    <data name="deleteBindingNotificationDetails" xml:space="preserve">
+        <value>Deleting {0} ({1})</value>
+    </data>
+    <data name="deleteBindingNotificationFailed" xml:space="preserve">
+        <value>Failed to delete {0} ({1}): {2}</value>
+    </data>
+    <data name="deleteBindingNotificationSuccess" xml:space="preserve">
+        <value>Succeeded in deleting {0} ({1})</value>
+    </data>
 </root>
