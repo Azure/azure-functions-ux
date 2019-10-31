@@ -395,11 +395,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           />
         )}
       </DisplayTableWithCommandBar>
-      <Panel
-        isOpen={showPanel && panelItem === 'add'}
-        onDismiss={onCancel}
-        headerText={t('addEditApplicationSetting')}
-        closeButtonAriaLabel={t('close')}>
+      <Panel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditApplicationSetting')}>
         <AppSettingAddEdit
           site={values.site}
           appSetting={currentAppSetting!}
@@ -409,7 +405,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           closeBlade={onCancel}
         />
       </Panel>
-      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel} closeButtonAriaLabel={t('close')}>
+      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel}>
         <Suspense fallback={<LoadingComponent />}>
           <AppSettingsBulkEdit
             isLinux={isLinuxApp(values.site)}
