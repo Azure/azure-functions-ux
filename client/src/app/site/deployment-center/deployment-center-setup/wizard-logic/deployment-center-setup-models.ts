@@ -74,6 +74,7 @@ export type sourceControlProvider =
  */
 
 export interface ProvisioningConfigurationBase {
+  authToken: string;
   /**
    * Gets or sets the unique identifier of the provisioning configuration.
    */
@@ -86,7 +87,6 @@ export interface ProvisioningConfigurationBase {
 }
 
 export interface ProvisioningConfiguration extends ProvisioningConfigurationBase {
-  authToken: string;
   /**
    * Gets or sets the deployment source.
    */
