@@ -1,4 +1,5 @@
 import SiteService from '../../../ApiHelpers/SiteService';
+import FunctionsService from '../../../ApiHelpers/FunctionsService';
 import StorageService from '../../../ApiHelpers/StorageService';
 import RbacConstants from '../../../utils/rbac-constants';
 import { ArmObj } from '../../../models/arm-obj';
@@ -40,6 +41,11 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     windowsStacks,
     linuxStacks,
   };
+};
+
+// TODO (andimarc): Remove this if we don't end up using it
+export const getFunctionsRuntimeVersions = (site: ArmObj<Site>) => {
+  return FunctionsService.getRuntimeVersions(site);
 };
 
 export const fetchAzureStorageAccounts = (resourceId: string) => {
