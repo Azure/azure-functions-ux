@@ -83,7 +83,7 @@ export const editExisting = (
 
 export const emptyList = (emptyMessage: string): JSX.Element[] => {
   return [
-    <li key={'0'} className="emptyMessage">
+    <li key={'emptyInputs'} className="emptyMessage">
       {emptyMessage}
     </li>,
   ];
