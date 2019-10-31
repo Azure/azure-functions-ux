@@ -1635,6 +1635,10 @@ export class PortalResources {
   public static integrateNoInputsDefined = 'integrateNoInputsDefined';
   public static integrateNoOutputsDefined = 'integrateNoOutputsDefined';
   public static integrateAddInput = 'integrateAddInput';
+  public static integrateCreateInput = 'integrateCreateInput';
+  public static integrateCreateInputInstructions = 'integrateCreateInputInstructions';
+  public static integrateBindingType = 'integrateBindingType';
+  public static integrateCreateBindingTypeDetails = 'integrateCreateBindingTypeDetails';
   public static _function = '_function';
   public static fetchingDeploymentData = 'fetchingDeploymentData';
   public static noDeploymentDataAvailable = 'noDeploymentDataAvailable';
@@ -1645,7 +1649,7 @@ export class PortalResources {
   public static updateBindingNotificationFailed = 'updateBindingNotificationFailed';
   public static updateBindingNotificationSuccess = 'updateBindingNotificationSuccess';
   public static editBindingInput = 'editBindingInput';
-  public static editBindingOuput = 'editBindingOuput';
+  public static editBindingOutput = 'editBindingOutput';
   public static editBindingTrigger = 'editBindingTrigger';
   public static editBindingCommands = 'editBindingCommands';
   public static functionCreate_newFunction = 'functionCreate_newFunction';
@@ -1725,6 +1729,7 @@ export class PortalResources {
   public static functionDirectoryDropdownAriaLabel = 'functionDirectoryDropdownAriaLabel';
   public static noPlanWritePermissions = 'noPlanWritePermissions';
   public static closeGetFunctionUrlModal = 'closeGetFunctionUrlModal';
+  public static validation_linuxConnectionStringNameError = 'validation_linuxConnectionStringNameError';
   public static scope = 'scope';
   public static appFunctionSettings_virtualNetworkTriggerSupport = 'appFunctionSettings_virtualNetworkTriggerSupport';
   public static appFunctionSettings_runtimeScalingMonitoredText = 'appFunctionSettings_runtimeScalingMonitoredText';
@@ -1741,4 +1746,18 @@ export class PortalResources {
   public static iotHubPivot_IOTMonitoring = 'iotHubPivot_IOTMonitoring';
   public static customPivot_key = 'customPivot_key';
   public static customPivot_value = 'customPivot_value';
+  public static serviceBusCallout_serviceBus = 'serviceBusCallout_serviceBus';
+  public static resourceCallout_customAppSetting = 'resourceCallout_customAppSetting';
+  public static serviceBusPicker_noNamespaces = 'serviceBusPicker_noNamespaces';
+  public static serviceBusPicker_noPolicies = 'serviceBusPicker_noPolicies';
+  public static serviceBusPicker_namespace = 'serviceBusPicker_namespace';
+  public static serviceBusPicker_policy = 'serviceBusPicker_policy';
+  public static documentDBCallout_azureCosmosDBAccount = 'documentDBCallout_azureCosmosDBAccount';
+  public static documentDBPivot_noDatabaseAccounts = 'documentDBPivot_noDatabaseAccounts';
+  public static documentDBPivot_databaseAccount = 'documentDBPivot_databaseAccount';
+  public static stoageAccountCallout_existingStorageAccount = 'stoageAccountCallout_existingStorageAccount';
+  public static stoageAccountCallout_newStorageAccount = 'stoageAccountCallout_newStorageAccount';
+  public static storageAccountPivot_noStorageAccounts = 'storageAccountPivot_noStorageAccounts';
+  public static storageAccountPivot_storageAccount = 'storageAccountPivot_storageAccount';
+  public static newPivot_name = 'newPivot_name';
 }

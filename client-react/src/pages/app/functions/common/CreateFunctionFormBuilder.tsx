@@ -15,8 +15,8 @@ export interface CreateFunctionFormValues extends BindingEditorFormValues {
 
 export class CreateFunctionFormBuilder extends BindingFormBuilder {
   constructor(
-    bindingInfo: BindingInfo,
-    bindingMetadata: BindingConfigMetadata,
+    bindingInfo: BindingInfo[],
+    bindingMetadata: BindingConfigMetadata[],
     resourceId: string,
     variables: { [key: string]: string },
     private _functionsInfo: ArmObj<FunctionInfo>[],
@@ -34,7 +34,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
 
   public getFields(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
     const nameField: JSX.Element[] = [this._getFunctionNameTextField(formProps, isDisabled)];
-    const bindingFields: JSX.Element[] = super.getFields(formProps, isDisabled, 1);
+    const bindingFields: JSX.Element[] = super.getFields(formProps, isDisabled);
     return nameField.concat(bindingFields);
   }
 
@@ -56,7 +56,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
   private _getFunctionNameTextField(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
     return (
       <FormControlWrapper label={this.t('functionCreate_newFunction')} layout={Layout.vertical} key={0}>
-        <Field name={'functionName'} component={TextField} disabled={isDisabled} {...formProps} />
+        <Field name={'functionName'} id={'functionName'} required={true} component={TextField} disabled={isDisabled} {...formProps} />
       </FormControlWrapper>
     );
   }

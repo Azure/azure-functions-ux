@@ -1,8 +1,3 @@
-enum BindingMethod {
-  get = 'get',
-  post = 'post',
-}
-
 // Should only be used for FunctionInfo binding direction.
 // For some reason binding direction is only in/out when
 // stored in Function config.  Binding direction downloaded from templates
@@ -12,7 +7,7 @@ export enum BindingDirection {
   out = 'out',
 }
 
-enum BindingType {
+export enum BindingType {
   xrmwebhooktrigger = 'xrmwebhooktrigger',
   timerTrigger = 'timerTrigger',
   eventHubTrigger = 'eventHubTrigger',
@@ -59,18 +54,5 @@ export interface BindingInfo {
   name: string;
   type: BindingType;
   direction: BindingDirection;
-  authLevel?: string;
-  methods?: BindingMethod[];
-  connection?: string;
-  path?: string;
-  queueName?: string;
-  schedule?: string;
-  runOnStartup?: boolean;
-  partitionKey?: string;
-  filter?: string;
-  tableName?: string;
-  rowKey?: string;
-  webHookType?: string;
-  route?: string;
-  message?: string;
+  [key: string]: any;
 }

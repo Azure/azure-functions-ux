@@ -2,21 +2,19 @@ import React, { useState } from 'react';
 import { FieldProps } from 'formik';
 import { NewConnectionCalloutProps } from './Callout.properties';
 import { useTranslation } from 'react-i18next';
-import EventHubPivotDataLoader from './eventHubPivot/EventHubPivotDataLoader';
-import IoTHubPivotDataLoader from './iotHubPivot/IoTHubPivotDataLoader';
 import CustomPivot from './customPivot/CustomPivot';
 import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
 import { paddingSidesStyle } from './Callout.styles';
+import DocumentDBPivotDataLoader from './documentDBPivot/DocumentDBDataLoader';
 
 enum RadioState {
-  eventHub = 'eventHub',
-  iotHub = 'iotHub',
+  documentAccount = 'documentAccount',
   custom = 'custom',
 }
 
-const NewEventHubConnectionCallout: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const NewDocumentDBConnectionCallout: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
   const { t } = useTranslation();
-  const [radioState, setRadioState] = useState<RadioState>(RadioState.eventHub);
+  const [radioState, setRadioState] = useState<RadioState>(RadioState.documentAccount);
 
   return (
     <div style={paddingSidesStyle}>
@@ -26,12 +24,8 @@ const NewEventHubConnectionCallout: React.SFC<NewConnectionCalloutProps & FieldP
         selectedKey={radioState}
         options={[
           {
-            key: RadioState.eventHub,
-            text: t('eventHubPicker_eventHub'),
-          },
-          {
-            key: RadioState.iotHub,
-            text: t('eventHubPicker_IOTHub'),
+            key: RadioState.documentAccount,
+            text: t('documentDBCallout_azureCosmosDBAccount'),
           },
           {
             key: RadioState.custom,
@@ -40,11 +34,10 @@ const NewEventHubConnectionCallout: React.SFC<NewConnectionCalloutProps & FieldP
         ]}
         onChange={(o, e) => e && setRadioState(e.key as RadioState)}
       />
-      {radioState === RadioState.eventHub && <EventHubPivotDataLoader {...props} />}
-      {radioState === RadioState.iotHub && <IoTHubPivotDataLoader {...props} />}
+      {radioState === RadioState.documentAccount && <DocumentDBPivotDataLoader {...props} />}
       {radioState === RadioState.custom && <CustomPivot {...props} />}
     </div>
   );
 };
 
-export default NewEventHubConnectionCallout;
+export default NewDocumentDBConnectionCallout;

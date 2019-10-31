@@ -9,7 +9,7 @@ import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
 import { paddingStyle } from './FunctionCreate.styles';
 import { FunctionCreateContext } from './FunctionCreateDataLoader';
-import { getTriggerBinding, getRequiredBindingMetadata } from './DetailsPivot.helper';
+import { getRequiredCreationBindings } from './DetailsPivot.helper';
 
 interface DetailsPivotProps {
   functionsInfo: ArmObj<FunctionInfo>[];
@@ -24,14 +24,13 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
   const { t } = useTranslation();
 
   if (selectedFunctionTemplate) {
-    const triggerBinding = getTriggerBinding(selectedFunctionTemplate);
-    const requiredBindingMetadata = getRequiredBindingMetadata(
-      triggerBinding,
+    const requiredBindingMetadata = getRequiredCreationBindings(
+      selectedFunctionTemplate.function.bindings,
       bindingsConfig,
       selectedFunctionTemplate.metadata.userPrompt || []
     );
     const builder = new CreateFunctionFormBuilder(
-      triggerBinding,
+      selectedFunctionTemplate.function.bindings,
       requiredBindingMetadata,
       resourceId,
       bindingsConfig.variables,
@@ -45,7 +44,7 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
       <>
         <Formik
           initialValues={initialFormValues}
-          onSubmit={formValues => functionCreateData.createFunction(resourceId, selectedFunctionTemplate, triggerBinding, formValues)}>
+          onSubmit={formValues => functionCreateData.createFunction(resourceId, selectedFunctionTemplate, formValues)}>
           {(formProps: FormikProps<CreateFunctionFormValues>) => {
             return (
               <form>

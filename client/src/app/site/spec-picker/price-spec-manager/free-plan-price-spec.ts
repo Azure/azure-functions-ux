@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Kinds, Links, Pricing } from './../../../shared/models/constants';
+import { Kinds, Pricing } from './../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
@@ -21,12 +21,6 @@ export class FreePlanPriceSpec extends PriceSpec {
   featureItems = null;
 
   hardwareItems = [
-    {
-      iconUrl: 'image/app-service-plan.svg',
-      title: this._ts.instant(PortalResources.pricing_includedHardware_azureComputeUnits),
-      description: this._ts.instant(PortalResources.pricing_computeDedicatedAcu),
-      learnMoreUrl: Links.azureComputeUnitLearnMore,
-    },
     {
       iconUrl: 'image/website-power.svg',
       title: this._ts.instant(PortalResources.memory),

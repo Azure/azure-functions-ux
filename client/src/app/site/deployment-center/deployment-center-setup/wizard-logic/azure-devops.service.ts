@@ -436,7 +436,7 @@ export class AzureDevOpsService implements OnDestroy {
     const pipelineTemplateParameters = {
       subscriptionId: siteDescriptor.subscription,
       subscriptionName: subscriptionName,
-      resourceGroupName: siteDescriptor.resourceGroup,
+      resourceGroup: siteDescriptor.resourceGroup,
       webAppName: siteDescriptor.site,
       stagingOption: !!siteDescriptor.slot ? 'true' : 'false',
       webAppSlotName: !!siteDescriptor.slot ? siteDescriptor.slot : '',

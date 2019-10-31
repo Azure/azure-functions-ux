@@ -1,15 +1,17 @@
+import { Field, Formik, FormikProps } from 'formik';
+import { Dropdown } from 'office-ui-fabric-react';
 import React, { useState } from 'react';
-import { BindingConfigMetadata, BindingConfigDirection, BindingsConfig } from '../../../../../models/functions/bindings-config';
-import { BindingInfo, BindingDirection } from '../../../../../models/functions/function-binding';
 import { useTranslation } from 'react-i18next';
-import { FormikProps, Formik } from 'formik';
+import { style } from 'typestyle';
+import { FormControlWrapper, Layout } from '../../../../../components/FormControlWrapper/FormControlWrapper';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { BindingConfigDirection, BindingConfigMetadata, BindingsConfig } from '../../../../../models/functions/bindings-config';
+import { BindingDirection, BindingInfo } from '../../../../../models/functions/function-binding';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import { LogCategories } from '../../../../../utils/LogCategories';
+import LogService from '../../../../../utils/LogService';
 import { BindingFormBuilder } from '../../common/BindingFormBuilder';
 import EditBindingCommandBar from './EditBindingCommandBar';
-import { style } from 'typestyle';
-import { FunctionInfo } from '../../../../../models/functions/function-info';
-import { ArmObj } from '../../../../../models/arm-obj';
-import LogService from '../../../../../utils/LogService';
-import { LogCategories } from '../../../../../utils/LogCategories';
 
 export interface BindingEditorProps {
   allBindingsConfig: BindingsConfig;
@@ -23,6 +25,12 @@ export interface BindingEditorFormValues {
   [key: string]: any;
 }
 
+export enum ClosedReason {
+  Save = 'save',
+  Cancel = 'cancel',
+  Delete = 'delete',
+}
+
 const fieldWrapperStyle = style({
   paddingTop: '20px',
 });
@@ -33,15 +41,17 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
   const [isDisabled, setIsDisabled] = useState(false);
 
   const bindingsConfigMetadata = bindingsConfig.bindings;
-  const currentBindingMetadata = bindingsConfigMetadata.find(b => b.type === currentBindingInfo.type) as BindingConfigMetadata;
+  const currentBindingMetadata = bindingsConfigMetadata.find(
+    b => b.type === currentBindingInfo.type && b.direction.toString() === currentBindingInfo.direction
+  ) as BindingConfigMetadata;
 
   if (!currentBindingMetadata) {
     LogService.error(LogCategories.bindingEditor, 'no-binding-metadata-found', null);
     return <div />;
   }
 
-  const builder = new BindingFormBuilder(currentBindingInfo, currentBindingMetadata, resourceId, t, bindingsConfig.variables);
-  const initialFormValues = builder.getInitialFormValues();
+  const builder = new BindingFormBuilder([currentBindingInfo], [currentBindingMetadata], resourceId, t, bindingsConfig.variables);
+  const initialFormValues: BindingEditorFormValues = builder.getInitialFormValues();
 
   const submit = (newBindingInfo: BindingInfo) => {
     const checkboxSettingsMetadata = currentBindingMetadata.settings.filter(s => s.value === 'checkBoxList');
@@ -71,7 +81,20 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
               dirty={formProps.dirty}
               loading={isDisabled}
             />
-            <div className={fieldWrapperStyle}>{builder.getFields(formProps, isDisabled)}</div>
+            <div className={fieldWrapperStyle}>
+              <FormControlWrapper label={t('integrateBindingType')} layout={Layout.vertical}>
+                <Field
+                  name="type"
+                  component={Dropdown}
+                  options={[{ key: currentBindingMetadata.type, text: t(currentBindingMetadata.displayName.substring(1)) }]}
+                  disabled={true}
+                  selectedKey={currentBindingMetadata.type}
+                  {...formProps}
+                />
+              </FormControlWrapper>
+
+              {builder.getFields(formProps, isDisabled)}
+            </div>
           </form>
         );
       }}
@@ -79,8 +102,8 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
   );
 };
 
-const onDelete = (bindingInfo: BindingInfo) => {
-  console.log('delete!');
+const onDelete = (currentBindingInfo: BindingInfo) => {
+  console.log(`delete ${currentBindingInfo.name}!`);
 };
 
 export const getBindingConfigDirection = (bindingInfo: BindingInfo) => {
