@@ -6,15 +6,10 @@ import { PermissionsContext } from '../Contexts';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { isEqual } from 'lodash-es';
 import { Links } from '../../../../utils/FwLinks';
-// import InfoBox from '../../../../components/InfoBox/InfoBox';
-// import { MessageBar, MessageBarType, Link } from 'office-ui-fabric-react';
-// import { messageBannerStyle } from '../AppSettings.styles';
-// import { ThemeContext } from '../../../../ThemeContext';
 
 const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { t, values, initialValues } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
-  // const theme = useContext(ThemeContext);
 
   if (!values.config) {
     return null;
@@ -22,22 +17,6 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
 
   return (
     <>
-      {/* <InfoBox
-        id="function-app-settings-runtime-scale-monitoring-info"
-        type="Info"
-        message={t('appFunctionSettings_runtimeScalingMonitoringMessage')}
-        additionalInfoLink={{ url: Links.runtimeScaleMonitoringLearnMore, text: t('learnMore') }}
-      /> */}
-      {/* <MessageBar
-        id="function-app-settings-runtime-version-banner"
-        isMultiline={true}
-        className={messageBannerStyle(theme, MessageBarType.info)}
-        messageBarType={MessageBarType.info}>
-        {t('appFunctionSettings_runtimeScalingMonitoringMessage')}
-        <Link href={Links.runtimeScaleMonitoringLearnMore} target="_blank">
-          {t('learnMore')}
-        </Link>
-      </MessageBar> */}
       <Field
         name="config.properties.functionsRuntimeScaleMonitoringEnabled"
         dirty={
@@ -59,11 +38,11 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
           {
             key: false,
             text: t('off'),
-            disabled: !!values.config.properties.vnetName,
+            disabled: false,
           },
         ]}
         vertical={false}
-        infoBubbleMessage={t('appFunctionSettings_runtimeScalingMonitoringMessage')}
+        notificationMessage={t('appFunctionSettings_runtimeScalingMonitoringMessage')}
         learnMoreLink={Links.runtimeScaleMonitoringLearnMore}
       />
     </>

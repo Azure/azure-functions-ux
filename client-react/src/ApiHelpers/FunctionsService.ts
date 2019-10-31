@@ -19,10 +19,10 @@ export default class FunctionsService {
     runtimeDefault: '~3',
   };
 
-  public static getFunctions = (resourceId: string) => {
+  public static getFunctions = (resourceId: string, force?: boolean) => {
     const id = `${resourceId}/functions`;
 
-    return MakeArmCall<ArmArray<FunctionInfo>>({ resourceId: id, commandName: 'fetchFunctions' });
+    return MakeArmCall<ArmArray<FunctionInfo>>({ resourceId: id, commandName: 'fetchFunctions', skipBuffer: force });
   };
 
   public static getFunction = (resourceId: string) => {
@@ -126,7 +126,7 @@ export default class FunctionsService {
     });
   };
 
-  public static getHostStatus = async (resourceId: string) => {
+  public static getHostStatus = async (resourceId: string, force?: boolean) => {
     let retries = 3;
     let result: any;
 
@@ -135,6 +135,7 @@ export default class FunctionsService {
         resourceId: `${resourceId}/host/default/properties/status`,
         commandName: 'getHostStatus',
         method: 'GET',
+        skipBuffer: force,
       });
 
       if (result.metadata.status !== 400) {

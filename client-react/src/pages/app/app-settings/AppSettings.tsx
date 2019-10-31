@@ -80,7 +80,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
 
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
-      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings }) => (
+      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings, asyncData }) => (
         <PermissionsContext.Consumer>
           {permissions => {
             return (
@@ -111,7 +111,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               )}
                           </div>
                           {!!initialFormValues ? (
-                            <AppSettingsForm {...formProps} />
+                            <AppSettingsForm asyncData={asyncData} {...formProps} />
                           ) : (
                             <MessageBar
                               isMultiline={false}

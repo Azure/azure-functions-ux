@@ -1,11 +1,10 @@
-import { FormikProps } from 'formik';
 import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react/lib/Pivot';
 import PivotItemContent, { BannerMessageProps } from '../../../components/Pivot/PivotItemContent';
 import React, { useRef, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 
-import { AppSettingsFormValues } from './AppSettings.types';
+import { AppSettingsFormProps } from './AppSettings.types';
 
 import GeneralSettings, { generalSettingsDirty, generalSettingsError } from './Sections/GeneralSettings';
 import ApplicationSettingsPivot, { applicationSettingsDirty } from './Sections/ApplicationSettingsPivot';
@@ -30,7 +29,7 @@ const pivotStylesOverride = {
   },
 };
 
-const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const [bannerMessageProps, setBannerMessageProps] = useState<BannerMessageProps | undefined>(undefined);
   const theme = useContext(ThemeContext);
   const { values, initialValues, errors } = props;
@@ -75,17 +74,6 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
   return (
     <Pivot styles={pivotStylesOverride} getTabId={getPivotTabId} onLinkClick={() => setBannerMessageProps(undefined)}>
-      <PivotItem
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel, undefined)
-        }
-        itemKey="applicationSettings"
-        linkText={t('applicationSettings')}>
-        <PivotItemContent bannerMessageProps={bannerMessageProps}>
-          <ApplicationSettingsPivot {...props} />
-        </PivotItemContent>
-      </PivotItem>
-
       {showFunctionRuntimeSettings ? (
         <PivotItem
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
@@ -100,6 +88,17 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       ) : (
         <></>
       )}
+
+      <PivotItem
+        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+          CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel, undefined)
+        }
+        itemKey="applicationSettings"
+        linkText={t('applicationSettings')}>
+        <PivotItemContent bannerMessageProps={bannerMessageProps}>
+          <ApplicationSettingsPivot {...props} />
+        </PivotItemContent>
+      </PivotItem>
 
       {showGeneralSettings ? (
         <PivotItem

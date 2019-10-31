@@ -8,13 +8,13 @@ import {
   FunctionsRuntimeGenerations,
 } from './AppSettings.types';
 import { sortBy } from 'lodash-es';
-import { ArmObj, ArmArray } from '../../../models/arm-obj';
+import { ArmObj /*, ArmArray*/ } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
-import { HostStatus } from '../../../models/functions/host-status';
-import { FunctionInfo } from '../../../models/functions/function-info';
+// import { HostStatus } from '../../../models/functions/host-status';
+// import { FunctionInfo } from '../../../models/functions/function-info';
 
 export const getFunctionsRuntimeMajorVersion = (version: string | null) => {
   switch (version) {
@@ -63,17 +63,17 @@ interface StateToFormParams {
   azureStorageMounts: ArmObj<ArmAzureStorageMount> | null;
   slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<{ [key: string]: string }> | null;
-  hostStatus: ArmObj<HostStatus> | null;
-  functions: ArmArray<FunctionInfo> | null;
+  // hostStatus: ArmObj<HostStatus> | null;
+  // functions: ArmArray<FunctionInfo> | null;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
-  const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata, hostStatus, functions } = props;
+  const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata /*, hostStatus, functions*/ } = props;
   const formAppSetting = getFormAppSetting(appSettings, slotConfigNames);
 
   return {
     site,
-    hostStatus,
-    functions,
+    // hostStatus,
+    // functions,
     config: getCleanedConfig(config),
     appSettings: formAppSetting,
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),

@@ -1,6 +1,6 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
-import { AppSettingsFormValues, AppSettingsReferences } from './AppSettings.types';
+import { AppSettingsFormValues, AppSettingsReferences, AsyncObj, AppSettingsAsyncData } from './AppSettings.types';
 import {
   convertStateToForm,
   convertFormToState,
@@ -34,11 +34,12 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
-import { isFunctionApp } from '../../../utils/arm-utils';
+import { HostStatus } from '../../../models/functions/host-status';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
     initialFormValues: AppSettingsFormValues | null;
+    asyncData: AppSettingsAsyncData;
     scaleUpPlan: () => void;
     refreshAppSettings: () => void;
     onSubmit: (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => void;
@@ -77,6 +78,13 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const { t } = useTranslation();
   const siteContext = useContext(SiteRouterContext);
 
+  const [functionsHostStatus, setFunctionsHostStatus] = useState<ArmObj<HostStatus> | undefined | null>(undefined);
+  const [functionsCount, setFunctionsCount] = useState<number | undefined | null>(undefined);
+  const [asyncData, setAsyncData] = useState<AppSettingsAsyncData>({
+    functionsHostStatus: { loadingState: 'loading' },
+    functionsCount: { loadingState: 'loading' },
+  });
+
   const armCallFailed = (response: HttpResponseObject<any>, ignoreRbacAndLocks?: boolean) => {
     if (response.metadata.success) {
       return false;
@@ -103,10 +111,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     setLoadingFailure(loadingFailed);
 
     if (!loadingFailed) {
-      const [hostStatus, functions] = !isFunctionApp(site.data)
-        ? [null, null]
-        : await Promise.all([getHostStatus(resourceId), getFunctions(resourceId)]);
-
       setCurrentSiteNonForm(site.data);
 
       if (
@@ -144,8 +148,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
-          hostStatus: hostStatus && hostStatus.metadata.success ? hostStatus.data : null,
-          functions: functions && functions.metadata.success ? functions.data : null,
         }),
       });
 
@@ -180,11 +182,35 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
   };
 
+  const fetchFunctionsHostStatus = async () => {
+    const functionsHostStatusPromise = await getHostStatus(resourceId);
+    const success = functionsHostStatusPromise.metadata.success;
+    setFunctionsHostStatus(success ? functionsHostStatusPromise.data : null);
+  };
+
+  const fetchFunctionsCount = async () => {
+    const functionsCountPromise = await getFunctions(resourceId);
+    const success = functionsCountPromise.metadata.success;
+    setFunctionsCount(success ? functionsCountPromise.data.value.length : null);
+  };
+
+  const fetchAsyncData = () => {
+    setFunctionsHostStatus(undefined);
+    setFunctionsCount(undefined);
+    setAsyncData({
+      functionsHostStatus: { loadingState: 'loading' },
+      functionsCount: { loadingState: 'loading' },
+    });
+    fetchFunctionsHostStatus();
+    fetchFunctionsCount();
+  };
+
   const loadData = () => {
     fetchData();
     fillSlots();
     fetchReferences();
     fetchStorageAccounts();
+    fetchAsyncData();
   };
 
   useEffect(() => {
@@ -219,15 +245,14 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       slotConfigUpdates,
       storageUpdateCall,
     ]);
-    const hostStatus = !isFunctionApp(site) ? null : await getHostStatus(resourceId);
 
     if (siteResult.metadata.success && configResult.metadata.success && (!slotConfigResults || slotConfigResults.metadata.success)) {
       setInitialValues({
         ...values,
         virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
-        hostStatus: hostStatus && hostStatus.metadata.success ? hostStatus.data : null,
       });
       fetchReferences();
+      fetchAsyncData();
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
       const siteError = siteResult.metadata.error && siteResult.metadata.error.Message;
@@ -241,6 +266,32 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   if (!initialLoading || refreshValues || (!initialValues && !loadingFailure)) {
     return <LoadingComponent />;
+  }
+
+  if (functionsHostStatus || functionsCount) {
+    const funcHostStatus: AsyncObj<ArmObj<HostStatus>> =
+      functionsHostStatus === undefined
+        ? asyncData.functionsHostStatus
+        : {
+            loadingState: functionsHostStatus === null ? 'failed' : 'complete',
+            value: functionsHostStatus === null ? undefined : functionsHostStatus,
+          };
+
+    const funcCount: AsyncObj<number> =
+      functionsCount === undefined
+        ? asyncData.functionsCount
+        : {
+            loadingState: functionsCount === null ? 'failed' : 'complete',
+            value: functionsCount === null ? undefined : functionsCount,
+          };
+
+    setAsyncData({
+      functionsHostStatus: funcHostStatus,
+      functionsCount: funcCount,
+    });
+
+    setFunctionsHostStatus(undefined);
+    setFunctionsCount(undefined);
   }
 
   if (initialValues && references) {
@@ -257,7 +308,13 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         <StorageAccountsContext.Provider value={storageAccountsState}>
           <SiteContext.Provider value={currentSiteNonForm}>
             <SlotsListContext.Provider value={slotList}>
-              {children({ onSubmit, scaleUpPlan, refreshAppSettings, initialFormValues: initialValues })}
+              {children({
+                onSubmit,
+                scaleUpPlan,
+                asyncData,
+                refreshAppSettings,
+                initialFormValues: initialValues,
+              })}
             </SlotsListContext.Provider>
           </SiteContext.Provider>
         </StorageAccountsContext.Provider>

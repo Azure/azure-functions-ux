@@ -1450,6 +1450,9 @@
     <data name="loading" xml:space="preserve">
         <value>Loading...</value>
     </data>
+    <data name="loadingFailed" xml:space="preserve">
+        <value>Loading failed</value>
+    </data>
     <data name="configUpdating" xml:space="preserve">
         <value>Updating web app settings</value>
     </data>
