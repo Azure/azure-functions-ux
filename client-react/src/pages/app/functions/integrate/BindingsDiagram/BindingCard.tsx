@@ -52,10 +52,10 @@ export const createNew = (
     .pipe(first())
     .subscribe(info => {
       if (info.closedReason === ClosedReason.Save) {
-        const newFunctionInfo = submit(portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo);
+        const updatedFunctionInfo = submit(portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo);
 
         bindingEditorContext.closeEditor();
-        bindingEditorContext.updateFunctionInfo(newFunctionInfo);
+        bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
       }
     });
 };
@@ -73,10 +73,16 @@ export const editExisting = (
     .pipe(first())
     .subscribe(info => {
       if (info.closedReason === ClosedReason.Save) {
-        const newFunctionInfo = submit(portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo, info.currentBindingInfo);
+        const updatedFunctionInfo = submit(
+          portalCommunicator,
+          t,
+          functionInfo,
+          info.newBindingInfo as BindingInfo,
+          info.currentBindingInfo
+        );
 
         bindingEditorContext.closeEditor();
-        bindingEditorContext.updateFunctionInfo(newFunctionInfo);
+        bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
       } else if (info.closedReason === ClosedReason.Delete) {
         deleteBinding(bindingEditorContext, portalCommunicator, t, functionInfo, info.currentBindingInfo as BindingInfo);
       }
@@ -98,11 +104,11 @@ const submit = (
   newBindingInfo: BindingInfo,
   currentBindingInfo?: BindingInfo
 ): ArmObj<FunctionInfo> => {
-  const newFunctionInfo = {
+  const updatedFunctionInfo = {
     ...functionInfo,
   };
 
-  const bindings = [...newFunctionInfo.properties.config.bindings];
+  const bindings = [...updatedFunctionInfo.properties.config.bindings];
   const index = functionInfo.properties.config.bindings.findIndex(b => b === currentBindingInfo);
 
   if (index > -1) {
@@ -111,23 +117,23 @@ const submit = (
     bindings.push(newBindingInfo);
   }
 
-  newFunctionInfo.properties.config = {
-    ...newFunctionInfo.properties.config,
+  updatedFunctionInfo.properties.config = {
+    ...updatedFunctionInfo.properties.config,
     bindings,
   };
 
   const notificationId = portalCommunicator.startNotification(
     t('updateBindingNotification'),
-    t('updateBindingNotificationDetails').format(newFunctionInfo.properties.name, newBindingInfo.name)
+    t('updateBindingNotificationDetails').format(updatedFunctionInfo.properties.name, newBindingInfo.name)
   );
 
-  FunctionsService.updateFunction(functionInfo.id, newFunctionInfo).then(r => {
+  FunctionsService.updateFunction(functionInfo.id, updatedFunctionInfo).then(r => {
     if (!r.metadata.success) {
       const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
       portalCommunicator.stopNotification(
         notificationId,
         false,
-        t('updateBindingNotificationFailed').format(newFunctionInfo.properties.name, newBindingInfo.name, errorMessage)
+        t('updateBindingNotificationFailed').format(updatedFunctionInfo.properties.name, newBindingInfo.name, errorMessage)
       );
 
       return;
@@ -136,11 +142,11 @@ const submit = (
     portalCommunicator.stopNotification(
       notificationId,
       true,
-      t('updateBindingNotificationSuccess').format(newFunctionInfo.properties.name, newBindingInfo.name)
+      t('updateBindingNotificationSuccess').format(updatedFunctionInfo.properties.name, newBindingInfo.name)
     );
   });
 
-  return newFunctionInfo;
+  return updatedFunctionInfo;
 };
 
 export const deleteBinding = (
@@ -150,48 +156,48 @@ export const deleteBinding = (
   functionInfo: ArmObj<FunctionInfo>,
   currentBindingInfo: BindingInfo
 ) => {
-  const newFunctionInfo = {
+  const updatedFunctionInfo = {
     ...functionInfo,
   };
 
-  const bindings = [...newFunctionInfo.properties.config.bindings];
+  const bindings = [...updatedFunctionInfo.properties.config.bindings];
   const index = functionInfo.properties.config.bindings.findIndex(b => b === currentBindingInfo);
 
   if (index > -1) {
     bindings.splice(index, 1);
-  }
 
-  newFunctionInfo.properties.config = {
-    ...newFunctionInfo.properties.config,
-    bindings,
-  };
+    updatedFunctionInfo.properties.config = {
+      ...updatedFunctionInfo.properties.config,
+      bindings,
+    };
 
-  const notificationId = portalCommunicator.startNotification(
-    t('deleteBindingNotification'),
-    t('deleteBindingNotificationDetails').format(newFunctionInfo.properties.name, currentBindingInfo.name)
-  );
-
-  FunctionsService.updateFunction(functionInfo.id, newFunctionInfo).then(r => {
-    if (!r.metadata.success) {
-      const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
-      portalCommunicator.stopNotification(
-        notificationId,
-        false,
-        t('deleteBindingNotificationFailed').format(newFunctionInfo.properties.name, currentBindingInfo.name, errorMessage)
-      );
-
-      return;
-    }
-
-    portalCommunicator.stopNotification(
-      notificationId,
-      true,
-      t('deleteBindingNotificationSuccess').format(newFunctionInfo.properties.name, currentBindingInfo.name)
+    const notificationId = portalCommunicator.startNotification(
+      t('deleteBindingNotification'),
+      t('deleteBindingNotificationDetails').format(updatedFunctionInfo.properties.name, currentBindingInfo.name)
     );
 
-    bindingEditorContext.closeEditor();
-    bindingEditorContext.updateFunctionInfo(newFunctionInfo);
-  });
+    FunctionsService.updateFunction(functionInfo.id, updatedFunctionInfo).then(r => {
+      if (!r.metadata.success) {
+        const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
+        portalCommunicator.stopNotification(
+          notificationId,
+          false,
+          t('deleteBindingNotificationFailed').format(updatedFunctionInfo.properties.name, currentBindingInfo.name, errorMessage)
+        );
+
+        return;
+      }
+
+      portalCommunicator.stopNotification(
+        notificationId,
+        true,
+        t('deleteBindingNotificationSuccess').format(updatedFunctionInfo.properties.name, currentBindingInfo.name)
+      );
+    });
+  }
+
+  bindingEditorContext.closeEditor();
+  bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
 };
 
 export default BindingCard;
