@@ -17,14 +17,20 @@ export class AzureDevOpsController {
     }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
 
     const passHeaders = req.headers;
+    let repository: any = null;
+    if (body.source && body.source.repository) {
+      repository = body.source.repository;
+    } else if (body.repository) {
+      repository = body.repository;
+    }
 
-    if (body.source && body.source.repository && body.source.repository.type === 'GitHub') {
+    if (repository && repository.type === 'GitHub') {
       this.loggingService.trackEvent('/api/setupvso/dispatch-github-token-request', {
         accountName: req.query.accountName,
       });
 
       const githubToken = await this.dcService.getSourceControlToken(authToken, 'github');
-      body.source.repository.authorizationInfo.parameters.AccessToken = githubToken.token;
+      repository.authorizationInfo.parameters.AccessToken = githubToken.token;
     }
 
     delete body.authToken;
