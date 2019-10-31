@@ -73,6 +73,7 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
   }
 };
 
+// If binding info is undefined that means you are creating a new binding info, otherwise you are editing
 const getPanelHeader = (t: i18next.TFunction, bindingDirection: BindingConfigDirection, bindingInfo?: BindingInfo) => {
   if (!bindingInfo) {
     switch (bindingDirection) {
