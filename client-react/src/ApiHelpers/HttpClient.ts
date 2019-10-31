@@ -27,6 +27,7 @@ const sendAxiosRequest = async <T>(options: AxiosRequestConfig, retry = 0) => {
   return result;
 };
 
+// TODO (andimarc): Remove the retry logic if we don't end up using it
 export const sendHttpRequest = <T>(options: AxiosRequestConfig, retry = 0) => {
   return sendAxiosRequest(options, retry).then(r => {
     const success = r.status < 400;

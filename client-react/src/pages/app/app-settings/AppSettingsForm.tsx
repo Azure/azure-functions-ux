@@ -74,6 +74,17 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
   return (
     <Pivot styles={pivotStylesOverride} getTabId={getPivotTabId} onLinkClick={() => setBannerMessageProps(undefined)}>
+      <PivotItem
+        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+          CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
+        }
+        itemKey="applicationSettings"
+        linkText={t('applicationSettings')}>
+        <PivotItemContent bannerMessageProps={bannerMessageProps}>
+          <ApplicationSettingsPivot {...props} />
+        </PivotItemContent>
+      </PivotItem>
+
       {showFunctionRuntimeSettings ? (
         <PivotItem
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
@@ -88,17 +99,6 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
       ) : (
         <></>
       )}
-
-      <PivotItem
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel, undefined)
-        }
-        itemKey="applicationSettings"
-        linkText={t('applicationSettings')}>
-        <PivotItemContent bannerMessageProps={bannerMessageProps}>
-          <ApplicationSettingsPivot {...props} />
-        </PivotItemContent>
-      </PivotItem>
 
       {showGeneralSettings ? (
         <PivotItem

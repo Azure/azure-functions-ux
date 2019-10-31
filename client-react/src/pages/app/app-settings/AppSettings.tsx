@@ -41,7 +41,6 @@ const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scena
     config: {
       properties: {} as any,
     },
-    appSettings: {} as any,
   };
   if (scenarioChecker.checkScenario(ScenarioIds.skipStackValidation, { site }).status !== 'disabled') {
     if (isJavaApp && !values.config.properties.javaContainer) {
@@ -103,7 +102,6 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               refreshAppSettings={refreshAppSettings}
                               disabled={!permissions.app_write || !permissions.editable || permissions.saving}
                               dirty={formProps.dirty}
-                              isValid={formProps.isValid}
                             />
                             {!!initialFormValues &&
                               scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (

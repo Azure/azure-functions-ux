@@ -1,3 +1,4 @@
+// TODO (andimarc): Remove this if we don't end up using it
 export interface VfsObject {
   name: string;
   mime: string;

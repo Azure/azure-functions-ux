@@ -51,6 +51,7 @@ export const getFunctions = (resourceId: string) => {
   return FunctionsService.getFunctions(resourceId);
 };
 
+// TODO (andimarc): Remove this if we don't end up using it
 export const getFunctionsRuntimeVersions = (site: ArmObj<Site>) => {
   return FunctionsService.getRuntimeVersions(site);
 };

@@ -2,12 +2,11 @@ import React, { useContext, useState, useEffect } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { FormAppSetting, FunctionsRuntimeMajorVersions, AppSettingsFormProps } from '../AppSettings.types';
 import { PermissionsContext, BannerMessageContext } from '../Contexts';
-import { findFormAppSetting, findFormAppSettingIndex, getFunctionsRuntimeMajorVersion } from '../AppSettingsFormData';
+import { findFormAppSetting, findFormAppSettingIndex } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import InfoBox from '../../../../components/InfoBox/InfoBox';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
-import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 
 /*
 
@@ -58,6 +57,19 @@ import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 
 
 */
+
+const getFunctionsRuntimeMajorVersion = (version: string | null) => {
+  switch (version) {
+    case FunctionsRuntimeMajorVersions.v1:
+      return FunctionsRuntimeMajorVersions.v1;
+    case FunctionsRuntimeMajorVersions.v2:
+      return FunctionsRuntimeMajorVersions.v2;
+    case FunctionsRuntimeMajorVersions.v3:
+      return FunctionsRuntimeMajorVersions.v3;
+    default:
+      return FunctionsRuntimeMajorVersions.custom;
+  }
+};
 
 const parseExactRuntimeVersion = (exactRuntimeVersion: string) => {
   if (exactRuntimeVersion.startsWith('1.')) {
@@ -214,11 +226,11 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
       };
     }
 
-    const index = FunctionsService.FunctionsVersionInfo.runtimeStable.findIndex(v => {
-      return initialRuntimeVersion.toLowerCase() === v;
-    });
-
-    if (index !== -1) {
+    if (
+      initialRuntimeVersion === FunctionsRuntimeMajorVersions.v1 ||
+      initialRuntimeVersion === FunctionsRuntimeMajorVersions.v2 ||
+      initialRuntimeVersion === FunctionsRuntimeMajorVersions.v3
+    ) {
       return {
         needToUpdateVersion: false,
         latestVersion: initialRuntimeVersion,

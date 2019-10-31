@@ -13,12 +13,6 @@ export enum FunctionsRuntimeMajorVersions {
   custom = 'custom',
 }
 
-export enum FunctionsRuntimeGenerations {
-  v1 = 'V1',
-  v2 = 'V2',
-  v3 = 'V3',
-}
-
 export interface Permissions {
   production_write: boolean;
   app_write: boolean;
@@ -50,8 +44,6 @@ export interface AppSettingsFormValues {
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
   references?: AppSettingsReferences;
-  // hostStatus: ArmObj<HostStatus> | null;
-  // functions: ArmArray<FunctionInfo> | null;
 }
 
 export interface FormState {

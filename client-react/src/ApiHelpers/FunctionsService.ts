@@ -14,11 +14,6 @@ import { Guid } from '../utils/Guid';
 import { Site, HostType } from '../models/site/site';
 
 export default class FunctionsService {
-  public static FunctionsVersionInfo = {
-    runtimeStable: ['~1', 'beta', '~2', 'latest', '~3'],
-    runtimeDefault: '~3',
-  };
-
   public static getFunctions = (resourceId: string, force?: boolean) => {
     const id = `${resourceId}/functions`;
 
@@ -148,6 +143,7 @@ export default class FunctionsService {
     return result;
   };
 
+  // TODO (andimarc): Remove this if we don't end up using it
   public static getRuntimeVersions = async (site: ArmObj<Site>) => {
     const scmHostName = site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository)!.name;
     const url = `https://${scmHostName}/api/vfs/SystemDrive/Program%20Files%20(x86)/SiteExtensions/Functions`;
