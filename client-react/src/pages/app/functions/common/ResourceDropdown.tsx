@@ -47,7 +47,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   resourceAppSettings.forEach((resourceAppSetting, i) => options.push({ text: resourceAppSetting, key: i }));
 
   if (!selectedItem && options.length > 0) {
-    onChange(options[0], formProps, field, setSelectedItem);
+    onChange(options[0], formProps, field, setSelectedItem, appSettings);
   }
   return (
     <div>
@@ -55,7 +55,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         options={options}
         selectedKey={selectedItem ? selectedItem.key : undefined}
         onChange={(e, o) => {
-          onChange(o as IDropdownOption, formProps, field, setSelectedItem);
+          onChange(o as IDropdownOption, formProps, field, setSelectedItem, appSettings);
         }}
         {...props}
       />
@@ -122,11 +122,22 @@ const onChange = (
   option: IDropdownOption,
   formProps: FormikProps<BindingEditorFormValues>,
   field: { name: string; value: any },
-  setSelectedItem: any
+  setSelectedItem: any,
+  appSettings: ArmObj<{ [key: string]: string }>
 ) => {
+  // Make sure the value is saved to the form
   setSelectedItem(option);
   const appSettingName = option.text.split(' ')[0]; // allisonm: removes (new) if present
   formProps.setFieldValue(field.name, appSettingName);
+
+  // Set new App Settings if a PUT is required to update them
+  if (option.text.endsWith('(new)')) {
+    const newAppSettings = appSettings;
+    newAppSettings.properties[appSettingName] = appSettingName;
+    formProps.setFieldValue('newAppSettings', newAppSettings);
+  } else {
+    formProps.setFieldValue('newAppSettings', null);
+  }
 };
 
 const filterResourcesFromAppSetting = (

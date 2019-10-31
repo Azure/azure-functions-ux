@@ -6,6 +6,8 @@ import { BindingEditorFormValues } from '../common/BindingFormBuilder';
 import { FunctionConfig } from '../../../../models/functions/function-config';
 import PortalCommunicator from '../../../../portal-communicator';
 import i18next from 'i18next';
+import { ArmObj } from '../../../../models/arm-obj';
+import SiteService from '../../../../ApiHelpers/SiteService';
 
 export default class FunctionCreateData {
   public getTemplates() {
@@ -27,17 +29,50 @@ export default class FunctionCreateData {
     functionTemplate: FunctionTemplate,
     formValues: CreateFunctionFormValues
   ) {
+    if (formValues.newAppSettings) {
+      this._updateAppSettings(portalCommunicator, t, resourceId, formValues.newAppSettings);
+    }
     const config = this._buildFunctionConfig(functionTemplate.function.bindings, formValues);
+    this._createNewFunction(portalCommunicator, t, resourceId, formValues.functionName, functionTemplate.files, config);
+  }
+
+  private _createNewFunction(
+    portalCommunicator: PortalCommunicator,
+    t: i18next.TFunction,
+    resourceId: string,
+    functionName: string,
+    functionFiles: any,
+    functionConfig: FunctionConfig
+  ) {
     const notificationId = portalCommunicator.startNotification(t('newFunction'), t('newFunction'));
 
-    FunctionsService.createFunction(resourceId, formValues.functionName, functionTemplate.files, config).then(r => {
+    FunctionsService.createFunction(resourceId, functionName, functionFiles, functionConfig).then(r => {
       if (!r.metadata.success) {
         const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
         portalCommunicator.stopNotification(notificationId, false, errorMessage);
         return;
       }
 
-      portalCommunicator.stopNotification(notificationId, true, formValues.functionName);
+      portalCommunicator.stopNotification(notificationId, true, functionName);
+    });
+  }
+
+  private _updateAppSettings(
+    portalCommunicator: PortalCommunicator,
+    t: i18next.TFunction,
+    resourceId: string,
+    appSettings: ArmObj<{ [key: string]: string }>
+  ) {
+    const notificationId = portalCommunicator.startNotification('newAppSettings', 'newAppSettings');
+
+    SiteService.updateApplicationSettings(resourceId, appSettings).then(r => {
+      if (!r.metadata.success) {
+        const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
+        portalCommunicator.stopNotification(notificationId, false, errorMessage);
+        return;
+      }
+
+      portalCommunicator.stopNotification(notificationId, true, t('newFunction'));
     });
   }
 
