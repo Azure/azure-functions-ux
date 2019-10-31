@@ -297,8 +297,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
       <Panel
         isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
         onDismiss={onClosePanel}
-        headerText={panelItem === 'edit' ? t('editSystemKey') : t('addSystemKey')}
-        closeButtonAriaLabel={t('close')}>
+        headerText={panelItem === 'edit' ? t('editSystemKey') : t('addSystemKey')}>
         <AppKeyAddEdit
           resourceId={resourceId}
           createAppKey={createSystemKey}
