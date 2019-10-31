@@ -370,11 +370,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
           />
         )}
       </DisplayTableWithCommandBar>
-      <Panel
-        isOpen={showPanel && panelItem === 'add'}
-        onDismiss={onCancel}
-        headerText={t('addEditConnectionStringHeader')}
-        closeButtonAriaLabel={t('close')}>
+      <Panel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>
         <ConnectionStringsAddEdit
           connectionString={currentConnectionString!}
           otherConnectionStrings={values.connectionStrings}
@@ -384,7 +380,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
           site={values.site}
         />
       </Panel>
-      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel} closeButtonAriaLabel={t('close')}>
+      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel}>
         <Suspense fallback={<LoadingComponent />}>
           <ConnectionStringsBulkEdit
             updateAppSetting={saveBulkEdit}
