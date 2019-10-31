@@ -44,16 +44,23 @@ export default class FunctionCreateData {
     functionFiles: any,
     functionConfig: FunctionConfig
   ) {
-    const notificationId = portalCommunicator.startNotification(t('newFunction'), t('newFunction'));
+    const notificationId = portalCommunicator.startNotification(
+      t('createFunctionNotication'),
+      t('createFunctionNotificationDetails').format(functionName)
+    );
 
     FunctionsService.createFunction(resourceId, functionName, functionFiles, functionConfig).then(r => {
       if (!r.metadata.success) {
         const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
-        portalCommunicator.stopNotification(notificationId, false, errorMessage);
+        portalCommunicator.stopNotification(
+          notificationId,
+          false,
+          t('createFunctionNotificationFailed').format(functionName, errorMessage)
+        );
         return;
       }
 
-      portalCommunicator.stopNotification(notificationId, true, functionName);
+      portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
     });
   }
 
@@ -63,16 +70,16 @@ export default class FunctionCreateData {
     resourceId: string,
     appSettings: ArmObj<{ [key: string]: string }>
   ) {
-    const notificationId = portalCommunicator.startNotification('newAppSettings', 'newAppSettings');
+    const notificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
 
     SiteService.updateApplicationSettings(resourceId, appSettings).then(r => {
       if (!r.metadata.success) {
-        const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
+        const errorMessage = r.metadata.error ? r.metadata.error.Message : t('configUpdateFailure');
         portalCommunicator.stopNotification(notificationId, false, errorMessage);
         return;
       }
 
-      portalCommunicator.stopNotification(notificationId, true, t('newFunction'));
+      portalCommunicator.stopNotification(notificationId, true, t('configUpdateSuccess'));
     });
   }
 
