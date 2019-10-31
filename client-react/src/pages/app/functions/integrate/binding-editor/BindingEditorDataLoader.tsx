@@ -52,17 +52,23 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
     return (
       <Panel isOpen={isOpen} type={PanelType.smallFixedFar} headerText={getPanelHeader(t, bindingInfo)} onDismiss={onPanelClose}>
         <div style={{ marginTop: '10px' }}>
-          {!bindingInfo ? (
-            <BindingCreator bindingsConfig={bindingsConfig} functionAppId={functionAppId} bindingDirection={bindingDirection} {...props} />
-          ) : (
-            <BindingEditor
-              functionInfo={functionInfo}
-              allBindingsConfig={bindingsConfig}
-              currentBindingInfo={bindingInfo}
-              resourceId={functionAppId}
-              onSubmit={props.onSubmit}
-            />
-          )}
+          {isOpen &&
+            (!bindingInfo ? (
+              <BindingCreator
+                bindingsConfig={bindingsConfig}
+                functionAppId={functionAppId}
+                bindingDirection={bindingDirection}
+                {...props}
+              />
+            ) : (
+              <BindingEditor
+                functionInfo={functionInfo}
+                allBindingsConfig={bindingsConfig}
+                currentBindingInfo={bindingInfo}
+                resourceId={functionAppId}
+                onSubmit={props.onSubmit}
+              />
+            ))}
         </div>
       </Panel>
     );

@@ -60,8 +60,8 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
   };
 
   const closeEditor = () => {
-    setBindingToUpdate(undefined);
     setIsOpen(false);
+    setBindingToUpdate(undefined);
   };
 
   const onSubmit = (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => {
@@ -79,8 +79,8 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
       closedReason: ClosedReason.Cancel,
     });
 
-    setBindingToUpdate(undefined);
     setIsOpen(false);
+    setBindingToUpdate(undefined);
   };
 
   const editorContext: BindingEditorContextInfo = {

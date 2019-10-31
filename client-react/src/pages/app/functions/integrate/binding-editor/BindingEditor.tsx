@@ -42,7 +42,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
 
   const bindingsConfigMetadata = bindingsConfig.bindings;
   const currentBindingMetadata = bindingsConfigMetadata.find(
-    b => b.type === currentBindingInfo.type && b.direction.toString() === currentBindingInfo.direction
+    b => b.type === currentBindingInfo.type && b.direction === getBindingConfigDirection(currentBindingInfo)
   ) as BindingConfigMetadata;
 
   if (!currentBindingMetadata) {
