@@ -191,6 +191,7 @@ export class AzureDevOpsService implements OnDestroy {
     wizardValues: WizardForm,
     siteArm: ArmObj<Site>,
     subscriptionName: string,
+    azureAuthToken: string,
     azureDevOpsAuthToken: string,
     azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod
   ): ProvisioningConfigurationBase {
@@ -201,6 +202,7 @@ export class AzureDevOpsService implements OnDestroy {
       azureDevOpsDeploymentMethod === AzureDevOpsDeploymentMethod.UseV2Api
     ) {
       deploymentObject = {
+        authToken: azureAuthToken,
         pipelineTemplateId: this.getPipelineTemplateId(wizardValues.buildSettings),
         pipelineTemplateParameters: this.getPipelineTemplateParameters(
           wizardValues.buildSettings,
@@ -215,7 +217,7 @@ export class AzureDevOpsService implements OnDestroy {
       } as ProvisioningConfigurationV2;
     } else {
       deploymentObject = {
-        authToken: azureDevOpsAuthToken,
+        authToken: azureAuthToken,
         ciConfiguration: this._ciConfig(wizardValues.buildSettings.vstsProject),
         id: null,
         source: this._deploymentSource(wizardValues, siteArm.kind),
