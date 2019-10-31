@@ -25,7 +25,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   const { setting, resourceId, form: formProps, field } = props;
   const [appSettings, setAppSettings] = useState<ArmObj<{ [key: string]: string }> | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<IDropdownOption | undefined>(undefined);
-  const [newAppSettingName, setNewAppSettingName] = useState<string | undefined>(undefined);
+  const [newAppSetting, setNewAppSetting] = useState<{ key: string; value: string } | undefined>(undefined);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
 
   useEffect(() => {
@@ -43,11 +43,11 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   }
 
   const options: IDropdownOption[] = [];
-  const resourceAppSettings = filterResourcesFromAppSetting(setting, appSettings.properties, newAppSettingName);
+  const resourceAppSettings = filterResourcesFromAppSetting(setting, appSettings.properties, newAppSetting && newAppSetting.key);
   resourceAppSettings.forEach((resourceAppSetting, i) => options.push({ text: resourceAppSetting, key: i }));
 
   if (!selectedItem && options.length > 0) {
-    onChange(options[0], formProps, field, setSelectedItem, appSettings);
+    onChange(options[0], formProps, field, setSelectedItem, appSettings, newAppSetting);
   }
   return (
     <div>
@@ -55,7 +55,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         options={options}
         selectedKey={selectedItem ? selectedItem.key : undefined}
         onChange={(e, o) => {
-          onChange(o as IDropdownOption, formProps, field, setSelectedItem, appSettings);
+          onChange(o as IDropdownOption, formProps, field, setSelectedItem, appSettings, newAppSetting);
         }}
         {...props}
       />
@@ -67,9 +67,9 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
           <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle1Field}>
             <NewStorageAccountConnectionCallout
               resourceId={resourceId}
-              setNewAppSettingName={setNewAppSettingName}
+              setNewAppSetting={setNewAppSetting}
+              setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
-              {...props}
             />
           </Callout>
         )}
@@ -77,9 +77,9 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
           <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle3Fields}>
             <NewEventHubConnectionCallout
               resourceId={resourceId}
-              setNewAppSettingName={setNewAppSettingName}
+              setNewAppSetting={setNewAppSetting}
+              setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
-              {...props}
             />
           </Callout>
         )}
@@ -87,9 +87,9 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
           <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
             <NewServiceBusConnectionCallout
               resourceId={resourceId}
-              setNewAppSettingName={setNewAppSettingName}
+              setNewAppSetting={setNewAppSetting}
+              setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
-              {...props}
             />
           </Callout>
         )}
@@ -97,9 +97,9 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
           <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
             <NewDocumentDBConnectionCallout
               resourceId={resourceId}
-              setNewAppSettingName={setNewAppSettingName}
+              setNewAppSetting={setNewAppSetting}
+              setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
-              {...props}
             />
           </Callout>
         )}
@@ -107,9 +107,9 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
           <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
             <NewAppSettingCallout
               resourceId={resourceId}
-              setNewAppSettingName={setNewAppSettingName}
+              setNewAppSetting={setNewAppSetting}
+              setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
-              {...props}
             />
           </Callout>
         )}
@@ -123,7 +123,8 @@ const onChange = (
   formProps: FormikProps<BindingEditorFormValues>,
   field: { name: string; value: any },
   setSelectedItem: any,
-  appSettings: ArmObj<{ [key: string]: string }>
+  appSettings: ArmObj<{ [key: string]: string }>,
+  newAppSetting?: { key: string; value: string }
 ) => {
   // Make sure the value is saved to the form
   setSelectedItem(option);
@@ -131,9 +132,9 @@ const onChange = (
   formProps.setFieldValue(field.name, appSettingName);
 
   // Set new App Settings if a PUT is required to update them
-  if (option.text.endsWith('(new)')) {
+  if (option.text.endsWith('(new)') && newAppSetting) {
     const newAppSettings = appSettings;
-    newAppSettings.properties[appSettingName] = appSettingName;
+    newAppSettings.properties[newAppSetting.key] = newAppSetting.value;
     formProps.setFieldValue('newAppSettings', newAppSettings);
   } else {
     formProps.setFieldValue('newAppSettings', null);

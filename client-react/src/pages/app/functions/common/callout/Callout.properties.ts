@@ -1,5 +1,6 @@
 export interface NewConnectionCalloutProps {
   resourceId: string;
-  setNewAppSettingName: (string) => void;
-  setIsDialogVisible: (boolean) => void;
+  setNewAppSetting: (a: { key: string; value: string }) => void;
+  setSelectedItem: (u: undefined) => void;
+  setIsDialogVisible: (b: boolean) => void;
 }

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { NewConnectionCalloutProps } from '../Callout.properties';
-import { FieldProps, Formik, FormikProps } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import LoadingComponent from '../../../../../../components/loading/loading-component';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
 import { ArmObj } from '../../../../../../models/arm-obj';
@@ -9,14 +9,13 @@ import { LogCategories } from '../../../../../../utils/LogCategories';
 import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
-import { BindingEditorFormValues } from '../../BindingFormBuilder';
 import { StorageAccount } from '../../../../../../models/storage-account';
 
 interface StorageAccountPivotFormValues {
   storageAccount: ArmObj<StorageAccount> | undefined;
 }
 
-const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const StorageAccountPivot: React.SFC<NewConnectionCalloutProps> = props => {
   const provider = useContext(StorageAccountPivotContext);
   const { t } = useTranslation();
   const { resourceId } = props;
@@ -48,9 +47,7 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = p
   return (
     <Formik
       initialValues={formValues}
-      onSubmit={() =>
-        setStorageAccountConnection(formValues, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)
-      }>
+      onSubmit={() => setStorageAccountConnection(formValues, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)}>
       {(formProps: FormikProps<StorageAccountPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
@@ -82,15 +79,14 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = p
 
 const setStorageAccountConnection = (
   formValues: StorageAccountPivotFormValues,
-  setNewAppSettingName: (e: string) => void,
-  setIsDialogVisible: (d: boolean) => void,
-  formProps: FormikProps<BindingEditorFormValues>,
-  field: { name: string; value: any }
+  setNewAppSetting: (a: { key: string; value: string }) => void,
+  setSelectedItem: (u: undefined) => void,
+  setIsDialogVisible: (b: boolean) => void
 ) => {
   if (formValues.storageAccount) {
     const appSettingName = `${formValues.storageAccount.name}_STORAGE`;
-    formProps.setFieldValue(field.name, appSettingName);
-    setNewAppSettingName(appSettingName);
+    setNewAppSetting({ key: appSettingName, value: appSettingName });
+    setSelectedItem(undefined);
     setIsDialogVisible(false);
   }
 };

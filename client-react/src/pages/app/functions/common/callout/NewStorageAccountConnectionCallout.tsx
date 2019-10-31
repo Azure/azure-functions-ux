@@ -1,11 +1,10 @@
 import React from 'react';
-import { FieldProps } from 'formik';
 import { NewConnectionCalloutProps } from './Callout.properties';
 import { useTranslation } from 'react-i18next';
 import { paddingSidesStyle } from './Callout.styles';
 import StorageAccountPivotDataLoader from './storageAccountPivot/StorageAccountPivotDataLoader';
 
-const NewAppSettingCallout: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const NewAppSettingCallout: React.SFC<NewConnectionCalloutProps> = props => {
   const { t } = useTranslation();
 
   return (

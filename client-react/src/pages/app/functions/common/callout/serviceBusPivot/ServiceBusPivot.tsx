@@ -3,12 +3,10 @@ import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react
 import { useTranslation } from 'react-i18next';
 import LoadingComponent from '../../../../../../components/loading/loading-component';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
-import { FieldProps } from 'formik/dist/Field';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Namespace, AuthorizationRule, KeyList } from '../../../../../../models/servicebus';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { FormikProps, Formik } from 'formik';
-import { BindingEditorFormValues } from '../../BindingFormBuilder';
 import { ServiceBusPivotContext } from './ServiceBusPivotDataLoader';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
@@ -18,7 +16,7 @@ export interface ServiceBusPivotFormValues {
   policy: ArmObj<AuthorizationRule> | undefined;
 }
 
-const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const EventHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
   const provider = useContext(ServiceBusPivotContext);
   const { t } = useTranslation();
   const { resourceId } = props;
@@ -80,14 +78,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props =
     <Formik
       initialValues={formValues}
       onSubmit={() =>
-        setServiceBusConnection(
-          formValues.namespace,
-          keyList,
-          props.setNewAppSettingName,
-          props.setIsDialogVisible,
-          props.form,
-          props.field
-        )
+        setServiceBusConnection(formValues, keyList, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)
       }>
       {(formProps: FormikProps<ServiceBusPivotFormValues>) => {
         return (
@@ -138,17 +129,16 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props =
 };
 
 const setServiceBusConnection = (
-  selectedNamespace: ArmObj<Namespace> | undefined,
+  formValues: ServiceBusPivotFormValues,
   keyList: KeyList | undefined,
-  setNewAppSettingName: (e: string) => void,
-  setIsDialogVisible: (d: boolean) => void,
-  formProps: FormikProps<BindingEditorFormValues>,
-  field: { name: string; value: any }
+  setNewAppSetting: (a: { key: string; value: string }) => void,
+  setSelectedItem: (u: undefined) => void,
+  setIsDialogVisible: (b: boolean) => void
 ) => {
-  if (selectedNamespace && keyList) {
-    const appSettingName = `${selectedNamespace.name}_${keyList.keyName}_SERVICEBUS`;
-    formProps.setFieldValue(field.name, appSettingName);
-    setNewAppSettingName(appSettingName);
+  if (formValues.namespace && keyList) {
+    const appSettingName = `${formValues.namespace.name}_${keyList.keyName}_SERVICEBUS`;
+    setNewAppSetting({ key: appSettingName, value: appSettingName });
+    setSelectedItem(undefined);
     setIsDialogVisible(false);
   }
 };
