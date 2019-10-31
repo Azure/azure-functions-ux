@@ -186,12 +186,24 @@ const setEventHubConnection = (
   setSelectedItem: (u: undefined) => void,
   setIsDialogVisible: (b: boolean) => void
 ) => {
-  if (formValues.namespace && keyList) {
+  if (formValues.namespace && formValues.eventHub && keyList) {
     const appSettingName = `${formValues.namespace.name}_${keyList.keyName}_EVENTHUB`;
-    setNewAppSetting({ key: appSettingName, value: appSettingName });
+    const appSettingValue = formatEventHubValue(keyList, formValues.eventHub);
+    setNewAppSetting({ key: appSettingName, value: appSettingValue });
     setSelectedItem(undefined);
     setIsDialogVisible(false);
   }
+};
+
+const formatEventHubValue = (keyList: KeyList, eventHub: ArmObj<EventHub>): string => {
+  let appSettingValue = keyList.primaryConnectionString;
+
+  // Runtime requires entitypath for all event hub connections strings,
+  // so if it's namespace policy add entitypath as selected eventhub
+  if (appSettingValue.toLowerCase().indexOf('entitypath') === -1) {
+    appSettingValue = `${appSettingValue};EntityPath=${eventHub.name}`;
+  }
+  return appSettingValue;
 };
 
 export default EventHubPivot;

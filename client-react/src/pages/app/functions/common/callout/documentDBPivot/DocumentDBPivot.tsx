@@ -103,7 +103,10 @@ const setDocumentDBConnection = (
 ) => {
   if (formValues.databaseAccount && keyList) {
     const appSettingName = `${formValues.databaseAccount.name}_DOCUMENTDB`;
-    setNewAppSetting({ key: appSettingName, value: appSettingName });
+    const appSettingValue = `AccountEndpoint=${formValues.databaseAccount.properties.documentEndpoint};AccountKey=${
+      keyList.primaryMasterKey
+    };`;
+    setNewAppSetting({ key: appSettingName, value: appSettingValue });
     setSelectedItem(undefined);
     setIsDialogVisible(false);
   }

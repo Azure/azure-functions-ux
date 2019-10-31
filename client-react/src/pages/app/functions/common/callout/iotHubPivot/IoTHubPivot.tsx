@@ -3,7 +3,7 @@ import { NewConnectionCalloutProps } from '../Callout.properties';
 import { Formik, FormikProps } from 'formik';
 import LoadingComponent from '../../../../../../components/loading/loading-component';
 import { IoTHubPivotContext } from './IoTHubPivotDataLoader';
-import { IotHub, KeyList } from '../../../../../../models/iothub';
+import { IotHub, KeyList, Key } from '../../../../../../models/iothub';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
@@ -23,6 +23,7 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
   const [formValues, setFormValues] = useState<IoTHubPivotFormValues>({ iotHub: undefined, endpoint: undefined });
   const [iotHubs, setIoTHubs] = useState<ArmObj<IotHub>[] | undefined>(undefined);
   const [keyList, setKeyList] = useState<KeyList | undefined>(undefined);
+  const [serviceKey, setServiceKey] = useState<Key | undefined>(undefined);
 
   useEffect(() => {
     if (!iotHubs) {
@@ -56,8 +57,9 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
 
   let endpointOptions: IDropdownOption[] = [];
   if (keyList) {
-    const serviceKey = keyList.value.find(key => key.rights.toLowerCase().indexOf('registry') > -1);
-    if (serviceKey) {
+    const keyFound = keyList.value.find(key => key.rights.toLowerCase().indexOf('registry') > -1);
+    if (keyFound) {
+      setServiceKey(keyFound);
       endpointOptions = [
         { text: t('iotHubPivot_IOTEvents'), key: 'events', data: 'events' },
         { text: t('iotHubPivot_IOTMonitoring'), key: 'monitoring', data: 'monitoring' },
@@ -71,7 +73,7 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
   return (
     <Formik
       initialValues={formValues}
-      onSubmit={() => setIoTHubConnection(formValues, keyList, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)}>
+      onSubmit={() => setIoTHubConnection(formValues, serviceKey, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)}>
       {(formProps: FormikProps<IoTHubPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
@@ -117,17 +119,37 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
 
 const setIoTHubConnection = (
   formValues: IoTHubPivotFormValues,
-  keyList: KeyList | undefined,
+  serviceKey: Key | undefined,
   setNewAppSetting: (a: { key: string; value: string }) => void,
   setSelectedItem: (u: undefined) => void,
   setIsDialogVisible: (b: boolean) => void
 ) => {
-  if (formValues.iotHub && formValues.endpoint && keyList) {
+  if (formValues.iotHub && formValues.endpoint && serviceKey) {
     const appSettingName = `${formValues.iotHub.name}_${formValues.endpoint}_IOTHUB`;
-    setNewAppSetting({ key: appSettingName, value: appSettingName });
+    const appSettingValue = formatIoTHubValue(formValues.endpoint, formValues.iotHub, serviceKey);
+    setNewAppSetting({ key: appSettingName, value: appSettingValue });
     setSelectedItem(undefined);
     setIsDialogVisible(false);
   }
+};
+
+const formatIoTHubValue = (endpoint: string, iotHub: ArmObj<IotHub>, serviceKey: Key): string => {
+  let iotEndpoint = '';
+  const primaryKey = serviceKey.primaryKey;
+  let iotPath = '';
+  if (endpoint === 'events' && iotHub.properties.eventHubEndpoints && iotHub.properties.eventHubEndpoints.events) {
+    iotEndpoint = iotHub.properties.eventHubEndpoints.events.endpoint;
+    iotPath = iotHub.properties.eventHubEndpoints.events.path;
+  } else if (
+    endpoint === 'monitoring' &&
+    iotHub.properties.eventHubEndpoints &&
+    iotHub.properties.eventHubEndpoints.operationsMonitoringEvents
+  ) {
+    iotEndpoint = iotHub.properties.eventHubEndpoints.operationsMonitoringEvents.endpoint;
+    iotPath = iotHub.properties.eventHubEndpoints.operationsMonitoringEvents.path;
+  }
+
+  return `Endpoint=${iotEndpoint};SharedAccessKeyName=iothubowner;SharedAccessKey=${primaryKey};EntityPath=${iotPath}`;
 };
 
 export default IotHubPivot;
