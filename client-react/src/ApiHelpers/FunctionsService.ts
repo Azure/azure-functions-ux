@@ -5,6 +5,12 @@ import { FunctionInfo } from '../models/functions/function-info';
 import { sendHttpRequest, getJsonHeaders } from './HttpClient';
 import { FunctionTemplate } from '../models/functions/function-template';
 import { FunctionConfig } from '../models/functions/function-config';
+import { VfsObject } from '../models/functions/vsf-object';
+import Url from '../utils/url';
+import LogService from '../utils/LogService';
+import { LogCategories } from '../utils/LogCategories';
+import { Guid } from '../utils/Guid';
+import { Site, HostType } from '../models/site/site';
 
 export default class FunctionsService {
   public static getFunctions = (resourceId: string) => {
@@ -112,5 +118,25 @@ export default class FunctionsService {
       method: 'PUT',
       body: body,
     });
+  };
+
+  // TODO (andimarc): Remove this if we don't end up using it
+  public static getRuntimeVersions = async (site: ArmObj<Site>) => {
+    const scmHostName = site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository)!.name;
+    const url = `https://${scmHostName}/api/vfs/SystemDrive/Program%20Files%20(x86)/SiteExtensions/Functions`;
+    const method = 'GET';
+    const [sessionId, correlationId] = [Url.getParameterByName(null, 'sessionId'), Guid.newGuid()];
+    const headers: { [key: string]: string } = sessionId ? { 'x-ms-client-session-id': sessionId } : {};
+    headers['Authorization'] = `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`;
+    headers['x-ms-client-request-id'] = correlationId;
+
+    LogService.trackEvent(LogCategories.functionsService, 'getRuntimeVersions', { url, method, sessionId, correlationId });
+
+    const result = await sendHttpRequest<VfsObject[]>({ url, method, headers }, 2);
+    const versions = !result.metadata.success ? null : result.data.filter(v => v.mime === 'inode/directory').map(d => d.name);
+    return {
+      ...result,
+      data: versions,
+    };
   };
 }
