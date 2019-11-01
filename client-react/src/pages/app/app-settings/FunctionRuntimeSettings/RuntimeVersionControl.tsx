@@ -288,7 +288,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
         infoBubbleMessage={bannerMessage}
         infoBubblePositon={'above'}
       />
-      {!forcedDisable && runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom && (
+      {false && !forcedDisable && runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom && (
         <InfoBox
           id="function-app-settings-custom-runtime-version-info"
           type="Info"
