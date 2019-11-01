@@ -13,7 +13,7 @@ import { AvailableStacksContext, PermissionsContext } from '../../Contexts';
 const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values, initialValues } = props;
   const { t } = useTranslation();
-  const { app_write, editable, saving } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
   const readonly = !app_write;
   const javaSelected = values.currentlySelectedStack === 'java';
   const showNonJavaAnyway = readonly && !javaSelected;
@@ -26,7 +26,7 @@ const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           dirty={values.currentlySelectedStack !== initialValues.currentlySelectedStack}
           component={Dropdown}
           fullpage
-          disabled={!editable || saving}
+          disabled={!editable}
           options={[
             {
               key: 'dotnetcore',

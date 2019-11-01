@@ -15,7 +15,7 @@ const onKeyDown = keyEvent => {
 
 const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { t, values, initialValues } = props;
-  const { app_write, editable, saving } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
 
   if (!values.site) {
     return null;
@@ -33,7 +33,7 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         onKeyPress={e => onKeyDown(e)}
         label={t('functionAppSettings_dailyUsageQuota')}
         id="function-app-settings-daily-memory-time-quota"
-        disabled={!app_write || !editable || saving}
+        disabled={!app_write || !editable}
         style={{ marginLeft: '1px', marginTop: '1px' }}
       />
       {!values.site.properties.enabled && values.site.properties.siteDisabledReason === 1 && (

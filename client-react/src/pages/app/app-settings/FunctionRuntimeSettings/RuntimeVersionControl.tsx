@@ -106,7 +106,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
   const bannerMessageContext = useContext(BannerMessageContext);
   const [latestCustomRuntimeVersion, setLatestCustomRuntimeVersion] = useState<string | null | undefined>(undefined);
   const { t, values, initialValues, asyncData, setFieldValue } = props;
-  const { app_write, editable, saving } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
 
   const doStuff = () => {
     if (asyncData.functionsCount.loadingState === 'loading') {
@@ -282,7 +282,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
         dirty={runtimeMajorVersion !== initialRuntimeMajorVersion}
         onChange={(event, option) => onDropDownChange(option.key)}
         options={getOptions()}
-        disabled={!app_write || !editable || saving || forcedDisable}
+        disabled={!app_write || !editable || forcedDisable}
         label={t('runtimeVersion')}
         id="function-app-settings-runtime-version"
         notificationMessage={bannerMessage}

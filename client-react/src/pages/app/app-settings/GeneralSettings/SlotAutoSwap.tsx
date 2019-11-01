@@ -14,7 +14,7 @@ import RadioButtonNoFormik from '../../../../components/form-controls/RadioButto
 export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const slots = useContext(SlotsListContext);
   const { t } = useTranslation();
-  const { production_write, editable, saving } = useContext(PermissionsContext);
+  const { production_write, editable } = useContext(PermissionsContext);
   const { values, initialValues } = props;
   const onToggleChange = (e: any, newValue: IChoiceGroupOption) => {
     if (newValue.key === 'off') {
@@ -67,7 +67,7 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
                 dirty={!!values.config.properties.autoSwapSlotName !== !!initialValues.config.properties.autoSwapSlotName}
                 ariaLabelledBy={`app-settings-auto-swap-enabled-label`}
                 id="app-settings-auto-swap-enabled"
-                disabled={!editable || saving}
+                disabled={!editable}
                 selectedKey={!!props.values.config.properties.autoSwapSlotName ? 'on' : 'off'}
                 options={[
                   {
@@ -91,7 +91,7 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
                 <Field
                   name="config.properties.autoSwapSlotName"
                   dirty={values.config.properties.autoSwapSlotName !== initialValues.config.properties.autoSwapSlotName}
-                  disabled={!editable || saving}
+                  disabled={!editable}
                   component={Dropdown}
                   fullpage
                   label={t('autoSwapSlot')}

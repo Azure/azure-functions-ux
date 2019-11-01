@@ -16,7 +16,7 @@ import { ThemeContext } from '../../../../ThemeContext';
 import { dirtyElementStyle } from '../AppSettings.styles';
 
 const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
-  const { app_write, editable, saving } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
   const theme = useContext(ThemeContext);
 
   const [showPanel, setShowPanel] = useState(false);
@@ -31,7 +31,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
       {
         key: 'app-settings-new-handler-mappings-button',
         onClick: createNewHandlerMapping,
-        disabled: !app_write || !editable || saving,
+        disabled: !app_write || !editable,
         iconProps: { iconName: 'Add' },
         ariaLabel: t('addNewHandlerMapping'),
         name: t('addNewHandler'),
@@ -138,7 +138,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!app_write || !editable || saving}
+            disabled={!app_write || !editable}
             id={`app-settings-handler-mappings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -156,7 +156,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!app_write || !editable || saving}
+            disabled={!app_write || !editable}
             id={`app-settings-handler-mappings-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}

@@ -74,7 +74,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const { resourceId } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
-  const { app_write, editable, saving } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
   const site = useContext(SiteContext);
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
@@ -96,7 +96,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                   submitForm={formProps.submitForm}
                   resetForm={formProps.resetForm}
                   refreshAppSettings={refreshAppSettings}
-                  disabled={!app_write || !editable || saving}
+                  disabled={!app_write || !editable}
                   dirty={formProps.dirty}
                 />
                 {!!initialFormValues && scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
