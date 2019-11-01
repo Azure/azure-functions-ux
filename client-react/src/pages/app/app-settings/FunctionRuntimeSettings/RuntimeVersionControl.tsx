@@ -285,7 +285,8 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
         disabled={!app_write || !editable || saving || forcedDisable}
         label={t('runtimeVersion')}
         id="function-app-settings-runtime-version"
-        notificationMessage={bannerMessage}
+        infoBubbleMessage={bannerMessage}
+        infoBubblePositon={'above'}
       />
       {!forcedDisable && runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom && (
         <InfoBox

@@ -13,7 +13,7 @@ interface CustomTextFieldProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
-  notificationMessage?: string;
+  infoBubblePositon?: 'above' | 'right' | 'below';
   label: string;
   learnMoreLink?: string;
   dirty?: boolean;

@@ -20,20 +20,20 @@ interface ReactiveFormControlProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
-  notificationMessage?: string;
+  infoBubblePositon?: 'above' | 'right' | 'below';
   label: string;
   learnMoreLink?: string;
   dirty?: boolean;
 }
 
 const ReactiveFormControl = (props: ReactiveFormControlProps) => {
-  const { upsellMessage, label, infoBubbleMessage, notificationMessage, learnMoreLink, dirty } = props;
+  const { upsellMessage, label, infoBubbleMessage, infoBubblePositon, learnMoreLink, dirty } = props;
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const fullpage = width > 1000;
 
-  const foo = (
+  const infoBubble = () => (
     <div className={infoMessageStyle(fullpage)}>
       <Stack horizontal verticalAlign="center">
         <Icon iconName="Info" className={infoIconStyle(theme)} />
@@ -56,7 +56,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
 
   return (
     <Stack className={controlContainerStyle(!!upsellMessage, fullpage)}>
-      {notificationMessage && foo}
+      {infoBubbleMessage && infoBubblePositon === 'above' && infoBubble()}
       <Stack horizontal={fullpage} verticalAlign="baseline">
         {label && (
           <Stack horizontal verticalAlign="center" className={formStackStyle(!!upsellMessage, fullpage)}>
@@ -73,7 +73,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
           </Stack>
         )}
         {props.children}
-        {infoBubbleMessage && foo}
+        {infoBubbleMessage && infoBubblePositon === 'right' && infoBubble()}
       </Stack>
     </Stack>
   );

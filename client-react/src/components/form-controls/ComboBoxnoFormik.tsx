@@ -10,7 +10,7 @@ interface CustomComboboxProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
-  notificationMessage?: string;
+  infoBubblePositon?: 'above' | 'right' | 'below';
   label: string;
   errorMessage?: string;
   dirty?: boolean;
