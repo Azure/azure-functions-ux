@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
 import { NewConnectionCalloutProps } from '../Callout.properties';
-import { FieldProps, Formik, FormikProps } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import { DefaultButton, TextField } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
-import { BindingEditorFormValues } from '../../BindingFormBuilder';
 
 interface CustomPivotFormValues {
   key: string | undefined;
   value: string | undefined;
 }
 
-const CustomPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const CustomPivot: React.SFC<NewConnectionCalloutProps> = props => {
   const { t } = useTranslation();
   const [formValues, setFormValues] = useState<CustomPivotFormValues>({ key: undefined, value: undefined });
 
   return (
     <Formik
       initialValues={formValues}
-      onSubmit={() => setCustomConnection(formValues, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)}>
+      onSubmit={() => setCustomConnection(formValues, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)}>
       {(formProps: FormikProps<CustomPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
@@ -48,15 +47,13 @@ const CustomPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => 
 
 const setCustomConnection = (
   formValues: CustomPivotFormValues,
-  setNewAppSettingName: (e: string) => void,
-  setIsDialogVisible: (d: boolean) => void,
-  formProps: FormikProps<BindingEditorFormValues>,
-  field: { name: string; value: any }
+  setNewAppSetting: (a: { key: string; value: string }) => void,
+  setSelectedItem: (u: undefined) => void,
+  setIsDialogVisible: (b: boolean) => void
 ) => {
   if (formValues.key && formValues.value) {
-    const appSettingName = formValues.key;
-    formProps.setFieldValue(field.name, appSettingName);
-    setNewAppSettingName(appSettingName);
+    setNewAppSetting({ key: formValues.key, value: formValues.value });
+    setSelectedItem(undefined);
     setIsDialogVisible(false);
   }
 };
