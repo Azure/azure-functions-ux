@@ -159,6 +159,7 @@ export class BindingFormBuilder {
           name={setting.name}
           id={setting.name}
           component={Toggle}
+          required={setting.required}
           disabled={isDisabled}
           onText={this._t('yes')}
           offText={this._t('no')}
