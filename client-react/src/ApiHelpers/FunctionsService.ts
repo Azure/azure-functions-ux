@@ -11,12 +11,13 @@ import LogService from '../utils/LogService';
 import { LogCategories } from '../utils/LogCategories';
 import { Guid } from '../utils/Guid';
 import { Site, HostType } from '../models/site/site';
+import { HostStatus } from '../models/functions/host-status';
 
 export default class FunctionsService {
-  public static getFunctions = (resourceId: string) => {
+  public static getFunctions = (resourceId: string, force?: boolean) => {
     const id = `${resourceId}/functions`;
 
-    return MakeArmCall<ArmArray<FunctionInfo>>({ resourceId: id, commandName: 'fetchFunctions' });
+    return MakeArmCall<ArmArray<FunctionInfo>>({ resourceId: id, commandName: 'fetchFunctions', skipBuffer: force });
   };
 
   public static getFunction = (resourceId: string) => {
@@ -118,6 +119,28 @@ export default class FunctionsService {
       method: 'PUT',
       body: body,
     });
+  };
+
+  public static getHostStatus = async (resourceId: string, force?: boolean) => {
+    let retries = 3;
+    let result: any;
+
+    while (retries) {
+      result = await MakeArmCall<ArmObj<HostStatus>>({
+        resourceId: `${resourceId}/host/default/properties/status`,
+        commandName: 'getHostStatus',
+        method: 'GET',
+        skipBuffer: force,
+      });
+
+      if (result.metadata.status !== 400) {
+        return result;
+      }
+
+      retries = retries - 1;
+    }
+
+    return result;
   };
 
   // TODO (andimarc): Remove this if we don't end up using it
