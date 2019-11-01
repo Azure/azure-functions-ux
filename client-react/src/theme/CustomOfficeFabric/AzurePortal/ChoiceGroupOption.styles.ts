@@ -264,7 +264,7 @@ export const ChoiceGroupOptionStyles = (props: IChoiceGroupOptionStyleProps): IC
         cursor: 'pointer',
         marginTop: 0,
         position: 'relative',
-        verticalAlign: 'top',
+        verticalAlign: 'middle',
         userSelect: 'none',
         minHeight: 20,
         selectors: {
