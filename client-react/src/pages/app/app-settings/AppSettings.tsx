@@ -74,48 +74,59 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const { resourceId } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
-  const { app_write, editable, saving } = useContext(PermissionsContext);
-  const site = useContext(SiteContext);
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
 
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
       {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings, asyncData }) => (
-        <Formik
-          initialValues={initialFormValues}
-          onSubmit={onSubmit}
-          enableReinitialize={true}
-          validate={values => validate(values, t, scenarioChecker, site)}
-          validateOnBlur={false}
-          validateOnChange={false}>
-          {(formProps: FormikProps<AppSettingsFormValues>) => (
-            <form onKeyDown={onKeyDown}>
-              <div className={commandBarSticky}>
-                <AppSettingsCommandBar
-                  submitForm={formProps.submitForm}
-                  resetForm={formProps.resetForm}
-                  refreshAppSettings={refreshAppSettings}
-                  disabled={!app_write || !editable || saving}
-                  dirty={formProps.dirty}
-                />
-                {!!initialFormValues && scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
-                  <UpsellBanner onClick={scaleUpPlan} />
-                )}
-              </div>
-              {!!initialFormValues ? (
-                <AppSettingsForm asyncData={asyncData} {...formProps} />
-              ) : (
-                <MessageBar
-                  isMultiline={false}
-                  className={messageBannerStyle(theme, MessageBarType.error)}
-                  messageBarType={MessageBarType.error}>
-                  {t('configLoadFailure')}
-                </MessageBar>
-              )}
-            </form>
-          )}
-        </Formik>
+        <PermissionsContext.Consumer>
+          {permissions => {
+            return (
+              <SiteContext.Consumer>
+                {site => {
+                  return (
+                    <Formik
+                      initialValues={initialFormValues}
+                      onSubmit={onSubmit}
+                      enableReinitialize={true}
+                      validate={values => validate(values, t, scenarioChecker, site)}
+                      validateOnBlur={false}
+                      validateOnChange={false}>
+                      {(formProps: FormikProps<AppSettingsFormValues>) => (
+                        <form onKeyDown={onKeyDown}>
+                          <div className={commandBarSticky}>
+                            <AppSettingsCommandBar
+                              submitForm={formProps.submitForm}
+                              resetForm={formProps.resetForm}
+                              refreshAppSettings={refreshAppSettings}
+                              disabled={!permissions.app_write || !permissions.editable || permissions.saving}
+                              dirty={formProps.dirty}
+                            />
+                            {!!initialFormValues &&
+                              scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
+                                <UpsellBanner onClick={scaleUpPlan} />
+                              )}
+                          </div>
+                          {!!initialFormValues ? (
+                            <AppSettingsForm asyncData={asyncData} {...formProps} />
+                          ) : (
+                            <MessageBar
+                              isMultiline={false}
+                              className={messageBannerStyle(theme, MessageBarType.error)}
+                              messageBarType={MessageBarType.error}>
+                              {t('configLoadFailure')}
+                            </MessageBar>
+                          )}
+                        </form>
+                      )}
+                    </Formik>
+                  );
+                }}
+              </SiteContext.Consumer>
+            );
+          }}
+        </PermissionsContext.Consumer>
       )}
     </AppSettingsDataLoader>
   );
