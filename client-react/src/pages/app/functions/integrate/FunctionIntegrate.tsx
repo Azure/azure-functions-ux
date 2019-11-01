@@ -9,7 +9,8 @@ import { BindingConfigDirection } from '../../../../models/functions/bindings-co
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ThemeContext } from '../../../../ThemeContext';
-import BindingEditorDataLoader from './binding-editor/BindingEditorDataLoader';
+import { ClosedReason } from './BindingPanel/BindingEditor';
+import BindingPanel from './BindingPanel/BindingPanel';
 import FunctionNameBindingCard from './BindingsDiagram/FunctionNameBindingCard';
 import InputBindingCard from './BindingsDiagram/InputBindingCard';
 import OutputBindingCard from './BindingsDiagram/OutputBindingCard';
@@ -22,7 +23,6 @@ import {
   singleArrowStyle,
   singleCardStackStyle,
 } from './FunctionIntegrate.style';
-import { ClosedReason } from './binding-editor/BindingEditor';
 
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -107,7 +107,7 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
   return (
     <>
       <BindingEditorContext.Provider value={editorContext}>
-        <BindingEditorDataLoader
+        <BindingPanel
           functionInfo={functionInfo}
           functionAppId={functionAppId}
           bindingInfo={bindingToUpdate}
