@@ -5385,6 +5385,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
         <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
+    <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher.</value>
+    </data>
     <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Refresh App Settings</value>
     </data>
