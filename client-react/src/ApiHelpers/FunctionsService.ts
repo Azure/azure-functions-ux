@@ -5,12 +5,13 @@ import { FunctionInfo } from '../models/functions/function-info';
 import { sendHttpRequest, getJsonHeaders } from './HttpClient';
 import { FunctionTemplate } from '../models/functions/function-template';
 import { FunctionConfig } from '../models/functions/function-config';
+import { HostStatus } from '../models/functions/host-status';
 
 export default class FunctionsService {
-  public static getFunctions = (resourceId: string) => {
+  public static getFunctions = (resourceId: string, force?: boolean) => {
     const id = `${resourceId}/functions`;
 
-    return MakeArmCall<ArmArray<FunctionInfo>>({ resourceId: id, commandName: 'fetchFunctions' });
+    return MakeArmCall<ArmArray<FunctionInfo>>({ resourceId: id, commandName: 'fetchFunctions', skipBuffer: force });
   };
 
   public static getFunction = (resourceId: string) => {
@@ -112,5 +113,27 @@ export default class FunctionsService {
       method: 'PUT',
       body: body,
     });
+  };
+
+  public static getHostStatus = async (resourceId: string, force?: boolean) => {
+    let retries = 3;
+    let result: any;
+
+    while (retries) {
+      result = await MakeArmCall<ArmObj<HostStatus>>({
+        resourceId: `${resourceId}/host/default/properties/status`,
+        commandName: 'getHostStatus',
+        method: 'GET',
+        skipBuffer: force,
+      });
+
+      if (result.metadata.status !== 400) {
+        return result;
+      }
+
+      retries = retries - 1;
+    }
+
+    return result;
   };
 }
