@@ -21,8 +21,8 @@ const ChangeAppPlanLoadable: any = lazy(() => import(/* webpackChunkName:"change
 const FunctionIntegrateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functionintegrate" */ './functions/integrate/FunctionIntegrateDataLoader')
 );
-const FunctionBindingEditorLoadable: any = lazy(() =>
-  import(/* webpackChunkName:"functionbindingeditor" */ './functions/integrate/binding-editor/BindingEditorDataLoader')
+const FunctionBindingLoadable: any = lazy(() =>
+  import(/* webpackChunkName:"functionbinding" */ './functions/integrate/BindingPanel/BindingPanel')
 );
 const FunctionCreateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioncreate" */ './functions/create/FunctionCreateDataLoader')
@@ -51,7 +51,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                   <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
                   <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
                   <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
-                  <FunctionBindingEditorLoadable resourceId={value.resourceId} path="/bindingeditor" />
+                  <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
                   <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
                   <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
                   <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />

@@ -14,7 +14,7 @@ import LogService from '../../../../../utils/LogService';
 import BindingCreator from './BindingCreator';
 import BindingEditor from './BindingEditor';
 
-export interface BindingEditorDataLoaderProps {
+export interface BindingPanelProps {
   functionInfo: ArmObj<FunctionInfo>;
   functionAppId: string;
   bindingInfo?: BindingInfo;
@@ -25,7 +25,7 @@ export interface BindingEditorDataLoaderProps {
   onDelete: (currentBindingInfo: BindingInfo) => void;
 }
 
-const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props => {
+const BindingPanel: React.SFC<BindingPanelProps> = props => {
   const { functionInfo, functionAppId, bindingInfo, bindingDirection, isOpen, onPanelClose, onSubmit, onDelete } = props;
   const [bindingsConfig, setBindingsConfig] = useState<BindingsConfig | undefined>(undefined);
   const { t } = useTranslation();
@@ -107,4 +107,4 @@ const getPanelHeader = (t: i18next.TFunction, bindingDirection: BindingConfigDir
   }
 };
 
-export default BindingEditorDataLoader;
+export default BindingPanel;
