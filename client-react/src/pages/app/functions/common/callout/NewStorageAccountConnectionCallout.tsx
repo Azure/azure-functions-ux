@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { paddingSidesStyle } from './Callout.styles';
 import StorageAccountPivotDataLoader from './storageAccountPivot/StorageAccountPivotDataLoader';
 
-const NewAppSettingCallout: React.SFC<NewConnectionCalloutProps> = props => {
+const NewStorageAccountConnectionCallout: React.SFC<NewConnectionCalloutProps> = props => {
   const { t } = useTranslation();
 
   return (
@@ -15,4 +15,4 @@ const NewAppSettingCallout: React.SFC<NewConnectionCalloutProps> = props => {
   );
 };
 
-export default NewAppSettingCallout;
+export default NewStorageAccountConnectionCallout;
