@@ -60,8 +60,8 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
   };
 
   const closeEditor = () => {
-    setBindingToUpdate(undefined);
     setIsOpen(false);
+    setBindingToUpdate(undefined);
   };
 
   const onSubmit = (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => {
@@ -74,9 +74,18 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
 
   const onCancel = () => {
     bindingUpdate$.current.next({
-      newBindingInfo: undefined,
       currentBindingInfo: bindingToUpdate,
       closedReason: ClosedReason.Cancel,
+    });
+
+    setIsOpen(false);
+    setBindingToUpdate(undefined);
+  };
+
+  const onDelete = (currentBindingInfo: BindingInfo) => {
+    bindingUpdate$.current.next({
+      currentBindingInfo,
+      closedReason: ClosedReason.Delete,
     });
 
     setBindingToUpdate(undefined);
@@ -105,6 +114,7 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
           bindingDirection={bindingDirection}
           onPanelClose={onCancel}
           onSubmit={onSubmit}
+          onDelete={onDelete}
           isOpen={isOpen}
         />
 

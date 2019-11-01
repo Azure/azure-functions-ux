@@ -19,6 +19,7 @@ export interface BindingEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   resourceId: string;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
+  onDelete: (currentBindingInfo: BindingInfo) => void;
 }
 
 export interface BindingEditorFormValues {
@@ -36,13 +37,13 @@ const fieldWrapperStyle = style({
 });
 
 const BindingEditor: React.SFC<BindingEditorProps> = props => {
-  const { allBindingsConfig: bindingsConfig, currentBindingInfo, onSubmit, resourceId } = props;
+  const { allBindingsConfig: bindingsConfig, currentBindingInfo, resourceId, onSubmit, onDelete } = props;
   const { t } = useTranslation();
   const [isDisabled, setIsDisabled] = useState(false);
 
   const bindingsConfigMetadata = bindingsConfig.bindings;
   const currentBindingMetadata = bindingsConfigMetadata.find(
-    b => b.type === currentBindingInfo.type && b.direction.toString() === currentBindingInfo.direction
+    b => b.type === currentBindingInfo.type && b.direction === getBindingConfigDirection(currentBindingInfo)
   ) as BindingConfigMetadata;
 
   if (!currentBindingMetadata) {
@@ -102,16 +103,16 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
   );
 };
 
-const onDelete = (currentBindingInfo: BindingInfo) => {
-  console.log(`delete ${currentBindingInfo.name}!`);
-};
-
-export const getBindingConfigDirection = (bindingInfo: BindingInfo) => {
+export const getBindingConfigDirection = (bindingInfo: BindingInfo): BindingConfigDirection => {
   if (bindingInfo.direction === BindingDirection.in) {
     return bindingInfo.type.toLowerCase().indexOf('trigger') > -1 ? BindingConfigDirection.trigger : BindingConfigDirection.in;
   }
 
   return BindingConfigDirection.out;
+};
+
+export const getBindingDirection = (bindingConfigDirection: BindingConfigDirection): BindingDirection => {
+  return bindingConfigDirection === BindingConfigDirection.out ? BindingDirection.out : BindingDirection.in;
 };
 
 export default BindingEditor;

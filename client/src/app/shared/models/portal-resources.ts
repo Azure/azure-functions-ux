@@ -1636,7 +1636,7 @@ export class PortalResources {
   public static integrateNoOutputsDefined = 'integrateNoOutputsDefined';
   public static integrateAddInput = 'integrateAddInput';
   public static integrateCreateInput = 'integrateCreateInput';
-  public static integrateCreateInputInstructions = 'integrateCreateInputInstructions';
+  public static integrateCreateBindingInstructions = 'integrateCreateBindingInstructions';
   public static integrateBindingType = 'integrateBindingType';
   public static integrateCreateBindingTypeDetails = 'integrateCreateBindingTypeDetails';
   public static _function = '_function';
@@ -1760,4 +1760,10 @@ export class PortalResources {
   public static storageAccountPivot_noStorageAccounts = 'storageAccountPivot_noStorageAccounts';
   public static storageAccountPivot_storageAccount = 'storageAccountPivot_storageAccount';
   public static newPivot_name = 'newPivot_name';
+  public static integrateAddOutput = 'integrateAddOutput';
+  public static integrateCreateOutput = 'integrateCreateOutput';
+  public static deleteBindingNotification = 'deleteBindingNotification';
+  public static deleteBindingNotificationDetails = 'deleteBindingNotificationDetails';
+  public static deleteBindingNotificationFailed = 'deleteBindingNotificationFailed';
+  public static deleteBindingNotificationSuccess = 'deleteBindingNotificationSuccess';
 }

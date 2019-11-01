@@ -12,7 +12,7 @@ import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import BindingCreator from './BindingCreator';
-import BindingEditor, { getBindingConfigDirection } from './BindingEditor';
+import BindingEditor from './BindingEditor';
 
 export interface BindingEditorDataLoaderProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -22,10 +22,11 @@ export interface BindingEditorDataLoaderProps {
   isOpen: boolean;
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
+  onDelete: (currentBindingInfo: BindingInfo) => void;
 }
 
 const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props => {
-  const { functionInfo, functionAppId, bindingInfo, bindingDirection, isOpen, onPanelClose } = props;
+  const { functionInfo, functionAppId, bindingInfo, bindingDirection, isOpen, onPanelClose, onSubmit, onDelete } = props;
   const [bindingsConfig, setBindingsConfig] = useState<BindingsConfig | undefined>(undefined);
   const { t } = useTranslation();
 
@@ -50,32 +51,50 @@ const BindingEditorDataLoader: React.SFC<BindingEditorDataLoaderProps> = props =
 
   {
     return (
-      <Panel isOpen={isOpen} type={PanelType.smallFixedFar} headerText={getPanelHeader(t, bindingInfo)} onDismiss={onPanelClose}>
+      <Panel
+        isOpen={isOpen}
+        type={PanelType.smallFixedFar}
+        headerText={getPanelHeader(t, bindingDirection, bindingInfo)}
+        onDismiss={onPanelClose}>
         <div style={{ marginTop: '10px' }}>
-          {!bindingInfo ? (
-            <BindingCreator bindingsConfig={bindingsConfig} functionAppId={functionAppId} bindingDirection={bindingDirection} {...props} />
-          ) : (
-            <BindingEditor
-              functionInfo={functionInfo}
-              allBindingsConfig={bindingsConfig}
-              currentBindingInfo={bindingInfo}
-              resourceId={functionAppId}
-              onSubmit={props.onSubmit}
-            />
-          )}
+          {isOpen &&
+            (!bindingInfo ? (
+              <BindingCreator
+                bindingsConfig={bindingsConfig}
+                functionAppId={functionAppId}
+                bindingDirection={bindingDirection}
+                {...props}
+              />
+            ) : (
+              <BindingEditor
+                functionInfo={functionInfo}
+                allBindingsConfig={bindingsConfig}
+                currentBindingInfo={bindingInfo}
+                resourceId={functionAppId}
+                onSubmit={onSubmit}
+                onDelete={onDelete}
+              />
+            ))}
         </div>
       </Panel>
     );
   }
 };
 
-const getPanelHeader = (t: i18next.TFunction, bindingInfo?: BindingInfo) => {
+// If binding info is undefined that means you are creating a new binding info, otherwise you are editing
+const getPanelHeader = (t: i18next.TFunction, bindingDirection: BindingConfigDirection, bindingInfo?: BindingInfo) => {
   if (!bindingInfo) {
-    return t('integrateCreateInput');
+    switch (bindingDirection) {
+      case BindingConfigDirection.in: {
+        return t('integrateCreateInput');
+      }
+      case BindingConfigDirection.out: {
+        return t('integrateCreateOutput');
+      }
+    }
   }
 
-  const direction = getBindingConfigDirection(bindingInfo);
-  switch (direction) {
+  switch (bindingDirection) {
     case BindingConfigDirection.in: {
       return t('editBindingInput');
     }
