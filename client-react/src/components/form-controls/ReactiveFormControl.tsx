@@ -33,28 +33,30 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
   const theme = useContext(ThemeContext);
   const fullpage = width > 1000;
 
+  const foo = (
+    <div className={infoMessageStyle(fullpage)}>
+      <Stack horizontal verticalAlign="center">
+        <Icon iconName="Info" className={infoIconStyle(theme)} />
+        <div>
+          <span id={`${props.id}-infobubble`}>{`${infoBubbleMessage} `}</span>
+          {learnMoreLink && (
+            <Link
+              id={`${props.id}-learnmore`}
+              href={learnMoreLink}
+              target="_blank"
+              className={learnMoreLinkStyle}
+              aria-labelledby={`${props.id}-infobubble ${props.id}-learnmore`}>
+              {t('learnMore')}
+            </Link>
+          )}
+        </div>
+      </Stack>
+    </div>
+  );
+
   return (
     <Stack className={controlContainerStyle(!!upsellMessage, fullpage)}>
-      {notificationMessage && (
-        <div className={infoMessageStyle(fullpage)}>
-          <Stack horizontal verticalAlign="center">
-            <Icon iconName="Info" className={infoIconStyle(theme)} />
-            <div>
-              <span id={`${props.id}-infobubble`}>{`${notificationMessage} `}</span>
-              {learnMoreLink && (
-                <Link
-                  id={`${props.id}-learnmore`}
-                  href={learnMoreLink}
-                  target="_blank"
-                  className={learnMoreLinkStyle}
-                  aria-labelledby={`${props.id}-infobubble ${props.id}-learnmore`}>
-                  {t('learnMore')}
-                </Link>
-              )}
-            </div>
-          </Stack>
-        </div>
-      )}
+      {notificationMessage && foo}
       <Stack horizontal={fullpage} verticalAlign="baseline">
         {label && (
           <Stack horizontal verticalAlign="center" className={formStackStyle(!!upsellMessage, fullpage)}>
@@ -71,26 +73,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
           </Stack>
         )}
         {props.children}
-        {infoBubbleMessage && (
-          <div className={infoMessageStyle(fullpage)}>
-            <Stack horizontal verticalAlign="center">
-              <Icon iconName="Info" className={infoIconStyle(theme)} />
-              <div>
-                <span id={`${props.id}-infobubble`}>{`${infoBubbleMessage} `}</span>
-                {learnMoreLink && (
-                  <Link
-                    id={`${props.id}-learnmore`}
-                    href={learnMoreLink}
-                    target="_blank"
-                    className={learnMoreLinkStyle}
-                    aria-labelledby={`${props.id}-infobubble ${props.id}-learnmore`}>
-                    {t('learnMore')}
-                  </Link>
-                )}
-              </div>
-            </Stack>
-          </div>
-        )}
+        {infoBubbleMessage && foo}
       </Stack>
     </Stack>
   );
