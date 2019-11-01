@@ -13,7 +13,7 @@ import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { ARMApiVersions, ScenarioIds, DeploymentCenterConstants, Kinds } from '../../../../shared/models/constants';
+import { ARMApiVersions, ScenarioIds, Kinds } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -24,7 +24,7 @@ import { SiteService } from '../../../../shared/services/site.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { VSOAccount } from '../../Models/vso-repo';
-import { AzureDevOpsService, AzureDevOpsDeploymentMethod } from './azure-devops.service';
+import { AzureDevOpsService, AzureDevOpsDeploymentMethod, TargetAzDevDeployment } from './azure-devops.service';
 import { LocalStorageService } from '../../../../shared/services/local-storage.service';
 import { GithubService } from './github.service';
 import { WorkflowCommit } from '../../Models/github';
@@ -140,9 +140,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public fetchVSTSProfile() {
     // if the first get fails, it's likely because the user doesn't have an account in vsts yet
     // the fix for this is to do an empty post call on the same url and then get it
-    return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders(false)).catch(() => {
-      return this._cacheService.post(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders(false)).switchMap(() => {
-        return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders(false));
+    return this._cacheService.get(AzureDevOpsService.AzDevProfileUri, true, this.getVstsDirectHeaders(false)).catch(() => {
+      return this._cacheService.post(AzureDevOpsService.AzDevProfileUri, true, this.getVstsDirectHeaders(false)).switchMap(() => {
+        return this._cacheService.get(AzureDevOpsService.AzDevProfileUri, true, this.getVstsDirectHeaders(false));
       });
     });
   }
@@ -219,7 +219,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
       })
       .switchMap(r => {
         this._azureDevOpsDeploymentMethod = r.result;
-        if (this._azureDevOpsDeploymentMethod === AzureDevOpsDeploymentMethod.UsePublishProfile) {
+        if (
+          this._azureDevOpsDeploymentMethod === AzureDevOpsDeploymentMethod.UsePublishProfile ||
+          AzureDevOpsService.GetTargetAzDevDeployment() === TargetAzDevDeployment.Devfabric
+        ) {
           return Observable.of({
             status: 'succeeded',
             statusMessage: null,
@@ -256,9 +259,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
       )!.ForceMsaPassThrough;
 
       return this._cacheService.get(
-        `https://${
-          this.wizardValues.buildSettings.vstsAccount
-        }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`,
+        AzureDevOpsService.GetAzureDevOpsUrl().PeCollectionLevel.format(this.wizardValues.buildSettings.vstsAccount) +
+          `_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`,
         true,
         this.getVstsDirectHeaders(appendMsaPassthroughHeader)
       );
@@ -295,9 +297,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
     if (this.wizardValues.buildSettings.createNewVsoAccount) {
       return this._cacheService
         .post(
-          `https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${
-            this.wizardValues.buildSettings.vstsAccount
-          }&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`,
+          AzureDevOpsService.GetAzureDevOpsUrl().Aex +
+            `_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${
+              this.wizardValues.buildSettings.location
+            }&api-version=4.0-preview.1`,
           true,
           this.getVstsDirectHeaders(false),
           {
@@ -403,7 +406,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
-    headers.append('Authorization', this.getToken());
+    headers.append('Authorization', AzureDevOpsService.GetAuthTokenForMakingAzDevRequestBasedOnDeployment(this._token));
     headers.append('X-VSS-ForceMsaPassThrough', `${appendMsaPassthroughHeader}`);
     return headers;
   }

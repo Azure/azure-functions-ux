@@ -43,7 +43,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
   private _ngUnsubscribe$ = new Subject();
   private _busyManager: BusyStateScopeManager;
   private _tableItems: ActivityDetailsLog[];
-  private readonly _devAzureCom = 'dev.azure.com';
+  private readonly _devAzureCom = AzureDevOpsService.GetAzureDevOpsUrl().Tfs.replace(new RegExp('https://|/', 'gi'), '');
 
   constructor(
     private _portalService: PortalService,
@@ -107,7 +107,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
             buildDefinitionProjectUrl = buildDefinitionUrl.substring(0, buildDefinitionUrl.indexOf('/_build?'));
           } else {
             accountName = this.getVSOAccountNameFromUrl(endpoint);
-            buildDefinitionProjectUrl = `https://dev.azure.com/${accountName}/${projectId}`;
+            buildDefinitionProjectUrl = AzureDevOpsService.GetAzureDevOpsUrl().Tfs + `${accountName}/${projectId}`;
           }
 
           return this._azureDevOpsService.getBuildDef(accountName, buildDefinitionProjectUrl, buildDefinitionId).catch((err, caught) => {

@@ -3,12 +3,12 @@ import { UserService } from 'app/shared/services/user.service';
 import { Subject } from 'rxjs/Subject';
 import { Http } from '@angular/http';
 import { Headers } from '@angular/http';
-import { AuthoricatedUserContext, DevOpsAccount, DevOpsList, DevOpsProject } from './azure-devops-service-models';
+import { AuthenticatedUserContext, DevOpsAccount, DevOpsList, DevOpsProject } from './azure-devops-service-models';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { uniqBy } from 'lodash-es';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
-import { Constants, DeploymentCenterConstants, ScenarioIds, Kinds } from 'app/shared/models/constants';
+import { Constants, DeploymentCenterConstants, ScenarioIds, Kinds, FeatureFlags } from 'app/shared/models/constants';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
@@ -33,6 +33,7 @@ import {
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { parseToken } from 'app/pickers/microsoft-graph/microsoft-graph-helper';
 import { ProvisioningConfigurationBase, WizardForm } from './deployment-center-setup-models';
+import { Url } from 'app/shared/Utilities/url';
 
 export enum AzureDevOpsDeploymentMethod {
   UseV1Api = 0,
@@ -40,12 +41,34 @@ export enum AzureDevOpsDeploymentMethod {
   UsePublishProfile,
 }
 
+export interface AzureDevOpsUrl {
+  Tfs: string;
+  Sps: string;
+  Aex: string;
+  Rmo: string;
+  PeDeploymentLevel: string;
+  PeCollectionLevel: string;
+}
+
+export const enum TargetAzDevDeployment {
+  Devfabric = 'devfabric',
+  Preflight = 'pf',
+  Production = 'production',
+}
+
 @Injectable()
 export class AzureDevOpsService implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
   private _token: string;
-  private _authenticatedUser: AuthoricatedUserContext;
+  private _authenticatedUser: AuthenticatedUserContext;
   private _accountsList: DevOpsAccount[] = [];
+  private static readonly _targetAzDevDeployment = Url.getFeatureValue(FeatureFlags.targetAzDevDeployment).toLowerCase();
+
+  public static readonly AzDevPermissionApiUri =
+    AzureDevOpsService.GetAzureDevOpsUrl().PeDeploymentLevel + '_apis/ContinuousDelivery/PermissionsResult?api-version=4.1-preview.1';
+  public static readonly AzDevProfileUri = AzureDevOpsService.GetAzureDevOpsUrl().PeDeploymentLevel + '_apis/AzureTfs/UserContext';
+  public static readonly AzDevProjectsApi = AzureDevOpsService.GetAzureDevOpsUrl().Tfs + '{0}/_apis/projects?includeCapabilities=true';
+  public static readonly AzDevRegionsApi = AzureDevOpsService.GetAzureDevOpsUrl().Aex + '_apis/hostacquisition/regions';
 
   constructor(private _httpClient: Http, private _userService: UserService, private _scenarioService: ScenarioService) {
     this._userService
@@ -56,8 +79,62 @@ export class AzureDevOpsService implements OnDestroy {
       });
   }
 
+  public static GetAuthTokenForMakingAzDevRequestBasedOnDeployment(token: string): string {
+    if (this._targetAzDevDeployment === TargetAzDevDeployment.Devfabric) {
+      const authTokenOverride = Url.getFeatureValue(FeatureFlags.authTokenOverride);
+      if (!authTokenOverride) {
+        throw new Error('You are using Devfabric environment but PAT is not provided');
+      }
+      const auth = 'Basic ';
+      let pat = ':';
+      pat = pat.concat(authTokenOverride);
+      return auth.concat(btoa(pat));
+    } else {
+      return 'Bearer ' + token;
+    }
+  }
+
+  public static GetTargetAzDevDeployment() {
+    return this._targetAzDevDeployment;
+  }
+
+  public static GetAzureDevOpsUrl(): AzureDevOpsUrl {
+    switch (AzureDevOpsService._targetAzDevDeployment) {
+      case TargetAzDevDeployment.Devfabric:
+        return {
+          Tfs: DeploymentCenterConstants.AzDevDevFabricTfsUri,
+          Sps: DeploymentCenterConstants.AzDevDevFabricSpsUri,
+          Aex: DeploymentCenterConstants.AzDevDevFabricAexUri,
+          Rmo: DeploymentCenterConstants.AzDevDevFabricRmoUri,
+          PeDeploymentLevel: DeploymentCenterConstants.AzDevDevFabricPeDeploymentLevelUri,
+          PeCollectionLevel: DeploymentCenterConstants.AzDevDevFabricPeCollectionLevelUri,
+        };
+
+      case TargetAzDevDeployment.Preflight:
+        return {
+          Tfs: DeploymentCenterConstants.AzDevProductionTfsUri,
+          Sps: DeploymentCenterConstants.AzDevProductionSpsUri,
+          Aex: DeploymentCenterConstants.AzDevProductionAexUri,
+          Rmo: DeploymentCenterConstants.AzDevProductionRmoUri,
+          PeDeploymentLevel: DeploymentCenterConstants.AzDevPreFlightPeDeploymentLevelUri,
+          PeCollectionLevel: DeploymentCenterConstants.AzDevProductionPeCollectionLevelUri,
+        };
+
+      case TargetAzDevDeployment.Production:
+      default:
+        return {
+          Tfs: DeploymentCenterConstants.AzDevProductionTfsUri,
+          Sps: DeploymentCenterConstants.AzDevProductionSpsUri,
+          Aex: DeploymentCenterConstants.AzDevProductionAexUri,
+          Rmo: DeploymentCenterConstants.AzDevProductionRmoUri,
+          PeDeploymentLevel: DeploymentCenterConstants.AzDevProductionPeDeploymentLevelUri,
+          PeCollectionLevel: DeploymentCenterConstants.AzDevProductionPeCollectionLevelUri,
+        };
+    }
+  }
+
   getUserContext() {
-    const userContext = `https://app.vssps.visualstudio.com/_apis/connectionData`;
+    const userContext = AzureDevOpsService.GetAzureDevOpsUrl().Sps + `_apis/connectionData`;
     if (this._authenticatedUser) {
       return of(this._authenticatedUser);
     }
@@ -76,9 +153,9 @@ export class AzureDevOpsService implements OnDestroy {
     }
     return this.getUserContext()
       .switchMap(user => {
-        const accountUrl = `https://app.vssps.visualstudio.com/_apis/accounts?memeberId=${
-          user.authenticatedUser.descriptor
-        }?api-version=5.0-preview.1`;
+        const accountUrl =
+          AzureDevOpsService.GetAzureDevOpsUrl().Sps +
+          `_apis/accounts?memeberId=${user.authenticatedUser.descriptor}?api-version=5.0-preview.1`;
         return forkJoin([
           this._httpClient.get(accountUrl, { headers: this._headersWithoutPassthrough }),
           this._httpClient.get(accountUrl, { headers: this._headersWithPassthrough }),
@@ -94,7 +171,7 @@ export class AzureDevOpsService implements OnDestroy {
   }
 
   getProjectsForAccount(account: string): Observable<DevOpsList<DevOpsProject>> {
-    const uri = `https://dev.azure.com/${account}/_apis/projects`;
+    const uri = AzureDevOpsService.GetAzureDevOpsUrl().Tfs + `${account}/_apis/projects`;
     return this.getAccounts().switchMap(r => {
       const msaPassthrough = r.find(x => x.AccountName.toLowerCase() === account.toLowerCase())!.ForceMsaPassThrough;
       return this._httpClient
@@ -105,7 +182,7 @@ export class AzureDevOpsService implements OnDestroy {
     });
   }
   getBranchesForRepo(account: string, repositoryId: string) {
-    const uri = `https://dev.azure.com/${account}/_apis/git/repositories/${repositoryId}/refs?api-version=5.0`;
+    const uri = AzureDevOpsService.GetAzureDevOpsUrl().Tfs + `${account}/_apis/git/repositories/${repositoryId}/refs?api-version=5.0`;
     return this.getAccounts().switchMap(r => {
       const msaPassthrough = r.find(x => x.AccountName.toLowerCase() === account.toLowerCase())!.ForceMsaPassThrough;
       return this._httpClient
@@ -116,7 +193,7 @@ export class AzureDevOpsService implements OnDestroy {
     });
   }
   getRepositoriesForAccount(account: string) {
-    const uri = `https://dev.azure.com/${account}/_apis/git/repositories`;
+    const uri = AzureDevOpsService.GetAzureDevOpsUrl().Tfs + `${account}/_apis/git/repositories`;
     return this.getAccounts().switchMap(r => {
       const msaPassthrough = r.find(x => x.AccountName.toLowerCase() === account.toLowerCase())!.ForceMsaPassThrough;
       return this._httpClient
@@ -131,16 +208,23 @@ export class AzureDevOpsService implements OnDestroy {
     if (isNewVsoAccount) {
       this._accountsList = [];
     }
-    const uri = `${Constants.serviceHost}api/setupvso?accountName=${account}`;
+
     return this.getAccounts().switchMap(r => {
       const msaPassthrough = isNewVsoAccount
         ? false
         : r.find(x => x.AccountName.toLowerCase() === account.toLowerCase())!.ForceMsaPassThrough;
-      return this._httpClient
-        .post(uri, deploymentObj, {
-          headers: msaPassthrough ? this._headersWithPassthrough : this._headersWithoutPassthrough,
-        })
-        .map(res => res.json());
+      const headers = msaPassthrough ? this._headersWithPassthrough : this._headersWithoutPassthrough;
+
+      if (AzureDevOpsService._targetAzDevDeployment !== TargetAzDevDeployment.Production) {
+        return this._sendProvisioningConfigurationSetupRequest(account, deploymentObj, headers);
+      } else {
+        const uri = `${Constants.serviceHost}api/setupvso?accountName=${account}`;
+        return this._httpClient
+          .post(uri, deploymentObj, {
+            headers: headers,
+          })
+          .map(res => res.json());
+      }
     });
   }
 
@@ -158,7 +242,7 @@ export class AzureDevOpsService implements OnDestroy {
 
   getPermissionResult(permissionPayload: any) {
     return this._httpClient
-      .post(DeploymentCenterConstants.vstsPermissionApiUri, permissionPayload, {
+      .post(AzureDevOpsService.AzDevPermissionApiUri, permissionPayload, {
         headers: this._headersWithoutPassthrough,
       })
       .map(res => res.json());
@@ -468,7 +552,7 @@ export class AzureDevOpsService implements OnDestroy {
         };
 
       case ApplicationType.Python:
-        let pythonParameters = {
+        const pythonParameters = {
           pathToApplicationCode: buildSettings.workingDirectory,
           pythonExtensionVersion: buildSettings.pythonSettings.version,
         };
@@ -504,16 +588,76 @@ export class AzureDevOpsService implements OnDestroy {
 
   private get _headersWithPassthrough(): Headers {
     const headers = new Headers();
-    headers.append('Authorization', `Bearer ${this._token}`);
+    headers.append('Authorization', AzureDevOpsService.GetAuthTokenForMakingAzDevRequestBasedOnDeployment(this._token));
     headers.append('X-VSS-ForceMsaPassThrough', 'true');
     return headers;
   }
 
   private get _headersWithoutPassthrough(): Headers {
     const headers = new Headers();
-    headers.append('Authorization', `Bearer ${this._token}`);
+    headers.append('Authorization', AzureDevOpsService.GetAuthTokenForMakingAzDevRequestBasedOnDeployment(this._token));
     return headers;
   }
+
+  private _sendProvisioningConfigurationSetupRequest(accountName: string, deploymentObj: any, headers: Headers) {
+    const uri =
+      AzureDevOpsService.GetAzureDevOpsUrl().PeCollectionLevel.format(accountName) +
+      '_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1';
+
+    headers.append('Content-Type', 'application/json');
+    headers.append('accept', 'application/json;api-version=4.1-preview.1');
+
+    let repository: any;
+    if (deploymentObj.source && deploymentObj.source.repository) {
+      repository = deploymentObj.source.repository;
+    } else if (deploymentObj.repository) {
+      repository = deploymentObj.repository;
+    }
+
+    const authToken = delete deploymentObj.authToken;
+    delete deploymentObj.authToken;
+
+    if (repository && repository.type === 'GitHub') {
+      return this._getSourceControlToken(authToken, 'github').flatMap(r => {
+        repository.authorizationInfo.parameters.AccessToken = r.token;
+        return this._httpClient
+          .post(uri, deploymentObj, {
+            headers,
+          })
+          .map(result => result.json());
+      });
+    } else {
+      return this._httpClient
+        .post(uri, deploymentObj, {
+          headers,
+        })
+        .map(result => result.json());
+    }
+  }
+
+  private _getSourceControlToken(authToken: any, provider: string) {
+    try {
+      const headers: Headers = new Headers();
+      headers.append('Authorization', authToken);
+      return this._httpClient
+        .get(`${Constants.azureRestAPIHostName}/providers/Microsoft.Web/sourcecontrols/${provider}?api-version=2016-03-01`, {
+          headers: headers,
+        })
+        .map(result => {
+          const body = result.json();
+          if (body && body.properties && body.properties.token) {
+            return { authenticated: true, token: body.properties.token };
+          }
+          throw new Error('Not Authorized');
+        });
+    } catch (err) {
+      if (err.response) {
+        throw new Error(err.response.data);
+      }
+      throw new Error('Not Authorized');
+    }
+  }
+
   ngOnDestroy(): void {
     this._ngUnsubscribe$.next();
   }

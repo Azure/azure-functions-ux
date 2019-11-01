@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { CacheService } from '../../../../../shared/services/cache.service';
 import { DropDownElement } from '../../../../../shared/models/drop-down-element';
 import { LogService } from '../../../../../shared/services/log.service';
-import { LogCategories, DeploymentCenterConstants } from '../../../../../shared/models/constants';
+import { LogCategories } from '../../../../../shared/models/constants';
 import { TranslateService } from '@ngx-translate/core';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { PortalResources } from '../../../../../shared/models/portal-resources';
@@ -141,7 +141,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         }));
       });
 
-    this._cacheService.get(DeploymentCenterConstants.vstsRegionsApi, true, this.wizard.getVstsDirectHeaders(false)).subscribe(
+    this._cacheService.get(AzureDevOpsService.AzDevRegionsApi, true, this.wizard.getVstsDirectHeaders(false)).subscribe(
       r => {
         const locationArray: any[] = r.json().value;
         this.locationList = locationArray.map(v => {

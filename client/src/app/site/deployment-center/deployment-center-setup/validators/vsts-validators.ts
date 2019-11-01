@@ -19,7 +19,7 @@ export class VstsValidators {
         return Observable.timer(500)
           .switchMap(() =>
             _cacheService.get(
-              `https://app.vssps.visualstudio.com/_AzureSpsAccount/ValidateAccountName?accountName=${control.value}`,
+              AzureDevOpsService.GetAzureDevOpsUrl().Sps + `_AzureSpsAccount/ValidateAccountName?accountName=${control.value}`,
               true,
               _wizard.getVstsDirectHeaders(false)
             )
@@ -55,7 +55,7 @@ export class VstsValidators {
             .ForceMsaPassThrough;
           const callHeaders = _wizard.getVstsDirectHeaders(appendMsaPassthroughHeader);
           return _cacheService
-            .get(DeploymentCenterConstants.vstsProjectsApi.format(vstsAccountValue), true, callHeaders)
+            .get(AzureDevOpsService.AzDevProjectsApi.format(vstsAccountValue), true, callHeaders)
             .concatMap(r => {
               const projectList: [{ id: string; name: string }] = r.json().value;
               const currentProject = projectList.find(x => x.name.toLowerCase() === vstsProjectValue.toLowerCase());
@@ -64,32 +64,35 @@ export class VstsValidators {
                 // need to ping the release rp in vso in order to subscribe to user to the RP, otherwise the rp call will fail
                 return _cacheService
                   .get(
-                    `https://${vstsAccountValue}.vsrm.visualstudio.com/${currentProject.id}/_apis/Release/definitions`,
+                    AzureDevOpsService.GetAzureDevOpsUrl().Rmo + `${vstsAccountValue}/${currentProject.id}/_apis/Release/definitions`,
                     true,
                     callHeaders
                   )
                   .switchMap(() => {
                     return Observable.forkJoin(
                       _cacheService.get(
-                        `https://${vstsAccountValue}.visualstudio.com/_apis/Permissions/${
-                          DeploymentCenterConstants.buildSecurityNameSpace
-                        }/${DeploymentCenterConstants.editBuildDefinitionBitMask}?tokens=${currentProject.id}`,
+                        AzureDevOpsService.GetAzureDevOpsUrl().Tfs +
+                          `${vstsAccountValue}/_apis/Permissions/${DeploymentCenterConstants.buildSecurityNameSpace}/${
+                            DeploymentCenterConstants.editBuildDefinitionBitMask
+                          }?tokens=${currentProject.id}`,
                         true,
                         callHeaders
                       ),
                       _cacheService.get(
-                        `https://${vstsAccountValue}.visualstudio.com/_apis/Permissions/${
-                          DeploymentCenterConstants.releaseSecurityNameSpace
-                        }/${DeploymentCenterConstants.editReleaseDefinitionPermission}?tokens=${currentProject.id}`,
+                        AzureDevOpsService.GetAzureDevOpsUrl().Tfs +
+                          `${vstsAccountValue}/_apis/Permissions/${DeploymentCenterConstants.releaseSecurityNameSpace}/${
+                            DeploymentCenterConstants.editReleaseDefinitionPermission
+                          }?tokens=${currentProject.id}`,
                         true,
                         callHeaders
                       ),
                       _cacheService.get(
-                        `https://${vstsAccountValue}.visualstudio.com/${
-                          currentProject.id
-                        }/_apis/distributedtask/queues?queueNames=${DeploymentCenterConstants.agentQueueNames.join(',')}&actionFilter=${
-                          DeploymentCenterConstants.queueActionFilter
-                        }&api-version=5.1-preview.1`,
+                        AzureDevOpsService.GetAzureDevOpsUrl().Tfs +
+                          `${vstsAccountValue}/${
+                            currentProject.id
+                          }/_apis/distributedtask/queues?queueNames=${DeploymentCenterConstants.agentQueueNames.join(',')}&actionFilter=${
+                            DeploymentCenterConstants.queueActionFilter
+                          }&api-version=5.1-preview.1`,
                         true,
                         callHeaders
                       ),
@@ -160,9 +163,10 @@ export class VstsValidators {
   ): Observable<Response> {
     if (_wizard.wizardValues.sourceProvider === 'localgit') {
       return _cacheService.get(
-        `https://${_vstsAccountName}.visualstudio.com/_apis/Permissions/${DeploymentCenterConstants.tfsGitSecurityNameSpace}/${
-          DeploymentCenterConstants.createRepositoryPermission
-        }?tokens=repoV2/${_vstsProjectId}`,
+        AzureDevOpsService.GetAzureDevOpsUrl().Tfs +
+          `${_vstsAccountName}/_apis/Permissions/${DeploymentCenterConstants.tfsGitSecurityNameSpace}/${
+            DeploymentCenterConstants.createRepositoryPermission
+          }?tokens=repoV2/${_vstsProjectId}`,
         true,
         _callHeaders
       );
@@ -186,7 +190,8 @@ export class VstsValidators {
 
     return _cacheService
       .post(
-        `https://${_vstsAccountName}.visualstudio.com/_apis/FeatureManagement/FeatureStatesQuery/host/project/${_vstsProjectId}?api-version=4.1-preview.1`,
+        AzureDevOpsService.GetAzureDevOpsUrl().Tfs +
+          `${_vstsAccountName}/_apis/FeatureManagement/FeatureStatesQuery/host/project/${_vstsProjectId}?api-version=4.1-preview.1`,
         true,
         _callHeaders,
         featureQueryPayload
