@@ -9,12 +9,7 @@ export interface BannerMessageProps {
   type?: MessageBarType;
   text: string;
 }
-
-interface PivotItemContentProps {
-  bannerMessageProps?: BannerMessageProps;
-}
-
-const PivotItemContent: React.SFC<PivotItemContentProps> = props => {
+const PivotItemContent: React.FC<{}> = props => {
   const [bannerMessageProps, setBannerMessageProps] = useState<BannerMessageProps | undefined>(undefined);
   const theme = useContext(ThemeContext);
   const bannerMessageContext = {

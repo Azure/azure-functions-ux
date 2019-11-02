@@ -8,55 +8,10 @@ import InfoBox from '../../../../components/InfoBox/InfoBox';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 
-/*
-
-!write_app
-
-
-!exactRuntimeVersion && !runtimeVersion
-	Banner: '{0}' application setting is missing from your app. Without this setting you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.
-	Current Runtime Version: Loading... | Failed to load.
-
-!exactRuntimeVersion && !!runtimeVersion && isValid
-	Banner: ''
-	Current Runtime Version: Loading... | Failed to load.
-
-!exactRuntimeVersion && !!runtimeVersion && !isValid -> Can't determine this?
-	Banner: Your custom runtime version ({0}) is not supported. As a result the latest runtime version is being used.
-	Current Runtime Version: Loading... | Failed to load.
-
-
-!!exactRuntimeVersion && !runtimeVersion
-	Banner: '{0}' application setting is missing from your app. Without this setting you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.
-	Current Runtime Version: Loading... | {exactRuntimeVersion}
-
-!!exactRuntimeVersion && !!runtimeVersion && isValid && !needsUpdate
-	Banner: ''
-	Current Runtime Version: Loading... | {exactRuntimeVersion}
-
-!!exactRuntimeVersion && !!runtimeVersion && isValid && needsUpdate
-	Banner: You are currently pinned to runtime version: {{exactExtensionVersion}}. You may update to unpin and use the latest: ({{latestExtensionVersion}}).
-	Current Runtime Version: Loading... | {exactRuntimeVersion}
-
-!!exactRuntimeVersion && !!runtimeVersion && !isValid
-	Banner: Your custom runtime version ({0}) is not supported. As a result the latest runtime version ({1}) is being used.
-  Current Runtime Version: Loading... | {exactRuntimeVersion}
-
-
-  hasFunctions
-  waiting -> [disable, all options enabled, LOADING]
-  completed && 0 -> [enable, all options enabled, NO_PLACEHOLDER]
-  failed || (completed) && > 0) -> disableForVersion()
-      configuredRuntimeVersion
-        !custom -> [enable, only one option enabled, NO_PLACEHOLDER]
-        custom ->
-          exactRuntimeVersion ->
-            waiting -> [disable, all options enabled, LOADING]
-            completed -> [enable, only one option enabled, NO_PLACEHOLDER]
-            failed -> [disable, all options enabled, FAILED]
-
-
-*/
+interface BannerMessage {
+  text: string;
+  type?: MessageBarType.info | MessageBarType.warning | MessageBarType.error;
+}
 
 const getFunctionsRuntimeMajorVersion = (version: string | null) => {
   switch (version) {
@@ -94,10 +49,10 @@ const getRuntimeVersion = (appSettings: FormAppSetting[]) => {
 
 const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = props => {
   useEffect(() => {
-    if (bannerMessage) {
+    if (bannerMessage.text) {
       bannerMessageContext.updateBanner({
-        type: MessageBarType.info,
-        text: bannerMessage,
+        text: bannerMessage.text,
+        type: bannerMessage.type,
       });
     } else {
       bannerMessageContext.updateBanner();
@@ -108,37 +63,70 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
   const { t, values, initialValues, asyncData, setFieldValue } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
 
-  const doStuff = () => {
-    if (asyncData.functionsCount.loadingState === 'loading') {
-      return { forcedDisable: true, versionFilter: null, placeHolder: t('loading') };
-    }
-
-    if (asyncData.functionsCount.value === 0) {
-      return { forcedDisable: false, versionFilter: null, placeHolder: '' };
-    }
-
+  const getBannerMessage = () => {
     if (initialRuntimeMajorVersion !== FunctionsRuntimeMajorVersions.custom) {
-      return { forcedDisable: false, versionFilter: initialRuntimeMajorVersion, placeHolder: '' };
+      return { text: '' };
     }
 
-    if (asyncData.functionsHostStatus.loadingState === 'loading') {
-      return { forcedDisable: true, filversionFilterter: null, placeHolder: t('loading') };
-    }
-
-    if (asyncData.functionsHostStatus.loadingState === 'complete') {
+    if (!initialRuntimeVersion) {
       return {
-        forcedDisable: false,
-        versionFilter: parseExactRuntimeVersion(asyncData.functionsHostStatus.value!.properties.version),
-        placeHolder: '',
+        text: exactRuntimeVersion
+          ? t('functionsRuntimeVersionMissingWarning')
+          : t('functionsRuntimeVersionMissingWithExactVersionWarning').format(exactRuntimeVersion),
+        type: MessageBarType.warning,
       };
     }
 
-    // if (asyncData.functionsHostStatus.loadingState === 'failed') {
-    return { forcedDisable: true, versionFilter: null, placeHolder: t('failed') };
-    // }
+    if (initialRuntimeVersion.toLowerCase() === 'latest' || initialRuntimeVersion.toLowerCase() === 'beta') {
+      return {
+        text: exactRuntimeVersion
+          ? t('functionsRuntimeVersionLatestOrBetaWarning').format(initialRuntimeVersion)
+          : t('functionsRuntimeVersionLatestOrBetaWithExactVersionWarning').format(initialRuntimeVersion, exactRuntimeVersion),
+        type: MessageBarType.warning,
+      };
+    }
+
+    if (!exactRuntimeVersion) {
+      return { text: '' };
+    }
+
+    if (initialRuntimeVersion.toLowerCase() === exactRuntimeVersion.toLowerCase().replace(/.0$/, '-alpha')) {
+      return {
+        text: t('functionsRuntimeVersionNeedsUpdateWarning').format(exactRuntimeVersion),
+        type: MessageBarType.warning,
+      };
+    }
+
+    return {
+      text: t('functionsRuntimeVersionInvalidWarning').format(initialRuntimeVersion, exactRuntimeVersion),
+      type: MessageBarType.error,
+    };
   };
 
-  const getOptions = () => {
+  const getDropDown = () => {
+    let versionFilter: FunctionsRuntimeMajorVersions | null = null;
+    let placeHolder = '';
+
+    if (asyncData.functionsCount.loadingState === 'loading') {
+      versionFilter = null;
+      placeHolder = t('loading');
+    } else if (asyncData.functionsCount.value === 0) {
+      versionFilter = null;
+      placeHolder = '';
+    } else if (initialRuntimeMajorVersion !== FunctionsRuntimeMajorVersions.custom) {
+      versionFilter = initialRuntimeMajorVersion;
+      placeHolder = '';
+    } else if (asyncData.functionsHostStatus.loadingState === 'loading') {
+      versionFilter = null;
+      placeHolder = t('loading');
+    } else if (asyncData.functionsHostStatus.loadingState === 'complete') {
+      versionFilter = parseExactRuntimeVersion(asyncData.functionsHostStatus.value!.properties.version);
+      placeHolder = '';
+    } else {
+      versionFilter = null;
+      placeHolder = t('failedToLoad');
+    }
+
     const options: IDropdownOption[] = [
       {
         key: FunctionsRuntimeMajorVersions.v1,
@@ -158,7 +146,6 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
     ];
 
     if (latestCustomRuntimeVersion !== undefined || runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom) {
-      // We need to show the 'custom' option.
       options.unshift({
         key: FunctionsRuntimeMajorVersions.custom,
         text: t('custom'),
@@ -166,7 +153,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
       });
     }
 
-    return options;
+    return { disabledPlaceHolder: placeHolder, versionOptions: options };
   };
 
   const getLatestCustomRuntimeVersion = () => {
@@ -199,101 +186,34 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
 
   const functionsHostStatus = asyncData.functionsHostStatus.value;
   const exactRuntimeVersion = functionsHostStatus && functionsHostStatus.properties.version;
-  // const exactRuntimeGeneration = getFunctionsRuntimeGeneration(exactRuntimeVersion);
-
-  // const hasFunctions = asyncData.functionsCount.value === undefined ? undefined : !!asyncData.functionsCount.value;
 
   const runtimeVersion = getRuntimeVersion(values.appSettings);
-  const initialRuntimeVersion = getRuntimeVersion(initialValues.appSettings);
-
   const runtimeMajorVersion = getFunctionsRuntimeMajorVersion(runtimeVersion);
+
+  const initialRuntimeVersion = getRuntimeVersion(initialValues.appSettings);
   const initialRuntimeMajorVersion = getFunctionsRuntimeMajorVersion(initialRuntimeVersion);
 
-  // const disableRuntimeSelector = false;
+  const { disabledPlaceHolder, versionOptions } = getDropDown();
 
-  const { forcedDisable, versionFilter, placeHolder } = doStuff();
-
-  if (!values.appSettings) {
-    return null;
-  }
-
-  const checkConfiguredVersion = () => {
-    if (!initialRuntimeVersion) {
-      return {
-        needToUpdateVersion: false,
-        latestVersion: FunctionsRuntimeMajorVersions.v3,
-        badRuntimeVersion: false,
-      };
-    }
-
-    if (
-      initialRuntimeVersion === FunctionsRuntimeMajorVersions.v1 ||
-      initialRuntimeVersion === FunctionsRuntimeMajorVersions.v2 ||
-      initialRuntimeVersion === FunctionsRuntimeMajorVersions.v3
-    ) {
-      return {
-        needToUpdateVersion: false,
-        latestVersion: initialRuntimeVersion,
-        badRuntimeVersion: false,
-      };
-    }
-
-    let majorVersion = FunctionsRuntimeMajorVersions.v3;
-    if (initialRuntimeVersion.startsWith('1.')) {
-      majorVersion = FunctionsRuntimeMajorVersions.v1;
-    }
-    if (initialRuntimeVersion.startsWith('2.')) {
-      majorVersion = FunctionsRuntimeMajorVersions.v2;
-    }
-    if (initialRuntimeVersion.startsWith('3.')) {
-      majorVersion = FunctionsRuntimeMajorVersions.v3;
-    }
-
-    return {
-      needToUpdateVersion: true,
-      latestVersion: majorVersion,
-      badRuntimeVersion: !!exactRuntimeVersion && initialRuntimeVersion !== exactRuntimeVersion.replace(/.0$/, '-alpha'),
-    };
-  };
-
-  const { needToUpdateVersion, badRuntimeVersion, latestVersion } = checkConfiguredVersion();
-
-  const bannerMessage =
-    !needToUpdateVersion && !badRuntimeVersion
-      ? latestVersion && exactRuntimeVersion
-        ? t('appFunctionSettings_functionAppSettings2')
-        : t('appFunctionSettings_functionAppSettings_versionLoading')
-      : needToUpdateVersion && !badRuntimeVersion
-      ? latestVersion && exactRuntimeVersion
-        ? t('appFunctionSettings_functionAppSettings1')
-        : t('appFunctionSettings_functionAppSettings_versionLoading')
-      : badRuntimeVersion
-      ? t('appFunctionSettings_functionAppSettings_badVersion')
-      : undefined;
+  const bannerMessage = getBannerMessage() as BannerMessage;
 
   return (
     <>
-      {/* <div>FunctionsCount - Loading State: {asyncData.functionsCount.loadingState}</div>
-      <div>FunctionsHostStatus - LoadingState: {asyncData.functionsHostStatus.loadingState}</div>
-      <br /> */}
       <DropdownNoFormik
-        placeHolder={placeHolder}
+        placeHolder={disabledPlaceHolder}
         value={runtimeMajorVersion}
         dirty={runtimeMajorVersion !== initialRuntimeMajorVersion}
         onChange={(event, option) => onDropDownChange(option.key)}
-        options={getOptions()}
-        disabled={!app_write || !editable || saving || forcedDisable}
+        options={versionOptions}
+        disabled={!app_write || !editable || saving || !!disabledPlaceHolder}
         label={t('runtimeVersion')}
         id="function-app-settings-runtime-version"
-        infoBubbleMessage={bannerMessage}
+        infoBubbleMessage={bannerMessage.text}
         infoBubblePositon={'above'}
+        infoBubbleType={bannerMessage.type}
       />
-      {false && !forcedDisable && runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom && (
-        <InfoBox
-          id="function-app-settings-custom-runtime-version-info"
-          type="Info"
-          message={t('The runtime version is controlled by the FUNCTIONS_EXTENSION_VERSION app setting.')}
-        />
+      {false && !disabledPlaceHolder && runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom && (
+        <InfoBox id="function-app-settings-custom-runtime-version-info" type="Info" message={t('functionsRuntimeVersionCustomInfo')} />
       )}
     </>
   );

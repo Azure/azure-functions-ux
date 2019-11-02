@@ -1,6 +1,6 @@
 import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react/lib/Pivot';
-import PivotItemContent, { BannerMessageProps } from '../../../components/Pivot/PivotItemContent';
-import React, { useRef, useContext, useState } from 'react';
+import PivotItemContent from '../../../components/Pivot/PivotItemContent';
+import React, { useRef, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 
@@ -30,7 +30,6 @@ const pivotStylesOverride = {
 };
 
 const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
-  const [bannerMessageProps, setBannerMessageProps] = useState<BannerMessageProps | undefined>(undefined);
   const theme = useContext(ThemeContext);
   const { values, initialValues, errors } = props;
   const site = useContext(SiteContext);
@@ -73,14 +72,14 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
   return (
-    <Pivot styles={pivotStylesOverride} getTabId={getPivotTabId} onLinkClick={() => setBannerMessageProps(undefined)}>
+    <Pivot styles={pivotStylesOverride} getTabId={getPivotTabId}>
       <PivotItem
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
           CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
         }
         itemKey="applicationSettings"
         linkText={t('applicationSettings')}>
-        <PivotItemContent bannerMessageProps={bannerMessageProps}>
+        <PivotItemContent>
           <ApplicationSettingsPivot {...props} />
         </PivotItemContent>
       </PivotItem>
@@ -92,7 +91,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           }
           itemKey="functionRuntimeSettings"
           linkText={t('functionRuntimeSettings')}>
-          <PivotItemContent bannerMessageProps={bannerMessageProps}>
+          <PivotItemContent>
             <FunctionRuntimeSettingsPivot {...props} />
           </PivotItemContent>
         </PivotItem>
@@ -107,7 +106,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           }
           itemKey="generalSettings"
           linkText={t('generalSettings')}>
-          <PivotItemContent bannerMessageProps={bannerMessageProps}>
+          <PivotItemContent>
             <GeneralSettings {...props} />
           </PivotItemContent>
         </PivotItem>
@@ -122,7 +121,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           }
           itemKey="defaultDocuments"
           linkText={t('defaultDocuments')}>
-          <PivotItemContent bannerMessageProps={bannerMessageProps}>
+          <PivotItemContent>
             <DefaultDocumentsPivot {...props} />
           </PivotItemContent>
         </PivotItem>
@@ -137,7 +136,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           }
           itemKey="pathMappings"
           linkText={t('pathMappings')}>
-          <PivotItemContent bannerMessageProps={bannerMessageProps}>
+          <PivotItemContent>
             <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
           </PivotItemContent>
         </PivotItem>
