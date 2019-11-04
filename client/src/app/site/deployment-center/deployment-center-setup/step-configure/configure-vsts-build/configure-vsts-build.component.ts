@@ -63,7 +63,12 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
       this.wizard.buildSettings
         .get('vstsAccount')
         .setAsyncValidators([
-          VstsValidators.createVstsAccountNameValidator(this.wizard, this._translateService, this._cacheService).bind(this),
+          VstsValidators.createVstsAccountNameValidator(
+            this.wizard,
+            this._translateService,
+            this._azureDevOpsService,
+            this._cacheService
+          ).bind(this),
         ]);
       this.wizard.buildSettings.get('vstsProject').setAsyncValidators([]);
       this.wizard.buildSettings.get('vstsAccount').valueChanges.subscribe(account => {
@@ -141,7 +146,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         }));
       });
 
-    this._cacheService.get(AzureDevOpsService.AzDevRegionsApi, true, this.wizard.getVstsDirectHeaders(false)).subscribe(
+    this._cacheService.get(AzureDevOpsService.AzDevRegionsApi, true, this._azureDevOpsService.getAzDevDirectHeaders(false)).subscribe(
       r => {
         const locationArray: any[] = r.json().value;
         this.locationList = locationArray.map(v => {
