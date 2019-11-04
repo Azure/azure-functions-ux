@@ -61,6 +61,8 @@ export interface SiteConfig {
   localMySqlEnabled: boolean;
   appCommandLine: string;
   ipSecurityRestrictions: IpRestriction[];
+  reservedInstanceCount?: number;
+  functionsRuntimeScaleMonitoringEnabled?: boolean;
 }
 
 export interface IpRestriction {
