@@ -1766,4 +1766,8 @@ export class PortalResources {
   public static deleteBindingNotificationDetails = 'deleteBindingNotificationDetails';
   public static deleteBindingNotificationFailed = 'deleteBindingNotificationFailed';
   public static deleteBindingNotificationSuccess = 'deleteBindingNotificationSuccess';
+  public static createFunctionNotication = 'createFunctionNotication';
+  public static createFunctionNotificationDetails = 'createFunctionNotificationDetails';
+  public static createFunctionNotificationFailed = 'createFunctionNotificationFailed';
+  public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
 }

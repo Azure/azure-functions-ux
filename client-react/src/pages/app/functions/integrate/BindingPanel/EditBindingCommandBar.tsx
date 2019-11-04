@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { CommandBar, ICommandBarItemProps, ICommandBarStyles, ProgressIndicator } from 'office-ui-fabric-react';
 import i18next from 'i18next';
+import { CommandBar, ICommandBarItemProps, ICommandBarStyles, ProgressIndicator } from 'office-ui-fabric-react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
-import { ThemeContext } from '../../../../../ThemeContext';
 import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
+import { ThemeContext } from '../../../../../ThemeContext';
 
 export interface EditBindingCommandBarProps {
   submitForm: () => void;

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FieldProps } from 'formik';
 import { NewConnectionCalloutProps } from './Callout.properties';
 import { useTranslation } from 'react-i18next';
 import CustomPivot from './customPivot/CustomPivot';
@@ -12,7 +11,7 @@ enum RadioState {
   custom = 'custom',
 }
 
-const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps> = props => {
   const { t } = useTranslation();
   const [radioState, setRadioState] = useState<RadioState>(RadioState.serviceBus);
 
