@@ -273,7 +273,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
       this.wizardValues,
       this.siteArm,
       this.subscriptionName,
-      this.getToken(),
       this._vstsApiToken,
       this._azureDevOpsDeploymentMethod
     );
