@@ -53,6 +53,13 @@ export class FunctionAppEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.showFunctionRuntimeSettings] = {
+      id: ScenarioIds.showFunctionRuntimeSettings,
+      runCheck: () => {
+        return { status: 'enabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

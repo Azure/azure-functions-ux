@@ -7,4 +7,5 @@ export const Links = {
   startupFileInfo: 'https://go.microsoft.com/fwlink/?linkid=861969',
   funcConnStringsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=875276',
   mountedStorageLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2088516',
+  runtimeScaleMonitoringLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2104710',
 };
