@@ -445,6 +445,7 @@ export class PortalResources {
   public static configViewReadOnlySettings = 'configViewReadOnlySettings';
   public static configLoadFailure = 'configLoadFailure';
   public static loading = 'loading';
+  public static loadingFailed = 'loadingFailed';
   public static configUpdating = 'configUpdating';
   public static configUpdateSuccess = 'configUpdateSuccess';
   public static configUpdateFailure = 'configUpdateFailure';
@@ -1410,6 +1411,7 @@ export class PortalResources {
   public static debugging = 'debugging';
   public static modifiedTag = 'modifiedTag';
   public static applicationSettings = 'applicationSettings';
+  public static functionRuntimeSettings = 'functionRuntimeSettings';
   public static generalSettings = 'generalSettings';
   public static defaultDocuments = 'defaultDocuments';
   public static pathMappings = 'pathMappings';
@@ -1720,4 +1722,8 @@ export class PortalResources {
   public static closeGetFunctionUrlModal = 'closeGetFunctionUrlModal';
   public static appFunctionSettings_virtualNetworkTriggerSupport = 'appFunctionSettings_virtualNetworkTriggerSupport';
   public static appFunctionSettings_runtimeScalingMonitoredText = 'appFunctionSettings_runtimeScalingMonitoredText';
+  public static appFunctionSettings_runtimeScalingMonitoringMessage = 'appFunctionSettings_runtimeScalingMonitoringMessage';
+  public static appFunctionSettings_cutomRuntimeVersionError = 'appFunctionSettings_cutomRuntimeVersionError';
+  public static appFunctionSettings_cutomRuntimeVersionPlaceholder = 'appFunctionSettings_cutomRuntimeVersionPlaceholder';
+  public static readWritePermissionsRequired = 'readWritePermissionsRequired';
 }
