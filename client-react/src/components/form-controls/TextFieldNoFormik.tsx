@@ -4,7 +4,7 @@ import ReactiveFormControl from './ReactiveFormControl';
 import { useWindowSize } from 'react-use';
 import { ThemeContext } from '../../ThemeContext';
 import { textFieldStyleOverrides, copyButtonStyle } from './formControl.override.styles';
-import { TooltipHost } from 'office-ui-fabric-react';
+import { TooltipHost, MessageBarType } from 'office-ui-fabric-react';
 import IconButton from '../IconButton/IconButton';
 import { useTranslation } from 'react-i18next';
 import { TextUtilitiesService } from '../../utils/textUtilities';
@@ -13,6 +13,8 @@ interface CustomTextFieldProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
+  infoBubblePositon?: 'above' | 'right' | 'below';
+  infoBubbleType?: MessageBarType.info | MessageBarType.warning | MessageBarType.error | undefined;
   label?: string;
   learnMoreLink?: string;
   dirty?: boolean;

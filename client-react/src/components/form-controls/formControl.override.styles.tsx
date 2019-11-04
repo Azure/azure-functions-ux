@@ -60,7 +60,7 @@ export const controlContainerStyle = (upsellIcon: boolean, fullpage: boolean) =>
 
 export const upsellIconStyle = style({ marginRight: '6px' });
 
-export const infoMessageStyle = (fullpage: boolean) =>
+export const infoMessageStyle = (fullpage?: boolean) =>
   style({
     paddingLeft: fullpage ? '10px' : 0,
     paddingTop: fullpage ? 0 : '5px',
