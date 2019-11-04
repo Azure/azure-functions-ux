@@ -8,9 +8,9 @@ import { BindingInfo } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import PortalCommunicator from '../../../../../portal-communicator';
 import { ThemeContext } from '../../../../../ThemeContext';
+import { ClosedReason } from '../BindingPanel/BindingEditor';
 import { BindingEditorContextInfo } from '../FunctionIntegrate';
 import { cardStyle, headerStyle } from './BindingDiagram.styles';
-import { ClosedReason } from '../binding-editor/BindingEditor';
 
 export interface BindingCardChildProps {
   functionInfo: ArmObj<FunctionInfo>;
