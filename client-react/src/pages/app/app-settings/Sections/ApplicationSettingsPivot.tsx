@@ -20,6 +20,7 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
   const scenarioChecker = new ScenarioService(t);
   const showFunctionAppMessage =
     scenarioChecker.checkScenario(ScenarioIds.showConnnectionStringFunctionInfo, { site }).status === 'enabled';
+
   return (
     <>
       <h3>{t('applicationSettings')}</h3>

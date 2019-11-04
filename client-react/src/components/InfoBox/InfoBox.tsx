@@ -4,7 +4,7 @@ import { ThemeContext } from '../../ThemeContext';
 import { Stack, Icon, Link } from 'office-ui-fabric-react';
 import { infoIconStyle, warningIconStyle, errorIconStyle, learnMoreLinkStyle } from '../form-controls/formControl.override.styles';
 
-interface InfoBoxProps {
+export interface InfoBoxProps {
   id: string;
   type?: 'Info' | 'Warning' | 'Error';
   message: string;

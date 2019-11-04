@@ -445,6 +445,7 @@ export class PortalResources {
   public static configViewReadOnlySettings = 'configViewReadOnlySettings';
   public static configLoadFailure = 'configLoadFailure';
   public static loading = 'loading';
+  public static loadingFailed = 'loadingFailed';
   public static configUpdating = 'configUpdating';
   public static configUpdateSuccess = 'configUpdateSuccess';
   public static configUpdateFailure = 'configUpdateFailure';
@@ -1409,6 +1410,7 @@ export class PortalResources {
   public static debugging = 'debugging';
   public static modifiedTag = 'modifiedTag';
   public static applicationSettings = 'applicationSettings';
+  public static functionRuntimeSettings = 'functionRuntimeSettings';
   public static generalSettings = 'generalSettings';
   public static defaultDocuments = 'defaultDocuments';
   public static pathMappings = 'pathMappings';
@@ -1771,4 +1773,13 @@ export class PortalResources {
   public static createFunctionNotificationDetails = 'createFunctionNotificationDetails';
   public static createFunctionNotificationFailed = 'createFunctionNotificationFailed';
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
+  public static appFunctionSettings_runtimeScalingMonitoringMessage = 'appFunctionSettings_runtimeScalingMonitoringMessage';
+  public static readWritePermissionsRequired = 'readWritePermissionsRequired';
+  public static functionsRuntimeVersionMissingWarning = 'functionsRuntimeVersionMissingWarning';
+  public static functionsRuntimeVersionMissingWithExactVersionWarning = 'functionsRuntimeVersionMissingWithExactVersionWarning';
+  public static functionsRuntimeVersionLatestOrBetaWarning = 'functionsRuntimeVersionLatestOrBetaWarning';
+  public static functionsRuntimeVersionLatestOrBetaWithExactVersionWarning = 'functionsRuntimeVersionLatestOrBetaWithExactVersionWarning';
+  public static functionsRuntimeVersionNeedsUpdateWarning = 'functionsRuntimeVersionNeedsUpdateWarning';
+  public static functionsRuntimeVersionInvalidWarning = 'functionsRuntimeVersionInvalidWarning';
+  public static functionsRuntimeVersionCustomInfo = 'functionsRuntimeVersionCustomInfo';
 }
