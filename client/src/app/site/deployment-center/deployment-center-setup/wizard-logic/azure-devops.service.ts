@@ -191,11 +191,11 @@ export class AzureDevOpsService implements OnDestroy {
     wizardValues: WizardForm,
     siteArm: ArmObj<Site>,
     subscriptionName: string,
-    azureAuthToken: string,
     azureDevOpsAuthToken: string,
     azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod
   ): ProvisioningConfigurationBase {
     let deploymentObject: ProvisioningConfigurationBase;
+    const azureAuthToken = `Bearer ${this._token}`;
 
     if (
       azureDevOpsDeploymentMethod === AzureDevOpsDeploymentMethod.UsePublishProfile ||

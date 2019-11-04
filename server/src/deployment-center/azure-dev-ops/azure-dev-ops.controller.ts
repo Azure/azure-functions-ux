@@ -2,6 +2,19 @@ import { Controller, Post, Query, Req, Body, Header, Res, HttpException } from '
 import { DeploymentCenterService } from '../deployment-center.service';
 import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
+
+interface Authorization {
+  parameters: { [key: string]: string };
+  scheme: string;
+}
+
+interface CodeRepository {
+  authorizationInfo: Authorization;
+  defaultBranch: string;
+  type: string;
+  id?: string;
+}
+
 @Controller('api')
 export class AzureDevOpsController {
   constructor(private dcService: DeploymentCenterService, private loggingService: LoggingService, private httpService: HttpService) {}
@@ -17,7 +30,8 @@ export class AzureDevOpsController {
     }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
 
     const passHeaders = req.headers;
-    let repository: any = null;
+
+    let repository: CodeRepository = null;
     if (body.source && body.source.repository) {
       repository = body.source.repository;
     } else if (body.repository) {
