@@ -88,7 +88,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
       newShownValues = values.connectionStrings.map(x => x.name);
     }
     setShownValues(newShownValues);
-    setShowAllValues(showAllValues);
+    setShowAllValues(!showAllValues);
   };
 
   const createNewItem = () => {
