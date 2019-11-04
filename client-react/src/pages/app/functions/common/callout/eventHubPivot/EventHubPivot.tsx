@@ -3,12 +3,10 @@ import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react
 import { useTranslation } from 'react-i18next';
 import LoadingComponent from '../../../../../../components/loading/loading-component';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
-import { FieldProps } from 'formik/dist/Field';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Namespace, EventHub, AuthorizationRule, KeyList } from '../../../../../../models/eventhub';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { FormikProps, Formik } from 'formik';
-import { BindingEditorFormValues } from '../../BindingFormBuilder';
 import { EventHubPivotContext } from './EventHubPivotDataLoader';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
@@ -19,7 +17,7 @@ export interface EventHubPivotFormValues {
   policy: ArmObj<AuthorizationRule> | undefined;
 }
 
-const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const EventHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
   const provider = useContext(EventHubPivotContext);
   const { t } = useTranslation();
   const { resourceId } = props;
@@ -114,9 +112,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props =
   return (
     <Formik
       initialValues={formValues}
-      onSubmit={() =>
-        setEventHubConnection(formValues.namespace, keyList, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)
-      }>
+      onSubmit={() => setEventHubConnection(formValues, keyList, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)}>
       {(formProps: FormikProps<EventHubPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
@@ -184,19 +180,30 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props =
 };
 
 const setEventHubConnection = (
-  selectedNamespace: ArmObj<Namespace> | undefined,
+  formValues: EventHubPivotFormValues,
   keyList: KeyList | undefined,
-  setNewAppSettingName: (e: string) => void,
-  setIsDialogVisible: (d: boolean) => void,
-  formProps: FormikProps<BindingEditorFormValues>,
-  field: { name: string; value: any }
+  setNewAppSetting: (a: { key: string; value: string }) => void,
+  setSelectedItem: (u: undefined) => void,
+  setIsDialogVisible: (b: boolean) => void
 ) => {
-  if (selectedNamespace && keyList) {
-    const appSettingName = `${selectedNamespace.name}_${keyList.keyName}_EVENTHUB`;
-    formProps.setFieldValue(field.name, appSettingName);
-    setNewAppSettingName(appSettingName);
+  if (formValues.namespace && formValues.eventHub && keyList) {
+    const appSettingName = `${formValues.namespace.name}_${keyList.keyName}_EVENTHUB`;
+    const appSettingValue = formatEventHubValue(keyList, formValues.eventHub);
+    setNewAppSetting({ key: appSettingName, value: appSettingValue });
+    setSelectedItem(undefined);
     setIsDialogVisible(false);
   }
+};
+
+const formatEventHubValue = (keyList: KeyList, eventHub: ArmObj<EventHub>): string => {
+  let appSettingValue = keyList.primaryConnectionString;
+
+  // Runtime requires entitypath for all event hub connections strings,
+  // so if it's namespace policy add entitypath as selected eventhub
+  if (appSettingValue.toLowerCase().indexOf('entitypath') === -1) {
+    appSettingValue = `${appSettingValue};EntityPath=${eventHub.name}`;
+  }
+  return appSettingValue;
 };
 
 export default EventHubPivot;

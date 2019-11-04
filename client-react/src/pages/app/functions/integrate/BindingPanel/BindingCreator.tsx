@@ -6,7 +6,7 @@ import ActionBar from '../../../../../components/ActionBar';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { FormControlWrapper, Layout } from '../../../../../components/FormControlWrapper/FormControlWrapper';
 import LoadingComponent from '../../../../../components/loading/loading-component';
-import { BindingConfigDirection, BindingsConfig, BindingConfigMetadata } from '../../../../../models/functions/bindings-config';
+import { BindingConfigDirection, BindingConfigMetadata, BindingsConfig } from '../../../../../models/functions/bindings-config';
 import { BindingInfo, BindingType } from '../../../../../models/functions/function-binding';
 import { BindingEditorFormValues, BindingFormBuilder } from '../../common/BindingFormBuilder';
 import { getBindingDirection } from './BindingEditor';

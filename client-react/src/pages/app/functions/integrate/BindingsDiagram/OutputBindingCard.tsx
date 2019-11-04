@@ -1,19 +1,19 @@
-import React, { useContext } from 'react';
-import BindingCard, { BindingCardChildProps, emptyList, editExisting, createNew } from './BindingCard';
-import { ReactComponent as OutputSvg } from '../../../../../images/Common/output.svg';
-import { useTranslation } from 'react-i18next';
-import { ThemeContext } from '../../../../../ThemeContext';
-import { PortalContext } from '../../../../../PortalContext';
-import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
-import { BindingInfo } from '../../../../../models/functions/function-binding';
-import { getBindingConfigDirection } from '../binding-editor/BindingEditor';
-import { BindingConfigDirection } from '../../../../../models/functions/bindings-config';
-import PortalCommunicator from '../../../../../portal-communicator';
-import { ArmObj } from '../../../../../models/arm-obj';
-import { FunctionInfo } from '../../../../../models/functions/function-info';
 import i18next from 'i18next';
-import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { Link } from 'office-ui-fabric-react';
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ReactComponent as OutputSvg } from '../../../../../images/Common/output.svg';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { BindingConfigDirection } from '../../../../../models/functions/bindings-config';
+import { BindingInfo } from '../../../../../models/functions/function-binding';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import PortalCommunicator from '../../../../../portal-communicator';
+import { PortalContext } from '../../../../../PortalContext';
+import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
+import { ThemeContext } from '../../../../../ThemeContext';
+import { getBindingConfigDirection } from '../BindingPanel/BindingEditor';
+import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
+import BindingCard, { BindingCardChildProps, createNew, editExisting, emptyList } from './BindingCard';
 import { listStyle } from './BindingDiagram.styles';
 
 const OutputBindingCard: React.SFC<BindingCardChildProps> = props => {

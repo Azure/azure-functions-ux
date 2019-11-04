@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
 import { NewConnectionCalloutProps } from '../Callout.properties';
-import { FieldProps, Formik, FormikProps } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import { DefaultButton, TextField } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
-import { BindingEditorFormValues } from '../../BindingFormBuilder';
-
 interface CustomPivotFormValues {
   name: string | undefined;
 }
 
-const NewPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const NewPivot: React.SFC<NewConnectionCalloutProps> = props => {
   const { t } = useTranslation();
   const [formValues, setFormValues] = useState<CustomPivotFormValues>({ name: undefined });
 
   return (
     <Formik
       initialValues={formValues}
-      onSubmit={() => setNewConnection(formValues, props.setNewAppSettingName, props.setIsDialogVisible, props.form, props.field)}>
+      onSubmit={() => setNewConnection(formValues, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)}>
       {(formProps: FormikProps<CustomPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
@@ -41,15 +39,14 @@ const NewPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
 
 const setNewConnection = (
   formValues: CustomPivotFormValues,
-  setNewAppSettingName: (e: string) => void,
-  setIsDialogVisible: (d: boolean) => void,
-  formProps: FormikProps<BindingEditorFormValues>,
-  field: { name: string; value: any }
+  setNewAppSetting: (a: { key: string; value: string }) => void,
+  setSelectedItem: (u: undefined) => void,
+  setIsDialogVisible: (b: boolean) => void
 ) => {
   if (formValues.name) {
     const appSettingName = formValues.name;
-    formProps.setFieldValue(field.name, appSettingName);
-    setNewAppSettingName(appSettingName);
+    setNewAppSetting({ key: appSettingName, value: appSettingName });
+    setSelectedItem(undefined);
     setIsDialogVisible(false);
   }
 };

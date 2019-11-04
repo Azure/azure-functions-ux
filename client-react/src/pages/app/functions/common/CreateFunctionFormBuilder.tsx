@@ -29,6 +29,8 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
   public getInitialFormValues() {
     const functionNameValue = { functionName: this._getInitialFunctionName() };
     const bindingFormValues = super.getInitialFormValues();
+    delete bindingFormValues.direction;
+    delete bindingFormValues.type;
     return Object.assign({}, functionNameValue, bindingFormValues) as CreateFunctionFormValues;
   }
 

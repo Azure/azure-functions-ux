@@ -11,7 +11,7 @@ import PortalCommunicator from '../../../../../portal-communicator';
 import { PortalContext } from '../../../../../PortalContext';
 import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../ThemeContext';
-import { getBindingConfigDirection } from '../binding-editor/BindingEditor';
+import { getBindingConfigDirection } from '../BindingPanel/BindingEditor';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
 import BindingCard, { BindingCardChildProps, createNew, editExisting, emptyList } from './BindingCard';
 import { listStyle } from './BindingDiagram.styles';

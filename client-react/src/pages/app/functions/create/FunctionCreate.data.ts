@@ -4,6 +4,10 @@ import { CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { BindingEditorFormValues } from '../common/BindingFormBuilder';
 import { FunctionConfig } from '../../../../models/functions/function-config';
+import PortalCommunicator from '../../../../portal-communicator';
+import i18next from 'i18next';
+import { ArmObj } from '../../../../models/arm-obj';
+import SiteService from '../../../../ApiHelpers/SiteService';
 
 export default class FunctionCreateData {
   public getTemplates() {
@@ -18,9 +22,65 @@ export default class FunctionCreateData {
     return FunctionsService.getBindingConfigMetadata();
   }
 
-  public createFunction(resourceId: string, functionTemplate: FunctionTemplate, formValues: CreateFunctionFormValues) {
+  public createFunction(
+    portalCommunicator: PortalCommunicator,
+    t: i18next.TFunction,
+    resourceId: string,
+    functionTemplate: FunctionTemplate,
+    formValues: CreateFunctionFormValues
+  ) {
+    if (formValues.newAppSettings) {
+      this._updateAppSettings(portalCommunicator, t, resourceId, formValues.newAppSettings);
+    }
     const config = this._buildFunctionConfig(functionTemplate.function.bindings, formValues);
-    FunctionsService.createFunction(resourceId, formValues.functionName, functionTemplate.files, config);
+    this._createNewFunction(portalCommunicator, t, resourceId, formValues.functionName, functionTemplate.files, config);
+  }
+
+  private _createNewFunction(
+    portalCommunicator: PortalCommunicator,
+    t: i18next.TFunction,
+    resourceId: string,
+    functionName: string,
+    functionFiles: any,
+    functionConfig: FunctionConfig
+  ) {
+    const notificationId = portalCommunicator.startNotification(
+      t('createFunctionNotication'),
+      t('createFunctionNotificationDetails').format(functionName)
+    );
+
+    FunctionsService.createFunction(resourceId, functionName, functionFiles, functionConfig).then(r => {
+      if (!r.metadata.success) {
+        const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
+        portalCommunicator.stopNotification(
+          notificationId,
+          false,
+          t('createFunctionNotificationFailed').format(functionName, errorMessage)
+        );
+        return;
+      }
+
+      portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
+    });
+  }
+
+  private _updateAppSettings(
+    portalCommunicator: PortalCommunicator,
+    t: i18next.TFunction,
+    resourceId: string,
+    appSettings: ArmObj<{ [key: string]: string }>
+  ) {
+    const notificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
+
+    SiteService.updateApplicationSettings(resourceId, appSettings).then(r => {
+      if (!r.metadata.success) {
+        const errorMessage = r.metadata.error ? r.metadata.error.Message : t('configUpdateFailure');
+        portalCommunicator.stopNotification(notificationId, false, errorMessage);
+        return;
+      }
+
+      portalCommunicator.stopNotification(notificationId, true, t('configUpdateSuccess'));
+    });
   }
 
   private _buildFunctionConfig(defaultBindingInfo: BindingInfo[], formValues: BindingEditorFormValues): FunctionConfig {

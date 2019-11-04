@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FieldProps } from 'formik';
 import { NewConnectionCalloutProps } from './Callout.properties';
 import { useTranslation } from 'react-i18next';
 import EventHubPivotDataLoader from './eventHubPivot/EventHubPivotDataLoader';
@@ -14,7 +13,7 @@ enum RadioState {
   custom = 'custom',
 }
 
-const NewEventHubConnectionCallout: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const NewEventHubConnectionCallout: React.SFC<NewConnectionCalloutProps> = props => {
   const { t } = useTranslation();
   const [radioState, setRadioState] = useState<RadioState>(RadioState.eventHub);
 
