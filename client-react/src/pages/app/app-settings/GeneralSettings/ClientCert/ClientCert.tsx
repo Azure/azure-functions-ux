@@ -17,6 +17,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const disableAllControls = !app_write || !editable || saving;
   const [showPanel, setShowPanel] = useState(false);
 
   const scenarioChecker = new ScenarioService(t);
@@ -40,7 +41,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           dirty={values.site.properties.clientCertEnabled !== initialValues.site.properties.clientCertEnabled}
           component={RadioButton}
           label={t('requireIncomingClientCertificates')}
-          disabled={!app_write || !editable || saving || clientCertEnabled.status === 'disabled'}
+          disabled={disableAllControls || clientCertEnabled.status === 'disabled'}
           upsellMessage={clientCertEnabled.status === 'disabled' ? clientCertEnabled.data : ''}
           id="incoming-client-certificate-enabled"
           options={[
@@ -82,7 +83,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
               id={`edit-client-cert-exclusion-paths`}
               ariaLabel={t('editCertificateExlusionPaths')}
               title={t('editCertificateExlusionPaths')}
-              disabled={!app_write || !editable || saving}
+              disabled={disableAllControls}
               onClick={openClientExclusionPathPane}
             />
           </Stack>

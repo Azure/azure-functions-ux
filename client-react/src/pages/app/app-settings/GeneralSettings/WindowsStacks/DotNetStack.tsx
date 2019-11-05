@@ -17,6 +17,7 @@ type Props = StateProps & FormikProps<AppSettingsFormValues>;
 const DotNetStack: React.SFC<Props> = props => {
   const { stacks, values, initialValues } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const disableAllControls = !app_write || !editable || saving;
   const { t } = useTranslation();
   const aspNetStack = stacks.find(x => x.name === 'aspnet');
   if (!aspNetStack) {
@@ -33,7 +34,7 @@ const DotNetStack: React.SFC<Props> = props => {
       fullpage
       label={t('netFrameWorkVersionLabel')}
       id="netValidationVersion"
-      disabled={!app_write || !editable || saving}
+      disabled={disableAllControls}
       options={aspNetStack!.properties.majorVersions.map(x => ({
         key: x.runtimeVersion,
         text: x.displayVersion,

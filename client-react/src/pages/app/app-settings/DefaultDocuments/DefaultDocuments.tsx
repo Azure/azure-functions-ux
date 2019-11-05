@@ -13,10 +13,12 @@ import { dirtyElementStyle } from '../AppSettings.styles';
 const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const [focusLast, setFocusLast] = useState(false);
   const { t } = useTranslation();
+
   const theme = useContext(ThemeContext);
 
   let lastFieldRef: HTMLInputElement;
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const disableAllControls = !app_write || !editable || saving;
   // This is a hook that is run after render if finished
   useEffect(() => {
     if (focusLast) {
@@ -72,7 +74,7 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
     <>
       <ActionButton
         id="app-settings-new-default-document-button"
-        disabled={!app_write || !editable || saving}
+        disabled={disableAllControls}
         onClick={createNewItem}
         styles={{ root: { marginTop: '5px' } }}
         iconProps={{ iconName: 'Add' }}
@@ -94,7 +96,7 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
                 componentRef={field => {
                   lastFieldRef = field;
                 }}
-                disabled={!app_write || !editable || saving}
+                disabled={disableAllControls}
                 id={`app-settings-document-text-${index}`}
                 ariaLabel={t('defaultDocuments')}
                 underlined
@@ -110,7 +112,7 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
             </div>
             <IconButton
               id={`app-settings-document-delete-${index}`}
-              disabled={!app_write || !editable || saving}
+              disabled={disableAllControls}
               style={{ display: 'inline-block', width: '16px' }}
               iconProps={{ iconName: 'Delete' }}
               title={t('delete')}

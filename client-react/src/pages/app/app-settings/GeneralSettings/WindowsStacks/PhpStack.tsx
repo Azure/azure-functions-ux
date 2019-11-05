@@ -18,6 +18,7 @@ const PhpStack: React.SFC<Props> = props => {
   const { stacks, values, initialValues } = props;
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const disableAllControls = !app_write || !editable || saving;
   const phpStack = stacks.find(x => x.name === 'php');
   if (!phpStack) {
     return null;
@@ -33,7 +34,7 @@ const PhpStack: React.SFC<Props> = props => {
       fullpage
       label={t('phpVersion')}
       id="phpVersion"
-      disabled={!app_write || !editable || saving}
+      disabled={disableAllControls}
       options={phpStack!.properties.majorVersions.map(x => ({
         key: x.runtimeVersion,
         text: x.displayVersion,

@@ -23,6 +23,7 @@ export interface VirtualApplicationsState {
 }
 const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const disableAllControls = !app_write || !editable || saving;
   const theme = useContext(ThemeContext);
 
   const [showPanel, setShowPanel] = useState(false);
@@ -37,7 +38,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       {
         key: 'app-settings-new-virtual-app-button',
         onClick: createVirtualApplication,
-        disabled: !app_write || !editable || saving,
+        disabled: disableAllControls,
         iconProps: { iconName: 'Add' },
         ariaLabel: t('addNewVirtualDirectory'),
         name: t('addNewVirtualDirectoryV3'),
@@ -130,7 +131,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!app_write || !editable || saving}
+            disabled={disableAllControls}
             id={`app-settings-virtual-applications-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -148,7 +149,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!app_write || !editable || saving}
+            disabled={disableAllControls}
             id={`app-settings-virtual-applications-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}

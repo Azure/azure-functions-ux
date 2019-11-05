@@ -76,13 +76,14 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
   }
 
   private _getCommandBarItems = (): ICommandBarItemProps[] => {
-    const { editable } = this.context;
+    const { app_write, editable, saving } = this.context;
+    const disableAllControls = !app_write || !editable || saving;
     const { t, values } = this.props;
     return [
       {
         key: 'app-settings-new-azure-storage-mount-button',
         onClick: this._createNewItem,
-        disabled: !editable || values.azureStorageMounts.length >= 5,
+        disabled: disableAllControls || values.azureStorageMounts.length >= 5,
         iconProps: { iconName: 'Add' },
         text: t('newAzureStorageMount'),
       },
@@ -147,7 +148,8 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
 
   private onRenderItemColumn = (item: FormAzureStorageMounts, index: number, column: IColumn) => {
     const { t } = this.props;
-    const { editable } = this.context;
+    const { app_write, editable, saving } = this.context;
+    const disableAllControls = !app_write || !editable || saving;
     if (!column || !item) {
       return null;
     }
@@ -161,7 +163,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!editable}
+            disabled={disableAllControls}
             id={`app-settings-storage-mounts-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -179,7 +181,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!editable}
+            disabled={disableAllControls}
             id={`app-settings-storage-mounts-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}

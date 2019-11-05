@@ -9,6 +9,7 @@ import { PermissionsContext, AvailableStacksContext } from '../Contexts';
 const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const disableAllControls = !app_write || !editable || saving;
   const availableStacks = useContext(AvailableStacksContext);
   const [enabledStack, setEnabledStack] = useState(false);
 
@@ -44,7 +45,7 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           component={RadioButton}
           fullpage
           label={t('remoteDebuggingEnabledLabel')}
-          disabled={!app_write || !editable || saving || !enabledStack}
+          disabled={disableAllControls || !enabledStack}
           id="remote-debugging-switch"
           infoBubbleMessage={!enabledStack && t('remoteDebuggingNotAvailableForRuntimeStack')}
           options={[

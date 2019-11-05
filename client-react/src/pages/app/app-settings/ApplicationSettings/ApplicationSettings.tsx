@@ -21,6 +21,7 @@ const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAd
 
 const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { production_write, editable, saving } = useContext(PermissionsContext);
+  const disableAllControls = !editable || saving;
   const [showPanel, setShowPanel] = useState(false);
   const [panelItem, setPanelItem] = useState('add');
   const [currentAppSetting, setCurrentAppSetting] = useState<FormAppSetting | null>(null);
@@ -41,7 +42,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       {
         key: 'app-settings-application-settings-add',
         onClick: createNewItem,
-        disabled: !editable || saving,
+        disabled: disableAllControls,
         iconProps: { iconName: 'Add' },
         name: t('newApplicationSetting'),
         ariaLabel: t('addNewSetting'),
@@ -55,7 +56,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       {
         key: 'app-settings-application-settings-bulk-edit',
         onClick: openBulkEdit,
-        disabled: !editable || saving,
+        disabled: disableAllControls,
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
       },
@@ -170,7 +171,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!editable || saving}
+            disabled={disableAllControls}
             id={`app-settings-application-settings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -188,7 +189,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!editable || saving}
+            disabled={disableAllControls}
             id={`app-settings-application-settings-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}
@@ -235,7 +236,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
       return (
         <ActionButton
           className={defaultCellStyle}
-          disabled={!editable || saving}
+          disabled={disableAllControls}
           id={`app-settings-application-settings-name-${index}`}
           onClick={() => onShowPanel(item)}>
           <span aria-live="assertive" role="region">
