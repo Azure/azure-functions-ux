@@ -37,7 +37,6 @@ import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 export interface AppSettingsDataLoaderProps {
   children: (props: {
     initialFormValues: AppSettingsFormValues | null;
-    saving: boolean;
     scaleUpPlan: () => void;
     refreshAppSettings: () => void;
     onSubmit: (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => void;
@@ -257,11 +256,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   return (
     <AvailableStacksContext.Provider value={currentAvailableStacks}>
-      <PermissionsContext.Provider value={{ editable, app_write: appPermissions, production_write: productionPermissions }}>
+      <PermissionsContext.Provider value={{ editable, saving, app_write: appPermissions, production_write: productionPermissions }}>
         <StorageAccountsContext.Provider value={storageAccountsState}>
           <SiteContext.Provider value={currentSiteNonForm}>
             <SlotsListContext.Provider value={slotList}>
-              {children({ onSubmit, scaleUpPlan, refreshAppSettings, saving, initialFormValues: initialValues })}
+              {children({ onSubmit, scaleUpPlan, refreshAppSettings, initialFormValues: initialValues })}
             </SlotsListContext.Provider>
           </SiteContext.Provider>
         </StorageAccountsContext.Provider>
