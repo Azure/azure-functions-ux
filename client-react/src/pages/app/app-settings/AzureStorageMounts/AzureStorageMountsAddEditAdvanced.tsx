@@ -1,14 +1,18 @@
-import React from 'react';
-import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
+import React, { useContext } from 'react';
+import { AzureStorageMountsAddEditPropsCombined, messageBanner } from './AzureStorageMountsAddEdit';
 import { FormikProps, Field } from 'formik';
 import { FormAzureStorageMounts } from '../AppSettings.types';
 import TextField from '../../../../components/form-controls/TextField';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { useTranslation } from 'react-i18next';
+import { StorageType } from '../../../../models/site/config';
+import { MessageBar, MessageBarType, Link } from 'office-ui-fabric-react';
+import { ThemeContext } from '../../../../ThemeContext';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
-  const { errors } = props;
+  const { errors, values } = props;
   const { t } = useTranslation();
+  const theme = useContext(ThemeContext);
 
   return (
     <>
@@ -34,6 +38,18 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
           },
         ]}
       />
+      {values.type === StorageType.azureBlob && (
+        <MessageBar
+          id="azure-storage-mount-blob-warning"
+          isMultiline={false}
+          className={messageBanner(theme)}
+          messageBarType={MessageBarType.info}>
+          {t('readonlyBlobStorageWarning')}
+          <Link href={'https://go.microsoft.com/fwlink/?linkid=2110146'} target="_blank">
+            {t('learnMore')}
+          </Link>
+        </MessageBar>
+      )}
       <Field
         component={TextField}
         name="shareName"

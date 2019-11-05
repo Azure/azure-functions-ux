@@ -5484,4 +5484,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>Successfully created {0}</value>
     </data>
+    <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>Mounted Blob contains will become read only in Feb 2020.</value>
+    </data>
 </root>

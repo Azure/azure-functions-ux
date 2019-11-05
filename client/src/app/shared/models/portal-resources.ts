@@ -1770,4 +1770,5 @@ export class PortalResources {
   public static createFunctionNotificationDetails = 'createFunctionNotificationDetails';
   public static createFunctionNotificationFailed = 'createFunctionNotificationFailed';
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
+  public static readonlyBlobStorageWarning = 'readonlyBlobStorageWarning';
 }
