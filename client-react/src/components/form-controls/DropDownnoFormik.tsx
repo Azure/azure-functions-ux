@@ -5,16 +5,19 @@ import { ThemeContext } from '../../ThemeContext';
 import { dropdownStyleOverrides } from './formControl.override.styles';
 import { useWindowSize } from 'react-use';
 import ReactiveFormControl from './ReactiveFormControl';
+import { MessageBarType } from 'office-ui-fabric-react';
 
 interface CustomDropdownProps {
   id: string;
+  onChange: (e: unknown, option: IDropdownOption) => void;
   upsellMessage?: string;
   infoBubbleMessage?: string;
+  infoBubblePositon?: 'above' | 'right' | 'below';
+  infoBubbleType?: MessageBarType.info | MessageBarType.warning | MessageBarType.error;
   label?: string;
   errorMessage?: string;
   dirty?: boolean;
   value?: string;
-  onChange: (e: unknown, option: IDropdownOption) => void;
   learnMoreLink?: string;
   widthOverride?: string;
 }
