@@ -3,6 +3,7 @@ import { ChoiceGroup, IChoiceGroupProps, IChoiceGroupOption } from 'office-ui-fa
 import { style } from 'typestyle';
 import { getChoiceGroupStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
 import ReactiveFormControl from './ReactiveFormControl';
+import { MessageBarType } from 'office-ui-fabric-react';
 
 interface RadioButtonProps {
   id: string;
@@ -10,6 +11,8 @@ interface RadioButtonProps {
   subLabel?: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
+  infoBubblePositon?: 'above' | 'right' | 'below';
+  infoBubbleType?: MessageBarType.info | MessageBarType.warning | MessageBarType.error;
   learnMore?: {
     learnMoreLink: string;
     learnMoreText: string;
