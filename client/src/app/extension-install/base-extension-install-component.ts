@@ -269,7 +269,7 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
           this.pollInstallationStatus(timeOut + 1);
         });
       } else {
-        this.bringHostOnline();
+        this.pollHostStatus(0, 'Running');
       }
     }, 1000);
   }
