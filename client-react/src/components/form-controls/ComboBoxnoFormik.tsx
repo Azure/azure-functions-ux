@@ -5,16 +5,19 @@ import { ThemeContext } from '../../ThemeContext';
 import { comboboxStyleOverrides } from './formControl.override.styles';
 import { useWindowSize } from 'react-use';
 import ReactiveFormControl from './ReactiveFormControl';
+import { MessageBarType } from 'office-ui-fabric-react';
 
 interface CustomComboboxProps {
   id: string;
-  upsellMessage?: string;
-  infoBubbleMessage?: string;
   label: string;
-  errorMessage?: string;
-  dirty?: boolean;
   value: string;
   onChange: (e: unknown, option: IComboBoxOption) => void;
+  upsellMessage?: string;
+  infoBubbleMessage?: string;
+  infoBubblePositon?: 'above' | 'right' | 'below';
+  infoBubbleType?: MessageBarType.info | MessageBarType.warning | MessageBarType.error;
+  errorMessage?: string;
+  dirty?: boolean;
   learnMoreLink?: string;
 }
 
