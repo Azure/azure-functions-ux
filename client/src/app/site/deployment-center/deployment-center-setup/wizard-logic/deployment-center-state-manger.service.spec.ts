@@ -149,21 +149,6 @@ describe('Deployment State Manager', () => {
     it('build settings returns null if uninitialized', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
       expect(service.buildSettings).toBeNull();
     }));
-
-    it('should be get deployment slot settings form group', inject(
-      [DeploymentCenterStateManager],
-      (service: DeploymentCenterStateManager) => {
-        service.wizardForm = starterWizardForm();
-        expect(service.deploymentSlotSetting.value.deploymentSlot).toBe('slot');
-      }
-    ));
-
-    it('deployment slot settings returns null if uninitialized', inject(
-      [DeploymentCenterStateManager],
-      (service: DeploymentCenterStateManager) => {
-        expect(service.deploymentSlotSetting).toBeNull();
-      }
-    ));
   });
 
   describe('kudu deployment', () => {
