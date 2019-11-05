@@ -306,8 +306,6 @@ export class AzureDevOpsService implements OnDestroy {
     azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod
   ): ProvisioningConfigurationBase {
     let deploymentObject: ProvisioningConfigurationBase;
-    const azureAuthToken = `Bearer ${this._token}`;
-
     const azureAuthToken = this._getAuthTokenForMakingAzDevRequestBasedOnDeployment();
 
     if (
