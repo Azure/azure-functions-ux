@@ -31,7 +31,8 @@ const JavaStack: React.SFC<Props> = props => {
   const [initialized, setInitialized] = useState(false);
   const { stacks, values, initialValues } = props;
   const { t } = useTranslation();
-  const { app_write, editable } = useContext(PermissionsContext);
+  const { app_write, editable, saving } = useContext(PermissionsContext);
+  const disableAllControls = !app_write || !editable || saving;
   const javaStack = getJavaStack(stacks);
   const javaContainers = getJavaContainers(stacks);
   if (!javaStack || !javaContainers) {
@@ -98,7 +99,7 @@ const JavaStack: React.SFC<Props> = props => {
         dirty={isJavaMajorVersionDirty()}
         value={currentJavaMajorVersion}
         id="app-settings-java-major-verison"
-        disabled={!app_write || !editable}
+        disabled={disableAllControls}
         options={javaMajorVersionOptions}
         onChange={onMajorVersionChange}
       />
@@ -108,7 +109,7 @@ const JavaStack: React.SFC<Props> = props => {
         component={Dropdown}
         fullpage
         required
-        disabled={!app_write || !editable}
+        disabled={disableAllControls}
         label={t('javaMinorVersion')}
         id="app-settings-java-minor-verison"
         options={javaMinorVersionOptions}
@@ -120,7 +121,7 @@ const JavaStack: React.SFC<Props> = props => {
         fullpage
         required
         label={t('javaContainer')}
-        disabled={!app_write || !editable}
+        disabled={disableAllControls}
         id="app-settings-java-container-runtime"
         options={frameworks}
       />
@@ -131,7 +132,7 @@ const JavaStack: React.SFC<Props> = props => {
           component={Dropdown}
           fullpage
           required
-          disabled={!app_write || !editable}
+          disabled={disableAllControls}
           label={t('javaContainerVersion')}
           id="app-settings-java-container-version"
           options={javaFrameworkVersionOptions}
