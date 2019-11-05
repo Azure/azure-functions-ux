@@ -629,7 +629,6 @@ export class FeatureFlags {
   public static oldDeploymentCenter = 'oldvsts';
   public static AllowFreeLinux = 'allowfreelinux';
   public static enableGitHubAction = 'enableGitHubAction';
-  public static enableLinuxCors = 'enableLinuxCors';
   public static enablePublishProfileBasedDeployment = 'enablePublishProfileBasedDeployment';
 }
 
