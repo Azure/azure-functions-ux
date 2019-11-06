@@ -214,7 +214,6 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     let loadingFailed = false;
     if (!siteResult.isSuccessful) {
       this._logService.error(LogCategories.swapSlots, '/swap-slots', siteResult.error.result);
-      loadingFailed = true;
     }
     if (!slotsResult.isSuccessful) {
       this._logService.error(LogCategories.swapSlots, '/swap-slots', slotsResult.error.result);
@@ -237,7 +236,10 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   }
 
   private _processLoadingResults(siteResult: HttpResult<ArmObj<Site>>, slotsResult: HttpResult<ArmArrayResult<Site>>) {
-    this._slotsList = [siteResult.result, ...slotsResult.result.value];
+    this._slotsList = [...slotsResult.result.value];
+    if (siteResult.isSuccessful) {
+      this._slotsList.unshift(siteResult.result);
+    }
     const options: DropDownElement<string>[] = this._slotsList.map(slot => {
       return {
         displayLabel: slot.name ? slot.name.replace('/', '-') : '-',
@@ -245,7 +247,9 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
       };
     });
     this.destDropDownOptions = JSON.parse(JSON.stringify(options));
-    options.shift();
+    if (siteResult.isSuccessful) {
+      options.shift();
+    }
     this.srcDropDownOptions = JSON.parse(JSON.stringify(options));
   }
 
