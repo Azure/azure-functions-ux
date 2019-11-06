@@ -66,7 +66,7 @@
 
     <div *ngIf="keepVisible || featureSupported || loadingFailed" class="config-wrapper">
         <info-box
-            *ngIf="!fetchingContent && !!prodSiteArm && (!deploymentSlotsArm || deploymentSlotsArm.length === 0)"
+            *ngIf="!fetchingContent && !!prodSiteArm && !!deploymentSlotsArm && deploymentSlotsArm.length === 0"
             [isBanner]="true"
             [infoText]="'slotsList_noSlots' | translate"
             typeClass="upsell"
@@ -148,15 +148,15 @@
                     <th class="padded-col" table-cell>
                         {{ 'slotsList_serverfarmHeader' | translate }}
                     </th>
-                    <th *ngIf="!!prodSiteConfigArm || !slot" class="padded-col" table-cell>
+                    <th *ngIf="!!mainForm" class="padded-col" table-cell>
                         {{ 'slotsList_trafficPercentHeader' | translate }}
                     </th>
                 </tr>
 
-                <tr *ngIf="prodSiteArm" table-row>
+                <tr *ngIf="!!deploymentSlotsArm" table-row>
 
                     <td class="padded-col" table-cell>
-                        {{ (prodSiteArm && prodSiteArm.name) || '-' }}
+                        {{ (prodSiteArm && prodSiteArm.name) || prodSiteName || '-' }}
                         <div class="pill">
                             {{ 'production' | translate }}
                         </div>
@@ -170,7 +170,7 @@
                         {{ prodSiteArm ? getSegment(prodSiteArm.properties.serverFarmId, 8) : '-' }}
                     </td>
 
-                    <td *ngIf="!!prodSiteConfigArm || !slot" class="padded-col" table-cell>
+                    <td *ngIf="!!mainForm" class="padded-col" table-cell>
                         <div class="pct-wrapper">
                             <textbox
                                 disabled="true"
@@ -182,7 +182,7 @@
 
                 </tr>
 
-                <tr *ngFor="let deploymentSlotArm of (prodSiteArm ? deploymentSlotsArm : [])" table-row>
+                <tr *ngFor="let deploymentSlotArm of (deploymentSlotsArm || [])" table-row>
 
                     <td class="padded-col" table-cell>
 
@@ -195,11 +195,6 @@
                         <span *ngIf="!!navigationDisabled">
                             {{ deploymentSlotArm.name ? deploymentSlotArm.name.replace('/', '-') : '-' }}
                         </span>
-                        <div
-                            *ngIf="deploymentSlotArm.type === 'Microsoft.Web/sites'"
-                            class="pill">
-                            {{ 'production' | translate }}
-                        </div>
                     </td>
 
                     <td class="padded-col" table-cell>
@@ -219,12 +214,12 @@
                         !!isSlot && !!prodSiteConfigArm && !writeAccess
                         !!isSlot && !!prodSiteConfigArm && writeAccess
                     -->
-                    <td *ngIf="!!prodSiteConfigArm || !slot" class="padded-col" table-cell [editable]="!isSlot && !!prodSiteConfigArm && hasWriteAccess">
+                    <td *ngIf="!!mainForm" class="padded-col" table-cell [editable]="!isSlot && !!prodSiteConfigArm && hasWriteAccess">
                         <div class="pct-wrapper">
                             <textbox
                                 [disabled]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
                                 [readonly]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
-                                [control]="(mainForm && mainForm.controls['rulesGroup']) ? mainForm.controls['rulesGroup'].controls[deploymentSlotArm.name] : null"
+                                [control]="mainForm.controls['rulesGroup'] ? mainForm.controls['rulesGroup'].controls[deploymentSlotArm.name] : null"
                                 [placeholder]="0"
                                 [highlightDirty]="true">
                             </textbox>
@@ -235,13 +230,13 @@
 
                 <!-- Placeholder/Message Row -->
                 <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-                <tr *ngIf="!prodSiteArm || !deploymentSlotsArm || deploymentSlotsArm.length === 0" table-row>
+                <tr *ngIf="!deploymentSlotsArm" table-row>
 
-                    <td *ngIf="fetchingContent" class="message-row" [attr.colspan]="!!prodSiteConfigArm ? 4 : 3" table-cell>
+                    <td *ngIf="fetchingContent" class="message-row" [attr.colspan]="!!mainForm ? 4 : 3" table-cell>
                         {{ 'loading' | translate }}
                     </td>
 
-                    <td *ngIf="!fetchingContent && !prodSiteArm" class="message-row" [attr.colspan]="!!prodSiteConfigArm ? 4 : 3" table-cell>
+                    <td *ngIf="!fetchingContent" class="message-row" [attr.colspan]="!!mainForm ? 4 : 3" table-cell>
                         {{ 'error_unableToLoadSlotsList' | translate }}
                     </td>
 

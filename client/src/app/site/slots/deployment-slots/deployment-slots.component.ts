@@ -24,6 +24,13 @@ import { DecimalRangeValidator } from '../../../shared/validators/decimalRangeVa
 import { RoutingSumValidator } from '../../../shared/validators/routingSumValidator';
 import { TreeViewInfo, SiteData } from '../../../tree-view/models/tree-view-info';
 
+// interface SlotInfo {
+//   id: string;
+//   name: string;
+//   state: string;
+//   serverFarmId: string;
+// }
+
 @Component({
   selector: 'deployment-slots',
   templateUrl: './deployment-slots.component.html',
@@ -65,6 +72,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
   public siteArm: ArmObj<Site>;
 
+  public prodSiteName: string;
   public prodSiteArm: ArmObj<Site>;
   public prodSiteConfigArm: ArmObj<SiteConfig>;
   public deploymentSlotsArm: ArmObj<Site>[];
@@ -171,6 +179,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
         const siteDescriptor = new ArmSiteDescriptor(this.viewInfo.resourceId);
 
+        this.prodSiteName = siteDescriptor.site;
+
         this.isSlot = !!siteDescriptor.slot;
         this._slotName = siteDescriptor.slot || 'production';
 
@@ -196,6 +206,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
         this.clearBusyEarly();
 
+        const scenarioInput = this._getScenarioCheckInput();
+
         return Observable.zip(
           this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
           this._authZService.hasPermission(this.resourceId, [
@@ -204,15 +216,16 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             AuthzService.resetSlotConfigScope,
           ]),
           this._authZService.hasReadOnlyLock(this.resourceId),
-          this._scenarioService.checkScenarioAsync(ScenarioIds.getSiteSlotLimits, { site: siteResult.result })
+          !!scenarioInput ? this._scenarioService.checkScenarioAsync(ScenarioIds.getSiteSlotLimits, scenarioInput) : Observable.of(null)
         );
       })
       .do(r => {
         const [hasWritePermission, hasSwapPermission, hasReadOnlyLock, slotsQuotaCheck] = r;
         const slotsQuota = !!slotsQuotaCheck ? slotsQuotaCheck.data : 0;
 
+        const scenarioInput = this._getScenarioCheckInput();
         this.canScaleUp =
-          this.siteArm && this._scenarioService.checkScenario(ScenarioIds.canScaleForSlots, { site: this.siteArm }).status !== 'disabled';
+          !!scenarioInput && this._scenarioService.checkScenario(ScenarioIds.canScaleForSlots, scenarioInput).status !== 'disabled';
 
         this.hasWriteAccess = hasWritePermission && !hasReadOnlyLock;
 
@@ -236,6 +249,11 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       });
   }
 
+  private _getScenarioCheckInput() {
+    const site = this.prodSiteArm || (this.deploymentSlotsArm && this.deploymentSlotsArm[0]);
+    return site && { site };
+  }
+
   private _checkLoadingFailures(
     siteResult: HttpResult<ArmObj<Site>>,
     slotsResult: HttpResult<ArmArrayResult<Site>>,
@@ -250,7 +268,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       }
     } else {
       this._logService.error(LogCategories.deploymentSlots, '/get-site', siteResult.error.result);
-      loadingFailed = true;
+      // if (!this.isSlot) {
+      //   loadingFailed = true;
+      // }
     }
 
     if (slotsResult.isSuccessful) {
@@ -267,9 +287,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       this.prodSiteConfigArm = siteConfigResult.result;
     } else {
       this._logService.error(LogCategories.deploymentSlots, '/get-tip-rules', siteConfigResult.error.result);
-      if (!this.isSlot) {
-        loadingFailed = true;
-      }
+      // if (!this.isSlot) {
+      //   loadingFailed = true;
+      // }
     }
 
     this.loadingFailed = loadingFailed;
@@ -349,7 +369,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   }
 
   private _setupForm() {
-    if (!!this.siteArm && !!this.deploymentSlotsArm && !!this.prodSiteConfigArm) {
+    if (!!this.loadingFailed && !!this.deploymentSlotsArm && !!this.prodSiteConfigArm) {
       this.mainForm = this._fb.group({});
 
       const remainderControl = this._fb.control({ value: '', disabled: false });
