@@ -15,7 +15,7 @@ import {
   SwapOperationType,
   ARMApiVersions,
 } from '../../../shared/models/constants';
-import { OpenBladeInfo, EventVerbs } from '../../../shared/models/portal';
+import { OpenBladeInfo, EventVerbs, FrameBladeParams } from '../../../shared/models/portal';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { SlotSwapInfo, SlotNewInfo } from '../../../shared/models/slot-events';
 import { ArmObj, ResourceId } from '../../../shared/models/arm/arm-obj';
@@ -125,7 +125,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     this.setBusy();
 
     this._portalService
-      .openBlade(
+      .openFrameBlade(
         {
           detailBlade: 'SpecPickerFrameBlade',
           detailBladeInputs: {
@@ -566,14 +566,14 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   }
 
   private _openSwapPane() {
-    const bladeInfo: OpenBladeInfo = {
+    const bladeInfo: OpenBladeInfo<FrameBladeParams> = {
       detailBlade: 'SwapSlotsFrameBlade',
       detailBladeInputs: { id: this.siteArm.id },
       openAsContextBlade: true,
     };
 
     this._portalService
-      .openBlade(bladeInfo, this.componentName)
+      .openFrameBlade(bladeInfo, this.componentName)
       .mergeMap(bladeResult => {
         return Observable.of({
           success: true,
@@ -607,14 +607,14 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   }
 
   private _openAddPane() {
-    const bladeInfo: OpenBladeInfo = {
+    const bladeInfo: OpenBladeInfo<FrameBladeParams> = {
       detailBlade: 'AddSlotFrameBlade',
       detailBladeInputs: { id: this.siteArm.id },
       openAsContextBlade: true,
     };
 
     this._portalService
-      .openBlade(bladeInfo, this.componentName)
+      .openFrameBlade(bladeInfo, this.componentName)
       .mergeMap(bladeResult => {
         return Observable.of({
           success: true,
