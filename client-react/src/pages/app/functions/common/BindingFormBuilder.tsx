@@ -115,6 +115,7 @@ export class BindingFormBuilder {
           component={TextField}
           required={setting.required}
           disabled={isDisabled}
+          validate={setting.required ? this._requiredField : null}
           {...formProps}
         />
       </FormControlWrapper>
@@ -142,6 +143,7 @@ export class BindingFormBuilder {
           options={options}
           required={setting.required}
           disabled={isDisabled}
+          validate={setting.required ? this._requiredField : null}
           {...formProps}
         />
       </FormControlWrapper>
@@ -163,6 +165,7 @@ export class BindingFormBuilder {
           disabled={isDisabled}
           onText={this._t('yes')}
           offText={this._t('no')}
+          validate={setting.required ? this._requiredField : null}
           {...formProps}
         />
       </FormControlWrapper>
@@ -189,6 +192,7 @@ export class BindingFormBuilder {
           resourceId={resourceId}
           required={setting.required}
           disabled={isDisabled}
+          validate={setting.required ? this._requiredField : null}
           {...formProps}
         />
       </FormControlWrapper>
@@ -215,6 +219,7 @@ export class BindingFormBuilder {
             setting={setting}
             required={setting.required}
             disabled={isDisabled}
+            validate={setting.required ? this._requiredField : null}
             {...formProps}
           />
         </FormControlWrapper>
@@ -237,12 +242,22 @@ export class BindingFormBuilder {
           name={setting.name}
           id={setting.name}
           component={Dropdown}
-          {...formProps}
           options={options}
-          required={setting.required}
           multiSelect
+          required={setting.required}
+          disabled={isDisabled}
+          validate={setting.required ? this._requiredField : null}
+          {...formProps}
         />
       </FormControlWrapper>
     );
+  }
+
+  private _requiredField(value): string | undefined {
+    let error: string | undefined;
+    if (!value) {
+      error = 'Required';
+    }
+    return error;
   }
 }
