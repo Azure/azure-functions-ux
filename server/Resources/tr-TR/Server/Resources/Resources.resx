@@ -2351,7 +2351,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Uygulama ayarlarını yönet</value>
     </data>
   <data name="eventHubPicker_IOTHub" xml:space="preserve">
-        <value>IoT hub'ı</value>
+        <value>IoT Hub</value>
     </data>
   <data name="eventHubPicker_appSettingName" xml:space="preserve">
         <value>Anahtar</value>
@@ -3645,7 +3645,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Uygulama Kimlik Bilgileri</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Uygulama Kimlik Bilgileri otomatik olarak oluşturulur ve yalnızca bu belirli uygulama veya dağıtım yuvasına erişim sağlar. Bu kimlik bilgileri FTP, Yerel Git ve WebDeploy ile kullanılabilir. El ile yapılandırılamaz ancak istediğiniz zaman sıfırlanabilir.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>Kullanıcı Adı</value>
@@ -4784,6 +4784,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="newAzureStorageMount" xml:space="preserve">
         <value>Yeni Azure Depolama Bağlama</value>
     </data>
+  <data name="editAzureStorageMount" xml:space="preserve">
+        <value>Edit Azure Storage Mount</value>
+    </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Azure Depolama Bağlamayı Boşalt</value>
     </data>
@@ -5068,10 +5071,22 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Hiçbir giriş tanımlanmadı</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
-        <value>Hiçbir çıkış tanımlanmadı</value>
+        <value>Çıktı tanımlanmadı</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Giriş ekle</value>
+    </data>
+  <data name="integrateCreateInput" xml:space="preserve">
+        <value>Giriş Oluştur</value>
+    </data>
+  <data name="integrateCreateBindingInstructions" xml:space="preserve">
+        <value>Eklemek istediğiniz {0} bağlama türünü seçerek başlayın.</value>
+    </data>
+  <data name="integrateBindingType" xml:space="preserve">
+        <value>Bağlama Türü</value>
+    </data>
+  <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
+        <value>{0} ayrıntı</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>İşlev</value>
@@ -5101,13 +5116,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>{0} ({1}) başarıyla güncelleştirildi</value>
     </data>
   <data name="editBindingInput" xml:space="preserve">
-        <value>Girişi düzenle</value>
+        <value>Girişi Düzenle</value>
     </data>
-  <data name="editBindingOuput" xml:space="preserve">
-        <value>Çıkışı düzenle</value>
+  <data name="editBindingOutput" xml:space="preserve">
+        <value>Çıkışı Düzenle</value>
     </data>
   <data name="editBindingTrigger" xml:space="preserve">
-        <value>Tetikleyiciyi düzenle</value>
+        <value>Tetikleyiciyi Düzenle</value>
     </data>
   <data name="editBindingCommands" xml:space="preserve">
         <value>Bağlama komutlarını düzenle</value>
@@ -5230,28 +5245,28 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Kimlik doğrulama durumu alınamıyor. Lütfen birkaç dakika içinde yeniden deneyin.</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>İşlev için tüm anahtarları yenile</value>
+        <value>İşlev için tüm anahtarları yenile</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
-      <value>Komutlar arasında gezinmek için sol ve sağ ok tuşlarını kullanın</value>
+        <value>Komutlar arasında gezinmek için sol ve sağ ok tuşlarını kullanın</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>Yeni işlev anahtarı</value>
+        <value>Yeni işlev anahtarı</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Filtre işlevleri anahtarları</value>
+        <value>Filtre işlevleri anahtarları</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Anahtarı düzenle</value>
+        <value>Anahtarı düzenle</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
-      <value>Anahtar ekle</value>
+        <value>Anahtar ekle</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0}, tüm işlev anahtarlarında gerekli bir özelliktir</value>
+        <value>{0}, tüm işlev anahtarlarında gerekli bir özelliktir</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>İşlev anahtarı adları benzersiz olmalıdır</value>
+        <value>İşlev anahtarı adları benzersiz olmalıdır</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>GitHub Eylemleri (Önizleme)</value>
@@ -5281,13 +5296,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Linux</value>
     </data>
   <data name="deploymentCredentialsTitle" xml:space="preserve">
-        <value>Deployment Credentials</value>
+        <value>Dağıtım Kimlik Bilgileri</value>
     </data>
   <data name="deploymentCredentialsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+        <value>App Service, uygulamanızın içeriğine erişmek, içeriği yayımlamak ve değiştirmek için birden çok teknolojiyi destekler. Dağıtım kimlik bilgilerinin kapsamı uygulama veya kullanıcı olarak belirlenebilir.</value>
     </data>
   <data name="deploymentCredentialsLocalGit" xml:space="preserve">
-        <value>Local Git</value>
+        <value>Yerel Git</value>
     </data>
   <data name="deploymentCredentialsFtps" xml:space="preserve">
         <value>FTP/FTPS</value>
@@ -5311,13 +5326,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Komutlar arasında gezinmek için sol ve sağ ok tuşlarını kullanın</value>
     </data>
   <data name="localGitDescription" xml:space="preserve">
-        <value>Use Git to push changes directly to your app.</value>
+        <value>Değişiklikleri doğrudan uygulamanıza göndermek için Git'i kullanın.</value>
     </data>
   <data name="ftpsDescription" xml:space="preserve">
-        <value>App Service enables you to access your app content through FTP/S.</value>
+        <value>App Service FTP/S üzerinden uygulama içeriğinize erişmenize olanak sağlar.</value>
     </data>
   <data name="gitCloneUrlLabel" xml:space="preserve">
-        <value>Git Clone URL</value>
+        <value>Git Clone URL'si</value>
     </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
         <value>GitHub Eylem İş Akışı Yapılandırması</value>
@@ -5343,22 +5358,130 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
     </data>
+  <data name="validation_linuxConnectionStringNameError" xml:space="preserve">
+        <value>Bağlantı Dizesi adları yalnızca harf, rakam (0-9), nokta (".") ve alt çizgi ("_") içerebilir</value>
+    </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>GET işlevi URL kalıcı diyaloğunu kapat.</value>
     </data>
   <data name="scope" xml:space="preserve">
-        <value>Scope</value>
+        <value>Kapsam</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Virtual network trigger support</value>
+        <value>Sanal ağ tetikleyici desteği</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
-        <value>Refresh App Settings</value>
+        <value>Uygulama Ayarlarını Yenile</value>
     </data>
   <data name="refreshAppSettingsMessage" xml:space="preserve">
-        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+        <value>Yenileme sırasında kaydedilmemiş tüm değişiklikler kaybolacak. Devam etmek istediğinizden emin misiniz?</value>
+    </data>
+  <data name="eventHubPicker_noNamespaces" xml:space="preserve">
+        <value>Bu abonelikte hiçbir ad alanı yok</value>
+    </data>
+  <data name="eventHubPicker_noEventHubs" xml:space="preserve">
+        <value>Bu ad alanında bir Olay Hub'ı yok</value>
+    </data>
+  <data name="eventHubPicker_noPolicies" xml:space="preserve">
+        <value>Bu ad alanında ve Olay Hub'ında bir ilke yok</value>
+    </data>
+  <data name="iotHubPivot_noIoTHubs" xml:space="preserve">
+        <value>Bu abonelikte IoT Hub'ı yok</value>
+    </data>
+  <data name="iotHubPivot_IoTHub" xml:space="preserve">
+        <value>IoT Hub</value>
+    </data>
+  <data name="iotHubPivot_noEndpoints" xml:space="preserve">
+        <value>Bu IoT Hub'ı için kullanılabilir uç nokta yok</value>
+    </data>
+  <data name="iotHubPivot_Endpoint" xml:space="preserve">
+        <value>Bitiş noktası</value>
+    </data>
+  <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>Olaylar (yerleşik uç nokta)</value>
+    </data>
+  <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>İşlem izleme</value>
+    </data>
+  <data name="customPivot_key" xml:space="preserve">
+        <value>Anahtar</value>
+    </data>
+  <data name="customPivot_value" xml:space="preserve">
+        <value>Değer</value>
+    </data>
+  <data name="serviceBusCallout_serviceBus" xml:space="preserve">
+        <value>Service Bus </value>
+    </data>
+  <data name="resourceCallout_customAppSetting" xml:space="preserve">
+        <value>Özel Uygulama Ayarı</value>
+    </data>
+  <data name="serviceBusPicker_noNamespaces" xml:space="preserve">
+        <value>Bu abonelikte hiçbir ad alanı yok</value>
+    </data>
+  <data name="serviceBusPicker_noPolicies" xml:space="preserve">
+        <value>Bu ad alanında bir ilke yok</value>
+    </data>
+  <data name="serviceBusPicker_namespace" xml:space="preserve">
+        <value>Ad alanı</value>
+    </data>
+  <data name="serviceBusPicker_policy" xml:space="preserve">
+        <value>İlke</value>
+    </data>
+  <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
+        <value>Azure Cosmos DB Hesabı</value>
+    </data>
+  <data name="documentDBPivot_noDatabaseAccounts" xml:space="preserve">
+        <value>Bu abonelikte veritabanı hesabı yok</value>
+    </data>
+  <data name="documentDBPivot_databaseAccount" xml:space="preserve">
+        <value>Veritabanı Hesabı</value>
+    </data>
+  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Mevcut Depolama Hesabı</value>
+    </data>
+  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
+        <value>Yeni Depolama Hesabı</value>
+    </data>
+  <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
+        <value>Bu abonelikte depolama hesabı yok</value>
+    </data>
+  <data name="storageAccountPivot_storageAccount" xml:space="preserve">
+        <value>Depolama Hesabı</value>
+    </data>
+  <data name="newPivot_name" xml:space="preserve">
+        <value>Ad</value>
+    </data>
+  <data name="integrateAddOutput" xml:space="preserve">
+        <value>+ Çıkış ekle</value>
+    </data>
+  <data name="integrateCreateOutput" xml:space="preserve">
+        <value>Çıkış Oluştur</value>
+    </data>
+  <data name="deleteBindingNotification" xml:space="preserve">
+        <value>Bağlama siliniyor</value>
+    </data>
+  <data name="deleteBindingNotificationDetails" xml:space="preserve">
+        <value>{0} siliniyor ({1})</value>
+    </data>
+  <data name="deleteBindingNotificationFailed" xml:space="preserve">
+        <value>{0} silinemedi ({1}): {2}</value>
+    </data>
+  <data name="deleteBindingNotificationSuccess" xml:space="preserve">
+        <value>{0} başarıyla silindi ({1})</value>
+    </data>
+  <data name="createFunctionNotication" xml:space="preserve">
+        <value>İşlev Oluşturuluyor</value>
+    </data>
+  <data name="createFunctionNotificationDetails" xml:space="preserve">
+        <value>{0} oluşturuluyor</value>
+    </data>
+  <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>{0} oluşturulamadı: {1}</value>
+    </data>
+  <data name="createFunctionNotificationSuccess" xml:space="preserve">
+        <value>{0} başarıyla oluşturuldu</value>
     </data>
 </root>

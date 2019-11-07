@@ -3645,7 +3645,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Appautentiseringsuppgifter</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Autentiseringsuppgifter för programmet skapas automatiskt och ger enbart åtkomst till den här specifika appen eller distributionsfacket. De här autentiseringsuppgifterna kan användas med FTP, lokal Git och WebDeploy. De kan inte konfigureras manuellt men kan när som helst återställas.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>Användarnamn</value>
@@ -4784,6 +4784,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="newAzureStorageMount" xml:space="preserve">
         <value>Ny Azure Storage-monteringspunkt</value>
     </data>
+  <data name="editAzureStorageMount" xml:space="preserve">
+        <value>Edit Azure Storage Mount</value>
+    </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Tom Azure Storage-monteringspunkt</value>
     </data>
@@ -5073,6 +5076,18 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Lägg till indata</value>
     </data>
+  <data name="integrateCreateInput" xml:space="preserve">
+        <value>Skapa indata</value>
+    </data>
+  <data name="integrateCreateBindingInstructions" xml:space="preserve">
+        <value>Börja med att välja typen av {0}-bindning som du vill lägga till.</value>
+    </data>
+  <data name="integrateBindingType" xml:space="preserve">
+        <value>Bindningstyp</value>
+    </data>
+  <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
+        <value>{0} detaljer</value>
+    </data>
   <data name="_function" xml:space="preserve">
         <value>Funktion</value>
     </data>
@@ -5103,7 +5118,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="editBindingInput" xml:space="preserve">
         <value>Redigera indata</value>
     </data>
-  <data name="editBindingOuput" xml:space="preserve">
+  <data name="editBindingOutput" xml:space="preserve">
         <value>Redigera utdata</value>
     </data>
   <data name="editBindingTrigger" xml:space="preserve">
@@ -5230,28 +5245,28 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Det gick inte att hämta autentiseringstillståndet. Försök igen om några minuter.</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Uppdatera alla nycklar för funktionen</value>
+        <value>Uppdatera alla nycklar för funktionen</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
-      <value>Använd vänster och höger piltangenter för att navigera mellan kommandon</value>
+        <value>Använd vänster och höger piltangenter för att navigera mellan kommandon</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>Ny funktionsnyckel</value>
+        <value>Ny funktionsnyckel</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Filterfunktionsnycklar</value>
+        <value>Filterfunktionsnycklar</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Redigeringsnyckel</value>
+        <value>Redigeringsnyckel</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
-      <value>Lägg till nyckel</value>
+        <value>Lägg till nyckel</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} är en obligatorisk egenskap för alla funktionstangenter</value>
+        <value>{0} är en obligatorisk egenskap för alla funktionstangenter</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Funktionsnyckelnamnen måste vara unika</value>
+        <value>Funktionsnyckelnamnen måste vara unika</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>GitHub-åtgärder (förhandsversion)</value>
@@ -5281,13 +5296,13 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Linux</value>
     </data>
   <data name="deploymentCredentialsTitle" xml:space="preserve">
-        <value>Deployment Credentials</value>
+        <value>Autentiseringsuppgifter för distributions</value>
     </data>
   <data name="deploymentCredentialsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+        <value>App Service stöder flera tekniker för att komma åt, publicera och ändra innehållet i din app. Autentiseringsuppgifterna för distribution kan begränsas till programmet eller användaren.</value>
     </data>
   <data name="deploymentCredentialsLocalGit" xml:space="preserve">
-        <value>Local Git</value>
+        <value>Lokal Git</value>
     </data>
   <data name="deploymentCredentialsFtps" xml:space="preserve">
         <value>FTP/FTPS</value>
@@ -5311,13 +5326,13 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Använd vänster och höger piltangenter för att navigera mellan kommandon</value>
     </data>
   <data name="localGitDescription" xml:space="preserve">
-        <value>Use Git to push changes directly to your app.</value>
+        <value>Använd Git för att direkt pusha ändringar till din app.</value>
     </data>
   <data name="ftpsDescription" xml:space="preserve">
-        <value>App Service enables you to access your app content through FTP/S.</value>
+        <value>App Service låter dig komma åt ditt appinnehåll via FTP/S.</value>
     </data>
   <data name="gitCloneUrlLabel" xml:space="preserve">
-        <value>Git Clone URL</value>
+        <value>URL för Git-klon</value>
     </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
         <value>Arbetsflödeskonfiguration för GitHub-åtgärd</value>
@@ -5338,27 +5353,135 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Välj filer i funktionskatalogen.</value>
     </data>
   <data name="noPlanWritePermissions" xml:space="preserve">
-        <value>This feature requires write permissions on the plan hosting your app</value>
+        <value>Den här funktionen kräver skrivbehörigheter på planen som är värd för din app</value>
     </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
+    </data>
+  <data name="validation_linuxConnectionStringNameError" xml:space="preserve">
+        <value>Anslutningssträngnamn får bara innehålla bokstäver, siffror (0–9), punkter (.) och understreck (_)</value>
     </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Stäng modalen Hämta funktions-URL.</value>
     </data>
   <data name="scope" xml:space="preserve">
-        <value>Scope</value>
+        <value>Område</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Virtual network trigger support</value>
+        <value>Stöd för virtuell nätverksutlösare</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
-        <value>Refresh App Settings</value>
+        <value>Uppdatera appinställningarna</value>
     </data>
   <data name="refreshAppSettingsMessage" xml:space="preserve">
-        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+        <value>Alla ej sparade ändringar går förlorade vid uppdatering. Är du säker på att du vill fortsätta?</value>
+    </data>
+  <data name="eventHubPicker_noNamespaces" xml:space="preserve">
+        <value>Det finns inga namnområden i den här prenumerationen</value>
+    </data>
+  <data name="eventHubPicker_noEventHubs" xml:space="preserve">
+        <value>Det finns inga Event Hubs i det här namnområdet</value>
+    </data>
+  <data name="eventHubPicker_noPolicies" xml:space="preserve">
+        <value>Det finns inga principer i namnområdet och händelsehubben</value>
+    </data>
+  <data name="iotHubPivot_noIoTHubs" xml:space="preserve">
+        <value>Det finns inga IoT Hubs i den här prenumerationen</value>
+    </data>
+  <data name="iotHubPivot_IoTHub" xml:space="preserve">
+        <value>IoT-hubb</value>
+    </data>
+  <data name="iotHubPivot_noEndpoints" xml:space="preserve">
+        <value>Det finns inga tillgängliga slutpunkter för den här IoT Hub</value>
+    </data>
+  <data name="iotHubPivot_Endpoint" xml:space="preserve">
+        <value>Slutpunkt</value>
+    </data>
+  <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>Händelser (inbyggd slutpunkt)</value>
+    </data>
+  <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>Åtgärdsövervakning</value>
+    </data>
+  <data name="customPivot_key" xml:space="preserve">
+        <value>Nyckel</value>
+    </data>
+  <data name="customPivot_value" xml:space="preserve">
+        <value>Värde</value>
+    </data>
+  <data name="serviceBusCallout_serviceBus" xml:space="preserve">
+        <value>Service Bus</value>
+    </data>
+  <data name="resourceCallout_customAppSetting" xml:space="preserve">
+        <value>Anpassad appinställning</value>
+    </data>
+  <data name="serviceBusPicker_noNamespaces" xml:space="preserve">
+        <value>Det finns inga namnområden i den här prenumerationen</value>
+    </data>
+  <data name="serviceBusPicker_noPolicies" xml:space="preserve">
+        <value>Det finns inga principer i det här namnområdet</value>
+    </data>
+  <data name="serviceBusPicker_namespace" xml:space="preserve">
+        <value>Namnrymd</value>
+    </data>
+  <data name="serviceBusPicker_policy" xml:space="preserve">
+        <value>Princip</value>
+    </data>
+  <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
+        <value>Azure Cosmos DB-konto</value>
+    </data>
+  <data name="documentDBPivot_noDatabaseAccounts" xml:space="preserve">
+        <value>Det finns inga databaskonton i den här prenumerationen</value>
+    </data>
+  <data name="documentDBPivot_databaseAccount" xml:space="preserve">
+        <value>Databaskonto</value>
+    </data>
+  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Befintligt lagringskonto</value>
+    </data>
+  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
+        <value>Nytt lagringskonto</value>
+    </data>
+  <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
+        <value>Det finns inga lagringskonton i den här prenumerationen</value>
+    </data>
+  <data name="storageAccountPivot_storageAccount" xml:space="preserve">
+        <value>Lagringskonto</value>
+    </data>
+  <data name="newPivot_name" xml:space="preserve">
+        <value>Namn</value>
+    </data>
+  <data name="integrateAddOutput" xml:space="preserve">
+        <value>+ Lägg till utdata</value>
+    </data>
+  <data name="integrateCreateOutput" xml:space="preserve">
+        <value>Skapa utdata</value>
+    </data>
+  <data name="deleteBindingNotification" xml:space="preserve">
+        <value>Tar bort bindning</value>
+    </data>
+  <data name="deleteBindingNotificationDetails" xml:space="preserve">
+        <value>Tar bort {0} ({1})</value>
+    </data>
+  <data name="deleteBindingNotificationFailed" xml:space="preserve">
+        <value>Det gick inte att ta bort {0} ({1}): {2}</value>
+    </data>
+  <data name="deleteBindingNotificationSuccess" xml:space="preserve">
+        <value>Lyckades ta bort {0} ({1})</value>
+    </data>
+  <data name="createFunctionNotication" xml:space="preserve">
+        <value>Skapar funktionen</value>
+    </data>
+  <data name="createFunctionNotificationDetails" xml:space="preserve">
+        <value>{0} skapas</value>
+    </data>
+  <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Det gick inte att skapa {0}: {1}</value>
+    </data>
+  <data name="createFunctionNotificationSuccess" xml:space="preserve">
+        <value>{0} skapades</value>
     </data>
 </root>
