@@ -2351,7 +2351,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Gérer les paramètres d'application</value>
     </data>
   <data name="eventHubPicker_IOTHub" xml:space="preserve">
-        <value>Hub IoT</value>
+        <value>IoT Hub</value>
     </data>
   <data name="eventHubPicker_appSettingName" xml:space="preserve">
         <value>Clé</value>
@@ -3645,7 +3645,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Informations d'identification de l'application</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Les informations d'identification de l'application sont générées automatiquement et fournissent un accès uniquement à cet emplacement de déploiement ou à cette application spécifique. Ces informations d'identification peuvent être utilisées avec FTP, Git local et WebDeploy. Vous ne pouvez pas les configurer manuellement, mais vous pouvez les réinitialiser à tout moment.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>Nom d’utilisateur</value>
@@ -4784,6 +4784,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="newAzureStorageMount" xml:space="preserve">
         <value>Nouveau montage de stockage Azure</value>
     </data>
+  <data name="editAzureStorageMount" xml:space="preserve">
+        <value>Edit Azure Storage Mount</value>
+    </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Montage de stockage Azure vide</value>
     </data>
@@ -5068,10 +5071,22 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Aucune entrée définie</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
-        <value>Aucun sortie définie</value>
+        <value>Aucune sortie définie</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Ajouter une entrée</value>
+    </data>
+  <data name="integrateCreateInput" xml:space="preserve">
+        <value>Créer une entrée</value>
+    </data>
+  <data name="integrateCreateBindingInstructions" xml:space="preserve">
+        <value>Commencez par sélectionner le type de liaison {0} à ajouter.</value>
+    </data>
+  <data name="integrateBindingType" xml:space="preserve">
+        <value>Type de liaison</value>
+    </data>
+  <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
+        <value>{0} détails</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>Fonction</value>
@@ -5101,9 +5116,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Réussite de la mise à jour de {0} ({1})</value>
     </data>
   <data name="editBindingInput" xml:space="preserve">
-        <value>Modifier l’entrée</value>
+        <value>Modifier l'entrée</value>
     </data>
-  <data name="editBindingOuput" xml:space="preserve">
+  <data name="editBindingOutput" xml:space="preserve">
         <value>Modifier la sortie</value>
     </data>
   <data name="editBindingTrigger" xml:space="preserve">
@@ -5230,28 +5245,28 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Impossible de récupérer l'état d'authentification. Réessayez dans quelques minutes.</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Actualiser toutes les clés pour la fonction</value>
+        <value>Actualiser toutes les clés pour la fonction</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
-      <value>Utiliser les touches de direction gauche et droite pour naviguer entre les commandes</value>
+        <value>Utiliser les touches de direction gauche et droite pour naviguer entre les commandes</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>Nouvelle clé de fonction</value>
+        <value>Nouvelle clé de fonction</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Filtrer les clés de fonction</value>
+        <value>Filtrer les clés de fonction</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Modifier la clé</value>
+        <value>Modifier la clé</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
-      <value>Ajouter une clé</value>
+        <value>Ajouter une clé</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} est une propriété obligatoire sur toutes les clés de fonction</value>
+        <value>{0} est une propriété obligatoire sur toutes les clés de fonction</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Les noms de clé de fonction doivent être uniques</value>
+        <value>Les noms de clé de fonction doivent être uniques</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>GitHub Actions (préversion)</value>
@@ -5281,13 +5296,13 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Linux</value>
     </data>
   <data name="deploymentCredentialsTitle" xml:space="preserve">
-        <value>Deployment Credentials</value>
+        <value>Informations d'identification du déploiement</value>
     </data>
   <data name="deploymentCredentialsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+        <value>App Service prend en charge plusieurs technologies permettant d'accéder, de publier et de modifier le contenu de votre application. Vous pouvez limiter les informations d'identification de déploiement à l'application ou à l'utilisateur.</value>
     </data>
   <data name="deploymentCredentialsLocalGit" xml:space="preserve">
-        <value>Local Git</value>
+        <value>Git local</value>
     </data>
   <data name="deploymentCredentialsFtps" xml:space="preserve">
         <value>FTP/FTPS</value>
@@ -5311,13 +5326,13 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Utiliser les touches de direction gauche et droite pour naviguer entre les commandes</value>
     </data>
   <data name="localGitDescription" xml:space="preserve">
-        <value>Use Git to push changes directly to your app.</value>
+        <value>Utilisez Git pour envoyer (push) les changements directement à votre application.</value>
     </data>
   <data name="ftpsDescription" xml:space="preserve">
-        <value>App Service enables you to access your app content through FTP/S.</value>
+        <value>App Service vous permet d'accéder au contenu de votre application via FTP/S.</value>
     </data>
   <data name="gitCloneUrlLabel" xml:space="preserve">
-        <value>Git Clone URL</value>
+        <value>URL de clone Git</value>
     </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
         <value>Configuration du workflow d'action GitHub</value>
@@ -5343,22 +5358,130 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
     </data>
+  <data name="validation_linuxConnectionStringNameError" xml:space="preserve">
+        <value>Les noms de chaîne de connexion peuvent contenir uniquement des lettres, des chiffres (0-9), des points (« . ») et des traits de soulignement (« _ »)</value>
+    </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Fermez la fenêtre modale Obtenir l'URL de la fonction.</value>
     </data>
   <data name="scope" xml:space="preserve">
-        <value>Scope</value>
+        <value>Portée</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Virtual network trigger support</value>
+        <value>Prise en charge des déclencheurs de réseau virtuel</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
-        <value>Refresh App Settings</value>
+        <value>Actualiser les paramètres d'application</value>
     </data>
   <data name="refreshAppSettingsMessage" xml:space="preserve">
-        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+        <value>Les modifications non enregistrées seront perdues à l'issue de l'actualisation. Voulez-vous continuer ?</value>
+    </data>
+  <data name="eventHubPicker_noNamespaces" xml:space="preserve">
+        <value>Aucun espace de noms dans cet abonnement</value>
+    </data>
+  <data name="eventHubPicker_noEventHubs" xml:space="preserve">
+        <value>Aucun hub d'événements dans cet espace de noms</value>
+    </data>
+  <data name="eventHubPicker_noPolicies" xml:space="preserve">
+        <value>Aucune stratégie dans cet espace de noms et ce hub d'événements</value>
+    </data>
+  <data name="iotHubPivot_noIoTHubs" xml:space="preserve">
+        <value>Aucun hub IoT dans cet abonnement</value>
+    </data>
+  <data name="iotHubPivot_IoTHub" xml:space="preserve">
+        <value>IoT Hub</value>
+    </data>
+  <data name="iotHubPivot_noEndpoints" xml:space="preserve">
+        <value>Aucun point de terminaison disponible pour ce hub IoT</value>
+    </data>
+  <data name="iotHubPivot_Endpoint" xml:space="preserve">
+        <value>Point de terminaison</value>
+    </data>
+  <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>Événements (point de terminaison intégré)</value>
+    </data>
+  <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>Surveillance des opérations</value>
+    </data>
+  <data name="customPivot_key" xml:space="preserve">
+        <value>Clé</value>
+    </data>
+  <data name="customPivot_value" xml:space="preserve">
+        <value>Valeur</value>
+    </data>
+  <data name="serviceBusCallout_serviceBus" xml:space="preserve">
+        <value>Service Bus</value>
+    </data>
+  <data name="resourceCallout_customAppSetting" xml:space="preserve">
+        <value>Paramètre d’application personnalisé</value>
+    </data>
+  <data name="serviceBusPicker_noNamespaces" xml:space="preserve">
+        <value>Aucun espace de noms dans cet abonnement</value>
+    </data>
+  <data name="serviceBusPicker_noPolicies" xml:space="preserve">
+        <value>Aucune stratégie dans cet espace de noms</value>
+    </data>
+  <data name="serviceBusPicker_namespace" xml:space="preserve">
+        <value>Espace de noms</value>
+    </data>
+  <data name="serviceBusPicker_policy" xml:space="preserve">
+        <value>Stratégie</value>
+    </data>
+  <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
+        <value>Compte Azure Cosmos DB</value>
+    </data>
+  <data name="documentDBPivot_noDatabaseAccounts" xml:space="preserve">
+        <value>Aucun compte de base de données dans cet abonnement</value>
+    </data>
+  <data name="documentDBPivot_databaseAccount" xml:space="preserve">
+        <value>Compte de base de données</value>
+    </data>
+  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Compte de stockage existant</value>
+    </data>
+  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
+        <value>Nouveau compte de stockage</value>
+    </data>
+  <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
+        <value>Aucun compte de stockage dans cet abonnement</value>
+    </data>
+  <data name="storageAccountPivot_storageAccount" xml:space="preserve">
+        <value>Compte de stockage</value>
+    </data>
+  <data name="newPivot_name" xml:space="preserve">
+        <value>Nom</value>
+    </data>
+  <data name="integrateAddOutput" xml:space="preserve">
+        <value>+ Ajouter une sortie</value>
+    </data>
+  <data name="integrateCreateOutput" xml:space="preserve">
+        <value>Créer une sortie</value>
+    </data>
+  <data name="deleteBindingNotification" xml:space="preserve">
+        <value>Suppression de la liaison</value>
+    </data>
+  <data name="deleteBindingNotificationDetails" xml:space="preserve">
+        <value>Suppression de {0} ({1})</value>
+    </data>
+  <data name="deleteBindingNotificationFailed" xml:space="preserve">
+        <value>Échec de suppression de {0} ({1}) : {2}</value>
+    </data>
+  <data name="deleteBindingNotificationSuccess" xml:space="preserve">
+        <value>{0} ({1}) supprimé</value>
+    </data>
+  <data name="createFunctionNotication" xml:space="preserve">
+        <value>Création de la fonction</value>
+    </data>
+  <data name="createFunctionNotificationDetails" xml:space="preserve">
+        <value>Création de {0}</value>
+    </data>
+  <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Impossible de créer {0} : {1}</value>
+    </data>
+  <data name="createFunctionNotificationSuccess" xml:space="preserve">
+        <value>{0} créé avec succès</value>
     </data>
 </root>

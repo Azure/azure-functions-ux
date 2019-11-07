@@ -2351,7 +2351,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Alkalmazásbeállítások kezelése</value>
     </data>
   <data name="eventHubPicker_IOTHub" xml:space="preserve">
-        <value>IoT-központ</value>
+        <value>IoT Hub</value>
     </data>
   <data name="eventHubPicker_appSettingName" xml:space="preserve">
         <value>Kulcs</value>
@@ -3645,7 +3645,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Alkalmazás hitelesítő adatai</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Az alkalmazás automatikusan létrehozott hitelesítő adatai csak ehhez az alkalmazáshoz vagy üzembe helyezési ponthoz biztosítanak hozzáférést. Ezek a hitelesítő adatok FTP-vel, helyi gittel és a WebDeployjal egyaránt használhatók. Manuálisan nem módosíthatók, de bármikor alaphelyzetbe állíthatók.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>Felhasználónév</value>
@@ -4784,6 +4784,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="newAzureStorageMount" xml:space="preserve">
         <value>Új Azure Storage-kötet</value>
     </data>
+  <data name="editAzureStorageMount" xml:space="preserve">
+        <value>Edit Azure Storage Mount</value>
+    </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Üres Azure Storage-kötet</value>
     </data>
@@ -5068,10 +5071,22 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nincs definiálva bemenet</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
-        <value>Nincs definiálva kimenet</value>
+        <value>Nincs megadva kimenet</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Bemenet hozzáadása</value>
+    </data>
+  <data name="integrateCreateInput" xml:space="preserve">
+        <value>Bemenet létrehozása</value>
+    </data>
+  <data name="integrateCreateBindingInstructions" xml:space="preserve">
+        <value>Először válassza ki a hozzáadni kívánt {0}-kötés típusát.</value>
+    </data>
+  <data name="integrateBindingType" xml:space="preserve">
+        <value>Kötéstípus</value>
+    </data>
+  <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
+        <value>{0} részletei</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>Függvény</value>
@@ -5103,7 +5118,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="editBindingInput" xml:space="preserve">
         <value>Bemenet szerkesztése</value>
     </data>
-  <data name="editBindingOuput" xml:space="preserve">
+  <data name="editBindingOutput" xml:space="preserve">
         <value>Kimenet szerkesztése</value>
     </data>
   <data name="editBindingTrigger" xml:space="preserve">
@@ -5230,28 +5245,28 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem sikerült beolvasni a hitelesítési állapotot. Próbálkozzon újra néhány perc múlva.</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>A függvény összes kulcsának frissítése</value>
+        <value>A függvény összes kulcsának frissítése</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
-      <value>A balra és jobbra mutató nyilakkal lépkedhet a parancsok között</value>
+        <value>A balra és jobbra mutató nyilakkal lépkedhet a parancsok között</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>Új függvénykulcs</value>
+        <value>Új függvénykulcs</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Függvények kulcsainak szűrése</value>
+        <value>Függvények kulcsainak szűrése</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Kulcs szerkesztése</value>
+        <value>Kulcs szerkesztése</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
-      <value>Kulcs hozzáadása</value>
+        <value>Kulcs hozzáadása</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>A(z) {0} tulajdonság minden függvénykulcs esetében kötelező</value>
+        <value>A(z) {0} tulajdonság minden függvénykulcs esetében kötelező</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>A függvénykulcsok nevének egyedinek kell lennie</value>
+        <value>A függvénykulcsok nevének egyedinek kell lennie</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>GitHub Actions (előzetes verzió)</value>
@@ -5281,16 +5296,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Linux</value>
     </data>
   <data name="deploymentCredentialsTitle" xml:space="preserve">
-        <value>Deployment Credentials</value>
+        <value>Központi telepítés hitelesítő adatai</value>
     </data>
   <data name="deploymentCredentialsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+        <value>Az App Service több technológiával is támogatja az alkalmazás tartalmának elérését, közzétételét és módosítását. Az üzembe helyezési hitelesítő adatok hatóköre kiterjeszthető az alkalmazásra vagy a felhasználóra.</value>
     </data>
   <data name="deploymentCredentialsLocalGit" xml:space="preserve">
-        <value>Local Git</value>
+        <value>Helyi git</value>
     </data>
   <data name="deploymentCredentialsFtps" xml:space="preserve">
-        <value>FTP/FTPS</value>
+        <value>FTP vagy FTPS</value>
     </data>
   <data name="none" xml:space="preserve">
         <value>Nincs</value>
@@ -5311,13 +5326,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A balra és jobbra mutató nyilakkal lépkedhet a parancsok között</value>
     </data>
   <data name="localGitDescription" xml:space="preserve">
-        <value>Use Git to push changes directly to your app.</value>
+        <value>A git használatával elküldheti a módosításokat közvetlenül alkalmazásba.</value>
     </data>
   <data name="ftpsDescription" xml:space="preserve">
-        <value>App Service enables you to access your app content through FTP/S.</value>
+        <value>App Service lehetővé teszi az alkalmazástartalom FTP vagy FTPS használatával történő elérését</value>
     </data>
   <data name="gitCloneUrlLabel" xml:space="preserve">
-        <value>Git Clone URL</value>
+        <value>Git clone URL-cím</value>
     </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
         <value>GitHub-művelet munkafolyamatának konfigurációja</value>
@@ -5338,27 +5353,135 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Válassza ki a fájlokat a függvénytárban.</value>
     </data>
   <data name="noPlanWritePermissions" xml:space="preserve">
-        <value>This feature requires write permissions on the plan hosting your app</value>
+        <value>Ehhez a funkcióhoz írási engedély szükséges az alkalmazás üzemeltetéséhez használt csomag esetében</value>
     </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
+    </data>
+  <data name="validation_linuxConnectionStringNameError" xml:space="preserve">
+        <value>Az kapcsolati sztring nevei csak betűket, számokat (0–9), pontokat (.) és aláhúzásjeleket (_) tartalmazhatnak.</value>
     </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Zárja be a get függvény URL modálisát.</value>
     </data>
   <data name="scope" xml:space="preserve">
-        <value>Scope</value>
+        <value>Hatókör</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Virtual network trigger support</value>
+        <value>Virtuálishálózat-eseményindító támogatása</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
-        <value>Refresh App Settings</value>
+        <value>Alkalmazás beállításainak frissítése</value>
     </data>
   <data name="refreshAppSettingsMessage" xml:space="preserve">
-        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+        <value>Frissítéskor minden módosítás elvész. Biztosan folytatja?</value>
+    </data>
+  <data name="eventHubPicker_noNamespaces" xml:space="preserve">
+        <value>Ebben az előfizetésben nincsenek névterek</value>
+    </data>
+  <data name="eventHubPicker_noEventHubs" xml:space="preserve">
+        <value>Ebben a névtérben nincsenek eseményközpontok</value>
+    </data>
+  <data name="eventHubPicker_noPolicies" xml:space="preserve">
+        <value>Ebben a névtérben és eseményközpontban nincsenek szabályzatok</value>
+    </data>
+  <data name="iotHubPivot_noIoTHubs" xml:space="preserve">
+        <value>Ebben az előfizetésben nincsenek IoT-központok</value>
+    </data>
+  <data name="iotHubPivot_IoTHub" xml:space="preserve">
+        <value>IoT Hub</value>
+    </data>
+  <data name="iotHubPivot_noEndpoints" xml:space="preserve">
+        <value>Ehhez az IoT-központhoz nincsenek elérhető végpontok</value>
+    </data>
+  <data name="iotHubPivot_Endpoint" xml:space="preserve">
+        <value>Végpont</value>
+    </data>
+  <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>Események (beépített végpont)</value>
+    </data>
+  <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>Műveletmonitorozás</value>
+    </data>
+  <data name="customPivot_key" xml:space="preserve">
+        <value>Kulcs</value>
+    </data>
+  <data name="customPivot_value" xml:space="preserve">
+        <value>Érték</value>
+    </data>
+  <data name="serviceBusCallout_serviceBus" xml:space="preserve">
+        <value>Service Bus</value>
+    </data>
+  <data name="resourceCallout_customAppSetting" xml:space="preserve">
+        <value>Egyéni alkalmazásbeállítás</value>
+    </data>
+  <data name="serviceBusPicker_noNamespaces" xml:space="preserve">
+        <value>Ebben az előfizetésben nincsenek névterek</value>
+    </data>
+  <data name="serviceBusPicker_noPolicies" xml:space="preserve">
+        <value>Ebben a névtérben nincsenek szabályzatok.</value>
+    </data>
+  <data name="serviceBusPicker_namespace" xml:space="preserve">
+        <value>Névtér</value>
+    </data>
+  <data name="serviceBusPicker_policy" xml:space="preserve">
+        <value>Házirend</value>
+    </data>
+  <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
+        <value>Azure Cosmos DB-fiók</value>
+    </data>
+  <data name="documentDBPivot_noDatabaseAccounts" xml:space="preserve">
+        <value>Ebben az előfizetésben nem találhatók adatbázisfiókok</value>
+    </data>
+  <data name="documentDBPivot_databaseAccount" xml:space="preserve">
+        <value>Adatbázisfiók</value>
+    </data>
+  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Meglévő tárfiók</value>
+    </data>
+  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
+        <value>Új tárfiók</value>
+    </data>
+  <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
+        <value>Ebben az előfizetésben nem találhatók tárfiókok</value>
+    </data>
+  <data name="storageAccountPivot_storageAccount" xml:space="preserve">
+        <value>Tárfiók</value>
+    </data>
+  <data name="newPivot_name" xml:space="preserve">
+        <value>Név</value>
+    </data>
+  <data name="integrateAddOutput" xml:space="preserve">
+        <value>+ Kimenet hozzáadása</value>
+    </data>
+  <data name="integrateCreateOutput" xml:space="preserve">
+        <value>Kimenet létrehozása</value>
+    </data>
+  <data name="deleteBindingNotification" xml:space="preserve">
+        <value>Kötés törlése folyamatban</value>
+    </data>
+  <data name="deleteBindingNotificationDetails" xml:space="preserve">
+        <value>A(z) {0} ({1}) törlése folyamatban van</value>
+    </data>
+  <data name="deleteBindingNotificationFailed" xml:space="preserve">
+        <value>Nem sikerült törölni a(z) {0} ({1}) elemet: {2}</value>
+    </data>
+  <data name="deleteBindingNotificationSuccess" xml:space="preserve">
+        <value>A(z) {0} ({1}) törlése sikerült</value>
+    </data>
+  <data name="createFunctionNotication" xml:space="preserve">
+        <value>Függvény létrehozása folyamatban</value>
+    </data>
+  <data name="createFunctionNotificationDetails" xml:space="preserve">
+        <value>{0} létrehozása</value>
+    </data>
+  <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Nem sikerült létrehozni a(z) {0} elemet: {1}</value>
+    </data>
+  <data name="createFunctionNotificationSuccess" xml:space="preserve">
+        <value>A(z) {0} létrehozása sikerült</value>
     </data>
 </root>
