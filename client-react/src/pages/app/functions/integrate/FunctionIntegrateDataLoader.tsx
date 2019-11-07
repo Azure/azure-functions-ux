@@ -1,9 +1,14 @@
 import React from 'react';
+import LoadingComponent from '../../../../components/loading/loading-component';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import FunctionsService from '../../../../ApiHelpers/FunctionsService';
-import LoadingComponent from '../../../../components/loading/loading-component';
+import { LogCategories } from '../../../../utils/LogCategories';
+import LogService from '../../../../utils/LogService';
 import { FunctionIntegrate } from './FunctionIntegrate';
+import FunctionIntegrateData from './FunctionIntegrate.data';
+
+const functionIntegrateData = new FunctionIntegrateData();
+export const FunctionIntegrateContext = React.createContext(functionIntegrateData);
 
 interface FunctionIntegrateDataLoaderProps {
   resourceId: string;
@@ -27,7 +32,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   public componentWillMount() {
     const { resourceId } = this.props;
 
-    FunctionsService.getFunction(resourceId).then(r => {
+    functionIntegrateData.getFunction(resourceId).then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
@@ -35,7 +40,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
           isLoading: false,
         });
       } else {
-        // etodo: log error
+        LogService.error(LogCategories.functionIntegrate, 'getFunction', `Failed to get function: ${r.metadata.error}`);
       }
     });
   }

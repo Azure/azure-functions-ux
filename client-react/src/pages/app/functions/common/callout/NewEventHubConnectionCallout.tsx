@@ -1,60 +1,49 @@
-import React, { useContext } from 'react';
-import { FieldProps } from 'formik';
-import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react';
+import React, { useState } from 'react';
 import { NewConnectionCalloutProps } from './Callout.properties';
-import CustomTabRenderer from '../../../app-settings/Sections/CustomTabRenderer';
-import { ThemeContext } from '../../../../../ThemeContext';
 import { useTranslation } from 'react-i18next';
 import EventHubPivotDataLoader from './eventHubPivot/EventHubPivotDataLoader';
+import IoTHubPivotDataLoader from './iotHubPivot/IoTHubPivotDataLoader';
+import CustomPivot from './customPivot/CustomPivot';
+import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
+import { paddingSidesStyle } from './Callout.styles';
 
-export enum PivotState {
+enum RadioState {
   eventHub = 'eventHub',
   iotHub = 'iotHub',
   custom = 'custom',
 }
 
-const NewEventHubConnectionCalloutProps: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
-  const theme = useContext(ThemeContext);
+const NewEventHubConnectionCallout: React.SFC<NewConnectionCalloutProps> = props => {
   const { t } = useTranslation();
+  const [radioState, setRadioState] = useState<RadioState>(RadioState.eventHub);
 
   return (
-    <Pivot getTabId={getPivotTabId}>
-      <PivotItem
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme)
-        }
-        itemKey={PivotState.eventHub}
-        headerText={t('eventHubPicker_eventHub')}>
-        <EventHubPivotDataLoader {...props} />
-      </PivotItem>
-      <PivotItem
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme)
-        }
-        itemKey={PivotState.iotHub}
-        headerText={t('eventHubPicker_IOTHub')}
+    <div style={paddingSidesStyle}>
+      <RadioButtonNoFormik
+        id="event-hub-connection-callout-options"
+        ariaLabelledBy={`event-hub-connection-callout-options-label`}
+        selectedKey={radioState}
+        options={[
+          {
+            key: RadioState.eventHub,
+            text: t('eventHubPicker_eventHub'),
+          },
+          {
+            key: RadioState.iotHub,
+            text: t('eventHubPicker_IOTHub'),
+          },
+          {
+            key: RadioState.custom,
+            text: t('resourceCallout_customAppSetting'),
+          },
+        ]}
+        onChange={(o, e) => e && setRadioState(e.key as RadioState)}
       />
-      <PivotItem
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme)
-        }
-        itemKey={PivotState.custom}
-        headerText={t('eventHubPicker_custom')}
-      />
-    </Pivot>
+      {radioState === RadioState.eventHub && <EventHubPivotDataLoader {...props} />}
+      {radioState === RadioState.iotHub && <IoTHubPivotDataLoader {...props} />}
+      {radioState === RadioState.custom && <CustomPivot {...props} />}
+    </div>
   );
 };
 
-const getPivotTabId = (itemKey: string) => {
-  switch (itemKey) {
-    case PivotState.eventHub:
-      return 'new-eventhub-connection-eventhub-tab';
-    case PivotState.iotHub:
-      return 'new-eventhub-connection-iothub-tab';
-    case PivotState.custom:
-      return 'new-eventhub-connection-custom-tab';
-  }
-  return '';
-};
-
-export default NewEventHubConnectionCalloutProps;
+export default NewEventHubConnectionCallout;

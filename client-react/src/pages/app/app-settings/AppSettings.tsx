@@ -69,7 +69,6 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const { resourceId } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
-  const { app_write, editable } = useContext(PermissionsContext);
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
   const [showRefreshConfirmDialog, setShowRefreshConfirmDialog] = useState(false);
@@ -80,73 +79,79 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
 
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
-      {({ initialFormValues, saving, onSubmit, scaleUpPlan, refreshAppSettings }) => (
-        <SiteContext.Consumer>
-          {site => {
+      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings }) => (
+        <PermissionsContext.Consumer>
+          {permissions => {
             return (
-              <Formik
-                initialValues={initialFormValues}
-                onSubmit={onSubmit}
-                enableReinitialize={true}
-                validate={values => validate(values, t, scenarioChecker, site)}
-                validateOnBlur={false}
-                validateOnChange={false}>
-                {(formProps: FormikProps<AppSettingsFormValues>) => (
-                  <form>
-                    <div className={commandBarSticky}>
-                      <AppSettingsCommandBar
-                        submitForm={formProps.submitForm}
-                        resetForm={formProps.resetForm}
-                        refreshAppSettings={() => setShowRefreshConfirmDialog(true)}
-                        disabled={!app_write || !editable || saving}
-                        dirty={formProps.dirty}
-                      />
-                      <ConfirmDialog
-                        primaryActionButton={{
-                          title: t('continue'),
-                          onClick: () => {
-                            closeConfirmDialog();
-                            refreshAppSettings();
-                          },
-                        }}
-                        defaultActionButton={{
-                          title: t('cancel'),
-                          onClick: closeConfirmDialog,
-                        }}
-                        title={t('refreshAppSettingsTitle')}
-                        content={t('refreshAppSettingsMessage')}
-                        hidden={!showRefreshConfirmDialog}
-                        onDismiss={closeConfirmDialog}
-                      />
-                      {!!initialFormValues &&
-                        scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
-                          <UpsellBanner onClick={scaleUpPlan} />
-                        )}
-                      {!!initialFormValues && initialFormValues.references && !initialFormValues.references.appSettings && (
-                        <MessageBar
-                          id="appSettings-keyvault-error"
-                          isMultiline={false}
-                          className={messageBanner(theme)}
-                          messageBarType={MessageBarType.error}>
-                          {t('appSettingKeyvaultAPIError')}
-                        </MessageBar>
+              <SiteContext.Consumer>
+                {site => {
+                  return (
+                    <Formik
+                      initialValues={initialFormValues}
+                      onSubmit={onSubmit}
+                      enableReinitialize={true}
+                      validate={values => validate(values, t, scenarioChecker, site)}
+                      validateOnBlur={false}
+                      validateOnChange={false}>
+                      {(formProps: FormikProps<AppSettingsFormValues>) => (
+                        <form>
+                          <div className={commandBarSticky}>
+                            <AppSettingsCommandBar
+                              submitForm={formProps.submitForm}
+                              resetForm={formProps.resetForm}
+                              refreshAppSettings={() => setShowRefreshConfirmDialog(true)}
+                              disabled={!permissions.app_write || !permissions.editable || permissions.saving}
+                              dirty={formProps.dirty}
+                            />
+                            <ConfirmDialog
+                              primaryActionButton={{
+                                title: t('continue'),
+                                onClick: () => {
+                                  closeConfirmDialog();
+                                  refreshAppSettings();
+                                },
+                              }}
+                              defaultActionButton={{
+                                title: t('cancel'),
+                                onClick: closeConfirmDialog,
+                              }}
+                              title={t('refreshAppSettingsTitle')}
+                              content={t('refreshAppSettingsMessage')}
+                              hidden={!showRefreshConfirmDialog}
+                              onDismiss={closeConfirmDialog}
+                            />
+                            {!!initialFormValues &&
+                              scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
+                                <UpsellBanner onClick={scaleUpPlan} />
+                              )}
+                            {!!initialFormValues && initialFormValues.references && !initialFormValues.references.appSettings && (
+                              <MessageBar
+                                id="appSettings-keyvault-error"
+                                isMultiline={false}
+                                className={messageBanner(theme)}
+                                messageBarType={MessageBarType.error}>
+                                {t('appSettingKeyvaultAPIError')}
+                              </MessageBar>
+                            )}
+                          </div>
+                          {!!initialFormValues ? (
+                            <div className={formStyle}>
+                              <AppSettingsForm {...formProps} />
+                            </div>
+                          ) : (
+                            <MessageBar messageBarType={MessageBarType.error} isMultiline={false}>
+                              {t('configLoadFailure')}
+                            </MessageBar>
+                          )}
+                        </form>
                       )}
-                    </div>
-                    {!!initialFormValues ? (
-                      <div className={formStyle}>
-                        <AppSettingsForm {...formProps} />
-                      </div>
-                    ) : (
-                      <MessageBar messageBarType={MessageBarType.error} isMultiline={false}>
-                        {t('configLoadFailure')}
-                      </MessageBar>
-                    )}
-                  </form>
-                )}
-              </Formik>
+                    </Formik>
+                  );
+                }}
+              </SiteContext.Consumer>
             );
           }}
-        </SiteContext.Consumer>
+        </PermissionsContext.Consumer>
       )}
     </AppSettingsDataLoader>
   );

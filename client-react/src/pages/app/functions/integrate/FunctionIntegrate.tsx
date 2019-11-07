@@ -1,26 +1,28 @@
-import React, { useRef, useState, useContext } from 'react';
-import { ArmObj } from '../../../../models/arm-obj';
-import { FunctionInfo } from '../../../../models/functions/function-info';
-import { Stack, IStackTokens } from 'office-ui-fabric-react';
-import TriggerBindingCard from './BindingsDiagram/TriggerBindingCard';
-import OutputBindingCard from './BindingsDiagram/OutputBindingCard';
-import InputBindingCard from './BindingsDiagram/InputBindingCard';
-import FunctionNameBindingCard from './BindingsDiagram/FunctionNameBindingCard';
-import { BindingInfo } from '../../../../models/functions/function-binding';
-import { Subject, Observable } from 'rxjs';
-import BindingEditorDataLoader from './binding-editor/BindingEditorDataLoader';
+import { IStackTokens, Stack } from 'office-ui-fabric-react';
+import React, { useContext, useRef, useState } from 'react';
+import { Observable, Subject } from 'rxjs';
+import { classes } from 'typestyle';
 import { ReactComponent as DoubleArrow } from '../../../../images/Functions/double-arrow-left-right.svg';
 import { ReactComponent as SingleArrow } from '../../../../images/Functions/single-arrow-left-right.svg';
-import { classes } from 'typestyle';
+import { ArmObj } from '../../../../models/arm-obj';
+import { BindingConfigDirection } from '../../../../models/functions/bindings-config';
+import { BindingInfo } from '../../../../models/functions/function-binding';
+import { FunctionInfo } from '../../../../models/functions/function-info';
+import { ThemeContext } from '../../../../ThemeContext';
+import { ClosedReason } from './BindingPanel/BindingEditor';
+import BindingPanel from './BindingPanel/BindingPanel';
+import FunctionNameBindingCard from './BindingsDiagram/FunctionNameBindingCard';
+import InputBindingCard from './BindingsDiagram/InputBindingCard';
+import OutputBindingCard from './BindingsDiagram/OutputBindingCard';
+import TriggerBindingCard from './BindingsDiagram/TriggerBindingCard';
 import {
+  arrowProps,
+  defaultArrowStyle,
   diagramWrapperStyle,
   doubleArrowStyle,
-  singleCardStackStyle,
   singleArrowStyle,
-  defaultArrowStyle,
-  arrowProps,
+  singleCardStackStyle,
 } from './FunctionIntegrate.style';
-import { ThemeContext } from '../../../../ThemeContext';
 
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -29,11 +31,11 @@ export interface FunctionIntegrateProps {
 export interface BindingUpdateInfo {
   newBindingInfo?: BindingInfo;
   currentBindingInfo?: BindingInfo;
-  closedReason: 'cancel' | 'save' | 'delete';
+  closedReason: ClosedReason;
 }
 
 export interface BindingEditorContextInfo {
-  openEditor: (bindingInfo: BindingInfo) => Observable<BindingUpdateInfo>;
+  openEditor: (bindingDirection: BindingConfigDirection, bindingInfo?: BindingInfo) => Observable<BindingUpdateInfo>;
   closeEditor: () => void;
   updateFunctionInfo: React.Dispatch<React.SetStateAction<ArmObj<FunctionInfo>>>;
 }
@@ -46,14 +48,19 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
 
   const bindingUpdate$ = useRef(new Subject<BindingUpdateInfo>());
   const [bindingToUpdate, setBindingToUpdate] = useState<BindingInfo | undefined>(undefined);
+  const [bindingDirection, setBindingDirection] = useState<BindingConfigDirection>(BindingConfigDirection.in);
   const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo>>(initialFunctionInfo);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const openEditor = (bindingInfo: BindingInfo): Observable<BindingUpdateInfo> => {
+  const openEditor = (editorBindingDirection: BindingConfigDirection, bindingInfo?: BindingInfo): Observable<BindingUpdateInfo> => {
+    setBindingDirection(editorBindingDirection);
     setBindingToUpdate(bindingInfo);
+    setIsOpen(true);
     return bindingUpdate$.current;
   };
 
   const closeEditor = () => {
+    setIsOpen(false);
     setBindingToUpdate(undefined);
   };
 
@@ -61,18 +68,28 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
     bindingUpdate$.current.next({
       newBindingInfo,
       currentBindingInfo,
-      closedReason: 'save',
+      closedReason: ClosedReason.Save,
     });
   };
 
   const onCancel = () => {
     bindingUpdate$.current.next({
-      newBindingInfo: undefined,
       currentBindingInfo: bindingToUpdate,
-      closedReason: 'cancel',
+      closedReason: ClosedReason.Cancel,
+    });
+
+    setIsOpen(false);
+    setBindingToUpdate(undefined);
+  };
+
+  const onDelete = (currentBindingInfo: BindingInfo) => {
+    bindingUpdate$.current.next({
+      currentBindingInfo,
+      closedReason: ClosedReason.Delete,
     });
 
     setBindingToUpdate(undefined);
+    setIsOpen(false);
   };
 
   const editorContext: BindingEditorContextInfo = {
@@ -80,6 +97,7 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
     closeEditor,
     updateFunctionInfo: setFunctionInfo,
   };
+
   const functionAppId = functionInfo.properties.function_app_id || functionInfo.id.split('/function')[0];
 
   const tokens: IStackTokens = {
@@ -89,12 +107,15 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
   return (
     <>
       <BindingEditorContext.Provider value={editorContext}>
-        <BindingEditorDataLoader
+        <BindingPanel
           functionInfo={functionInfo}
           functionAppId={functionAppId}
           bindingInfo={bindingToUpdate}
+          bindingDirection={bindingDirection}
           onPanelClose={onCancel}
           onSubmit={onSubmit}
+          onDelete={onDelete}
+          isOpen={isOpen}
         />
 
         <div className={diagramWrapperStyle}>

@@ -300,8 +300,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       <Panel
         isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
         onDismiss={onClosePanel}
-        headerText={panelItem === 'edit' ? t('editHostKey') : t('addHostKey')}
-        closeButtonAriaLabel={t('close')}>
+        headerText={panelItem === 'edit' ? t('editHostKey') : t('addHostKey')}>
         <AppKeyAddEdit
           resourceId={resourceId}
           createAppKey={createHostKey}

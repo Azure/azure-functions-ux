@@ -6,7 +6,7 @@ import ReactiveFormControl from './ReactiveFormControl';
 
 interface RadioButtonProps {
   id: string;
-  label: string;
+  label?: string;
   subLabel?: string;
   upsellMessage?: string;
   learnMore?: {

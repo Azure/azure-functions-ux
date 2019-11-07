@@ -16,7 +16,8 @@ import { ThemeContext } from '../../../../ThemeContext';
 import { dirtyElementStyle } from '../AppSettings.styles';
 
 const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
-  const permissionContext = useContext(PermissionsContext);
+  const { app_write, editable, saving } = useContext(PermissionsContext);
+  const disableAllControls = !app_write || !editable || saving;
   const theme = useContext(ThemeContext);
 
   const [showPanel, setShowPanel] = useState(false);
@@ -31,7 +32,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
       {
         key: 'app-settings-new-handler-mappings-button',
         onClick: createNewHandlerMapping,
-        disabled: !permissionContext.app_write || !permissionContext.editable,
+        disabled: disableAllControls,
         iconProps: { iconName: 'Add' },
         ariaLabel: t('addNewHandlerMapping'),
         name: t('addNewHandler'),
@@ -138,7 +139,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!permissionContext.app_write || !permissionContext.editable}
+            disabled={disableAllControls}
             id={`app-settings-handler-mappings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -156,7 +157,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={!permissionContext.app_write || !permissionContext.editable}
+            disabled={disableAllControls}
             id={`app-settings-handler-mappings-edit-${index}`}
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}
@@ -253,7 +254,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyHandlerMappings')}
       />
-      <Panel isOpen={showPanel} onDismiss={onCancel} headerText={t('newHandlerMapping')} closeButtonAriaLabel={t('close')}>
+      <Panel isOpen={showPanel} onDismiss={onCancel} headerText={t('newHandlerMapping')}>
         <HandlerMappingsAddEdit handlerMapping={currentHandlerMapping!} updateHandlerMapping={onClosePanel} closeBlade={onCancel} />
       </Panel>
     </>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { DefaultButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,8 @@ import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
 import { paddingStyle } from './FunctionCreate.styles';
 import { FunctionCreateContext } from './FunctionCreateDataLoader';
-import { getTriggerBinding, getRequiredBindingMetadata } from './DetailsPivot.helper';
+import { getRequiredCreationBindings } from './DetailsPivot.helper';
+import { PortalContext } from '../../../../PortalContext';
 
 interface DetailsPivotProps {
   functionsInfo: ArmObj<FunctionInfo>[];
@@ -20,18 +21,19 @@ interface DetailsPivotProps {
 
 const DetailsPivot: React.FC<DetailsPivotProps> = props => {
   const { functionsInfo, bindingsConfig, selectedFunctionTemplate, resourceId } = props;
-  const functionCreateData = useContext(FunctionCreateContext);
+  const provider = useContext(FunctionCreateContext);
+  const portalCommunicator = useContext(PortalContext);
   const { t } = useTranslation();
+  const [creatingFunction, setCreatingFunction] = useState<boolean>(false);
 
   if (selectedFunctionTemplate) {
-    const triggerBinding = getTriggerBinding(selectedFunctionTemplate);
-    const requiredBindingMetadata = getRequiredBindingMetadata(
-      triggerBinding,
+    const requiredBindingMetadata = getRequiredCreationBindings(
+      selectedFunctionTemplate.function.bindings,
       bindingsConfig,
       selectedFunctionTemplate.metadata.userPrompt || []
     );
     const builder = new CreateFunctionFormBuilder(
-      triggerBinding,
+      selectedFunctionTemplate.function.bindings,
       requiredBindingMetadata,
       resourceId,
       bindingsConfig.variables,
@@ -45,13 +47,18 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
       <>
         <Formik
           initialValues={initialFormValues}
-          onSubmit={formValues => functionCreateData.createFunction(resourceId, selectedFunctionTemplate, triggerBinding, formValues)}>
+          onSubmit={formValues => {
+            setCreatingFunction(true);
+            provider.createFunction(portalCommunicator, t, resourceId, selectedFunctionTemplate, formValues);
+          }}>
           {(formProps: FormikProps<CreateFunctionFormValues>) => {
             return (
               <form>
                 <div style={paddingStyle}>
                   {builder.getFields(formProps, false)}
-                  <DefaultButton onClick={formProps.submitForm}>{t('functionCreate_createFunction')}</DefaultButton>
+                  <DefaultButton onClick={formProps.submitForm} disabled={creatingFunction}>
+                    {t('functionCreate_createFunction')}
+                  </DefaultButton>
                 </div>
               </form>
             );

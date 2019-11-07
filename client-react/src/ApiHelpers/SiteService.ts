@@ -73,6 +73,21 @@ export default class SiteService {
     return result;
   };
 
+  public static updateApplicationSettings = async (resourceId: string, appSettings: ArmObj<{ [key: string]: string }>) => {
+    const id = `${resourceId}/config/appsettings`;
+    const result = await MakeArmCall<ArmObj<{ [key: string]: string }>>({
+      resourceId: id,
+      commandName: 'updateApplicationSettings',
+      method: 'PUT',
+      body: appSettings,
+    });
+    LogService.trackEvent('site-service', 'appSettingsUpdated', {
+      success: result.metadata.success,
+      resultCount: result.data && Object.keys(result.data.properties).length,
+    });
+    return result;
+  };
+
   public static fetchMetadata = async (resourceId: string) => {
     const id = `${resourceId}/config/metadata/list`;
     const result = await MakeArmCall<ArmObj<{ [key: string]: string }>>({ resourceId: id, commandName: 'fetchMetadata', method: 'POST' });
