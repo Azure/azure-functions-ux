@@ -59,7 +59,10 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
           selectionPreservedOnEmptyClick={true}
           emptyMessage={t('emptyAzureStorageMount')}
         />
-        <Panel isOpen={this.state.showPanel} onDismiss={this._onCancel} headerText={t('newAzureStorageMount')}>
+        <Panel
+          isOpen={this.state.showPanel}
+          onDismiss={this._onCancel}
+          headerText={this.state.createNewItem ? t('newAzureStorageMount') : t('editAzureStorageMount')}>
           <AzureStorageMountsAddEdit
             azureStorageMount={this.state.currentAzureStorageMount!}
             otherAzureStorageMounts={values.azureStorageMounts}
