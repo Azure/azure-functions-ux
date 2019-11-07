@@ -4787,6 +4787,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="newAzureStorageMount" xml:space="preserve">
         <value>New Azure Storage Mount</value>
     </data>
+    <data name="editAzureStorageMount" xml:space="preserve">
+        <value>Edit Azure Storage Mount</value>
+    </data>
     <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Empty Azure Storage Mount</value>
     </data>
