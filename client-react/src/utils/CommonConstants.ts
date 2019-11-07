@@ -18,6 +18,7 @@ export class CommonConstants {
     pv2UpsellInfoLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2028474',
     ipRestrictionsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=854597',
     appDensityWarningLink: 'https://go.microsoft.com/fwlink/?linkid=2098431',
+    byosBlobReadonlyLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2110146',
   };
 
   public static readonly Kinds = {
