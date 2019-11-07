@@ -254,7 +254,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyHandlerMappings')}
       />
-      <Panel isOpen={showPanel} onDismiss={onCancel} headerText={t('newHandlerMapping')} closeButtonAriaLabel={t('close')}>
+      <Panel isOpen={showPanel} onDismiss={onCancel} headerText={t('newHandlerMapping')}>
         <HandlerMappingsAddEdit handlerMapping={currentHandlerMapping!} updateHandlerMapping={onClosePanel} closeBlade={onCancel} />
       </Panel>
     </>
