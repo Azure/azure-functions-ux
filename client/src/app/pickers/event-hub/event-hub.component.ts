@@ -108,7 +108,7 @@ export class EventHubComponent extends FunctionAppContextComponent {
         const id = `/subscriptions/${descriptor.subscription}/providers/Microsoft.EventHub/namespaces`;
         const devicesId = `/subscriptions/${descriptor.subscription}/providers/Microsoft.Devices/IotHubs`;
         return Observable.zip(
-          this._cacheService.getArm(id, true).catch(() => Observable.of(null)),
+          this._cacheService.getArm(id, true, this._armService.serviceBusAndEventHubApiVersion20150801).catch(() => Observable.of(null)),
           this._cacheService.getArm(devicesId, true, '2017-01-19').catch(() => Observable.of(null))
         );
       })
@@ -136,8 +136,8 @@ export class EventHubComponent extends FunctionAppContextComponent {
     this.selectedEventHub = null;
     this.selectedPolicy = null;
     Observable.zip(
-      this._cacheService.getArm(value + '/eventHubs', true),
-      this._cacheService.getArm(value + '/AuthorizationRules', true),
+      this._cacheService.getArm(value + '/eventHubs', true, this._armService.serviceBusAndEventHubApiVersion20150801),
+      this._cacheService.getArm(value + '/AuthorizationRules', true, this._armService.serviceBusAndEventHubApiVersion20150801),
       (hubs, namespacePolices) => ({ hubs: hubs.json(), namespacePolices: namespacePolices.json() })
     ).subscribe(r => {
       this.eventHubs = r.hubs;
@@ -161,22 +161,24 @@ export class EventHubComponent extends FunctionAppContextComponent {
   onEventHubChange(value: string) {
     this.selectedPolicy = null;
     this.polices = null;
-    this._cacheService.getArm(value + '/AuthorizationRules', true).subscribe(r => {
-      this.polices = r.json();
+    this._cacheService
+      .getArm(value + '/AuthorizationRules', true, this._armService.serviceBusAndEventHubApiVersion20150801)
+      .subscribe(r => {
+        this.polices = r.json();
 
-      this.polices.value.forEach(item => {
-        item.name += ' ' + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy);
+        this.polices.value.forEach(item => {
+          item.name += ' ' + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy);
+        });
+
+        if (this.namespacePolices.value.length > 0) {
+          this.polices.value = this.polices.value.concat(this.namespacePolices.value);
+        }
+
+        if (this.polices.value.length > 0) {
+          this.selectedPolicy = this.polices.value[0].id;
+        }
+        this.setSelect();
       });
-
-      if (this.namespacePolices.value.length > 0) {
-        this.polices.value = this.polices.value.concat(this.namespacePolices.value);
-      }
-
-      if (this.polices.value.length > 0) {
-        this.selectedPolicy = this.polices.value[0].id;
-      }
-      this.setSelect();
-    });
   }
 
   onIOTHubChange(value: string) {
@@ -251,7 +253,7 @@ export class EventHubComponent extends FunctionAppContextComponent {
             const appSettings: ArmObj<any> = r.appSettings.json();
             appSettings.properties[appSettingName] = appSettingValue;
 
-            return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+            return this._cacheService.putArm(appSettings.id, this._armService.antaresApiVersion20181101, appSettings);
           })
           .do(null, e => {
             this._globalStateService.clearBusyState();
@@ -285,7 +287,7 @@ export class EventHubComponent extends FunctionAppContextComponent {
           .flatMap(r => {
             const appSettings: ArmObj<any> = r.json();
             appSettings.properties[appSettingName] = appSettingValue;
-            return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+            return this._cacheService.putArm(appSettings.id, this._armService.antaresApiVersion20181101, appSettings);
           })
           .do(null, e => {
             this._globalStateService.clearBusyState();

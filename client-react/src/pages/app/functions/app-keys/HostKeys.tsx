@@ -16,8 +16,6 @@ import { emptyKey } from './AppKeys';
 import AppKeyAddEdit from './AppKeyAddEdit';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppKeysContext } from './AppKeysDataLoader';
-import { ArmObj } from '../../../../models/arm-obj';
-import { Site } from '../../../../models/site/site';
 import Panel from '../../../../components/Panel/Panel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
@@ -25,14 +23,14 @@ import { ThemeContext } from '../../../../ThemeContext';
 
 interface HostKeysProps {
   resourceId: string;
-  site: ArmObj<Site>;
+  initialLoading: boolean;
   hostKeys: AppKeysModel[];
   refreshData: () => void;
 }
 
 const HostKeys: React.FC<HostKeysProps> = props => {
   const writePermission = false;
-  const { hostKeys, resourceId, refreshData } = props;
+  const { hostKeys, resourceId, refreshData, initialLoading } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -216,7 +214,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       {
         key: 'app-keys-host-keys-add',
         onClick: () => showAddEditPanel(),
-        disabled: writePermission,
+        disabled: writePermission || initialLoading,
         iconProps: { iconName: 'Add' },
         name: t('newHostKey'),
         ariaLabel: t('addHostKey'),
@@ -224,12 +222,14 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       {
         key: 'app-keys-host-keys-show-hide',
         onClick: flipHideSwitch,
+        disabled: initialLoading,
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
       },
       {
         key: 'app-keys-host-keys-show-filter',
         onClick: toggleFilter,
+        disabled: initialLoading,
         iconProps: { iconName: 'Filter' },
         name: t('filter'),
       },
@@ -238,6 +238,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
 
   const createHostKey = (key: AppKeysModel) => {
     appKeysContext.createKey(resourceId, key.name, key.value, AppKeysTypes.functionKeys);
+    onClosePanel();
     refreshData();
   };
 
@@ -282,6 +283,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
+        shimmer={{ lines: 2, show: initialLoading }}
         emptyMessage={t('emptyHostKeys')}>
         {showFilter && (
           <SearchBox

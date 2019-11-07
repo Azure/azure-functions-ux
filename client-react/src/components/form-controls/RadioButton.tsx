@@ -13,6 +13,7 @@ interface RadioButtonProps {
     learnMoreLink: string;
     learnMoreText: string;
   };
+  dirty?: boolean;
 }
 
 const RadioButton: React.SFC<IChoiceGroupProps & FieldProps & RadioButtonProps> = props => {

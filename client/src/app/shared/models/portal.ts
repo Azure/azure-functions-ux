@@ -134,12 +134,18 @@ export interface WebsiteId {
   SubscriptionId: string;
 }
 
-export interface OpenBladeInfo {
+export interface OpenBladeInfo<T = any> {
   detailBlade: string;
-  detailBladeInputs: any;
+  detailBladeInputs: T;
   extension?: string;
   openAsContextBlade?: boolean;
   openAsSubJourney?: boolean;
+}
+
+export interface FrameBladeParams<T = any> {
+  id?: string;
+  feature?: string;
+  data?: T;
 }
 
 export interface TimerEvent {

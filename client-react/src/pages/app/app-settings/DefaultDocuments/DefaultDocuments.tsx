@@ -7,10 +7,14 @@ import TextField from '../../../../components/form-controls/TextFieldNoLabel';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
+import { ThemeContext } from '../../../../ThemeContext';
+import { dirtyElementStyle } from '../AppSettings.styles';
 
 const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const [focusLast, setFocusLast] = useState(false);
   const { t } = useTranslation();
+  const theme = useContext(ThemeContext);
+
   let lastFieldRef: HTMLInputElement;
   const { app_write, editable } = useContext(PermissionsContext);
   // This is a hook that is run after render if finished
@@ -53,6 +57,13 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
     });
   };
 
+  const isAppSettingDirty = (index: number): boolean => {
+    const initialDefaultDocuments = props.initialValues.config.properties.defaultDocuments;
+    const currentRow = values.config.properties.defaultDocuments[index];
+    const initialDefaultDocumentIndex = initialDefaultDocuments.findIndex(x => x.toLowerCase() === currentRow.toLowerCase());
+    return initialDefaultDocumentIndex < 0;
+  };
+
   if (!values.config.properties.defaultDocuments) {
     return null;
   }
@@ -72,6 +83,7 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
         {values.config.properties.defaultDocuments.map((value, index) => (
           <li key={index} style={{ marginBottom: '5px', marginLeft: '0px', listStyle: 'none' }}>
             <div
+              className={`${isAppSettingDirty(index) ? dirtyElementStyle(theme) : ''}`}
               style={{
                 display: 'inline-block',
                 width: 'calc(100% - 20px)',

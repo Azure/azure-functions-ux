@@ -41,7 +41,7 @@ export class ScenarioService implements IScenarioService {
     new EmbeddedFunctionsEnvironment(this._portalService),
     new DynamicLinuxEnvironment(this._translateService),
     new FunctionAppEnvironment(this._injector),
-    new WindowsCodeEnvironment(),
+    new WindowsCodeEnvironment(this._injector),
     new ContainerEnvironment(),
     new AppOnAse(this._injector),
   ];

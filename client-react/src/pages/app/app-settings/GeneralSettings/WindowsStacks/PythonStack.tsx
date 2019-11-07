@@ -21,7 +21,7 @@ export interface OwnProps {
 type Props = StateProps & FormikProps<AppSettingsFormValues>;
 
 const PythonStack: React.StatelessComponent<Props> = props => {
-  const { stacks } = props;
+  const { stacks, values, initialValues } = props;
   const { app_write, editable } = useContext(PermissionsContext);
   const { t } = useTranslation();
   const pythonStack = stacks.find(x => x.name === 'python');
@@ -39,6 +39,10 @@ const PythonStack: React.StatelessComponent<Props> = props => {
   return (
     <Field
       name="config.properties.pythonVersion"
+      dirty={
+        values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
+        values.config.properties.pythonVersion !== initialValues.config.properties.pythonVersion
+      }
       component={Dropdown}
       infoBubbleMessage={t('pythonInfoTextNoClick')}
       learnMoreLink={Links.pythonStackInfo}

@@ -6,13 +6,16 @@ export enum ComputeMode {
   Dynamic,
 }
 
-export enum SiteAvailabilitySates {
-  Normal,
-  Limited,
-  DisasterRecoveryMode,
+export enum SiteAvailabilityState {
+  Normal = 'Normal',
+  Limited = 'Limited',
+  DisasterRecoveryMode = 'DisasterRecoveryMode',
 }
 
-export type AvailabilityState = SiteAvailabilitySates.Normal | SiteAvailabilitySates.Limited | SiteAvailabilitySates.DisasterRecoveryMode;
+export enum HostType {
+  Standard = 'Standard',
+  Repository = 'Repository',
+}
 
 export class SiteProperties {
   properties: { name: string; value: string }[];
@@ -23,7 +26,7 @@ export interface Site {
   enabledHostNames?: string[];
   hostNameSslStates: Array<{
     name: string;
-    hostType: number;
+    hostType: HostType;
   }>;
   sku: string;
   targetSwapSlot?: string;
@@ -41,5 +44,5 @@ export interface Site {
   computeMode?: ComputeMode;
   isXenon?: boolean;
   siteProperties?: SiteProperties;
-  availabilityState: AvailabilityState;
+  availabilityState: SiteAvailabilityState;
 }

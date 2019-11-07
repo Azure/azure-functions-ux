@@ -19,7 +19,8 @@ export class ArmService {
   public armPermissionsVersion = '2015-07-01';
   public armLocksApiVersion = '2015-01-01';
   public storageApiVersion = '2015-05-01-preview';
-  public websiteApiVersion = ARMApiVersions.websiteApiVersion;
+  public antaresApiVersion20181101 = ARMApiVersions.antaresApiVersion20181101;
+  public serviceBusAndEventHubApiVersion20150801 = ARMApiVersions.serviceBusAndEventHubApiVersion20150801;
   public appInsightsApiVersion = '2015-05-01';
   public notificationHubApiVersion = '2017-04-01';
   public logicAppsApiVersion = '2017-07-01';
@@ -72,35 +73,35 @@ export class ArmService {
   }
 
   get(resourceId: string, apiVersion?: string) {
-    const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
+    const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.antaresApiVersion20181101}`;
     return this._http.get(url, { headers: this.getHeaders() });
   }
 
   delete(resourceId: string, apiVersion?: string) {
-    const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
+    const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.antaresApiVersion20181101}`;
     return this._http.delete(url, { headers: this.getHeaders() });
   }
 
   put(resourceId: string, body: any, apiVersion?: string) {
-    const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
+    const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.antaresApiVersion20181101}`;
     return this._http.put(url, JSON.stringify(body), { headers: this.getHeaders() });
   }
 
   patch(resourceId: string, body: any, apiVersion?: string) {
-    const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
+    const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.antaresApiVersion20181101}`;
     return this._http.patch(url, JSON.stringify(body), { headers: ArmServiceHelper.getHeaders(this._token, this._sessionId) });
   }
 
   post(resourceId: string, body: any, apiVersion?: string) {
     const content = !!body ? JSON.stringify(body) : null;
-    const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
+    const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.antaresApiVersion20181101}`;
     return this._http.post(url, content, { headers: this.getHeaders() });
   }
 
   getArmUrl(resourceId: string, apiVersion?: string) {
     const url = `${this.armUrl}${resourceId}`;
     if (apiVersion) {
-      return this._updateQueryString(url, 'api-version', apiVersion ? apiVersion : this.websiteApiVersion);
+      return this._updateQueryString(url, 'api-version', apiVersion ? apiVersion : this.antaresApiVersion20181101);
     } else {
       return url;
     }

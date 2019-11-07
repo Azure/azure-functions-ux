@@ -8,7 +8,7 @@ export default class HostingEnvironmentService {
     return MakeArmCall<ArmObj<HostingEnvironment>>({
       resourceId,
       commandName: 'FetchHostingEnvironment',
-      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
   };
 }

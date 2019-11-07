@@ -17,11 +17,13 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
   constructor(
     bindingInfo: BindingInfo,
     bindingMetadata: BindingConfigMetadata,
+    resourceId: string,
+    variables: { [key: string]: string },
     private _functionsInfo: ArmObj<FunctionInfo>[],
     private _defaultName: string,
     private t: i18next.TFunction
   ) {
-    super(bindingInfo, bindingMetadata, t);
+    super(bindingInfo, bindingMetadata, resourceId, t, variables);
   }
 
   public getInitialFormValues() {

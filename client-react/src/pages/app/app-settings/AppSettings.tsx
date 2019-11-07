@@ -1,5 +1,5 @@
 import { Formik, FormikProps } from 'formik';
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useState } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
 import AppSettingsDataLoader from './AppSettingsDataLoader';
@@ -9,11 +9,13 @@ import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import i18n from 'i18next';
 import { PermissionsContext, SiteContext } from './Contexts';
-import { commandBarSticky, formStyle } from './AppSettings.styles';
+import { commandBarSticky, formStyle, messageBanner } from './AppSettings.styles';
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { ThemeContext } from '../../../ThemeContext';
+import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -66,9 +68,15 @@ interface AppSettingsProps {
 const AppSettings: React.FC<AppSettingsProps> = props => {
   const { resourceId } = props;
   const { t } = useTranslation();
+  const theme = useContext(ThemeContext);
   const { app_write, editable } = useContext(PermissionsContext);
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
+  const [showRefreshConfirmDialog, setShowRefreshConfirmDialog] = useState(false);
+
+  const closeConfirmDialog = () => {
+    setShowRefreshConfirmDialog(false);
+  };
 
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
@@ -89,14 +97,40 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                       <AppSettingsCommandBar
                         submitForm={formProps.submitForm}
                         resetForm={formProps.resetForm}
-                        refreshAppSettings={refreshAppSettings}
+                        refreshAppSettings={() => setShowRefreshConfirmDialog(true)}
                         disabled={!app_write || !editable || saving}
                         dirty={formProps.dirty}
+                      />
+                      <ConfirmDialog
+                        primaryActionButton={{
+                          title: t('continue'),
+                          onClick: () => {
+                            closeConfirmDialog();
+                            refreshAppSettings();
+                          },
+                        }}
+                        defaultActionButton={{
+                          title: t('cancel'),
+                          onClick: closeConfirmDialog,
+                        }}
+                        title={t('refreshAppSettingsTitle')}
+                        content={t('refreshAppSettingsMessage')}
+                        hidden={!showRefreshConfirmDialog}
+                        onDismiss={closeConfirmDialog}
                       />
                       {!!initialFormValues &&
                         scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
                           <UpsellBanner onClick={scaleUpPlan} />
                         )}
+                      {!!initialFormValues && initialFormValues.references && !initialFormValues.references.appSettings && (
+                        <MessageBar
+                          id="appSettings-keyvault-error"
+                          isMultiline={false}
+                          className={messageBanner(theme)}
+                          messageBarType={MessageBarType.error}>
+                          {t('appSettingKeyvaultAPIError')}
+                        </MessageBar>
+                      )}
                     </div>
                     {!!initialFormValues ? (
                       <div className={formStyle}>

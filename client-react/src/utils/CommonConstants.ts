@@ -33,12 +33,12 @@ export class CommonConstants {
   };
 
   public static readonly ApiVersions = {
-    websiteApiVersion20160301: '2016-03-01',
-    websiteApiVersion20180201: '2018-02-01',
-    websiteApiVersion20181101: '2018-11-01',
+    antaresApiVersion20181101: '2018-11-01',
     armBatchApi: '2015-11-01',
     armLocksApiVersion: '2015-01-01',
     armRbacApiVersion: '2015-07-01',
+    storageApiVersion20180701: '2018-07-01',
+    eventHubApiVersion20150801: '2015-08-01',
   };
   public static readonly NonThemeColors = {
     upsell: '#804998',

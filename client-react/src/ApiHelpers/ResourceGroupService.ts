@@ -10,7 +10,7 @@ export default class ResourceGroupService {
     return MakePagedArmCall<ResourceGroup>({
       resourceId: id,
       commandName: 'FetchResourceGroups',
-      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
   };
 
@@ -29,7 +29,7 @@ export default class ResourceGroupService {
       resourceId: id,
       method: 'PUT',
       commandName: 'UpdateResourceGroup',
-      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
   };
 }

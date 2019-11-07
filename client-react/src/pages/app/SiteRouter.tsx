@@ -32,6 +32,9 @@ const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"func
 const FunctionKeysLoadable: any = lazy(() =>
   import(/* webpackChunkName: "functionKeys" */ './functions/function-keys/FunctionKeysDataLoader')
 );
+const FunctionEditorLoadable: any = lazy(() =>
+  import(/* webpackChunkName:"functioneditor" */ './functions/function-editor/FunctionEditorDataLoader')
+);
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
@@ -52,6 +55,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                   <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
                   <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
                   <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
+                  <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
                 </Router>
               )
             );

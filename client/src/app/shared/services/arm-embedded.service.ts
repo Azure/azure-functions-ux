@@ -12,7 +12,7 @@ import { ArmService } from './arm.service';
 export class ArmEmbeddedService extends ArmService {
   public static url = ArmService.getRPUrl();
 
-  public websiteApiVersion = '2018-02-01-preview';
+  public antaresApiVersion20181101 = '2018-02-01-preview';
 
   private _whitelistedAPIMUrls: string[] = ['https://blueridge.azure-api.net', 'https://tip1.api.cds.microsoft.com'];
 

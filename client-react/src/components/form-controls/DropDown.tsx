@@ -10,6 +10,7 @@ export interface CustomDropdownProps {
   infoBubbleMessage?: string;
   label: string;
   learnMoreLink?: string;
+  dirty?: boolean;
 }
 
 const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {

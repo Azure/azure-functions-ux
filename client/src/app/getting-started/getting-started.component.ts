@@ -72,10 +72,12 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     this.functionContainers = [];
     this.geoRegions = [];
     this.functionContainerNameEvent = new EventEmitter<string>();
-    this.functionContainerNameEvent.switchMap(() => this.validateContainerName(this.functionContainerName)).subscribe(v => {
-      this.isValidContainerName = v.isValid;
-      this.validationError = v.reason;
-    });
+    this.functionContainerNameEvent
+      .switchMap(() => this.validateContainerName(this.functionContainerName))
+      .subscribe(v => {
+        this.isValidContainerName = v.isValid;
+        this.validationError = v.reason;
+      });
   }
 
   ngOnInit() {
@@ -239,13 +241,15 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
 
   private _validateSiteNameAvailable(subscriptionId: string, containerName: string) {
     const id = `/subscriptions/${subscriptionId}/providers/Microsoft.Web/ishostnameavailable/${containerName}`;
-    return this._armService.get(id, this._armService.websiteApiVersion).map(r => <boolean>r.json().properties);
+    return this._armService.get(id, this._armService.antaresApiVersion20181101).map(r => <boolean>r.json().properties);
   }
 
   private _getDynamicStampLocations(subscriptionId: string): Observable<{ name: string; displayName: string }[]> {
     const dynamicUrl = `${
       this._armService.armUrl
-    }/subscriptions/${subscriptionId}/providers/Microsoft.Web/georegions?sku=Dynamic&api-version=${this._armService.websiteApiVersion}`;
+    }/subscriptions/${subscriptionId}/providers/Microsoft.Web/georegions?sku=Dynamic&api-version=${
+      this._armService.antaresApiVersion20181101
+    }`;
     const geoFencedId = `/subscriptions/${subscriptionId}/providers/Microsoft.Web`;
     return Observable.zip(
       this._armService.send('GET', dynamicUrl).map(r => <{ name: string; displayName: string }[]>r.json().value.map(e => e.properties)),
@@ -312,7 +316,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     const registerProviders = (providers?: string[]) => {
       const observables: Observable<Response>[] = [];
       if (!providers || !providers.find(e => e.toLowerCase() === 'microsoft.web')) {
-        observables.push(this._armService.post(websiteRegisterId, null, this._armService.websiteApiVersion));
+        observables.push(this._armService.post(websiteRegisterId, null, this._armService.antaresApiVersion20181101));
       }
       if (!providers || !providers.find(e => e.toLowerCase() === 'microsoft.storage')) {
         observables.push(this._armService.post(storageRegisterId, null, this._armService.storageApiVersion));
@@ -517,7 +521,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     };
 
     this._armService
-      .put(id, body, this._armService.websiteApiVersion)
+      .put(id, body, this._armService.antaresApiVersion20181101)
       .map(r => <FunctionContainer>r.json())
       .subscribe(r => this.complete(result, r), e => this.completeError(result, e));
   }
