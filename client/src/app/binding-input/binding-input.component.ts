@@ -231,7 +231,7 @@ export class BindingInputComponent extends FunctionAppContextComponent {
         this._input.isValid = value ? true : false;
         this._input.class = this._input.isValid ? this._input.noErrorClass : this._input.errorClass;
 
-        this._input.errorText = this._input.isValid ? '' : this._translateService.instant(PortalResources.filedRequired);
+        this._input.errorText = this._input.isValid ? '' : this._translateService.instant(PortalResources.fieldRequired);
       } else {
         this._input.isValid = true;
         this._input.errorText = '';

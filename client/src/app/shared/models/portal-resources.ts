@@ -144,7 +144,7 @@ export class PortalResources {
   public static errorParsingConfig = 'errorParsingConfig';
   public static failedToSwitchFunctionState = 'failedToSwitchFunctionState';
   public static features = 'features';
-  public static filedRequired = 'filedRequired';
+  public static fieldRequired = 'fieldRequired';
   public static functionDev_code = 'functionDev_code';
   public static functionDev_run = 'functionDev_run';
   public static functionEdit_readOnly = 'functionEdit_readOnly';
