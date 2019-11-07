@@ -1,9 +1,8 @@
 import { TranslateService } from '@ngx-translate/core';
-import { ScenarioIds, FeatureFlags } from './../../models/constants';
+import { ScenarioIds } from './../../models/constants';
 import { PortalResources } from './../../models/portal-resources';
 import { ArmUtil } from '../../Utilities/arm-utils';
 import { Environment, ScenarioCheckInput, ScenarioResult } from './scenario.models';
-import { Url } from 'app/shared/Utilities/url';
 
 export class DynamicLinuxEnvironment extends Environment {
   name = 'DynamicLinux';
@@ -56,7 +55,7 @@ export class DynamicLinuxEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.enableCORS] = {
       id: ScenarioIds.enableCORS,
-      runCheck: () => (Url.getFeatureValue(FeatureFlags.enableLinuxCors) ? enabledResult : disabledResult),
+      runCheck: () => enabledResult,
     };
 
     this.scenarioChecks[ScenarioIds.enableQuotas] = {
