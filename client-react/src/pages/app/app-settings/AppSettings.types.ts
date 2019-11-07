@@ -8,6 +8,7 @@ export interface Permissions {
   production_write: boolean;
   app_write: boolean;
   editable: boolean; // Can show write-only fields like app settings but can't edit anything
+  saving: boolean;
 }
 export interface FormAppSetting {
   name: string;

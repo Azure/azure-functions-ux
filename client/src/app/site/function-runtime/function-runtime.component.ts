@@ -1,4 +1,11 @@
-import { NotificationIds, SiteTabIds, Constants, FunctionAppRuntimeSetting, Links } from './../../shared/models/constants';
+import {
+  NotificationIds,
+  SiteTabIds,
+  Constants,
+  FunctionAppRuntimeSetting,
+  Links,
+  FunctionAppVersion,
+} from './../../shared/models/constants';
 import { ScenarioIds } from './../../shared/models/constants';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
@@ -78,6 +85,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   public disableRuntimeSelector = false;
   public disableSomeVersionSwaps = false;
 
+  public runtimeVersionSupportsScaleMonitoring = false;
   public functionsRuntimeScaleMonitoring = false;
   public functionsRuntimeScaleMonitoringOptions: SelectOption<Boolean>[];
   public readonly functionsRuntimeScaleMonitoringLink: string;
@@ -287,7 +295,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
         this.badRuntimeVersion = !this._validRuntimeVersion();
 
-        this.setNeedUpdateExtensionVersion();
+        this._setNeedUpdateExtensionVersion();
 
         this.showProxyEnable = appSettings.properties[Constants.routingExtensionVersionAppSettingName]
           ? appSettings.properties[Constants.routingExtensionVersionAppSettingName].toLocaleLowerCase() ===
@@ -309,6 +317,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           this.vnetEnabled = !!siteConfig.properties.vnetName;
         }
 
+        this._setRuntimeVersionSupportsScaleMonitoring();
         this._busyManager.clearBusy();
         this._aiService.stopTrace('/timings/site/tab/function-runtime/revealed', this.viewInfo.data.siteTabRevealedTraceKey);
       });
@@ -342,7 +351,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     let updateButtonClicked = false;
     if (!version) {
       updateButtonClicked = true;
-      version = this.getLatestVersion(this.extensionVersion);
+      version = this._getLatestVersion(this.extensionVersion);
     }
     this._aiService.trackEvent('/actions/app_settings/update_version');
     this._busyManager.setBusy();
@@ -388,7 +397,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
       .subscribe((hostStatus: HostStatus) => {
         this.exactExtensionVersion = hostStatus ? hostStatus.version : '';
         this.extensionVersion = version;
-        this.setNeedUpdateExtensionVersion();
+        this._setNeedUpdateExtensionVersion();
+        this._setRuntimeVersionSupportsScaleMonitoring();
         this._busyManager.clearBusy();
         this._cacheService.clearArmIdCachePrefix(this.context.site.id);
         this._appNode.clearNotification(NotificationIds.newRuntimeVersion);
@@ -447,6 +457,33 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         }
       }
     }
+  }
+
+  private _setRuntimeVersionSupportsScaleMonitoring() {
+    let supported = false;
+
+    const isV3 =
+      this.extensionVersion === FunctionAppRuntimeSetting.tilda3 ||
+      FunctionsVersionInfoHelper.getFunctionGeneration(this.exactExtensionVersion) === FunctionAppVersion.v3;
+    const isV2 =
+      this.extensionVersion === FunctionAppRuntimeSetting.tilda2 ||
+      FunctionsVersionInfoHelper.getFunctionGeneration(this.exactExtensionVersion) === FunctionAppVersion.v2;
+    const isV1 =
+      this.extensionVersion === FunctionAppRuntimeSetting.tilda1 ||
+      FunctionsVersionInfoHelper.getFunctionGeneration(this.exactExtensionVersion) === FunctionAppVersion.v1;
+
+    if (isV3 || isV2) {
+      // supported for any V3 version and some V2 versions
+      supported = true;
+    } else if (isV1) {
+      // not supported for any V1 version
+      supported = false;
+    } else {
+      // can't determine if supported
+      supported = false;
+    }
+
+    this.runtimeVersionSupportsScaleMonitoring = supported;
   }
 
   private _updateFunctionRuntimeScaleMonitoring(value: boolean) {
@@ -534,15 +571,15 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     return this._globalStateService.GlobalDisabled;
   }
 
-  private setNeedUpdateExtensionVersion() {
+  private _setNeedUpdateExtensionVersion() {
     this.needUpdateExtensionVersion = FunctionsVersionInfoHelper.needToUpdateRuntime(
       this._configService.FunctionsVersionInfo,
       this.extensionVersion
     );
-    this.latestExtensionVersion = this.getLatestVersion(this.extensionVersion);
+    this.latestExtensionVersion = this._getLatestVersion(this.extensionVersion);
   }
 
-  private getLatestVersion(version: string): string {
+  private _getLatestVersion(version: string): string {
     const match = this._configService.FunctionsVersionInfo.runtimeStable.find(v => {
       return this.extensionVersion.toLowerCase() === v;
     });

@@ -11,4 +11,18 @@ export const commandBarStyles = (theme: ThemeExtended) => {
   };
 };
 
-export const tableCommandBarButtonStyle = { root: { marginTop: '5px' } };
+export const tableCommandBarButtonStyle = (theme: ThemeExtended) => {
+  return {
+    root: {
+      marginTop: '5px',
+      selectors: {
+        ':active': {
+          color: theme.semanticColors.buttonTextChecked,
+        },
+        ':focus': {
+          color: theme.semanticColors.bodyTextChecked,
+        },
+      },
+    },
+  };
+};
