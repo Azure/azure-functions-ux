@@ -57,10 +57,10 @@ export default class FunctionCreateData {
           false,
           t('createFunctionNotificationFailed').format(functionName, errorMessage)
         );
-        return;
+      } else {
+        portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
       }
-
-      portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
+      portalCommunicator.closeSelf();
     });
   }
 
