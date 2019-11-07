@@ -1540,6 +1540,7 @@ export class PortalResources {
   public static azureBlob = 'azureBlob';
   public static azureFiles = 'azureFiles';
   public static newAzureStorageMount = 'newAzureStorageMount';
+  public static editAzureStorageMount = 'editAzureStorageMount';
   public static emptyAzureStorageMount = 'emptyAzureStorageMount';
   public static azureStorageMountMustBeUnique = 'azureStorageMountMustBeUnique';
   public static virtualPathUnique = 'virtualPathUnique';

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { DefaultButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,7 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
   const provider = useContext(FunctionCreateContext);
   const portalCommunicator = useContext(PortalContext);
   const { t } = useTranslation();
+  const [creatingFunction, setCreatingFunction] = useState<boolean>(false);
 
   if (selectedFunctionTemplate) {
     const requiredBindingMetadata = getRequiredCreationBindings(
@@ -46,13 +47,16 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
       <>
         <Formik
           initialValues={initialFormValues}
-          onSubmit={formValues => provider.createFunction(portalCommunicator, t, resourceId, selectedFunctionTemplate, formValues)}>
+          onSubmit={formValues => {
+            setCreatingFunction(true);
+            provider.createFunction(portalCommunicator, t, resourceId, selectedFunctionTemplate, formValues);
+          }}>
           {(formProps: FormikProps<CreateFunctionFormValues>) => {
             return (
               <form>
                 <div style={paddingStyle}>
                   {builder.getFields(formProps, false)}
-                  <DefaultButton disabled={!formProps.isValid} onClick={formProps.submitForm}>
+                  <DefaultButton onClick={formProps.submitForm} disabled={!formProps.isValid || creatingFunction}>
                     {t('functionCreate_createFunction')}
                   </DefaultButton>
                 </div>
