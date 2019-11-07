@@ -20,7 +20,7 @@ interface CustomDropdownProps {
 }
 
 const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
-  const { dirty = false, value, onChange, errorMessage, options, label, widthOverride, ...rest } = props;
+  const { value, onChange, errorMessage, options, label, widthOverride, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
 
@@ -39,7 +39,7 @@ const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
           onChange={onChange}
           errorMessage={errorMessage}
           {...rest}
-          styles={dropdownStyleOverrides(dirty, theme, fullpage, widthOverride)}
+          styles={dropdownStyleOverrides(theme, fullpage, widthOverride)}
         />
       </ReactiveFormControl>
     );
@@ -55,7 +55,7 @@ const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
         onChange={onChange}
         errorMessage={errorMessage}
         {...rest}
-        styles={dropdownStyleOverrides(dirty, theme, fullpage, widthOverride)}
+        styles={dropdownStyleOverrides(theme, fullpage, widthOverride)}
       />
     </ReactiveFormControl>
   );

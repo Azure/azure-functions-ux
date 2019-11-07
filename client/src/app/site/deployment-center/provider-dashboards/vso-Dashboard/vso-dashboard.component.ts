@@ -80,11 +80,14 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
           deployments: r.deployments,
           VSOData: null,
         };
-        const tableItems = this.deploymentObject.deployments.value.map(element => {
+        let tableItems = this.deploymentObject.deployments.value.map(element => {
           const tableItem: ActivityDetailsLog = this._populateActivityDetails(element.properties);
-          tableItem.type = 'row';
+          if (tableItem) {
+            tableItem.type = 'row';
+          }
           return tableItem;
         });
+        tableItems = tableItems.filter(element => !!element);
         this._tableItems = tableItems.sort(dateTimeComparatorReverse);
         const vstsMetaData: any = this.deploymentObject.siteMetadata.properties;
 
@@ -160,7 +163,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
           this._armService.patch(
             `${this.resourceId}/config/web`,
             { properties: { scmType: 'None' } },
-            ARMApiVersions.websiteApiVersion20181101
+            ARMApiVersions.antaresApiVersion20181101
           )
         )
         .subscribe(
@@ -240,7 +243,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
     const message: string = item.message;
 
     // populate activity details according to the message format
-    let messageToAdd: ActivityDetailsLog;
+    let messageToAdd: ActivityDetailsLog = null;
     if (!this._isMessageFormatJSON(message)) {
       messageToAdd = this._createDeploymentLogFromStringMessage(item, date);
     } else {
@@ -679,7 +682,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
   }
 
   showDeploymentCredentials() {
-    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, 'ftp');
+    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, 'credentials-dashboard');
   }
 
   ngOnDestroy(): void {

@@ -4,7 +4,7 @@ import { Link } from 'office-ui-fabric-react';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
-import { getCardStyle, getHeaderStyle, listStyle } from './BindingDiagram.styles';
+import { cardStyle, headerStyle, listStyle } from './BindingDiagram.styles';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { getBindingConfigDirection } from '../binding-editor/BindingEditor';
@@ -14,6 +14,7 @@ import PortalCommunicator from '../../../../../portal-communicator';
 import { PortalContext } from '../../../../../PortalContext';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
 import { first } from 'rxjs/operators';
+import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 
 export interface BindingCardChildProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -45,12 +46,12 @@ const BindingCard: React.SFC<BindingCardProps> = props => {
 
   return (
     <>
-      <div className={getCardStyle(theme)}>
-        <div className={getHeaderStyle(theme)}>
+      <div className={cardStyle(theme)}>
+        <div className={headerStyle(theme)}>
           <h3>{title}</h3>
           <Svg />
         </div>
-        {getItemsList(portalCommunicator, functionInfo, items, emptyMessage, t, bindingEditor, functionName, supportsMultipleItems)}
+        {getItemsList(portalCommunicator, functionInfo, items, emptyMessage, t, bindingEditor, theme, functionName, supportsMultipleItems)}
       </div>
     </>
   );
@@ -77,6 +78,7 @@ const getItemsList = (
   emptyMessage: string,
   t: i18next.TFunction,
   bindingEditorContext: BindingEditorContextInfo,
+  theme: ThemeExtended,
   functionName?: string,
   supportsMultipleItems?: boolean
 ) => {
@@ -114,7 +116,7 @@ const getItemsList = (
     );
   }
 
-  return <ul className={listStyle}>{list}</ul>;
+  return <ul className={listStyle(theme)}>{list}</ul>;
 };
 
 const onClick = (

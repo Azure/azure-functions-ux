@@ -2146,6 +2146,18 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="validation_slotNameReserved" xml:space="preserve">
         <value>De sitenaam {0} is een gereserveerde naam voor de implementatiesite.</value>
     </data>
+  <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>Het veld mag niet meer dan {0} tekens bevatten</value>
+    </data>
+  <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>De sharenaam mag alleen alfanumerieke tekens, onderstrepingstekens, afbreekstreepjes, vierkante haken en haakjes bevatten</value>
+    </data>
+  <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>Het koppelingspad moet een volledig pad zijn en mag alleen alfanumerieke tekens, onderstrepingstekens, afbreekstreepjes, slashes, vierkante haakjes en haakjes bevatten</value>
+    </data>
+  <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>Het koppelingspad mag niet /home zijn</value>
+    </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>De bewerkingsmodus van uw functie-app kan niet worden bijgewerkt. Probeer het later opnieuw.</value>
     </data>
@@ -3634,7 +3646,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>App-referenties</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Referenties voor toepassingen worden automatisch gegenereerd en bieden alleen toegang tot deze specifieke app of implementatiesleuf. Deze referenties kunnen worden gebruikt met FTP, Lokale Git en WebDeploy.</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>Gebruikersnaam</value>
@@ -3704,9 +3716,6 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="sync" xml:space="preserve">
         <value>Synchroniseren</value>
-    </data>
-  <data name="deploymentCredentials" xml:space="preserve">
-        <value>FTP/referenties</value>
     </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
         <value>Berekeningsequivalent uit de Dv3-serie</value>
@@ -4855,7 +4864,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Namen van verbindingsreeksen moeten uniek zijn</value>
     </data>
   <data name="slotSettingForbiddenProperty" xml:space="preserve">
-        <value>Updating the '{0}' property requires write access on the production app</value>
+        <value>Voor het bijwerken van de eigenschap {0} is schrijftoegang tot de productie-app vereist</value>
     </data>
   <data name="handlerMappingPropIsRequired" xml:space="preserve">
         <value>{0} is een vereiste eigenschap voor alle handlertoewijzingen</value>
@@ -4970,7 +4979,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Onder Windows moet het pad naar de werkmap relatief zijn ten opzichte van de hoofdmap van de opslagplaats en mag niet beginnen met/, \ of stationsnamen (C:/). Als de werkmap zich in de map src van de opslagplaats bevindt, moet het pad src/ zijn</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>Met gekoppelde opslag kunt u Azure-bestanden of Blob-containers toewijzen voor gebruik met uw app.</value>
+        <value>Met gekoppelde opslag kunt u maximaal vijf Azure-bestanden of blob-containers toewijzen voor gebruik met uw app.</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>App Service-plan wijzigen</value>
@@ -5147,7 +5156,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Foutdetails</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>U kunt functietoetsen vinden op het functieniveau.</value>
+        <value>Functietoetsen kunnen worden geconfigureerd in functie-instellingen.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Hostsleutels (alle functies)</value>
@@ -5219,36 +5228,138 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>~3 (preview-versie)</value>
     </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
-        <value>Unable to retrieve authentication state. Please try again in a few minutes.</value>
+        <value>Kan de verificatiestatus niet ophalen. Probeer het over enkele minuten opnieuw.</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Refresh all keys for the function</value>
+      <value>Alle sleutels voor de functie vernieuwen</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
       <value>De pijl-links en de pijl-rechts gebruiken om te navigeren tussen opdrachten</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>New function key</value>
+      <value>Nieuwe functietoets</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Filter functions keys</value>
+      <value>Sleutels voor filterfuncties</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Edit key</value>
+      <value>Sleutel bewerken</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
       <value>Sleutel toevoegen</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} is a required property on all function keys</value>
+      <value>{0} is een vereiste eigenschap voor alle functiesleutels</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Function key names must be unique</value>
+      <value>Namen van functiesleutels moeten uniek zijn</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
+        <value>GitHub Actions (preview-versie)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+        <value>Automatiseer uw bouw-, test- en implementatiestappen met GitHub Actions (gratis). Hiermee wordt een YML-werkstroom aan uw opslagplaats toegevoegd met stappen voor het bouwen en implementeren van uw toepassing naar App Service.</value>
+    </data>
+  <data name="azureKeyVault" xml:space="preserve">
+        <value>Sleutelkluisverwijzing</value>
+    </data>
+  <data name="appConfigValue" xml:space="preserve">
+        <value>App-configuratie</value>
+    </data>
+  <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Fout: kan geen toegang krijgen tot de metagegevens van de sleutelkluisverwijzing</value>
+    </data>
+  <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>Klik hier om de containerinstellingen te configureren.</value>
+    </data>
+  <data name="containerSettingsTitle" xml:space="preserve">
+        <value>Containerinstellingen</value>
+    </data>
+  <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>De containerinstellingen voor uw app configureren en beheren.</value>
+    </data>
+  <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+  <data name="deploymentCredentialsTitle" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+  <data name="deploymentCredentialsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCredentialsLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+  <data name="deploymentCredentialsFtps" xml:space="preserve">
+        <value>FTP/FTPS</value>
+    </data>
+  <data name="none" xml:space="preserve">
+        <value>Geen</value>
+    </data>
+  <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>Wijzigingen in de functie opslaan.</value>
+    </data>
+  <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>Wijzigingen in de functie negeren.</value>
+    </data>
+  <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>Open het testdeelvenster om de functie te testen.</value>
+    </data>
+  <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>Open de pop-up om de functie-URL voor uw functie op te halen.</value>
+    </data>
+  <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>De pijl-links en de pijl-rechts gebruiken om te navigeren tussen opdrachten</value>
+    </data>
+  <data name="localGitDescription" xml:space="preserve">
+        <value>Use Git to push changes directly to your app.</value>
+    </data>
+  <data name="ftpsDescription" xml:space="preserve">
+        <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+  <data name="gitCloneUrlLabel" xml:space="preserve">
+        <value>Git Clone URL</value>
+    </data>
+  <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>Configuratie van GitHub Action-werkstroom</value>
+    </data>
+  <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>Werkstroomconfiguratie toevoegen aan GitHub Actions</value>
+    </data>
+  <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>De definitie van de GitHub Action-werkstroom is doorgevoerd van aftakking {0} naar opslagplaats {1}.</value>
+    </data>
+  <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>Voeg de configuratie van de App Service-implementatiewerkstroom toe of werk deze bij vanuit Azure Portal.</value>
+    </data>
+  <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Selecteer uw functiemap of bestanden in uw hoofdmap.</value>
+    </data>
+  <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Selecteer bestanden in uw functiemap.</value>
+    </data>
+  <data name="noPlanWritePermissions" xml:space="preserve">
+        <value>Voor deze functie zijn schrijfmachtigingen vereist voor het plan waarmee uw app wordt gehost</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>De functie URL modaal sluiten.</value>
+    </data>
+  <data name="scope" xml:space="preserve">
+        <value>Scope</value>
+    </data>
+  <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
+        <value>Virtual network trigger support</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+    </data>
+  <data name="refreshAppSettingsTitle" xml:space="preserve">
+        <value>Refresh App Settings</value>
+    </data>
+  <data name="refreshAppSettingsMessage" xml:space="preserve">
+        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
 </root>

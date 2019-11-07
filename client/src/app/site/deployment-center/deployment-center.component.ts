@@ -21,6 +21,7 @@ import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { SiteService } from '../../shared/services/site.service';
 import { ProviderDashboardType } from './Models/deployment-enums';
+import { CredentialsData } from './Models/deployment-data';
 
 @Component({
   selector: 'app-deployment-center',
@@ -30,6 +31,7 @@ import { ProviderDashboardType } from './Models/deployment-enums';
 export class DeploymentCenterComponent implements OnDestroy {
   public resourceIdStream: Subject<string>;
   public resourceId: string;
+  public credentialsData: CredentialsData;
   public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   public viewInfo: TreeViewInfo<SiteData>;
   public dashboardProviderType: ProviderDashboardType = '';
@@ -62,6 +64,9 @@ export class DeploymentCenterComponent implements OnDestroy {
         this._busyManager.setBusy();
         this.resourceId = view.resourceId;
         this._siteConfigObject = null;
+        this.credentialsData = {
+          resourceId: this.resourceId,
+        };
         return Observable.zip(
           this._siteService.getSiteConfig(this.resourceId),
           this._siteService.getAppSettings(this.resourceId),

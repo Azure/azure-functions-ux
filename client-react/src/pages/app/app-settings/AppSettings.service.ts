@@ -17,7 +17,6 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     slotConfigNames,
     connectionStrings,
     applicationSettings,
-    storageAccounts,
     azureStorageMounts,
     windowsStacks,
     linuxStacks,
@@ -27,7 +26,6 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     SiteService.fetchSlotConfigNames(resourceId),
     SiteService.fetchConnectionStrings(resourceId),
     SiteService.fetchApplicationSettings(resourceId),
-    StorageService.fetchAzureStorageAccounts(resourceId),
     SiteService.fetchAzureStorageMounts(resourceId),
     SiteService.fetchStacks('Windows'),
     SiteService.fetchStacks('Linux'),
@@ -38,11 +36,14 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     slotConfigNames,
     connectionStrings,
     applicationSettings,
-    storageAccounts,
     azureStorageMounts,
     windowsStacks,
     linuxStacks,
   };
+};
+
+export const fetchAzureStorageAccounts = (resourceId: string) => {
+  return StorageService.fetchAzureStorageAccounts(resourceId);
 };
 
 export const fetchSlots = (resourceId: string) => {
@@ -85,6 +86,20 @@ export const getApplicationSettingReference = async (
     method: 'GET',
   });
   LogService.trackEvent('site-service', 'getApplicationSettingReference', {
+    success: result.metadata.success,
+    resultCount: result.data && Object.keys(result.data.properties).length,
+  });
+  return result;
+};
+
+export const getAllAppSettingReferences = async (resourceId: string) => {
+  const id = `${resourceId}/config/configreferences/appsettings`;
+  const result = await MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: KeyVaultReference } }>>({
+    resourceId: id,
+    commandName: 'getAllAppSettingReferences',
+    method: 'GET',
+  });
+  LogService.trackEvent('site-service', 'getAllAppSettingReferences', {
     success: result.metadata.success,
     resultCount: result.data && Object.keys(result.data.properties).length,
   });

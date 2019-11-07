@@ -2146,6 +2146,18 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="validation_slotNameReserved" xml:space="preserve">
         <value>Le nom d’emplacement « {0} » est un nom d’emplacement de déploiement réservé.</value>
     </data>
+  <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>Le champ doit avoir moins de {0} caractères</value>
+    </data>
+  <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>Le nom de partage peut contenir seulement des caractères alphanumériques, des traits de soulignement, des traits d'union, des crochets et des parenthèses</value>
+    </data>
+  <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>Le chemin de montage doit être un chemin complet et peut contenir seulement des caractères alphanumériques, des traits de soulignement, des traits d'union, des barres obliques, des crochets et des parenthèses</value>
+    </data>
+  <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>Le chemin de montage ne peut pas être « /home »</value>
+    </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>Nous ne pouvons pas mettre à jour le mode d'édition de votre application de fonction. Réessayez plus tard.</value>
     </data>
@@ -3633,7 +3645,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Informations d'identification de l'application</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Les informations d'identification de l'application sont générées automatiquement et fournissent un accès uniquement à cet emplacement de déploiement ou à cette application spécifique. Ces informations d'identification peuvent être utilisées avec FTP, Local Git et WebDeploy.</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>Nom d’utilisateur</value>
@@ -3703,9 +3715,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="sync" xml:space="preserve">
         <value>Synchroniser</value>
-    </data>
-  <data name="deploymentCredentials" xml:space="preserve">
-        <value>FTP/Informations d’identification</value>
     </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
         <value>Équivalent de calcul Série Dv3</value>
@@ -4854,7 +4863,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Les noms de chaîne de connexion doivent être uniques</value>
     </data>
   <data name="slotSettingForbiddenProperty" xml:space="preserve">
-        <value>Updating the '{0}' property requires write access on the production app</value>
+        <value>La mise à jour de la propriété « {0} » nécessite un accès en écriture sur l'application de production</value>
     </data>
   <data name="handlerMappingPropIsRequired" xml:space="preserve">
         <value>{0} est une propriété requise sur tous les mappages de gestionnaires</value>
@@ -4969,7 +4978,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Le chemin d’accès du répertoire de travail doit être relatif à la racine du référentiel et ne peut pas commencer par /, \ ou des noms de lecteurs (C:/) dans le cas de Windows. Si le répertoire de travail se trouve dans le dossier src du dépôt, le chemin d’accès doit être src/</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>Le stockage monté vous permet de mapper des conteneurs Azure Files ou Blob à utiliser avec votre application.</value>
+        <value>Le stockage monté vous permet de mapper jusqu'à 5 conteneurs Azure Files ou Blob à utiliser avec votre application.</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>Changer le plan App Service</value>
@@ -5146,7 +5155,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Détails de l'erreur</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Les clés de fonction se trouvent au niveau de la fonction.</value>
+        <value>Les clés de fonction peuvent être configurées dans les paramètres de fonction.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Clés d'hôte (toutes les fonctions)</value>
@@ -5218,36 +5227,138 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>~3 (préversion)</value>
     </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
-        <value>Unable to retrieve authentication state. Please try again in a few minutes.</value>
+        <value>Impossible de récupérer l'état d'authentification. Réessayez dans quelques minutes.</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Refresh all keys for the function</value>
+      <value>Actualiser toutes les clés pour la fonction</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
       <value>Utiliser les touches de direction gauche et droite pour naviguer entre les commandes</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>New function key</value>
+      <value>Nouvelle clé de fonction</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Filter functions keys</value>
+      <value>Filtrer les clés de fonction</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Edit key</value>
+      <value>Modifier la clé</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
       <value>Ajouter une clé</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} is a required property on all function keys</value>
+      <value>{0} est une propriété obligatoire sur toutes les clés de fonction</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Function key names must be unique</value>
+      <value>Les noms de clé de fonction doivent être uniques</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
+        <value>GitHub Actions (préversion)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+        <value>Automatisez gratuitement vos étapes de build, de test et de déploiement avec GitHub Actions. Un workflow YML est alors ajouté à votre dépôt avec les étapes à suivre pour générer votre application et la déployer sur App Service.</value>
+    </data>
+  <data name="azureKeyVault" xml:space="preserve">
+        <value>Référence du coffre de clés</value>
+    </data>
+  <data name="appConfigValue" xml:space="preserve">
+        <value>Configuration d'application</value>
+    </data>
+  <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>Erreur : Impossible d'accéder aux métadonnées de référence du coffre de clés</value>
+    </data>
+  <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>Cliquez ici pour configurer les paramètres de conteneur.</value>
+    </data>
+  <data name="containerSettingsTitle" xml:space="preserve">
+        <value>Paramètres de conteneur</value>
+    </data>
+  <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>Configurez et gérez les paramètres de conteneur pour votre application.</value>
+    </data>
+  <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+  <data name="deploymentCredentialsTitle" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+  <data name="deploymentCredentialsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCredentialsLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+  <data name="deploymentCredentialsFtps" xml:space="preserve">
+        <value>FTP/FTPS</value>
+    </data>
+  <data name="none" xml:space="preserve">
+        <value>Aucun</value>
+    </data>
+  <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>Enregistrez les changements de votre fonction.</value>
+    </data>
+  <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>Ignorez les changements de votre fonction.</value>
+    </data>
+  <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>Ouvrez le panneau de test pour tester l'exécution de votre fonction.</value>
+    </data>
+  <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>Ouvrez la fenêtre contextuelle pour obtenir l'URL de votre fonction.</value>
+    </data>
+  <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>Utiliser les touches de direction gauche et droite pour naviguer entre les commandes</value>
+    </data>
+  <data name="localGitDescription" xml:space="preserve">
+        <value>Use Git to push changes directly to your app.</value>
+    </data>
+  <data name="ftpsDescription" xml:space="preserve">
+        <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+  <data name="gitCloneUrlLabel" xml:space="preserve">
+        <value>Git Clone URL</value>
+    </data>
+  <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>Configuration du workflow d'action GitHub</value>
+    </data>
+  <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>Ajout d'une configuration de workflow à GitHub Actions</value>
+    </data>
+  <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>La définition du workflow d'action GitHub a été validée dans la branche « {0} » dans le dépôt « {1} ».</value>
+    </data>
+  <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>Ajoutez ou mettez à jour la configuration de workflow du déploiement App Service à partir du portail Azure.</value>
+    </data>
+  <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Sélectionnez le répertoire de votre fonction ou des fichiers dans votre répertoire racine.</value>
+    </data>
+  <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>Sélectionnez des fichiers dans le répertoire de votre fonction.</value>
+    </data>
+  <data name="noPlanWritePermissions" xml:space="preserve">
+        <value>Cette fonctionnalité nécessite des autorisations d'écriture sur le plan hébergeant votre application</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Fermez la fenêtre modale Obtenir l'URL de la fonction.</value>
+    </data>
+  <data name="scope" xml:space="preserve">
+        <value>Scope</value>
+    </data>
+  <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
+        <value>Virtual network trigger support</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+    </data>
+  <data name="refreshAppSettingsTitle" xml:space="preserve">
+        <value>Refresh App Settings</value>
+    </data>
+  <data name="refreshAppSettingsMessage" xml:space="preserve">
+        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
 </root>

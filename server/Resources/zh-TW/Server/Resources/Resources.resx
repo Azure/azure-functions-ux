@@ -2146,6 +2146,18 @@
   <data name="validation_slotNameReserved" xml:space="preserve">
         <value>位置名稱 '{0}' 是保留的部署位置名稱。</value>
     </data>
+  <data name="validation_fieldMaxCharacters" xml:space="preserve">
+        <value>欄位不得大於 {0} 個字元</value>
+    </data>
+  <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
+        <value>共用名稱只能包含英數字元、底線、連字號、方括弧和括弧</value>
+    </data>
+  <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
+        <value>裝載路徑必須是完整路徑，而且只能包含英數字元、底線、連字號、正斜線、方括弧和括弧</value>
+    </data>
+  <data name="validation_mountPathNotHome" xml:space="preserve">
+        <value>裝載路徑不可以是 '/home'</value>
+    </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
         <value>目前無法更新您函數應用程式的編輯模式。請稍後再試一次。</value>
     </data>
@@ -3633,7 +3645,7 @@
         <value>應用程式認證</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>應用程式認證會自動產生，並提供僅限此特定應用程式或部署位置的存取權。這些認證可搭配 FTP、本機 Git 和 WebDeploy 使用。</value>
+        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>使用者名稱</value>
@@ -3703,9 +3715,6 @@
     </data>
   <data name="sync" xml:space="preserve">
         <value>同步</value>
-    </data>
-  <data name="deploymentCredentials" xml:space="preserve">
-        <value>FTP/認證</value>
     </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
         <value>價值等同 Dv3 系列計算</value>
@@ -4854,7 +4863,7 @@
         <value>連接字串名稱必須是唯一的</value>
     </data>
   <data name="slotSettingForbiddenProperty" xml:space="preserve">
-        <value>Updating the '{0}' property requires write access on the production app</value>
+        <value>更新 '{0}' 屬性需要生產應用程式的寫入權限</value>
     </data>
   <data name="handlerMappingPropIsRequired" xml:space="preserve">
         <value>{0} 在所有處理常式對應上均為必要屬性</value>
@@ -4969,7 +4978,7 @@
         <value>在 Windows 中，工作目錄路徑應相對於存放庫的根目錄，且開頭不得為 /、\ 或磁碟機名稱 (C:/)。若工作目錄位於存放庫的 src 資料夾，則路徑應為 src/</value>
     </data>
   <data name="mountedStorageInfo" xml:space="preserve">
-        <value>掛接的儲存體可讓您對應 Azure 檔案儲存體或 Blob 容器，以搭配您的應用程式使用。</value>
+        <value>裝載的儲存體可讓您對應最多 5 個 Azure 檔案儲存體或 Blob 容器，以搭配您的應用程式使用。</value>
     </data>
   <data name="changePlanName" xml:space="preserve">
         <value>變更 App Service 方案</value>
@@ -5146,7 +5155,7 @@
         <value>錯誤詳細資料</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>在函式層級可以找到函式金鑰。</value>
+        <value>函式索引鍵可在函式設定中設定。</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>主機金鑰 (所有函式)</value>
@@ -5245,9 +5254,111 @@
       <value>函式金鑰名稱必須是唯一的</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Actions (Preview)</value>
+        <value>GitHub Actions (預覽)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automate your build, test, and deployment steps with GitHub Actions for free. This will add a YML workflow to your repository with steps to build and deploy your application to App Service.</value>
+        <value>免費使用 GitHub Actions 將建置、測試及部署步驟自動化。這會透過建置應用程式並將其部署至 App Service 的步驟，將 YML 工作流程新增到您的存放庫。</value>
+    </data>
+  <data name="azureKeyVault" xml:space="preserve">
+        <value>金鑰保存庫參考</value>
+    </data>
+  <data name="appConfigValue" xml:space="preserve">
+        <value>應用程式設定</value>
+    </data>
+  <data name="appSettingKeyvaultAPIError" xml:space="preserve">
+        <value>錯誤: 無法存取金鑰保存庫參考中繼資料</value>
+    </data>
+  <data name="containerSettingsNotConfigured" xml:space="preserve">
+        <value>按一下這裡以進行容器設定。</value>
+    </data>
+  <data name="containerSettingsTitle" xml:space="preserve">
+        <value>容器設定</value>
+    </data>
+  <data name="feature_containerSettingsInfo" xml:space="preserve">
+        <value>為您的應用程式進行及管理容器設定。</value>
+    </data>
+  <data name="linux" xml:space="preserve">
+        <value>Linux</value>
+    </data>
+  <data name="deploymentCredentialsTitle" xml:space="preserve">
+        <value>Deployment Credentials</value>
+    </data>
+  <data name="deploymentCredentialsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCredentialsLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+  <data name="deploymentCredentialsFtps" xml:space="preserve">
+        <value>FTP/FTPS</value>
+    </data>
+  <data name="none" xml:space="preserve">
+        <value>無</value>
+    </data>
+  <data name="functionEditorSaveAriaLabel" xml:space="preserve">
+        <value>將變更儲存到您的函式。</value>
+    </data>
+  <data name="functionEditorDiscardAriaLabel" xml:space="preserve">
+        <value>捨棄對函式的變更。</value>
+    </data>
+  <data name="functionEditorTestAriaLabel" xml:space="preserve">
+        <value>開啟測試面板以測試執行您的函式。</value>
+    </data>
+  <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
+        <value>開啟快顯以取得函式的函式 URL。</value>
+    </data>
+  <data name="functionEditorCommandBarAriaLabel" xml:space="preserve">
+        <value>使用向左鍵及向右鍵來瀏覽命令</value>
+    </data>
+  <data name="localGitDescription" xml:space="preserve">
+        <value>Use Git to push changes directly to your app.</value>
+    </data>
+  <data name="ftpsDescription" xml:space="preserve">
+        <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+  <data name="gitCloneUrlLabel" xml:space="preserve">
+        <value>Git Clone URL</value>
+    </data>
+  <data name="githubActionWorkflowConfiguration" xml:space="preserve">
+        <value>GitHub 動作工作流程設定</value>
+    </data>
+  <data name="githubActionSavingSettings" xml:space="preserve">
+        <value>正在將工作流程設定新增至 GitHub Actions</value>
+    </data>
+  <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
+        <value>已成功認可存放庫 '{1}' 中分支 '{0}' 的 GitHub 動作工作流程定義。</value>
+    </data>
+  <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
+        <value>從 Azure 入口網站新增或更新 App Service 部署工作流程設定。</value>
+    </data>
+  <data name="functionAppDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>選取根目錄中的函式目錄或檔案。</value>
+    </data>
+  <data name="functionDirectoryDropdownAriaLabel" xml:space="preserve">
+        <value>選取函式目錄中的檔案。</value>
+    </data>
+  <data name="noPlanWritePermissions" xml:space="preserve">
+        <value>這個功能需要裝載您應用程式之方案的寫入權限</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>Close get function url modal.</value>
+    </data>
+  <data name="closeGetFunctionUrlModal" xml:space="preserve">
+        <value>關閉取得函式 URL 強制。</value>
+    </data>
+  <data name="scope" xml:space="preserve">
+        <value>Scope</value>
+    </data>
+  <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
+        <value>Virtual network trigger support</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+    </data>
+  <data name="refreshAppSettingsTitle" xml:space="preserve">
+        <value>Refresh App Settings</value>
+    </data>
+  <data name="refreshAppSettingsMessage" xml:space="preserve">
+        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
 </root>

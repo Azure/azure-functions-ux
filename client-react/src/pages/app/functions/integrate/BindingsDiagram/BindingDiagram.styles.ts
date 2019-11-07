@@ -2,8 +2,9 @@ import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { style } from 'typestyle';
 import { color } from 'csx';
 
-export const getCardStyle = (theme: ThemeExtended) => {
+export const cardStyle = (theme: ThemeExtended) => {
   return style({
+    backgroundColor: theme.palette.neutralLighter,
     border: `solid 1px ${theme.semanticColors.cardBorderColor}`,
     borderRadius: '2px',
     minWidth: '250px',
@@ -13,21 +14,18 @@ export const getCardStyle = (theme: ThemeExtended) => {
   });
 };
 
-export const getHeaderStyle = (theme: ThemeExtended) => {
+export const headerStyle = (theme: ThemeExtended): string => {
   return style({
     height: '35px',
-    backgroundColor: '#fafafa',
+    backgroundColor: theme.palette.neutralLighterAlt,
     borderBottom: `solid 1px ${color(theme.semanticColors.cardBorderColor).lighten('20%')}`,
-
-    // Necessary for some reason to prevent overlap with right border on middle card
-    marginRight: '1px',
 
     $nest: {
       h3: {
         marginTop: '0px',
         paddingTop: '5px',
         paddingLeft: '15px',
-        fontWeight: '600',
+        fontWeight: 600,
         display: 'inline-block',
       },
       svg: {
@@ -38,20 +36,22 @@ export const getHeaderStyle = (theme: ThemeExtended) => {
         float: 'right',
       },
     },
-  } as any);
+  });
 };
 
-export const listStyle = style({
-  listStyleType: 'none',
-  padding: '0px',
-  margin: '0px',
+export const listStyle = (theme: ThemeExtended): string => {
+  return style({
+    listStyleType: 'none',
+    padding: '0px',
+    margin: '0px',
 
-  $nest: {
-    li: {
-      padding: '7px 18px',
+    $nest: {
+      li: {
+        padding: '7px 18px',
+      },
+      '.emptyMessage': {
+        color: theme.semanticColors.disabledBodyText,
+      },
     },
-    '.emptyMessage': {
-      color: '#7f7f7f',
-    },
-  },
-});
+  });
+};

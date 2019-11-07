@@ -48,6 +48,7 @@ export interface FunctionMonitorInfo {
   functionAppContext: FunctionAppContext;
   functionAppSettings: { [key: string]: string };
   functionName: string;
+  appInsightResourceEnabled: boolean;
   appInsightResource?: ArmObj<ApplicationInsight>;
   appInsightToken?: string;
 }

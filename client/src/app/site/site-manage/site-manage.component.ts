@@ -16,11 +16,12 @@ import {
   DisableableBladeFeature,
   DisableableFeature,
   DisableableTabFeature,
+  DisableableFrameBladeFeature,
 } from './../../feature-group/feature-item';
 import { FeatureGroup } from './../../feature-group/feature-group';
 import { AuthzService } from '../../shared/services/authz.service';
 import { PortalService } from '../../shared/services/portal.service';
-import { Site } from '../../shared/models/arm/site';
+import { Site, HostType } from '../../shared/models/arm/site';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { Url } from '../../shared/Utilities/url';
@@ -118,7 +119,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
         this._hasPlanWritePermissionStream.next({
           enabled: hasPlanWritePermissions,
-          disableMessage: 'This feature requires write permissions on the plan',
+          disableMessage: this._translateService.instant(PortalResources.noPlanWritePermissions),
         });
       });
   }
@@ -163,49 +164,49 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
   private _initCol1Groups(site: ArmObj<Site>) {
     const codeDeployFeatures = [];
-    const deploymentCenterKeywords =
-      this._translateService.instant(PortalResources.continuousDeployment) +
-      ' ' +
-      this._translateService.instant(PortalResources.source) +
-      ' ' +
-      this._translateService.instant(PortalResources.options) +
-      '  github bitbucket dropbox onedrive vsts vso';
+    const containerSettingsKeywords =
+      this._translateService.instant(PortalResources.containerSettingsTitle) + ' ' + this._translateService.instant(PortalResources.linux);
 
     if (ArmUtil.isContainerApp(site)) {
-      const deploymentCenterFeature = new DisableableBladeFeature(
-        this._translateService.instant(PortalResources.deploymentCenterTitle),
-        deploymentCenterKeywords,
-        this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
-        'image/deployment-source.svg',
+      const containerSettingsFeature = new DisableableFrameBladeFeature(
+        this._translateService.instant(PortalResources.containerSettingsTitle),
+        containerSettingsKeywords,
+        this._translateService.instant(PortalResources.feature_containerSettingsInfo),
+        'image/singlecontainer.svg',
         {
-          detailBlade: 'ContinuousIntegrationBlade',
+          detailBlade: 'ContainerSettingsFrameBlade',
           detailBladeInputs: {
-            websiteResourceUri: this._descriptor.resourceId,
+            id: site.id,
+            data: {
+              resourceId: site.id,
+              isFunctionApp: true,
+              subscriptionId: this._descriptor.subscription,
+              location: site.location,
+              os: ArmUtil.isLinuxApp(site),
+              fromMenu: true,
+              containerFormData: null,
+            },
           },
-          extension: 'AzureTfsExtension',
         },
         this._portalService,
         this._hasSiteWritePermissionStream,
-        this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, { site: site })
+        this._scenarioService.checkScenario(ScenarioIds.containerSettings, { site: site })
       );
-      codeDeployFeatures.push(deploymentCenterFeature);
+      codeDeployFeatures.push(containerSettingsFeature);
     } else {
-      const deploymentCenterFeature = new DisableableTabFeature(
-        this._translateService.instant(PortalResources.deploymentCenterTitle),
-        this._translateService.instant(PortalResources.continuousDeployment) +
+      const containerSettingsFeature = new DisableableTabFeature(
+        this._translateService.instant(PortalResources.containerSettingsTitle),
+        this._translateService.instant(PortalResources.containerSettingsTitle) +
           ' ' +
-          this._translateService.instant(PortalResources.source) +
-          ' ' +
-          this._translateService.instant(PortalResources.options) +
-          '  github bitbucket dropbox onedrive vsts vso',
-        this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
-        'image/deployment-source.svg',
+          this._translateService.instant(PortalResources.linux),
+        this._translateService.instant(PortalResources.feature_containerSettingsInfo),
+        'image/singlecontainer.svg',
         SiteTabIds.continuousDeployment,
         this._broadcastService,
         null,
-        this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, { site })
+        this._scenarioService.checkScenario(ScenarioIds.containerSettings, { site })
       );
-      codeDeployFeatures.push(deploymentCenterFeature);
+      codeDeployFeatures.push(containerSettingsFeature);
     }
 
     const developmentToolFeatures = [];
@@ -467,7 +468,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
               extension: 'Microsoft_Azure_ManagedServiceIdentity',
               detailBladeInputs: {
                 resourceId: site.id,
-                apiVersion: ARMApiVersions.websiteApiVersion20180201,
+                apiVersion: ARMApiVersions.antaresApiVersion20181101,
                 systemAssignedStatus: 2, // IdentityStatus.Supported
                 userAssignedStatus: 2, // IdentityStatus.Supported
               },
@@ -704,7 +705,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     const resourceManagementFeatures = [];
     if (this._scenarioService.checkScenario(ScenarioIds.addDiagnoseAndSolve).status !== 'disabled') {
       resourceManagementFeatures.push(
-        new DisableableBladeFeature(
+        new DisableableFrameBladeFeature(
           this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
           this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
           this._translateService.instant(PortalResources.feature_diagnoseAndSolveInfo),
@@ -868,7 +869,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
       detailBladeInputs: {
         WebHostingPlanId: site.properties.serverFarmId,
         resourceId: site.properties.serverFarmId,
-        apiVersion: ARMApiVersions.websiteApiVersion,
+        apiVersion: ARMApiVersions.antaresApiVersion20181101,
         options: null,
       },
       extension: 'Microsoft_Azure_Monitoring',
@@ -907,7 +908,7 @@ export class OpenKuduFeature extends DisableableFeature {
   }
 
   click() {
-    const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === 1).name;
+    const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
     window.open(`https://${scmHostName}`);
   }
 }
@@ -932,7 +933,7 @@ export class OpenEditorFeature extends DisableableFeature {
   }
 
   click() {
-    const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === 1).name;
+    const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
     window.open(`https://${scmHostName}/dev`);
   }
 }
