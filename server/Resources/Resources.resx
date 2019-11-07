@@ -541,7 +541,7 @@
     <data name="features" xml:space="preserve">
         <value>Features</value>
     </data>
-    <data name="filedRequired" xml:space="preserve">
+    <data name="fieldRequired" xml:space="preserve">
         <value>This field is required</value>
     </data>
     <data name="functionDev_code" xml:space="preserve">

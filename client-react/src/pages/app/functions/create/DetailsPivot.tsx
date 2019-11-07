@@ -56,7 +56,7 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
               <form>
                 <div style={paddingStyle}>
                   {builder.getFields(formProps, false)}
-                  <DefaultButton onClick={formProps.submitForm} disabled={creatingFunction}>
+                  <DefaultButton onClick={formProps.submitForm} disabled={!formProps.isValid || creatingFunction}>
                     {t('functionCreate_createFunction')}
                   </DefaultButton>
                 </div>
