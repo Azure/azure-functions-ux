@@ -3645,7 +3645,7 @@
         <value>アプリの資格情報</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>アプリケーションの資格情報は自動生成され、この特定のアプリまたはデプロイ スロットへのアクセスのみを提供します。これらの資格情報は、FTP、ローカル Git、WebDeploy で使用できます。手動で構成することはできませんが、いつでもリセットできます。</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>ユーザー名</value>
@@ -4784,6 +4784,9 @@
   <data name="newAzureStorageMount" xml:space="preserve">
         <value>新しい Azure Storage マウント</value>
     </data>
+  <data name="editAzureStorageMount" xml:space="preserve">
+        <value>Edit Azure Storage Mount</value>
+    </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>空の Azure Storage マウント</value>
     </data>
@@ -5073,6 +5076,18 @@
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ 入力の追加</value>
     </data>
+  <data name="integrateCreateInput" xml:space="preserve">
+        <value>入力の作成</value>
+    </data>
+  <data name="integrateCreateBindingInstructions" xml:space="preserve">
+        <value>最初に、追加する {0} バインドの種類を選択します。</value>
+    </data>
+  <data name="integrateBindingType" xml:space="preserve">
+        <value>バインドの種類</value>
+    </data>
+  <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
+        <value>{0} の詳細</value>
+    </data>
   <data name="_function" xml:space="preserve">
         <value>関数</value>
     </data>
@@ -5103,7 +5118,7 @@
   <data name="editBindingInput" xml:space="preserve">
         <value>入力の編集</value>
     </data>
-  <data name="editBindingOuput" xml:space="preserve">
+  <data name="editBindingOutput" xml:space="preserve">
         <value>出力の編集</value>
     </data>
   <data name="editBindingTrigger" xml:space="preserve">
@@ -5230,28 +5245,28 @@
         <value>認証状態を取得できません。数分後にもう一度お試しください。</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>すべてのファンクション キーを更新する</value>
+        <value>すべてのファンクション キーを更新する</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
-      <value>左右の矢印キーを使用してコマンド間を移動します</value>
+        <value>左右の矢印キーを使用してコマンド間を移動します</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>新しいファンクション キー</value>
+        <value>新しいファンクション キー</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>ファンクション キーのフィルター処理</value>
+        <value>ファンクション キーのフィルター処理</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>キーの編集</value>
+        <value>キーの編集</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
-      <value>キーの追加</value>
+        <value>キーの追加</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} はすべてのファンクション キーで必須のプロパティです</value>
+        <value>{0} はすべてのファンクション キーで必須のプロパティです</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>ファンクション キー名は一意である必要があります</value>
+        <value>ファンクション キー名は一意である必要があります</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>GitHub Actions (プレビュー)</value>
@@ -5281,16 +5296,16 @@
         <value>Linux</value>
     </data>
   <data name="deploymentCredentialsTitle" xml:space="preserve">
-        <value>Deployment Credentials</value>
+        <value>展開の資格情報</value>
     </data>
   <data name="deploymentCredentialsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+        <value>App Service では、お客様のアプリのコンテンツのアクセス、公開、変更を行うための複数のテクノロジがサポートされています。デプロイ資格情報は、アプリケーションまたはユーザーにスコープ設定できます。</value>
     </data>
   <data name="deploymentCredentialsLocalGit" xml:space="preserve">
-        <value>Local Git</value>
+        <value>ローカル Git</value>
     </data>
   <data name="deploymentCredentialsFtps" xml:space="preserve">
-        <value>FTP/FTPS</value>
+        <value>FTP または FTPS</value>
     </data>
   <data name="none" xml:space="preserve">
         <value>なし</value>
@@ -5311,13 +5326,13 @@
         <value>左右の矢印キーを使用してコマンド間を移動します</value>
     </data>
   <data name="localGitDescription" xml:space="preserve">
-        <value>Use Git to push changes directly to your app.</value>
+        <value>Git を使用して、変更を直接アプリにプッシュします。</value>
     </data>
   <data name="ftpsDescription" xml:space="preserve">
-        <value>App Service enables you to access your app content through FTP/S.</value>
+        <value>App Service では、FTP/S 経由でアプリ コンテンツにアクセスできます。</value>
     </data>
   <data name="gitCloneUrlLabel" xml:space="preserve">
-        <value>Git Clone URL</value>
+        <value>Git クローン URL</value>
     </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
         <value>GitHub アクションのワークフロー構成</value>
@@ -5338,27 +5353,135 @@
         <value>関数ディレクトリ内のファイルを選択します。</value>
     </data>
   <data name="noPlanWritePermissions" xml:space="preserve">
-        <value>This feature requires write permissions on the plan hosting your app</value>
+        <value>この機能には、アプリをホストしているプランに対する書き込みアクセス許可が必要です</value>
     </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
+    </data>
+  <data name="validation_linuxConnectionStringNameError" xml:space="preserve">
+        <value>接続文字列名に使用できるのは、英字、数字 (0-9)、ピリオド (".")、アンダースコア ("_") のみです</value>
     </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Get 関数 URL のモーダルを閉じます。</value>
     </data>
   <data name="scope" xml:space="preserve">
-        <value>Scope</value>
+        <value>スコープ</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Virtual network trigger support</value>
+        <value>仮想ネットワーク トリガーのサポート</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>この設定により、仮想ネットワーク内のリソースによってアプリをトリガーできるようになります。そのためには、事前ウォーミングされた 1 つのインスタンスがアクティブであることと、ランタイム V2 以上も必要になります。&lt;a href="{0}" target="_blank"&gt;詳細情報&lt;/a&gt;。</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
-        <value>Refresh App Settings</value>
+        <value>アプリ設定の更新</value>
     </data>
   <data name="refreshAppSettingsMessage" xml:space="preserve">
-        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+        <value>更新すると、保存されていない変更はすべて失われます。続行しますか?</value>
+    </data>
+  <data name="eventHubPicker_noNamespaces" xml:space="preserve">
+        <value>このサブスクリプションには名前空間がありません</value>
+    </data>
+  <data name="eventHubPicker_noEventHubs" xml:space="preserve">
+        <value>この名前空間にはイベント ハブがありません</value>
+    </data>
+  <data name="eventHubPicker_noPolicies" xml:space="preserve">
+        <value>この名前空間とイベント ハブにはポリシーがありません</value>
+    </data>
+  <data name="iotHubPivot_noIoTHubs" xml:space="preserve">
+        <value>このサブスクリプションには IoT Hub がありません</value>
+    </data>
+  <data name="iotHubPivot_IoTHub" xml:space="preserve">
+        <value>IoT Hub</value>
+    </data>
+  <data name="iotHubPivot_noEndpoints" xml:space="preserve">
+        <value>この IoT Hub で使用できるエンドポイントはありません</value>
+    </data>
+  <data name="iotHubPivot_Endpoint" xml:space="preserve">
+        <value>エンドポイント</value>
+    </data>
+  <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>イベント (組み込みのエンドポイント)</value>
+    </data>
+  <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>操作監視</value>
+    </data>
+  <data name="customPivot_key" xml:space="preserve">
+        <value>キー</value>
+    </data>
+  <data name="customPivot_value" xml:space="preserve">
+        <value>値</value>
+    </data>
+  <data name="serviceBusCallout_serviceBus" xml:space="preserve">
+        <value>Service Bus</value>
+    </data>
+  <data name="resourceCallout_customAppSetting" xml:space="preserve">
+        <value>カスタム アプリ設定</value>
+    </data>
+  <data name="serviceBusPicker_noNamespaces" xml:space="preserve">
+        <value>このサブスクリプションには、名前空間がありません</value>
+    </data>
+  <data name="serviceBusPicker_noPolicies" xml:space="preserve">
+        <value>この名前空間には、ポリシーがありません</value>
+    </data>
+  <data name="serviceBusPicker_namespace" xml:space="preserve">
+        <value>名前空間</value>
+    </data>
+  <data name="serviceBusPicker_policy" xml:space="preserve">
+        <value>ポリシー</value>
+    </data>
+  <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
+        <value>Azure Cosmos DB アカウント</value>
+    </data>
+  <data name="documentDBPivot_noDatabaseAccounts" xml:space="preserve">
+        <value>このサブスクリプションにデータベース アカウントはありません</value>
+    </data>
+  <data name="documentDBPivot_databaseAccount" xml:space="preserve">
+        <value>データベース アカウント</value>
+    </data>
+  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>既存のストレージ アカウント</value>
+    </data>
+  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
+        <value>新しいストレージ アカウント</value>
+    </data>
+  <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
+        <value>このサブスクリプションにストレージ アカウントはありません</value>
+    </data>
+  <data name="storageAccountPivot_storageAccount" xml:space="preserve">
+        <value>ストレージ アカウント</value>
+    </data>
+  <data name="newPivot_name" xml:space="preserve">
+        <value>名前</value>
+    </data>
+  <data name="integrateAddOutput" xml:space="preserve">
+        <value>+ 出力の追加</value>
+    </data>
+  <data name="integrateCreateOutput" xml:space="preserve">
+        <value>出力の作成</value>
+    </data>
+  <data name="deleteBindingNotification" xml:space="preserve">
+        <value>バインドを削除しています</value>
+    </data>
+  <data name="deleteBindingNotificationDetails" xml:space="preserve">
+        <value>{0} を削除しています ({1})</value>
+    </data>
+  <data name="deleteBindingNotificationFailed" xml:space="preserve">
+        <value>{0} を削除できませんでした ({1}): {2}</value>
+    </data>
+  <data name="deleteBindingNotificationSuccess" xml:space="preserve">
+        <value>{0} が正常に削除されました ({1})</value>
+    </data>
+  <data name="createFunctionNotication" xml:space="preserve">
+        <value>関数を作成しています</value>
+    </data>
+  <data name="createFunctionNotificationDetails" xml:space="preserve">
+        <value>{0} を作成しています</value>
+    </data>
+  <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>{0} を作成できませんでした: {1}</value>
+    </data>
+  <data name="createFunctionNotificationSuccess" xml:space="preserve">
+        <value>{0} が正常に作成されました</value>
     </data>
 </root>
