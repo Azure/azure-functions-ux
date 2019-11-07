@@ -12,7 +12,6 @@ import { StorageAccountsContext } from '../Contexts';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import * as Yup from 'yup';
-import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 import { style } from 'typestyle';
 
 export interface AzureStorageMountsAddEditProps {
@@ -151,11 +150,9 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   );
 };
 
-export const messageBanner = (theme: ThemeExtended) =>
-  style({
-    backgroundColor: theme.semanticColors.warningBackground,
-    paddingLeft: '5px',
-    marginBottom: '15px',
-  });
+export const messageBanner = style({
+  paddingLeft: '5px',
+  marginBottom: '15px',
+});
 
 export default AzureStorageMountsAddEdit;

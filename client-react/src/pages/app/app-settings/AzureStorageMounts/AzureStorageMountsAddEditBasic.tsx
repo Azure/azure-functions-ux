@@ -12,8 +12,8 @@ import { StorageAccountsContext, SiteContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { MessageBarType, MessageBar, Link } from 'office-ui-fabric-react';
-import { ThemeContext } from '../../../../ThemeContext';
 import { StorageType } from '../../../../models/site/config';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -29,7 +29,6 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const [accountError, setAccountError] = useState('');
   const storageAccounts = useContext(StorageAccountsContext);
   const site = useContext(SiteContext);
-  const theme = useContext(ThemeContext);
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
 
@@ -110,7 +109,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             setAccountError(t('noWriteAccessStorageAccount'));
           }
         })
-        .catch(err => {
+        .catch(() => {
           setAccountError(t('noWriteAccessStorageAccount'));
         });
     }
@@ -164,11 +163,11 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
       {values.type === StorageType.azureBlob && (
         <MessageBar
           id="azure-storage-mount-blob-warning"
+          className={messageBanner}
           isMultiline={false}
-          className={messageBanner(theme)}
-          messageBarType={MessageBarType.info}>
+          messageBarType={MessageBarType.warning}>
           {t('readonlyBlobStorageWarning')}
-          <Link href={'https://go.microsoft.com/fwlink/?linkid=2110146'} target="_blank">
+          <Link href={CommonConstants.Links.byosBlobReadonlyLearnMore} target="_blank">
             {t('learnMore')}
           </Link>
         </MessageBar>
