@@ -1,40 +1,41 @@
 import React, { useContext, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { FormAppSetting, FunctionsRuntimeMajorVersions, AppSettingsFormProps } from '../AppSettings.types';
+import { FormAppSetting, AppSettingsFormProps } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import { findFormAppSetting, findFormAppSettingIndex } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import InfoBox, { InfoBoxProps } from '../../../../components/InfoBox/InfoBox';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { IDropdownOption } from 'office-ui-fabric-react';
+import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
 
 const getFunctionsRuntimeMajorVersion = (version: string | null) => {
   switch (version) {
-    case FunctionsRuntimeMajorVersions.v1:
-      return FunctionsRuntimeMajorVersions.v1;
-    case FunctionsRuntimeMajorVersions.v2:
-      return FunctionsRuntimeMajorVersions.v2;
-    case FunctionsRuntimeMajorVersions.v3:
-      return FunctionsRuntimeMajorVersions.v3;
+    case RuntimeExtensionMajorVersions.v1:
+      return RuntimeExtensionMajorVersions.v1;
+    case RuntimeExtensionMajorVersions.v2:
+      return RuntimeExtensionMajorVersions.v2;
+    case RuntimeExtensionMajorVersions.v3:
+      return RuntimeExtensionMajorVersions.v3;
     default:
-      return FunctionsRuntimeMajorVersions.custom;
+      return RuntimeExtensionMajorVersions.custom;
   }
 };
 
 const parseExactRuntimeVersion = (exactRuntimeVersion: string) => {
   if (exactRuntimeVersion.startsWith('1.')) {
-    return FunctionsRuntimeMajorVersions.v1;
+    return RuntimeExtensionMajorVersions.v1;
   }
 
   if (exactRuntimeVersion.startsWith('2.')) {
-    return FunctionsRuntimeMajorVersions.v2;
+    return RuntimeExtensionMajorVersions.v2;
   }
 
   if (exactRuntimeVersion.startsWith('3.')) {
-    return FunctionsRuntimeMajorVersions.v3;
+    return RuntimeExtensionMajorVersions.v3;
   }
 
-  return FunctionsRuntimeMajorVersions.v3;
+  return RuntimeExtensionMajorVersions.v3;
 };
 
 const getRuntimeVersion = (appSettings: FormAppSetting[]) => {
@@ -49,7 +50,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
   const disableAllControls = !app_write || !editable || saving;
 
   const getInfoBox = () => {
-    if (initialRuntimeMajorVersion !== FunctionsRuntimeMajorVersions.custom) {
+    if (initialRuntimeMajorVersion !== RuntimeExtensionMajorVersions.custom) {
       return { message: '' };
     }
 
@@ -89,7 +90,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
   };
 
   const getDropDown = () => {
-    let versionFilter: FunctionsRuntimeMajorVersions | null = null;
+    let versionFilter: RuntimeExtensionMajorVersions | null = null;
     let placeHolder = '';
 
     if (asyncData.functionsCount.loadingState === 'loading') {
@@ -98,7 +99,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
     } else if (asyncData.functionsCount.value === 0) {
       versionFilter = null;
       placeHolder = '';
-    } else if (initialRuntimeMajorVersion !== FunctionsRuntimeMajorVersions.custom) {
+    } else if (initialRuntimeMajorVersion !== RuntimeExtensionMajorVersions.custom) {
       versionFilter = initialRuntimeMajorVersion;
       placeHolder = '';
     } else if (asyncData.functionsHostStatus.loadingState === 'loading') {
@@ -114,25 +115,25 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
 
     const options: IDropdownOption[] = [
       {
-        key: FunctionsRuntimeMajorVersions.v1,
+        key: RuntimeExtensionMajorVersions.v1,
         text: t('~1'),
-        disabled: !!versionFilter && versionFilter !== FunctionsRuntimeMajorVersions.v1,
+        disabled: !!versionFilter && versionFilter !== RuntimeExtensionMajorVersions.v1,
       },
       {
-        key: FunctionsRuntimeMajorVersions.v2,
+        key: RuntimeExtensionMajorVersions.v2,
         text: t('~2'),
-        disabled: !!versionFilter && versionFilter !== FunctionsRuntimeMajorVersions.v2,
+        disabled: !!versionFilter && versionFilter !== RuntimeExtensionMajorVersions.v2,
       },
       {
-        key: FunctionsRuntimeMajorVersions.v3,
+        key: RuntimeExtensionMajorVersions.v3,
         text: t('version3Preview'),
-        disabled: !!versionFilter && versionFilter !== FunctionsRuntimeMajorVersions.v3,
+        disabled: !!versionFilter && versionFilter !== RuntimeExtensionMajorVersions.v3,
       },
     ];
 
-    if (latestCustomRuntimeVersion !== undefined || runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom) {
+    if (latestCustomRuntimeVersion !== undefined || runtimeMajorVersion === RuntimeExtensionMajorVersions.custom) {
       options.unshift({
-        key: FunctionsRuntimeMajorVersions.custom,
+        key: RuntimeExtensionMajorVersions.custom,
         text: t('custom'),
         disabled: false,
       });
@@ -146,11 +147,11 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
   };
 
   const onDropDownChange = newVersion => {
-    if (runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom) {
+    if (runtimeMajorVersion === RuntimeExtensionMajorVersions.custom) {
       setLatestCustomRuntimeVersion(runtimeVersion);
     }
 
-    const version = newVersion === FunctionsRuntimeMajorVersions.custom ? getLatestCustomRuntimeVersion() : newVersion;
+    const version = newVersion === RuntimeExtensionMajorVersions.custom ? getLatestCustomRuntimeVersion() : newVersion;
     const appSettings: FormAppSetting[] = [...values.appSettings];
     const index = findFormAppSettingIndex(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
     if (index === -1) {
@@ -194,7 +195,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
         label={t('runtimeVersion')}
         id="function-app-settings-runtime-version"
         infoBubbleMessage={
-          !disabledPlaceHolder && runtimeMajorVersion === FunctionsRuntimeMajorVersions.custom
+          !disabledPlaceHolder && runtimeMajorVersion === RuntimeExtensionMajorVersions.custom
             ? t('functionsRuntimeVersionCustomInfo')
             : undefined
         }

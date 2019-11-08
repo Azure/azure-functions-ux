@@ -5,13 +5,6 @@ import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { HostStatus } from '../../../models/functions/host-status';
 
-export enum FunctionsRuntimeMajorVersions {
-  v1 = '~1',
-  v2 = '~2',
-  v3 = '~3',
-  custom = 'custom',
-}
-
 export interface Permissions {
   production_write: boolean;
   app_write: boolean;
