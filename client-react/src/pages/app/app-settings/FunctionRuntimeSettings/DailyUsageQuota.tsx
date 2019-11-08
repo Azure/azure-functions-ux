@@ -5,10 +5,14 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import TextField from '../../../../components/form-controls/TextField';
 import InfoBox from '../../../../components/InfoBox/InfoBox';
+import { KeyCodes } from 'office-ui-fabric-react';
 
 const onKeyDown = keyEvent => {
   const keyCode = keyEvent.charCode || keyEvent.keyCode;
-  if (keyCode < 48 || keyCode > 57) {
+  const isNumber = keyCode >= KeyCodes.zero && keyCode <= KeyCodes.nine;
+  const isNumPadNumber = keyCode >= KeyCodes.zero_numpad && keyCode <= KeyCodes.nine_numpad;
+
+  if (!isNumber && !isNumPadNumber) {
     keyEvent.preventDefault();
   }
 };
