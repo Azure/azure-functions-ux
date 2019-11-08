@@ -43,8 +43,8 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
   };
 };
 
-export const getHostStatus = (resourceId: string) => {
-  return FunctionsService.getHostStatus(resourceId);
+export const fetchFunctionsHostStatus = (resourceId: string) => {
+  return SiteService.fetchFunctionsHostStatus(resourceId);
 };
 
 export const getFunctions = (resourceId: string) => {
