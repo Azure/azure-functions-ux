@@ -69,14 +69,17 @@ export const sourceTextStyle = style({
 });
 
 export const messageBannerStyle = (theme: ThemeExtended, type: MessageBarType) => {
-  let backgroundColor = theme.semanticColors.errorBackground;
+  let backgroundColor: string;
 
-  if (type === MessageBarType.info) {
-    backgroundColor = theme.semanticColors.infoBackground;
-  } else if (type === MessageBarType.warning) {
-    backgroundColor = theme.semanticColors.warningBackground;
-  } else if (type === MessageBarType.error) {
-    backgroundColor = theme.semanticColors.errorBackground;
+  switch (type) {
+    case MessageBarType.info:
+      backgroundColor = theme.semanticColors.infoBackground;
+    case MessageBarType.warning:
+      backgroundColor = theme.semanticColors.warningBackground;
+    case MessageBarType.error:
+      backgroundColor = theme.semanticColors.errorBackground;
+    default:
+      backgroundColor = theme.semanticColors.infoBackground;
   }
 
   return style({
