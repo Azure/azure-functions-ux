@@ -8,7 +8,7 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
-  return !appSettings || !settingName ? -1 : appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase());
+  return !settingName ? -1 : appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase());
 };
 
 export const findFormAppSetting = (appSettings: FormAppSetting[], settingName: string) => {
