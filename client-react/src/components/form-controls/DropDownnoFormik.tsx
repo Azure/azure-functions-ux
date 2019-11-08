@@ -9,15 +9,15 @@ import { MessageBarType } from 'office-ui-fabric-react';
 
 interface CustomDropdownProps {
   id: string;
+  label: string;
+  value: string;
+  onChange: (e: unknown, option: IDropdownOption) => void;
   upsellMessage?: string;
   infoBubbleMessage?: string;
   infoBubblePositon?: 'above' | 'right' | 'below';
-  infoBubbleType?: MessageBarType.info | MessageBarType.warning | MessageBarType.error | undefined;
-  label: string;
+  infoBubbleType?: MessageBarType.info | MessageBarType.warning | MessageBarType.error;
   errorMessage?: string;
   dirty?: boolean;
-  value: string;
-  onChange: (e: unknown, option: IDropdownOption) => void;
   learnMoreLink?: string;
   widthOverride?: string;
 }

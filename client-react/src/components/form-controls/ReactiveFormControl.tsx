@@ -20,13 +20,13 @@ import { dirtyElementStyle } from '../../pages/app/app-settings/AppSettings.styl
 interface ReactiveFormControlProps {
   children: ReactNode;
   id: string;
+  label?: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
   infoBubblePositon?: 'above' | 'right' | 'below';
-  infoBubbleType?: MessageBarType.info | MessageBarType.warning | MessageBarType.error | undefined;
-  label?: string;
-  learnMoreLink?: string;
+  infoBubbleType?: MessageBarType.info | MessageBarType.warning | MessageBarType.error;
   dirty?: boolean;
+  learnMoreLink?: string;
 }
 
 const getIconStyle = infoBubbleType => {

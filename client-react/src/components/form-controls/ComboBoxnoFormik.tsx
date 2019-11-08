@@ -9,15 +9,15 @@ import { MessageBarType } from 'office-ui-fabric-react';
 
 interface CustomComboboxProps {
   id: string;
+  label: string;
+  value: string;
+  onChange: (e: unknown, option: IComboBoxOption) => void;
   upsellMessage?: string;
   infoBubbleMessage?: string;
   infoBubblePositon?: 'above' | 'right' | 'below';
-  infoBubbleType?: MessageBarType.info | MessageBarType.warning | MessageBarType.error | undefined;
-  label: string;
+  infoBubbleType?: MessageBarType.info | MessageBarType.warning | MessageBarType.error;
   errorMessage?: string;
   dirty?: boolean;
-  value: string;
-  onChange: (e: unknown, option: IComboBoxOption) => void;
   learnMoreLink?: string;
 }
 
