@@ -17,36 +17,34 @@ const RuntimeScaleMonitoring: React.FC<FormikProps<AppSettingsFormValues> & With
   }
 
   return (
-    <>
-      <Field
-        name="config.properties.functionsRuntimeScaleMonitoringEnabled"
-        dirty={
-          !isEqual(
-            values.config.properties.functionsRuntimeScaleMonitoringEnabled,
-            initialValues.config.properties.functionsRuntimeScaleMonitoringEnabled
-          )
-        }
-        component={RadioButton}
-        label={t('appFunctionSettings_virtualNetworkTriggerSupport')}
-        id="function-app-settings-runtime-scale-monitoring-enabled"
-        disabled={disableAllControls}
-        options={[
-          {
-            key: true,
-            text: t('on'),
-            disabled: !values.config.properties.reservedInstanceCount || !values.config.properties.vnetName,
-          },
-          {
-            key: false,
-            text: t('off'),
-            disabled: false,
-          },
-        ]}
-        vertical={false}
-        infoBubbleMessage={t('appFunctionSettings_runtimeScalingMonitoringMessage')}
-        learnMoreLink={Links.runtimeScaleMonitoringLearnMore}
-      />
-    </>
+    <Field
+      name="config.properties.functionsRuntimeScaleMonitoringEnabled"
+      dirty={
+        !isEqual(
+          values.config.properties.functionsRuntimeScaleMonitoringEnabled,
+          initialValues.config.properties.functionsRuntimeScaleMonitoringEnabled
+        )
+      }
+      component={RadioButton}
+      label={t('appFunctionSettings_virtualNetworkTriggerSupport')}
+      id="function-app-settings-runtime-scale-monitoring-enabled"
+      disabled={disableAllControls}
+      options={[
+        {
+          key: true,
+          text: t('on'),
+          disabled: !values.config.properties.reservedInstanceCount || !values.config.properties.vnetName,
+        },
+        {
+          key: false,
+          text: t('off'),
+          disabled: false,
+        },
+      ]}
+      vertical={false}
+      infoBubbleMessage={t('appFunctionSettings_runtimeScalingMonitoringMessage')}
+      learnMoreLink={Links.runtimeScaleMonitoringLearnMore}
+    />
   );
 };
 
