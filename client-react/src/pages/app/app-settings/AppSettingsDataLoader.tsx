@@ -20,7 +20,7 @@ import {
   getAllAppSettingReferences,
   fetchAzureStorageAccounts,
   getFunctions,
-  getHostStatus,
+  fetchFunctionsHostStatus,
 } from './AppSettings.service';
 import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
@@ -185,8 +185,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
   };
 
-  const fetchFunctionsHostStatus = async () => {
-    const functionsHostStatusPromise = await getHostStatus(resourceId);
+  const fetchFunchHostStatus = async () => {
+    const functionsHostStatusPromise = await fetchFunctionsHostStatus(resourceId);
     const success = functionsHostStatusPromise.metadata.success;
     setFunctionsHostStatus(success ? functionsHostStatusPromise.data : null);
   };
@@ -204,7 +204,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       functionsHostStatus: { loadingState: 'loading' },
       functionsCount: { loadingState: 'loading' },
     });
-    fetchFunctionsHostStatus();
+    fetchFunchHostStatus();
     fetchFunctionsCount();
   };
 
