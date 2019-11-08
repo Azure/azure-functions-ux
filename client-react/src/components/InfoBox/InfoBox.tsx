@@ -20,19 +20,16 @@ const InfoBox = (props: InfoBoxProps) => {
   const messageId = `${id}-message`;
 
   const getIconNameAndStyle = () => {
-    if (type === 'Info') {
-      return { iconName: 'Info', iconStyle: infoIconStyle(theme) };
+    switch (type) {
+      case 'Info':
+        return { iconName: 'Info', iconStyle: infoIconStyle(theme) };
+      case 'Warning':
+        return { iconName: 'Warning', iconStyle: warningIconStyle(theme) };
+      case 'Error':
+        return { iconName: 'Error', iconStyle: errorIconStyle(theme) };
+      default:
+        return { iconName: 'Info', iconStyle: infoIconStyle(theme) };
     }
-
-    if (type === 'Warning') {
-      return { iconName: 'Warning', iconStyle: warningIconStyle(theme) };
-    }
-
-    if (type === 'Error') {
-      return { iconName: 'Error', iconStyle: errorIconStyle(theme) };
-    }
-
-    return { iconName: 'Info', iconStyle: infoIconStyle(theme) };
   };
 
   const { iconName, iconStyle } = getIconNameAndStyle();
