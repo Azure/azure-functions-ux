@@ -13,12 +13,12 @@ import { commandBarSticky, messageBannerStyle, formStyle } from './AppSettings.s
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType, KeyCodes } from 'office-ui-fabric-react';
 import { ThemeContext } from '../../../ThemeContext';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 
 const onKeyDown = keyEvent => {
-  if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+  if ((keyEvent.charCode || keyEvent.keyCode) === KeyCodes.enter) {
     keyEvent.preventDefault();
   }
 };
