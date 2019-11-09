@@ -298,6 +298,7 @@ export class PortalResources {
   public static test = 'test';
   public static testFunctionNotSupportedForGitHubWebhook = 'testFunctionNotSupportedForGitHubWebhook';
   public static runtimeVersion = 'runtimeVersion';
+  public static currentRuntimeVersion = 'currentRuntimeVersion';
   public static runtimeImage = 'runtimeImage';
   public static runtimeImagev1 = 'runtimeImagev1';
   public static runtimeImagev2 = 'runtimeImagev2';
@@ -445,6 +446,7 @@ export class PortalResources {
   public static configViewReadOnlySettings = 'configViewReadOnlySettings';
   public static configLoadFailure = 'configLoadFailure';
   public static loading = 'loading';
+  public static loadingFailed = 'loadingFailed';
   public static configUpdating = 'configUpdating';
   public static configUpdateSuccess = 'configUpdateSuccess';
   public static configUpdateFailure = 'configUpdateFailure';
@@ -1409,6 +1411,7 @@ export class PortalResources {
   public static debugging = 'debugging';
   public static modifiedTag = 'modifiedTag';
   public static applicationSettings = 'applicationSettings';
+  public static functionRuntimeSettings = 'functionRuntimeSettings';
   public static generalSettings = 'generalSettings';
   public static defaultDocuments = 'defaultDocuments';
   public static pathMappings = 'pathMappings';
@@ -1734,6 +1737,7 @@ export class PortalResources {
   public static scope = 'scope';
   public static appFunctionSettings_virtualNetworkTriggerSupport = 'appFunctionSettings_virtualNetworkTriggerSupport';
   public static appFunctionSettings_runtimeScalingMonitoredText = 'appFunctionSettings_runtimeScalingMonitoredText';
+  public static appFunctionSettings_runtimeScalingMonitoringMessage = 'appFunctionSettings_runtimeScalingMonitoringMessage';
   public static refreshAppSettingsTitle = 'refreshAppSettingsTitle';
   public static refreshAppSettingsMessage = 'refreshAppSettingsMessage';
   public static eventHubPicker_noNamespaces = 'eventHubPicker_noNamespaces';
@@ -1771,4 +1775,11 @@ export class PortalResources {
   public static createFunctionNotificationDetails = 'createFunctionNotificationDetails';
   public static createFunctionNotificationFailed = 'createFunctionNotificationFailed';
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
+  public static readWritePermissionsRequired = 'readWritePermissionsRequired';
+  public static functionsRuntimeVersionMissingWarning = 'functionsRuntimeVersionMissingWarning';
+  public static functionsRuntimeVersionLatestOrBetaWarning = 'functionsRuntimeVersionLatestOrBetaWarning';
+  public static functionsRuntimeVersionLatestOrBetaWithExactVersionWarning = 'functionsRuntimeVersionLatestOrBetaWithExactVersionWarning';
+  public static functionsRuntimeVersionNeedsUpdateWarning = 'functionsRuntimeVersionNeedsUpdateWarning';
+  public static functionsRuntimeVersionInvalidWarning = 'functionsRuntimeVersionInvalidWarning';
+  public static functionsRuntimeVersionCustomInfo = 'functionsRuntimeVersionCustomInfo';
 }
