@@ -1,20 +1,42 @@
-import { FormikProps, Field } from 'formik';
+import { Field } from 'formik';
 import React, { useContext } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { AppSettingsFormValues } from '../AppSettings.types';
+import { AppSettingsFormProps } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { isEqual } from 'lodash-es';
 import { Links } from '../../../../utils/FwLinks';
+import { findFormAppSettingValue } from '../AppSettingsFormData';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
 
-const RuntimeScaleMonitoring: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
-  const { t, values, initialValues } = props;
+const RuntimeScaleMonitoring: React.FC<AppSettingsFormProps & WithTranslation> = props => {
+  const { t, values, initialValues, asyncData } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
 
-  if (!values.config) {
-    return null;
-  }
+  const scaleMonitoringSupported = () => {
+    const initialRuntimeVersion = findFormAppSettingValue(
+      initialValues.appSettings,
+      CommonConstants.AppSettingNames.functionsExtensionVersion
+    );
+
+    if (!initialRuntimeVersion) {
+      return false;
+    }
+
+    const exactRuntimeVersion = asyncData.functionsHostStatus.value && asyncData.functionsHostStatus.value.properties.version;
+    const isV3 =
+      initialRuntimeVersion === RuntimeExtensionMajorVersions.v3 ||
+      initialRuntimeVersion.startsWith('3') ||
+      (!!exactRuntimeVersion && exactRuntimeVersion.startsWith('3'));
+    const isV2 =
+      initialRuntimeVersion === RuntimeExtensionMajorVersions.v2 ||
+      initialRuntimeVersion.startsWith('2') ||
+      (!!exactRuntimeVersion && exactRuntimeVersion.startsWith('2'));
+
+    return isV3 || isV2;
+  };
 
   return (
     <Field
@@ -33,7 +55,7 @@ const RuntimeScaleMonitoring: React.FC<FormikProps<AppSettingsFormValues> & With
         {
           key: true,
           text: t('on'),
-          disabled: !values.config.properties.reservedInstanceCount || !values.config.properties.vnetName,
+          disabled: !values.config.properties.reservedInstanceCount || !values.config.properties.vnetName || !scaleMonitoringSupported(),
         },
         {
           key: false,

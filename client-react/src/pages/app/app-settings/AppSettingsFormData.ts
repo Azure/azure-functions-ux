@@ -16,6 +16,11 @@ export const findFormAppSetting = (appSettings: FormAppSetting[], settingName: s
   return index >= 0 ? appSettings[index] : null;
 };
 
+export const findFormAppSettingValue = (appSettings: FormAppSetting[], settingName: string) => {
+  const setting = findFormAppSetting(appSettings, settingName);
+  return setting && setting.value;
+};
+
 interface StateToFormParams {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
