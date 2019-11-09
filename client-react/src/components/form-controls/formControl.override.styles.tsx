@@ -58,11 +58,16 @@ export const textFieldStyleOverrides = (theme: ThemeExtended, fullpage: boolean,
 export const controlContainerStyle = (upsellIcon: boolean, fullpage: boolean) =>
   style({ marginBottom: '15px', marginLeft: upsellIcon && fullpage ? '-20px' : undefined });
 
+export const controlChildrenContainerStyle = (fullpage: boolean) =>
+  style({
+    paddingLeft: fullpage ? 0 : '5px',
+  });
+
 export const upsellIconStyle = style({ marginRight: '6px' });
 
 export const infoMessageStyle = (fullpage: boolean) =>
   style({
-    paddingLeft: fullpage ? '10px' : 0,
+    paddingLeft: fullpage ? '10px' : '5px',
     paddingTop: fullpage ? 0 : '5px',
   });
 
