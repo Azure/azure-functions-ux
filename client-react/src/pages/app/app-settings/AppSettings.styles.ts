@@ -74,10 +74,13 @@ export const messageBannerStyle = (theme: ThemeExtended, type: MessageBarType) =
   switch (type) {
     case MessageBarType.info:
       backgroundColor = theme.semanticColors.infoBackground;
+      break;
     case MessageBarType.warning:
       backgroundColor = theme.semanticColors.warningBackground;
+      break;
     case MessageBarType.error:
       backgroundColor = theme.semanticColors.errorBackground;
+      break;
     default:
       backgroundColor = theme.semanticColors.infoBackground;
   }
