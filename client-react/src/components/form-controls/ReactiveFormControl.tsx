@@ -10,6 +10,7 @@ import {
   learnMoreLinkStyle,
   formStackStyle,
   formLabelStyle,
+  controlChildrenContainerStyle,
 } from './formControl.override.styles';
 import UpsellIcon from '../TooltipIcons/UpsellIcon';
 import { useWindowSize } from 'react-use';
@@ -88,7 +89,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
             </Label>
           </Stack>
         )}
-        {props.children}
+        <div className={controlChildrenContainerStyle}>{props.children}</div>
         {infoBubbleMessage && infoPosition === 'right' && infoBubble(fullpage)}
       </Stack>
     </Stack>
