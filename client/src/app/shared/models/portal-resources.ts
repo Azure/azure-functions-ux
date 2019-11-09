@@ -1777,7 +1777,6 @@ export class PortalResources {
   public static appFunctionSettings_runtimeScalingMonitoringMessage = 'appFunctionSettings_runtimeScalingMonitoringMessage';
   public static readWritePermissionsRequired = 'readWritePermissionsRequired';
   public static functionsRuntimeVersionMissingWarning = 'functionsRuntimeVersionMissingWarning';
-  public static functionsRuntimeVersionMissingWithExactVersionWarning = 'functionsRuntimeVersionMissingWithExactVersionWarning';
   public static functionsRuntimeVersionLatestOrBetaWarning = 'functionsRuntimeVersionLatestOrBetaWarning';
   public static functionsRuntimeVersionLatestOrBetaWithExactVersionWarning = 'functionsRuntimeVersionLatestOrBetaWithExactVersionWarning';
   public static functionsRuntimeVersionNeedsUpdateWarning = 'functionsRuntimeVersionNeedsUpdateWarning';

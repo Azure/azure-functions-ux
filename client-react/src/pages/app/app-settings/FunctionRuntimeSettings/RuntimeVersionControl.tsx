@@ -58,9 +58,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
 
     if (!initialRuntimeVersion) {
       return {
-        message: exactRuntimeVersion
-          ? t('functionsRuntimeVersionMissingWarning')
-          : t('functionsRuntimeVersionMissingWithExactVersionWarning').format(exactRuntimeVersion),
+        message: t('functionsRuntimeVersionMissingWarning'),
         type: 'Warning',
       };
     }

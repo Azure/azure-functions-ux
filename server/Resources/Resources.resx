@@ -5503,10 +5503,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Read/Write permissions are required to view/edit this section.</value>
     </data>
     <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
-        <value>The runtime version is not configured for your app. Without this setting you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
-    </data>
-    <data name="functionsRuntimeVersionMissingWithExactVersionWarning" xml:space="preserve">
-        <value>The runtime version is not configured for your app, so your app is using the latest version {0}. Without this setting you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
+        <value>The runtime version is not configured for your app. As a result the runtime will cannot be started. Please update the runtime version to a valid value (e.g. ~2).</value>
     </data>
     <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
         <value>Your app is currently pinned to runtime version '{0}'. Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
