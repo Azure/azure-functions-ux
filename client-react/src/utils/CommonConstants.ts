@@ -51,6 +51,7 @@ export class CommonConstants {
 
   public static readonly FeatureFlags = {
     AllowFreeLinux: 'allowfreelinux',
+    ShowNewFunctionAppSettings: 'showNewFunctionAppSettings',
   };
 
   public static readonly AppDensityLimit = 8;

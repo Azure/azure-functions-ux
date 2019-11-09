@@ -15,6 +15,8 @@ import { ScenarioService } from '../../../utils/scenario-checker/scenario.servic
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { ThemeContext } from '../../../ThemeContext';
 import { SiteContext } from './Contexts';
+import Url from '../../../utils/url';
+import { CommonConstants } from '../../../utils/CommonConstants';
 export const settingsWrapper = style({
   paddingLeft: '15px',
   padding: '5px 20px',
@@ -61,7 +63,10 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const enablePathMappings = scenarioChecker.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site }).status !== 'disabled';
   const enableAzureStorageMount = scenarioChecker.checkScenario(ScenarioIds.azureStorageMount, { site }).status === 'enabled';
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
-  const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
+  const showFunctionRuntimeSettings =
+    Url.getParameterByName(null, CommonConstants.FeatureFlags.ShowNewFunctionAppSettings) === 'true' &&
+    scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
+
   return (
     <Pivot getTabId={getPivotTabId}>
       <PivotItem
