@@ -17,16 +17,22 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   const theme = useContext(ThemeContext);
   const site = props.initialValues.site;
 
-  const functionsHostStatus = asyncData.functionsHostStatus.value;
-  const exactRuntimeVersion = functionsHostStatus && functionsHostStatus.properties.version;
+  const getVersionToDispaly = () => {
+    switch (asyncData.functionsHostStatus.loadingState) {
+      case 'loading':
+        return t('loading');
+      case 'complete':
+        return asyncData.functionsHostStatus.value && asyncData.functionsHostStatus.value.properties.version;
+      case 'failed':
+        return t('loadingFailed');
+    }
+  };
 
   return (
     <>
-      <ReactiveFormControl label={t('Current Runtime Version')} id="function-app-settings-exact-runtime-version">
+      <ReactiveFormControl label={t('currentRuntimeVersion')} id="function-app-settings-exact-runtime-version">
         <div id="function-app-settings-exact-runtime-version" aria-labelledby="function-app-settings-exact-runtime-version-label">
-          {asyncData.functionsHostStatus.loadingState === 'loading' && t('loading')}
-          {asyncData.functionsHostStatus.loadingState === 'complete' && exactRuntimeVersion}
-          {asyncData.functionsHostStatus.loadingState === 'failed' && t('loadingFailed')}
+          {getVersionToDispaly()}
         </div>
       </ReactiveFormControl>
       {scenarioChecker.checkScenario(ScenarioIds.functionsRuntimeVersion, { site }).status !== 'disabled' && (

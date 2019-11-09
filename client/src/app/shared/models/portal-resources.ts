@@ -298,6 +298,7 @@ export class PortalResources {
   public static test = 'test';
   public static testFunctionNotSupportedForGitHubWebhook = 'testFunctionNotSupportedForGitHubWebhook';
   public static runtimeVersion = 'runtimeVersion';
+  public static currentRuntimeVersion = 'currentRuntimeVersion';
   public static runtimeImage = 'runtimeImage';
   public static runtimeImagev1 = 'runtimeImagev1';
   public static runtimeImagev2 = 'runtimeImagev2';

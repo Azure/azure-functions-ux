@@ -1000,6 +1000,9 @@
     <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Testing is not supported for GitHub webhook functions.</value>
     </data>
+    <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>Current runtime version</value>
+    </data>
     <data name="runtimeVersion" xml:space="preserve">
         <value>Runtime version</value>
     </data>
