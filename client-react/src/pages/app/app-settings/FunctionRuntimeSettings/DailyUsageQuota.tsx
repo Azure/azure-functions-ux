@@ -4,8 +4,10 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import TextField from '../../../../components/form-controls/TextField';
-import InfoBox from '../../../../components/InfoBox/InfoBox';
-import { KeyCodes } from 'office-ui-fabric-react';
+import { KeyCodes, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+// import { messageBannerStyle } from '../AppSettings.styles';
+import { ThemeContext } from '../../../../ThemeContext';
+import { style } from 'typestyle';
 
 const onKeyDown = keyEvent => {
   const keyCode = keyEvent.charCode || keyEvent.keyCode;
@@ -20,6 +22,7 @@ const onKeyDown = keyEvent => {
 const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { t, values, initialValues } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const theme = useContext(ThemeContext);
   const disableAllControls = !app_write || !editable || saving;
   const showWarning = !values.site.properties.enabled && values.site.properties.siteDisabledReason === 1;
 
@@ -29,12 +32,18 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
 
   return (
     <>
-      {showWarning && (
-        <InfoBox
+      {(true || showWarning) && (
+        <MessageBar
           id="function-app-settings-daily-memory-time-quota-warning"
-          type="Warning"
-          message={t('functionAppSettings_quotaWarning')}
-        />
+          isMultiline={false}
+          className={style({
+            backgroundColor: theme.semanticColors.warningBackground,
+            paddingLeft: '5px',
+          })}
+          // className={messageBannerStyle(theme, MessageBarType.warning)}
+          messageBarType={MessageBarType.warning}>
+          {t('functionAppSettings_quotaWarning')}
+        </MessageBar>
       )}
       <Field
         name="site.properties.dailyMemoryTimeQuota"

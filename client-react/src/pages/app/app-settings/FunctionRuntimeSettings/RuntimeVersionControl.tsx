@@ -4,10 +4,11 @@ import { FormAppSetting, AppSettingsFormProps } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import { findFormAppSetting, findFormAppSettingIndex } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import InfoBox, { InfoBoxProps } from '../../../../components/InfoBox/InfoBox';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType, MessageBar } from 'office-ui-fabric-react';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
+import { messageBannerStyle } from '../AppSettings.styles';
+import { ThemeContext } from '../../../../ThemeContext';
 
 const getFunctionsRuntimeMajorVersion = (version: string | null) => {
   switch (version) {
@@ -47,6 +48,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
   const [latestCustomRuntimeVersion, setLatestCustomRuntimeVersion] = useState<string | null | undefined>(undefined);
   const { t, values, initialValues, asyncData, setFieldValue } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const theme = useContext(ThemeContext);
   const disableAllControls = !app_write || !editable || saving;
 
   const getInfoBox = () => {
@@ -180,11 +182,19 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
   const initialRuntimeMajorVersion = getFunctionsRuntimeMajorVersion(initialRuntimeVersion);
 
   const { disabledPlaceHolder, versionOptions } = getDropDown();
-  const { message, type: messageType } = getInfoBox() as Partial<InfoBoxProps>;
+  const { message, type: messageType } = getInfoBox() as { message: string; type?: MessageBarType };
 
   return (
     <>
-      {!!message && <InfoBox id="function-app-settings-runtime-version-message" type={messageType} message={message} />}
+      {!!message && (
+        <MessageBar
+          id="function-app-settings-runtime-version-message"
+          isMultiline={false}
+          className={messageType ? messageBannerStyle(theme, messageType) : undefined}
+          messageBarType={MessageBarType.warning}>
+          {message}
+        </MessageBar>
+      )}
       <DropdownNoFormik
         placeHolder={disabledPlaceHolder}
         value={runtimeMajorVersion}
