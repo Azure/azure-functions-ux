@@ -1,9 +1,10 @@
+import { FormikProps } from 'formik';
 import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react/lib/Pivot';
 import React, { useRef, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 
-import { AppSettingsFormProps } from './AppSettings.types';
+import { AppSettingsFormValues } from './AppSettings.types';
 
 import GeneralSettings, { generalSettingsDirty, generalSettingsError } from './Sections/GeneralSettings';
 import ApplicationSettingsPivot, { applicationSettingsDirty } from './Sections/ApplicationSettingsPivot';
@@ -22,7 +23,7 @@ export const settingsWrapper = style({
   padding: '5px 20px',
 });
 
-const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
+const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const theme = useContext(ThemeContext);
   const { values, initialValues, errors } = props;
   const site = useContext(SiteContext);

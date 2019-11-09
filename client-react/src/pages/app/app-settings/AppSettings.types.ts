@@ -3,7 +3,6 @@ import { AvailableStack } from '../../../models/available-stacks';
 import { AzureStorageMount, SiteConfig, VirtualApplication } from '../../../models/site/config';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
-import { HostStatus } from '../../../models/functions/host-status';
 
 export interface Permissions {
   production_write: boolean;
@@ -69,18 +68,4 @@ export interface AppSettingReferenceSummary {
 
 export interface AppSettingsReferences {
   appSettings: AppSettingReferenceSummary[] | null;
-}
-
-export interface AsyncObj<T> {
-  loadingState: 'loading' | 'complete' | 'failed';
-  value?: T;
-}
-
-export interface AppSettingsAsyncData {
-  functionsHostStatus: AsyncObj<ArmObj<HostStatus>>;
-  functionsCount: AsyncObj<number>;
-}
-
-export interface AppSettingsFormProps extends FormikProps<AppSettingsFormValues> {
-  asyncData: AppSettingsAsyncData;
 }

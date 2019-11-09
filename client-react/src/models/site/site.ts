@@ -97,8 +97,6 @@ export interface Site {
   isLinux: boolean;
   isXenon: boolean;
   reserved: boolean;
-  dailyMemoryTimeQuota: number;
-  siteDisabledReason: number;
 }
 
 export interface HostNameSslState {

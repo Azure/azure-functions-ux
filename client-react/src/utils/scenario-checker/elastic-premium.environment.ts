@@ -11,13 +11,6 @@ export class ElasticPremiumAppEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
-
-    this.scenarioChecks[ScenarioIds.runtimeScaleMonitoringSupported] = {
-      id: ScenarioIds.runtimeScaleMonitoringSupported,
-      runCheck: () => {
-        return { status: 'enabled' };
-      },
-    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

@@ -1000,9 +1000,6 @@
     <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Testing is not supported for GitHub webhook functions.</value>
     </data>
-    <data name="currentRuntimeVersion" xml:space="preserve">
-        <value>Current runtime version</value>
-    </data>
     <data name="runtimeVersion" xml:space="preserve">
         <value>Runtime version</value>
     </data>
@@ -1452,9 +1449,6 @@
     </data>
     <data name="loading" xml:space="preserve">
         <value>Loading...</value>
-    </data>
-    <data name="loadingFailed" xml:space="preserve">
-        <value>Loading failed</value>
     </data>
     <data name="configUpdating" xml:space="preserve">
         <value>Updating web app settings</value>
@@ -4376,9 +4370,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="connectionStrings" xml:space="preserve">
         <value>Connection strings</value>
     </data>
-    <data name="functionRuntimeSettings" xml:space="preserve">
-        <value>Function runtime settings</value>
-    </data>
     <data name="generalSettings" xml:space="preserve">
         <value>General settings</value>
     </data>
@@ -5385,9 +5376,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
         <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
-    <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher.</value>
-    </data>
     <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Refresh App Settings</value>
     </data>
@@ -5498,26 +5486,5 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>Successfully created {0}</value>
-    </data>
-    <data name="readWritePermissionsRequired" xml:space="preserve">
-        <value>Read/Write permissions are required to view/edit this section.</value>
-    </data>
-    <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
-        <value>The runtime version is not configured for your app. As a result the runtime will cannot be started. Please update the runtime version to a valid value (e.g. ~2).</value>
-    </data>
-    <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}'. Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
-    </data>
-    <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}', so your app is using the latest version ({1}). Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
-    </data>
-    <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}'. When this version is no longer supported your app will start using the latest version of the runtime, which could be a different major version and might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
-    </data>
-    <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
-        <value>Your custom runtime version ({0}) is not supported. As a result your app is using the latest version {1}, and you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
-    </data>
-    <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>The runtime version is controlled by the FUNCTIONS_EXTENSION_VERSION app setting. Configuring a custom version is not advised because you will end up on the latest version if the configured value is invalid or becomes unsupported. This may leave your functions in a broken state since major version updates which might contain breaking changes.</value>
     </data>
 </root>
