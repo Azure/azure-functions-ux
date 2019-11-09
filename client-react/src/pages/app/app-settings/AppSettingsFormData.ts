@@ -7,6 +7,20 @@ import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, K
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 
+export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
+  return !settingName ? -1 : appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase());
+};
+
+export const findFormAppSetting = (appSettings: FormAppSetting[], settingName: string) => {
+  const index = findFormAppSettingIndex(appSettings, settingName);
+  return index >= 0 ? appSettings[index] : null;
+};
+
+export const findFormAppSettingValue = (appSettings: FormAppSetting[], settingName: string) => {
+  const setting = findFormAppSetting(appSettings, settingName);
+  return setting && setting.value;
+};
+
 interface StateToFormParams {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
@@ -18,10 +32,12 @@ interface StateToFormParams {
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
   const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata } = props;
+  const formAppSetting = getFormAppSetting(appSettings, slotConfigNames);
+
   return {
     site,
     config: getCleanedConfig(config),
-    appSettings: getFormAppSetting(appSettings, slotConfigNames),
+    appSettings: formAppSetting,
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config, metadata),
