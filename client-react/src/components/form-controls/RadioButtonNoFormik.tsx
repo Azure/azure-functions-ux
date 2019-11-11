@@ -9,6 +9,7 @@ interface RadioButtonProps {
   label?: string;
   subLabel?: string;
   upsellMessage?: string;
+  infoBubbleMessage?: string;
   learnMore?: {
     learnMoreLink: string;
     learnMoreText: string;
