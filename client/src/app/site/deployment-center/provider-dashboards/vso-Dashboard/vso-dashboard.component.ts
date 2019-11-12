@@ -283,7 +283,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
   }
 
   private _getMessage(messageJSON: KuduLogMessage, status: number, logType: VSTSLogMessageType): string {
-    const targetApp = messageJSON.prodAppName;
+    const targetApp = messageJSON.prodAppName || messageJSON.slotName;
 
     switch (logType) {
       case VSTSLogMessageType.Deployment:
