@@ -45,18 +45,23 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
   };
 };
 
-export const fetchFunctionsHostStatus = async (resourceId: string) => {
+const delay = async (func: () => Promise<any>, ms: number = 0) => {
+  const sleepPromise = new Promise(resolve => setTimeout(resolve, ms));
+  return await sleepPromise.then(func);
+};
+
+export const fetchFunctionsHostStatus = async (resourceId: string, shouldRetry?: (hostStatus: ArmObj<HostStatus>) => boolean) => {
   let retries = 3;
   let result: HttpResponseObject<ArmObj<HostStatus>> = await SiteService.fetchFunctionsHostStatus(resourceId, true);
 
   while (retries) {
-    if (result.metadata.status === 200) {
+    if (result.metadata.status === 200 && (!shouldRetry || !shouldRetry(result.data))) {
       return result;
     }
 
     retries = retries - 1;
 
-    result = await SiteService.fetchFunctionsHostStatus(resourceId, true);
+    result = await delay(() => SiteService.fetchFunctionsHostStatus(resourceId, true));
   }
 
   return result;

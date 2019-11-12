@@ -190,12 +190,12 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
   };
 
-  const fetchFuncHostStatus = async () => {
-    const functionsHostStatusPromise = await fetchFunctionsHostStatus(resourceId);
+  const fetchFuncHostStatus = async (shouldRetry?: (hostStatus: ArmObj<HostStatus>) => boolean) => {
+    const functionsHostStatusPromise = await fetchFunctionsHostStatus(resourceId, shouldRetry);
     const success = functionsHostStatusPromise.metadata.success;
     setFunctionsHostStatus({
       loadingState: success ? 'complete' : 'failed',
-      value: success ? functionsHostStatusPromise.data : null,
+      value: success ? functionsHostStatusPromise.data : undefined,
     });
   };
 
@@ -208,14 +208,45 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     });
   };
 
-  const fetchAsyncData = () => {
+  const fetchAsyncData = (values?: AppSettingsFormValues) => {
+    const retryFunctionsHostStatus = (hostStatus: ArmObj<HostStatus>) => {
+      if (!values) {
+        return true;
+      }
+
+      // const currentHostStatus = { ...functionsHostStatus };
+
+      /*
+      - prevAppSettingValue
+      - newAppSettingValue
+      - prevRunningVersion
+
+      let expectedRunningVersion;
+
+      if (newAppSettingValue === '~1') {
+
+      } else if (newAppSettingValue === '~2') {
+
+      } else if (newAppSettingValue === '~3') {
+
+      } else if () {
+      } else {
+
+      }
+
+      2.0.12858.0
+      const regEx = /[^\d\.\d\.\d\d\d\d\d\.\d]/;
+      */
+      return true;
+    };
+
     setFunctionsHostStatus(undefined);
     setFunctionsCount(undefined);
     setAsyncData({
       functionsHostStatus: { loadingState: 'loading' },
       functionsCount: { loadingState: 'loading' },
     });
-    fetchFuncHostStatus();
+    fetchFuncHostStatus(retryFunctionsHostStatus);
     fetchFunctionsCount();
   };
 
@@ -274,7 +305,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       });
       fetchReferences();
       if (site && isFunctionApp(site)) {
-        fetchAsyncData();
+        fetchAsyncData(values);
       }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
