@@ -4,7 +4,6 @@ import { getCardStyle, getHeaderStyle, getDescriptionStyle, getSrc } from './Fun
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { useTranslation } from 'react-i18next';
 import { PivotState } from './FunctionCreate';
-import { onTemplateSelected } from './CreateCard.helper';
 
 export interface CreateCardProps {
   functionTemplate: FunctionTemplate;
@@ -21,7 +20,10 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
     <>
       <div
         className={getCardStyle(theme)}
-        onClick={() => onTemplateSelected(functionTemplate, setSelectedFunctionTemplate, setPivotStateKey)}>
+        onClick={() => {
+          setSelectedFunctionTemplate(functionTemplate);
+          setPivotStateKey(PivotState.details);
+        }}>
         <div className={getHeaderStyle(functionTemplate)}>
           <img src={getSrc(functionTemplate)} />
           {functionTemplate.metadata.name}
