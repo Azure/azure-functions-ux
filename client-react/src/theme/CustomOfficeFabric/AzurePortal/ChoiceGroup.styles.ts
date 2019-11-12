@@ -11,28 +11,35 @@ const GlobalClassNames = {
 interface StyleProps extends IChoiceGroupStyleProps {
   theme: ThemeExtended;
 }
-export const ChoiceGroupStyles: IStyleFunction<StyleProps, IChoiceGroupStyles> = props => {
-  const { className, theme } = props;
 
-  const classNames = getGlobalClassNames(GlobalClassNames, theme);
+export const getChoiceGroupStyles = (vertical?: boolean) => {
+  const choiceGroupStyles: IStyleFunction<StyleProps, IChoiceGroupStyles> = props => {
+    const { className, theme } = props;
 
-  return {
-    applicationRole: className,
-    root: [
-      classNames.root,
-      theme.fonts.medium,
-      {
-        display: 'block',
-        minWidth: '120px',
-      },
-    ],
-    flexContainer: [
-      classNames.flexContainer,
-      {
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-      },
-    ],
+    const classNames = getGlobalClassNames(GlobalClassNames, theme);
+
+    return {
+      applicationRole: className,
+      root: [
+        classNames.root,
+        theme.fonts.medium,
+        {
+          display: 'block',
+          minWidth: '120px',
+        },
+      ],
+      flexContainer: vertical
+        ? undefined
+        : [
+            classNames.flexContainer,
+            {
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+            },
+          ],
+    };
   };
+
+  return choiceGroupStyles;
 };

@@ -6,7 +6,7 @@ import { ChoiceGroup, IChoiceGroupOption } from 'office-ui-fabric-react';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { getLogTextColor } from './LogStreamData';
-import { ChoiceGroupStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
+import { getChoiceGroupStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 
@@ -103,7 +103,12 @@ const LogStreamLogContainer: React.FC<LogStreamLogContainerPropsCombined> = prop
       {/* Show Application Logs and Web Server Toggle if Applicable*/}
       {showWebServerOption && (
         <div className={toggleDivStyle}>
-          <ChoiceGroup styles={ChoiceGroupStyles} defaultSelectedKey={logType} options={optionsWithMargin} onChange={_onOptionChange} />
+          <ChoiceGroup
+            styles={getChoiceGroupStyles()}
+            defaultSelectedKey={logType}
+            options={optionsWithMargin}
+            onChange={_onOptionChange}
+          />
         </div>
       )}
 
