@@ -145,24 +145,7 @@ export default class SiteService {
   };
 
   public static fetchFunctionsHostStatus = async (resourceId: string, force?: boolean) => {
-    let retries = 3;
-    let result: any;
-
-    while (retries) {
-      result = await MakeArmCall<ArmObj<HostStatus>>({
-        resourceId: `${resourceId}/host/default/properties/status`,
-        commandName: 'getHostStatus',
-        method: 'GET',
-        skipBuffer: force,
-      });
-
-      if (result.metadata.status === 200) {
-        return result;
-      }
-
-      retries = retries - 1;
-    }
-
-    return result;
+    const id = `${resourceId}/host/default/properties/status`;
+    return MakeArmCall<ArmObj<HostStatus>>({ resourceId: id, commandName: 'getHostStatus', skipBuffer: force });
   };
 }

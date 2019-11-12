@@ -1,7 +1,7 @@
 import SiteService from '../../../ApiHelpers/SiteService';
 import StorageService from '../../../ApiHelpers/StorageService';
 import RbacConstants from '../../../utils/rbac-constants';
-import { ArmObj } from '../../../models/arm-obj';
+import { ArmObj, ArmArray } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
@@ -10,6 +10,8 @@ import MakeArmCall from '../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import PortalCommunicator from '../../../portal-communicator';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
+import { HostStatus } from '../../../models/functions/host-status';
+import { FunctionInfo } from '../../../models/functions/function-info';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
   const [
@@ -43,12 +45,38 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
   };
 };
 
-export const fetchFunctionsHostStatus = (resourceId: string) => {
-  return SiteService.fetchFunctionsHostStatus(resourceId);
+export const fetchFunctionsHostStatus = async (resourceId: string) => {
+  let retries = 3;
+  let result: HttpResponseObject<ArmObj<HostStatus>> = await SiteService.fetchFunctionsHostStatus(resourceId, true);
+
+  while (retries) {
+    if (result.metadata.status === 200) {
+      return result;
+    }
+
+    retries = retries - 1;
+
+    result = await SiteService.fetchFunctionsHostStatus(resourceId, true);
+  }
+
+  return result;
 };
 
-export const getFunctions = (resourceId: string) => {
-  return FunctionsService.getFunctions(resourceId);
+export const getFunctions = async (resourceId: string) => {
+  let retries = 3;
+  let result: HttpResponseObject<ArmArray<FunctionInfo>> = await FunctionsService.getFunctions(resourceId, true);
+
+  while (retries) {
+    if (result.metadata.status === 200) {
+      return result;
+    }
+
+    retries = retries - 1;
+
+    result = await FunctionsService.getFunctions(resourceId, true);
+  }
+
+  return result;
 };
 
 export const fetchAzureStorageAccounts = (resourceId: string) => {
