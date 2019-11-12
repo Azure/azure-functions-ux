@@ -36,6 +36,7 @@ import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { isFunctionApp } from '../../../utils/arm-utils';
+import { HostStatus } from '../../../models/functions/host-status';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -48,12 +49,16 @@ export interface AppSettingsDataLoaderProps {
   resourceId: string;
 }
 
-const executeWithRetries = async (sendRequst: () => Promise<HttpResponseObject<any>>, maxRetries: number) => {
+const executeWithRetries = async (
+  sendRequst: () => Promise<HttpResponseObject<any>>,
+  maxRetries: number,
+  shouldRetry?: (result: HttpResponseObject<any>) => boolean
+) => {
   let remainingAttempts = (maxRetries || 0) + 1;
   let result: HttpResponseObject<any> = await sendRequst();
 
   while (remainingAttempts) {
-    if (result.metadata.status === 200) {
+    if (!shouldRetry || !shouldRetry(result)) {
       return result;
     }
 
@@ -204,7 +209,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
   };
 
-  const fetchFuncHostStatus = async (asyncDataLatest: AppSettingsAsyncData) => {
+  const fetchFuncHostStatus = async (asyncDataLatest: AppSettingsAsyncData, shouldRetry?: (hostStatus: HttpResponseObject<ArmObj<HostStatus>>) => boolean) => {
     // This gets called immediately after saving the site config, so the call may fail because the app is restarting.
     // We retry on failure to account for this. We limit retries to three to avoid excessive attempts.
     const [force, maxRetries] = [true, 3];
@@ -216,6 +221,31 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     };
     setAsyncData({ ...asyncDataLatest });
   };
+
+
+  /*
+  const delay = async (func: () => Promise<any>, ms: number = 0) => {
+    const sleepPromise = new Promise(resolve => setTimeout(resolve, ms));
+    return await sleepPromise.then(func);
+  };
+
+  export const fetchFunctionsHostStatus = async (resourceId: string, shouldRetry?: (hostStatus: ArmObj<HostStatus>) => boolean) => {
+    let retries = 3;
+    let result: HttpResponseObject<ArmObj<HostStatus>> = await SiteService.fetchFunctionsHostStatus(resourceId, true);
+
+    while (retries) {
+      if (result.metadata.status === 200 && (!shouldRetry || !shouldRetry(result.data))) {
+        return result;
+      }
+
+      retries = retries - 1;
+
+      result = await delay(() => SiteService.fetchFunctionsHostStatus(resourceId, true));
+    }
+
+    return result;
+  };
+  */
 
   const fetchFunctionsCount = async (asyncDataLatest: AppSettingsAsyncData) => {
     // This gets called immediately after saving the site config, so the call may fail because the app is restarting.
@@ -230,13 +260,48 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     setAsyncData({ ...asyncDataLatest });
   };
 
-  const fetchAsyncData = () => {
+  const fetchAsyncData = (values?: AppSettingsFormValues) => {
+    const retryFunctionsHostStatus = (hostStatusResult: HttpResponseObject<ArmObj<HostStatus>>) => {
+      if (hostStatusResult.metadata.status !== 200) {
+        return true;
+      }
+
+      if (!values) {
+        return false;
+      }
+
+      // const currentHostStatus = { ...functionsHostStatus };
+
+      /*
+      - prevAppSettingValue
+      - newAppSettingValue
+      - prevRunningVersion
+
+      let expectedRunningVersion;
+
+      if (newAppSettingValue === '~1') {
+
+      } else if (newAppSettingValue === '~2') {
+
+      } else if (newAppSettingValue === '~3') {
+
+      } else if () {
+      } else {
+
+      }
+
+      2.0.12858.0
+      const regEx = /[^\d\.\d\.\d\d\d\d\d\.\d]/;
+      */
+      return true;
+    };
+
     const asyncDataLatest: AppSettingsAsyncData = {
       functionsHostStatus: { loadingState: LoadingStates.loading },
       functionsCount: { loadingState: LoadingStates.loading },
     };
     setAsyncData({ ...asyncDataLatest });
-    fetchFuncHostStatus(asyncDataLatest);
+    fetchFuncHostStatus(asyncDataLatest, retryFunctionsHostStatus);
     fetchFunctionsCount(asyncDataLatest);
   };
 
@@ -295,7 +360,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       });
       fetchReferences();
       if (isFunctionApp(site)) {
-        fetchAsyncData();
+        fetchAsyncData(values);
       }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
