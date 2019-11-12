@@ -36,6 +36,7 @@ import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { HostStatus } from '../../../models/functions/host-status';
+import { isFunctionApp } from '../../../utils/arm-utils';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -113,6 +114,10 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
     if (!loadingFailed) {
       setCurrentSiteNonForm(site.data);
+
+      if (site.data && isFunctionApp(site.data)) {
+        fetchAsyncData();
+      }
 
       if (
         applicationSettings.metadata.status === 403 || // failing RBAC permissions
@@ -219,7 +224,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     fillSlots();
     fetchReferences();
     fetchStorageAccounts();
-    fetchAsyncData();
   };
 
   const isSlot = () => {
@@ -269,7 +273,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
       });
       fetchReferences();
-      fetchAsyncData();
+      if (site && isFunctionApp(site)) {
+        fetchAsyncData();
+      }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
       const siteError = siteResult.metadata.error && siteResult.metadata.error.Message;
