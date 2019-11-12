@@ -144,7 +144,7 @@ export class PortalResources {
   public static errorParsingConfig = 'errorParsingConfig';
   public static failedToSwitchFunctionState = 'failedToSwitchFunctionState';
   public static features = 'features';
-  public static filedRequired = 'filedRequired';
+  public static fieldRequired = 'fieldRequired';
   public static functionDev_code = 'functionDev_code';
   public static functionDev_run = 'functionDev_run';
   public static functionEdit_readOnly = 'functionEdit_readOnly';
@@ -1409,6 +1409,7 @@ export class PortalResources {
   public static debugging = 'debugging';
   public static modifiedTag = 'modifiedTag';
   public static applicationSettings = 'applicationSettings';
+  public static functionRuntimeSettings = 'functionRuntimeSettings';
   public static generalSettings = 'generalSettings';
   public static defaultDocuments = 'defaultDocuments';
   public static pathMappings = 'pathMappings';
@@ -1540,6 +1541,7 @@ export class PortalResources {
   public static azureBlob = 'azureBlob';
   public static azureFiles = 'azureFiles';
   public static newAzureStorageMount = 'newAzureStorageMount';
+  public static editAzureStorageMount = 'editAzureStorageMount';
   public static emptyAzureStorageMount = 'emptyAzureStorageMount';
   public static azureStorageMountMustBeUnique = 'azureStorageMountMustBeUnique';
   public static virtualPathUnique = 'virtualPathUnique';
@@ -1770,4 +1772,5 @@ export class PortalResources {
   public static createFunctionNotificationDetails = 'createFunctionNotificationDetails';
   public static createFunctionNotificationFailed = 'createFunctionNotificationFailed';
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
+  public static readonlyBlobStorageWarning = 'readonlyBlobStorageWarning';
 }

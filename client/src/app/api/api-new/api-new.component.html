@@ -17,7 +17,7 @@
       <input [fnWriteAccess]="context" type="text" name="name" [formControl]="complexForm.controls['name']"
         placeholder="{{ 'apiProxy_name' | translate }}" [ngClass]="{'input-error':!complexForm.controls['name'].valid}">
 
-      <pop-over *ngIf="!complexForm.controls['name'].valid && (complexForm.controls['name'].dirty || complexForm.controls['name'].touched)" [message]="complexForm.controls['name'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_errorExists' | translate)"
+      <pop-over *ngIf="!complexForm.controls['name'].valid && (complexForm.controls['name'].dirty || complexForm.controls['name'].touched)" [message]="complexForm.controls['name'].errors['required'] ? ('fieldRequired' | translate) :  ('apiProxy_errorExists' | translate)"
         [isInputError]="true">
       </pop-over>
     </div>
@@ -33,7 +33,7 @@
         placeholder="{{ 'apiProxy_routeTemplate' | translate }}" [ngClass]="{'input-error':!complexForm.controls['routeTemplate'].valid}">
 
       <pop-over *ngIf="!complexForm.controls['routeTemplate'].valid && (complexForm.controls['routeTemplate'].dirty || complexForm.controls['routeTemplate'].touched)"
-        [message]="('filedRequired' | translate)" [isInputError]="true">
+        [message]="('fieldRequired' | translate)" [isInputError]="true">
       </pop-over>
     </div>
 
@@ -85,7 +85,7 @@
       <input [fnWriteAccess]="context" type="text" name="backendUri" class="long" [formControl]="complexForm.controls['backendUri']"
         placeholder="{{ 'optional' | translate }}" [ngClass]="{'input-error':!complexForm.controls['backendUri'].valid && complexForm.controls['backendUri'].touched}">
 
-      <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="complexForm.controls['backendUri'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_backanrUrlStart' | translate)"
+      <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="complexForm.controls['backendUri'].errors['required'] ? ('fieldRequired' | translate) :  ('apiProxy_backanrUrlStart' | translate)"
         [isInputError]="true">
       </pop-over>
     </div>

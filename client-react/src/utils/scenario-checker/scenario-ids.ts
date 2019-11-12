@@ -104,4 +104,5 @@ export class ScenarioIds {
   public static readonly showGeneralSettings = 'showGeneralSettings';
   public static readonly isAppDensityEnabled = 'isAppDensityEnabled';
   public static readonly functionAppRuntimeStack = 'functionAppRuntimeStack';
+  public static readonly showFunctionRuntimeSettings = 'showFunctionRuntimeSettings';
 }

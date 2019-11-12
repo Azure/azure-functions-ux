@@ -541,7 +541,7 @@
     <data name="features" xml:space="preserve">
         <value>Features</value>
     </data>
-    <data name="filedRequired" xml:space="preserve">
+    <data name="fieldRequired" xml:space="preserve">
         <value>This field is required</value>
     </data>
     <data name="functionDev_code" xml:space="preserve">
@@ -4370,6 +4370,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="connectionStrings" xml:space="preserve">
         <value>Connection strings</value>
     </data>
+    <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>Function runtime settings</value>
+    </data>
     <data name="generalSettings" xml:space="preserve">
         <value>General settings</value>
     </data>
@@ -4786,6 +4789,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="newAzureStorageMount" xml:space="preserve">
         <value>New Azure Storage Mount</value>
+    </data>
+    <data name="editAzureStorageMount" xml:space="preserve">
+        <value>Edit Azure Storage Mount</value>
     </data>
     <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Empty Azure Storage Mount</value>
@@ -5483,5 +5489,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>Successfully created {0}</value>
+    </data>
+    <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>Mounted Blob containers will become read only in Feb 2020.</value>
     </data>
 </root>
