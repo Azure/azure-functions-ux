@@ -2,7 +2,7 @@ import { BindingsConfig } from './../models/functions/bindings-config';
 import { ArmArray, ArmObj } from './../models/arm-obj';
 import MakeArmCall from './ArmHelper';
 import { FunctionInfo } from '../models/functions/function-info';
-import { sendHttpRequest, getJsonHeaders } from './HttpClient';
+import { sendHttpRequest, getJsonHeaders, getTextHeaders } from './HttpClient';
 import { FunctionTemplate } from '../models/functions/function-template';
 import { FunctionConfig } from '../models/functions/function-config';
 
@@ -113,4 +113,13 @@ export default class FunctionsService {
       body: body,
     });
   };
+
+  public static getQuickStartFile(filename: string) {
+    return sendHttpRequest<string>({
+      url: `api/quickstart?lang=en&fileName=${filename}&cacheBreak=${window.appsvc && window.appsvc.cacheBreakQuery}`,
+      method: 'GET',
+      headers: getTextHeaders(),
+    });
+    //const url = `${Url.serviceHost}api/quickstart?lang=en&fileName=${filename}&cacheBreak=${window.appsvc && window.appsvc.cacheBreakQuery}`;
+  }
 }
