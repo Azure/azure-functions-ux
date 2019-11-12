@@ -240,6 +240,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const refreshAppSettings = () => {
+    setAppPermissions(true);
+    setProductionPermissions(true);
+    setEditable(true);
     setRefreshValues(true);
     setLoadingFailure(false);
     loadData();
