@@ -57,17 +57,36 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
 
   private _getFunctionNameTextField(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
     return (
-      <FormControlWrapper label={this.t('functionCreate_newFunction')} layout={Layout.vertical} key={0}>
+      <FormControlWrapper label={this.t('functionCreate_newFunction')} layout={Layout.vertical} key={0} required={true}>
         <Field
           name={'functionName'}
           id={'functionName'}
-          required={true}
           component={TextField}
           disabled={isDisabled}
-          validate={(value: string) => (!value ? this.t('fieldRequired') : undefined)}
+          validate={(value: string) => this._validateFunctionName(value)}
           {...formProps}
         />
       </FormControlWrapper>
     );
+  }
+
+  private _validateFunctionName(name: string): string | undefined {
+    let error: string | undefined;
+    const validNameRegExp = new RegExp('^[a-zA-Z][a-zA-Z0-9_-]{0,127}$');
+
+    if (!name) {
+      error = this.t('fieldRequired');
+    } else if (!validNameRegExp.test(name) || name.toLowerCase() === 'host') {
+      error = this.t('functionNew_nameError');
+    } else {
+      const nameAlreadyUsed = this._functionsInfo.find(f => {
+        return f.properties.name.toLowerCase() === name.toLowerCase();
+      });
+      if (nameAlreadyUsed) {
+        error = this.t('functionNew_functionExists', { name });
+      }
+    }
+
+    return error;
   }
 }
