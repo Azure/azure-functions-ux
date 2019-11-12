@@ -64,7 +64,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const enableAzureStorageMount = scenarioChecker.checkScenario(ScenarioIds.azureStorageMount, { site }).status === 'enabled';
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
   const showFunctionRuntimeSettings =
-    Url.getParameterByName(null, CommonConstants.FeatureFlags.ShowNewFunctionRuntimeSettings) === 'true' &&
+    (true || Url.getParameterByName(null, CommonConstants.FeatureFlags.ShowNewFunctionRuntimeSettings) === 'true') &&
     scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
 
   return (
