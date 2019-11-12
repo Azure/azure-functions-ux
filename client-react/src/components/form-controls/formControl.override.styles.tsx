@@ -104,4 +104,5 @@ export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean) =>
   style({
     width: upsellIcon && fullpage ? '220px' : '200px',
     paddingLeft: '5px',
+    paddingRight: '5px',
   });
