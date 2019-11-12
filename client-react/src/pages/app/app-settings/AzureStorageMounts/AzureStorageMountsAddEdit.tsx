@@ -12,6 +12,7 @@ import { StorageAccountsContext } from '../Contexts';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import * as Yup from 'yup';
+import { style } from 'typestyle';
 
 export interface AzureStorageMountsAddEditProps {
   updateAzureStorageMount: (item: FormAzureStorageMounts) => any;
@@ -148,5 +149,10 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     />
   );
 };
+
+export const messageBanner = style({
+  paddingLeft: '5px',
+  marginBottom: '15px',
+});
 
 export default AzureStorageMountsAddEdit;

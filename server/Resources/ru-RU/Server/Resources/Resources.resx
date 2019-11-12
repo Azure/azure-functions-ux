@@ -3645,7 +3645,7 @@
         <value>Учетные данные приложения</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Учетные данные приложения создаются автоматически и предоставляют доступ только к этому приложению или слоту развертывания. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy. Эти учетные данные не могут быть настроены вручную, но могут быть сброшены в любое время.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>Имя пользователя</value>
@@ -4784,6 +4784,9 @@
   <data name="newAzureStorageMount" xml:space="preserve">
         <value>Новое подключение для службы хранилища Azure</value>
     </data>
+  <data name="editAzureStorageMount" xml:space="preserve">
+        <value>Edit Azure Storage Mount</value>
+    </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Пустое подключение для службы хранилища Azure</value>
     </data>
@@ -5068,10 +5071,22 @@
         <value>Входные данные не заданы.</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
-        <value>Выходные данные не заданы.</value>
+        <value>Выводов не задано</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Добавить входные данные</value>
+    </data>
+  <data name="integrateCreateInput" xml:space="preserve">
+        <value>Создать входные данные</value>
+    </data>
+  <data name="integrateCreateBindingInstructions" xml:space="preserve">
+        <value>Сначала выберите тип привязки {0}, которую нужно добавить.</value>
+    </data>
+  <data name="integrateBindingType" xml:space="preserve">
+        <value>Тип привязки</value>
+    </data>
+  <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
+        <value>{0} - сведения</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>Функция</value>
@@ -5103,7 +5118,7 @@
   <data name="editBindingInput" xml:space="preserve">
         <value>Изменить входные данные</value>
     </data>
-  <data name="editBindingOuput" xml:space="preserve">
+  <data name="editBindingOutput" xml:space="preserve">
         <value>Изменить выходные данные</value>
     </data>
   <data name="editBindingTrigger" xml:space="preserve">
@@ -5230,28 +5245,28 @@
         <value>Не удалось получить состояние проверки подлинности. Повторите попытку через несколько минут.</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Обновить все ключи для функции</value>
+        <value>Обновить все ключи для функции</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
-      <value>Использовать клавиши со стрелками влево и вправо для навигации между командами.</value>
+        <value>Использовать клавиши со стрелками влево и вправо для навигации между командами.</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>Новый ключ функции</value>
+        <value>Новый ключ функции</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Фильтрация по ключам функции</value>
+        <value>Фильтрация по ключам функции</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Изменить ключ</value>
+        <value>Изменить ключ</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
-      <value>Добавить ключ</value>
+        <value>Добавить ключ</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>Свойство {0} является обязательным для всех ключей функции</value>
+        <value>Свойство {0} является обязательным для всех ключей функции</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Имена ключей функции должны быть уникальными</value>
+        <value>Имена ключей функции должны быть уникальными</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>Действия GitHub (предварительная версия)</value>
@@ -5281,16 +5296,16 @@
         <value>Linux</value>
     </data>
   <data name="deploymentCredentialsTitle" xml:space="preserve">
-        <value>Deployment Credentials</value>
+        <value>Мандат на развертывание</value>
     </data>
   <data name="deploymentCredentialsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+        <value>Служба приложений поддерживает несколько технологий для доступа к содержимому приложения, а также публикации и изменения содержимого приложения. Учетные данные развертывания могут находиться в области приложения или пользователя.</value>
     </data>
   <data name="deploymentCredentialsLocalGit" xml:space="preserve">
-        <value>Local Git</value>
+        <value>Локальный репозиторий GIT</value>
     </data>
   <data name="deploymentCredentialsFtps" xml:space="preserve">
-        <value>FTP/FTPS</value>
+        <value>FTP или FTPS</value>
     </data>
   <data name="none" xml:space="preserve">
         <value>нет</value>
@@ -5311,13 +5326,13 @@
         <value>Использовать клавиши со стрелками влево и вправо для навигации между командами.</value>
     </data>
   <data name="localGitDescription" xml:space="preserve">
-        <value>Use Git to push changes directly to your app.</value>
+        <value>Используйте репозиторий GIT для отправки изменений непосредственно в приложение.</value>
     </data>
   <data name="ftpsDescription" xml:space="preserve">
-        <value>App Service enables you to access your app content through FTP/S.</value>
+        <value>Служба приложений позволяет получить доступ к содержимому приложения через FTP/S.</value>
     </data>
   <data name="gitCloneUrlLabel" xml:space="preserve">
-        <value>Git Clone URL</value>
+        <value>URL-адрес клона GIT</value>
     </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
         <value>Конфигурация рабочего процесса действия GitHub</value>
@@ -5338,27 +5353,135 @@
         <value>Выберите файлы в каталоге функций.</value>
     </data>
   <data name="noPlanWritePermissions" xml:space="preserve">
-        <value>This feature requires write permissions on the plan hosting your app</value>
+        <value>Эта функция требует разрешений на запись в плане размещения вашего приложения.</value>
     </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
+    </data>
+  <data name="validation_linuxConnectionStringNameError" xml:space="preserve">
+        <value>Имена строк подключения могут содержать только буквы, цифры (0–9), точки (".") и символы подчеркивания ("_").</value>
     </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Закрыть модальное окно "Получить URL-адрес функции".</value>
     </data>
   <data name="scope" xml:space="preserve">
-        <value>Scope</value>
+        <value>Область</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Virtual network trigger support</value>
+        <value>Поддержка триггеров виртуальной сети</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
-        <value>Refresh App Settings</value>
+        <value>Обновление параметров приложения</value>
     </data>
   <data name="refreshAppSettingsMessage" xml:space="preserve">
-        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+        <value>При обновлении все несохраненные изменения будут потеряны. Вы действительно хотите продолжить?</value>
+    </data>
+  <data name="eventHubPicker_noNamespaces" xml:space="preserve">
+        <value>В этой подписке нет пространств имен.</value>
+    </data>
+  <data name="eventHubPicker_noEventHubs" xml:space="preserve">
+        <value>Центры событий в этом пространстве имен отсутствуют</value>
+    </data>
+  <data name="eventHubPicker_noPolicies" xml:space="preserve">
+        <value>В этом пространстве имен и концентраторе событий нет политик</value>
+    </data>
+  <data name="iotHubPivot_noIoTHubs" xml:space="preserve">
+        <value>В этой подписке нет Центров Интернета вещей.</value>
+    </data>
+  <data name="iotHubPivot_IoTHub" xml:space="preserve">
+        <value>Центр IoT</value>
+    </data>
+  <data name="iotHubPivot_noEndpoints" xml:space="preserve">
+        <value>Нет доступных конечных точек для этого Центра Интернета вещей</value>
+    </data>
+  <data name="iotHubPivot_Endpoint" xml:space="preserve">
+        <value>Конечная точка</value>
+    </data>
+  <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>События (встроенная конечная точка)</value>
+    </data>
+  <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>Мониторинг операций</value>
+    </data>
+  <data name="customPivot_key" xml:space="preserve">
+        <value>Ключ</value>
+    </data>
+  <data name="customPivot_value" xml:space="preserve">
+        <value>Значение</value>
+    </data>
+  <data name="serviceBusCallout_serviceBus" xml:space="preserve">
+        <value>Служебная шина</value>
+    </data>
+  <data name="resourceCallout_customAppSetting" xml:space="preserve">
+        <value>Настраиваемый параметр приложения</value>
+    </data>
+  <data name="serviceBusPicker_noNamespaces" xml:space="preserve">
+        <value>В этой подписке нет пространств имен.</value>
+    </data>
+  <data name="serviceBusPicker_noPolicies" xml:space="preserve">
+        <value>В этом пространстве имен нет политик.</value>
+    </data>
+  <data name="serviceBusPicker_namespace" xml:space="preserve">
+        <value>Пространство имен</value>
+    </data>
+  <data name="serviceBusPicker_policy" xml:space="preserve">
+        <value>Политика</value>
+    </data>
+  <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
+        <value>Учетная запись Azure Cosmos DB</value>
+    </data>
+  <data name="documentDBPivot_noDatabaseAccounts" xml:space="preserve">
+        <value>В этой подписке нет учетных записей базы данных.</value>
+    </data>
+  <data name="documentDBPivot_databaseAccount" xml:space="preserve">
+        <value>Учетная запись базы данных</value>
+    </data>
+  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Существующая учетная запись хранения</value>
+    </data>
+  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
+        <value>Новая учетная запись хранилища</value>
+    </data>
+  <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
+        <value>В этой подписке нет учетных записей хранения.</value>
+    </data>
+  <data name="storageAccountPivot_storageAccount" xml:space="preserve">
+        <value>Учетная запись хранения</value>
+    </data>
+  <data name="newPivot_name" xml:space="preserve">
+        <value>Имя</value>
+    </data>
+  <data name="integrateAddOutput" xml:space="preserve">
+        <value>+ Добавить выходные данные</value>
+    </data>
+  <data name="integrateCreateOutput" xml:space="preserve">
+        <value>Создать выходные данные</value>
+    </data>
+  <data name="deleteBindingNotification" xml:space="preserve">
+        <value>Идет удаление привязки</value>
+    </data>
+  <data name="deleteBindingNotificationDetails" xml:space="preserve">
+        <value>Идет удаление {0} ({1})</value>
+    </data>
+  <data name="deleteBindingNotificationFailed" xml:space="preserve">
+        <value>Не удалось удалить {0} ({1}): {2}</value>
+    </data>
+  <data name="deleteBindingNotificationSuccess" xml:space="preserve">
+        <value>Удаление {0} ({1}) успешно выполнено</value>
+    </data>
+  <data name="createFunctionNotication" xml:space="preserve">
+        <value>Создается функция.</value>
+    </data>
+  <data name="createFunctionNotificationDetails" xml:space="preserve">
+        <value>Создание {0}</value>
+    </data>
+  <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Не удалось создать {0}: {1}.</value>
+    </data>
+  <data name="createFunctionNotificationSuccess" xml:space="preserve">
+        <value>{0} создана.</value>
     </data>
 </root>

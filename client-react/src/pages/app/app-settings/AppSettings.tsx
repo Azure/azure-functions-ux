@@ -13,9 +13,15 @@ import { commandBarSticky, formStyle, messageBanner } from './AppSettings.styles
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType, KeyCodes } from 'office-ui-fabric-react';
 import { ThemeContext } from '../../../ThemeContext';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
+
+const onKeyDown = keyEvent => {
+  if ((keyEvent.charCode || keyEvent.keyCode) === KeyCodes.enter) {
+    keyEvent.preventDefault();
+  }
+};
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -94,7 +100,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                       validateOnBlur={false}
                       validateOnChange={false}>
                       {(formProps: FormikProps<AppSettingsFormValues>) => (
-                        <form>
+                        <form onKeyDown={onKeyDown}>
                           <div className={commandBarSticky}>
                             <AppSettingsCommandBar
                               submitForm={formProps.submitForm}

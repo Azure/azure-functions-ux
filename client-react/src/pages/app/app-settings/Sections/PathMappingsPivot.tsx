@@ -7,10 +7,9 @@ import VirtualApplications from '../VirtualApplications/VirtualApplications';
 import { isEqual } from 'lodash-es';
 import AzureStorageMounts from '../AzureStorageMounts/AzureStorageMounts';
 import { PermissionsContext } from '../Contexts';
-import { MessageBar, MessageBarType, Stack, Icon, Link } from 'office-ui-fabric-react';
-import { infoIconStyle, learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { MessageBar, MessageBarType, Link } from 'office-ui-fabric-react';
+import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { Links } from '../../../../utils/FwLinks';
-import { ThemeContext } from '../../../../ThemeContext';
 
 interface PathMappingsPivotProps {
   enablePathMappings: boolean;
@@ -20,7 +19,6 @@ const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & PathMappi
   const { enablePathMappings, enableAzureStorageMount } = props;
   const { t } = useTranslation();
   const { app_write } = useContext(PermissionsContext);
-  const theme = useContext(ThemeContext);
   return (
     <>
       {enablePathMappings && (
@@ -34,20 +32,17 @@ const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & PathMappi
       {enableAzureStorageMount && (
         <>
           <h3>{t('mountStorage')}</h3>
-          <Stack horizontal verticalAlign="center">
-            <Icon iconName="Info" className={infoIconStyle(theme)} />
-            <p>
-              <span id="mounted-storage-info">{t('mountedStorageInfo')}</span>
-              <Link
-                id="mounted-storage-info-learnMore"
-                href={Links.mountedStorageLearnMore}
-                target="_blank"
-                className={learnMoreLinkStyle}
-                aria-labelledby="mounted-storage-info mounted-storage-info-learnMore">
-                {` ${t('learnMore')}`}
-              </Link>
-            </p>
-          </Stack>
+          <p>
+            <span id="mounted-storage-info">{t('mountedStorageInfo')}</span>
+            <Link
+              id="mounted-storage-info-learnMore"
+              href={Links.mountedStorageLearnMore}
+              target="_blank"
+              className={learnMoreLinkStyle}
+              aria-labelledby="mounted-storage-info mounted-storage-info-learnMore">
+              {` ${t('learnMore')}`}
+            </Link>
+          </p>
           {app_write ? (
             <AzureStorageMounts {...props} />
           ) : (

@@ -174,7 +174,7 @@
                         (value)="functionsRuntimeScaleMonitoringStream.next($event)"
                         id="runtimeScalingRadioButton"
                         aria-labelledby="runtimeScalingRadioLabel runtimeScalingRadioButton"
-                        [disabled]="(!functionsRuntimeScaleMonitoring && (reservedInstanceCount === 0 || !vnetEnabled))">
+                        [disabled]="(!functionsRuntimeScaleMonitoring && (reservedInstanceCount === 0 || !vnetEnabled || !runtimeVersionSupportsScaleMonitoring))">
                     </radio-selector>
                 </div>
             </div>

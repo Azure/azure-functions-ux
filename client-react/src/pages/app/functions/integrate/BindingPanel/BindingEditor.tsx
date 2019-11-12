@@ -80,6 +80,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
               resetForm={() => formProps.resetForm(initialFormValues)}
               delete={() => onDelete(currentBindingInfo)}
               dirty={formProps.dirty}
+              valid={formProps.isValid}
               loading={isDisabled}
             />
             <div className={fieldWrapperStyle}>

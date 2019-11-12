@@ -66,12 +66,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
               label={t('certificateExlusionPaths')}
               id="incoming-client-certificate-exclusion-paths"
             />
-            <Panel
-              isOpen={showPanel}
-              type={PanelType.medium}
-              onDismiss={onCancel}
-              headerText={t('certificateExlusionPaths')}
-              closeButtonAriaLabel={t('close')}>
+            <Panel isOpen={showPanel} type={PanelType.medium} onDismiss={onCancel} headerText={t('certificateExlusionPaths')}>
               <EditClientExclusionPaths
                 clientExclusionPaths={values.site.properties.clientCertExclusionPaths}
                 save={onSave}

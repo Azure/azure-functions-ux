@@ -46,7 +46,7 @@
         <input [fnWriteAccess]="context" type="text" name="routeTemplate" [formControl]="complexForm.controls['routeTemplate']"
           placeholder="{{ 'apiProxy_routeTemplate' | translate }}" [ngClass]="{'input-error':!complexForm.controls['routeTemplate'].valid}">
 
-        <pop-over *ngIf="!complexForm.controls['routeTemplate'].valid" [message]="('filedRequired' | translate)" [isInputError]="true">
+        <pop-over *ngIf="!complexForm.controls['routeTemplate'].valid" [message]="('fieldRequired' | translate)" [isInputError]="true">
         </pop-over>
       </div>
 
@@ -102,7 +102,7 @@
         <input [fnWriteAccess]="context" type="text" name="backendUri" style="width: 720px" [formControl]="complexForm.controls['backendUri']"
           placeholder="{{ 'optional' | translate }}" [ngClass]="{'input-error':!complexForm.controls['backendUri'].valid && complexForm.controls['backendUri'].touched}">
 
-        <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="complexForm.controls['backendUri'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_backanrUrlStart' | translate)"
+        <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="complexForm.controls['backendUri'].errors['required'] ? ('fieldRequired' | translate) :  ('apiProxy_backanrUrlStart' | translate)"
           [isInputError]="true">
         </pop-over>
       </div>

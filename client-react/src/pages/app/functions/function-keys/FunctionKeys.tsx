@@ -299,8 +299,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         <Panel
           isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
           onDismiss={onClosePanel}
-          headerText={panelItem === 'edit' ? t('editFunctionKey') : t('addFunctionKey')}
-          closeButtonAriaLabel={t('close')}>
+          headerText={panelItem === 'edit' ? t('editFunctionKey') : t('addFunctionKey')}>
           <FunctionKeyAddEdit
             resourceId={resourceId}
             createAppKey={createFunctionKey}
