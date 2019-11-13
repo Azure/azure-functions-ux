@@ -64,12 +64,19 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
       return { message: '' };
     }
 
-    if (
-      initialRuntimeVersion.toLowerCase() === exactRuntimeVersion.toLowerCase() ||
-      initialRuntimeVersion.toLowerCase() === exactRuntimeVersion.toLowerCase().replace(/.0$/, '-alpha')
-    ) {
+    const initialVersionToLower = initialRuntimeVersion.toLowerCase();
+    const exactVersionToLower = exactRuntimeVersion.toLowerCase();
+    if (initialVersionToLower === exactVersionToLower) {
       return {
         message: t('functionsRuntimeVersionNeedsUpdateWarning').format(exactRuntimeVersion),
+        type: MessageBarType.warning,
+      };
+    }
+
+    const initialVersionToLowerTrimmed = initialVersionToLower.replace(/^\s*~?|(-alpha)?\s*$/g, '');
+    if (!!initialVersionToLowerTrimmed && exactVersionToLower.startsWith(initialVersionToLowerTrimmed)) {
+      return {
+        message: t('functionsRuntimeVersionNeedsUpdateWarning').format(`${exactRuntimeVersion} (${initialRuntimeVersion})`),
         type: MessageBarType.warning,
       };
     }
