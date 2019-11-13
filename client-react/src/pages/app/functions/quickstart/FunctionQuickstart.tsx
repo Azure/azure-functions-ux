@@ -115,6 +115,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       <h2>{t('quickstartHeader')}</h2>
       <div>
         {t('quickstartDesc')}
+        {/* TODO [krmitta]: Sync with Byron and update the string */}
         <Link href={'functions.azure.com'} target="_blank">
           {t('viewDocumentation')}
         </Link>
