@@ -88,5 +88,6 @@ export const messageBannerStyle = (theme: ThemeExtended, type: MessageBarType) =
   return style({
     backgroundColor,
     paddingLeft: '5px',
+    marginBottom: '5px',
   });
 };

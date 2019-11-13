@@ -7,6 +7,7 @@ import TextField from '../../../../components/form-controls/TextField';
 import { KeyCodes, MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { messageBannerStyle } from '../AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
+import { SiteDisabledReason } from '../../../../models/site/site';
 
 const onKeyDown = keyEvent => {
   const keyCode = keyEvent.charCode || keyEvent.keyCode;
@@ -23,7 +24,8 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const theme = useContext(ThemeContext);
   const disableAllControls = !app_write || !editable || saving;
-  const showWarning = !values.site.properties.enabled && values.site.properties.siteDisabledReason === 1;
+  const showWarning =
+    !values.site.properties.enabled && values.site.properties.siteDisabledReason === SiteDisabledReason.FunctionQuotaExceeded;
 
   if (!values.site) {
     return null;

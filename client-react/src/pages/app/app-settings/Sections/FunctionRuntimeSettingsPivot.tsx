@@ -22,13 +22,9 @@ const FunctionRuntimeSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>>
   }
 
   return (
-    <>
-      <div id="function-runtime-settings" className={tabContainerStyle}>
-        {scenarioChecker.checkScenario(ScenarioIds.dailyUsageQuotaSupported, { site }).status === 'enabled' && (
-          <DailyUsageQuota {...props} />
-        )}
-      </div>
-    </>
+    <div id="function-runtime-settings" className={tabContainerStyle}>
+      {scenarioChecker.checkScenario(ScenarioIds.dailyUsageQuotaSupported, { site }).status === 'enabled' && <DailyUsageQuota {...props} />}
+    </div>
   );
 };
 

@@ -44,6 +44,12 @@ export enum IpBasedSslState {
   ConfigurationReverted = 'ConfigurationReverted',
 }
 
+export enum SiteDisabledReason {
+  Undefined = 0,
+  FunctionQuotaExceeded = 1,
+  Other = 100,
+}
+
 export interface Site {
   name: string;
   state: string;
@@ -98,7 +104,7 @@ export interface Site {
   isXenon: boolean;
   reserved: boolean;
   dailyMemoryTimeQuota: number;
-  siteDisabledReason: number;
+  siteDisabledReason: SiteDisabledReason;
 }
 
 export interface HostNameSslState {
