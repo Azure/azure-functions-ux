@@ -10,8 +10,8 @@ import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs
 import { ReactComponent as TerminalIconSvg } from '../../../../images/Functions/terminal.svg';
 import { ReactComponent as VisualStudioIconSvg } from '../../../../images/Functions/visual_studio.svg';
 import { FunctionQuickstartContext } from './FunctionQuickstartDataLoader';
-import ReactMarkdown from 'react-markdown';
 import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
+import Markdown from 'markdown-to-jsx';
 
 registerIcons({
   icons: {
@@ -94,9 +94,10 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   ];
 
   const onChange = async (e: unknown, option: IDropdownOption) => {
-    const result = await quickstartContext.getQuickstartFilename(option.key as string);
+    const key = option.key as string;
+    const result = await quickstartContext.getQuickstartFilename(key);
     if (result.metadata.success) {
-      setFile(result.data);
+      setFile(result.data.format('ewqfwe'));
     }
   };
 
@@ -128,7 +129,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
           onRenderOption={onRenderOption}
         />
       </div>
-      <ReactMarkdown source={file} escapeHtml={false} />
+      <Markdown>{file}</Markdown>
     </div>
   );
 };

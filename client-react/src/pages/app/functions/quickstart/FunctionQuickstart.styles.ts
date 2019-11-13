@@ -18,4 +18,5 @@ export const quickstartDropdownLabelStyle = style({
 
 export const quickstartDropdownContainerStyle = style({
   marginTop: '20px',
+  marginBottom: '20px',
 });
