@@ -27,10 +27,6 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
   const showWarning =
     !values.site.properties.enabled && values.site.properties.siteDisabledReason === SiteDisabledReason.FunctionQuotaExceeded;
 
-  if (!values.site) {
-    return null;
-  }
-
   return (
     <>
       {showWarning && (
