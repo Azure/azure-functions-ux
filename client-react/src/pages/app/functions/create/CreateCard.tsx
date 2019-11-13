@@ -22,14 +22,10 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
       <div
         tabIndex={0}
         className={getCardStyle(theme)}
-        onClick={() => {
-          setSelectedFunctionTemplate(functionTemplate);
-          setPivotStateKey(PivotState.details);
-        }}
+        onClick={() => onTemplateSelected(functionTemplate, setSelectedFunctionTemplate, setPivotStateKey)}
         onKeyDown={event => {
           if (event.keyCode === KeyCodes.enter) {
-            setSelectedFunctionTemplate(functionTemplate);
-            setPivotStateKey(PivotState.details);
+            onTemplateSelected(functionTemplate, setSelectedFunctionTemplate, setPivotStateKey);
           }
         }}>
         <div className={getHeaderStyle(functionTemplate)}>
@@ -41,6 +37,15 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
       </div>
     </>
   );
+};
+
+const onTemplateSelected = (
+  functionTemplate: FunctionTemplate,
+  setSelectedFunctionTemplate: (template: FunctionTemplate) => void,
+  setPivotStateKey: (state: PivotState) => void
+) => {
+  setSelectedFunctionTemplate(functionTemplate);
+  setPivotStateKey(PivotState.details);
 };
 
 export default CreateCard;
