@@ -10,6 +10,8 @@ import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs
 import { ReactComponent as TerminalIconSvg } from '../../../../images/Functions/terminal.svg';
 import { ReactComponent as VisualStudioIconSvg } from '../../../../images/Functions/visual_studio.svg';
 import { FunctionQuickstartContext } from './FunctionQuickstartDataLoader';
+import ReactMarkdown from 'react-markdown';
+import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
 
 registerIcons({
   icons: {
@@ -22,6 +24,7 @@ registerIcons({
 export interface FunctionQuickstartProps {
   resourceId: string;
   site: ArmObj<Site>;
+  workerRuntime: string | undefined;
 }
 
 export interface QuickstartOption {
@@ -35,8 +38,25 @@ export interface QuickstartOption {
 
 const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   const { t } = useTranslation();
+  const { site, workerRuntime } = props;
   const [file, setFile] = useState('');
   const quickstartContext = useContext(FunctionQuickstartContext);
+
+  const isVSOptionVisible = (): boolean => {
+    return !isLinuxApp(site) && workerRuntime === 'dotnet';
+  };
+
+  const isVSCodeOptionVisible = (): boolean => {
+    return !isLinuxApp(site) || !isElastic(site);
+  };
+
+  const isCoreToolsOptionVisible = (): boolean => {
+    return workerRuntime !== 'java';
+  };
+
+  const isMavenToolsOptionVisible = (): boolean => {
+    return workerRuntime === 'java';
+  };
 
   const dropdownOptions = [
     {
@@ -44,6 +64,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       text: t('vsCardTitle'),
       data: {
         icon: <Icon iconName="visual-studio" />,
+        visible: isVSOptionVisible(),
       },
     },
     {
@@ -51,6 +72,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       text: t('vscodeCardTitle'),
       data: {
         icon: <Icon iconName="vs-code" />,
+        visible: isVSCodeOptionVisible(),
       },
     },
     {
@@ -58,6 +80,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       text: t('coretoolsCardTitle'),
       data: {
         icon: <Icon iconName="terminal" />,
+        visible: isCoreToolsOptionVisible(),
       },
     },
     {
@@ -65,6 +88,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       text: t('mavenCardTitle'),
       data: {
         icon: <Icon iconName="terminal" />,
+        visible: isMavenToolsOptionVisible(),
       },
     },
   ];
@@ -98,14 +122,13 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
         <div className={quickstartDropdownLabelStyle}>{t('chooseDevelopmentEnv')}</div>
         <DropdownNoFormik
           id="quickstart-dropdown"
-          options={dropdownOptions}
+          options={dropdownOptions.filter(option => option.data.visible)}
           onChange={onChange}
-          defaultValue={dropdownOptions[0].key}
           responsiveMode={ResponsiveMode.large}
           onRenderOption={onRenderOption}
         />
       </div>
-      <div>{file}</div>
+      <ReactMarkdown source={file} escapeHtml={false} />
     </div>
   );
 };

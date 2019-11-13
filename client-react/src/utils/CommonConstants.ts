@@ -61,4 +61,8 @@ export class CommonConstants {
     hoursInAzureMonth: 730,
     secondsInAzureMonth: 2628000,
   };
+
+  public static readonly AppSettings = {
+    workerRuntime: 'FUNCTIONS_WORKER_RUNTIME',
+  };
 }
