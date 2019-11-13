@@ -73,6 +73,10 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
       };
     }
 
+    // const leadingWhitespaceAndSingleTilda = /^\s*~?/;
+    // const trailingWhitespace = /\s*$/;
+    // const initialVersionToLowerTrimmed = initialVersionToLower.replace(leadingWhitespaceAndSingleTilda, '').replace(trailingWhitespace, '');
+    // const initialVersionToLowerTrimmed = initialVersionToLower.replace(/^\s+~?|\s+$/g, '');
     const initialVersionToLowerTrimmed = initialVersionToLower.replace(/^\s*~?|(-alpha)?\s*$/g, '');
     if (!!initialVersionToLowerTrimmed && exactVersionToLower.startsWith(initialVersionToLowerTrimmed)) {
       return {
