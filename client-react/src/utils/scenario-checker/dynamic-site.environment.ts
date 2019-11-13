@@ -45,10 +45,18 @@ export class DynamicSiteEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
     this.scenarioChecks[ScenarioIds.alwaysOnSupported] = {
       id: ScenarioIds.alwaysOnSupported,
       runCheck: () => {
         return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.dailyUsageQuotaSupported] = {
+      id: ScenarioIds.dailyUsageQuotaSupported,
+      runCheck: () => {
+        return { status: 'enabled' };
       },
     };
   }
