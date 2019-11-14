@@ -5497,7 +5497,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Learn how to develop Azure Functions locally</value>
     </data>
     <data name="quickstartDesc" xml:space="preserve">
-        <value>Depending on your development environment, the instructions can vary. For a comprehensive view of all the options. </value>
+        <value>Depending on your development environment, the instructions can vary. For a comprehensive view of all the options: </value>
     </data>
     <data name="viewDocumentation" xml:space="preserve">
         <value>View Documentation</value>
