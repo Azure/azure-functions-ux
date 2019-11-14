@@ -17,3 +17,8 @@ export function isLinuxDynamic(obj: ArmObj<Site>) {
 export function isContainerApp(obj: ArmObj<Site>): boolean {
   return AppKind.hasKinds(obj, ['container']);
 }
+
+export function isElastic(obj: ArmObj<Site>): boolean {
+  const sku = obj.properties.sku && obj.properties.sku.toLocaleLowerCase();
+  return sku === 'elasticpremium' || sku === 'elasticisolated';
+}
