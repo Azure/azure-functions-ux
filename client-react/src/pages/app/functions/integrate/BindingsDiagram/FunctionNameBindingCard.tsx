@@ -7,7 +7,7 @@ import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { listStyle } from './BindingDiagram.styles';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { PortalContext } from '../../../../../PortalContext';
-import { BroadcastMessageId, SelectedMenuItemMessage } from '../../../../../models/portal-models';
+import { BroadcastMessageId, SelectedMenuItemMessage, MenuId } from '../../../../../models/portal-models';
 import PortalCommunicator from '../../../../../portal-communicator';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
@@ -34,7 +34,7 @@ const getContent = (theme: ThemeExtended, functionInfo: ArmObj<FunctionInfo>, po
 };
 
 const onClick = (portalCommunicator: PortalCommunicator, id: string) => {
-  portalCommunicator.broadcastMessage<SelectedMenuItemMessage>(BroadcastMessageId.menuItemSelected, id, { menuId: 'code' });
+  portalCommunicator.broadcastMessage<SelectedMenuItemMessage>(BroadcastMessageId.menuItemSelected, id, { menuId: MenuId.Code });
 };
 
 export default FunctionNameBindingCard;

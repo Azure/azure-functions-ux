@@ -303,5 +303,14 @@ export interface PortalDebugInformation {
 }
 
 export interface SelectedMenuItemMessage {
-  menuId: string;
+  menuId: MenuId;
+}
+
+export enum MenuId {
+  Overview = 'functionOverview',
+  Code = 'code',
+  Integration = 'integration',
+  Invocation = 'invocation',
+  StreamingLogs = 'streamingLogs',
+  FunctionKeys = 'functionKeys',
 }
