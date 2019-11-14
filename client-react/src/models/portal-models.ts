@@ -267,6 +267,7 @@ export enum BroadcastMessageId {
   siteUpdated = 'SITE_UPDATED',
   slotSwap = 'SLOT_SWAP',
   slotNew = 'SLOT_NEW',
+  menuItemSelected = 'SELECTED_MENU_ITEM',
 }
 
 export interface BroadcastMessage<T> {
@@ -299,4 +300,17 @@ export interface PortalDebugInformation {
   hostName: string;
   appName: string;
   version: string;
+}
+
+export interface SelectedMenuItemMessage {
+  menuId: MenuId;
+}
+
+export enum MenuId {
+  Overview = 'functionOverview',
+  Code = 'code',
+  Integration = 'integration',
+  Invocation = 'invocation',
+  StreamingLogs = 'streamingLogs',
+  FunctionKeys = 'functionKeys',
 }
