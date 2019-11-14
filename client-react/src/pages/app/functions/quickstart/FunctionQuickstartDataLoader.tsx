@@ -28,8 +28,8 @@ const FunctionQuickstartDataLoader: React.FC<FunctionQuickstartDataLoaderProps> 
     const appSettingsData = await quickstartData.fetchApplicationSettings(resourceId);
     if (appSettingsData.metadata.success) {
       const appSettings = appSettingsData.data.properties;
-      if (appSettings.hasOwnProperty(CommonConstants.AppSettingsNames.workerRuntime)) {
-        setWorkerRuntime(appSettings[CommonConstants.AppSettingsNames.workerRuntime].toLowerCase());
+      if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.workerRuntime)) {
+        setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.workerRuntime].toLowerCase());
       }
     }
     setInitialLoading(false);
