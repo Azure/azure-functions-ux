@@ -6,6 +6,10 @@ import { Site } from '../../../../models/site/site';
 import FunctionQuickstartData from './FunctionQuickstart.data';
 import FunctionQuickstart from './FunctionQuickstart';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { messageBannerStyle } from '../../app-settings/AppSettings.styles';
+import { ThemeContext } from '../../../../ThemeContext';
+import { useTranslation } from 'react-i18next';
 
 const quickstartData = new FunctionQuickstartData();
 export const FunctionQuickstartContext = React.createContext(quickstartData);
@@ -19,18 +23,27 @@ const FunctionQuickstartDataLoader: React.FC<FunctionQuickstartDataLoaderProps> 
   const [initialLoading, setInitialLoading] = useState(true);
   const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
+  const [apiFailure, setApiFailure] = useState(false);
 
   const siteContext = useContext(SiteRouterContext);
+  const theme = useContext(ThemeContext);
+  const { t } = useTranslation();
 
   const fetchData = async () => {
     const siteData = await siteContext.fetchSite(resourceId);
-    setSite(siteData.data);
+    if (siteData.metadata.success) {
+      setSite(siteData.data);
+    } else {
+      setApiFailure(true);
+    }
     const appSettingsData = await quickstartData.fetchApplicationSettings(resourceId);
     if (appSettingsData.metadata.success) {
       const appSettings = appSettingsData.data.properties;
       if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.workerRuntime)) {
         setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.workerRuntime].toLowerCase());
       }
+    } else {
+      setApiFailure(true);
     }
     setInitialLoading(false);
   };
@@ -38,6 +51,17 @@ const FunctionQuickstartDataLoader: React.FC<FunctionQuickstartDataLoaderProps> 
   useEffect(() => {
     fetchData();
   }, []);
+
+  if (apiFailure) {
+    return (
+      <MessageBar
+        id="quickstart-error-loading"
+        className={messageBannerStyle(theme, MessageBarType.error)}
+        messageBarType={MessageBarType.error}>
+        {t('quickstartLoadFailure')}
+      </MessageBar>
+    );
+  }
 
   if (initialLoading || !site) {
     return <LoadingComponent />;

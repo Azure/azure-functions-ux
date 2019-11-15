@@ -1777,4 +1777,5 @@ export class PortalResources {
   public static quickstartDesc = 'quickstartDesc';
   public static viewDocumentation = 'viewDocumentation';
   public static chooseDevelopmentEnv = 'chooseDevelopmentEnv';
+  public static quickstartLoadFailure = 'quickstartLoadFailure';
 }

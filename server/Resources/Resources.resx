@@ -5505,4 +5505,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="chooseDevelopmentEnv" xml:space="preserve">
         <value>Choose development environment</value>
     </data>
+    <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>Failed to load quickstart options.</value>
+    </data>
 </root>

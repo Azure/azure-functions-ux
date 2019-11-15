@@ -95,9 +95,9 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
 
   const onChange = async (e: unknown, option: IDropdownOption) => {
     const key = option.key as string;
-    const result = await quickstartContext.getQuickstartFilename(key);
+    const result = await quickstartContext.getQuickstartFile(key);
     if (result.metadata.success) {
-      setFile(result.data.format('ewqfwe'));
+      setFile(result.data);
     }
   };
 
