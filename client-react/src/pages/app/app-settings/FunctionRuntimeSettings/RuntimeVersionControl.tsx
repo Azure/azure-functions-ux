@@ -4,8 +4,8 @@ import { FormAppSetting, AppSettingsFormProps } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import { findFormAppSettingIndex, findFormAppSettingValue } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
-import { IChoiceGroupOption, MessageBarType, MessageBar } from 'office-ui-fabric-react';
+import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
+import { IDropdownOption, MessageBarType, MessageBar } from 'office-ui-fabric-react';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
 import { messageBannerStyle } from '../AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -79,7 +79,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
       }
     }
 
-    const options: IChoiceGroupOption[] = [
+    const options: IDropdownOption[] = [
       {
         key: RuntimeExtensionMajorVersions.v1,
         text: t('~1'),
@@ -105,18 +105,19 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
       });
     }
 
-    const warning = hasFunctions
-      ? t('functionsRuntimeVersionExistingFunctionsWarning')
-      : failedToGetFunctions
-      ? t('functionsRuntimeVersionExistingFunctionsWarning')
-      : '';
+    let placeHolderText = '';
+    if (waitingOnApi) {
+      placeHolderText = t('loading');
+    } else if (failedToGetFunctions) {
+      placeHolderText = t('loadingFiled');
+    }
 
     return {
       // disable the control if we're waiting on an API call or if we need to restrict the major version but can't determine the running version
       disableControl: waitingOnApi || (versionRestrictionNeeded && !versionRestriction),
       versionOptions: options,
-      existingFunctionsWarning: !waitingOnApi && warning,
-      waiting: waitingOnApi,
+      placeHolder: placeHolderText,
+      existingFunctionsWarning: hasFunctions ? t('functionsRuntimeVersionExistingFunctionsWarning') : '',
     };
   };
 
@@ -157,7 +158,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
   );
   const initialRuntimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(initialRuntimeVersion);
 
-  const { disableControl, versionOptions, existingFunctionsWarning } = getControl();
+  const { disableControl, versionOptions, placeHolder, existingFunctionsWarning } = getControl();
 
   return (
     <>
@@ -170,8 +171,9 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
           {existingFunctionsWarning}
         </MessageBar>
       )}
-      <RadioButtonNoFormik
-        selectedKey={runtimeMajorVersion}
+      <DropdownNoFormik
+        placeHolder={placeHolder}
+        value={runtimeMajorVersion}
         dirty={runtimeMajorVersion !== initialRuntimeMajorVersion}
         onChange={(event, option) => onDropDownChange(option ? option.key : undefined)}
         options={versionOptions}
