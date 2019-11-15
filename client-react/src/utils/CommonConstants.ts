@@ -73,7 +73,7 @@ export class CommonConstants {
     standard: 'standard',
     premium: 'premium',
     premiumV2: 'premiumv2',
-    premiumContainer: 'premiumContainer',
+    premiumContainer: 'premiumcontainer',
     isolated: 'isolated',
     dynamic: 'dynamic',
     elasticPremium: 'elasticpremium',

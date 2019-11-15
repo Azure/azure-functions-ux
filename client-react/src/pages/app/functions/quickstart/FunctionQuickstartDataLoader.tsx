@@ -30,20 +30,18 @@ const FunctionQuickstartDataLoader: React.FC<FunctionQuickstartDataLoaderProps> 
   const { t } = useTranslation();
 
   const fetchData = async () => {
-    const siteData = await siteContext.fetchSite(resourceId);
-    if (siteData.metadata.success) {
-      setSite(siteData.data);
+    const [siteData, appSettingsData] = await Promise.all([
+      siteContext.fetchSite(resourceId),
+      quickstartData.fetchApplicationSettings(resourceId),
+    ]);
+    if (!siteData.metadata.success || !appSettingsData.metadata.success) {
+      setApiFailure(false);
     } else {
-      setApiFailure(true);
-    }
-    const appSettingsData = await quickstartData.fetchApplicationSettings(resourceId);
-    if (appSettingsData.metadata.success) {
+      setSite(siteData.data);
       const appSettings = appSettingsData.data.properties;
       if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.workerRuntime)) {
         setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.workerRuntime].toLowerCase());
       }
-    } else {
-      setApiFailure(true);
     }
     setInitialLoading(false);
   };
