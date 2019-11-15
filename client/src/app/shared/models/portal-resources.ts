@@ -297,6 +297,7 @@ export class PortalResources {
   public static functionDev_loading = 'functionDev_loading';
   public static test = 'test';
   public static testFunctionNotSupportedForGitHubWebhook = 'testFunctionNotSupportedForGitHubWebhook';
+  public static currentRuntimeVersion = 'currentRuntimeVersion';
   public static runtimeVersion = 'runtimeVersion';
   public static runtimeImage = 'runtimeImage';
   public static runtimeImagev1 = 'runtimeImagev1';
@@ -445,6 +446,7 @@ export class PortalResources {
   public static configViewReadOnlySettings = 'configViewReadOnlySettings';
   public static configLoadFailure = 'configLoadFailure';
   public static loading = 'loading';
+  public static loadingFailed = 'loadingFailed';
   public static configUpdating = 'configUpdating';
   public static configUpdateSuccess = 'configUpdateSuccess';
   public static configUpdateFailure = 'configUpdateFailure';
@@ -1780,4 +1782,12 @@ export class PortalResources {
   public static quickstartLoadFailure = 'quickstartLoadFailure';
   public static githubActionInfo = 'githubActionInfo';
   public static commitId = 'commitId';
+  public static readWritePermissionsRequired = 'readWritePermissionsRequired';
+  public static functionsRuntimeVersionMissingWarning = 'functionsRuntimeVersionMissingWarning';
+  public static functionsRuntimeVersionLatestOrBetaWarning = 'functionsRuntimeVersionLatestOrBetaWarning';
+  public static functionsRuntimeVersionLatestOrBetaWithExactVersionWarning = 'functionsRuntimeVersionLatestOrBetaWithExactVersionWarning';
+  public static functionsRuntimeVersionNeedsUpdateWarning = 'functionsRuntimeVersionNeedsUpdateWarning';
+  public static functionsRuntimeVersionInvalidWarning = 'functionsRuntimeVersionInvalidWarning';
+  public static functionsRuntimeVersionCustomInfo = 'functionsRuntimeVersionCustomInfo';
+  public static functionsRuntimeVersionExistingFunctionsWarning = 'functionsRuntimeVersionExistingFunctionsWarning';
 }

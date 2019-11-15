@@ -1,6 +1,14 @@
+export enum HostStates {
+  default = 'Default',
+  initialized = 'Initialized',
+  running = 'Running',
+  error = 'Error',
+  offline = 'Offline',
+}
+
 export interface HostStatus {
   id: string;
   version: string;
-  state: 'Default' | 'Initialized' | 'Running' | 'Error' | 'Offline';
+  state: HostStates;
   errors?: string[];
 }
