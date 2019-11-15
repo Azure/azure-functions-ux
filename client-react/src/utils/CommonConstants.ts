@@ -61,4 +61,22 @@ export class CommonConstants {
     hoursInAzureMonth: 730,
     secondsInAzureMonth: 2628000,
   };
+
+  public static readonly AppSettingNames = {
+    workerRuntime: 'FUNCTIONS_WORKER_RUNTIME',
+  };
+
+  public static readonly SkuNames = {
+    free: 'free',
+    shared: 'shared',
+    basic: 'basic',
+    standard: 'standard',
+    premium: 'premium',
+    premiumV2: 'premiumv2',
+    premiumContainer: 'premiumcontainer',
+    isolated: 'isolated',
+    dynamic: 'dynamic',
+    elasticPremium: 'elasticpremium',
+    elasticIsolated: 'elasticisolated',
+  };
 }
