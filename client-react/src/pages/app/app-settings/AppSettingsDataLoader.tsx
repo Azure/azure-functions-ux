@@ -1,6 +1,6 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
-import { AppSettingsFormValues, AppSettingsReferences } from './AppSettings.types';
+import { AppSettingsFormValues, AppSettingsReferences, AsyncObj, AppSettingsAsyncData } from './AppSettings.types';
 import {
   convertStateToForm,
   convertFormToState,
@@ -19,6 +19,8 @@ import {
   updateStorageMounts,
   getAllAppSettingReferences,
   fetchAzureStorageAccounts,
+  getFunctions,
+  fetchFunctionsHostStatus,
 } from './AppSettings.service';
 import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
@@ -33,16 +35,36 @@ import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
+import { HostStatus } from '../../../models/functions/host-status';
+import { isFunctionApp } from '../../../utils/arm-utils';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
     initialFormValues: AppSettingsFormValues | null;
+    asyncData: AppSettingsAsyncData;
     scaleUpPlan: () => void;
     refreshAppSettings: () => void;
     onSubmit: (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => void;
   }) => JSX.Element;
   resourceId: string;
 }
+
+const executeWithRetries = async (sendRequst: () => Promise<HttpResponseObject<any>>, maxRetries: number) => {
+  let remainingAttempts = (maxRetries || 0) + 1;
+  let result: HttpResponseObject<any> = await sendRequst();
+
+  while (remainingAttempts) {
+    if (result.metadata.status === 200) {
+      return result;
+    }
+
+    remainingAttempts = remainingAttempts - 1;
+
+    result = await sendRequst();
+  }
+
+  return result;
+};
 
 const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const { resourceId, children } = props;
@@ -75,6 +97,13 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const { t } = useTranslation();
   const siteContext = useContext(SiteRouterContext);
 
+  const [functionsHostStatus, setFunctionsHostStatus] = useState<AsyncObj<ArmObj<HostStatus>> | undefined>(undefined);
+  const [functionsCount, setFunctionsCount] = useState<AsyncObj<number> | undefined>(undefined);
+  const [asyncData, setAsyncData] = useState<AppSettingsAsyncData>({
+    functionsHostStatus: { loadingState: 'loading' },
+    functionsCount: { loadingState: 'loading' },
+  });
+
   const armCallFailed = (response: HttpResponseObject<any>, ignoreRbacAndLocks?: boolean) => {
     if (response.metadata.success) {
       return false;
@@ -102,6 +131,10 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
     if (!loadingFailed) {
       setCurrentSiteNonForm(site.data);
+
+      if (site.data && isFunctionApp(site.data)) {
+        fetchAsyncData();
+      }
 
       if (
         applicationSettings.metadata.status === 403 || // failing RBAC permissions
@@ -174,6 +207,41 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
   };
 
+  const fetchFuncHostStatus = async () => {
+    // This gets called immediately after saving the site config, so the call may fail because the app is restarting.
+    // We retry on failure to account for this. We limit retries to three to avoid excessive attempts.
+    const [force, maxRetries] = [true, 3];
+    const functionsHostStatusPromise = await executeWithRetries(() => fetchFunctionsHostStatus(resourceId, force), maxRetries);
+    const success = functionsHostStatusPromise.metadata.success;
+    setFunctionsHostStatus({
+      loadingState: success ? 'complete' : 'failed',
+      value: success ? functionsHostStatusPromise.data : undefined,
+    });
+  };
+
+  const fetchFunctionsCount = async () => {
+    // This gets called immediately after saving the site config, so the call may fail because the app is restarting.
+    // We retry on failure to account for this. We limit retries to three to avoid excessive attempts.
+    const [force, maxRetries] = [true, 3];
+    const functionsCountPromise = await executeWithRetries(() => getFunctions(resourceId, force), maxRetries);
+    const success = functionsCountPromise.metadata.success;
+    setFunctionsCount({
+      loadingState: success ? 'complete' : 'failed',
+      value: success ? functionsCountPromise.data.value.length : undefined,
+    });
+  };
+
+  const fetchAsyncData = () => {
+    setFunctionsHostStatus(undefined);
+    setFunctionsCount(undefined);
+    setAsyncData({
+      functionsHostStatus: { loadingState: 'loading' },
+      functionsCount: { loadingState: 'loading' },
+    });
+    fetchFuncHostStatus();
+    fetchFunctionsCount();
+  };
+
   const loadData = () => {
     fetchData();
     fillSlots();
@@ -210,37 +278,44 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
     const siteUpdate = updateSite(resourceId, site);
     const configUpdate = updateWebConfig(resourceId, getCleanedConfigForSave(config));
-    let slotConfigUpdates: Promise<HttpResponseObject<unknown>> | undefined;
-    if (productionPermissions) {
-      slotConfigUpdates = updateSlotConfigNames(resourceId, slotConfigNames);
-    }
+    const slotConfigUpdates = productionPermissions ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null);
     const storageUpdateCall = updateStorageMounts(resourceId, storageMounts);
-    const [siteResult, configResult] = await Promise.all([siteUpdate, configUpdate, storageUpdateCall]);
-    const slotConfigResults = !!slotConfigUpdates
-      ? await slotConfigUpdates
-      : {
-          metadata: {
-            success: true,
-            error: null,
-          },
-        };
+    const [siteResult, configResult, slotConfigResults] = await Promise.all([
+      siteUpdate,
+      configUpdate,
+      slotConfigUpdates,
+      storageUpdateCall,
+    ]);
 
-    if (siteResult.metadata.success && configResult.metadata.success && slotConfigResults.metadata.success) {
+    if (siteResult.metadata.success && configResult.metadata.success && (!slotConfigResults || slotConfigResults.metadata.success)) {
       setInitialValues({
         ...values,
         virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
       });
       fetchReferences();
+      if (site && isFunctionApp(site)) {
+        fetchAsyncData();
+      }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
       const siteError = siteResult.metadata.error && siteResult.metadata.error.Message;
       const configError = configResult.metadata.error && configResult.metadata.error.Message;
-      const slotConfigError = slotConfigResults.metadata.error && slotConfigResults.metadata.error.Message;
+      const slotConfigError = slotConfigResults && slotConfigResults.metadata.error && slotConfigResults.metadata.error.Message;
       const errMessage = siteError || configError || slotConfigError || t('configUpdateFailure');
       portalContext.stopNotification(notificationId, false, errMessage);
     }
     setSaving(false);
   };
+
+  if (functionsHostStatus || functionsCount) {
+    setAsyncData({
+      functionsHostStatus: functionsHostStatus === undefined ? asyncData.functionsHostStatus : functionsHostStatus,
+      functionsCount: functionsCount === undefined ? asyncData.functionsCount : functionsCount,
+    });
+
+    setFunctionsHostStatus(undefined);
+    setFunctionsCount(undefined);
+  }
 
   if (!initialLoading || refreshValues || (!initialValues && !loadingFailure)) {
     return <LoadingComponent />;
@@ -260,7 +335,13 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         <StorageAccountsContext.Provider value={storageAccountsState}>
           <SiteContext.Provider value={currentSiteNonForm}>
             <SlotsListContext.Provider value={slotList}>
-              {children({ onSubmit, scaleUpPlan, refreshAppSettings, initialFormValues: initialValues })}
+              {children({
+                onSubmit,
+                scaleUpPlan,
+                asyncData,
+                refreshAppSettings,
+                initialFormValues: initialValues,
+              })}
             </SlotsListContext.Provider>
           </SiteContext.Provider>
         </StorageAccountsContext.Provider>

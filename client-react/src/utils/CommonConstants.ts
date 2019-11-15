@@ -52,7 +52,7 @@ export class CommonConstants {
 
   public static readonly FeatureFlags = {
     AllowFreeLinux: 'allowfreelinux',
-    ShowNewFunctionRuntimeSettings: 'ShowNewFunctionRuntimeSettings',
+    ShowNewFunctionRuntimeSettings: 'shownewfunctionruntimesettings',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -60,5 +60,13 @@ export class CommonConstants {
   public static readonly Pricing = {
     hoursInAzureMonth: 730,
     secondsInAzureMonth: 2628000,
+  };
+
+  public static readonly AppSettingNames = {
+    functionsExtensionVersion: 'FUNCTIONS_EXTENSION_VERSION',
+  };
+
+  public static readonly SiteStates = {
+    running: 'running',
   };
 }
