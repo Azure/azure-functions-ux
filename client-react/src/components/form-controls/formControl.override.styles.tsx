@@ -52,6 +52,7 @@ export const textFieldStyleOverrides = (theme: ThemeExtended, fullpage: boolean,
     ...baseStyle,
     root: {
       width: widthOverride || formDefaultWidth,
+      paddingLeft: '5px',
     },
   } as ITextFieldStyles;
 };
@@ -60,7 +61,7 @@ export const controlContainerStyle = (upsellIcon: boolean, fullpage: boolean) =>
 
 export const controlChildrenContainerStyle = (fullpage: boolean) =>
   style({
-    paddingLeft: fullpage ? 0 : '5px',
+    display: 'contents',
   });
 
 export const upsellIconStyle = style({ marginRight: '6px' });
