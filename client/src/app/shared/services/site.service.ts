@@ -235,6 +235,12 @@ export class SiteService {
     return this._client.execute({ resourceId: resourceId }, t => getSiteSourceControlConfig);
   }
 
+  deleteSiteSourceControlConfig(resourceId: string): Result<any> {
+    const deleteSiteSourceControlConfig = this._cacheService.deleteArm(`${resourceId}/sourcecontrols/web`).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => deleteSiteSourceControlConfig);
+  }
+
   getSiteDeployments(resourceId: string): Result<ArmArrayResult<Deployment>> {
     const getSiteDeployments = this._cacheService.getArm(`${resourceId}/deployments`, true).map(r => r.json());
 

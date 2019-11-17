@@ -13,16 +13,17 @@ import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 
 @Component({
   selector: 'app-github-action-dashboard',
-  templateUrl: './github-action-component.html',
-  styleUrls: ['./github-action-component.scss'],
+  templateUrl: './github-action-dashboard.component.html',
+  styleUrls: ['./github-action-dashboard.component.scss'],
 })
-export class GithubActionComponent extends DeploymentDashboard implements OnChanges, OnDestroy {
+export class GithubActionDashboardComponent extends DeploymentDashboard implements OnChanges, OnDestroy {
   @Input()
   resourceId: string;
 
   public deploymentObject: DeploymentData;
-  public respositoryText: string;
+  public repositoryText: string;
   public branchText: string;
+  public githubActionLink: string;
 
   private _viewInfoStream$ = new Subject<string>();
   private _ngUnsubscribe$ = new Subject();
@@ -65,9 +66,19 @@ export class GithubActionComponent extends DeploymentDashboard implements OnChan
     this._viewInfoStream$.next(this.resourceId);
   }
 
-  public disconnect() {}
+  disconnect() {
+    const confirmResult = confirm(this._translateService.instant(PortalResources.disconnectConfirm));
+    if (confirmResult) {
+      this._disconnectDeployment();
+    }
+  }
 
-  public githubActionOnClick() {}
+  public githubActionOnClick() {
+    if (this.githubActionLink) {
+      const win = window.open(this.githubActionLink, '_blank');
+      win.focus();
+    }
+  }
 
   public repositoryOnClick() {
     const repoUrl = this.deploymentObject && this.deploymentObject.sourceControls.properties.repoUrl;
@@ -75,6 +86,40 @@ export class GithubActionComponent extends DeploymentDashboard implements OnChan
       const win = window.open(repoUrl, '_blank');
       win.focus();
     }
+  }
+
+  private _disconnectDeployment() {
+    let notificationId = null;
+    this._busyManager.setBusy();
+    this._portalService
+      .startNotification(
+        this._translateService.instant(PortalResources.disconnectingDeployment),
+        this._translateService.instant(PortalResources.disconnectingDeployment)
+      )
+      .take(1)
+      .do(notification => {
+        notificationId = notification.id;
+      })
+      .concatMap(() => this._siteService.deleteSiteSourceControlConfig(this._resourceId))
+      .subscribe(
+        r => {
+          this._busyManager.clearBusy();
+          this._portalService.stopNotification(
+            notificationId,
+            true,
+            this._translateService.instant(PortalResources.disconnectingDeploymentSuccess)
+          );
+          this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+        },
+        err => {
+          this._portalService.stopNotification(
+            notificationId,
+            false,
+            this._translateService.instant(PortalResources.disconnectingDeploymentFail)
+          );
+          this._logService.error(LogCategories.cicd, '/disconnect-github-action-dashboard', err);
+        }
+      );
   }
 
   private _setupViewInfoStream() {
@@ -111,7 +156,8 @@ export class GithubActionComponent extends DeploymentDashboard implements OnChan
             publishingUser: r.publishingUser,
           };
 
-          this.respositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
+          this.repositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
+          this.githubActionLink = `${this.deploymentObject.sourceControls.properties.repoUrl}/actions`;
           this.branchText = this.deploymentObject.sourceControls.properties.branch;
         },
         err => {
@@ -132,7 +178,7 @@ export class GithubActionComponent extends DeploymentDashboard implements OnChan
   }
 
   private _resetValues() {
-    this.respositoryText = null;
+    this.repositoryText = null;
     this.branchText = null;
   }
 }
