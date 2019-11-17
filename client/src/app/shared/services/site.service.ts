@@ -227,4 +227,16 @@ export class SiteService {
 
     return this._client.execute({ resourceId: '' }, t => updatePublishingUser);
   }
+
+  getSiteSourceControlConfig(resourceId: string, force?: boolean) {
+    const getSiteSourceControlConfig = this._cacheService.getArm(`${resourceId}/sourcecontrols/web`, force).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => getSiteSourceControlConfig);
+  }
+
+  getSiteDeployments(resourceId: string) {
+    const getSiteDeployments = this._cacheService.getArm(`${resourceId}/deployments`, true).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => getSiteDeployments);
+  }
 }

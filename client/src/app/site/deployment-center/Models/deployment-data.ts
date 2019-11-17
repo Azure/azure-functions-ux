@@ -45,3 +45,7 @@ export interface Deployment {
 export interface CredentialsData {
   resourceId: string;
 }
+
+export interface GithubActionDashboardData {
+  resourceId: string;
+}

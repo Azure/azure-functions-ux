@@ -5508,4 +5508,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="quickstartLoadFailure" xml:space="preserve">
         <value>Failed to load quickstart options.</value>
     </data>
+    <data name="githubActionInfo" xml:space="preserve">
+        <value>Latest deployment not showing? Click here to check the status of your GitHub Action.</value>
+    </data>
 </root>
