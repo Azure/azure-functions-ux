@@ -21,6 +21,8 @@ export class GithubActionComponent extends DeploymentDashboard implements OnChan
   resourceId: string;
 
   public deploymentObject: DeploymentData;
+  public respositoryText: string;
+  public branchText: string;
 
   private _viewInfoStream$ = new Subject<string>();
   private _ngUnsubscribe$ = new Subject();
@@ -57,6 +59,24 @@ export class GithubActionComponent extends DeploymentDashboard implements OnChan
     this._browseToSite(this.deploymentObject);
   }
 
+  public refresh() {
+    this._forceLoad = true;
+    this._resetValues();
+    this._viewInfoStream$.next(this.resourceId);
+  }
+
+  public disconnect() {}
+
+  public githubActionOnClick() {}
+
+  public repositoryOnClick() {
+    const repoUrl = this.deploymentObject && this.deploymentObject.sourceControls.properties.repoUrl;
+    if (repoUrl) {
+      const win = window.open(repoUrl, '_blank');
+      win.focus();
+    }
+  }
+
   private _setupViewInfoStream() {
     this._viewInfoStream$
       .takeUntil(this._ngUnsubscribe$)
@@ -72,8 +92,8 @@ export class GithubActionComponent extends DeploymentDashboard implements OnChan
             site: site.result,
             siteConfig: siteConfig.result,
             pubCreds: pubCreds.result,
-            sourceControl: sourceControl,
-            deployments: deployments,
+            sourceControl: sourceControl.result,
+            deployments: deployments.result,
             publishingUser: publishingUser.result,
           })
         );
@@ -90,6 +110,9 @@ export class GithubActionComponent extends DeploymentDashboard implements OnChan
             deployments: r.deployments,
             publishingUser: r.publishingUser,
           };
+
+          this.respositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
+          this.branchText = this.deploymentObject.sourceControls.properties.branch;
         },
         err => {
           this._busyManager.clearBusy();
@@ -106,5 +129,10 @@ export class GithubActionComponent extends DeploymentDashboard implements OnChan
         this._deploymentFetchTries++;
         this._viewInfoStream$.next(this.resourceId);
       });
+  }
+
+  private _resetValues() {
+    this.respositoryText = null;
+    this.branchText = null;
   }
 }

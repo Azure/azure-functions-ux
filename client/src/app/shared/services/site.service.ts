@@ -23,6 +23,7 @@ import { ARMApiVersions } from '../models/constants';
 import { ByosStorageAccounts } from 'app/site/byos/byos';
 import { HostingEnvironment } from '../models/arm/hosting-environment';
 import { PublishingUser } from '../models/arm/publishing-users';
+import { Deployment, SourceControlData } from 'app/site/deployment-center/Models/deployment-data';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -228,13 +229,13 @@ export class SiteService {
     return this._client.execute({ resourceId: '' }, t => updatePublishingUser);
   }
 
-  getSiteSourceControlConfig(resourceId: string, force?: boolean) {
+  getSiteSourceControlConfig(resourceId: string, force?: boolean): Result<ArmObj<SourceControlData>> {
     const getSiteSourceControlConfig = this._cacheService.getArm(`${resourceId}/sourcecontrols/web`, force).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getSiteSourceControlConfig);
   }
 
-  getSiteDeployments(resourceId: string) {
+  getSiteDeployments(resourceId: string): Result<ArmArrayResult<Deployment>> {
     const getSiteDeployments = this._cacheService.getArm(`${resourceId}/deployments`, true).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getSiteDeployments);

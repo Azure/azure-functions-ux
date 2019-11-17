@@ -19,6 +19,7 @@ export interface SourceControlData {
   repoUrl: string;
   branch: string;
   isMercurial: boolean;
+  isGitHubAction?: boolean;
 }
 export interface Deployment {
   id: string;
