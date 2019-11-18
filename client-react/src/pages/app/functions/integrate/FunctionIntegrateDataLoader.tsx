@@ -1,6 +1,7 @@
 import React from 'react';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { ArmObj } from '../../../../models/arm-obj';
+import { BindingsConfig } from '../../../../models/functions/bindings-config';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
@@ -16,6 +17,7 @@ interface FunctionIntegrateDataLoaderProps {
 
 interface FunctionIntegrateDataLoaderState {
   functionInfo: ArmObj<FunctionInfo> | null;
+  bindingsConfig: BindingsConfig | null;
   isLoading: boolean;
 }
 
@@ -25,6 +27,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
 
     this.state = {
       functionInfo: null,
+      bindingsConfig: null,
       isLoading: true,
     };
   }
@@ -32,16 +35,33 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   public componentWillMount() {
     const { resourceId } = this.props;
 
-    functionIntegrateData.getFunction(resourceId).then(r => {
+    const getFunctionPromise = functionIntegrateData.getFunction(resourceId).then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
           functionInfo: r.data,
-          isLoading: false,
         });
       } else {
         LogService.error(LogCategories.functionIntegrate, 'getFunction', `Failed to get function: ${r.metadata.error}`);
       }
+    });
+
+    const getBindingsConfigPromise = functionIntegrateData.getBindingsConfig().then(r => {
+      if (r.metadata.success) {
+        this.setState({
+          ...this.state,
+          bindingsConfig: r.data,
+        });
+      } else {
+        LogService.error(LogCategories.functionIntegrate, 'getFunction', `Failed to get function: ${r.metadata.error}`);
+      }
+    });
+
+    Promise.all([getFunctionPromise, getBindingsConfigPromise]).then(() => {
+      this.setState({
+        ...this.state,
+        isLoading: false,
+      });
     });
   }
 
@@ -51,8 +71,9 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     }
 
     const functionInfo = this.state.functionInfo as ArmObj<FunctionInfo>;
+    const bindingsConfig = this.state.bindingsConfig as BindingsConfig;
 
-    return <FunctionIntegrate functionInfo={functionInfo} />;
+    return <FunctionIntegrate functionInfo={functionInfo} bindingsConfig={bindingsConfig} />;
   }
 }
 

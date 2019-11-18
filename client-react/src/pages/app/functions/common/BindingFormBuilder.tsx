@@ -11,6 +11,7 @@ import {
   BindingConfigUIDefinition,
   BindingSettingValue,
   BindingConfigUIValidator,
+  BindingsConfig,
 } from '../../../../models/functions/bindings-config';
 import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
@@ -38,6 +39,14 @@ export class BindingFormBuilder {
 
     return t(result);
   }
+
+  public static getBindingTypeName = (t: i18next.TFunction, currentBinding: BindingInfo, bindingsConfig: BindingsConfig): string => {
+    return BindingFormBuilder.getLocalizedString(
+      (bindingsConfig.bindings.find(binding => binding.type === currentBinding.type) as BindingConfigMetadata).displayName,
+      t,
+      bindingsConfig.variables
+    );
+  };
 
   constructor(
     private _bindingInfoList: BindingInfo[],

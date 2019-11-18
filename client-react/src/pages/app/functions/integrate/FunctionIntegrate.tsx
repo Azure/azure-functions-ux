@@ -5,7 +5,7 @@ import { classes } from 'typestyle';
 import { ReactComponent as DoubleArrow } from '../../../../images/Functions/double-arrow-left-right.svg';
 import { ReactComponent as SingleArrow } from '../../../../images/Functions/single-arrow-left-right.svg';
 import { ArmObj } from '../../../../models/arm-obj';
-import { BindingConfigDirection } from '../../../../models/functions/bindings-config';
+import { BindingConfigDirection, BindingsConfig } from '../../../../models/functions/bindings-config';
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -26,6 +26,7 @@ import {
 
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
+  bindingsConfig: BindingsConfig;
 }
 
 export interface BindingUpdateInfo {
@@ -42,8 +43,8 @@ export interface BindingEditorContextInfo {
 
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
-export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
-  const { functionInfo: initialFunctionInfo } = props;
+export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
+  const { functionInfo: initialFunctionInfo, bindingsConfig } = props;
   const theme = useContext(ThemeContext);
 
   const bindingUpdate$ = useRef(new Subject<BindingUpdateInfo>());
@@ -110,6 +111,7 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
         <BindingPanel
           functionInfo={functionInfo}
           functionAppId={functionAppId}
+          bindingsConfig={bindingsConfig}
           bindingInfo={bindingToUpdate}
           bindingDirection={bindingDirection}
           onPanelClose={onCancel}
@@ -122,8 +124,8 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
           <Stack horizontal horizontalAlign={'center'} tokens={tokens}>
             <Stack.Item grow>
               <Stack gap={40}>
-                <TriggerBindingCard functionInfo={functionInfo} />
-                <InputBindingCard functionInfo={functionInfo} />
+                <TriggerBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+                <InputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
               </Stack>
             </Stack.Item>
 
@@ -133,7 +135,7 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
 
             <Stack.Item grow>
               <Stack verticalFill={true} className={singleCardStackStyle}>
-                <FunctionNameBindingCard functionInfo={functionInfo} />
+                <FunctionNameBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
               </Stack>
             </Stack.Item>
 
@@ -143,7 +145,7 @@ export const FunctionIntegrate: React.SFC<FunctionIntegrateProps> = props => {
 
             <Stack.Item grow>
               <Stack verticalFill={true} className={singleCardStackStyle}>
-                <OutputBindingCard functionInfo={functionInfo} />
+                <OutputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
               </Stack>
             </Stack.Item>
           </Stack>
