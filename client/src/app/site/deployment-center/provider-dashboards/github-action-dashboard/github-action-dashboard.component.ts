@@ -10,6 +10,8 @@ import { DeploymentDashboard } from '../deploymentDashboard';
 import { SiteService } from '../../../../shared/services/site.service';
 import { LogService } from '../../../../shared/services/log.service';
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
+import { PortalResources } from '../../../../shared/models/portal-resources';
+import { PortalService } from '../../../../shared/services/portal.service';
 
 @Component({
   selector: 'app-github-action-dashboard',
@@ -31,6 +33,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   private _forceLoad = false;
 
   constructor(
+    private _portalService: PortalService,
     private _logService: LogService,
     private _siteService: SiteService,
     private _broadcastService: BroadcastService,
@@ -88,6 +91,15 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     }
   }
 
+  public branchOnClick() {
+    const repoUrl = this.deploymentObject && this.deploymentObject.sourceControls.properties.repoUrl;
+    const branchUrl = `${repoUrl}/tree/${this.branchText}`;
+    if (branchUrl) {
+      const win = window.open(branchUrl, '_blank');
+      win.focus();
+    }
+  }
+
   private _disconnectDeployment() {
     let notificationId = null;
     this._busyManager.setBusy();
@@ -100,7 +112,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       .do(notification => {
         notificationId = notification.id;
       })
-      .concatMap(() => this._siteService.deleteSiteSourceControlConfig(this._resourceId))
+      .concatMap(() => this._siteService.deleteSiteSourceControlConfig(this.resourceId))
       .subscribe(
         r => {
           this._busyManager.clearBusy();
