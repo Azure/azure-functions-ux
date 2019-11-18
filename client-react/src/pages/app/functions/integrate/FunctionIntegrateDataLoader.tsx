@@ -53,7 +53,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
           bindingsConfig: r.data,
         });
       } else {
-        LogService.error(LogCategories.functionIntegrate, 'getFunction', `Failed to get function: ${r.metadata.error}`);
+        LogService.error(LogCategories.functionIntegrate, 'getBindingsConfig', `Failed to get bindings config: ${r.metadata.error}`);
       }
     });
 
