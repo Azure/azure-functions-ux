@@ -169,7 +169,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
       branch,
     };
 
-    const workflowYmlPath = `.github/workflow/${workflowInformation.fileName}`;
+    const workflowYmlPath = `.github/workflows/${workflowInformation.fileName}`;
 
     return this._githubService
       .fetchWorkflowConfiguration(this.getToken(), this.wizardValues.sourceSettings.repoUrl, repo, branch, workflowYmlPath)
