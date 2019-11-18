@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { first } from 'rxjs/operators';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { ArmObj } from '../../../../../models/arm-obj';
-import { BindingConfigDirection } from '../../../../../models/functions/bindings-config';
+import { BindingConfigDirection, BindingsConfig } from '../../../../../models/functions/bindings-config';
 import { BindingInfo } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import PortalCommunicator from '../../../../../portal-communicator';
@@ -14,6 +14,7 @@ import { cardStyle, headerStyle } from './BindingDiagram.styles';
 
 export interface BindingCardChildProps {
   functionInfo: ArmObj<FunctionInfo>;
+  bindingsConfig: BindingsConfig;
 }
 
 export interface BindingCardProps extends BindingCardChildProps {
