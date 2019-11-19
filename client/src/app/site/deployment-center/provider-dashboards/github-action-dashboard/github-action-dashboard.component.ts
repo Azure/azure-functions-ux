@@ -1,7 +1,7 @@
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs/Rx';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
-import { DeploymentData } from '../../Models/deployment-data';
+import { DeploymentData, Deployment } from '../../Models/deployment-data';
 import { Component, Input, OnChanges } from '@angular/core';
 import { LogCategories, SiteTabIds } from '../../../../shared/models/constants';
 import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-manager';
@@ -12,6 +12,30 @@ import { LogService } from '../../../../shared/services/log.service';
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { PortalService } from '../../../../shared/services/portal.service';
+import * as moment from 'moment-mini-ts';
+import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
+import { TableItem } from 'app/controls/tbl/tbl.component';
+import { ArmObj } from 'app/shared/models/arm/arm-obj';
+
+enum DeployStatus {
+  Pending,
+  Building,
+  Deploying,
+  Failed,
+  Success,
+}
+
+class GithubActionTableItem implements TableItem {
+  public type: 'row' | 'group';
+  public time: Date;
+  public date: string;
+  public status: string;
+  public checkinMessage: string;
+  public commit: string;
+  public author: string;
+  public deploymentObj: ArmObj<Deployment>;
+  public active?: boolean;
+}
 
 @Component({
   selector: 'app-github-action-dashboard',
@@ -33,6 +57,8 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   private _ngUnsubscribe$ = new Subject();
   private _busyManager: BusyStateScopeManager;
   private _forceLoad = false;
+  private _oldTableHash = 0;
+  private _tableItems: GithubActionTableItem[];
 
   constructor(
     private _portalService: PortalService,
@@ -100,6 +126,14 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       const win = window.open(branchUrl, '_blank');
       win.focus();
     }
+  }
+
+  get tableItems() {
+    if (this._deploymentFetchTries > 10) {
+      this.tableMessages.emptyMessage = this._translateService.instant(PortalResources.noDeploymentDataAvailable);
+    }
+
+    return this._tableItems || [];
   }
 
   private _disconnectDeployment() {
@@ -173,6 +207,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
           this.repositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
           this.githubActionLink = `${this.deploymentObject.sourceControls.properties.repoUrl}/actions`;
           this.branchText = this.deploymentObject.sourceControls.properties.branch;
+          this._populateTable();
         },
         err => {
           this._busyManager.clearBusy();
@@ -194,5 +229,78 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   private _resetValues() {
     this.repositoryText = null;
     this.branchText = null;
+  }
+
+  private _populateTable() {
+    const deployments = this.deploymentObject.deployments.value;
+    const tableItems = deployments
+      .filter(value => value.properties.deployer === 'GITHUB_ZIP_DEPLOY')
+      .map(value => {
+        const item = value.properties;
+        const date: moment.Moment = moment(item.received_time);
+        const t = moment(date);
+
+        const commitId = item.id.substr(0, 7);
+        const author = item.author;
+        const row: GithubActionTableItem = {
+          type: 'row',
+          time: date.toDate(),
+          date: t.format('M/D/YY'),
+          commit: commitId,
+          checkinMessage: item.message,
+          status: this._getStatusString(item.status, item.progress),
+          active: item.active,
+          author: author,
+          deploymentObj: value,
+        };
+
+        return row;
+      });
+
+    const newHash = this._getTableHash(tableItems);
+
+    if (this._oldTableHash !== newHash) {
+      this._tableItems = tableItems.sort(dateTimeComparatorReverse);
+      this._oldTableHash = newHash;
+    }
+  }
+
+  private _getStatusString(status: DeployStatus, progressString: string): string {
+    switch (status) {
+      case DeployStatus.Building:
+      case DeployStatus.Deploying:
+        return progressString;
+      case DeployStatus.Pending:
+        return this._translateService.instant(PortalResources.pending);
+      case DeployStatus.Failed:
+        return this._translateService.instant(PortalResources.failed);
+      case DeployStatus.Success:
+        return this._translateService.instant(PortalResources.success);
+      default:
+        return '';
+    }
+  }
+
+  private _getTableHash(tb) {
+    let hashNumber = 0;
+    tb.forEach(item => {
+      hashNumber = hashNumber + this._hashcode(JSON.stringify(item));
+    });
+    return hashNumber;
+  }
+
+  // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
+  private _hashcode(s: string): number {
+    let h = 0;
+    const l = s.length;
+    let i = 0;
+
+    if (l > 0) {
+      while (i < l) {
+        // tslint:disable-next-line:no-bitwise
+        h = ((h << 5) - h + s.charCodeAt(i++)) | 0;
+      }
+    }
+    return h;
   }
 }
