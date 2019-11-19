@@ -27,6 +27,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   public branchText: string;
   public githubActionLink: string;
   public sidePanelOpened = false;
+  public hideCreds = false;
 
   private _viewInfoStream$ = new Subject<string>();
   private _ngUnsubscribe$ = new Subject();
