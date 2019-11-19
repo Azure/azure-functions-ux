@@ -106,10 +106,10 @@
                         </span>           
                     </ng-template>   
                 </ngx-datatable-column>
-                <ngx-datatable-column name="{{'commitIdAuthor' | translate}}" prop="commit" [resizeable]="true" [flexGrow]="2">
+                <ngx-datatable-column name="{{'commitId' | translate}}" prop="commit" [resizeable]="true" [flexGrow]="2">
                     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
                         <span>
-                            {{row.commit}} ({{row.author}})
+                            {{row.commit}}
                         </span>           
                     </ng-template>   
                 </ngx-datatable-column>
