@@ -8,6 +8,7 @@ import PortalCommunicator from '../../../../portal-communicator';
 import i18next from 'i18next';
 import { ArmObj } from '../../../../models/arm-obj';
 import SiteService from '../../../../ApiHelpers/SiteService';
+// import { SelectedMenuItemMessage, BroadcastMessageId, MenuId } from '../../../../models/portal-models';
 
 export default class FunctionCreateData {
   public getTemplates() {
@@ -57,10 +58,12 @@ export default class FunctionCreateData {
           false,
           t('createFunctionNotificationFailed').format(functionName, errorMessage)
         );
+        portalCommunicator.closeSelf();
       } else {
         portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
+        const id = `${resourceId}/functions/${functionName}`;
+        portalCommunicator.closeSelf(id);
       }
-      portalCommunicator.closeSelf();
     });
   }
 
