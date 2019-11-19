@@ -1,0 +1,87 @@
+<ng-sidebar-container style="height:100vh" [animate]="true">
+    <div ng-sidebar-content>
+        <command-bar>
+            <command displayText="{{ 'browse' | translate }}" iconUrl="image/external.svg" (click)="browseToSite()"></command>
+            <command displayText="{{ 'refresh' | translate }}" iconUrl="image/refresh.svg" (click)="refresh()"></command>
+            <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/Disconnect.svg" (click)="disconnect()"></command>
+            <command
+                displayText="{{ 'deploymentCredentialsTitle' | translate }}"
+                iconUrl="image/key.svg"
+                (click)="showDeploymentCredentials()"
+            ></command>
+        </command-bar>
+
+        <div id="essentials-container">
+            <div class="essentials-col">
+                <div>
+                    <label id="github-action-dashboard-label-source">
+                        {{ 'build' | translate }}
+                    </label>
+                    <div tabindex="0" id="github-action-dashboard-value-source" aria-labelledby="github-action-dashboard-label-source github-action-dashboard-value-source">
+                        <a tabindex="0" (click)="githubActionOnClick()">
+                            GitHub Action
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <label id="github-action-dashboard-label-build">
+                        {{ 'source' | translate }}
+                    </label>
+                    <div tabindex="0" id="github-action-dashboard-value-build" aria-labelledby="github-action-dashboard-label-build github-action-dashboard-value-build">
+                        GitHub
+                    </div>
+                </div>
+            </div>
+            <div class="essentials-col">
+                <div>
+                    <label id="github-action-dashboard-label-repository">
+                        {{ 'repository' | translate }}
+                    </label>
+                    <div *ngIf="repositoryText" tabindex="0" id="github-action-dashboard-value-repository" aria-labelledby="github-action-dashboard-label-repository github-action-dashboard-value-repository">
+                        <a tabindex="0" (click)="repositoryOnClick()">
+                            {{ repositoryText }}
+                        </a>
+                        <copy-pre [content]="repositoryText" [onlyCopyButton]="true"></copy-pre>
+                    </div>
+                    <div *ngIf="!repositoryText">
+                        {{ 'functionMonitor_loading' | translate }}
+                    </div>
+                </div>
+                <div>
+                    <label id="github-action-dashboard-label-branch">
+                        {{ 'branch' | translate }}
+                    </label>
+                    <div *ngIf="branchText" tabindex="0" id="github-action-dashboard-value-branch" aria-labelledby="github-action-dashboard-label-branch github-action-dashboard-value-branch">
+                        <a tabindex="0" (click)="branchOnClick()">
+                            {{ branchText }}
+                        </a>
+                    </div>
+                    <div *ngIf="!branchText">
+                        {{ 'functionMonitor_loading' | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <info-box typeClass="info" [infoText]="'githubActionInfo' | translate" [infoLink]="githubActionLink">
+        </info-box>
+    </div>
+
+    <ng-sidebar
+        #sidebar
+        *ngIf="sidePanelOpened"
+        [(opened)]="sidePanelOpened"
+        [mode]="'over'"
+        [position]="'right'"
+        [closeOnClickOutside]="true"
+        [trapFocus]="false"
+        [autoFocus]="true"
+        [sidebarClass]="'sidebar'"
+        [ariaLabel]="'deploymentDetails' | translate"
+        [animate]="true"
+        [showBackdrop]="true">
+
+        <app-deployment-credentials [hidden]="!hideCreds" [resourceId]="resourceId"></app-deployment-credentials>
+    
+    </ng-sidebar>
+</ng-sidebar-container>
