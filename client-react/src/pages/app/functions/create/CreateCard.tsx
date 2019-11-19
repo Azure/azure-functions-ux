@@ -4,7 +4,7 @@ import { getCardStyle, getHeaderStyle, getDescriptionStyle, getSrc } from './Fun
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { useTranslation } from 'react-i18next';
 import { PivotState } from './FunctionCreate';
-import { onTemplateSelected } from './CreateCard.helper';
+import { KeyCodes } from 'office-ui-fabric-react';
 
 export interface CreateCardProps {
   functionTemplate: FunctionTemplate;
@@ -20,8 +20,14 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
   return (
     <>
       <div
+        tabIndex={0}
         className={getCardStyle(theme)}
-        onClick={() => onTemplateSelected(functionTemplate, setSelectedFunctionTemplate, setPivotStateKey)}>
+        onClick={() => onTemplateSelected(functionTemplate, setSelectedFunctionTemplate, setPivotStateKey)}
+        onKeyDown={event => {
+          if (event.keyCode === KeyCodes.enter) {
+            onTemplateSelected(functionTemplate, setSelectedFunctionTemplate, setPivotStateKey);
+          }
+        }}>
         <div className={getHeaderStyle(functionTemplate)}>
           <img src={getSrc(functionTemplate)} />
           {functionTemplate.metadata.name}
@@ -31,6 +37,15 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
       </div>
     </>
   );
+};
+
+const onTemplateSelected = (
+  functionTemplate: FunctionTemplate,
+  setSelectedFunctionTemplate: (template: FunctionTemplate) => void,
+  setPivotStateKey: (state: PivotState) => void
+) => {
+  setSelectedFunctionTemplate(functionTemplate);
+  setPivotStateKey(PivotState.details);
 };
 
 export default CreateCard;

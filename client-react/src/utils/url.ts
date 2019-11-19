@@ -1,4 +1,10 @@
 export default class Url {
+  public static serviceHost =
+    window.location.hostname === 'localhost' ||
+    (window.appsvc && (window.appsvc.env.runtimeType === 'Standalone' || window.appsvc.env.runtimeType === 'OnPrem'))
+      ? `https://${window.location.hostname}:${window.location.port}/`
+      : `https://${window.location.hostname}/`;
+
   public static appendQueryString(url: string, queryString: string): string {
     if (!queryString) {
       return url;

@@ -5493,4 +5493,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="readonlyBlobStorageWarning" xml:space="preserve">
         <value>Mounted Blob containers will become read only in Feb 2020.</value>
     </data>
+    <data name="quickstartHeader" xml:space="preserve">
+        <value>Learn how to develop Azure Functions locally</value>
+    </data>
+    <data name="quickstartDesc" xml:space="preserve">
+        <value>Depending on your development environment, the instructions can vary. For a comprehensive view of all the options: </value>
+    </data>
+    <data name="viewDocumentation" xml:space="preserve">
+        <value>View Documentation</value>
+    </data>
+    <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>Choose development environment</value>
+    </data>
+    <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>Failed to load quickstart options.</value>
+    </data>
 </root>

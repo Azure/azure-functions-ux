@@ -29,3 +29,10 @@ export const getJsonHeaders = (): { [key: string]: string } => {
     'x-ms-client-request-id': Guid.newGuid(),
   };
 };
+
+export const getTextHeaders = (): { [key: string]: string } => {
+  return {
+    'Content-Type': 'text/plain',
+    Accept: 'text/plain,*/*',
+  };
+};

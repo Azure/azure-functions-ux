@@ -84,14 +84,17 @@ export class FunctionMonitorComponent extends NavigableComponent {
         )
       )
       .map(
-        (tuple): FunctionMonitorInfo => ({
-          functionAppContext: tuple[0],
-          functionAppSettings: tuple[2].result.properties,
-          functionName: tuple[1],
-          appInsightResourceEnabled: tuple[3].status === 'enabled',
-          appInsightResource: tuple[3].status === 'enabled' ? <ArmObj<ApplicationInsight>>tuple[3].data : null,
-          appInsightToken: tuple[3].status === 'enabled' && tuple[4].result ? tuple[4].result.token : null,
-        })
+        (tuple): FunctionMonitorInfo => {
+          console.log(tuple);
+          return {
+            functionAppContext: tuple[0],
+            functionAppSettings: tuple[2].result.properties,
+            functionName: tuple[1],
+            appInsightResourceEnabled: tuple[3].status === 'enabled',
+            appInsightResource: tuple[3].status === 'enabled' ? <ArmObj<ApplicationInsight>>tuple[3].data : null,
+            appInsightToken: tuple[3].status === 'enabled' && tuple[4].result ? tuple[4].result.token : null,
+          };
+        }
       )
       .do(functionMonitorInfo => {
         this.functionMonitorInfo = functionMonitorInfo;
