@@ -29,7 +29,7 @@ This will prompt you to choose a template for your function. We recommend HTTP t
 
 Run the following command to start your function app:
 
-<MarkdownHighlighter>func  start</MarkdownHighlighter>
+<MarkdownHighlighter>func start</MarkdownHighlighter>
 
 The runtime will output a URL for any HTTP functions, which can be copied and run in your browser's address bar.
 
