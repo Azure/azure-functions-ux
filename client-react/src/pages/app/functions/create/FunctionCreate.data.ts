@@ -8,7 +8,6 @@ import PortalCommunicator from '../../../../portal-communicator';
 import i18next from 'i18next';
 import { ArmObj } from '../../../../models/arm-obj';
 import SiteService from '../../../../ApiHelpers/SiteService';
-// import { SelectedMenuItemMessage, BroadcastMessageId, MenuId } from '../../../../models/portal-models';
 
 export default class FunctionCreateData {
   public getTemplates() {
