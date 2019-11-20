@@ -65,6 +65,59 @@
 
         <info-box typeClass="info" [infoText]="'githubActionInfo' | translate" [infoLink]="githubActionLink">
         </info-box>
+
+        <div class="list-container">
+            <ngx-datatable
+                #myTable
+                class='fluent expandable'
+                columnMode="flex"
+                [rows]="tableItems"
+                [groupRowsBy]="'date'"
+                [headerHeight]="30"
+                [footerHeight]="0"
+                [rowHeight]="'40'"
+                [virtualization]="true"
+                [groupExpansionDefault]="true"
+                [messages]="tableMessages">
+                <!-- Group Header Template -->
+                <ngx-datatable-group-header [rowHeight]="100" #myGroupHeader>
+                    <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                        <div style="padding-left:5px;">
+                        <span
+                            title="Expand/Collapse Group"
+                            (click)="toggleExpandGroup(group)">
+                            <b>{{group.value[0].date | date:'EEEE, MMMM d, 20yy'}}</b>
+                        </span>                          
+                        </div>
+                    </ng-template>
+                </ngx-datatable-group-header>
+                <!-- Row Column Template -->
+                <ngx-datatable-column name="{{'time' | translate}}" prop="time" editable="false" [flexGrow]="2">         
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                        <span>
+                            {{row.time | date:'longTime'}}
+                        </span>           
+                    </ng-template>          
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'status' | translate}}" prop="status" [resizeable]="true" [flexGrow]="2">
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"  let-group="group">
+                        <span>
+                            {{row.status}} {{row.active ? '(Active)' : ''}}
+                        </span>           
+                    </ng-template>   
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'commitId' | translate}}" prop="commit" [resizeable]="true" [flexGrow]="2">
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                        <span>
+                            {{row.commit}}
+                        </span>           
+                    </ng-template>   
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'checkinMessage' | translate}}" prop="checkinMessage" [resizeable]="true" [flexGrow]="5">
+                </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+
     </div>
 
     <ng-sidebar
