@@ -12,6 +12,7 @@ import { ReactComponent as VisualStudioIconSvg } from '../../../../images/Functi
 import { FunctionQuickstartContext } from './FunctionQuickstartDataLoader';
 import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
 import Markdown from 'markdown-to-jsx';
+import { MarkdownHighlighter } from '../../../../components/MarkdownComponents/MarkdownComponents';
 
 registerIcons({
   icons: {
@@ -129,7 +130,16 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
           onRenderOption={onRenderOption}
         />
       </div>
-      <Markdown>{file}</Markdown>
+      <Markdown
+        options={{
+          overrides: {
+            MarkdownHighlighter: {
+              component: MarkdownHighlighter,
+            },
+          },
+        }}>
+        {file}
+      </Markdown>
     </div>
   );
 };
