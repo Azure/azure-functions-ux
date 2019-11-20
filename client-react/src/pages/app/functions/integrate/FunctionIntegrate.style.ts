@@ -12,7 +12,7 @@ export const defaultArrowStyle = (theme: ThemeExtended) => {
 export const diagramWrapperStyle = style({
   padding: '20px',
   maxWidth: '1200px',
-  minWidth: '930px',
+  minWidth: '800px',
 });
 
 export const doubleArrowStyle = style({
@@ -35,3 +35,7 @@ export const arrowProps: SVGAttributes<SVGSVGElement> = {
   strokeWidth: '1',
   strokeOpacity: '1',
 };
+
+export const mobileStyle = style({
+  padding: '20px',
+});

@@ -22,7 +22,9 @@ import {
   doubleArrowStyle,
   singleArrowStyle,
   singleCardStackStyle,
+  mobileStyle,
 } from './FunctionIntegrate.style';
+import { useWindowSize } from 'react-use';
 
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -46,6 +48,8 @@ export const BindingEditorContext = React.createContext<BindingEditorContextInfo
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
   const { functionInfo: initialFunctionInfo, bindingsConfig } = props;
   const theme = useContext(ThemeContext);
+  const { width } = useWindowSize();
+  const fullPageWidth = 900;
 
   const bindingUpdate$ = useRef(new Subject<BindingUpdateInfo>());
   const [bindingToUpdate, setBindingToUpdate] = useState<BindingInfo | undefined>(undefined);
@@ -120,36 +124,47 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
           isOpen={isOpen}
         />
 
-        <div className={diagramWrapperStyle}>
-          <Stack horizontal horizontalAlign={'center'} tokens={tokens}>
-            <Stack.Item grow>
-              <Stack gap={40}>
-                <TriggerBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-                <InputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-              </Stack>
-            </Stack.Item>
+        {width > fullPageWidth ? (
+          <div className={diagramWrapperStyle}>
+            <Stack horizontal horizontalAlign={'center'} tokens={tokens}>
+              <Stack.Item grow>
+                <Stack gap={40}>
+                  <TriggerBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+                  <InputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+                </Stack>
+              </Stack.Item>
 
-            <Stack.Item grow>
-              <DoubleArrow className={classes(defaultArrowStyle(theme), doubleArrowStyle)} {...arrowProps} />
-            </Stack.Item>
+              <Stack.Item grow>
+                <DoubleArrow className={classes(defaultArrowStyle(theme), doubleArrowStyle)} {...arrowProps} />
+              </Stack.Item>
 
-            <Stack.Item grow>
-              <Stack verticalFill={true} className={singleCardStackStyle}>
-                <FunctionNameBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-              </Stack>
-            </Stack.Item>
+              <Stack.Item grow>
+                <Stack verticalFill={true} className={singleCardStackStyle}>
+                  <FunctionNameBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+                </Stack>
+              </Stack.Item>
 
-            <Stack.Item grow>
-              <SingleArrow className={classes(defaultArrowStyle(theme), singleArrowStyle)} {...arrowProps} />
-            </Stack.Item>
+              <Stack.Item grow>
+                <SingleArrow className={classes(defaultArrowStyle(theme), singleArrowStyle)} {...arrowProps} />
+              </Stack.Item>
 
-            <Stack.Item grow>
-              <Stack verticalFill={true} className={singleCardStackStyle}>
-                <OutputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-              </Stack>
-            </Stack.Item>
-          </Stack>
-        </div>
+              <Stack.Item grow>
+                <Stack verticalFill={true} className={singleCardStackStyle}>
+                  <OutputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+                </Stack>
+              </Stack.Item>
+            </Stack>
+          </div>
+        ) : (
+          <div className={mobileStyle}>
+            <Stack gap={40} horizontalAlign={'start'}>
+              <TriggerBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+              <InputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+              <FunctionNameBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+              <OutputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+            </Stack>
+          </div>
+        )}
       </BindingEditorContext.Provider>
     </>
   );
