@@ -14,7 +14,7 @@ import { PortalResources } from '../../../../shared/models/portal-resources';
 import { PortalService } from '../../../../shared/services/portal.service';
 import * as moment from 'moment-mini-ts';
 import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
-import { TableItem } from 'app/controls/tbl/tbl.component';
+import { TableItem, GetTableHash } from 'app/controls/tbl/tbl.component';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 
 enum DeployStatus {
@@ -257,7 +257,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
         return row;
       });
 
-    const newHash = this._getTableHash(tableItems);
+    const newHash = GetTableHash(tableItems);
 
     if (this._oldTableHash !== newHash) {
       this._tableItems = tableItems.sort(dateTimeComparatorReverse);
@@ -279,28 +279,5 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       default:
         return '';
     }
-  }
-
-  private _getTableHash(tb) {
-    let hashNumber = 0;
-    tb.forEach(item => {
-      hashNumber = hashNumber + this._hashcode(JSON.stringify(item));
-    });
-    return hashNumber;
-  }
-
-  // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
-  private _hashcode(s: string): number {
-    let h = 0;
-    const l = s.length;
-    let i = 0;
-
-    if (l > 0) {
-      while (i < l) {
-        // tslint:disable-next-line:no-bitwise
-        h = ((h << 5) - h + s.charCodeAt(i++)) | 0;
-      }
-    }
-    return h;
   }
 }
