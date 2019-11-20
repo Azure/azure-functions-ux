@@ -10,29 +10,22 @@ import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConne
 import { ArmObj } from '../../../../models/arm-obj';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
+import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import LoadingComponent from '../../../../components/loading/loading-component';
+import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCallout';
+import NewAppSettingCallout from './callout/NewAppSettingCallout';
+import { linkPaddingStyle, calloutStyle3Fields, calloutStyle2Fields, calloutStyle1Field } from './callout/Callout.styles';
 
 export interface ResourceDropdownProps {
   setting: BindingConfigUIDefinition;
   resourceId: string;
 }
 
-const paddingStyle = {
-  marginTop: '-10px',
-  paddingBottom: '10px',
-};
-
-const calloutSyle = {
-  padding: '10px',
-  height: 300,
-  width: 400,
-};
-
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const { setting, resourceId, form: formProps, field } = props;
   const [appSettings, setAppSettings] = useState<ArmObj<{ [key: string]: string }> | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<IDropdownOption | undefined>(undefined);
-  const [newAppSettingName, setNewAppSettingName] = useState<string | undefined>(undefined);
+  const [newAppSetting, setNewAppSetting] = useState<{ key: string; value: string } | undefined>(undefined);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
 
   useEffect(() => {
@@ -50,11 +43,11 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   }
 
   const options: IDropdownOption[] = [];
-  const resourceAppSettings = filterResourcesFromAppSetting(setting, appSettings.properties, newAppSettingName);
+  const resourceAppSettings = filterResourcesFromAppSetting(setting, appSettings.properties, newAppSetting && newAppSetting.key);
   resourceAppSettings.forEach((resourceAppSetting, i) => options.push({ text: resourceAppSetting, key: i }));
 
   if (!selectedItem && options.length > 0) {
-    onChange(options[0], formProps, field, setSelectedItem);
+    onChange(options[0], formProps, field, setSelectedItem, appSettings, newAppSetting);
   }
   return (
     <div>
@@ -62,32 +55,64 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
         options={options}
         selectedKey={selectedItem ? selectedItem.key : undefined}
         onChange={(e, o) => {
-          onChange(o as IDropdownOption, formProps, field, setSelectedItem);
+          onChange(o as IDropdownOption, formProps, field, setSelectedItem, appSettings, newAppSetting);
         }}
         {...props}
       />
-      <div style={paddingStyle}>
+      <div style={linkPaddingStyle}>
         <Link id="target" onClick={() => setIsDialogVisible(true)}>
           {'New'}
         </Link>
-        <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutSyle}>
-          {setting.resource === BindingSettingResource.Storage && (
+        {setting.resource === BindingSettingResource.Storage && (
+          <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle1Field}>
             <NewStorageAccountConnectionCallout
               resourceId={resourceId}
-              setNewAppSettingName={setNewAppSettingName}
+              setNewAppSetting={setNewAppSetting}
+              setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
-              {...props}
             />
-          )}
-          {setting.resource === BindingSettingResource.EventHub && (
+          </Callout>
+        )}
+        {setting.resource === BindingSettingResource.EventHub && (
+          <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle3Fields}>
             <NewEventHubConnectionCallout
               resourceId={resourceId}
-              setNewAppSettingName={setNewAppSettingName}
+              setNewAppSetting={setNewAppSetting}
+              setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
-              {...props}
             />
-          )}
-        </Callout>
+          </Callout>
+        )}
+        {setting.resource === BindingSettingResource.ServiceBus && (
+          <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
+            <NewServiceBusConnectionCallout
+              resourceId={resourceId}
+              setNewAppSetting={setNewAppSetting}
+              setSelectedItem={setSelectedItem}
+              setIsDialogVisible={setIsDialogVisible}
+            />
+          </Callout>
+        )}
+        {setting.resource === BindingSettingResource.DocumentDB && (
+          <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
+            <NewDocumentDBConnectionCallout
+              resourceId={resourceId}
+              setNewAppSetting={setNewAppSetting}
+              setSelectedItem={setSelectedItem}
+              setIsDialogVisible={setIsDialogVisible}
+            />
+          </Callout>
+        )}
+        {setting.resource === BindingSettingResource.AppSetting && (
+          <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
+            <NewAppSettingCallout
+              resourceId={resourceId}
+              setNewAppSetting={setNewAppSetting}
+              setSelectedItem={setSelectedItem}
+              setIsDialogVisible={setIsDialogVisible}
+            />
+          </Callout>
+        )}
       </div>
     </div>
   );
@@ -97,11 +122,23 @@ const onChange = (
   option: IDropdownOption,
   formProps: FormikProps<BindingEditorFormValues>,
   field: { name: string; value: any },
-  setSelectedItem: any
+  setSelectedItem: any,
+  appSettings: ArmObj<{ [key: string]: string }>,
+  newAppSetting?: { key: string; value: string }
 ) => {
+  // Make sure the value is saved to the form
   setSelectedItem(option);
   const appSettingName = option.text.split(' ')[0]; // allisonm: removes (new) if present
   formProps.setFieldValue(field.name, appSettingName);
+
+  // Set new App Settings if a PUT is required to update them
+  if (option.text.endsWith('(new)') && newAppSetting) {
+    const newAppSettings = appSettings;
+    newAppSettings.properties[newAppSetting.key] = newAppSetting.value;
+    formProps.setFieldValue('newAppSettings', newAppSettings);
+  } else {
+    formProps.setFieldValue('newAppSettings', null);
+  }
 };
 
 const filterResourcesFromAppSetting = (
@@ -111,19 +148,19 @@ const filterResourcesFromAppSetting = (
 ): string[] => {
   switch (setting.resource) {
     case BindingSettingResource.Storage:
-      return _getStorageSettings(appSettings, newAppSettingName);
+      return getStorageSettings(appSettings, newAppSettingName);
     case BindingSettingResource.EventHub:
     case BindingSettingResource.ServiceBus:
-      return _getEventHubAndServiceBusSettings(appSettings, newAppSettingName);
+      return getEventHubAndServiceBusSettings(appSettings, newAppSettingName);
     case BindingSettingResource.AppSetting:
-      return _getAppSettings(appSettings, newAppSettingName);
+      return getAppSettings(appSettings, newAppSettingName);
     case BindingSettingResource.DocumentDB:
-      return _getDocumentDBSettings(appSettings, newAppSettingName);
+      return getDocumentDBSettings(appSettings, newAppSettingName);
   }
   return [];
 };
 
-const _getStorageSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
+const getStorageSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
   for (const key of Object.keys(appSettings)) {
     const value = appSettings[key].toLowerCase();
@@ -134,7 +171,7 @@ const _getStorageSettings = (appSettings: { [key: string]: string }, newAppSetti
   return result;
 };
 
-const _getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
+const getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
   for (const key of Object.keys(appSettings)) {
     const value = appSettings[key].toLowerCase();
@@ -145,7 +182,7 @@ const _getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string 
   return result;
 };
 
-const _getAppSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
+const getAppSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
   for (const key of Object.keys(appSettings)) {
     result.push(key);
@@ -154,7 +191,7 @@ const _getAppSettings = (appSettings: { [key: string]: string }, newAppSettingNa
   return result;
 };
 
-const _getDocumentDBSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
+const getDocumentDBSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
   for (const key of Object.keys(appSettings)) {
     const value = appSettings[key].toLowerCase();

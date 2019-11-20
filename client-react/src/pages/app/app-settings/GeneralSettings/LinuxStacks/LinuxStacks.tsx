@@ -122,7 +122,8 @@ const getSelectedMinorVersion = (builtInStacks: ArmObj<AvailableStack>[], stack:
 const LinuxStacks: React.FC<PropsType> = props => {
   const { values, setFieldValue, initialValues } = props;
   const { site } = values;
-  const { app_write, editable } = useContext(PermissionsContext);
+  const { app_write, editable, saving } = useContext(PermissionsContext);
+  const disableAllControls = !app_write || !editable || saving;
   const stacks = useContext(AvailableStacksContext);
   const runtimeOptions = getRuntimeStacks(stacks.value);
   const { t } = useTranslation();
@@ -170,7 +171,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
               }
             }}
             options={runtimeOptions}
-            disabled={!app_write || !editable}
+            disabled={disableAllControls}
             label={t('stack')}
             id="linux-fx-version-runtime"
           />
@@ -186,7 +187,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
                 }
               }}
               options={getMajorVersions(stacks.value, runtimeStack)}
-              disabled={!app_write || !editable}
+              disabled={disableAllControls}
               label={t('majorVersion')}
               id="linux-fx-version-major-version"
             />
@@ -196,7 +197,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
               name="config.properties.linuxFxVersion"
               dirty={getSelectedMinorVersion(stacks.value, runtimeStack, majorVersion) !== getInitialMinorVersion()}
               component={Dropdown}
-              disabled={!app_write || !editable}
+              disabled={disableAllControls}
               label={t('minorVersion')}
               id="linux-fx-version-minor-version"
               options={getMinorVersions(stacks.value, runtimeStack, majorVersion)}
@@ -208,7 +209,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
         name="config.properties.appCommandLine"
         component={TextField}
         dirty={values.config.properties.appCommandLine !== initialValues.config.properties.appCommandLine}
-        disabled={!app_write || !editable}
+        disabled={disableAllControls}
         label={t('appCommandLineLabel')}
         id="linux-fx-version-appCommandLine"
         infoBubbleMessage={t('appCommandLineLabelHelpNoLink')}

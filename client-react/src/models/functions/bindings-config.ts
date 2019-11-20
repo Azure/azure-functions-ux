@@ -44,6 +44,7 @@ export enum BindingSettingValue {
   string = 'string',
   enum = 'enum',
   checkBoxList = 'checkBoxList',
+  boolean = 'boolean',
 }
 
 export enum BindingSettingResource {

@@ -4787,6 +4787,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="newAzureStorageMount" xml:space="preserve">
         <value>New Azure Storage Mount</value>
     </data>
+    <data name="editAzureStorageMount" xml:space="preserve">
+        <value>Edit Azure Storage Mount</value>
+    </data>
     <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Empty Azure Storage Mount</value>
     </data>
@@ -5071,10 +5074,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>No inputs defined</value>
     </data>
     <data name="integrateNoOutputsDefined" xml:space="preserve">
-        <value>No outpus defined</value>
+        <value>No outputs defined</value>
     </data>
     <data name="integrateAddInput" xml:space="preserve">
         <value>+ Add input</value>
+    </data>
+    <data name="integrateCreateInput" xml:space="preserve">
+        <value>Create Input</value>
+    </data>
+    <data name="integrateCreateBindingInstructions" xml:space="preserve">
+        <value>Start by selecting the type of {0} binding you want to add.</value>
+    </data>
+    <data name="integrateBindingType" xml:space="preserve">
+        <value>Binding Type</value>
+    </data>
+    <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
+        <value>{0} details</value>
     </data>
     <data name="_function" xml:space="preserve">
         <value>Function</value>
@@ -5104,13 +5119,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Succeeded in updating {0} ({1})</value>
     </data>
     <data name="editBindingInput" xml:space="preserve">
-        <value>Edit input</value>
+        <value>Edit Input</value>
     </data>
-    <data name="editBindingOuput" xml:space="preserve">
-        <value>Edit output</value>
+    <data name="editBindingOutput" xml:space="preserve">
+        <value>Edit Output</value>
     </data>
     <data name="editBindingTrigger" xml:space="preserve">
-        <value>Edit trigger</value>
+        <value>Edit Trigger</value>
     </data>
     <data name="editBindingCommands" xml:space="preserve">
         <value>Edit binding commands</value>
@@ -5346,6 +5361,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
     </data>
+    <data name="validation_linuxConnectionStringNameError" xml:space="preserve">
+        <value>Connection String names can only contain letters, numbers (0-9), periods ("."), and underscores ("_")</value>
+    </data>
     <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
     </data>
@@ -5356,7 +5374,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Virtual network trigger support</value>
     </data>
     <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
     <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Refresh App Settings</value>
@@ -5372,5 +5390,101 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="eventHubPicker_noPolicies" xml:space="preserve">
         <value>There are no policies in this namespace and Event Hub</value>
+    </data>
+    <data name="iotHubPivot_noIoTHubs" xml:space="preserve">
+        <value>There are no IoT Hubs in this subscription</value>
+    </data>
+    <data name="iotHubPivot_IoTHub" xml:space="preserve">
+        <value>IoT Hub</value>
+    </data>
+    <data name="iotHubPivot_noEndpoints" xml:space="preserve">
+        <value>There are no endpoints available for this IoT Hub</value>
+    </data>
+    <data name="iotHubPivot_Endpoint" xml:space="preserve">
+        <value>Endpoint</value>
+    </data>
+    <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>Events (built-in endpoint)</value>
+    </data>
+    <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>Operations monitoring</value>
+    </data>
+    <data name="customPivot_key" xml:space="preserve">
+        <value>Key</value>
+    </data>
+    <data name="customPivot_value" xml:space="preserve">
+        <value>Value</value>
+    </data>
+    <data name="serviceBusCallout_serviceBus" xml:space="preserve">
+        <value>Service Bus</value>
+    </data>
+    <data name="resourceCallout_customAppSetting" xml:space="preserve">
+        <value>Custom App Setting</value>
+    </data>
+    <data name="serviceBusPicker_noNamespaces" xml:space="preserve">
+        <value>There are no namespaces in this subscription</value>
+    </data>
+    <data name="serviceBusPicker_noPolicies" xml:space="preserve">
+        <value>There are no policies in this namespace</value>
+    </data>
+    <data name="serviceBusPicker_namespace" xml:space="preserve">
+        <value>Namespace</value>
+    </data>
+    <data name="serviceBusPicker_policy" xml:space="preserve">
+        <value>Policy</value>
+    </data>
+    <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
+        <value>Azure Cosmos DB Account</value>
+    </data>
+    <data name="documentDBPivot_noDatabaseAccounts" xml:space="preserve">
+        <value>There are no database accounts in this subscription</value>
+    </data>
+    <data name="documentDBPivot_databaseAccount" xml:space="preserve">
+        <value>Database Account</value>
+    </data>
+    <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existing Storage Account</value>
+    </data>
+    <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
+        <value>New Storage Account</value>
+    </data>
+    <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
+        <value>There are no storage accounts in this subscription</value>
+    </data>
+    <data name="storageAccountPivot_storageAccount" xml:space="preserve">
+        <value>Storage Account</value>
+    </data>
+    <data name="newPivot_name" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="integrateAddOutput" xml:space="preserve">
+        <value>+ Add output</value>
+    </data>
+    <data name="integrateCreateOutput" xml:space="preserve">
+        <value>Create Output</value>
+    </data>
+    <data name="deleteBindingNotification" xml:space="preserve">
+        <value>Deleting binding</value>
+    </data>
+    <data name="deleteBindingNotificationDetails" xml:space="preserve">
+        <value>Deleting {0} ({1})</value>
+    </data>
+    <data name="deleteBindingNotificationFailed" xml:space="preserve">
+        <value>Failed to delete {0} ({1}): {2}</value>
+    </data>
+    <data name="deleteBindingNotificationSuccess" xml:space="preserve">
+        <value>Succeeded in deleting {0} ({1})</value>
+    </data>
+    <data name="createFunctionNotication" xml:space="preserve">
+        <value>Creating Function</value>
+    </data>
+    <data name="createFunctionNotificationDetails" xml:space="preserve">
+        <value>Creating {0}</value>
+    </data>
+    <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Failed to create {0}: {1}</value>
+    </data>
+    <data name="createFunctionNotificationSuccess" xml:space="preserve">
+        <value>Successfully created {0}</value>
     </data>
 </root>

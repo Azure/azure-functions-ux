@@ -3,12 +3,10 @@ import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react
 import { useTranslation } from 'react-i18next';
 import LoadingComponent from '../../../../../../components/loading/loading-component';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
-import { FieldProps } from 'formik/dist/Field';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Namespace, EventHub, AuthorizationRule, KeyList } from '../../../../../../models/eventhub';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { FormikProps, Formik } from 'formik';
-import { BindingEditorFormValues } from '../../BindingFormBuilder';
 import { EventHubPivotContext } from './EventHubPivotDataLoader';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
@@ -19,7 +17,7 @@ export interface EventHubPivotFormValues {
   policy: ArmObj<AuthorizationRule> | undefined;
 }
 
-const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props => {
+const EventHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
   const provider = useContext(EventHubPivotContext);
   const { t } = useTranslation();
   const { resourceId } = props;
@@ -114,58 +112,62 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props =
   return (
     <Formik
       initialValues={formValues}
-      onSubmit={() =>
-        createEventHubConnection(
-          formValues.namespace,
-          keyList,
-          props.setNewAppSettingName,
-          props.setIsDialogVisible,
-          props.form,
-          props.field
-        )
-      }>
+      onSubmit={() => setEventHubConnection(formValues, keyList, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)}>
       {(formProps: FormikProps<EventHubPivotFormValues>) => {
         return (
           <form style={paddingSidesStyle}>
-            {!!namespaces && namespaces.length === 0 && <p>{t('eventHubPicker_noNamespaces')}</p>}
-            <Dropdown
-              label={t('eventHubPicker_namespace')}
-              options={namespaceOptions}
-              selectedKey={formValues.namespace && formValues.namespace.id}
-              onChange={(o, e) => {
-                setFormValues({ namespace: e && e.data, eventHub: undefined, policy: undefined });
-                setEventHubs(undefined);
-                setNamespaceAuthRules(undefined);
-                setKeyList(undefined);
-              }}
-            />
-            {!eventHubs && <LoadingComponent />}
-            {!!eventHubs && eventHubs.length === 0 && <p>{t('eventHubPicker_noEventHubs')}</p>}
-            <Dropdown
-              label={t('eventHubPicker_eventHub')}
-              options={eventHubOptions}
-              selectedKey={formValues.eventHub && formValues.eventHub.id}
-              onChange={(o, e) => {
-                setFormValues({ ...formValues, eventHub: e && e.data, policy: undefined });
-                setEventHubAuthRules(undefined);
-                setKeyList(undefined);
-              }}
-            />
-            {(!namespaceAuthRules || !eventHubAuthRules) && <LoadingComponent />}
-            {!!namespaceAuthRules && namespaceAuthRules.length === 0 && (!!eventHubAuthRules && eventHubAuthRules.length === 0) && (
-              <p>{t('eventHubPicker_noPolicies')}</p>
+            {!!namespaces && namespaces.length === 0 ? (
+              <p>{t('eventHubPicker_noNamespaces')}</p>
+            ) : (
+              <>
+                <Dropdown
+                  label={t('eventHubPicker_namespace')}
+                  options={namespaceOptions}
+                  selectedKey={formValues.namespace && formValues.namespace.id}
+                  onChange={(o, e) => {
+                    setFormValues({ namespace: e && e.data, eventHub: undefined, policy: undefined });
+                    setEventHubs(undefined);
+                    setNamespaceAuthRules(undefined);
+                    setKeyList(undefined);
+                  }}
+                />
+                {!eventHubs && <LoadingComponent />}
+                {!!eventHubs && eventHubs.length === 0 ? (
+                  <p>{t('eventHubPicker_noEventHubs')}</p>
+                ) : (
+                  <>
+                    <Dropdown
+                      label={t('eventHubPicker_eventHub')}
+                      options={eventHubOptions}
+                      selectedKey={formValues.eventHub && formValues.eventHub.id}
+                      onChange={(o, e) => {
+                        setFormValues({ ...formValues, eventHub: e && e.data, policy: undefined });
+                        setEventHubAuthRules(undefined);
+                        setKeyList(undefined);
+                      }}
+                    />
+                    {(!namespaceAuthRules || !eventHubAuthRules) && <LoadingComponent />}
+                    {!!namespaceAuthRules && namespaceAuthRules.length === 0 && (!!eventHubAuthRules && eventHubAuthRules.length === 0) ? (
+                      <p>{t('eventHubPicker_noPolicies')}</p>
+                    ) : (
+                      <>
+                        <Dropdown
+                          label={t('eventHubPicker_policy')}
+                          options={policyOptions}
+                          selectedKey={formValues.policy && formValues.policy.id}
+                          onChange={(o, e) => {
+                            setFormValues({ ...formValues, policy: e && e.data });
+                            setKeyList(undefined);
+                          }}
+                        />
+                        {!keyList && <LoadingComponent />}
+                      </>
+                    )}
+                  </>
+                )}
+              </>
             )}
-            <Dropdown
-              label={t('eventHubPicker_policy')}
-              options={policyOptions}
-              selectedKey={formValues.policy && formValues.policy.id}
-              onChange={(o, e) => {
-                setFormValues({ ...formValues, policy: e && e.data });
-                setKeyList(undefined);
-              }}
-            />
             <footer style={paddingTopStyle}>
-              {!keyList && <LoadingComponent />}
               <DefaultButton disabled={!keyList} onClick={formProps.submitForm}>
                 {t('ok')}
               </DefaultButton>
@@ -177,20 +179,31 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & FieldProps> = props =
   );
 };
 
-const createEventHubConnection = (
-  selectedNamespace: ArmObj<Namespace> | undefined,
+const setEventHubConnection = (
+  formValues: EventHubPivotFormValues,
   keyList: KeyList | undefined,
-  setNewAppSettingName: (e: string) => void,
-  setIsDialogVisible: (d: boolean) => void,
-  formProps: FormikProps<BindingEditorFormValues>,
-  field: { name: string; value: any }
+  setNewAppSetting: (a: { key: string; value: string }) => void,
+  setSelectedItem: (u: undefined) => void,
+  setIsDialogVisible: (b: boolean) => void
 ) => {
-  if (selectedNamespace && keyList) {
-    const appSettingName = `${selectedNamespace.name}_${keyList.keyName}_EVENTHUB`;
-    formProps.setFieldValue(field.name, appSettingName);
-    setNewAppSettingName(appSettingName);
+  if (formValues.namespace && formValues.eventHub && keyList) {
+    const appSettingName = `${formValues.namespace.name}_${keyList.keyName}_EVENTHUB`;
+    const appSettingValue = formatEventHubValue(keyList, formValues.eventHub);
+    setNewAppSetting({ key: appSettingName, value: appSettingValue });
+    setSelectedItem(undefined);
     setIsDialogVisible(false);
   }
+};
+
+const formatEventHubValue = (keyList: KeyList, eventHub: ArmObj<EventHub>): string => {
+  let appSettingValue = keyList.primaryConnectionString;
+
+  // Runtime requires entitypath for all event hub connections strings,
+  // so if it's namespace policy add entitypath as selected eventhub
+  if (appSettingValue.toLowerCase().indexOf('entitypath') === -1) {
+    appSettingValue = `${appSettingValue};EntityPath=${eventHub.name}`;
+  }
+  return appSettingValue;
 };
 
 export default EventHubPivot;
