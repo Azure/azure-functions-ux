@@ -2351,7 +2351,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Toepassingsinstellingen beheren</value>
     </data>
   <data name="eventHubPicker_IOTHub" xml:space="preserve">
-        <value>IoT-hub</value>
+        <value>IoT Hub</value>
     </data>
   <data name="eventHubPicker_appSettingName" xml:space="preserve">
         <value>Sleutel</value>
@@ -3646,7 +3646,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>App-referenties</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Referenties voor toepassingen worden automatisch gegenereerd en bieden alleen toegang tot deze specifieke app of implementatiesite. Deze referenties kunnen worden gebruikt met FTP, een lokale Git-opslagplaats en WebDeploy. Ze kunnen niet handmatig worden geconfigureerd, maar kunnen op elk moment opnieuw worden ingesteld.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>Gebruikersnaam</value>
@@ -4785,6 +4785,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="newAzureStorageMount" xml:space="preserve">
         <value>Nieuwe koppeling van Azure-opslag</value>
     </data>
+  <data name="editAzureStorageMount" xml:space="preserve">
+        <value>Edit Azure Storage Mount</value>
+    </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Lege koppeling van Azure-opslag</value>
     </data>
@@ -5069,10 +5072,22 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Geen invoerwaarden gedefinieerd</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
-        <value>Geen uitvoerwaarden gedefinieerd</value>
+        <value>Geen uitvoer gedefinieerd</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Invoer toevoegen</value>
+    </data>
+  <data name="integrateCreateInput" xml:space="preserve">
+        <value>Invoer maken</value>
+    </data>
+  <data name="integrateCreateBindingInstructions" xml:space="preserve">
+        <value>Begin met het selecteren van het type {0}-binding dat u wilt toevoegen.</value>
+    </data>
+  <data name="integrateBindingType" xml:space="preserve">
+        <value>Bindingstype</value>
+    </data>
+  <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
+        <value>Details van {0}</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>Functie</value>
@@ -5104,7 +5119,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="editBindingInput" xml:space="preserve">
         <value>Invoer bewerken</value>
     </data>
-  <data name="editBindingOuput" xml:space="preserve">
+  <data name="editBindingOutput" xml:space="preserve">
         <value>Uitvoer bewerken</value>
     </data>
   <data name="editBindingTrigger" xml:space="preserve">
@@ -5231,28 +5246,28 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Kan de verificatiestatus niet ophalen. Probeer het over enkele minuten opnieuw.</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Alle sleutels voor de functie vernieuwen</value>
+        <value>Alle sleutels voor de functie vernieuwen</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
-      <value>De pijl-links en de pijl-rechts gebruiken om te navigeren tussen opdrachten</value>
+        <value>De pijl-links en de pijl-rechts gebruiken om te navigeren tussen opdrachten</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>Nieuwe functietoets</value>
+        <value>Nieuwe functietoets</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Sleutels voor filterfuncties</value>
+        <value>Sleutels voor filterfuncties</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Sleutel bewerken</value>
+        <value>Sleutel bewerken</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
-      <value>Sleutel toevoegen</value>
+        <value>Sleutel toevoegen</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} is een vereiste eigenschap voor alle functiesleutels</value>
+        <value>{0} is een vereiste eigenschap voor alle functiesleutels</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Namen van functiesleutels moeten uniek zijn</value>
+        <value>Namen van functiesleutels moeten uniek zijn</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>GitHub Actions (preview-versie)</value>
@@ -5282,13 +5297,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Linux</value>
     </data>
   <data name="deploymentCredentialsTitle" xml:space="preserve">
-        <value>Deployment Credentials</value>
+        <value>Referenties implementatie</value>
     </data>
   <data name="deploymentCredentialsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+        <value>App Service ondersteunt meerdere technologieën voor toegang, publiceren en wijzigen van de inhoud van uw app. Implementatiereferenties kunnen worden ingesteld voor de toepassing of de gebruiker.</value>
     </data>
   <data name="deploymentCredentialsLocalGit" xml:space="preserve">
-        <value>Local Git</value>
+        <value>Lokale Git-opslagplaats</value>
     </data>
   <data name="deploymentCredentialsFtps" xml:space="preserve">
         <value>FTP/FTPS</value>
@@ -5312,13 +5327,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>De pijl-links en de pijl-rechts gebruiken om te navigeren tussen opdrachten</value>
     </data>
   <data name="localGitDescription" xml:space="preserve">
-        <value>Use Git to push changes directly to your app.</value>
+        <value>Gebruik Git om wijzigingen rechtstreeks naar uw app te pushen.</value>
     </data>
   <data name="ftpsDescription" xml:space="preserve">
-        <value>App Service enables you to access your app content through FTP/S.</value>
+        <value>App Service biedt u toegang tot uw app-inhoud via FTP/S.</value>
     </data>
   <data name="gitCloneUrlLabel" xml:space="preserve">
-        <value>Git Clone URL</value>
+        <value>URL van Git-kloon</value>
     </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
         <value>Configuratie van GitHub Action-werkstroom</value>
@@ -5344,22 +5359,130 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
     </data>
+  <data name="validation_linuxConnectionStringNameError" xml:space="preserve">
+        <value>Namen voor verbindingsreeksen mogen alleen letters, cijfers (0-9), punten (.) en onderstrepingstekens (_) bevatten</value>
+    </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>De functie URL modaal sluiten.</value>
     </data>
   <data name="scope" xml:space="preserve">
-        <value>Scope</value>
+        <value>Bereik</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Virtual network trigger support</value>
+        <value>Triggerondersteuning voor virtueel netwerk</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Met deze instelling kan uw app worden geactiveerd door resources in een virtueel netwerk. Er moet ook één geïnitialiseerd exemplaar actief zijn en is runtime V2 of hoger vereist. &lt;a href="{0}" target="_blank"&gt;Meer informatie&lt;/a&gt;.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
-        <value>Refresh App Settings</value>
+        <value>App-instellingen vernieuwen</value>
     </data>
   <data name="refreshAppSettingsMessage" xml:space="preserve">
-        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+        <value>Alle niet-opgeslagen wijzigingen gaan verloren bij het vernieuwen. Weet u zeker dat u wilt doorgaan?</value>
+    </data>
+  <data name="eventHubPicker_noNamespaces" xml:space="preserve">
+        <value>Er zijn geen naamruimten in dit abonnement</value>
+    </data>
+  <data name="eventHubPicker_noEventHubs" xml:space="preserve">
+        <value>Er zijn geen Event Hubs in deze naamruimte</value>
+    </data>
+  <data name="eventHubPicker_noPolicies" xml:space="preserve">
+        <value>Er zijn geen beleidsregels in deze naamruimte en Event Hub</value>
+    </data>
+  <data name="iotHubPivot_noIoTHubs" xml:space="preserve">
+        <value>Er zijn geen IoT Hubs in dit abonnement</value>
+    </data>
+  <data name="iotHubPivot_IoTHub" xml:space="preserve">
+        <value>IoT Hub</value>
+    </data>
+  <data name="iotHubPivot_noEndpoints" xml:space="preserve">
+        <value>Er zijn geen eindpunten beschikbaar voor deze IoT Hub</value>
+    </data>
+  <data name="iotHubPivot_Endpoint" xml:space="preserve">
+        <value>Eindpunt</value>
+    </data>
+  <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>Gebeurtenissen (ingebouwd eindpunt)</value>
+    </data>
+  <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>Bewerkingenbewaking</value>
+    </data>
+  <data name="customPivot_key" xml:space="preserve">
+        <value>Sleutel</value>
+    </data>
+  <data name="customPivot_value" xml:space="preserve">
+        <value>Waarde</value>
+    </data>
+  <data name="serviceBusCallout_serviceBus" xml:space="preserve">
+        <value>Service Bus</value>
+    </data>
+  <data name="resourceCallout_customAppSetting" xml:space="preserve">
+        <value>Aangepaste app-instelling</value>
+    </data>
+  <data name="serviceBusPicker_noNamespaces" xml:space="preserve">
+        <value>Er zijn geen naamruimten in dit abonnement</value>
+    </data>
+  <data name="serviceBusPicker_noPolicies" xml:space="preserve">
+        <value>Er zijn geen beleidsregels in deze naamruimte</value>
+    </data>
+  <data name="serviceBusPicker_namespace" xml:space="preserve">
+        <value>Naamruimte</value>
+    </data>
+  <data name="serviceBusPicker_policy" xml:space="preserve">
+        <value>Beleid</value>
+    </data>
+  <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
+        <value>Azure Cosmos DB-account</value>
+    </data>
+  <data name="documentDBPivot_noDatabaseAccounts" xml:space="preserve">
+        <value>Er zijn geen database-accounts in dit abonnement</value>
+    </data>
+  <data name="documentDBPivot_databaseAccount" xml:space="preserve">
+        <value>Databaseaccount</value>
+    </data>
+  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Bestaand opslagaccount</value>
+    </data>
+  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
+        <value>Nieuw opslagaccount</value>
+    </data>
+  <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
+        <value>Er zijn geen opslagaccounts in dit abonnement</value>
+    </data>
+  <data name="storageAccountPivot_storageAccount" xml:space="preserve">
+        <value>Opslagaccount</value>
+    </data>
+  <data name="newPivot_name" xml:space="preserve">
+        <value>Naam</value>
+    </data>
+  <data name="integrateAddOutput" xml:space="preserve">
+        <value>+ Uitvoer toevoegen</value>
+    </data>
+  <data name="integrateCreateOutput" xml:space="preserve">
+        <value>Uitvoer maken</value>
+    </data>
+  <data name="deleteBindingNotification" xml:space="preserve">
+        <value>Binding verwijderen</value>
+    </data>
+  <data name="deleteBindingNotificationDetails" xml:space="preserve">
+        <value>{0} {1} verwijderen</value>
+    </data>
+  <data name="deleteBindingNotificationFailed" xml:space="preserve">
+        <value>Kan {0} ({1}) niet verwijderen: {2}</value>
+    </data>
+  <data name="deleteBindingNotificationSuccess" xml:space="preserve">
+        <value>{0} ({1}) is verwijderd</value>
+    </data>
+  <data name="createFunctionNotication" xml:space="preserve">
+        <value>Functie maken</value>
+    </data>
+  <data name="createFunctionNotificationDetails" xml:space="preserve">
+        <value>{0} maken</value>
+    </data>
+  <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Kan {0} niet maken: {1}</value>
+    </data>
+  <data name="createFunctionNotificationSuccess" xml:space="preserve">
+        <value>{0} is gemaakt</value>
     </data>
 </root>

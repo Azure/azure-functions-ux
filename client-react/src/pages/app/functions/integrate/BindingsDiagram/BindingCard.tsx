@@ -1,48 +1,31 @@
-import React, { useContext } from 'react';
-import { BindingInfo, BindingDirection } from '../../../../../models/functions/function-binding';
-import { Link } from 'office-ui-fabric-react';
-import { ThemeContext } from '../../../../../ThemeContext';
-import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
-import { cardStyle, headerStyle, listStyle } from './BindingDiagram.styles';
-import { FunctionInfo } from '../../../../../models/functions/function-info';
-import { ArmObj } from '../../../../../models/arm-obj';
-import { getBindingConfigDirection } from '../binding-editor/BindingEditor';
-import { BindingConfigDirection } from '../../../../../models/functions/bindings-config';
-import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
-import PortalCommunicator from '../../../../../portal-communicator';
-import { PortalContext } from '../../../../../PortalContext';
-import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
+import React, { useContext } from 'react';
 import { first } from 'rxjs/operators';
-import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
+import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { BindingConfigDirection } from '../../../../../models/functions/bindings-config';
+import { BindingInfo } from '../../../../../models/functions/function-binding';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import PortalCommunicator from '../../../../../portal-communicator';
+import { ThemeContext } from '../../../../../ThemeContext';
+import { ClosedReason } from '../BindingPanel/BindingEditor';
+import { BindingEditorContextInfo } from '../FunctionIntegrate';
+import { cardStyle, headerStyle } from './BindingDiagram.styles';
 
 export interface BindingCardChildProps {
   functionInfo: ArmObj<FunctionInfo>;
 }
 
 export interface BindingCardProps extends BindingCardChildProps {
-  items: BindingInfo[];
   title: string;
   Svg: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  emptyMessage: string;
-  supportsMultipleItems?: boolean;
-
-  // Only used for the FunctionNameBindingCard.  When set, it doesn't show links or an add button
-  functionName?: string;
-}
-
-export interface BindingCardState {
-  items: BindingInfo[];
+  content: JSX.Element;
 }
 
 const BindingCard: React.SFC<BindingCardProps> = props => {
-  const { functionInfo, title, emptyMessage, Svg, functionName, items, supportsMultipleItems } = props;
+  const { title, Svg, content } = props;
 
   const theme = useContext(ThemeContext);
-  const portalCommunicator = useContext(PortalContext);
-
-  const { t } = useTranslation();
-  const bindingEditor = useContext(BindingEditorContext) as BindingEditorContextInfo;
 
   return (
     <>
@@ -51,104 +34,81 @@ const BindingCard: React.SFC<BindingCardProps> = props => {
           <h3>{title}</h3>
           <Svg />
         </div>
-        {getItemsList(portalCommunicator, functionInfo, items, emptyMessage, t, bindingEditor, theme, functionName, supportsMultipleItems)}
+        {content}
       </div>
     </>
   );
 };
 
-export const getTriggers = (bindings: BindingInfo[]) => {
-  const trigger = bindings.find(b => {
-    return getBindingConfigDirection(b) === BindingConfigDirection.trigger;
-  });
-
-  return trigger ? [trigger] : [];
-};
-
-export const getBindings = (bindings: BindingInfo[], direction: BindingDirection) => {
-  return bindings.filter(b => {
-    return getBindingConfigDirection(b).toString() === direction.toString();
-  });
-};
-
-const getItemsList = (
+export const createNew = (
   portalCommunicator: PortalCommunicator,
-  functionInfo: ArmObj<FunctionInfo>,
-  items: BindingInfo[],
-  emptyMessage: string,
   t: i18next.TFunction,
+  functionInfo: ArmObj<FunctionInfo>,
   bindingEditorContext: BindingEditorContextInfo,
-  theme: ThemeExtended,
-  functionName?: string,
-  supportsMultipleItems?: boolean
-) => {
-  let list: JSX.Element[] = [];
-
-  if (functionName) {
-    list.push(
-      <li key={'0'}>
-        <Link>{functionName}</Link>
-      </li>
-    );
-  } else if (items.length === 0) {
-    list.push(
-      <li key={'0'} className="emptyMessage">
-        {emptyMessage}
-      </li>
-    );
-  } else {
-    list = items.map((item, i) => {
-      const name = item.name ? `(${item.name})` : '';
-      const linkName = `${item.type} ${name}`;
-      return (
-        <li key={i.toString()}>
-          <Link onClick={() => onClick(portalCommunicator, t, functionInfo, item, bindingEditorContext)}>{linkName}</Link>
-        </li>
-      );
-    });
-  }
-
-  if (supportsMultipleItems) {
-    list.push(
-      <li key={list.length}>
-        <Link>{t('integrateAddInput')}</Link>
-      </li>
-    );
-  }
-
-  return <ul className={listStyle(theme)}>{list}</ul>;
-};
-
-const onClick = (
-  portalCommunicator: PortalCommunicator,
-  t: i18next.TFunction,
-  functionInfo: ArmObj<FunctionInfo>,
-  functionBinding: BindingInfo,
-  bindingEditorContext: BindingEditorContextInfo
+  bindingDirection: BindingConfigDirection
 ) => {
   bindingEditorContext
-    .openEditor(functionBinding)
+    .openEditor(bindingDirection)
     .pipe(first())
     .subscribe(info => {
-      if (info.closedReason === 'save') {
-        submit(bindingEditorContext, portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo, info.currentBindingInfo);
+      if (info.closedReason === ClosedReason.Save) {
+        const updatedFunctionInfo = submit(portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo);
+
+        bindingEditorContext.closeEditor();
+        bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
       }
     });
 };
 
-const submit = (
+export const editExisting = (
+  portalCommunicator: PortalCommunicator,
+  t: i18next.TFunction,
+  functionInfo: ArmObj<FunctionInfo>,
+  functionBinding: BindingInfo,
   bindingEditorContext: BindingEditorContextInfo,
+  bindingDirection: BindingConfigDirection
+) => {
+  bindingEditorContext
+    .openEditor(bindingDirection, functionBinding)
+    .pipe(first())
+    .subscribe(info => {
+      if (info.closedReason === ClosedReason.Save) {
+        const updatedFunctionInfo = submit(
+          portalCommunicator,
+          t,
+          functionInfo,
+          info.newBindingInfo as BindingInfo,
+          info.currentBindingInfo
+        );
+
+        bindingEditorContext.closeEditor();
+        bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
+      } else if (info.closedReason === ClosedReason.Delete) {
+        deleteBinding(bindingEditorContext, portalCommunicator, t, functionInfo, info.currentBindingInfo as BindingInfo);
+      }
+    });
+};
+
+export const emptyList = (emptyMessage: string): JSX.Element[] => {
+  return [
+    <li key={'emptyInputs'} className="emptyMessage">
+      {emptyMessage}
+    </li>,
+  ];
+};
+
+const submit = (
   portalCommunicator: PortalCommunicator,
   t: i18next.TFunction,
   functionInfo: ArmObj<FunctionInfo>,
   newBindingInfo: BindingInfo,
   currentBindingInfo?: BindingInfo
-) => {
-  const newFunctionInfo = {
+): ArmObj<FunctionInfo> => {
+  const updatedFunctionInfo = {
     ...functionInfo,
   };
 
-  const bindings = [...newFunctionInfo.properties.config.bindings];
+  const bindings = [...updatedFunctionInfo.properties.config.bindings];
   const index = functionInfo.properties.config.bindings.findIndex(b => b === currentBindingInfo);
 
   if (index > -1) {
@@ -157,23 +117,23 @@ const submit = (
     bindings.push(newBindingInfo);
   }
 
-  newFunctionInfo.properties.config = {
-    ...newFunctionInfo.properties.config,
+  updatedFunctionInfo.properties.config = {
+    ...updatedFunctionInfo.properties.config,
     bindings,
   };
 
   const notificationId = portalCommunicator.startNotification(
     t('updateBindingNotification'),
-    t('updateBindingNotificationDetails').format(newFunctionInfo.properties.name, newBindingInfo.name)
+    t('updateBindingNotificationDetails').format(updatedFunctionInfo.properties.name, newBindingInfo.name)
   );
 
-  FunctionsService.updateFunction(functionInfo.id, newFunctionInfo).then(r => {
+  FunctionsService.updateFunction(functionInfo.id, updatedFunctionInfo).then(r => {
     if (!r.metadata.success) {
       const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
       portalCommunicator.stopNotification(
         notificationId,
         false,
-        t('updateBindingNotificationFailed').format(newFunctionInfo.properties.name, newBindingInfo.name, errorMessage)
+        t('updateBindingNotificationFailed').format(updatedFunctionInfo.properties.name, newBindingInfo.name, errorMessage)
       );
 
       return;
@@ -182,12 +142,62 @@ const submit = (
     portalCommunicator.stopNotification(
       notificationId,
       true,
-      t('updateBindingNotificationSuccess').format(newFunctionInfo.properties.name, newBindingInfo.name)
+      t('updateBindingNotificationSuccess').format(updatedFunctionInfo.properties.name, newBindingInfo.name)
+    );
+  });
+
+  return updatedFunctionInfo;
+};
+
+export const deleteBinding = (
+  bindingEditorContext: BindingEditorContextInfo,
+  portalCommunicator: PortalCommunicator,
+  t: i18next.TFunction,
+  functionInfo: ArmObj<FunctionInfo>,
+  currentBindingInfo: BindingInfo
+) => {
+  const updatedFunctionInfo = {
+    ...functionInfo,
+  };
+
+  const bindings = [...updatedFunctionInfo.properties.config.bindings];
+  const index = functionInfo.properties.config.bindings.findIndex(b => b === currentBindingInfo);
+
+  if (index > -1) {
+    bindings.splice(index, 1);
+
+    updatedFunctionInfo.properties.config = {
+      ...updatedFunctionInfo.properties.config,
+      bindings,
+    };
+
+    const notificationId = portalCommunicator.startNotification(
+      t('deleteBindingNotification'),
+      t('deleteBindingNotificationDetails').format(updatedFunctionInfo.properties.name, currentBindingInfo.name)
     );
 
-    bindingEditorContext.closeEditor();
-    bindingEditorContext.updateFunctionInfo(newFunctionInfo);
-  });
+    FunctionsService.updateFunction(functionInfo.id, updatedFunctionInfo).then(r => {
+      if (!r.metadata.success) {
+        const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
+        portalCommunicator.stopNotification(
+          notificationId,
+          false,
+          t('deleteBindingNotificationFailed').format(updatedFunctionInfo.properties.name, currentBindingInfo.name, errorMessage)
+        );
+
+        return;
+      }
+
+      portalCommunicator.stopNotification(
+        notificationId,
+        true,
+        t('deleteBindingNotificationSuccess').format(updatedFunctionInfo.properties.name, currentBindingInfo.name)
+      );
+    });
+  }
+
+  bindingEditorContext.closeEditor();
+  bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
 };
 
 export default BindingCard;

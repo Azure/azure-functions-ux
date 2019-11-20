@@ -2351,7 +2351,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Spravovat nastavení aplikace</value>
     </data>
   <data name="eventHubPicker_IOTHub" xml:space="preserve">
-        <value>Centrum IoT</value>
+        <value>IoT Hub</value>
     </data>
   <data name="eventHubPicker_appSettingName" xml:space="preserve">
         <value>Klíč</value>
@@ -3645,7 +3645,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Přihlašovací údaje aplikace</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Přihlašovací údaje aplikace se generují automaticky a umožňují přístup jen k této konkrétní aplikaci nebo slotu nasazení. Tyto přihlašovací údaje se dají použít ve službách FTP, Místní úložiště Git a WebDeploy. Nedají se konfigurovat ručně, ale kdykoli je možné je resetovat.</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>Uživatelské jméno</value>
@@ -4784,6 +4784,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="newAzureStorageMount" xml:space="preserve">
         <value>Nové připojení Azure Storage</value>
     </data>
+  <data name="editAzureStorageMount" xml:space="preserve">
+        <value>Edit Azure Storage Mount</value>
+    </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Prázdné připojení Azure Storage</value>
     </data>
@@ -5068,10 +5071,22 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nejsou definované žádné vstupy.</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
-        <value>Nejsou definované žádné výstupy.</value>
+        <value>Nedefinovaly se žádné výstupy.</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Přidat vstup</value>
+    </data>
+  <data name="integrateCreateInput" xml:space="preserve">
+        <value>Vytvořit vstup</value>
+    </data>
+  <data name="integrateCreateBindingInstructions" xml:space="preserve">
+        <value>Začněte tak, že vyberete typ vazby {0}, který chcete přidat.</value>
+    </data>
+  <data name="integrateBindingType" xml:space="preserve">
+        <value>Typ vazby</value>
+    </data>
+  <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
+        <value>{0} podrobnosti</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>Funkce</value>
@@ -5103,7 +5118,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="editBindingInput" xml:space="preserve">
         <value>Upravit vstup</value>
     </data>
-  <data name="editBindingOuput" xml:space="preserve">
+  <data name="editBindingOutput" xml:space="preserve">
         <value>Upravit výstup</value>
     </data>
   <data name="editBindingTrigger" xml:space="preserve">
@@ -5230,28 +5245,28 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nepovedlo se načíst stav ověřování. Zkuste to prosím znovu za několik minut.</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>Aktualizovat všechny klíče pro funkci</value>
+        <value>Aktualizovat všechny klíče pro funkci</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
-      <value>Navigovat mezi příkazy můžete pomocí šipek doleva a doprava.</value>
+        <value>Navigovat mezi příkazy můžete pomocí šipek doleva a doprava.</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>Nový klíč funkce</value>
+        <value>Nový klíč funkce</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>Filtrovat klíče funkcí</value>
+        <value>Filtrovat klíče funkcí</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>Upravit klíč</value>
+        <value>Upravit klíč</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
-      <value>Přidat klíč</value>
+        <value>Přidat klíč</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} je ve všech klíčích funkcí povinná vlastnost.</value>
+        <value>{0} je ve všech klíčích funkcí povinná vlastnost.</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>Názvy klíčů funkcí musí být jedinečné.</value>
+        <value>Názvy klíčů funkcí musí být jedinečné.</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>GitHub Actions (Preview)</value>
@@ -5281,13 +5296,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Linux</value>
     </data>
   <data name="deploymentCredentialsTitle" xml:space="preserve">
-        <value>Deployment Credentials</value>
+        <value>Pověření nasazení</value>
     </data>
   <data name="deploymentCredentialsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+        <value>App Service podporuje několik technologií pro přístup, publikování a úpravu obsahu aplikace. Obor přihlašovacích údajů nasazení se dá vymezit na aplikaci nebo na uživatele.</value>
     </data>
   <data name="deploymentCredentialsLocalGit" xml:space="preserve">
-        <value>Local Git</value>
+        <value>Místní Git</value>
     </data>
   <data name="deploymentCredentialsFtps" xml:space="preserve">
         <value>FTP/FTPS</value>
@@ -5311,13 +5326,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Navigovat mezi příkazy můžete pomocí šipek doleva a doprava.</value>
     </data>
   <data name="localGitDescription" xml:space="preserve">
-        <value>Use Git to push changes directly to your app.</value>
+        <value>Pomocí Gitu můžete odeslat změny přímo do aplikace.</value>
     </data>
   <data name="ftpsDescription" xml:space="preserve">
-        <value>App Service enables you to access your app content through FTP/S.</value>
+        <value>App Service umožňuje přistupovat k obsahu aplikace přes protokol FTP/S.</value>
     </data>
   <data name="gitCloneUrlLabel" xml:space="preserve">
-        <value>Git Clone URL</value>
+        <value>Adresa URL klonu Git</value>
     </data>
   <data name="githubActionWorkflowConfiguration" xml:space="preserve">
         <value>Konfigurace pracovního postupu akce GitHubu</value>
@@ -5343,22 +5358,130 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
     </data>
+  <data name="validation_linuxConnectionStringNameError" xml:space="preserve">
+        <value>Názvy připojovacích řetězců můžou obsahovat jen písmena, číslice (0–9), tečky (.) a podtržítka (_).</value>
+    </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Zavřít modální okno pro získání adresy URL funkce</value>
     </data>
   <data name="scope" xml:space="preserve">
-        <value>Scope</value>
+        <value>Rozsah</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Virtual network trigger support</value>
+        <value>Podpora triggeru virtuální sítě</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Tato nastavení umožňují, aby vaši aplikaci aktivovaly prostředky ve virtuální síti. Navíc vyžaduje 1 aktivní předem připravenou instanci a modul runtime V2 nebo vyšší. &lt;a href="{0}" target="_blank"&gt;Další informace&lt;/a&gt;</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
-        <value>Refresh App Settings</value>
+        <value>Aktualizovat nastavení aplikace</value>
     </data>
   <data name="refreshAppSettingsMessage" xml:space="preserve">
-        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+        <value>Při aktualizaci se ztratí všechny neuložené změny. Opravdu chcete pokračovat?</value>
+    </data>
+  <data name="eventHubPicker_noNamespaces" xml:space="preserve">
+        <value>V tomto předplatném nejsou žádné obory názvů.</value>
+    </data>
+  <data name="eventHubPicker_noEventHubs" xml:space="preserve">
+        <value>V tomto oboru názvů se nenacházejí žádná centra událostí.</value>
+    </data>
+  <data name="eventHubPicker_noPolicies" xml:space="preserve">
+        <value>V tomto oboru názvů a centru událostí se nenacházejí žádné zásady.</value>
+    </data>
+  <data name="iotHubPivot_noIoTHubs" xml:space="preserve">
+        <value>V tomto předplatném nejsou žádné IoT Huby.</value>
+    </data>
+  <data name="iotHubPivot_IoTHub" xml:space="preserve">
+        <value>IoT Hub</value>
+    </data>
+  <data name="iotHubPivot_noEndpoints" xml:space="preserve">
+        <value>Pro tento IoT Hub nejsou k dispozici žádné koncové body.</value>
+    </data>
+  <data name="iotHubPivot_Endpoint" xml:space="preserve">
+        <value>Koncový bod</value>
+    </data>
+  <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>Události (integrovaný koncový bod)</value>
+    </data>
+  <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>Sledování činnosti</value>
+    </data>
+  <data name="customPivot_key" xml:space="preserve">
+        <value>Klíč</value>
+    </data>
+  <data name="customPivot_value" xml:space="preserve">
+        <value>Hodnota</value>
+    </data>
+  <data name="serviceBusCallout_serviceBus" xml:space="preserve">
+        <value>Service Bus</value>
+    </data>
+  <data name="resourceCallout_customAppSetting" xml:space="preserve">
+        <value>Vlastní nastavení aplikace</value>
+    </data>
+  <data name="serviceBusPicker_noNamespaces" xml:space="preserve">
+        <value>V tomto předplatném nejsou žádné obory názvů.</value>
+    </data>
+  <data name="serviceBusPicker_noPolicies" xml:space="preserve">
+        <value>V tomto oboru názvů se nenacházejí žádné zásady.</value>
+    </data>
+  <data name="serviceBusPicker_namespace" xml:space="preserve">
+        <value>Obor názvů</value>
+    </data>
+  <data name="serviceBusPicker_policy" xml:space="preserve">
+        <value>Zásady</value>
+    </data>
+  <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
+        <value>Účet Azure Cosmos DB</value>
+    </data>
+  <data name="documentDBPivot_noDatabaseAccounts" xml:space="preserve">
+        <value>V tomto předplatném se nenacházejí žádné databázové účty.</value>
+    </data>
+  <data name="documentDBPivot_databaseAccount" xml:space="preserve">
+        <value>Databázový účet</value>
+    </data>
+  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existující účet úložiště</value>
+    </data>
+  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
+        <value>Nový účet úložiště</value>
+    </data>
+  <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
+        <value>V tomto předplatném se nenacházejí žádné účty úložiště.</value>
+    </data>
+  <data name="storageAccountPivot_storageAccount" xml:space="preserve">
+        <value>Účet úložiště</value>
+    </data>
+  <data name="newPivot_name" xml:space="preserve">
+        <value>Název</value>
+    </data>
+  <data name="integrateAddOutput" xml:space="preserve">
+        <value>+ Přidat výstup</value>
+    </data>
+  <data name="integrateCreateOutput" xml:space="preserve">
+        <value>Vytvořit výstup</value>
+    </data>
+  <data name="deleteBindingNotification" xml:space="preserve">
+        <value>Odstraňuje se vazba.</value>
+    </data>
+  <data name="deleteBindingNotificationDetails" xml:space="preserve">
+        <value>Odstraňuje se {0} ({1}).</value>
+    </data>
+  <data name="deleteBindingNotificationFailed" xml:space="preserve">
+        <value>Nepovedlo se odstranit {0} ({1}): {2}</value>
+    </data>
+  <data name="deleteBindingNotificationSuccess" xml:space="preserve">
+        <value>Odstraňování {0} ({1}) proběhlo úspěšně.</value>
+    </data>
+  <data name="createFunctionNotication" xml:space="preserve">
+        <value>Vytváří se funkce.</value>
+    </data>
+  <data name="createFunctionNotificationDetails" xml:space="preserve">
+        <value>Vytváří se {0}.</value>
+    </data>
+  <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Nepovedlo se vytvořit {0}: {1}</value>
+    </data>
+  <data name="createFunctionNotificationSuccess" xml:space="preserve">
+        <value>Zásady {0} se úspěšně vytvořily.</value>
     </data>
 </root>

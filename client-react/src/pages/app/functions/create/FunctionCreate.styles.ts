@@ -46,7 +46,7 @@ export const getHeaderStyle = (functionTemplate: FunctionTemplate) => {
   return style({
     display: 'inline-flex',
     width: '100%',
-    height: '41px',
+    height: '54px',
     lineHeight: '37px',
     fontSize: '14px',
     fontWeight: '600',
@@ -54,8 +54,8 @@ export const getHeaderStyle = (functionTemplate: FunctionTemplate) => {
     $nest: {
       img: {
         backgroundColor: `${_getTemplateColor(functionTemplate)}`,
-        height: '40px',
-        width: '40px',
+        height: '39px',
+        width: '39px',
         padding: '5px',
         marginRight: '15px',
       },

@@ -3,6 +3,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
+import { BindingType } from '../../../../models/functions/function-binding';
 
 // TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
@@ -18,13 +19,11 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const test = () => {};
 
-  const getFunctionUrl = () => {};
-
   const onFileSelectorChange = () => {};
 
   const inputBinding =
     functionInfo.properties.config && functionInfo.properties.config.bindings
-      ? functionInfo.properties.config.bindings.find(e => e.type.toLowerCase() === 'httptrigger')
+      ? functionInfo.properties.config.bindings.find(e => e.type === BindingType.httpTrigger)
       : null;
 
   const [dirty /*, setDirtyState*/] = useState<boolean>(false);
@@ -53,16 +52,33 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     },
   ];
 
+  const hostKeyDropdownOptions = [
+    {
+      key: 'master',
+      text: 'master',
+      selected: true,
+    },
+  ];
+
+  const hostUrls = [
+    {
+      key: 'master',
+      url: 'https://test.com/key1',
+    },
+  ];
+
   return (
     <>
       <FunctionEditorCommandBar
         saveFunction={save}
         resetFunction={discard}
         testFunction={test}
-        getFunctionUrl={getFunctionUrl}
         showGetFunctionUrlCommand={!!inputBinding}
         dirty={dirty}
         disabled={false}
+        hostKeyDropdownOptions={hostKeyDropdownOptions}
+        hostKeyDropdownSelectedKey={'master'}
+        hostUrls={hostUrls}
       />
       <FunctionEditorFileSelectorBar
         functionAppNameLabel={'FunctionAppName /'}

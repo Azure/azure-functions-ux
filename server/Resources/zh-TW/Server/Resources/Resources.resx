@@ -2351,7 +2351,7 @@
         <value>管理應用程式設定</value>
     </data>
   <data name="eventHubPicker_IOTHub" xml:space="preserve">
-        <value>IoT 中心</value>
+        <value>IoT 中樞</value>
     </data>
   <data name="eventHubPicker_appSettingName" xml:space="preserve">
         <value>索引鍵</value>
@@ -3645,7 +3645,7 @@
         <value>應用程式認證</value>
     </data>
   <data name="appCredsDesc" xml:space="preserve">
-        <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>應用程式認證會自動產生，而且僅提供這個特定應用程式或部署位置的存取權。這些認證可搭配 FTP、本機 Git 和 WebDeploy 使用，無法手動設定，但可以隨時重設。</value>
     </data>
   <data name="username" xml:space="preserve">
         <value>使用者名稱</value>
@@ -4784,6 +4784,9 @@
   <data name="newAzureStorageMount" xml:space="preserve">
         <value>新增 Azure 儲存體掛接</value>
     </data>
+  <data name="editAzureStorageMount" xml:space="preserve">
+        <value>Edit Azure Storage Mount</value>
+    </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>空白的 Azure 儲存體掛接</value>
     </data>
@@ -5073,6 +5076,18 @@
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ 新增輸入</value>
     </data>
+  <data name="integrateCreateInput" xml:space="preserve">
+        <value>建立輸入</value>
+    </data>
+  <data name="integrateCreateBindingInstructions" xml:space="preserve">
+        <value>從選取要新增的 {0} 繫結類型開始。</value>
+    </data>
+  <data name="integrateBindingType" xml:space="preserve">
+        <value>繫結類型</value>
+    </data>
+  <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
+        <value>{0} 個詳細資料</value>
+    </data>
   <data name="_function" xml:space="preserve">
         <value>函式</value>
     </data>
@@ -5103,7 +5118,7 @@
   <data name="editBindingInput" xml:space="preserve">
         <value>編輯輸入</value>
     </data>
-  <data name="editBindingOuput" xml:space="preserve">
+  <data name="editBindingOutput" xml:space="preserve">
         <value>編輯輸出</value>
     </data>
   <data name="editBindingTrigger" xml:space="preserve">
@@ -5230,28 +5245,28 @@
         <value>無法擷取驗證狀態。請幾分鐘後再試一次。</value>
     </data>
   <data name="functionKeysRefreshAriaLabel" xml:space="preserve">
-      <value>重新整理函式的所有金鑰</value>
+        <value>重新整理函式的所有金鑰</value>
     </data>
   <data name="functionKeysCommandBarAriaLabel" xml:space="preserve">
-      <value>使用向左鍵及向右鍵來瀏覽命令</value>
+        <value>使用向左鍵及向右鍵來瀏覽命令</value>
     </data>
   <data name="newFunctionKey" xml:space="preserve">
-      <value>新增函式金鑰</value>
+        <value>新增函式金鑰</value>
     </data>
   <data name="filterFunctionKeys" xml:space="preserve">
-      <value>篩選函式金鑰</value>
+        <value>篩選函式金鑰</value>
     </data>
   <data name="editFunctionKey" xml:space="preserve">
-      <value>編輯金鑰</value>
+        <value>編輯金鑰</value>
     </data>
   <data name="addFunctionKey" xml:space="preserve">
-      <value>新增金鑰</value>
+        <value>新增金鑰</value>
     </data>
   <data name="functionKeyPropIsRequired" xml:space="preserve">
-      <value>{0} 在所有函式金鑰上均為必要屬性</value>
+        <value>{0} 在所有函式金鑰上均為必要屬性</value>
     </data>
   <data name="functionKeyNamesUnique" xml:space="preserve">
-      <value>函式金鑰名稱必須是唯一的</value>
+        <value>函式金鑰名稱必須是唯一的</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
         <value>GitHub Actions (預覽)</value>
@@ -5281,13 +5296,13 @@
         <value>Linux</value>
     </data>
   <data name="deploymentCredentialsTitle" xml:space="preserve">
-        <value>Deployment Credentials</value>
+        <value>部署認證</value>
     </data>
   <data name="deploymentCredentialsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. Deployment credentials can be scoped to the application or the user.</value>
+        <value>App Service 支援使用多種技術來存取、發佈及修改您的應用程式內容。部署認證的範圍可以限制在應用程式或使用者。</value>
     </data>
   <data name="deploymentCredentialsLocalGit" xml:space="preserve">
-        <value>Local Git</value>
+        <value>本機 Git</value>
     </data>
   <data name="deploymentCredentialsFtps" xml:space="preserve">
         <value>FTP/FTPS</value>
@@ -5311,10 +5326,10 @@
         <value>使用向左鍵及向右鍵來瀏覽命令</value>
     </data>
   <data name="localGitDescription" xml:space="preserve">
-        <value>Use Git to push changes directly to your app.</value>
+        <value>使用 Git 將變更直接推送到您的應用程式。</value>
     </data>
   <data name="ftpsDescription" xml:space="preserve">
-        <value>App Service enables you to access your app content through FTP/S.</value>
+        <value>App Service 可讓您透過 FTP/S 存取應用程式內容。</value>
     </data>
   <data name="gitCloneUrlLabel" xml:space="preserve">
         <value>Git Clone URL</value>
@@ -5343,22 +5358,130 @@
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>Close get function url modal.</value>
     </data>
+  <data name="validation_linuxConnectionStringNameError" xml:space="preserve">
+        <value>連接字串名稱只可包含字母、數字 (0-9)、句點 (".") 和底線 ("_")</value>
+    </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
         <value>關閉取得函式 URL 強制。</value>
     </data>
   <data name="scope" xml:space="preserve">
-        <value>Scope</value>
+        <value>範圍</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Virtual network trigger support</value>
+        <value>虛擬網路觸發程序支援</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>此設定可讓您的應用程式由虛擬網路內的資源觸發。它也需要 1 個可供使用的已預熱執行個體及執行階段 V2 或更高版本。&lt;a href="{0}" target="_blank"&gt;深入了解&lt;/a&gt;。</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
-        <value>Refresh App Settings</value>
+        <value>重新整理應用程式設定</value>
     </data>
   <data name="refreshAppSettingsMessage" xml:space="preserve">
-        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+        <value>任何未儲存的變更都會在重新整理時遺失。確定要繼續嗎?</value>
+    </data>
+  <data name="eventHubPicker_noNamespaces" xml:space="preserve">
+        <value>此訂用帳戶沒有任何命名空間</value>
+    </data>
+  <data name="eventHubPicker_noEventHubs" xml:space="preserve">
+        <value>此命名空間沒有任何事件中樞</value>
+    </data>
+  <data name="eventHubPicker_noPolicies" xml:space="preserve">
+        <value>此命名空間和事件中樞沒有任何原則</value>
+    </data>
+  <data name="iotHubPivot_noIoTHubs" xml:space="preserve">
+        <value>此訂用帳戶沒有任何 IoT 中樞</value>
+    </data>
+  <data name="iotHubPivot_IoTHub" xml:space="preserve">
+        <value>IoT 中樞</value>
+    </data>
+  <data name="iotHubPivot_noEndpoints" xml:space="preserve">
+        <value>此 IoT 中樞沒有任何可用的端點</value>
+    </data>
+  <data name="iotHubPivot_Endpoint" xml:space="preserve">
+        <value>端點</value>
+    </data>
+  <data name="iotHubPivot_IOTEvents" xml:space="preserve">
+        <value>事件 (內建端點)</value>
+    </data>
+  <data name="iotHubPivot_IOTMonitoring" xml:space="preserve">
+        <value>作業監視</value>
+    </data>
+  <data name="customPivot_key" xml:space="preserve">
+        <value>索引鍵</value>
+    </data>
+  <data name="customPivot_value" xml:space="preserve">
+        <value>值</value>
+    </data>
+  <data name="serviceBusCallout_serviceBus" xml:space="preserve">
+        <value>服務匯流排</value>
+    </data>
+  <data name="resourceCallout_customAppSetting" xml:space="preserve">
+        <value>自訂應用程式設定</value>
+    </data>
+  <data name="serviceBusPicker_noNamespaces" xml:space="preserve">
+        <value>此訂用帳戶沒有任何命名空間</value>
+    </data>
+  <data name="serviceBusPicker_noPolicies" xml:space="preserve">
+        <value>此命名空間中沒有任何原則</value>
+    </data>
+  <data name="serviceBusPicker_namespace" xml:space="preserve">
+        <value>命名空間</value>
+    </data>
+  <data name="serviceBusPicker_policy" xml:space="preserve">
+        <value>原則</value>
+    </data>
+  <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
+        <value>Azure Cosmos DB 帳戶</value>
+    </data>
+  <data name="documentDBPivot_noDatabaseAccounts" xml:space="preserve">
+        <value>此訂用帳戶中沒有任何資料庫帳戶</value>
+    </data>
+  <data name="documentDBPivot_databaseAccount" xml:space="preserve">
+        <value>資料庫帳戶</value>
+    </data>
+  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>現有的儲存體帳戶</value>
+    </data>
+  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
+        <value>新增儲存體帳戶</value>
+    </data>
+  <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
+        <value>此訂用帳戶中沒有任何儲存體帳戶</value>
+    </data>
+  <data name="storageAccountPivot_storageAccount" xml:space="preserve">
+        <value>儲存體帳戶</value>
+    </data>
+  <data name="newPivot_name" xml:space="preserve">
+        <value>名稱</value>
+    </data>
+  <data name="integrateAddOutput" xml:space="preserve">
+        <value>+ 新增輸出</value>
+    </data>
+  <data name="integrateCreateOutput" xml:space="preserve">
+        <value>建立輸出</value>
+    </data>
+  <data name="deleteBindingNotification" xml:space="preserve">
+        <value>正在刪除繫結</value>
+    </data>
+  <data name="deleteBindingNotificationDetails" xml:space="preserve">
+        <value>正在刪除 {0} ({1})</value>
+    </data>
+  <data name="deleteBindingNotificationFailed" xml:space="preserve">
+        <value>無法刪除 {0} ({1}): {2}</value>
+    </data>
+  <data name="deleteBindingNotificationSuccess" xml:space="preserve">
+        <value>已成功刪除 {0} ({1})</value>
+    </data>
+  <data name="createFunctionNotication" xml:space="preserve">
+        <value>正在建立函式</value>
+    </data>
+  <data name="createFunctionNotificationDetails" xml:space="preserve">
+        <value>正在建立 {0}</value>
+    </data>
+  <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>無法建立 {0}: {1}</value>
+    </data>
+  <data name="createFunctionNotificationSuccess" xml:space="preserve">
+        <value>已成功建立 {0}</value>
     </data>
 </root>
