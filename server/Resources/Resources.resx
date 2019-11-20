@@ -5511,4 +5511,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionInfo" xml:space="preserve">
         <value>Latest deployment not showing? Click here to check the status of your GitHub Action.</value>
     </data>
+    <data name="commitId" xml:space="preserve">
+        <value>Commit ID</value>
+    </data>
 </root>

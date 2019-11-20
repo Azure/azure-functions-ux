@@ -1,6 +1,6 @@
 import { ArmService } from '../../../../shared/services/arm.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
-import { TableItem } from '../../../../controls/tbl/tbl.component';
+import { TableItem, GetTableHash } from '../../../../controls/tbl/tbl.component';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { Observable, Subject } from 'rxjs/Rx';
@@ -142,27 +142,7 @@ export class KuduDashboardComponent extends DeploymentDashboard implements OnCha
     }
     return true;
   }
-  // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
-  private _hashcode(s: string): number {
-    let h = 0;
-    const l = s.length;
-    let i = 0;
 
-    if (l > 0) {
-      while (i < l) {
-        // tslint:disable-next-line:no-bitwise
-        h = ((h << 5) - h + s.charCodeAt(i++)) | 0;
-      }
-    }
-    return h;
-  }
-  private _getTableHash(tb) {
-    let hashNumber = 0;
-    tb.forEach(item => {
-      hashNumber = hashNumber + this._hashcode(JSON.stringify(item));
-    });
-    return hashNumber;
-  }
   private _populateTable() {
     const deployments = this.deploymentObject.deployments.value;
     const tableItems = deployments.map(value => {
@@ -185,7 +165,8 @@ export class KuduDashboardComponent extends DeploymentDashboard implements OnCha
       };
       return row;
     });
-    const newHash = this._getTableHash(tableItems);
+
+    const newHash = GetTableHash(tableItems);
     if (this._oldTableHash !== newHash) {
       this._tableItems = tableItems.sort(dateTimeComparatorReverse);
       this._oldTableHash = newHash;

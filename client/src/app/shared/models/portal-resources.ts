@@ -1779,4 +1779,5 @@ export class PortalResources {
   public static chooseDevelopmentEnv = 'chooseDevelopmentEnv';
   public static quickstartLoadFailure = 'quickstartLoadFailure';
   public static githubActionInfo = 'githubActionInfo';
+  public static commitId = 'commitId';
 }
