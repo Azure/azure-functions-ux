@@ -110,36 +110,34 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   };
 
   const fullPageContent: JSX.Element = (
-    <div className={diagramWrapperStyle}>
-      <Stack horizontal horizontalAlign={'center'} tokens={tokens}>
-        <Stack.Item grow>
-          <Stack gap={40}>
-            <TriggerBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-            <InputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-          </Stack>
-        </Stack.Item>
+    <Stack className={diagramWrapperStyle} horizontal horizontalAlign={'center'} tokens={tokens}>
+      <Stack.Item grow>
+        <Stack gap={40}>
+          <TriggerBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+          <InputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+        </Stack>
+      </Stack.Item>
 
-        <Stack.Item grow>
-          <DoubleArrow className={classes(defaultArrowStyle(theme), doubleArrowStyle)} {...arrowProps} />
-        </Stack.Item>
+      <Stack.Item grow>
+        <DoubleArrow className={classes(defaultArrowStyle(theme), doubleArrowStyle)} {...arrowProps} />
+      </Stack.Item>
 
-        <Stack.Item grow>
-          <Stack verticalFill={true} className={singleCardStackStyle}>
-            <FunctionNameBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-          </Stack>
-        </Stack.Item>
+      <Stack.Item grow>
+        <Stack verticalFill={true} className={singleCardStackStyle}>
+          <FunctionNameBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+        </Stack>
+      </Stack.Item>
 
-        <Stack.Item grow>
-          <SingleArrow className={classes(defaultArrowStyle(theme), singleArrowStyle)} {...arrowProps} />
-        </Stack.Item>
+      <Stack.Item grow>
+        <SingleArrow className={classes(defaultArrowStyle(theme), singleArrowStyle)} {...arrowProps} />
+      </Stack.Item>
 
-        <Stack.Item grow>
-          <Stack verticalFill={true} className={singleCardStackStyle}>
-            <OutputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-          </Stack>
-        </Stack.Item>
-      </Stack>
-    </div>
+      <Stack.Item grow>
+        <Stack verticalFill={true} className={singleCardStackStyle}>
+          <OutputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+        </Stack>
+      </Stack.Item>
+    </Stack>
   );
 
   const smallPageContent: JSX.Element = (
