@@ -22,7 +22,7 @@ import {
   doubleArrowStyle,
   singleArrowStyle,
   singleCardStackStyle,
-  mobileStyle,
+  smallPageStyle,
 } from './FunctionIntegrate.style';
 import { useWindowSize } from 'react-use';
 
@@ -109,6 +109,48 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     childrenGap: 0,
   };
 
+  const fullPageContent: JSX.Element = (
+    <div className={diagramWrapperStyle}>
+      <Stack horizontal horizontalAlign={'center'} tokens={tokens}>
+        <Stack.Item grow>
+          <Stack gap={40}>
+            <TriggerBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+            <InputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+          </Stack>
+        </Stack.Item>
+
+        <Stack.Item grow>
+          <DoubleArrow className={classes(defaultArrowStyle(theme), doubleArrowStyle)} {...arrowProps} />
+        </Stack.Item>
+
+        <Stack.Item grow>
+          <Stack verticalFill={true} className={singleCardStackStyle}>
+            <FunctionNameBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+          </Stack>
+        </Stack.Item>
+
+        <Stack.Item grow>
+          <SingleArrow className={classes(defaultArrowStyle(theme), singleArrowStyle)} {...arrowProps} />
+        </Stack.Item>
+
+        <Stack.Item grow>
+          <Stack verticalFill={true} className={singleCardStackStyle}>
+            <OutputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+          </Stack>
+        </Stack.Item>
+      </Stack>
+    </div>
+  );
+
+  const smallPageContent: JSX.Element = (
+    <Stack className={smallPageStyle} gap={40} horizontalAlign={'start'}>
+      <TriggerBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+      <InputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+      <FunctionNameBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+      <OutputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+    </Stack>
+  );
+
   return (
     <>
       <BindingEditorContext.Provider value={editorContext}>
@@ -124,47 +166,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
           isOpen={isOpen}
         />
 
-        {width > fullPageWidth ? (
-          <div className={diagramWrapperStyle}>
-            <Stack horizontal horizontalAlign={'center'} tokens={tokens}>
-              <Stack.Item grow>
-                <Stack gap={40}>
-                  <TriggerBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-                  <InputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-                </Stack>
-              </Stack.Item>
-
-              <Stack.Item grow>
-                <DoubleArrow className={classes(defaultArrowStyle(theme), doubleArrowStyle)} {...arrowProps} />
-              </Stack.Item>
-
-              <Stack.Item grow>
-                <Stack verticalFill={true} className={singleCardStackStyle}>
-                  <FunctionNameBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-                </Stack>
-              </Stack.Item>
-
-              <Stack.Item grow>
-                <SingleArrow className={classes(defaultArrowStyle(theme), singleArrowStyle)} {...arrowProps} />
-              </Stack.Item>
-
-              <Stack.Item grow>
-                <Stack verticalFill={true} className={singleCardStackStyle}>
-                  <OutputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-                </Stack>
-              </Stack.Item>
-            </Stack>
-          </div>
-        ) : (
-          <div className={mobileStyle}>
-            <Stack gap={40} horizontalAlign={'start'}>
-              <TriggerBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-              <InputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-              <FunctionNameBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-              <OutputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-            </Stack>
-          </div>
-        )}
+        {width > fullPageWidth ? fullPageContent : smallPageContent}
       </BindingEditorContext.Provider>
     </>
   );

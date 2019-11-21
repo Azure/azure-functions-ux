@@ -36,6 +36,6 @@ export const arrowProps: SVGAttributes<SVGSVGElement> = {
   strokeOpacity: '1',
 };
 
-export const mobileStyle = style({
+export const smallPageStyle = style({
   padding: '20px',
 });
