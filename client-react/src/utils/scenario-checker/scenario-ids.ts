@@ -106,4 +106,5 @@ export class ScenarioIds {
   public static readonly functionAppRuntimeStack = 'functionAppRuntimeStack';
   public static readonly showFunctionRuntimeSettings = 'showFunctionRuntimeSettings';
   public static readonly dailyUsageQuotaSupported = 'dailyUsageQuotaSupported';
+  public static readonly functionsRuntimeVersion = 'functionsRuntimeVersion';
 }
