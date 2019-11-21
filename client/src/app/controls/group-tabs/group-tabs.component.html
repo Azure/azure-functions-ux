@@ -4,7 +4,7 @@
     #groupTabs>
     <div *ngFor="let tabItem of tabs"
         (click)="select(tabItem.id)"
-        class="clickable group-tab"
+        [class]="groupTabClasses"
         [class.selected-container]="tabItem.id === currentTabId"
         [tabindex]="tabItem.id === currentTabId ? 0 : -1"
         (keydown)="onKeyDown($event)"
