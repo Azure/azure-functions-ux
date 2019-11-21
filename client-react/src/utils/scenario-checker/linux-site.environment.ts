@@ -43,7 +43,9 @@ export class LinuxSiteEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.webSocketsSupported] = {
       id: ScenarioIds.webSocketsSupported,
-      runCheck: () => disabledResult,
+      runCheck: () => {
+        return { status: 'enabled' };
+      },
     };
 
     this.scenarioChecks[ScenarioIds.addSsh] = {
