@@ -111,6 +111,17 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
     );
   };
 
+  const onRenderTitle = (selectedOptions: IDropdownOption[]): JSX.Element => {
+    return selectedOptions.length > 0 ? (
+      <div>
+        {selectedOptions[0].data.icon}
+        {selectedOptions[0].text}
+      </div>
+    ) : (
+      <></>
+    );
+  };
+
   return (
     <div className={formStyle}>
       <h2>{t('quickstartHeader')}</h2>
@@ -128,6 +139,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
           onChange={onChange}
           responsiveMode={ResponsiveMode.large}
           onRenderOption={onRenderOption}
+          onRenderTitle={onRenderTitle}
         />
       </div>
       <Markdown
