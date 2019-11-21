@@ -9,6 +9,7 @@ import LogService from '../../../utils/LogService';
 import MakeArmCall from '../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import PortalCommunicator from '../../../portal-communicator';
+import FunctionsService from '../../../ApiHelpers/FunctionsService';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
   const [
@@ -40,6 +41,14 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     windowsStacks,
     linuxStacks,
   };
+};
+
+export const fetchFunctionsHostStatus = async (resourceId: string, force?: boolean) => {
+  return SiteService.fetchFunctionsHostStatus(resourceId, force);
+};
+
+export const getFunctions = async (resourceId: string, force?: boolean) => {
+  return FunctionsService.getFunctions(resourceId, force);
 };
 
 export const fetchAzureStorageAccounts = (resourceId: string) => {
