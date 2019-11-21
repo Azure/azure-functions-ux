@@ -14,7 +14,6 @@ const GlobalClassNames = {
   dropdownItems: 'ms-Dropdown-items',
   dropdownItem: 'ms-Dropdown-item',
   dropdownDivider: 'ms-Dropdown-divider',
-  dropdownOptionText: 'ms-Dropdown-optionText',
   dropdownItemHeader: 'ms-Dropdown-header',
   titleIsPlaceHolder: 'ms-Dropdown-titleIsPlaceHolder',
   titleHasError: 'ms-Dropdown-title--hasError',
@@ -24,23 +23,45 @@ const DROPDOWN_HEIGHT = 23;
 const DROPDOWN_ITEMHEIGHT = 23;
 
 export const DropDownStyles = props => {
-  const { palette, semanticColors, fonts } = props.theme as ThemeExtended;
+  const { semanticColors, fonts } = props.theme as ThemeExtended;
   const { disabled, isRenderingPlaceholder, widthOverride } = props;
 
   const borderColorError: IStyle = {
     borderColor: semanticColors.errorText,
   };
 
+  const itemSelectors = (isSelected: boolean = false) => {
+    return {
+      selectors: {
+        '&:hover:focus': {
+          color: semanticColors.textColor,
+          backgroundColor: !isSelected ? semanticColors.itemBackgroundOnHover : semanticColors.itemBackgroundOnSelect,
+        },
+        '&:focus': {
+          color: semanticColors.textColor,
+          backgroundColor: !isSelected ? 'transparent' : semanticColors.itemBackgroundOnSelect,
+        },
+        '&:active:focus, &:active': {
+          color: semanticColors.textColor,
+          backgroundColor: semanticColors.itemBackgroundOnSelect,
+        },
+      },
+    };
+  };
+
   const dropdownItemStyle: IStyle = [
+    GlobalClassNames.dropdownItem,
     {
+      ...fonts.small,
       backgroundColor: 'transparent',
       boxSizing: 'border-box',
+      color: semanticColors.textColor,
       cursor: 'pointer',
       display: 'block',
-      padding: '4px 16px',
+      padding: `0 ${DROPDOWN_ITEMHEIGHT}px 0 12px`,
       width: '100%',
       minHeight: DROPDOWN_ITEMHEIGHT,
-      lineHeight: 20,
+      lineHeight: DROPDOWN_ITEMHEIGHT - 2,
       height: 'auto',
       position: 'relative',
       border: '1px solid transparent',
@@ -49,23 +70,9 @@ export const DropDownStyles = props => {
       textAlign: 'left',
     },
   ];
-  const dropdownItemSelected: IStyle = [
-    ...dropdownItemStyle,
-    {
-      backgroundColor: palette.neutralQuaternaryAlt,
-      color: palette.black,
-    },
-  ];
-
-  const dropdownItemDisabled: IStyle = [
-    ...dropdownItemStyle,
-    {
-      color: semanticColors.disabledText,
-      cursor: 'default',
-    },
-  ];
 
   const globalClassnames = getGlobalClassNames(GlobalClassNames, props.theme!);
+
   return {
     root: [
       {
@@ -124,28 +131,22 @@ export const DropDownStyles = props => {
         backgroundColor: semanticColors.bodyBackground,
       },
     ],
-    dropdownItem: [
+    dropdownItem: [...dropdownItemStyle, itemSelectors()],
+    dropdownItemSelected: [
       ...dropdownItemStyle,
-      dropdownItemSelected,
-      dropdownItemDisabled,
       {
-        selectors: {
-          '&:focus': {
-            backgroundColor: semanticColors.itemBackgroundOnSelect,
-          },
-          '&:active': {
-            backgroundColor: semanticColors.itemBackgroundOnSelect,
-            color: semanticColors.textColor,
-          },
-        },
+        backgroundColor: semanticColors.itemBackgroundOnSelect,
+      },
+      itemSelectors(true),
+    ],
+    dropdownItemDisabled: [
+      ...dropdownItemStyle,
+      {
+        color: semanticColors.disabledText,
+        cursor: 'default',
       },
     ],
     dropdownDivider: [{ backgroundColor: semanticColors.sectionDividerScrollbar }],
-    dropdownOptionText: [
-      {
-        color: semanticColors.textColor,
-      },
-    ],
     dropdownItemHeader: [
       globalClassnames.dropdownItemHeader,
       {
