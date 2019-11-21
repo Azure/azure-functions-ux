@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import i18n from 'i18next';
 import { PermissionsContext, SiteContext } from './Contexts';
-import { commandBarSticky, formStyle, messageBannerStyle } from './AppSettings.styles';
+import { commandBarSticky, messageBannerStyle, formStyle } from './AppSettings.styles';
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
@@ -85,7 +85,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
 
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
-      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings }) => (
+      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings, asyncData }) => (
         <PermissionsContext.Consumer>
           {permissions => {
             return (
@@ -142,7 +142,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                           </div>
                           {!!initialFormValues ? (
                             <div className={formStyle}>
-                              <AppSettingsForm {...formProps} />
+                              <AppSettingsForm asyncData={asyncData} {...formProps} />
                             </div>
                           ) : (
                             <MessageBar
