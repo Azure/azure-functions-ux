@@ -49,7 +49,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const { functionInfo: initialFunctionInfo, bindingsConfig } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
-  const fullPageWidth = 900;
+  const fullPageWidth = 1000;
 
   const bindingUpdate$ = useRef(new Subject<BindingUpdateInfo>());
   const [bindingToUpdate, setBindingToUpdate] = useState<BindingInfo | undefined>(undefined);
