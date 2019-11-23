@@ -1,22 +1,23 @@
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { errorIds } from './../shared/models/error-ids';
+// import { errorIds } from './../shared/models/error-ids';
 import { PortalResources } from './../shared/models/portal-resources';
 import { LogCategories, ScenarioIds, ARM } from './../shared/models/constants';
 import { Subscription } from './../shared/models/subscription';
-import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
+import { ArmObj } from './../shared/models/arm/arm-obj';
 import { TreeNode, MutableCollection, Disposable, Refreshable } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { AppNode } from './app-node';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { ErrorEvent } from '../shared/models/error-event';
+// import { ErrorEvent } from '../shared/models/error-event';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { UserService } from '../shared/services/user.service';
 import { ScenarioService } from '../shared/services/scenario/scenario.service';
 
 import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 
 interface SearchInfo {
   searchTerm: string;
@@ -187,7 +188,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     this.inSelectedTree = false;
     this.supportsRefresh = false;
 
-    this._initialResourceId = '';
+    // this._initialResourceId = '';
   }
 
   public handleRefresh(): Observable<any> {
@@ -205,6 +206,30 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
   private _initialized() {
     return this._subscriptions && this._subscriptions.length > 0 && this._searchTerm !== undefined;
+  }
+
+  private _getFakeSitesArrayResult() {
+    if (!this._initialResourceId) {
+      return { value: [] };
+    }
+
+    let siteName = '';
+    try {
+      const siteDescriptor = new ArmSiteDescriptor(this._initialResourceId);
+      siteName = siteDescriptor.site;
+    } catch (e) {}
+
+    return {
+      value: [
+        {
+          id: this._initialResourceId,
+          kind: 'functionapp',
+          location: 'unknown',
+          name: siteName,
+          type: 'Microsoft.Web/sites',
+        },
+      ],
+    };
   }
 
   private _doSearch(
@@ -231,30 +256,48 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
       url = this._getArmSearchUrl(term, subsBatch, nextLink);
     }
 
-    return this.sideNav.cacheService
+    const sitesPromise = this.sideNav.cacheService
       .get(url, false, null, true)
-      .catch(e => {
-        let err = e && e.json && e.json().error;
-
-        if (!err) {
-          err = { message: 'Failed to query for resources.' };
-        }
-
-        this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-          message: err.message,
-          details: err.code,
-          errorId: errorIds.failedToQueryArmResource,
-          resourceId: 'none',
-        });
-
-        return Observable.of(null);
+      .map(r => {
+        return {
+          isSuccessful: true,
+          error: null,
+          result: !!r ? r.json() : null,
+        };
       })
+      .catch((e: any) => {
+        // _doSearch() gets called recursively if nextlink is present, so check if children already contains a node for _initialResourceId
+        // If a node for _initialResourceId already exists, don't create a fake site object
+        const siteNodefound = !!children.find(c => c.resourceId === this._initialResourceId);
+        const fakeResponse = siteNodefound ? { value: [] } : this._getFakeSitesArrayResult();
+
+        return Observable.of({
+          isSuccessful: true,
+          error: e,
+          result: fakeResponse,
+        });
+      });
+
+    return sitesPromise
       .switchMap(r => {
         if (!r) {
-          return Observable.of(r);
+          return Observable.of(null);
         }
 
-        const result: ArmArrayResult<any> = r.json();
+        // if (!r.isSuccessful) {
+        //   let err = r.error && r.error.json && r.error.json().error;
+        //   if (!err) {
+        //     err = { message: 'Failed to query for resources.' };
+        //   }
+        //   this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+        //     message: err.message,
+        //     details: err.code,
+        //     errorId: errorIds.failedToQueryArmResource,
+        //     resourceId: 'none',
+        //   });
+        // }
+
+        const result = r.result;
         const nodes = result.value.filter(ArmUtil.isFunctionApp).map(armObj => {
           let newNode: AppNode;
           if (armObj.id === this.sideNav.selectedNode.resourceId) {
@@ -262,7 +305,9 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
           } else {
             newNode = new AppNode(this.sideNav, armObj, this, subscriptions);
             if (newNode.resourceId === this._initialResourceId) {
-              newNode.select();
+              setTimeout(() => {
+                newNode.select();
+              }, 10);
             }
           }
 
@@ -311,7 +356,8 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     if (nextLink) {
       url = nextLink;
     } else {
-      url = `${this.sideNav.armService.armUrl}/resources?api-version=${this.sideNav.armService.armApiVersion}&$filter=(`;
+      // url = `${this.sideNav.armService.armUrl}/resources?api-version=${this.sideNav.armService.armApiVersion}&$filter=(`;
+      url = `${this.sideNav.armService.armUrl}/resourcess?api-version=${this.sideNav.armService.armApiVersion}&$filter=(`;
 
       for (let i = 0; i < subs.length; i++) {
         url += `subscriptionId eq '${subs[i].subscriptionId}'`;
@@ -337,7 +383,8 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     if (nextLink) {
       url = nextLink;
     } else {
-      url = `${this.sideNav.armService.armUrl}/resources?api-version=${
+      // url = `${this.sideNav.armService.armUrl}/resources?api-version=${
+      url = `${this.sideNav.armService.armUrl}/resourcess?api-version=${
         this.sideNav.armService.armApiVersion
       }&$filter=(resourceType eq 'microsoft.web/sites') and (`;
 
