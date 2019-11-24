@@ -25,6 +25,7 @@ export type ProviderType =
   | 'Dropbox'
   | 'DropboxV2'
   | 'OneDrive'
-  | 'VSO';
+  | 'VSO'
+  | 'GitHubAction';
 
 export type ProviderDashboardType = '' | 'zip' | 'ftp' | 'webdeploy' | 'reset' | 'credentials-dashboard';

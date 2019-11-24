@@ -1,13 +1,13 @@
-import { FormikProps } from 'formik';
 import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react/lib/Pivot';
 import React, { useRef, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 
-import { AppSettingsFormValues } from './AppSettings.types';
+import { AppSettingsFormProps } from './AppSettings.types';
 
 import GeneralSettings, { generalSettingsDirty, generalSettingsError } from './Sections/GeneralSettings';
 import ApplicationSettingsPivot, { applicationSettingsDirty } from './Sections/ApplicationSettingsPivot';
+import FunctionRuntimeSettingsPivot, { functionRuntimeSettingsDirty } from './Sections/FunctionRuntimeSettingsPivot';
 import DefaultDocumentsPivot, { defaultDocumentsDirty, defaultDocumentsError } from './Sections/DefaultDocumentsPivot';
 import PathMappingsPivot, { pathMappingsDirty } from './Sections/PathMappingsPivot';
 import CustomTabRenderer from './Sections/CustomTabRenderer';
@@ -15,12 +15,14 @@ import { ScenarioService } from '../../../utils/scenario-checker/scenario.servic
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { ThemeContext } from '../../../ThemeContext';
 import { SiteContext } from './Contexts';
+import Url from '../../../utils/url';
+import { CommonConstants } from '../../../utils/CommonConstants';
 export const settingsWrapper = style({
   paddingLeft: '15px',
   padding: '5px 20px',
 });
 
-const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const theme = useContext(ThemeContext);
   const { values, initialValues, errors } = props;
   const site = useContext(SiteContext);
@@ -34,6 +36,10 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   const applicationSettingsDirtyCheck = () => {
     return applicationSettingsDirty(values, initialValues);
+  };
+
+  const functionRuntimeSettingsDirtyCheck = () => {
+    return functionRuntimeSettingsDirty(values, initialValues);
   };
 
   const pathMappingsDirtyCheck = () => {
@@ -51,11 +57,16 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const generalSettingsErrorCheck = () => {
     return generalSettingsError(errors);
   };
+
   const dirtyLabel = t('modifiedTag');
   const enableDefaultDocuments = scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site }).status !== 'disabled';
   const enablePathMappings = scenarioChecker.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site }).status !== 'disabled';
   const enableAzureStorageMount = scenarioChecker.checkScenario(ScenarioIds.azureStorageMount, { site }).status === 'enabled';
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
+  const showFunctionRuntimeSettings =
+    Url.getParameterByName(null, CommonConstants.FeatureFlags.ShowNewFunctionRuntimeSettings) === 'true' &&
+    scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
+
   return (
     <Pivot getTabId={getPivotTabId}>
       <PivotItem
@@ -66,6 +77,19 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         linkText={t('applicationSettings')}>
         <ApplicationSettingsPivot {...props} />
       </PivotItem>
+
+      {showFunctionRuntimeSettings ? (
+        <PivotItem
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(link, defaultRenderer, theme, functionRuntimeSettingsDirtyCheck, dirtyLabel)
+          }
+          itemKey="functionRuntimeSettings"
+          linkText={t('functionRuntimeSettings')}>
+          <FunctionRuntimeSettingsPivot {...props} />
+        </PivotItem>
+      ) : (
+        <></>
+      )}
 
       {showGeneralSettings ? (
         <PivotItem
@@ -119,6 +143,8 @@ const getPivotTabId = (itemKey: string, index: number) => {
       return 'app-settings-default-documents-tab';
     case 'applicationSettings':
       return 'app-settings-application-settings-tab';
+    case 'functionRuntimeSettings':
+      return 'app-settings-function-runtime-settings-tab';
   }
   return '';
 };

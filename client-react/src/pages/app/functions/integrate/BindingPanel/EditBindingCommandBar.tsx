@@ -12,6 +12,7 @@ export interface EditBindingCommandBarProps {
   delete: () => void;
   dirty: boolean;
   loading: boolean;
+  valid: boolean;
 }
 
 export const CommandBarStyles = (theme: ThemeExtended, loading: boolean): ICommandBarStyles => {
@@ -58,7 +59,7 @@ const getItems = (props: EditBindingCommandBarProps, t: i18next.TFunction): ICom
       iconProps: {
         iconName: 'Save',
       },
-      disabled: !props.dirty,
+      disabled: !props.dirty || !props.valid,
       ariaLabel: t('appSettingsSaveAriaLabel'),
       onClick: props.submitForm,
     },

@@ -9,13 +9,19 @@ import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import i18n from 'i18next';
 import { PermissionsContext, SiteContext } from './Contexts';
-import { commandBarSticky, formStyle, messageBanner } from './AppSettings.styles';
+import { commandBarSticky, messageBannerStyle, formStyle } from './AppSettings.styles';
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType, KeyCodes } from 'office-ui-fabric-react';
 import { ThemeContext } from '../../../ThemeContext';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
+
+const onKeyDown = keyEvent => {
+  if ((keyEvent.charCode || keyEvent.keyCode) === KeyCodes.enter) {
+    keyEvent.preventDefault();
+  }
+};
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -79,7 +85,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
 
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
-      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings }) => (
+      {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings, asyncData }) => (
         <PermissionsContext.Consumer>
           {permissions => {
             return (
@@ -94,7 +100,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                       validateOnBlur={false}
                       validateOnChange={false}>
                       {(formProps: FormikProps<AppSettingsFormValues>) => (
-                        <form>
+                        <form onKeyDown={onKeyDown}>
                           <div className={commandBarSticky}>
                             <AppSettingsCommandBar
                               submitForm={formProps.submitForm}
@@ -128,7 +134,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               <MessageBar
                                 id="appSettings-keyvault-error"
                                 isMultiline={false}
-                                className={messageBanner(theme)}
+                                className={messageBannerStyle(theme, MessageBarType.error)}
                                 messageBarType={MessageBarType.error}>
                                 {t('appSettingKeyvaultAPIError')}
                               </MessageBar>
@@ -136,10 +142,13 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                           </div>
                           {!!initialFormValues ? (
                             <div className={formStyle}>
-                              <AppSettingsForm {...formProps} />
+                              <AppSettingsForm asyncData={asyncData} {...formProps} />
                             </div>
                           ) : (
-                            <MessageBar messageBarType={MessageBarType.error} isMultiline={false}>
+                            <MessageBar
+                              isMultiline={false}
+                              className={messageBannerStyle(theme, MessageBarType.error)}
+                              messageBarType={MessageBarType.error}>
                               {t('configLoadFailure')}
                             </MessageBar>
                           )}

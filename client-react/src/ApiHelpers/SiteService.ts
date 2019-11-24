@@ -7,6 +7,7 @@ import { Site } from '../models/site/site';
 import { SiteConfig, ArmAzureStorageMount } from '../models/site/config';
 import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
+import { HostStatus } from '../models/functions/host-status';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -141,5 +142,10 @@ export default class SiteService {
   public static fetchLogsConfig = (resourceId: string) => {
     const id = `${resourceId}/config/logs`;
     return MakeArmCall<ArmObj<SiteLogsConfig>>({ resourceId: id, commandName: 'fetchLogsConfig' });
+  };
+
+  public static fetchFunctionsHostStatus = async (resourceId: string, force?: boolean) => {
+    const id = `${resourceId}/host/default/properties/status`;
+    return MakeArmCall<ArmObj<HostStatus>>({ resourceId: id, commandName: 'getHostStatus', skipBuffer: force });
   };
 }
