@@ -11,7 +11,6 @@ import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { AppNode } from './app-node';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { ErrorEvent } from '../shared/models/error-event';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { UserService } from '../shared/services/user.service';
 import { ScenarioService } from '../shared/services/scenario/scenario.service';
@@ -222,7 +221,10 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
     try {
       if (!!this._permanentResourceId) {
-        const nodeAlreadyExists = children.findIndex(c => c.resourceId === this._permanentResourceId) !== -1;
+        const nodeIndex = children.findIndex(
+          c => !!c.resourceId && c.resourceId.toLocaleLowerCase() === this._permanentResourceId.toLocaleLowerCase()
+        );
+        const nodeAlreadyExists = nodeIndex !== -1;
         if (!nodeAlreadyExists) {
           const siteDescriptor = new ArmSiteDescriptor(this._permanentResourceId);
           const [siteName, siteSubscription] = [siteDescriptor.site, siteDescriptor.subscription];
@@ -279,12 +281,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
       })
       .catch((e: any) => {
         const err = (e && e.json && e.json().error) || { message: 'Failed to query for resources.' };
-        this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, <ErrorEvent>{
-          message: err.message,
-          details: err.code,
-          errorId: errorIds.failedToQueryArmResource,
-          resourceId: 'none',
-        });
+        this.sideNav.logService.error(LogCategories.SideNav, errorIds.failedToQueryArmResource, err);
 
         // The /resources API call failed, so we're going to fallback to a fake result object.
         const fakeArraryResult = this._getFakeSitesArrayResult(children, subscriptions, term, exactSearch);
