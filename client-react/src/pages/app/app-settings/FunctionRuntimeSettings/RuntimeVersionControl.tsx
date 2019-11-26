@@ -89,17 +89,17 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
     const options: IDropdownOption[] = [
       {
         key: RuntimeExtensionMajorVersions.v1,
-        text: t('~1'),
+        text: RuntimeExtensionMajorVersions.v1,
         disabled: !!versionRestriction && versionRestriction !== RuntimeExtensionMajorVersions.v1,
       },
       {
         key: RuntimeExtensionMajorVersions.v2,
-        text: t('~2'),
+        text: RuntimeExtensionMajorVersions.v2,
         disabled: !!versionRestriction && versionRestriction !== RuntimeExtensionMajorVersions.v2,
       },
       {
         key: RuntimeExtensionMajorVersions.v3,
-        text: t('version3Preview'),
+        text: RuntimeExtensionMajorVersions.v3,
         disabled: !!versionRestriction && versionRestriction !== RuntimeExtensionMajorVersions.v3,
       },
     ];
