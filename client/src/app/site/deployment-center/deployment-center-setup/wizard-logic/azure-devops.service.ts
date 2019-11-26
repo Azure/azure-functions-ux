@@ -315,7 +315,7 @@ export class AzureDevOpsService implements OnDestroy {
       deploymentObject = {
         authToken: azureAuthToken,
         pipelineTemplateId: this.getPipelineTemplateId(wizardValues.buildSettings),
-        pipelineTemplateParameters: this.getPipelineTemplateParameters(
+        pipelineTemplateParameters: this._getPipelineTemplateParameters(
           wizardValues.buildSettings,
           siteArm.id,
           subscriptionName,
@@ -534,7 +534,7 @@ export class AzureDevOpsService implements OnDestroy {
     }
   }
 
-  private getPipelineTemplateParameters(
+  private _getPipelineTemplateParameters(
     buildSettings: VstsBuildSettings,
     resourceId: string,
     subscriptionName: string,
@@ -631,7 +631,11 @@ export class AzureDevOpsService implements OnDestroy {
 
     if (repository && repository.type === 'GitHub') {
       return this._getSourceControlToken('github').flatMap(r => {
-        repository.authorizationInfo.parameters.AccessToken = r.token;
+        const res = r as { authenticated: boolean; token: string };
+        if (!res || !res.authenticated || !res.token) {
+          throw new Error('Internal Error Occured');
+        }
+        repository.authorizationInfo.parameters.AccessToken = res.token;
         return this._httpClient
           .post(uri, deploymentObj, {
             headers,
@@ -647,21 +651,23 @@ export class AzureDevOpsService implements OnDestroy {
     }
   }
 
-  private _getSourceControlToken(provider: string) {
-    try {
-      return this._cacheService.getArm(`/providers/Microsoft.Web/sourcecontrols/${provider}`, false, '2016-03-01').map(result => {
+  private _getSourceControlToken(provider: string): Observable<{} | { authenticated: boolean; token: string }> {
+    return this._cacheService
+      .getArm(`/providers/Microsoft.Web/sourcecontrols/${provider}`, false, '2016-03-01')
+      .map(result => {
         const body = result.json();
         if (body && body.properties && body.properties.token) {
           return { authenticated: true, token: body.properties.token };
+        } else {
+          return { authenticated: false, token: null };
+        }
+      })
+      .catch(err => {
+        if (err.response) {
+          throw new Error(err.response.data);
         }
         throw new Error('Not Authorized');
       });
-    } catch (err) {
-      if (err.response) {
-        throw new Error(err.response.data);
-      }
-      throw new Error('Not Authorized');
-    }
   }
 
   ngOnDestroy(): void {

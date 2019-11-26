@@ -45,7 +45,6 @@ export class Constants {
   public static eventGridName_v2 = 'eventgrid_extension';
 
   public static portalHostName = 'https://portal.azure.com';
-  public static azureRestAPIHostName = 'https://management.azure.com';
   public static webAppsHostName = 'https://web1.appsvcux.ext.azure.com';
   public static msPortalHostName = 'https://ms.portal.azure.com';
   public static ReadWriteMode = 'readWrite'.toLocaleLowerCase();
