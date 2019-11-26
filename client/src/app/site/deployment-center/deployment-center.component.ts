@@ -111,7 +111,7 @@ export class DeploymentCenterComponent implements OnDestroy {
   }
 
   get kuduDeploymentSetup() {
-    return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None' && this.scmType !== 'VSTSRM';
+    return this._siteConfigObject && this.scmType !== 'None' && this.scmType !== 'VSTSRM' && this.scmType !== 'GitHubAction';
   }
 
   get vstsDeploymentSetup() {
@@ -121,6 +121,11 @@ export class DeploymentCenterComponent implements OnDestroy {
   get noDeploymentSetup() {
     return this.scmType === 'None';
   }
+
+  get githubActionDeploymentSetup() {
+    return this.scmType === 'GitHubAction';
+  }
+
   get scmType() {
     return this._siteConfigObject && this._siteConfigObject.properties.scmType;
   }

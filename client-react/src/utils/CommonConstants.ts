@@ -52,7 +52,7 @@ export class CommonConstants {
 
   public static readonly FeatureFlags = {
     AllowFreeLinux: 'allowfreelinux',
-    ShowNewFunctionRuntimeSettings: 'ShowNewFunctionRuntimeSettings',
+    ShowNewFunctionRuntimeSettings: 'shownewfunctionruntimesettings',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -64,6 +64,7 @@ export class CommonConstants {
 
   public static readonly AppSettingNames = {
     workerRuntime: 'FUNCTIONS_WORKER_RUNTIME',
+    functionsExtensionVersion: 'FUNCTIONS_EXTENSION_VERSION',
   };
 
   public static readonly SkuNames = {
@@ -78,5 +79,9 @@ export class CommonConstants {
     dynamic: 'dynamic',
     elasticPremium: 'elasticpremium',
     elasticIsolated: 'elasticisolated',
+  };
+
+  public static readonly SiteStates = {
+    running: 'running',
   };
 }

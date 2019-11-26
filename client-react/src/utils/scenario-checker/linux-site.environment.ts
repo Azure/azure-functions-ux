@@ -43,7 +43,9 @@ export class LinuxSiteEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.webSocketsSupported] = {
       id: ScenarioIds.webSocketsSupported,
-      runCheck: () => disabledResult,
+      runCheck: () => {
+        return { status: 'enabled' };
+      },
     };
 
     this.scenarioChecks[ScenarioIds.addSsh] = {
@@ -117,6 +119,15 @@ export class LinuxSiteEnvironment extends Environment {
       runCheck: () => {
         return {
           status: 'enabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.functionsRuntimeVersion] = {
+      id: ScenarioIds.functionsRuntimeVersion,
+      runCheck: () => {
+        return {
+          status: 'disabled',
         };
       },
     };

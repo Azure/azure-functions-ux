@@ -11,12 +11,12 @@ import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { AppNode } from './app-node';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { ErrorEvent } from '../shared/models/error-event';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { UserService } from '../shared/services/user.service';
 import { ScenarioService } from '../shared/services/scenario/scenario.service';
 
 import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 
 interface SearchInfo {
   searchTerm: string;
@@ -38,17 +38,20 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
   private _broadcastService: BroadcastService;
   private _userService: UserService;
   private _scenarioService: ScenarioService;
+  private _initialResourceId: string;
 
   constructor(
     sideNav: SideNavComponent,
     rootNode: TreeNode,
     private _subscriptionsStream: Subject<Subscription[]>,
     private _searchTermStream: Subject<string>,
-    private _initialResourceId: string
+    private _permanentResourceId: string
   ) {
     // Should only be used for when the iframe is open on a specific app
 
     super(sideNav, null, rootNode, '/apps/new/app');
+
+    this._initialResourceId = this._permanentResourceId;
 
     this.newDashboardType = null;
     this._userService = sideNav.injector.get(UserService);
@@ -207,6 +210,46 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     return this._subscriptions && this._subscriptions.length > 0 && this._searchTerm !== undefined;
   }
 
+  private _getFakeSitesArrayResult(children: AppNode[], subscriptions: Subscription[], term: string, exactSearch: boolean) {
+    // Return a fake ArmArryResult containing a single fake site object corresponding to _permanentResourceId
+    // Only add the fake site object to the fake result if all of the following are true:
+    //  - A child node corresonding to _permanentResourceId doesn't already exist.
+    //  - The subscription for _permanentResourceId matches one of the values in the subscriptions filter array.
+    //  - The site name for _permanentResourceId matches the filter term.
+
+    const fakeArrayResult: ArmArrayResult<any> = { value: [], nextLink: null };
+
+    try {
+      if (!!this._permanentResourceId) {
+        const nodeIndex = children.findIndex(
+          c => !!c.resourceId && c.resourceId.toLocaleLowerCase() === this._permanentResourceId.toLocaleLowerCase()
+        );
+        const nodeAlreadyExists = nodeIndex !== -1;
+        if (!nodeAlreadyExists) {
+          const siteDescriptor = new ArmSiteDescriptor(this._permanentResourceId);
+          const [siteName, siteSubscription] = [siteDescriptor.site, siteDescriptor.subscription];
+
+          const suscriptionMatches = subscriptions.findIndex(s => s.subscriptionId.toLowerCase() === siteSubscription.toLowerCase()) !== -1;
+          if (suscriptionMatches) {
+            const exactNameMatch = exactSearch && term.toLocaleLowerCase() === `"${siteName.toLocaleLowerCase()}"`;
+            const nonExactNameMatch = !exactSearch && (!term || siteName.indexOf(term) !== -1);
+            if (exactNameMatch || nonExactNameMatch) {
+              fakeArrayResult.value.push({
+                id: this._permanentResourceId,
+                kind: 'functionapp',
+                location: '---',
+                name: siteName,
+                type: 'Microsoft.Web/sites',
+              } as ArmObj<any>);
+            }
+          }
+        }
+      }
+    } catch (e) {}
+
+    return fakeArrayResult;
+  }
+
   private _doSearch(
     children: AppNode[],
     term: string,
@@ -231,30 +274,26 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
       url = this._getArmSearchUrl(term, subsBatch, nextLink);
     }
 
-    return this.sideNav.cacheService
+    const sitesPromise = this.sideNav.cacheService
       .get(url, false, null, true)
-      .catch(e => {
-        let err = e && e.json && e.json().error;
-
-        if (!err) {
-          err = { message: 'Failed to query for resources.' };
-        }
-
-        this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-          message: err.message,
-          details: err.code,
-          errorId: errorIds.failedToQueryArmResource,
-          resourceId: 'none',
-        });
-
-        return Observable.of(null);
+      .map(r => {
+        return !!r ? (r.json() as ArmArrayResult<any>) : null;
       })
-      .switchMap(r => {
-        if (!r) {
-          return Observable.of(r);
+      .catch((e: any) => {
+        const err = (e && e.json && e.json().error) || { message: 'Failed to query for resources.' };
+        this.sideNav.logService.error(LogCategories.SideNav, errorIds.failedToQueryArmResource, err);
+
+        // The /resources API call failed, so we're going to fallback to a fake result object.
+        const fakeArraryResult = this._getFakeSitesArrayResult(children, subscriptions, term, exactSearch);
+        return Observable.of(fakeArraryResult);
+      });
+
+    return sitesPromise
+      .switchMap(result => {
+        if (!result) {
+          return Observable.of(null);
         }
 
-        const result: ArmArrayResult<any> = r.json();
         const nodes = result.value.filter(ArmUtil.isFunctionApp).map(armObj => {
           let newNode: AppNode;
           if (armObj.id === this.sideNav.selectedNode.resourceId) {

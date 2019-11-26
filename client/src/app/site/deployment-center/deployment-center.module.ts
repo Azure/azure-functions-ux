@@ -4,6 +4,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { DeploymentCenterComponent } from 'app/site/deployment-center/deployment-center.component';
 import { KuduDashboardComponent } from 'app/site/deployment-center/provider-dashboards/kudu-dashboard/kudu-dashboard.component';
 import { VsoDashboardComponent } from 'app/site/deployment-center/provider-dashboards/vso-Dashboard/vso-dashboard.component';
+import { GithubActionDashboardComponent } from 'app/site/deployment-center/provider-dashboards/github-action-dashboard/github-action-dashboard.component';
 import { DeploymentCenterSetupComponent } from 'app/site/deployment-center/deployment-center-setup/deployment-center-setup.component';
 import { StepSourceControlComponent } from 'app/site/deployment-center/deployment-center-setup/step-source-control/step-source-control.component';
 import { StepBuildProviderComponent } from 'app/site/deployment-center/deployment-center-setup/step-build-provider/step-build-provider.component';
@@ -32,6 +33,7 @@ import { CredentialsDashboardComponent } from './provider-dashboards/credentials
     DeploymentCenterComponent,
     KuduDashboardComponent,
     VsoDashboardComponent,
+    GithubActionDashboardComponent,
     DeploymentCenterSetupComponent,
     StepSourceControlComponent,
     StepConfigureComponent,
