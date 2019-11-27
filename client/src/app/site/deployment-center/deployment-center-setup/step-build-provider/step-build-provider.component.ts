@@ -92,6 +92,10 @@ export class StepBuildProviderComponent implements OnDestroy {
         const enableGitHubAction = Url.getFeatureValue(FeatureFlags.enableGitHubAction);
         const githubActionCard = this.providerCards.find(x => x.id === 'github');
         githubActionCard.hidden = this._currentSourceControlProvider !== 'github' || !enableGitHubAction;
+        githubActionCard.enabled = this.wizard.isGithubActionWorkflowScopeAvailable;
+        githubActionCard.errorMessage = !this.wizard.isGithubActionWorkflowScopeAvailable
+          ? this._translateService.instant(PortalResources.githubActionWorkflowScopeMissing)
+          : '';
       }
     });
     // this says if kudu should be hidden then default to vsts instead
