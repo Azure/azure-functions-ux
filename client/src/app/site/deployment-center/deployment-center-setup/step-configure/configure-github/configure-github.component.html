@@ -58,6 +58,7 @@
           [(ngModel)]="selectedBranch"
           [loading]="branchesLoading"
           formControlName="branch"
+          (change)="BranchChanged($event)"
         >
         </ng-select>
         <div invalidmessage="branch" id="dc-github-branch-error" role="alert"></div>
@@ -67,6 +68,7 @@
       <div class="setting-label" aria-hidden="true"></div>
       <div class="setting-control-container">
         <info-box [infoText]="'githubOrgMessage' | translate" [infoLink]="permissionInfoLink"></info-box>
+        <info-box *ngIf="workflowFileExistsWarningMessage" typeClass="warning" [infoText]="workflowFileExistsWarningMessage"></info-box>
       </div>
     </div>
   </div>

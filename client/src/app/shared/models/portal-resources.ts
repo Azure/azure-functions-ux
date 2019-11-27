@@ -1791,4 +1791,5 @@ export class PortalResources {
   public static functionsRuntimeVersionCustomInfo = 'functionsRuntimeVersionCustomInfo';
   public static functionsRuntimeVersionExistingFunctionsWarning = 'functionsRuntimeVersionExistingFunctionsWarning';
   public static githubActionWorkflowScopeMissing = 'githubActionWorkflowScopeMissing';
+  public static githubActionWorkflowFileExists = 'githubActionWorkflowFileExists';
 }
