@@ -48,6 +48,7 @@ import { Version } from 'app/shared/Utilities/version';
 import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
 import { ArmSiteDescriptor } from '../resourceDescriptors';
 import { FunctionService } from './function.service';
+import { AppSettingsHelper } from '../Utilities/application-settings-helper';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -612,14 +613,17 @@ export class FunctionAppService {
     );
   }
 
-  isSlotsSupported(appSettings: ArmObj<ApplicationSettings>): boolean {
-    const runtimeGeneration = FunctionsVersionInfoHelper.getFunctionGeneration(
-      appSettings.properties[Constants.runtimeVersionAppSettingName]
-    );
-    const secretStorageSetting =
-      !!appSettings &&
-      appSettings.properties[Constants.secretStorageSettingsName] &&
-      appSettings.properties[Constants.secretStorageSettingsName].toLowerCase();
+  isSlotsSupported(appSettingsArm: ArmObj<ApplicationSettings>): boolean {
+    const appSettings = !!appSettingsArm && appSettingsArm.properties;
+    const [runtimeVersionAppSetting, secretStorageSetting] = [
+      AppSettingsHelper.getAppSettingInfo(Constants.runtimeVersionAppSettingName, appSettings),
+      AppSettingsHelper.getAppSettingInfo(Constants.secretStorageSettingsName, appSettings),
+    ];
+    const [runtimeVersionAppSettingValue, secretStorageSettingValue] = [
+      runtimeVersionAppSetting && runtimeVersionAppSetting.value,
+      secretStorageSetting && secretStorageSetting.value && secretStorageSetting.value.toLowerCase(),
+    ];
+    const runtimeGeneration = FunctionsVersionInfoHelper.getFunctionGeneration(runtimeVersionAppSettingValue);
 
     // Slots are not supported if the SecretStorageType is 'Files', so we need to determine whether this is
     // the case based on the app settings 'FUNCTIONS_EXTENSION_VERSION' and 'AzureWebJobsSecretStorageType'
@@ -629,7 +633,7 @@ export class FunctionAppService {
       // For V1 Function apps, the supported values for 'AzureWebJobsSecretStorageType' are 'Files' and 'Blob'.
       // The default value is 'Files', which is used if 'AzureWebJobsSecretStorageType' is not set or is set to a non-supported value.
 
-      if (secretStorageSetting === Constants.secretStorageSettingsValueBlob.toLowerCase()) {
+      if (secretStorageSettingValue === Constants.secretStorageSettingsValueBlob.toLowerCase()) {
         // AzureWebJobsSecretStorageType is explicitly set to 'Blob'
         isUsingFilesSecretStorage = false;
       } else {
@@ -641,7 +645,7 @@ export class FunctionAppService {
       // For V2 Function apps, the supported values for 'AzureWebJobsSecretStorageType' are 'Files', 'Blob' and 'KeyVault'.
       // The default value is 'Blob', which is used if 'AzureWebJobsSecretStorageType' is not set or is set to a non-supported value.
 
-      if (secretStorageSetting === Constants.secretStorageSettingsValueFiles.toLowerCase()) {
+      if (secretStorageSettingValue === Constants.secretStorageSettingsValueFiles.toLowerCase()) {
         // AzureWebJobsSecretStorageType is explicitly set to 'Files'
         isUsingFilesSecretStorage = true;
       } else {

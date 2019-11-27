@@ -6,6 +6,7 @@ import { AppSettingsFormValues, AppSettingsFormProps } from '../AppSettings.type
 import { findFormAppSettingValue } from '../AppSettingsFormData';
 import DailyUsageQuota from '../FunctionRuntimeSettings/DailyUsageQuota';
 import RuntimeVersion from '../FunctionRuntimeSettings/RuntimeVersion';
+import RuntimeScaleMonitoring from '../FunctionRuntimeSettings/RuntimeScaleMonitoring';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
@@ -23,6 +24,10 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
     <div id="function-runtime-settings" className={tabContainerStyle}>
       {site.properties.state && site.properties.state.toLowerCase() === CommonConstants.SiteStates.running && <RuntimeVersion {...props} />}
 
+      {scenarioChecker.checkScenario(ScenarioIds.runtimeScaleMonitoringSupported, { site }).status === 'enabled' && (
+        <RuntimeScaleMonitoring {...props} />
+      )}
+
       {scenarioChecker.checkScenario(ScenarioIds.dailyUsageQuotaSupported, { site }).status === 'enabled' && <DailyUsageQuota {...props} />}
     </div>
   );
@@ -38,8 +43,19 @@ const dailyMemoryTimeQuotaDirty = (values: AppSettingsFormValues, initialValues:
   return !isEqual(values.site.properties.dailyMemoryTimeQuota, initialValues.site.properties.dailyMemoryTimeQuota);
 };
 
+const runtimeScaleMonitoringDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
+  return !isEqual(
+    values.config.properties.functionsRuntimeScaleMonitoringEnabled,
+    initialValues.config.properties.functionsRuntimeScaleMonitoringEnabled
+  );
+};
+
 export const functionRuntimeSettingsDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
-  return runtimeVersionDirty(values, initialValues) || dailyMemoryTimeQuotaDirty(values, initialValues);
+  return (
+    runtimeVersionDirty(values, initialValues) ||
+    dailyMemoryTimeQuotaDirty(values, initialValues) ||
+    runtimeScaleMonitoringDirty(values, initialValues)
+  );
 };
 
 export default FunctionRuntimeSettingsPivot;

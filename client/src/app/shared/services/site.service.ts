@@ -24,6 +24,7 @@ import { ByosStorageAccounts } from 'app/site/byos/byos';
 import { HostingEnvironment } from '../models/arm/hosting-environment';
 import { PublishingUser } from '../models/arm/publishing-users';
 import { Deployment, SourceControlData } from 'app/site/deployment-center/Models/deployment-data';
+import { AppSettingsHelper } from '../Utilities/application-settings-helper';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -132,13 +133,10 @@ export class SiteService {
     const addOrUpdateAppSettings = this._cacheService
       .postArm(`${resourceId}/config/appSettings/list`, true)
       .mergeMap(r => {
-        if (newOrUpdatedSettings) {
-          const keys = Object.keys(newOrUpdatedSettings);
-          if (keys.length !== 0) {
-            const appSettingsArm = r.json() as ArmObj<ApplicationSettings>;
-            keys.forEach(key => (appSettingsArm.properties[key] = newOrUpdatedSettings[key]));
-            return this._cacheService.putArm(appSettingsArm.id, null, appSettingsArm);
-          }
+        const appSettingsArm = r.json() as ArmObj<ApplicationSettings>;
+        if (appSettingsArm && newOrUpdatedSettings) {
+          appSettingsArm.properties = AppSettingsHelper.mergeAppSettings(appSettingsArm.properties, newOrUpdatedSettings);
+          return this._cacheService.putArm(appSettingsArm.id, null, appSettingsArm);
         }
         return Observable.of(r);
       })
