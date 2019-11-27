@@ -159,7 +159,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         value: FunctionAppRuntimeSetting.tilda2,
       },
       {
-        displayLabel: this._translateService.instant(PortalResources.version3Preview),
+        displayLabel: FunctionAppRuntimeSetting.tilda3,
         value: FunctionAppRuntimeSetting.tilda3,
       },
     ];

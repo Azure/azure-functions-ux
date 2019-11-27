@@ -1693,7 +1693,6 @@ export class PortalResources {
   public static renewKeyValue = 'renewKeyValue';
   public static renewKeyValueContent = 'renewKeyValueContent';
   public static apimUpsell = 'apimUpsell';
-  public static version3Preview = 'version3Preview';
   public static sourceControlAuthStateFailure = 'sourceControlAuthStateFailure';
   public static functionKeysRefreshAriaLabel = 'functionKeysRefreshAriaLabel';
   public static functionKeysCommandBarAriaLabel = 'functionKeysCommandBarAriaLabel';
