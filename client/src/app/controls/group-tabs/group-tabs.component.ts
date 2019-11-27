@@ -31,6 +31,7 @@ export class GroupTabsComponent implements AfterViewInit, OnChanges {
   valueChanged: Subject<string>;
 
   public currentTabId: string;
+  public groupTabClasses = 'clickable group-tab group-tab-width-3-tabs';
   private _originalTabId: string;
 
   constructor() {
@@ -50,6 +51,14 @@ export class GroupTabsComponent implements AfterViewInit, OnChanges {
 
     if (changes['control']) {
       selectedTabId = this.control.value;
+    }
+
+    // NOTE(michinoy): As of right now the only two places using group tab is spec picker
+    // and container configuration. Turns container configuration could have either 2
+    // or 3 tabs. Thus drawing the UX as needed.
+    if (changes['tabs']) {
+      this.groupTabClasses =
+        this.tabs.length == 2 ? 'clickable group-tab group-tab-width-2-tabs' : 'clickable group-tab group-tab-width-3-tabs';
     }
 
     if (selectedTabId) {
