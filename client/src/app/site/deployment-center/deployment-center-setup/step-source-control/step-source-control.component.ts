@@ -157,11 +157,10 @@ export class StepSourceControlComponent {
           this._wizardService.isGithubActionWorkflowScopeAvailable =
             headersJson &&
             headersJson['x-oauth-scopes'] &&
-            headersJson['x-oauth-scopes'].filter((scope: string) => scope.toLowerCase() === 'xyz').length > 0;
+            headersJson['x-oauth-scopes'].filter((scope: string) => scope.toLowerCase() === 'workflow').length > 0;
 
           if (enableGitHubAction && !this._wizardService.isGithubActionWorkflowScopeAvailable) {
-            //this.setProviderCardStatus('github', 'notAuthorized');
-            this.setProviderCardStatus('github', 'authorized', r.json().login);
+            this.setProviderCardStatus('github', 'notAuthorized');
           } else {
             this.setProviderCardStatus('github', 'authorized', r.json().login);
           }
