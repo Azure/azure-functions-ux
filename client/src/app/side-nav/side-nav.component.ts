@@ -144,7 +144,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
     this.rootNode = new TreeNode(this, null, null);
 
     if (this._scenarioService.checkScenario(ScenarioIds.addTopLevelAppsNode).status !== 'disabled') {
-      const appsNode = new AppsNode(this, this.rootNode, this._subscriptionsStream, this._searchTermStream, this.resourceId);
+      const appsNode = new AppsNode(this, this.rootNode, this._subscriptionsStream, this._searchTermStream, info.resourceId);
 
       this.rootNode.children = [appsNode];
       this.rootNode.isExpanded = true;
