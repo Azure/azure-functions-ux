@@ -28,7 +28,9 @@ export class WindowsCodeEnvironment extends Environment {
       runCheck: () => disabledResult,
     };
 
-    const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
+    let IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
+    //Enabling FF
+    IsPublishProfileBasedDeploymentEnabled = 'true';
     this.scenarioChecks[ScenarioIds.isPublishProfileBasedDeploymentEnabled] = {
       id: ScenarioIds.isPublishProfileBasedDeploymentEnabled,
       runCheck: () =>
