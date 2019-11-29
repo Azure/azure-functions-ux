@@ -106,7 +106,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               submitForm={formProps.submitForm}
                               resetForm={formProps.resetForm}
                               refreshAppSettings={() => setShowRefreshConfirmDialog(true)}
-                              disabled={!permissions.app_write || !permissions.editable || permissions.saving}
+                              disabled={permissions.saving}
                               dirty={formProps.dirty}
                             />
                             <ConfirmDialog

@@ -57,6 +57,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public siteName = '';
   public slotName = '';
   public gitHubPublishProfileSecretGuid = '';
+  public isGithubActionWorkflowScopeAvailable = false;
 
   constructor(
     private _cacheService: CacheService,

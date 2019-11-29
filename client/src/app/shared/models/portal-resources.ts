@@ -1693,7 +1693,6 @@ export class PortalResources {
   public static renewKeyValue = 'renewKeyValue';
   public static renewKeyValueContent = 'renewKeyValueContent';
   public static apimUpsell = 'apimUpsell';
-  public static version3Preview = 'version3Preview';
   public static sourceControlAuthStateFailure = 'sourceControlAuthStateFailure';
   public static functionKeysRefreshAriaLabel = 'functionKeysRefreshAriaLabel';
   public static functionKeysCommandBarAriaLabel = 'functionKeysCommandBarAriaLabel';
@@ -1737,6 +1736,7 @@ export class PortalResources {
   public static scope = 'scope';
   public static appFunctionSettings_virtualNetworkTriggerSupport = 'appFunctionSettings_virtualNetworkTriggerSupport';
   public static appFunctionSettings_runtimeScalingMonitoredText = 'appFunctionSettings_runtimeScalingMonitoredText';
+  public static appFunctionSettings_runtimeScalingMonitoringMessage = 'appFunctionSettings_runtimeScalingMonitoringMessage';
   public static refreshAppSettingsTitle = 'refreshAppSettingsTitle';
   public static refreshAppSettingsMessage = 'refreshAppSettingsMessage';
   public static eventHubPicker_noNamespaces = 'eventHubPicker_noNamespaces';
@@ -1790,4 +1790,5 @@ export class PortalResources {
   public static functionsRuntimeVersionInvalidWarning = 'functionsRuntimeVersionInvalidWarning';
   public static functionsRuntimeVersionCustomInfo = 'functionsRuntimeVersionCustomInfo';
   public static functionsRuntimeVersionExistingFunctionsWarning = 'functionsRuntimeVersionExistingFunctionsWarning';
+  public static githubActionWorkflowScopeMissing = 'githubActionWorkflowScopeMissing';
 }
