@@ -5547,4 +5547,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>Missing 'workflow' scope in GitHub token.</value>
     </data>
+    <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch, by continuing this file will be overwritten.</value>
+    </data>
 </root>
