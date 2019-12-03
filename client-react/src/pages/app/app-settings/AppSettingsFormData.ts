@@ -6,6 +6,7 @@ import { Site } from '../../../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
+import StringUtils from '../../../utils/string';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return !!settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -58,7 +59,7 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
 };
 
 export const getCleanedConfigForSave = (config: SiteConfig) => {
-  let linuxFxVersion = config.linuxFxVersion ? config.linuxFxVersion : '';
+  let linuxFxVersion = config.linuxFxVersion || '';
   if (linuxFxVersion) {
     const linuxFxVersionParts = linuxFxVersion.split('|');
     linuxFxVersionParts[0] = linuxFxVersionParts[0].toUpperCase();
@@ -121,19 +122,12 @@ export const convertFormToState = (
   };
 };
 
-const isEqualStringArray = (value: string[] | null, other: string[] | null) => {
-  const valueSorted = value && value.sort();
-  const otherSorted = other && other.sort();
-
-  return isEqual(valueSorted, otherSorted);
-};
-
 export const isSlotConfigNamesModified = (oldSlotConfigNames: ArmObj<SlotConfigNames>, slotConfigNames: ArmObj<SlotConfigNames>) => {
   const [oldProperties, properties] = [oldSlotConfigNames.properties, slotConfigNames.properties];
   return (
-    !isEqualStringArray(oldProperties.appSettingNames, properties.appSettingNames) ||
-    !isEqualStringArray(oldProperties.connectionStringNames, properties.connectionStringNames) ||
-    !isEqualStringArray(oldProperties.azureStorageConfigNames, properties.azureStorageConfigNames)
+    !StringUtils.isEqualStringArray(oldProperties.appSettingNames, properties.appSettingNames) ||
+    !StringUtils.isEqualStringArray(oldProperties.connectionStringNames, properties.connectionStringNames) ||
+    !StringUtils.isEqualStringArray(oldProperties.azureStorageConfigNames, properties.azureStorageConfigNames)
   );
 };
 

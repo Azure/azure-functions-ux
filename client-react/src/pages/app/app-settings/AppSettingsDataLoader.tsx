@@ -268,17 +268,23 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
     setSaving(true);
+    const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
+
     const { site, slotConfigNames, storageMounts, slotConfigNamesModified, storageMountsModified } = convertFormToState(
       values,
       metadataFromApi,
       initialValues!,
       slotConfigNamesFromApi
     );
-    const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
-    const siteUpdate = updateSite(resourceId, site);
-    const slotConfigNamesUpdate =
-      productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null);
-    const storageMountsUpdate = storageMountsModified ? updateStorageMounts(resourceId, storageMounts) : Promise.resolve(null);
+
+    // TODO (andimarc): Once the API is updated, include azureStorageAccounts on the site config object instead of making a separate call
+    // TASK 5843044 - Combine updateSite and updateAzureStorageMount calls into a single PUT call when saving config
+    const [siteUpdate, slotConfigNamesUpdate, storageMountsUpdate] = [
+      updateSite(resourceId, site),
+      productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
+      storageMountsModified ? updateStorageMounts(resourceId, storageMounts) : Promise.resolve(null),
+    ];
+
     const [siteResult, slotConfigNamesResult, storageMountsResult] = await Promise.all([
       siteUpdate,
       slotConfigNamesUpdate,
