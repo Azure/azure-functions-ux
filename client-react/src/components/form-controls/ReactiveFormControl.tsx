@@ -8,7 +8,6 @@ import {
   learnMoreLinkStyle,
   formStackStyle,
   formLabelStyle,
-  controlChildrenContainerStyle,
 } from './formControl.override.styles';
 import UpsellIcon from '../TooltipIcons/UpsellIcon';
 import { useWindowSize } from 'react-use';
@@ -42,13 +41,13 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
             </div>
           )}
           <Label
-            className={`${formLabelStyle(!!upsellMessage, fullpage)} ${dirty ? dirtyElementStyle(theme) : ''}`}
+            className={`${formLabelStyle(!!upsellMessage, fullpage)} ${dirty ? dirtyElementStyle(theme, true) : ''}`}
             id={`${props.id}-label`}>
             {label}
           </Label>
         </Stack>
       )}
-      <div className={controlChildrenContainerStyle(fullpage)}>{props.children}</div>
+      {props.children}
       {infoBubbleMessage && (
         <div className={infoMessageStyle(fullpage)}>
           <Stack horizontal verticalAlign="center">
