@@ -147,6 +147,7 @@ on:
   push:
     branches:
       - ${branch}
+
 jobs:
   build-and-deploy:
     runs-on: ${virtualEnvironment}
@@ -156,10 +157,11 @@ jobs:
       uses: actions/checkout@v1.0.0
 
     # install dependencies, build, and test
-    - name: 'Setup Node 10.x'
+    - name: 'Use Node.js 10.x'
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
+
     - name: 'npm install, build, and test'
       run: |
         npm install
@@ -167,11 +169,12 @@ jobs:
         npm run test --if-present
 
     # deploy web app using publish profile credentials
-    - name: 'Run Azure webapp deploy action using publish profile credentials'
+    - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v1
       with:
         app-name: ${webAppName}
-        publish-profile: \${{ secrets.${secretName} }}`;
+        publish-profile: \${{ secrets.${secretName} }}
+        package: '.'`;
   }
 
   // TODO(michinoy): Need to implement templated github action workflow generation.
