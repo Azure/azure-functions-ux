@@ -152,22 +152,25 @@ jobs:
     runs-on: ${virtualEnvironment}
     steps:
     # checkout the repo
-    - uses: actions/checkout@master
+    - name: 'Checkout Github Action' 
+      uses: actions/checkout@v1.0.0
+
     # install dependencies, build, and test
-    - name: Setup Node 10.x
+    - name: 'Setup Node 10.x'
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
-    - name: npm install, build, and test
+    - name: 'npm install, build, and test'
       run: |
         npm install
         npm run build --if-present
         npm run test --if-present
+
     # deploy web app using publish profile credentials
-    - uses: azure/webapps-deploy@v1
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      uses: azure/webapps-deploy@v1
       with:
         app-name: ${webAppName}
-        package: '.'
         publish-profile: \${{ secrets.${secretName} }}`;
   }
 
