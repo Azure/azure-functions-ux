@@ -112,7 +112,7 @@ export class GithubService implements OnDestroy {
     slotName?: string
   ): WorkflowInformation {
     const branch = sourceSettings.branch || 'master';
-    const fileName = slotName ? `${branch}_${siteName}(${slotName}).yml` : `${branch}_${siteName}.yml`;
+    const fileName = this.getWorkflowFileName(branch, siteName, slotName);
     const secretName = `AzureAppService_PublishProfile_${secretNameGuid}`;
     const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
     const virtualEnvironment = isLinuxApp ? 'ubuntu-latest' : 'windows-latest';
@@ -134,6 +134,10 @@ export class GithubService implements OnDestroy {
       secretName,
       content: content,
     };
+  }
+
+  getWorkflowFileName(branch: string, siteName: string, slotName?: string): string {
+    return slotName ? `${branch}_${siteName}(${slotName}).yml` : `${branch}_${siteName}.yml`;
   }
 
   // TODO(michinoy): Need to implement templated github action workflow generation.

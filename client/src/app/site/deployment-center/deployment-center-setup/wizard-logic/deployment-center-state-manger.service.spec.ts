@@ -13,6 +13,7 @@ import { ScenarioService, IScenarioService } from '../../../../shared/services/s
 import { ScenarioCheckInput, ScenarioCheckResult } from '../../../../shared/services/scenario/scenario.models';
 import { of } from 'rxjs/observable/of';
 import { AuthzService } from '../../../../shared/services/authz.service';
+import { AzureDevOpsService } from './azure-devops.service';
 
 describe('Deployment State Manager', () => {
   let _fb: FormBuilder;
@@ -54,6 +55,7 @@ describe('Deployment State Manager', () => {
     TestBed.configureTestingModule({
       providers: [
         DeploymentCenterStateManager,
+        AzureDevOpsService,
         { provide: CacheService, useClass: MockCacheService },
         { provide: SiteService, useClass: MockSiteService },
         { provide: UserService, useClass: MockUserService },
@@ -147,21 +149,6 @@ describe('Deployment State Manager', () => {
     it('build settings returns null if uninitialized', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
       expect(service.buildSettings).toBeNull();
     }));
-
-    it('should be get deployment slot settings form group', inject(
-      [DeploymentCenterStateManager],
-      (service: DeploymentCenterStateManager) => {
-        service.wizardForm = starterWizardForm();
-        expect(service.deploymentSlotSetting.value.deploymentSlot).toBe('slot');
-      }
-    ));
-
-    it('deployment slot settings returns null if uninitialized', inject(
-      [DeploymentCenterStateManager],
-      (service: DeploymentCenterStateManager) => {
-        expect(service.deploymentSlotSetting).toBeNull();
-      }
-    ));
   });
 
   describe('kudu deployment', () => {
@@ -208,19 +195,20 @@ describe('Deployment State Manager', () => {
       expect(deploySpyVsts).toHaveBeenCalled();
     }));
 
-    it('get correct vsts direct call headers', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
-      const headers = service.getVstsDirectHeaders();
+    it('get correct vsts direct call headers', inject([AzureDevOpsService], (service: AzureDevOpsService) => {
+      const headers = service.getAzDevDirectHeaders(true);
       expect(headers.get('Content-Type')).toBe('application/json');
       expect(headers.get('Accept')).toBe('application/json');
       expect(headers.get('Authorization')).toBe(`Bearer ${service['_token']}`);
       expect(headers.get('X-VSS-ForceMsaPassThrough')).toBe('true');
     }));
 
-    it('get correct vsts passthrough call headers', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
-      const headers = service.getVstsPassthroughHeaders();
+    it('get correct vsts passthrough call headers', inject([AzureDevOpsService], (service: AzureDevOpsService) => {
+      const headers = service.getAzDevDirectHeaders(false);
       expect(headers.get('Content-Type')).toBe('application/json');
       expect(headers.get('Accept')).toBe('application/json');
-      expect(headers.get('Vstsauthorization')).toBe(`Bearer ${service['_vstsApiToken']}`);
+      expect(headers.get('Authorization')).toBe(`Bearer ${service['_token']}`);
+      expect(headers.get('X-VSS-ForceMsaPassThrough')).toBeUndefined();
     }));
   });
 });
