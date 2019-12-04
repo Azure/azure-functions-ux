@@ -7,7 +7,7 @@ import { BindingsConfig, BindingConfigMetadata } from '../../../../models/functi
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
-import { paddingStyle } from './FunctionCreate.styles';
+import { detailsPaddingStyle } from './FunctionCreate.styles';
 import { FunctionCreateContext } from './FunctionCreateDataLoader';
 import { PortalContext } from '../../../../PortalContext';
 import { BindingInfo } from '../../../../models/functions/function-binding';
@@ -54,7 +54,7 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
           {(formProps: FormikProps<CreateFunctionFormValues>) => {
             return (
               <form>
-                <div style={paddingStyle}>
+                <div style={detailsPaddingStyle}>
                   {builder.getFields(formProps, false)}
                   <DefaultButton onClick={formProps.submitForm} disabled={!formProps.isValid || creatingFunction}>
                     {t('functionCreate_createFunction')}
