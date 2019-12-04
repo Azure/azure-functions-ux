@@ -154,13 +154,17 @@ jobs:
     # checkout the repo
     - uses: actions/checkout@master
     # install dependencies, build, and test
+    - name: Setup Node 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
     - name: npm install, build, and test
       run: |
         npm install
         npm run build --if-present
         npm run test --if-present
     # deploy web app using publish profile credentials
-    - uses: azure/appservice-actions/webapp@master
+    - uses: azure/webapps-deploy@v1
       with:
         app-name: ${webAppName}
         package: '.'
