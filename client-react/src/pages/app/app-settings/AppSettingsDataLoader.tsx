@@ -1,22 +1,15 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues, AppSettingsReferences, AppSettingsAsyncData, LoadingStates } from './AppSettings.types';
-import {
-  convertStateToForm,
-  convertFormToState,
-  flattenVirtualApplicationsList,
-  getCleanedConfigForSave,
-  getCleanedReferences,
-} from './AppSettingsFormData';
+import { convertStateToForm, convertFormToState, getCleanedReferences, getFormAzureStorageMount } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
 import {
   fetchApplicationSettingValues,
   fetchSlots,
   updateSite,
-  updateWebConfig,
   updateSlotConfigNames,
-  getProductionAppWritePermissions,
   updateStorageMounts,
+  getProductionAppWritePermissions,
   getAllAppSettingReferences,
   fetchAzureStorageAccounts,
   getFunctions,
@@ -275,34 +268,55 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
     setSaving(true);
-    const { site, config, slotConfigNames, storageMounts } = convertFormToState(values, metadataFromApi, slotConfigNamesFromApi);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
-    const siteUpdate = updateSite(resourceId, site);
-    const configUpdate = updateWebConfig(resourceId, getCleanedConfigForSave(config));
-    const slotConfigUpdates = productionPermissions ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null);
-    const storageUpdateCall = updateStorageMounts(resourceId, storageMounts);
-    const [siteResult, configResult, slotConfigResults] = await Promise.all([
+
+    const { site, slotConfigNames, storageMounts, slotConfigNamesModified, storageMountsModified } = convertFormToState(
+      values,
+      metadataFromApi,
+      initialValues!,
+      slotConfigNamesFromApi
+    );
+
+    // TODO (andimarc): Once the API is updated, include azureStorageAccounts on the site config object instead of making a separate call
+    // TASK 5843044 - Combine updateSite and updateAzureStorageMount calls into a single PUT call when saving config
+    const [siteUpdate, slotConfigNamesUpdate, storageMountsUpdate] = [
+      updateSite(resourceId, site),
+      productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
+      storageMountsModified ? updateStorageMounts(resourceId, storageMounts) : Promise.resolve(null),
+    ];
+
+    const [siteResult, slotConfigNamesResult, storageMountsResult] = await Promise.all([
       siteUpdate,
-      configUpdate,
-      slotConfigUpdates,
-      storageUpdateCall,
+      slotConfigNamesUpdate,
+      storageMountsUpdate,
     ]);
 
-    if (siteResult.metadata.success && configResult.metadata.success && (!slotConfigResults || slotConfigResults.metadata.success)) {
+    const success =
+      siteResult.metadata.success &&
+      (!slotConfigNamesResult || slotConfigNamesResult.metadata.success) &&
+      (!storageMountsResult || storageMountsResult.metadata.success);
+
+    if (success) {
+      const azureStorageMounts = storageMountsResult ? getFormAzureStorageMount(storageMountsResult.data) : values.azureStorageMounts;
       setInitialValues({
         ...values,
-        virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
+        azureStorageMounts,
       });
+      if (slotConfigNamesResult) {
+        setSlotConfigNamesFromApi(slotConfigNamesResult.data);
+      }
       fetchReferences();
       if (isFunctionApp(site)) {
         fetchAsyncData();
       }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
-      const siteError = siteResult.metadata.error && siteResult.metadata.error.Message;
-      const configError = configResult.metadata.error && configResult.metadata.error.Message;
-      const slotConfigError = slotConfigResults && slotConfigResults.metadata.error && slotConfigResults.metadata.error.Message;
-      const errMessage = siteError || configError || slotConfigError || t('configUpdateFailure');
+      const [siteError, slotConfigNamesError, storageMountsError] = [
+        siteResult.metadata.error && siteResult.metadata.error.Message,
+        slotConfigNamesResult && slotConfigNamesResult.metadata.error && slotConfigNamesResult.metadata.error.Message,
+        storageMountsResult && storageMountsResult.metadata.error && storageMountsResult.metadata.error.Message,
+      ];
+      const errMessage = siteError || slotConfigNamesError || storageMountsError || t('configUpdateFailure');
       portalContext.stopNotification(notificationId, false, errMessage);
     }
     setSaving(false);
