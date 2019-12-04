@@ -18,8 +18,11 @@ import { SiteContext } from './Contexts';
 import Url from '../../../utils/url';
 import { CommonConstants } from '../../../utils/CommonConstants';
 export const settingsWrapper = style({
-  paddingLeft: '15px',
-  padding: '5px 20px',
+  padding: '5px 20px 5px 0px',
+});
+
+const pivotWrapper = style({
+  paddingLeft: '8px',
 });
 
 const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
@@ -70,6 +73,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   return (
     <Pivot getTabId={getPivotTabId}>
       <PivotItem
+        className={pivotWrapper}
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
           CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
         }
@@ -80,6 +84,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
 
       {showFunctionRuntimeSettings ? (
         <PivotItem
+          className={pivotWrapper}
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
             CustomTabRenderer(link, defaultRenderer, theme, functionRuntimeSettingsDirtyCheck, dirtyLabel)
           }
@@ -93,6 +98,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
 
       {showGeneralSettings ? (
         <PivotItem
+          className={pivotWrapper}
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
             CustomTabRenderer(link, defaultRenderer, theme, generalSettingsDirtyCheck, dirtyLabel, generalSettingsErrorCheck)
           }
@@ -106,6 +112,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
 
       {enableDefaultDocuments ? (
         <PivotItem
+          className={pivotWrapper}
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
             CustomTabRenderer(link, defaultRenderer, theme, defaultDocumentsDirtyCheck, dirtyLabel, defaultDocumentsErrorCheck)
           }
@@ -119,6 +126,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
 
       {enablePathMappings || enableAzureStorageMount ? (
         <PivotItem
+          className={pivotWrapper}
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
             CustomTabRenderer(link, defaultRenderer, theme, pathMappingsDirtyCheck, dirtyLabel)
           }
