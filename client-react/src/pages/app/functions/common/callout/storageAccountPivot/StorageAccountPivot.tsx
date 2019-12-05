@@ -8,7 +8,7 @@ import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
+import { paddingTopStyle } from '../Callout.styles';
 import { StorageAccount } from '../../../../../../models/storage-account';
 
 interface StorageAccountPivotFormValues {
@@ -50,7 +50,7 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps> = props => {
       onSubmit={() => setStorageAccountConnection(formValues, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)}>
       {(formProps: FormikProps<StorageAccountPivotFormValues>) => {
         return (
-          <form style={paddingSidesStyle}>
+          <form>
             {!!storageAccounts && storageAccounts.length === 0 ? (
               <p>{t('storageAccountPivot_noStorageAccounts')}</p>
             ) : (

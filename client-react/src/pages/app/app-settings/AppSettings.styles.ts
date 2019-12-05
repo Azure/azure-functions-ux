@@ -49,8 +49,9 @@ export const bladeLinkStyle = (theme: ThemeExtended) =>
     cursor: 'pointer',
   });
 
-export const dirtyElementStyle = (theme: ThemeExtended) =>
+export const dirtyElementStyle = (theme: ThemeExtended, addPadding?: boolean) =>
   style({
+    paddingLeft: addPadding ? '4px' : undefined,
     borderLeftStyle: 'solid',
     borderLeftWidth: '1px',
     borderLeftColor: theme.semanticColors.controlDirtyOutline,
