@@ -538,7 +538,7 @@
   <data name="features" xml:space="preserve">
         <value>Fonctionnalités</value>
     </data>
-  <data name="filedRequired" xml:space="preserve">
+  <data name="fieldRequired" xml:space="preserve">
         <value>Ce champ est obligatoire</value>
     </data>
   <data name="functionDev_code" xml:space="preserve">
@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Les tests ne sont pas n’est pas pris en charge pour les fonctions webhook GitHub.</value>
     </data>
+  <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>Version actuelle du runtime</value>
+    </data>
   <data name="runtimeVersion" xml:space="preserve">
         <value>Version du runtime</value>
     </data>
@@ -1010,7 +1013,7 @@
         <value>Azure Functions v2 (.NET Standard)</value>
     </data>
   <data name="runtimeImageCustom" xml:space="preserve">
-        <value>personnalisé</value>
+        <value>Personnalisé</value>
     </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
         <value>Votre application de fonction est désactivée car elle dépasse le quota défini. Pour y remédier, accédez à la vue des paramètres d'application de fonction dans la barre latérale de gauche.</value>
@@ -1446,6 +1449,9 @@
     </data>
   <data name="loading" xml:space="preserve">
         <value>Chargement...</value>
+    </data>
+  <data name="loadingFailed" xml:space="preserve">
+        <value>Échec du chargement</value>
     </data>
   <data name="configUpdating" xml:space="preserve">
         <value>Mise à jour des paramètres de l'application web</value>
@@ -4367,6 +4373,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="connectionStrings" xml:space="preserve">
         <value>Chaînes de connexion</value>
     </data>
+  <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>Paramètres d'exécution de la fonction</value>
+    </data>
   <data name="generalSettings" xml:space="preserve">
         <value>Paramètres généraux</value>
     </data>
@@ -4785,7 +4794,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Nouveau montage de stockage Azure</value>
     </data>
   <data name="editAzureStorageMount" xml:space="preserve">
-        <value>Edit Azure Storage Mount</value>
+        <value>Modifier le montage de stockage Azure</value>
     </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Montage de stockage Azure vide</value>
@@ -5238,9 +5247,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="apimUpsell" xml:space="preserve">
         <value>La Gestion des API Azure propose des fonctionnalités améliorées pour utiliser les API et les fonctions. Cliquez ici pour en savoir plus !</value>
     </data>
-  <data name="version3Preview" xml:space="preserve">
-        <value>~3 (préversion)</value>
-    </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>Impossible de récupérer l'état d'authentification. Réessayez dans quelques minutes.</value>
     </data>
@@ -5371,7 +5377,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Prise en charge des déclencheurs de réseau virtuel</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Ce paramètre permet à votre application d'être déclenchée par des ressources au sein d'un réseau virtuel. Il nécessite également une instance préchauffée active et un runtime V2 ou supérieur. &lt;a href="{0}" target="_blank"&gt;Découvrez-en plus&lt;/a&gt;.</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>Ce paramètre permet à votre application d'être déclenchée par des ressources au sein d'un réseau virtuel. Il nécessite également une instance préchauffée active et un runtime V2 ou supérieur.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Actualiser les paramètres d'application</value>
@@ -5483,5 +5492,59 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>{0} créé avec succès</value>
+    </data>
+  <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>Les conteneurs blob montés passent en lecture seule en février 2020.</value>
+    </data>
+  <data name="quickstartHeader" xml:space="preserve">
+        <value>Découvrir comment développer Azure Functions localement</value>
+    </data>
+  <data name="quickstartDesc" xml:space="preserve">
+        <value>Les instructions peuvent varier en fonction de votre environnement de développement. Pour une vue d'ensemble complète de toutes les options : </value>
+    </data>
+  <data name="viewDocumentation" xml:space="preserve">
+        <value>Afficher la documentation</value>
+    </data>
+  <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>Choisir un environnement de développement</value>
+    </data>
+  <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>Le chargement des options de démarrage rapide a échoué.</value>
+    </data>
+  <data name="githubActionInfo" xml:space="preserve">
+        <value>Le dernier déploiement ne s'affiche pas ? Cliquez ici pour vérifier l'état de votre action GitHub.</value>
+    </data>
+  <data name="commitId" xml:space="preserve">
+        <value>ID de validation</value>
+    </data>
+  <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>Des autorisations de lecture/d'écriture sont nécessaires pour voir/modifier cette section.</value>
+    </data>
+  <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>La version de runtime n'est pas configurée pour votre application. Par conséquent, le runtime ne peut pas être démarré. Mettez à jour la version de runtime avec une valeur valide (par ex, ~2).</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
+        <value>Votre application est actuellement épinglée à la version de runtime « {0} ». L'épinglage à « {0} » signifie que vous exécutez toujours la dernière version du runtime, même pour les mises à jour de version majeure qui peuvent contenir des changements cassants. Nous vous recommandons de définir cette valeur sur une version majeure spécifique (par ex., ~2) et vous serez informé des versions plus récentes de mise à jour.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
+        <value>Votre application est actuellement épinglée à la version de runtime « {0} » et utilise donc la dernière version ({1}). L'épinglage à « {0} » signifie que vous exécutez toujours la dernière version du runtime, même dans les mises à jour de version majeure qui peuvent contenir des changements cassants. Nous vous recommandons de définir cette valeur sur une version majeure spécifique (par ex., ~2) et vous serez informé des versions plus récentes de mise à jour.</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
+        <value>Votre application est actuellement épinglée à la version de runtime « {0} ». Quand cette version n'est plus prise en charge, votre application commence à utiliser la dernière version du runtime, qui peut être une version majeure différente pouvant contenir des changements cassants. Nous vous recommandons de définir cette valeur sur une version majeure spécifique (par ex., ~2) et vous serez informé des versions plus récentes de mise à jour.</value>
+    </data>
+  <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
+        <value>Votre version de runtime personnalisée ({0}) n'est pas prise en charge. Votre application utilise donc la dernière version {1} et vous exécutez toujours la dernière version du runtime même pour les mises à jour de version majeure qui peuvent contenir des changements cassants. Nous vous recommandons de définir cette valeur sur une version majeure spécifique (par ex., ~2) et vous serez informé des versions plus récentes de mise à jour.</value>
+    </data>
+  <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
+        <value>La version du runtime est contrôlée par le paramètre d'application FUNCTIONS_EXTENSION_VERSION. La configuration d'une version personnalisée n'est pas conseillée, car si la valeur configurée n'est pas valide ou n'est pas prise en charge, vous obtenez la dernière version. Cela peut interrompre vos fonctions puisque les mises à jour de version majeure peuvent contenir des changements cassants.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
+        <value>Impossible d'effectuer la mise à niveau avec les fonctions existantes : les mises à niveau de version majeure peuvent introduire des changements cassants dans les langages et les liaisons. Quand vous mettez à niveau des versions majeures du runtime, créez une application de fonction pour y migrer vos fonctions.</value>
+    </data>
+  <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
+        <value>L'étendue « workflow » est manquante dans le jeton GitHub.</value>
+    </data>
+  <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch, by continuing this file will be overwritten.</value>
     </data>
 </root>

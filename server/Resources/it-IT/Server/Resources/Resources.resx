@@ -538,7 +538,7 @@
   <data name="features" xml:space="preserve">
         <value>Funzionalità</value>
     </data>
-  <data name="filedRequired" xml:space="preserve">
+  <data name="fieldRequired" xml:space="preserve">
         <value>Questo campo è obbligatorio</value>
     </data>
   <data name="functionDev_code" xml:space="preserve">
@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>I test non sono supportati per le funzioni webhook di GitHub.</value>
     </data>
+  <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>Versione run-time corrente</value>
+    </data>
   <data name="runtimeVersion" xml:space="preserve">
         <value>Versione runtime</value>
     </data>
@@ -1010,7 +1013,7 @@
         <value>Funzioni di Azure v2 (.NET Standard)</value>
     </data>
   <data name="runtimeImageCustom" xml:space="preserve">
-        <value>personalizzato</value>
+        <value>Personalizzata</value>
     </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
         <value>L'app per le funzioni è disabilitata perché ha superato la quota impostata. È possibile modificare la quota nella visualizzazione delle impostazioni dell'app per le funzioni nella barra laterale sinistra.</value>
@@ -1446,6 +1449,9 @@
     </data>
   <data name="loading" xml:space="preserve">
         <value>Caricamento...</value>
+    </data>
+  <data name="loadingFailed" xml:space="preserve">
+        <value>Caricamento non riuscito</value>
     </data>
   <data name="configUpdating" xml:space="preserve">
         <value>Aggiornamento delle impostazioni dell'app Web</value>
@@ -4367,6 +4373,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="connectionStrings" xml:space="preserve">
         <value>Stringhe di connessione</value>
     </data>
+  <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>Impostazioni di runtime della funzione</value>
+    </data>
   <data name="generalSettings" xml:space="preserve">
         <value>Impostazioni generali</value>
     </data>
@@ -4785,7 +4794,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Nuovo montaggio di Archiviazione di Azure</value>
     </data>
   <data name="editAzureStorageMount" xml:space="preserve">
-        <value>Edit Azure Storage Mount</value>
+        <value>Modifica montaggio di Archiviazione di Azure</value>
     </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Il montaggio di Archiviazione di Azure è vuoto</value>
@@ -5238,9 +5247,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="apimUpsell" xml:space="preserve">
         <value>Gestione API di Azure offre funzionalità avanzate per API e funzioni. Per altre informazioni, fare clic qui.</value>
     </data>
-  <data name="version3Preview" xml:space="preserve">
-        <value>~3 (anteprima)</value>
-    </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>Non è possibile recuperare lo stato dell'autenticazione. Riprovare tra qualche minuto.</value>
     </data>
@@ -5373,6 +5379,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
         <value>Questa impostazione consente all'app di essere attivata da risorse all'interno di una rete virtuale. Richiede anche che sia attiva 1 istanza preriscaldata e il runtime V2 o versione successiva. &lt;a href="{0}" target="_blank"&gt;Altre informazioni&lt;/a&gt;.</value>
     </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>Questa impostazione consente all'app di essere attivata da risorse all'interno di una rete virtuale. Richiede anche che sia attiva 1 istanza preriscaldata e il runtime V2 o versione successiva.</value>
+    </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Aggiorna impostazioni app</value>
     </data>
@@ -5483,5 +5492,59 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>La creazione di {0} è riuscita</value>
+    </data>
+  <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>I contenitori BLOB montati diventeranno di sola lettura a partire dal mese di febbraio 2020.</value>
+    </data>
+  <data name="quickstartHeader" xml:space="preserve">
+        <value>Informazioni su come sviluppare funzioni di Azure in locale</value>
+    </data>
+  <data name="quickstartDesc" xml:space="preserve">
+        <value>Le istruzioni possono variare a seconda dell'ambiente di sviluppo in uso. Per una visualizzazione completa di tutte le opzioni:</value>
+    </data>
+  <data name="viewDocumentation" xml:space="preserve">
+        <value>Visualizza documentazione</value>
+    </data>
+  <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>Scegliere l'ambiente di distribuzione</value>
+    </data>
+  <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>Non è stato possibile caricare le opzioni di avvio rapido.</value>
+    </data>
+  <data name="githubActionInfo" xml:space="preserve">
+        <value>L'ultima distribuzione non è visualizzata? Fare clic qui per controllare lo stato dell'azione GitHub.</value>
+    </data>
+  <data name="commitId" xml:space="preserve">
+        <value>ID commit</value>
+    </data>
+  <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>Per visualizzare/modificare questa sezione, sono necessarie autorizzazioni di lettura/scrittura.</value>
+    </data>
+  <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>La versione run-time non è configurata per l'app, di conseguenza, non è possibile avviare il run-time. Aggiornare la versione run-time a un valore valido, ad esempio ~2.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
+        <value>L'app è attualmente aggiunta alla versione run-time '{0}'. L'aggiunta a '{0}' significa che verrà sempre eseguita sempre l'ultima versione del run-time anche in caso di aggiornamenti della versione principale che potrebbero contenere modifiche che causano interruzioni. È consigliabile impostare questo valore su una versione principale specifica, ad esempio ~2, in modo da ricevere le notifiche sulla disponibilità di versioni più recenti per l'aggiornamento.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
+        <value>L'app è attualmente aggiunta alla versione run-time '{0}' e quindi usa l'ultima versione ({1}). L'aggiunta a '{0}' significa che verrà sempre eseguita sempre l'ultima versione del run-time anche in caso di aggiornamenti della versione principale che potrebbero contenere modifiche che causano interruzioni. È consigliabile impostare questo valore su una versione principale specifica, ad esempio ~2, in modo da ricevere le notifiche sulla disponibilità di versioni più recenti per l'aggiornamento.</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
+        <value>L'app è attualmente aggiunta alla versione run-time '{0}'. Quando questa versione non sarà più supportata, l'app inizierà a usare l'ultima versione run-time, che potrebbe essere una versione principale diversa e potrebbe contenere modifiche che causano interruzioni. È consigliabile impostare questo valore su una versione principale specifica, ad esempio ~2, in modo da ricevere le notifiche sulla disponibilità di versioni più recenti per l'aggiornamento.</value>
+    </data>
+  <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
+        <value>La versione run-time personalizzata ({0}) non è supportata, di conseguenza l'app usa l'ultima versione {1} e verrà sempre eseguita l'ultima versione del run-time anche in caso di aggiornamenti della versione principale che potrebbero contenere modifiche che causano interruzioni. È consigliabile impostare questo valore su una versione principale specifica, ad esempio ~2, in modo da ricevere le notifiche delle versioni più recenti per l'aggiornamento.</value>
+    </data>
+  <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
+        <value>La versione run-time è controllata dall'impostazione app FUNCTIONS_EXTENSION_VERSION. La configurazione di una versione personalizzata non è consigliabile perché verrà usata l'ultima versione se il valore configurato non è valido o non è supportato, causando un'interruzione delle funzioni in seguito ad aggiornamenti della versione principale che potrebbero contenere modifiche che causano interruzioni.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
+        <value>Non è possibile procedere all'aggiornamento con le funzioni esistenti. Gli aggiornamenti della versione principale possono introdurre modifiche significative a linguaggi e associazioni. Per l'aggiornamento delle versioni principali del run-time, è consigliabile creare una nuova app per le funzioni ed eseguire la migrazione delle funzioni alla nuova app.</value>
+    </data>
+  <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
+        <value>Nel token di GitHub manca l'ambito del 'flusso di lavoro'.</value>
+    </data>
+  <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>Il file del flusso di lavoro dell'azione GitHub '{{workflowFilePath}}' esiste già nel ramo '{{branchName}}'. Se si continua, questo file verrà sovrascritto.</value>
     </data>
 </root>
