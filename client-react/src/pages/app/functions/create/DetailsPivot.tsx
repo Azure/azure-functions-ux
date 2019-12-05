@@ -1,16 +1,16 @@
 import React, { useContext, useState } from 'react';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
-import { DefaultButton } from 'office-ui-fabric-react';
+import { DefaultButton, Spinner } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
-import { BindingsConfig } from '../../../../models/functions/bindings-config';
+import { BindingsConfig, BindingConfigMetadata } from '../../../../models/functions/bindings-config';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
-import { paddingStyle } from './FunctionCreate.styles';
+import { detailsPaddingStyle } from './FunctionCreate.styles';
 import { FunctionCreateContext } from './FunctionCreateDataLoader';
-import { getRequiredCreationBindings } from './DetailsPivot.helper';
 import { PortalContext } from '../../../../PortalContext';
+import { BindingInfo } from '../../../../models/functions/function-binding';
 
 interface DetailsPivotProps {
   functionsInfo: ArmObj<FunctionInfo>[];
@@ -54,10 +54,10 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
           {(formProps: FormikProps<CreateFunctionFormValues>) => {
             return (
               <form>
-                <div style={paddingStyle}>
+                <div style={detailsPaddingStyle}>
                   {builder.getFields(formProps, false)}
-                  <DefaultButton onClick={formProps.submitForm} disabled={creatingFunction}>
-                    {t('functionCreate_createFunction')}
+                  <DefaultButton onClick={formProps.submitForm} disabled={!formProps.isValid || creatingFunction}>
+                    {creatingFunction ? <Spinner /> : t('functionCreate_createFunction')}
                   </DefaultButton>
                 </div>
               </form>
@@ -68,6 +68,26 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
     );
   }
   return <></>;
+};
+
+// Not all bindings are required for function creation
+// Only display bindings that are list in the function template 'userPrompt'
+const getRequiredCreationBindings = (
+  functionTemplateBindings: BindingInfo[],
+  bindingsConfig: BindingsConfig,
+  userPrompt: string[]
+): BindingConfigMetadata[] => {
+  const requiredBindingConfigMetadata: BindingConfigMetadata[] = [];
+  const bindingsConfigMetatdata = bindingsConfig.bindings;
+  functionTemplateBindings.forEach(binding => {
+    const currentBindingMetadata = bindingsConfigMetatdata.find(b => b.type === binding.type) as BindingConfigMetadata;
+    const requiredBindings = currentBindingMetadata;
+    requiredBindings.settings = currentBindingMetadata.settings.filter(setting => {
+      return userPrompt.find(prompt => prompt === setting.name);
+    });
+    requiredBindingConfigMetadata.push(requiredBindings);
+  });
+  return requiredBindingConfigMetadata;
 };
 
 export default DetailsPivot;

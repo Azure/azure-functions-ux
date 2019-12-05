@@ -144,7 +144,7 @@ export class PortalResources {
   public static errorParsingConfig = 'errorParsingConfig';
   public static failedToSwitchFunctionState = 'failedToSwitchFunctionState';
   public static features = 'features';
-  public static filedRequired = 'filedRequired';
+  public static fieldRequired = 'fieldRequired';
   public static functionDev_code = 'functionDev_code';
   public static functionDev_run = 'functionDev_run';
   public static functionEdit_readOnly = 'functionEdit_readOnly';
@@ -297,6 +297,7 @@ export class PortalResources {
   public static functionDev_loading = 'functionDev_loading';
   public static test = 'test';
   public static testFunctionNotSupportedForGitHubWebhook = 'testFunctionNotSupportedForGitHubWebhook';
+  public static currentRuntimeVersion = 'currentRuntimeVersion';
   public static runtimeVersion = 'runtimeVersion';
   public static runtimeImage = 'runtimeImage';
   public static runtimeImagev1 = 'runtimeImagev1';
@@ -445,6 +446,7 @@ export class PortalResources {
   public static configViewReadOnlySettings = 'configViewReadOnlySettings';
   public static configLoadFailure = 'configLoadFailure';
   public static loading = 'loading';
+  public static loadingFailed = 'loadingFailed';
   public static configUpdating = 'configUpdating';
   public static configUpdateSuccess = 'configUpdateSuccess';
   public static configUpdateFailure = 'configUpdateFailure';
@@ -1409,6 +1411,7 @@ export class PortalResources {
   public static debugging = 'debugging';
   public static modifiedTag = 'modifiedTag';
   public static applicationSettings = 'applicationSettings';
+  public static functionRuntimeSettings = 'functionRuntimeSettings';
   public static generalSettings = 'generalSettings';
   public static defaultDocuments = 'defaultDocuments';
   public static pathMappings = 'pathMappings';
@@ -1690,7 +1693,6 @@ export class PortalResources {
   public static renewKeyValue = 'renewKeyValue';
   public static renewKeyValueContent = 'renewKeyValueContent';
   public static apimUpsell = 'apimUpsell';
-  public static version3Preview = 'version3Preview';
   public static sourceControlAuthStateFailure = 'sourceControlAuthStateFailure';
   public static functionKeysRefreshAriaLabel = 'functionKeysRefreshAriaLabel';
   public static functionKeysCommandBarAriaLabel = 'functionKeysCommandBarAriaLabel';
@@ -1734,6 +1736,7 @@ export class PortalResources {
   public static scope = 'scope';
   public static appFunctionSettings_virtualNetworkTriggerSupport = 'appFunctionSettings_virtualNetworkTriggerSupport';
   public static appFunctionSettings_runtimeScalingMonitoredText = 'appFunctionSettings_runtimeScalingMonitoredText';
+  public static appFunctionSettings_runtimeScalingMonitoringMessage = 'appFunctionSettings_runtimeScalingMonitoringMessage';
   public static refreshAppSettingsTitle = 'refreshAppSettingsTitle';
   public static refreshAppSettingsMessage = 'refreshAppSettingsMessage';
   public static eventHubPicker_noNamespaces = 'eventHubPicker_noNamespaces';
@@ -1771,4 +1774,23 @@ export class PortalResources {
   public static createFunctionNotificationDetails = 'createFunctionNotificationDetails';
   public static createFunctionNotificationFailed = 'createFunctionNotificationFailed';
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
+  public static readonlyBlobStorageWarning = 'readonlyBlobStorageWarning';
+  public static quickstartHeader = 'quickstartHeader';
+  public static quickstartDesc = 'quickstartDesc';
+  public static viewDocumentation = 'viewDocumentation';
+  public static chooseDevelopmentEnv = 'chooseDevelopmentEnv';
+  public static quickstartLoadFailure = 'quickstartLoadFailure';
+  public static githubActionInfo = 'githubActionInfo';
+  public static commitId = 'commitId';
+  public static readWritePermissionsRequired = 'readWritePermissionsRequired';
+  public static functionsRuntimeVersionMissingWarning = 'functionsRuntimeVersionMissingWarning';
+  public static functionsRuntimeVersionLatestOrBetaWarning = 'functionsRuntimeVersionLatestOrBetaWarning';
+  public static functionsRuntimeVersionLatestOrBetaWithExactVersionWarning = 'functionsRuntimeVersionLatestOrBetaWithExactVersionWarning';
+  public static functionsRuntimeVersionNeedsUpdateWarning = 'functionsRuntimeVersionNeedsUpdateWarning';
+  public static functionsRuntimeVersionInvalidWarning = 'functionsRuntimeVersionInvalidWarning';
+  public static functionsRuntimeVersionCustomInfo = 'functionsRuntimeVersionCustomInfo';
+  public static functionsRuntimeVersionExistingFunctionsWarning = 'functionsRuntimeVersionExistingFunctionsWarning';
+  public static githubActionWorkflowScopeMissing = 'githubActionWorkflowScopeMissing';
+  public static githubActionWorkflowFileExists = 'githubActionWorkflowFileExists';
+  public static remoteDebuggingVS2015NotSupported = 'remoteDebuggingVS2015NotSupported';
 }

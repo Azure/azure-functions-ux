@@ -28,6 +28,17 @@ export class GithubController {
       if (response.headers.link) {
         res.setHeader('link', response.headers.link);
       }
+
+      if (response.headers['x-oauth-scopes']) {
+        res.setHeader(
+          'x-oauth-scopes',
+          response.headers['x-oauth-scopes']
+            .split(',')
+            .map((value: string) => value.trim())
+            .join(',')
+        );
+      }
+
       res.json(response.data);
     } catch (err) {
       if (err.response) {

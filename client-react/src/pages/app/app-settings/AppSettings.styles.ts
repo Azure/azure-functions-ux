@@ -1,4 +1,4 @@
-import { IButtonProps, ICommandBarStyles } from 'office-ui-fabric-react';
+import { IButtonProps, ICommandBarStyles, MessageBarType } from 'office-ui-fabric-react';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 import { style } from 'typestyle';
 
@@ -49,8 +49,9 @@ export const bladeLinkStyle = (theme: ThemeExtended) =>
     cursor: 'pointer',
   });
 
-export const dirtyElementStyle = (theme: ThemeExtended) =>
+export const dirtyElementStyle = (theme: ThemeExtended, addPadding?: boolean) =>
   style({
+    paddingLeft: addPadding ? '4px' : undefined,
     borderLeftStyle: 'solid',
     borderLeftWidth: '1px',
     borderLeftColor: theme.semanticColors.controlDirtyOutline,
@@ -68,8 +69,26 @@ export const sourceTextStyle = style({
   marginLeft: '15px',
 });
 
-export const messageBanner = (theme: ThemeExtended) =>
-  style({
-    backgroundColor: theme.semanticColors.errorBackground,
+export const messageBannerStyle = (theme: ThemeExtended, type: MessageBarType) => {
+  let backgroundColor: string;
+
+  switch (type) {
+    case MessageBarType.info:
+      backgroundColor = theme.semanticColors.infoBackground;
+      break;
+    case MessageBarType.warning:
+      backgroundColor = theme.semanticColors.warningBackground;
+      break;
+    case MessageBarType.error:
+      backgroundColor = theme.semanticColors.errorBackground;
+      break;
+    default:
+      backgroundColor = theme.semanticColors.infoBackground;
+  }
+
+  return style({
+    backgroundColor,
     paddingLeft: '5px',
+    marginBottom: '5px',
   });
+};

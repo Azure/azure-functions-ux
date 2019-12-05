@@ -8,18 +8,39 @@ export interface TableItem {
   type: 'row' | 'group';
 }
 
+export function GetTableHash(table: any): number {
+  let hashNumber = 0;
+
+  if (table) {
+    table.forEach(item => {
+      hashNumber = hashNumber + GetHashCode(JSON.stringify(item));
+    });
+  }
+
+  return hashNumber;
+}
+
+function GetHashCode(s: string): number {
+  let h = 0;
+  const l = s.length;
+  let i = 0;
+
+  if (l > 0) {
+    while (i < l) {
+      // tslint:disable-next-line:no-bitwise
+      h = ((h << 5) - h + s.charCodeAt(i++)) | 0;
+    }
+  }
+  return h;
+}
+
 @Component({
   selector: 'tbl',
   template: `
-  <table
-    #tbl
-    [class]='tblClass'
-    (click)='onClick($event)'
-    (keydown)="onKeyDown($event)"
-    role="grid"
-    [attr.aria-label]="name">
+    <table #tbl [class]="tblClass" (click)="onClick($event)" (keydown)="onKeyDown($event)" role="grid" [attr.aria-label]="name">
       <ng-content></ng-content>
-  </table>`,
+    </table>
+  `,
   exportAs: 'tbl',
 })
 export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
@@ -345,18 +366,20 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
       this.items = this.items.filter(item => item.type !== 'group');
     } else {
       // sort the row items by groupColName
-      const newItems = this.items.filter(item => item.type !== 'group').sort((a: TableItem, b: TableItem) => {
-        let aCol: any;
-        let bCol: any;
+      const newItems = this.items
+        .filter(item => item.type !== 'group')
+        .sort((a: TableItem, b: TableItem) => {
+          let aCol: any;
+          let bCol: any;
 
-        aCol = Object.byString(a, this.groupColName);
-        bCol = Object.byString(b, this.groupColName);
+          aCol = Object.byString(a, this.groupColName);
+          bCol = Object.byString(b, this.groupColName);
 
-        aCol = typeof aCol === 'string' ? aCol : aCol.toString();
-        bCol = typeof bCol === 'string' ? bCol : bCol.toString();
+          aCol = typeof aCol === 'string' ? aCol : aCol.toString();
+          bCol = typeof bCol === 'string' ? bCol : bCol.toString();
 
-        return bCol.localeCompare(aCol) * sortMult;
-      });
+          return bCol.localeCompare(aCol) * sortMult;
+        });
 
       // determine uniqueGroup values
       const uniqueDictGroups = {};
@@ -382,15 +405,17 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
       this.items = [];
       newItems.reverse();
 
-      uniqueGroups.sort((a, b) => a.localeCompare(b) * sortMult).forEach(group => {
-        newItems.forEach(item => {
-          if (item.type === 'group' && item[this.groupColName] === group) {
-            this.items.push(item);
-          } else if (item.type === 'row' && item[name] === group) {
-            this.items.push(item);
-          }
+      uniqueGroups
+        .sort((a, b) => a.localeCompare(b) * sortMult)
+        .forEach(group => {
+          newItems.forEach(item => {
+            if (item.type === 'group' && item[this.groupColName] === group) {
+              this.items.push(item);
+            } else if (item.type === 'row' && item[name] === group) {
+              this.items.push(item);
+            }
+          });
         });
-      });
 
       this.sortAscending = true;
       this.sortedColName = this.groupColName;

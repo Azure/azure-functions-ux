@@ -7,6 +7,7 @@ import RadioButton from '../../../../components/form-controls/RadioButton';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
 import { PermissionsContext } from '../Contexts';
+import { MessageBar, MessageBarType, IDropdownOption } from 'office-ui-fabric-react';
 
 const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
@@ -14,9 +15,36 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
   const disableAllControls = !app_write || !editable || saving;
   const { values, initialValues } = props;
 
+  const options: IDropdownOption[] = [
+    {
+      key: 'VS2017',
+      text: '2017',
+    },
+    {
+      key: 'VS2019',
+      text: '2019',
+    },
+  ];
+
+  if (initialValues.config.properties.remoteDebuggingVersion === 'VS2015') {
+    options.unshift({
+      key: 'VS2015',
+      text: '2015',
+      disabled: true,
+    });
+  }
+
+  const showWarningForVS2015 =
+    values.config.properties.remoteDebuggingVersion === 'VS2015' && values.config.properties.remoteDebuggingEnabled;
+
   return (
     <div id="app-settings-remote-debugging-section">
       <h3>{t('debugging')}</h3>
+      {showWarningForVS2015 && (
+        <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
+          {t('remoteDebuggingVS2015NotSupported')}
+        </MessageBar>
+      )}
       <div className={settingsWrapper}>
         <Field
           name="config.properties.remoteDebuggingEnabled"
@@ -46,20 +74,7 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
             }
             component={Dropdown}
             disabled={disableAllControls}
-            options={[
-              {
-                key: 'VS2015',
-                text: '2015',
-              },
-              {
-                key: 'VS2017',
-                text: '2017',
-              },
-              {
-                key: 'VS2019',
-                text: '2019',
-              },
-            ]}
+            options={options}
             label={t('remoteDebuggingVersionLabel')}
             id="remote-debugging-version"
           />

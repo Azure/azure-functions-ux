@@ -538,7 +538,7 @@
   <data name="features" xml:space="preserve">
         <value>Egenskaper</value>
     </data>
-  <data name="filedRequired" xml:space="preserve">
+  <data name="fieldRequired" xml:space="preserve">
         <value>Det här fältet är obligatoriskt</value>
     </data>
   <data name="functionDev_code" xml:space="preserve">
@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Testning stöds inte för GitHub-webhooksfunktioner.</value>
     </data>
+  <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>Aktuell runtimeversion</value>
+    </data>
   <data name="runtimeVersion" xml:space="preserve">
         <value>Körningsversion</value>
     </data>
@@ -1010,7 +1013,7 @@
         <value>Azure Functions v2 (.NET Standard)</value>
     </data>
   <data name="runtimeImageCustom" xml:space="preserve">
-        <value>anpassad</value>
+        <value>Anpassade</value>
     </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
         <value>Funktionsappen har inaktiverats eftersom den överskred den angivna kvoten. Det kan du ändra i funktionsappens inställningsvy i vänster sidopanel.</value>
@@ -1446,6 +1449,9 @@
     </data>
   <data name="loading" xml:space="preserve">
         <value>Läser in…</value>
+    </data>
+  <data name="loadingFailed" xml:space="preserve">
+        <value>Inläsningen misslyckades</value>
     </data>
   <data name="configUpdating" xml:space="preserve">
         <value>Uppdaterar webbappinställningar</value>
@@ -4367,6 +4373,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="connectionStrings" xml:space="preserve">
         <value>Anslutningssträngar</value>
     </data>
+  <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>Funktionens runtime-inställningar</value>
+    </data>
   <data name="generalSettings" xml:space="preserve">
         <value>Allmänna ändringar</value>
     </data>
@@ -4785,7 +4794,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Ny Azure Storage-monteringspunkt</value>
     </data>
   <data name="editAzureStorageMount" xml:space="preserve">
-        <value>Edit Azure Storage Mount</value>
+        <value>Redigera Azure Storage-monteringspunkt</value>
     </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Tom Azure Storage-monteringspunkt</value>
@@ -5238,9 +5247,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="apimUpsell" xml:space="preserve">
         <value>Azure API Management ger förbättrade funktioner när du arbetar med API:er och funktioner. Klicka här om du vill veta mer!</value>
     </data>
-  <data name="version3Preview" xml:space="preserve">
-        <value>~3 (förhandsversion)</value>
-    </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>Det gick inte att hämta autentiseringstillståndet. Försök igen om några minuter.</value>
     </data>
@@ -5371,7 +5377,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Stöd för virtuell nätverksutlösare</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Den här inställningen gör att din app kan utlösas av resurser i ett virtuellt nätverk. Den kräver också att 1 förvärmd instans är aktiv och runtime V2 eller högre. &lt;a href="{0}" target="_blank"&gt;Läs mer&lt;/a&gt;.</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>Den här inställningen gör att din app kan utlösas av resurser i ett virtuellt nätverk. Den kräver också att 1 förvärmd instans är aktiv och runtime V2 eller högre.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Uppdatera appinställningarna</value>
@@ -5483,5 +5492,59 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>{0} skapades</value>
+    </data>
+  <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>Monterade blob-containrar blir skrivskyddade feb 2020.</value>
+    </data>
+  <data name="quickstartHeader" xml:space="preserve">
+        <value>Läs hur du utvecklar Azure Functions lokalt</value>
+    </data>
+  <data name="quickstartDesc" xml:space="preserve">
+        <value>Instruktionerna kan variera beroende på din utvecklingsmiljö. En omfattande översikt över alla alternativ: </value>
+    </data>
+  <data name="viewDocumentation" xml:space="preserve">
+        <value>Visa dokumentationen</value>
+    </data>
+  <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>Välj utvecklingsmiljö</value>
+    </data>
+  <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>Det gick inte att läsa in snabbstartsalternativen.</value>
+    </data>
+  <data name="githubActionInfo" xml:space="preserve">
+        <value>Visas inte den senaste distributionen? Klicka här om du vill kontrollera status för din GitHub-åtgärd.</value>
+    </data>
+  <data name="commitId" xml:space="preserve">
+        <value>Inchecknings-id</value>
+    </data>
+  <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>Läs/skrivbehörigheter krävs för att visa/redigera det här avsnittet.</value>
+    </data>
+  <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>Runtime-version har inte konfigurerats för din app. Därmed går det inte att starta runtime. Uppdatera runtimeversionen till ett giltigt värde (t.ex. ~2).</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
+        <value>Din app är för närvarande fäst till runtimeversion {0}. Om du fäster till {0} innebär det att du alltid kör den senaste versionen av runtime även vid huvudversionsuppdateringar som kan innehålla icke-bakåtkompatibla ändringar. Du bör ange det värdet till en specifik huvudversion (t.ex. ~2) så får du ett meddelande med senare versioner för uppdatering.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
+        <value>Din app är för närvarande fäst till runtimeversion {0} så din app använder den senaste versionen ({1}). Om du fäster till {0} innebär det att du alltid kör den senaste versionen av runtime även vid huvudversionsuppdateringar som kan innehålla icke-bakåtkompatibla ändringar. Du bör ange det värdet till en specifik huvudversion (t.ex. ~2) så får du ett meddelande med senare versioner för uppdatering.</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
+        <value>Din appen är för närvarande fäst till runtimeversion {0}. Om den här versionen inte längre stöds kommer din app att börja använda den senaste versionen av runtime, vilket kan vara en annan huvudversion och kan innehålla icke-bakåtkompatibla ändringar. Du bör ange det värdet till en specifik huvudversion (t.ex. ~2) så får du ett meddelande med senare versioner för uppdatering.</value>
+    </data>
+  <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
+        <value>Den anpassade runtimeversionen ({0}) stöds inte. Därmed använder din app den senaste versionen {1} och du kommer alltid att köra den senaste versionen av runtime även vid huvudversionsuppdateringar som kan innehålla icke-bakåtkompatibla ändringar. Du bör ange det värdet till en specifik huvudversion (t.ex. ~2) och du får ett meddelande med nyare versioner för uppdatering.</value>
+    </data>
+  <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
+        <value>Runtimeversionen styrs av appinställningen FUNCTIONS_EXTENSION_VERSION. Vi rekommenderar inte att konfigurera en anpassad version eftersom du kommer att få den senaste versionen om det konfigurerade värdet är ogiltigt eller inte stöds. Det kan göra att dina funktioner blir skadade eftersom huvudversionsuppdateringar kan innehålla icke-bakåtkompatibla ändringar.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
+        <value>Det går inte att uppgradera med befintliga funktioner: huvudversionsuppgraderingar kan medföra icke-bakåtkompatibla ändringar av språk och bindningar. När du uppgraderar huvudversioner av körningen kan du överväga att skapa en ny funktionsapp och migrera funktionerna till den.</value>
+    </data>
+  <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
+        <value>Arbetsflödets omfattning saknas i GitHub-token.</value>
+    </data>
+  <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>GitHub-åtgärdens arbetsflödesfil {{workflowFilePath}} finns redan i {{branchName}}-grenen. Genom att fortsätta skrivs den här filen över.</value>
     </data>
 </root>

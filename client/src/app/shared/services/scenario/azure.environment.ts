@@ -253,7 +253,10 @@ export class AzureEnvironment extends Environment {
 
   private _vstsPermissionsCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
     let requestedActions: string[] = [];
-    const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
+    let IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
+    //Enabling FF
+    IsPublishProfileBasedDeploymentEnabled = 'true';
+
     if (IsPublishProfileBasedDeploymentEnabled && input.site.kind.toLowerCase() === Kinds.app) {
       requestedActions = [AuthzService.websiteContributorScope];
     } else {

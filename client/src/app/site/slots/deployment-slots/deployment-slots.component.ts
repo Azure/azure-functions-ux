@@ -78,6 +78,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   public deploymentSlotsArm: ArmObj<Site>[];
   public saving: boolean;
 
+  private _siteLevelResourceId: ResourceId;
+
   private _slotName: string;
 
   private _refreshing: boolean;
@@ -183,12 +185,12 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
         this.resourceId = siteDescriptor.getTrimmedResourceId().toLowerCase();
 
-        const siteResourceId = siteDescriptor.getSiteOnlyResourceId().toLowerCase();
+        this._siteLevelResourceId = siteDescriptor.getSiteOnlyResourceId().toLowerCase();
 
         return Observable.zip(
-          this._siteService.getSite(siteResourceId, this._refreshing),
-          this._siteService.getSlots(siteResourceId, this._refreshing),
-          this._siteService.getSiteConfig(siteResourceId, this._refreshing)
+          this._siteService.getSite(this._siteLevelResourceId, this._refreshing),
+          this._siteService.getSlots(this._siteLevelResourceId, this._refreshing),
+          this._siteService.getSiteConfig(this._siteLevelResourceId, this._refreshing)
         );
       })
       .switchMap(r => {
@@ -198,15 +200,15 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
         // TODO (andimarc): If only siteConfigResult fails, don't fail entire UI, just disable controls for routing rules
         if (!siteResult.isSuccessful) {
-          this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', siteResult.error.result);
+          this._logService.error(LogCategories.deploymentSlots, '/get-site', siteResult.error.result);
           success = false;
         }
         if (!slotsResult.isSuccessful) {
-          this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', slotsResult.error.result);
+          this._logService.error(LogCategories.deploymentSlots, '/get-slots', slotsResult.error.result);
           success = false;
         }
         if (!siteConfigResult.isSuccessful) {
-          this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', siteConfigResult.error.result);
+          this._logService.error(LogCategories.deploymentSlots, '/get-tip-rules', siteConfigResult.error.result);
           if (!this.isSlot) {
             success = false;
           }
@@ -317,7 +319,10 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     this._broadcastService
       .getEvents<EventMessage<SlotNewInfo>>(BroadcastEvent.SlotNew)
       .takeUntil(this.ngUnsubscribe)
-      .filter(m => m.resourceId.toLowerCase() === this.resourceId.toLowerCase())
+      .filter(m => {
+        const resourceId = m.resourceId.toLowerCase();
+        return resourceId === this.resourceId.toLowerCase() || resourceId === this._siteLevelResourceId.toLowerCase();
+      })
       .subscribe(message => {
         const slotNewInfo = message.metadata;
         if (slotNewInfo.state === SlotOperationState.completed) {
@@ -493,7 +498,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         })
         .do(null, error => {
           this.dirtyMessage = null;
-          this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', error);
+          this._logService.error(LogCategories.deploymentSlots, '/update-tip-rules', error);
           this.saving = false;
           this.clearBusy();
           this._portalService.stopNotification(

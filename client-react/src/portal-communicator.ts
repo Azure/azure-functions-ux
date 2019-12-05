@@ -197,8 +197,8 @@ export default class PortalCommunicator {
     PortalCommunicator.postMessage(Verbs.closeBlades, this.packageData({}));
   }
 
-  public closeSelf() {
-    PortalCommunicator.postMessage(Verbs.closeSelf, '');
+  public closeSelf(data?: string) {
+    PortalCommunicator.postMessage(Verbs.closeSelf, this.packageData({ data }));
   }
 
   public updateBladeInfo(title: string, subtitle: string) {

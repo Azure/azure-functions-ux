@@ -6,6 +6,11 @@ export const paddingStyle = {
   padding: '20px',
 };
 
+export const detailsPaddingStyle = {
+  padding: '20px',
+  paddingLeft: '8px',
+};
+
 export const filterBoxStyle = {
   root: {
     marginLeft: '410px',

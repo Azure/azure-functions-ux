@@ -52,6 +52,9 @@ export class ContainerSettingsManager {
   urlValidator: URLValidator;
   yamlValidator: YAMLValidator;
 
+  // NOTE(michinoy): This is temporarily added while we gracefully deprecate kubernetes.
+  private _containerSettingsData: ContainerSettingsData;
+
   constructor(
     private _injector: Injector,
     private _ts: TranslateService,
@@ -420,10 +423,10 @@ export class ContainerSettingsManager {
   }
 
   private _resetContainers(containerSettingInfo: ContainerSettingsData) {
+    this._containerSettingsData = containerSettingInfo;
     this.containers = [
       new SingleContainer(this._injector, containerSettingInfo),
       new DockerComposeContainer(this._injector, containerSettingInfo),
-      new KubernetesContainer(this._injector, containerSettingInfo),
     ];
   }
 
@@ -487,6 +490,12 @@ export class ContainerSettingsManager {
     siteConfig: ContainerSiteConfig,
     publishingCredentials: PublishingCredentials
   ) {
+    // NOTE(michinoy): Only add the Kubernetes tab for container configuration if it is already set
+    // else do not show. This is a graceful way of deprecating the kubernetes support.
+    if (siteConfig && siteConfig.linuxFxVersion && this._getFormContainerType(siteConfig.linuxFxVersion) === 'kubernetes') {
+      this.containers.push(new KubernetesContainer(this._injector, this._containerSettingsData));
+    }
+
     this.webhookUrl = this._getFormWebhookUrl(publishingCredentials);
 
     let fxVersion;

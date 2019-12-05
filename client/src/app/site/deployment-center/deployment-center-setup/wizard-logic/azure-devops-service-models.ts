@@ -36,7 +36,7 @@ export interface LocationServiceData {
   lastChangeId64: number;
 }
 
-export interface AuthoricatedUserContext {
+export interface AuthenticatedUserContext {
   authenticatedUser: AuthenticatedUser;
   authorizedUser: AuthorizedUser;
   instanceId: string;

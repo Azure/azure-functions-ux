@@ -78,8 +78,11 @@ export function processLogConfig(site: Site, logsConfig: SiteLogsConfig): LogsEn
   let appLogs = false;
   let webLogs = false;
 
-  if (site.kind.includes('linux')) {
-    appLogs = logsConfig.httpLogs.fileSystem.enabled;
+  if (site.reserved) {
+    appLogs = true;
+  } else if (site.isXenon) {
+    appLogs = true;
+    webLogs = logsConfig.httpLogs.fileSystem.enabled;
   } else {
     appLogs = logsConfig.applicationLogs.fileSystem.level.toUpperCase() !== 'OFF';
     webLogs = logsConfig.httpLogs.fileSystem.enabled;

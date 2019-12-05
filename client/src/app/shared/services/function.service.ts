@@ -28,8 +28,8 @@ export class FunctionService {
     return this._client.execute({ resourceId: resourceId }, t => getFunctions);
   }
 
-  getFunction(resourceId: string, functionName: string): Result<ArmObj<FunctionInfo>> {
-    const getFunction = this._cacheService.getArm(`${resourceId}/functions/${functionName}`, false).map(r => r.json());
+  getFunction(resourceId: string, functionName: string, force?: boolean): Result<ArmObj<FunctionInfo>> {
+    const getFunction = this._cacheService.getArm(`${resourceId}/functions/${functionName}`, force).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getFunction);
   }

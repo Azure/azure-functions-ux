@@ -7,6 +7,7 @@ import { Site } from '../models/site/site';
 import { SiteConfig, ArmAzureStorageMount } from '../models/site/config';
 import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
+import { HostStatus } from '../models/functions/host-status';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -105,7 +106,12 @@ export default class SiteService {
 
   public static updateSlotConfigNames = (resourceId: string, slotConfigNames: ArmObj<SlotConfigNames>) => {
     const id = `${SiteService.getProductionId(resourceId)}/config/slotconfignames`;
-    return MakeArmCall<ArmObj<SlotConfigNames>>({ resourceId: id, commandName: 'updateWebConfig', method: 'PUT', body: slotConfigNames });
+    return MakeArmCall<ArmObj<SlotConfigNames>>({
+      resourceId: id,
+      commandName: 'updateSlotConfigNames',
+      method: 'PUT',
+      body: slotConfigNames,
+    });
   };
 
   public static fetchAzureStorageMounts = (resourceId: string) => {
@@ -141,5 +147,10 @@ export default class SiteService {
   public static fetchLogsConfig = (resourceId: string) => {
     const id = `${resourceId}/config/logs`;
     return MakeArmCall<ArmObj<SiteLogsConfig>>({ resourceId: id, commandName: 'fetchLogsConfig' });
+  };
+
+  public static fetchFunctionsHostStatus = async (resourceId: string, force?: boolean) => {
+    const id = `${resourceId}/host/default/properties/status`;
+    return MakeArmCall<ArmObj<HostStatus>>({ resourceId: id, commandName: 'getHostStatus', skipBuffer: force });
   };
 }

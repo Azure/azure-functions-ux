@@ -17,11 +17,6 @@ import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/n
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { FunctionService } from 'app/shared/services/function.service';
 import { FunctionAppVersion } from 'app/shared/models/constants';
-import { SiteService } from 'app/shared/services/site.service';
-import { HttpResult } from 'app/shared/models/http-result';
-import { ArmObj } from 'app/shared/models/arm/arm-obj';
-import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
-import { runtimeIsV1 } from 'app/shared/models/functions-version-info';
 
 @Component({
   selector: 'function-manage',
@@ -42,7 +37,6 @@ export class FunctionManageComponent extends NavigableComponent {
     private _functionAppService: FunctionAppService,
     private _translateService: TranslateService,
     private _functionService: FunctionService,
-    private _siteService: SiteService,
     injector: Injector,
     configService: ConfigService
   ) {
@@ -109,16 +103,12 @@ export class FunctionManageComponent extends NavigableComponent {
         Observable.zip(this._functionAppService.getAppContext(view.siteDescriptor.getTrimmedResourceId()), Observable.of(view))
       )
       .switchMap(tuple =>
-        Observable.zip(
-          Observable.of(tuple[0]),
-          this._functionService.getFunction(tuple[0].site.id, tuple[1].functionDescriptor.name),
-          runtimeIsV1(tuple[0].urlTemplates.runtimeVersion) ? Observable.of(null) : this._siteService.getAppSettings(tuple[0].site.id)
-        )
+        Observable.zip(Observable.of(tuple[0]), this._functionService.getFunction(tuple[0].site.id, tuple[1].functionDescriptor.name, true))
       )
       .do(tuple => {
         this.runtimeVersion = tuple[0].urlTemplates.runtimeVersion;
         if (tuple[1].isSuccessful) {
-          this._setFunctionInfo(tuple[1].result.properties, tuple[2]);
+          this._setFunctionInfo(tuple[1].result.properties);
         }
         this.context = tuple[0];
         this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
@@ -141,16 +131,9 @@ export class FunctionManageComponent extends NavigableComponent {
     }
   }
 
-  private _setFunctionInfo(functionInfo: FunctionInfo, appSettings: HttpResult<ArmObj<ApplicationSettings>> | null) {
+  private _setFunctionInfo(functionInfo: FunctionInfo) {
     if (this.runtimeVersion !== FunctionAppVersion.v1) {
-      let settingName: string;
-      if (typeof functionInfo.config.disabled === 'string') {
-        settingName = functionInfo.config.disabled;
-      } else {
-        settingName = `AzureWebJobs.${functionInfo.name}.Disabled`;
-      }
-      const result = appSettings && appSettings.isSuccessful && appSettings.result.properties[settingName];
-      functionInfo.config.disabled = result === '1' || result === 'true';
+      functionInfo.config.disabled = functionInfo.isDisabled;
     }
     this.functionInfo = functionInfo;
   }

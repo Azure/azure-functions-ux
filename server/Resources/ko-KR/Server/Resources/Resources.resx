@@ -538,7 +538,7 @@
   <data name="features" xml:space="preserve">
         <value>기능</value>
     </data>
-  <data name="filedRequired" xml:space="preserve">
+  <data name="fieldRequired" xml:space="preserve">
         <value>이 필드는 필수입니다.</value>
     </data>
   <data name="functionDev_code" xml:space="preserve">
@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>GitHub webhook 함수의 테스트는 지원되지 않습니다.</value>
     </data>
+  <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>현재 런타임 버전</value>
+    </data>
   <data name="runtimeVersion" xml:space="preserve">
         <value>런타임 버전</value>
     </data>
@@ -1391,7 +1394,7 @@
         <value>확장 프로그램은 전체 앱에 기능을 추가합니다.</value>
     </data>
   <data name="emptyAppSettings" xml:space="preserve">
-        <value>(표시할 응용 프로그램 설정 없음)</value>
+        <value>(표시할 애플리케이션 설정 없음)</value>
     </data>
   <data name="emptyConnectionStrings" xml:space="preserve">
         <value>(표시할 연결 문자열 없음)</value>
@@ -1403,7 +1406,7 @@
         <value>(표시할 핸들러 매핑 없음)</value>
     </data>
   <data name="emptyVirtualDirectories" xml:space="preserve">
-        <value>(표시할 가상 응용 프로그램 또는 디렉터리 없음)</value>
+        <value>(표시할 가상 애플리케이션 또는 디렉터리 없음)</value>
     </data>
   <data name="feature_generalSettingsName" xml:space="preserve">
         <value>일반 설정</value>
@@ -1418,7 +1421,7 @@
         <value>런타임</value>
     </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
-        <value>응용 프로그램 설정</value>
+        <value>애플리케이션 설정</value>
     </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
         <value>앱 설정, 연결 문자열, 런타임 설정 등을 관리합니다.</value>
@@ -1430,7 +1433,7 @@
         <value>처리기 매핑</value>
     </data>
   <data name="feature_virtualDirectoriesName" xml:space="preserve">
-        <value>가상 응용 프로그램 및 디렉터리</value>
+        <value>가상 애플리케이션 및 디렉터리</value>
     </data>
   <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
         <value>이러한 설정을 편집하려면 현재 앱에 대한 쓰기 권한이 있어야 합니다.</value>
@@ -1446,6 +1449,9 @@
     </data>
   <data name="loading" xml:space="preserve">
         <value>로딩 중...</value>
+    </data>
+  <data name="loadingFailed" xml:space="preserve">
+        <value>로드 실패</value>
     </data>
   <data name="configUpdating" xml:space="preserve">
         <value>웹앱 설정을 업데이트하는 중</value>
@@ -1550,7 +1556,7 @@
         <value>ARR 선호도</value>
     </data>
   <data name="clientAffinityInfoText" xml:space="preserve">
-        <value>선호도 쿠키를 해제하여 상태 비저장 응용 프로그램의 성능을 향상할 수 있고, 호환성을 높이기 위해서는 상태 저장 응용 프로그램의 선호도 쿠키를 설정해야 합니다. 자세히 알아보려면 클릭하세요.</value>
+        <value>선호도 쿠키를 해제하여 상태 비저장 애플리케이션의 성능을 향상할 수 있고, 호환성을 높이기 위해서는 상태 저장 애플리케이션의 선호도 쿠키를 설정해야 합니다. 자세히 알아보려면 클릭하세요.</value>
     </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
         <value>원격 디버깅</value>
@@ -1640,13 +1646,13 @@
         <value>인증/권한 부여</value>
     </data>
   <data name="feature_authInfo" xml:space="preserve">
-        <value>인증/권한 부여를 사용하여 응용 프로그램을 보호하고 사용자 단위 데이터로 작업합니다.</value>
+        <value>인증/권한 부여를 사용하여 애플리케이션을 보호하고 사용자 단위 데이터로 작업합니다.</value>
     </data>
   <data name="feature_msiName" xml:space="preserve">
         <value>ID</value>
     </data>
   <data name="feature_msiInfo" xml:space="preserve">
-        <value>응용 프로그램은 관리되는 Azure Active Directory ID를 사용하여 다른 Azure 서비스와 통신할 수 있습니다.</value>
+        <value>애플리케이션은 관리되는 Azure Active Directory ID를 사용하여 다른 Azure 서비스와 통신할 수 있습니다.</value>
     </data>
   <data name="feature_pushNotificationsName" xml:space="preserve">
         <value>푸시 알림</value>
@@ -1658,7 +1664,7 @@
         <value>연결하고 있습니다...</value>
     </data>
   <data name="feature_applicationLogsName" xml:space="preserve">
-        <value>응용 프로그램 로그</value>
+        <value>애플리케이션 로그</value>
     </data>
   <data name="feature_webServerLogsName" xml:space="preserve">
         <value>웹 서버 로그</value>
@@ -1667,19 +1673,19 @@
         <value>진단 로그</value>
     </data>
   <data name="feature_diagnosticLogsInfo" xml:space="preserve">
-        <value>응용 프로그램 및 서버 이벤트를 기록하는 위치와 시점을 구성합니다.</value>
+        <value>애플리케이션 및 서버 이벤트를 기록하는 위치와 시점을 구성합니다.</value>
     </data>
   <data name="feature_logStreamingName" xml:space="preserve">
         <value>로그 스트리밍</value>
     </data>
   <data name="feature_logStreamingInfo" xml:space="preserve">
-        <value>실시간 응용 프로그램 로그를 봅니다.</value>
+        <value>실시간 애플리케이션 로그를 봅니다.</value>
     </data>
   <data name="feature_processExplorerName" xml:space="preserve">
         <value>프로세스 탐색기</value>
     </data>
   <data name="feature_processExplorerInfo" xml:space="preserve">
-        <value>응용 프로그램 프로세스, 메모리 사용량 및 CPU 사용률에 대한 세부 정보를 봅니다.</value>
+        <value>애플리케이션 프로세스, 메모리 사용량 및 CPU 사용률에 대한 세부 정보를 봅니다.</value>
     </data>
   <data name="feature_securityScanningName" xml:space="preserve">
         <value>보안 검색</value>
@@ -1706,7 +1712,7 @@
         <value>API를 설명하는 Swagger 2.0 메타데이터의 위치를 구성합니다. 그러면 다른 사람이 API를 쉽게 찾고 사용할 수 있습니다.</value>
     </data>
   <data name="feature_appServicePlanInfo" xml:space="preserve">
-        <value>App Service 계획은 앱에 대한 컨테이너입니다. App Service 계획 설정은 앱과 연결된 위치, 기능, 비용 및 계산 리소스를 지정합니다.</value>
+        <value>App Service 계획은 앱에 대한 컨테이너입니다. App Service 계획 설정은 앱과 연결된 위치, 기능, 비용 및 컴퓨팅 리소스를 지정합니다.</value>
     </data>
   <data name="feature_quotasName" xml:space="preserve">
         <value>할당량</value>
@@ -1805,7 +1811,7 @@
         <value>구성</value>
     </data>
   <data name="tab_applicationSettings" xml:space="preserve">
-        <value>응용 프로그램 설정</value>
+        <value>애플리케이션 설정</value>
     </data>
   <data name="try_appDisabled" xml:space="preserve">
         <value>이 평가판에서는 함수 앱 관리를 사용할 수 없습니다.</value>
@@ -1868,22 +1874,22 @@
         <value>올바른 스토리지 연결 문자열을 사용하여 앱 설정을 업데이트하세요.</value>
     </data>
   <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
-        <value>'{0}' 애플리케이션  설정이 앱에 없습니다. 이 설정에는 함수 콘텐츠를 호스트하는 데 사용되는 Azure Storage 계정에 대한 연결 문자열이 포함되어 있습니다. 이 설정이 없으면 앱이 완전히 손상됩니다. 해당 애플리케이션  설정의 값에 더 이상 액세스할 수 없는 경우 이 함수 앱을 삭제하고 다시 만들어야 합니다.</value>
+        <value>'{0}' 애플리케이션 설정이 앱에 없습니다. 이 설정에는 함수 콘텐츠를 호스트하는 데 사용되는 Azure Storage 계정에 대한 연결 문자열이 포함되어 있습니다. 이 설정이 없으면 앱이 완전히 손상됩니다. 해당 애플리케이션 설정의 값에 더 이상 액세스할 수 없는 경우 이 함수 앱을 삭제하고 다시 만들어야 합니다.</value>
     </data>
   <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
-        <value>'{0}' 응용 프로그램 설정이 앱에 없습니다. 이 설정에는 함수 콘텐츠가 있는 공유 이름이 포함되어 있습니다. 이 설정이 없으면 앱이 완전히 손상됩니다. 해당 응용 프로그램 설정의 값에 더 이상 액세스할 수 없는 경우 이 함수 앱을 삭제하고 다시 만들어야 할 수 있습니다.</value>
+        <value>{0}' 애플리케이션 설정이 앱에 없습니다. 이 설정에는 함수 콘텐츠가 있는 공유 이름이 포함되어 있습니다. 이 설정이 없으면 앱이 완전히 손상됩니다. 해당 애플리케이션 설정의 값에 더 이상 액세스할 수 없는 경우 이 함수 앱을 삭제하고 다시 만들어야 할 수 있습니다.</value>
     </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
-        <value>'{0}' 애플리케이션  설정이 앱에 없습니다. 이 설정에는 함수의 뷰를 모니터링하는 데 필요한 Azure Storage 계정에 대한 연결 문자열이 포함되어 있습니다. 이 문자열은 호출 데이터가 집계된 다음 모니터링 뷰에 표시되는 위치입니다. 모니터링 뷰가 손상될 수 있습니다.</value>
+        <value>'{0}' 애플리케이션 설정이 앱에 없습니다. 이 설정에는 함수의 뷰를 모니터링하는 데 필요한 Azure Storage 계정에 대한 연결 문자열이 포함되어 있습니다. 이 문자열은 호출 데이터가 집계된 다음 모니터링 뷰에 표시되는 위치입니다. 모니터링 뷰가 손상될 수 있습니다.</value>
     </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
-        <value>'{0}' 애플리케이션  설정이 앱에 없습니다. 이 설정에는 함수 런타임에서 여러 인스턴스 동기화를 처리하고, 호출 결과를 기록하고, 기타 인프라 작업을 수행하는 데 필요한 Azure Storage 계정에 대한 연결 문자열이 포함되어 있습니다. 해당 설정이 없으면 함수 앱이 올바로 작동하지 않습니다.</value>
+        <value>'{0}' 애플리케이션 설정이 앱에 없습니다. 이 설정에는 함수 런타임에서 여러 인스턴스 동기화를 처리하고, 호출 결과를 기록하고, 기타 인프라 작업을 수행하는 데 필요한 Azure Storage 계정에 대한 연결 문자열이 포함되어 있습니다. 해당 설정이 없으면 함수 앱이 올바로 작동하지 않습니다.</value>
     </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
         <value>올바른 스토리지 연결 문자열을 사용하여 앱 설정을 만드세요.</value>
     </data>
   <data name="backend_error_MissingFunctionsExtensionVersionAppSetting" xml:space="preserve">
-        <value>'{0}' 응용 프로그램 설정이 앱에 없습니다. 이 설정이 없으면 부정적 영향을 주는 변경 사항(breaking change)을 포함할 수 있는 주 버전 업데이트 간에도 항상 최신 버전의 런타임이 실행됩니다. 해당 값은 현재 최신의 주 버전(~1)으로 설정하는 것이 좋으며 업데이트의 최신 버전이 있으면 알림을 받게 됩니다.</value>
+        <value>{0}' 애플리케이션 설정이 앱에 없습니다. 이 설정이 없으면 부정적 영향을 주는 변경 사항(breaking change)을 포함할 수 있는 주 버전 업데이트 간에도 항상 최신 버전의 런타임이 실행됩니다. 해당 값은 현재 최신의 주 버전(~1)으로 설정하는 것이 좋으며 업데이트의 최신 버전이 있으면 알림을 받게 됩니다.</value>
     </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
         <value>'{0}'에 저장된 Azure Storage 계정 연결 문자열이 null이거나 비어 있습니다. 함수 앱이 작동하려면 이 문자열이 필요합니다.</value>
@@ -1970,7 +1976,7 @@
         <value>함수 {{functionName}}에 대해 키를 검색할 수 없습니다. 이는 런타임에서 함수를 로드할 수 없는 경우 발생할 수 있습니다. 다른 함수 오류를 확인하세요.</value>
     </data>
   <data name="error_appOffline" xml:space="preserve">
-        <value>응용 프로그램이 오프라인 상태입니다. 인터넷 연결을 확인하세요.</value>
+        <value>애플리케이션이 오프라인 상태입니다. 인터넷 연결을 확인하세요.</value>
     </data>
   <data name="functionKeys_actions" xml:space="preserve">
         <value>작업</value>
@@ -2192,7 +2198,7 @@
         <value>{{name}} 키를 갱신하시겠습니까?</value>
     </data>
   <data name="emptyBrowse" xml:space="preserve">
-        <value>Azure Functions는 이벤트 기반의 서버리스 계산 환경으로서 개발을 가속화하며, 요청에 따라 크기를 조정하므로 사용한 리소스에 대해서만 비용을 지불합니다.</value>
+        <value>Azure Functions는 이벤트 기반의 서버리스 컴퓨팅 환경으로서 개발을 가속화하며, 요청에 따라 크기를 조정하므로 사용한 리소스에 대해서만 비용을 지불합니다.</value>
     </data>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
         <value>Azure Functions에 대한 자세한 정보</value>
@@ -2348,7 +2354,7 @@
         <value>구성된 배포 슬롯이 있으므로 앱이 현재 읽기 전용 모드입니다. 편집 모드를 변경하려면 다음을 참조하세요.</value>
     </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
-        <value>응용 프로그램 설정 관리</value>
+        <value>애플리케이션 설정 관리</value>
     </data>
   <data name="eventHubPicker_IOTHub" xml:space="preserve">
         <value>IoT Hub</value>
@@ -2903,7 +2909,7 @@
         <value>미리 보기가 있는 교환 수행</value>
     </data>
   <data name="swapWithPreviewInfoText" xml:space="preserve">
-        <value>미리 보기를 사용한 교환은 일반 교환을 두 단계로 나눕니다. 1단계에서는 대상의 모든 슬롯별 응용 프로그램 설정 및 연결 문자열이 소스 슬롯에 일시적으로 복사됩니다. 따라서 최종 구성 값으로 슬롯을 테스트할 수 있습니다. 여기에서 1단계를 취소하여 일반 구성으로 되돌리거나, 임시 구성 변경 내용을 제거하고 소스 슬롯을 대상 슬롯으로 교환하는 작업을 완료하는 2단계를 계속 진행할 수 있습니다.</value>
+        <value>미리 보기를 사용한 교환은 일반 교환을 두 단계로 나눕니다. 1단계에서는 대상의 모든 슬롯별 애플리케이션 설정 및 연결 문자열이 소스 슬롯에 일시적으로 복사됩니다. 따라서 최종 구성 값으로 슬롯을 테스트할 수 있습니다. 여기에서 1단계를 취소하여 일반 구성으로 되돌리거나, 임시 구성 변경 내용을 제거하고 소스 슬롯을 대상 슬롯으로 교환하는 작업을 완료하는 2단계를 계속 진행할 수 있습니다.</value>
     </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
         <value>교환 시작</value>
@@ -3245,16 +3251,16 @@
         <value>공유 인프라</value>
     </data>
   <data name="pricing_sharedCpu" xml:space="preserve">
-        <value>App Service 계획에서 배포된 응용 프로그램을 실행하는 데 사용되는 공유 계산 리소스입니다.</value>
+        <value>App Service 계획에서 배포된 애플리케이션 을 실행하는 데 사용되는 공유 컴퓨팅 리소스입니다.</value>
     </data>
   <data name="pricing_computeDedicatedAcu" xml:space="preserve">
-        <value>App Service 계획에서 배포된 응용 프로그램을 실행하는 데 사용되는 전용 계산 리소스입니다.</value>
+        <value>App Service 계획에서 배포된 애플리케이션 을 실행하는 데 사용되는 전용 컴퓨팅 리소스입니다.</value>
     </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
-        <value>App Service 계획에서 배포되고 실행되는 응용 프로그램을 실행할 메모리가 있습니다.</value>
+        <value>App Service 계획에서 배포되고 실행되는 애플리케이션을 실행할 메모리가 있습니다.</value>
     </data>
   <data name="pricing_dedicatedMemory" xml:space="preserve">
-        <value>App Service 계획에서 배포되고 실행되는 응용 프로그램을 실행할 인스턴스당 메모리가 있습니다.</value>
+        <value>App Service 계획에서 배포되고 실행되는 애플리케이션을 실행할 인스턴스당 메모리가 있습니다.</value>
     </data>
   <data name="pricing_sharedDisk" xml:space="preserve">
         <value>App Service 계획에 배포된 모든 앱이 공유하는 {0} 디스크 스토리지입니다.</value>
@@ -3284,7 +3290,7 @@
         <value>규모 확장.</value>
     </data>
   <data name="pricing_computeVmSize" xml:space="preserve">
-        <value>Vm 크기 계산: {0}</value>
+        <value>Vm 크기 컴퓨팅: {0}</value>
     </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
         <value>사용할 수 있는 인스턴스가 부족합니다.</value>
@@ -3347,7 +3353,7 @@
         <value>가상 네트워크에 연결합니다.</value>
     </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
-        <value>개인 앱 액세스</value>
+        <value>프라이빗 앱 액세스</value>
     </data>
   <data name="pricing_privateAppAccessDesc" xml:space="preserve">
         <value>App Service Environment와 ILB(내부 부하 분산)를 사용합니다.</value>
@@ -3356,16 +3362,16 @@
         <value>{0}GB 메모리</value>
     </data>
   <data name="pricing_computeLimit" xml:space="preserve">
-        <value>{0}분/일 계산</value>
+        <value>{0}분/일 컴퓨팅</value>
     </data>
   <data name="pricing_numCores" xml:space="preserve">
         <value>{0}코어</value>
     </data>
   <data name="pricing_aSeriesComputeEquivalent" xml:space="preserve">
-        <value>A 시리즈 계산과 동일</value>
+        <value>A 시리즈 컴퓨팅과 동일</value>
     </data>
   <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
-        <value>Dv2 시리즈 계산과 동일</value>
+        <value>Dv2 시리즈 컴퓨팅과 동일</value>
     </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
         <value>proxies.json이 잘못되었습니다. 오류: '{0}'.</value>
@@ -3431,7 +3437,7 @@
         <value>Azure Pipelines(미리 보기)</value>
     </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-        <value>Azure DevOps Services(이전 VSTS)의 일부인 Azure Pipelines를 사용하여 응용 프로그램의 강력한 배포 파이프라인을 구성합니다. 파이프라인이 빌드되고, 부하 테스트를 실행하고, 스테이징 슬롯에 배포된 후, 프로덕션 환경에 배포됩니다.</value>
+        <value>Azure DevOps Services(이전 VSTS)의 일부인 Azure Pipelines를 사용하여 애플리케이션의 강력한 배포 파이프라인을 구성합니다. 파이프라인이 빌드되고, 부하 테스트를 실행하고, 스테이징 슬롯에 배포된 후, 프로덕션 환경에 배포됩니다.</value>
     </data>
   <data name="kuduTitle" xml:space="preserve">
         <value>App Service 빌드 서비스</value>
@@ -3699,7 +3705,7 @@
         <value>완료되면 로컬 git 리포지토리 URL이 생성됩니다.</value>
     </data>
   <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
-        <value>응용 프로그램 설정에서 로드된 런타임 버전: {{extensionVersion}}</value>
+        <value>애플리케이션 설정에서 로드된 런타임 버전: {{extensionVersion}}</value>
     </data>
   <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
         <value>지원되지 않는 런타임 버전</value>
@@ -3717,7 +3723,7 @@
         <value>동기화</value>
     </data>
   <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
-        <value>Dv3 시리즈 계산과 동일</value>
+        <value>Dv3 시리즈 컴퓨팅과 동일</value>
     </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
         <value>Entity Framework를 사용 중인 경우 연결 문자열은 함수 앱과만 사용해야 합니다. 다른 시나리오에서는 앱 설정을 사용하세요.</value>
@@ -3765,7 +3771,7 @@
         <value>실제 경로</value>
     </data>
   <data name="type_application" xml:space="preserve">
-        <value>응용 프로그램</value>
+        <value>애플리케이션</value>
     </data>
   <data name="type_directory" xml:space="preserve">
         <value>디렉터리</value>
@@ -3780,7 +3786,7 @@
         <value>Private Repository</value>
     </data>
   <data name="privateRepo" xml:space="preserve">
-        <value>개인 리포지토리</value>
+        <value>프라이빗 리포지토리</value>
     </data>
   <data name="enterUsername" xml:space="preserve">
         <value>사용자 이름 입력</value>
@@ -3885,7 +3891,7 @@
         <value>Docker Hub</value>
     </data>
   <data name="containerPrivateRegistry" xml:space="preserve">
-        <value>개인 레지스트리</value>
+        <value>프라이빗 레지스트리</value>
     </data>
   <data name="containerCustom" xml:space="preserve">
         <value>사용자 지정</value>
@@ -4185,10 +4191,10 @@
         <value>구성 파일</value>
     </data>
   <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
-        <value>Linux 운영 체제 기반 응용 프로그램에서는 Docker Compose만 지원됩니다.</value>
+        <value>Linux 운영 체제 기반 애플리케이션에서는 Docker Compose만 지원됩니다.</value>
     </data>
   <data name="windowsKubernetesDisableMessage" xml:space="preserve">
-        <value>Kubernetes는 Linux 운영 체제 기반 응용 프로그램에서만 지원됩니다.</value>
+        <value>Kubernetes는 Linux 운영 체제 기반 애플리케이션에서만 지원됩니다.</value>
     </data>
   <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
         <value>Docker Compose 기반 함수는 현재 지원되지 않습니다.</value>
@@ -4329,7 +4335,7 @@
         <value>숨겨진 값. 편집하려면 클릭하세요.</value>
     </data>
   <data name="appSettingsEncryptedInfoText" xml:space="preserve">
-        <value>응용 프로그램 설정은 미사용 시 암호화되고 암호화된 채널을 통해 전송됩니다. 아래 컨트롤을 사용하여 브라우저에서 응용 프로그램 설정을 일반 텍스트로 표시하도록 선택할 수 있습니다.</value>
+        <value>애플리케이션 설정은 미사용 시 암호화되고 암호화된 채널을 통해 전송됩니다. 아래 컨트롤을 사용하여 브라우저에서 애플리케이션 설정을 일반 텍스트로 표시하도록 선택할 수 있습니다.</value>
     </data>
   <data name="connectionStringsEncryptedInfoText" xml:space="preserve">
         <value>연결 문자열은 미사용 시 암호화되고 암호화된 채널을 통해 전송됩니다. 아래 컨트롤을 사용하여 브라우저에서 응용 프로그램 설정을 일반 텍스트로 표시하도록 선택할 수 있습니다.</value>
@@ -4362,10 +4368,13 @@
         <value>(수정됨)</value>
     </data>
   <data name="applicationSettings" xml:space="preserve">
-        <value>응용 프로그램 설정</value>
+        <value>애플리케이션 설정</value>
     </data>
   <data name="connectionStrings" xml:space="preserve">
         <value>연결 문자열</value>
+    </data>
+  <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>함수 런타임 설정</value>
     </data>
   <data name="generalSettings" xml:space="preserve">
         <value>일반 설정</value>
@@ -4380,7 +4389,7 @@
         <value>처리기 매핑</value>
     </data>
   <data name="virtualApplications" xml:space="preserve">
-        <value>가상 응용 프로그램 및 디렉터리</value>
+        <value>가상 애플리케이션 및 디렉터리</value>
     </data>
   <data name="appSettingsSaveAriaLabel" xml:space="preserve">
         <value>웹 애플리케이션의 모든 설정 저장</value>
@@ -4392,7 +4401,7 @@
         <value>왼쪽 및 오른쪽 화살표 키를 사용하여 명령 간 이동</value>
     </data>
   <data name="newApp" xml:space="preserve">
-        <value>새 응용 프로그램 또는 디렉터리</value>
+        <value>새 애플리케이션 또는 디렉터리</value>
     </data>
   <data name="virtualPath" xml:space="preserve">
         <value>가상 경로</value>
@@ -4410,7 +4419,7 @@
         <value>편집</value>
     </data>
   <data name="directoryOrApplciation" xml:space="preserve">
-        <value>디렉터리 또는 응용 프로그램</value>
+        <value>디렉터리 또는 애플리케이션</value>
     </data>
   <data name="directory" xml:space="preserve">
         <value>Directory</value>
@@ -4506,13 +4515,13 @@
         <value>새 연결 문자열</value>
     </data>
   <data name="addEditApplicationSetting" xml:space="preserve">
-        <value>응용 프로그램 설정 추가/편집</value>
+        <value>애플리케이션 설정 추가/편집</value>
     </data>
   <data name="newApplicationSetting" xml:space="preserve">
-        <value>새 응용 프로그램 설정</value>
+        <value>새 애플리케이션 설정</value>
     </data>
   <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
-        <value>선택한 레지스트리가 현재 앱이 있는 동일한 구독에 없습니다. 개인 레지스트리 탭을 사용하여 레지스트리를 전환하세요.</value>
+        <value>선택한 레지스트리가 현재 앱이 있는 동일한 구독에 없습니다. 프라이빗 레지스트리 탭을 사용하여 레지스트리를 전환하세요.</value>
     </data>
   <data name="sideNav_Functions_ReadOnly" xml:space="preserve">
         <value>함수(읽기 전용)</value>
@@ -4560,7 +4569,7 @@
         <value>자격 증명을 저장함</value>
     </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
-        <value>Azure Container Registry 등 개인 레지스트리의 이미지를 사용하세요.</value>
+        <value>Azure Container Registry 등 프라이빗 레지스트리의 이미지를 사용하세요.</value>
     </data>
   <data name="notSelected" xml:space="preserve">
         <value>선택되지 않음</value>
@@ -4743,7 +4752,7 @@
         <value>디렉터리</value>
     </data>
   <data name="application" xml:space="preserve">
-        <value>응용 프로그램</value>
+        <value>애플리케이션</value>
     </data>
   <data name="addNewVirtualDirectoryV3" xml:space="preserve">
         <value>새 가상 애플리케이션 또는 디렉터리</value>
@@ -4785,7 +4794,7 @@
         <value>새 Azure Storage 탑재</value>
     </data>
   <data name="editAzureStorageMount" xml:space="preserve">
-        <value>Edit Azure Storage Mount</value>
+        <value>Azure Storage 탑재 편집</value>
     </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>빈 Azure Storage 탑재</value>
@@ -5238,9 +5247,6 @@
   <data name="apimUpsell" xml:space="preserve">
         <value>Azure API Management는 API 및 Functions를 사용할 때 향상된 기능을 제공합니다. 자세한 내용을 보려면 여기를 클릭하세요.</value>
     </data>
-  <data name="version3Preview" xml:space="preserve">
-        <value>~3(미리 보기)</value>
-    </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>인증 상태를 검색할 수 없습니다. 몇 분 후에 다시 시도하세요.</value>
     </data>
@@ -5371,7 +5377,10 @@
         <value>가상 네트워크 트리거 지원</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>이 설정을 사용하면 가상 네트워크 내의 리소스에서 앱을 트리거할 수 있습니다. 또한 예열된 인스턴스 1개를 활성화해야 하고 런타임 V2 이상이어야 합니다. &lt;a href="{0}" target="_blank"&gt;자세한 정보&lt;/a&gt;.</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>이 설정을 사용하면 가상 네트워크 내의 리소스에서 앱을 트리거할 수 있습니다. 또한 예열된 인스턴스 1개를 활성화해야 하고 런타임 V2 이상이어야 합니다.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>앱 설정 새로 고침</value>
@@ -5483,5 +5492,59 @@
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>{0}을(를) 만들었습니다.</value>
+    </data>
+  <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>탑재된 Blob 컨테이너가 2020년 2월에 읽기 전용이 됩니다.</value>
+    </data>
+  <data name="quickstartHeader" xml:space="preserve">
+        <value>Azure Functions를 로컬로 개발하는 방법 알아보기</value>
+    </data>
+  <data name="quickstartDesc" xml:space="preserve">
+        <value>개발 환경에 따라 지침이 달라질 수 있습니다. 모든 옵션을 보려면:</value>
+    </data>
+  <data name="viewDocumentation" xml:space="preserve">
+        <value>설명서 보기</value>
+    </data>
+  <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>개발 환경 선택</value>
+    </data>
+  <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>빠른 시작 옵션을 로드하지 못했습니다.</value>
+    </data>
+  <data name="githubActionInfo" xml:space="preserve">
+        <value>최신 배포가 표시되지 않나요? 여기를 클릭하여 GitHub 작업의 상태를 확인하세요.</value>
+    </data>
+  <data name="commitId" xml:space="preserve">
+        <value>커밋 ID</value>
+    </data>
+  <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>이 섹션을 보거나 편집하려면 읽기/쓰기 권한이 필요합니다.</value>
+    </data>
+  <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>앱에 대해 런타임 버전이 구성되어 있지 않습니다. 따라서 런타임을 시작할 수 없습니다. 런타임 버전을 올바른 값(예: ~2)으로 업데이트하세요.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
+        <value>앱이 현재 런타임 버전 '{0}'에 고정되어 있습니다. '{0}'에 고정되었다는 것은 호환성이 손상될 수 있는 변경 내용이 포함된 주 버전 업데이트에서도 항상 최신 버전의 런타임을 실행한다는 것을 의미합니다. 이 값을 특정 주 버전(예: ~2)으로 설정하는 것이 좋습니다. 이렇게 하면 업데이트할 새 버전이 있을 경우 알림을 받게 됩니다.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
+        <value>앱이 현재 런타임 버전 '{0}'에 고정되어 있으므로 앱에서 최신 버전({1})을 사용하고 있습니다. '{0}'에 고정되었다는 것은 호환성이 손상될 수 있는 변경 내용이 포함된 주 버전 업데이트에서도 항상 최신 버전의 런타임을 실행한다는 것을 의미합니다. 이 값을 특정 주 버전(예: ~2)으로 설정하는 것이 좋습니다. 이렇게 하면 업데이트할 새 버전이 있을 경우 알림을 받게 됩니다.</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
+        <value>앱이 현재 런타임 버전 '{0}'에 고정되어 있습니다. 이 버전이 더 이상 지원되지 않게 되면 앱이 런타임의 최신 버전을 사용하기 시작하게 됩니다. 이는 호환성이 손상되는 변경 내용이 포함된 다른 주 버전일 수 있습니다. 이 값을 특정 주 버전(예: ~2)으로 설정하는 것이 좋습니다. 이렇게 하면 업데이트할 새 버전이 있을 경우 알림을 받게 됩니다.</value>
+    </data>
+  <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
+        <value>사용자 지정 런타임 버전({0})이 지원되지 않습니다. 따라서 앱에서 최신 버전의 {1}을(를) 사용하고 있으므로 호환성이 손상될 수 있는 변경 배용이 포함된 주 버전 업데이트에서도 항상 최신 버전의 런타임을 실행하게 됩니다. 이 값을 특정 주 버전(예: ~2)으로 설정하는 것이 좋습니다. 이렇게 하면 업데이트할 새 버전이 있을 경우 알림을 받게 됩니다.</value>
+    </data>
+  <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
+        <value>런타임 버전은 FUNCTIONS_EXTENSION_VERSION 앱 설정에 의해 제어됩니다. 사용자 지정 버전을 구성할 경우, 구성된 값이 올바르지 않거나 지원되지 않게 되면 최신 버전이 적용되게 되므로 사용자 지정 버전을 구성하는 것은 권장되지 않습니다. 이렇게 되면 주 버전 업데이트가 호환성이 손상되는 변경 내용을 포함할 수 있으므로 함수가 손상된 상태가 될 수 있습니다.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
+        <value>기존 함수를 사용하여 업그레이드할 수 없습니다. 주 버전을 업그레이드하면 언어 및 바인딩에 대한 변경이 발생할 수 있습니다. 런타임의 주 버전을 업그레이드할 경우 새 함수 앱을 만들어서 함수를 새 앱으로 마이그레이션하는 방안을 고려하세요.</value>
+    </data>
+  <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
+        <value>GitHub 토큰에 '워크플로' 범위가 없습니다.</value>
+    </data>
+  <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>GitHub 작업 워크플로 파일 '{{workflowFilePath}}'이(가) '{{branchName}}' 분기에 이미 있으므로, 계속하면 이 파일을 덮어쓰게 됩니다.</value>
     </data>
 </root>

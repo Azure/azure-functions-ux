@@ -538,7 +538,7 @@
   <data name="features" xml:space="preserve">
         <value>功能</value>
     </data>
-  <data name="filedRequired" xml:space="preserve">
+  <data name="fieldRequired" xml:space="preserve">
         <value>此字段是必需的</value>
     </data>
   <data name="functionDev_code" xml:space="preserve">
@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>GitHub Webhook 函数不支持测试。</value>
     </data>
+  <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>当前运行时版本</value>
+    </data>
   <data name="runtimeVersion" xml:space="preserve">
         <value>运行时版本</value>
     </data>
@@ -1446,6 +1449,9 @@
     </data>
   <data name="loading" xml:space="preserve">
         <value>正在加载...</value>
+    </data>
+  <data name="loadingFailed" xml:space="preserve">
+        <value>加载失败</value>
     </data>
   <data name="configUpdating" xml:space="preserve">
         <value>正在更新 Web 应用设置</value>
@@ -4367,6 +4373,9 @@
   <data name="connectionStrings" xml:space="preserve">
         <value>连接字符串</value>
     </data>
+  <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>函数运行时设置</value>
+    </data>
   <data name="generalSettings" xml:space="preserve">
         <value>常规设置</value>
     </data>
@@ -4785,7 +4794,7 @@
         <value>新的 Azure 存储装入</value>
     </data>
   <data name="editAzureStorageMount" xml:space="preserve">
-        <value>Edit Azure Storage Mount</value>
+        <value>编辑 Azure 存储装入</value>
     </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>空 Azure 存储装入</value>
@@ -5238,9 +5247,6 @@
   <data name="apimUpsell" xml:space="preserve">
         <value>Azure API 管理在处理 API 和函数时提供增强功能。单击此处了解详细信息!</value>
     </data>
-  <data name="version3Preview" xml:space="preserve">
-        <value>~3 (预览)</value>
-    </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>无法检索身份验证状态。请在几分钟后重试。</value>
     </data>
@@ -5371,7 +5377,10 @@
         <value>虚拟网络触发器支持</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>此设置允许虚拟网络中的资源触发你的应用。它还需要 1 个预加热实例处于活动状态以及运行时 V2 或更高版本。&lt;a href="{0}" target="_blank"&gt;了解详细信息&lt;/a&gt;。</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>此设置允许虚拟网络中的资源触发你的应用。它还需要 1 个预加热实例处于活动状态以及运行时 V2 或更高版本。</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>刷新应用设置</value>
@@ -5483,5 +5492,59 @@
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>已成功创建 {0}</value>
+    </data>
+  <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>安装的 Blob 容器将在 2020 年 2 月变为只读。</value>
+    </data>
+  <data name="quickstartHeader" xml:space="preserve">
+        <value>了解如何在本地开发 Azure Functions</value>
+    </data>
+  <data name="quickstartDesc" xml:space="preserve">
+        <value>指令可能随开发环境而不同。若要全面了解所有选项:</value>
+    </data>
+  <data name="viewDocumentation" xml:space="preserve">
+        <value>查看文档</value>
+    </data>
+  <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>选择开发环境</value>
+    </data>
+  <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>未能加载快速入门选项。</value>
+    </data>
+  <data name="githubActionInfo" xml:space="preserve">
+        <value>未显示最新部署? 单击此处可查看 GitHub 操作的状态。</value>
+    </data>
+  <data name="commitId" xml:space="preserve">
+        <value>提交 ID</value>
+    </data>
+  <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>需要读取/写入权限才能查看/编辑此分区。</value>
+    </data>
+  <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>没有为你的应用配置运行时版本。因此无法启动运行时。请将运行时版本更新为有效值(例如 ~2)。</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
+        <value>你的应用当前已固定到运行时版本“{0}”。固定到“{0}”即表示你将始终运行最新版本的运行时，甚至会跨越可能包含重大更改的主要版本更新。建议将该值设置为特定主要版本(例如 ~2)，这样在有新的更新版本时将通知你。</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
+        <value>你的应用当前已固定到运行时版本“{0}”，因此你的应用程序使用的是最新版本({1})。固定到“{0}”即表示你将始终运行最新版本的运行时，甚至会跨越可能包含重大更改的主要版本更新。建议将该值设置为特定主要版本(例如 ~2)，这样在有新的更新版本时你将收到通知。</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
+        <value>你的应用当前已固定到运行时版本“{0}”。当此版本不再受支持时，你的应用将开始使用最新版本的运行时，它可能是其他的主要版本并且可能包含重大更改。建议将该值设置为特定主要版本(例如 ~2)，这样在有新的更新版本时将通知你。</value>
+    </data>
+  <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
+        <value>你的自定义运行时版本({0})不受支持。因此你的应用将使用最新版本 {1}，并且你将始终运行最新版本的运行时，甚至会跨越可能包含重大更改的主要版本更新。建议将该值设置为特定主要版本(例如 ~2)，这样在有新的更新版本时将通知你。</value>
+    </data>
+  <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
+        <value>运行时版本由 FUNCTIONS_EXTENSION_VERSION 应用设置控制。不建议配置自定义版本，因为如果配置的值无效或不再受支持，最终将使用最新版本。这样你的函数可能会处于损坏状态，因为主要版本更新可能包含重大更改。</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
+        <value>无法使用现有函数升级: 主版本升级可以引入对语言和绑定的重大更改。升级运行时的主版本时，请考虑创建新的函数应用并将函数迁移到此新应用。</value>
+    </data>
+  <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
+        <value>GitHub 令牌中缺少“工作流”范围。</value>
+    </data>
+  <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>GitHub 操作工作流文件“{{workflowFilePath}}”在“{{branchName}}”分支中已存在，如果继续操作，此文件将被覆盖。</value>
     </data>
 </root>

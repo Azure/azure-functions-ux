@@ -12,6 +12,8 @@ import { RequiredValidator } from '../../../../../shared/validators/requiredVali
 import { Url } from '../../../../../shared/Utilities/url';
 import { ResponseHeader } from 'app/shared/Utilities/response-header';
 import { GithubService } from '../../wizard-logic/github.service';
+import { FileContent } from 'app/site/deployment-center/Models/github';
+import { PortalResources } from 'app/shared/models/portal-resources';
 
 @Component({
   selector: 'app-configure-github',
@@ -28,12 +30,13 @@ export class ConfigureGithubComponent implements OnDestroy {
   public selectedOrg = '';
   public selectedRepo = '';
   public selectedBranch = '';
+  public workflowFileExistsWarningMessage = '';
 
   private _repoUrlToNameMap: { [key: string]: string } = {};
   private _buildProvider: string;
-  private _reposStream = new ReplaySubject<string>();
-  private _ngUnsubscribe$ = new Subject();
+  private _reposStream$ = new ReplaySubject<string>();
   private _orgStream$ = new ReplaySubject<string>();
+  private _ngUnsubscribe$ = new Subject();
 
   constructor(
     public wizard: DeploymentCenterStateManager,
@@ -45,7 +48,7 @@ export class ConfigureGithubComponent implements OnDestroy {
       this.reposLoading = true;
       this.fetchRepos(r);
     });
-    this._reposStream.takeUntil(this._ngUnsubscribe$).subscribe(r => {
+    this._reposStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
       this.branchesLoading = true;
       this.fetchBranches(r);
     });
@@ -148,6 +151,33 @@ export class ConfigureGithubComponent implements OnDestroy {
     }
   }
 
+  checkWorkflowFileExists() {
+    if (this.selectedRepo && this.selectedBranch) {
+      const workflowFileName = this._githubService.getWorkflowFileName(this.selectedBranch, this.wizard.siteName, this.wizard.slotName);
+      const workflowFilePath = `.github/workflows/${workflowFileName}`;
+      this.workflowFileExistsWarningMessage = '';
+      this.wizard.hideConfigureStepContinueButton = true;
+
+      this._githubService
+        .fetchWorkflowConfiguration(
+          this.wizard.getToken(),
+          this.selectedRepo,
+          this._repoUrlToNameMap[this.selectedRepo],
+          this.selectedBranch,
+          workflowFilePath
+        )
+        .subscribe((r: FileContent) => {
+          this.wizard.hideConfigureStepContinueButton = false;
+          if (r) {
+            this.workflowFileExistsWarningMessage = this._translateService.instant(PortalResources.githubActionWorkflowFileExists, {
+              workflowFilePath: workflowFilePath,
+              branchName: this.selectedBranch,
+            });
+          }
+        });
+    }
+  }
+
   updateFormValidation() {
     const required = new RequiredValidator(this._translateService, false);
     this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
@@ -157,14 +187,23 @@ export class ConfigureGithubComponent implements OnDestroy {
   }
 
   RepoChanged(repo: DropDownElement<string>) {
-    this._reposStream.next(repo.value);
+    this._reposStream$.next(repo.value);
     this.selectedBranch = '';
+    this.workflowFileExistsWarningMessage = '';
   }
 
   OrgChanged(org: DropDownElement<string>) {
     this._orgStream$.next(org.value);
     this.selectedRepo = '';
     this.selectedBranch = '';
+    this.workflowFileExistsWarningMessage = '';
+  }
+
+  BranchChanged(org: DropDownElement<string>) {
+    // NOTE(michinoy): In case of github action, check to see if the workflow file already exists.
+    if (this.wizard.wizardValues.sourceProvider === 'github' && this.wizard.wizardValues.buildProvider === 'github') {
+      this.checkWorkflowFileExists();
+    }
   }
 
   private _loadBranches(responses: any[]) {
