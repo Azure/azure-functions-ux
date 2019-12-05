@@ -42,23 +42,34 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
 };
 
 export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
+  // If Remote Debugging Version is set to VS2015, but Remote Debugging is disabled, just change it to VS2017 to prevent the PUT from failing
+  const hasRemoteDebuggingDisabledWithVS2015 =
+    !config.properties.remoteDebuggingEnabled && config.properties.remoteDebuggingVersion === 'VS2015';
+  const remoteDebuggingVersion = hasRemoteDebuggingDisabledWithVS2015 ? 'VS2017' : config.properties.remoteDebuggingVersion;
+
   let linuxFxVersion = config.properties.linuxFxVersion ? config.properties.linuxFxVersion : '';
   if (linuxFxVersion) {
     const linuxFxVersionParts = linuxFxVersion.split('|');
     linuxFxVersionParts[0] = linuxFxVersionParts[0].toLowerCase();
     linuxFxVersion = linuxFxVersionParts.join('|');
   }
+
   const newConfig: ArmObj<SiteConfig> = {
     ...config,
     properties: {
       ...config.properties,
       linuxFxVersion,
+      remoteDebuggingVersion,
     },
   };
   return newConfig;
 };
 
 export const getCleanedConfigForSave = (config: SiteConfig) => {
+  // If Remote Debugging Version is set to VS2015, but Remote Debugging is disabled, just change it to VS2017 to prevent the PUT from failing
+  const hasRemoteDebuggingDisabledWithVS2015 = !config.remoteDebuggingEnabled && config.remoteDebuggingVersion === 'VS2015';
+  const remoteDebuggingVersion = hasRemoteDebuggingDisabledWithVS2015 ? 'VS2017' : config.remoteDebuggingVersion;
+
   let linuxFxVersion = config.linuxFxVersion || '';
   if (linuxFxVersion) {
     const linuxFxVersionParts = linuxFxVersion.split('|');
@@ -68,6 +79,7 @@ export const getCleanedConfigForSave = (config: SiteConfig) => {
   const newConfig: SiteConfig = {
     ...config,
     linuxFxVersion,
+    remoteDebuggingVersion,
   };
   return newConfig;
 };
