@@ -538,7 +538,7 @@
   <data name="features" xml:space="preserve">
         <value>Özellikler</value>
     </data>
-  <data name="filedRequired" xml:space="preserve">
+  <data name="fieldRequired" xml:space="preserve">
         <value>Bu alan gereklidir</value>
     </data>
   <data name="functionDev_code" xml:space="preserve">
@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Test, GitHub web kancası işlevleri için desteklenmiyor.</value>
     </data>
+  <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>Geçerli çalışma zamanı sürümü</value>
+    </data>
   <data name="runtimeVersion" xml:space="preserve">
         <value>Çalışma zamanı sürümü</value>
     </data>
@@ -1010,7 +1013,7 @@
         <value>Azure İşlevler v2 (.NET Standard)</value>
     </data>
   <data name="runtimeImageCustom" xml:space="preserve">
-        <value>özel</value>
+        <value>Özel</value>
     </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
         <value>İşlev uygulamanız ayarlanan kotayı aştığından devre dışı bırakıldı. Kotayı sol kenar çubuğundaki işlev uygulaması ayarları görünümünden değiştirebilirsiniz.</value>
@@ -1446,6 +1449,9 @@
     </data>
   <data name="loading" xml:space="preserve">
         <value>Yükleniyor...</value>
+    </data>
+  <data name="loadingFailed" xml:space="preserve">
+        <value>Yükleme başarısız</value>
     </data>
   <data name="configUpdating" xml:space="preserve">
         <value>Web uygulaması ayarları güncelleştiriliyor</value>
@@ -4367,6 +4373,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="connectionStrings" xml:space="preserve">
         <value>Bağlantı dizeleri</value>
     </data>
+  <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>İşlev çalışma zamanı ayarları</value>
+    </data>
   <data name="generalSettings" xml:space="preserve">
         <value>Genel ayarlar</value>
     </data>
@@ -4785,7 +4794,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Yeni Azure Depolama Bağlama</value>
     </data>
   <data name="editAzureStorageMount" xml:space="preserve">
-        <value>Edit Azure Storage Mount</value>
+        <value>Azure Depolama Bağlamayı Düzenle</value>
     </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Azure Depolama Bağlamayı Boşalt</value>
@@ -5238,9 +5247,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="apimUpsell" xml:space="preserve">
         <value>Azure API Management, API'ler ve İşlevlerle çalışırken gelişmiş özellikler sunar. Daha fazla bilgi edinmek için buraya tıklayın!</value>
     </data>
-  <data name="version3Preview" xml:space="preserve">
-        <value>~3 (Önizleme)</value>
-    </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>Kimlik doğrulama durumu alınamıyor. Lütfen birkaç dakika içinde yeniden deneyin.</value>
     </data>
@@ -5371,7 +5377,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Sanal ağ tetikleyici desteği</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Bu ayar, uygulamanızın bir sanal ağ içindeki kaynaklar tarafından tetiklenmesini sağlar. Ayrıca 1 önceden hazırlanmış örneğin etkin olmasını ve çalışma zamanı V2 veya üzerini çalıştırmasını gerektirir. &lt;a href="{0}" target="_blank"&gt;Daha fazla bilgi edinin&lt;/a&gt;.</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>Bu ayar, uygulamanızın sanal ağ içindeki kaynaklar tarafından tetiklenmesini sağlar. Ayrıca 1 önceden hazırlanmış örneğin etkin olmasını ve çalışma zamanı V2 veya üzerini çalıştırmasını gerektirir.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Uygulama Ayarlarını Yenile</value>
@@ -5483,5 +5492,59 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>{0} başarıyla oluşturuldu</value>
+    </data>
+  <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>Bağlı Blob kapsayıcıları Şubat 2020'de salt okunur hale gelecek.</value>
+    </data>
+  <data name="quickstartHeader" xml:space="preserve">
+        <value>Azure İşlevleri yerel olarak geliştirmeyi öğrenin</value>
+    </data>
+  <data name="quickstartDesc" xml:space="preserve">
+        <value>Geliştirme ortamınıza bağlı olarak, yönergeler farklılık gösterebilir. Tüm seçeneklerin kapsamlı bir görünümü için: </value>
+    </data>
+  <data name="viewDocumentation" xml:space="preserve">
+        <value>Belgeleri Görüntüle</value>
+    </data>
+  <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>Geliştirme ortamı seçin</value>
+    </data>
+  <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>Hızlı başlatma seçenekleri yüklenemedi.</value>
+    </data>
+  <data name="githubActionInfo" xml:space="preserve">
+        <value>En son dağıtımı göremiyor musunuz? GitHub Eylemi'nin durumunu denetlemek için buraya tıklayın.</value>
+    </data>
+  <data name="commitId" xml:space="preserve">
+        <value>İşleme Kimliği</value>
+    </data>
+  <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>Bu bölümü görüntülemek/düzenlemek için Okuma/Yazma izinleri gerekir.</value>
+    </data>
+  <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>Çalışma zamanı sürümü, uygulamanız için yapılandırılmadığından çalışma zamanı başlatılamıyor. Lütfen çalışma zamanı sürümünü (~2 gibi) geçerli bir değere güncelleştirin.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
+        <value>Uygulamanız şu anda '{0}' çalışma zamanı sürümüne sabitlenmiş. '{0}' sürümüne sabitleme, her zaman, bozukluğa neden olacak değişiklikler içerebilecek ana sürüm güncelleştirmelerinden sonra bile çalışma zamanının en son sürümünü çalıştırıyor olacağınız anlamına gelir. Bu değeri (~2 gibi) belirli bir ana sürüme ayarlamanız önerilir. Bunu yaparsanız, daha yeni sürümler güncelleştirme için size bildirilir.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
+        <value>Uygulamanız şu anda '{0}' çalışma zamanı sürümüne sabitlenmiş, bu nedenle uygulamanız en son sürümü ({1}) kullanıyor. '{0}' sürümüne sabitleme, her zaman, bozukluğa neden olacak değişiklikler içerebilecek ana sürüm güncelleştirmelerinden sonra bile çalışma zamanının en son sürümünü çalıştırıyor olacağınız anlamına gelir. Bu değeri (~2 gibi) belirli bir ana sürüme ayarlamanız önerilir. Bunu yaparsanız, daha yeni sürümler güncelleştirme için size bildirilir.</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
+        <value>Uygulamanız şu anda '{0}' çalışma zamanı sürümüne sabitlenmiş. Bu sürüm artık desteklenmediğinde, uygulamanız çalışma zamanının en son sürümünü kullanmaya başlar. Bu, farklı bir ana sürüm olabilir ve bozukluğa neden olacak değişiklikler içerebilir. Bu değeri (~2) belirli bir ana sürüme ayarlamanız önerilir. Bunu yaparsanız, daha yeni sürümler güncelleştirme için size bildirilir.</value>
+    </data>
+  <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
+        <value>Özel çalışma zamanı sürümünüz ({0}) desteklenmiyor. Bu nedenle uygulamanız en son sürümü {1} kullanıyor ve her zaman, bozukluğa neden olacak değişiklikler içerebilecek ana sürüm güncelleştirmelerinden sonra bile çalışma zamanının en son sürümünü çalıştırıyor olacaksınız. Bu değeri (~2 gibi) belirli bir ana sürüme ayarlamanız önerilir. Bunu yaparsanız, daha yeni sürümler güncelleştirme için size bildirilir.</value>
+    </data>
+  <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
+        <value>Çalışma zamanı sürümü FUNCTIONS_EXTENSION_VERSION uygulama ayarı tarafından denetlenir. Özel bir sürümün yapılandırılması, yapılandırılan değerin geçersiz olması veya desteklenmemesi durumunda en son sürüm ayarlanacağından önerilmez. Bu durum, büyük sürüm güncelleştirmeleri bozulmaya neden olan değişiklikler içerebileceğinden işlevlerinizi bozuk bir durumda bırakabilir.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
+        <value>Mevcut işlevlerle yükseltme işlemi yapılamaz: Ana sürüm yükseltme, diller ve bağlamalar için bozucu değişiklikler ortaya çıkarabilir. Çalışma zamanının ana sürümünü yükseltirken, yeni bir işlev uygulaması oluşturup işlevlerinizi bu yeni uygulamaya geçirmeyi düşünün.</value>
+    </data>
+  <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
+        <value>GitHub belirtecinde 'iş akışı' kapsamı eksik.</value>
+    </data>
+  <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>GitHub eylemi iş akışı dosyası olan '{{workflowFilePath}}', '{{branchName}} ' dalında zaten var. İşleme devam edildiğinde bu dosyanın üzerine yazılacak.</value>
     </data>
 </root>
