@@ -1792,4 +1792,5 @@ export class PortalResources {
   public static functionsRuntimeVersionExistingFunctionsWarning = 'functionsRuntimeVersionExistingFunctionsWarning';
   public static githubActionWorkflowScopeMissing = 'githubActionWorkflowScopeMissing';
   public static githubActionWorkflowFileExists = 'githubActionWorkflowFileExists';
+  public static remoteDebuggingVS2015NotSupported = 'remoteDebuggingVS2015NotSupported';
 }
