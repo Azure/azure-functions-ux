@@ -357,25 +357,15 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
       )
       .switchMap(notificationInfo => {
         saveUserCredentialsNotificationId = notificationInfo.id;
-        return this._siteService
-          .updatePublishingUser({
-            publishingUserName: this.userPasswordForm.value.userName,
-            publishingPassword: this.userPasswordForm.value.password,
-          })
-          .catch((error, result) => {
-            const errorMessage = error && error.json && error.json().Message;
-            this._portalService.stopNotification(
-              saveUserCredentialsNotificationId,
-              false,
-              errorMessage || PortalResources.savingCredentialsFail
-            );
-            return Observable.of(null);
-          });
+        return this._siteService.updatePublishingUser({
+          publishingUserName: this.userPasswordForm.value.userName,
+          publishingPassword: this.userPasswordForm.value.password,
+        });
       })
       .subscribe(result => {
         this.saving = false;
 
-        if (result && result.isSuccessful) {
+        if (result.isSuccessful) {
           this._portalService.stopNotification(
             saveUserCredentialsNotificationId,
             true,
@@ -385,7 +375,7 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
           this.setInput({
             resourceId: this._credentialsData.resourceId,
           });
-        } else if (result && !result.isSuccessful) {
+        } else {
           const message = (result.error && result.error.message) || this._translateService.instant(PortalResources.savingCredentialsFail);
           this._portalService.stopNotification(saveUserCredentialsNotificationId, false, message);
         }
