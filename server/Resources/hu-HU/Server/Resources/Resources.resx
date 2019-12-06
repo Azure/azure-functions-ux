@@ -538,7 +538,7 @@
   <data name="features" xml:space="preserve">
         <value>Szolgáltatások</value>
     </data>
-  <data name="filedRequired" xml:space="preserve">
+  <data name="fieldRequired" xml:space="preserve">
         <value>Ezt a mezőt kötelező kitölteni</value>
     </data>
   <data name="functionDev_code" xml:space="preserve">
@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>A tesztelés GitHub-webhookfüggvények esetében nem támogatott.</value>
     </data>
+  <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>Aktuális futtatókörnyezet verziója</value>
+    </data>
   <data name="runtimeVersion" xml:space="preserve">
         <value>Futtatókörnyezet verziója</value>
     </data>
@@ -1010,7 +1013,7 @@
         <value>Azure Functions v2 (.NET Standard)</value>
     </data>
   <data name="runtimeImageCustom" xml:space="preserve">
-        <value>egyéni</value>
+        <value>Egyéni</value>
     </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
         <value>A függvényalkalmazás le van tiltva, mert túllépte a beállított kvótát. Ezt a bal oldali sávon, a függvényalkalmazás beállításainak nézetében módosíthatja.</value>
@@ -1446,6 +1449,9 @@
     </data>
   <data name="loading" xml:space="preserve">
         <value>Betöltés...</value>
+    </data>
+  <data name="loadingFailed" xml:space="preserve">
+        <value>A betöltés nem sikerült</value>
     </data>
   <data name="configUpdating" xml:space="preserve">
         <value>Folyamatban van a webalkalmazás-beállítások frissítése.</value>
@@ -4367,6 +4373,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="connectionStrings" xml:space="preserve">
         <value>Kapcsolati sztringek</value>
     </data>
+  <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>Függvény futtatási beállításai</value>
+    </data>
   <data name="generalSettings" xml:space="preserve">
         <value>Általános beállítások</value>
     </data>
@@ -4785,7 +4794,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Új Azure Storage-kötet</value>
     </data>
   <data name="editAzureStorageMount" xml:space="preserve">
-        <value>Edit Azure Storage Mount</value>
+        <value>Azure Storage-kötet szerkesztése</value>
     </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Üres Azure Storage-kötet</value>
@@ -5238,9 +5247,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="apimUpsell" xml:space="preserve">
         <value>Az Azure API Management továbbfejlesztett funkciókat biztosít az API-k és a függvények használatakor. További információért kattintson ide!</value>
     </data>
-  <data name="version3Preview" xml:space="preserve">
-        <value>~3 (előzetes verzió)</value>
-    </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>Nem sikerült beolvasni a hitelesítési állapotot. Próbálkozzon újra néhány perc múlva.</value>
     </data>
@@ -5371,7 +5377,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Virtuálishálózat-eseményindító támogatása</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Ez a beállítás lehetővé teszi, hogy az alkalmazást egy virtuális hálózat erőforrásai aktiválhassák. Emellett egy aktív előmelegített példányra és 2-es vagy újabb verziójú futtatókörnyezetre van szükség. &lt;a href="{0}" target="_blank"&gt;További információ&lt;/a&gt;.</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>Ez a beállítás lehetővé teszi, hogy az alkalmazást egy virtuális hálózat erőforrásai aktiválhassák. Emellett egy aktív előmelegített példányra és 2-es vagy újabb verziójú futtatókörnyezetre van szükség.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Alkalmazás beállításainak frissítése</value>
@@ -5483,5 +5492,59 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>A(z) {0} létrehozása sikerült</value>
+    </data>
+  <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>A csatlakoztatott blobtárolók 2020 februárjában csak olvashatóvá válnak.</value>
+    </data>
+  <data name="quickstartHeader" xml:space="preserve">
+        <value>A Azure Functions helyi fejlesztésének ismertetése</value>
+    </data>
+  <data name="quickstartDesc" xml:space="preserve">
+        <value>A fejlesztői környezettől függően az utasítások eltérőek lehetnek. Az összes beállítás teljes áttekintéséhez: </value>
+    </data>
+  <data name="viewDocumentation" xml:space="preserve">
+        <value>Dokumentáció megtekintése</value>
+    </data>
+  <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>Válasszon fejlesztőkörnyezetet</value>
+    </data>
+  <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>Nem sikerült betölteni a gyorskonfigurálási beállításokat.</value>
+    </data>
+  <data name="githubActionInfo" xml:space="preserve">
+        <value>Nem jelenik meg a legutóbbi üzembe helyezés? Kattintson ide a GitHub-művelet állapotának ellenőrzéséhez.</value>
+    </data>
+  <data name="commitId" xml:space="preserve">
+        <value>Véglegesítés azonosítója</value>
+    </data>
+  <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>E szakasz megtekintéséhez vagy szerkesztéséhez olvasási, illetve írási engedély szükséges.</value>
+    </data>
+  <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>Az alkalmazás futtatókörnyezetének verziója nincs konfigurálva, ezért a futtatókörnyezet nem indítható el. Frissítse a futtatókörnyezet verzióját egy érvényes értékre (például a következőre: ~2).</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
+        <value>Az alkalmazása jelenleg a(z) {0} futtatókörnyezet-verzióhoz van rögzítve. A(z) {0} verzióhoz való rögzítés azt jelenti, hogy a rendszer még azon főverzió-frissítések esetében is a futtatókörnyezet legújabb verzióját fogja futtatja, amelyek kompatibilitástörő változásokat tartalmazhatnak. Azt javasoljuk, hogy állítson be egy adott főverziót (például a következőt: ~2), és az újabb verziók megjelenésekor frissítési értesítést küldünk Önnek.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
+        <value>Az alkalmazása jelenleg a(z) {0} futtatókörnyezet-verzióhoz van rögzítve, tehát az alkalmazás a legújabb verziót ({1}) használja. A(z) {0} verzióhoz való rögzítés azt jelenti, hogy a rendszer még azon főverzió-frissítések esetében is a futtatókörnyezet legújabb verzióját fogja futtatja, amelyek kompatibilitástörő változásokat tartalmazhatnak. Azt javasoljuk, hogy állítson be egy adott főverziót (például a következőt: ~2), és az újabb verziók megjelenésekor frissítési értesítést küldünk Önnek.</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
+        <value>Az alkalmazás jelenleg a(z) {0} futtatókörnyezet-verzióhoz van rögzítve. Ha ennek a verziónak a támogatása megszűnik, az alkalmazás a futtatókörnyezet legújabb verzióját kezdi el használni, amely egy jelenlegitől eltérő főverzió lehet, és kompatibilitástörő változásokat tartalmazhat. Azt javasoljuk, hogy állítson be egy adott főverziót (például a következőt: ~2), és az újabb verziók megjelenésekor frissítési értesítést küldünk Önnek.</value>
+    </data>
+  <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
+        <value>Az egyéni futtatókörnyezet verziója ({0}) nem támogatott. Ennek eredményeként az alkalmazás a legújabb verziót ({1}) használja, és a rendszer még azon főverzió-frissítések esetében is a futtatókörnyezet legújabb verzióját fogja futtatja, amelyek kompatibilitástörő változásokat tartalmazhatnak. Azt javasoljuk, hogy állítson be egy adott főverziót (például a következőt: ~2), és az újabb verziók megjelenésekor frissítési értesítést küldünk Önnek.</value>
+    </data>
+  <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
+        <value>A futtatókörnyezet verzióját a FUNCTIONS_EXTENSION_VERSION alkalmazásbeállítás szabályozza. Egyéni verzió konfigurálása nem javasolt, mert ha a konfigurált érték érvénytelen, vagy elavul, a rendszer lecseréli a legújabb verzióval. Ez a függvények hibás működéséhez vezethet, mivel a főverzió-frissítések kompatibilitástörő változásokat tartalmazhatnak.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
+        <value>A frissítés a meglévő függvények miatt nem hajtható végre: a jelentősebb verziófrissítések kompatibilitástörő változásokat eredményezhetnek a nyelvekben és a kötésekben. A futtatókörnyezet főverzióinak frissítésekor célszerű létrehozni egy új függvényalkalmazást, és migrálni a függvényeket ebbe az új alkalmazásba.</value>
+    </data>
+  <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
+        <value>Nem található a munkafolyamat hatókör a GitHub-tokenben.</value>
+    </data>
+  <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch, by continuing this file will be overwritten.</value>
     </data>
 </root>

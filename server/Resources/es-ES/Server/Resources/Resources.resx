@@ -538,7 +538,7 @@
   <data name="features" xml:space="preserve">
         <value>Características</value>
     </data>
-  <data name="filedRequired" xml:space="preserve">
+  <data name="fieldRequired" xml:space="preserve">
         <value>Este campo es obligatorio</value>
     </data>
   <data name="functionDev_code" xml:space="preserve">
@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Las pruebas no son compatibles con las funciones de webhook de GitHub.</value>
     </data>
+  <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>Versión en tiempo de ejecución actual</value>
+    </data>
   <data name="runtimeVersion" xml:space="preserve">
         <value>Versión en tiempo de ejecución</value>
     </data>
@@ -1010,7 +1013,7 @@
         <value>Azure Functions v2 (.NET Standard)</value>
     </data>
   <data name="runtimeImageCustom" xml:space="preserve">
-        <value>personalizado</value>
+        <value>Personalizada</value>
     </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
         <value>La aplicación de funciones se ha deshabilitado porque ha superado la cuota establecida. Puede cambiar esta opción en la vista de configuración de aplicación de funciones en la barra lateral izquierda.</value>
@@ -1446,6 +1449,9 @@
     </data>
   <data name="loading" xml:space="preserve">
         <value>Cargando...</value>
+    </data>
+  <data name="loadingFailed" xml:space="preserve">
+        <value>Error al cargar</value>
     </data>
   <data name="configUpdating" xml:space="preserve">
         <value>Actualizando la configuración de la aplicación web</value>
@@ -4367,6 +4373,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="connectionStrings" xml:space="preserve">
         <value>Cadenas de conexión</value>
     </data>
+  <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>Configuración del tiempo de ejecución de la función</value>
+    </data>
   <data name="generalSettings" xml:space="preserve">
         <value>Configuración general</value>
     </data>
@@ -4785,7 +4794,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Nuevo montaje de Azure Storage</value>
     </data>
   <data name="editAzureStorageMount" xml:space="preserve">
-        <value>Edit Azure Storage Mount</value>
+        <value>Editar montaje de Azure Storage</value>
     </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Montaje de Azure Storage vacío</value>
@@ -5238,9 +5247,6 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="apimUpsell" xml:space="preserve">
         <value>Azure API Management ofrece funcionalidades mejoradas al trabajar con API y funciones. Haga clic aquí para obtener más información.</value>
     </data>
-  <data name="version3Preview" xml:space="preserve">
-        <value>~3 (versión preliminar)</value>
-    </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>No se puede recuperar el estado de autenticación. Vuelva a intentarlo en unos minutos.</value>
     </data>
@@ -5362,7 +5368,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Los nombres de las cadenas de conexión solo pueden contener letras, números (0-9), puntos (".") y guiones bajos ("_").</value>
     </data>
   <data name="closeGetFunctionUrlModal" xml:space="preserve">
-        <value>Cierre el elemento modal de la URL de la función GET.</value>
+        <value>Cierre la ventana modal Obtener la dirección URL de la función.</value>
     </data>
   <data name="scope" xml:space="preserve">
         <value>Ámbito</value>
@@ -5371,7 +5377,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Compatibilidad con el desencadenador de red virtual</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Esta configuración permite que la aplicación se desencadene mediante recursos dentro de una red virtual. También es necesario que haya una instancia previamente activa y un entorno de ejecución de la versión 2 o posterior. &lt;a href="{0}" target="_blank"&gt;Obtenga más información&lt;/a&gt;.</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>Esta configuración permite que la aplicación se desencadene mediante recursos dentro de una red virtual. También es necesario que haya una instancia previamente activa y un entorno de ejecución de la versión 2 o posterior.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Actualizar la configuración de la aplicación</value>
@@ -5483,5 +5492,59 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>{0} se creó correctamente.</value>
+    </data>
+  <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>Los contenedores de blobs montados se convertirán en contenedores de solo lectura en febrero del 2020.</value>
+    </data>
+  <data name="quickstartHeader" xml:space="preserve">
+        <value>Más información sobre cómo desarrollar Azure Functions localmente</value>
+    </data>
+  <data name="quickstartDesc" xml:space="preserve">
+        <value>En función del entorno de desarrollo, las instrucciones pueden variar. Para obtener una vista completa de todas las opciones: </value>
+    </data>
+  <data name="viewDocumentation" xml:space="preserve">
+        <value>Ver documentación</value>
+    </data>
+  <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>Elija un entorno de desarrollo</value>
+    </data>
+  <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>No se pudieron cargar las opciones de inicio rápido.</value>
+    </data>
+  <data name="githubActionInfo" xml:space="preserve">
+        <value>¿La última implementación no se muestra? Haga clic aquí para comprobar el estado de la acción de GitHub.</value>
+    </data>
+  <data name="commitId" xml:space="preserve">
+        <value>Id. de confirmación</value>
+    </data>
+  <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>Se necesitan permisos de lectura y escritura para ver o editar esta sección.</value>
+    </data>
+  <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>La versión en tiempo de ejecución no está configurada para la aplicación. Como resultado, no se puede iniciar el entorno de ejecución. Actualice la versión del entorno de ejecución a un valor válido (por ejemplo, ~2).</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
+        <value>Actualmente, la aplicación está anclada a la versión en tiempo de ejecución "{0}". Si la ancla a "{0}", siempre ejecutará la última versión del entorno de ejecución, incluso en las actualizaciones de versiones principales, que pueden contener cambios importantes. Le recomendamos que establezca ese valor en una versión principal específica (por ejemplo, ~2) y recibirá notificaciones con las versiones más recientes para que realice la actualización.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
+        <value>Actualmente, la aplicación está anclada a la versión en tiempo de ejecución "{0}", por lo que usa la versión más reciente ({1}). Si la ancla a "{0}", siempre ejecutará la última versión del entorno de ejecución, incluso en las actualizaciones de versiones principales, que pueden contener cambios importantes. Le recomendamos que establezca ese valor en una versión principal específica (por ejemplo, ~2) y recibirá notificaciones con las versiones más recientes para que realice la actualización.</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
+        <value>Actualmente, la aplicación está anclada a la versión en tiempo de ejecución "{0}". Cuando esta versión ya no se admita, su aplicación empezará a usar la versión más reciente del entorno de ejecución, que puede ser una versión principal distinta y contener cambios importantes. Le recomendamos que establezca ese valor en una versión principal específica (por ejemplo, ~2) y recibirá notificaciones con las versiones más recientes para que realice la actualización.</value>
+    </data>
+  <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
+        <value>La versión en tiempo de ejecución personalizada ({0}) no se admite. Como resultado, la aplicación usa la versión más reciente ({1}) y siempre ejecutará la última versión del entorno de ejecución, incluso en actualizaciones de versiones principales, que pueden contener cambios importantes. Le recomendamos que establezca ese valor en una versión principal específica (por ejemplo, ~2) y recibirá notificaciones con las versiones más recientes para que realice la actualización.</value>
+    </data>
+  <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
+        <value>La configuración de la aplicación FUNCTIONS_EXTENSION_VERSION controla la versión en tiempo de ejecución. No le recomendamos que configure una versión personalizada porque terminará con la última versión si el valor configurado no es válido o no se admite. Debido a esto, es posible que sus funciones pasen a un estado de interrupción, ya que las actualizaciones de la versión principal pueden contener cambios importantes.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
+        <value>No se puede realizar la actualización con las funciones existentes: las actualizaciones de versiones principales pueden incorporar cambios importantes en los idiomas y los enlaces. Al actualizar las versiones principales del entorno de ejecución, considere la posibilidad de crear una aplicación de funciones para migrar sus funciones a esta.</value>
+    </data>
+  <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
+        <value>Falta el ámbito "flujo de trabajo" en el token de GitHub.</value>
+    </data>
+  <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>El archivo de flujo de trabajo de acción de GitHub "{{workflowFilePath}}" ya existe en la rama "{{branchName}}"; si sigue con la operación, el archivo se sobrescribirá.</value>
     </data>
 </root>

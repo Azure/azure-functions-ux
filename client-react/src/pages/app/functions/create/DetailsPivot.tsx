@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
-import { DefaultButton } from 'office-ui-fabric-react';
+import { DefaultButton, Spinner } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
 import { BindingsConfig, BindingConfigMetadata } from '../../../../models/functions/bindings-config';
@@ -57,7 +57,7 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
                 <div style={detailsPaddingStyle}>
                   {builder.getFields(formProps, false)}
                   <DefaultButton onClick={formProps.submitForm} disabled={!formProps.isValid || creatingFunction}>
-                    {t('functionCreate_createFunction')}
+                    {creatingFunction ? <Spinner /> : t('functionCreate_createFunction')}
                   </DefaultButton>
                 </div>
               </form>

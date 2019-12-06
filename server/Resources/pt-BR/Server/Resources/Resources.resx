@@ -538,7 +538,7 @@
   <data name="features" xml:space="preserve">
         <value>Recursos</value>
     </data>
-  <data name="filedRequired" xml:space="preserve">
+  <data name="fieldRequired" xml:space="preserve">
         <value>Este campo é obrigatório</value>
     </data>
   <data name="functionDev_code" xml:space="preserve">
@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Não há suporte para testes nas funções de webhook do GitHub.</value>
     </data>
+  <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>Versão atual do runtime</value>
+    </data>
   <data name="runtimeVersion" xml:space="preserve">
         <value>Versão de runtime</value>
     </data>
@@ -1010,7 +1013,7 @@
         <value>Azure Functions v2 (.NET Standard)</value>
     </data>
   <data name="runtimeImageCustom" xml:space="preserve">
-        <value>personalizado</value>
+        <value>Personalizado</value>
     </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
         <value>O seu aplicativo de funções está desabilitado porque ele excedeu a cota de configuração. Você pode alterar isso na exibição de configurações do aplicativo de funções na barra esquerda.</value>
@@ -1446,6 +1449,9 @@
     </data>
   <data name="loading" xml:space="preserve">
         <value>Carregando...</value>
+    </data>
+  <data name="loadingFailed" xml:space="preserve">
+        <value>Falha ao carregar</value>
     </data>
   <data name="configUpdating" xml:space="preserve">
         <value>Atualizando configurações do aplicativo Web</value>
@@ -4367,6 +4373,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="connectionStrings" xml:space="preserve">
         <value>Cadeias de conexão</value>
     </data>
+  <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>Configurações de runtime de função</value>
+    </data>
   <data name="generalSettings" xml:space="preserve">
         <value>Configurações gerais</value>
     </data>
@@ -4785,7 +4794,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Nova Montagem do Armazenamento do Azure</value>
     </data>
   <data name="editAzureStorageMount" xml:space="preserve">
-        <value>Edit Azure Storage Mount</value>
+        <value>Editar a Montagem de Armazenamento do Azure</value>
     </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Montagem de Armazenamento do Azure Vazio</value>
@@ -5170,7 +5179,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Detalhes do Erro</value>
     </data>
   <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>As teclas de função podem ser definidas nas configurações de função.</value>
+        <value>As chaves de função podem ser definidas nas configurações de função.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Chaves do host (todas as funções)</value>
@@ -5237,9 +5246,6 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     </data>
   <data name="apimUpsell" xml:space="preserve">
         <value>O Gerenciamento de API do Azure fornece recursos aprimorados ao trabalhar com as APIs e o Functions. Clique aqui para saber mais.</value>
-    </data>
-  <data name="version3Preview" xml:space="preserve">
-        <value>~3 (Versão Prévia)</value>
     </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>Não é possível recuperar o estado de autenticação. Tente novamente em alguns minutos.</value>
@@ -5371,7 +5377,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
         <value>Suporte a gatilho de rede virtual</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Essa configuração habilita o seu aplicativo a ser disparado por recursos em uma rede virtual. Também é necessário que uma instância pré-aquecida esteja ativa, além do runtime V2 ou superior. &lt;a href="{0}" target="_blank"&gt;Saiba mais&lt;/a&gt;.</value>
+    </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>Essa configuração permite que o aplicativo seja disparado pelos recursos em uma rede virtual. Também é necessário que uma instância pré-configurada esteja ativa e que o runtime V2 ou superior esteja presente.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Atualizar Configurações do Aplicativo</value>
@@ -5483,5 +5492,59 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>{0} criado com êxito</value>
+    </data>
+  <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>Os contêineres de Blob montados se tornarão somente leitura em fevereiro de 2020.</value>
+    </data>
+  <data name="quickstartHeader" xml:space="preserve">
+        <value>Saiba como desenvolver o Azure Functions localmente</value>
+    </data>
+  <data name="quickstartDesc" xml:space="preserve">
+        <value>As instruções podem variar dependendo do seu ambiente de desenvolvimento. Para obter uma exibição abrangente de todas as opções: </value>
+    </data>
+  <data name="viewDocumentation" xml:space="preserve">
+        <value>Exibir Documentação</value>
+    </data>
+  <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>Escolher um ambiente de desenvolvimento</value>
+    </data>
+  <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>Falha ao carregar as opções de início rápido.</value>
+    </data>
+  <data name="githubActionInfo" xml:space="preserve">
+        <value>A última implantação não está sendo exibida? Clique aqui para verificar o status da Ação do GitHub.</value>
+    </data>
+  <data name="commitId" xml:space="preserve">
+        <value>Confirmar ID</value>
+    </data>
+  <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>São necessárias permissões de Leitura ou Gravação para exibir ou editar esta seção.</value>
+    </data>
+  <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>A versão do runtime não está configurada para o aplicativo. Como resultado, o runtime não pode ser iniciado. Atualize a versão do runtime para um valor válido (por exemplo, ~2).</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
+        <value>No momento, o aplicativo está fixado à versão '{0}' do runtime. A fixação à '{0}' significa que você sempre estará executando a versão mais recente do runtime mesmo nas atualizações de versão principal que podem conter alterações da falha. É recomendado definir esse valor para uma versão principal específica (por exemplo, ~2). Você será notificado sobre as versões mais recentes para atualização.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
+        <value>No momento, o aplicativo está fixado à versão '{0}' do runtime, portanto, ele está usando a versão mais recente ({1}). A fixação à '{0}' significa que você sempre estará executando a versão mais recente do runtime mesmo nas atualizações de versão principal que podem conter alterações da falha. É recomendado definir esse valor para uma versão principal específica (por exemplo, ~2). Você será notificado sobre as versões mais recentes para atualização.</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
+        <value>No momento, o aplicativo está fixado à versão '{0}' de runtime. Quando não houver mais suporte para essa versão, o aplicativo começará a usar a versão mais recente do runtime, que pode ser uma versão principal diferente e pode conter alterações da falha. É recomendado definir esse valor para uma versão principal específica (por exemplo, ~2). Você será notificado sobre as versões mais recentes para atualização.</value>
+    </data>
+  <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
+        <value>Não há suporte para a versão personalizada ({0}) do runtime. Como resultado, o aplicativo está usando a versão mais recente {1}, e você sempre estará executando a versão mais recente do runtime, mesmo nas atualizações de versão principal, que podem conter alterações da falha. É recomendado definir esse valor para uma versão principal específica (por exemplo, ~2). Você será notificado sobre as versões mais recentes para atualização.</value>
+    </data>
+  <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
+        <value>A versão do runtime é controlada pela configuração de aplicativo FUNCTIONS_EXTENSION_VERSION. A configuração de uma versão personalizada não é recomendada, pois a versão mais recente acabará sendo usada se o valor configurado for inválido ou ficar sem suporte. Isso pode deixar as funções em um estado interrompido, pois as atualizações da versão principal podem conter alterações da falha.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
+        <value>Não é possível atualizar com as funções existentes: as atualizações de versão principal podem introduzir alterações da falha aos idiomas e às associações. Ao atualizar as versões principais do runtime, considere a criação de um aplicativo de funções e a migração das funções para esse novo aplicativo.</value>
+    </data>
+  <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
+        <value>O escopo do 'fluxo de trabalho' está ausente no token do GitHub.</value>
+    </data>
+  <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch, by continuing this file will be overwritten.</value>
     </data>
 </root>
