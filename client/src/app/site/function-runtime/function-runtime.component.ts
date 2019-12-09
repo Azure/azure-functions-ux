@@ -533,6 +533,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
     if (version === '~2') {
       appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersionV2;
+    } else if (version === '~3') {
+      appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersionV3;
     } else {
       appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
     }
