@@ -19,6 +19,7 @@ export class Constants {
   public static cdnNgMin = !!window.appsvc.cdn ? `${window.appsvc.cdn}/ng-min/` : '';
   public static nodeVersion = '6.5.0';
   public static nodeVersionV2 = '8.11.1';
+  public static nodeVersionV3 = '~12';
   public static latest = 'latest';
   public static disabled = 'disabled';
   public static runtimeVersionAppSettingName = 'FUNCTIONS_EXTENSION_VERSION';
