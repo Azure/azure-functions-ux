@@ -1,6 +1,14 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from '../../../../ThemeContext';
-import { getCardStyle, getHeaderStyle, getDescriptionStyle, getSrc } from './FunctionCreate.styles';
+import {
+  getCardStyle,
+  getHeaderStyle,
+  getDescriptionStyle,
+  getSrc,
+  getTitleStyle,
+  getInfoStyle,
+  getSelectStyle,
+} from './FunctionCreate.styles';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { useTranslation } from 'react-i18next';
 import { PivotState } from './FunctionCreate';
@@ -18,24 +26,25 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
   const { t } = useTranslation();
 
   return (
-    <>
-      <div
-        tabIndex={0}
-        className={getCardStyle(theme)}
-        onClick={() => onTemplateSelected(functionTemplate, setSelectedFunctionTemplate, setPivotStateKey)}
-        onKeyDown={event => {
-          if (event.keyCode === KeyCodes.enter) {
-            onTemplateSelected(functionTemplate, setSelectedFunctionTemplate, setPivotStateKey);
-          }
-        }}>
-        <div className={getHeaderStyle(functionTemplate)}>
-          <img src={getSrc(functionTemplate)} />
-          {functionTemplate.metadata.name}
-        </div>
-
-        <div className={getDescriptionStyle(theme)}>{t(`${functionTemplate.metadata.description.replace('$', '')}`)}</div>
+    <div
+      tabIndex={0}
+      className={getCardStyle(theme)}
+      onClick={() => onTemplateSelected(functionTemplate, setSelectedFunctionTemplate, setPivotStateKey)}
+      onKeyDown={event => {
+        if (event.keyCode === KeyCodes.enter) {
+          onTemplateSelected(functionTemplate, setSelectedFunctionTemplate, setPivotStateKey);
+        }
+      }}>
+      <div className={getHeaderStyle(functionTemplate)}>
+        <img src={getSrc(functionTemplate)} />
       </div>
-    </>
+
+      <div className={getDescriptionStyle(theme)}>
+        <div className={getTitleStyle(theme)}>{functionTemplate.metadata.name}</div>
+        <div className={getInfoStyle(theme)}>{t(`${functionTemplate.metadata.description.replace('$', '')}`)}</div>
+        <div className={getSelectStyle(theme)}>{'Select >'}</div>
+      </div>
+    </div>
   );
 };
 
