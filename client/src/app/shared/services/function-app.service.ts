@@ -91,11 +91,7 @@ export class FunctionAppService {
         return this._userService.getStartupInfo();
       })
       .concatMap(info => {
-        if (context.urlTemplates.useNewUrls) {
-          return this._cacheService.getArm(`${context.site.id}/hostruntime/admin/host/systemkeys/_master`);
-        } else {
-          return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
-        }
+        return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
       })
       .map(r => {
         const value: string | FunctionKey = r.json();
