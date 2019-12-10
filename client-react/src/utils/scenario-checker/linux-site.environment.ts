@@ -123,15 +123,6 @@ export class LinuxSiteEnvironment extends Environment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.functionsRuntimeVersion] = {
-      id: ScenarioIds.functionsRuntimeVersion,
-      runCheck: () => {
-        return {
-          status: 'disabled',
-        };
-      },
-    };
-
     this.scenarioChecks[ScenarioIds.platform64BitSupported] = {
       id: ScenarioIds.platform64BitSupported,
       runCheck: () => {

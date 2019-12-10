@@ -10,6 +10,7 @@ import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runt
 import { messageBannerStyle } from '../AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
+import { isLinuxApp } from '../../../../utils/arm-utils';
 
 interface ControlInputs {
   disableControl: boolean;
@@ -90,7 +91,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
       {
         key: RuntimeExtensionMajorVersions.v1,
         text: RuntimeExtensionMajorVersions.v1,
-        disabled: !!versionRestriction && versionRestriction !== RuntimeExtensionMajorVersions.v1,
+        disabled: isLinuxApp(values.site) || (!!versionRestriction && versionRestriction !== RuntimeExtensionMajorVersions.v1),
       },
       {
         key: RuntimeExtensionMajorVersions.v2,
