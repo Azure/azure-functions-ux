@@ -13,10 +13,10 @@ export const detailsPaddingStyle = {
 
 export const filterBoxStyle = {
   root: {
-    marginLeft: '410px',
-    marginTop: '-10px',
+    marginLeft: '0px',
+    marginTop: '10px',
     height: '30px',
-    width: '300px',
+    width: '250px',
   },
 };
 
@@ -24,10 +24,10 @@ export const getCardStyle = (theme: ThemeExtended) => {
   return style({
     border: `solid 1px ${theme.semanticColors.cardBorderColor}`,
     borderRadius: '2px',
-    width: '300px',
+    width: '250px',
     height: '150px',
     marginTop: '10px',
-    marginRight: '15px',
+    marginRight: '14px',
     marginBottom: '5px',
     float: 'left',
     position: 'relative',
@@ -123,6 +123,6 @@ export const getSelectStyle = (theme: ThemeExtended) => {
     position: 'absolute',
     fontSize: '12px',
     color: '#015CDA',
-    bottom: '18px',
+    bottom: '12px',
   });
 };
