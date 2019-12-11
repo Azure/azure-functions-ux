@@ -67,7 +67,7 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
       </>
     );
   }
-  return <></>;
+  return <p>{t('functionCreate_selectTemplate')}</p>;
 };
 
 // Not all bindings are required for function creation
