@@ -83,20 +83,9 @@ export class FunctionAppService {
   }
 
   private getRuntimeToken(resourceId: string): Observable<string> {
-    let context: FunctionAppContext;
-
-    return this.getAppContext(resourceId)
-      .concatMap(c => {
-        context = c;
-        return this._userService.getStartupInfo();
-      })
-      .concatMap(info => {
-        return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
-      })
-      .map(r => {
-        const value: string | FunctionKey = r.json();
-        return typeof value === 'string' ? value : `masterKey ${value.value}`;
-      });
+    return this._functionService.getHostKeys(resourceId).map(hostKeys => {
+      return (hostKeys && hostKeys.result && hostKeys.result.masterKey) || '';
+    });
   }
 
   getClient(context: FunctionAppContext): ConditionalHttpClient {
