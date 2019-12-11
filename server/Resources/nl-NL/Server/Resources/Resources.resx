@@ -538,7 +538,7 @@
   <data name="features" xml:space="preserve">
         <value>Functies</value>
     </data>
-  <data name="filedRequired" xml:space="preserve">
+  <data name="fieldRequired" xml:space="preserve">
         <value>Dit veld is vereist</value>
     </data>
   <data name="functionDev_code" xml:space="preserve">
@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Testen wordt niet ondersteund voor GitHub-webhookfuncties.</value>
     </data>
+  <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>Huidige runtime-versie</value>
+    </data>
   <data name="runtimeVersion" xml:space="preserve">
         <value>Runtime-versi</value>
     </data>
@@ -1010,7 +1013,7 @@
         <value>Azure Functions v2 (.NET Standard)</value>
     </data>
   <data name="runtimeImageCustom" xml:space="preserve">
-        <value>aangepast</value>
+        <value>Aangepast</value>
     </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
         <value>De functie-app is uitgeschakeld omdat het ingestelde quotum is overschreden. U kunt dit wijzigen in de instellingenweergave van de functie-app in de linkerzijbalk.</value>
@@ -1446,6 +1449,9 @@
     </data>
   <data name="loading" xml:space="preserve">
         <value>Laden...</value>
+    </data>
+  <data name="loadingFailed" xml:space="preserve">
+        <value>Kan niet laden</value>
     </data>
   <data name="configUpdating" xml:space="preserve">
         <value>Web-appinstellingen bijwerken</value>
@@ -4368,6 +4374,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="connectionStrings" xml:space="preserve">
         <value>Verbindingsreeksen</value>
     </data>
+  <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>Runtime-instellingen van de functie</value>
+    </data>
   <data name="generalSettings" xml:space="preserve">
         <value>Algemene instellingen</value>
     </data>
@@ -4786,7 +4795,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Nieuwe koppeling van Azure-opslag</value>
     </data>
   <data name="editAzureStorageMount" xml:space="preserve">
-        <value>Edit Azure Storage Mount</value>
+        <value>Koppeling van AzureStorage bewerken</value>
     </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Lege koppeling van Azure-opslag</value>
@@ -5239,9 +5248,6 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="apimUpsell" xml:space="preserve">
         <value>Azure API Management biedt uitgebreide mogelijkheden wanneer u werkt met API's en functies. Klik hier voor meer informatie.</value>
     </data>
-  <data name="version3Preview" xml:space="preserve">
-        <value>~3 (preview-versie)</value>
-    </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>Kan de verificatiestatus niet ophalen. Probeer het over enkele minuten opnieuw.</value>
     </data>
@@ -5374,6 +5380,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
         <value>Met deze instelling kan uw app worden geactiveerd door resources in een virtueel netwerk. Er moet ook één geïnitialiseerd exemplaar actief zijn en is runtime V2 of hoger vereist. &lt;a href="{0}" target="_blank"&gt;Meer informatie&lt;/a&gt;.</value>
     </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>Met deze instelling kan uw app worden geactiveerd door resources in een virtueel netwerk. Er moet ook één geïnitialiseerd exemplaar actief zijn en is runtime V2 of hoger vereist.</value>
+    </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>App-instellingen vernieuwen</value>
     </data>
@@ -5484,5 +5493,59 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>{0} is gemaakt</value>
+    </data>
+  <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>Gekoppelde blobcontainers worden alleen lezen in februari 2020.</value>
+    </data>
+  <data name="quickstartHeader" xml:space="preserve">
+        <value>Meer informatie over het lokaal ontwikkelen van Azure Functions</value>
+    </data>
+  <data name="quickstartDesc" xml:space="preserve">
+        <value>Afhankelijk van uw implementatieomgeving kunnen de instructies verschillend zijn. Voor een uitgebreid overzicht van alle opties: </value>
+    </data>
+  <data name="viewDocumentation" xml:space="preserve">
+        <value>Documentatie weergeven</value>
+    </data>
+  <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>Kies de implementatieomgeving</value>
+    </data>
+  <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>Kan de Quick Start-opties niet laden.</value>
+    </data>
+  <data name="githubActionInfo" xml:space="preserve">
+        <value>Wordt de nieuwste implementatie niet weergegeven? Klik hier om de status van uw GitHub-actie te controleren.</value>
+    </data>
+  <data name="commitId" xml:space="preserve">
+        <value>Doorvoer-id</value>
+    </data>
+  <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>Machtigingen voor lezen/schrijven zijn vereist als deze sectie wilt weergeven/bewerken.</value>
+    </data>
+  <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>De runtime-versie is niet geconfigureerd voor uw app. Hierdoor kan de runtime niet worden gestart. Werk de runtime-versie bij naar een geldige waarde (bijvoorbeeld ~2).</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
+        <value>Uw app is momenteel gekoppeld aan de runtime-versie {0}. Als u de app koppelt aan {0}, wordt altijd de meest recente versie van de runtime uitgevoerd, zelfs bij updates van de primaire versie die mogelijk wijzigingen bevatten die fouten veroorzaken. U kunt deze waarde het beste instellen op een specifieke primaire versie (bijvoorbeeld ~2) zodat u meldingen ontvangt over nieuwere versies voor updates.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
+        <value>Uw app is momenteel gekoppeld aan de runtime-versie {0}, zodat uw app de meest recente versie ({1}) gebruikt. Als u de app koppelt aan {0}, wordt altijd de meest recente versie van de runtime uitgevoerd, zelfs bij updates van de primaire versie die mogelijk wijzigingen bevatten die fouten veroorzaken. U kunt deze waarde het beste instellen op een specifieke primaire versie (bijvoorbeeld ~2) zodat u meldingen ontvangt over nieuwere versies voor updates.</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
+        <value>Uw app is momenteel gekoppeld aan de runtime-versie {0}. Wanneer deze versie niet meer wordt ondersteund, wordt voor uw app de meest recente versie van de runtime gebruikt. Mogelijk is dit een andere primaire versie die wijzigingen kan bevatten die fouten veroorzaken. U kunt deze waarde het beste instellen op een specifieke primaire versie (bijvoorbeeld ~2) zodat u meldingen ontvangt over nieuwere versies voor updates.</value>
+    </data>
+  <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
+        <value>De aangepaste runtime-versie ({0}) wordt niet ondersteund. Hierdoor wordt voor uw app de meest recente versie {1} gebruikt en wordt altijd de meest recente versie van de runtime uitgevoerd, zelfs bij updates van de primaire versie die mogelijk wijzigingen bevatten die fouten veroorzaken. U kunt deze waarde het beste instellen op een specifieke primaire versie (bijvoorbeeld ~2) zodat u meldingen ontvangt over nieuwere versies voor updates.</value>
+    </data>
+  <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
+        <value>De runtime-versie wordt beheerd door de app-instelling FUNCTIONS_EXTENSION_VERSION. Het configureren van een aangepaste versie wordt niet aanbevolen omdat dan de meest recente versie wordt gebruikt als de geconfigureerde waarde ongeldig is of niet meer wordt ondersteund. Dit kan ertoe leiden dat uw functies niet meer werken omdat updates van de primaire versie mogelijk wijzingen bevatten die fouten veroorzaken.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
+        <value>Kan niet upgraden met de huidige functies: Met upgrades van de primaire versie worden mogelijk wijzigingen geïntroduceerd die fouten veroorzaken voor talen en bindingen. Bij het upgraden van de primaire versies van de runtime kunt u overwegen om een nieuwe functie-app te maken en uw functies te migreren naar deze nieuwe app.</value>
+    </data>
+  <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
+        <value>Het bereik van de werkstroom ontbreekt in het GitHub-token.</value>
+    </data>
+  <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>Het werkstroombestand {{workflowFilePath}} voor GitHub bestaat al in de vertakking {{branchName}}. Dit bestand wordt overschreven als u doorgaat.</value>
     </data>
 </root>

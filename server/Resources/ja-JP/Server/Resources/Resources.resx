@@ -538,7 +538,7 @@
   <data name="features" xml:space="preserve">
         <value>機能</value>
     </data>
-  <data name="filedRequired" xml:space="preserve">
+  <data name="fieldRequired" xml:space="preserve">
         <value>このフィールドは必須項目です</value>
     </data>
   <data name="functionDev_code" xml:space="preserve">
@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>テストは GitHub webhook 関数でサポートされていません。</value>
     </data>
+  <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>現在のランタイム バージョン</value>
+    </data>
   <data name="runtimeVersion" xml:space="preserve">
         <value>ランタイム バージョン</value>
     </data>
@@ -1446,6 +1449,9 @@
     </data>
   <data name="loading" xml:space="preserve">
         <value>読み込んでいます...</value>
+    </data>
+  <data name="loadingFailed" xml:space="preserve">
+        <value>読み込みに失敗しました</value>
     </data>
   <data name="configUpdating" xml:space="preserve">
         <value>Web アプリ設定を更新しています</value>
@@ -4367,6 +4373,9 @@
   <data name="connectionStrings" xml:space="preserve">
         <value>接続文字列</value>
     </data>
+  <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>関数のランタイム設定</value>
+    </data>
   <data name="generalSettings" xml:space="preserve">
         <value>全般設定</value>
     </data>
@@ -4785,7 +4794,7 @@
         <value>新しい Azure Storage マウント</value>
     </data>
   <data name="editAzureStorageMount" xml:space="preserve">
-        <value>Edit Azure Storage Mount</value>
+        <value>Azure Storage マウントの編集</value>
     </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>空の Azure Storage マウント</value>
@@ -5238,9 +5247,6 @@
   <data name="apimUpsell" xml:space="preserve">
         <value>Azure API Management では、API と関数を使用するための強化された機能を提供しています。詳細については、ここをクリックしてください。</value>
     </data>
-  <data name="version3Preview" xml:space="preserve">
-        <value>３以下 (プレビュー)</value>
-    </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>認証状態を取得できません。数分後にもう一度お試しください。</value>
     </data>
@@ -5373,6 +5379,9 @@
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
         <value>この設定により、仮想ネットワーク内のリソースによってアプリをトリガーできるようになります。そのためには、事前ウォーミングされた 1 つのインスタンスがアクティブであることと、ランタイム V2 以上も必要になります。&lt;a href="{0}" target="_blank"&gt;詳細情報&lt;/a&gt;。</value>
     </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>この設定により、仮想ネットワーク内のリソースによってアプリをトリガーできるようになります。そのためには、事前ウォーミングされた 1 つのインスタンスがアクティブであることと、ランタイム V2 以上も必要になります。</value>
+    </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>アプリ設定の更新</value>
     </data>
@@ -5483,5 +5492,59 @@
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>{0} が正常に作成されました</value>
+    </data>
+  <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>マウントされた BLOB コンテナーは、2020 年 2月に読み取り専用になります。</value>
+    </data>
+  <data name="quickstartHeader" xml:space="preserve">
+        <value>Azure Functions をローカルで開発する方法について</value>
+    </data>
+  <data name="quickstartDesc" xml:space="preserve">
+        <value>開発環境によって手順は異なります。すべてのオプションを概観するには、次を参照してください。</value>
+    </data>
+  <data name="viewDocumentation" xml:space="preserve">
+        <value>ドキュメントの表示</value>
+    </data>
+  <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>開発環境を選択する</value>
+    </data>
+  <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>クイックスタート オプションを読み込めませんでした。</value>
+    </data>
+  <data name="githubActionInfo" xml:space="preserve">
+        <value>最新のデプロイは表示されていませんか? こちらをクリックして、GitHub アクションの状態を確認してください。</value>
+    </data>
+  <data name="commitId" xml:space="preserve">
+        <value>コミット ID</value>
+    </data>
+  <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>このセクションを表示または編集するには、読み取りまたは書き込みアクセス許可が必要です。</value>
+    </data>
+  <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>お客様のアプリにはランタイム バージョンが構成されていません。そのため、ランタイムを開始できません。ランタイム バージョンを有効な値に更新してください (~2 など)。</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
+        <value>お客様のアプリは現在、ランタイム バージョン '{0}' に固定されています。'{0}' に固定すると、メジャー バージョンの更新により破壊的変更があった場合でも、常に最新バージョンのランタイムが実行されることになります。この値は、特定のメジャー バージョン (~2 など) に設定することをお勧めします。その場合、新しいバージョンが公開されたときには更新の通知を受け取ります。</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
+        <value>お客様のアプリは現在、ランタイム バージョン '{0}' に固定されているため、このアプリでは最新バージョン ({1}) が使用されています。'{0}' に固定すると、メジャー バージョンの更新により破壊的変更があった場合でも、常に最新バージョンのランタイムが実行されることになります。この値は、特定のメジャー バージョン (~2 など) に設定することをお勧めします。その場合、新しいバージョンが公開されたときには更新の通知を受け取ります。</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
+        <value>お客様のアプリは現在、ランタイム バージョン '{0}' に固定されています。このバージョンがサポートされなくなった場合、アプリは最新バージョンのランタイムを使用し始めますが、これは、異なるメジャー バージョンの場合があり、破壊的変更が含まれる可能性があります。この値は、特定のメジャー バージョン (~2 など) に設定することをお勧めします。その場合、新しいバージョンが公開されたときには更新の通知を受け取ります。</value>
+    </data>
+  <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
+        <value>カスタム ランタイム バージョン ({0}) はサポートされていません。そのため、アプリでは最新バージョン {1} が使用されており、メジャー バージョンの更新により破壊的変更があった場合でも、常に最新バージョンのランタイムが実行されることになります。この値は、特定のメジャー バージョン (~2 など) に設定することをお勧めします。その場合、新しいバージョンが公開されたときには更新の通知を受け取ります。</value>
+    </data>
+  <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
+        <value>ランタイム バージョンは FUNCTIONS_EXTENSION_VERSION アプリ設定によって制御されます。カスタム バージョンを構成することはお勧めしません。構成された値が無効である場合や、サポートされなくなった場合に、これが最新バージョンになるためです。メジャー バージョンの更新に破壊的変更が含まれる可能性があるため、これによって関数は破損した状態になる可能性があります。</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
+        <value>既存の関数を使用してアップグレードすることはできません: メジャー バージョンのアップグレードによって、言語とバインディングに破壊的変更が生じる可能性があります。ランタイムのメジャー バージョンをアップグレードする場合、新しい関数アプリを作成し、その新しいアプリに機能を移行することをご検討ください。</value>
+    </data>
+  <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
+        <value>GitHub トークンに 'ワークフロー' スコープがありません。</value>
+    </data>
+  <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>GitHub アクションのワークフロー ファイル '{{workflowFilePath}}' は '{{branchName}}' ブランチに既に存在します。続行すると、このファイルが上書きされます。</value>
     </data>
 </root>
