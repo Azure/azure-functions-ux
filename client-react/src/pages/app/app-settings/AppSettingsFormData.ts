@@ -17,6 +17,26 @@ export const findFormAppSettingValue = (appSettings: FormAppSetting[], settingNa
   return index >= 0 ? appSettings[index].value : null;
 };
 
+export const removeFormAppSetting = (appSettings: FormAppSetting[], settingName: string) => {
+  const appSettingsUpdated = [...appSettings];
+  const index = findFormAppSettingIndex(appSettingsUpdated, settingName);
+  if (index !== -1) {
+    appSettingsUpdated.splice(index, 1);
+  }
+  return appSettingsUpdated;
+};
+
+export const addOrUpdateFormAppSetting = (appSettings: FormAppSetting[], settingName: string, value: string) => {
+  const appSettingsUpdated = [...appSettings];
+  const index = findFormAppSettingIndex(appSettingsUpdated, settingName);
+  if (index === -1) {
+    appSettingsUpdated.push({ value, name: settingName, sticky: false });
+  } else {
+    appSettingsUpdated[index] = { ...appSettingsUpdated[index], value };
+  }
+  return appSettingsUpdated;
+};
+
 interface StateToFormParams {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
