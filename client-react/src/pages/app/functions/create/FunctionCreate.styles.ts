@@ -51,7 +51,7 @@ export const getCardStyle = (theme: ThemeExtended) => {
   });
 };
 
-export const getHeaderStyle = (functionTemplate: FunctionTemplate) => {
+export const getHeaderStyle = () => {
   return style({
     width: '24%',
     float: 'left',
@@ -97,7 +97,7 @@ export const getSrc = (functionTemplate: FunctionTemplate) => {
   return require('images/CreateCardIcons/other.svg');
 };
 
-export const getDescriptionStyle = (theme: ThemeExtended) => {
+export const getDescriptionStyle = () => {
   return style({
     marginLeft: '24%',
     paddingRight: '15px',
@@ -105,7 +105,7 @@ export const getDescriptionStyle = (theme: ThemeExtended) => {
   });
 };
 
-export const getTitleStyle = (theme: ThemeExtended) => {
+export const getTitleStyle = () => {
   return style({
     top: '17px',
     marginBottom: '8px',
@@ -113,14 +113,14 @@ export const getTitleStyle = (theme: ThemeExtended) => {
   });
 };
 
-export const getInfoStyle = (theme: ThemeExtended) => {
+export const getInfoStyle = () => {
   return style({
     position: 'relative',
     fontSize: '12px',
   });
 };
 
-export const getSelectStyle = (theme: ThemeExtended) => {
+export const getSelectStyle = () => {
   return style({
     position: 'absolute',
     fontSize: '12px',

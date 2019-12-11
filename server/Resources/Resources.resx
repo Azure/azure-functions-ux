@@ -5554,6 +5554,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Visual Studio 2015 is no longer supported for remote debugging. Please select a supported Visual Studio version.</value>
     </data>
     <data name="functionCreate_selectTemplate" xml:space="preserve">
-        <value>Select a template in the previous tab to see the details</value>
+        <value>Select a template in the previous tab to see the details.</value>
     </data>
 </root>

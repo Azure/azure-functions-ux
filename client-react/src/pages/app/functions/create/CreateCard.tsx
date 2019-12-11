@@ -35,14 +35,14 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
           onTemplateSelected(functionTemplate, setSelectedFunctionTemplate, setPivotStateKey);
         }
       }}>
-      <div className={getHeaderStyle(functionTemplate)}>
+      <div className={getHeaderStyle()}>
         <img src={getSrc(functionTemplate)} />
       </div>
 
-      <div className={getDescriptionStyle(theme)}>
-        <div className={getTitleStyle(theme)}>{functionTemplate.metadata.name}</div>
-        <div className={getInfoStyle(theme)}>{t(`${functionTemplate.metadata.description.replace('$', '')}`)}</div>
-        <div className={getSelectStyle(theme)}>{'Select >'}</div>
+      <div className={getDescriptionStyle()}>
+        <div className={getTitleStyle()}>{functionTemplate.metadata.name}</div>
+        <div className={getInfoStyle()}>{t(`${functionTemplate.metadata.description.replace('$', '')}`)}</div>
+        <div className={getSelectStyle()}>{'Select >'}</div>
       </div>
     </div>
   );
