@@ -76,7 +76,7 @@ export class FunctionAppService {
     );
     this.azure = new ConditionalHttpClient(
       injector,
-      _ => _userService.getStartupInfo().map(i => i.token),
+      _ => this._userService.getStartupInfo().map(i => i.token),
       'NotOverQuota',
       'ReachableLoadballancer'
     );
