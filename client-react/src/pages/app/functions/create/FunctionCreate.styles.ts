@@ -27,7 +27,7 @@ export const getCardStyle = (theme: ThemeExtended) => {
     width: '250px',
     height: '150px',
     marginTop: '10px',
-    marginRight: '14px',
+    marginRight: '12px',
     marginBottom: '5px',
     float: 'left',
     position: 'relative',
@@ -35,9 +35,11 @@ export const getCardStyle = (theme: ThemeExtended) => {
     $nest: {
       '&.selected': {
         borderColor: `${theme.semanticColors.inputBorder}`,
+        boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.13)',
       },
       '&:hover': {
         cursor: 'pointer',
+        boxShadow: '0px 3px 8px rgba(0, 0, 0, 0.14)',
       },
       '&:focus': {
         outlineColor: `${theme.semanticColors.focusBorder}`,
