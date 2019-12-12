@@ -41,7 +41,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
             </div>
           )}
           <Label
-            className={`${formLabelStyle(!!upsellMessage, fullpage)} ${dirty ? dirtyElementStyle(theme) : ''}`}
+            className={`${formLabelStyle(!!upsellMessage, fullpage)} ${dirty ? dirtyElementStyle(theme, true) : ''}`}
             id={`${props.id}-label`}>
             {label}
           </Label>

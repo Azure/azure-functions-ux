@@ -7,13 +7,12 @@ import {
   ProvisioningConfigurationV2,
 } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
-import { Headers } from '@angular/http';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { ARMApiVersions, ScenarioIds, DeploymentCenterConstants, Kinds } from '../../../../shared/models/constants';
+import { ARMApiVersions, ScenarioIds, Kinds } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -24,7 +23,7 @@ import { SiteService } from '../../../../shared/services/site.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { VSOAccount } from '../../Models/vso-repo';
-import { AzureDevOpsService, AzureDevOpsDeploymentMethod } from './azure-devops.service';
+import { AzureDevOpsService, AzureDevOpsDeploymentMethod, TargetAzDevDeployment } from './azure-devops.service';
 import { LocalStorageService } from '../../../../shared/services/local-storage.service';
 import { GithubService } from './github.service';
 import { WorkflowCommit } from '../../Models/github';
@@ -58,6 +57,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public siteName = '';
   public slotName = '';
   public gitHubPublishProfileSecretGuid = '';
+  public isGithubActionWorkflowScopeAvailable = false;
 
   constructor(
     private _cacheService: CacheService,
@@ -140,11 +140,15 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public fetchVSTSProfile() {
     // if the first get fails, it's likely because the user doesn't have an account in vsts yet
     // the fix for this is to do an empty post call on the same url and then get it
-    return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders(false)).catch(() => {
-      return this._cacheService.post(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders(false)).switchMap(() => {
-        return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders(false));
+    return this._cacheService
+      .get(AzureDevOpsService.AzDevProfileUri, true, this._azureDevOpsService.getAzDevDirectHeaders(false))
+      .catch(() => {
+        return this._cacheService
+          .post(AzureDevOpsService.AzDevProfileUri, true, this._azureDevOpsService.getAzDevDirectHeaders(false))
+          .switchMap(() => {
+            return this._cacheService.get(AzureDevOpsService.AzDevProfileUri, true, this._azureDevOpsService.getAzDevDirectHeaders(false));
+          });
       });
-    });
   }
 
   private _deployGithubActions() {
@@ -169,7 +173,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
       branch,
     };
 
-    const workflowYmlPath = `.github/workflow/${workflowInformation.fileName}`;
+    const workflowYmlPath = `.github/workflows/${workflowInformation.fileName}`;
 
     return this._githubService
       .fetchWorkflowConfiguration(this.getToken(), this.wizardValues.sourceSettings.repoUrl, repo, branch, workflowYmlPath)
@@ -219,7 +223,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
       })
       .switchMap(r => {
         this._azureDevOpsDeploymentMethod = r.result;
-        if (this._azureDevOpsDeploymentMethod === AzureDevOpsDeploymentMethod.UsePublishProfile) {
+        if (
+          this._azureDevOpsDeploymentMethod === AzureDevOpsDeploymentMethod.UsePublishProfile ||
+          AzureDevOpsService.TargetAzDevDeployment === TargetAzDevDeployment.Devfabric
+        ) {
           return Observable.of({
             status: 'succeeded',
             statusMessage: null,
@@ -256,11 +263,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
       )!.ForceMsaPassThrough;
 
       return this._cacheService.get(
-        `https://${
+        `${AzureDevOpsService.AzureDevOpsUrl.PeCollectionLevel.format(
           this.wizardValues.buildSettings.vstsAccount
-        }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`,
+        )}_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`,
         true,
-        this.getVstsDirectHeaders(appendMsaPassthroughHeader)
+        this._azureDevOpsService.getAzDevDirectHeaders(appendMsaPassthroughHeader)
       );
     });
   }
@@ -295,11 +302,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
     if (this.wizardValues.buildSettings.createNewVsoAccount) {
       return this._cacheService
         .post(
-          `https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${
+          `${AzureDevOpsService.AzureDevOpsUrl.Aex}_apis/HostAcquisition/collections?collectionName=${
             this.wizardValues.buildSettings.vstsAccount
           }&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`,
           true,
-          this.getVstsDirectHeaders(false),
+          this._azureDevOpsService.getAzDevDirectHeaders(false),
           {
             'VisualStudio.Services.HostResolution.UseCodexDomainForHostCreation': true,
           }
@@ -397,15 +404,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
           result: null,
         });
       });
-  }
-
-  public getVstsDirectHeaders(appendMsaPassthroughHeader: boolean = true): Headers {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-    headers.append('Authorization', this.getToken());
-    headers.append('X-VSS-ForceMsaPassThrough', `${appendMsaPassthroughHeader}`);
-    return headers;
   }
 
   public getToken(): string {

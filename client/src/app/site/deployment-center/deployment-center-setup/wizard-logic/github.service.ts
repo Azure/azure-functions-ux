@@ -112,7 +112,7 @@ export class GithubService implements OnDestroy {
     slotName?: string
   ): WorkflowInformation {
     const branch = sourceSettings.branch || 'master';
-    const fileName = slotName ? `${branch}_${siteName}(${slotName}).yml` : `${branch}_${siteName}.yml`;
+    const fileName = this.getWorkflowFileName(branch, siteName, slotName);
     const secretName = `AzureAppService_PublishProfile_${secretNameGuid}`;
     const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
     const virtualEnvironment = isLinuxApp ? 'ubuntu-latest' : 'windows-latest';
@@ -136,6 +136,10 @@ export class GithubService implements OnDestroy {
     };
   }
 
+  getWorkflowFileName(branch: string, siteName: string, slotName?: string): string {
+    return slotName ? `${branch}_${siteName}(${slotName}).yml` : `${branch}_${siteName}.yml`;
+  }
+
   // TODO(michinoy): Need to implement templated github action workflow generation.
   private _getNodeGithubActionWorkflowDefinition(webAppName: string, branch: string, virtualEnvironment: string, secretName: string) {
     return `# Azure Web App: ${webAppName}
@@ -143,24 +147,34 @@ on:
   push:
     branches:
       - ${branch}
+
 jobs:
   build-and-deploy:
     runs-on: ${virtualEnvironment}
     steps:
     # checkout the repo
-    - uses: actions/checkout@master
+    - name: 'Checkout Github Action' 
+      uses: actions/checkout@v1.0.0
+
     # install dependencies, build, and test
-    - name: npm install, build, and test
+    - name: 'Use Node.js 10.x'
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+
+    - name: 'npm install, build, and test'
       run: |
         npm install
         npm run build --if-present
         npm run test --if-present
+
     # deploy web app using publish profile credentials
-    - uses: azure/appservice-actions/webapp@master
+    - name: 'Deploy to Azure WebApp'
+      uses: azure/webapps-deploy@v1
       with:
         app-name: ${webAppName}
-        package: '.'
-        publish-profile: \${{ secrets.${secretName} }}`;
+        publish-profile: \${{ secrets.${secretName} }}
+        package: '.'`;
   }
 
   // TODO(michinoy): Need to implement templated github action workflow generation.

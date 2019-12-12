@@ -1,22 +1,19 @@
 import i18next from 'i18next';
 import { PanelType } from 'office-ui-fabric-react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
-import LoadingComponent from '../../../../../components/loading/loading-component';
 import Panel from '../../../../../components/Panel/Panel';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { BindingConfigDirection, BindingsConfig } from '../../../../../models/functions/bindings-config';
 import { BindingInfo } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import LogService from '../../../../../utils/LogService';
 import BindingCreator from './BindingCreator';
 import BindingEditor from './BindingEditor';
 
 export interface BindingPanelProps {
   functionInfo: ArmObj<FunctionInfo>;
   functionAppId: string;
+  bindingsConfig: BindingsConfig;
   bindingInfo?: BindingInfo;
   bindingDirection: BindingConfigDirection;
   isOpen: boolean;
@@ -26,28 +23,8 @@ export interface BindingPanelProps {
 }
 
 const BindingPanel: React.SFC<BindingPanelProps> = props => {
-  const { functionInfo, functionAppId, bindingInfo, bindingDirection, isOpen, onPanelClose, onSubmit, onDelete } = props;
-  const [bindingsConfig, setBindingsConfig] = useState<BindingsConfig | undefined>(undefined);
+  const { functionInfo, functionAppId, bindingsConfig, bindingInfo, bindingDirection, isOpen, onPanelClose, onSubmit, onDelete } = props;
   const { t } = useTranslation();
-
-  useEffect(() => {
-    FunctionsService.getBindingConfigMetadata().then(r => {
-      if (!r.metadata.success) {
-        LogService.trackEvent(
-          LogCategories.bindingEditor,
-          'getBindingConfigMetadata',
-          `Failed to get bindingConfigMetadata: ${r.metadata.error}`
-        );
-        return;
-      }
-
-      setBindingsConfig(r.data);
-    });
-  }, []);
-
-  if (!bindingsConfig) {
-    return <LoadingComponent />;
-  }
 
   {
     return (

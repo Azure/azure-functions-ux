@@ -125,7 +125,9 @@ export class StepCompleteComponent {
           this.clearBusy();
 
           const errorMessage =
-            err && err.json() && err.json().message
+            err && err.message
+              ? err.message
+              : err && err.json() && err.json().message
               ? err && err.json() && err.json().message
               : this._translateService.instant(PortalResources.settingupDeploymentFail);
 

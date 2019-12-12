@@ -18,6 +18,7 @@ export class CommonConstants {
     pv2UpsellInfoLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2028474',
     ipRestrictionsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=854597',
     appDensityWarningLink: 'https://go.microsoft.com/fwlink/?linkid=2098431',
+    byosBlobReadonlyLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2110146',
   };
 
   public static readonly Kinds = {
@@ -51,6 +52,7 @@ export class CommonConstants {
 
   public static readonly FeatureFlags = {
     AllowFreeLinux: 'allowfreelinux',
+    ShowNewFunctionRuntimeSettings: 'shownewfunctionruntimesettings',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -58,5 +60,28 @@ export class CommonConstants {
   public static readonly Pricing = {
     hoursInAzureMonth: 730,
     secondsInAzureMonth: 2628000,
+  };
+
+  public static readonly AppSettingNames = {
+    workerRuntime: 'FUNCTIONS_WORKER_RUNTIME',
+    functionsExtensionVersion: 'FUNCTIONS_EXTENSION_VERSION',
+  };
+
+  public static readonly SkuNames = {
+    free: 'free',
+    shared: 'shared',
+    basic: 'basic',
+    standard: 'standard',
+    premium: 'premium',
+    premiumV2: 'premiumv2',
+    premiumContainer: 'premiumcontainer',
+    isolated: 'isolated',
+    dynamic: 'dynamic',
+    elasticPremium: 'elasticpremium',
+    elasticIsolated: 'elasticisolated',
+  };
+
+  public static readonly SiteStates = {
+    running: 'running',
   };
 }

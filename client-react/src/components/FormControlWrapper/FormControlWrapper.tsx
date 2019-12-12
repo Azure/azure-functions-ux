@@ -1,10 +1,10 @@
 import React, { useContext, CSSProperties } from 'react';
 import { Stack } from 'office-ui-fabric-react';
-import { style as typeStyle, classes } from 'typestyle';
+import { style } from 'typestyle';
 import { useWindowSize } from 'react-use';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../ThemeContext';
-import { InfoTooltip, defaultTooltipClass } from '../InfoTooltip/InfoTooltip';
+import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 
 export enum Layout {
   horizontal = 'horizontal',
@@ -20,20 +20,17 @@ export interface FormControlWrapperProps {
   style?: CSSProperties;
 }
 
-const labelStyle = typeStyle({
+const labelStyle = style({
   width: '250px',
   marginBottom: '5px',
 });
 
 const requiredIcon = (theme: ThemeExtended) => {
-  return typeStyle({
+  return style({
+    fontWeight: 'bold',
     color: theme.palette.red,
   });
 };
-
-const tooltipStyle = typeStyle({
-  marginLeft: '5px',
-});
 
 // It may make sense to have different preset sizes for small, medium, large configurations.
 // I don't want to over-optimize for now so we can figure this out as new requirements come in.
@@ -50,7 +47,7 @@ export const FormControlWrapper = (props: FormControlWrapperProps) => {
   return (
     <Stack horizontal={layout !== Layout.vertical && width > MaxHorizontalWidthPx} style={style}>
       <label className={labelStyle} htmlFor={children.props.id}>
-        {getRequiredIcon(theme, required)} {label} {getToolTip(tooltip)}
+        {label} {getRequiredIcon(theme, required)} {getToolTip(tooltip)}
       </label>
       {children}
     </Stack>
@@ -65,6 +62,6 @@ const getRequiredIcon = (theme: ThemeExtended, required?: boolean) => {
 
 const getToolTip = (tooltip?: string) => {
   if (tooltip) {
-    return <InfoTooltip className={classes(tooltipStyle, defaultTooltipClass)} content={tooltip} />;
+    return <InfoTooltip content={tooltip} />;
   }
 };

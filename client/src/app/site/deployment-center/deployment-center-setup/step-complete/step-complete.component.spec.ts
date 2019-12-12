@@ -227,55 +227,6 @@ describe('StepCompleteComponent', () => {
     });
   });
 
-  describe('Deployment Slot Group', () => {
-    it('if disabled should have only one item saying not enabled', () => {
-      wizardService.wizardValues = {
-        ...wizardService.wizardValues,
-        buildProvider: 'vsts',
-        deploymentSlotSetting: {
-          ...wizardService.wizardValues.deploymentSlotSetting,
-          deploymentSlotEnabled: false,
-        },
-      };
-      expect(buildStepTest.SummaryGroups[2].items.length).toBe(1);
-      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('no');
-    });
-
-    it('if enabled should say yes to enabled and deployment slot name', () => {
-      wizardService.wizardValues = {
-        ...wizardService.wizardValues,
-        buildProvider: 'vsts',
-        deploymentSlotSetting: {
-          ...wizardService.wizardValues.deploymentSlotSetting,
-          deploymentSlotEnabled: true,
-          deploymentSlot: 'slot',
-          newDeploymentSlot: false,
-        },
-      };
-      expect(buildStepTest.SummaryGroups[2].items.length).toBe(3);
-      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('yes');
-      expect(buildStepTest.SummaryGroups[2].items[1].value).toBe('no');
-      expect(buildStepTest.SummaryGroups[2].items[2].value).toBe('slot');
-    });
-
-    it('if enabled and creating new slot should say yes to new slot', () => {
-      wizardService.wizardValues = {
-        ...wizardService.wizardValues,
-        buildProvider: 'vsts',
-        deploymentSlotSetting: {
-          ...wizardService.wizardValues.deploymentSlotSetting,
-          deploymentSlotEnabled: true,
-          deploymentSlot: 'slot',
-          newDeploymentSlot: true,
-        },
-      };
-      expect(buildStepTest.SummaryGroups[2].items.length).toBe(3);
-      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('yes');
-      expect(buildStepTest.SummaryGroups[2].items[1].value).toBe('yes');
-      expect(buildStepTest.SummaryGroups[2].items[2].value).toBe('slot');
-    });
-  });
-
   describe('Source Control Group', () => {
     it('dropbox', () => {
       wizardService.wizardValues = {

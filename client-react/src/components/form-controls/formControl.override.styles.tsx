@@ -55,6 +55,7 @@ export const textFieldStyleOverrides = (theme: ThemeExtended, fullpage: boolean,
     },
   } as ITextFieldStyles;
 };
+
 export const controlContainerStyle = (upsellIcon: boolean, fullpage: boolean) =>
   style({ marginBottom: '15px', marginLeft: upsellIcon && fullpage ? '-20px' : undefined });
 
@@ -72,9 +73,9 @@ export const infoIconStyle = (theme: ThemeExtended) =>
     paddingRight: '5px',
   });
 
-export const copyButtonStyle = (theme: ThemeExtended) =>
+export const copyButtonStyle = (theme: ThemeExtended, fullpage: boolean = true) =>
   style({
-    marginLeft: '5px',
+    marginLeft: fullpage ? '5px' : 0,
     width: '25px',
     height: '25px',
     backgroundColor: theme.semanticColors.accentButtonBackground,
@@ -98,5 +99,5 @@ export const formStackStyle = (upsellIcon: boolean, fullpage: boolean) =>
 export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean) =>
   style({
     width: upsellIcon && fullpage ? '220px' : '200px',
-    paddingLeft: '5px',
+    paddingRight: '5px',
   });

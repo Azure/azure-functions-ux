@@ -10,10 +10,10 @@ interface CustomDropdownProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
-  label: string;
+  label?: string;
   errorMessage?: string;
   dirty?: boolean;
-  value: string;
+  value?: string;
   onChange: (e: unknown, option: IDropdownOption) => void;
   learnMoreLink?: string;
   widthOverride?: string;

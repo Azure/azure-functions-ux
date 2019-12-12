@@ -3,9 +3,16 @@ nav {
   display: flex;
 }
 
+.group-tab-width-2-tabs {
+  width: calc(100% / 2);
+}
+
+.group-tab-width-3-tabs {
+  width: calc(100% / 3);
+}
+
 .group-tab {
   background-color: $border-color;
-  width: calc(100% / 3);
   text-align: center;
   height: 83px;
   padding-top: 7px;

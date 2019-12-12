@@ -10,6 +10,8 @@ import {
   BindingConfigMetadata,
   BindingConfigUIDefinition,
   BindingSettingValue,
+  BindingConfigUIValidator,
+  BindingsConfig,
 } from '../../../../models/functions/bindings-config';
 import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
@@ -37,6 +39,14 @@ export class BindingFormBuilder {
 
     return t(result);
   }
+
+  public static getBindingTypeName = (t: i18next.TFunction, currentBinding: BindingInfo, bindingsConfig: BindingsConfig): string => {
+    return BindingFormBuilder.getLocalizedString(
+      (bindingsConfig.bindings.find(binding => binding.type === currentBinding.type) as BindingConfigMetadata).displayName,
+      t,
+      bindingsConfig.variables
+    );
+  };
 
   constructor(
     private _bindingInfoList: BindingInfo[],
@@ -108,13 +118,14 @@ export class BindingFormBuilder {
         label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
         layout={Layout.vertical}
         tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+        required={setting.required}
         key={setting.name}>
         <Field
           name={setting.name}
           id={setting.name}
           component={TextField}
-          required={setting.required}
           disabled={isDisabled}
+          validate={value => this._validateField(value, setting.required, setting.validators)}
           {...formProps}
         />
       </FormControlWrapper>
@@ -133,15 +144,15 @@ export class BindingFormBuilder {
         label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
         layout={Layout.vertical}
         tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+        required={setting.required}
         key={setting.name}>
         <Field
           name={setting.name}
           id={setting.name}
           component={Dropdown}
-          {...formProps}
           options={options}
-          required={setting.required}
           disabled={isDisabled}
+          validate={value => this._validateField(value, setting.required, setting.validators)}
           {...formProps}
         />
       </FormControlWrapper>
@@ -154,15 +165,16 @@ export class BindingFormBuilder {
         label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
         layout={Layout.vertical}
         tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+        required={setting.required}
         key={setting.name}>
         <Field
           name={setting.name}
           id={setting.name}
           component={Toggle}
-          required={setting.required}
           disabled={isDisabled}
           onText={this._t('yes')}
           offText={this._t('no')}
+          validate={value => this._validateField(value, setting.required, setting.validators)}
           {...formProps}
         />
       </FormControlWrapper>
@@ -180,6 +192,7 @@ export class BindingFormBuilder {
         label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
         layout={Layout.vertical}
         tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+        required={setting.required}
         key={setting.name}>
         <Field
           name={setting.name}
@@ -187,8 +200,8 @@ export class BindingFormBuilder {
           component={ResourceDropdown}
           setting={setting}
           resourceId={resourceId}
-          required={setting.required}
           disabled={isDisabled}
+          validate={value => this._validateField(value, setting.required, setting.validators)}
           {...formProps}
         />
       </FormControlWrapper>
@@ -207,14 +220,15 @@ export class BindingFormBuilder {
           label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
           layout={Layout.vertical}
           tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+          required={setting.required}
           key={setting.name}>
           <Field
             name={setting.name}
             id={setting.name}
             component={HttpMethodMultiDropdown}
             setting={setting}
-            required={setting.required}
             disabled={isDisabled}
+            validate={value => this._validateField(value, setting.required, setting.validators)}
             {...formProps}
           />
         </FormControlWrapper>
@@ -232,17 +246,36 @@ export class BindingFormBuilder {
         label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
         layout={Layout.vertical}
         tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+        required={setting.required}
         key={setting.name}>
         <Field
           name={setting.name}
           id={setting.name}
           component={Dropdown}
-          {...formProps}
           options={options}
-          required={setting.required}
           multiSelect
+          disabled={isDisabled}
+          validate={value => this._validateField(value, setting.required, setting.validators)}
+          {...formProps}
         />
       </FormControlWrapper>
     );
+  }
+
+  private _validateField(value: string, required: boolean, validators?: BindingConfigUIValidator[]): string | undefined {
+    let error: string | undefined;
+    if (required && !value) {
+      error = this._t('fieldRequired');
+    }
+
+    if (value && validators) {
+      validators.forEach(validator => {
+        if (!value.match(validator.expression)) {
+          error = BindingFormBuilder.getLocalizedString(validator.errorText, this._t, this._variables);
+        }
+      });
+    }
+
+    return error;
   }
 }

@@ -538,7 +538,7 @@
   <data name="features" xml:space="preserve">
         <value>Funkcje</value>
     </data>
-  <data name="filedRequired" xml:space="preserve">
+  <data name="fieldRequired" xml:space="preserve">
         <value>To pole jest wymagane</value>
     </data>
   <data name="functionDev_code" xml:space="preserve">
@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Testowanie funkcji elementu webhook usługi GitHub nie jest obsługiwane.</value>
     </data>
+  <data name="currentRuntimeVersion" xml:space="preserve">
+        <value>Bieżąca wersja środowiska uruchomieniowego</value>
+    </data>
   <data name="runtimeVersion" xml:space="preserve">
         <value>Wersja środowiska uruchomieniowego</value>
     </data>
@@ -1010,7 +1013,7 @@
         <value>Azure Functions v2 (.NET Standard)</value>
     </data>
   <data name="runtimeImageCustom" xml:space="preserve">
-        <value>niestandardowe</value>
+        <value>Niestandardowe</value>
     </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
         <value>Aplikacja funkcji jest wyłączona, ponieważ przekroczyła ustawiony limit przydziału. Limit przydziału można zmienić z poziomu widoku ustawień aplikacji funkcji na lewym pasku bocznym.</value>
@@ -1446,6 +1449,9 @@
     </data>
   <data name="loading" xml:space="preserve">
         <value>Trwa ładowanie...</value>
+    </data>
+  <data name="loadingFailed" xml:space="preserve">
+        <value>Ładowanie nie powiodło się</value>
     </data>
   <data name="configUpdating" xml:space="preserve">
         <value>Aktualizowanie ustawień aplikacji internetowej</value>
@@ -4367,6 +4373,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="connectionStrings" xml:space="preserve">
         <value>Parametry połączeń</value>
     </data>
+  <data name="functionRuntimeSettings" xml:space="preserve">
+        <value>Ustawienia środowiska uruchomieniowego funkcji</value>
+    </data>
   <data name="generalSettings" xml:space="preserve">
         <value>Ustawienia ogólne</value>
     </data>
@@ -4785,7 +4794,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Nowa instalacja magazynu platformy Azure</value>
     </data>
   <data name="editAzureStorageMount" xml:space="preserve">
-        <value>Edit Azure Storage Mount</value>
+        <value>Edytuj usługę Azure Storage Mount</value>
     </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
         <value>Pusta instalacja magazynu platformy Azure</value>
@@ -5238,9 +5247,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="apimUpsell" xml:space="preserve">
         <value>Usługa Azure API Management zapewnia ulepszone możliwości podczas pracy z interfejsami API i funkcjami. Kliknij tutaj, aby dowiedzieć się więcej.</value>
     </data>
-  <data name="version3Preview" xml:space="preserve">
-        <value>~3 (wersja zapoznawcza)</value>
-    </data>
   <data name="sourceControlAuthStateFailure" xml:space="preserve">
         <value>Nie można pobrać stanu uwierzytelniania. Spróbuj ponownie za kilka minut.</value>
     </data>
@@ -5373,6 +5379,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
         <value>To ustawienie umożliwia wyzwalanie aplikacji przez zasoby znajdujące się w sieci wirtualnej. Wymaga ono również aktywnego 1 wstępnie zapełnionego wystąpienia i środowiska uruchomieniowego w wersji 2 lub nowszej. &lt;a href="{0}" target="_blank"&gt;Dowiedz się więcej&lt;/a&gt;.</value>
     </data>
+  <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
+        <value>To ustawienie umożliwia wyzwalanie aplikacji przez zasoby znajdujące się w sieci wirtualnej. Wymaga ono również 1 aktywnego i wstępnie zapełnionego wystąpienia oraz środowiska uruchomieniowego w wersji 2 lub nowszej.</value>
+    </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Odświeżanie ustawień aplikacji</value>
     </data>
@@ -5483,5 +5492,59 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
         <value>Pomyślnie utworzono: {0}</value>
+    </data>
+  <data name="readonlyBlobStorageWarning" xml:space="preserve">
+        <value>Zainstalowane kontenery obiektów blob staną się tylko do odczytu w lutym 2020 r.</value>
+    </data>
+  <data name="quickstartHeader" xml:space="preserve">
+        <value>Dowiedz się, jak programować usługę Azure Functions lokalnie</value>
+    </data>
+  <data name="quickstartDesc" xml:space="preserve">
+        <value>Zależnie od środowiska programistycznego instrukcje mogą być różne. Aby zapoznać się ze wszystkimi opcjami: </value>
+    </data>
+  <data name="viewDocumentation" xml:space="preserve">
+        <value>Pokaż dokumentację</value>
+    </data>
+  <data name="chooseDevelopmentEnv" xml:space="preserve">
+        <value>Wybierz środowisko programistyczne</value>
+    </data>
+  <data name="quickstartLoadFailure" xml:space="preserve">
+        <value>Nie można załadować opcji szybkiego startu.</value>
+    </data>
+  <data name="githubActionInfo" xml:space="preserve">
+        <value>Nie widzisz najnowszego wdrożenia? Kliknij tutaj, aby sprawdzić stan swojej akcji GitHub.</value>
+    </data>
+  <data name="commitId" xml:space="preserve">
+        <value>Identyfikator zatwierdzenia</value>
+    </data>
+  <data name="readWritePermissionsRequired" xml:space="preserve">
+        <value>W celu wyświetlenia/edytowania tej sekcji wymagane są uprawnienia do odczytu/zapisu.</value>
+    </data>
+  <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>Wersja środowiska uruchomieniowego nie została skonfigurowana dla Twojej aplikacji. W rezultacie nie można uruchomić środowiska uruchomieniowego. Zaktualizuj wersję środowiska uruchomieniowego do prawidłowej wartości (np. ~2).</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
+        <value>Twoja aplikacja jest obecnie przypięta do wersji środowiska uruchomieniowego „{0}”. Przypięcie do elementu „{0}” oznacza, że zawsze będzie używana najnowsza wersja środowiska uruchomieniowego, nawet w przypadku aktualizacji wersji głównej, które mogą zawierać zmiany powodujące niezgodność. Zaleca się ustawienie tej wartości na określoną wersję główną (np. ~2), a otrzymasz powiadomienie o nowszych wersjach dla aktualizacji.</value>
+    </data>
+  <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
+        <value>Twoja aplikacja jest obecnie przypięta do wersji środowiska uruchomieniowego „{0}”, a więc używa najnowszej wersji ({1}). Przypięcie do elementu „{0}” oznacza, że zawsze będzie używana najnowsza wersja środowiska uruchomieniowego, nawet w przypadku aktualizacji wersji głównej, które mogą zawierać zmiany powodujące niezgodność. Zaleca się ustawienie tej wartości na określoną wersję główną (np. ~2), a otrzymasz powiadomienie o nowszych wersjach dla aktualizacji.</value>
+    </data>
+  <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
+        <value>Twoja aplikacja jest obecnie przypięta do wersji środowiska uruchomieniowego „{0}”. Gdy ta wersja nie będzie już obsługiwana, aplikacja zacznie korzystać z najnowszej wersji środowiska uruchomieniowego, która może być inną wersją główną i może zawierać zmiany powodujące niezgodność. Zaleca się ustawienie tej wartości na określoną wersję główną (np. ~2), a otrzymasz powiadomienie o nowszych wersjach dla aktualizacji.</value>
+    </data>
+  <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
+        <value>Niestandardowa wersja środowiska uruchomieniowego ({0}) nie jest obsługiwana. W rezultacie aplikacja używa najnowszej wersji {1} i zawsze będzie używana najnowsza wersja środowiska uruchomieniowego, nawet w przypadku aktualizacji wersji głównej, które mogą zawierać zmiany powodujące niezgodność. Zaleca się ustawienie tej wartości na określoną wersję główną (np. ~2), a otrzymasz powiadomienie o nowszych wersjach dla aktualizacji.</value>
+    </data>
+  <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
+        <value>Wersja środowiska uruchomieniowego jest kontrolowana przez ustawienie aplikacji FUNCTIONS_EXTENSION_VERSION. Skonfigurowanie niestandardowej wersji nie jest zalecane, ponieważ ostatecznie będzie używana najnowsza wersja, jeśli skonfigurowana wartość będzie nieprawidłowa lub przestanie być obsługiwana. To może spowodować uszkodzenie funkcji w przypadku aktualizacji wersji głównej, które mogą zawierać zmiany powodujące niezgodność.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
+        <value>Nie można uaktualnić z istniejącymi funkcjami: uaktualnienia wersji głównej mogą wprowadzać zmiany powodujące niezgodność do języków i powiązań. Gdy uaktualniane są wersje główne środowiska uruchomieniowego, warto rozważyć utworzenie nowej aplikacji funkcji i zmigrowanie swoich funkcji do tej nowej aplikacji.</value>
+    </data>
+  <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
+        <value>Brak zakresu „workflow” w tokenie usługi GitHub.</value>
+    </data>
+  <data name="githubActionWorkflowFileExists" xml:space="preserve">
+        <value>Plik przepływu pracy akcji usługi GitHub „{{workflowFilePath}}” istnieje już w gałęzi „{{branchName}}”. Jeśli będziesz kontynuować, ten plik zostanie zastąpiony.</value>
     </data>
 </root>

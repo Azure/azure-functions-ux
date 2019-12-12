@@ -19,6 +19,7 @@ export class Constants {
   public static cdnNgMin = !!window.appsvc.cdn ? `${window.appsvc.cdn}/ng-min/` : '';
   public static nodeVersion = '6.5.0';
   public static nodeVersionV2 = '8.11.1';
+  public static nodeVersionV3 = '~12';
   public static latest = 'latest';
   public static disabled = 'disabled';
   public static runtimeVersionAppSettingName = 'FUNCTIONS_EXTENSION_VERSION';
@@ -497,15 +498,24 @@ export class DeploymentCenterConstants {
   public static readonly dropboxApiUrl = 'https://api.dropboxapi.com/2';
   public static readonly dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
   public static readonly onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot';
-  public static readonly vstsProfileUri = 'https://peprodscussu2.portalext.visualstudio.com/_apis/AzureTfs/UserContext';
-  public static readonly vstsProjectsApi = 'https://{0}.visualstudio.com/_apis/projects?includeCapabilities=true';
-  public static readonly vstsRegionsApi = 'https://aex.dev.azure.com/_apis/hostacquisition/regions';
-  public static readonly vstsAccountsFetchUri =
-    'https://commerceprodwus21.vscommerce.visualstudio.com/_apis/Subscription/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
+
+  public static readonly AzDevDevFabricTfsUri = 'https://codedev.ms/';
+  public static readonly AzDevDevFabricSpsUri = 'https://vssps.codedev.ms/';
+  public static readonly AzDevDevFabricRmoUri = 'https://vsrm.codedev.ms/';
+  public static readonly AzDevDevFabricPeDeploymentLevelUri = 'https://portalext.codedev.ms/';
+  public static readonly AzDevDevFabricPeCollectionLevelUri = 'https://portalext.codedev.ms/{0}/';
+  public static readonly AzDevDevFabricAexUri = 'https://aex.codedev.ms/';
+
+  public static readonly AzDevPreFlightPeDeploymentLevelUri = 'https://pepfcusc.portalext.visualstudio.com/';
+
+  public static readonly AzDevProductionTfsUri = 'https://dev.azure.com/';
+  public static readonly AzDevProductionSpsUri = 'https://vssps.dev.azure.com/';
+  public static readonly AzDevProductionRmoUri = 'https://vsrm.dev.azure.com/';
+  public static readonly AzDevProductionPeDeploymentLevelUri = 'https://peprodscussu2.portalext.visualstudio.com/';
+  public static readonly AzDevProductionPeCollectionLevelUri = 'https://portalext.dev.azure.com/{0}/';
+  public static readonly AzDevProductionAexUri = 'https://vsaex.dev.azure.com/';
 
   public static readonly permissionsInfoLink = 'https://go.microsoft.com/fwlink/?linkid=2086046';
-  public static readonly vstsPermissionApiUri =
-    'https://peprodscussu2.portalext.visualstudio.com/_apis/ContinuousDelivery/PermissionsResult?api-version=4.1-preview.1';
 
   public static readonly vstsPipelineFeatureId = 'ms.vss-build.pipelines';
   // VSTS Validation constants
@@ -630,6 +640,8 @@ export class FeatureFlags {
   public static AllowFreeLinux = 'allowfreelinux';
   public static enableGitHubAction = 'enableGitHubAction';
   public static enablePublishProfileBasedDeployment = 'enablePublishProfileBasedDeployment';
+  public static targetAzDevDeployment = 'targetAzDevDeployment';
+  public static authTokenOverride = 'authTokenOverride';
 }
 
 export class SupportedFeatures {
