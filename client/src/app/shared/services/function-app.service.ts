@@ -84,7 +84,7 @@ export class FunctionAppService {
 
   private getRuntimeToken(resourceId: string): Observable<string> {
     return this._functionService.getHostKeys(resourceId).map(hostKeys => {
-      return (hostKeys && hostKeys.result && hostKeys.result.masterKey) || '';
+      return (hostKeys && hostKeys.result && `masterKey ${hostKeys.result.masterKey}`) || '';
     });
   }
 
