@@ -76,31 +76,16 @@ export class FunctionAppService {
     );
     this.azure = new ConditionalHttpClient(
       injector,
-      _ => _userService.getStartupInfo().map(i => i.token),
+      _ => this._userService.getStartupInfo().map(i => i.token),
       'NotOverQuota',
       'ReachableLoadballancer'
     );
   }
 
   private getRuntimeToken(resourceId: string): Observable<string> {
-    let context: FunctionAppContext;
-
-    return this.getAppContext(resourceId)
-      .concatMap(c => {
-        context = c;
-        return this._userService.getStartupInfo();
-      })
-      .concatMap(info => {
-        if (context.urlTemplates.useNewUrls) {
-          return this._cacheService.getArm(`${context.site.id}/hostruntime/admin/host/systemkeys/_master`);
-        } else {
-          return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
-        }
-      })
-      .map(r => {
-        const value: string | FunctionKey = r.json();
-        return typeof value === 'string' ? value : `masterKey ${value.value}`;
-      });
+    return this._functionService.getHostKeys(resourceId).map(hostKeys => {
+      return (hostKeys && hostKeys.result && `masterKey ${hostKeys.result.masterKey}`) || '';
+    });
   }
 
   getClient(context: FunctionAppContext): ConditionalHttpClient {

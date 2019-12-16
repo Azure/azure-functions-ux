@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { FormAppSetting, AppSettingsFormProps } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
-import { findFormAppSettingIndex, findFormAppSettingValue } from '../AppSettingsFormData';
+import { addOrUpdateFormAppSetting, findFormAppSettingValue, removeFormAppSetting } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { IDropdownOption, MessageBarType, MessageBar } from 'office-ui-fabric-react';
@@ -10,6 +10,7 @@ import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runt
 import { messageBannerStyle } from '../AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
+import { isLinuxApp } from '../../../../utils/arm-utils';
 
 interface ControlInputs {
   disableControl: boolean;
@@ -90,7 +91,7 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
       {
         key: RuntimeExtensionMajorVersions.v1,
         text: RuntimeExtensionMajorVersions.v1,
-        disabled: !!versionRestriction && versionRestriction !== RuntimeExtensionMajorVersions.v1,
+        disabled: isLinuxApp(values.site) || (!!versionRestriction && versionRestriction !== RuntimeExtensionMajorVersions.v1),
       },
       {
         key: RuntimeExtensionMajorVersions.v2,
@@ -138,27 +139,53 @@ const RuntimeVersionControl: React.FC<AppSettingsFormProps & WithTranslation> = 
     return !!latestCustomRuntimeVersion ? latestCustomRuntimeVersion : initialRuntimeMajorVersion;
   };
 
+  const getNodeVersionForRuntime = version => {
+    switch (version) {
+      case RuntimeExtensionMajorVersions.v2:
+        return CommonConstants.NodeVersions.v2;
+      case RuntimeExtensionMajorVersions.v3:
+        return CommonConstants.NodeVersions.v3;
+      default:
+        return CommonConstants.NodeVersions.default;
+    }
+  };
+
   const onDropDownChange = newVersion => {
     if (runtimeMajorVersion === RuntimeExtensionMajorVersions.custom) {
       setLatestCustomRuntimeVersion(runtimeVersion);
     }
 
     const version = newVersion === RuntimeExtensionMajorVersions.custom ? getLatestCustomRuntimeVersion() : newVersion;
-    const appSettings: FormAppSetting[] = [...values.appSettings];
-    const index = findFormAppSettingIndex(appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
-    if (index === -1) {
-      if (version !== null) {
-        appSettings.push({
-          name: CommonConstants.AppSettingNames.functionsExtensionVersion,
-          value: version,
-          sticky: false,
-        });
-      }
-    } else if (version !== null) {
-      appSettings[index] = { ...appSettings[index], value: version };
+    let appSettings: FormAppSetting[] = [...values.appSettings];
+
+    // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
+    appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.azureJobsExtensionVersion);
+
+    if (version === RuntimeExtensionMajorVersions.v1) {
+      // If functions extension version is V1, remove FUNCTIONS_WORKER_RUNTIME app setting (if present)
+      appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime);
     } else {
-      appSettings.splice(index, 1);
+      // If functions extension version is not V1, restore the initial value for FUNCTIONS_WORKER_RUNTIME app setting (if present)
+      const initialWorkerRuntime = findFormAppSettingValue(
+        initialValues.appSettings,
+        CommonConstants.AppSettingNames.functionsWorkerRuntime
+      );
+      if (initialWorkerRuntime) {
+        appSettings = addOrUpdateFormAppSetting(
+          values.appSettings,
+          CommonConstants.AppSettingNames.functionsWorkerRuntime,
+          initialWorkerRuntime
+        );
+      }
     }
+
+    // Add or update WEBSITE_NODE_DEFAULT_VERSION app setting
+    const nodeVersion = getNodeVersionForRuntime(version);
+    appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.websiteNodeDefaultVersion, nodeVersion);
+
+    // Add or update FUNCTIONS_EXTENSION_VERSION app setting
+    appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion, version);
+
     setFieldValue('appSettings', appSettings);
   };
 

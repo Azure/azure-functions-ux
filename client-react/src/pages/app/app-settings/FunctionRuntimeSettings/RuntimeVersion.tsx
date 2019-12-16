@@ -3,8 +3,6 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 import { AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import RuntimeVersionControl from './RuntimeVersionControl';
-import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { PermissionsContext } from '../Contexts';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -22,10 +20,8 @@ type ComparisonResult = 'ExactMatch' | 'PartialMatch' | 'NoMatch';
 
 const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props => {
   const { t, initialValues, asyncData } = props;
-  const scenarioChecker = new ScenarioService(t);
   const { app_write, editable } = useContext(PermissionsContext);
   const theme = useContext(ThemeContext);
-  const site = props.initialValues.site;
 
   const getVersionToDispaly = () => {
     switch (asyncData.functionsHostStatus.loadingState) {
@@ -159,9 +155,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
           {getVersionToDispaly()}
         </div>
       </ReactiveFormControl>
-      {scenarioChecker.checkScenario(ScenarioIds.functionsRuntimeVersion, { site }).status !== 'disabled' && app_write && editable && (
-        <RuntimeVersionControl {...props} />
-      )}
+      {app_write && editable && <RuntimeVersionControl {...props} />}
     </>
   );
 };

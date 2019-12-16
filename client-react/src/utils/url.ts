@@ -16,10 +16,18 @@ export default class Url {
     return `${url}?${queryString}`;
   }
 
+  public static getFeatureValue(featureName: string) {
+    return Url.getParameterByName(null, `appsvc.${featureName}`);
+  }
+
   public static getParameterByName(url: string | null, name: string) {
     let urlFull = url;
     if (urlFull === null) {
       urlFull = window.location.href;
+    }
+
+    if (!name) {
+      return null;
     }
 
     const sanatizedName = name.replace(/[\[\]]/g, '\\$&');

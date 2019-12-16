@@ -182,7 +182,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
               isFunctionApp: true,
               subscriptionId: this._descriptor.subscription,
               location: site.location,
-              os: ArmUtil.isLinuxApp(site),
+              os: ArmUtil.isLinuxApp(site) ? 'linux' : 'windows',
               fromMenu: true,
               containerFormData: null,
             },

@@ -269,8 +269,16 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     return Observable.zip(
       this._authZService.hasPermission(srcId, [AuthzService.writeScope]),
       this._authZService.hasPermission(destId, [AuthzService.writeScope]),
-      this._authZService.hasPermission(srcId, [AuthzService.actionScope]),
-      this._authZService.hasPermission(destId, [AuthzService.actionScope]),
+      this._authZService.hasPermission(srcId, [
+        AuthzService.slotswapScope,
+        AuthzService.applySlotConfigScope,
+        AuthzService.resetSlotConfigScope,
+      ]),
+      this._authZService.hasPermission(destId, [
+        AuthzService.slotswapScope,
+        AuthzService.applySlotConfigScope,
+        AuthzService.resetSlotConfigScope,
+      ]),
       this._authZService.hasReadOnlyLock(srcId),
       this._authZService.hasReadOnlyLock(destId)
     ).mergeMap(result => {
