@@ -19,11 +19,13 @@ export interface AzureStorageMountsAddEditProps {
   otherAzureStorageMounts: FormAzureStorageMounts[];
   closeBlade: () => void;
   azureStorageMount: FormAzureStorageMounts;
+  // TODO (refortie): Temporary until xenon validation is put in
+  enableValidation: boolean;
 }
 
 export type AzureStorageMountsAddEditPropsCombined = AzureStorageMountsAddEditProps;
 const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombined> = props => {
-  const { closeBlade, otherAzureStorageMounts, azureStorageMount, updateAzureStorageMount } = props;
+  const { closeBlade, otherAzureStorageMounts, azureStorageMount, updateAzureStorageMount, enableValidation } = props;
   const storageAccounts = useContext(StorageAccountsContext);
   const [configurationOption, setConfigurationOption] = useState('basic');
   const { t } = useTranslation();
@@ -81,7 +83,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       onSubmit={values => {
         updateAzureStorageMount(values);
       }}
-      validationSchema={validationSchema}
+      validationSchema={enableValidation && validationSchema}
       render={(formProps: FormikProps<FormAzureStorageMounts>) => {
         const actionBarPrimaryButtonProps = {
           id: 'save',

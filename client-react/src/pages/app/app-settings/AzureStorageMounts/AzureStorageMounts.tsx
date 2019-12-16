@@ -68,6 +68,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
             otherAzureStorageMounts={values.azureStorageMounts}
             updateAzureStorageMount={this._onClosePanel.bind(this)}
             closeBlade={this._onCancel.bind(this)}
+            enableValidation={!values.site.kind || !values.site.kind.includes('xenon')}
           />
         </Panel>
       </>
