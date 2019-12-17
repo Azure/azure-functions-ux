@@ -1,12 +1,11 @@
 import SiteService from '../../../ApiHelpers/SiteService';
 import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
-import { sortBy, isEqual } from 'lodash-es';
+import { sortBy } from 'lodash-es';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
-import StringUtils from '../../../utils/string';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return !!settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -65,53 +64,55 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
   return newConfig;
 };
 
-export const getCleanedConfigForSave = (config: SiteConfig) => {
-  // If Remote Debugging Version is set to VS2015, but Remote Debugging is disabled, just change it to VS2017 to prevent the PUT from failing
-  const hasRemoteDebuggingDisabledWithVS2015 = !config.remoteDebuggingEnabled && config.remoteDebuggingVersion === 'VS2015';
-  const remoteDebuggingVersion = hasRemoteDebuggingDisabledWithVS2015 ? 'VS2017' : config.remoteDebuggingVersion;
-
-  let linuxFxVersion = config.linuxFxVersion || '';
+export const getCleanedConfigForSave = (config: ArmObj<SiteConfig>) => {
+  let linuxFxVersion = config.properties.linuxFxVersion ? config.properties.linuxFxVersion : '';
   if (linuxFxVersion) {
     const linuxFxVersionParts = linuxFxVersion.split('|');
     linuxFxVersionParts[0] = linuxFxVersionParts[0].toUpperCase();
     linuxFxVersion = linuxFxVersionParts.join('|');
   }
-  const newConfig: SiteConfig = {
+
+  // If Remote Debugging Version is set to VS2015, but Remote Debugging is disabled, just change it to VS2017 to prevent the PUT from failing
+  const hasRemoteDebuggingDisabledWithVS2015 =
+    !config.properties.remoteDebuggingEnabled && config.properties.remoteDebuggingVersion === 'VS2015';
+  const remoteDebuggingVersion = hasRemoteDebuggingDisabledWithVS2015 ? 'VS2017' : config.properties.remoteDebuggingVersion;
+
+  const newConfig: ArmObj<SiteConfig> = {
     ...config,
-    linuxFxVersion,
-    remoteDebuggingVersion,
+    properties: {
+      ...config.properties,
+      linuxFxVersion,
+      remoteDebuggingVersion,
+    },
   };
   return newConfig;
 };
 
 export interface ApiSetupReturn {
   site: ArmObj<Site>;
+  config: ArmObj<SiteConfig>;
   slotConfigNames: ArmObj<SlotConfigNames>;
   storageMounts: ArmObj<ArmAzureStorageMount>;
-  slotConfigNamesModified: boolean;
-  storageMountsModified: boolean;
 }
 export const convertFormToState = (
   values: AppSettingsFormValues,
   currentMetadata: ArmObj<{ [key: string]: string }>,
-  initialValues: AppSettingsFormValues,
-  oldSlotConfigNames: ArmObj<SlotConfigNames>
+  oldSlotNameSettings: ArmObj<SlotConfigNames>
 ): ApiSetupReturn => {
-  const site = { ...values.site };
-  const slotConfigNames = getStickySettings(values.appSettings, values.connectionStrings, oldSlotConfigNames);
+  const config = values.config;
+  config.properties.virtualApplications = unFlattenVirtualApplicationsList(values.virtualApplications);
+  config.properties.azureStorageAccounts = undefined;
+  const site = values.site;
+
+  site.properties.siteConfig = {
+    appSettings: getAppSettingsFromForm(values.appSettings),
+    connectionStrings: getConnectionStringsFromForm(values.connectionStrings),
+    metadata: getMetadataToSet(currentMetadata, values.currentlySelectedStack),
+  };
+
+  const slotConfigNames = getStickySettings(values.appSettings, values.connectionStrings, oldSlotNameSettings);
+  const configWithStack = getConfigWithStackSettings(config, values);
   const storageMounts = getAzureStorageMountFromForm(values.azureStorageMounts);
-  const slotConfigNamesModified = isSlotConfigNamesModified(oldSlotConfigNames, slotConfigNames);
-  const storageMountsModified = isStorageMountsModified(initialValues, values);
-
-  let config = { ...values.config.properties };
-  config.virtualApplications = unFlattenVirtualApplicationsList(values.virtualApplications);
-  config.appSettings = getAppSettingsFromForm(values.appSettings);
-  config.connectionStrings = getConnectionStringsFromForm(values.connectionStrings);
-  config.metadata = getMetadataToSet(currentMetadata, values.currentlySelectedStack);
-  config = getConfigWithStackSettings(config, values);
-  config = getCleanedConfigForSave(config);
-
-  site.properties.siteConfig = config;
 
   if (site) {
     const [id, location] = [site.id, site.location];
@@ -129,42 +130,24 @@ export const convertFormToState = (
     site,
     slotConfigNames,
     storageMounts,
-    slotConfigNamesModified,
-    storageMountsModified,
+    config: configWithStack,
   };
-};
-
-export const isSlotConfigNamesModified = (oldSlotConfigNames: ArmObj<SlotConfigNames>, slotConfigNames: ArmObj<SlotConfigNames>) => {
-  const [oldProperties, properties] = [oldSlotConfigNames.properties, slotConfigNames.properties];
-  return (
-    !StringUtils.isEqualStringArray(oldProperties.appSettingNames, properties.appSettingNames) ||
-    !StringUtils.isEqualStringArray(oldProperties.connectionStringNames, properties.connectionStringNames) ||
-    !StringUtils.isEqualStringArray(oldProperties.azureStorageConfigNames, properties.azureStorageConfigNames)
-  );
-};
-
-export const isStorageMountsModified = (initialValues: AppSettingsFormValues | null, values: AppSettingsFormValues | null) => {
-  const [azureStorageMountsInitial, azureStorageMounts] = [
-    initialValues && initialValues.azureStorageMounts,
-    values && values.azureStorageMounts,
-  ];
-  return !isEqual(azureStorageMountsInitial, azureStorageMounts);
 };
 
 export function getStickySettings(
   appSettings: FormAppSetting[],
   connectionStrings: FormConnectionString[],
-  oldSlotConfigNames: ArmObj<SlotConfigNames>
+  oldSlotNameSettings: ArmObj<SlotConfigNames>
 ): ArmObj<SlotConfigNames> {
   let appSettingNames = appSettings.filter(x => x.sticky).map(x => x.name);
-  const oldAppSettingNamesToKeep = oldSlotConfigNames.properties.appSettingNames
-    ? oldSlotConfigNames.properties.appSettingNames.filter(x => appSettings.filter(y => y.name === x).length === 0)
+  const oldAppSettingNamesToKeep = oldSlotNameSettings.properties.appSettingNames
+    ? oldSlotNameSettings.properties.appSettingNames.filter(x => appSettings.filter(y => y.name === x).length === 0)
     : [];
   appSettingNames = appSettingNames.concat(oldAppSettingNamesToKeep);
 
   let connectionStringNames = connectionStrings.filter(x => x.sticky).map(x => x.name);
-  const oldConnectionStringNamesToKeep = oldSlotConfigNames.properties.connectionStringNames
-    ? oldSlotConfigNames.properties.connectionStringNames.filter(x => connectionStrings.filter(y => y.name === x).length === 0)
+  const oldConnectionStringNamesToKeep = oldSlotNameSettings.properties.connectionStringNames
+    ? oldSlotNameSettings.properties.connectionStringNames.filter(x => connectionStrings.filter(y => y.name === x).length === 0)
     : [];
   connectionStringNames = connectionStringNames.concat(oldConnectionStringNamesToKeep);
 
@@ -175,7 +158,7 @@ export function getStickySettings(
     properties: {
       appSettingNames,
       connectionStringNames,
-      azureStorageConfigNames: oldSlotConfigNames.properties.azureStorageConfigNames,
+      azureStorageConfigNames: oldSlotNameSettings.properties.azureStorageConfigNames,
     },
   };
 }
@@ -335,12 +318,12 @@ export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata?: Arm
   return 'dotnet';
 }
 
-export function getConfigWithStackSettings(config: SiteConfig, values: AppSettingsFormValues): SiteConfig {
+export function getConfigWithStackSettings(config: ArmObj<SiteConfig>, values: AppSettingsFormValues): ArmObj<SiteConfig> {
   const configCopy = { ...config };
   if (values.currentlySelectedStack !== 'java') {
-    configCopy.javaContainer = '';
-    configCopy.javaContainerVersion = '';
-    configCopy.javaVersion = '';
+    configCopy.properties.javaContainer = '';
+    configCopy.properties.javaContainerVersion = '';
+    configCopy.properties.javaVersion = '';
   }
   return configCopy;
 }
