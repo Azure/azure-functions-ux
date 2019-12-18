@@ -33,6 +33,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const onFileSelectorChange = () => {};
 
+  const runFunction = () => {};
+
   const inputBinding =
     functionInfo.properties.config && functionInfo.properties.config.bindings
       ? functionInfo.properties.config.bindings.find(e => e.type === BindingType.httpTrigger)
@@ -89,7 +91,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         onChangeDropdown={onFileSelectorChange}
       />
       <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''}>
-        <FunctionTest />
+        <FunctionTest cancel={onCancelTest} run={runFunction} />
       </Panel>
     </>
   );
