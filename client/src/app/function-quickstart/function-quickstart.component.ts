@@ -19,7 +19,7 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
-import { KeyCodes, Constants, WorkerRuntimeLanguages } from '../shared/models/constants';
+import { KeyCodes, Constants, WorkerRuntimeLanguages, SiteTabIds } from '../shared/models/constants';
 import { Dom } from '../shared/Utilities/dom';
 import { Observable } from 'rxjs/Observable';
 import { ArmObj } from '../shared/models/arm/arm-obj';
@@ -27,6 +27,7 @@ import { ApplicationSettings } from '../shared/models/arm/application-settings';
 import { SiteService } from '../shared/services/site.service';
 import { FunctionService } from 'app/shared/services/function.service';
 import { runtimeIsV1 } from 'app/shared/models/functions-version-info';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 
 type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
 
@@ -233,16 +234,11 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
   }
 
   startFromSC() {
-    this._portalService.openBladeDeprecated(
-      {
-        detailBlade: 'ContinuousDeploymentListBlade',
-        detailBladeInputs: {
-          id: this.context.site.id,
-          ResourceId: this.context.site.id,
-        },
-      },
-      'intro'
-    );
+    this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.continuousDeployment);
+    this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
+      operation: 'navigate',
+      data: 'appNode',
+    });
   }
 
   onKeyDown(event: KeyboardEvent, command: string) {
