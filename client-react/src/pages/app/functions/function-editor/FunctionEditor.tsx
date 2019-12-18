@@ -5,6 +5,9 @@ import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { BindingType } from '../../../../models/functions/function-binding';
 import { Site } from '../../../../models/site/site';
+import Panel from '../../../../components/Panel/Panel';
+import { PanelType } from 'office-ui-fabric-react';
+import FunctionTest from './FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
 
@@ -22,12 +25,19 @@ const editorStyle = style({
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const { functionInfo, site } = props;
+  const [showTestPanel, setShowTestPanel] = useState(false);
 
   const save = () => {};
 
   const discard = () => {};
 
-  const test = () => {};
+  const test = () => {
+    setShowTestPanel(true);
+  };
+
+  const onCancelTest = () => {
+    setShowTestPanel(false);
+  };
 
   const onFileSelectorChange = () => {};
 
@@ -95,6 +105,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         isFunctionDirectoryDropdownVisible={true}
         onChangeDropdown={onFileSelectorChange}
       />
+      <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''}>
+        <FunctionTest />
+      </Panel>
       <div className={editorStyle}>
         <MonacoEditor
           value={``}
