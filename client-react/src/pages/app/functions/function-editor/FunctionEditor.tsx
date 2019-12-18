@@ -13,7 +13,7 @@ export interface FunctionEditorProps {
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
-  const { functionInfo } = props;
+  const { functionInfo, site } = props;
 
   const save = () => {};
 
@@ -29,18 +29,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       : null;
 
   const [dirty /*, setDirtyState*/] = useState<boolean>(false);
-
-  const functionAppDirectoryDropdownOptions = [
-    {
-      key: functionInfo.properties.name,
-      text: `${functionInfo.properties.name} /`,
-      data: {
-        isDirectory: true,
-        fileOrDirectoryName: functionInfo.properties.name,
-      },
-      selected: true,
-    },
-  ];
 
   const functionDirectoryDropdownOptions = [
     {
@@ -83,9 +71,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         hostUrls={hostUrls}
       />
       <FunctionEditorFileSelectorBar
-        functionAppNameLabel={'FunctionAppName /'}
-        functionAppDirectoryDropdownOptions={functionAppDirectoryDropdownOptions}
-        functionAppDirectoryDropdownSelectedKey={functionInfo.properties.name}
+        functionAppNameLabel={site.name}
+        functionInfo={functionInfo}
         functionDirectoryDropdownOptions={functionDirectoryDropdownOptions}
         functionDirectoryDropdownSelectedKey={'index.js'}
         isFunctionDirectoryDropdownVisible={true}

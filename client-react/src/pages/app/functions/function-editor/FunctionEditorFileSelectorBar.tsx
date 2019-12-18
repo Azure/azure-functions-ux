@@ -4,6 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../ThemeContext';
 import { style } from 'typestyle';
+import { ArmObj } from '../../../../models/arm-obj';
+import { FunctionInfo } from '../../../../models/functions/function-info';
+import StringUtils from '../../../../utils/string';
 
 export interface FunctionEditorFileSelectorValue {
   isDirectory: boolean;
@@ -12,23 +15,25 @@ export interface FunctionEditorFileSelectorValue {
 
 interface FunctionEditorFileSelectorBarProps {
   functionAppNameLabel: string;
-  functionAppDirectoryDropdownOptions: IDropdownOption[];
   functionDirectoryDropdownOptions: IDropdownOption[];
-  functionAppDirectoryDropdownSelectedKey: string;
   functionDirectoryDropdownSelectedKey: string;
   isFunctionDirectoryDropdownVisible: boolean;
+  functionInfo: ArmObj<FunctionInfo>;
   onChangeDropdown: (functionEditorFileSelectorValue: FunctionEditorFileSelectorValue) => void;
 }
+const fileSeparatorStyle = style({
+  paddingLeft: '10px',
+  paddingRight: '10px',
+});
 
 const FunctionEditorFileSelectorBar: React.FC<FunctionEditorFileSelectorBarProps> = props => {
   const {
     functionAppNameLabel,
-    functionAppDirectoryDropdownOptions,
     functionDirectoryDropdownOptions,
-    functionAppDirectoryDropdownSelectedKey,
     functionDirectoryDropdownSelectedKey,
     isFunctionDirectoryDropdownVisible,
     onChangeDropdown,
+    functionInfo,
   } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
@@ -49,23 +54,13 @@ const FunctionEditorFileSelectorBar: React.FC<FunctionEditorFileSelectorBarProps
       borderBottom: `1px solid ${theme.palette.neutralTertiaryAlt}`,
     });
 
-  const functionAppDropdownStyle = () =>
-    style({
-      marginRight: '10px',
-      minWidth: '200px',
-    });
-
   return (
     <>
       <Stack horizontal className={stackStyle(theme)}>
-        <Label style={{ marginRight: '10px' }}>{functionAppNameLabel}</Label>
-        <OfficeDropdown
-          selectedKey={functionAppDirectoryDropdownSelectedKey}
-          options={functionAppDirectoryDropdownOptions}
-          onChange={onChangeDirectoryDropdown}
-          ariaLabel={t('functionAppDirectoryDropdownAriaLabel')}
-          className={functionAppDropdownStyle()}
-        />
+        <Label>{functionAppNameLabel}</Label>
+        <Label className={fileSeparatorStyle}>{StringUtils.fileSeparator}</Label>
+        <Label>{functionInfo.properties.name}</Label>
+        <Label className={fileSeparatorStyle}>{StringUtils.fileSeparator}</Label>
         {showFunctionDirectoryDropdown && (
           <OfficeDropdown
             selectedKey={functionDirectoryDropdownSelectedKey}
