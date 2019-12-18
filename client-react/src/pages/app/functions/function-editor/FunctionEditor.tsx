@@ -8,12 +8,20 @@ import { Site } from '../../../../models/site/site';
 import Panel from '../../../../components/Panel/Panel';
 import { PanelType } from 'office-ui-fabric-react';
 import FunctionTest from './FunctionTest';
+import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
+import { style } from 'typestyle';
 
 // TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
 }
+
+const editorStyle = style({
+  marginTop: '20px',
+  marginBottom: '10px',
+  marginRight: '10px',
+});
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const { functionInfo, site } = props;
@@ -67,6 +75,15 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     },
   ];
 
+  const onChange = (newValue, event) => {
+    // TODO(krmitta): Save the new content of the file in state [WI 5536378]
+  };
+
+  const getEditorLanguage = (): string => {
+    // TODO(krmitta): Add language according to the file opened in the editor [WI 5536378]
+    return 'javascript';
+  };
+
   return (
     <>
       <FunctionEditorCommandBar
@@ -91,6 +108,19 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''}>
         <FunctionTest />
       </Panel>
+      <div className={editorStyle}>
+        <MonacoEditor
+          value={``}
+          language={getEditorLanguage()}
+          onChange={onChange}
+          options={{
+            minimap: { enabled: false },
+            scrollBeyondLastLine: false,
+            cursorBlinking: true,
+            renderWhitespace: 'all',
+          }}
+        />
+      </div>
     </>
   );
 };
