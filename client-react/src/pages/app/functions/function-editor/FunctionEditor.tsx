@@ -65,7 +65,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     },
   ];
 
-  const onChange = (newValue, event) => {};
+  const onChange = (newValue, event) => {
+    // TODO(krmitta): Save the new content of the file in state [WI 5536378]
+  };
+
+  const getEditorLanguage = (): string => {
+    // TODO(krmitta): Add language according to the file opened in the editor [WI 5536378]
+    return 'javascript';
+  };
 
   return (
     <>
@@ -91,7 +98,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       <div className={editorStyle}>
         <MonacoEditor
           value={``}
-          language="javascript"
+          language={getEditorLanguage()}
           onChange={onChange}
           options={{
             minimap: { enabled: false },
