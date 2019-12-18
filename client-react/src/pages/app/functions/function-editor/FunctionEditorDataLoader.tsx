@@ -1,55 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { FunctionEditor } from './FunctionEditor';
+import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
+import FunctionEditorData from './FunctionEditor.data';
+import { Site } from '../../../../models/site/site';
+import { SiteRouterContext } from '../../SiteRouter';
 
-// TODO(shimedh): Update this file by adding more data in state and more calls as needed by the editor.
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
 }
 
-interface FunctionEditorDataLoaderState {
-  functionInfo: ArmObj<FunctionInfo> | null;
-  isLoading: boolean;
-}
+const functionEditorData = new FunctionEditorData();
+export const FunctionEditorContext = React.createContext(functionEditorData);
 
-class FunctionEditorDataLoader extends React.Component<FunctionEditorDataLoaderProps, FunctionEditorDataLoaderState> {
-  constructor(props: FunctionEditorDataLoaderProps) {
-    super(props);
+const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props => {
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
+  const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo> | undefined>(undefined);
 
-    this.state = {
-      functionInfo: null,
-      isLoading: true,
-    };
-  }
+  const siteContext = useContext(SiteRouterContext);
 
-  public componentWillMount() {
-    const { resourceId } = this.props;
+  const fetchData = async () => {
+    const { resourceId } = props;
+    const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
+    const [site, functionInfo] = await Promise.all([
+      siteContext.fetchSite(armSiteDescriptor.getSiteOnlyResourceId()),
+      functionEditorData.getFunctionInfo(resourceId),
+    ]);
 
-    FunctionsService.getFunction(resourceId).then(r => {
-      if (r.metadata.success) {
-        this.setState({
-          ...this.state,
-          functionInfo: r.data,
-          isLoading: false,
-        });
-      } else {
-        // TODO(shimedh): log error
-      }
-    });
-  }
-
-  public render() {
-    if (this.state.isLoading) {
-      return <LoadingComponent />;
+    if (site.metadata.success) {
+      setSite(site.data);
     }
+    if (functionInfo.metadata.success) {
+      setFunctionInfo(functionInfo.data);
+    }
+    setInitialLoading(false);
+  };
 
-    const functionInfo = this.state.functionInfo as ArmObj<FunctionInfo>;
-
-    return <FunctionEditor functionInfo={functionInfo} />;
+  useEffect(() => {
+    fetchData();
+  }, []);
+  // TODO (krmitta): Show a loading error message site or functionInfo call fails
+  if (initialLoading || !site || !functionInfo) {
+    return <LoadingComponent />;
   }
-}
+  return (
+    <FunctionEditorContext.Provider value={functionEditorData}>
+      <FunctionEditor functionInfo={functionInfo} site={site} />
+    </FunctionEditorContext.Provider>
+  );
+};
 
 export default FunctionEditorDataLoader;

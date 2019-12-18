@@ -4,10 +4,12 @@ import { FunctionInfo } from '../../../../models/functions/function-info';
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { BindingType } from '../../../../models/functions/function-binding';
+import { Site } from '../../../../models/site/site';
 
 // TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
+  site: ArmObj<Site>;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
