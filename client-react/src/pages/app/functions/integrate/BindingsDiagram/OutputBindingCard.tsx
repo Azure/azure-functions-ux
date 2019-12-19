@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as OutputSvg } from '../../../../../images/Common/output.svg';
 import { ArmObj } from '../../../../../models/arm-obj';
-import { BindingConfigDirection, BindingsConfig } from '../../../../../models/functions/bindings-config';
+import { Binding, BindingDirection } from '../../../../../models/functions/binding';
 import { BindingInfo } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import PortalCommunicator from '../../../../../portal-communicator';
@@ -18,21 +18,21 @@ import BindingCard, { BindingCardChildProps, createNew, editExisting, emptyList 
 import { listStyle } from './BindingDiagram.styles';
 
 const OutputBindingCard: React.SFC<BindingCardChildProps> = props => {
-  const { functionInfo, bindingsConfig } = props;
+  const { functionInfo, bindings } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
   const bindingEditorContext = useContext(BindingEditorContext) as BindingEditorContextInfo;
 
   const outputs = getOutputBindings(functionInfo.properties.config.bindings);
-  const content = getContent(portalCommunicator, functionInfo, bindingsConfig, t, bindingEditorContext, theme, outputs);
+  const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, outputs);
 
   return <BindingCard title={t('output')} Svg={OutputSvg} content={content} {...props} />;
 };
 
 const getOutputBindings = (bindings: BindingInfo[]): BindingInfo[] => {
   const outputBindings = bindings.filter(b => {
-    return getBindingConfigDirection(b) === BindingConfigDirection.out;
+    return getBindingConfigDirection(b) === BindingDirection.out;
   });
 
   return outputBindings ? outputBindings : [];
@@ -41,7 +41,7 @@ const getOutputBindings = (bindings: BindingInfo[]): BindingInfo[] => {
 const getContent = (
   portalCommunicator: PortalCommunicator,
   functionInfo: ArmObj<FunctionInfo>,
-  bindingsConfig: BindingsConfig,
+  bindings: Binding[],
   t: i18next.TFunction,
   bindingEditorContext: BindingEditorContextInfo,
   theme: ThemeExtended,
@@ -49,10 +49,10 @@ const getContent = (
 ): JSX.Element => {
   const outputList: JSX.Element[] = outputBindings.map((item, i) => {
     const name = item.name ? `(${item.name})` : '';
-    const linkName = `${BindingFormBuilder.getBindingTypeName(t, item, bindingsConfig)} ${name}`;
+    const linkName = `${BindingFormBuilder.getBindingTypeName(t, item, bindings)} ${name}`;
     return (
       <li key={i.toString()}>
-        <Link onClick={() => editExisting(portalCommunicator, t, functionInfo, item, bindingEditorContext, BindingConfigDirection.out)}>
+        <Link onClick={() => editExisting(portalCommunicator, t, functionInfo, item, bindingEditorContext, BindingDirection.out)}>
           {linkName}
         </Link>
       </li>
@@ -62,7 +62,7 @@ const getContent = (
   const completeOutputList = outputList.length > 0 ? outputList : emptyList(t('integrateNoOutputsDefined'));
   completeOutputList.push(
     <li key={'newOutput'}>
-      <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingConfigDirection.out)}>
+      <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingDirection.out)}>
         {t('integrateAddOutput')}
       </Link>
     </li>

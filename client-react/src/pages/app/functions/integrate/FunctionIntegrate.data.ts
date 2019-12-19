@@ -1,12 +1,12 @@
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { HttpResponseObject } from '../../../../ArmHelper.types';
 import { ArmObj } from '../../../../models/arm-obj';
-import { BindingsConfig } from '../../../../models/functions/bindings-config';
+import { Binding } from '../../../../models/functions/binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 
 export default class FunctionIntegrateData {
-  public getBindingsConfig(): Promise<HttpResponseObject<BindingsConfig>> {
-    return FunctionsService.getBindingConfigMetadata();
+  public getBindings(functionAppResourceId: string): Promise<HttpResponseObject<ArmObj<Binding[]>>> {
+    return FunctionsService.getBindings(functionAppResourceId);
   }
 
   public getFunction(functionResourceId: string): Promise<HttpResponseObject<ArmObj<FunctionInfo>>> {

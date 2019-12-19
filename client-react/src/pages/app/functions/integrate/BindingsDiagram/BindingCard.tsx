@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { first } from 'rxjs/operators';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { ArmObj } from '../../../../../models/arm-obj';
-import { BindingConfigDirection, BindingsConfig } from '../../../../../models/functions/bindings-config';
+import { Binding, BindingDirection } from '../../../../../models/functions/binding';
 import { BindingInfo } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import PortalCommunicator from '../../../../../portal-communicator';
@@ -14,7 +14,7 @@ import { cardStyle, headerStyle } from './BindingDiagram.styles';
 
 export interface BindingCardChildProps {
   functionInfo: ArmObj<FunctionInfo>;
-  bindingsConfig: BindingsConfig;
+  bindings: Binding[];
 }
 
 export interface BindingCardProps extends BindingCardChildProps {
@@ -46,7 +46,7 @@ export const createNew = (
   t: i18next.TFunction,
   functionInfo: ArmObj<FunctionInfo>,
   bindingEditorContext: BindingEditorContextInfo,
-  bindingDirection: BindingConfigDirection
+  bindingDirection: BindingDirection
 ) => {
   bindingEditorContext
     .openEditor(bindingDirection)
@@ -67,7 +67,7 @@ export const editExisting = (
   functionInfo: ArmObj<FunctionInfo>,
   functionBinding: BindingInfo,
   bindingEditorContext: BindingEditorContextInfo,
-  bindingDirection: BindingConfigDirection
+  bindingDirection: BindingDirection
 ) => {
   bindingEditorContext
     .openEditor(bindingDirection, functionBinding)

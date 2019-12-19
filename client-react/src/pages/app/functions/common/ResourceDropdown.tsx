@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BindingConfigUIDefinition, BindingSettingResource } from '../../../../models/functions/bindings-config';
+import { BindingSetting, BindingSettingResource } from '../../../../models/functions/binding';
 import { FieldProps, FormikProps } from 'formik';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
 import { IDropdownOption, IDropdownProps, Link, Callout } from 'office-ui-fabric-react';
@@ -17,7 +17,7 @@ import NewAppSettingCallout from './callout/NewAppSettingCallout';
 import { linkPaddingStyle, calloutStyle3Fields, calloutStyle2Fields, calloutStyle1Field } from './callout/Callout.styles';
 
 export interface ResourceDropdownProps {
-  setting: BindingConfigUIDefinition;
+  setting: BindingSetting;
   resourceId: string;
 }
 
@@ -142,7 +142,7 @@ const onChange = (
 };
 
 const filterResourcesFromAppSetting = (
-  setting: BindingConfigUIDefinition,
+  setting: BindingSetting,
   appSettings: { [key: string]: string },
   newAppSettingName?: string
 ): string[] => {

@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as InputSvg } from '../../../../../images/Common/input.svg';
 import { ArmObj } from '../../../../../models/arm-obj';
-import { BindingConfigDirection, BindingsConfig } from '../../../../../models/functions/bindings-config';
+import { Binding, BindingDirection } from '../../../../../models/functions/binding';
 import { BindingInfo } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import PortalCommunicator from '../../../../../portal-communicator';
@@ -18,21 +18,21 @@ import BindingCard, { BindingCardChildProps, createNew, editExisting, emptyList 
 import { listStyle } from './BindingDiagram.styles';
 
 const InputBindingCard: React.SFC<BindingCardChildProps> = props => {
-  const { functionInfo, bindingsConfig } = props;
+  const { functionInfo, bindings } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
   const bindingEditorContext = useContext(BindingEditorContext) as BindingEditorContextInfo;
 
   const inputs = getInputBindings(functionInfo.properties.config.bindings);
-  const content = getContent(portalCommunicator, functionInfo, bindingsConfig, t, bindingEditorContext, theme, inputs);
+  const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, inputs);
 
   return <BindingCard title={t('input')} Svg={InputSvg} content={content} {...props} />;
 };
 
 const getInputBindings = (bindings: BindingInfo[]): BindingInfo[] => {
   const inputBindings = bindings.filter(b => {
-    return getBindingConfigDirection(b) === BindingConfigDirection.in;
+    return getBindingConfigDirection(b) === BindingDirection.in;
   });
 
   return inputBindings ? inputBindings : [];
@@ -41,7 +41,7 @@ const getInputBindings = (bindings: BindingInfo[]): BindingInfo[] => {
 const getContent = (
   portalCommunicator: PortalCommunicator,
   functionInfo: ArmObj<FunctionInfo>,
-  bindingsConfig: BindingsConfig,
+  bindings: Binding[],
   t: i18next.TFunction,
   bindingEditorContext: BindingEditorContextInfo,
   theme: ThemeExtended,
@@ -49,10 +49,10 @@ const getContent = (
 ): JSX.Element => {
   const inputList = inputBindings.map((item, i) => {
     const name = item.name ? `(${item.name})` : '';
-    const linkName = `${BindingFormBuilder.getBindingTypeName(t, item, bindingsConfig)} ${name}`;
+    const linkName = `${BindingFormBuilder.getBindingTypeName(t, item, bindings)} ${name}`;
     return (
       <li key={i.toString()}>
-        <Link onClick={() => editExisting(portalCommunicator, t, functionInfo, item, bindingEditorContext, BindingConfigDirection.in)}>
+        <Link onClick={() => editExisting(portalCommunicator, t, functionInfo, item, bindingEditorContext, BindingDirection.in)}>
           {linkName}
         </Link>
       </li>
@@ -62,7 +62,7 @@ const getContent = (
   const completeInputList = inputList.length > 0 ? inputList : emptyList(t('integrateNoInputsDefined'));
   completeInputList.push(
     <li key={'newInput'}>
-      <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingConfigDirection.in)}>
+      <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingDirection.in)}>
         {t('integrateAddInput')}
       </Link>
     </li>

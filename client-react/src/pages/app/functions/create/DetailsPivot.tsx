@@ -3,7 +3,7 @@ import { FunctionTemplate } from '../../../../models/functions/function-template
 import { DefaultButton, Spinner } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
-import { BindingsConfig, BindingConfigMetadata } from '../../../../models/functions/bindings-config';
+import { Binding } from '../../../../models/functions/binding';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -14,13 +14,13 @@ import { BindingInfo } from '../../../../models/functions/function-binding';
 
 interface DetailsPivotProps {
   functionsInfo: ArmObj<FunctionInfo>[];
-  bindingsConfig: BindingsConfig;
+  bindings: Binding[];
   selectedFunctionTemplate: FunctionTemplate | undefined;
   resourceId: string;
 }
 
 const DetailsPivot: React.FC<DetailsPivotProps> = props => {
-  const { functionsInfo, bindingsConfig, selectedFunctionTemplate, resourceId } = props;
+  const { functionsInfo, bindings, selectedFunctionTemplate, resourceId } = props;
   const provider = useContext(FunctionCreateContext);
   const portalCommunicator = useContext(PortalContext);
   const { t } = useTranslation();
@@ -29,14 +29,13 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
   if (selectedFunctionTemplate) {
     const requiredBindingMetadata = getRequiredCreationBindings(
       selectedFunctionTemplate.bindings || [],
-      bindingsConfig,
+      bindings,
       selectedFunctionTemplate.userPrompt || []
     );
     const builder = new CreateFunctionFormBuilder(
       selectedFunctionTemplate.bindings || [],
       requiredBindingMetadata,
       resourceId,
-      bindingsConfig.variables,
       functionsInfo,
       selectedFunctionTemplate.defaultFunctionName || 'NewFunction',
       t
@@ -72,19 +71,17 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
 
 // Not all bindings are required for function creation
 // Only display bindings that are list in the function template 'userPrompt'
-const getRequiredCreationBindings = (
-  functionTemplateBindings: BindingInfo[],
-  bindingsConfig: BindingsConfig,
-  userPrompt: string[]
-): BindingConfigMetadata[] => {
-  const requiredBindingConfigMetadata: BindingConfigMetadata[] = [];
-  const bindingsConfigMetatdata = bindingsConfig.bindings;
+const getRequiredCreationBindings = (functionTemplateBindings: BindingInfo[], bindings: Binding[], userPrompt: string[]): Binding[] => {
+  const requiredBindingConfigMetadata: Binding[] = [];
   functionTemplateBindings.forEach(binding => {
-    const currentBindingMetadata = bindingsConfigMetatdata.find(b => b.type === binding.type) as BindingConfigMetadata;
-    const requiredBindings = currentBindingMetadata;
-    requiredBindings.settings = currentBindingMetadata.settings.filter(setting => {
-      return userPrompt.find(prompt => prompt === setting.name);
-    });
+    const currentBinding = bindings.find(b => b.type === binding.type) as Binding;
+    // TODO ALLISONM: ADD IN CALL TO GET SETTINGS IF DNE
+    const requiredBindings = currentBinding;
+    requiredBindings.settings =
+      currentBinding.settings &&
+      currentBinding.settings.filter(setting => {
+        return userPrompt.find(prompt => prompt === setting.name);
+      });
     requiredBindingConfigMetadata.push(requiredBindings);
   });
   return requiredBindingConfigMetadata;

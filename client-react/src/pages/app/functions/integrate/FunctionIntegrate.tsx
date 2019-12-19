@@ -5,7 +5,7 @@ import { classes } from 'typestyle';
 import { ReactComponent as DoubleArrow } from '../../../../images/Functions/double-arrow-left-right.svg';
 import { ReactComponent as SingleArrow } from '../../../../images/Functions/single-arrow-left-right.svg';
 import { ArmObj } from '../../../../models/arm-obj';
-import { BindingConfigDirection, BindingsConfig } from '../../../../models/functions/bindings-config';
+import { Binding, BindingDirection } from '../../../../models/functions/binding';
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -28,7 +28,7 @@ import { useWindowSize } from 'react-use';
 
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
-  bindingsConfig: BindingsConfig;
+  bindings: Binding[];
 }
 
 export interface BindingUpdateInfo {
@@ -38,7 +38,7 @@ export interface BindingUpdateInfo {
 }
 
 export interface BindingEditorContextInfo {
-  openEditor: (bindingDirection: BindingConfigDirection, bindingInfo?: BindingInfo) => Observable<BindingUpdateInfo>;
+  openEditor: (bindingDirection: BindingDirection, bindingInfo?: BindingInfo) => Observable<BindingUpdateInfo>;
   closeEditor: () => void;
   updateFunctionInfo: React.Dispatch<React.SetStateAction<ArmObj<FunctionInfo>>>;
 }
@@ -46,18 +46,18 @@ export interface BindingEditorContextInfo {
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
-  const { functionInfo: initialFunctionInfo, bindingsConfig } = props;
+  const { functionInfo: initialFunctionInfo, bindings } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
   const fullPageWidth = 1000;
 
   const bindingUpdate$ = useRef(new Subject<BindingUpdateInfo>());
   const [bindingToUpdate, setBindingToUpdate] = useState<BindingInfo | undefined>(undefined);
-  const [bindingDirection, setBindingDirection] = useState<BindingConfigDirection>(BindingConfigDirection.in);
+  const [bindingDirection, setBindingDirection] = useState<BindingDirection>(BindingDirection.in);
   const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo>>(initialFunctionInfo);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const openEditor = (editorBindingDirection: BindingConfigDirection, bindingInfo?: BindingInfo): Observable<BindingUpdateInfo> => {
+  const openEditor = (editorBindingDirection: BindingDirection, bindingInfo?: BindingInfo): Observable<BindingUpdateInfo> => {
     setBindingDirection(editorBindingDirection);
     setBindingToUpdate(bindingInfo);
     setIsOpen(true);
@@ -113,8 +113,8 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     <Stack className={diagramWrapperStyle} horizontal horizontalAlign={'center'} tokens={tokens}>
       <Stack.Item grow>
         <Stack gap={40}>
-          <TriggerBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-          <InputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+          <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} />
+          <InputBindingCard functionInfo={functionInfo} bindings={bindings} />
         </Stack>
       </Stack.Item>
 
@@ -124,7 +124,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
       <Stack.Item grow>
         <Stack verticalFill={true} className={singleCardStackStyle}>
-          <FunctionNameBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+          <FunctionNameBindingCard functionInfo={functionInfo} bindings={bindings} />
         </Stack>
       </Stack.Item>
 
@@ -134,7 +134,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
       <Stack.Item grow>
         <Stack verticalFill={true} className={singleCardStackStyle}>
-          <OutputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+          <OutputBindingCard functionInfo={functionInfo} bindings={bindings} />
         </Stack>
       </Stack.Item>
     </Stack>
@@ -142,10 +142,10 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
   const smallPageContent: JSX.Element = (
     <Stack className={smallPageStyle} gap={40} horizontalAlign={'start'}>
-      <TriggerBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-      <InputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-      <FunctionNameBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
-      <OutputBindingCard functionInfo={functionInfo} bindingsConfig={bindingsConfig} />
+      <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} />
+      <InputBindingCard functionInfo={functionInfo} bindings={bindings} />
+      <FunctionNameBindingCard functionInfo={functionInfo} bindings={bindings} />
+      <OutputBindingCard functionInfo={functionInfo} bindings={bindings} />
     </Stack>
   );
 
@@ -155,7 +155,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
         <BindingPanel
           functionInfo={functionInfo}
           functionAppId={functionAppId}
-          bindingsConfig={bindingsConfig}
+          bindings={bindings}
           bindingInfo={bindingToUpdate}
           bindingDirection={bindingDirection}
           onPanelClose={onCancel}

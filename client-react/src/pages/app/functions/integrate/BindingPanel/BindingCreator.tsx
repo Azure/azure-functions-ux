@@ -6,23 +6,23 @@ import ActionBar from '../../../../../components/ActionBar';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { FormControlWrapper, Layout } from '../../../../../components/FormControlWrapper/FormControlWrapper';
 import LoadingComponent from '../../../../../components/loading/loading-component';
-import { BindingConfigDirection, BindingConfigMetadata, BindingsConfig } from '../../../../../models/functions/bindings-config';
+import { Binding, BindingDirection } from '../../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../../models/functions/function-binding';
 import { BindingEditorFormValues, BindingFormBuilder } from '../../common/BindingFormBuilder';
 import { getBindingDirection } from './BindingEditor';
 
 export interface BindingCreatorProps {
-  bindingsConfig: BindingsConfig;
+  bindings: Binding[];
   functionAppId: string;
-  bindingDirection: BindingConfigDirection;
+  bindingDirection: BindingDirection;
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo) => void;
 }
 
 const BindingCreator: React.SFC<BindingCreatorProps> = props => {
-  const { onSubmit, onPanelClose, functionAppId, bindingsConfig, bindingDirection } = props;
+  const { onSubmit, onPanelClose, functionAppId, bindings, bindingDirection } = props;
   const { t } = useTranslation();
-  const filteredBindingConfigMetadata = bindingsConfig.bindings.filter(binding => {
+  const filteredBindingConfigMetadata = bindings.filter(binding => {
     return binding.direction === bindingDirection;
   });
 
@@ -35,13 +35,7 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
       return [];
     }
 
-    const builder = new BindingFormBuilder(
-      [formProps.values as BindingInfo],
-      [typeSpecificMetadata],
-      functionAppId,
-      t,
-      bindingsConfig.variables
-    );
+    const builder = new BindingFormBuilder([formProps.values as BindingInfo], [typeSpecificMetadata], functionAppId, t);
 
     return builder.getFields(formProps, false);
   };
@@ -62,7 +56,7 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
     disable: false,
   };
 
-  if (!bindingsConfig) {
+  if (!bindings) {
     return <LoadingComponent />;
   }
 
@@ -90,11 +84,7 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
               <div>
                 <h3>
                   {t('integrateCreateBindingTypeDetails').format(
-                    t(
-                      (filteredBindingConfigMetadata.find(
-                        binding => formProps.values.type === binding.type
-                      ) as BindingConfigMetadata).displayName.substring(1)
-                    )
+                    (filteredBindingConfigMetadata.find(binding => formProps.values.type === binding.type) as Binding).displayName
                   )}
                 </h3>
                 {bindingTypeSpecificFields(formProps)}

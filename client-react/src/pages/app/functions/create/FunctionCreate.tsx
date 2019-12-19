@@ -10,13 +10,13 @@ import DetailsPivot from './DetailsPivot';
 import { Links } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { useTranslation } from 'react-i18next';
-import { BindingsConfig } from '../../../../models/functions/bindings-config';
+import { Binding } from '../../../../models/functions/binding';
 import { paddingStyle } from './FunctionCreate.styles';
 
 export interface FunctionCreateProps {
   functionTemplates: FunctionTemplate[];
   functionsInfo: ArmObj<FunctionInfo>[];
-  bindingsConfig: BindingsConfig;
+  bindings: Binding[];
   resourceId: string;
 }
 
@@ -28,7 +28,7 @@ export enum PivotState {
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
-  const { functionTemplates, functionsInfo, bindingsConfig, resourceId } = props;
+  const { functionTemplates, functionsInfo, bindings, resourceId } = props;
   const [pivotStateKey, setPivotStateKey] = useState<PivotState | undefined>(undefined);
   const [selectedFunctionTemplate, setSelectedFunctionTemplate] = useState<FunctionTemplate | undefined>(undefined);
 
@@ -63,7 +63,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
             headerText={t('functionCreate_details')}>
             <DetailsPivot
               functionsInfo={functionsInfo}
-              bindingsConfig={bindingsConfig}
+              bindings={bindings}
               selectedFunctionTemplate={selectedFunctionTemplate}
               resourceId={resourceId}
             />

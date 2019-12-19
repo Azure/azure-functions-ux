@@ -11,15 +11,15 @@ import SiteService from '../../../../ApiHelpers/SiteService';
 
 export default class FunctionCreateData {
   public getTemplates(resourceId: string) {
-    return FunctionsService.getTemplatesMetadata(resourceId);
+    return FunctionsService.getTemplates(resourceId);
   }
 
   public getFunctions(resourceId: string) {
     return FunctionsService.getFunctions(resourceId);
   }
 
-  public getBindings() {
-    return FunctionsService.getBindingConfigMetadata();
+  public getBindings(resourceId: string) {
+    return FunctionsService.getBindings(resourceId);
   }
 
   public createFunction(
