@@ -11,7 +11,7 @@ import PortalCommunicator from '../../../../../portal-communicator';
 import { PortalContext } from '../../../../../PortalContext';
 import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../ThemeContext';
-import { getBindingConfigDirection } from '../BindingPanel/BindingEditor';
+import { getBindingDirection } from '../BindingPanel/BindingEditor';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
 import BindingCard, { BindingCardChildProps, editExisting, emptyList } from './BindingCard';
 import { listStyle } from './BindingDiagram.styles';
@@ -32,7 +32,7 @@ const TriggerBindingCard: React.SFC<BindingCardChildProps> = props => {
 
 const getTrigger = (bindings: BindingInfo[]): BindingInfo | undefined => {
   return bindings.find(b => {
-    return getBindingConfigDirection(b) === BindingDirection.trigger;
+    return getBindingDirection(b) === BindingDirection.trigger;
   });
 };
 
@@ -52,7 +52,7 @@ const getContent = (
           <Link
             onClick={() =>
               editExisting(portalCommunicator, t, functionInfo, trigger, bindingEditorContext, BindingDirection.trigger)
-            }>{`${BindingFormBuilder.getBindingTypeName(t, trigger, bindings)} (${trigger.name})`}</Link>
+            }>{`${BindingFormBuilder.getBindingTypeName(trigger, bindings)} (${trigger.name})`}</Link>
         </li>
       ) : (
         emptyList(t('integrateNoTriggerDefined'))

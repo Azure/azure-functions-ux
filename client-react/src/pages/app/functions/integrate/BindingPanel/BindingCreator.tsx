@@ -22,12 +22,12 @@ export interface BindingCreatorProps {
 const BindingCreator: React.SFC<BindingCreatorProps> = props => {
   const { onSubmit, onPanelClose, functionAppId, bindings, bindingDirection } = props;
   const { t } = useTranslation();
-  const filteredBindingConfigMetadata = bindings.filter(binding => {
+  const filteredBindings = bindings.filter(binding => {
     return binding.direction === bindingDirection;
   });
 
   const bindingTypeSpecificFields = (formProps: FormikProps<BindingEditorFormValues>): JSX.Element[] => {
-    const typeSpecificMetadata = filteredBindingConfigMetadata.find(metadata => {
+    const typeSpecificMetadata = filteredBindings.find(metadata => {
       return metadata.type === formProps.values.type;
     });
 
@@ -60,8 +60,8 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
     return <LoadingComponent />;
   }
 
-  const dropdownOptions: IDropdownOption[] = filteredBindingConfigMetadata.map(binding => {
-    return { key: binding.type, text: t(binding.displayName.substring(1)) };
+  const dropdownOptions: IDropdownOption[] = filteredBindings.map(binding => {
+    return { key: binding.type, text: binding.displayName };
   });
 
   const initialFormValues: BindingInfo = { name: '', direction: getBindingDirection(bindingDirection), type: BindingType.blob };
@@ -84,7 +84,7 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
               <div>
                 <h3>
                   {t('integrateCreateBindingTypeDetails').format(
-                    (filteredBindingConfigMetadata.find(binding => formProps.values.type === binding.type) as Binding).displayName
+                    (filteredBindings.find(binding => formProps.values.type === binding.type) as Binding).displayName
                   )}
                 </h3>
                 {bindingTypeSpecificFields(formProps)}

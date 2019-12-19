@@ -5,30 +5,20 @@ import React from 'react';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import TextField from '../../../../components/form-controls/TextField';
 import { FormControlWrapper, Layout } from '../../../../components/FormControlWrapper/FormControlWrapper';
-import { Binding, BindingDirection, BindingSetting, BindingSettingValue, BindingValidator } from '../../../../models/functions/binding';
+import { Binding, BindingSetting, BindingSettingValue, BindingValidator } from '../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
 import Toggle from '../../../../components/form-controls/Toggle';
+import { getFunctionBindingDirection } from '../integrate/BindingPanel/BindingEditor';
 
 export interface BindingEditorFormValues {
   [key: string]: any;
 }
 
 export class BindingFormBuilder {
-  public static getLocalizedString(s: string, t: i18next.TFunction) {
-    let result = s;
-    if (s.startsWith('$')) {
-      result = result.substring(1, result.length);
-    }
-    return t(result);
-  }
-
-  public static getBindingTypeName = (t: i18next.TFunction, currentBinding: BindingInfo, bindings: Binding[]): string => {
-    return BindingFormBuilder.getLocalizedString(
-      (bindings.find(binding => binding.type === currentBinding.type) as Binding).displayName,
-      t
-    );
+  public static getBindingTypeName = (currentBinding: BindingInfo, bindings: Binding[]): string => {
+    return (bindings.find(binding => binding.type === currentBinding.type) as Binding).displayName;
   };
 
   constructor(
@@ -57,7 +47,7 @@ export class BindingFormBuilder {
       }
 
       // Bindings uses 'trigger' as a direction, but functions.json does not
-      initialFormValues.direction = binding.direction === BindingDirection.trigger ? 'in' : binding.direction;
+      initialFormValues.direction = getFunctionBindingDirection(binding.direction);
       initialFormValues.type = binding.type;
       i += 1;
     }
@@ -98,9 +88,9 @@ export class BindingFormBuilder {
   private _getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
       <FormControlWrapper
-        label={BindingFormBuilder.getLocalizedString(setting.label, this._t)}
+        label={setting.label}
         layout={Layout.vertical}
-        tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t)}
+        tooltip={setting.help}
         required={setting.required}
         key={setting.name}>
         <Field
@@ -124,9 +114,9 @@ export class BindingFormBuilder {
 
     return (
       <FormControlWrapper
-        label={BindingFormBuilder.getLocalizedString(setting.label, this._t)}
+        label={setting.label}
         layout={Layout.vertical}
-        tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t)}
+        tooltip={setting.help}
         required={setting.required}
         key={setting.name}>
         <Field
@@ -145,9 +135,9 @@ export class BindingFormBuilder {
   private _getBooleanToggle(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
       <FormControlWrapper
-        label={BindingFormBuilder.getLocalizedString(setting.label, this._t)}
+        label={setting.label}
         layout={Layout.vertical}
-        tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t)}
+        tooltip={setting.help}
         required={setting.required}
         key={setting.name}>
         <Field
@@ -172,9 +162,9 @@ export class BindingFormBuilder {
   ) {
     return (
       <FormControlWrapper
-        label={BindingFormBuilder.getLocalizedString(setting.label, this._t)}
+        label={setting.label}
         layout={Layout.vertical}
-        tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t)}
+        tooltip={setting.help}
         required={setting.required}
         key={setting.name}>
         <Field
@@ -200,9 +190,9 @@ export class BindingFormBuilder {
     if (this._bindingInfoList[i].type === BindingType.httpTrigger) {
       return (
         <FormControlWrapper
-          label={BindingFormBuilder.getLocalizedString(setting.label, this._t)}
+          label={setting.label}
           layout={Layout.vertical}
-          tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t)}
+          tooltip={setting.help}
           required={setting.required}
           key={setting.name}>
           <Field
@@ -226,9 +216,9 @@ export class BindingFormBuilder {
 
     return (
       <FormControlWrapper
-        label={BindingFormBuilder.getLocalizedString(setting.label, this._t)}
+        label={setting.label}
         layout={Layout.vertical}
-        tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t)}
+        tooltip={setting.help}
         required={setting.required}
         key={setting.name}>
         <Field
@@ -254,7 +244,7 @@ export class BindingFormBuilder {
     if (value && validators) {
       validators.forEach(validator => {
         if (!value.match(validator.expression)) {
-          error = BindingFormBuilder.getLocalizedString(validator.errorText, this._t);
+          error = validator.errorText;
         }
       });
     }

@@ -27,14 +27,14 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
   const [creatingFunction, setCreatingFunction] = useState<boolean>(false);
 
   if (selectedFunctionTemplate) {
-    const requiredBindingMetadata = getRequiredCreationBindings(
+    const requiredBindings = getRequiredCreationBindings(
       selectedFunctionTemplate.bindings || [],
       bindings,
       selectedFunctionTemplate.userPrompt || []
     );
     const builder = new CreateFunctionFormBuilder(
       selectedFunctionTemplate.bindings || [],
-      requiredBindingMetadata,
+      requiredBindings,
       resourceId,
       functionsInfo,
       selectedFunctionTemplate.defaultFunctionName || 'NewFunction',
@@ -72,19 +72,19 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
 // Not all bindings are required for function creation
 // Only display bindings that are list in the function template 'userPrompt'
 const getRequiredCreationBindings = (functionTemplateBindings: BindingInfo[], bindings: Binding[], userPrompt: string[]): Binding[] => {
-  const requiredBindingConfigMetadata: Binding[] = [];
+  const requiredBindings: Binding[] = [];
   functionTemplateBindings.forEach(binding => {
     const currentBinding = bindings.find(b => b.type === binding.type) as Binding;
     // TODO ALLISONM: ADD IN CALL TO GET SETTINGS IF DNE
-    const requiredBindings = currentBinding;
-    requiredBindings.settings =
+    const requiredBinding = currentBinding;
+    requiredBinding.settings =
       currentBinding.settings &&
       currentBinding.settings.filter(setting => {
         return userPrompt.find(prompt => prompt === setting.name);
       });
-    requiredBindingConfigMetadata.push(requiredBindings);
+    requiredBindings.push(requiredBinding);
   });
-  return requiredBindingConfigMetadata;
+  return requiredBindings;
 };
 
 export default DetailsPivot;

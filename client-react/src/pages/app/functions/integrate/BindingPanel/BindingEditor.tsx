@@ -104,7 +104,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
   );
 };
 
-export const getBindingConfigDirection = (bindingInfo: BindingInfo): BindingDirection => {
+export const getBindingDirection = (bindingInfo: BindingInfo): BindingDirection => {
   if (bindingInfo.direction === BindingDirection.in) {
     return bindingInfo.type.toLowerCase().indexOf('trigger') > -1 ? BindingDirection.trigger : BindingDirection.in;
   }
@@ -112,8 +112,8 @@ export const getBindingConfigDirection = (bindingInfo: BindingInfo): BindingDire
   return BindingDirection.out;
 };
 
-export const getBindingDirection = (bindingConfigDirection: BindingDirection): FunctionBindingDirection => {
-  return bindingConfigDirection === BindingDirection.out ? FunctionBindingDirection.out : FunctionBindingDirection.in;
+export const getFunctionBindingDirection = (bindingDirection: BindingDirection): FunctionBindingDirection => {
+  return bindingDirection === BindingDirection.out ? FunctionBindingDirection.out : FunctionBindingDirection.in;
 };
 
 export default BindingEditor;

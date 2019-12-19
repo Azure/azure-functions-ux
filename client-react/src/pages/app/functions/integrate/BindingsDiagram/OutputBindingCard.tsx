@@ -12,7 +12,7 @@ import { PortalContext } from '../../../../../PortalContext';
 import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { BindingFormBuilder } from '../../common/BindingFormBuilder';
-import { getBindingConfigDirection } from '../BindingPanel/BindingEditor';
+import { getBindingDirection } from '../BindingPanel/BindingEditor';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
 import BindingCard, { BindingCardChildProps, createNew, editExisting, emptyList } from './BindingCard';
 import { listStyle } from './BindingDiagram.styles';
@@ -32,7 +32,7 @@ const OutputBindingCard: React.SFC<BindingCardChildProps> = props => {
 
 const getOutputBindings = (bindings: BindingInfo[]): BindingInfo[] => {
   const outputBindings = bindings.filter(b => {
-    return getBindingConfigDirection(b) === BindingDirection.out;
+    return getBindingDirection(b) === BindingDirection.out;
   });
 
   return outputBindings ? outputBindings : [];
@@ -49,7 +49,7 @@ const getContent = (
 ): JSX.Element => {
   const outputList: JSX.Element[] = outputBindings.map((item, i) => {
     const name = item.name ? `(${item.name})` : '';
-    const linkName = `${BindingFormBuilder.getBindingTypeName(t, item, bindings)} ${name}`;
+    const linkName = `${BindingFormBuilder.getBindingTypeName(item, bindings)} ${name}`;
     return (
       <li key={i.toString()}>
         <Link onClick={() => editExisting(portalCommunicator, t, functionInfo, item, bindingEditorContext, BindingDirection.out)}>
