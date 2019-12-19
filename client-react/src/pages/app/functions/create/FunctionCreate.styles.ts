@@ -69,9 +69,9 @@ export const getHeaderStyle = () => {
 };
 
 export const getSrc = (functionTemplate: FunctionTemplate) => {
-  if (functionTemplate.metadata && functionTemplate.metadata.categoryStyle) {
+  if (functionTemplate && functionTemplate.categoryStyle) {
     // TODO(allisonm): Reintroduce icons for blob, queue, and webhook (waiting on designer)
-    switch (functionTemplate.metadata.categoryStyle) {
+    switch (functionTemplate.categoryStyle) {
       // case 'blob':
       //   return require('images/CreateCardIcons/blob.svg');
       case 'cosmosDB':

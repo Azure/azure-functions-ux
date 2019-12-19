@@ -28,7 +28,7 @@ const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
       />
       {!!functionTemplates &&
         functionTemplates
-          .filter(template => !filterValue || template.metadata.name.toLowerCase().includes(filterValue.toLowerCase()))
+          .filter(template => !filterValue || template.name.toLowerCase().includes(filterValue.toLowerCase()))
           .sort((templateA: FunctionTemplate, templateB: FunctionTemplate) => sortTemplate(templateA, templateB))
           .map((template: FunctionTemplate, index: number) => {
             return (
@@ -55,7 +55,7 @@ const sortTemplate = (templateA: FunctionTemplate, templateB: FunctionTemplate):
     indexB = Number.MAX_VALUE;
   }
 
-  return indexA === indexB ? (templateA.metadata.name > templateB.metadata.name ? 1 : -1) : indexA > indexB ? 1 : -1;
+  return indexA === indexB ? (templateA.name > templateB.name ? 1 : -1) : indexA > indexB ? 1 : -1;
 };
 
 export default TemplatesPivot;

@@ -69,15 +69,12 @@ export default class FunctionsService {
     });
   };
 
-  // The current implementation should be temporary.  In the future, we need to support extension bundles
-  // which means that we'll probably be calling ARM to give us a bunch of resources which are specific
-  // to the apps extension bundle version
-  // Work Item: AB#4222382
-  public static getTemplatesMetadata = () => {
-    return sendHttpRequest<FunctionTemplate[]>({
-      url: '/api/templates?runtime=~2',
+  public static getTemplatesMetadata = (functionAppId: string) => {
+    const resourceId = `${functionAppId}/host/default/templates`;
+    return MakeArmCall<ArmObj<FunctionTemplate[]>>({
+      resourceId,
+      commandName: 'fetchTemplates',
       method: 'GET',
-      headers: getJsonHeaders(),
     });
   };
 
