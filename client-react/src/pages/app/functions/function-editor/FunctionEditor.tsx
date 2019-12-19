@@ -7,7 +7,7 @@ import { BindingType } from '../../../../models/functions/function-binding';
 import { Site } from '../../../../models/site/site';
 import Panel from '../../../../components/Panel/Panel';
 import { PanelType } from 'office-ui-fabric-react';
-import FunctionTest from './FunctionTest';
+import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
 
@@ -40,6 +40,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const onFileSelectorChange = () => {};
+
+  const runFunction = () => {};
 
   const inputBinding =
     functionInfo.properties.config && functionInfo.properties.config.bindings
@@ -106,7 +108,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         onChangeDropdown={onFileSelectorChange}
       />
       <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''}>
-        <FunctionTest />
+        <FunctionTest cancel={onCancelTest} run={runFunction} />
       </Panel>
       <div className={editorStyle}>
         <MonacoEditor

@@ -5556,4 +5556,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionCreate_selectTemplate" xml:space="preserve">
         <value>Select a template in the previous tab to see the details.</value>
     </data>
+    <data name="functionTestInput" xml:space="preserve">
+        <value>Input</value>
+    </data>
+    <data name="functionTestOutput" xml:space="preserve">
+        <value>Output</value>
+    </data>
 </root>
