@@ -1796,4 +1796,5 @@ export class PortalResources {
   public static functionCreate_selectTemplate = 'functionCreate_selectTemplate';
   public static functionTestInput = 'functionTestInput';
   public static functionTestOutput = 'functionTestOutput';
+  public static functionTestInputDescription = 'functionTestInputDescription';
 }
