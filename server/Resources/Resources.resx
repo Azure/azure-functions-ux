@@ -5563,6 +5563,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Output</value>
     </data>
     <data name="functionTestInputDescription" xml:space="preserve">
-        <value>Fill out the desired input parameters to simulate an HTTP request. You can see results in the Output tab.</value>
+        <value>Provide parameters to test the HTTP request. Results can be found in the Output tab.</value>
     </data>
 </root>
