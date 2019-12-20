@@ -10,7 +10,6 @@ import {
   getSelectStyle,
 } from './FunctionCreate.styles';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
-import { useTranslation } from 'react-i18next';
 import { PivotState } from './FunctionCreate';
 import { KeyCodes } from 'office-ui-fabric-react';
 
@@ -23,7 +22,6 @@ export interface CreateCardProps {
 const CreateCard: React.SFC<CreateCardProps> = props => {
   const { functionTemplate, setSelectedFunctionTemplate, setPivotStateKey } = props;
   const theme = useContext(ThemeContext);
-  const { t } = useTranslation();
 
   return (
     <div
@@ -40,8 +38,8 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
       </div>
 
       <div className={getDescriptionStyle()}>
-        <div className={getTitleStyle()}>{functionTemplate.metadata.name}</div>
-        <div className={getInfoStyle()}>{t(`${functionTemplate.metadata.description.replace('$', '')}`)}</div>
+        <div className={getTitleStyle()}>{functionTemplate.name}</div>
+        <div className={getInfoStyle()}>{functionTemplate.description}</div>
         <div className={getSelectStyle()}>{'Select >'}</div>
       </div>
     </div>

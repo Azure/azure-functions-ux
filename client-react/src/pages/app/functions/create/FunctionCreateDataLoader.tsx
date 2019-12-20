@@ -62,11 +62,13 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
   }
 
   private _loadTemplates() {
-    functionCreateData.getTemplates().then(r => {
+    const { resourceId } = this.props;
+
+    functionCreateData.getTemplates(resourceId).then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
-          functionTemplates: r.data,
+          functionTemplates: r.data.properties,
         });
       } else {
         LogService.trackEvent(

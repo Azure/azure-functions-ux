@@ -1,36 +1,21 @@
-import { AADPermissions } from './microsoft-graph';
-import { RuntimeExtension } from './runtime-extension';
 import { BindingInfo } from './function-binding';
 
 export interface FunctionTemplate {
   id: string;
-  function: FunctionTemplateBindings;
-  metadata: FunctionTemplateMetadata;
-  files: any;
-}
-
-export interface FunctionTemplateBindings {
-  bindings: BindingInfo[];
-}
-
-export interface FunctionTemplateMetadata {
   name: string;
-  trigger: string;
   language: string;
+  description?: string;
   category?: string[];
-  userPrompt?: string[];
-  defaultFunctionName?: string;
-  description: string;
-  visible?: boolean;
-  filters?: string[];
+  categoryStyle?: string;
   enabledInTryMode?: boolean;
-  warning: Warning;
-  AADPermissions?: AADPermissions[];
-  extensions: RuntimeExtension[];
-  categoryStyle: string;
+  extensions?: Extension[];
+  defaultFunctionName?: string;
+  userPrompt?: string[];
+  bindings?: BindingInfo[];
+  files?: any;
 }
 
-export interface Warning {
-  type: string;
-  text: string;
+export interface Extension {
+  id: string;
+  version: string;
 }

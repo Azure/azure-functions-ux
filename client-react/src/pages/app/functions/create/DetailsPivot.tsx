@@ -28,17 +28,17 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
 
   if (selectedFunctionTemplate) {
     const requiredBindingMetadata = getRequiredCreationBindings(
-      selectedFunctionTemplate.function.bindings,
+      selectedFunctionTemplate.bindings || [],
       bindingsConfig,
-      selectedFunctionTemplate.metadata.userPrompt || []
+      selectedFunctionTemplate.userPrompt || []
     );
     const builder = new CreateFunctionFormBuilder(
-      selectedFunctionTemplate.function.bindings,
+      selectedFunctionTemplate.bindings || [],
       requiredBindingMetadata,
       resourceId,
       bindingsConfig.variables,
       functionsInfo,
-      selectedFunctionTemplate.metadata.defaultFunctionName || 'NewFunction',
+      selectedFunctionTemplate.defaultFunctionName || 'NewFunction',
       t
     );
     const initialFormValues = builder.getInitialFormValues();
