@@ -46,7 +46,6 @@ export class BindingFormBuilder {
         initialFormValues[setting.name] = value;
       }
 
-      // Bindings uses 'trigger' as a direction, but functions.json does not
       initialFormValues.direction = getFunctionBindingDirection(binding.direction);
       initialFormValues.type = binding.type;
       i += 1;

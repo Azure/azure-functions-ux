@@ -104,6 +104,9 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
   );
 };
 
+// Bindings uses 'trigger' as a direction, but functions.json does not
+// These two functions convert between the two kinds
+
 export const getBindingDirection = (bindingInfo: BindingInfo): BindingDirection => {
   if (bindingInfo.direction === BindingDirection.in) {
     return bindingInfo.type.toLowerCase().indexOf('trigger') > -1 ? BindingDirection.trigger : BindingDirection.in;
