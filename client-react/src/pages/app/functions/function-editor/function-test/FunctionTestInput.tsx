@@ -69,6 +69,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
 
   const { values } = props;
 
+  // TODO (krmitta): Update Dropdown options according to the function [WI: 5536379]
   const dropdownOptions: IDropdownOption[] = [
     {
       key: HttpMethods.Get,
