@@ -14,16 +14,11 @@ import { Label, IDropdownOption, TextField } from 'office-ui-fabric-react';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import MonacoEditor from '../../../../../components/monaco-editor/monaco-editor';
 import { ThemeContext } from '../../../../../ThemeContext';
-import { InputFormValues, EmptyKeyValuePair, KeyValuePair } from '../FunctionEditor.types';
+import { InputFormValues, EmptyKeyValuePair, KeyValuePair, HttpMethods } from '../FunctionEditor.types';
 import { FormikProps, Field, FieldArray } from 'formik';
 import IconButton from '../../../../../components/IconButton/IconButton';
 
 export interface FunctionTestInputProps {}
-
-export enum HttpMethods {
-  Get = 'GET',
-  Post = 'POST',
-}
 
 interface KeyValueComponent {
   items: KeyValuePair[];

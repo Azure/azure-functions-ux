@@ -10,3 +10,8 @@ export interface InputFormValues {
 }
 
 export const EmptyKeyValuePair: KeyValuePair = { key: '', value: '' };
+
+export enum HttpMethods {
+  Get = 'GET',
+  Post = 'POST',
+}

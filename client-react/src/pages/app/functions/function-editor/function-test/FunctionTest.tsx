@@ -4,9 +4,9 @@ import ActionBar from '../../../../../components/ActionBar';
 import { useTranslation } from 'react-i18next';
 import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
-import FunctionTestInput, { HttpMethods } from './FunctionTestInput';
+import FunctionTestInput from './FunctionTestInput';
 import FunctionTestOutput from './FunctionTestOutput';
-import { InputFormValues } from '../FunctionEditor.types';
+import { InputFormValues, HttpMethods } from '../FunctionEditor.types';
 import { Form, FormikProps, Formik } from 'formik';
 
 export interface FunctionTestProps {
