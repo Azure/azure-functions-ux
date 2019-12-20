@@ -9,7 +9,7 @@ import LoadingComponent from '../../../../../components/loading/loading-componen
 import { Binding, BindingDirection } from '../../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../../models/functions/function-binding';
 import { BindingEditorFormValues, BindingFormBuilder } from '../../common/BindingFormBuilder';
-import { getBindingDirection } from './BindingEditor';
+import { getFunctionBindingDirection } from './BindingEditor';
 
 export interface BindingCreatorProps {
   bindings: Binding[];
@@ -64,7 +64,7 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
     return { key: binding.type, text: binding.displayName };
   });
 
-  const initialFormValues: BindingInfo = { name: '', direction: getBindingDirection(bindingDirection), type: BindingType.blob };
+  const initialFormValues: BindingInfo = { name: '', direction: getFunctionBindingDirection(bindingDirection), type: BindingType.blob };
 
   return (
     <Formik

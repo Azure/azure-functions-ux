@@ -43,7 +43,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
 
   // TODO ALLISONM GET EXACT BINDING
   const currentBinding = allBindings.find(
-    b => b.type === currentBindingInfo.type && b.direction === getBindingConfigDirection(currentBindingInfo)
+    b => b.type === currentBindingInfo.type && b.direction === getBindingDirection(currentBindingInfo)
   ) as Binding;
 
   if (!currentBinding) {
