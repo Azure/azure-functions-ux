@@ -10,13 +10,16 @@ import {
   keyValuePairButtonStyle,
   keyValuePairStyle,
 } from './FunctionTest.styles';
-import { Label, IDropdownOption, TextField } from 'office-ui-fabric-react';
-import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
+import { Label, IDropdownOption, ITextFieldProps, TextField } from 'office-ui-fabric-react';
 import MonacoEditor from '../../../../../components/monaco-editor/monaco-editor';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { InputFormValues, EmptyKeyValuePair, KeyValuePair, HttpMethods } from '../FunctionEditor.types';
-import { FormikProps, Field, FieldArray } from 'formik';
+import { FormikProps, Field, FieldArray, FieldProps } from 'formik';
 import IconButton from '../../../../../components/IconButton/IconButton';
+import Dropdown from '../../../../../components/form-controls/DropDown';
+import get from 'lodash-es/get';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 export interface FunctionTestInputProps {}
 
@@ -26,9 +29,27 @@ interface KeyValueComponent {
   addItemText: string;
 }
 
+const KeyValueFieldComponent: React.FC<FieldProps & ITextFieldProps> = props => {
+  const { field, form, ...rest } = props;
+  const errorMessage = get(form.errors, field.name, '') as string;
+  const inputDebouncer = new Subject<{ e: any; value: string }>();
+  const DEBOUNCE_TIME = 300;
+  inputDebouncer.pipe(debounceTime(DEBOUNCE_TIME)).subscribe(({ e, value }) => {
+    form.setFieldValue(field.name, value);
+    field.onChange(e);
+  });
+
+  const onChange = (e: any, value: string) => {
+    inputDebouncer.next({ e, value });
+  };
+
+  return <TextField value={field.value} onBlur={field.onBlur} errorMessage={errorMessage} onChange={onChange} {...rest} />;
+};
+
 const KeyValueFieldArrayComponent: React.FC<KeyValueComponent> = props => {
   const { items, itemName, addItemText } = props;
   const theme = useContext(ThemeContext);
+
   return (
     <FieldArray
       name={itemName}
@@ -38,13 +59,15 @@ const KeyValueFieldArrayComponent: React.FC<KeyValueComponent> = props => {
             <div className={keyValuePairStyle} key={index}>
               <Field
                 className={keyValuePairTextStyle}
-                component={TextField}
+                component={KeyValueFieldComponent}
+                placeholder="name"
                 id={`${index}-${itemName}-key`}
                 name={`${itemName}[${index}].key`}
               />
               <Field
                 className={keyValuePairTextStyle}
-                component={TextField}
+                component={KeyValueFieldComponent}
+                placeholder="value"
                 id={`${index}-${itemName}-value`}
                 name={`${itemName}[${index}].value`}
               />
@@ -86,7 +109,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
       {t('functionTestInputDescription')}
       <div className={functionTestInputGroupStyle}>
         <Label>{t('httpRun_httpMethod')}</Label>
-        <Field id="httpMethod" name="httpMethod" component={DropdownNoFormik} options={dropdownOptions} />
+        <Field id="httpMethod" name="httpMethod" component={Dropdown} options={dropdownOptions} />
       </div>
       <div className={functionTestInputGroupStyle}>
         <Label>{t('httpRun_query')}</Label>
