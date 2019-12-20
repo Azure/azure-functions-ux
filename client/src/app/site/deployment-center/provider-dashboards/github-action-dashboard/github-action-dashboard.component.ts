@@ -233,29 +233,27 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
 
   private _populateTable() {
     const deployments = this.deploymentObject.deployments.value;
-    const tableItems = deployments
-      .filter(value => value.properties.deployer === 'GITHUB_ZIP_DEPLOY')
-      .map(value => {
-        const item = value.properties;
-        const date: moment.Moment = moment(item.received_time);
-        const t = moment(date);
+    const tableItems = deployments.map(value => {
+      const item = value.properties;
+      const date: moment.Moment = moment(item.received_time);
+      const t = moment(date);
 
-        const commitId = item.id.substr(0, 7);
-        const author = item.author;
-        const row: GithubActionTableItem = {
-          type: 'row',
-          time: date.toDate(),
-          date: t.format('M/D/YY'),
-          commit: commitId,
-          checkinMessage: item.message,
-          status: this._getStatusString(item.status, item.progress),
-          active: item.active,
-          author: author,
-          deploymentObj: value,
-        };
+      const commitId = item.id.substr(0, 7);
+      const author = item.author;
+      const row: GithubActionTableItem = {
+        type: 'row',
+        time: date.toDate(),
+        date: t.format('M/D/YY'),
+        commit: commitId,
+        checkinMessage: item.message,
+        status: this._getStatusString(item.status, item.progress),
+        active: item.active,
+        author: author,
+        deploymentObj: value,
+      };
 
-        return row;
-      });
+      return row;
+    });
 
     const newHash = GetTableHash(tableItems);
 
