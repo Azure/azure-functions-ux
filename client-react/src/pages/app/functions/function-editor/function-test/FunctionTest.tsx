@@ -6,12 +6,15 @@ import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
 import FunctionTestInput from './FunctionTestInput';
 import FunctionTestOutput from './FunctionTestOutput';
-import { InputFormValues, HttpMethods } from '../FunctionEditor.types';
+import { InputFormValues } from '../FunctionEditor.types';
 import { Form, FormikProps, Formik } from 'formik';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
 
 export interface FunctionTestProps {
   run: () => void;
   cancel: () => void;
+  functionInfo: ArmObj<FunctionInfo>;
 }
 
 const pivotWrapper = style({
@@ -19,7 +22,7 @@ const pivotWrapper = style({
 });
 
 const defaultInputFormValues: InputFormValues = {
-  httpMethod: HttpMethods.Get,
+  httpMethod: '',
   queries: [],
   headers: [],
 };
@@ -27,7 +30,7 @@ const defaultInputFormValues: InputFormValues = {
 // TODO (krmitta): Add Content for Function test panel [WI: 5536379]
 const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { t } = useTranslation();
-  const { run, cancel } = props;
+  const { run, cancel, functionInfo } = props;
 
   const actionBarPrimaryButtonProps = {
     id: 'run',
@@ -63,7 +66,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           <Form className={addEditFormStyle}>
             <Pivot getTabId={getPivotTabId}>
               <PivotItem className={pivotWrapper} itemKey="input" linkText={t('functionTestInput')}>
-                <FunctionTestInput {...formProps} />
+                <FunctionTestInput {...formProps} functionInfo={functionInfo} />
               </PivotItem>
               <PivotItem className={pivotWrapper} itemKey="output" linkText={t('functionTestOutput')}>
                 <FunctionTestOutput />
