@@ -26,7 +26,7 @@ export const httpAddDataTextStyle = (theme: ThemeExtended) =>
     cursor: 'pointer',
   });
 
-export const functionTestInputGroupStyle = style({
+export const functionTestGroupStyle = style({
   marginTop: '15px',
 });
 
@@ -42,4 +42,23 @@ export const keyValuePairButtonStyle = style({
 
 export const keyValuePairStyle = style({
   marginBottom: '10px',
+});
+
+export const responseStatusStyle = style({
+  fontWeight: 600,
+});
+
+export const responseStyle = style({
+  width: '95%',
+  height: '77px',
+  backgroundColor: 'rgba(128, 128, 128, 0.1)',
+  border: '1px solid rgba(204, 204, 204, 0.8)',
+  boxSizing: 'border-box',
+});
+
+export const responseStatusIcon = style({
+  marginTop: '5px',
+  marginLeft: '4px',
+  width: '12px',
+  height: '12px',
 });

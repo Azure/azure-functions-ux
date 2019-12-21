@@ -1797,4 +1797,6 @@ export class PortalResources {
   public static functionTestInput = 'functionTestInput';
   public static functionTestOutput = 'functionTestOutput';
   public static functionTestInputDescription = 'functionTestInputDescription';
+  public static httpRun_response = 'httpRun_response';
+  public static httpRun_responseStatus = 'httpRun_responseStatus';
 }
