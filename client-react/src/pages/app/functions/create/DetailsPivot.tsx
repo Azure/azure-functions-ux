@@ -10,11 +10,11 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { detailsPaddingStyle } from './FunctionCreate.styles';
 import { FunctionCreateContext } from './FunctionCreateDataLoader';
 import { PortalContext } from '../../../../PortalContext';
-import { BindingInfo } from '../../../../models/functions/function-binding';
+import LoadingComponent from '../../../../components/loading/loading-component';
 
 interface DetailsPivotProps {
-  functionsInfo: ArmObj<FunctionInfo>[];
-  bindings: Binding[];
+  functionsInfo: ArmObj<FunctionInfo>[] | undefined;
+  bindings: Binding[] | undefined;
   selectedFunctionTemplate: FunctionTemplate | undefined;
   resourceId: string;
 }
@@ -27,11 +27,13 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
   const [creatingFunction, setCreatingFunction] = useState<boolean>(false);
 
   if (selectedFunctionTemplate) {
-    const requiredBindings = getRequiredCreationBindings(
-      selectedFunctionTemplate.bindings || [],
-      bindings,
-      selectedFunctionTemplate.userPrompt || []
-    );
+    if (!functionsInfo || !bindings) {
+      return <LoadingComponent />;
+    }
+    const requiredBindings =
+      selectedFunctionTemplate.userPrompt && selectedFunctionTemplate.userPrompt.length > 0
+        ? getRequiredCreationBindings(bindings, selectedFunctionTemplate.userPrompt)
+        : [];
     const builder = new CreateFunctionFormBuilder(
       selectedFunctionTemplate.bindings || [],
       requiredBindings,
@@ -71,15 +73,13 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
 
 // Not all bindings are required for function creation
 // Only display bindings that are list in the function template 'userPrompt'
-const getRequiredCreationBindings = (functionTemplateBindings: BindingInfo[], bindings: Binding[], userPrompt: string[]): Binding[] => {
+const getRequiredCreationBindings = (bindings: Binding[], userPrompt: string[]): Binding[] => {
   const requiredBindings: Binding[] = [];
-  functionTemplateBindings.forEach(binding => {
-    const currentBinding = bindings.find(b => b.type === binding.type) as Binding;
-    // TODO ALLISONM: ADD IN CALL TO GET SETTINGS IF DNE
-    const requiredBinding = currentBinding;
+  bindings.forEach(binding => {
+    const requiredBinding = binding;
     requiredBinding.settings =
-      currentBinding.settings &&
-      currentBinding.settings.filter(setting => {
+      binding.settings &&
+      binding.settings.filter(setting => {
         return userPrompt.find(prompt => prompt === setting.name);
       });
     requiredBindings.push(requiredBinding);

@@ -18,8 +18,8 @@ export default class FunctionCreateData {
     return FunctionsService.getFunctions(resourceId);
   }
 
-  public getBindings(resourceId: string) {
-    return FunctionsService.getBindings(resourceId);
+  public getBinding(resourceId: string, bindingId: string) {
+    return FunctionsService.getBinding(resourceId, bindingId);
   }
 
   public createFunction(

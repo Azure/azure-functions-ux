@@ -15,9 +15,10 @@ import { paddingStyle } from './FunctionCreate.styles';
 
 export interface FunctionCreateProps {
   functionTemplates: FunctionTemplate[];
-  functionsInfo: ArmObj<FunctionInfo>[];
-  bindings: Binding[];
+  functionsInfo: ArmObj<FunctionInfo>[] | undefined;
+  bindings: Binding[] | undefined;
   resourceId: string;
+  setRequiredBindingIds: (ids: string[]) => void;
 }
 
 export enum PivotState {
@@ -28,7 +29,7 @@ export enum PivotState {
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
-  const { functionTemplates, functionsInfo, bindings, resourceId } = props;
+  const { functionTemplates, functionsInfo, bindings, resourceId, setRequiredBindingIds } = props;
   const [pivotStateKey, setPivotStateKey] = useState<PivotState | undefined>(undefined);
   const [selectedFunctionTemplate, setSelectedFunctionTemplate] = useState<FunctionTemplate | undefined>(undefined);
 
@@ -53,6 +54,8 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
               functionTemplates={functionTemplates}
               setSelectedFunctionTemplate={setSelectedFunctionTemplate}
               setPivotStateKey={setPivotStateKey}
+              setRequiredBindingIds={setRequiredBindingIds}
+              bindings={bindings}
             />
           </PivotItem>
           <PivotItem

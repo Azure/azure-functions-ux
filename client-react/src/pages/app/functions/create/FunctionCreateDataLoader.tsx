@@ -17,9 +17,9 @@ export interface FunctionCreateDataLoaderProps {
 }
 
 export interface FunctionCreateDataLoaderState {
-  functionTemplates: FunctionTemplate[] | null;
-  functionsInfo: ArmObj<FunctionInfo>[] | null;
-  bindings: Binding[] | null;
+  functionTemplates: FunctionTemplate[] | undefined;
+  functionsInfo: ArmObj<FunctionInfo>[] | undefined;
+  bindings: Binding[] | undefined;
 }
 
 class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderProps, FunctionCreateDataLoaderState> {
@@ -27,31 +27,34 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
     super(props);
 
     this.state = {
-      functionTemplates: null,
-      functionsInfo: null,
-      bindings: null,
+      functionTemplates: undefined,
+      functionsInfo: undefined,
+      bindings: undefined,
     };
   }
 
   public componentWillMount() {
     this._loadTemplates();
     this._loadFunctions();
-    this._loadBindings();
   }
 
   public render() {
-    if (!this.state.functionTemplates || !this.state.functionsInfo || !this.state.bindings) {
+    if (!this.state.functionTemplates) {
       return <LoadingComponent />;
     }
 
     const { resourceId } = this.props;
-    const functionTemplates = this.state.functionTemplates as FunctionTemplate[];
-    const functionsInfo = this.state.functionsInfo as ArmObj<FunctionInfo>[];
-    const bindings = this.state.bindings as Binding[];
+    const functionTemplates = this.state.functionTemplates;
 
     return (
       <FunctionCreateContext.Provider value={functionCreateData}>
-        <FunctionCreate functionTemplates={functionTemplates} functionsInfo={functionsInfo} bindings={bindings} resourceId={resourceId} />
+        <FunctionCreate
+          functionTemplates={functionTemplates}
+          functionsInfo={this.state.functionsInfo}
+          setRequiredBindingIds={this._loadBindings}
+          bindings={this.state.bindings}
+          resourceId={resourceId}
+        />
       </FunctionCreateContext.Provider>
     );
   }
@@ -86,20 +89,29 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
     });
   }
 
-  private _loadBindings() {
+  private _loadBindings = (ids: string[]) => {
     const { resourceId } = this.props;
+    const allBindings: Binding[] = [];
+    const promises: Promise<void>[] = [];
 
-    functionCreateData.getBindings(resourceId).then(r => {
-      if (r.metadata.success) {
-        this.setState({
-          ...this.state,
-          bindings: r.data.properties,
-        });
-      } else {
-        LogService.trackEvent(LogCategories.functionCreate, 'getBindings', `Failed to get bindings: ${r.metadata.error}`);
-      }
+    ids.forEach(id => {
+      const bindingPromise = functionCreateData.getBinding(resourceId, id).then(r => {
+        if (r.metadata.success) {
+          allBindings.push(r.data.properties[0]);
+        } else {
+          LogService.trackEvent(LogCategories.functionCreate, 'getBindings', `Failed to get bindings: ${r.metadata.error}`);
+        }
+      });
+      promises.push(bindingPromise);
     });
-  }
+
+    Promise.all(promises).then(() => {
+      this.setState({
+        ...this.state,
+        bindings: allBindings,
+      });
+    });
+  };
 }
 
 export default FunctionCreateDataLoader;
