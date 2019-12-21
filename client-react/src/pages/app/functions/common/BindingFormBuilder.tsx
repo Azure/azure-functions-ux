@@ -33,7 +33,6 @@ export class BindingFormBuilder {
 
     let i = 0;
     for (const binding of this._bindingList) {
-      // TODO ALLISONM FIX BINDING SETTINGS
       for (const setting of binding.settings || []) {
         let value = this._bindingInfoList[i][setting.name];
 

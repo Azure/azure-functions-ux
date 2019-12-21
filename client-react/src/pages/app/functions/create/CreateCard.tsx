@@ -61,14 +61,16 @@ const onTemplateSelected = (
 
 const getRequiredBindingIds = (functionTemplate: FunctionTemplate): string[] => {
   const requiredBindingIds: string[] = [];
-  if (functionTemplate.userPrompt && functionTemplate.userPrompt.length > 0 && functionTemplate.bindings) {
+  if (functionTemplate.userPrompt && functionTemplate.userPrompt.length > 0) {
     functionTemplate.userPrompt.forEach(prompt => {
       if (functionTemplate.bindings) {
         functionTemplate.bindings.forEach(binding => {
           if (binding[prompt]) {
             const bindingDirection = getBindingDirection(binding);
             const bindingId = `${binding.type}-${bindingDirection}`;
-            requiredBindingIds.push(bindingId);
+            if (!requiredBindingIds.includes(bindingId)) {
+              requiredBindingIds.push(bindingId);
+            }
           }
         });
       }
