@@ -2,20 +2,20 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { pivotItemWrapper, functionTestGroupStyle, responseStatusStyle, responseStyle, responseStatusIcon } from './FunctionTest.styles';
 import { Label, registerIcons, Icon } from 'office-ui-fabric-react';
-import { ReactComponent as SuccessCircle } from '../../../../../images/Common/success-circle.svg';
-import { ReactComponent as ErrorCircle } from '../../../../../images/Common/error-circle.svg';
-import { ReactComponent as WarningTriangle } from '../../../../../images/Common/warning-triangle.svg';
+import { ReactComponent as SuccessIcon } from '../../../../../images/Common/success-icon.svg';
+import { ReactComponent as ErrorIcon } from '../../../../../images/Common/error-icon.svg';
+import { ReactComponent as WarningIcon } from '../../../../../images/Common/warning-icon.svg';
 
 registerIcons({
   icons: {
-    successCircle: <SuccessCircle className={responseStatusIcon} />,
-    errorCircle: <ErrorCircle className={responseStatusIcon} />,
-    warningTriangle: <WarningTriangle className={responseStatusIcon} />,
+    successIcon: <SuccessIcon className={responseStatusIcon} />,
+    errorIcon: <ErrorIcon className={responseStatusIcon} />,
+    warningIcon: <WarningIcon className={responseStatusIcon} />,
   },
 });
 
 export interface FunctionTestOutputProps {
-  responseCode?: number;
+  responseCode: number;
   responseBody: string;
 }
 
@@ -29,12 +29,12 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
       return '';
     }
     if (responseCode > 99 && responseCode < 300) {
-      return 'successCircle';
+      return 'successIcon';
     }
     if (responseCode > 299 && responseCode < 400) {
-      return 'warningTriangle';
+      return 'warningIcon';
     }
-    return 'errorCircle';
+    return 'errorIcon';
   };
 
   return (
@@ -42,14 +42,10 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
       <div className={functionTestGroupStyle}>
         <Label>{t('httpRun_responseStatus')}</Label>
         <div className={responseStatusStyle}>
-          {responseCode ? (
-            <span>
-              {responseCode}
-              <Icon iconName={getIconName()} />
-            </span>
-          ) : (
-            ''
-          )}
+          <span>
+            {responseCode}
+            <Icon iconName={getIconName()} />
+          </span>
         </div>
       </div>
       <div className={functionTestGroupStyle}>

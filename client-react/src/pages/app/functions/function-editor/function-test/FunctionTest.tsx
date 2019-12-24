@@ -102,7 +102,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
               </PivotItem>
               <PivotItem className={pivotWrapper} itemKey="output" linkText={t('functionTestOutput')}>
                 {/* TODO (krmitta): Add responseCode and responsebody according to the output received*/}
-                <FunctionTestOutput responseCode={30} responseBody={''} />
+                <FunctionTestOutput responseCode={200} responseBody={''} />
               </PivotItem>
             </Pivot>
             <ActionBar
