@@ -108,7 +108,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         onChangeDropdown={onFileSelectorChange}
       />
       <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''}>
-        <FunctionTest cancel={onCancelTest} run={runFunction} />
+        <FunctionTest cancel={onCancelTest} run={runFunction} functionInfo={functionInfo} />
       </Panel>
       <div className={editorStyle}>
         <MonacoEditor

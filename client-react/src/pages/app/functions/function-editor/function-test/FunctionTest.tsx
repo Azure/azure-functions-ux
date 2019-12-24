@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { addEditFormStyle } from '../../../../../components/form-controls/formControl.override.styles';
 import ActionBar from '../../../../../components/ActionBar';
 import { useTranslation } from 'react-i18next';
@@ -8,10 +8,15 @@ import FunctionTestInput from './FunctionTestInput';
 import FunctionTestOutput from './FunctionTestOutput';
 import { InputFormValues, HttpMethods } from '../FunctionEditor.types';
 import { Form, FormikProps, Formik } from 'formik';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import LogService from '../../../../../utils/LogService';
+import { LogCategories } from '../../../../../utils/LogCategories';
 
 export interface FunctionTestProps {
   run: () => void;
   cancel: () => void;
+  functionInfo: ArmObj<FunctionInfo>;
 }
 
 const pivotWrapper = style({
@@ -19,7 +24,7 @@ const pivotWrapper = style({
 });
 
 const defaultInputFormValues: InputFormValues = {
-  httpMethod: HttpMethods.Get,
+  httpMethod: HttpMethods.get,
   queries: [],
   headers: [],
 };
@@ -27,7 +32,8 @@ const defaultInputFormValues: InputFormValues = {
 // TODO (krmitta): Add Content for Function test panel [WI: 5536379]
 const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { t } = useTranslation();
-  const { run, cancel } = props;
+  const { run, cancel, functionInfo } = props;
+  const [reqBody, setReqBody] = useState('');
 
   const actionBarPrimaryButtonProps = {
     id: 'run',
@@ -54,6 +60,35 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     }
   };
 
+  const initData = () => {
+    try {
+      const testData = JSON.parse(functionInfo.properties.test_data);
+      if (!!testData.body) {
+        setReqBody(testData.body);
+      }
+      if (!!testData.method) {
+        defaultInputFormValues.httpMethod = testData.method;
+      }
+      if (!!testData.queryStringParams) {
+        const queryParameters = testData.queryStringParams;
+        for (const parameters of queryParameters) {
+          defaultInputFormValues.queries.push({ key: parameters.name, value: parameters.value });
+        }
+      }
+      if (!!testData.headers) {
+        const headers = testData.headers;
+        for (const header of headers) {
+          defaultInputFormValues.headers.push({ key: header.name, value: header.value });
+        }
+      }
+    } catch (err) {
+      LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
+    }
+  };
+
+  useEffect(() => {
+    initData();
+  }, []);
   return (
     <Formik
       initialValues={defaultInputFormValues}
@@ -63,7 +98,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           <Form className={addEditFormStyle}>
             <Pivot getTabId={getPivotTabId}>
               <PivotItem className={pivotWrapper} itemKey="input" linkText={t('functionTestInput')}>
-                <FunctionTestInput {...formProps} />
+                <FunctionTestInput {...formProps} functionInfo={functionInfo} body={reqBody} />
               </PivotItem>
               <PivotItem className={pivotWrapper} itemKey="output" linkText={t('functionTestOutput')}>
                 {/* TODO (krmitta): Add responseCode and responsebody according to the output received*/}

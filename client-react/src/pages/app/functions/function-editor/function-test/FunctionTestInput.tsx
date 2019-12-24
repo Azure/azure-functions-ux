@@ -20,8 +20,14 @@ import Dropdown from '../../../../../components/form-controls/DropDown';
 import get from 'lodash-es/get';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { BindingType } from '../../../../../models/functions/function-binding';
 
-export interface FunctionTestInputProps {}
+export interface FunctionTestInputProps {
+  functionInfo: ArmObj<FunctionInfo>;
+  body: string;
+}
 
 interface KeyValueComponent {
   items: KeyValuePair[];
@@ -90,26 +96,33 @@ const KeyValueFieldArrayComponent: React.FC<KeyValueComponent> = props => {
 const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestInputProps> = props => {
   const { t } = useTranslation();
 
-  const { values } = props;
+  const { values, functionInfo, body } = props;
 
-  // TODO (krmitta): Update Dropdown options according to the function [WI: 5536379]
-  const dropdownOptions: IDropdownOption[] = [
-    {
-      key: HttpMethods.Get,
-      text: HttpMethods.Get,
-    },
-    {
-      key: HttpMethods.Post,
-      text: HttpMethods.Post,
-    },
-  ];
+  const getDropdownOptions = (): IDropdownOption[] => {
+    const httpTrigger = functionInfo.properties.config.bindings.find(b => {
+      return b.type === BindingType.httpTrigger.toString();
+    });
+    const dropdownOptions: IDropdownOption[] = [];
+    if (httpTrigger && httpTrigger.methods) {
+      httpTrigger.methods.forEach((m: string) => {
+        dropdownOptions.push({ key: m, text: m.toUpperCase() });
+      });
+    } else {
+      for (const method in HttpMethods) {
+        if (method) {
+          dropdownOptions.push({ key: method, text: method.toUpperCase() });
+        }
+      }
+    }
+    return dropdownOptions;
+  };
 
   return (
     <div className={pivotItemWrapper}>
       {t('functionTestInputDescription')}
       <div className={functionTestGroupStyle}>
         <Label>{t('httpRun_httpMethod')}</Label>
-        <Field id="httpMethod" name="httpMethod" component={Dropdown} options={dropdownOptions} />
+        <Field id="httpMethod" name="httpMethod" component={Dropdown} options={getDropdownOptions()} />
       </div>
       <div className={functionTestGroupStyle}>
         <Label>{t('httpRun_query')}</Label>
@@ -124,7 +137,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
         <div className={bodyEditorStyle}>
           <MonacoEditor
             language="json"
-            defaultValue={''}
+            value={body}
             options={{
               minimap: { enabled: false },
               scrollBeyondLastLine: false,
