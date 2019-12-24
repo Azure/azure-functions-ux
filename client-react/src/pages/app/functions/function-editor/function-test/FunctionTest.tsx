@@ -6,10 +6,12 @@ import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
 import FunctionTestInput from './FunctionTestInput';
 import FunctionTestOutput from './FunctionTestOutput';
-import { InputFormValues } from '../FunctionEditor.types';
+import { InputFormValues, HttpMethods } from '../FunctionEditor.types';
 import { Form, FormikProps, Formik } from 'formik';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
+import LogService from '../../../../../utils/LogService';
+import { LogCategories } from '../../../../../utils/LogCategories';
 
 export interface FunctionTestProps {
   run: () => void;
@@ -22,7 +24,7 @@ const pivotWrapper = style({
 });
 
 const defaultInputFormValues: InputFormValues = {
-  httpMethod: '',
+  httpMethod: HttpMethods.get,
   queries: [],
   headers: [],
 };
@@ -59,24 +61,28 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   };
 
   const initData = () => {
-    const testData = JSON.parse(functionInfo.properties.test_data);
-    if (!!testData.body) {
-      setReqBody(testData.body);
-    }
-    if (!!testData.method) {
-      defaultInputFormValues.httpMethod = testData.method;
-    }
-    if (!!testData.queryStringParams) {
-      const queryParameters = testData.queryStringParams;
-      for (const parameters of queryParameters) {
-        defaultInputFormValues.queries.push({ key: parameters.name, value: parameters.value });
+    try {
+      const testData = JSON.parse(functionInfo.properties.test_data);
+      if (!!testData.body) {
+        setReqBody(testData.body);
       }
-    }
-    if (!!testData.headers) {
-      const headers = testData.headers;
-      for (const header of headers) {
-        defaultInputFormValues.headers.push({ key: header.name, value: header.value });
+      if (!!testData.method) {
+        defaultInputFormValues.httpMethod = testData.method;
       }
+      if (!!testData.queryStringParams) {
+        const queryParameters = testData.queryStringParams;
+        for (const parameters of queryParameters) {
+          defaultInputFormValues.queries.push({ key: parameters.name, value: parameters.value });
+        }
+      }
+      if (!!testData.headers) {
+        const headers = testData.headers;
+        for (const header of headers) {
+          defaultInputFormValues.headers.push({ key: header.name, value: header.value });
+        }
+      }
+    } catch (err) {
+      LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
     }
   };
 
