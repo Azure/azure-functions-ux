@@ -4,7 +4,7 @@ import {
   pivotItemWrapper,
   httpAddDataStyle,
   httpAddDataTextStyle,
-  functionTestInputGroupStyle,
+  functionTestGroupStyle,
   bodyEditorStyle,
   keyValuePairTextStyle,
   keyValuePairButtonStyle,
@@ -120,19 +120,19 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
   return (
     <div className={pivotItemWrapper}>
       {t('functionTestInputDescription')}
-      <div className={functionTestInputGroupStyle}>
+      <div className={functionTestGroupStyle}>
         <Label>{t('httpRun_httpMethod')}</Label>
         <Field id="httpMethod" name="httpMethod" component={Dropdown} options={getDropdownOptions()} />
       </div>
-      <div className={functionTestInputGroupStyle}>
+      <div className={functionTestGroupStyle}>
         <Label>{t('httpRun_query')}</Label>
         <KeyValueFieldArrayComponent itemName="queries" items={values.queries} addItemText={t('httpRun_addParameter')} />
       </div>
-      <div className={functionTestInputGroupStyle}>
+      <div className={functionTestGroupStyle}>
         <Label>{t('httpRun_headers')}</Label>
         <KeyValueFieldArrayComponent itemName="headers" items={values.headers} addItemText={t('httpRun_addHeader')} />
       </div>
-      <div className={functionTestInputGroupStyle}>
+      <div className={functionTestGroupStyle}>
         <Label>{t('rrOverride_boby')}</Label>
         <div className={bodyEditorStyle}>
           <MonacoEditor
