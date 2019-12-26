@@ -1,18 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { pivotItemWrapper, functionTestGroupStyle, responseStatusStyle, responseStyle, responseStatusIcon } from './FunctionTest.styles';
-import { Label, registerIcons, Icon } from 'office-ui-fabric-react';
-import { ReactComponent as SuccessIcon } from '../../../../../images/Common/success-icon.svg';
-import { ReactComponent as ErrorIcon } from '../../../../../images/Common/error-icon.svg';
-import { ReactComponent as WarningIcon } from '../../../../../images/Common/warning-icon.svg';
-
-registerIcons({
-  icons: {
-    successIcon: <SuccessIcon className={responseStatusIcon} />,
-    errorIcon: <ErrorIcon className={responseStatusIcon} />,
-    warningIcon: <WarningIcon className={responseStatusIcon} />,
-  },
-});
+import { pivotItemWrapper, functionTestGroupStyle, responseStatusStyle, responseStyle } from './FunctionTest.styles';
+import { Label } from 'office-ui-fabric-react';
 
 export interface FunctionTestOutputProps {
   responseCode: number;
@@ -24,19 +13,6 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
   const { t } = useTranslation();
   const { responseCode, responseBody } = props;
 
-  const getIconName = () => {
-    if (!responseCode) {
-      return '';
-    }
-    if (responseCode > 99 && responseCode < 300) {
-      return 'successIcon';
-    }
-    if (responseCode > 299 && responseCode < 400) {
-      return 'warningIcon';
-    }
-    return 'errorIcon';
-  };
-
   return (
     <div className={pivotItemWrapper}>
       <div className={functionTestGroupStyle}>
@@ -44,7 +20,7 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
         <div className={responseStatusStyle}>
           <span>
             {responseCode}
-            <Icon iconName={getIconName()} />
+            {/** TODO (krmitta): Add (or not) icon after the discussion with Byron [WI 5536379] */}
           </span>
         </div>
       </div>
