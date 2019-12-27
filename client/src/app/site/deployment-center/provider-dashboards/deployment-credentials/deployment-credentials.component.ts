@@ -100,8 +100,8 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
           this.appPwd = ftpProfile.userPWD;
         });
 
-      const publishingUsers$ = this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, true).do(r => {
-        const creds = r.json();
+      const publishingUsers$ = this._siteService.getPublishingUser().do(r => {
+        const creds = r.result;
         const siteDescriptor = new ArmSiteDescriptor(this.resourceId);
         let siteName = siteDescriptor.site;
         const slotName = siteDescriptor.slot;
