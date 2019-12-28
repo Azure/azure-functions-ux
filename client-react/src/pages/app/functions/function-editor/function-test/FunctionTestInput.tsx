@@ -67,8 +67,8 @@ const KeyValueFieldArrayComponent: React.FC<KeyValueComponent> = props => {
                 className={keyValuePairTextStyle}
                 component={KeyValueFieldComponent}
                 placeholder="name"
-                id={`${index}-${itemName}-key`}
-                name={`${itemName}[${index}].key`}
+                id={`${index}-${itemName}-name`}
+                name={`${itemName}[${index}].name`}
               />
               <Field
                 className={keyValuePairTextStyle}
@@ -122,7 +122,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
       {t('functionTestInputDescription')}
       <div className={functionTestGroupStyle}>
         <Label>{t('httpRun_httpMethod')}</Label>
-        <Field id="httpMethod" name="httpMethod" component={Dropdown} options={getDropdownOptions()} />
+        <Field id="method" name="method" component={Dropdown} options={getDropdownOptions()} />
       </div>
       <div className={functionTestGroupStyle}>
         <Label>{t('httpRun_query')}</Label>

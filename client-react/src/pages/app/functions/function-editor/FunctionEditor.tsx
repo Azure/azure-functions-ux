@@ -10,11 +10,14 @@ import { PanelType } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
+import { InputFormValues } from './FunctionEditor.types';
+import { FormikActions } from 'formik';
 
 // TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
+  run: (functionInfo: ArmObj<FunctionInfo>) => void;
 }
 
 const editorStyle = style({
@@ -26,6 +29,7 @@ const editorStyle = style({
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const { functionInfo, site } = props;
   const [showTestPanel, setShowTestPanel] = useState(false);
+  const [reqBody, setReqBody] = useState('');
 
   const save = () => {};
 
@@ -41,7 +45,17 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const onFileSelectorChange = () => {};
 
-  const runFunction = () => {};
+  const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
+    const data = JSON.stringify({
+      method: values.method,
+      queryStringParams: values.queries,
+      headers: values.queries,
+      body: reqBody,
+    });
+    const tempFunctionInfo = functionInfo;
+    tempFunctionInfo.properties.test_data = data;
+    props.run(tempFunctionInfo);
+  };
 
   const inputBinding =
     functionInfo.properties.config && functionInfo.properties.config.bindings
@@ -108,7 +122,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         onChangeDropdown={onFileSelectorChange}
       />
       <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''}>
-        <FunctionTest cancel={onCancelTest} run={runFunction} functionInfo={functionInfo} />
+        <FunctionTest cancel={onCancelTest} run={run} functionInfo={functionInfo} reqBody={reqBody} setReqBody={setReqBody} />
       </Panel>
       <div className={editorStyle}>
         <MonacoEditor

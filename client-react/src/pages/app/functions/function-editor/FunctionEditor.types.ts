@@ -1,15 +1,15 @@
 export interface KeyValuePair {
-  key: string;
+  name: string;
   value: string;
 }
 
 export interface InputFormValues {
-  httpMethod: string;
+  method: string;
   queries: KeyValuePair[];
   headers: KeyValuePair[];
 }
 
-export const EmptyKeyValuePair: KeyValuePair = { key: '', value: '' };
+export const EmptyKeyValuePair: KeyValuePair = { name: '', value: '' };
 
 export enum HttpMethods {
   get = 'get',
