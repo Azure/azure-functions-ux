@@ -27,7 +27,7 @@ export class FunctionsController {
     if (!fileName) {
       throw new HttpException('filename not provided', 400);
     }
-    return this.functionService.getQuickStart(fileName);
+    return this.functionService.getQuickStart(fileName, language);
   }
 
   @Get('runtimetoken/*')
