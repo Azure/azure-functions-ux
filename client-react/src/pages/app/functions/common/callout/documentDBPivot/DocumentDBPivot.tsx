@@ -45,6 +45,8 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps> = props => {
         setKeyList(r.data);
       });
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValues]);
 
   if (!databaseAccounts) {

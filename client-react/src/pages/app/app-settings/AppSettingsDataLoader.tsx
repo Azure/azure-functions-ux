@@ -247,6 +247,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   useEffect(() => {
     loadData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const scaleUpPlan = async () => {
     await portalContext.openFrameBlade(

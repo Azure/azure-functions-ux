@@ -43,6 +43,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
   private _getInitialFunctionName(): string {
     let i = 1;
     while (true) {
+      // eslint-disable-next-line no-loop-func
       const func = this._functionsInfo.find(value => {
         return this._defaultName.toLowerCase() + i.toString() === value.properties.name.toLowerCase();
       });

@@ -30,7 +30,7 @@ export default class Url {
       return null;
     }
 
-    const sanatizedName = name.replace(/[\[\]]/g, '\\$&');
+    const sanatizedName = name.replace(/[[\]]/g, '\\$&');
     // tslint:disable-next-line:prefer-template
     const regex = new RegExp('[?&]' + sanatizedName + '(=([^&#]*)|&|#|$)', 'i');
     const results = regex.exec(urlFull);

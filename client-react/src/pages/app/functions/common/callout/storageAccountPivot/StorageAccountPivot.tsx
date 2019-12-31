@@ -32,6 +32,8 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps> = props => {
         setStorageAccounts(r.data.value);
       });
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValues]);
 
   if (!storageAccounts) {
