@@ -1,6 +1,5 @@
 import { SiteConfig } from '../../shared/models/arm/site-config';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
-import { CacheService } from '../../shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
@@ -50,12 +49,7 @@ export class DeploymentCenterComponent implements OnDestroy {
   public showFTPDashboard = false;
   public showWebDeployDashboard = false;
   sidePanelOpened = false;
-  constructor(
-    private _cacheService: CacheService,
-    private _siteService: SiteService,
-    private _logService: LogService,
-    broadcastService: BroadcastService
-  ) {
+  constructor(private _siteService: SiteService, private _logService: LogService, broadcastService: BroadcastService) {
     this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.continuousDeployment);
 
     this.viewInfoStream
@@ -105,7 +99,7 @@ export class DeploymentCenterComponent implements OnDestroy {
         this.sidePanelOpened = true;
       }
     } else {
-      this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
+      this._siteService.clearSiteConfigArmCache(this.resourceId);
       this.viewInfoStream.next(this.viewInfo);
     }
   }
