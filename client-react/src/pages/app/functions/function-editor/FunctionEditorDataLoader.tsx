@@ -174,6 +174,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             url += '?';
           }
           url += queryString;
+          // TODO (krmitta): Make the API call (using URL created above) to run function and pass the response to FunctionTest Component [WI: 5536379]
         } catch (err) {}
       }
     }
