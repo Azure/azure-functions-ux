@@ -13,7 +13,7 @@ import {
 import { Label, IDropdownOption, ITextFieldProps, TextField } from 'office-ui-fabric-react';
 import MonacoEditor from '../../../../../components/monaco-editor/monaco-editor';
 import { ThemeContext } from '../../../../../ThemeContext';
-import { InputFormValues, EmptyKeyValuePair, KeyValuePair, HttpMethods } from '../FunctionEditor.types';
+import { InputFormValues, EmptyNameValuePair, NameValuePair, HttpMethods } from '../FunctionEditor.types';
 import { FormikProps, Field, FieldArray, FieldProps } from 'formik';
 import IconButton from '../../../../../components/IconButton/IconButton';
 import Dropdown from '../../../../../components/form-controls/DropDown';
@@ -30,7 +30,7 @@ export interface FunctionTestInputProps {
 }
 
 interface KeyValueComponent {
-  items: KeyValuePair[];
+  items: NameValuePair[];
   itemName: string;
   addItemText: string;
 }
@@ -85,7 +85,7 @@ const KeyValueFieldArrayComponent: React.FC<KeyValueComponent> = props => {
               />
             </div>
           ))}
-          <span onClick={() => arrayHelpers.push(EmptyKeyValuePair)} className={httpAddDataTextStyle(theme)}>{`+ ${addItemText}`}</span>
+          <span onClick={() => arrayHelpers.push(EmptyNameValuePair)} className={httpAddDataTextStyle(theme)}>{`+ ${addItemText}`}</span>
         </div>
       )}
     />

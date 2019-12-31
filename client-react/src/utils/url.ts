@@ -93,12 +93,9 @@ export default class Url {
     return `${l.pathname}${l.search}`;
   }
 
-  public static getMainUrl(site: ArmObj<Site> | undefined) {
-    if (!site) {
-      return null;
-    }
+  public static getMainUrl(site: ArmObj<Site>) {
     if (window.appsvc && window.appsvc.env.runtimeType === 'Standalone' && !!site) {
-      return `${site.properties.defaultHostName}/functions${site.name}`;
+      return `${site.properties.defaultHostName}/functions/${site.name}`;
     }
     return `${site.properties.defaultHostName}`;
   }

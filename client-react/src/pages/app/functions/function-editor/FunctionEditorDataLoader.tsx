@@ -8,7 +8,7 @@ import FunctionEditorData from './FunctionEditor.data';
 import { Site } from '../../../../models/site/site';
 import { SiteRouterContext } from '../../SiteRouter';
 import Url from '../../../../utils/url';
-import { KeyValuePair } from './FunctionEditor.types';
+import { NameValuePair } from './FunctionEditor.types';
 import AppKeyService from '../../../../ApiHelpers/AppKeysService';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { BindingManager } from '../../../../utils/BindingManager';
@@ -17,6 +17,8 @@ import SiteService from '../../../../ApiHelpers/SiteService';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
 import { Host } from '../../../../models/functions/host';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -40,7 +42,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const fetchData = async () => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
     const siteResourceId = armSiteDescriptor.getSiteOnlyResourceId();
-    const [siteRes, functionInfoRes, appSettingsRes, appKeysRes, functionKeysRes] = await Promise.all([
+    const [siteResponse, functionInfoResponse, appSettingsResponse, appKeysResponse, functionKeysResponse] = await Promise.all([
       siteContext.fetchSite(siteResourceId),
       functionEditorData.getFunctionInfo(resourceId),
       SiteService.fetchApplicationSettings(siteResourceId),
@@ -48,25 +50,29 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       FunctionsService.fetchKeys(resourceId),
     ]);
 
-    if (siteRes.metadata.success) {
-      setSite(siteRes.data);
+    if (siteResponse.metadata.success) {
+      setSite(siteResponse.data);
     }
-    if (functionInfoRes.metadata.success) {
-      setFunctionInfo(functionInfoRes.data);
+    if (functionInfoResponse.metadata.success) {
+      setFunctionInfo(functionInfoResponse.data);
     }
-    if (appSettingsRes.metadata.success) {
-      const currentRuntimeVersion = appSettingsRes.data.properties[CommonConstants.AppSettingNames.functionsExtensionVersion];
+    if (appSettingsResponse.metadata.success) {
+      const currentRuntimeVersion = appSettingsResponse.data.properties[CommonConstants.AppSettingNames.functionsExtensionVersion];
       setRuntimeVersion(currentRuntimeVersion);
-      const hostJsonRes = await FunctionsService.getHostJson(siteResourceId, functionInfoRes.data.properties.name, currentRuntimeVersion);
+      const hostJsonRes = await FunctionsService.getHostJson(
+        siteResourceId,
+        functionInfoResponse.data.properties.name,
+        currentRuntimeVersion
+      );
       if (hostJsonRes.metadata.success) {
         setHostJsonContent(hostJsonRes.data);
       }
     }
-    if (appKeysRes.metadata.success) {
-      setHostKeys(appKeysRes.data);
+    if (appKeysResponse.metadata.success) {
+      setHostKeys(appKeysResponse.data);
     }
-    if (functionKeysRes.metadata.success) {
-      setFunctionKeys(functionKeysRes.data);
+    if (functionKeysResponse.metadata.success) {
+      setFunctionKeys(functionKeysResponse.data);
     }
     setInitialLoading(false);
   };
@@ -79,8 +85,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       if (httpTriggerTypeInfo) {
         let code = '';
         let clientId = '';
-        let queryParams = '';
-        let result = '';
+        const queryParams: string[] = [];
+        const result = getResultFromHostJson();
         const functionKey = key || functionKeys.default;
 
         code = !!functionKey ? functionKey : '';
@@ -101,44 +107,54 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         }
 
         if (code) {
-          queryParams = `?code=${code}`;
+          queryParams.push(`code=${code}`);
         }
 
         if (clientId) {
-          queryParams = queryParams ? `${queryParams}&clientId=${clientId}` : `?clientId=${clientId}`;
-        }
-        switch (runtimeVersion) {
-          case RuntimeExtensionMajorVersions.beta:
-          case RuntimeExtensionMajorVersions.v2:
-          case RuntimeExtensionMajorVersions.v3: {
-            result =
-              hostJsonContent &&
-              hostJsonContent.extensions &&
-              hostJsonContent.extensions.http &&
-              hostJsonContent.extensions.http.routePrefix !== undefined &&
-              hostJsonContent.extensions.http.routePrefix !== null
-                ? hostJsonContent.extensions.http.routePrefix
-                : 'api';
-            break;
-          }
-          case RuntimeExtensionMajorVersions.v1:
-          default: {
-            result =
-              hostJsonContent &&
-              hostJsonContent.http &&
-              hostJsonContent.http.routePrefix !== undefined &&
-              hostJsonContent.http.routePrefix !== null
-                ? hostJsonContent.http.routePrefix
-                : 'api';
-          }
+          queryParams.push(`clientId=${clientId}`);
         }
         return getFunctionInvokeUrl(result, queryParams);
       }
     }
+    LogService.error(
+      LogCategories.functionInvokeUrl,
+      'GetFunctionInvokeUrl',
+      `No function Info found for the site: ${JSON.stringify(site)}`
+    );
     return '';
   };
 
-  const getFunctionInvokeUrl = (result: string, queryParams: string) => {
+  const getResultFromHostJson = (): string => {
+    let result = '';
+    switch (runtimeVersion) {
+      case RuntimeExtensionMajorVersions.beta:
+      case RuntimeExtensionMajorVersions.v2:
+      case RuntimeExtensionMajorVersions.v3: {
+        result =
+          hostJsonContent &&
+          hostJsonContent.extensions &&
+          hostJsonContent.extensions.http &&
+          hostJsonContent.extensions.http.routePrefix !== undefined &&
+          hostJsonContent.extensions.http.routePrefix !== null
+            ? hostJsonContent.extensions.http.routePrefix
+            : 'api';
+        break;
+      }
+      case RuntimeExtensionMajorVersions.v1:
+      default: {
+        result =
+          hostJsonContent &&
+          hostJsonContent.http &&
+          hostJsonContent.http.routePrefix !== undefined &&
+          hostJsonContent.http.routePrefix !== null
+            ? hostJsonContent.http.routePrefix
+            : 'api';
+      }
+    }
+    return result;
+  };
+
+  const getFunctionInvokeUrl = (result: string, queryParams: string[]) => {
     if (functionInfo) {
       let path = '/';
       const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
@@ -147,16 +163,21 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       } else {
         path += `${result}/${functionInfo.properties.name}`;
       }
+
+      // Remove doubled slashes
       const re = new RegExp('//', 'g');
-      path = path.replace(re, '/');
-      path = path.replace('/?', '?') + queryParams;
+      path = path.replace(re, '/').replace('/?', '?');
+      path = `${path}${path.endsWith('?') ? '' : '?'}${queryParams.join('&')}`;
       return `${getMainUrl(functionInfo.properties.name)}${path}`;
     }
     return '';
   };
 
   const getMainUrl = (functionName: string) => {
-    return `${Url.getMainUrl(site)}/admin/functions/${functionName.toLocaleLowerCase()}`;
+    if (!site) {
+      return '';
+    }
+    return `${Url.getMainUrl(site)}/admin/functions/${functionName.toLowerCase()}`;
   };
 
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>) => {
@@ -166,29 +187,24 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       const functionInvokeUrl = createAndGetFunctionInvokeUrl();
       let url = !!functionInvokeUrl ? functionInvokeUrl : getMainUrl(data.properties.name);
       if (!!url) {
+        let parsedTestData = {};
         try {
-          const parsedTestData = JSON.parse(data.properties.test_data);
-          const testDataObject = functionEditorData.getProcessedFunctionTestData(parsedTestData);
-          const queryString = getQueryString(testDataObject.queries);
-          if (!!queryString) {
-            url += '?';
-          }
-          url += queryString;
-          // TODO (krmitta): Make the API call (using URL created above) to run function and pass the response to FunctionTest Component [WI: 5536379]
+          parsedTestData = JSON.parse(data.properties.test_data);
         } catch (err) {}
+        const testDataObject = functionEditorData.getProcessedFunctionTestData(parsedTestData);
+        const queryString = getQueryString(testDataObject.queries);
+        if (!!queryString) {
+          url += '?';
+        }
+        url += queryString;
+        // TODO (krmitta): Make the API call (using URL created above) to run function and pass the response to FunctionTest Component [WI: 5536379]
       }
     }
   };
 
-  const getQueryString = (queries: KeyValuePair[]): string => {
-    let queryString = '';
-    for (const query of queries) {
-      if (!!queryString) {
-        queryString += '&';
-      }
-      queryString += `${query.name}=${query.value}`;
-    }
-    return queryString;
+  const getQueryString = (queries: NameValuePair[]): string => {
+    const queryString = queries.map(query => `${query.name}=${query.value}`);
+    return queryString.join('&');
   };
 
   useEffect(() => {
