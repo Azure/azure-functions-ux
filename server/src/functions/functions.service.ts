@@ -1,6 +1,7 @@
 import { Injectable, HttpException, OnModuleInit } from '@nestjs/common';
 import { join, normalize } from 'path';
 import { readdir, exists, readFile } from 'async-file';
+import * as fs from 'fs';
 
 @Injectable()
 export class FunctionsService implements OnModuleInit {
@@ -66,9 +67,12 @@ export class FunctionsService implements OnModuleInit {
     }
     const dirFiles = await readdir(quickStartDir);
     const loading = dirFiles.map(async file => {
-      const contents = await readFile(join(quickStartDir, file), { encoding: 'utf8' });
-      const fileName = file.replace('.md', '');
-      this.quickStartMap[fileName.toLowerCase()] = contents;
+      const filePath = join(quickStartDir, file);
+      if (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory()) {
+        const contents = await readFile(filePath, { encoding: 'utf8' });
+        const fileName = file.replace('.md', '');
+        this.quickStartMap[fileName.toLowerCase()] = contents;
+      }
     });
     await loading;
   }
