@@ -16,8 +16,9 @@ interface FunctionIntegrateDataLoaderProps {
 }
 
 interface FunctionIntegrateDataLoaderState {
-  functionInfo: ArmObj<FunctionInfo> | null;
-  bindings: Binding[] | null;
+  functionInfo: ArmObj<FunctionInfo> | undefined;
+  bindings: Binding[] | undefined;
+  currentBinding: Binding | undefined;
 }
 
 class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataLoaderProps, FunctionIntegrateDataLoaderState> {
@@ -25,8 +26,9 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     super(props);
 
     this.state = {
-      functionInfo: null,
-      bindings: null,
+      functionInfo: undefined,
+      bindings: undefined,
+      currentBinding: undefined,
     };
   }
 
@@ -40,10 +42,14 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
       return <LoadingComponent />;
     }
 
-    const functionInfo = this.state.functionInfo as ArmObj<FunctionInfo>;
-    const bindings = this.state.bindings as Binding[];
-
-    return <FunctionIntegrate functionInfo={functionInfo} bindings={bindings} />;
+    return (
+      <FunctionIntegrate
+        functionInfo={this.state.functionInfo}
+        bindings={this.state.bindings}
+        currentBinding={this.state.currentBinding}
+        setRequiredBindingId={this._loadBinding}
+      />
+    );
   }
 
   private _loadFunction() {
@@ -76,6 +82,29 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
       }
     });
   }
+
+  private _loadBinding = (bindingId: string | undefined) => {
+    const { resourceId } = this.props;
+
+    if (bindingId) {
+      const functionAppId = resourceId.split('/functions')[0];
+      functionIntegrateData.getBinding(functionAppId, bindingId).then(r => {
+        if (r.metadata.success) {
+          this.setState({
+            ...this.state,
+            currentBinding: r.data.properties[0],
+          });
+        } else {
+          LogService.error(LogCategories.functionIntegrate, 'getBinding', `Failed to get binding: ${r.metadata.error}`);
+        }
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        currentBinding: undefined,
+      });
+    }
+  };
 }
 
 export default FunctionIntegrateDataLoader;

@@ -9,6 +9,10 @@ export default class FunctionIntegrateData {
     return FunctionsService.getBindings(functionAppResourceId);
   }
 
+  public getBinding(functionAppResourceId: string, bindingId: string): Promise<HttpResponseObject<ArmObj<Binding>>> {
+    return FunctionsService.getBinding(functionAppResourceId, bindingId);
+  }
+
   public getFunction(functionResourceId: string): Promise<HttpResponseObject<ArmObj<FunctionInfo>>> {
     return FunctionsService.getFunction(functionResourceId);
   }

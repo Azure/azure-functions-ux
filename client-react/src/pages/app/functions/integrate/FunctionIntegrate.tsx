@@ -29,6 +29,8 @@ import { useWindowSize } from 'react-use';
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
+  currentBinding: Binding | undefined;
+  setRequiredBindingId: (id: string) => void;
 }
 
 export interface BindingUpdateInfo {
