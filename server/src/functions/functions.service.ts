@@ -69,7 +69,7 @@ export class FunctionsService implements OnModuleInit {
     const loading = dirFiles.map(async file => {
       const filePath = join(quickStartDir, file);
       if (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory()) {
-        const contents = await readFile(join(quickStartDir, file), { encoding: 'utf8' });
+        const contents = await readFile(filePath, { encoding: 'utf8' });
         const fileName = file.replace('.md', '');
         this.quickStartMap[fileName.toLowerCase()] = contents;
       }
