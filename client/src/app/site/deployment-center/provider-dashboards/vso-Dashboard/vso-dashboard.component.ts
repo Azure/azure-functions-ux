@@ -19,6 +19,7 @@ import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparat
 import { of } from 'rxjs/observable/of';
 import { AzureDevOpsService } from '../../deployment-center-setup/wizard-logic/azure-devops.service';
 import { DeploymentDashboard } from '../deploymentDashboard';
+import { SiteService } from 'app/shared/services/site.service';
 
 class VSODeploymentObject extends DeploymentData {
   VSOData: VSOBuildDefinition;
@@ -48,6 +49,7 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
   constructor(
     private _portalService: PortalService,
     private _cacheService: CacheService,
+    private _siteService: SiteService,
     private _armService: ArmService,
     private _logService: LogService,
     private _broadcastService: BroadcastService,
@@ -61,13 +63,13 @@ export class VsoDashboardComponent extends DeploymentDashboard implements OnChan
       .takeUntil(this._ngUnsubscribe$)
       .switchMap(resourceId => {
         return Observable.zip(
-          this._cacheService.getArm(resourceId),
-          this._cacheService.postArm(`${resourceId}/config/metadata/list`, true),
-          this._cacheService.getArm(`${resourceId}/deployments`, true),
+          this._siteService.getSite(resourceId),
+          this._siteService.fetchSiteConfigMetadata(resourceId, true),
+          this._siteService.getSiteDeployments(resourceId),
           (site, metadata, deployments) => ({
-            site: site.json(),
-            metadata: metadata.json(),
-            deployments: deployments.json(),
+            site: site.result,
+            metadata: metadata.result,
+            deployments: deployments.result,
           })
         );
       })

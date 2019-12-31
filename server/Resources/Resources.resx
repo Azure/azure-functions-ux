@@ -5562,4 +5562,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionTestOutput" xml:space="preserve">
         <value>Output</value>
     </data>
+    <data name="functionTestInputDescription" xml:space="preserve">
+        <value>Provide parameters to test the HTTP request. Results can be found in the Output tab.</value>
+    </data>
+    <data name="httpRun_response" xml:space="preserve">
+        <value>HTTP response</value>
+    </data>
+    <data name="httpRun_responseStatus" xml:space="preserve">
+        <value>HTTP response status</value>
+    </data>
 </root>
