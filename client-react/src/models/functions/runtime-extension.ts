@@ -3,4 +3,5 @@ export enum RuntimeExtensionMajorVersions {
   v2 = '~2',
   v3 = '~3',
   custom = 'custom',
+  beta = 'beta',
 }

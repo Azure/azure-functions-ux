@@ -7,6 +7,8 @@ import { FunctionTemplate } from '../models/functions/function-template';
 import { FunctionConfig } from '../models/functions/function-config';
 import Url from '../utils/url';
 import { Binding } from '../models/functions/binding';
+import { RuntimeExtensionMajorVersions } from '../models/functions/runtime-extension';
+import { Host } from '../models/functions/host';
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -121,5 +123,28 @@ export default class FunctionsService {
       method: 'GET',
       headers: getTextHeaders(),
     });
+  }
+
+  public static getHostJson(resourceId: string, functionName: string, runtimeVersion: string | undefined) {
+    switch (runtimeVersion) {
+      case RuntimeExtensionMajorVersions.beta:
+      case RuntimeExtensionMajorVersions.v2:
+      case RuntimeExtensionMajorVersions.v3: {
+        return MakeArmCall<Host>({
+          resourceId: `${resourceId}/hostruntime/admin/vfs/host.json`,
+          commandName: 'getHostJson',
+          queryString: '?relativePath=1',
+          method: 'GET',
+        });
+      }
+      case RuntimeExtensionMajorVersions.v1:
+      default: {
+        return MakeArmCall<Host>({
+          resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot/${functionName}/function.json`,
+          commandName: 'getHostJson',
+          method: 'GET',
+        });
+      }
+    }
   }
 }
