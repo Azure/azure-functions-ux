@@ -7,6 +7,7 @@ export interface ArmRequestObject<T> {
   skipBuffer?: boolean;
   apiVersion?: string | null;
   queryString?: string;
+  headers?: { [key: string]: string };
 }
 export interface HttpResponseObject<T> {
   metadata: {
