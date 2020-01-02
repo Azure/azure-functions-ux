@@ -1,3 +1,6 @@
+import { ArmObj } from '../models/arm-obj';
+import { Site } from '../models/site/site';
+
 export default class Url {
   public static serviceHost =
     window.location.hostname === 'localhost' ||
@@ -88,6 +91,13 @@ export default class Url {
     const l = document.createElement('a');
     l.href = url;
     return `${l.pathname}${l.search}`;
+  }
+
+  public static getMainUrl(site: ArmObj<Site>) {
+    if (window.appsvc && window.appsvc.env.runtimeType === 'Standalone' && !!site) {
+      return `${site.properties.defaultHostName}/functions/${site.name}`;
+    }
+    return `${site.properties.defaultHostName}`;
   }
 
   private static queryStrings: { [key: string]: string };
