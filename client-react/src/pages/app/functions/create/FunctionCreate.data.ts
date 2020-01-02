@@ -10,6 +10,10 @@ import { ArmObj } from '../../../../models/arm-obj';
 import SiteService from '../../../../ApiHelpers/SiteService';
 
 export default class FunctionCreateData {
+  public getHostStatus(resourceId: string) {
+    return FunctionsService.getHostStatus(resourceId);
+  }
+
   public getTemplates(resourceId: string) {
     return FunctionsService.getTemplates(resourceId);
   }

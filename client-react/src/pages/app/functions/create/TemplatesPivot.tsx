@@ -7,6 +7,7 @@ import { filterBoxStyle } from './FunctionCreate.styles';
 import { useTranslation } from 'react-i18next';
 import { Order } from './CreateConstants';
 import { Binding } from '../../../../models/functions/binding';
+import { HostStatus } from '../../../../models/functions/host-status';
 
 interface TemplatesPivotProps {
   functionTemplates: FunctionTemplate[];
@@ -14,10 +15,11 @@ interface TemplatesPivotProps {
   setPivotStateKey: (PivotState: PivotState) => void;
   setRequiredBindingIds: (Bindings: string[]) => void;
   bindings: Binding[] | undefined;
+  hostStatus: HostStatus;
 }
 
 const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
-  const { functionTemplates, setSelectedFunctionTemplate, setPivotStateKey, setRequiredBindingIds } = props;
+  const { functionTemplates, setSelectedFunctionTemplate, setPivotStateKey, setRequiredBindingIds, hostStatus } = props;
   const { t } = useTranslation();
   setPivotStateKey(PivotState.templates);
   const [filterValue, setFilterValue] = useState<string | undefined>(undefined);
@@ -41,6 +43,7 @@ const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
                 setSelectedFunctionTemplate={setSelectedFunctionTemplate}
                 setPivotStateKey={setPivotStateKey}
                 setRequiredBindingIds={setRequiredBindingIds}
+                hostStatus={hostStatus}
               />
             );
           })}

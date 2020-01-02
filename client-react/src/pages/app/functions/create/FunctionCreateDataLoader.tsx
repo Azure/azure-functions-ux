@@ -8,6 +8,7 @@ import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Binding } from '../../../../models/functions/binding';
 import FunctionCreateData from './FunctionCreate.data';
+import { HostStatus } from '../../../../models/functions/host-status';
 
 const functionCreateData = new FunctionCreateData();
 export const FunctionCreateContext = React.createContext(functionCreateData);
@@ -20,6 +21,7 @@ export interface FunctionCreateDataLoaderState {
   functionTemplates: FunctionTemplate[] | undefined;
   functionsInfo: ArmObj<FunctionInfo>[] | undefined;
   bindings: Binding[] | undefined;
+  hostStatus: HostStatus | undefined;
 }
 
 class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderProps, FunctionCreateDataLoaderState> {
@@ -30,16 +32,18 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
       functionTemplates: undefined,
       functionsInfo: undefined,
       bindings: undefined,
+      hostStatus: undefined,
     };
   }
 
   public componentWillMount() {
     this._loadTemplates();
     this._loadFunctions();
+    this._loadHostStatus();
   }
 
   public render() {
-    if (!this.state.functionTemplates) {
+    if (!this.state.functionTemplates || !this.state.hostStatus) {
       return <LoadingComponent />;
     }
 
@@ -53,6 +57,7 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
           functionsInfo={this.state.functionsInfo}
           setRequiredBindingIds={this._loadBindings}
           bindings={this.state.bindings}
+          hostStatus={this.state.hostStatus}
           resourceId={resourceId}
         />
       </FunctionCreateContext.Provider>
@@ -112,6 +117,21 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
       });
     });
   };
+
+  private _loadHostStatus() {
+    const { resourceId } = this.props;
+
+    functionCreateData.getHostStatus(resourceId).then(r => {
+      if (r.metadata.success) {
+        this.setState({
+          ...this.state,
+          hostStatus: r.data.properties,
+        });
+      } else {
+        LogService.trackEvent(LogCategories.functionCreate, 'getHostStatus', `Failed to get hostStatus: ${r.metadata.error}`);
+      }
+    });
+  }
 }
 
 export default FunctionCreateDataLoader;

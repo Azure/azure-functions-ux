@@ -1,3 +1,4 @@
+import { HostStatus } from './../models/functions/host-status';
 import { ArmArray, ArmObj } from './../models/arm-obj';
 import MakeArmCall from './ArmHelper';
 import { FunctionInfo } from '../models/functions/function-info';
@@ -8,6 +9,12 @@ import Url from '../utils/url';
 import { Binding } from '../models/functions/binding';
 
 export default class FunctionsService {
+  public static getHostStatus = (resourceId: string) => {
+    const id = `${resourceId}/host/default/properties/status`;
+
+    return MakeArmCall<ArmObj<HostStatus>>({ resourceId: id, commandName: 'fetchHostStatus' });
+  };
+
   public static getFunctions = (resourceId: string, force?: boolean) => {
     const id = `${resourceId}/functions`;
 

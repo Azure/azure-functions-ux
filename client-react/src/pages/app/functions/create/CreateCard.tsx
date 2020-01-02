@@ -13,16 +13,18 @@ import { FunctionTemplate } from '../../../../models/functions/function-template
 import { PivotState } from './FunctionCreate';
 import { KeyCodes } from 'office-ui-fabric-react';
 import { getBindingDirection } from '../integrate/BindingPanel/BindingEditor';
+import { HostStatus } from '../../../../models/functions/host-status';
 
 export interface CreateCardProps {
   functionTemplate: FunctionTemplate;
   setSelectedFunctionTemplate: (FunctionTemplate: FunctionTemplate) => void;
   setPivotStateKey: (PivotState: PivotState) => void;
   setRequiredBindingIds: (Ids: string[]) => void;
+  hostStatus: HostStatus;
 }
 
 const CreateCard: React.SFC<CreateCardProps> = props => {
-  const { functionTemplate, setSelectedFunctionTemplate, setPivotStateKey, setRequiredBindingIds } = props;
+  const { functionTemplate, setSelectedFunctionTemplate, setPivotStateKey, setRequiredBindingIds, hostStatus } = props;
   const theme = useContext(ThemeContext);
 
   return (
@@ -40,12 +42,16 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
       </div>
 
       <div className={getDescriptionStyle()}>
-        <div className={getTitleStyle()}>{functionTemplate.name}</div>
+        <div className={getTitleStyle()}>{getFunctionTitle(functionTemplate, hostStatus)}</div>
         <div className={getInfoStyle()}>{functionTemplate.description}</div>
         <div className={getSelectStyle()}>{'Select >'}</div>
       </div>
     </div>
   );
+};
+
+const getFunctionTitle = (functionTemplate: FunctionTemplate, hostStatus: HostStatus): string => {
+  return hostStatus.version.startsWith('1') ? `${functionTemplate.name}: ${functionTemplate.language}` : functionTemplate.name;
 };
 
 const onTemplateSelected = (

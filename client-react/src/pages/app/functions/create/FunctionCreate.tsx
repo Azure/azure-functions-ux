@@ -12,6 +12,7 @@ import { learnMoreLinkStyle } from '../../../../components/form-controls/formCon
 import { useTranslation } from 'react-i18next';
 import { Binding } from '../../../../models/functions/binding';
 import { paddingStyle } from './FunctionCreate.styles';
+import { HostStatus } from '../../../../models/functions/host-status';
 
 export interface FunctionCreateProps {
   functionTemplates: FunctionTemplate[];
@@ -19,6 +20,7 @@ export interface FunctionCreateProps {
   bindings: Binding[] | undefined;
   resourceId: string;
   setRequiredBindingIds: (ids: string[]) => void;
+  hostStatus: HostStatus;
 }
 
 export enum PivotState {
@@ -29,7 +31,7 @@ export enum PivotState {
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
-  const { functionTemplates, functionsInfo, bindings, resourceId, setRequiredBindingIds } = props;
+  const { functionTemplates, functionsInfo, bindings, resourceId, setRequiredBindingIds, hostStatus } = props;
   const [pivotStateKey, setPivotStateKey] = useState<PivotState | undefined>(undefined);
   const [selectedFunctionTemplate, setSelectedFunctionTemplate] = useState<FunctionTemplate | undefined>(undefined);
 
@@ -56,6 +58,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
               setPivotStateKey={setPivotStateKey}
               setRequiredBindingIds={setRequiredBindingIds}
               bindings={bindings}
+              hostStatus={hostStatus}
             />
           </PivotItem>
           <PivotItem
