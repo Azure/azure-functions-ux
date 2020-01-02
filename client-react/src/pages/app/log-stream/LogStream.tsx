@@ -39,7 +39,7 @@ const LogStream: React.SFC<LogStreamProps> = props => {
   const portalCommunicator = useContext(PortalContext);
   useEffect(() => {
     portalCommunicator.loadComplete();
-  }, []);
+  }, [portalCommunicator]);
   return (
     <>
       <LogStreamCommandBar

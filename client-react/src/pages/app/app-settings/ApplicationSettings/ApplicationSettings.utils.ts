@@ -6,7 +6,7 @@ const getSchema = (disableSlotSetting: boolean, isLinux: boolean): Joi.ArraySche
   const nameSchema = isLinux
     ? Joi.string()
         .required()
-        .regex(/^[\w|\.]*$/)
+        .regex(/^[\w|.]*$/)
     : Joi.string().required();
   return Joi.array()
     .unique((a, b) => a.name.toLowerCase() === b.name.toLowerCase())
