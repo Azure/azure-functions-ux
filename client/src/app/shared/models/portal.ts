@@ -29,6 +29,12 @@ export interface StartupInfo<T> {
   armEndpoint?: string;
 }
 
+export interface SendToken2 {
+  token?: string; // Arm
+  selfToken?: string;
+  graphToken?: string;
+}
+
 export interface CrmInfo {
   crmTokenHeaderName: string;
   crmInstanceHeaderName: string;
@@ -98,7 +104,7 @@ export class Verbs {
   public static sendAppSettingName = 'send-appSettingName';
   public static sendResourceId = 'send-resourceId';
   public static sendInputs = 'send-inputs';
-  public static sendToken = 'send-token';
+  public static sendToken2 = 'send-token2';
   public static sendOAuthInfo = 'send-oauth-info';
   public static sendNotificationStarted = 'send-notification-started';
   public static sendData = 'send-data';
