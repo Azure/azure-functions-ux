@@ -244,4 +244,15 @@ export class SiteService {
 
     return this._client.execute({ resourceId: resourceId }, t => getSiteDeployments);
   }
+
+  clearSiteConfigArmCache(resourceId: string): void {
+    this._cacheService.clearArmIdCachePrefix(`${resourceId}/config/web`);
+  }
+
+  fetchSiteConfigMetadata(resourceId: string, force?: boolean): Result<ArmObj<SiteConfig>> {
+    const fetchSiteConfigMetadata = this._cacheService
+      .postArm(`${resourceId}/config/metadata/list`, force, ARMApiVersions.antaresApiVersion20181101)
+      .map(r => r.json());
+    return this._client.execute({ resourceId: resourceId }, t => fetchSiteConfigMetadata);
+  }
 }

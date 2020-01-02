@@ -28,6 +28,7 @@ import { LocalStorageService } from '../../../../shared/services/local-storage.s
 import { GithubService } from './github.service';
 import { WorkflowCommit } from '../../Models/github';
 import { Guid } from 'app/shared/Utilities/Guid';
+import { SubscriptionService } from 'app/shared/services/subscription.service';
 
 const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
 
@@ -68,7 +69,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _scenarioService: ScenarioService,
     private _githubService: GithubService,
     siteService: SiteService,
-    userService: UserService
+    userService: UserService,
+    subscriptionService: SubscriptionService
   ) {
     this.resourceIdStream$
       .switchMap(r => {
@@ -84,10 +86,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
           .toLowerCase()
           .replace(/[-]/g, '');
 
-        return forkJoin(
-          siteService.getSite(this._resourceId),
-          this._cacheService.getArm(`/subscriptions/${siteDescriptor.subscription}`, false, ARMApiVersions.armApiVersion)
-        );
+        return forkJoin(siteService.getSite(this._resourceId), subscriptionService.getSubscription(siteDescriptor.subscription));
       })
       .switchMap(result => {
         const [site, sub] = result;
@@ -95,7 +94,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         this.isLinuxApp = this.siteArm.kind.toLowerCase().includes(Kinds.linux);
         this.isFunctionApp = this.siteArm.kind.toLowerCase().includes(Kinds.functionApp);
         this.siteArmObj$.next(this.siteArm);
-        this.subscriptionName = sub.json().displayName;
+        this.subscriptionName = sub.result.displayName;
         return this._scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm });
       })
       .subscribe(vstsScenarioCheck => {
