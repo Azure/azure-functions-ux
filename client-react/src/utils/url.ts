@@ -33,9 +33,9 @@ export default class Url {
       return null;
     }
 
-    const sanatizedName = name.replace(/[[\]]/g, '\\$&');
-    // tslint:disable-next-line:prefer-template
-    const regex = new RegExp('[?&]' + sanatizedName + '(=([^&#]*)|&|#|$)', 'i');
+    // eslint-disable-next-line no-useless-escape
+    const sanatizedName = name.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp(`[?&]${sanatizedName}(=([^&#]*)|&|#|$)`, 'i');
     const results = regex.exec(urlFull);
 
     if (!results) {
