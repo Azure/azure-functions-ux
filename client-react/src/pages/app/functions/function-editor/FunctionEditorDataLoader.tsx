@@ -222,7 +222,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   }
   return (
     <FunctionEditorContext.Provider value={functionEditorData}>
-      <FunctionEditor functionInfo={functionInfo} site={site} run={run} fileList={fileList} />
+      <FunctionEditor functionInfo={functionInfo} site={site} run={run} fileList={fileList} runtimeVersion={runtimeVersion} />
     </FunctionEditorContext.Provider>
   );
 };
