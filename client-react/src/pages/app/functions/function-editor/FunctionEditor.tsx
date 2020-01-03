@@ -12,12 +12,14 @@ import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
 import { InputFormValues } from './FunctionEditor.types';
 import { FormikActions } from 'formik';
+import { VfsObject } from '../../../../models/functions/vfs';
 
 // TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
+  fileList: VfsObject[];
 }
 
 const editorStyle = style({
