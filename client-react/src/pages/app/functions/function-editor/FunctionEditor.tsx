@@ -6,7 +6,7 @@ import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { BindingType } from '../../../../models/functions/function-binding';
 import { Site } from '../../../../models/site/site';
 import Panel from '../../../../components/Panel/Panel';
-import { PanelType } from 'office-ui-fabric-react';
+import { PanelType, IDropdownOption } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
@@ -29,7 +29,7 @@ const editorStyle = style({
 });
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
-  const { functionInfo, site } = props;
+  const { functionInfo, site, fileList } = props;
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
 
@@ -66,17 +66,18 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const [dirty /*, setDirtyState*/] = useState<boolean>(false);
 
-  const functionDirectoryDropdownOptions = [
-    {
-      key: 'index.js',
-      text: 'index.js',
-      data: {
-        isDirectory: false,
-        fileOrDirectoryName: 'index.js',
-      },
-      selected: true,
-    },
-  ];
+  const getDropdownOptions = (): IDropdownOption[] => {
+    return fileList
+      .map(file => ({
+        key: file.name,
+        text: file.name,
+        isSelected: false,
+        data: file,
+      }))
+      .sort((a, b) => a.key.localeCompare(b.key));
+  };
+
+  const options = getDropdownOptions();
 
   const hostKeyDropdownOptions = [
     {
@@ -118,8 +119,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       <FunctionEditorFileSelectorBar
         functionAppNameLabel={site.name}
         functionInfo={functionInfo}
-        functionDirectoryDropdownOptions={functionDirectoryDropdownOptions}
-        functionDirectoryDropdownSelectedKey={'index.js'}
+        functionDirectoryDropdownOptions={options}
+        functionDirectoryDropdownSelectedKey={options.length > 0 ? (options[0].key as string) : ''}
         isFunctionDirectoryDropdownVisible={true}
         onChangeDropdown={onFileSelectorChange}
       />
