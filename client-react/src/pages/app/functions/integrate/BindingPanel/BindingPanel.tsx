@@ -25,37 +25,29 @@ export interface BindingPanelProps {
 const BindingPanel: React.SFC<BindingPanelProps> = props => {
   const { functionInfo, functionAppId, bindingsConfig, bindingInfo, bindingDirection, isOpen, onPanelClose, onSubmit, onDelete } = props;
   const { t } = useTranslation();
-
-  {
-    return (
-      <Panel
-        isOpen={isOpen}
-        type={PanelType.smallFixedFar}
-        headerText={getPanelHeader(t, bindingDirection, bindingInfo)}
-        onDismiss={onPanelClose}>
-        <div style={{ marginTop: '10px' }}>
-          {isOpen &&
-            (!bindingInfo ? (
-              <BindingCreator
-                bindingsConfig={bindingsConfig}
-                functionAppId={functionAppId}
-                bindingDirection={bindingDirection}
-                {...props}
-              />
-            ) : (
-              <BindingEditor
-                functionInfo={functionInfo}
-                allBindingsConfig={bindingsConfig}
-                currentBindingInfo={bindingInfo}
-                resourceId={functionAppId}
-                onSubmit={onSubmit}
-                onDelete={onDelete}
-              />
-            ))}
-        </div>
-      </Panel>
-    );
-  }
+  return (
+    <Panel
+      isOpen={isOpen}
+      type={PanelType.smallFixedFar}
+      headerText={getPanelHeader(t, bindingDirection, bindingInfo)}
+      onDismiss={onPanelClose}>
+      <div style={{ marginTop: '10px' }}>
+        {isOpen &&
+          (!bindingInfo ? (
+            <BindingCreator bindingsConfig={bindingsConfig} functionAppId={functionAppId} bindingDirection={bindingDirection} {...props} />
+          ) : (
+            <BindingEditor
+              functionInfo={functionInfo}
+              allBindingsConfig={bindingsConfig}
+              currentBindingInfo={bindingInfo}
+              resourceId={functionAppId}
+              onSubmit={onSubmit}
+              onDelete={onDelete}
+            />
+          ))}
+      </div>
+    </Panel>
+  );
 };
 
 // If binding info is undefined that means you are creating a new binding info, otherwise you are editing

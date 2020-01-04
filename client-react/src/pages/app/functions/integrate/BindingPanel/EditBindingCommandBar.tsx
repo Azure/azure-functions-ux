@@ -41,7 +41,7 @@ const EditBindingCommandBar: React.FC<EditBindingCommandBarProps> = props => {
     <>
       <CommandBar
         items={getItems(props, t)}
-        aria-role="nav"
+        role="nav"
         styles={commandBarStyles}
         ariaLabel={t('editBindingCommands')}
         buttonAs={CustomCommandBarButton}

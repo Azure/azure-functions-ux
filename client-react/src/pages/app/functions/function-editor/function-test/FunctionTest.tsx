@@ -47,7 +47,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     }
   };
 
-  const initData = () => {
+  useEffect(() => {
     try {
       const testData = JSON.parse(functionInfo.properties.test_data);
       if (!!testData.body) {
@@ -71,11 +71,10 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     } catch (err) {
       LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
     }
-  };
 
-  useEffect(() => {
-    initData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <Formik
       initialValues={defaultInputFormValues}

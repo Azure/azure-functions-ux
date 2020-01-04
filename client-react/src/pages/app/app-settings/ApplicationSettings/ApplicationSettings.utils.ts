@@ -6,6 +6,7 @@ const getSchema = (disableSlotSetting: boolean, isLinux: boolean): Joi.ArraySche
   const nameSchema = isLinux
     ? Joi.string()
         .required()
+        // eslint-disable-next-line no-useless-escape
         .regex(/^[\w|\.]*$/)
     : Joi.string().required();
   return Joi.array()

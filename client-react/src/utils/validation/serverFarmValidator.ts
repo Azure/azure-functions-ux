@@ -6,7 +6,7 @@ const SERVERFARM_MAX_LENGTH = 40;
 const RESTRICTED_NAME = 'default';
 
 // matches any character(i.e. german, chinese, english) or -
-const INVALID_CHARS_REGEX = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/;
+const INVALID_CHARS_REGEX = /[^\u00BF-\u1FFF\u2C00-\uD7FFa-zA-Z0-9-]/;
 
 export const getServerFarmValidator = <T>(
   subscriptionId: string,
