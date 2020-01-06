@@ -25,7 +25,8 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
       lastFieldRef.focus();
       setFocusLast(false);
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focusLast]);
 
   const { values, setValues, errors } = props;
   const removeItem = (index: number) => {

@@ -95,13 +95,13 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
   useEffect(() => {
     portalCommunicator.updateDirtyState(dirty);
-  }, [dirty]);
+  }, [dirty, portalCommunicator]);
 
   return (
     <>
       <CommandBar
         items={getItems()}
-        aria-role="nav"
+        role="nav"
         styles={CommandBarStyles}
         ariaLabel={t('functionEditorCommandBarAriaLabel')}
         buttonAs={CustomCommandBarButton}

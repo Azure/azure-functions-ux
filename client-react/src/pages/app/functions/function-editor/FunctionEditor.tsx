@@ -21,8 +21,9 @@ export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
-  fileList: VfsObject[];
+  fileList?: VfsObject[];
   runtimeVersion?: string;
+  fileList?: VfsObject[];
 }
 
 const editorStyle = style({
@@ -80,7 +81,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [dirty /*, setDirtyState*/] = useState<boolean>(false);
 
   const getDropdownOptions = (): IDropdownOption[] => {
-    const dropdownOptions = fileList
+    let dropdownOptions = [];
+    dropdownOptions = !!fileList && fileList
       .map(file => ({
         key: file.name,
         text: file.name,
