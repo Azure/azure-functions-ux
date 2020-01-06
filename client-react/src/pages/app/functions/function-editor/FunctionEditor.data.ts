@@ -24,7 +24,7 @@ export default class FunctionEditorData {
     }
     if (!!data.queryStringParams) {
       const queries: NameValuePair[] = [];
-      for (const parameter of data.queryParameters) {
+      for (const parameter of data.queryStringParams) {
         queries.push({ name: parameter.name, value: parameter.value });
       }
       response.queries = queries;

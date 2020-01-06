@@ -2,6 +2,7 @@ import 'core-js/es6/symbol';
 
 // http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
 if (!String.prototype.format) {
+  // eslint-disable-next-line no-extend-native
   String.prototype.format = function() {
     const args = arguments;
     return this.replace(/{(\d+)}/g, (match, number) => {

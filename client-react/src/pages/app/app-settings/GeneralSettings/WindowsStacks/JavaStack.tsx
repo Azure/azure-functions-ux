@@ -28,22 +28,24 @@ type Props = StateProps & FormikProps<AppSettingsFormValues>;
 
 const JavaStack: React.SFC<Props> = props => {
   const [currentJavaMajorVersion, setCurrentJavaMajorVersion] = useState('');
-  const [initialized, setInitialized] = useState(false);
   const { stacks, values, initialValues } = props;
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
   const javaStack = getJavaStack(stacks);
   const javaContainers = getJavaContainers(stacks);
+
+  useEffect(() => {
+    if (javaStack && javaContainers) {
+      setCurrentJavaMajorVersion(getJavaMajorVersion(javaStack.properties, values.config));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (!javaStack || !javaContainers) {
     return null;
   }
-  useEffect(() => {
-    if (!initialized) {
-      setInitialized(true);
-      setCurrentJavaMajorVersion(getJavaMajorVersion(javaStack.properties, values.config));
-    }
-  });
 
   const getInitialJavaMinorVersion = () => {
     const initialJavaMajorVersion = getJavaMajorVersion(javaStack.properties, initialValues.config);

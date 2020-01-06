@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
@@ -6,18 +6,23 @@ import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { BindingType } from '../../../../models/functions/function-binding';
 import { Site } from '../../../../models/site/site';
 import Panel from '../../../../components/Panel/Panel';
-import { PanelType } from 'office-ui-fabric-react';
+import { PanelType, IDropdownOption } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
-import { InputFormValues } from './FunctionEditor.types';
+import { InputFormValues, EditorLanguage } from './FunctionEditor.types';
 import { FormikActions } from 'formik';
+import { VfsObject } from '../../../../models/functions/vfs';
+import LoadingComponent from '../../../../components/loading/loading-component';
+import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 
 // TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
+  runtimeVersion?: string;
+  fileList?: VfsObject[];
 }
 
 const editorStyle = style({
@@ -27,9 +32,13 @@ const editorStyle = style({
 });
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
-  const { functionInfo, site } = props;
+  const { functionInfo, site, fileList, runtimeVersion } = props;
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
+  const [fetchingFileContent, setFetchingFileContent] = useState(false);
+  const [fileContent, setFileContent] = useState('');
+  const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
+  const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
 
   const save = () => {};
 
@@ -43,7 +52,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setShowTestPanel(false);
   };
 
-  const onFileSelectorChange = () => {};
+  const onFileSelectorChange = async (e: unknown, option: IDropdownOption) => {
+    setFetchingFileContent(true);
+    setSelectedFile(option);
+    setSelectedFileContent(option.data);
+    getAndSetEditorLanguage(option.data.name);
+    setFetchingFileContent(false);
+  };
 
   const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
     const data = JSON.stringify({
@@ -64,17 +79,43 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const [dirty /*, setDirtyState*/] = useState<boolean>(false);
 
-  const functionDirectoryDropdownOptions = [
-    {
-      key: 'index.js',
-      text: 'index.js',
-      data: {
-        isDirectory: false,
-        fileOrDirectoryName: 'index.js',
-      },
-      selected: true,
-    },
-  ];
+  const getDropdownOptions = (): IDropdownOption[] => {
+    return !!fileList
+      ? fileList
+          .map(file => ({
+            key: file.name,
+            text: file.name,
+            isSelected: false,
+            data: file,
+          }))
+          .filter(file => file.data.mime !== 'inode/directory')
+          .sort((a, b) => a.key.localeCompare(b.key))
+      : [];
+  };
+
+  const setSelectedFileContent = async (file: VfsObject) => {
+    const headers = {
+      'Content-Type': file.mime,
+    };
+    const fileResponse = await FunctionsService.getFileContent(site.id, functionInfo.properties.name, runtimeVersion, headers, file.name);
+    if (fileResponse.metadata.success) {
+      let fileText = fileResponse.data as string;
+      if (file.mime === 'application/json') {
+        fileText = JSON.stringify(fileResponse.data);
+      }
+      setFileContent(fileText);
+    }
+  };
+
+  const fetchData = async () => {
+    const options = getDropdownOptions();
+    const file = options.length > 0 ? options[0] : undefined;
+    if (!!file) {
+      setSelectedFileContent(file.data);
+      setSelectedFile(file);
+      getAndSetEditorLanguage(file.data.name);
+    }
+  };
 
   const hostKeyDropdownOptions = [
     {
@@ -95,11 +136,60 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     // TODO(krmitta): Save the new content of the file in state [WI 5536378]
   };
 
-  const getEditorLanguage = (): string => {
-    // TODO(krmitta): Add language according to the file opened in the editor [WI 5536378]
-    return 'javascript';
+  const getAndSetEditorLanguage = (fileName: string) => {
+    const extension = fileName
+      .toLowerCase()
+      .split('.')
+      .pop();
+    let language;
+    switch (extension) {
+      case 'bat':
+        language = EditorLanguage.bat;
+        break;
+      case 'csx':
+        language = EditorLanguage.csharp;
+        break;
+      case 'fsx':
+        language = EditorLanguage.fsharp;
+        break;
+      case 'js':
+        language = EditorLanguage.javascript;
+        break;
+      case 'json':
+        language = EditorLanguage.json;
+        break;
+      case 'ps1':
+        language = EditorLanguage.powershell;
+        break;
+      case 'py':
+        language = EditorLanguage.python;
+        break;
+      case 'ts':
+        language = EditorLanguage.typescript;
+        break;
+      case 'md':
+        language = EditorLanguage.markdown;
+        break;
+      case 'php':
+        language = EditorLanguage.php;
+        break;
+      case 'sh':
+        language = EditorLanguage.shell;
+        break;
+      default:
+        language = EditorLanguage.plaintext;
+        break;
+    }
+    setEditorLanguage(language);
   };
 
+  const isLoading = () => {
+    return fetchingFileContent;
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <>
       <FunctionEditorCommandBar
@@ -108,35 +198,39 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         testFunction={test}
         showGetFunctionUrlCommand={!!inputBinding}
         dirty={dirty}
-        disabled={false}
+        disabled={fetchingFileContent}
         hostKeyDropdownOptions={hostKeyDropdownOptions}
         hostKeyDropdownSelectedKey={'master'}
         hostUrls={hostUrls}
       />
       <FunctionEditorFileSelectorBar
+        disabled={fetchingFileContent}
         functionAppNameLabel={site.name}
         functionInfo={functionInfo}
-        functionDirectoryDropdownOptions={functionDirectoryDropdownOptions}
-        functionDirectoryDropdownSelectedKey={'index.js'}
-        isFunctionDirectoryDropdownVisible={true}
+        fileDropdownOptions={getDropdownOptions()}
+        fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
         onChangeDropdown={onFileSelectorChange}
       />
       <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''}>
         <FunctionTest cancel={onCancelTest} run={run} functionInfo={functionInfo} reqBody={reqBody} setReqBody={setReqBody} />
       </Panel>
-      <div className={editorStyle}>
-        <MonacoEditor
-          value={``}
-          language={getEditorLanguage()}
-          onChange={onChange}
-          options={{
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            cursorBlinking: true,
-            renderWhitespace: 'all',
-          }}
-        />
-      </div>
+      {isLoading() ? (
+        <LoadingComponent />
+      ) : (
+        <div className={editorStyle}>
+          <MonacoEditor
+            value={fileContent}
+            language={editorLanguage}
+            onChange={onChange}
+            options={{
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+              cursorBlinking: true,
+              renderWhitespace: 'all',
+            }}
+          />
+        </div>
+      )}
     </>
   );
 };
