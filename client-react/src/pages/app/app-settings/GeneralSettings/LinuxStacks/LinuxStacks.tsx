@@ -148,6 +148,8 @@ const LinuxStacks: React.FC<PropsType> = props => {
   useEffect(() => {
     setRuntimeStack(getSelectedRuntimeStack(stacks.value, values.config.properties.linuxFxVersion));
     setMajorVersion(getSelectedMajorVersion(stacks.value, values.config.properties.linuxFxVersion));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.linuxFxVersion]);
   const scenarioService = new ScenarioService(t);
   return (

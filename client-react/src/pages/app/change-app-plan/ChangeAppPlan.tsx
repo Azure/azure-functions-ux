@@ -90,7 +90,7 @@ export interface ChangeAppPlanFormValues {
 }
 
 export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
-  const { resourceGroups, serverFarms, site, currentServerFarm, hostingEnvironment, onChangeComplete: onChangeComplete } = props;
+  const { resourceGroups, serverFarms, site, currentServerFarm, hostingEnvironment, onChangeComplete } = props;
 
   const [isUpdating, setIsUpdating] = useState(false);
   const [siteIsReadOnlyLocked, setSiteIsReadOnlyLocked] = useState(false);
@@ -107,6 +107,8 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   // Initialization
   useEffect(() => {
     checkIfSiteIsLocked(portalCommunicator, site.id, setSiteIsReadOnlyLocked);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -115,10 +117,14 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
     } else {
       portalCommunicator.updateDirtyState(false);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUpdating]);
 
   useEffect(() => {
     updateAppDensityWarning(setShowAppDensityWarning, formValues.serverFarmInfo, t);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValues]);
 
   const rgOptions = getDropdownOptions(resourceGroups);

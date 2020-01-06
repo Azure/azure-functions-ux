@@ -61,7 +61,10 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
       setVirtualPathError(validateVirtualPath());
       setPhysicalPathError(validatePhysicalPath());
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVirtualApplication]);
+
   const updatePhysicalPath = (e: any, physicalPath: string) => {
     setCurrentVirtualApplication({
       ...currentVirtualApplication,

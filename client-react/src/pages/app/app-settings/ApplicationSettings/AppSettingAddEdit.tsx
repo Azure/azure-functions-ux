@@ -118,6 +118,8 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     if (isAppSettingValidReference()) {
       getAppSettingReference();
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
