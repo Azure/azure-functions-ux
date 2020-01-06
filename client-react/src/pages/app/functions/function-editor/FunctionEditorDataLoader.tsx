@@ -37,7 +37,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [functionKeys, setFunctionKeys] = useState<{ [key: string]: string }>({});
   const [runtimeVersion, setRuntimeVersion] = useState<string | undefined>(undefined);
   const [hostJsonContent, setHostJsonContent] = useState<Host | undefined>(undefined);
-  const [fileList, setFileList] = useState<VfsObject[]>([]);
+  const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
 
   const siteContext = useContext(SiteRouterContext);
 

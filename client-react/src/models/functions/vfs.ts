@@ -1,8 +1,8 @@
 export interface VfsObject {
   name: string;
   mime: string;
-  mtime?: string;
   href: string;
+  mtime?: string;
   isDirty?: boolean;
   isBinary?: boolean;
   parsedTime?: Date;
