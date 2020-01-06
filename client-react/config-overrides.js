@@ -7,7 +7,7 @@ module.exports = function override(config, env) {
   }
   config.plugins.push(
     new MonacoWebpackPlugin({
-      languages: ['json'],
+      languages: ['json', 'markdown', 'csharp', 'bat', 'fsharp', 'javascript', 'powershell', 'python', 'typescript', 'php', 'shell'],
     })
   );
   config.resolve = { ...config.resolve, alias: { ...config.resolve.alias, joi: 'joi-browser' } };
