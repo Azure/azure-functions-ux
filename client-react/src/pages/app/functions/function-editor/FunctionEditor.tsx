@@ -66,8 +66,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     );
     if (fileResponse.metadata.success) {
       setDefaultFileContent(newFileContent);
-    } else {
-      setNewFileContent(defaultFileContent);
     }
   };
 
