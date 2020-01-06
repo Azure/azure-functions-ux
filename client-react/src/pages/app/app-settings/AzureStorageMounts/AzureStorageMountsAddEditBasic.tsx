@@ -37,10 +37,6 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     .filter(val => supportsBlobStorage || val.kind !== storageKinds.BlobStorage)
     .map(val => ({ key: val.name, text: val.name }));
 
-  const setAccessKey = (accessKey: string) => {
-    setValues({ ...values, accessKey });
-  };
-
   const validateStorageContainer = (value: string): string | undefined => {
     if (
       sharesLoading ||
@@ -64,6 +60,10 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
       setSharesLoading(true);
       MakeArmCall({ resourceId: `${storageAccount.id}/listKeys`, commandName: 'listStorageKeys', method: 'POST' })
         .then(async ({ data }: any) => {
+          const setAccessKey = (accessKey: string) => {
+            setValues({ ...values, accessKey });
+          };
+
           setAccessKey(data.keys[0].value);
           const payload = {
             accountName: values.accountName,
@@ -113,6 +113,8 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           setAccountError(t('noWriteAccessStorageAccount'));
         });
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.accountName]);
 
   const blobContainerOptions = accountSharesBlob.map((x: any) => ({ key: x.name, text: x.name }));
