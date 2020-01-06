@@ -88,11 +88,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       setSelectedDropdownOption(option);
       return;
     }
-    setFetchingFileContent(true);
-    setSelectedFile(option);
-    setSelectedFileContent(option.data);
-    getAndSetEditorLanguage(option.data.name);
-    setFetchingFileContent(false);
+    changeDropdownOption(option);
   };
 
   const changeDropdownOption = (option: IDropdownOption) => {
