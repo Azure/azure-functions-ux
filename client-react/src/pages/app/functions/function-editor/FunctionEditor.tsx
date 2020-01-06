@@ -95,11 +95,15 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const setSelectedFileContent = async (file: VfsObject) => {
     const headers = {
-      'Content-Type': 'text/plain',
+      'Content-Type': file.mime,
     };
     const fileResponse = await FunctionsService.getFileContent(site.id, functionInfo.properties.name, runtimeVersion, headers, file.name);
     if (fileResponse.metadata.success) {
-      setFileContent(JSON.stringify(fileResponse.data));
+      let fileText = fileResponse.data as string;
+      if (file.mime === 'application/json') {
+        fileText = JSON.stringify(fileResponse.data);
+      }
+      setFileContent(fileText);
     }
     return '';
   };
