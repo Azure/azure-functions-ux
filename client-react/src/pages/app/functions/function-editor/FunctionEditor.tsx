@@ -21,7 +21,6 @@ export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
-  fileList?: VfsObject[];
   runtimeVersion?: string;
   fileList?: VfsObject[];
 }
@@ -81,17 +80,17 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [dirty /*, setDirtyState*/] = useState<boolean>(false);
 
   const getDropdownOptions = (): IDropdownOption[] => {
-    let dropdownOptions = [];
-    dropdownOptions = !!fileList && fileList
-      .map(file => ({
-        key: file.name,
-        text: file.name,
-        isSelected: false,
-        data: file,
-      }))
-      .filter(file => file.data.mime !== 'inode/directory')
-      .sort((a, b) => a.key.localeCompare(b.key));
-    return dropdownOptions;
+    return !!fileList
+      ? fileList
+          .map(file => ({
+            key: file.name,
+            text: file.name,
+            isSelected: false,
+            data: file,
+          }))
+          .filter(file => file.data.mime !== 'inode/directory')
+          .sort((a, b) => a.key.localeCompare(b.key))
+      : [];
   };
 
   const setSelectedFileContent = async (file: VfsObject) => {
