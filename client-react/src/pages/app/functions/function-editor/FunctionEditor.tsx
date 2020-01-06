@@ -15,6 +15,8 @@ import { FormikActions } from 'formik';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import { useTranslation } from 'react-i18next';
 
 // TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
@@ -36,13 +38,42 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
-  const [fileContent, setFileContent] = useState('');
+  const [defaultFileContent, setDefaultFileContent] = useState('');
+  const [newFileContent, setNewFileContent] = useState('');
   const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
+  const [dirty, setDirty] = useState<boolean>(false);
+  const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption | undefined>(undefined);
 
-  const save = () => {};
+  const { t } = useTranslation();
 
-  const discard = () => {};
+  const save = async () => {
+    if (!selectedFile) {
+      return;
+    }
+    const fileData = selectedFile.data;
+    const headers = {
+      'Content-Type': fileData.mime,
+      'If-Match': '*',
+    };
+    const fileResponse = await FunctionsService.saveFileContent(
+      site.id,
+      functionInfo.properties.name,
+      fileData.name,
+      newFileContent,
+      runtimeVersion,
+      headers
+    );
+    if (fileResponse.metadata.success) {
+      setDefaultFileContent(newFileContent);
+    } else {
+      setNewFileContent(defaultFileContent);
+    }
+  };
+
+  const discard = () => {
+    setNewFileContent(defaultFileContent);
+  };
 
   const test = () => {
     setShowTestPanel(true);
@@ -53,11 +84,25 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const onFileSelectorChange = async (e: unknown, option: IDropdownOption) => {
+    if (dirty) {
+      setSelectedDropdownOption(option);
+      return;
+    }
     setFetchingFileContent(true);
     setSelectedFile(option);
     setSelectedFileContent(option.data);
     getAndSetEditorLanguage(option.data.name);
     setFetchingFileContent(false);
+  };
+
+  const changeDropdownOption = (option: IDropdownOption) => {
+    closeConfirmDialog();
+    setFetchingFileContent(true);
+    setSelectedFile(option);
+    setSelectedFileContent(option.data);
+    getAndSetEditorLanguage(option.data.name);
+    setFetchingFileContent(false);
+    setDirty(false);
   };
 
   const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
@@ -76,8 +121,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     functionInfo.properties.config && functionInfo.properties.config.bindings
       ? functionInfo.properties.config.bindings.find(e => e.type === BindingType.httpTrigger)
       : null;
-
-  const [dirty /*, setDirtyState*/] = useState<boolean>(false);
 
   const getDropdownOptions = (): IDropdownOption[] => {
     return !!fileList
@@ -103,7 +146,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       if (file.mime === 'application/json') {
         fileText = JSON.stringify(fileResponse.data);
       }
-      setFileContent(fileText);
+      setDefaultFileContent(fileText);
+      setNewFileContent(fileText);
     }
   };
 
@@ -134,6 +178,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const onChange = (newValue, event) => {
     // TODO(krmitta): Save the new content of the file in state [WI 5536378]
+    setNewFileContent(newValue);
   };
 
   const getAndSetEditorLanguage = (fileName: string) => {
@@ -187,6 +232,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return fetchingFileContent;
   };
 
+  const closeConfirmDialog = () => {
+    setSelectedDropdownOption(undefined);
+  };
+
+  useEffect(() => {
+    setDirty(newFileContent !== defaultFileContent);
+  }, [newFileContent]);
   useEffect(() => {
     fetchData();
   }, []);
@@ -202,6 +254,20 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         hostKeyDropdownOptions={hostKeyDropdownOptions}
         hostKeyDropdownSelectedKey={'master'}
         hostUrls={hostUrls}
+      />
+      <ConfirmDialog
+        primaryActionButton={{
+          title: t('ok'),
+          onClick: () => !!selectedDropdownOption && changeDropdownOption(selectedDropdownOption),
+        }}
+        defaultActionButton={{
+          title: t('cancel'),
+          onClick: closeConfirmDialog,
+        }}
+        title={t('editor_changeFile')}
+        content={t('editor_changeFileConfirmMessage')}
+        hidden={!selectedDropdownOption}
+        onDismiss={closeConfirmDialog}
       />
       <FunctionEditorFileSelectorBar
         disabled={fetchingFileContent}
@@ -219,7 +285,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       ) : (
         <div className={editorStyle}>
           <MonacoEditor
-            value={fileContent}
+            value={newFileContent}
             language={editorLanguage}
             onChange={onChange}
             options={{

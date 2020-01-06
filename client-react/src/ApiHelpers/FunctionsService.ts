@@ -179,4 +179,40 @@ export default class FunctionsService {
       }
     }
   }
+
+  public static saveFileContent(
+    resourceId: string,
+    functionName: string,
+    fileName: string,
+    newFileContent: string,
+    runtimeVersion?: string,
+    headers?: { [key: string]: string }
+  ) {
+    switch (runtimeVersion) {
+      case RuntimeExtensionMajorVersions.beta:
+      case RuntimeExtensionMajorVersions.v2:
+      case RuntimeExtensionMajorVersions.v3: {
+        return MakeArmCall<VfsObject[] | string>({
+          headers,
+          resourceId: `${resourceId}/hostruntime/admin/vfs/${functionName}/${fileName}`,
+          commandName: 'getFileContent',
+          queryString: '?relativePath=1',
+          method: 'PUT',
+          body: newFileContent,
+          skipBuffer: !!fileName,
+        });
+      }
+      case RuntimeExtensionMajorVersions.v1:
+      default: {
+        return MakeArmCall<VfsObject[] | string>({
+          headers,
+          resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot/${functionName}/${fileName}`,
+          commandName: 'getFileContent',
+          method: 'PUT',
+          body: newFileContent,
+          skipBuffer: !!fileName,
+        });
+      }
+    }
+  }
 }
