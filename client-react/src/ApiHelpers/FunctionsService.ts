@@ -199,7 +199,7 @@ export default class FunctionsService {
           queryString: '?relativePath=1',
           method: 'PUT',
           body: newFileContent,
-          skipBuffer: !!fileName,
+          skipBuffer: true,
         });
       }
       case RuntimeExtensionMajorVersions.v1:
@@ -210,7 +210,7 @@ export default class FunctionsService {
           commandName: 'getFileContent',
           method: 'PUT',
           body: newFileContent,
-          skipBuffer: !!fileName,
+          skipBuffer: true,
         });
       }
     }
