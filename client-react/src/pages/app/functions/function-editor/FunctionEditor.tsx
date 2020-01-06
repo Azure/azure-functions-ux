@@ -10,7 +10,7 @@ import { PanelType, IDropdownOption } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
-import { InputFormValues } from './FunctionEditor.types';
+import { InputFormValues, EditorLanguage } from './FunctionEditor.types';
 import { FormikActions } from 'formik';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
@@ -38,7 +38,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
   const [fileContent, setFileContent] = useState('');
   const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
-  const [editorLanguage, setEditorLanguage] = useState('');
+  const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
 
   const save = () => {};
 
@@ -89,7 +89,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       }))
       .filter(file => file.data.mime !== 'inode/directory')
       .sort((a, b) => a.key.localeCompare(b.key));
-
     return dropdownOptions;
   };
 
@@ -105,7 +104,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       }
       setFileContent(fileText);
     }
-    return '';
   };
 
   const fetchData = async () => {
@@ -145,43 +143,42 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     let language;
     switch (extension) {
       case 'bat':
-        language = 'bat';
+        language = EditorLanguage.bat;
         break;
       case 'csx':
-        language = 'csharp';
+        language = EditorLanguage.csharp;
         break;
       case 'fsx':
-        language = 'fsharp';
+        language = EditorLanguage.fsharp;
         break;
       case 'js':
-        language = 'javascript';
+        language = EditorLanguage.javascript;
         break;
       case 'json':
-        language = 'json';
+        language = EditorLanguage.json;
         break;
       case 'ps1':
-        language = 'powershell';
+        language = EditorLanguage.powershell;
         break;
       case 'py':
-        language = 'python';
+        language = EditorLanguage.python;
         break;
       case 'ts':
-        language = 'typescript';
+        language = EditorLanguage.typescript;
         break;
       case 'md':
-        language = 'markdown';
+        language = EditorLanguage.markdown;
         break;
       case 'php':
-        language = 'php';
+        language = EditorLanguage.php;
         break;
       case 'sh':
-        language = 'shell';
+        language = EditorLanguage.shell;
         break;
       default:
-        language = undefined;
+        language = EditorLanguage.plaintext;
         break;
     }
-
     setEditorLanguage(language);
   };
 
