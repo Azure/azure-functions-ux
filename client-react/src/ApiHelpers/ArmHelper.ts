@@ -82,6 +82,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
   const headers: { [key: string]: string } = {
     Authorization: `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`,
     'x-ms-client-request-id': armObj.id,
+    ...armObj.headers,
   };
   if (sessionId) {
     headers['x-ms-client-session-id'] = sessionId;

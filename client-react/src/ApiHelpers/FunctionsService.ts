@@ -8,6 +8,7 @@ import { FunctionConfig } from '../models/functions/function-config';
 import Url from '../utils/url';
 import { RuntimeExtensionMajorVersions } from '../models/functions/runtime-extension';
 import { Host } from '../models/functions/host';
+import { VfsObject } from '../models/functions/vfs';
 
 export default class FunctionsService {
   public static getFunctions = (resourceId: string, force?: boolean) => {
@@ -123,7 +124,7 @@ export default class FunctionsService {
     });
   }
 
-  public static getHostJson(resourceId: string, functionName: string, runtimeVersion: string | undefined) {
+  public static getHostJson(resourceId: string, functionName: string, runtimeVersion?: string) {
     switch (runtimeVersion) {
       case RuntimeExtensionMajorVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
@@ -141,6 +142,39 @@ export default class FunctionsService {
           resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot/${functionName}/function.json`,
           commandName: 'getHostJson',
           method: 'GET',
+        });
+      }
+    }
+  }
+
+  public static getFileContent(
+    resourceId: string,
+    functionName: string,
+    runtimeVersion?: string,
+    headers?: { [key: string]: string },
+    fileName?: string
+  ) {
+    switch (runtimeVersion) {
+      case RuntimeExtensionMajorVersions.beta:
+      case RuntimeExtensionMajorVersions.v2:
+      case RuntimeExtensionMajorVersions.v3: {
+        return MakeArmCall<VfsObject[] | string>({
+          headers,
+          resourceId: `${resourceId}/hostruntime/admin/vfs/${functionName}${!!fileName ? `/${fileName}` : ''}`,
+          commandName: 'getFileContent',
+          queryString: '?relativePath=1',
+          method: 'GET',
+          skipBuffer: !!fileName,
+        });
+      }
+      case RuntimeExtensionMajorVersions.v1:
+      default: {
+        return MakeArmCall<VfsObject[] | string>({
+          headers,
+          resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot/${functionName}${!!fileName ? `/${fileName}` : ''}`,
+          commandName: 'getFileContent',
+          method: 'GET',
+          skipBuffer: !!fileName,
         });
       }
     }
