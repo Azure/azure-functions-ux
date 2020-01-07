@@ -11,6 +11,7 @@ import {
   DetailsListLayoutMode,
   SelectionMode,
   SearchBox,
+  PanelType,
 } from 'office-ui-fabric-react';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { FunctionKeysContext } from './FunctionKeysDataLoader';
@@ -299,7 +300,8 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         <Panel
           isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
           onDismiss={onClosePanel}
-          headerText={panelItem === 'edit' ? t('editFunctionKey') : t('addFunctionKey')}>
+          headerText={panelItem === 'edit' ? t('editFunctionKey') : t('addFunctionKey')}
+          type={PanelType.medium}>
           <FunctionKeyAddEdit
             resourceId={resourceId}
             createAppKey={createFunctionKey}
@@ -307,6 +309,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
             appKey={currentKey}
             otherAppKeys={keys}
             panelItem={panelItem}
+            showRenewKeyDialog={showRenewKeyDialog}
           />
         </Panel>
       </div>
