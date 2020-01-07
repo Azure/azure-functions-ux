@@ -1,20 +1,25 @@
 import { Tier } from './../../models/serverFarmSku';
-import { ScenarioCheckInput } from './scenario.models';
+import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { Environment } from './scenario.models';
-import { Kinds, ScenarioIds } from 'app/shared/models/constants';
+import { Kinds, ScenarioIds, FeatureFlags } from 'app/shared/models/constants';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
+import { Url } from 'app/shared/Utilities/url';
 import { TranslateService } from '@ngx-translate/core';
 import { Injector } from '@angular/core';
+import { AuthzService } from '../authz.service';
+import { Observable } from 'rxjs';
 import { PortalResources } from 'app/shared/models/portal-resources';
 
 export class FunctionAppEnvironment extends Environment {
   name = 'FunctionApp';
   private _ts: TranslateService;
+  private _authZService: AuthzService;
 
   constructor(injector: Injector) {
     super();
     this._ts = injector.get(TranslateService);
+    this._authZService = injector.get(AuthzService);
 
     this.scenarioChecks[ScenarioIds.enableDiagnosticLogs] = {
       id: ScenarioIds.enableDiagnosticLogs,
@@ -47,6 +52,21 @@ export class FunctionAppEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
+    this.scenarioChecks[ScenarioIds.isPublishProfileBasedDeploymentEnabled] = {
+      id: ScenarioIds.isPublishProfileBasedDeploymentEnabled,
+      runCheck: () =>
+        <ScenarioResult>{
+          status: IsPublishProfileBasedDeploymentEnabled ? 'enabled' : 'disabled',
+          data: null,
+        },
+    };
+
+    this.scenarioChecks[ScenarioIds.hasRoleAssignmentPermission] = {
+      id: ScenarioIds.hasRoleAssignmentPermission,
+      runCheckAsync: (input: ScenarioCheckInput) => this._hasRoleAssignmentPermissionCheck(input),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
@@ -63,5 +83,16 @@ export class FunctionAppEnvironment extends Environment {
 
   private _isDynamic(site: ArmObj<Site>) {
     return site.properties.sku.toLowerCase() === Tier.dynamic.toLowerCase();
+  }
+
+  private _hasRoleAssignmentPermissionCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
+    return this._authZService.hasPermission(input.site.id, [AuthzService.activeDirectoryWriteScope]).map(value => {
+      return <ScenarioResult>{
+        status: value ? 'enabled' : 'disabled',
+        data: {
+          errorMessage: this._ts.instant(PortalResources.vsts_permissions_error),
+        },
+      };
+    });
   }
 }

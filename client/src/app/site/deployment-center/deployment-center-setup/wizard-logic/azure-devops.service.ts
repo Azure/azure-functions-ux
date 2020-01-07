@@ -314,7 +314,7 @@ export class AzureDevOpsService implements OnDestroy {
     ) {
       deploymentObject = {
         authToken: azureAuthToken,
-        pipelineTemplateId: this.getPipelineTemplateId(wizardValues.buildSettings),
+        pipelineTemplateId: this._getPipelineTemplateId(wizardValues.buildSettings, siteArm.kind),
         pipelineTemplateParameters: this._getPipelineTemplateParameters(
           wizardValues.buildSettings,
           siteArm.id,
@@ -497,7 +497,29 @@ export class AzureDevOpsService implements OnDestroy {
     }
   }
 
-  private getPipelineTemplateId(buildSettings: VstsBuildSettings): string {
+  private _getPipelineTemplateId(buildSettings: VstsBuildSettings, siteKind: string): string {
+    if (siteKind.toLowerCase() === Kinds.app) {
+      return this._getWindowsWebappPipelineTemplateId(buildSettings);
+    } else if (siteKind.toLowerCase() === Kinds.functionApp) {
+      return this._getFunctionAppPipelineTemplateId(buildSettings);
+    }
+    return null;
+  }
+
+  private _getFunctionAppPipelineTemplateId(buildSettings: VstsBuildSettings): string {
+    switch (this._getApplicationType(buildSettings.applicationFramework)) {
+      case ApplicationType.DotNetPreCompiledFunctionApp:
+        return 'ms.vss-continuous-delivery-pipeline-templates.aspnetcore-functionapp-cd';
+
+      case ApplicationType.ScriptFunctionApp:
+        return 'ms.vss-continuous-delivery-pipeline-templates.nodejs-functionapp-cd';
+
+      default:
+        return null;
+    }
+  }
+
+  private _getWindowsWebappPipelineTemplateId(buildSettings: VstsBuildSettings): string {
     switch (this._getApplicationType(buildSettings.applicationFramework)) {
       case ApplicationType.AspNetWap:
         return 'ms.vss-continuous-delivery-pipeline-templates.aspnet-windowswebapp-cd';
@@ -564,9 +586,11 @@ export class AzureDevOpsService implements OnDestroy {
     switch (this._getApplicationType(buildSettings.applicationFramework)) {
       case ApplicationType.AspNetWap:
       case ApplicationType.AspNetCore:
+      case ApplicationType.DotNetPreCompiledFunctionApp:
         return pipelineTemplateParameters;
 
       case ApplicationType.StaticWebapp:
+      case ApplicationType.ScriptFunctionApp:
       case ApplicationType.PHP:
         return {
           pathToApplicationCode: buildSettings.workingDirectory,
