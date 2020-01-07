@@ -69,6 +69,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     );
     if (fileResponse.metadata.success) {
       setDefaultFileContent(newFileContent);
+      setDirty(false);
+      setSelectedDropdownOption(undefined);
     }
     setSavingFile(false);
   };
@@ -279,23 +281,21 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''}>
         <FunctionTest cancel={onCancelTest} run={run} functionInfo={functionInfo} reqBody={reqBody} setReqBody={setReqBody} />
       </Panel>
-      {isLoading() ? (
-        <LoadingComponent />
-      ) : (
-        <div className={editorStyle}>
-          <MonacoEditor
-            value={newFileContent}
-            language={editorLanguage}
-            onChange={onChange}
-            options={{
-              minimap: { enabled: false },
-              scrollBeyondLastLine: false,
-              cursorBlinking: true,
-              renderWhitespace: 'all',
-            }}
-          />
-        </div>
-      )}
+      {isLoading() && <LoadingComponent />}
+      <div className={editorStyle}>
+        <MonacoEditor
+          value={newFileContent}
+          language={editorLanguage}
+          onChange={onChange}
+          disabled={isLoading()}
+          options={{
+            minimap: { enabled: false },
+            scrollBeyondLastLine: false,
+            cursorBlinking: true,
+            renderWhitespace: 'all',
+          }}
+        />
+      </div>
     </>
   );
 };

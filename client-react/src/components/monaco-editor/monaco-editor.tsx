@@ -1,7 +1,7 @@
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import * as PropTypes from 'prop-types';
 import React from 'react';
-import { editorStyle } from './monaco-editor.styles';
+import { editorStyle, disabledEditorStyle } from './monaco-editor.styles';
 
 class MonacoEditor extends React.Component<any, any> {
   public static propTypes: any;
@@ -99,7 +99,7 @@ class MonacoEditor extends React.Component<any, any> {
   };
 
   public render() {
-    return <div ref={this.assignRef} className={editorStyle} />;
+    return <div ref={this.assignRef} className={`${editorStyle} ${this.props.disabled ? disabledEditorStyle : ''}`} />;
   }
 
   public updateDimensions() {
@@ -116,6 +116,7 @@ MonacoEditor.propTypes = {
   editorDidMount: PropTypes.func,
   editorWillMount: PropTypes.func,
   onChange: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 const noop = () => {
   return;
@@ -129,6 +130,7 @@ MonacoEditor.defaultProps = {
   editorDidMount: noop,
   editorWillMount: noop,
   onChange: noop,
+  disabled: false,
 };
 
 export default MonacoEditor;
