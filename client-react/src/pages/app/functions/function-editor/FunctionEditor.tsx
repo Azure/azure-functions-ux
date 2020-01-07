@@ -70,7 +70,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (fileResponse.metadata.success) {
       setDefaultFileContent(newFileContent);
       setDirty(false);
-      setSelectedDropdownOption(undefined);
     }
     setSavingFile(false);
   };
