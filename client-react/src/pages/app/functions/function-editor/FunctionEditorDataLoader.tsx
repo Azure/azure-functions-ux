@@ -19,6 +19,7 @@ import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runt
 import { Host } from '../../../../models/functions/host';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
+import { VfsObject } from '../../../../models/functions/vfs';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -36,6 +37,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [functionKeys, setFunctionKeys] = useState<{ [key: string]: string }>({});
   const [runtimeVersion, setRuntimeVersion] = useState<string | undefined>(undefined);
   const [hostJsonContent, setHostJsonContent] = useState<Host | undefined>(undefined);
+  const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
 
   const siteContext = useContext(SiteRouterContext);
 
@@ -59,13 +61,16 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     if (appSettingsResponse.metadata.success) {
       const currentRuntimeVersion = appSettingsResponse.data.properties[CommonConstants.AppSettingNames.functionsExtensionVersion];
       setRuntimeVersion(currentRuntimeVersion);
-      const hostJsonRes = await FunctionsService.getHostJson(
-        siteResourceId,
-        functionInfoResponse.data.properties.name,
-        currentRuntimeVersion
-      );
-      if (hostJsonRes.metadata.success) {
-        setHostJsonContent(hostJsonRes.data);
+      const [hostJsonResponse, fileListResponse] = await Promise.all([
+        FunctionsService.getHostJson(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
+        FunctionsService.getFileContent(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
+      ]);
+      if (hostJsonResponse.metadata.success) {
+        setHostJsonContent(hostJsonResponse.data);
+      }
+
+      if (fileListResponse.metadata.success) {
+        setFileList(fileListResponse.data as VfsObject[]);
       }
     }
     if (appKeysResponse.metadata.success) {
@@ -209,6 +214,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   useEffect(() => {
     fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // TODO (krmitta): Show a loading error message site or functionInfo call fails
@@ -217,7 +224,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   }
   return (
     <FunctionEditorContext.Provider value={functionEditorData}>
-      <FunctionEditor functionInfo={functionInfo} site={site} run={run} />
+      <FunctionEditor functionInfo={functionInfo} site={site} run={run} fileList={fileList} runtimeVersion={runtimeVersion} />
     </FunctionEditorContext.Provider>
   );
 };

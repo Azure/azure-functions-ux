@@ -36,7 +36,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
       }
       setAppSettings(r.data);
     });
-  }, []);
+  }, [resourceId]);
 
   if (!appSettings) {
     return <LoadingComponent />;

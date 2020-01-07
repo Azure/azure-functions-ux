@@ -51,6 +51,7 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
       </Panel>
     );
   }
+
 };
 
 // If binding info is undefined that means you are creating a new binding info, otherwise you are editing

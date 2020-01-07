@@ -32,8 +32,12 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   const [basicDisabled, setBasicDisabled] = useState(false);
   const [initialName] = useState(azureStorageMount.name);
   const [initialMountPath] = useState(azureStorageMount.mountPath);
+
+  // eslint-disable-next-line no-useless-escape
   const mountPathRegex = /^\/[a-zA-Z0-9.\[\]\(\)\-_\/]*$/;
   const shareNameMaxLength = 64;
+
+  // eslint-disable-next-line no-useless-escape
   const shareNameRegex = /^[a-zA-Z0-9\[\]\(\)\-_]+$/;
   const cancel = () => {
     closeBlade();
@@ -75,6 +79,8 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     } else if (azureStorageMount.accountName && !storageAccounts.value.find(x => x.name === azureStorageMount.accountName)) {
       setConfigurationOption('advanced');
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

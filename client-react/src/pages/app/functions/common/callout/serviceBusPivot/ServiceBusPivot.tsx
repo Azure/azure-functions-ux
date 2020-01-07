@@ -54,6 +54,8 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
         });
       }
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValues]);
 
   if (!namespaces) {

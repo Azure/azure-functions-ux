@@ -62,11 +62,11 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
   const portalCommunicator = useContext(PortalContext);
   useEffect(() => {
     portalCommunicator.updateDirtyState(dirty);
-  }, [dirty]);
+  }, [dirty, portalCommunicator]);
   return (
     <CommandBar
       items={getItems(submitForm, () => resetForm(), refreshAppSettings, dirty, disabled, t)}
-      aria-role="nav"
+      role="nav"
       styles={CommandBarStyles}
       ariaLabel={t('appSettingsCommandBarAriaLabel')}
       buttonAs={CustomCommandBarButton}

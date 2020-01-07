@@ -38,7 +38,7 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
         }
       }}>
       <div className={getHeaderStyle()}>
-        <img src={getSrc(functionTemplate)} />
+        <img src={getSrc(functionTemplate)} alt={functionTemplate.name} />
       </div>
 
       <div className={getDescriptionStyle()}>

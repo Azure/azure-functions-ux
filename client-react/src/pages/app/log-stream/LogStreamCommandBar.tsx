@@ -100,7 +100,7 @@ export const LogStreamCommandBar: React.FC<LogStreamCommandBarPropsCombined> = p
   return (
     <CommandBar
       items={getItems(reconnect, pause, start, clear, isStreaming, logEntries, logType, logsEnabled, t)}
-      aria-role="nav"
+      role="nav"
       buttonAs={customButton}
       styles={{
         root: {
