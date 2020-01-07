@@ -8,6 +8,7 @@ import {
   SearchBox,
   TooltipHost,
   ICommandBarItemProps,
+  PanelType,
 } from 'office-ui-fabric-react';
 import { filterBoxStyle, renewTextStyle } from './AppKeys.styles';
 import { useTranslation } from 'react-i18next';
@@ -300,7 +301,8 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       <Panel
         isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
         onDismiss={onClosePanel}
-        headerText={panelItem === 'edit' ? t('editHostKey') : t('addHostKey')}>
+        headerText={panelItem === 'edit' ? t('editHostKey') : t('addHostKey')}
+        type={PanelType.medium}>
         <AppKeyAddEdit
           resourceId={resourceId}
           createAppKey={createHostKey}
@@ -308,6 +310,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
           appKey={currentKey}
           otherAppKeys={hostKeys}
           panelItem={panelItem}
+          showRenewKeyDialog={showRenewKeyDialog}
         />
       </Panel>
     </>
