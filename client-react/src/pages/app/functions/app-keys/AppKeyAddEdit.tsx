@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { AppKeysModel } from './AppKeys.types';
 import { useTranslation } from 'react-i18next';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import ActionBar from '../../../../components/ActionBar';
+import { Label, Icon } from 'office-ui-fabric-react';
+import { ThemeContext } from '../../../../ThemeContext';
+import { renewPanelStyle, renewPanelIconStyle, renewPanelTextStyle } from './AppKeys.styles';
 
 export interface AppKeyAddEditProps {
   createAppKey: (item: AppKeysModel) => void;
   closeBlade: () => void;
+  showRenewKeyDialog: (item: AppKeysModel) => void;
   appKey: AppKeysModel;
   otherAppKeys: AppKeysModel[];
   resourceId: string;
@@ -15,11 +19,12 @@ export interface AppKeyAddEditProps {
 }
 
 const AppKeyAddEdit: React.FC<AppKeyAddEditProps> = props => {
-  const { appKey, otherAppKeys, createAppKey, closeBlade, panelItem } = props;
+  const { appKey, otherAppKeys, createAppKey, closeBlade, panelItem, showRenewKeyDialog } = props;
   const [nameError, setNameError] = useState('');
   const [currentAppKey, setCurrentAppKey] = useState(appKey);
 
   const { t } = useTranslation();
+  const theme = useContext(ThemeContext);
 
   const updateAppKeyName = (e: any, name: string) => {
     const error = validateAppKeyName(name);
@@ -36,6 +41,11 @@ const AppKeyAddEdit: React.FC<AppKeyAddEditProps> = props => {
     title: t('ok'),
     onClick: () => createAppKey(currentAppKey),
     disable: !!nameError,
+  };
+
+  const renewKey = () => {
+    showRenewKeyDialog(appKey);
+    closeBlade();
   };
 
   const actionBarSecondaryButtonProps = {
@@ -55,6 +65,10 @@ const AppKeyAddEdit: React.FC<AppKeyAddEditProps> = props => {
   return (
     <>
       <form className={addEditFormStyle}>
+        <Label className={renewPanelStyle()} onClick={renewKey}>
+          <Icon iconName="Refresh" className={renewPanelIconStyle(theme)} />
+          <span className={renewPanelTextStyle()}>{t('renewAppKey')}</span>
+        </Label>
         <TextFieldNoFormik
           label={t('nameRes')}
           id="app-key-edit-name"
