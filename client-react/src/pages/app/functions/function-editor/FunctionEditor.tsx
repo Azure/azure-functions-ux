@@ -44,6 +44,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
   const [dirty, setDirty] = useState<boolean>(false);
   const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption | undefined>(undefined);
+  const [initialLoading, setInitialLoading] = useState<boolean>(true);
+  const [savingFile, setSavingFile] = useState<boolean>(false);
 
   const { t } = useTranslation();
 
@@ -51,6 +53,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (!selectedFile) {
       return;
     }
+    setSavingFile(true);
     const fileData = selectedFile.data;
     const headers = {
       'Content-Type': fileData.mime,
@@ -67,6 +70,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (fileResponse.metadata.success) {
       setDefaultFileContent(newFileContent);
     }
+    setSavingFile(false);
   };
 
   const discard = () => {
@@ -153,6 +157,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       setSelectedFile(file);
       getAndSetEditorLanguage(file.data.name);
     }
+    setInitialLoading(false);
   };
 
   const hostKeyDropdownOptions = [
@@ -223,7 +228,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isLoading = () => {
-    return fetchingFileContent;
+    return fetchingFileContent || initialLoading || savingFile;
   };
 
   const closeConfirmDialog = () => {
@@ -244,7 +249,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         testFunction={test}
         showGetFunctionUrlCommand={!!inputBinding}
         dirty={dirty}
-        disabled={fetchingFileContent}
+        disabled={isLoading()}
         hostKeyDropdownOptions={hostKeyDropdownOptions}
         hostKeyDropdownSelectedKey={'master'}
         hostUrls={hostUrls}
@@ -264,7 +269,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         onDismiss={closeConfirmDialog}
       />
       <FunctionEditorFileSelectorBar
-        disabled={fetchingFileContent}
+        disabled={isLoading()}
         functionAppNameLabel={site.name}
         functionInfo={functionInfo}
         fileDropdownOptions={getDropdownOptions()}

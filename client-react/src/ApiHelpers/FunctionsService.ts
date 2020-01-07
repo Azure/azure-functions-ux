@@ -195,7 +195,7 @@ export default class FunctionsService {
         return MakeArmCall<VfsObject[] | string>({
           headers,
           resourceId: `${resourceId}/hostruntime/admin/vfs/${functionName}/${fileName}`,
-          commandName: 'getFileContent',
+          commandName: 'saveFileContent',
           queryString: '?relativePath=1',
           method: 'PUT',
           body: newFileContent,
@@ -207,7 +207,7 @@ export default class FunctionsService {
         return MakeArmCall<VfsObject[] | string>({
           headers,
           resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot/${functionName}/${fileName}`,
-          commandName: 'getFileContent',
+          commandName: 'saveFileContent',
           method: 'PUT',
           body: newFileContent,
           skipBuffer: true,
