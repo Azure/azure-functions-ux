@@ -1799,4 +1799,6 @@ export class PortalResources {
   public static functionTestInputDescription = 'functionTestInputDescription';
   public static httpRun_response = 'httpRun_response';
   public static httpRun_responseStatus = 'httpRun_responseStatus';
+  public static editor_changeFileConfirmMessage = 'editor_changeFileConfirmMessage';
+  public static editor_changeFile = 'editor_changeFile';
 }
