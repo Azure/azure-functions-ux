@@ -6,15 +6,20 @@ import { SearchBox } from 'office-ui-fabric-react';
 import { filterBoxStyle } from './FunctionCreate.styles';
 import { useTranslation } from 'react-i18next';
 import { Order } from './CreateConstants';
+import { Binding } from '../../../../models/functions/binding';
+import { HostStatus } from '../../../../models/functions/host-status';
 
 interface TemplatesPivotProps {
   functionTemplates: FunctionTemplate[];
-  setSelectedFunctionTemplate: (FunctionTemplate) => void;
-  setPivotStateKey: (PivotState) => void;
+  setSelectedFunctionTemplate: (FunctionTemplate: FunctionTemplate) => void;
+  setPivotStateKey: (PivotState: PivotState) => void;
+  setRequiredBindingIds: (Bindings: string[]) => void;
+  bindings: Binding[] | undefined;
+  hostStatus: HostStatus;
 }
 
 const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
-  const { functionTemplates, setSelectedFunctionTemplate, setPivotStateKey } = props;
+  const { functionTemplates, setSelectedFunctionTemplate, setPivotStateKey, setRequiredBindingIds, hostStatus } = props;
   const { t } = useTranslation();
   setPivotStateKey(PivotState.templates);
   const [filterValue, setFilterValue] = useState<string | undefined>(undefined);
@@ -37,6 +42,8 @@ const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
                 key={index}
                 setSelectedFunctionTemplate={setSelectedFunctionTemplate}
                 setPivotStateKey={setPivotStateKey}
+                setRequiredBindingIds={setRequiredBindingIds}
+                hostStatus={hostStatus}
               />
             );
           })}
