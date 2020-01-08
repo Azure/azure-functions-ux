@@ -8,7 +8,8 @@ export enum HostStates {
 
 export interface HostStatus {
   id: string;
-  version: string;
   state: HostStates;
+  version: string;
+  verionDetails?: string[];
   errors?: string[];
 }

@@ -3,40 +3,41 @@ import { FunctionTemplate } from '../../../../models/functions/function-template
 import { DefaultButton, Spinner } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
-import { BindingsConfig, BindingConfigMetadata } from '../../../../models/functions/bindings-config';
+import { Binding } from '../../../../models/functions/binding';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
 import { detailsPaddingStyle } from './FunctionCreate.styles';
 import { FunctionCreateContext } from './FunctionCreateDataLoader';
 import { PortalContext } from '../../../../PortalContext';
-import { BindingInfo } from '../../../../models/functions/function-binding';
+import LoadingComponent from '../../../../components/loading/loading-component';
 
 interface DetailsPivotProps {
-  functionsInfo: ArmObj<FunctionInfo>[];
-  bindingsConfig: BindingsConfig;
+  functionsInfo: ArmObj<FunctionInfo>[] | undefined;
+  bindings: Binding[] | undefined;
   selectedFunctionTemplate: FunctionTemplate | undefined;
   resourceId: string;
 }
 
 const DetailsPivot: React.FC<DetailsPivotProps> = props => {
-  const { functionsInfo, bindingsConfig, selectedFunctionTemplate, resourceId } = props;
+  const { functionsInfo, bindings, selectedFunctionTemplate, resourceId } = props;
   const provider = useContext(FunctionCreateContext);
   const portalCommunicator = useContext(PortalContext);
   const { t } = useTranslation();
   const [creatingFunction, setCreatingFunction] = useState<boolean>(false);
 
   if (selectedFunctionTemplate) {
-    const requiredBindingMetadata = getRequiredCreationBindings(
-      selectedFunctionTemplate.bindings || [],
-      bindingsConfig,
-      selectedFunctionTemplate.userPrompt || []
-    );
+    if (!functionsInfo || !bindings) {
+      return <LoadingComponent />;
+    }
+    const requiredBindings =
+      selectedFunctionTemplate.userPrompt && selectedFunctionTemplate.userPrompt.length > 0
+        ? getRequiredCreationBindings(bindings, selectedFunctionTemplate.userPrompt)
+        : [];
     const builder = new CreateFunctionFormBuilder(
       selectedFunctionTemplate.bindings || [],
-      requiredBindingMetadata,
+      requiredBindings,
       resourceId,
-      bindingsConfig.variables,
       functionsInfo,
       selectedFunctionTemplate.defaultFunctionName || 'NewFunction',
       t
@@ -72,22 +73,18 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
 
 // Not all bindings are required for function creation
 // Only display bindings that are list in the function template 'userPrompt'
-const getRequiredCreationBindings = (
-  functionTemplateBindings: BindingInfo[],
-  bindingsConfig: BindingsConfig,
-  userPrompt: string[]
-): BindingConfigMetadata[] => {
-  const requiredBindingConfigMetadata: BindingConfigMetadata[] = [];
-  const bindingsConfigMetatdata = bindingsConfig.bindings;
-  functionTemplateBindings.forEach(binding => {
-    const currentBindingMetadata = bindingsConfigMetatdata.find(b => b.type === binding.type) as BindingConfigMetadata;
-    const requiredBindings = currentBindingMetadata;
-    requiredBindings.settings = currentBindingMetadata.settings.filter(setting => {
-      return userPrompt.find(prompt => prompt === setting.name);
-    });
-    requiredBindingConfigMetadata.push(requiredBindings);
+const getRequiredCreationBindings = (bindings: Binding[], userPrompt: string[]): Binding[] => {
+  const requiredBindings: Binding[] = [];
+  bindings.forEach(binding => {
+    const requiredBinding = binding;
+    requiredBinding.settings =
+      binding.settings &&
+      binding.settings.filter(setting => {
+        return userPrompt.find(prompt => prompt === setting.name);
+      });
+    requiredBindings.push(requiredBinding);
   });
-  return requiredBindingConfigMetadata;
+  return requiredBindings;
 };
 
 export default DetailsPivot;
