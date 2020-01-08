@@ -108,7 +108,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const data = JSON.stringify({
       method: values.method,
       queryStringParams: values.queries,
-      headers: values.queries,
+      headers: values.headers,
       body: reqBody,
     });
     const tempFunctionInfo = functionInfo;
@@ -238,10 +238,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   useEffect(() => {
     setDirty(newFileContent !== defaultFileContent);
-  }, [newFileContent]);
+  }, [newFileContent, defaultFileContent]);
   useEffect(() => {
     fetchData();
-  }, []);
+  });
   return (
     <>
       <FunctionEditorCommandBar
