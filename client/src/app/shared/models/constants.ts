@@ -1,4 +1,4 @@
-﻿export class HttpMethods {
+export class HttpMethods {
   public static GET = 'get';
   public static POST = 'post';
   public static DELETE = 'delete';
@@ -326,6 +326,7 @@ export class ScenarioIds {
   public static readonly hasRoleAssignmentPermission = 'hasRoleAssignmentPermission';
   public static readonly containerSettings = 'containerSettings';
   public static readonly isPublishProfileBasedDeploymentEnabled = 'isPublishProfileBasedDeploymentEnabled';
+  public static readonly isPublishProfileBasedDeploymentForFunctionAppEnabled = 'isPublishProfileBasedDeploymentForFunctionAppEnabled';
 }
 
 export class NationalCloudArmUris {
@@ -640,6 +641,7 @@ export class FeatureFlags {
   public static AllowFreeLinux = 'allowfreelinux';
   public static enableGitHubAction = 'enableGitHubAction';
   public static enablePublishProfileBasedDeployment = 'enablePublishProfileBasedDeployment';
+  public static enablePublishProfileBasedDeploymentForFunctionApp = 'enablePublishProfileBasedDeploymentForFunctionApp';
   public static targetAzDevDeployment = 'targetAzDevDeployment';
   public static authTokenOverride = 'authTokenOverride';
 }

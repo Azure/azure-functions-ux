@@ -53,9 +53,9 @@ export class FunctionAppEnvironment extends Environment {
       },
     };
 
-    const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeployment);
-    this.scenarioChecks[ScenarioIds.isPublishProfileBasedDeploymentEnabled] = {
-      id: ScenarioIds.isPublishProfileBasedDeploymentEnabled,
+    const IsPublishProfileBasedDeploymentEnabled = Url.getFeatureValue(FeatureFlags.enablePublishProfileBasedDeploymentForFunctionApp);
+    this.scenarioChecks[ScenarioIds.isPublishProfileBasedDeploymentForFunctionAppEnabled] = {
+      id: ScenarioIds.isPublishProfileBasedDeploymentForFunctionAppEnabled,
       runCheck: () =>
         <ScenarioResult>{
           status: IsPublishProfileBasedDeploymentEnabled ? 'enabled' : 'disabled',

@@ -282,7 +282,10 @@ export class AzureDevOpsService implements OnDestroy {
       result: AzureDevOpsDeploymentMethod.UseV1Api,
     };
 
-    if (this._scenarioService.checkScenario(ScenarioIds.isPublishProfileBasedDeploymentEnabled, { site: siteArm }).status === 'enabled') {
+    if (
+      this._scenarioService.checkScenario(ScenarioIds.isPublishProfileBasedDeploymentForFunctionAppEnabled, { site: siteArm }).status ===
+      'enabled'
+    ) {
       return this._scenarioService
         .checkScenarioAsync(ScenarioIds.hasRoleAssignmentPermission, { site: siteArm })
         .take(1)
