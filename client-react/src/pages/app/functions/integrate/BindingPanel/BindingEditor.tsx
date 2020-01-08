@@ -41,7 +41,6 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
   const { t } = useTranslation();
   const [isDisabled, setIsDisabled] = useState(false);
 
-  // TODO ALLISONM GET EXACT BINDING
   const currentBinding = allBindings.find(
     b => b.type === currentBindingInfo.type && b.direction === getBindingDirection(currentBindingInfo)
   ) as Binding;
@@ -106,7 +105,6 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
 
 // Bindings uses 'trigger' as a direction, but functions.json does not
 // These two functions convert between the two kinds
-
 export const getBindingDirection = (bindingInfo: BindingInfo): BindingDirection => {
   if (bindingInfo.direction === BindingDirection.in) {
     return bindingInfo.type.toLowerCase().indexOf('trigger') > -1 ? BindingDirection.trigger : BindingDirection.in;

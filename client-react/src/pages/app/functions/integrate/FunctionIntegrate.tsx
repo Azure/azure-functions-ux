@@ -29,6 +29,8 @@ import { useWindowSize } from 'react-use';
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
+  // setRequiredBindingId: pass in the id of a binding for which more information is required
+  // Data Loader will then do an additional request to retrieve that binding's complete info
   setRequiredBindingId: (id: string) => void;
 }
 

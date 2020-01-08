@@ -29,13 +29,6 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
   });
   getRequiredBindingData(filteredBindings, setRequiredBindingId);
 
-  const actionBarSecondaryButtonProps = {
-    id: 'cancel',
-    title: t('cancel'),
-    onClick: () => onPanelClose(),
-    disable: false,
-  };
-
   if (!bindings) {
     return <LoadingComponent />;
   }
@@ -74,7 +67,7 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
             <ActionBar
               id="connection-string-edit-footer"
               primaryButton={actionBarPrimaryButtonProps(formProps, t)}
-              secondaryButton={actionBarSecondaryButtonProps}
+              secondaryButton={actionBarSecondaryButtonProps(onPanelClose, t)}
             />
           </form>
         );
@@ -116,6 +109,15 @@ const actionBarPrimaryButtonProps = (formProps: FormikProps<BindingEditorFormVal
     title: t('ok'),
     onClick: () => formProps.submitForm(),
     disable: !formProps.isValid,
+  };
+};
+
+const actionBarSecondaryButtonProps = (onPanelClose: () => void, t: i18next.TFunction) => {
+  return {
+    id: 'cancel',
+    title: t('cancel'),
+    onClick: () => onPanelClose(),
+    disable: false,
   };
 };
 
