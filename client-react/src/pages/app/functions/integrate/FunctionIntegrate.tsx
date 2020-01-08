@@ -29,7 +29,6 @@ import { useWindowSize } from 'react-use';
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
-  currentBinding: Binding | undefined;
   setRequiredBindingId: (id: string) => void;
 }
 
@@ -48,7 +47,7 @@ export interface BindingEditorContextInfo {
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
-  const { functionInfo: initialFunctionInfo, bindings } = props;
+  const { functionInfo: initialFunctionInfo, bindings, setRequiredBindingId } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
   const fullPageWidth = 1000;
@@ -115,8 +114,8 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     <Stack className={diagramWrapperStyle} horizontal horizontalAlign={'center'} tokens={tokens}>
       <Stack.Item grow>
         <Stack gap={40}>
-          <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} />
-          <InputBindingCard functionInfo={functionInfo} bindings={bindings} />
+          <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} setRequiredBindingId={setRequiredBindingId} />
+          <InputBindingCard functionInfo={functionInfo} bindings={bindings} setRequiredBindingId={setRequiredBindingId} />
         </Stack>
       </Stack.Item>
 
@@ -136,7 +135,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
       <Stack.Item grow>
         <Stack verticalFill={true} className={singleCardStackStyle}>
-          <OutputBindingCard functionInfo={functionInfo} bindings={bindings} />
+          <OutputBindingCard functionInfo={functionInfo} bindings={bindings} setRequiredBindingId={setRequiredBindingId} />
         </Stack>
       </Stack.Item>
     </Stack>
@@ -144,10 +143,10 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
   const smallPageContent: JSX.Element = (
     <Stack className={smallPageStyle} gap={40} horizontalAlign={'start'}>
-      <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} />
-      <InputBindingCard functionInfo={functionInfo} bindings={bindings} />
+      <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} setRequiredBindingId={setRequiredBindingId} />
+      <InputBindingCard functionInfo={functionInfo} bindings={bindings} setRequiredBindingId={setRequiredBindingId} />
       <FunctionNameBindingCard functionInfo={functionInfo} bindings={bindings} />
-      <OutputBindingCard functionInfo={functionInfo} bindings={bindings} />
+      <OutputBindingCard functionInfo={functionInfo} bindings={bindings} setRequiredBindingId={setRequiredBindingId} />
     </Stack>
   );
 
@@ -164,6 +163,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
           onSubmit={onSubmit}
           onDelete={onDelete}
           isOpen={isOpen}
+          setRequiredBindingId={setRequiredBindingId}
         />
 
         {width > fullPageWidth ? fullPageContent : smallPageContent}

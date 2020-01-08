@@ -13,27 +13,37 @@ import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { getBindingDirection } from '../BindingPanel/BindingEditor';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
-import BindingCard, { BindingCardChildProps, editExisting, emptyList } from './BindingCard';
+import BindingCard, { EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
 import { listStyle } from './BindingDiagram.styles';
 import { BindingFormBuilder } from '../../common/BindingFormBuilder';
 
-const TriggerBindingCard: React.SFC<BindingCardChildProps> = props => {
-  const { functionInfo, bindings } = props;
+const TriggerBindingCard: React.SFC<EditableBindingCardProps> = props => {
+  const { functionInfo, bindings, setRequiredBindingId } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
   const bindingEditorContext = useContext(BindingEditorContext) as BindingEditorContextInfo;
 
   const trigger = getTrigger(functionInfo.properties.config.bindings);
+  getRequiredBindingData(trigger, bindings, setRequiredBindingId);
   const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, trigger);
 
   return <BindingCard title={t('trigger')} Svg={PowerSvg} content={content} {...props} />;
 };
 
-const getTrigger = (bindings: BindingInfo[]): BindingInfo | undefined => {
-  return bindings.find(b => {
+const getTrigger = (bindingsInfo: BindingInfo[]): BindingInfo | undefined => {
+  return bindingsInfo.find(b => {
     return getBindingDirection(b) === BindingDirection.trigger;
   });
+};
+
+const getRequiredBindingData = (trigger: BindingInfo | undefined, bindings: Binding[], setRequiredBindingId: (id: string) => void) => {
+  if (trigger) {
+    const binding = bindings.find(b => b.type === trigger.type && b.direction === BindingDirection.trigger);
+    if (binding && !binding.settings) {
+      setRequiredBindingId(binding.id);
+    }
+  }
 };
 
 const getContent = (

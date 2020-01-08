@@ -17,6 +17,10 @@ export interface BindingCardChildProps {
   bindings: Binding[];
 }
 
+export interface EditableBindingCardProps extends BindingCardChildProps {
+  setRequiredBindingId: (id: string) => void;
+}
+
 export interface BindingCardProps extends BindingCardChildProps {
   title: string;
   Svg: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;

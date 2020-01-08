@@ -20,38 +20,52 @@ export interface BindingPanelProps {
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
   onDelete: (currentBindingInfo: BindingInfo) => void;
+  setRequiredBindingId: (id: string) => void;
 }
 
 const BindingPanel: React.SFC<BindingPanelProps> = props => {
-  const { functionInfo, functionAppId, bindings, bindingInfo, bindingDirection, isOpen, onPanelClose, onSubmit, onDelete } = props;
+  const {
+    functionInfo,
+    functionAppId,
+    bindings,
+    bindingInfo,
+    bindingDirection,
+    isOpen,
+    onPanelClose,
+    onSubmit,
+    onDelete,
+    setRequiredBindingId,
+  } = props;
   const { t } = useTranslation();
-
-  {
-    return (
-      <Panel
-        isOpen={isOpen}
-        type={PanelType.smallFixedFar}
-        headerText={getPanelHeader(t, bindingDirection, bindingInfo)}
-        onDismiss={onPanelClose}>
-        <div style={{ marginTop: '10px' }}>
-          {isOpen &&
-            (!bindingInfo ? (
-              <BindingCreator bindings={bindings} functionAppId={functionAppId} bindingDirection={bindingDirection} {...props} />
-            ) : (
-              <BindingEditor
-                functionInfo={functionInfo}
-                allBindings={bindings}
-                currentBindingInfo={bindingInfo}
-                resourceId={functionAppId}
-                onSubmit={onSubmit}
-                onDelete={onDelete}
-              />
-            ))}
-        </div>
-      </Panel>
-    );
-  }
-
+  return (
+    <Panel
+      isOpen={isOpen}
+      type={PanelType.smallFixedFar}
+      headerText={getPanelHeader(t, bindingDirection, bindingInfo)}
+      onDismiss={onPanelClose}>
+      <div style={{ marginTop: '10px' }}>
+        {isOpen &&
+          (!bindingInfo ? (
+            <BindingCreator
+              bindings={bindings}
+              functionAppId={functionAppId}
+              bindingDirection={bindingDirection}
+              setRequiredBindingId={setRequiredBindingId}
+              {...props}
+            />
+          ) : (
+            <BindingEditor
+              functionInfo={functionInfo}
+              allBindings={bindings}
+              currentBindingInfo={bindingInfo}
+              resourceId={functionAppId}
+              onSubmit={onSubmit}
+              onDelete={onDelete}
+            />
+          ))}
+      </div>
+    </Panel>
+  );
 };
 
 // If binding info is undefined that means you are creating a new binding info, otherwise you are editing

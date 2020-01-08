@@ -18,7 +18,6 @@ interface FunctionIntegrateDataLoaderProps {
 interface FunctionIntegrateDataLoaderState {
   functionInfo: ArmObj<FunctionInfo> | undefined;
   bindings: Binding[] | undefined;
-  currentBinding: Binding | undefined;
 }
 
 class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataLoaderProps, FunctionIntegrateDataLoaderState> {
@@ -28,7 +27,6 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     this.state = {
       functionInfo: undefined,
       bindings: undefined,
-      currentBinding: undefined,
     };
   }
 
@@ -43,12 +41,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     }
 
     return (
-      <FunctionIntegrate
-        functionInfo={this.state.functionInfo}
-        bindings={this.state.bindings}
-        currentBinding={this.state.currentBinding}
-        setRequiredBindingId={this._loadBinding}
-      />
+      <FunctionIntegrate functionInfo={this.state.functionInfo} bindings={this.state.bindings} setRequiredBindingId={this._loadBinding} />
     );
   }
 
@@ -83,27 +76,24 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     });
   }
 
-  private _loadBinding = (bindingId: string | undefined) => {
+  private _loadBinding = (bindingId: string) => {
     const { resourceId } = this.props;
+    const functionAppId = resourceId.split('/functions')[0];
+    functionIntegrateData.getBinding(functionAppId, bindingId).then(r => {
+      if (r.metadata.success) {
+        const newBinding = r.data.properties[0];
+        const bindings = this.state.bindings || [];
+        const indexToUpdate = bindings.findIndex(binding => binding.id === newBinding.id) || bindings.length;
+        bindings[indexToUpdate] = newBinding;
 
-    if (bindingId) {
-      const functionAppId = resourceId.split('/functions')[0];
-      functionIntegrateData.getBinding(functionAppId, bindingId).then(r => {
-        if (r.metadata.success) {
-          this.setState({
-            ...this.state,
-            currentBinding: r.data.properties[0],
-          });
-        } else {
-          LogService.error(LogCategories.functionIntegrate, 'getBinding', `Failed to get binding: ${r.metadata.error}`);
-        }
-      });
-    } else {
-      this.setState({
-        ...this.state,
-        currentBinding: undefined,
-      });
-    }
+        this.setState({
+          ...this.state,
+          bindings,
+        });
+      } else {
+        LogService.error(LogCategories.functionIntegrate, 'getBinding', `Failed to get binding: ${r.metadata.error}`);
+      }
+    });
   };
 }
 

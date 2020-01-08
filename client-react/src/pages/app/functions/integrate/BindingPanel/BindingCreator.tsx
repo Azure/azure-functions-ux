@@ -10,6 +10,7 @@ import { Binding, BindingDirection } from '../../../../../models/functions/bindi
 import { BindingInfo, BindingType } from '../../../../../models/functions/function-binding';
 import { BindingEditorFormValues, BindingFormBuilder } from '../../common/BindingFormBuilder';
 import { getFunctionBindingDirection } from './BindingEditor';
+import i18next from 'i18next';
 
 export interface BindingCreatorProps {
   bindings: Binding[];
@@ -17,37 +18,16 @@ export interface BindingCreatorProps {
   bindingDirection: BindingDirection;
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo) => void;
+  setRequiredBindingId: (id: string) => void;
 }
 
 const BindingCreator: React.SFC<BindingCreatorProps> = props => {
-  const { onSubmit, onPanelClose, functionAppId, bindings, bindingDirection } = props;
+  const { onSubmit, onPanelClose, functionAppId, bindings, bindingDirection, setRequiredBindingId } = props;
   const { t } = useTranslation();
   const filteredBindings = bindings.filter(binding => {
     return binding.direction === bindingDirection;
   });
-
-  const bindingTypeSpecificFields = (formProps: FormikProps<BindingEditorFormValues>): JSX.Element[] => {
-    const typeSpecificMetadata = filteredBindings.find(metadata => {
-      return metadata.type === formProps.values.type;
-    });
-
-    if (!typeSpecificMetadata) {
-      return [];
-    }
-
-    const builder = new BindingFormBuilder([formProps.values as BindingInfo], [typeSpecificMetadata], functionAppId, t);
-
-    return builder.getFields(formProps, false);
-  };
-
-  const actionBarPrimaryButtonProps = (formProps: FormikProps<BindingEditorFormValues>) => {
-    return {
-      id: 'save',
-      title: t('ok'),
-      onClick: () => formProps.submitForm(),
-      disable: !formProps.isValid,
-    };
-  };
+  getRequiredBindingData(filteredBindings, setRequiredBindingId);
 
   const actionBarSecondaryButtonProps = {
     id: 'cancel',
@@ -87,13 +67,13 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
                     (filteredBindings.find(binding => formProps.values.type === binding.type) as Binding).displayName
                   )}
                 </h3>
-                {bindingTypeSpecificFields(formProps)}
+                {bindingTypeSpecificFields(formProps, filteredBindings, functionAppId, t)}
               </div>
             ) : null}
 
             <ActionBar
               id="connection-string-edit-footer"
-              primaryButton={actionBarPrimaryButtonProps(formProps)}
+              primaryButton={actionBarPrimaryButtonProps(formProps, t)}
               secondaryButton={actionBarSecondaryButtonProps}
             />
           </form>
@@ -101,6 +81,42 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
       }}
     </Formik>
   );
+};
+
+const getRequiredBindingData = (bindings: Binding[], setRequiredBindingId: (id: string) => void) => {
+  bindings.forEach(binding => {
+    if (binding && !binding.settings) {
+      setRequiredBindingId(binding.id);
+    }
+  });
+};
+
+const bindingTypeSpecificFields = (
+  formProps: FormikProps<BindingEditorFormValues>,
+  filteredBindings: Binding[],
+  functionAppId: string,
+  t: i18next.TFunction
+): JSX.Element[] => {
+  const typeSpecificMetadata = filteredBindings.find(metadata => {
+    return metadata.type === formProps.values.type;
+  });
+
+  if (!typeSpecificMetadata) {
+    return [];
+  }
+
+  const builder = new BindingFormBuilder([formProps.values as BindingInfo], [typeSpecificMetadata], functionAppId, t);
+
+  return builder.getFields(formProps, false);
+};
+
+const actionBarPrimaryButtonProps = (formProps: FormikProps<BindingEditorFormValues>, t: i18next.TFunction) => {
+  return {
+    id: 'save',
+    title: t('ok'),
+    onClick: () => formProps.submitForm(),
+    disable: !formProps.isValid,
+  };
 };
 
 export default BindingCreator;
