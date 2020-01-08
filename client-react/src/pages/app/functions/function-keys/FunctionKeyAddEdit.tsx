@@ -65,10 +65,12 @@ const FunctionKeyAddEdit: React.FC<FunctionKeyAddEditProps> = props => {
   return (
     <>
       <form className={addEditFormStyle}>
-        <Label className={renewPanelStyle()} onClick={renewKey}>
-          <Icon iconName="Refresh" className={renewPanelIconStyle(theme)} />
-          <span className={renewPanelTextStyle()}>{t('renewAppKey')}</span>
-        </Label>
+        {panelItem === 'edit' && (
+          <Label className={renewPanelStyle()} onClick={renewKey}>
+            <Icon iconName="Refresh" className={renewPanelIconStyle(theme)} />
+            <span className={renewPanelTextStyle()}>{t('renewAppKey')}</span>
+          </Label>
+        )}
         <TextFieldNoFormik
           label={t('nameRes')}
           id="function-key-edit-name"
