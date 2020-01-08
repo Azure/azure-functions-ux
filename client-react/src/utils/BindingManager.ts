@@ -4,7 +4,7 @@ import { BindingInfo, BindingType } from '../models/functions/function-binding';
 export class BindingManager {
   public static getHttpTriggerTypeInfo = (functionInfo: FunctionInfo): BindingInfo | undefined => {
     return functionInfo.config && functionInfo.config.bindings
-      ? functionInfo.config.bindings.find(e => e.type.toLowerCase() === BindingType.httpTrigger)
+      ? functionInfo.config.bindings.find(e => e.type === BindingType.httpTrigger)
       : undefined;
   };
 
