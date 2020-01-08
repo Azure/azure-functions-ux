@@ -87,6 +87,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
       const webHookTypeInfoInfo = BindingManager.getWebHookTypeInfo(functionInfo.properties);
       const authLevelInfo = BindingManager.getAuthLevelInfo(functionInfo.properties);
+
       if (httpTriggerTypeInfo) {
         let code = '';
         let clientId = '';
@@ -107,7 +108,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           }
         }
 
-        if (authLevelInfo && authLevelInfo.authLevel.toLowerCase() !== 'anonymous') {
+        if (authLevelInfo && authLevelInfo.authLevel.toLowerCase() === 'anonymous') {
           code = '';
         }
 
@@ -118,6 +119,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         if (clientId) {
           queryParams.push(`clientId=${clientId}`);
         }
+
         return getFunctionInvokeUrl(result, queryParams);
       }
     }
@@ -160,7 +162,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const getFunctionInvokeUrl = (result: string, queryParams: string[]) => {
-    if (functionInfo) {
+    if (functionInfo && !!site) {
       let path = '/';
       const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
       if (httpTriggerTypeInfo && httpTriggerTypeInfo.route) {
@@ -173,16 +175,9 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       const re = new RegExp('//', 'g');
       path = path.replace(re, '/').replace('/?', '?');
       path = `${path}${path.endsWith('?') ? '' : '?'}${queryParams.join('&')}`;
-      return `${getMainUrl(functionInfo.properties.name)}${path}`;
+      return `${Url.getMainUrl(site)}${path}`;
     }
     return '';
-  };
-
-  const getMainUrl = (functionName: string) => {
-    if (!site) {
-      return '';
-    }
-    return `${Url.getMainUrl(site)}/admin/functions/${functionName.toLowerCase()}`;
   };
 
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>) => {
@@ -190,7 +185,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     if (updatedFunctionInfo.metadata.success) {
       const data = updatedFunctionInfo.data;
       const functionInvokeUrl = createAndGetFunctionInvokeUrl();
-      let url = !!functionInvokeUrl ? functionInvokeUrl : getMainUrl(data.properties.name);
+      let url = !!functionInvokeUrl ? functionInvokeUrl : !!site && Url.getMainUrl(site);
       if (!!url) {
         let parsedTestData = {};
         try {
@@ -199,9 +194,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         const testDataObject = functionEditorData.getProcessedFunctionTestData(parsedTestData);
         const queryString = getQueryString(testDataObject.queries);
         if (!!queryString) {
-          url += '?';
+          url = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
         }
-        url += queryString;
         // TODO (krmitta): Make the API call (using URL created above) to run function and pass the response to FunctionTest Component [WI: 5536379]
       }
     }
