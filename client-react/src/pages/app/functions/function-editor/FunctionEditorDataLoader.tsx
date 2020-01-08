@@ -87,7 +87,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
       const webHookTypeInfoInfo = BindingManager.getWebHookTypeInfo(functionInfo.properties);
       const authLevelInfo = BindingManager.getAuthLevelInfo(functionInfo.properties);
-
       if (httpTriggerTypeInfo) {
         let code = '';
         let clientId = '';
@@ -119,7 +118,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         if (clientId) {
           queryParams.push(`clientId=${clientId}`);
         }
-
         return getFunctionInvokeUrl(result, queryParams);
       }
     }
