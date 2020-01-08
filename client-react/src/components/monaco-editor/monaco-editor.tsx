@@ -67,6 +67,11 @@ class MonacoEditor extends React.Component<any, any> {
         this.props.onChange(value, event);
       }
     });
+
+    // auto format the editor contents after the first mount
+    setTimeout(() => {
+      editor.getAction('editor.action.formatDocument').run();
+    }, 500);
   }
 
   public initMonaco() {
