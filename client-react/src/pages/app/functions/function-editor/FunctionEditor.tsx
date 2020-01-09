@@ -144,7 +144,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (fileResponse.metadata.success) {
       let fileText = fileResponse.data as string;
       if (file.mime === 'application/json') {
-        fileText = JSON.stringify(fileResponse.data);
+        fileText = JSON.stringify(fileResponse.data, null, 2);
       }
       setDefaultFileContent(fileText);
       setNewFileContent(fileText);
@@ -178,7 +178,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   ];
 
   const onChange = (newValue, event) => {
-    // TODO(krmitta): Save the new content of the file in state [WI 5536378]
     setNewFileContent(newValue);
   };
 
