@@ -10,6 +10,7 @@ import { Binding } from '../models/functions/binding';
 import { RuntimeExtensionMajorVersions } from '../models/functions/runtime-extension';
 import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
+import { Method } from 'axios';
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -216,5 +217,21 @@ export default class FunctionsService {
         });
       }
     }
+  }
+
+  public static runFunction(url: string, method: Method, headers: { [key: string]: string }, body: any) {
+    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
+      return this.tryPassThroughController(err, url, method, headers, body);
+    });
+  }
+
+  private static tryPassThroughController(err: any, url: string, method: Method, headers: { [key: string]: string }, body: any) {
+    const passthroughBody = {
+      url,
+      headers,
+      method,
+      body,
+    };
+    return sendHttpRequest({ url: `${Url.serviceHost}api/passthrough`, method: 'POST', data: passthroughBody });
   }
 }

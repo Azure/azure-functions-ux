@@ -8,7 +8,7 @@ import FunctionEditorData from './FunctionEditor.data';
 import { Site } from '../../../../models/site/site';
 import { SiteRouterContext } from '../../SiteRouter';
 import Url from '../../../../utils/url';
-import { NameValuePair } from './FunctionEditor.types';
+import { NameValuePair, ResponseContent } from './FunctionEditor.types';
 import AppKeyService from '../../../../ApiHelpers/AppKeysService';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { BindingManager } from '../../../../utils/BindingManager';
@@ -20,6 +20,8 @@ import { Host } from '../../../../models/functions/host';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { VfsObject } from '../../../../models/functions/vfs';
+import { Method } from 'axios';
+import { getJsonHeaders } from '../../../../ApiHelpers/HttpClient';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -38,6 +40,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [runtimeVersion, setRuntimeVersion] = useState<string | undefined>(undefined);
   const [hostJsonContent, setHostJsonContent] = useState<Host | undefined>(undefined);
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
+  const [responseContent, setResponseContent] = useState<ResponseContent | undefined>(undefined);
 
   const siteContext = useContext(SiteRouterContext);
 
@@ -178,23 +181,51 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return '';
   };
 
+  const getHeaders = (testHeaders: NameValuePair[]): { [key: string]: string } => {
+    const headers = getJsonHeaders();
+    testHeaders.forEach(h => {
+      headers[h.name] = h.value;
+    });
+    if (hostKeys && hostKeys.masterKey) {
+      headers['Cache-Control'] = 'no-cache';
+      headers['x-functions-key'] = hostKeys.masterKey;
+    }
+    return headers;
+  };
+
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>) => {
     const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
     if (updatedFunctionInfo.metadata.success) {
       const data = updatedFunctionInfo.data;
       const functionInvokeUrl = createAndGetFunctionInvokeUrl();
-      let url = !!functionInvokeUrl ? functionInvokeUrl : !!site && Url.getMainUrl(site);
+      let url = functionInvokeUrl || (!!site ? Url.getMainUrl(site) : '');
       if (!!url) {
         let parsedTestData = {};
         try {
           parsedTestData = JSON.parse(data.properties.test_data);
-        } catch (err) {}
+        } catch (err) {
+          // TODO (krmitta): Log an error if parsing the data throws an error
+        }
         const testDataObject = functionEditorData.getProcessedFunctionTestData(parsedTestData);
         const queryString = getQueryString(testDataObject.queries);
         if (!!queryString) {
           url = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
         }
-        // TODO (krmitta): Make the API call (using URL created above) to run function and pass the response to FunctionTest Component [WI: 5536379]
+        if (url.startsWith('http://')) {
+          url = url.replace('http://', 'https://');
+        } else if (!url.startsWith('https://')) {
+          url = `https://${url}`;
+        }
+        const headers = getHeaders(testDataObject.headers);
+        try {
+          const res = await FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body);
+          setResponseContent({
+            code: res.metadata.status,
+            text: res.metadata.success ? res.data : res.metadata.error,
+          });
+        } catch (err) {
+          // TODO (krmitta): Show an error if the call to run the function fails
+        }
       }
     }
   };
@@ -216,7 +247,14 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   }
   return (
     <FunctionEditorContext.Provider value={functionEditorData}>
-      <FunctionEditor functionInfo={functionInfo} site={site} run={run} fileList={fileList} runtimeVersion={runtimeVersion} />
+      <FunctionEditor
+        functionInfo={functionInfo}
+        site={site}
+        run={run}
+        fileList={fileList}
+        runtimeVersion={runtimeVersion}
+        responseContent={responseContent}
+      />
     </FunctionEditorContext.Provider>
   );
 };
