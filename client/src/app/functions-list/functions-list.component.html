@@ -42,7 +42,7 @@
                         (change)="enableChange(item, $event)">
                     </slide-toggle>
                 </div>
-                <div *ngIf="runtimeVersion === 'V2'">
+                <div *ngIf="runtimeVersion !== 'V1'">
                     <slide-toggle
                         [on]="!item.functionInfo.config.disabled"
                         [isCommand]="true"
