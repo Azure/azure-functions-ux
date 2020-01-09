@@ -18,13 +18,13 @@ export class FunctionMonitorShellComponent implements OnDestroy {
   constructor(broadcastService: BroadcastService, route: ActivatedRoute) {
     this.ngUnsubscribe = new Subject<void>();
 
-    route.params.takeUntil(this.ngUnsubscribe).subscribe(x => {
+    route.params.takeUntil(this.ngUnsubscribe).subscribe(param => {
       this.resourceId = ArmFunctionDescriptor.generateResourceUri(
-        x['subscriptionId'],
-        x['resourceGroup'],
-        x['site'],
-        x['function'],
-        x['slot']
+        param['subscriptionId'],
+        param['resourceGroup'],
+        param['site'],
+        param['function'],
+        param['slot']
       );
 
       const viewInfo = <TreeViewInfo<any>>{
