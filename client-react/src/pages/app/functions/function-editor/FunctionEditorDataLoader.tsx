@@ -196,9 +196,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
     if (updatedFunctionInfo.metadata.success) {
       const data = updatedFunctionInfo.data;
-      let url = !!site ? Url.getMainUrl(site) : '';
-      if (!!url) {
-        url = `${url}${createAndGetFunctionInvokeUrlPath()}`;
+      if (!!site) {
+        let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
         let parsedTestData = {};
         try {
           parsedTestData = JSON.parse(data.properties.test_data);
