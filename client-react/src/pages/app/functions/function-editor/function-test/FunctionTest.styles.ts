@@ -54,11 +54,10 @@ export const responseStyle = style({
   backgroundColor: 'rgba(128, 128, 128, 0.1)',
   border: '1px solid rgba(204, 204, 204, 0.8)',
   boxSizing: 'border-box',
+  padding: '3px',
 });
 
-export const responseStatusIcon = style({
-  marginTop: '5px',
-  marginLeft: '4px',
-  width: '12px',
-  height: '12px',
+export const responseCode = style({
+  paddingLeft: '3px',
+  fontStyle: 'italic',
 });

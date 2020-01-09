@@ -5569,12 +5569,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>HTTP response</value>
     </data>
     <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>HTTP response status</value>
+        <value>HTTP status</value>
     </data>
     <data name="editor_changeFileConfirmMessage" xml:space="">
         <value>Your unsaved edits will be discarded.</value>
     </data>
     <data name="editor_changeFile" xml:space="preserve">
         <value>Change file</value>
+    </data>
+    <data name="httpRun_responseCode" xml:space="preserve">
+        <value>Response code</value>
     </data>
 </root>
