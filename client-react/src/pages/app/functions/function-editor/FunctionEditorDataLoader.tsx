@@ -209,11 +209,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         if (!!queryString) {
           url = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
         }
-        if (url.startsWith('http://')) {
-          url = url.replace('http://', 'https://');
-        } else if (!url.startsWith('https://')) {
-          url = `https://${url}`;
-        }
+
         const headers = getHeaders(testDataObject.headers);
         try {
           const res = await FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body);
