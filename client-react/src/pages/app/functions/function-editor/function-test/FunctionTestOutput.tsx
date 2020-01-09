@@ -6,7 +6,7 @@ import { ResponseContent } from '../FunctionEditor.types';
 import { HttpConstants } from '../../../../../utils/constants/HttpConstants';
 
 export interface FunctionTestOutputProps {
-  responseContent: ResponseContent | undefined;
+  responseContent?: ResponseContent;
 }
 
 // TODO (krmitta): Add Content for Output-Tab [WI: 5536379]
@@ -18,14 +18,12 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
     <div className={pivotItemWrapper}>
       <div className={functionTestGroupStyle}>
         <Label>{t('httpRun_responseStatus')}</Label>
-        <div className={responseStatusStyle}>
-          <span>
+        {!!responseContent && (
+          <div className={responseStatusStyle}>
             {t('httpRun_responseCode')}:
-            <span className={responseCode}>{`${
-              !!responseContent ? `${responseContent.code} ${HttpConstants.statusCodeToText(responseContent.code)}` : ''
-            }`}</span>
-          </span>
-        </div>
+            <span className={responseCode}>{`${responseContent.code} ${HttpConstants.statusCodeToText(responseContent.code)}`}</span>
+          </div>
+        )}
       </div>
       <div className={functionTestGroupStyle}>
         <Label>{t('httpRun_response')}</Label>
