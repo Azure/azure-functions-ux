@@ -85,7 +85,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     setInitialLoading(false);
   };
 
-  const createAndGetFunctionInvokeUrl = (key?: string) => {
+  const createAndGetFunctionInvokeUrlPath = (key?: string) => {
     if (functionInfo) {
       const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
       const webHookTypeInfoInfo = BindingManager.getWebHookTypeInfo(functionInfo.properties);
@@ -121,7 +121,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         if (clientId) {
           queryParams.push(`clientId=${clientId}`);
         }
-        return getFunctionInvokeUrl(result, queryParams);
+        return getFunctionInvokeUrlPath(result, queryParams);
       }
     }
     LogService.error(
@@ -162,8 +162,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return result;
   };
 
-  const getFunctionInvokeUrl = (result: string, queryParams: string[]) => {
-    if (functionInfo && !!site) {
+  const getFunctionInvokeUrlPath = (result: string, queryParams: string[]) => {
+    if (functionInfo) {
       let path = '/';
       const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
       if (httpTriggerTypeInfo && httpTriggerTypeInfo.route) {
@@ -175,8 +175,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       // Remove doubled slashes
       const re = new RegExp('//', 'g');
       path = path.replace(re, '/').replace('/?', '?');
-      path = `${path}${path.endsWith('?') ? '' : '?'}${queryParams.join('&')}`;
-      return `${Url.getMainUrl(site)}${path}`;
+      return `${path}${path.endsWith('?') ? '' : '?'}${queryParams.join('&')}`;
     }
     return '';
   };
@@ -197,9 +196,9 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
     if (updatedFunctionInfo.metadata.success) {
       const data = updatedFunctionInfo.data;
-      const functionInvokeUrl = createAndGetFunctionInvokeUrl();
-      let url = functionInvokeUrl || (!!site ? Url.getMainUrl(site) : '');
+      let url = !!site ? Url.getMainUrl(site) : '';
       if (!!url) {
+        url = `${url}${createAndGetFunctionInvokeUrlPath()}`;
         let parsedTestData = {};
         try {
           parsedTestData = JSON.parse(data.properties.test_data);
