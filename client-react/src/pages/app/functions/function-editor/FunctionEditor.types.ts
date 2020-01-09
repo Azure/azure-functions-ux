@@ -36,3 +36,8 @@ export enum EditorLanguage {
   shell = 'shell',
   plaintext = 'plaintext',
 }
+
+export interface ResponseContent {
+  code: number;
+  text?: string;
+}
