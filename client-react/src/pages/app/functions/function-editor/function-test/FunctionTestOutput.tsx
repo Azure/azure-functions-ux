@@ -1,8 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { pivotItemWrapper, functionTestGroupStyle, responseStatusStyle, responseStyle } from './FunctionTest.styles';
+import { pivotItemWrapper, functionTestGroupStyle, responseStatusStyle, responseStyle, responseCode } from './FunctionTest.styles';
 import { Label } from 'office-ui-fabric-react';
 import { ResponseContent } from '../FunctionEditor.types';
+import { HttpConstants } from '../../../../../utils/constants/HttpConstants';
 
 export interface FunctionTestOutputProps {
   responseContent: ResponseContent | undefined;
@@ -18,7 +19,12 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
       <div className={functionTestGroupStyle}>
         <Label>{t('httpRun_responseStatus')}</Label>
         <div className={responseStatusStyle}>
-          <span>{!!responseContent && responseContent.code}</span>
+          <span>
+            {t('httpRun_responseCode')}:
+            <span className={responseCode}>{`${
+              !!responseContent ? `${responseContent.code} ${HttpConstants.statusCodeToText(responseContent.code)}` : ''
+            }`}</span>
+          </span>
         </div>
       </div>
       <div className={functionTestGroupStyle}>
