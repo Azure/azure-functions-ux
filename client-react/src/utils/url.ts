@@ -95,9 +95,9 @@ export default class Url {
 
   public static getMainUrl(site: ArmObj<Site>) {
     if (window.appsvc && window.appsvc.env.runtimeType === 'Standalone' && !!site) {
-      return `${site.properties.defaultHostName}/functions/${site.name}`;
+      return `https://${site.properties.defaultHostName}/functions/${site.name}`;
     }
-    return `${site.properties.defaultHostName}`;
+    return `https://${site.properties.defaultHostName}`;
   }
 
   private static queryStrings: { [key: string]: string };
