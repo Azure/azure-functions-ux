@@ -10,3 +10,12 @@ export const fileSelectorStackStyle = (theme: ThemeExtended) =>
 export const fileDropdownStyle = style({
   minWidth: '200px',
 });
+
+export const pivotWrapper = style({
+  paddingLeft: '8px',
+});
+
+export const pivotStyle = style({
+  margin: '20px',
+  borderBottom: '1px solid rgba(204, 204, 204, 0.8)',
+});

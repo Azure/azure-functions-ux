@@ -61,3 +61,7 @@ export const responseCode = style({
   paddingLeft: '3px',
   fontStyle: 'italic',
 });
+
+export const functionTestBodyStyle = style({
+  paddingLeft: '8px',
+});

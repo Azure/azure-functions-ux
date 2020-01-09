@@ -2,16 +2,15 @@ import React, { useEffect } from 'react';
 import { addEditFormStyle } from '../../../../../components/form-controls/formControl.override.styles';
 import ActionBar from '../../../../../components/ActionBar';
 import { useTranslation } from 'react-i18next';
-import { Pivot, PivotItem } from 'office-ui-fabric-react';
-import { style } from 'typestyle';
 import FunctionTestInput from './FunctionTestInput';
 import FunctionTestOutput from './FunctionTestOutput';
-import { InputFormValues, HttpMethods, ResponseContent } from '../FunctionEditor.types';
+import { InputFormValues, HttpMethods, ResponseContent, PivotType } from '../FunctionEditor.types';
 import { Form, FormikProps, Formik, FormikActions } from 'formik';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
+import { functionTestBodyStyle } from './FunctionTest.styles';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -19,12 +18,9 @@ export interface FunctionTestProps {
   functionInfo: ArmObj<FunctionInfo>;
   reqBody: string;
   setReqBody: (reqBody: string) => void;
+  selectedPivotTab: PivotType;
   responseContent?: ResponseContent;
 }
-
-const pivotWrapper = style({
-  paddingLeft: '8px',
-});
 
 const defaultInputFormValues: InputFormValues = {
   method: HttpMethods.get,
@@ -35,18 +31,7 @@ const defaultInputFormValues: InputFormValues = {
 // TODO (krmitta): Add Content for Function test panel [WI: 5536379]
 const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { t } = useTranslation();
-  const { run, cancel, functionInfo, reqBody, setReqBody, responseContent } = props;
-
-  const getPivotTabId = (itemKey: string, index: number): string => {
-    switch (itemKey) {
-      case 'input':
-        return 'function-test-input';
-      case 'output':
-        return 'function-test-output';
-      default:
-        return '';
-    }
-  };
+  const { run, cancel, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab } = props;
 
   useEffect(() => {
     try {
@@ -97,14 +82,10 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
 
         return (
           <Form className={addEditFormStyle}>
-            <Pivot getTabId={getPivotTabId}>
-              <PivotItem className={pivotWrapper} itemKey="input" linkText={t('functionTestInput')}>
-                <FunctionTestInput {...formProps} functionInfo={functionInfo} body={reqBody} />
-              </PivotItem>
-              <PivotItem className={pivotWrapper} itemKey="output" linkText={t('functionTestOutput')}>
-                <FunctionTestOutput responseContent={responseContent} />
-              </PivotItem>
-            </Pivot>
+            <div className={functionTestBodyStyle}>
+              {selectedPivotTab === PivotType.input && <FunctionTestInput {...formProps} functionInfo={functionInfo} body={reqBody} />}
+              {selectedPivotTab === PivotType.output && <FunctionTestOutput responseContent={responseContent} />}
+            </div>
             <ActionBar
               id="function-test-footer"
               primaryButton={actionBarPrimaryButtonProps}
