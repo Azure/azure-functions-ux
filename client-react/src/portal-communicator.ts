@@ -436,7 +436,7 @@ export default class PortalCommunicator {
         window.appsvc.feature = startupInfo.featureInfo && startupInfo.featureInfo.feature;
       }
     } else if (methodName === Verbs.sendToken2) {
-      this.setArmTokenInternal(data.token);
+      this.setArmTokenInternal(data && data.token);
     } else if (methodName === Verbs.sendNotificationStarted) {
       this.notificationStartStream.next(data);
     } else if (methodName === Verbs.sendData) {
@@ -446,7 +446,7 @@ export default class PortalCommunicator {
 
   private setArmTokenInternal = (token: string) => {
     this.setArmToken(token);
-    if (window.appsvc && window.appsvc.env) {
+    if (window.appsvc && window.appsvc.env && !!token && window.appsvc.env.armToken !== token) {
       window.appsvc.env.armToken = token;
     }
   };
