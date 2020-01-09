@@ -5577,6 +5577,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="editor_changeFile" xml:space="preserve">
         <value>Change file</value>
     </data>
+    <data name="defaultDocumentsInfoMessage" xml:space="preserve">
+        <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
+  </data>
     <data name="httpRun_responseCode" xml:space="preserve">
         <value>Response code</value>
     </data>

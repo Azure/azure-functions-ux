@@ -1801,5 +1801,6 @@ export class PortalResources {
   public static httpRun_responseStatus = 'httpRun_responseStatus';
   public static editor_changeFileConfirmMessage = 'editor_changeFileConfirmMessage';
   public static editor_changeFile = 'editor_changeFile';
+  public static defaultDocumentsInfoMessage = 'defaultDocumentsInfoMessage';
   public static httpRun_responseCode = 'httpRun_responseCode';
 }
