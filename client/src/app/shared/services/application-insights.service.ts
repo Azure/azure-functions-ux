@@ -211,7 +211,7 @@ export class ApplicationInsightsService {
     return (
       `requests ` +
       `| where timestamp >= ago(30d) ` +
-      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name == '${functionName}' ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
       `| summarize count=count() by success`
     );
   }
@@ -223,7 +223,7 @@ export class ApplicationInsightsService {
       `requests ` +
       `| project timestamp, id, operation_Name, success, resultCode, duration, operation_Id, cloud_RoleName, invocationId=customDimensions['InvocationId'] ` +
       `| where timestamp > ago(30d) ` +
-      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name == '${functionName}' ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
       `| order by timestamp desc | take ${top}`
     );
   }

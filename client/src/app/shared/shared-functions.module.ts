@@ -10,6 +10,18 @@ import { FunctionKeysComponent } from './../function-keys/function-keys.componen
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextEditorComponent } from 'app/controls/text-editor/text-editor.component';
+import { AggregateBlockComponent } from 'app/aggregate-block/aggregate-block.component';
+import { AggregateBlockPipe } from 'app/aggregate-block/aggregate-block.pipe';
+import { SidebarModule } from 'ng-sidebar';
+import { FileUploadModule } from 'ng2-file-upload';
+import { PopoverModule } from 'ng2-popover';
+import { FunctionMonitorComponent } from 'app/function-monitor/function-monitor.component';
+import { MonitorClassicComponent } from 'app/function-monitor/monitor-classic/monitor-classic.component';
+import { MonitorApplicationInsightsComponent } from 'app/function-monitor/monitor-applicationinsights/monitor-applicationinsights.component';
+import { MonitorDetailsComponent } from 'app/function-monitor/monitor-details/monitor-details.component';
+import { MonitorConfigureComponent } from 'app/function-monitor/monitor-configure/monitor-configure.component';
+import { TableFunctionMonitorComponent } from 'app/table-function-monitor/table-function-monitor.component';
+import { TableFunctionMonitorPipe } from 'app/table-function-monitor/table-function-monitor.pipe';
 
 @NgModule({
   declarations: [
@@ -22,6 +34,15 @@ import { TextEditorComponent } from 'app/controls/text-editor/text-editor.compon
     BottomTabsComponent,
     BottomTabComponent,
     TextEditorComponent,
+    AggregateBlockComponent,
+    AggregateBlockPipe,
+    FunctionMonitorComponent,
+    MonitorClassicComponent,
+    MonitorApplicationInsightsComponent,
+    MonitorDetailsComponent,
+    MonitorConfigureComponent,
+    TableFunctionMonitorComponent,
+    TableFunctionMonitorPipe,
   ],
   exports: [
     FunctionKeysComponent,
@@ -33,7 +54,16 @@ import { TextEditorComponent } from 'app/controls/text-editor/text-editor.compon
     BottomTabsComponent,
     BottomTabComponent,
     TextEditorComponent,
+    AggregateBlockComponent,
+    AggregateBlockPipe,
+    FunctionMonitorComponent,
+    MonitorClassicComponent,
+    MonitorApplicationInsightsComponent,
+    MonitorDetailsComponent,
+    MonitorConfigureComponent,
+    TableFunctionMonitorComponent,
+    TableFunctionMonitorPipe,
   ],
-  imports: [TranslateModule.forChild(), SharedModule],
+  imports: [TranslateModule.forChild(), SharedModule, SidebarModule, FileUploadModule, PopoverModule],
 })
 export class SharedFunctionsModule {}

@@ -265,6 +265,15 @@ export class ArmFunctionDescriptor extends ArmSiteDescriptor implements Function
     }
   }
 
+  static generateResourceUri(subscription: string, resourceGroup: string, site: string, functionName: string, slot?: string) {
+    if (!subscription || !resourceGroup || !site || !functionName) {
+      return null;
+    }
+
+    const siteId = `/subscriptions/${subscription}/resourceGroups/${resourceGroup}/providers/Microsoft.Web/sites/${site}`;
+    return slot ? `${siteId}/slots/${slot}/functions/${functionName}` : `${siteId}/functions/${functionName}`;
+  }
+
   constructor(resourceId: string) {
     super(resourceId);
 
