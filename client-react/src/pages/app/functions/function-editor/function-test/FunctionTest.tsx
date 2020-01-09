@@ -19,7 +19,7 @@ export interface FunctionTestProps {
   functionInfo: ArmObj<FunctionInfo>;
   reqBody: string;
   setReqBody: (reqBody: string) => void;
-  responseContent: ResponseContent | undefined;
+  responseContent?: ResponseContent;
 }
 
 const pivotWrapper = style({
