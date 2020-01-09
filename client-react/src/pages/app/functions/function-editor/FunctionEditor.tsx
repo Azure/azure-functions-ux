@@ -6,7 +6,7 @@ import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { BindingType } from '../../../../models/functions/function-binding';
 import { Site } from '../../../../models/site/site';
 import Panel from '../../../../components/Panel/Panel';
-import { PanelType, IDropdownOption, Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react';
+import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
@@ -24,7 +24,7 @@ export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
-  responseContent: ResponseContent | undefined;
+  responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
 }
@@ -258,16 +258,25 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const getHeaderContent = (): JSX.Element => {
     return (
-      <Pivot getTabId={getPivotTabId} className={pivotStyle} onLinkClick={onPivotItemClick}>
+      <Pivot getTabId={getPivotTabId} className={pivotStyle} onLinkClick={onPivotItemClick} selectedKey={selectedPivotTab}>
         <PivotItem itemKey={PivotType.input} linkText={t('functionTestInput')} />
         <PivotItem itemKey={PivotType.output} linkText={t('functionTestOutput')} />
       </Pivot>
     );
   };
 
+  const changePivotTab = (pivotItem: PivotType) => {
+    setSelectedPivotTab(pivotItem);
+  };
+
   useEffect(() => {
     setDirty(newFileContent !== defaultFileContent);
   }, [newFileContent, defaultFileContent]);
+  useEffect(() => {
+    if (!!responseContent) {
+      changePivotTab(PivotType.output);
+    }
+  }, [responseContent]);
   useEffect(() => {
     fetchData();
 
