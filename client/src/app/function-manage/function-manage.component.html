@@ -5,7 +5,7 @@
             <div *ngIf="functionInfo" class="function-state">
                 <radio-selector *ngIf="!runtimeVersion" [disabled]="true" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled"></radio-selector>
                 <radio-selector *ngIf="runtimeVersion === 'V1'" [fnWriteAccess]="context" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
-                <radio-selector *ngIf="runtimeVersion === 'V2'" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
+                <radio-selector *ngIf="runtimeVersion !== 'V1'" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
                 <button class="delete-app" (click)="deleteFunction()" [fnWriteAccess]="context">
                     <span load-image="image/delete.svg" class="icon-small" role="presentation"></span>
                     {{ 'functionManage_deleteFunction' | translate }}

@@ -15,6 +15,7 @@ import { Observable } from 'rxjs/Observable';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { NavigableComponent } from '../shared/components/navigable-component';
 import { FunctionService } from 'app/shared/services/function.service';
+import { FunctionAppVersion } from 'app/shared/models/constants';
 
 @Component({
   selector: 'functions-list',
@@ -80,7 +81,7 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
       : this._portalService.logAction('function-list', 'enable');
 
     const observable =
-      this.runtimeVersion === 'V2'
+      this.runtimeVersion !== FunctionAppVersion.v1
         ? this._functionAppService.updateDisabledAppSettings(this.context, [item.functionInfo])
         : this._functionService.updateFunction(this.context.site.id, item.functionInfo);
 

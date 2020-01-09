@@ -10,7 +10,7 @@ import { PanelType, IDropdownOption } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
-import { InputFormValues, EditorLanguage } from './FunctionEditor.types';
+import { InputFormValues, EditorLanguage, ResponseContent } from './FunctionEditor.types';
 import { FormikActions } from 'formik';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
@@ -23,6 +23,7 @@ export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
+  responseContent: ResponseContent | undefined;
   runtimeVersion?: string;
   fileList?: VfsObject[];
 }
@@ -34,7 +35,7 @@ const editorStyle = style({
 });
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
-  const { functionInfo, site, fileList, runtimeVersion } = props;
+  const { functionInfo, site, fileList, runtimeVersion, responseContent } = props;
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -241,7 +242,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   }, [newFileContent, defaultFileContent]);
   useEffect(() => {
     fetchData();
-  });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <FunctionEditorCommandBar
@@ -278,7 +281,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         onChangeDropdown={onFileSelectorChange}
       />
       <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''}>
-        <FunctionTest cancel={onCancelTest} run={run} functionInfo={functionInfo} reqBody={reqBody} setReqBody={setReqBody} />
+        <FunctionTest
+          cancel={onCancelTest}
+          run={run}
+          functionInfo={functionInfo}
+          reqBody={reqBody}
+          setReqBody={setReqBody}
+          responseContent={responseContent}
+        />
       </Panel>
       {isLoading() && <LoadingComponent />}
       <div className={editorStyle}>
