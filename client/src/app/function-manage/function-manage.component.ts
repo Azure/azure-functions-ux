@@ -63,7 +63,7 @@ export class FunctionManageComponent extends NavigableComponent {
         this.functionInfo.config.disabled
           ? this._portalService.logAction('function-manage', 'disable')
           : this._portalService.logAction('function-manage', 'enable');
-        return this.runtimeVersion === 'V2'
+        return this.runtimeVersion !== FunctionAppVersion.v1
           ? this._functionAppService.updateDisabledAppSettings(this.context, [this.functionInfo])
           : this._functionService.updateFunction(this.context.site.id, this.functionInfo);
       })
