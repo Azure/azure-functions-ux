@@ -17,13 +17,14 @@ import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
-import { pivotStyle } from './FunctionEditor.styles';
+import { pivotStyle, testLoadingStyle, disableTestPanelStyle } from './FunctionEditor.styles';
 
 // TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
+  functionRunning: boolean;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
@@ -36,7 +37,7 @@ const editorStyle = style({
 });
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
-  const { functionInfo, site, fileList, runtimeVersion, responseContent } = props;
+  const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning } = props;
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -311,7 +312,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
         onChangeDropdown={onFileSelectorChange}
       />
-      <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''} headerContent={getHeaderContent()}>
+      <Panel
+        type={PanelType.medium}
+        isOpen={showTestPanel}
+        onDismiss={onCancelTest}
+        className={functionRunning ? disableTestPanelStyle : ''}
+        headerContent={getHeaderContent()}>
+        {functionRunning && <LoadingComponent className={testLoadingStyle} />}
         <FunctionTest
           cancel={onCancelTest}
           run={run}

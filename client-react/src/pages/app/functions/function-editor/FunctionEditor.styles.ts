@@ -19,3 +19,16 @@ export const pivotStyle = style({
   margin: '20px',
   borderBottom: '1px solid rgba(204, 204, 204, 0.8)',
 });
+
+export const testLoadingStyle = style({
+  position: 'absolute',
+  zIndex: 1,
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+});
+
+export const disableTestPanelStyle = style({
+  backgroundColor: 'rgba(255, 255, 255, 0.4)',
+  pointerEvents: 'none',
+});
