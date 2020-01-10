@@ -297,6 +297,7 @@ export class PortalResources {
   public static functionDev_loading = 'functionDev_loading';
   public static test = 'test';
   public static testFunctionNotSupportedForGitHubWebhook = 'testFunctionNotSupportedForGitHubWebhook';
+  public static extensionBundleVersion = 'extensionBundleVersion';
   public static currentRuntimeVersion = 'currentRuntimeVersion';
   public static runtimeVersion = 'runtimeVersion';
   public static runtimeImage = 'runtimeImage';
