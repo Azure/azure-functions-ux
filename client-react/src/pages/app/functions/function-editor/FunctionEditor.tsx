@@ -6,24 +6,25 @@ import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { BindingType } from '../../../../models/functions/function-binding';
 import { Site } from '../../../../models/site/site';
 import Panel from '../../../../components/Panel/Panel';
-import { PanelType, IDropdownOption } from 'office-ui-fabric-react';
+import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
-import { InputFormValues, EditorLanguage, ResponseContent } from './FunctionEditor.types';
+import { InputFormValues, EditorLanguage, ResponseContent, PivotType } from './FunctionEditor.types';
 import { FormikActions } from 'formik';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
+import { pivotStyle } from './FunctionEditor.styles';
 
 // TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
-  responseContent: ResponseContent | undefined;
+  responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
 }
@@ -47,6 +48,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption | undefined>(undefined);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [savingFile, setSavingFile] = useState<boolean>(false);
+  const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
 
   const { t } = useTranslation();
 
@@ -144,7 +146,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (fileResponse.metadata.success) {
       let fileText = fileResponse.data as string;
       if (file.mime === 'application/json') {
-        fileText = JSON.stringify(fileResponse.data);
+        // third parameter refers to the number of white spaces.
+        // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
+        fileText = JSON.stringify(fileResponse.data, null, 2);
       }
       setDefaultFileContent(fileText);
       setNewFileContent(fileText);
@@ -178,7 +182,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   ];
 
   const onChange = (newValue, event) => {
-    // TODO(krmitta): Save the new content of the file in state [WI 5536378]
     setNewFileContent(newValue);
   };
 
@@ -237,9 +240,37 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setSelectedDropdownOption(undefined);
   };
 
+  const getPivotTabId = (itemKey: string, index: number): string => {
+    return `function-test-${itemKey}`;
+  };
+
+  const onPivotItemClick = (item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) => {
+    if (!!item) {
+      setSelectedPivotTab(item.props.itemKey as PivotType);
+    }
+  };
+
+  const getHeaderContent = (): JSX.Element => {
+    return (
+      <Pivot getTabId={getPivotTabId} className={pivotStyle} onLinkClick={onPivotItemClick} selectedKey={selectedPivotTab}>
+        <PivotItem itemKey={PivotType.input} linkText={t('functionTestInput')} />
+        <PivotItem itemKey={PivotType.output} linkText={t('functionTestOutput')} />
+      </Pivot>
+    );
+  };
+
+  const changePivotTab = (pivotItem: PivotType) => {
+    setSelectedPivotTab(pivotItem);
+  };
+
   useEffect(() => {
     setDirty(newFileContent !== defaultFileContent);
   }, [newFileContent, defaultFileContent]);
+  useEffect(() => {
+    if (!!responseContent) {
+      changePivotTab(PivotType.output);
+    }
+  }, [responseContent]);
   useEffect(() => {
     fetchData();
 
@@ -280,7 +311,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
         onChangeDropdown={onFileSelectorChange}
       />
-      <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''}>
+      <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''} headerContent={getHeaderContent()}>
         <FunctionTest
           cancel={onCancelTest}
           run={run}
@@ -288,6 +319,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           reqBody={reqBody}
           setReqBody={setReqBody}
           responseContent={responseContent}
+          selectedPivotTab={selectedPivotTab}
         />
       </Panel>
       {isLoading() && <LoadingComponent />}
