@@ -5545,27 +5545,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>L'étendue « workflow » est manquante dans le jeton GitHub.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>Le fichier de workflow d'action GitHub « {{workflowFilePath}} » existe déjà dans la branche « {{branchName}} », si vous continuez, ce fichier est remplacé.</value>
-    </data>
-  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
-        <value>Visual Studio 2015 n'est plus pris en charge pour le débogage à distance. Sélectionnez une version prise en charge de Visual Studio.</value>
-    </data>
-  <data name="functionCreate_selectTemplate" xml:space="preserve">
-        <value>Sélectionnez un modèle dans l'onglet précédent pour voir les détails.</value>
-    </data>
-  <data name="functionTestInput" xml:space="preserve">
-        <value>Entrée</value>
-    </data>
-  <data name="functionTestOutput" xml:space="preserve">
-        <value>Sortie</value>
-    </data>
-  <data name="functionTestInputDescription" xml:space="preserve">
-        <value>Indiquez les paramètres de test de la demande HTTP. Les résultats se trouvent sous l'onglet Sortie.</value>
-    </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>Réponse HTTP</value>
-    </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>État de réponse HTTP</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch, by continuing this file will be overwritten.</value>
     </data>
 </root>

@@ -5547,25 +5547,4 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>El archivo de flujo de trabajo de acción de GitHub "{{workflowFilePath}}" ya existe en la rama "{{branchName}}"; si sigue con la operación, el archivo se sobrescribirá.</value>
     </data>
-  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
-        <value>Visual Studio 2015 ya no se admite para la depuración remota. Seleccione una versión de Visual Studio compatible.</value>
-    </data>
-  <data name="functionCreate_selectTemplate" xml:space="preserve">
-        <value>Seleccione una plantilla de la pestaña anterior para ver los detalles.</value>
-    </data>
-  <data name="functionTestInput" xml:space="preserve">
-        <value>Entrada</value>
-    </data>
-  <data name="functionTestOutput" xml:space="preserve">
-        <value>Salida</value>
-    </data>
-  <data name="functionTestInputDescription" xml:space="preserve">
-        <value>Proporcione parámetros para probar la solicitud HTTP. Los resultados se pueden encontrar en la pestaña Salida.</value>
-    </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>Respuesta HTTP</value>
-    </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>Estado de la respuesta HTTP</value>
-    </data>
 </root>

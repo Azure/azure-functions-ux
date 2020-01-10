@@ -5547,25 +5547,4 @@
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>GitHub Action 工作流程檔案 '{{workflowFilePath}}' 已存在於 '{{branchName}}' 分支中，繼續會覆寫此檔案。</value>
     </data>
-  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
-        <value>遠端偵錯不再支援 Visual Studio 2015。請選取支援的 Visual Studio 版本。</value>
-    </data>
-  <data name="functionCreate_selectTemplate" xml:space="preserve">
-        <value>在上一個索引標籤中選取範本以查看詳細資料。</value>
-    </data>
-  <data name="functionTestInput" xml:space="preserve">
-        <value>輸入</value>
-    </data>
-  <data name="functionTestOutput" xml:space="preserve">
-        <value>輸出</value>
-    </data>
-  <data name="functionTestInputDescription" xml:space="preserve">
-        <value>提供用來測試 HTTP 要求的參數。可在 [輸出] 索引標籤中找到結果。</value>
-    </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP 回應</value>
-    </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>HTTP 回應狀態</value>
-    </data>
 </root>

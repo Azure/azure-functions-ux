@@ -5547,25 +5547,4 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>GitHub-åtgärdens arbetsflödesfil {{workflowFilePath}} finns redan i {{branchName}}-grenen. Genom att fortsätta skrivs den här filen över.</value>
     </data>
-  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
-        <value>Visual Studio 2015 stöds inte längre för fjärrfelsökning. Välj en Visual Studio-version som stöds.</value>
-    </data>
-  <data name="functionCreate_selectTemplate" xml:space="preserve">
-        <value>Välj en mall på den föregående fliken för att se information.</value>
-    </data>
-  <data name="functionTestInput" xml:space="preserve">
-        <value>Indata</value>
-    </data>
-  <data name="functionTestOutput" xml:space="preserve">
-        <value>Utdata</value>
-    </data>
-  <data name="functionTestInputDescription" xml:space="preserve">
-        <value>Ange parametrar för att testa HTTP-begäran. Resultaten finns i Utdata-fliken.</value>
-    </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP-svar</value>
-    </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>HTTP-svarsstatus</value>
-    </data>
 </root>

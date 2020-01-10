@@ -5547,25 +5547,4 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>Soubor pracovního postupu akce GitHubu {{workflowFilePath}} už ve větvi {{branchName}} existuje. Když budete pokračovat, tento soubor se přepíše.</value>
     </data>
-  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
-        <value>Visual Studio 2015 se už pro vzdálené ladění nepodporuje. Vyberte prosím podporovanou verzi sady Visual Studio.</value>
-    </data>
-  <data name="functionCreate_selectTemplate" xml:space="preserve">
-        <value>Pokud si chcete zobrazit podrobnosti, vyberte na předchozí kartě šablonu.</value>
-    </data>
-  <data name="functionTestInput" xml:space="preserve">
-        <value>Vstup</value>
-    </data>
-  <data name="functionTestOutput" xml:space="preserve">
-        <value>Výstup</value>
-    </data>
-  <data name="functionTestInputDescription" xml:space="preserve">
-        <value>Pokud chcete otestovat požadavek HTTP, zadejte parametry. Výsledky najdete na kartě Výstup.</value>
-    </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>Odpověď protokolu HTTP</value>
-    </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>Stav odpovědi protokolu HTTP</value>
-    </data>
 </root>
