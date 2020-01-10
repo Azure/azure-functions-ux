@@ -41,6 +41,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [hostJsonContent, setHostJsonContent] = useState<Host | undefined>(undefined);
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
   const [responseContent, setResponseContent] = useState<ResponseContent | undefined>(undefined);
+  const [functionRunning, setFunctionRunning] = useState(false);
 
   const siteContext = useContext(SiteRouterContext);
 
@@ -193,6 +194,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>) => {
+    setFunctionRunning(true);
     const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
     if (updatedFunctionInfo.metadata.success) {
       const data = updatedFunctionInfo.data;
@@ -222,6 +224,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         }
       }
     }
+    setFunctionRunning(false);
   };
 
   const getQueryString = (queries: NameValuePair[]): string => {
@@ -248,6 +251,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         fileList={fileList}
         runtimeVersion={runtimeVersion}
         responseContent={responseContent}
+        functionRunning={functionRunning}
       />
     </FunctionEditorContext.Provider>
   );

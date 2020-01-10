@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Panel as OfficePanel, IPanelProps, PanelType } from 'office-ui-fabric-react';
+import { Panel as OfficePanel, IPanelProps, PanelType, Overlay } from 'office-ui-fabric-react';
 import { ReactComponent as CloseSvg } from '../../images/Common/close.svg';
 import { useTranslation } from 'react-i18next';
 import { panelStyle, panelHeaderStyle, panelBodyStyle, closeButtonStyle } from './Panel.styles';
@@ -10,10 +10,11 @@ type IPanelPropsReduced = Pick<IPanelProps, Exclude<keyof IPanelProps, 'styles' 
 interface CustomPanelProps {
   style?: {};
   headerContent?: JSX.Element;
+  overlay?: boolean;
 }
 
 const Panel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
-  const { headerText, isOpen, type, style: customPanelStyle, headerContent, ...rest } = props;
+  const { headerText, isOpen, type, style: customPanelStyle, headerContent, overlay, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
@@ -42,6 +43,7 @@ const Panel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
       onRenderNavigationContent={onRenderNavigationContent}
       {...rest}>
       <div style={panelBodyStyle}>{props.children}</div>
+      {overlay && <Overlay />}
     </OfficePanel>
   );
 };

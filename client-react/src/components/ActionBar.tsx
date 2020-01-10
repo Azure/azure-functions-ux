@@ -8,6 +8,7 @@ import { style } from 'typestyle';
 import { ThemeExtended } from '../theme/SemanticColorsExtended';
 import { SpinnerSize, Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { ThemeContext } from '../ThemeContext';
+import { Overlay } from 'office-ui-fabric-react';
 
 interface StatusMessage {
   message: string;
@@ -27,6 +28,7 @@ interface ActionBarProps {
   secondaryButton?: ActionBarButtonProps;
   statusMessage?: StatusMessage;
   validating?: boolean;
+  overlay?: boolean;
 }
 
 const elementWrapperStyle = (theme: ThemeExtended) =>
@@ -79,7 +81,7 @@ const statusMessageDiv = style({
 });
 
 type ActionBarPropsCombined = ActionBarProps;
-const ActionBar: React.FC<ActionBarPropsCombined> = ({ primaryButton, secondaryButton, validating, id, statusMessage }) => {
+const ActionBar: React.FC<ActionBarPropsCombined> = ({ primaryButton, secondaryButton, validating, id, statusMessage, overlay }) => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
   return (
@@ -143,6 +145,7 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({ primaryButton, secondaryB
           />
         )}
       </div>
+      {overlay && <Overlay />}
     </div>
   );
 };
