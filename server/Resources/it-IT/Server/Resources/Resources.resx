@@ -5547,4 +5547,25 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>Il file del flusso di lavoro dell'azione GitHub '{{workflowFilePath}}' esiste già nel ramo '{{branchName}}'. Se si continua, questo file verrà sovrascritto.</value>
     </data>
+  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
+        <value>Visual Studio 2015 non è più supportato per il debug remoto. Selezionare una versione di Visual Studio supportata.</value>
+    </data>
+  <data name="functionCreate_selectTemplate" xml:space="preserve">
+        <value>Selezionare un modello nella scheda precedente per visualizzare i dettagli.</value>
+    </data>
+  <data name="functionTestInput" xml:space="preserve">
+        <value>Input</value>
+    </data>
+  <data name="functionTestOutput" xml:space="preserve">
+        <value>Output</value>
+    </data>
+  <data name="functionTestInputDescription" xml:space="preserve">
+        <value>Fornire i parametri per testare la richiesta HTTP. I risultati sono disponibili nella scheda Output.</value>
+    </data>
+  <data name="httpRun_response" xml:space="preserve">
+        <value>Risposta HTTP</value>
+    </data>
+  <data name="httpRun_responseStatus" xml:space="preserve">
+        <value>Stato risposta HTTP</value>
+    </data>
 </root>
