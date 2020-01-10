@@ -5547,4 +5547,25 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>Die GitHub-Aktionsworkflowdatei "{{workflowFilePath}}" ist im Branch "{{branchName}}" bereits vorhanden. Durch Fortsetzen des Vorgangs wird diese Datei überschrieben.</value>
     </data>
+  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
+        <value>Visual Studio 2015 wird für das Remotedebuggen nicht mehr unterstützt. Wählen Sie eine unterstützte Visual Studio-Version aus.</value>
+    </data>
+  <data name="functionCreate_selectTemplate" xml:space="preserve">
+        <value>Wählen Sie auf der vorherigen Registerkarte eine Vorlage aus, um die Details anzuzeigen.</value>
+    </data>
+  <data name="functionTestInput" xml:space="preserve">
+        <value>Eingabe</value>
+    </data>
+  <data name="functionTestOutput" xml:space="preserve">
+        <value>Ausgabe</value>
+    </data>
+  <data name="functionTestInputDescription" xml:space="preserve">
+        <value>Geben Sie Parameter zum Testen der HTTP-Anforderung an. Die Ergebnisse finden Sie auf der Registerkarte "Ausgabe".</value>
+    </data>
+  <data name="httpRun_response" xml:space="preserve">
+        <value>HTTP-Antwort</value>
+    </data>
+  <data name="httpRun_responseStatus" xml:space="preserve">
+        <value>HTTP-Antwortstatus</value>
+    </data>
 </root>
