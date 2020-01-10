@@ -2,7 +2,6 @@ import React from 'react';
 import { LogEntry, LogsEnabled, LogType } from './LogStream.types';
 import { processLogs, processLogConfig, logStreamEnabled } from './LogStreamData';
 import LogStream from './LogStream';
-import { ArmTokenContext } from '../../../ArmTokenContext';
 import SiteService from '../../../ApiHelpers/SiteService';
 import LogService from '../../../utils/LogService';
 import { ArmObj } from '../../../models/arm-obj';
@@ -23,7 +22,6 @@ export interface LogStreamDataLoaderState {
 }
 
 class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogStreamDataLoaderState> {
-  public static contextType = ArmTokenContext;
   private _currentSiteId = '';
   private _xhReq: XMLHttpRequest;
   private _logStreamIndex = 0;
