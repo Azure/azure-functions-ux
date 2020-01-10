@@ -512,10 +512,10 @@ export class AzureDevOpsService implements OnDestroy {
   private _getFunctionAppPipelineTemplateId(buildSettings: VstsBuildSettings): string {
     switch (this._getApplicationType(buildSettings.applicationFramework)) {
       case ApplicationType.DotNetPreCompiledFunctionApp:
-        return 'ms.vss-continuous-delivery-pipeline-templates.aspnetcore-functionapp-cd';
+        return 'ms.vss-continuous-delivery-pipeline-templates.dotnetprecompiled-functionapp-cd';
 
       case ApplicationType.ScriptFunctionApp:
-        return 'ms.vss-continuous-delivery-pipeline-templates.nodejs-functionapp-cd';
+        return 'ms.vss-continuous-delivery-pipeline-templates.script-functionapp-cd';
 
       default:
         return null;
