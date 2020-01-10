@@ -5547,4 +5547,25 @@
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>GitHub 操作工作流文件“{{workflowFilePath}}”在“{{branchName}}”分支中已存在，如果继续操作，此文件将被覆盖。</value>
     </data>
+  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
+        <value>远程调试不再支持 Visual Studio 2015。请选择一个受支持的 Visual Studio 版本。</value>
+    </data>
+  <data name="functionCreate_selectTemplate" xml:space="preserve">
+        <value>在上一个选项卡中选择一个模板，以查看详细信息。</value>
+    </data>
+  <data name="functionTestInput" xml:space="preserve">
+        <value>输入</value>
+    </data>
+  <data name="functionTestOutput" xml:space="preserve">
+        <value>输出</value>
+    </data>
+  <data name="functionTestInputDescription" xml:space="preserve">
+        <value>提供用于测试 HTTP 请求的参数。可在“输出”选项卡中找到结果。</value>
+    </data>
+  <data name="httpRun_response" xml:space="preserve">
+        <value>HTTP 响应</value>
+    </data>
+  <data name="httpRun_responseStatus" xml:space="preserve">
+        <value>HTTP 响应状态</value>
+    </data>
 </root>
