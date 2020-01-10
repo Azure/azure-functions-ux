@@ -5565,11 +5565,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionTestInputDescription" xml:space="preserve">
         <value>Provide parameters to test the HTTP request. Results can be found in the Output tab.</value>
     </data>
-    <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP response</value>
+    <data name="httpRun_responseContent" xml:space="preserve">
+        <value>HTTP response content</value>
     </data>
-    <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>HTTP status</value>
+    <data name="httpRun_responseCode" xml:space="preserve">
+        <value>HTTP response code</value>
     </data>
     <data name="editor_changeFileConfirmMessage" xml:space="">
         <value>Your unsaved edits will be discarded.</value>
@@ -5579,8 +5579,5 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
-  </data>
-    <data name="httpRun_responseCode" xml:space="preserve">
-        <value>Response code</value>
     </data>
 </root>

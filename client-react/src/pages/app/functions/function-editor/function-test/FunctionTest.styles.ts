@@ -48,7 +48,7 @@ export const responseStatusStyle = style({
   fontWeight: 600,
 });
 
-export const responseStyle = style({
+export const responseContentStyle = style({
   width: '95%',
   height: '77px',
   backgroundColor: 'rgba(128, 128, 128, 0.1)',
@@ -57,9 +57,8 @@ export const responseStyle = style({
   padding: '3px',
 });
 
-export const responseCode = style({
-  paddingLeft: '3px',
-  fontStyle: 'italic',
+export const responseCodeStyle = style({
+  padding: '3px',
 });
 
 export const functionTestBodyStyle = style({
