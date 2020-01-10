@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { pivotItemWrapper, functionTestGroupStyle, responseStatusStyle, responseStyle, responseCode } from './FunctionTest.styles';
+import { pivotItemWrapper, functionTestGroupStyle, responseCodeStyle, responseContentStyle } from './FunctionTest.styles';
 import { Label } from 'office-ui-fabric-react';
 import { ResponseContent } from '../FunctionEditor.types';
 import { HttpConstants } from '../../../../../utils/constants/HttpConstants';
@@ -17,17 +17,14 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
   return (
     <div className={pivotItemWrapper}>
       <div className={functionTestGroupStyle}>
-        <Label>{t('httpRun_responseStatus')}</Label>
-        {!!responseContent && (
-          <div className={responseStatusStyle}>
-            {t('httpRun_responseCode')}:
-            <span className={responseCode}>{`${responseContent.code} ${HttpConstants.statusCodeToText(responseContent.code)}`}</span>
-          </div>
-        )}
+        <Label>{t('httpRun_responseCode')}</Label>
+        <div className={responseCodeStyle}>
+          {!!responseContent ? `${responseContent.code} ${HttpConstants.statusCodeToText(responseContent.code)}` : ''}
+        </div>
       </div>
       <div className={functionTestGroupStyle}>
-        <Label>{t('httpRun_response')}</Label>
-        <div className={responseStyle}>{!!responseContent && !!responseContent.text ? responseContent.text : ''}</div>
+        <Label>{t('httpRun_responseContent')}</Label>
+        <div className={responseContentStyle}>{!!responseContent && !!responseContent.text ? responseContent.text : ''}</div>
       </div>
       <div className={functionTestGroupStyle}>
         <Label>{t('functionMonitor_invocationLog')}</Label>
