@@ -312,14 +312,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
         onChangeDropdown={onFileSelectorChange}
       />
-      <Panel
-        type={PanelType.medium}
-        isOpen={showTestPanel}
-        onDismiss={onCancelTest}
-        className={functionRunning ? disableTestPanelStyle : ''}
-        headerContent={getHeaderContent()}>
+      <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerContent={getHeaderContent()}>
         {functionRunning && <LoadingComponent className={testLoadingStyle} />}
         <FunctionTest
+          className={functionRunning ? disableTestPanelStyle : ''}
           cancel={onCancelTest}
           run={run}
           functionInfo={functionInfo}
