@@ -44,10 +44,6 @@ export const keyValuePairStyle = style({
   marginBottom: '10px',
 });
 
-export const responseStatusStyle = style({
-  fontWeight: 600,
-});
-
 export const responseContentStyle = style({
   width: '95%',
   height: '77px',
