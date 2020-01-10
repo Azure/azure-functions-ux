@@ -17,7 +17,7 @@ import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
-import { pivotStyle, testLoadingStyle, disableTestPanelStyle, commandBarSticky } from './FunctionEditor.styles';
+import { pivotStyle, testLoadingStyle, commandBarSticky } from './FunctionEditor.styles';
 
 // TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
@@ -314,10 +314,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           onChangeDropdown={onFileSelectorChange}
         />
       </div>
-      <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerContent={getHeaderContent()}>
+      <Panel
+        type={PanelType.medium}
+        isOpen={showTestPanel}
+        onDismiss={onCancelTest}
+        overlay={functionRunning}
+        headerContent={getHeaderContent()}>
         {functionRunning && <LoadingComponent className={testLoadingStyle} />}
         <FunctionTest
-          className={functionRunning ? disableTestPanelStyle : ''}
           cancel={onCancelTest}
           run={run}
           functionInfo={functionInfo}
@@ -325,6 +329,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           setReqBody={setReqBody}
           responseContent={responseContent}
           selectedPivotTab={selectedPivotTab}
+          functionRunning={functionRunning}
         />
       </Panel>
       {isLoading() && <LoadingComponent />}

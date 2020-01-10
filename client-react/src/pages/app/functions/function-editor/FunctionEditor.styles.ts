@@ -28,11 +28,6 @@ export const testLoadingStyle = style({
   transform: 'translate(-50%, -50%)',
 });
 
-export const disableTestPanelStyle = style({
-  backgroundColor: 'rgba(255, 255, 255, 0.4)',
-  pointerEvents: 'none',
-});
-
 export const commandBarSticky = style({
   position: 'sticky',
   top: 0,

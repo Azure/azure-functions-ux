@@ -19,7 +19,7 @@ export interface FunctionTestProps {
   reqBody: string;
   setReqBody: (reqBody: string) => void;
   selectedPivotTab: PivotType;
-  className: string;
+  functionRunning: boolean;
   responseContent?: ResponseContent;
 }
 
@@ -32,7 +32,7 @@ const defaultInputFormValues: InputFormValues = {
 // TODO (krmitta): Add Content for Function test panel [WI: 5536379]
 const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { t } = useTranslation();
-  const { run, cancel, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab, className } = props;
+  const { run, cancel, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab, functionRunning } = props;
 
   useEffect(() => {
     try {
@@ -82,7 +82,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
         };
 
         return (
-          <Form className={`${addEditFormStyle} ${className}`}>
+          <Form className={addEditFormStyle}>
             <div className={functionTestBodyStyle}>
               {selectedPivotTab === PivotType.input && <FunctionTestInput {...formProps} functionInfo={functionInfo} body={reqBody} />}
               {selectedPivotTab === PivotType.output && <FunctionTestOutput responseContent={responseContent} />}
@@ -91,6 +91,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
               id="function-test-footer"
               primaryButton={actionBarPrimaryButtonProps}
               secondaryButton={actionBarSecondaryButtonProps}
+              overlay={functionRunning}
             />
           </Form>
         );
