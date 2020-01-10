@@ -20,6 +20,7 @@ interface InternalArmRequest {
   body: any;
   apiVersion: string | null;
   queryString?: string;
+  headers?: { [key: string]: string };
 }
 
 interface ArmBatchObject {
@@ -47,6 +48,7 @@ const armObs$ = armSubject$.pipe(
         content: arm.body,
         requestHeaderDetails: {
           commandName: arm.commandName,
+          ...arm.headers,
         },
         url: Url.appendQueryString(`${arm.resourceId}${arm.queryString || ''}`, apiVersionString),
       };
@@ -80,6 +82,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
   const headers: { [key: string]: string } = {
     Authorization: `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`,
     'x-ms-client-request-id': armObj.id,
+    ...armObj.headers,
   };
   if (sessionId) {
     headers['x-ms-client-session-id'] = sessionId;
@@ -113,7 +116,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
 };
 
 const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpResponseObject<T>> => {
-  const { skipBuffer, method, resourceId, body, apiVersion, commandName, queryString } = requestObject;
+  const { skipBuffer, method, resourceId, body, apiVersion, commandName, queryString, headers } = requestObject;
 
   const id = Guid.newGuid();
   const armBatchObject: InternalArmRequest = {
@@ -122,6 +125,7 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
     commandName,
     queryString,
     id,
+    headers: headers || {},
     method: method || 'GET',
     apiVersion: apiVersion !== null ? apiVersion || CommonConstants.ApiVersions.antaresApiVersion20181101 : null,
   };

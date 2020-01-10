@@ -39,8 +39,8 @@ const FunctionQuickstartDataLoader: React.FC<FunctionQuickstartDataLoaderProps> 
     } else {
       setSite(siteData.data);
       const appSettings = appSettingsData.data.properties;
-      if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.workerRuntime)) {
-        setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.workerRuntime].toLowerCase());
+      if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
+        setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
       }
     }
     setInitialLoading(false);
@@ -48,6 +48,8 @@ const FunctionQuickstartDataLoader: React.FC<FunctionQuickstartDataLoaderProps> 
 
   useEffect(() => {
     fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (apiFailure) {

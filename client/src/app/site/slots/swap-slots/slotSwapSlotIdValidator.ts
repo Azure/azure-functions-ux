@@ -38,7 +38,11 @@ export class SlotSwapSlotIdValidator implements AsyncValidator {
         return new Promise(resolve => {
           Observable.zip(
             this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
-            this._authZService.hasPermission(resourceId, [AuthzService.actionScope]),
+            this._authZService.hasPermission(resourceId, [
+              AuthzService.slotswapScope,
+              AuthzService.applySlotConfigScope,
+              AuthzService.resetSlotConfigScope,
+            ]),
             this._authZService.hasReadOnlyLock(resourceId),
             this._siteService.getSiteConfig(resourceId)
           ).subscribe(r => {

@@ -48,6 +48,8 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
 
   useEffect(() => {
     fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -135,6 +135,8 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
   useEffect(() => {
     const rgResourceId = isNewResourceGroup ? '' : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase();
     checkWritePermissionOnRg(portalContext, rgResourceId, setExistingRgWritePermissionError, onRgValidationError, t);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

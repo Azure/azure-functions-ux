@@ -23,6 +23,15 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         loadChildren: 'app/ibiza-feature/app-settings-shell/app-settings-shell.module#AppSettingsShellModule',
       },
       {
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/functions/:function/monitor',
+        loadChildren: 'app/ibiza-feature/function-monitor-shell/function-monitor-shell.module#FunctionMonitorShellModule',
+      },
+      {
+        path:
+          'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/functions/:function/monitor',
+        loadChildren: 'app/ibiza-feature/function-monitor-shell/function-monitor-shell.module#FunctionMonitorShellModule',
+      },
+      {
         path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/deployment',
         loadChildren: 'app/ibiza-feature/deployment-shell/deployment-shell.module#DeploymentShellModule',
       },

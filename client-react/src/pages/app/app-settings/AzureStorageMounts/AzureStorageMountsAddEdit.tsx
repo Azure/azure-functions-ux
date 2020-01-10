@@ -19,19 +19,25 @@ export interface AzureStorageMountsAddEditProps {
   otherAzureStorageMounts: FormAzureStorageMounts[];
   closeBlade: () => void;
   azureStorageMount: FormAzureStorageMounts;
+  // TODO (refortie): Temporary until xenon validation is put in
+  enableValidation: boolean;
 }
 
 export type AzureStorageMountsAddEditPropsCombined = AzureStorageMountsAddEditProps;
 const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombined> = props => {
-  const { closeBlade, otherAzureStorageMounts, azureStorageMount, updateAzureStorageMount } = props;
+  const { closeBlade, otherAzureStorageMounts, azureStorageMount, updateAzureStorageMount, enableValidation } = props;
   const storageAccounts = useContext(StorageAccountsContext);
   const [configurationOption, setConfigurationOption] = useState('basic');
   const { t } = useTranslation();
   const [basicDisabled, setBasicDisabled] = useState(false);
   const [initialName] = useState(azureStorageMount.name);
   const [initialMountPath] = useState(azureStorageMount.mountPath);
+
+  // eslint-disable-next-line no-useless-escape
   const mountPathRegex = /^\/[a-zA-Z0-9.\[\]\(\)\-_\/]*$/;
   const shareNameMaxLength = 64;
+
+  // eslint-disable-next-line no-useless-escape
   const shareNameRegex = /^[a-zA-Z0-9\[\]\(\)\-_]+$/;
   const cancel = () => {
     closeBlade();
@@ -73,6 +79,8 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     } else if (azureStorageMount.accountName && !storageAccounts.value.find(x => x.name === azureStorageMount.accountName)) {
       setConfigurationOption('advanced');
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -81,7 +89,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       onSubmit={values => {
         updateAzureStorageMount(values);
       }}
-      validationSchema={validationSchema}
+      validationSchema={enableValidation && validationSchema}
       render={(formProps: FormikProps<FormAzureStorageMounts>) => {
         const actionBarPrimaryButtonProps = {
           id: 'save',

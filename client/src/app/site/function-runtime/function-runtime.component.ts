@@ -286,12 +286,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           this.extensionVersion = Constants.latest;
         }
 
-        this.disableRuntimeSelector = this.extensionVersion !== Constants.latest && (this.hasFunctions || this.betaDisabled);
-
-        if (this.disableRuntimeSelector && this.extensionVersion !== FunctionAppRuntimeSetting.tilda1) {
-          this.functionRutimeOptions[0].disabled = true;
-          this.disableRuntimeSelector = false;
-        }
+        this._setRuntimeToggle();
 
         this.badRuntimeVersion = !this._validRuntimeVersion();
 
@@ -521,16 +516,17 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   }
 
   private _updateContainerVersion(appSettings: ArmObj<any>, version: string) {
+    // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
     if (appSettings.properties[Constants.azureJobsExtensionVersion]) {
       delete appSettings[Constants.azureJobsExtensionVersion];
     }
 
-    appSettings.properties[Constants.runtimeVersionAppSettingName] = version;
-
+    // If version is V1, remove FUNCTIONS_WORKER_RUNTIME app setting (if present)
     if (version === '~1' && appSettings.properties[Constants.functionsWorkerRuntimeAppSettingsName]) {
       delete appSettings.properties[Constants.functionsWorkerRuntimeAppSettingsName];
     }
 
+    // Add or update WEBSITE_NODE_DEFAULT_VERSION app setting
     if (version === '~2') {
       appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersionV2;
     } else if (version === '~3') {
@@ -538,6 +534,9 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     } else {
       appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
     }
+
+    // Add or update FUNCTIONS_EXTENSION_VERSION app setting
+    appSettings.properties[Constants.runtimeVersionAppSettingName] = version;
 
     return this._siteService.updateAppSettings(this.context.site.id, appSettings);
   }
@@ -608,6 +607,22 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
       return !!this._configService.FunctionsVersionInfo.runtimeStable.find(v => {
         return this.extensionVersion.toLowerCase() === v;
       });
+    }
+  }
+
+  private _setRuntimeToggle() {
+    // Never allow Linux Apps to select V1
+    if (this.isLinuxApp) {
+      this.functionRutimeOptions[0].disabled = true;
+    }
+
+    // See if a runtime update should be blocked
+    this.disableRuntimeSelector = this.extensionVersion !== Constants.latest && (this.hasFunctions || this.betaDisabled);
+
+    // Allow a runtime update with a warning only for nonV1 apps
+    if (this.disableRuntimeSelector && this.extensionVersion !== FunctionAppRuntimeSetting.tilda1) {
+      this.functionRutimeOptions[0].disabled = true;
+      this.disableRuntimeSelector = false;
     }
   }
 }

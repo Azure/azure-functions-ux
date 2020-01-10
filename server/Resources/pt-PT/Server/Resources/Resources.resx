@@ -5545,6 +5545,27 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
         <value>O âmbito "fluxo de trabalho" está em falta no token do GitHub.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch, by continuing this file will be overwritten.</value>
+        <value>O ficheiro de fluxo de trabalho de Ação do GitHub '{{workflowFilePath}}' já existe no ramo '{{branchName}}', ao continuar este ficheiro será substituído.</value>
+    </data>
+  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
+        <value>O Visual Studio 2015 já não é suportado para a depuração remota. Selecione uma versão do Visual Studio suportada.</value>
+    </data>
+  <data name="functionCreate_selectTemplate" xml:space="preserve">
+        <value>Selecione um modelo no separador anterior para ver os detalhes.</value>
+    </data>
+  <data name="functionTestInput" xml:space="preserve">
+        <value>Entrada</value>
+    </data>
+  <data name="functionTestOutput" xml:space="preserve">
+        <value>Saída</value>
+    </data>
+  <data name="functionTestInputDescription" xml:space="preserve">
+        <value>Forneça parâmetros para testar o pedido de HTTP. Os resultados podem ser encontrados no separador Saída.</value>
+    </data>
+  <data name="httpRun_response" xml:space="preserve">
+        <value>Resposta de HTTP</value>
+    </data>
+  <data name="httpRun_responseStatus" xml:space="preserve">
+        <value>Estado da resposta de HTTP</value>
     </data>
 </root>

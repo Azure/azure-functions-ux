@@ -6,15 +6,20 @@ import { SearchBox } from 'office-ui-fabric-react';
 import { filterBoxStyle } from './FunctionCreate.styles';
 import { useTranslation } from 'react-i18next';
 import { Order } from './CreateConstants';
+import { Binding } from '../../../../models/functions/binding';
+import { HostStatus } from '../../../../models/functions/host-status';
 
 interface TemplatesPivotProps {
   functionTemplates: FunctionTemplate[];
-  setSelectedFunctionTemplate: (FunctionTemplate) => void;
-  setPivotStateKey: (PivotState) => void;
+  setSelectedFunctionTemplate: (FunctionTemplate: FunctionTemplate) => void;
+  setPivotStateKey: (PivotState: PivotState) => void;
+  setRequiredBindingIds: (Bindings: string[]) => void;
+  bindings: Binding[] | undefined;
+  hostStatus: HostStatus;
 }
 
 const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
-  const { functionTemplates, setSelectedFunctionTemplate, setPivotStateKey } = props;
+  const { functionTemplates, setSelectedFunctionTemplate, setPivotStateKey, setRequiredBindingIds, hostStatus } = props;
   const { t } = useTranslation();
   setPivotStateKey(PivotState.templates);
   const [filterValue, setFilterValue] = useState<string | undefined>(undefined);
@@ -28,7 +33,7 @@ const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
       />
       {!!functionTemplates &&
         functionTemplates
-          .filter(template => !filterValue || template.metadata.name.toLowerCase().includes(filterValue.toLowerCase()))
+          .filter(template => !filterValue || template.name.toLowerCase().includes(filterValue.toLowerCase()))
           .sort((templateA: FunctionTemplate, templateB: FunctionTemplate) => sortTemplate(templateA, templateB))
           .map((template: FunctionTemplate, index: number) => {
             return (
@@ -37,6 +42,8 @@ const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
                 key={index}
                 setSelectedFunctionTemplate={setSelectedFunctionTemplate}
                 setPivotStateKey={setPivotStateKey}
+                setRequiredBindingIds={setRequiredBindingIds}
+                hostStatus={hostStatus}
               />
             );
           })}
@@ -55,7 +62,7 @@ const sortTemplate = (templateA: FunctionTemplate, templateB: FunctionTemplate):
     indexB = Number.MAX_VALUE;
   }
 
-  return indexA === indexB ? (templateA.metadata.name > templateB.metadata.name ? 1 : -1) : indexA > indexB ? 1 : -1;
+  return indexA === indexB ? (templateA.name > templateB.name ? 1 : -1) : indexA > indexB ? 1 : -1;
 };
 
 export default TemplatesPivot;

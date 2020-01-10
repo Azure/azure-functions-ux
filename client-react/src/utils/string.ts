@@ -1,4 +1,6 @@
 export default class StringUtils {
+  public static fileSeparator = '\\';
+
   public static removeSpaces(value: string): string {
     return value.replace(/\s/g, '');
   }

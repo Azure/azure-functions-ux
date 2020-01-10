@@ -1,12 +1,12 @@
 import React from 'react';
-import { BindingConfigUIDefinition } from '../../../../models/functions/bindings-config';
+import { BindingSetting } from '../../../../models/functions/binding';
 import { FieldProps, FormikProps } from 'formik';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
 import { IDropdownOption, IDropdownProps } from 'office-ui-fabric-react';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 
 export interface HttpMethodMultiDropdownProps {
-  setting: BindingConfigUIDefinition;
+  setting: BindingSetting;
 }
 
 const HttpMethodMultiDropdown: React.SFC<HttpMethodMultiDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {

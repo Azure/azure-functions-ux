@@ -234,7 +234,11 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         if (success) {
           return Observable.zip(
             this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
-            this._authZService.hasPermission(this.resourceId, [AuthzService.actionScope]),
+            this._authZService.hasPermission(this.resourceId, [
+              AuthzService.slotswapScope,
+              AuthzService.applySlotConfigScope,
+              AuthzService.resetSlotConfigScope,
+            ]),
             this._authZService.hasReadOnlyLock(this.resourceId),
             this._scenarioService.checkScenarioAsync(ScenarioIds.getSiteSlotLimits, { site: siteResult.result })
           );

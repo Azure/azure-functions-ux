@@ -10,16 +10,20 @@ import { ArmObj } from '../../../../models/arm-obj';
 import SiteService from '../../../../ApiHelpers/SiteService';
 
 export default class FunctionCreateData {
-  public getTemplates() {
-    return FunctionsService.getTemplatesMetadata();
+  public getHostStatus(resourceId: string) {
+    return FunctionsService.getHostStatus(resourceId);
+  }
+
+  public getTemplates(resourceId: string) {
+    return FunctionsService.getTemplates(resourceId);
   }
 
   public getFunctions(resourceId: string) {
     return FunctionsService.getFunctions(resourceId);
   }
 
-  public getBindings() {
-    return FunctionsService.getBindingConfigMetadata();
+  public getBinding(resourceId: string, bindingId: string) {
+    return FunctionsService.getBinding(resourceId, bindingId);
   }
 
   public createFunction(
@@ -32,7 +36,7 @@ export default class FunctionCreateData {
     if (formValues.newAppSettings) {
       this._updateAppSettings(portalCommunicator, t, resourceId, formValues.newAppSettings);
     }
-    const config = this._buildFunctionConfig(functionTemplate.function.bindings, formValues);
+    const config = this._buildFunctionConfig(functionTemplate.bindings || [], formValues);
     this._createNewFunction(portalCommunicator, t, resourceId, formValues.functionName, functionTemplate.files, config);
   }
 

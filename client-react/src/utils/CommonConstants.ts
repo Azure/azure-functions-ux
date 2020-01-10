@@ -52,7 +52,7 @@ export class CommonConstants {
 
   public static readonly FeatureFlags = {
     AllowFreeLinux: 'allowfreelinux',
-    ShowNewFunctionRuntimeSettings: 'shownewfunctionruntimesettings',
+    ShowFunctionsItems: 'showfunctionsitems',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -63,8 +63,10 @@ export class CommonConstants {
   };
 
   public static readonly AppSettingNames = {
-    workerRuntime: 'FUNCTIONS_WORKER_RUNTIME',
+    azureJobsExtensionVersion: 'AZUREJOBS_EXTENSION_VERSION',
     functionsExtensionVersion: 'FUNCTIONS_EXTENSION_VERSION',
+    functionsWorkerRuntime: 'FUNCTIONS_WORKER_RUNTIME',
+    websiteNodeDefaultVersion: 'WEBSITE_NODE_DEFAULT_VERSION',
   };
 
   public static readonly SkuNames = {
@@ -83,5 +85,11 @@ export class CommonConstants {
 
   public static readonly SiteStates = {
     running: 'running',
+  };
+
+  public static readonly NodeVersions = {
+    default: '6.5.0',
+    v2: '~10',
+    v3: '~12',
   };
 }

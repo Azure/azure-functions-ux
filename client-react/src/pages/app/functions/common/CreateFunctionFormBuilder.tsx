@@ -1,5 +1,5 @@
 import React from 'react';
-import { BindingConfigMetadata } from '../../../../models/functions/bindings-config';
+import { Binding } from '../../../../models/functions/binding';
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import i18next from 'i18next';
 import { BindingFormBuilder, BindingEditorFormValues } from './BindingFormBuilder';
@@ -16,14 +16,13 @@ export interface CreateFunctionFormValues extends BindingEditorFormValues {
 export class CreateFunctionFormBuilder extends BindingFormBuilder {
   constructor(
     bindingInfo: BindingInfo[],
-    bindingMetadata: BindingConfigMetadata[],
+    bindings: Binding[],
     resourceId: string,
-    variables: { [key: string]: string },
     private _functionsInfo: ArmObj<FunctionInfo>[],
     private _defaultName: string,
     private t: i18next.TFunction
   ) {
-    super(bindingInfo, bindingMetadata, resourceId, t, variables);
+    super(bindingInfo, bindings, resourceId, t);
   }
 
   public getInitialFormValues() {
@@ -43,8 +42,9 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
   private _getInitialFunctionName(): string {
     let i = 1;
     while (true) {
+      // eslint-disable-next-line no-loop-func
       const func = this._functionsInfo.find(value => {
-        return this._defaultName.toLowerCase() + i.toString() === value.properties.name.toLowerCase();
+        return `${this._defaultName.toLowerCase()} ${i.toString()}` === value.properties.name.toLowerCase();
       });
 
       if (func) {

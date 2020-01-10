@@ -1,12 +1,12 @@
 import React from 'react';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { ArmObj } from '../../../../models/arm-obj';
-import { BindingsConfig } from '../../../../models/functions/bindings-config';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import { FunctionIntegrate } from './FunctionIntegrate';
 import FunctionIntegrateData from './FunctionIntegrate.data';
+import { Binding } from '../../../../models/functions/binding';
 
 const functionIntegrateData = new FunctionIntegrateData();
 export const FunctionIntegrateContext = React.createContext(functionIntegrateData);
@@ -16,9 +16,8 @@ interface FunctionIntegrateDataLoaderProps {
 }
 
 interface FunctionIntegrateDataLoaderState {
-  functionInfo: ArmObj<FunctionInfo> | null;
-  bindingsConfig: BindingsConfig | null;
-  isLoading: boolean;
+  functionInfo: ArmObj<FunctionInfo> | undefined;
+  bindings: Binding[] | undefined;
 }
 
 class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataLoaderProps, FunctionIntegrateDataLoaderState> {
@@ -26,16 +25,30 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     super(props);
 
     this.state = {
-      functionInfo: null,
-      bindingsConfig: null,
-      isLoading: true,
+      functionInfo: undefined,
+      bindings: undefined,
     };
   }
 
   public componentWillMount() {
+    this._loadFunction();
+    this._loadBindings();
+  }
+
+  public render() {
+    if (!this.state.functionInfo || !this.state.bindings) {
+      return <LoadingComponent />;
+    }
+
+    return (
+      <FunctionIntegrate functionInfo={this.state.functionInfo} bindings={this.state.bindings} setRequiredBindingId={this._loadBinding} />
+    );
+  }
+
+  private _loadFunction() {
     const { resourceId } = this.props;
 
-    const getFunctionPromise = functionIntegrateData.getFunction(resourceId).then(r => {
+    functionIntegrateData.getFunction(resourceId).then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
@@ -45,36 +58,43 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
         LogService.error(LogCategories.functionIntegrate, 'getFunction', `Failed to get function: ${r.metadata.error}`);
       }
     });
+  }
 
-    const getBindingsConfigPromise = functionIntegrateData.getBindingsConfig().then(r => {
+  private _loadBindings() {
+    const { resourceId } = this.props;
+
+    const functionAppId = resourceId.split('/functions')[0];
+    functionIntegrateData.getBindings(functionAppId).then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
-          bindingsConfig: r.data,
+          bindings: r.data.properties,
         });
       } else {
-        LogService.error(LogCategories.functionIntegrate, 'getBindingsConfig', `Failed to get bindings config: ${r.metadata.error}`);
+        LogService.error(LogCategories.functionIntegrate, 'getBindings', `Failed to get bindings: ${r.metadata.error}`);
       }
     });
+  }
 
-    Promise.all([getFunctionPromise, getBindingsConfigPromise]).then(() => {
-      this.setState({
-        ...this.state,
-        isLoading: false,
-      });
+  private _loadBinding = (bindingId: string) => {
+    const { resourceId } = this.props;
+    const functionAppId = resourceId.split('/functions')[0];
+    functionIntegrateData.getBinding(functionAppId, bindingId).then(r => {
+      if (r.metadata.success) {
+        const newBinding = r.data.properties[0];
+        const bindings = this.state.bindings || [];
+        const indexToUpdate = bindings.findIndex(binding => binding.id === newBinding.id) || bindings.length;
+        bindings[indexToUpdate] = newBinding;
+
+        this.setState({
+          ...this.state,
+          bindings,
+        });
+      } else {
+        LogService.error(LogCategories.functionIntegrate, 'getBinding', `Failed to get binding: ${r.metadata.error}`);
+      }
     });
-  }
-
-  public render() {
-    if (this.state.isLoading) {
-      return <LoadingComponent />;
-    }
-
-    const functionInfo = this.state.functionInfo as ArmObj<FunctionInfo>;
-    const bindingsConfig = this.state.bindingsConfig as BindingsConfig;
-
-    return <FunctionIntegrate functionInfo={functionInfo} bindingsConfig={bindingsConfig} />;
-  }
+  };
 }
 
 export default FunctionIntegrateDataLoader;

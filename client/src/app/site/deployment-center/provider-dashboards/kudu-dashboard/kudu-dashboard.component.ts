@@ -19,6 +19,7 @@ import { PortalResources } from '../../../../shared/models/portal-resources';
 import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
 import { of } from 'rxjs/observable/of';
 import { DeploymentDashboard } from '../deploymentDashboard';
+import { SiteService } from 'app/shared/services/site.service';
 
 enum DeployStatus {
   Pending,
@@ -69,6 +70,7 @@ export class KuduDashboardComponent extends DeploymentDashboard implements OnCha
   constructor(
     private _portalService: PortalService,
     private _cacheService: CacheService,
+    private _siteService: SiteService,
     private _armService: ArmService,
     private _broadcastService: BroadcastService,
     private _logService: LogService,
@@ -82,19 +84,19 @@ export class KuduDashboardComponent extends DeploymentDashboard implements OnCha
       .takeUntil(this._ngUnsubscribe$)
       .switchMap(resourceId => {
         return Observable.zip(
-          this._cacheService.getArm(resourceId, this._forceLoad),
-          this._cacheService.getArm(`${resourceId}/config/web`, this._forceLoad, ARMApiVersions.antaresApiVersion20181101),
-          this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`, this._forceLoad),
-          this._cacheService.getArm(`${resourceId}/sourcecontrols/web`, this._forceLoad),
-          this._cacheService.getArm(`${resourceId}/deployments`, true),
-          this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, this._forceLoad),
+          this._siteService.getSite(resourceId, this._forceLoad),
+          this._siteService.getSiteConfig(resourceId, this._forceLoad),
+          this._siteService.getPublishingCredentials(resourceId, this._forceLoad),
+          this._siteService.getSiteSourceControlConfig(resourceId, this._forceLoad),
+          this._siteService.getSiteDeployments(resourceId),
+          this._siteService.getPublishingUser(),
           (site, siteConfig, pubCreds, sourceControl, deployments, publishingUser) => ({
-            site: site.json(),
-            siteConfig: siteConfig.json(),
-            pubCreds: pubCreds.json(),
-            sourceControl: sourceControl.json(),
-            deployments: deployments.json(),
-            publishingUser: publishingUser.json(),
+            site: site.result,
+            siteConfig: siteConfig.result,
+            pubCreds: pubCreds.result,
+            sourceControl: sourceControl.result,
+            deployments: deployments.result,
+            publishingUser: publishingUser.result,
           })
         );
       })

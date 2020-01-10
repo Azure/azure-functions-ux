@@ -5545,6 +5545,27 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem található a munkafolyamat hatókör a GitHub-tokenben.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch, by continuing this file will be overwritten.</value>
+        <value>A GitHub-művelet munkafolyamat-fájlja ({{workflowFilePath}}) már létezik a(z) {{branchName}} ágban, ha folytatja, ez a fájl felülíródik.</value>
+    </data>
+  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
+        <value>A Visual Studio 2015 használata már nem támogatott a távoli hibakereséshez. Válasszon támogatott Visual Studio-verziót.</value>
+    </data>
+  <data name="functionCreate_selectTemplate" xml:space="preserve">
+        <value>Válasszon ki egy sablont az előző lapon a részletek megtekintéséhez.</value>
+    </data>
+  <data name="functionTestInput" xml:space="preserve">
+        <value>Bemeneti</value>
+    </data>
+  <data name="functionTestOutput" xml:space="preserve">
+        <value>Kimenet</value>
+    </data>
+  <data name="functionTestInputDescription" xml:space="preserve">
+        <value>Paraméterek megadása a HTTP-kérelem teszteléséhez. Az eredmények a Kimenet lapon találhatók.</value>
+    </data>
+  <data name="httpRun_response" xml:space="preserve">
+        <value>HTTP-válasz</value>
+    </data>
+  <data name="httpRun_responseStatus" xml:space="preserve">
+        <value>HTTP-válasz állapotkódja</value>
     </data>
 </root>

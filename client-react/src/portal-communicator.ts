@@ -73,18 +73,15 @@ export default class PortalCommunicator {
   private frameId;
   private i18n: any;
   private setTheme: Dispatch<SetStateAction<ThemeExtended>>;
-  private setArmToken: Dispatch<SetStateAction<string>>;
   private setStartupInfo: Dispatch<SetStateAction<IStartupInfo<any>>>;
   public initializeIframe(
     setTheme: Dispatch<SetStateAction<ThemeExtended>>,
-    setArmToken: Dispatch<SetStateAction<string>>,
     setStartupInfo: Dispatch<SetStateAction<IStartupInfo<any>>>,
     i18n: any = null
   ): void {
     this.frameId = Url.getParameterByName(null, 'frameId');
     this.i18n = i18n;
     this.setTheme = setTheme;
-    this.setArmToken = setArmToken;
     this.setStartupInfo = setStartupInfo;
     window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this) as any, false);
     window.updateAuthToken = this.getAdToken.bind(this);
@@ -436,7 +433,7 @@ export default class PortalCommunicator {
         window.appsvc.feature = startupInfo.featureInfo && startupInfo.featureInfo.feature;
       }
     } else if (methodName === Verbs.sendToken2) {
-      this.setArmTokenInternal(data.token);
+      this.setArmTokenInternal(data && data.token);
     } else if (methodName === Verbs.sendNotificationStarted) {
       this.notificationStartStream.next(data);
     } else if (methodName === Verbs.sendData) {
@@ -445,8 +442,7 @@ export default class PortalCommunicator {
   }
 
   private setArmTokenInternal = (token: string) => {
-    this.setArmToken(token);
-    if (window.appsvc && window.appsvc.env) {
+    if (window.appsvc && window.appsvc.env && !!token && window.appsvc.env.armToken !== token) {
       window.appsvc.env.armToken = token;
     }
   };
