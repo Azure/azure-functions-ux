@@ -240,14 +240,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const getPivotTabId = (itemKey: string, index: number): string => {
-    switch (itemKey) {
-      case PivotType.input:
-        return 'function-test-input';
-      case PivotType.output:
-        return 'function-test-output';
-      default:
-        return '';
-    }
+    return `function-test-${itemKey}`;
   };
 
   const onPivotItemClick = (item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) => {
