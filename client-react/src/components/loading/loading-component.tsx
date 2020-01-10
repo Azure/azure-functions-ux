@@ -10,9 +10,9 @@ const loadingCSS = style({
   zIndex: 1,
 });
 
-const LoadingComponent = () => {
+const LoadingComponent = props => {
   return (
-    <div className={loadingCSS}>
+    <div className={!!props.className ? props.className : loadingCSS}>
       <Spinner size={SpinnerSize.large} ariaLive="assertive" />
     </div>
   );
