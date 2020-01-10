@@ -1,16 +1,24 @@
-import { BindingsConfig } from './../models/functions/bindings-config';
+import { HostStatus } from './../models/functions/host-status';
 import { ArmArray, ArmObj } from './../models/arm-obj';
 import MakeArmCall from './ArmHelper';
 import { FunctionInfo } from '../models/functions/function-info';
-import { sendHttpRequest, getJsonHeaders, getTextHeaders } from './HttpClient';
+import { sendHttpRequest, getTextHeaders } from './HttpClient';
 import { FunctionTemplate } from '../models/functions/function-template';
 import { FunctionConfig } from '../models/functions/function-config';
 import Url from '../utils/url';
+import { Binding } from '../models/functions/binding';
 import { RuntimeExtensionMajorVersions } from '../models/functions/runtime-extension';
 import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
+import { Method } from 'axios';
 
 export default class FunctionsService {
+  public static getHostStatus = (resourceId: string) => {
+    const id = `${resourceId}/host/default/properties/status`;
+
+    return MakeArmCall<ArmObj<HostStatus>>({ resourceId: id, commandName: 'fetchHostStatus' });
+  };
+
   public static getFunctions = (resourceId: string, force?: boolean) => {
     const id = `${resourceId}/functions`;
 
@@ -52,15 +60,14 @@ export default class FunctionsService {
     });
   };
 
-  // The current implementation should be temporary.  In the future, we need to support extension bundles
-  // which means that we'll probably be calling ARM to give us a bunch of resources which are specific
-  // to the apps extension bundle version
-  public static getBindingConfigMetadata = () => {
-    return sendHttpRequest<BindingsConfig>({
-      url: '/api/bindingconfig?runtime=~2',
-      method: 'GET',
-      headers: getJsonHeaders(),
-    });
+  public static getBindings = (functionAppId: string) => {
+    const resourceId = `${functionAppId}/host/default/bindings`;
+    return MakeArmCall<ArmObj<Binding[]>>({ resourceId, commandName: 'fetchBindings' });
+  };
+
+  public static getBinding = (functionAppId: string, bindingId: string) => {
+    const resourceId = `${functionAppId}/host/default/bindings/${bindingId}`;
+    return MakeArmCall<ArmObj<Binding>>({ resourceId, commandName: 'fetchBinding' });
   };
 
   public static updateFunction = (resourceId: string, functionInfo: ArmObj<FunctionInfo>) => {
@@ -72,13 +79,9 @@ export default class FunctionsService {
     });
   };
 
-  public static getTemplatesMetadata = (functionAppId: string) => {
+  public static getTemplates = (functionAppId: string) => {
     const resourceId = `${functionAppId}/host/default/templates`;
-    return MakeArmCall<ArmObj<FunctionTemplate[]>>({
-      resourceId,
-      commandName: 'fetchTemplates',
-      method: 'GET',
-    });
+    return MakeArmCall<ArmObj<FunctionTemplate[]>>({ resourceId, commandName: 'fetchTemplates' });
   };
 
   public static fetchKeys = (resourceId: string) => {
@@ -214,5 +217,21 @@ export default class FunctionsService {
         });
       }
     }
+  }
+
+  public static runFunction(url: string, method: Method, headers: { [key: string]: string }, body: any) {
+    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
+      return this.tryPassThroughController(err, url, method, headers, body);
+    });
+  }
+
+  private static tryPassThroughController(err: any, url: string, method: Method, headers: { [key: string]: string }, body: any) {
+    const passthroughBody = {
+      url,
+      headers,
+      method,
+      body,
+    };
+    return sendHttpRequest({ url: `${Url.serviceHost}api/passthrough`, method: 'POST', data: passthroughBody });
   }
 }

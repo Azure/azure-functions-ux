@@ -1,7 +1,7 @@
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
-import { NameValuePair } from './FunctionEditor.types';
+import { NameValuePair, HttpMethods } from './FunctionEditor.types';
 
 export default class FunctionEditorData {
   public getFunctionInfo(resourceId: string) {
@@ -14,7 +14,7 @@ export default class FunctionEditorData {
 
   public getProcessedFunctionTestData(data: any) {
     const response = {
-      method: '',
+      method: HttpMethods.get,
       queries: [] as NameValuePair[],
       headers: [] as NameValuePair[],
       body: '',

@@ -36,3 +36,13 @@ export enum EditorLanguage {
   shell = 'shell',
   plaintext = 'plaintext',
 }
+
+export interface ResponseContent {
+  code: number;
+  text?: string;
+}
+
+export enum PivotType {
+  input = 'input',
+  output = 'output',
+}

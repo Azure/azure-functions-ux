@@ -24,6 +24,7 @@ import {
   CheckLockResponse,
   LockType,
   FrameBladeParams,
+  SendToken2,
 } from './../models/portal';
 import {
   Event,
@@ -523,9 +524,11 @@ export class PortalService implements IPortalService {
 
       this.startupInfoObservable.next(this.startupInfo);
       this.logTokenExpiration(this.startupInfo.token, '/portal-service/token-new-startupInfo');
-    } else if (methodName === Verbs.sendToken) {
-      if (this.startupInfo) {
-        this.startupInfo.token = <string>data;
+    } else if (methodName === Verbs.sendToken2) {
+      const sendTokenMessage = <SendToken2>data;
+      const token = sendTokenMessage && sendTokenMessage.token;
+      if (this.startupInfo && !!token && this.startupInfo.token !== token) {
+        this.startupInfo.token = token;
         this.startupInfoObservable.next(this.startupInfo);
         this.logTokenExpiration(this.startupInfo.token, '/portal-service/token-new');
       }
