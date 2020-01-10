@@ -5547,25 +5547,4 @@
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>GitHub 작업 워크플로 파일 '{{workflowFilePath}}'이(가) '{{branchName}}' 분기에 이미 있으므로, 계속하면 이 파일을 덮어쓰게 됩니다.</value>
     </data>
-  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
-        <value>Visual Studio 2015에서는 원격 디버깅이 더 이상 지원되지 않습니다. 지원되는 Visual Studio 버전을 선택하세요.</value>
-    </data>
-  <data name="functionCreate_selectTemplate" xml:space="preserve">
-        <value>세부 정보를 보려면 이전 탭에서 템플릿을 선택하세요.</value>
-    </data>
-  <data name="functionTestInput" xml:space="preserve">
-        <value>입력</value>
-    </data>
-  <data name="functionTestOutput" xml:space="preserve">
-        <value>출력</value>
-    </data>
-  <data name="functionTestInputDescription" xml:space="preserve">
-        <value>HTTP 요청을 테스트하는 매개 변수를 제공합니다. 결과는 [출력] 탭에서 확인할 수 있습니다.</value>
-    </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP 응답</value>
-    </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>HTTP 응답 상태</value>
-    </data>
 </root>

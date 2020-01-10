@@ -5547,25 +5547,4 @@
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>Файл рабочего процесса GitHub Action "{{workflowFilePath}}" уже существует в ветви "{{branchName}}". При продолжении он будет перезаписан.</value>
     </data>
-  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
-        <value>Visual Studio 2015 больше не поддерживается для удаленной отладки. Выберите поддерживаемую версию Visual Studio.</value>
-    </data>
-  <data name="functionCreate_selectTemplate" xml:space="preserve">
-        <value>Чтобы просмотреть подробные сведения, выберите шаблон на предыдущей вкладке.</value>
-    </data>
-  <data name="functionTestInput" xml:space="preserve">
-        <value>Ввод</value>
-    </data>
-  <data name="functionTestOutput" xml:space="preserve">
-        <value>Вывод</value>
-    </data>
-  <data name="functionTestInputDescription" xml:space="preserve">
-        <value>Укажите параметры для тестирования HTTP-запроса. Результаты можно найти на вкладке "Выходные данные".</value>
-    </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP-ответ</value>
-    </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>Состояние HTTP-ответа</value>
-    </data>
 </root>

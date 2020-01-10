@@ -5547,25 +5547,4 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>GitHub eylemi iş akışı dosyası olan '{{workflowFilePath}}', '{{branchName}} ' dalında zaten var. İşleme devam edildiğinde bu dosyanın üzerine yazılacak.</value>
     </data>
-  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
-        <value>Visual Studio 2015, artık uzaktan hata ayıklama için desteklenmiyor. Lütfen desteklenen bir Visual Studio sürümü seçin.</value>
-    </data>
-  <data name="functionCreate_selectTemplate" xml:space="preserve">
-        <value>Ayrıntıları görmek için önceki sekmeden bir şablon seçin.</value>
-    </data>
-  <data name="functionTestInput" xml:space="preserve">
-        <value>Giriş</value>
-    </data>
-  <data name="functionTestOutput" xml:space="preserve">
-        <value>Çıktı</value>
-    </data>
-  <data name="functionTestInputDescription" xml:space="preserve">
-        <value>HTTP isteğini test etmek için parametreleri belirtin. Sonuçları Çıkış sekmesinde bulabilirsiniz.</value>
-    </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP yanıtı</value>
-    </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>HTTP yanıt durumu</value>
-    </data>
 </root>
