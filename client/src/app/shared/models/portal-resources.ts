@@ -1797,10 +1797,9 @@ export class PortalResources {
   public static functionTestInput = 'functionTestInput';
   public static functionTestOutput = 'functionTestOutput';
   public static functionTestInputDescription = 'functionTestInputDescription';
-  public static httpRun_response = 'httpRun_response';
-  public static httpRun_responseStatus = 'httpRun_responseStatus';
+  public static httpRun_responseContent = 'httpRun_responseContent';
+  public static httpRun_responseCode = 'httpRun_responseCode';
   public static editor_changeFileConfirmMessage = 'editor_changeFileConfirmMessage';
   public static editor_changeFile = 'editor_changeFile';
   public static defaultDocumentsInfoMessage = 'defaultDocumentsInfoMessage';
-  public static httpRun_responseCode = 'httpRun_responseCode';
 }
