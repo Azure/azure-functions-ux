@@ -41,3 +41,8 @@ export interface ResponseContent {
   code: number;
   text?: string;
 }
+
+export enum PivotType {
+  input = 'input',
+  output = 'output',
+}

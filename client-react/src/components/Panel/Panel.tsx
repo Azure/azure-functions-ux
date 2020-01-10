@@ -9,10 +9,11 @@ type IPanelPropsReduced = Pick<IPanelProps, Exclude<keyof IPanelProps, 'styles' 
 
 interface CustomPanelProps {
   style?: {};
+  headerContent?: JSX.Element;
 }
 
 const Panel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
-  const { headerText, isOpen, type, style: customPanelStyle, ...rest } = props;
+  const { headerText, isOpen, type, style: customPanelStyle, headerContent, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
@@ -27,7 +28,8 @@ const Panel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
     return (
       <div className={panelHeaderStyle}>
         {headerText && <h3>{headerText}</h3>}
-        <CloseSvg onClick={onClick} tabIndex={0} role="button" aria-label={t('close')} className={closeButtonStyle(theme)} />
+        <CloseSvg onClick={onClick} tabIndex={1} role="button" aria-label={t('close')} className={closeButtonStyle(theme)} />
+        {!!headerContent && headerContent}
       </div>
     );
   };
