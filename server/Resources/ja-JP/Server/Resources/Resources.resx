@@ -5563,9 +5563,9 @@
         <value>HTTP 要求をテストするためのパラメーターを指定します。結果は [出力] タブに表示されます。</value>
     </data>
   <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP response</value>
+        <value>HTTP 応答</value>
     </data>
   <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>HTTP response status</value>
+        <value>HTTP 応答の状態</value>
     </data>
 </root>
