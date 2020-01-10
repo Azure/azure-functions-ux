@@ -32,3 +32,9 @@ export const disableTestPanelStyle = style({
   backgroundColor: 'rgba(255, 255, 255, 0.4)',
   pointerEvents: 'none',
 });
+
+export const commandBarSticky = style({
+  position: 'sticky',
+  top: 0,
+  zIndex: 1,
+});

@@ -17,7 +17,7 @@ import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
-import { pivotStyle, testLoadingStyle, disableTestPanelStyle } from './FunctionEditor.styles';
+import { pivotStyle, testLoadingStyle, disableTestPanelStyle, commandBarSticky } from './FunctionEditor.styles';
 
 // TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
@@ -279,39 +279,41 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   }, []);
   return (
     <>
-      <FunctionEditorCommandBar
-        saveFunction={save}
-        resetFunction={discard}
-        testFunction={test}
-        showGetFunctionUrlCommand={!!inputBinding}
-        dirty={dirty}
-        disabled={isLoading()}
-        hostKeyDropdownOptions={hostKeyDropdownOptions}
-        hostKeyDropdownSelectedKey={'master'}
-        hostUrls={hostUrls}
-      />
-      <ConfirmDialog
-        primaryActionButton={{
-          title: t('ok'),
-          onClick: () => !!selectedDropdownOption && changeDropdownOption(selectedDropdownOption),
-        }}
-        defaultActionButton={{
-          title: t('cancel'),
-          onClick: closeConfirmDialog,
-        }}
-        title={t('editor_changeFile')}
-        content={t('editor_changeFileConfirmMessage')}
-        hidden={!selectedDropdownOption}
-        onDismiss={closeConfirmDialog}
-      />
-      <FunctionEditorFileSelectorBar
-        disabled={isLoading()}
-        functionAppNameLabel={site.name}
-        functionInfo={functionInfo}
-        fileDropdownOptions={getDropdownOptions()}
-        fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
-        onChangeDropdown={onFileSelectorChange}
-      />
+      <div className={commandBarSticky}>
+        <FunctionEditorCommandBar
+          saveFunction={save}
+          resetFunction={discard}
+          testFunction={test}
+          showGetFunctionUrlCommand={!!inputBinding}
+          dirty={dirty}
+          disabled={isLoading()}
+          hostKeyDropdownOptions={hostKeyDropdownOptions}
+          hostKeyDropdownSelectedKey={'master'}
+          hostUrls={hostUrls}
+        />
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('ok'),
+            onClick: () => !!selectedDropdownOption && changeDropdownOption(selectedDropdownOption),
+          }}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: closeConfirmDialog,
+          }}
+          title={t('editor_changeFile')}
+          content={t('editor_changeFileConfirmMessage')}
+          hidden={!selectedDropdownOption}
+          onDismiss={closeConfirmDialog}
+        />
+        <FunctionEditorFileSelectorBar
+          disabled={isLoading()}
+          functionAppNameLabel={site.name}
+          functionInfo={functionInfo}
+          fileDropdownOptions={getDropdownOptions()}
+          fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
+          onChangeDropdown={onFileSelectorChange}
+        />
+      </div>
       <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerContent={getHeaderContent()}>
         {functionRunning && <LoadingComponent className={testLoadingStyle} />}
         <FunctionTest
