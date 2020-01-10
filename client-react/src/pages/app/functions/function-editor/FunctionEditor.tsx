@@ -144,6 +144,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (fileResponse.metadata.success) {
       let fileText = fileResponse.data as string;
       if (file.mime === 'application/json') {
+        // third parameter refers to the number of white spaces.
+        // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
         fileText = JSON.stringify(fileResponse.data, null, 2);
       }
       setDefaultFileContent(fileText);
