@@ -14,7 +14,6 @@ import {
   SwapOperationType,
   ARMApiVersions,
   Constants,
-  WorkerRuntimeLanguages,
 } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
@@ -80,8 +79,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
   public swapControlsOpen = false;
   public targetSwapSlot: string;
   public siteAvailabilityStateNormal = false;
-  public isLinuxConsumption = false;
-  public isPython = false;
+  public isLinux = false;
 
   private _viewInfo: TreeViewInfo<SiteData>;
   private _subs: Subscription[];
@@ -134,7 +132,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       .switchMap(context => {
         this.context = context;
         this.siteAvailabilityStateNormal = context.site.properties.availabilityState === SiteAvailabilityState.Normal;
-        this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
+        this.isLinux = ArmUtil.isLinuxApp(this.context.site);
 
         this._setResourceInformation(context);
         this._setAppServicePlanData(context);
@@ -205,10 +203,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           !this.siteAvailabilityStateNormal;
 
         const appSettings = r.appSettings && r.appSettings.result && r.appSettings.result.properties;
-        this.isPython =
-          appSettings &&
-          appSettings[Constants.functionsWorkerRuntimeAppSettingsName] &&
-          appSettings[Constants.functionsWorkerRuntimeAppSettingsName].toLowerCase() === WorkerRuntimeLanguages.python.toLowerCase();
 
         if (
           r.functionsInfo.length === 0 &&
