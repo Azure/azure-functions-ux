@@ -38,6 +38,7 @@ const FunctionEditorLoadable: any = lazy(() =>
 const FunctionQuickstart: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/quickstart/FunctionQuickstartDataLoader')
 );
+const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-files/AppFilesDataLoader'));
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
@@ -60,6 +61,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                   <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
                   <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
                   <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
+                  <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
                 </Router>
               )
             );
