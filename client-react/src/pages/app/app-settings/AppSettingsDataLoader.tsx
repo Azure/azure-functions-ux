@@ -126,6 +126,15 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
     setLoadingFailure(loadingFailed);
 
+    // The user may have VNET security restrictions enabled. If so, then including "ipSecurityRestrictions" or "scmIpSecurityRestrictions" in the payload for
+    // the config/web API means that the call will require joinViaServiceEndpoint/action permissions on the given subnet(s) referenced in the security restrictions.
+    // If the user doesn't have these permissions, the config/web API call will fail. (This is true even if these properties are just being round-tripped.)
+    // Since this UI doesn't allow modifying these properties, we can just remove them from the config object to avoid the unnecessary permissions requirement.
+    if (webConfig.data) {
+      delete webConfig.data.properties.ipSecurityRestrictions;
+      delete webConfig.data.properties.scmIpSecurityRestrictions;
+    }
+
     if (!loadingFailed) {
       setCurrentSiteNonForm(site.data);
 
