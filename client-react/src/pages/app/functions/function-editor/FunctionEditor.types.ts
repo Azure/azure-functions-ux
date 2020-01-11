@@ -46,3 +46,8 @@ export enum PivotType {
   input = 'input',
   output = 'output',
 }
+
+export interface FileContent {
+  default: string;
+  latest: string;
+}
