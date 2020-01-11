@@ -103,7 +103,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setSelectedFileContent(option.data);
     getAndSetEditorLanguage(option.data.name);
     setFetchingFileContent(false);
-    setDirty(false);
   };
 
   const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
