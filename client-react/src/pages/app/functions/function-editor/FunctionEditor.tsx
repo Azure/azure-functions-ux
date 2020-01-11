@@ -10,7 +10,7 @@ import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-r
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
-import { InputFormValues, EditorLanguage, ResponseContent, PivotType } from './FunctionEditor.types';
+import { InputFormValues, EditorLanguage, ResponseContent, PivotType, FileContent } from './FunctionEditor.types';
 import { FormikActions } from 'formik';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
@@ -41,8 +41,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
-  const [defaultFileContent, setDefaultFileContent] = useState('');
-  const [newFileContent, setNewFileContent] = useState('');
+  const [fileContent, setFileContent] = useState<FileContent>({ default: '', latest: '' });
   const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
   const [dirty, setDirty] = useState<boolean>(false);
@@ -67,19 +66,18 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       site.id,
       functionInfo.properties.name,
       fileData.name,
-      newFileContent,
+      fileContent.latest,
       runtimeVersion,
       headers
     );
     if (fileResponse.metadata.success) {
-      setDefaultFileContent(newFileContent);
-      setDirty(false);
+      setFileContent({ ...fileContent, default: fileContent.latest });
     }
     setSavingFile(false);
   };
 
   const discard = () => {
-    setNewFileContent(defaultFileContent);
+    setFileContent({ ...fileContent, latest: fileContent.default });
   };
 
   const test = () => {
@@ -105,7 +103,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setSelectedFileContent(option.data);
     getAndSetEditorLanguage(option.data.name);
     setFetchingFileContent(false);
-    setDirty(false);
   };
 
   const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
@@ -151,8 +148,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
         fileText = JSON.stringify(fileResponse.data, null, 2);
       }
-      setDefaultFileContent(fileText);
-      setNewFileContent(fileText);
+      setFileContent({ default: fileText, latest: fileText });
     }
   };
 
@@ -183,7 +179,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   ];
 
   const onChange = (newValue, event) => {
-    setNewFileContent(newValue);
+    setFileContent({ ...fileContent, latest: newValue });
   };
 
   const getAndSetEditorLanguage = (fileName: string) => {
@@ -265,8 +261,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   useEffect(() => {
-    setDirty(newFileContent !== defaultFileContent);
-  }, [newFileContent, defaultFileContent]);
+    setDirty(fileContent.default !== fileContent.latest);
+  }, [fileContent]);
   useEffect(() => {
     if (!!responseContent) {
       changePivotTab(PivotType.output);
@@ -335,7 +331,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       {isLoading() && <LoadingComponent />}
       <div className={editorStyle}>
         <MonacoEditor
-          value={newFileContent}
+          value={fileContent.latest}
           language={editorLanguage}
           onChange={onChange}
           disabled={isLoading()}
