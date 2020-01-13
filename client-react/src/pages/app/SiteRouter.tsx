@@ -57,11 +57,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                   <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
                   <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
                   <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
-                  <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
+                  <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys1" />
                   <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
                   <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
                   <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
-                  <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
+                  <AppFilesLoadable resourceId={value.resourceId} path="/appkeys" />
                 </Router>
               )
             );
