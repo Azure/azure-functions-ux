@@ -152,7 +152,7 @@ export default class FunctionsService {
 
   public static getFileContent(
     resourceId: string,
-    functionName: string,
+    functionName?: string,
     runtimeVersion?: string,
     headers?: { [key: string]: string },
     fileName?: string
@@ -163,7 +163,7 @@ export default class FunctionsService {
       case RuntimeExtensionMajorVersions.v3: {
         return MakeArmCall<VfsObject[] | string>({
           headers,
-          resourceId: `${resourceId}/hostruntime/admin/vfs/${functionName}${!!fileName ? `/${fileName}` : ''}`,
+          resourceId: `${resourceId}/hostruntime/admin/vfs${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`,
           commandName: 'getFileContent',
           queryString: '?relativePath=1',
           method: 'GET',
@@ -174,7 +174,9 @@ export default class FunctionsService {
       default: {
         return MakeArmCall<VfsObject[] | string>({
           headers,
-          resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot/${functionName}${!!fileName ? `/${fileName}` : ''}`,
+          resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot${!!functionName ? `/${functionName}` : ''}${
+            !!fileName ? `/${fileName}` : ''
+          }`,
           commandName: 'getFileContent',
           method: 'GET',
           skipBuffer: !!fileName,
