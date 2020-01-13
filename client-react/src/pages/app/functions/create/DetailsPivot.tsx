@@ -48,6 +48,7 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
       <>
         <Formik
           initialValues={initialFormValues}
+          isInitialValid={true}
           onSubmit={formValues => {
             setCreatingFunction(true);
             provider.createFunction(portalCommunicator, t, resourceId, selectedFunctionTemplate, formValues);
