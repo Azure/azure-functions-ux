@@ -35,6 +35,8 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { run, cancel, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab, functionRunning } = props;
 
   useEffect(() => {
+    defaultInputFormValues.headers = [];
+    defaultInputFormValues.queries = [];
     try {
       const testData = JSON.parse(functionInfo.properties.test_data);
       if (!!testData.body) {
