@@ -91,7 +91,13 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     const headers = {
       'Content-Type': file.mime,
     };
-    const fileResponse = await FunctionsService.getFileContent(site.id, undefined, runtimeVersion, headers, file.name);
+    const fileResponse = await FunctionsService.getFileContent(
+      site.id,
+      undefined /** We don't need a function-name for accessing the files at Site-level */,
+      runtimeVersion,
+      headers,
+      file.name
+    );
     if (fileResponse.metadata.success) {
       let fileText = fileResponse.data as string;
       if (file.mime === 'application/json') {
