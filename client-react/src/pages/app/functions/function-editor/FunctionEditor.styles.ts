@@ -9,10 +9,6 @@ export const fileSelectorStackStyle = (theme: ThemeExtended) =>
     borderBottom: `1px solid ${theme.palette.neutralTertiaryAlt}`,
   });
 
-export const fileDropdownStyle = style({
-  minWidth: '200px',
-});
-
 export const pivotWrapper = style({
   paddingLeft: '8px',
 });
@@ -48,6 +44,11 @@ export const fileSelectorDropdownStyle = () => styleProps => {
     ],
     title: [...baseStyle.title],
     errorMessage: [...baseStyle.errorMessage],
-    dropdown: [...baseStyle.dropdown],
+    dropdown: [
+      ...baseStyle.dropdown,
+      {
+        minWidth: '200px',
+      },
+    ],
   } as IDropdownStyles;
 };
