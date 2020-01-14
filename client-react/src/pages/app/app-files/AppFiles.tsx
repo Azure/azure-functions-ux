@@ -100,8 +100,8 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     const options = getDropdownOptions();
     const file = options.length > 0 ? options[0] : undefined;
     if (!!file) {
-      setSelectedFileContent(file.data);
       setSelectedFile(file);
+      setSelectedFileContent(file.data);
       getAndSetEditorLanguage(file.data.name);
     }
     setInitialLoading(false);
