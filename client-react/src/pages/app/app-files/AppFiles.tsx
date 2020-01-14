@@ -30,10 +30,33 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
   const [fileContent, setFileContent] = useState<FileContent>({ default: '', latest: '' });
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
+  const [savingFile, setSavingFile] = useState(false);
 
   const { t } = useTranslation();
 
-  const save = () => {};
+  const save = async () => {
+    if (!selectedFile) {
+      return;
+    }
+    setSavingFile(true);
+    const fileData = selectedFile.data;
+    const headers = {
+      'Content-Type': fileData.mime,
+      'If-Match': '*',
+    };
+    const fileResponse = await FunctionsService.saveFileContent(
+      site.id,
+      fileData.name,
+      fileContent.latest,
+      undefined /** We don't need a function-name for accessing the files at Site-level */,
+      runtimeVersion,
+      headers
+    );
+    if (fileResponse.metadata.success) {
+      setFileContent({ ...fileContent, default: fileContent.latest });
+    }
+    setSavingFile(false);
+  };
 
   const discard = () => {
     setFileContent({ ...fileContent, latest: fileContent.default });
@@ -68,7 +91,13 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     const headers = {
       'Content-Type': file.mime,
     };
-    const fileResponse = await FunctionsService.getFileContent(site.id, undefined, runtimeVersion, headers, file.name);
+    const fileResponse = await FunctionsService.getFileContent(
+      site.id,
+      undefined /** We don't need a function-name for accessing the files at Site-level */,
+      runtimeVersion,
+      headers,
+      file.name
+    );
     if (fileResponse.metadata.success) {
       let fileText = fileResponse.data as string;
       if (file.mime === 'application/json') {
@@ -80,7 +109,9 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     }
   };
 
-  const onChange = (newValue, event) => {};
+  const onChange = (newValue, event) => {
+    setFileContent({ ...fileContent, latest: newValue });
+  };
 
   const getDropdownOptions = (): IDropdownOption[] => {
     return !!fileList
@@ -141,7 +172,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
         disabled={false}
         onChangeDropdown={onFileSelectorChange}
       />
-      {isLoading() && <LoadingComponent />}
+      {(isLoading() || savingFile) && <LoadingComponent />}
       <div className={editorStyle}>
         <MonacoEditor
           value={fileContent.latest}

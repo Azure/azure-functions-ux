@@ -157,13 +157,14 @@ export default class FunctionsService {
     headers?: { [key: string]: string },
     fileName?: string
   ) {
+    const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
     switch (runtimeVersion) {
       case RuntimeExtensionMajorVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3: {
         return MakeArmCall<VfsObject[] | string>({
           headers,
-          resourceId: `${resourceId}/hostruntime/admin/vfs${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`,
+          resourceId: `${resourceId}/hostruntime/admin/vfs${endpoint}`,
           commandName: 'getFileContent',
           queryString: '?relativePath=1',
           method: 'GET',
@@ -174,9 +175,7 @@ export default class FunctionsService {
       default: {
         return MakeArmCall<VfsObject[] | string>({
           headers,
-          resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot${!!functionName ? `/${functionName}` : ''}${
-            !!fileName ? `/${fileName}` : ''
-          }`,
+          resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot${endpoint}`,
           commandName: 'getFileContent',
           method: 'GET',
           skipBuffer: !!fileName,
@@ -187,19 +186,20 @@ export default class FunctionsService {
 
   public static saveFileContent(
     resourceId: string,
-    functionName: string,
     fileName: string,
     newFileContent: string,
+    functionName?: string,
     runtimeVersion?: string,
     headers?: { [key: string]: string }
   ) {
+    const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
     switch (runtimeVersion) {
       case RuntimeExtensionMajorVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3: {
         return MakeArmCall<VfsObject[] | string>({
           headers,
-          resourceId: `${resourceId}/hostruntime/admin/vfs/${functionName}/${fileName}`,
+          resourceId: `${resourceId}/hostruntime/admin/vfs/${endpoint}`,
           commandName: 'saveFileContent',
           queryString: '?relativePath=1',
           method: 'PUT',
@@ -211,7 +211,7 @@ export default class FunctionsService {
       default: {
         return MakeArmCall<VfsObject[] | string>({
           headers,
-          resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot/${functionName}/${fileName}`,
+          resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot/${endpoint}`,
           commandName: 'saveFileContent',
           method: 'PUT',
           body: newFileContent,
