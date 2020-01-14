@@ -138,7 +138,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     setInitialLoading(false);
   };
 
-  const isLoading = () => initialLoading || fetchingFileContent || savingFile;
+  const isLoading = () => initialLoading || fetchingFileContent;
 
   useEffect(() => {
     setDirty(fileContent.default !== fileContent.latest);
@@ -172,7 +172,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
         disabled={false}
         onChangeDropdown={onFileSelectorChange}
       />
-      {isLoading() && <LoadingComponent />}
+      {(isLoading() || savingFile) && <LoadingComponent />}
       <div className={editorStyle}>
         <MonacoEditor
           value={fileContent.latest}
