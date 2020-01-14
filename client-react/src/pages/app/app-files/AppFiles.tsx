@@ -48,7 +48,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
       site.id,
       fileData.name,
       fileContent.latest,
-      undefined,
+      undefined /** We don't need a function-name for accessing the files at Site-level */,
       runtimeVersion,
       headers
     );
