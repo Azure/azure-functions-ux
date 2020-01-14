@@ -11,7 +11,6 @@ import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
 import { InputFormValues, ResponseContent, PivotType, FileContent } from './FunctionEditor.types';
-import { FormikActions } from 'formik';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
@@ -104,7 +103,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setFetchingFileContent(false);
   };
 
-  const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
+  const run = (values: InputFormValues) => {
     const data = JSON.stringify({
       method: values.method,
       queryStringParams: values.queries,
