@@ -6,7 +6,7 @@ import { style } from 'typestyle';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import StringUtils from '../../../../utils/string';
-import { fileSelectorStackStyle, fileDropdownStyle } from './FunctionEditor.styles';
+import { fileSelectorStackStyle, fileDropdownStyle, fileSelectorDropdownStyle } from './FunctionEditor.styles';
 
 export interface FunctionEditorFileSelectorBarProps {
   fileDropdownOptions: IDropdownOption[];
@@ -49,6 +49,7 @@ const FunctionEditorFileSelectorBar: React.FC<FunctionEditorFileSelectorBarProps
           ariaLabel={t('functionDirectoryDropdownAriaLabel')}
           className={fileDropdownStyle}
           disabled={disabled}
+          styles={fileSelectorDropdownStyle()}
         />
       </Stack>
     </>
