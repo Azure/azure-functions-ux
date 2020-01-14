@@ -1803,4 +1803,5 @@ export class PortalResources {
   public static editor_changeFileConfirmMessage = 'editor_changeFileConfirmMessage';
   public static editor_changeFile = 'editor_changeFile';
   public static defaultDocumentsInfoMessage = 'defaultDocumentsInfoMessage';
+  public static requiredField_validationMessage = 'requiredField_validationMessage';
 }
