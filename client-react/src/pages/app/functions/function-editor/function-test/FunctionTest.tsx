@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import FunctionTestInput from './FunctionTestInput';
 import FunctionTestOutput from './FunctionTestOutput';
 import { InputFormValues, HttpMethods, ResponseContent, PivotType } from '../FunctionEditor.types';
-import { Form, FormikProps, Formik, FormikActions } from 'formik';
+import { Form, FormikProps, Formik } from 'formik';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import LogService from '../../../../../utils/LogService';
@@ -35,27 +35,24 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { t } = useTranslation();
   const [statusMessage, setStatusMessage] = useState<StatusMessage | undefined>(undefined);
 
-  const { cancel, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab, functionRunning } = props;
+  const { run, cancel, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab, functionRunning } = props;
 
   const errorMessage = {
     message: t('requiredField_validationMessage'),
     level: MessageBarType.error,
   };
 
-  const runFunction = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
+  const validateForm = (values: InputFormValues) => {
     const emptyQueries = values.queries.filter(q => !q.name || !q.value);
     setStatusMessage(undefined);
 
     if (emptyQueries.length > 0) {
       setStatusMessage(errorMessage);
-      return;
     }
     const emptyHeaders = values.headers.filter(h => !h.name || !h.value);
     if (emptyHeaders.length > 0) {
       setStatusMessage(errorMessage);
-      return;
     }
-    props.run(values);
   };
 
   useEffect(() => {
@@ -91,13 +88,14 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   return (
     <Formik
       initialValues={defaultInputFormValues}
-      onSubmit={runFunction}
+      onSubmit={run}
+      validate={validateForm}
       render={(formProps: FormikProps<InputFormValues>) => {
         const actionBarPrimaryButtonProps = {
           id: 'run',
           title: t('run'),
           onClick: formProps.submitForm,
-          disable: false,
+          disable: !!statusMessage,
         };
 
         const actionBarSecondaryButtonProps = {

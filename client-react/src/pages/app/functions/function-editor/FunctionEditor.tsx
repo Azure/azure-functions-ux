@@ -18,6 +18,7 @@ import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
 import { pivotStyle, testLoadingStyle, commandBarSticky } from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
+import { FormikActions } from 'formik';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -103,7 +104,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setFetchingFileContent(false);
   };
 
-  const run = (values: InputFormValues) => {
+  const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
     const data = JSON.stringify({
       method: values.method,
       queryStringParams: values.queries,
