@@ -138,6 +138,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
           <MonacoEditor
             language="json"
             value={body}
+            height="300px"
             options={{
               minimap: { enabled: false },
               scrollBeyondLastLine: false,
