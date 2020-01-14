@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import FunctionTestInput from './FunctionTestInput';
 import FunctionTestOutput from './FunctionTestOutput';
 import { InputFormValues, HttpMethods, ResponseContent, PivotType } from '../FunctionEditor.types';
-import { Form, FormikProps, Formik } from 'formik';
+import { Form, FormikProps, Formik, FormikActions } from 'formik';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import LogService from '../../../../../utils/LogService';
@@ -14,7 +14,7 @@ import { functionTestBodyStyle } from './FunctionTest.styles';
 import { MessageBarType } from 'office-ui-fabric-react';
 
 export interface FunctionTestProps {
-  run: (values: InputFormValues) => void;
+  run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
   cancel: () => void;
   functionInfo: ArmObj<FunctionInfo>;
   reqBody: string;
