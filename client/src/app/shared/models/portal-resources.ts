@@ -1636,9 +1636,10 @@ export class PortalResources {
   public static majorVersion = 'majorVersion';
   public static minorVersion = 'minorVersion';
   public static containerValidationFailed = 'containerValidationFailed';
-  public static integrateNoTriggerDefined = 'integrateNoTriggerDefined';
   public static integrateNoInputsDefined = 'integrateNoInputsDefined';
   public static integrateNoOutputsDefined = 'integrateNoOutputsDefined';
+  public static integrateAddTrigger = 'integrateAddTrigger';
+  public static integrateCreateTrigger = 'integrateCreateTrigger';
   public static integrateAddInput = 'integrateAddInput';
   public static integrateCreateInput = 'integrateCreateInput';
   public static integrateCreateBindingInstructions = 'integrateCreateBindingInstructions';
