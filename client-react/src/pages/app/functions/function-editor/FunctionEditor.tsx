@@ -10,7 +10,7 @@ import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-r
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
-import { InputFormValues, EditorLanguage, ResponseContent, PivotType, FileContent } from './FunctionEditor.types';
+import { InputFormValues, ResponseContent, PivotType, FileContent } from './FunctionEditor.types';
 import { FormikActions } from 'formik';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
@@ -18,8 +18,8 @@ import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
 import { pivotStyle, testLoadingStyle, commandBarSticky } from './FunctionEditor.styles';
+import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 
-// TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
@@ -182,50 +182,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const getAndSetEditorLanguage = (fileName: string) => {
-    const extension = fileName
-      .toLowerCase()
-      .split('.')
-      .pop();
-    let language;
-    switch (extension) {
-      case 'bat':
-        language = EditorLanguage.bat;
-        break;
-      case 'csx':
-        language = EditorLanguage.csharp;
-        break;
-      case 'fsx':
-        language = EditorLanguage.fsharp;
-        break;
-      case 'js':
-        language = EditorLanguage.javascript;
-        break;
-      case 'json':
-        language = EditorLanguage.json;
-        break;
-      case 'ps1':
-        language = EditorLanguage.powershell;
-        break;
-      case 'py':
-        language = EditorLanguage.python;
-        break;
-      case 'ts':
-        language = EditorLanguage.typescript;
-        break;
-      case 'md':
-        language = EditorLanguage.markdown;
-        break;
-      case 'php':
-        language = EditorLanguage.php;
-        break;
-      case 'sh':
-        language = EditorLanguage.shell;
-        break;
-      default:
-        language = EditorLanguage.plaintext;
-        break;
-    }
-    setEditorLanguage(language);
+    setEditorLanguage(EditorManager.getEditorLanguage(fileName));
   };
 
   const isLoading = () => {

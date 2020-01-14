@@ -20,6 +20,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   const { resourceId } = props;
   const [initialLoading, setInitialLoading] = useState(true);
   const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
+  const [runtimeVersion, setRuntimeVersion] = useState<string | undefined>(undefined);
 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
 
@@ -33,6 +34,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
     }
     if (appSettingsResponse.metadata.success) {
       const currentRuntimeVersion = appSettingsResponse.data.properties[CommonConstants.AppSettingNames.functionsExtensionVersion];
+      setRuntimeVersion(currentRuntimeVersion);
       const fileListResponse = await FunctionsService.getFileContent(resourceId, undefined, currentRuntimeVersion);
       setFileList(fileListResponse.data as VfsObject[]);
     }
@@ -49,7 +51,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   }
   return (
     <AppFilesContext.Provider value={appFilesData}>
-      <AppFiles site={site} fileList={fileList} />
+      <AppFiles site={site} fileList={fileList} runtimeVersion={runtimeVersion} />
     </AppFilesContext.Provider>
   );
 };
