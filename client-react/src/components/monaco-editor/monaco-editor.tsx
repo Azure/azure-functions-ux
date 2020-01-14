@@ -99,7 +99,8 @@ class MonacoEditor extends React.Component<any, any> {
   };
 
   public render() {
-    return <div ref={this.assignRef} className={`${editorStyle} ${this.props.disabled ? disabledEditorStyle : ''}`} />;
+    const { height } = this.props;
+    return <div ref={this.assignRef} className={`${editorStyle(height)} ${this.props.disabled ? disabledEditorStyle : ''}`} />;
   }
 
   public updateDimensions() {
@@ -117,6 +118,7 @@ MonacoEditor.propTypes = {
   editorWillMount: PropTypes.func,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
+  height: PropTypes.string,
 };
 const noop = () => {
   return;
@@ -131,6 +133,7 @@ MonacoEditor.defaultProps = {
   editorWillMount: noop,
   onChange: noop,
   disabled: false,
+  height: 'calc(100vh - 100px)',
 };
 
 export default MonacoEditor;
