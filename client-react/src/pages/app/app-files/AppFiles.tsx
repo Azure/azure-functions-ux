@@ -30,10 +30,33 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
   const [fileContent, setFileContent] = useState<FileContent>({ default: '', latest: '' });
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
+  const [savingFile, setSavingFile] = useState(false);
 
   const { t } = useTranslation();
 
-  const save = () => {};
+  const save = async () => {
+    if (!selectedFile) {
+      return;
+    }
+    setSavingFile(true);
+    const fileData = selectedFile.data;
+    const headers = {
+      'Content-Type': fileData.mime,
+      'If-Match': '*',
+    };
+    const fileResponse = await FunctionsService.saveFileContent(
+      site.id,
+      fileData.name,
+      fileContent.latest,
+      undefined,
+      runtimeVersion,
+      headers
+    );
+    if (fileResponse.metadata.success) {
+      setFileContent({ ...fileContent, default: fileContent.latest });
+    }
+    setSavingFile(false);
+  };
 
   const discard = () => {
     setFileContent({ ...fileContent, latest: fileContent.default });
@@ -80,7 +103,9 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     }
   };
 
-  const onChange = (newValue, event) => {};
+  const onChange = (newValue, event) => {
+    setFileContent({ ...fileContent, latest: newValue });
+  };
 
   const getDropdownOptions = (): IDropdownOption[] => {
     return !!fileList
@@ -107,7 +132,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     setInitialLoading(false);
   };
 
-  const isLoading = () => initialLoading || fetchingFileContent;
+  const isLoading = () => initialLoading || fetchingFileContent || savingFile;
 
   useEffect(() => {
     setDirty(fileContent.default !== fileContent.latest);
