@@ -5586,4 +5586,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
     </data>
+    <data name="requiredField_validationMessage" xml:space="preserve">
+        <value>Name and value are required fields</value>
+    </data>
 </root>
