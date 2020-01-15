@@ -34,14 +34,14 @@ export const commandBarSticky = style({
   zIndex: 1,
 });
 
-export const logPanelStyle = style({
-  position: 'sticky',
-  zIndex: 1,
-  bottom: '0',
-  height: '37px',
-  borderTop: '1px solid rgba(204,204,204,.8)',
-  paddingLeft: '10px',
-});
+export const logPanelStyle = (isExpanded: boolean) =>
+  style({
+    position: 'sticky',
+    zIndex: 1,
+    bottom: '0',
+    height: isExpanded ? '208px' : '37px',
+    borderTop: '1px solid rgba(204,204,204,.8)',
+  });
 
 export const editorStyle = style({
   marginTop: '10px',
