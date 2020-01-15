@@ -215,11 +215,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const toggleLogPanelExpansion = () => {
-    const isExpanded = !logPanelExpanded;
-    setLogPanelExpanded(isExpanded);
-    setMonacoHeight(isExpanded ? 'calc(100vh - 310px)' : defaultMonacoEditorHeight);
+    setLogPanelExpanded(!logPanelExpanded);
   };
 
+  useEffect(() => {
+    setMonacoHeight(logPanelExpanded ? 'calc(100vh - 310px)' : defaultMonacoEditorHeight);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logPanelExpanded]);
   useEffect(() => {
     setDirty(fileContent.default !== fileContent.latest);
   }, [fileContent]);
