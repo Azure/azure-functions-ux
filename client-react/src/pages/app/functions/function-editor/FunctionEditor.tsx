@@ -9,7 +9,6 @@ import Panel from '../../../../components/Panel/Panel';
 import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
-import { style } from 'typestyle';
 import { InputFormValues, ResponseContent, PivotType, FileContent } from './FunctionEditor.types';
 import { FormikActions } from 'formik';
 import { VfsObject } from '../../../../models/functions/vfs';
@@ -17,8 +16,10 @@ import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
-import { pivotStyle, testLoadingStyle, commandBarSticky } from './FunctionEditor.styles';
+import { pivotStyle, testLoadingStyle, commandBarSticky, logPanelStyle } from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
+import { editorStyle } from '../../app-files/AppFiles.styles';
+import FunctionLog from './function-log/FunctionLog';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -29,11 +30,6 @@ export interface FunctionEditorProps {
   runtimeVersion?: string;
   fileList?: VfsObject[];
 }
-
-const editorStyle = style({
-  marginTop: '10px',
-  marginRight: '10px',
-});
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning } = props;
@@ -48,6 +44,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [savingFile, setSavingFile] = useState<boolean>(false);
   const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
+  const [monacoHeight /** setMonacoHeight */] = useState('calc(100vh - 138px)');
 
   const { t } = useTranslation();
 
@@ -290,6 +287,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           value={fileContent.latest}
           language={editorLanguage}
           onChange={onChange}
+          height={monacoHeight}
           disabled={isLoading()}
           options={{
             minimap: { enabled: false },
@@ -298,6 +296,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             renderWhitespace: 'all',
           }}
         />
+      </div>
+      <div className={logPanelStyle}>
+        <FunctionLog />
       </div>
     </>
   );

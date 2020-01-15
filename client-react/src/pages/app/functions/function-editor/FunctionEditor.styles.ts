@@ -33,3 +33,18 @@ export const commandBarSticky = style({
   top: 0,
   zIndex: 1,
 });
+
+export const logPanelStyle = style({
+  position: 'sticky',
+  zIndex: 1,
+  bottom: '0',
+  height: '37px',
+  borderTop: '1px solid rgba(204,204,204,.8)',
+  paddingLeft: '10px',
+});
+
+export const editorStyle = style({
+  marginTop: '10px',
+  marginRight: '10px',
+  marginBottom: '15px',
+});
