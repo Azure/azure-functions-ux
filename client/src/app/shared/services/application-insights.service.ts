@@ -27,6 +27,7 @@ export class ApplicationInsightsService {
   private readonly _aiUrl = 'https://api.applicationinsights.io/v1/apps';
   private readonly _aiApiVersion = '2018-04-20';
   private readonly _armTopologyApiVersion = '2017-10-05-preview';
+  private readonly _sourceName: 'Microsoft.Web-FunctionApp';
 
   constructor(
     private _logService: LogService,
@@ -110,7 +111,7 @@ export class ApplicationInsightsService {
       detailBlade: 'LogsBlade',
       detailBladeInputs: {
         resourceId,
-        source: `Microsoft.Web-FunctionApp-${functionAppName}`,
+        source: this._sourceName,
         query: this._getQueryForInvocationTraces(functionAppName, functionName, top),
       },
       extension: 'Microsoft_Azure_Monitoring_Logs',
@@ -127,7 +128,7 @@ export class ApplicationInsightsService {
       detailBlade: 'LogsBlade',
       detailBladeInputs: {
         resourceId,
-        source: `Microsoft.Web-FunctionApp-${functionAppName}`,
+        source: this._sourceName,
         query: this._getQueryForInvocationTraceHistory(operationId, invocationId),
       },
       extension: 'Microsoft_Azure_Monitoring_Logs',
@@ -211,7 +212,7 @@ export class ApplicationInsightsService {
     return (
       `requests ` +
       `| where timestamp >= ago(30d) ` +
-      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name == '${functionName}' ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
       `| summarize count=count() by success`
     );
   }
@@ -223,7 +224,7 @@ export class ApplicationInsightsService {
       `requests ` +
       `| project timestamp, id, operation_Name, success, resultCode, duration, operation_Id, cloud_RoleName, invocationId=customDimensions['InvocationId'] ` +
       `| where timestamp > ago(30d) ` +
-      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name == '${functionName}' ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
       `| order by timestamp desc | take ${top}`
     );
   }

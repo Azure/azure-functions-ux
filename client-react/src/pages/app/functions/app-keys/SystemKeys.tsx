@@ -8,6 +8,7 @@ import {
   SearchBox,
   TooltipHost,
   ICommandBarItemProps,
+  PanelType,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { filterBoxStyle, renewTextStyle } from './AppKeys.styles';
@@ -297,7 +298,8 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
       <Panel
         isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
         onDismiss={onClosePanel}
-        headerText={panelItem === 'edit' ? t('editSystemKey') : t('addSystemKey')}>
+        headerText={panelItem === 'edit' ? t('editSystemKey') : t('addSystemKey')}
+        type={PanelType.medium}>
         <AppKeyAddEdit
           resourceId={resourceId}
           createAppKey={createSystemKey}
@@ -305,6 +307,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
           appKey={currentKey}
           otherAppKeys={systemKeys}
           panelItem={panelItem}
+          showRenewKeyDialog={showRenewKeyDialog}
         />
       </Panel>
     </>

@@ -13,6 +13,9 @@ const DefaultDocumentsPivot: React.FC<FormikProps<AppSettingsFormValues>> = prop
   return (
     <>
       <h3>{t('defaultDocuments')}</h3>
+      <p>
+        <span id="default-documents-info-message">{t('defaultDocumentsInfoMessage')}</span>
+      </p>
       <div className={defaultDocumentsWrapper}>
         <DefaultDocuments {...props} />
       </div>

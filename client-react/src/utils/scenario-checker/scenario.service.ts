@@ -69,7 +69,7 @@ export class ScenarioService {
           };
         }
 
-        throw Error('No runCheck method implemented for Environment: "${env.name}", Scenario: "${check.id}"');
+        throw Error(`No runCheck method implemented for Environment: "${env.name}", Scenario: "${check.id}"`);
       });
 
     return this.getFinalResult(id, results);
@@ -80,20 +80,22 @@ export class ScenarioService {
   // If however it has only implemented a the synchronous "runCheck" method, then it will treat
   // it as an asynchronous function and include its result in the final status calculation.
   public async checkScenarioAsync(id: string, input?: ScenarioCheckInput): Promise<ScenarioCheckResult> {
-    const checks = this._environments.filter(env => env.isCurrentEnvironment(input) && env.scenarioChecks[id]).map(async env => {
-      const check = env.scenarioChecks[id];
-      let runCheckObs: ScenarioResult;
+    const checks = this._environments
+      .filter(env => env.isCurrentEnvironment(input) && env.scenarioChecks[id])
+      .map(async env => {
+        const check = env.scenarioChecks[id];
+        let runCheckObs: ScenarioResult;
 
-      if (check.runCheckAsync) {
-        runCheckObs = await check.runCheckAsync(input);
-      } else if (check.runCheck) {
-        runCheckObs = check.runCheck(input);
-      } else {
-        throw Error('No runCheckAsync or runCheck method implemented for Environment: "${env.name}", Scenario: "${check.id}"');
-      }
+        if (check.runCheckAsync) {
+          runCheckObs = await check.runCheckAsync(input);
+        } else if (check.runCheck) {
+          runCheckObs = check.runCheck(input);
+        } else {
+          throw Error(`No runCheckAsync or runCheck method implemented for Environment: "${env.name}", Scenario: "${check.id}"`);
+        }
 
-      return { ...runCheckObs, id, environmentName: env.name };
-    });
+        return { ...runCheckObs, id, environmentName: env.name };
+      });
 
     if (checks.length === 0) {
       return Promise.resolve({

@@ -43,3 +43,23 @@ export const renewTextStyle = (theme: ThemeExtended) =>
     color: theme.semanticColors.actionLink,
     cursor: 'pointer',
   });
+
+export const renewPanelStyle = () =>
+  style({
+    cursor: 'pointer',
+    paddingBottom: '10px',
+    marginBottom: '20px',
+    boxShadow: 'inset 0px -1px 0px rgba(204, 204, 204, 0.8)',
+  });
+
+export const renewPanelIconStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.actionLink,
+    verticalAlign: 'middle',
+  });
+
+export const renewPanelTextStyle = () =>
+  style({
+    marginLeft: '5px',
+    verticalAlign: 'middle',
+  });

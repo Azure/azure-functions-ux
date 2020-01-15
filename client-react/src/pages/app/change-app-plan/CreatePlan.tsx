@@ -48,9 +48,12 @@ export const CreatePlan = (props: CreatePlanProps) => {
     watchForPlanUpdates(subscriptionId, newPlanInfo$.current, setNewPlanInfo, serverFarmsInWebspace, setNewPlanNameValidationError, t);
     checkIfHasSubscriptionWriteAccess(portalContext, `/subscriptions/${subscriptionId}`, setHasSubscriptionWritePermission);
 
+    const newPlanInfoCurrent = newPlanInfo$.current;
     return () => {
-      newPlanInfo$.current.unsubscribe();
+      newPlanInfoCurrent.unsubscribe();
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onChangePlanName = (e: any, value: string) => {

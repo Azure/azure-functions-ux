@@ -35,6 +35,8 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     if (!enabled) {
       props.setFieldValue('config.properties.remoteDebuggingEnabled', false);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.values.config.properties.linuxFxVersion, remoteDebuggingEnabledStacks]);
   return (
     <div id="app-settings-remote-debugging-section">

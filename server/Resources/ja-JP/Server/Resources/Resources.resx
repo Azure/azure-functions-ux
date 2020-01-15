@@ -5473,7 +5473,7 @@
         <value>バインドを削除しています</value>
     </data>
   <data name="deleteBindingNotificationDetails" xml:space="preserve">
-        <value>{0} を削除しています ({1})</value>
+        <value>{0} ({1}) を削除しています</value>
     </data>
   <data name="deleteBindingNotificationFailed" xml:space="preserve">
         <value>{0} を削除できませんでした ({1}): {2}</value>
@@ -5546,5 +5546,26 @@
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>GitHub アクションのワークフロー ファイル '{{workflowFilePath}}' は '{{branchName}}' ブランチに既に存在します。続行すると、このファイルが上書きされます。</value>
+    </data>
+  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
+        <value>Visual Studio 2015 はリモート デバッグでサポートされなくなりました。サポートされている Visual Studio のバージョンを選択してください。</value>
+    </data>
+  <data name="functionCreate_selectTemplate" xml:space="preserve">
+        <value>詳細を表示するには、前のタブでテンプレートを選択してください。</value>
+    </data>
+  <data name="functionTestInput" xml:space="preserve">
+        <value>入力</value>
+    </data>
+  <data name="functionTestOutput" xml:space="preserve">
+        <value>出力</value>
+    </data>
+  <data name="functionTestInputDescription" xml:space="preserve">
+        <value>HTTP 要求をテストするためのパラメーターを指定します。結果は [出力] タブに表示されます。</value>
+    </data>
+  <data name="httpRun_response" xml:space="preserve">
+        <value>HTTP 応答</value>
+    </data>
+  <data name="httpRun_responseStatus" xml:space="preserve">
+        <value>HTTP 応答の状態</value>
     </data>
 </root>

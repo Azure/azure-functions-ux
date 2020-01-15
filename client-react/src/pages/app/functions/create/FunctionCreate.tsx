@@ -10,14 +10,17 @@ import DetailsPivot from './DetailsPivot';
 import { Links } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { useTranslation } from 'react-i18next';
-import { BindingsConfig } from '../../../../models/functions/bindings-config';
+import { Binding } from '../../../../models/functions/binding';
 import { paddingStyle } from './FunctionCreate.styles';
+import { HostStatus } from '../../../../models/functions/host-status';
 
 export interface FunctionCreateProps {
   functionTemplates: FunctionTemplate[];
-  functionsInfo: ArmObj<FunctionInfo>[];
-  bindingsConfig: BindingsConfig;
+  functionsInfo: ArmObj<FunctionInfo>[] | undefined;
+  bindings: Binding[] | undefined;
   resourceId: string;
+  setRequiredBindingIds: (ids: string[]) => void;
+  hostStatus: HostStatus;
 }
 
 export enum PivotState {
@@ -28,7 +31,7 @@ export enum PivotState {
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
-  const { functionTemplates, functionsInfo, bindingsConfig, resourceId } = props;
+  const { functionTemplates, functionsInfo, bindings, resourceId, setRequiredBindingIds, hostStatus } = props;
   const [pivotStateKey, setPivotStateKey] = useState<PivotState | undefined>(undefined);
   const [selectedFunctionTemplate, setSelectedFunctionTemplate] = useState<FunctionTemplate | undefined>(undefined);
 
@@ -53,6 +56,9 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
               functionTemplates={functionTemplates}
               setSelectedFunctionTemplate={setSelectedFunctionTemplate}
               setPivotStateKey={setPivotStateKey}
+              setRequiredBindingIds={setRequiredBindingIds}
+              bindings={bindings}
+              hostStatus={hostStatus}
             />
           </PivotItem>
           <PivotItem
@@ -63,7 +69,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
             headerText={t('functionCreate_details')}>
             <DetailsPivot
               functionsInfo={functionsInfo}
-              bindingsConfig={bindingsConfig}
+              bindings={bindings}
               selectedFunctionTemplate={selectedFunctionTemplate}
               resourceId={resourceId}
             />

@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 import { FormControlWrapper, Layout } from '../../../../../components/FormControlWrapper/FormControlWrapper';
 import { ArmObj } from '../../../../../models/arm-obj';
-import { BindingConfigDirection, BindingConfigMetadata, BindingsConfig } from '../../../../../models/functions/bindings-config';
-import { BindingDirection, BindingInfo } from '../../../../../models/functions/function-binding';
+import { Binding, BindingDirection } from '../../../../../models/functions/binding';
+import { BindingInfo, BindingDirection as FunctionBindingDirection } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
@@ -14,7 +14,7 @@ import { BindingFormBuilder } from '../../common/BindingFormBuilder';
 import EditBindingCommandBar from './EditBindingCommandBar';
 
 export interface BindingEditorProps {
-  allBindingsConfig: BindingsConfig;
+  allBindings: Binding[];
   currentBindingInfo: BindingInfo;
   functionInfo: ArmObj<FunctionInfo>;
   resourceId: string;
@@ -37,26 +37,25 @@ const fieldWrapperStyle = style({
 });
 
 const BindingEditor: React.SFC<BindingEditorProps> = props => {
-  const { allBindingsConfig: bindingsConfig, currentBindingInfo, resourceId, onSubmit, onDelete } = props;
+  const { allBindings, currentBindingInfo, resourceId, onSubmit, onDelete } = props;
   const { t } = useTranslation();
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const bindingsConfigMetadata = bindingsConfig.bindings;
-  const currentBindingMetadata = bindingsConfigMetadata.find(
-    b => b.type === currentBindingInfo.type && b.direction === getBindingConfigDirection(currentBindingInfo)
-  ) as BindingConfigMetadata;
+  const currentBinding = allBindings.find(
+    b => b.type === currentBindingInfo.type && b.direction === getBindingDirection(currentBindingInfo)
+  ) as Binding;
 
-  if (!currentBindingMetadata) {
+  if (!currentBinding) {
     LogService.error(LogCategories.bindingEditor, 'no-binding-metadata-found', null);
     return <div />;
   }
 
-  const builder = new BindingFormBuilder([currentBindingInfo], [currentBindingMetadata], resourceId, t, bindingsConfig.variables);
+  const builder = new BindingFormBuilder([currentBindingInfo], [currentBinding], resourceId, t);
   const initialFormValues: BindingEditorFormValues = builder.getInitialFormValues();
 
   const submit = (newBindingInfo: BindingInfo) => {
-    const checkboxSettingsMetadata = currentBindingMetadata.settings.filter(s => s.value === 'checkBoxList');
-    for (const settingMetadata of checkboxSettingsMetadata) {
+    const checkboxSettings = (currentBinding.settings && currentBinding.settings.filter(s => s.value === 'checkBoxList')) || [];
+    for (const settingMetadata of checkboxSettings) {
       const newSetting = newBindingInfo[settingMetadata.name];
 
       // ellhamai - Need to double check this assumption.  For httpTriggers, we need to clear out the 'methods'
@@ -88,9 +87,9 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
                 <Field
                   name="type"
                   component={Dropdown}
-                  options={[{ key: currentBindingMetadata.type, text: t(currentBindingMetadata.displayName.substring(1)) }]}
+                  options={[{ key: currentBinding.type, text: currentBinding.displayName }]}
                   disabled={true}
-                  selectedKey={currentBindingMetadata.type}
+                  selectedKey={currentBinding.type}
                   {...formProps}
                 />
               </FormControlWrapper>
@@ -104,16 +103,18 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
   );
 };
 
-export const getBindingConfigDirection = (bindingInfo: BindingInfo): BindingConfigDirection => {
+// Bindings uses 'trigger' as a direction, but functions.json does not
+// These two functions convert between the two kinds
+export const getBindingDirection = (bindingInfo: BindingInfo): BindingDirection => {
   if (bindingInfo.direction === BindingDirection.in) {
-    return bindingInfo.type.toLowerCase().indexOf('trigger') > -1 ? BindingConfigDirection.trigger : BindingConfigDirection.in;
+    return bindingInfo.type.toLowerCase().indexOf('trigger') > -1 ? BindingDirection.trigger : BindingDirection.in;
   }
 
-  return BindingConfigDirection.out;
+  return BindingDirection.out;
 };
 
-export const getBindingDirection = (bindingConfigDirection: BindingConfigDirection): BindingDirection => {
-  return bindingConfigDirection === BindingConfigDirection.out ? BindingDirection.out : BindingDirection.in;
+export const getFunctionBindingDirection = (bindingDirection: BindingDirection): FunctionBindingDirection => {
+  return bindingDirection === BindingDirection.out ? FunctionBindingDirection.out : FunctionBindingDirection.in;
 };
 
 export default BindingEditor;

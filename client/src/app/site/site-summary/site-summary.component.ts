@@ -79,7 +79,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
   public swapControlsOpen = false;
   public targetSwapSlot: string;
   public siteAvailabilityStateNormal = false;
-  public isLinuxConsumption = false;
+  public isLinux = false;
 
   private _viewInfo: TreeViewInfo<SiteData>;
   private _subs: Subscription[];
@@ -132,7 +132,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       .switchMap(context => {
         this.context = context;
         this.siteAvailabilityStateNormal = context.site.properties.availabilityState === SiteAvailabilityState.Normal;
-        this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
+        this.isLinux = ArmUtil.isLinuxApp(this.context.site);
 
         this._setResourceInformation(context);
         this._setAppServicePlanData(context);
