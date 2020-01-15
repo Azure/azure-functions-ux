@@ -81,10 +81,10 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     const functionAppId = resourceId.split('/functions')[0];
     functionIntegrateData.getBinding(functionAppId, bindingId).then(r => {
       if (r.metadata.success) {
-        const newBinding = r.data.properties[0];
+        const newBinding: Binding = r.data.properties[0];
         const bindings = this.state.bindings || [];
-        const indexToUpdate = bindings.findIndex(binding => binding.id === newBinding.id) || bindings.length;
-        bindings[indexToUpdate] = newBinding;
+        const existingBindingIndex = bindings.findIndex(binding => binding.id === newBinding.id);
+        existingBindingIndex === -1 ? bindings.push(newBinding) : (bindings[existingBindingIndex] = newBinding);
 
         this.setState({
           ...this.state,

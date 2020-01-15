@@ -10,7 +10,6 @@ import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-r
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { InputFormValues, ResponseContent, PivotType, FileContent } from './FunctionEditor.types';
-import { FormikActions } from 'formik';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
@@ -20,6 +19,7 @@ import { pivotStyle, testLoadingStyle, commandBarSticky, logPanelStyle } from '.
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 import { editorStyle } from '../../app-files/AppFiles.styles';
 import FunctionLog from './function-log/FunctionLog';
+import { FormikActions } from 'formik';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
