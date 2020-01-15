@@ -44,7 +44,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [savingFile, setSavingFile] = useState<boolean>(false);
   const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
-  const [monacoHeight /** setMonacoHeight */] = useState(defaultMonacoEditorHeight);
+  const [monacoHeight, setMonacoHeight] = useState(defaultMonacoEditorHeight);
+  const [logPanelExpanded, setLogPanelExpanded] = useState(false);
 
   const { t } = useTranslation();
 
@@ -213,6 +214,15 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setSelectedPivotTab(pivotItem);
   };
 
+  const toggleLogPanelExpansion = () => {
+    setLogPanelExpanded(!logPanelExpanded);
+  };
+
+  useEffect(() => {
+    setMonacoHeight(logPanelExpanded ? 'calc(100vh - 310px)' : defaultMonacoEditorHeight);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logPanelExpanded]);
   useEffect(() => {
     setDirty(fileContent.default !== fileContent.latest);
   }, [fileContent]);
@@ -297,8 +307,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           }}
         />
       </div>
-      <div className={logPanelStyle}>
-        <FunctionLog />
+      <div className={logPanelStyle(logPanelExpanded)}>
+        <FunctionLog toggleExpand={toggleLogPanelExpansion} isExpanded={logPanelExpanded} />
       </div>
     </>
   );
