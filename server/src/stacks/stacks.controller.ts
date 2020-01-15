@@ -3,33 +3,45 @@ import { StacksFunctionAppConfigService } from './stacks.functionapp.config.serv
 import { StacksFunctionAppCreateService } from './stacks.functionapp.create.service';
 import { StacksWebAppConfigService } from './stacks.webapp.config.service';
 import { StacksWebAppCreateService } from './stacks.webapp.create.service';
-import { AppType, Blade } from './stacks';
+import { AppType, BladeType } from './stacks';
 
 @Controller('api')
 export class StacksController {
   constructor(
     private _stackFunctionAppConfigService: StacksFunctionAppConfigService,
-    private _stackFunctionAppCrateService: StacksFunctionAppCreateService,
+    private _stackFunctionAppCreateService: StacksFunctionAppCreateService,
     private _stackWebAppConfigService: StacksWebAppConfigService,
     private _stackWebAppCreateService: StacksWebAppCreateService
   ) {}
 
   @Get('stacks')
-  stacks(@Query('appType') appType: AppType, @Query('blade') blade: Blade) {
-    if (appType === 'WebApp' && blade === 'Create') {
-    } else if (appType === 'WebApp' && blade === 'Config') {
-    } else if (appType === 'FunctionApp' && blade === 'Create') {
-    } else if (appType === 'FunctionApp' && blade === 'Config') {
+  stacks(@Query('appType') appType: AppType, @Query('blade') bladeType: BladeType) {
+    if (appType === 'WebApp' && bladeType === 'Create') {
+      return this._getWebAppCreateStacks();
+    } else if (appType === 'WebApp' && bladeType === 'Config') {
+      return this._getWebAppConfigStacks();
+    } else if (appType === 'FunctionApp' && bladeType === 'Create') {
+      return this._getFunctionAppCreateStacks();
+    } else if (appType === 'FunctionApp' && bladeType === 'Config') {
+      return this._getFunctionAppConfigStacks();
     }
 
-    throw new HttpException('Header must contain Storage Connection Container Name', 400);
+    throw new HttpException(`AppType of '${appType}' and blade name '${bladeType}' are not allowed`, 400);
   }
 
-  private _getFunctionAppConfigStacks() {}
+  private _getFunctionAppConfigStacks() {
+    return this._stackFunctionAppConfigService.getStacks();
+  }
 
-  private _getFunctionAppCreateStacks() {}
+  private _getFunctionAppCreateStacks() {
+    return this._stackFunctionAppCreateService.getStacks();
+  }
 
-  private _getWebAppConfigStacks() {}
+  private _getWebAppConfigStacks() {
+    return this._stackWebAppConfigService.getStacks();
+  }
 
-  private _getWebAppCrateStacks() {}
+  private _getWebAppCreateStacks() {
+    return this._stackWebAppCreateService.getStacks();
+  }
 }

@@ -1,5 +1,5 @@
 export type AppType = 'WebApp' | 'FunctionApp';
-export type Blade = 'Create' | 'Config';
+export type BladeType = 'Create' | 'Config';
 
 export interface WebAppCreateRuntimeStack {
   displayText: string;
