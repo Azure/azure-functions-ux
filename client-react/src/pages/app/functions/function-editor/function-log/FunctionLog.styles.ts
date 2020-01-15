@@ -1,4 +1,5 @@
 import { style } from 'typestyle';
+import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 
 export const chevronIconStyle = (expand?: boolean) =>
   style({
@@ -40,10 +41,11 @@ export const logCommandBarButtonLabelStyle = style({
   cursor: 'pointer',
 });
 
-export const logCommandBarButtonStyle = style({
-  color: '#0078D4',
-  paddingRight: '5px',
-});
+export const logCommandBarButtonStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.primaryButtonBackground,
+    paddingRight: '5px',
+  });
 
 export const logCommandBarSeparatorStyle = style({
   marginLeft: '7px',

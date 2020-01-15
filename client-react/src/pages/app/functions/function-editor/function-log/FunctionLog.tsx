@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { ReactComponent as DownChevron } from './../../../../../images/Common/down-chevron.svg';
 import {
   chevronIconStyle,
@@ -12,6 +12,7 @@ import {
 } from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
 import { Icon } from 'office-ui-fabric-react';
+import { ThemeContext } from '../../../../../ThemeContext';
 interface FunctionLogProps {
   toggleExpand: () => void;
   isExpanded: boolean;
@@ -23,6 +24,8 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const [connected, setConnected] = useState(true);
   const [maximized, setMaximized] = useState(false);
   const [started, setStarted] = useState(false);
+
+  const theme = useContext(ThemeContext);
 
   const onExpandClick = () => {
     toggleExpand();
@@ -52,12 +55,12 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
             <span onClick={toggleConnection} className={logCommandBarButtonLabelStyle}>
               {connected ? (
                 <>
-                  <Icon iconName="PlugDisconnected" className={logCommandBarButtonStyle} />
+                  <Icon iconName="PlugDisconnected" className={logCommandBarButtonStyle(theme)} />
                   {t('disconnect')}
                 </>
               ) : (
                 <>
-                  <Icon iconName="PlugConnected" className={logCommandBarButtonStyle} />
+                  <Icon iconName="PlugConnected" className={logCommandBarButtonStyle(theme)} />
                   {t('connect')}
                 </>
               )}
@@ -65,34 +68,34 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
             <span onClick={toggleStart} className={logCommandBarButtonLabelStyle}>
               {started ? (
                 <>
-                  <Icon iconName="Stop" className={logCommandBarButtonStyle} />
+                  <Icon iconName="Stop" className={logCommandBarButtonStyle(theme)} />
                   {t('stop')}
                 </>
               ) : (
                 <>
-                  <Icon iconName="TriangleRight12" className={logCommandBarButtonStyle} />
+                  <Icon iconName="TriangleRight12" className={logCommandBarButtonStyle(theme)} />
                   {t('start')}
                 </>
               )}
             </span>
             <span className={logCommandBarSeparatorStyle} />
             <span className={logCommandBarButtonLabelStyle}>
-              <Icon iconName="Copy" className={logCommandBarButtonStyle} />
+              <Icon iconName="Copy" className={logCommandBarButtonStyle(theme)} />
               {t('functionKeys_copy')}
             </span>
             <span className={logCommandBarButtonLabelStyle}>
-              <Icon iconName="CalculatorMultiply" className={logCommandBarButtonStyle} />
+              <Icon iconName="CalculatorMultiply" className={logCommandBarButtonStyle(theme)} />
               {t('logStreaming_clear')}
             </span>
             <span onClick={toggleMaximize} className={logCommandBarButtonLabelStyle}>
               {maximized ? (
                 <>
-                  <Icon iconName="BackToWindow" className={logCommandBarButtonStyle} />
+                  <Icon iconName="BackToWindow" className={logCommandBarButtonStyle(theme)} />
                   {t('minimize')}
                 </>
               ) : (
                 <>
-                  <Icon iconName="FullScreen" className={logCommandBarButtonStyle} />
+                  <Icon iconName="FullScreen" className={logCommandBarButtonStyle(theme)} />
                   {t('maximize')}
                 </>
               )}
