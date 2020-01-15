@@ -11,7 +11,6 @@ import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { style } from 'typestyle';
 import { InputFormValues, ResponseContent, PivotType, FileContent } from './FunctionEditor.types';
-import { FormikActions } from 'formik';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
@@ -19,6 +18,7 @@ import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
 import { pivotStyle, testLoadingStyle, commandBarSticky } from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
+import { FormikActions } from 'formik';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
