@@ -48,3 +48,5 @@ export const editorStyle = style({
   marginRight: '10px',
   marginBottom: '15px',
 });
+
+export const defaultMonacoEditorHeight = 'calc(100vh - 138px)';

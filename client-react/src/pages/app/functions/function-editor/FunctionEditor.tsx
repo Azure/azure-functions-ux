@@ -15,7 +15,7 @@ import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
-import { pivotStyle, testLoadingStyle, commandBarSticky, logPanelStyle } from './FunctionEditor.styles';
+import { pivotStyle, testLoadingStyle, commandBarSticky, logPanelStyle, defaultMonacoEditorHeight } from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 import { editorStyle } from '../../app-files/AppFiles.styles';
 import FunctionLog from './function-log/FunctionLog';
@@ -44,7 +44,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [savingFile, setSavingFile] = useState<boolean>(false);
   const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
-  const [monacoHeight /** setMonacoHeight */] = useState('calc(100vh - 138px)');
+  const [monacoHeight /** setMonacoHeight */] = useState(defaultMonacoEditorHeight);
 
   const { t } = useTranslation();
 
