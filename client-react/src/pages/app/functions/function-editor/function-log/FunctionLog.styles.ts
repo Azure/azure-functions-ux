@@ -1,4 +1,5 @@
 import { style } from 'typestyle';
+import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 
 export const chevronIconStyle = (expand?: boolean) =>
   style({
@@ -13,6 +14,7 @@ export const logCommandBarStyle = style({
   display: 'flex',
   alignItems: 'center',
   marginLeft: '10px',
+  justifyContent: 'space-between',
 });
 
 export const logExpandButtonStyle = style({
@@ -23,4 +25,32 @@ export const logStreamStyle = style({
   height: '171px',
   backgroundColor: '#000000',
   overflow: 'auto',
+});
+
+export const logCommandBarButton = style({
+  marginTop: '5px',
+  paddingRight: '5px',
+});
+
+export const logCommandBarButtonListStyle = style({
+  float: 'right',
+});
+
+export const logCommandBarButtonLabelStyle = style({
+  marginRight: '16px',
+  cursor: 'pointer',
+});
+
+export const logCommandBarButtonStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.primaryButtonBackground,
+    paddingRight: '5px',
+  });
+
+export const logCommandBarSeparatorStyle = style({
+  marginLeft: '7px',
+  marginRight: '23px',
+  width: '1px',
+  border: '1px solid rgba(128, 128, 128, 0.7)',
+  height: '16px',
 });

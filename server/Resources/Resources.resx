@@ -5589,4 +5589,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="requiredField_validationMessage" xml:space="preserve">
         <value>Name and value are required fields</value>
     </data>
+    <data name="maximize" xml:space="preserve">
+        <value>Maximize</value>
+    </data>
+    <data name="minimize" xml:space="preserve">
+        <value>Minimize</value>
+    </data>
+    <data name="connect" xml:space="preserve">
+        <value>Connect</value>
+    </data>
 </root>
