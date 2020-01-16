@@ -9,15 +9,16 @@ import Panel from '../../../../components/Panel/Panel';
 import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
-import { style } from 'typestyle';
 import { InputFormValues, ResponseContent, PivotType, FileContent } from './FunctionEditor.types';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
-import { pivotStyle, testLoadingStyle, commandBarSticky } from './FunctionEditor.styles';
+import { pivotStyle, testLoadingStyle, commandBarSticky, logPanelStyle, defaultMonacoEditorHeight } from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
+import { editorStyle } from '../../app-files/AppFiles.styles';
+import FunctionLog from './function-log/FunctionLog';
 import { FormikActions } from 'formik';
 
 export interface FunctionEditorProps {
@@ -29,11 +30,6 @@ export interface FunctionEditorProps {
   runtimeVersion?: string;
   fileList?: VfsObject[];
 }
-
-const editorStyle = style({
-  marginTop: '10px',
-  marginRight: '10px',
-});
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning } = props;
@@ -48,6 +44,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [savingFile, setSavingFile] = useState<boolean>(false);
   const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
+  const [monacoHeight, setMonacoHeight] = useState(defaultMonacoEditorHeight);
+  const [logPanelExpanded, setLogPanelExpanded] = useState(false);
+  const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
 
   const { t } = useTranslation();
 
@@ -216,6 +215,15 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setSelectedPivotTab(pivotItem);
   };
 
+  const toggleLogPanelExpansion = () => {
+    setLogPanelExpanded(!logPanelExpanded);
+  };
+
+  useEffect(() => {
+    setMonacoHeight(logPanelExpanded ? 'calc(100vh - 310px)' : defaultMonacoEditorHeight);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logPanelExpanded]);
   useEffect(() => {
     setDirty(fileContent.default !== fileContent.latest);
   }, [fileContent]);
@@ -285,19 +293,25 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         />
       </Panel>
       {isLoading() && <LoadingComponent />}
-      <div className={editorStyle}>
-        <MonacoEditor
-          value={fileContent.latest}
-          language={editorLanguage}
-          onChange={onChange}
-          disabled={isLoading()}
-          options={{
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            cursorBlinking: true,
-            renderWhitespace: 'all',
-          }}
-        />
+      {!logPanelFullscreen && (
+        <div className={editorStyle}>
+          <MonacoEditor
+            value={fileContent.latest}
+            language={editorLanguage}
+            onChange={onChange}
+            height={monacoHeight}
+            disabled={isLoading()}
+            options={{
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+              cursorBlinking: true,
+              renderWhitespace: 'all',
+            }}
+          />
+        </div>
+      )}
+      <div className={logPanelStyle(logPanelExpanded, logPanelFullscreen)}>
+        <FunctionLog toggleExpand={toggleLogPanelExpansion} isExpanded={logPanelExpanded} toggleFullscreen={setLogPanelFullscreen} />
       </div>
     </>
   );

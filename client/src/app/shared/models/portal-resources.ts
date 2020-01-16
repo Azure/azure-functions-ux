@@ -1805,4 +1805,7 @@ export class PortalResources {
   public static editor_changeFile = 'editor_changeFile';
   public static defaultDocumentsInfoMessage = 'defaultDocumentsInfoMessage';
   public static requiredField_validationMessage = 'requiredField_validationMessage';
+  public static maximize = 'maximize';
+  public static minimize = 'minimize';
+  public static connect = 'connect';
 }
