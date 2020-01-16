@@ -53,14 +53,18 @@ export const fileSelectorDropdownStyle = () => styleProps => {
   } as IDropdownStyles;
 };
 
-export const logPanelStyle = (isExpanded: boolean) =>
-  style({
-    position: 'sticky',
-    zIndex: 1,
-    bottom: '0',
-    height: isExpanded ? '208px' : '37px',
-    borderTop: '1px solid rgba(204,204,204,.8)',
-  });
+export const logPanelStyle = (isExpanded: boolean, fullscreen: boolean) =>
+  fullscreen
+    ? style({
+        height: 'calc(100vh - 87px)',
+      })
+    : style({
+        position: 'sticky',
+        zIndex: 1,
+        bottom: '0',
+        height: isExpanded ? '212px' : '37px',
+        borderTop: '1px solid rgba(204,204,204,.8)',
+      });
 
 export const editorStyle = style({
   marginTop: '10px',

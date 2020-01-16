@@ -46,6 +46,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
   const [monacoHeight, setMonacoHeight] = useState(defaultMonacoEditorHeight);
   const [logPanelExpanded, setLogPanelExpanded] = useState(false);
+  const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
 
   const { t } = useTranslation();
 
@@ -292,23 +293,25 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         />
       </Panel>
       {isLoading() && <LoadingComponent />}
-      <div className={editorStyle}>
-        <MonacoEditor
-          value={fileContent.latest}
-          language={editorLanguage}
-          onChange={onChange}
-          height={monacoHeight}
-          disabled={isLoading()}
-          options={{
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            cursorBlinking: true,
-            renderWhitespace: 'all',
-          }}
-        />
-      </div>
-      <div className={logPanelStyle(logPanelExpanded)}>
-        <FunctionLog toggleExpand={toggleLogPanelExpansion} isExpanded={logPanelExpanded} />
+      {!logPanelFullscreen && (
+        <div className={editorStyle}>
+          <MonacoEditor
+            value={fileContent.latest}
+            language={editorLanguage}
+            onChange={onChange}
+            height={monacoHeight}
+            disabled={isLoading()}
+            options={{
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+              cursorBlinking: true,
+              renderWhitespace: 'all',
+            }}
+          />
+        </div>
+      )}
+      <div className={logPanelStyle(logPanelExpanded, logPanelFullscreen)}>
+        <FunctionLog toggleExpand={toggleLogPanelExpansion} isExpanded={logPanelExpanded} toggleFullscreen={setLogPanelFullscreen} />
       </div>
     </>
   );
