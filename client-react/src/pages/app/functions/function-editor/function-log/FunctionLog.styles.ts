@@ -21,11 +21,12 @@ export const logExpandButtonStyle = style({
   cursor: 'pointer',
 });
 
-export const logStreamStyle = style({
-  height: '171px',
-  backgroundColor: '#000000',
-  overflow: 'auto',
-});
+export const logStreamStyle = (maximized: boolean) =>
+  style({
+    height: maximized ? 'calc(100vh - 124px)' : '175px',
+    backgroundColor: '#000000',
+    overflow: 'auto',
+  });
 
 export const logCommandBarButton = style({
   marginTop: '5px',

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ReactComponent as DownChevron } from './../../../../../images/Common/down-chevron.svg';
 import {
   chevronIconStyle,
@@ -15,12 +15,13 @@ import { Icon } from 'office-ui-fabric-react';
 import { ThemeContext } from '../../../../../ThemeContext';
 interface FunctionLogProps {
   toggleExpand: () => void;
+  toggleFullscreen: (fullscreen: boolean) => void;
   isExpanded: boolean;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
   const { t } = useTranslation();
-  const { toggleExpand, isExpanded } = props;
+  const { toggleExpand, isExpanded, toggleFullscreen } = props;
   const [connected, setConnected] = useState(true);
   const [maximized, setMaximized] = useState(false);
   const [started, setStarted] = useState(false);
@@ -28,6 +29,9 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const theme = useContext(ThemeContext);
 
   const onExpandClick = () => {
+    if (isExpanded && maximized) {
+      toggleMaximize();
+    }
     toggleExpand();
   };
 
@@ -43,6 +47,11 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     setMaximized(!maximized);
   };
 
+  useEffect(() => {
+    toggleFullscreen(maximized);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [maximized]);
   return (
     <div>
       <div className={logCommandBarStyle}>
@@ -103,7 +112,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
           </span>
         )}
       </div>
-      {isExpanded && <div className={logStreamStyle} />}
+      {isExpanded && <div className={logStreamStyle(maximized)} />}
     </div>
   );
 };
