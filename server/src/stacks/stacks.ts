@@ -1,24 +1,28 @@
+export enum StackAPIVersions {
+  v1 = 'v1',
+}
+
 export interface WebAppConfigStack {
-  id?: string;
   name: string;
   type: string;
   properties: WebAppConfigStackProperties;
+  id?: string;
 }
 
 export interface WebAppConfigStackProperties {
   name: string;
   display: string;
-  dependency?: string;
   majorVersions: WebAppConfigStackMajorVersion[];
   frameworks: WebAppConfigStackFramework[];
+  dependency?: string;
   isDeprecated?: boolean;
 }
 
 export interface WebAppConfigStackFramework {
   name: string;
   display: string;
-  dependency?: string;
   majorVersions: WebAppConfigStackMajorVersion[];
+  dependency?: string;
 }
 
 export interface WebAppConfigStackMajorVersion {

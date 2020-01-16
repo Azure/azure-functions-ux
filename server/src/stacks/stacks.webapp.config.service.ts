@@ -3,36 +3,6 @@ import { WebAppConfigStack } from './stacks';
 
 @Injectable()
 export class StacksWebAppConfigService {
-  getStacks(os?: 'linux' | 'windows'): WebAppConfigStack[] {
-    const windowsStacks = [
-      this._aspNetWindowsStacks,
-      this._nodeWindowsStacks,
-      this._pythonWindowsStacks,
-      this._phpWindowsStacks,
-      this._netCoreWindowsStacks,
-      this._javaWindowsStacks,
-      this._javaContainerWindowsStacks,
-    ];
-
-    const linuxStacks = [
-      this._nodeLinuxStacks,
-      this._pythonLinuxStacks,
-      this._phpLinuxStacks,
-      this._netCoreLinuxStacks,
-      this._rubyLinuxStacks,
-      this._java8LinuxStacks,
-      this._java11LinuxStacks,
-    ];
-
-    if (os === 'linux') {
-      return linuxStacks;
-    } else if (os === 'windows') {
-      return windowsStacks;
-    } else {
-      return windowsStacks.concat(linuxStacks);
-    }
-  }
-
   private _aspNetWindowsStacks: WebAppConfigStack = {
     id: null,
     name: 'aspnet',
@@ -2108,4 +2078,34 @@ export class StacksWebAppConfigService {
       isDeprecated: null,
     },
   };
+
+  getStacks(os?: 'linux' | 'windows'): WebAppConfigStack[] {
+    const windowsStacks = [
+      this._aspNetWindowsStacks,
+      this._nodeWindowsStacks,
+      this._pythonWindowsStacks,
+      this._phpWindowsStacks,
+      this._netCoreWindowsStacks,
+      this._javaWindowsStacks,
+      this._javaContainerWindowsStacks,
+    ];
+
+    const linuxStacks = [
+      this._nodeLinuxStacks,
+      this._pythonLinuxStacks,
+      this._phpLinuxStacks,
+      this._netCoreLinuxStacks,
+      this._rubyLinuxStacks,
+      this._java8LinuxStacks,
+      this._java11LinuxStacks,
+    ];
+
+    if (os === 'linux') {
+      return linuxStacks;
+    } else if (os === 'windows') {
+      return windowsStacks;
+    } else {
+      return windowsStacks.concat(linuxStacks);
+    }
+  }
 }

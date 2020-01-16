@@ -3,12 +3,6 @@ import { FunctionAppStack } from './stacks';
 
 @Injectable()
 export class StacksFunctionAppCreateService {
-  getStacks(): FunctionAppStack[] {
-    const stacks = [this._netCoreStacks, this._nodeStacks, this._pythonStacks, this._java8Stacks, this._powershellStacks];
-
-    return stacks;
-  }
-
   private _netCoreStacks: FunctionAppStack = {
     displayText: '.NET Core',
     value: 'dotnetcore',
@@ -146,4 +140,8 @@ export class StacksFunctionAppCreateService {
       },
     ],
   };
+
+  getStacks(): FunctionAppStack[] {
+    return [this._netCoreStacks, this._nodeStacks, this._pythonStacks, this._java8Stacks, this._powershellStacks];
+  }
 }

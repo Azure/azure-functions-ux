@@ -3,21 +3,6 @@ import { WebAppCreateStack } from './stacks';
 
 @Injectable()
 export class StacksWebAppCreateService {
-  getStacks(): WebAppCreateStack[] {
-    const stacks = [
-      this._aspNetStacks,
-      this._nodeStacks,
-      this._pythonStacks,
-      this._phpStacks,
-      this._netCoreStacks,
-      this._rubyStacks,
-      this._java8Stacks,
-      this._java11Stacks,
-    ];
-
-    return stacks;
-  }
-
   private _aspNetStacks: WebAppCreateStack = {
     displayText: 'ASP.NET',
     value: 'ASP.NET',
@@ -687,4 +672,17 @@ export class StacksWebAppCreateService {
       },
     ],
   };
+
+  getStacks(): WebAppCreateStack[] {
+    return [
+      this._aspNetStacks,
+      this._nodeStacks,
+      this._pythonStacks,
+      this._phpStacks,
+      this._netCoreStacks,
+      this._rubyStacks,
+      this._java8Stacks,
+      this._java11Stacks,
+    ];
+  }
 }
