@@ -5548,4 +5548,25 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>Het werkstroombestand {{workflowFilePath}} voor GitHub bestaat al in de vertakking {{branchName}}. Dit bestand wordt overschreven als u doorgaat.</value>
     </data>
+  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
+        <value>Visual Studio 2015 wordt niet meer ondersteund voor externe foutopsporing. Selecteer een ondersteunde Visual Studio-versie.</value>
+    </data>
+  <data name="functionCreate_selectTemplate" xml:space="preserve">
+        <value>Selecteer een sjabloon op het vorige tabblad om de details weer te geven.</value>
+    </data>
+  <data name="functionTestInput" xml:space="preserve">
+        <value>Invoer</value>
+    </data>
+  <data name="functionTestOutput" xml:space="preserve">
+        <value>Uitvoer</value>
+    </data>
+  <data name="functionTestInputDescription" xml:space="preserve">
+        <value>Geef parameters op om de HTTP-aanvraag te testen. U vindt de resultaten op het tabblad Uitvoer.</value>
+    </data>
+  <data name="httpRun_response" xml:space="preserve">
+        <value>HTTP-antwoord</value>
+    </data>
+  <data name="httpRun_responseStatus" xml:space="preserve">
+        <value>Status HTTP-antwoord</value>
+    </data>
 </root>

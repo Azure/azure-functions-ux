@@ -6,8 +6,9 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { FunctionCreate } from './FunctionCreate';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
-import { BindingsConfig } from '../../../../models/functions/bindings-config';
+import { Binding } from '../../../../models/functions/binding';
 import FunctionCreateData from './FunctionCreate.data';
+import { HostStatus } from '../../../../models/functions/host-status';
 
 const functionCreateData = new FunctionCreateData();
 export const FunctionCreateContext = React.createContext(functionCreateData);
@@ -17,9 +18,10 @@ export interface FunctionCreateDataLoaderProps {
 }
 
 export interface FunctionCreateDataLoaderState {
-  functionTemplates: FunctionTemplate[] | null;
-  functionsInfo: ArmObj<FunctionInfo>[] | null;
-  bindingsConfig: BindingsConfig | null;
+  functionTemplates: FunctionTemplate[] | undefined;
+  functionsInfo: ArmObj<FunctionInfo>[] | undefined;
+  bindings: Binding[] | undefined;
+  hostStatus: HostStatus | undefined;
 }
 
 class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderProps, FunctionCreateDataLoaderState> {
@@ -27,34 +29,35 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
     super(props);
 
     this.state = {
-      functionTemplates: null,
-      functionsInfo: null,
-      bindingsConfig: null,
+      functionTemplates: undefined,
+      functionsInfo: undefined,
+      bindings: undefined,
+      hostStatus: undefined,
     };
   }
 
   public componentWillMount() {
     this._loadTemplates();
     this._loadFunctions();
-    this._loadBindings();
+    this._loadHostStatus();
   }
 
   public render() {
-    if (!this.state.functionTemplates || !this.state.functionsInfo || !this.state.bindingsConfig) {
+    if (!this.state.functionTemplates || !this.state.hostStatus) {
       return <LoadingComponent />;
     }
 
     const { resourceId } = this.props;
-    const functionTemplates = this.state.functionTemplates as FunctionTemplate[];
-    const functionsInfo = this.state.functionsInfo as ArmObj<FunctionInfo>[];
-    const bindingsConfig = this.state.bindingsConfig as BindingsConfig;
+    const functionTemplates = this.state.functionTemplates;
 
     return (
       <FunctionCreateContext.Provider value={functionCreateData}>
         <FunctionCreate
           functionTemplates={functionTemplates}
-          functionsInfo={functionsInfo}
-          bindingsConfig={bindingsConfig}
+          functionsInfo={this.state.functionsInfo}
+          setRequiredBindingIds={this._loadBindings}
+          bindings={this.state.bindings}
+          hostStatus={this.state.hostStatus}
           resourceId={resourceId}
         />
       </FunctionCreateContext.Provider>
@@ -71,11 +74,7 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
           functionTemplates: r.data.properties,
         });
       } else {
-        LogService.trackEvent(
-          LogCategories.functionCreate,
-          'getTemplatesMetadata',
-          `Failed to get functionTemplatesMetadata: ${r.metadata.error}`
-        );
+        LogService.trackEvent(LogCategories.functionCreate, 'getTemplates', `Failed to get templates: ${r.metadata.error}`);
       }
     });
   }
@@ -95,19 +94,41 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
     });
   }
 
-  private _loadBindings() {
-    functionCreateData.getBindings().then(r => {
+  private _loadBindings = (ids: string[]) => {
+    const { resourceId } = this.props;
+    const allBindings: Binding[] = [];
+    const promises: Promise<void>[] = [];
+
+    ids.forEach(id => {
+      const bindingPromise = functionCreateData.getBinding(resourceId, id).then(r => {
+        if (r.metadata.success) {
+          allBindings.push(r.data.properties[0]);
+        } else {
+          LogService.trackEvent(LogCategories.functionCreate, 'getBindings', `Failed to get bindings: ${r.metadata.error}`);
+        }
+      });
+      promises.push(bindingPromise);
+    });
+
+    Promise.all(promises).then(() => {
+      this.setState({
+        ...this.state,
+        bindings: allBindings,
+      });
+    });
+  };
+
+  private _loadHostStatus() {
+    const { resourceId } = this.props;
+
+    functionCreateData.getHostStatus(resourceId).then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
-          bindingsConfig: r.data,
+          hostStatus: r.data.properties,
         });
       } else {
-        LogService.trackEvent(
-          LogCategories.functionCreate,
-          'getBindingConfigMetadata',
-          `Failed to get bindingConfigMetadata: ${r.metadata.error}`
-        );
+        LogService.trackEvent(LogCategories.functionCreate, 'getHostStatus', `Failed to get hostStatus: ${r.metadata.error}`);
       }
     });
   }

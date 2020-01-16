@@ -5,63 +5,35 @@ import React from 'react';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import TextField from '../../../../components/form-controls/TextField';
 import { FormControlWrapper, Layout } from '../../../../components/FormControlWrapper/FormControlWrapper';
-import {
-  BindingConfigDirection,
-  BindingConfigMetadata,
-  BindingConfigUIDefinition,
-  BindingSettingValue,
-  BindingConfigUIValidator,
-  BindingsConfig,
-} from '../../../../models/functions/bindings-config';
+import { Binding, BindingSetting, BindingSettingValue, BindingValidator } from '../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
 import Toggle from '../../../../components/form-controls/Toggle';
+import { getFunctionBindingDirection } from '../integrate/BindingPanel/BindingEditor';
 
 export interface BindingEditorFormValues {
   [key: string]: any;
 }
 
 export class BindingFormBuilder {
-  public static getLocalizedString(s: string, t: i18next.TFunction, variables: { [key: string]: string }) {
-    let result = s;
-    if (s.startsWith('$')) {
-      result = result.substring(1, result.length);
-    } else if (s.startsWith('[variables(')) {
-      // Temporary logic to grab string from variables, which will be removed with ANT86 APIs
-      for (const key in variables) {
-        if (variables.hasOwnProperty(key)) {
-          result = result.replace(`[variables('${key}')]`, variables[key]);
-        }
-      }
-      result = result.substring(1, result.length);
-    }
-
-    return t(result);
-  }
-
-  public static getBindingTypeName = (t: i18next.TFunction, currentBinding: BindingInfo, bindingsConfig: BindingsConfig): string => {
-    return BindingFormBuilder.getLocalizedString(
-      (bindingsConfig.bindings.find(binding => binding.type === currentBinding.type) as BindingConfigMetadata).displayName,
-      t,
-      bindingsConfig.variables
-    );
+  public static getBindingTypeName = (currentBinding: BindingInfo, bindings: Binding[]): string => {
+    return (bindings.find(binding => binding.type === currentBinding.type) as Binding).displayName;
   };
 
   constructor(
     private _bindingInfoList: BindingInfo[],
-    private _bindingMetadataList: BindingConfigMetadata[],
+    private _bindingList: Binding[],
     private _resourceId: string,
-    private _t: i18next.TFunction,
-    private _variables: { [key: string]: string }
+    private _t: i18next.TFunction
   ) {}
 
   public getInitialFormValues(): BindingEditorFormValues {
     const initialFormValues: BindingEditorFormValues = {};
 
     let i = 0;
-    for (const bindingMetadata of this._bindingMetadataList) {
-      for (const setting of bindingMetadata.settings) {
+    for (const binding of this._bindingList) {
+      for (const setting of binding.settings || []) {
         let value = this._bindingInfoList[i][setting.name];
 
         // If the stored value is empty, then make the assumption that everything is selected.
@@ -73,9 +45,8 @@ export class BindingFormBuilder {
         initialFormValues[setting.name] = value;
       }
 
-      // Bindings metadata uses 'trigger' as a direction, but functions.json does not
-      initialFormValues.direction = bindingMetadata.direction === BindingConfigDirection.trigger ? 'in' : bindingMetadata.direction;
-      initialFormValues.type = bindingMetadata.type;
+      initialFormValues.direction = getFunctionBindingDirection(binding.direction);
+      initialFormValues.type = binding.type;
       i += 1;
     }
     return initialFormValues;
@@ -85,8 +56,8 @@ export class BindingFormBuilder {
     const fields: JSX.Element[] = [];
 
     let i = 0;
-    for (const bindingMetadata of this._bindingMetadataList) {
-      for (const setting of bindingMetadata.settings) {
+    for (const binding of this._bindingList) {
+      for (const setting of binding.settings || []) {
         switch (setting.value) {
           case BindingSettingValue.string:
             if (setting.resource) {
@@ -112,12 +83,12 @@ export class BindingFormBuilder {
     return fields;
   }
 
-  private _getTextField(setting: BindingConfigUIDefinition, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
+  private _getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
       <FormControlWrapper
-        label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
+        label={setting.label}
         layout={Layout.vertical}
-        tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+        tooltip={setting.help}
         required={setting.required}
         key={setting.name}>
         <Field
@@ -132,7 +103,7 @@ export class BindingFormBuilder {
     );
   }
 
-  private _getDropdown(setting: BindingConfigUIDefinition, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
+  private _getDropdown(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     let options: IDropdownOption[] = [];
 
     if (setting.enum) {
@@ -141,9 +112,9 @@ export class BindingFormBuilder {
 
     return (
       <FormControlWrapper
-        label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
+        label={setting.label}
         layout={Layout.vertical}
-        tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+        tooltip={setting.help}
         required={setting.required}
         key={setting.name}>
         <Field
@@ -159,12 +130,12 @@ export class BindingFormBuilder {
     );
   }
 
-  private _getBooleanToggle(setting: BindingConfigUIDefinition, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
+  private _getBooleanToggle(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
       <FormControlWrapper
-        label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
+        label={setting.label}
         layout={Layout.vertical}
-        tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+        tooltip={setting.help}
         required={setting.required}
         key={setting.name}>
         <Field
@@ -182,16 +153,16 @@ export class BindingFormBuilder {
   }
 
   private _getResourceField(
-    setting: BindingConfigUIDefinition,
+    setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
     isDisabled: boolean,
     resourceId: string
   ) {
     return (
       <FormControlWrapper
-        label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
+        label={setting.label}
         layout={Layout.vertical}
-        tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+        tooltip={setting.help}
         required={setting.required}
         key={setting.name}>
         <Field
@@ -209,7 +180,7 @@ export class BindingFormBuilder {
   }
 
   private _getMultiSelectDropdown(
-    setting: BindingConfigUIDefinition,
+    setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
     isDisabled: boolean,
     i: number
@@ -217,9 +188,9 @@ export class BindingFormBuilder {
     if (this._bindingInfoList[i].type === BindingType.httpTrigger) {
       return (
         <FormControlWrapper
-          label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
+          label={setting.label}
           layout={Layout.vertical}
-          tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+          tooltip={setting.help}
           required={setting.required}
           key={setting.name}>
           <Field
@@ -243,9 +214,9 @@ export class BindingFormBuilder {
 
     return (
       <FormControlWrapper
-        label={BindingFormBuilder.getLocalizedString(setting.label, this._t, this._variables)}
+        label={setting.label}
         layout={Layout.vertical}
-        tooltip={BindingFormBuilder.getLocalizedString(setting.help, this._t, this._variables)}
+        tooltip={setting.help}
         required={setting.required}
         key={setting.name}>
         <Field
@@ -262,7 +233,7 @@ export class BindingFormBuilder {
     );
   }
 
-  private _validateField(value: string, required: boolean, validators?: BindingConfigUIValidator[]): string | undefined {
+  private _validateField(value: string, required: boolean, validators?: BindingValidator[]): string | undefined {
     let error: string | undefined;
     if (required && !value) {
       error = this._t('fieldRequired');
@@ -271,7 +242,7 @@ export class BindingFormBuilder {
     if (value && validators) {
       validators.forEach(validator => {
         if (!value.match(validator.expression)) {
-          error = BindingFormBuilder.getLocalizedString(validator.errorText, this._t, this._variables);
+          error = validator.errorText;
         }
       });
     }

@@ -5547,4 +5547,25 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>Plik przepływu pracy akcji usługi GitHub „{{workflowFilePath}}” istnieje już w gałęzi „{{branchName}}”. Jeśli będziesz kontynuować, ten plik zostanie zastąpiony.</value>
     </data>
+  <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
+        <value>Program Visual Studio 2015 nie jest już obsługiwany na potrzeby zdalnego debugowania. Wybierz obsługiwaną wersję programu Visual Studio.</value>
+    </data>
+  <data name="functionCreate_selectTemplate" xml:space="preserve">
+        <value>Wybierz szablon na poprzedniej karcie, aby wyświetlić szczegóły.</value>
+    </data>
+  <data name="functionTestInput" xml:space="preserve">
+        <value>Dane wejściowe</value>
+    </data>
+  <data name="functionTestOutput" xml:space="preserve">
+        <value>Dane wyjściowe</value>
+    </data>
+  <data name="functionTestInputDescription" xml:space="preserve">
+        <value>Podaj parametry, aby przetestować żądanie HTTP. Wyniki można znaleźć na karcie Dane wyjściowe.</value>
+    </data>
+  <data name="httpRun_response" xml:space="preserve">
+        <value>Odpowiedź HTTP</value>
+    </data>
+  <data name="httpRun_responseStatus" xml:space="preserve">
+        <value>Stan odpowiedzi HTTP</value>
+    </data>
 </root>

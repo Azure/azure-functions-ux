@@ -6,46 +6,47 @@ import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { BindingType } from '../../../../models/functions/function-binding';
 import { Site } from '../../../../models/site/site';
 import Panel from '../../../../components/Panel/Panel';
-import { PanelType, IDropdownOption } from 'office-ui-fabric-react';
+import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
-import { style } from 'typestyle';
-import { InputFormValues, EditorLanguage } from './FunctionEditor.types';
-import { FormikActions } from 'formik';
+import { InputFormValues, ResponseContent, PivotType, FileContent } from './FunctionEditor.types';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
+import { pivotStyle, testLoadingStyle, commandBarSticky, logPanelStyle, defaultMonacoEditorHeight } from './FunctionEditor.styles';
+import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
+import { editorStyle } from '../../app-files/AppFiles.styles';
+import FunctionLog from './function-log/FunctionLog';
+import { FormikActions } from 'formik';
 
-// TODO(shimedh): Update this file for props, other controls, remove hardcoded value, get actual data and add logic.
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
+  functionRunning: boolean;
+  responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
 }
 
-const editorStyle = style({
-  marginTop: '20px',
-  marginBottom: '10px',
-  marginRight: '10px',
-});
-
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
-  const { functionInfo, site, fileList, runtimeVersion } = props;
+  const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning } = props;
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
-  const [defaultFileContent, setDefaultFileContent] = useState('');
-  const [newFileContent, setNewFileContent] = useState('');
+  const [fileContent, setFileContent] = useState<FileContent>({ default: '', latest: '' });
   const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
   const [dirty, setDirty] = useState<boolean>(false);
   const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption | undefined>(undefined);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [savingFile, setSavingFile] = useState<boolean>(false);
+  const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
+  const [monacoHeight, setMonacoHeight] = useState(defaultMonacoEditorHeight);
+  const [logPanelExpanded, setLogPanelExpanded] = useState(false);
+  const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
 
   const { t } = useTranslation();
 
@@ -63,19 +64,18 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       site.id,
       functionInfo.properties.name,
       fileData.name,
-      newFileContent,
+      fileContent.latest,
       runtimeVersion,
       headers
     );
     if (fileResponse.metadata.success) {
-      setDefaultFileContent(newFileContent);
-      setDirty(false);
+      setFileContent({ ...fileContent, default: fileContent.latest });
     }
     setSavingFile(false);
   };
 
   const discard = () => {
-    setNewFileContent(defaultFileContent);
+    setFileContent({ ...fileContent, latest: fileContent.default });
   };
 
   const test = () => {
@@ -101,14 +101,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setSelectedFileContent(option.data);
     getAndSetEditorLanguage(option.data.name);
     setFetchingFileContent(false);
-    setDirty(false);
   };
 
   const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
     const data = JSON.stringify({
       method: values.method,
       queryStringParams: values.queries,
-      headers: values.queries,
+      headers: values.headers,
       body: reqBody,
     });
     const tempFunctionInfo = functionInfo;
@@ -143,10 +142,11 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (fileResponse.metadata.success) {
       let fileText = fileResponse.data as string;
       if (file.mime === 'application/json') {
-        fileText = JSON.stringify(fileResponse.data);
+        // third parameter refers to the number of white spaces.
+        // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
+        fileText = JSON.stringify(fileResponse.data, null, 2);
       }
-      setDefaultFileContent(fileText);
-      setNewFileContent(fileText);
+      setFileContent({ default: fileText, latest: fileText });
     }
   };
 
@@ -177,55 +177,11 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   ];
 
   const onChange = (newValue, event) => {
-    // TODO(krmitta): Save the new content of the file in state [WI 5536378]
-    setNewFileContent(newValue);
+    setFileContent({ ...fileContent, latest: newValue });
   };
 
   const getAndSetEditorLanguage = (fileName: string) => {
-    const extension = fileName
-      .toLowerCase()
-      .split('.')
-      .pop();
-    let language;
-    switch (extension) {
-      case 'bat':
-        language = EditorLanguage.bat;
-        break;
-      case 'csx':
-        language = EditorLanguage.csharp;
-        break;
-      case 'fsx':
-        language = EditorLanguage.fsharp;
-        break;
-      case 'js':
-        language = EditorLanguage.javascript;
-        break;
-      case 'json':
-        language = EditorLanguage.json;
-        break;
-      case 'ps1':
-        language = EditorLanguage.powershell;
-        break;
-      case 'py':
-        language = EditorLanguage.python;
-        break;
-      case 'ts':
-        language = EditorLanguage.typescript;
-        break;
-      case 'md':
-        language = EditorLanguage.markdown;
-        break;
-      case 'php':
-        language = EditorLanguage.php;
-        break;
-      case 'sh':
-        language = EditorLanguage.shell;
-        break;
-      default:
-        language = EditorLanguage.plaintext;
-        break;
-    }
-    setEditorLanguage(language);
+    setEditorLanguage(EditorManager.getEditorLanguage(fileName));
   };
 
   const isLoading = () => {
@@ -236,64 +192,126 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setSelectedDropdownOption(undefined);
   };
 
+  const getPivotTabId = (itemKey: string, index: number): string => {
+    return `function-test-${itemKey}`;
+  };
+
+  const onPivotItemClick = (item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) => {
+    if (!!item) {
+      setSelectedPivotTab(item.props.itemKey as PivotType);
+    }
+  };
+
+  const getHeaderContent = (): JSX.Element => {
+    return (
+      <Pivot getTabId={getPivotTabId} className={pivotStyle} onLinkClick={onPivotItemClick} selectedKey={selectedPivotTab}>
+        <PivotItem itemKey={PivotType.input} linkText={t('functionTestInput')} />
+        <PivotItem itemKey={PivotType.output} linkText={t('functionTestOutput')} />
+      </Pivot>
+    );
+  };
+
+  const changePivotTab = (pivotItem: PivotType) => {
+    setSelectedPivotTab(pivotItem);
+  };
+
+  const toggleLogPanelExpansion = () => {
+    setLogPanelExpanded(!logPanelExpanded);
+  };
+
   useEffect(() => {
-    setDirty(newFileContent !== defaultFileContent);
-  }, [newFileContent]);
+    setMonacoHeight(logPanelExpanded ? 'calc(100vh - 310px)' : defaultMonacoEditorHeight);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logPanelExpanded]);
+  useEffect(() => {
+    setDirty(fileContent.default !== fileContent.latest);
+  }, [fileContent]);
+  useEffect(() => {
+    if (!!responseContent) {
+      changePivotTab(PivotType.output);
+    }
+  }, [responseContent]);
   useEffect(() => {
     fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
-      <FunctionEditorCommandBar
-        saveFunction={save}
-        resetFunction={discard}
-        testFunction={test}
-        showGetFunctionUrlCommand={!!inputBinding}
-        dirty={dirty}
-        disabled={isLoading()}
-        hostKeyDropdownOptions={hostKeyDropdownOptions}
-        hostKeyDropdownSelectedKey={'master'}
-        hostUrls={hostUrls}
-      />
-      <ConfirmDialog
-        primaryActionButton={{
-          title: t('ok'),
-          onClick: () => !!selectedDropdownOption && changeDropdownOption(selectedDropdownOption),
-        }}
-        defaultActionButton={{
-          title: t('cancel'),
-          onClick: closeConfirmDialog,
-        }}
-        title={t('editor_changeFile')}
-        content={t('editor_changeFileConfirmMessage')}
-        hidden={!selectedDropdownOption}
-        onDismiss={closeConfirmDialog}
-      />
-      <FunctionEditorFileSelectorBar
-        disabled={isLoading()}
-        functionAppNameLabel={site.name}
-        functionInfo={functionInfo}
-        fileDropdownOptions={getDropdownOptions()}
-        fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
-        onChangeDropdown={onFileSelectorChange}
-      />
-      <Panel type={PanelType.medium} isOpen={showTestPanel} onDismiss={onCancelTest} headerText={''}>
-        <FunctionTest cancel={onCancelTest} run={run} functionInfo={functionInfo} reqBody={reqBody} setReqBody={setReqBody} />
+      <div className={commandBarSticky}>
+        <FunctionEditorCommandBar
+          saveFunction={save}
+          resetFunction={discard}
+          testFunction={test}
+          showGetFunctionUrlCommand={!!inputBinding}
+          dirty={dirty}
+          disabled={isLoading()}
+          hostKeyDropdownOptions={hostKeyDropdownOptions}
+          hostKeyDropdownSelectedKey={'master'}
+          hostUrls={hostUrls}
+        />
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('ok'),
+            onClick: () => !!selectedDropdownOption && changeDropdownOption(selectedDropdownOption),
+          }}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: closeConfirmDialog,
+          }}
+          title={t('editor_changeFile')}
+          content={t('editor_changeFileConfirmMessage')}
+          hidden={!selectedDropdownOption}
+          onDismiss={closeConfirmDialog}
+        />
+        <FunctionEditorFileSelectorBar
+          disabled={isLoading()}
+          functionAppNameLabel={site.name}
+          functionInfo={functionInfo}
+          fileDropdownOptions={getDropdownOptions()}
+          fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
+          onChangeDropdown={onFileSelectorChange}
+        />
+      </div>
+      <Panel
+        type={PanelType.medium}
+        isOpen={showTestPanel}
+        onDismiss={onCancelTest}
+        overlay={functionRunning}
+        headerContent={getHeaderContent()}>
+        {functionRunning && <LoadingComponent className={testLoadingStyle} />}
+        <FunctionTest
+          cancel={onCancelTest}
+          run={run}
+          functionInfo={functionInfo}
+          reqBody={reqBody}
+          setReqBody={setReqBody}
+          responseContent={responseContent}
+          selectedPivotTab={selectedPivotTab}
+          functionRunning={functionRunning}
+        />
       </Panel>
       {isLoading() && <LoadingComponent />}
-      <div className={editorStyle}>
-        <MonacoEditor
-          value={newFileContent}
-          language={editorLanguage}
-          onChange={onChange}
-          disabled={isLoading()}
-          options={{
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            cursorBlinking: true,
-            renderWhitespace: 'all',
-          }}
-        />
+      {!logPanelFullscreen && (
+        <div className={editorStyle}>
+          <MonacoEditor
+            value={fileContent.latest}
+            language={editorLanguage}
+            onChange={onChange}
+            height={monacoHeight}
+            disabled={isLoading()}
+            options={{
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+              cursorBlinking: true,
+              renderWhitespace: 'all',
+            }}
+          />
+        </div>
+      )}
+      <div className={logPanelStyle(logPanelExpanded, logPanelFullscreen)}>
+        <FunctionLog toggleExpand={toggleLogPanelExpansion} isExpanded={logPanelExpanded} toggleFullscreen={setLogPanelFullscreen} />
       </div>
     </>
   );

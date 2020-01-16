@@ -1,15 +1,22 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues, AppSettingsReferences, AppSettingsAsyncData, LoadingStates } from './AppSettings.types';
-import { convertStateToForm, convertFormToState, getCleanedReferences, getFormAzureStorageMount } from './AppSettingsFormData';
+import {
+  convertStateToForm,
+  convertFormToState,
+  flattenVirtualApplicationsList,
+  getCleanedConfigForSave,
+  getCleanedReferences,
+} from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
 import {
   fetchApplicationSettingValues,
   fetchSlots,
   updateSite,
+  updateWebConfig,
   updateSlotConfigNames,
-  updateStorageMounts,
   getProductionAppWritePermissions,
+  updateStorageMounts,
   getAllAppSettingReferences,
   fetchAzureStorageAccounts,
   getFunctions,
@@ -118,6 +125,15 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       armCallFailed(linuxStacks);
 
     setLoadingFailure(loadingFailed);
+
+    // The user may have VNET security restrictions enabled. If so, then including "ipSecurityRestrictions" or "scmIpSecurityRestrictions" in the payload for
+    // the config/web API means that the call will require joinViaServiceEndpoint/action permissions on the given subnet(s) referenced in the security restrictions.
+    // If the user doesn't have these permissions, the config/web API call will fail. (This is true even if these properties are just being round-tripped.)
+    // Since this UI doesn't allow modifying these properties, we can just remove them from the config object to avoid the unnecessary permissions requirement.
+    if (webConfig.data) {
+      delete webConfig.data.properties.ipSecurityRestrictions;
+      delete webConfig.data.properties.scmIpSecurityRestrictions;
+    }
 
     if (!loadingFailed) {
       setCurrentSiteNonForm(site.data);
@@ -270,55 +286,34 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
     setSaving(true);
+    const { site, config, slotConfigNames, storageMounts } = convertFormToState(values, metadataFromApi, slotConfigNamesFromApi);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
-
-    const { site, slotConfigNames, storageMounts, slotConfigNamesModified, storageMountsModified } = convertFormToState(
-      values,
-      metadataFromApi,
-      initialValues!,
-      slotConfigNamesFromApi
-    );
-
-    // TODO (andimarc): Once the API is updated, include azureStorageAccounts on the site config object instead of making a separate call
-    // TASK 5843044 - Combine updateSite and updateAzureStorageMount calls into a single PUT call when saving config
-    const [siteUpdate, slotConfigNamesUpdate, storageMountsUpdate] = [
-      updateSite(resourceId, site),
-      productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
-      storageMountsModified ? updateStorageMounts(resourceId, storageMounts) : Promise.resolve(null),
-    ];
-
-    const [siteResult, slotConfigNamesResult, storageMountsResult] = await Promise.all([
+    const siteUpdate = updateSite(resourceId, site);
+    const configUpdate = updateWebConfig(resourceId, getCleanedConfigForSave(config));
+    const slotConfigUpdates = productionPermissions ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null);
+    const storageUpdateCall = updateStorageMounts(resourceId, storageMounts);
+    const [siteResult, configResult, slotConfigResults] = await Promise.all([
       siteUpdate,
-      slotConfigNamesUpdate,
-      storageMountsUpdate,
+      configUpdate,
+      slotConfigUpdates,
+      storageUpdateCall,
     ]);
 
-    const success =
-      siteResult.metadata.success &&
-      (!slotConfigNamesResult || slotConfigNamesResult.metadata.success) &&
-      (!storageMountsResult || storageMountsResult.metadata.success);
-
-    if (success) {
-      const azureStorageMounts = storageMountsResult ? getFormAzureStorageMount(storageMountsResult.data) : values.azureStorageMounts;
+    if (siteResult.metadata.success && configResult.metadata.success && (!slotConfigResults || slotConfigResults.metadata.success)) {
       setInitialValues({
         ...values,
-        azureStorageMounts,
+        virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
       });
-      if (slotConfigNamesResult) {
-        setSlotConfigNamesFromApi(slotConfigNamesResult.data);
-      }
       fetchReferences();
       if (isFunctionApp(site)) {
         fetchAsyncData();
       }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
-      const [siteError, slotConfigNamesError, storageMountsError] = [
-        siteResult.metadata.error && siteResult.metadata.error.Message,
-        slotConfigNamesResult && slotConfigNamesResult.metadata.error && slotConfigNamesResult.metadata.error.Message,
-        storageMountsResult && storageMountsResult.metadata.error && storageMountsResult.metadata.error.Message,
-      ];
-      const errMessage = siteError || slotConfigNamesError || storageMountsError || t('configUpdateFailure');
+      const siteError = siteResult.metadata.error && siteResult.metadata.error.Message;
+      const configError = configResult.metadata.error && configResult.metadata.error.Message;
+      const slotConfigError = slotConfigResults && slotConfigResults.metadata.error && slotConfigResults.metadata.error.Message;
+      const errMessage = siteError || configError || slotConfigError || t('configUpdateFailure');
       portalContext.stopNotification(notificationId, false, errMessage);
     }
     setSaving(false);

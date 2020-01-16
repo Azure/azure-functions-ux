@@ -6,15 +6,15 @@ import { style } from 'typestyle';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import StringUtils from '../../../../utils/string';
-import { fileSelectorStackStyle, fileDropdownStyle } from './FunctionEditor.styles';
+import { fileSelectorStackStyle, fileSelectorDropdownStyle } from './FunctionEditor.styles';
 
 export interface FunctionEditorFileSelectorBarProps {
-  functionAppNameLabel: string;
   fileDropdownOptions: IDropdownOption[];
   fileDropdownSelectedKey: string;
-  functionInfo: ArmObj<FunctionInfo>;
   onChangeDropdown: (e: unknown, option: IDropdownOption) => void;
   disabled: boolean;
+  functionAppNameLabel?: string;
+  functionInfo?: ArmObj<FunctionInfo>;
 }
 const fileSeparatorStyle = style({
   paddingLeft: '10px',
@@ -29,18 +29,26 @@ const FunctionEditorFileSelectorBar: React.FC<FunctionEditorFileSelectorBarProps
   return (
     <>
       <Stack horizontal className={fileSelectorStackStyle(theme)}>
-        <Label>{functionAppNameLabel}</Label>
-        <Label className={fileSeparatorStyle}>{StringUtils.fileSeparator}</Label>
-        <Label>{functionInfo.properties.name}</Label>
-        <Label className={fileSeparatorStyle}>{StringUtils.fileSeparator}</Label>
+        {!!functionAppNameLabel && (
+          <>
+            <Label>{functionAppNameLabel}</Label>
+            <Label className={fileSeparatorStyle}>{StringUtils.fileSeparator}</Label>
+          </>
+        )}
+        {!!functionInfo && (
+          <>
+            <Label>{functionInfo.properties.name}</Label>
+            <Label className={fileSeparatorStyle}>{StringUtils.fileSeparator}</Label>
+          </>
+        )}
         <OfficeDropdown
           id="fucntion-editor-file-selector"
           defaultSelectedKey={fileDropdownSelectedKey}
           options={fileDropdownOptions}
           onChange={onChangeDropdown}
           ariaLabel={t('functionDirectoryDropdownAriaLabel')}
-          className={fileDropdownStyle}
           disabled={disabled}
+          styles={fileSelectorDropdownStyle()}
         />
       </Stack>
     </>

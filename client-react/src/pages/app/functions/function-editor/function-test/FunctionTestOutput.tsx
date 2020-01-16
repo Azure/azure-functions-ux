@@ -1,36 +1,34 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { pivotItemWrapper, functionTestGroupStyle, responseStatusStyle, responseStyle } from './FunctionTest.styles';
+import { pivotItemWrapper, functionTestGroupStyle, responseCodeStyle, responseContentStyle } from './FunctionTest.styles';
 import { Label } from 'office-ui-fabric-react';
+import { ResponseContent } from '../FunctionEditor.types';
+import { HttpConstants } from '../../../../../utils/constants/HttpConstants';
 
 export interface FunctionTestOutputProps {
-  responseCode: number;
-  responseBody: string;
+  responseContent?: ResponseContent;
 }
 
 // TODO (krmitta): Add Content for Output-Tab [WI: 5536379]
 const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
   const { t } = useTranslation();
-  const { responseCode, responseBody } = props;
+  const { responseContent } = props;
 
   return (
     <div className={pivotItemWrapper}>
       <div className={functionTestGroupStyle}>
-        <Label>{t('httpRun_responseStatus')}</Label>
-        <div className={responseStatusStyle}>
-          <span>
-            {responseCode}
-            {/** TODO (krmitta): Add (or not) icon after the discussion with Byron [WI 5536379] */}
-          </span>
+        <Label>{t('httpRun_responseCode')}</Label>
+        <div className={responseCodeStyle}>
+          {!!responseContent ? `${responseContent.code} ${HttpConstants.statusCodeToText(responseContent.code)}` : ''}
         </div>
       </div>
       <div className={functionTestGroupStyle}>
-        <Label>{t('httpRun_response')}</Label>
-        <div className={responseStyle}>{responseBody}</div>
+        <Label>{t('httpRun_responseContent')}</Label>
+        <div className={responseContentStyle}>{!!responseContent && !!responseContent.text ? responseContent.text : ''}</div>
       </div>
       <div className={functionTestGroupStyle}>
         <Label>{t('functionMonitor_invocationLog')}</Label>
-        {/* TODO (allisonm): Add Invocation Log for the Output */}
+        {/* TODO (krmitta): Add Invocation Log for the Output */}
       </div>
     </div>
   );
