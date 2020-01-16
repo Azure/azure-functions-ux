@@ -1,30 +1,26 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dropdown as OfficeDropdown, IDropdownOption, Stack, Callout, DirectionalHint, Label } from 'office-ui-fabric-react';
+import { Dropdown as OfficeDropdown, IDropdownOption, Callout, DirectionalHint } from 'office-ui-fabric-react';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { style } from 'typestyle';
 import { fileSelectorDropdownStyle, keyDivStyle, urlDivStyle, urlFieldStyle, urlFormStyle } from './FunctionEditor.styles';
-
-export interface HostUrl {
-  key: string;
-  url: string;
-}
+import { FunctionUrl } from './FunctionEditor.types';
 
 interface FunctionEditorGetFunctionUrlCalloutProps {
-  hostKeyDropdownOptions: IDropdownOption[];
-  hostKeyDropdownSelectedKey: string;
-  hostUrls: HostUrl[];
+  dropdownOptions: IDropdownOption[];
+  defaultSelectedKey: string;
+  urls: FunctionUrl[];
   setIsDialogVisible: (isVisible: boolean) => void;
   dialogTarget: any;
 }
 
 const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrlCalloutProps> = props => {
-  const { hostKeyDropdownOptions, hostKeyDropdownSelectedKey, hostUrls, setIsDialogVisible, dialogTarget } = props;
+  const { dropdownOptions, defaultSelectedKey, urls, setIsDialogVisible, dialogTarget } = props;
   const { t } = useTranslation();
-  const [url, setUrl] = useState<string | undefined>(() => {
-    for (const hostUrl of hostUrls) {
-      if (hostUrl.key === hostKeyDropdownSelectedKey) {
-        return hostUrl.url;
+  const [selectedUrl, setSelectedUrl] = useState<string | undefined>(() => {
+    for (const obj of urls) {
+      if (obj.key === defaultSelectedKey) {
+        return obj.url;
       }
     }
 
@@ -36,9 +32,9 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
   };
 
   const onChangeHostKeyDropdown = (e: unknown, option: IDropdownOption) => {
-    for (const obj of hostUrls) {
+    for (const obj of urls) {
       if (obj.key === (option.key as string)) {
-        setUrl(obj.url);
+        setSelectedUrl(obj.url);
       }
     }
   };
@@ -66,8 +62,8 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
           <div className={keyDivStyle}>
             {t('keysDialog_key')}
             <OfficeDropdown
-              defaultSelectedKey={hostKeyDropdownSelectedKey}
-              options={hostKeyDropdownOptions}
+              defaultSelectedKey={defaultSelectedKey}
+              options={dropdownOptions}
               onChange={onChangeHostKeyDropdown}
               ariaLabel={t('functionAppDirectoryDropdownAriaLabel')}
               styles={fileSelectorDropdownStyle()}
@@ -77,7 +73,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
             {t('keysDialog_url')}
             <TextFieldNoFormik
               id="function-editor-function-url"
-              value={url}
+              value={selectedUrl}
               disabled={true}
               copyButton={true}
               textFieldClassName={urlFieldStyle}

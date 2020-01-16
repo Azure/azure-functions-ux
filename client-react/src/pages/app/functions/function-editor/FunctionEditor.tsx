@@ -9,7 +9,7 @@ import Panel from '../../../../components/Panel/Panel';
 import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
-import { InputFormValues, ResponseContent, PivotType, FileContent } from './FunctionEditor.types';
+import { InputFormValues, ResponseContent, PivotType, FileContent, FunctionUrl } from './FunctionEditor.types';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
@@ -20,14 +20,13 @@ import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 import { editorStyle } from '../../app-files/AppFiles.styles';
 import FunctionLog from './function-log/FunctionLog';
 import { FormikActions } from 'formik';
-import { HostUrl } from './FunctionEditorGetFunctionUrlCallout';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
   functionRunning: boolean;
-  functionUrls: HostUrl[];
+  functionUrls: FunctionUrl[];
   functionUrlDropdownOptions: IDropdownOption[];
   responseContent?: ResponseContent;
   runtimeVersion?: string;
@@ -244,9 +243,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           showGetFunctionUrlCommand={!!inputBinding}
           dirty={dirty}
           disabled={isLoading()}
-          hostKeyDropdownOptions={functionUrlDropdownOptions}
-          hostKeyDropdownSelectedKey={functionUrlDropdownOptions.length > 0 ? (functionUrlDropdownOptions[0].key as string) : ''}
-          hostUrls={functionUrls}
+          dropdownOptions={functionUrlDropdownOptions}
+          defaultSelectedKey={functionUrlDropdownOptions.length > 0 ? (functionUrlDropdownOptions[0].key as string) : ''}
+          urls={functionUrls}
         />
         <ConfirmDialog
           primaryActionButton={{

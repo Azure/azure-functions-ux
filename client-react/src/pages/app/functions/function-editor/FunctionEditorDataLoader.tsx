@@ -8,7 +8,7 @@ import FunctionEditorData from './FunctionEditor.data';
 import { Site } from '../../../../models/site/site';
 import { SiteRouterContext } from '../../SiteRouter';
 import Url from '../../../../utils/url';
-import { NameValuePair, ResponseContent } from './FunctionEditor.types';
+import { NameValuePair, ResponseContent, FunctionUrl } from './FunctionEditor.types';
 import AppKeyService from '../../../../ApiHelpers/AppKeysService';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { BindingManager } from '../../../../utils/BindingManager';
@@ -22,7 +22,6 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { VfsObject } from '../../../../models/functions/vfs';
 import { Method } from 'axios';
 import { getJsonHeaders } from '../../../../ApiHelpers/HttpClient';
-import { HostUrl } from './FunctionEditorGetFunctionUrlCallout';
 import { upperFirst } from 'lodash-es';
 import { IDropdownOption } from 'office-ui-fabric-react';
 
@@ -47,7 +46,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
   const [responseContent, setResponseContent] = useState<ResponseContent | undefined>(undefined);
   const [functionRunning, setFunctionRunning] = useState(false);
-  const [urls, setUrls] = useState<{ host: HostUrl[]; function: HostUrl[] }>(defaultUrlObject);
+  const [urls, setUrls] = useState<{ host: FunctionUrl[]; function: FunctionUrl[] }>(defaultUrlObject);
   const [urlDropdownOptions, setUrlDropdownOptions] = useState<{ host: IDropdownOption[]; function: IDropdownOption[] }>(defaultUrlObject);
 
   const siteContext = useContext(SiteRouterContext);
@@ -245,7 +244,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const setUrlAndOptions = (keys: { [key: string]: string }, type: string) => {
     const typeString = `${upperFirst(type)} key`;
-    const typeUrls: HostUrl[] = [];
+    const typeUrls: FunctionUrl[] = [];
     const dropdownOptions: IDropdownOption[] = [];
     const updatedUrls = urls;
     const updatedOptions = urlDropdownOptions;
@@ -285,7 +284,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     if (!!site && !!functionInfo) {
       getAndSetUrls();
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [site, functionInfo, hostKeys, functionKeys]);
+
   // TODO (krmitta): Show a loading error message site or functionInfo call fails
   if (initialLoading || !site || !functionInfo) {
     return <LoadingComponent />;

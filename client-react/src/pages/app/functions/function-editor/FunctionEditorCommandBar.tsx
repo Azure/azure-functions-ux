@@ -4,9 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { PortalContext } from '../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
-import FunctionEditorGetFunctionUrlCallout, { HostUrl } from './FunctionEditorGetFunctionUrlCallout';
+import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { IContextualMenuRenderItem } from 'office-ui-fabric-react';
+import { FunctionUrl } from './FunctionEditor.types';
 
 // Data for CommandBar
 interface FunctionEditorCommandBarProps {
@@ -16,9 +17,9 @@ interface FunctionEditorCommandBarProps {
   showGetFunctionUrlCommand: boolean;
   dirty: boolean;
   disabled: boolean;
-  hostKeyDropdownOptions: IDropdownOption[];
-  hostKeyDropdownSelectedKey: string;
-  hostUrls: HostUrl[];
+  dropdownOptions: IDropdownOption[];
+  defaultSelectedKey: string;
+  urls: FunctionUrl[];
 }
 
 const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props => {
@@ -29,9 +30,9 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     showGetFunctionUrlCommand,
     dirty,
     disabled,
-    hostUrls,
-    hostKeyDropdownOptions,
-    hostKeyDropdownSelectedKey,
+    urls,
+    dropdownOptions,
+    defaultSelectedKey,
   } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
@@ -108,9 +109,9 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       />
       {isDialogVisible && (
         <FunctionEditorGetFunctionUrlCallout
-          hostKeyDropdownOptions={hostKeyDropdownOptions}
-          hostKeyDropdownSelectedKey={hostKeyDropdownSelectedKey}
-          hostUrls={hostUrls}
+          dropdownOptions={dropdownOptions}
+          defaultSelectedKey={defaultSelectedKey}
+          urls={urls}
           setIsDialogVisible={setIsDialogVisible}
           dialogTarget={getFunctionUrlButtonRef.current}
         />

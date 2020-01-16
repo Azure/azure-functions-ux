@@ -36,3 +36,8 @@ export interface FileContent {
   default: string;
   latest: string;
 }
+
+export interface FunctionUrl {
+  key: string;
+  url: string;
+}
