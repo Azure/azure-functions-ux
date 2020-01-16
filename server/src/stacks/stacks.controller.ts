@@ -3,7 +3,6 @@ import { StacksFunctionAppConfigService } from './stacks.functionapp.config.serv
 import { StacksFunctionAppCreateService } from './stacks.functionapp.create.service';
 import { StacksWebAppConfigService } from './stacks.webapp.config.service';
 import { StacksWebAppCreateService } from './stacks.webapp.create.service';
-import { AppType, BladeType } from './stacks';
 
 @Controller('api')
 export class StacksController {
@@ -14,34 +13,39 @@ export class StacksController {
     private _stackWebAppCreateService: StacksWebAppCreateService
   ) {}
 
-  @Get('stacks')
-  stacks(@Query('appType') appType: AppType, @Query('blade') bladeType: BladeType) {
-    if (appType === 'WebApp' && bladeType === 'Create') {
-      return this._getWebAppCreateStacks();
-    } else if (appType === 'WebApp' && bladeType === 'Config') {
-      return this._getWebAppConfigStacks();
-    } else if (appType === 'FunctionApp' && bladeType === 'Create') {
-      return this._getFunctionAppCreateStacks();
-    } else if (appType === 'FunctionApp' && bladeType === 'Config') {
-      return this._getFunctionAppConfigStacks();
+  @Get('webAppCreateStacks')
+  webAppCreateStacks(@Query('api-version') apiVersion: string) {
+    if (apiVersion === 'v1') {
+      return this._stackWebAppCreateService.getStacks();
+    } else {
+      throw new HttpException(`Incorrect api-version '${apiVersion}' provided. Allowed version is 'v1'.`, 400);
     }
-
-    throw new HttpException(`AppType of '${appType}' and blade name '${bladeType}' are not allowed`, 400);
   }
 
-  private _getFunctionAppConfigStacks() {
-    return this._stackFunctionAppConfigService.getStacks();
+  @Get('webAppConfigStacks')
+  webAppConfigStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
+    if (apiVersion === 'v1') {
+      return this._stackWebAppConfigService.getStacks(os);
+    } else {
+      throw new HttpException(`Incorrect api-version '${apiVersion}' provided. Allowed version is 'v1'.`, 400);
+    }
   }
 
-  private _getFunctionAppCreateStacks() {
-    return this._stackFunctionAppCreateService.getStacks();
+  @Get('functionAppCreateStacks')
+  functionAppCreateStacks(@Query('api-version') apiVersion: string) {
+    if (apiVersion === 'v1') {
+      return this._stackFunctionAppConfigService.getStacks();
+    } else {
+      throw new HttpException(`Incorrect api-version '${apiVersion}' provided. Allowed version is 'v1'.`, 400);
+    }
   }
 
-  private _getWebAppConfigStacks() {
-    return this._stackWebAppConfigService.getStacks();
-  }
-
-  private _getWebAppCreateStacks() {
-    return this._stackWebAppCreateService.getStacks();
+  @Get('functionAppConfigStacks')
+  functionAppConfigStacks(@Query('api-version') apiVersion: string) {
+    if (apiVersion === 'v1') {
+      return this._stackFunctionAppCreateService.getStacks();
+    } else {
+      throw new HttpException(`Incorrect api-version '${apiVersion}' provided. Allowed version is 'v1'.`, 400);
+    }
   }
 }

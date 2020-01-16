@@ -1,95 +1,107 @@
-export type AppType = 'WebApp' | 'FunctionApp';
-export type BladeType = 'Create' | 'Config';
-
-export interface WebAppCreateRuntimeStack {
-  displayText: string;
-  value: string;
-  sortOrder: number;
-  versions: WebAppCreateRuntimeStackVersion[];
+export interface WebAppConfigStack {
+  id?: string;
+  name: string;
+  type: string;
+  properties: WebAppConfigStackProperties;
 }
 
-export interface WebAppCreateRuntimeStackVersion {
-  displayText: string;
-  value: string;
-  sortOrder: number;
-  supportedPlatforms: WebAppCreateSupportedPlatform[];
+export interface WebAppConfigStackProperties {
+  name: string;
+  display: string;
+  dependency?: string;
+  majorVersions: WebAppConfigStackMajorVersion[];
+  frameworks: WebAppConfigStackFramework[];
+  isDeprecated?: boolean;
 }
 
-export interface WebAppCreateSupportedPlatform {
+export interface WebAppConfigStackFramework {
+  name: string;
+  display: string;
+  dependency?: string;
+  majorVersions: WebAppConfigStackMajorVersion[];
+}
+
+export interface WebAppConfigStackMajorVersion {
+  displayVersion: string;
+  runtimeVersion: string;
+  isDefault: boolean;
+  minorVersions: WebAppConfigStackMinorVersion[];
+  applicationInsights: boolean;
+  isPreview: boolean;
+  isDeprecated: boolean;
+  isHidden: boolean;
+}
+
+export interface WebAppConfigStackMinorVersion {
+  displayVersion: string;
+  runtimeVersion: string;
+  isDefault: boolean;
+  isRemoteDebuggingEnabled: boolean;
+}
+
+export interface WebAppConfigStackVersion {
+  sortOrder: number;
+  displayText: string;
+  value: string;
+  supportedPlatform: WebAppConfigStackVersionPlatform[];
+}
+
+export interface WebAppConfigStackVersionPlatform {
+  sortOrder: number;
   os: string;
   isPreview: boolean;
-  applicationInsightSettings: CreateApplicationInsightSettings;
+  isDeprecated: boolean;
+  isHidden: boolean;
+  applicationInsightsEnabled: boolean;
+  remoteDebuggingEnabled: boolean;
   runtimeVersion: string;
 }
 
-export interface WebAppConfigRuntimeStack {
+export interface WebAppCreateStack {
+  sortOrder: number;
   displayText: string;
   value: string;
-  sortOrder: number;
-  versions: WebAppConfigRuntimeStackVersion[];
+  versions: WebAppCreateStackVersion[];
 }
 
-export interface WebAppConfigRuntimeStackVersion {
+export interface WebAppCreateStackVersion {
+  sortOrder: number;
   displayText: string;
   value: string;
-  sortOrder: number;
-  supportedPlatforms: WebAppConfigSupportedPlatform[];
+  supportedPlatforms: WebAppCreateStackVersionPlatform[];
 }
 
-export interface WebAppConfigSupportedPlatform {
+export interface WebAppCreateStackVersionPlatform {
+  sortOrder: number;
   os: string;
   isPreview: boolean;
-  applicationInsightSettings: ConfigApplicationInsightSettings;
+  isDeprecated: boolean;
+  isHidden: boolean;
+  applicationInsightsEnabled: boolean;
+  remoteDebuggingEnabled: boolean;
   runtimeVersion: string;
 }
 
-export interface FunctionAppCreateRuntimeStack {
+export interface FunctionAppStack {
+  sortOrder: number;
   displayText: string;
   value: string;
-  sortOrder: number;
-  versions: FunctionAppCreateRuntimeStackVersion[];
+  versions: FunctionAppStackVersion[];
 }
 
-export interface FunctionAppCreateRuntimeStackVersion {
+export interface FunctionAppStackVersion {
+  sortOrder: number;
   displayText: string;
   value: string;
-  sortOrder: number;
-  supportedPlatforms: FunctionAppCreateSupportedPlatform[];
+  supportedPlatforms: FunctionAppStackVersionPlatform[];
 }
 
-export interface FunctionAppCreateSupportedPlatform {
+export interface FunctionAppStackVersionPlatform {
+  sortOrder: number;
   os: string;
   isPreview: boolean;
-  applicationInsightSettings: CreateApplicationInsightSettings;
+  isDeprecated: boolean;
+  isHidden: boolean;
+  applicationInsightsEnabled: boolean;
   runtimeVersion: string;
-}
-
-export interface FunctionAppConfigRuntimeStack {
-  displayText: string;
-  value: string;
-  sortOrder: number;
-  versions: FunctionAppConfigRuntimeStackVersion[];
-}
-
-export interface FunctionAppConfigRuntimeStackVersion {
-  displayText: string;
-  value: string;
-  sortOrder: number;
-  supportedPlatforms: FunctionAppConfigSupportedPlatform[];
-}
-
-export interface FunctionAppConfigSupportedPlatform {
-  os: string;
-  isPreview: boolean;
-  applicationInsightSettings: ConfigApplicationInsightSettings;
-  runtimeVersion: string;
-}
-
-export interface CreateApplicationInsightSettings {
-  enabled: boolean;
-  defaultOn: boolean;
-}
-
-export interface ConfigApplicationInsightSettings {
-  enabled: boolean;
 }
