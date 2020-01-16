@@ -18,9 +18,11 @@ interface CustomTextFieldProps {
   dirty?: boolean;
   widthOverride?: string;
   copyButton?: boolean;
+  textFieldClassName?: string;
+  formControlClassName?: string;
 }
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
-  const { value, onChange, onBlur, errorMessage, label, widthOverride, styles, id, copyButton, ...rest } = props;
+  const { value, onChange, onBlur, errorMessage, label, widthOverride, styles, id, copyButton, textFieldClassName, ...rest } = props;
   const { width } = useWindowSize();
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
@@ -53,6 +55,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
         onBlur={onBlur}
         errorMessage={errorMessage}
         styles={textFieldStyleOverrides(theme, fullpage, widthOverride)}
+        className={!!textFieldClassName ? textFieldClassName : ''}
         {...rest}
       />
       {copyButton && (

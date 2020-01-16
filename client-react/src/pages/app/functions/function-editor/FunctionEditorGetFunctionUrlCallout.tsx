@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown as OfficeDropdown, IDropdownOption, Stack, Callout, DirectionalHint, Label } from 'office-ui-fabric-react';
-import { formLabelStyle } from '../../../../components/form-controls/formControl.override.styles';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { style } from 'typestyle';
+import { fileSelectorDropdownStyle, keyDivStyle, urlDivStyle, urlFieldStyle, urlFormStyle } from './FunctionEditor.styles';
 
 export interface HostUrl {
   key: string;
@@ -36,13 +36,17 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
   };
 
   const onChangeHostKeyDropdown = (e: unknown, option: IDropdownOption) => {
-    setUrl(hostUrls[option.key]);
+    for (const obj of hostUrls) {
+      if (obj.key === (option.key as string)) {
+        setUrl(obj.url);
+      }
+    }
   };
 
   const calloutStyle = () =>
     style({
       padding: '20px',
-      minWidth: '600px',
+      width: '600px',
     });
 
   return (
@@ -58,21 +62,29 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
         <div className="ms-CalloutExample-header">
           <h4 className="ms-CalloutExample-title">{t('keysDialog_getFunctionUrl')}</h4>
         </div>
-        <Stack>
-          <Stack horizontal>
-            <Label className={`${formLabelStyle(false, false)}`}>{t('keysDialog_key')}</Label>
+        <div>
+          <div className={keyDivStyle}>
+            {t('keysDialog_key')}
             <OfficeDropdown
-              selectedKey={hostKeyDropdownSelectedKey}
+              defaultSelectedKey={hostKeyDropdownSelectedKey}
               options={hostKeyDropdownOptions}
               onChange={onChangeHostKeyDropdown}
               ariaLabel={t('functionAppDirectoryDropdownAriaLabel')}
+              styles={fileSelectorDropdownStyle()}
             />
-          </Stack>
-          <Stack horizontal>
-            <Label className={`${formLabelStyle(false, false)}`}>{t('keysDialog_url')}</Label>
-            <TextFieldNoFormik id="function-editor-function-url" value={url} disabled={true} copyButton={true} />
-          </Stack>
-        </Stack>
+          </div>
+          <div className={urlDivStyle}>
+            {t('keysDialog_url')}
+            <TextFieldNoFormik
+              id="function-editor-function-url"
+              value={url}
+              disabled={true}
+              copyButton={true}
+              textFieldClassName={urlFieldStyle}
+              formControlClassName={urlFormStyle}
+            />
+          </div>
+        </div>
       </div>
     </Callout>
   );

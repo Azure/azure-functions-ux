@@ -20,19 +20,31 @@ import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 import { editorStyle } from '../../app-files/AppFiles.styles';
 import FunctionLog from './function-log/FunctionLog';
 import { FormikActions } from 'formik';
+import { HostUrl } from './FunctionEditorGetFunctionUrlCallout';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
   functionRunning: boolean;
+  functionUrls: HostUrl[];
+  functionUrlDropdownOptions: IDropdownOption[];
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
-  const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning } = props;
+  const {
+    functionInfo,
+    site,
+    fileList,
+    runtimeVersion,
+    responseContent,
+    functionRunning,
+    functionUrls,
+    functionUrlDropdownOptions,
+  } = props;
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -161,21 +173,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setInitialLoading(false);
   };
 
-  const hostKeyDropdownOptions = [
-    {
-      key: 'master',
-      text: 'master',
-      selected: true,
-    },
-  ];
-
-  const hostUrls = [
-    {
-      key: 'master',
-      url: 'https://test.com/key1',
-    },
-  ];
-
   const onChange = (newValue, event) => {
     setFileContent({ ...fileContent, latest: newValue });
   };
@@ -247,9 +244,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           showGetFunctionUrlCommand={!!inputBinding}
           dirty={dirty}
           disabled={isLoading()}
-          hostKeyDropdownOptions={hostKeyDropdownOptions}
-          hostKeyDropdownSelectedKey={'master'}
-          hostUrls={hostUrls}
+          hostKeyDropdownOptions={functionUrlDropdownOptions}
+          hostKeyDropdownSelectedKey={functionUrlDropdownOptions.length > 0 ? (functionUrlDropdownOptions[0].key as string) : ''}
+          hostUrls={functionUrls}
         />
         <ConfirmDialog
           primaryActionButton={{
