@@ -5,7 +5,6 @@ import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePort
 import { PortalContext } from '../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
-import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { IContextualMenuRenderItem } from 'office-ui-fabric-react';
 import { FunctionUrl } from './FunctionEditor.types';
 
@@ -17,23 +16,11 @@ interface FunctionEditorCommandBarProps {
   showGetFunctionUrlCommand: boolean;
   dirty: boolean;
   disabled: boolean;
-  dropdownOptions: IDropdownOption[];
-  defaultSelectedKey: string;
   urls: FunctionUrl[];
 }
 
 const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props => {
-  const {
-    saveFunction,
-    resetFunction,
-    testFunction,
-    showGetFunctionUrlCommand,
-    dirty,
-    disabled,
-    urls,
-    dropdownOptions,
-    defaultSelectedKey,
-  } = props;
+  const { saveFunction, resetFunction, testFunction, showGetFunctionUrlCommand, dirty, disabled, urls } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
@@ -109,8 +96,6 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       />
       {isDialogVisible && (
         <FunctionEditorGetFunctionUrlCallout
-          dropdownOptions={dropdownOptions}
-          defaultSelectedKey={defaultSelectedKey}
           urls={urls}
           setIsDialogVisible={setIsDialogVisible}
           dialogTarget={getFunctionUrlButtonRef.current}

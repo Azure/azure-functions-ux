@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown as OfficeDropdown, IDropdownOption, Callout, DirectionalHint } from 'office-ui-fabric-react';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
@@ -7,25 +7,16 @@ import { fileSelectorDropdownStyle, keyDivStyle, urlDivStyle, urlFieldStyle, url
 import { FunctionUrl } from './FunctionEditor.types';
 
 interface FunctionEditorGetFunctionUrlCalloutProps {
-  dropdownOptions: IDropdownOption[];
-  defaultSelectedKey: string;
   urls: FunctionUrl[];
   setIsDialogVisible: (isVisible: boolean) => void;
   dialogTarget: any;
 }
 
 const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrlCalloutProps> = props => {
-  const { dropdownOptions, defaultSelectedKey, urls, setIsDialogVisible, dialogTarget } = props;
+  const { urls, setIsDialogVisible, dialogTarget } = props;
   const { t } = useTranslation();
-  const [selectedUrl, setSelectedUrl] = useState<string | undefined>(() => {
-    for (const urlObj of urls) {
-      if (urlObj.key === defaultSelectedKey) {
-        return urlObj.url;
-      }
-    }
-
-    return undefined;
-  });
+  const [dropdownOptions, setDropdownOptions] = useState<IDropdownOption[]>([]);
+  const [selectedUrl, setSelectedUrl] = useState<FunctionUrl | undefined>(undefined);
 
   const onCloseDialog = () => {
     setIsDialogVisible(false);
@@ -34,7 +25,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
   const onChangeHostKeyDropdown = (e: unknown, option: IDropdownOption) => {
     for (const urlObj of urls) {
       if (urlObj.key === (option.key as string)) {
-        setSelectedUrl(urlObj.url);
+        setSelectedUrl(urlObj);
       }
     }
   };
@@ -45,6 +36,20 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
       width: '600px',
     });
 
+  useEffect(() => {
+    const options: IDropdownOption[] = [];
+    for (const urlObj of urls) {
+      options.push({
+        key: urlObj.key,
+        text: urlObj.key,
+        isSelected: false,
+      });
+    }
+    setDropdownOptions(options);
+    setSelectedUrl(urls.length > 0 ? urls[0] : undefined);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urls]);
   return (
     <Callout
       role="alertdialog"
@@ -62,7 +67,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
           <div className={keyDivStyle}>
             {t('keysDialog_key')}
             <OfficeDropdown
-              defaultSelectedKey={defaultSelectedKey}
+              defaultSelectedKey={!!selectedUrl ? selectedUrl.key : ''}
               options={dropdownOptions}
               onChange={onChangeHostKeyDropdown}
               ariaLabel={t('functionAppDirectoryDropdownAriaLabel')}
@@ -73,10 +78,10 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
             {t('keysDialog_url')}
             <TextFieldNoFormik
               id="function-editor-function-url"
-              value={selectedUrl}
+              value={!!selectedUrl ? selectedUrl.url : ''}
               disabled={true}
               copyButton={true}
-              textFieldClassName={urlFieldStyle}
+              className={urlFieldStyle}
               formControlClassName={urlFormStyle}
             />
           </div>

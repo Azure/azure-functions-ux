@@ -23,7 +23,6 @@ import { VfsObject } from '../../../../models/functions/vfs';
 import { Method } from 'axios';
 import { getJsonHeaders } from '../../../../ApiHelpers/HttpClient';
 import { upperFirst } from 'lodash-es';
-import { IDropdownOption } from 'office-ui-fabric-react';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -47,7 +46,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [responseContent, setResponseContent] = useState<ResponseContent | undefined>(undefined);
   const [functionRunning, setFunctionRunning] = useState(false);
   const [urls, setUrls] = useState<{ host: FunctionUrl[]; function: FunctionUrl[] }>(defaultUrls);
-  const [urlDropdownOptions, setUrlDropdownOptions] = useState<{ host: IDropdownOption[]; function: IDropdownOption[] }>(defaultUrls);
 
   const siteContext = useContext(SiteRouterContext);
 
@@ -245,9 +243,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const setUrlsAndOptions = (keys: { [key: string]: string }, keyType: string) => {
     const keyTypeString = `${upperFirst(keyType)} key`;
     const keyTypeUrls: FunctionUrl[] = [];
-    const dropdownOptions: IDropdownOption[] = [];
     const updatedUrls = urls;
-    const updatedOptions = urlDropdownOptions;
     for (const key in keys) {
       if (key in keys) {
         const keyName = `${key} (${keyTypeString})`;
@@ -255,17 +251,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           key: keyName,
           url: getFunctionUrl(keys[key]),
         });
-        dropdownOptions.push({
-          key: keyName,
-          text: keyName,
-          isSelected: false,
-        });
       }
     }
     updatedUrls[keyType] = keyTypeUrls;
-    updatedOptions[keyType] = dropdownOptions;
     setUrls({ ...updatedUrls });
-    setUrlDropdownOptions({ ...updatedOptions });
   };
 
   useEffect(() => {
@@ -301,7 +290,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         responseContent={responseContent}
         functionRunning={functionRunning}
         functionUrls={[...urls['host'], ...urls['function']]}
-        functionUrlDropdownOptions={[...urlDropdownOptions['host'], ...urlDropdownOptions['function']]}
       />
     </FunctionEditorContext.Provider>
   );
