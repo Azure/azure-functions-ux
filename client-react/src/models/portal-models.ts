@@ -313,3 +313,8 @@ export enum MenuId {
   StreamingLogs = 'streamingLogs',
   FunctionKeys = 'functionKeys',
 }
+
+export enum SiteState {
+  FunctionAppReadOnly = 'FunctionAppReadOnly',
+  FunctionAppReadWrite = 'FunctionAppReadWrite',
+}
