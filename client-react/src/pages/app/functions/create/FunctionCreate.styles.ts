@@ -16,7 +16,7 @@ export const filterBoxStyle = {
     marginLeft: '0px',
     marginTop: '10px',
     height: '30px',
-    width: '250px',
+    width: '47%',
   },
 };
 
@@ -24,7 +24,7 @@ export const getCardStyle = (theme: ThemeExtended) => {
   return style({
     border: `solid 1px ${theme.semanticColors.cardBorderColor}`,
     borderRadius: '2px',
-    width: '250px',
+    width: '47%',
     height: '150px',
     marginTop: '10px',
     marginRight: '12px',
