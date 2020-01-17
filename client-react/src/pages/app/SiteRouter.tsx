@@ -4,6 +4,7 @@ import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
 import { SiteRouterData } from './SiteRouter.data';
+import { SiteStateContext } from '../SiteStateContext';
 export interface SiteRouterProps {
   subscriptionId?: string;
   resourcegroup?: string;
@@ -50,19 +51,21 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
           {value => {
             return (
               value.token && (
-                <Router>
-                  <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
-                  <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
-                  <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
-                  <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
-                  <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
-                  <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
-                  <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
-                  <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
-                  <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
-                  <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
-                  <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
-                </Router>
+                <SiteStateContext.Provider value={false}>
+                  <Router>
+                    <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
+                    <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
+                    <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
+                    <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
+                    <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
+                    <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
+                    <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
+                    <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
+                    <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
+                    <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
+                    <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
+                  </Router>
+                </SiteStateContext.Provider>
               )
             );
           }}
