@@ -16,33 +16,54 @@ export class StacksController {
 
   @Post('webAppCreateStacks')
   webAppCreateStacks(@Query('api-version') apiVersion: string) {
+    this._validateApiVersion(apiVersion);
+
     if (apiVersion === StackAPIVersions.v1) {
       return this._stackWebAppCreateService.getStacks();
     }
-    throw new HttpException(`Incorrect api-version '${apiVersion}' provided. Allowed version is '${StackAPIVersions.v1}'.`, 400);
   }
 
   @Post('webAppConfigStacks')
   webAppConfigStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
+    this._validateApiVersion(apiVersion);
+    this._validateOs(os);
+
     if (apiVersion === StackAPIVersions.v1) {
       return this._stackWebAppConfigService.getStacks(os);
     }
-    throw new HttpException(`Incorrect api-version '${apiVersion}' provided. Allowed version is '${StackAPIVersions.v1}'.`, 400);
   }
 
   @Post('functionAppCreateStacks')
   functionAppCreateStacks(@Query('api-version') apiVersion: string) {
+    this._validateApiVersion(apiVersion);
+
     if (apiVersion === StackAPIVersions.v1) {
       return this._stackFunctionAppConfigService.getStacks();
     }
-    throw new HttpException(`Incorrect api-version '${apiVersion}' provided. Allowed version is '${StackAPIVersions.v1}'.`, 400);
   }
 
   @Post('functionAppConfigStacks')
   functionAppConfigStacks(@Query('api-version') apiVersion: string) {
+    this._validateApiVersion(apiVersion);
+
     if (apiVersion === StackAPIVersions.v1) {
       return this._stackFunctionAppCreateService.getStacks();
     }
-    throw new HttpException(`Incorrect api-version '${apiVersion}' provided. Allowed version is '${StackAPIVersions.v1}'.`, 400);
+  }
+
+  private _validateOs(os?: 'linux' | 'windows') {
+    if (os && os !== 'linux' && os !== 'windows') {
+      throw new HttpException(`Incorrect os '${os}' provided. Allowed os values are 'linux' or 'windows'.`, 400);
+    }
+  }
+
+  private _validateApiVersion(apiVersion) {
+    if (!apiVersion) {
+      throw new HttpException(`Missing 'api-version' query parameter. Allowed version is '${StackAPIVersions.v1}'.`, 400);
+    }
+
+    if (apiVersion !== StackAPIVersions.v1) {
+      throw new HttpException(`Incorrect api-version '${apiVersion}' provided. Allowed version is '${StackAPIVersions.v1}'.`, 400);
+    }
   }
 }
