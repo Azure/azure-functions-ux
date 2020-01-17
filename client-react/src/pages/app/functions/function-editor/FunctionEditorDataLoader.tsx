@@ -32,7 +32,7 @@ interface FunctionEditorDataLoaderProps {
 const functionEditorData = new FunctionEditorData();
 export const FunctionEditorContext = React.createContext(functionEditorData);
 
-const defaultUrlObject = { host: [], function: [] };
+const defaultUrls = { host: [], function: [] };
 
 const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props => {
   const { resourceId } = props;
@@ -46,8 +46,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
   const [responseContent, setResponseContent] = useState<ResponseContent | undefined>(undefined);
   const [functionRunning, setFunctionRunning] = useState(false);
-  const [urls, setUrls] = useState<{ host: FunctionUrl[]; function: FunctionUrl[] }>(defaultUrlObject);
-  const [urlDropdownOptions, setUrlDropdownOptions] = useState<{ host: IDropdownOption[]; function: IDropdownOption[] }>(defaultUrlObject);
+  const [urls, setUrls] = useState<{ host: FunctionUrl[]; function: FunctionUrl[] }>(defaultUrls);
+  const [urlDropdownOptions, setUrlDropdownOptions] = useState<{ host: IDropdownOption[]; function: IDropdownOption[] }>(defaultUrls);
 
   const siteContext = useContext(SiteRouterContext);
 
@@ -242,37 +242,30 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return !!site ? `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath(key)}` : '';
   };
 
-  const setUrlAndOptions = (keys: { [key: string]: string }, type: string) => {
-    const typeString = `${upperFirst(type)} key`;
-    const typeUrls: FunctionUrl[] = [];
+  const setUrlsAndOptions = (keys: { [key: string]: string }, keyType: string) => {
+    const keyTypeString = `${upperFirst(keyType)} key`;
+    const keyTypeUrls: FunctionUrl[] = [];
     const dropdownOptions: IDropdownOption[] = [];
     const updatedUrls = urls;
     const updatedOptions = urlDropdownOptions;
-    Object.keys(keys).forEach((value, index) => {
-      const key = `${value} (${typeString})`;
-      typeUrls.push({
-        key,
-        url: getFunctionUrl(keys[value]),
-      });
-      dropdownOptions.push({
-        key,
-        text: key,
-        isSelected: false,
-      });
-    });
-    updatedUrls[type] = typeUrls;
-    updatedOptions[type] = dropdownOptions;
+    for (const key in keys) {
+      if (key in keys) {
+        const keyName = `${key} (${keyTypeString})`;
+        keyTypeUrls.push({
+          key: keyName,
+          url: getFunctionUrl(keys[key]),
+        });
+        dropdownOptions.push({
+          key: keyName,
+          text: keyName,
+          isSelected: false,
+        });
+      }
+    }
+    updatedUrls[keyType] = keyTypeUrls;
+    updatedOptions[keyType] = dropdownOptions;
     setUrls({ ...updatedUrls });
     setUrlDropdownOptions({ ...updatedOptions });
-  };
-
-  const getAndSetUrls = () => {
-    if (!!hostKeys) {
-      setUrlAndOptions({ master: hostKeys.masterKey, ...hostKeys.functionKeys, ...hostKeys.systemKeys }, 'host');
-    }
-    if (!!functionKeys) {
-      setUrlAndOptions(functionKeys, 'function');
-    }
   };
 
   useEffect(() => {
@@ -282,7 +275,12 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   }, []);
   useEffect(() => {
     if (!!site && !!functionInfo) {
-      getAndSetUrls();
+      if (!!hostKeys) {
+        setUrlsAndOptions({ master: hostKeys.masterKey, ...hostKeys.functionKeys, ...hostKeys.systemKeys }, 'host');
+      }
+      if (!!functionKeys) {
+        setUrlsAndOptions(functionKeys, 'function');
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

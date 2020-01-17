@@ -18,9 +18,9 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
   const { dropdownOptions, defaultSelectedKey, urls, setIsDialogVisible, dialogTarget } = props;
   const { t } = useTranslation();
   const [selectedUrl, setSelectedUrl] = useState<string | undefined>(() => {
-    for (const obj of urls) {
-      if (obj.key === defaultSelectedKey) {
-        return obj.url;
+    for (const urlObj of urls) {
+      if (urlObj.key === defaultSelectedKey) {
+        return urlObj.url;
       }
     }
 
@@ -32,9 +32,9 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
   };
 
   const onChangeHostKeyDropdown = (e: unknown, option: IDropdownOption) => {
-    for (const obj of urls) {
-      if (obj.key === (option.key as string)) {
-        setSelectedUrl(obj.url);
+    for (const urlObj of urls) {
+      if (urlObj.key === (option.key as string)) {
+        setSelectedUrl(urlObj.url);
       }
     }
   };
