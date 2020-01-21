@@ -315,6 +315,23 @@ export enum MenuId {
 }
 
 export enum SiteState {
-  FunctionAppReadOnly = 'FunctionAppReadOnly',
-  FunctionAppReadWrite = 'FunctionAppReadWrite',
+  readonly,
+  readwrite,
+}
+
+export enum FunctionAppEditMode {
+  ReadWriteSourceControlled,
+  ReadOnlySourceControlled,
+  ReadWrite,
+  ReadOnly,
+  ReadOnlySlots,
+  ReadOnlyVSGenerated,
+  ReadWriteVSGenerated,
+  ReadOnlyRunFromZip,
+  ReadOnlyLocalCache,
+  ReadOnlyLinuxDynamic,
+  ReadOnlyBYOC,
+  ReadOnlyPython,
+  ReadOnlyJava,
+  ReadOnlyLinuxCodeElastic,
 }
