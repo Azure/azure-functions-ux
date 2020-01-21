@@ -751,8 +751,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           extension: 'Microsoft_Azure_EventGrid',
           detailBladeInputs: {
             inputs: {
-              subscriberEndpointUrl: this.eventGridSubscribeUrl,
               label: `functions-${this.functionInfo.name.toLowerCase()}`,
+              endpointType: 'AzureFunction',
+              endpointResourceId: `${this.context.site.id}/functions/${this.functionInfo.name}`,
             },
           },
         },
