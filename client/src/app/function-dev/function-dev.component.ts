@@ -753,7 +753,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
             inputs: {
               label: `functions-${this.functionInfo.name.toLowerCase()}`,
               endpointType: 'AzureFunction',
-              endpointResourceUri: `${this.context.site.id}/functions/${this.functionInfo.name}`,
+              endpointResourceId: `${this.context.site.id}/functions/${this.functionInfo.name}`,
             },
           },
         },
