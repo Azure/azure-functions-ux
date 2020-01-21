@@ -52,7 +52,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
           {value => {
             return (
               value.token && (
-                <SiteStateContext.Provider value={SiteState.FunctionAppReadWrite}>
+                <SiteStateContext.Provider value={SiteState.readwrite}>
                   <Router>
                     <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
                     <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
