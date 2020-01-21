@@ -32,3 +32,28 @@ export interface ArmSku {
 export interface AvailableSku {
   sku: ArmSku;
 }
+
+export interface Identity {
+  principalId: string;
+  tenantId: string;
+  type: string;
+}
+
+export interface ResourcesTopology {
+  count: number;
+  data: ResourceTologyData;
+  facets: any[];
+  maxRows: number;
+  pagingEnabled: false;
+  totalRecords: number;
+}
+
+export interface ResourceTologyData {
+  columns: ResourceTopologyColumn[];
+  rows: any[][];
+}
+
+export interface ResourceTopologyColumn {
+  name: string;
+  type: string;
+}
