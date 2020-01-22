@@ -36,3 +36,15 @@ export interface FileContent {
   default: string;
   latest: string;
 }
+
+export interface UrlObj {
+  key: string;
+  text: string;
+  type: UrlType;
+  url: string;
+}
+
+export enum UrlType {
+  Host = 'Host',
+  Function = 'Function',
+}
