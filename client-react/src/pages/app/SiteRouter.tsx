@@ -98,9 +98,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
           } else if (isPython) {
             functionAppEditMode = FunctionAppEditMode.ReadOnlyPython;
           } else if (isJava) {
-            functionAppEditMode = FunctionAppEditMode.ReadOnlyPython;
+            functionAppEditMode = FunctionAppEditMode.ReadOnlyJava;
           } else if (editModeAppSettingString === SiteState.readonly.toString()) {
-            // TODO (krmitta): Add a specific FunctionAppEdit Readonly type
+            functionAppEditMode = FunctionAppEditMode.ReadOnly;
           }
         }
         setSiteAppEditState(SiteHelper.isFunctionAppReadOnly(functionAppEditMode) ? SiteState.readonly : SiteState.readwrite);
