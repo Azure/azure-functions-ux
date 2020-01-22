@@ -5,7 +5,13 @@ import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
 import { SiteRouterData } from './SiteRouter.data';
 import { SiteStateContext } from '../../SiteStateContext';
-import { SiteState } from '../../models/portal-models';
+import { SiteState, FunctionAppEditMode } from '../../models/portal-models';
+import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
+import SiteService from '../../ApiHelpers/SiteService';
+import { isFunctionApp, isLinuxDynamic, isLinuxApp, isElastic, isContainerApp } from '../../utils/arm-utils';
+import SiteHelper from '../../utils/SiteHelper';
+import FunctionAppService from '../../utils/FunctionAppService';
+import { CommonConstants } from '../../utils/CommonConstants';
 export interface SiteRouterProps {
   subscriptionId?: string;
   resourcegroup?: string;
@@ -45,16 +51,65 @@ const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
+  const [siteAppEditState, setSiteAppEditState] = useState(SiteState.readwrite);
 
   const fetchData = async () => {
     // TODO [krmitta]: Add the logic for read-only permissions on the site
+    if (!!resourceId) {
+      const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
+      const siteResourceId = armSiteDescriptor.getSiteOnlyResourceId();
+      const site = await SiteService.fetchSite(siteResourceId);
+      if (site.metadata.success && isFunctionApp(site.data)) {
+        const siteData = site.data;
+        let functionAppEditMode = FunctionAppEditMode.ReadWrite;
+        if (isLinuxDynamic(siteData)) {
+          functionAppEditMode = FunctionAppEditMode.ReadOnlyLinuxDynamic;
+        } else if (isContainerApp(siteData)) {
+          functionAppEditMode = FunctionAppEditMode.ReadOnlyBYOC;
+        } else if (isLinuxApp(siteData) && isElastic(siteData)) {
+          functionAppEditMode = FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
+        } else {
+          const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
+          let editModeAppSettingString: string = '';
+          let usingRunFromZip = false;
+          let usingLocalCache = false;
+          let isPython = false;
+          let isJava = false;
+          if (appSettingsResponse.metadata.success) {
+            const appSettings = appSettingsResponse.data;
+            editModeAppSettingString = appSettings
+              ? appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName].toLowerCase()
+              : '';
+            usingRunFromZip = FunctionAppService.getRFZSetting(appSettings) !== '0';
+            usingLocalCache =
+              !!appSettings.properties[CommonConstants.AppSettingNames.localCacheOptionSettingName] &&
+              appSettings.properties[CommonConstants.AppSettingNames.localCacheOptionSettingName] ===
+                CommonConstants.localCacheOptionSettingValue;
+            const workerRuntime = appSettings && appSettings.properties[CommonConstants.AppSettingNames.functionsWorkerRuntime];
+            isPython =
+              !!workerRuntime && CommonConstants.WorkerRuntimeLanguages[workerRuntime] === CommonConstants.WorkerRuntimeLanguages.python;
+            isJava =
+              !!workerRuntime && CommonConstants.WorkerRuntimeLanguages[workerRuntime] === CommonConstants.WorkerRuntimeLanguages.java;
+          }
+          if (usingRunFromZip) {
+            functionAppEditMode = FunctionAppEditMode.ReadOnlyRunFromZip;
+          } else if (usingLocalCache) {
+            functionAppEditMode = FunctionAppEditMode.ReadOnlyLocalCache;
+          } else if (isPython) {
+            functionAppEditMode = FunctionAppEditMode.ReadOnlyPython;
+          } else if (isJava) {
+            functionAppEditMode = FunctionAppEditMode.ReadOnlyPython;
+          } else if (editModeAppSettingString === SiteState.readonly.toString()) {
+            // TODO (krmitta): Add a specific FunctionAppEdit Readonly type
+          }
+        }
+        setSiteAppEditState(SiteHelper.isFunctionAppReadOnly(functionAppEditMode) ? SiteState.readonly : SiteState.readwrite);
+      }
+    }
   };
 
   useEffect(() => {
-    if (!!resourceId) {
-      fetchData();
-    }
-
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resourceId]);
   return (
@@ -65,7 +120,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token && (
-                <SiteStateContext.Provider value={SiteState.readwrite}>
+                <SiteStateContext.Provider value={siteAppEditState}>
                   <Router>
                     <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
                     <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
