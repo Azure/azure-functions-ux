@@ -1,4 +1,4 @@
-import React, { lazy, useContext, createContext } from 'react';
+import React, { lazy, useContext, createContext, useEffect, useState } from 'react';
 import { RouteComponentProps, Router } from '@reach/router';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
@@ -44,12 +44,19 @@ const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
+  const [resourceId, setResourceId] = useState<string | undefined>(undefined);
 
+  useEffect(() => {
+    if (!!resourceId) {
+      // TODO [krmitta]: Add the logic for read-only permissions on the site
+    }
+  }, [resourceId]);
   return (
     <main className={iconStyles(theme)}>
       <SiteRouterContext.Provider value={siteRouterData}>
         <StartupInfoContext.Consumer>
           {value => {
+            setResourceId(value.resourceId);
             return (
               value.token && (
                 <SiteStateContext.Provider value={SiteState.readwrite}>
