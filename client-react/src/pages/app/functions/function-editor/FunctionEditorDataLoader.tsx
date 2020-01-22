@@ -22,7 +22,6 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { VfsObject } from '../../../../models/functions/vfs';
 import { Method } from 'axios';
 import { getJsonHeaders } from '../../../../ApiHelpers/HttpClient';
-import { upperFirst } from 'lodash-es';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -240,19 +239,19 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return !!site ? `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath(key)}` : '';
   };
 
-  const setUrlsAndOptions = (keys: { [key: string]: string }, keyType: 'host' | 'function') => {
+  const setUrlsAndOptions = (keys: { [key: string]: string }, keyType: 'Host' | 'Function') => {
     const keyTypeUrls: FunctionUrl[] = [];
     const updatedUrls = urls;
     for (const key in keys) {
       if (key in keys) {
-        const keyName = `${key} (${upperFirst(keyType)} key)`;
+        const keyName = `${key} (${keyType} key)`;
         keyTypeUrls.push({
           key: keyName,
           url: getFunctionUrl(keys[key]),
         });
       }
     }
-    updatedUrls[keyType] = keyTypeUrls;
+    updatedUrls[keyType.toLowerCase()] = keyTypeUrls;
     setUrls({ ...updatedUrls });
   };
 
@@ -264,10 +263,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   useEffect(() => {
     if (!!site && !!functionInfo) {
       if (!!hostKeys) {
-        setUrlsAndOptions({ master: hostKeys.masterKey, ...hostKeys.functionKeys, ...hostKeys.systemKeys }, 'host');
+        setUrlsAndOptions({ master: hostKeys.masterKey, ...hostKeys.functionKeys, ...hostKeys.systemKeys }, 'Host');
       }
       if (!!functionKeys) {
-        setUrlsAndOptions(functionKeys, 'function');
+        setUrlsAndOptions(functionKeys, 'Function');
       }
     }
 
