@@ -97,6 +97,12 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         AppInsightsService.getAppInsightsComponentToken(appInsightsComponent.id).then(response => {
           if (response.metadata.success) {
             setAppInsightsToken(response.data.token);
+          } else {
+            LogService.error(
+              LogCategories.FunctionEdit,
+              'getAppInsightsComponentToken',
+              `Failed to get App Insights Component Token: ${appInsightsComponent}`
+            );
           }
         });
       }
