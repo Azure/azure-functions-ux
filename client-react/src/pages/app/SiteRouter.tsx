@@ -56,7 +56,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       <SiteRouterContext.Provider value={siteRouterData}>
         <StartupInfoContext.Consumer>
           {value => {
-            setResourceId(value.resourceId);
+            setResourceId(value.token ? value.resourceId : undefined);
             return (
               value.token && (
                 <SiteStateContext.Provider value={SiteState.readwrite}>
