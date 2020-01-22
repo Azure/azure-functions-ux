@@ -240,13 +240,12 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return !!site ? `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath(key)}` : '';
   };
 
-  const setUrlsAndOptions = (keys: { [key: string]: string }, keyType: string) => {
-    const keyTypeString = `${upperFirst(keyType)} key`;
+  const setUrlsAndOptions = (keys: { [key: string]: string }, keyType: 'host' | 'function') => {
     const keyTypeUrls: FunctionUrl[] = [];
     const updatedUrls = urls;
     for (const key in keys) {
       if (key in keys) {
-        const keyName = `${key} (${keyTypeString})`;
+        const keyName = `${key} (${upperFirst(keyType)} key)`;
         keyTypeUrls.push({
           key: keyName,
           url: getFunctionUrl(keys[key]),
