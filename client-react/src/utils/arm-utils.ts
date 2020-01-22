@@ -1,5 +1,5 @@
 import { AppKind } from './AppKind';
-import { ArmObj, ResourceTopologyColumn, Identity, ArmSku } from '../models/arm-obj';
+import { ArmObj, ResourceGraphColumn, Identity, ArmSku } from '../models/arm-obj';
 import { Site } from '../models/site/site';
 import { CommonConstants } from './CommonConstants';
 
@@ -24,7 +24,7 @@ export function isElastic(obj: ArmObj<Site>): boolean {
   return sku === CommonConstants.SkuNames.elasticPremium || sku === CommonConstants.SkuNames.elasticIsolated;
 }
 
-export function mapResourcesTopologyToArmObjects<T>(columns: ResourceTopologyColumn[], rows: any[][]): ArmObj<T>[] {
+export function mapResourcesTopologyToArmObjects<T>(columns: ResourceGraphColumn[], rows: any[][]): ArmObj<T>[] {
   const idIndex = columns.findIndex(col => col.name.toLowerCase() === 'id');
   const nameIndex = columns.findIndex(col => col.name.toLowerCase() === 'name');
   const typeIndex = columns.findIndex(col => col.name.toLowerCase() === 'type');

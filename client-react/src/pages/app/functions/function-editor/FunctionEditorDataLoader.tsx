@@ -66,15 +66,19 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     if (functionInfoResponse.metadata.success) {
       setFunctionInfo(functionInfoResponse.data);
     }
-    if (appSettingsResponse.metadata.success) {
-      const currentRuntimeVersion = appSettingsResponse.data.properties[CommonConstants.AppSettingNames.functionsExtensionVersion];
+    if (appSettingsResponse.metadata.success && appSettingsResponse.data.properties) {
+      const appSettings = appSettingsResponse.data.properties;
+      const currentRuntimeVersion = appSettings[CommonConstants.AppSettingNames.functionsExtensionVersion];
       setRuntimeVersion(currentRuntimeVersion);
-      const appInsightsInstrumentationKey =
-        appSettingsResponse.data.properties[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
+      const appInsightsConnectionString = appSettings[CommonConstants.AppSettingNames.appInsightsConnectionString];
+      const appInsightsInstrumentationKey = appSettings[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
+
       const [hostJsonResponse, fileListResponse, appInsightsComponent] = await Promise.all([
         FunctionsService.getHostJson(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
         FunctionsService.getFileContent(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
-        appInsightsInstrumentationKey
+        appInsightsConnectionString
+          ? AppInsightsService.getAppInsightsComponentFromConnectionString(appInsightsConnectionString, startupInfoContext.subscriptions)
+          : appInsightsInstrumentationKey
           ? AppInsightsService.getAppInsightsComponentFromInstrumentationKey(
               appInsightsInstrumentationKey,
               startupInfoContext.subscriptions

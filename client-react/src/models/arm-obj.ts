@@ -39,21 +39,21 @@ export interface Identity {
   type: string;
 }
 
-export interface ResourcesTopology {
+export interface ResourceGraph {
   count: number;
-  data: ResourceTologyData;
+  data: ResourceGraphData;
   facets: any[];
   maxRows: number;
   pagingEnabled: false;
   totalRecords: number;
 }
 
-export interface ResourceTologyData {
-  columns: ResourceTopologyColumn[];
+export interface ResourceGraphData {
+  columns: ResourceGraphColumn[];
   rows: any[][];
 }
 
-export interface ResourceTopologyColumn {
+export interface ResourceGraphColumn {
   name: string;
   type: string;
 }
