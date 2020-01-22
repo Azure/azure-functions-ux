@@ -8,7 +8,7 @@ import FunctionEditorData from './FunctionEditor.data';
 import { Site } from '../../../../models/site/site';
 import { SiteRouterContext } from '../../SiteRouter';
 import Url from '../../../../utils/url';
-import { NameValuePair, ResponseContent } from './FunctionEditor.types';
+import { NameValuePair, ResponseContent, UrlObj, UrlType } from './FunctionEditor.types';
 import AppKeyService from '../../../../ApiHelpers/AppKeysService';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { BindingManager } from '../../../../utils/BindingManager';
@@ -42,6 +42,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
   const [responseContent, setResponseContent] = useState<ResponseContent | undefined>(undefined);
   const [functionRunning, setFunctionRunning] = useState(false);
+  const [hostUrls, setHostUrls] = useState<UrlObj[]>([]);
+  const [functionUrls, setFunctionUrls] = useState<UrlObj[]>([]);
 
   const siteContext = useContext(SiteRouterContext);
 
@@ -232,11 +234,46 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return queryString.join('&');
   };
 
+  const getFunctionUrl = (key?: string) => {
+    return !!site ? `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath(key)}` : '';
+  };
+
+  const setUrlsAndOptions = (keys: { [key: string]: string }, keyType: UrlType) => {
+    const newUrlsObj: UrlObj[] = [];
+    for (const key in keys) {
+      if (key in keys) {
+        newUrlsObj.push({
+          key: `${key} - ${keyType}`,
+          text: key,
+          type: keyType,
+          url: getFunctionUrl(keys[key]),
+        });
+      }
+    }
+    if (keyType === UrlType.Host) {
+      setHostUrls(newUrlsObj);
+    } else {
+      setFunctionUrls(newUrlsObj);
+    }
+  };
+
   useEffect(() => {
     fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    if (!!site && !!functionInfo) {
+      if (!!hostKeys) {
+        setUrlsAndOptions({ master: hostKeys.masterKey, ...hostKeys.functionKeys, ...hostKeys.systemKeys }, UrlType.Host);
+      }
+      if (!!functionKeys) {
+        setUrlsAndOptions(functionKeys, UrlType.Function);
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [site, functionInfo, hostKeys, functionKeys]);
 
   // TODO (krmitta): Show a loading error message site or functionInfo call fails
   if (initialLoading || !site || !functionInfo) {
@@ -252,6 +289,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         runtimeVersion={runtimeVersion}
         responseContent={responseContent}
         functionRunning={functionRunning}
+        urlObjs={[...hostUrls, ...functionUrls]}
       />
     </FunctionEditorContext.Provider>
   );
