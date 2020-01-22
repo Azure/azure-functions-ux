@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { PortalContext } from '../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
-import FunctionEditorGetFunctionUrlCallout, { HostUrl } from './FunctionEditorGetFunctionUrlCallout';
-import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
 import { IContextualMenuRenderItem } from 'office-ui-fabric-react';
+import { UrlObj } from './FunctionEditor.types';
 
 // Data for CommandBar
 interface FunctionEditorCommandBarProps {
@@ -16,23 +16,11 @@ interface FunctionEditorCommandBarProps {
   showGetFunctionUrlCommand: boolean;
   dirty: boolean;
   disabled: boolean;
-  hostKeyDropdownOptions: IDropdownOption[];
-  hostKeyDropdownSelectedKey: string;
-  hostUrls: HostUrl[];
+  urlObjs: UrlObj[];
 }
 
 const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props => {
-  const {
-    saveFunction,
-    resetFunction,
-    testFunction,
-    showGetFunctionUrlCommand,
-    dirty,
-    disabled,
-    hostUrls,
-    hostKeyDropdownOptions,
-    hostKeyDropdownSelectedKey,
-  } = props;
+  const { saveFunction, resetFunction, testFunction, showGetFunctionUrlCommand, dirty, disabled, urlObjs } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
@@ -108,9 +96,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       />
       {isDialogVisible && (
         <FunctionEditorGetFunctionUrlCallout
-          hostKeyDropdownOptions={hostKeyDropdownOptions}
-          hostKeyDropdownSelectedKey={hostKeyDropdownSelectedKey}
-          hostUrls={hostUrls}
+          urlObjs={urlObjs}
           setIsDialogVisible={setIsDialogVisible}
           dialogTarget={getFunctionUrlButtonRef.current}
         />

@@ -9,7 +9,7 @@ import Panel from '../../../../components/Panel/Panel';
 import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
-import { InputFormValues, ResponseContent, PivotType, FileContent } from './FunctionEditor.types';
+import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj } from './FunctionEditor.types';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
@@ -26,6 +26,7 @@ export interface FunctionEditorProps {
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
   functionRunning: boolean;
+  urlObjs: UrlObj[];
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
@@ -33,7 +34,7 @@ export interface FunctionEditorProps {
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
-  const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning, appInsightsToken } = props;
+  const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning, urlObjs, appInsightsToken } = props;
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -162,21 +163,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setInitialLoading(false);
   };
 
-  const hostKeyDropdownOptions = [
-    {
-      key: 'master',
-      text: 'master',
-      selected: true,
-    },
-  ];
-
-  const hostUrls = [
-    {
-      key: 'master',
-      url: 'https://test.com/key1',
-    },
-  ];
-
   const onChange = (newValue, event) => {
     setFileContent({ ...fileContent, latest: newValue });
   };
@@ -248,9 +234,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           showGetFunctionUrlCommand={!!inputBinding}
           dirty={dirty}
           disabled={isLoading()}
-          hostKeyDropdownOptions={hostKeyDropdownOptions}
-          hostKeyDropdownSelectedKey={'master'}
-          hostUrls={hostUrls}
+          urlObjs={urlObjs}
         />
         <ConfirmDialog
           primaryActionButton={{
