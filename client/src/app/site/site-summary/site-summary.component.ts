@@ -265,12 +265,10 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           });
           this._globalStateService.setTopBarNotifications(this.notifications);
         } else {
-          if (
-            r.appInsightsEnablement &&
-            r.appInsightsEnablement.status === 'enabled' &&
-            appSettings &&
-            !appSettings[Constants.instrumentationKeySettingName]
-          ) {
+          const iKeyExists = appSettings && !!appSettings[Constants.instrumentationKeySettingName];
+          const connectionStringExists = appSettings && !!appSettings[Constants.connectionStringSettingName];
+
+          if (r.appInsightsEnablement && r.appInsightsEnablement.status === 'enabled' && (iKeyExists || connectionStringExists)) {
             this.notifications.push({
               id: 'testnote',
               message: this.ts.instant(PortalResources.appInsightsNotConfigured),

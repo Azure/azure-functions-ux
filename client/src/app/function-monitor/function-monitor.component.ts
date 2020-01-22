@@ -126,9 +126,10 @@ export class FunctionMonitorComponent extends NavigableComponent {
       this.functionMonitorInfo.functionAppContext.site.id
     );
 
-    const loadClassicView =
-      view === FunctionMonitorComponent.CLASSIC_VIEW &&
-      !this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName];
+    const iKeyExists = !!this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName];
+    const connectionStringExists = !!this.functionMonitorInfo.functionAppSettings[Constants.connectionStringSettingName];
+
+    const loadClassicView = view === FunctionMonitorComponent.CLASSIC_VIEW && !iKeyExists && !connectionStringExists;
 
     if (!loadClassicView) {
       this._applicationInsightsService.removeFunctionMonitorClassicViewPreference(this.functionMonitorInfo.functionAppContext.site.id);
@@ -146,12 +147,12 @@ export class FunctionMonitorComponent extends NavigableComponent {
   private _loadMonitorConfigureView(): string {
     let errorEvent: ErrorEvent = null;
 
+    const iKeyExists = !!this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName];
+    const connectionStringExists = !!this.functionMonitorInfo.functionAppSettings[Constants.connectionStringSettingName];
+
     // NOTE(michinoy): Load the if the user has setup an instrumentation key, but the app insights resource was not found
     // in the subscription, present the user with an error message.
-    if (
-      !!this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName] &&
-      this.functionMonitorInfo.appInsightResource === null
-    ) {
+    if ((iKeyExists || connectionStringExists) && this.functionMonitorInfo.appInsightResource === null) {
       errorEvent = {
         errorId: errorIds.applicationInsightsInstrumentationKeyMismatch,
         message: this._translateService.instant(PortalResources.monitoring_appInsightsIsNotFound),

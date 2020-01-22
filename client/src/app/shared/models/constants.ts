@@ -28,6 +28,7 @@ export class Constants {
   public static routingExtensionVersionAppSettingName = 'ROUTING_EXTENSION_VERSION';
   public static functionAppEditModeSettingName = 'FUNCTION_APP_EDIT_MODE';
   public static instrumentationKeySettingName = 'APPINSIGHTS_INSTRUMENTATIONKEY';
+  public static connectionStringSettingName = 'APPLICATIONINSIGHTS_CONNECTION_STRING';
   public static secretStorageSettingsName = 'AzureWebJobsSecretStorageType';
   public static secretStorageSettingsValueBlob = 'Blob';
   public static secretStorageSettingsValueFiles = 'Files';
