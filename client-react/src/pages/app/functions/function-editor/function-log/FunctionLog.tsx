@@ -34,6 +34,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const theme = useContext(ThemeContext);
 
   // TODO: allisonm Move logic to log in console
+  // WI 5906972
   if (appInsightsToken) {
     if (!queryLayer) {
       const ql = new QuickPulseQueryLayer(CommonConstants.QuickPulseEndpoints.public, 'functions');

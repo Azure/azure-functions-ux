@@ -3,7 +3,7 @@ export interface AppInsightsComponent {
   applicationId: string;
   appId: string;
   instrumentationKey: string;
-  connectionsString: string;
+  connectionString: string;
   name: string;
   creationDate: string;
   tenantId: string;
