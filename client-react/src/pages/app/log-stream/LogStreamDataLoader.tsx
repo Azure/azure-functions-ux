@@ -139,7 +139,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
     const scmHostName = hostNameSslStates.find(h => !!h.name && h.name.includes('.scm.'))!.name;
     const suffix = this._logType === LogType.WebServer ? 'http' : '';
     const logUrl = `https://${scmHostName}/api/logstream/${suffix}`;
-    const token = this.context;
+    const token = window.appsvc && window.appsvc.env && window.appsvc.env.armToken;
     this._xhReq = new XMLHttpRequest();
     this._xhReq.open('GET', logUrl, true);
     this._xhReq.setRequestHeader('Authorization', `Bearer ${token}`);

@@ -235,7 +235,7 @@ export class AzureEnvironment extends Environment {
     };
   }
 
-  private _getApplicationInsightsId(input: ScenarioCheckInput): Observable<ScenarioResult> {
+  protected _getApplicationInsightsId(input: ScenarioCheckInput): Observable<ScenarioResult> {
     if (input.site) {
       return this._applicationInsightsService.getApplicationInsightResource(input.site.id).switchMap(resource => {
         return Observable.of<ScenarioResult>({
