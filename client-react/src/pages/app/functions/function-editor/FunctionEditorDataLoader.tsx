@@ -288,7 +288,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         runtimeVersion={runtimeVersion}
         responseContent={responseContent}
         functionRunning={functionRunning}
-        functionUrls={[...urls['host'], ...urls['function']]}
+        urlObjs={[...urls['host'], ...urls['function']]}
       />
     </FunctionEditorContext.Provider>
   );

@@ -26,14 +26,14 @@ export interface FunctionEditorProps {
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
   functionRunning: boolean;
-  functionUrls: FunctionUrl[];
+  urlObjs: FunctionUrl[];
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
-  const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning, functionUrls } = props;
+  const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning, urlObjs } = props;
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -233,7 +233,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           showGetFunctionUrlCommand={!!inputBinding}
           dirty={dirty}
           disabled={isLoading()}
-          urls={functionUrls}
+          urlObjs={urlObjs}
         />
         <ConfirmDialog
           primaryActionButton={{

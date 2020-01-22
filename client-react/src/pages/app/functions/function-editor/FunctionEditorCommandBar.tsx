@@ -16,11 +16,11 @@ interface FunctionEditorCommandBarProps {
   showGetFunctionUrlCommand: boolean;
   dirty: boolean;
   disabled: boolean;
-  urls: FunctionUrl[];
+  urlObjs: FunctionUrl[];
 }
 
 const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props => {
-  const { saveFunction, resetFunction, testFunction, showGetFunctionUrlCommand, dirty, disabled, urls } = props;
+  const { saveFunction, resetFunction, testFunction, showGetFunctionUrlCommand, dirty, disabled, urlObjs } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
@@ -96,7 +96,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       />
       {isDialogVisible && (
         <FunctionEditorGetFunctionUrlCallout
-          urls={urls}
+          urlObjs={urlObjs}
           setIsDialogVisible={setIsDialogVisible}
           dialogTarget={getFunctionUrlButtonRef.current}
         />

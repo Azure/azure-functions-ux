@@ -7,13 +7,13 @@ import { fileSelectorDropdownStyle, keyDivStyle, urlDivStyle, urlFieldStyle, url
 import { FunctionUrl } from './FunctionEditor.types';
 
 interface FunctionEditorGetFunctionUrlCalloutProps {
-  urls: FunctionUrl[];
+  urlObjs: FunctionUrl[];
   setIsDialogVisible: (isVisible: boolean) => void;
   dialogTarget: any;
 }
 
 const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrlCalloutProps> = props => {
-  const { urls, setIsDialogVisible, dialogTarget } = props;
+  const { urlObjs, setIsDialogVisible, dialogTarget } = props;
   const { t } = useTranslation();
   const [dropdownOptions, setDropdownOptions] = useState<IDropdownOption[]>([]);
   const [selectedUrl, setSelectedUrl] = useState<FunctionUrl | undefined>(undefined);
@@ -23,7 +23,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
   };
 
   const onChangeHostKeyDropdown = (e: unknown, option: IDropdownOption) => {
-    for (const urlObj of urls) {
+    for (const urlObj of urlObjs) {
       if (urlObj.key === (option.key as string)) {
         setSelectedUrl(urlObj);
       }
@@ -38,7 +38,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
 
   useEffect(() => {
     const options: IDropdownOption[] = [];
-    for (const urlObj of urls) {
+    for (const urlObj of urlObjs) {
       options.push({
         key: urlObj.key,
         text: urlObj.key,
@@ -46,10 +46,10 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
       });
     }
     setDropdownOptions(options);
-    setSelectedUrl(urls.length > 0 ? urls[0] : undefined);
+    setSelectedUrl(urlObjs.length > 0 ? urlObjs[0] : undefined);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [urls]);
+  }, [urlObjs]);
   return (
     <Callout
       role="alertdialog"
