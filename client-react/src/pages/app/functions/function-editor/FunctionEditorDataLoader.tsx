@@ -8,7 +8,7 @@ import FunctionEditorData from './FunctionEditor.data';
 import { Site } from '../../../../models/site/site';
 import { SiteRouterContext } from '../../SiteRouter';
 import Url from '../../../../utils/url';
-import { NameValuePair, ResponseContent, FunctionUrl } from './FunctionEditor.types';
+import { NameValuePair, ResponseContent, UrlObj, UrlType } from './FunctionEditor.types';
 import AppKeyService from '../../../../ApiHelpers/AppKeysService';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { BindingManager } from '../../../../utils/BindingManager';
@@ -30,8 +30,6 @@ interface FunctionEditorDataLoaderProps {
 const functionEditorData = new FunctionEditorData();
 export const FunctionEditorContext = React.createContext(functionEditorData);
 
-const defaultUrls = { host: [], function: [] };
-
 const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props => {
   const { resourceId } = props;
   const [initialLoading, setInitialLoading] = useState(true);
@@ -44,7 +42,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
   const [responseContent, setResponseContent] = useState<ResponseContent | undefined>(undefined);
   const [functionRunning, setFunctionRunning] = useState(false);
-  const [urls, setUrls] = useState<{ host: FunctionUrl[]; function: FunctionUrl[] }>(defaultUrls);
+  const [hostUrls, setHostUrls] = useState<UrlObj[]>([]);
+  const [functionUrls, setFunctionUrls] = useState<UrlObj[]>([]);
 
   const siteContext = useContext(SiteRouterContext);
 
@@ -239,20 +238,23 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return !!site ? `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath(key)}` : '';
   };
 
-  const setUrlsAndOptions = (keys: { [key: string]: string }, keyType: 'Host' | 'Function') => {
-    const keyTypeUrls: FunctionUrl[] = [];
-    const updatedUrls = urls;
+  const setUrlsAndOptions = (keys: { [key: string]: string }, keyType: UrlType) => {
+    const newUrlsObj: UrlObj[] = [];
     for (const key in keys) {
       if (key in keys) {
-        const keyName = `${key} (${keyType} key)`;
-        keyTypeUrls.push({
-          key: keyName,
+        newUrlsObj.push({
+          key: `${key} - ${keyType}`,
+          text: key,
+          type: keyType,
           url: getFunctionUrl(keys[key]),
         });
       }
     }
-    updatedUrls[keyType.toLowerCase()] = keyTypeUrls;
-    setUrls({ ...updatedUrls });
+    if (keyType === UrlType.Host) {
+      setHostUrls(newUrlsObj);
+    } else {
+      setFunctionUrls(newUrlsObj);
+    }
   };
 
   useEffect(() => {
@@ -263,10 +265,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   useEffect(() => {
     if (!!site && !!functionInfo) {
       if (!!hostKeys) {
-        setUrlsAndOptions({ master: hostKeys.masterKey, ...hostKeys.functionKeys, ...hostKeys.systemKeys }, 'Host');
+        setUrlsAndOptions({ master: hostKeys.masterKey, ...hostKeys.functionKeys, ...hostKeys.systemKeys }, UrlType.Host);
       }
       if (!!functionKeys) {
-        setUrlsAndOptions(functionKeys, 'Function');
+        setUrlsAndOptions(functionKeys, UrlType.Function);
       }
     }
 
@@ -287,7 +289,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         runtimeVersion={runtimeVersion}
         responseContent={responseContent}
         functionRunning={functionRunning}
-        urlObjs={[...urls['host'], ...urls['function']]}
+        urlObjs={[...hostUrls, ...functionUrls]}
       />
     </FunctionEditorContext.Provider>
   );

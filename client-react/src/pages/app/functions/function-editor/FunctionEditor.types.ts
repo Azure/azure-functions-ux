@@ -37,7 +37,14 @@ export interface FileContent {
   latest: string;
 }
 
-export interface FunctionUrl {
+export interface UrlObj {
   key: string;
+  text: string;
+  type: UrlType;
   url: string;
+}
+
+export enum UrlType {
+  Host = 'Host',
+  Function = 'Function',
 }

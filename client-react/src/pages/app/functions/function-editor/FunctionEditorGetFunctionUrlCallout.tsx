@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dropdown as OfficeDropdown, IDropdownOption, Callout, DirectionalHint } from 'office-ui-fabric-react';
+import { Dropdown as OfficeDropdown, IDropdownOption, Callout, DirectionalHint, DropdownMenuItemType } from 'office-ui-fabric-react';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { style } from 'typestyle';
 import { fileSelectorDropdownStyle, keyDivStyle, urlDivStyle, urlFieldStyle, urlFormStyle } from './FunctionEditor.styles';
-import { FunctionUrl } from './FunctionEditor.types';
+import { UrlObj, UrlType } from './FunctionEditor.types';
 
 interface FunctionEditorGetFunctionUrlCalloutProps {
-  urlObjs: FunctionUrl[];
+  urlObjs: UrlObj[];
   setIsDialogVisible: (isVisible: boolean) => void;
   dialogTarget: any;
 }
@@ -16,7 +16,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
   const { urlObjs, setIsDialogVisible, dialogTarget } = props;
   const { t } = useTranslation();
   const [dropdownOptions, setDropdownOptions] = useState<IDropdownOption[]>([]);
-  const [selectedUrl, setSelectedUrl] = useState<FunctionUrl | undefined>(undefined);
+  const [selectedUrlObj, setSelectedUrlObj] = useState<UrlObj | undefined>(undefined);
 
   const onCloseDialog = () => {
     setIsDialogVisible(false);
@@ -25,9 +25,26 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
   const onChangeHostKeyDropdown = (e: unknown, option: IDropdownOption) => {
     for (const urlObj of urlObjs) {
       if (urlObj.key === (option.key as string)) {
-        setSelectedUrl(urlObj);
+        setSelectedUrlObj(urlObj);
       }
     }
+  };
+
+  const getDropdownOptionsFromUrlObjs = (urlObjs: UrlObj[], type: UrlType): IDropdownOption[] => {
+    const options: IDropdownOption[] = [];
+    options.push({
+      key: type,
+      text: `${type} key`,
+      itemType: DropdownMenuItemType.Header,
+    });
+    for (const urlObj of urlObjs) {
+      options.push({
+        key: urlObj.key,
+        text: urlObj.text,
+        isSelected: false,
+      });
+    }
+    return options;
   };
 
   const calloutStyle = () =>
@@ -38,15 +55,16 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
 
   useEffect(() => {
     const options: IDropdownOption[] = [];
-    for (const urlObj of urlObjs) {
-      options.push({
-        key: urlObj.key,
-        text: urlObj.key,
-        isSelected: false,
-      });
+    const hostUrlObjs = urlObjs.filter(urlObj => urlObj.type === UrlType.Host);
+    if (hostUrlObjs.length > 0) {
+      options.push(...getDropdownOptionsFromUrlObjs(hostUrlObjs, UrlType.Host));
+    }
+    const functionUrlObjs = urlObjs.filter(urlObj => urlObj.type === UrlType.Function);
+    if (functionUrlObjs.length > 0) {
+      options.push(...getDropdownOptionsFromUrlObjs(functionUrlObjs, UrlType.Function));
     }
     setDropdownOptions(options);
-    setSelectedUrl(urlObjs.length > 0 ? urlObjs[0] : undefined);
+    setSelectedUrlObj(urlObjs.length > 0 ? urlObjs[0] : undefined);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlObjs]);
@@ -67,7 +85,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
           <div className={keyDivStyle}>
             {t('keysDialog_key')}
             <OfficeDropdown
-              defaultSelectedKey={!!selectedUrl ? selectedUrl.key : ''}
+              defaultSelectedKey={!!selectedUrlObj ? selectedUrlObj.key : ''}
               options={dropdownOptions}
               onChange={onChangeHostKeyDropdown}
               ariaLabel={t('functionAppDirectoryDropdownAriaLabel')}
@@ -78,7 +96,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
             {t('keysDialog_url')}
             <TextFieldNoFormik
               id="function-editor-function-url"
-              value={!!selectedUrl ? selectedUrl.url : ''}
+              value={!!selectedUrlObj ? selectedUrlObj.url : ''}
               disabled={true}
               copyButton={true}
               className={urlFieldStyle}

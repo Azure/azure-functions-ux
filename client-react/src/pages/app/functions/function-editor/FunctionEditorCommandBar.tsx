@@ -6,7 +6,7 @@ import { PortalContext } from '../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
 import { IContextualMenuRenderItem } from 'office-ui-fabric-react';
-import { FunctionUrl } from './FunctionEditor.types';
+import { UrlObj } from './FunctionEditor.types';
 
 // Data for CommandBar
 interface FunctionEditorCommandBarProps {
@@ -16,7 +16,7 @@ interface FunctionEditorCommandBarProps {
   showGetFunctionUrlCommand: boolean;
   dirty: boolean;
   disabled: boolean;
-  urlObjs: FunctionUrl[];
+  urlObjs: UrlObj[];
 }
 
 const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props => {
