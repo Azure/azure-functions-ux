@@ -55,6 +55,10 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     }
   };
 
+  const onBodyChange = (newValue, event) => {
+    setReqBody(newValue);
+  };
+
   useEffect(() => {
     defaultInputFormValues.headers = [];
     defaultInputFormValues.queries = [];
@@ -108,7 +112,9 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
         return (
           <Form className={addEditFormStyle}>
             <div className={functionTestBodyStyle}>
-              {selectedPivotTab === PivotType.input && <FunctionTestInput {...formProps} functionInfo={functionInfo} body={reqBody} />}
+              {selectedPivotTab === PivotType.input && (
+                <FunctionTestInput {...formProps} functionInfo={functionInfo} body={reqBody} onBodyChange={onBodyChange} />
+              )}
               {selectedPivotTab === PivotType.output && <FunctionTestOutput responseContent={responseContent} />}
             </div>
             <ActionBar
