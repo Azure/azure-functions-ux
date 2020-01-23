@@ -30,10 +30,11 @@ export interface FunctionEditorProps {
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
+  appInsightsToken?: string;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
-  const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning, urlObjs } = props;
+  const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning, urlObjs, appInsightsToken } = props;
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -295,7 +296,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         </div>
       )}
       <div className={logPanelStyle(logPanelExpanded, logPanelFullscreen)}>
-        <FunctionLog toggleExpand={toggleLogPanelExpansion} isExpanded={logPanelExpanded} toggleFullscreen={setLogPanelFullscreen} />
+        <FunctionLog
+          toggleExpand={toggleLogPanelExpansion}
+          isExpanded={logPanelExpanded}
+          toggleFullscreen={setLogPanelFullscreen}
+          appInsightsToken={appInsightsToken}
+        />
       </div>
     </>
   );

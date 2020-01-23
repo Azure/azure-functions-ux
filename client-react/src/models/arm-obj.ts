@@ -32,3 +32,28 @@ export interface ArmSku {
 export interface AvailableSku {
   sku: ArmSku;
 }
+
+export interface Identity {
+  principalId: string;
+  tenantId: string;
+  type: string;
+}
+
+export interface ResourceGraph {
+  count: number;
+  data: ResourceGraphData;
+  facets: any[];
+  maxRows: number;
+  pagingEnabled: false;
+  totalRecords: number;
+}
+
+export interface ResourceGraphData {
+  columns: ResourceGraphColumn[];
+  rows: any[][];
+}
+
+export interface ResourceGraphColumn {
+  name: string;
+  type: string;
+}

@@ -1,4 +1,4 @@
-'use strict';
+// tslint:disable: max-classes-per-file
 
 export class QuickPulseCustomProperties {
   public QuickPulseId: string;
