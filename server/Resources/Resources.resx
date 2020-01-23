@@ -5598,4 +5598,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="connect" xml:space="preserve">
         <value>Connect</value>
     </data>
+    <data name="endOfLifeTagTemplate" xml:space="preserve">
+        <value>{0} (EOL)</value>
+    </data>
 </root>
