@@ -22,6 +22,8 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import { VfsObject } from '../../../../models/functions/vfs';
 import { Method } from 'axios';
 import { getJsonHeaders } from '../../../../ApiHelpers/HttpClient';
+import AppInsightsService from '../../../../ApiHelpers/AppInsightsService';
+import { StartupInfoContext } from '../../../../StartupInfoContext';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -42,10 +44,12 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
   const [responseContent, setResponseContent] = useState<ResponseContent | undefined>(undefined);
   const [functionRunning, setFunctionRunning] = useState(false);
+  const [appInsightsToken, setAppInsightsToken] = useState<string | undefined>(undefined);
   const [hostUrls, setHostUrls] = useState<UrlObj[]>([]);
   const [functionUrls, setFunctionUrls] = useState<UrlObj[]>([]);
 
   const siteContext = useContext(SiteRouterContext);
+  const startupInfoContext = useContext(StartupInfoContext);
 
   const fetchData = async () => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
@@ -64,19 +68,45 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     if (functionInfoResponse.metadata.success) {
       setFunctionInfo(functionInfoResponse.data);
     }
-    if (appSettingsResponse.metadata.success) {
-      const currentRuntimeVersion = appSettingsResponse.data.properties[CommonConstants.AppSettingNames.functionsExtensionVersion];
+    if (appSettingsResponse.metadata.success && appSettingsResponse.data.properties) {
+      const appSettings = appSettingsResponse.data.properties;
+      const currentRuntimeVersion = appSettings[CommonConstants.AppSettingNames.functionsExtensionVersion];
       setRuntimeVersion(currentRuntimeVersion);
-      const [hostJsonResponse, fileListResponse] = await Promise.all([
+      const appInsightsConnectionString = appSettings[CommonConstants.AppSettingNames.appInsightsConnectionString];
+      const appInsightsInstrumentationKey = appSettings[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
+
+      const [hostJsonResponse, fileListResponse, appInsightsComponent] = await Promise.all([
         FunctionsService.getHostJson(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
         FunctionsService.getFileContent(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
+        appInsightsConnectionString
+          ? AppInsightsService.getAppInsightsComponentFromConnectionString(appInsightsConnectionString, startupInfoContext.subscriptions)
+          : appInsightsInstrumentationKey
+          ? AppInsightsService.getAppInsightsComponentFromInstrumentationKey(
+              appInsightsInstrumentationKey,
+              startupInfoContext.subscriptions
+            )
+          : null,
       ]);
-      if (hostJsonResponse.metadata.success) {
+      if (hostJsonResponse && hostJsonResponse.metadata.success) {
         setHostJsonContent(hostJsonResponse.data);
       }
 
-      if (fileListResponse.metadata.success) {
+      if (fileListResponse && fileListResponse.metadata.success) {
         setFileList(fileListResponse.data as VfsObject[]);
+      }
+
+      if (appInsightsComponent) {
+        AppInsightsService.getAppInsightsComponentToken(appInsightsComponent.id).then(response => {
+          if (response.metadata.success) {
+            setAppInsightsToken(response.data.token);
+          } else {
+            LogService.error(
+              LogCategories.FunctionEdit,
+              'getAppInsightsComponentToken',
+              `Failed to get App Insights Component Token: ${appInsightsComponent}`
+            );
+          }
+        });
       }
     }
     if (appKeysResponse.metadata.success) {
@@ -289,6 +319,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         runtimeVersion={runtimeVersion}
         responseContent={responseContent}
         functionRunning={functionRunning}
+        appInsightsToken={appInsightsToken}
         urlObjs={[...hostUrls, ...functionUrls]}
       />
     </FunctionEditorContext.Provider>

@@ -13,20 +13,41 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Icon } from 'office-ui-fabric-react';
 import { ThemeContext } from '../../../../../ThemeContext';
+import { QuickPulseQueryLayer } from '../../../../../QuickPulseQuery';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { defaultDocumentStreams } from './FunctionLog.constants';
 interface FunctionLogProps {
   toggleExpand: () => void;
   toggleFullscreen: (fullscreen: boolean) => void;
   isExpanded: boolean;
+  appInsightsToken?: string;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
   const { t } = useTranslation();
-  const { toggleExpand, isExpanded, toggleFullscreen } = props;
+  const { toggleExpand, isExpanded, toggleFullscreen, appInsightsToken } = props;
   const [connected, setConnected] = useState(true);
   const [maximized, setMaximized] = useState(false);
   const [started, setStarted] = useState(false);
+  const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
 
   const theme = useContext(ThemeContext);
+
+  // TODO: allisonm Move logic to log in console
+  // WI 5906972
+  if (appInsightsToken) {
+    if (!queryLayer) {
+      const ql = new QuickPulseQueryLayer(CommonConstants.QuickPulseEndpoints.public, 'functions');
+      ql.setConfiguration([], defaultDocumentStreams, []);
+      setQueryLayer(ql);
+    } else if (queryLayer) {
+      queryLayer.queryDetails(appInsightsToken, false, '').then(dataV2 => {
+        if (dataV2) {
+          console.log(dataV2);
+        }
+      });
+    }
+  }
 
   const onExpandClick = () => {
     if (isExpanded && maximized) {

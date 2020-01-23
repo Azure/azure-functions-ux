@@ -38,12 +38,15 @@ export class CommonConstants {
     armBatchApi: '2015-11-01',
     armLocksApiVersion: '2015-01-01',
     armRbacApiVersion: '2015-07-01',
+    resourceGraphApiVersion: '2018-09-01-preview',
     storageApiVersion20180701: '2018-07-01',
     eventHubApiVersion20150801: '2015-08-01',
     iotHubApiVersion20170119: '2017-01-19',
     serviceBusApiVersion20150801: '2015-08-01',
     documentDBApiVersion20150408: '2015-04-08',
+    appInsightsApiVersion20150501: '2015-05-01',
   };
+
   public static readonly NonThemeColors = {
     upsell: '#804998',
     upsellBackground: '#e7ddf2',
@@ -63,6 +66,8 @@ export class CommonConstants {
   };
 
   public static readonly AppSettingNames = {
+    appInsightsConnectionString: 'APPLICATIONINSIGHTS_CONNECTION_STRING',
+    appInsightsInstrumentationKey: 'APPINSIGHTS_INSTRUMENTATIONKEY',
     azureJobsExtensionVersion: 'AZUREJOBS_EXTENSION_VERSION',
     functionsExtensionVersion: 'FUNCTIONS_EXTENSION_VERSION',
     functionsWorkerRuntime: 'FUNCTIONS_WORKER_RUNTIME',
@@ -91,5 +96,11 @@ export class CommonConstants {
     default: '6.5.0',
     v2: '~10',
     v3: '~12',
+  };
+
+  public static readonly QuickPulseEndpoints = {
+    public: 'https://rt.services.visualstudio.com/QuickPulseService.svc',
+    fairfax: 'https://quickpulse.applicationinsights.us/QuickPulseService.svc',
+    mooncake: 'https://live.applicationinsights.azure.cn/QuickPulseService.svc',
   };
 }
