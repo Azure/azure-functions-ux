@@ -64,9 +64,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     };
     const fileResponse = await FunctionsService.saveFileContent(
       site.id,
-      functionInfo.properties.name,
       fileData.name,
       fileContent.latest,
+      functionInfo.properties.name,
       runtimeVersion,
       headers
     );
