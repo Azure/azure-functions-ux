@@ -90,7 +90,7 @@ export class BashComponent extends AbstractConsoleComponent {
     const header = this.getHeader();
     const cmd = this.command;
     const body = {
-      command: `bash -c ' ${cmd} && echo '' && pwd'`,
+      command: `bash -c " ${cmd} && echo '' && pwd"`,
       dir: this.dir,
     };
     const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
