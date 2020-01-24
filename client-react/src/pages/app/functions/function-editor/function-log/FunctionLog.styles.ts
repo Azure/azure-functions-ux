@@ -26,6 +26,7 @@ export const logStreamStyle = (maximized: boolean) =>
     height: maximized ? 'calc(100vh - 124px)' : '175px',
     backgroundColor: '#000000',
     overflow: 'auto',
+    padding: '20px',
   });
 
 export const logCommandBarButton = style({
@@ -48,10 +49,11 @@ export const logCommandBarButtonStyle = (theme: ThemeExtended) =>
     paddingRight: '5px',
   });
 
-export const logCommandBarSeparatorStyle = style({
-  marginLeft: '7px',
-  marginRight: '23px',
-  width: '1px',
-  border: '1px solid rgba(128, 128, 128, 0.7)',
-  height: '16px',
+export const logEntryDivStyle = style({
+  whiteSpace: 'pre-wrap',
+  paddingBottom: '5px',
 });
+
+export function getLogTextColor(): string {
+  return '#ff6161';
+}
