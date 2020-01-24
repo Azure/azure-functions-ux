@@ -1808,4 +1808,5 @@ export class PortalResources {
   public static maximize = 'maximize';
   public static minimize = 'minimize';
   public static connect = 'connect';
+  public static endOfLifeTagTemplate = 'endOfLifeTagTemplate';
 }
