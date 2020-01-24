@@ -14,6 +14,8 @@ import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
+import { isFunctionApp } from '../../../utils/arm-utils';
+import { LogCategories } from '../../../utils/LogCategories';
 
 interface ChangeAppPlanDataLoaderProps {
   resourceId: string;
@@ -116,15 +118,24 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
 };
 
 const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<ServerFarm>[]) => {
-  return serverFarms.filter(s => {
-    if (site.properties.serverFarmId.toLowerCase() === s.id.toLowerCase()) {
+  return serverFarms.filter(serverFarm => {
+    if (site.properties.serverFarmId.toLowerCase() === serverFarm.id.toLowerCase()) {
+      return false;
+    }
+
+    if (!serverFarm.sku) {
+      LogService.error(LogCategories.changeAppPlan, '/filterListToPotentialPlans', `Why did serverFarm ${serverFarm.name} not have a SKU?`);
       return false;
     }
 
     if (
       (site.properties.sku === ServerFarmSkuConstants.Tier.dynamic || site.properties.sku === ServerFarmSkuConstants.Tier.elasticPremium) &&
-      s.sku &&
-      s.sku.tier !== site.properties.sku
+      serverFarm.sku.tier !== site.properties.sku
+    ) {
+      return false;
+    } else if (
+      !isFunctionApp(site) &&
+      (serverFarm.sku.tier === ServerFarmSkuConstants.Tier.dynamic || serverFarm.sku.tier === ServerFarmSkuConstants.Tier.elasticPremium)
     ) {
       return false;
     }

@@ -1000,6 +1000,9 @@
     <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Testing is not supported for GitHub webhook functions.</value>
     </data>
+    <data name="extensionBundleVersion" xml:space="preserve">
+        <value>Extension bundle version</value>
+    </data>
     <data name="currentRuntimeVersion" xml:space="preserve">
         <value>Current runtime version</value>
     </data>
@@ -5076,14 +5079,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerValidationFailed" xml:space="preserve">
         <value>Failed to validate container settings.</value>
     </data>
-    <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>No trigger defined</value>
-    </data>
     <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>No inputs defined</value>
     </data>
     <data name="integrateNoOutputsDefined" xml:space="preserve">
         <value>No outputs defined</value>
+    </data>
+    <data name="integrateAddTrigger" xml:space="preserve">
+        <value>+ Add trigger</value>
+    </data>
+    <data name="integrateCreateTrigger" xml:space="preserve">
+        <value>Create Trigger</value>
     </data>
     <data name="integrateAddInput" xml:space="preserve">
         <value>+ Add input</value>
@@ -5579,5 +5585,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
+    </data>
+    <data name="requiredField_validationMessage" xml:space="preserve">
+        <value>Name and value are required fields</value>
+    </data>
+    <data name="maximize" xml:space="preserve">
+        <value>Maximize</value>
+    </data>
+    <data name="minimize" xml:space="preserve">
+        <value>Minimize</value>
+    </data>
+    <data name="connect" xml:space="preserve">
+        <value>Connect</value>
+    </data>
+    <data name="endOfLifeTagTemplate" xml:space="preserve">
+        <value>{0} (EOL)</value>
     </data>
 </root>

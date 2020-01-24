@@ -48,6 +48,7 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
       <>
         <Formik
           initialValues={initialFormValues}
+          isInitialValid={true} // Using deprecated option to allow pristine values to be valid.
           onSubmit={formValues => {
             setCreatingFunction(true);
             provider.createFunction(portalCommunicator, t, resourceId, selectedFunctionTemplate, formValues);

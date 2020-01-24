@@ -36,7 +36,9 @@ export class BindingEventGridComponent {
         extension: 'Microsoft_Azure_EventGrid',
         detailBladeInputs: {
           inputs: {
+            endpointType: 'AzureFunction',
             labels: ['functions', this.input.bladeLabel],
+            endpointResourceId: this.input.id,
           },
         },
       },

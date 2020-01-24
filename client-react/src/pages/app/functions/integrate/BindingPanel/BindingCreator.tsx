@@ -37,7 +37,11 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
     return { key: binding.type, text: binding.displayName };
   });
 
-  const initialFormValues: BindingInfo = { name: '', direction: getFunctionBindingDirection(bindingDirection), type: BindingType.blob };
+  const initialFormValues: BindingInfo = {
+    name: '',
+    direction: getFunctionBindingDirection(bindingDirection),
+    type: bindingDirection === BindingDirection.trigger ? BindingType.httpTrigger : BindingType.blob,
+  };
 
   return (
     <Formik

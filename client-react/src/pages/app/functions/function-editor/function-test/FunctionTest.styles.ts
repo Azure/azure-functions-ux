@@ -15,7 +15,7 @@ export const bodyEditorStyle = style({
 export const httpAddDataStyle = style({
   borderTop: '1px solid rgba(204,204,204,.8)',
   borderBottom: '1px solid rgba(204,204,204,.8)',
-  paddingTop: '8px',
+  paddingTop: '4px',
   paddingBottom: '8px',
 });
 
@@ -36,9 +36,11 @@ export const keyValuePairTextStyle = style({
   marginRight: '10px',
 });
 
-export const keyValuePairButtonStyle = style({
-  display: 'inline-block',
-});
+export const keyValuePairButtonStyle = (theme: ThemeExtended) =>
+  style({
+    display: 'inline-block',
+    color: theme.semanticColors.primaryButtonBackground,
+  });
 
 export const keyValuePairStyle = style({
   marginBottom: '10px',
@@ -59,4 +61,21 @@ export const responseCodeStyle = style({
 
 export const functionTestBodyStyle = style({
   paddingLeft: '8px',
+});
+
+export const keyValuePairLabelStyle = style({
+  fontWeight: 600,
+  width: '45%',
+  display: 'inline-block',
+  marginRight: '10px',
+});
+
+export const keyValuePairLabelDivStyle = style({
+  paddingBottom: '4px',
+  marginBottom: '8px',
+  borderBottom: '1px solid rgba(204,204,204,.8)',
+});
+
+export const testFormLabelStyle = style({
+  fontWeight: 600,
 });

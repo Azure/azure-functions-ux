@@ -29,7 +29,7 @@
             </div>
           </div>
         </div>
-  
+
         <div class="essentials-col">
           <div>
             <label id="successCountLabel">{{ 'functionMonitor_successAggregate_30days' | translate }}</label>
@@ -42,7 +42,7 @@
             </div>
           </div>
         </div>
-  
+
         <div class="essentials-col">
           <div>
             <label id="errorsCountLabel">{{ 'functionMonitor_errorsAggregate_30days' | translate }}</label>
@@ -55,19 +55,19 @@
             </div>
           </div>
         </div>
-  
+
         <div class="essentials-col">
           <div>
             <label id="runInAppInsightsLabel">{{appInsightsQueryReturnedTitle}}</label>
             <div tabindex="0"
                   id="runInAppInsightsLink"
                   aria-labelledby="runInAppInsightsLabel runInAppInsightsLink">
-                  <img src="image/open-external.svg" />
+                  <img src="image/appInsights.svg" />
                   <a class="link" (click)="openAppInsightsQueryEditor()">{{'runInAppInsights' | translate}}</a>
             </div>
           </div>
         </div>
-  
+
         <div class="essentials-col">
           <div>
             <label id="troubleshootYourAppLabel">{{'troubleshootYourApp' | translate}}</label>
@@ -80,7 +80,7 @@
           </div>
         </div>
       </div>
-  
+
       <div class="function-monitor-content">
           <tbl *ngIf="invocationTraces.length > 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
             <thead>
@@ -125,7 +125,7 @@
           </tbl>
       </div>
     </div>
-  
+
     <ng-sidebar #sidebar [(opened)]="sidePanelOpened"
       [mode]="'over'"
       [position]="'right'"
@@ -137,9 +137,9 @@
       [animate]="true"
       [closeOnClickBackdrop]="false"
       [showBackdrop]="false">
-  
+
       <monitor-details *ngIf="sidePanelOpened" [monitorDetailsInfoInput]="monitorDetailsInfo" (closePanel)="closeSidePanel()">
       </monitor-details>
-  
+
     </ng-sidebar>
 </ng-sidebar-container>

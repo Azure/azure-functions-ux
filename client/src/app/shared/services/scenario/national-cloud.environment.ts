@@ -1,8 +1,9 @@
-import { NationalCloudArmUris, ScenarioIds } from './../../models/constants';
+import { NationalCloudArmUris, ScenarioIds, FeatureFlags } from './../../models/constants';
 import { AzureEnvironment } from './azure.environment';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Url } from 'app/shared/Utilities/url';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
   name = 'NationalCloud';
@@ -26,6 +27,7 @@ export class NationalCloudEnvironment extends AzureEnvironment {
 
   constructor(injector: Injector) {
     super(injector);
+
     this.scenarioChecks[ScenarioIds.addResourceExplorer] = {
       id: ScenarioIds.addResourceExplorer,
       runCheck: () => {
@@ -57,10 +59,14 @@ export class NationalCloudEnvironment extends AzureEnvironment {
     this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
       id: ScenarioIds.appInsightsConfigurable,
       runCheckAsync: (input: ScenarioCheckInput) => {
-        return Observable.of<ScenarioResult>({
-          status: 'disabled',
-          data: null,
-        });
+        if (NationalCloudEnvironment.isBlackforest() || !Url.getFeatureValue(FeatureFlags.EnableAIOnNationalCloud)) {
+          return Observable.of<ScenarioResult>({
+            status: 'disabled',
+            data: null,
+          });
+        } else {
+          return this._getApplicationInsightsId(input);
+        }
       },
     };
 

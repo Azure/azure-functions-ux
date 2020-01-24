@@ -13,7 +13,7 @@ import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { getBindingDirection } from '../BindingPanel/BindingEditor';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
-import BindingCard, { EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
+import BindingCard, { EditableBindingCardProps, editExisting, createNew } from './BindingCard';
 import { listStyle } from './BindingDiagram.styles';
 import { BindingFormBuilder } from '../../common/BindingFormBuilder';
 
@@ -65,7 +65,11 @@ const getContent = (
             }>{`${BindingFormBuilder.getBindingTypeName(trigger, bindings)} (${trigger.name})`}</Link>
         </li>
       ) : (
-        emptyList(t('integrateNoTriggerDefined'))
+        <li key={'newTrigger'}>
+          <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingDirection.trigger)}>
+            {t('integrateAddTrigger')}
+          </Link>
+        </li>
       )}
     </ul>
   );

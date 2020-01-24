@@ -6,7 +6,7 @@
 <command-bar>
   <command displayText="{{ 'runInAppInsights' | translate }}"
     (click)="openAppInsightsQueryEditor()"
-    iconUrl="image/open-external.svg"></command>
+    iconUrl="image/appInsights.svg"></command>
 
   <span class="close-button" (click)="close()">
     <i class="fa fa-times fa-lg" aria-hidden="true"></i>
@@ -27,7 +27,7 @@
         <th>{{ 'functionMonitor_logLevel' | translate }}</th>
       </tr>
     </thead>
-    
+
     <tbody class="tableBody">
       <tr
         *ngFor="let history of traceHistory"

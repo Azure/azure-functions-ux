@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { addEditFormStyle } from '../../../../../components/form-controls/formControl.override.styles';
-import ActionBar from '../../../../../components/ActionBar';
+import ActionBar, { StatusMessage } from '../../../../../components/ActionBar';
 import { useTranslation } from 'react-i18next';
 import FunctionTestInput from './FunctionTestInput';
 import FunctionTestOutput from './FunctionTestOutput';
@@ -11,6 +11,7 @@ import { FunctionInfo } from '../../../../../models/functions/function-info';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { functionTestBodyStyle } from './FunctionTest.styles';
+import { MessageBarType } from 'office-ui-fabric-react';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -32,9 +33,31 @@ const defaultInputFormValues: InputFormValues = {
 // TODO (krmitta): Add Content for Function test panel [WI: 5536379]
 const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { t } = useTranslation();
+  const [statusMessage, setStatusMessage] = useState<StatusMessage | undefined>(undefined);
+
   const { run, cancel, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab, functionRunning } = props;
 
+  const errorMessage = {
+    message: t('requiredField_validationMessage'),
+    level: MessageBarType.error,
+  };
+
+  const validateForm = (values: InputFormValues) => {
+    const emptyQueries = values.queries.filter(q => !q.name || !q.value);
+    setStatusMessage(undefined);
+
+    if (emptyQueries.length > 0) {
+      setStatusMessage(errorMessage);
+    }
+    const emptyHeaders = values.headers.filter(h => !h.name || !h.value);
+    if (emptyHeaders.length > 0) {
+      setStatusMessage(errorMessage);
+    }
+  };
+
   useEffect(() => {
+    defaultInputFormValues.headers = [];
+    defaultInputFormValues.queries = [];
     try {
       const testData = JSON.parse(functionInfo.properties.test_data);
       if (!!testData.body) {
@@ -66,12 +89,13 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     <Formik
       initialValues={defaultInputFormValues}
       onSubmit={run}
+      validate={validateForm}
       render={(formProps: FormikProps<InputFormValues>) => {
         const actionBarPrimaryButtonProps = {
           id: 'run',
           title: t('run'),
           onClick: formProps.submitForm,
-          disable: false,
+          disable: !!statusMessage,
         };
 
         const actionBarSecondaryButtonProps = {
@@ -92,6 +116,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
               primaryButton={actionBarPrimaryButtonProps}
               secondaryButton={actionBarSecondaryButtonProps}
               overlay={functionRunning}
+              statusMessage={statusMessage}
             />
           </Form>
         );

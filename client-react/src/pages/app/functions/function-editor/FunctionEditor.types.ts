@@ -22,21 +22,6 @@ export enum HttpMethods {
   trace = 'trace',
 }
 
-export enum EditorLanguage {
-  bat = 'bat',
-  csharp = 'csharp',
-  fsharp = 'fsharp',
-  javascript = 'javascript',
-  json = 'json',
-  powershell = 'powershell',
-  python = 'python',
-  typescript = 'typescript',
-  markdown = 'markdown',
-  php = 'php',
-  shell = 'shell',
-  plaintext = 'plaintext',
-}
-
 export interface ResponseContent {
   code: number;
   text?: string;
@@ -45,4 +30,21 @@ export interface ResponseContent {
 export enum PivotType {
   input = 'input',
   output = 'output',
+}
+
+export interface FileContent {
+  default: string;
+  latest: string;
+}
+
+export interface UrlObj {
+  key: string;
+  text: string;
+  type: UrlType;
+  url: string;
+}
+
+export enum UrlType {
+  Host = 'Host',
+  Function = 'Function',
 }

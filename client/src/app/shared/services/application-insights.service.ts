@@ -26,7 +26,7 @@ export class ApplicationInsightsService {
 
   private readonly _aiUrl = 'https://api.applicationinsights.io/v1/apps';
   private readonly _aiApiVersion = '2018-04-20';
-  private readonly _armTopologyApiVersion = '2017-10-05-preview';
+  private readonly _resourceGraphApiVersion = '2018-09-01-preview';
   private readonly _sourceName: 'Microsoft.Web-FunctionApp';
 
   constructor(
@@ -140,8 +140,12 @@ export class ApplicationInsightsService {
       .postArm(`${siteId}/config/appsettings/list`)
       .switchMap(response => {
         const ikey = response.json().properties[Constants.instrumentationKeySettingName];
+        const connectionString = response.json().properties[Constants.connectionStringSettingName];
 
-        return this._getAIResourceFromInstrumentationKey(ikey);
+        // NOTE(michinoy): We should always prefer connection string over instrumentation key for ApplicationInsights.
+        return connectionString
+          ? this._getAIResourceFromConnectionString(connectionString)
+          : this._getAIResourceFromInstrumentationKey(ikey);
       })
       .map(response => {
         if (response.isSuccessful) {
@@ -190,16 +194,40 @@ export class ApplicationInsightsService {
         const subscriptionIds = subscriptions.map(subscription => subscription.subscriptionId);
 
         const body = {
-          query: `where isnotempty(properties) | where type == 'microsoft.insights/components' | where properties.InstrumentationKey == '${instrumentationKey}'`,
+          query: `where type == 'microsoft.insights/components' | where isnotempty(properties) | where properties.InstrumentationKey == '${instrumentationKey}'`,
           subscriptions: subscriptionIds,
         };
 
         const request = this._cacheService.postArm(
-          `/providers/microsoft.resourcestopology/resources`,
+          `/providers/Microsoft.ResourceGraph/resources`,
           true,
-          this._armTopologyApiVersion,
+          this._resourceGraphApiVersion,
           body,
           'getAIResourceFromInstrumentationKey'
+        );
+
+        return this._client.execute({ resourceId: null }, t => request).map(response => response);
+      });
+  }
+
+  private _getAIResourceFromConnectionString(connectionString: string): Observable<HttpResult<Response>> {
+    return this._userService
+      .getStartupInfo()
+      .map(startupInfo => startupInfo.subscriptions)
+      .switchMap(subscriptions => {
+        const subscriptionIds = subscriptions.map(subscription => subscription.subscriptionId);
+
+        const body = {
+          query: `where type == 'microsoft.insights/components' | where isnotempty(properties) | where properties.ConnectionString == '${connectionString}'`,
+          subscriptions: subscriptionIds,
+        };
+
+        const request = this._cacheService.postArm(
+          `/providers/Microsoft.ResourceGraph/resources`,
+          true,
+          this._resourceGraphApiVersion,
+          body,
+          'getAIResourceFromConnectionString'
         );
 
         return this._client.execute({ resourceId: null }, t => request).map(response => response);
