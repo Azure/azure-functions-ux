@@ -14,7 +14,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Icon } from 'office-ui-fabric-react';
 import { ThemeContext } from '../../../../../ThemeContext';
-import { QuickPulseQueryLayer, SchemaResponseV2 } from '../../../../../QuickPulseQuery';
+import { QuickPulseQueryLayer, SchemaResponseV2, SchemaDocument } from '../../../../../QuickPulseQuery';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { defaultDocumentStreams, defaultClient } from './FunctionLog.constants';
 import LogService from '../../../../../utils/LogService';
@@ -33,7 +33,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const [maximized, setMaximized] = useState(false);
   const [started, setStarted] = useState(false);
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
-  const [logEntries, setLogEntries] = useState<string[]>([]);
+  const [logEntries, setLogEntries] = useState<SchemaDocument[]>([]);
 
   const theme = useContext(ThemeContext);
 
@@ -41,11 +41,12 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     quickPulseQueryLayer
       .queryDetails(token, false, '')
       .then((dataV2: SchemaResponseV2) => {
-        if (dataV2) {
-          // TODO: allisonm Decide which data we want to show in Logs
-          // WI 5906972
-          console.log(dataV2);
-          setLogEntries([...logEntries, 'testing']);
+        if (dataV2.DataRanges && dataV2.DataRanges[0]) {
+          const documents = dataV2.DataRanges[0].Documents;
+          if (documents) {
+            console.log(documents);
+            setLogEntries(documents);
+          }
         }
       })
       .catch(error => {
@@ -173,26 +174,18 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         <div className={logStreamStyle(maximized)}>
           {!!logEntries &&
             logEntries.map((logEntry, logIndex) => {
-              if (logIndex + 1 !== logEntries.length) {
-                return (
-                  <div key={logIndex} className={logEntryDivStyle} style={{ color: getLogTextColor() }}>
-                    {logEntry}
-                  </div>
-                );
-              }
-
-              /*Last Log Entry needs to be scrolled into focus*/
               return (
                 <div
                   key={logIndex}
                   className={logEntryDivStyle}
                   style={{ color: getLogTextColor() }}
+                  /*Last Log Entry needs to be scrolled into focus*/
                   ref={el => {
-                    if (!!el) {
+                    if (logIndex + 1 === logEntries.length && !!el) {
                       el.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}>
-                  {logEntry}
+                  {logEntry.Content.Message}
                 </div>
               );
             })}
