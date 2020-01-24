@@ -8,14 +8,18 @@ import {
   logCommandBarButtonListStyle,
   logCommandBarButtonLabelStyle,
   logCommandBarButtonStyle,
-  logCommandBarSeparatorStyle,
+  logEntryDivStyle,
+  getLogTextColor,
 } from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
 import { Icon } from 'office-ui-fabric-react';
 import { ThemeContext } from '../../../../../ThemeContext';
-import { QuickPulseQueryLayer } from '../../../../../QuickPulseQuery';
+import { QuickPulseQueryLayer, SchemaResponseV2, SchemaDocument } from '../../../../../QuickPulseQuery';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
-import { defaultDocumentStreams } from './FunctionLog.constants';
+import { defaultDocumentStreams, defaultClient } from './FunctionLog.constants';
+import LogService from '../../../../../utils/LogService';
+import { LogCategories } from '../../../../../utils/LogCategories';
+import { TextUtilitiesService } from '../../../../../utils/textUtilities';
 interface FunctionLogProps {
   toggleExpand: () => void;
   toggleFullscreen: (fullscreen: boolean) => void;
@@ -26,28 +30,43 @@ interface FunctionLogProps {
 const FunctionLog: React.FC<FunctionLogProps> = props => {
   const { t } = useTranslation();
   const { toggleExpand, isExpanded, toggleFullscreen, appInsightsToken } = props;
-  const [connected, setConnected] = useState(true);
   const [maximized, setMaximized] = useState(false);
   const [started, setStarted] = useState(false);
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
+  const [logEntries, setLogEntries] = useState<SchemaDocument[]>([]);
 
   const theme = useContext(ThemeContext);
 
-  // TODO: allisonm Move logic to log in console
-  // WI 5906972
-  if (appInsightsToken) {
-    if (!queryLayer) {
-      const ql = new QuickPulseQueryLayer(CommonConstants.QuickPulseEndpoints.public, 'functions');
-      ql.setConfiguration([], defaultDocumentStreams, []);
-      setQueryLayer(ql);
-    } else if (queryLayer) {
-      queryLayer.queryDetails(appInsightsToken, false, '').then(dataV2 => {
-        if (dataV2) {
-          console.log(dataV2);
+  const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, token: string) => {
+    quickPulseQueryLayer
+      .queryDetails(token, false, '')
+      .then((dataV2: SchemaResponseV2) => {
+        if (dataV2.DataRanges && dataV2.DataRanges[0]) {
+          const documents = dataV2.DataRanges[0].Documents;
+          if (documents) {
+            console.log(documents);
+            setLogEntries(documents);
+          }
         }
+      })
+      .catch(error => {
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'getAppInsightsComponentToken',
+          `Error when attempting to Query Application Insights: ${error}`
+        );
       });
-    }
-  }
+  };
+
+  const disconnectQueryLayer = () => {
+    setQueryLayer(undefined);
+  };
+
+  const reconnectQueryLayer = () => {
+    const newQueryLayer = new QuickPulseQueryLayer(CommonConstants.QuickPulseEndpoints.public, defaultClient);
+    newQueryLayer.setConfiguration([], defaultDocumentStreams, []);
+    setQueryLayer(newQueryLayer);
+  };
 
   const onExpandClick = () => {
     if (isExpanded && maximized) {
@@ -57,11 +76,35 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   };
 
   const toggleConnection = () => {
-    setConnected(!connected);
+    if (started) {
+      stopLogs();
+    } else {
+      startLogs();
+    }
   };
 
-  const toggleStart = () => {
-    setStarted(!started);
+  const startLogs = () => {
+    if (appInsightsToken) {
+      disconnectQueryLayer();
+      reconnectQueryLayer();
+    } else {
+      // todo allisonm: Add messaging for app insights logs
+    }
+    setStarted(true);
+  };
+
+  const stopLogs = () => {
+    disconnectQueryLayer();
+    setStarted(false);
+  };
+
+  const clearLogs = () => {
+    setLogEntries([]);
+  };
+
+  const copyLogs = () => {
+    const logContent = logEntries.join('\n');
+    TextUtilitiesService.copyContentToClipboard(logContent);
   };
 
   const toggleMaximize = () => {
@@ -70,9 +113,17 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
 
   useEffect(() => {
     toggleFullscreen(maximized);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maximized]);
+
+  useEffect(() => {
+    if (appInsightsToken && queryLayer) {
+      const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, appInsightsToken), 2000); // TODO: adjust timeout
+      return () => clearInterval(timeout);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logEntries, queryLayer, appInsightsToken]);
+
   return (
     <div>
       <div className={logCommandBarStyle}>
@@ -83,19 +134,6 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         {isExpanded && (
           <span className={logCommandBarButtonListStyle}>
             <span onClick={toggleConnection} className={logCommandBarButtonLabelStyle}>
-              {connected ? (
-                <>
-                  <Icon iconName="PlugDisconnected" className={logCommandBarButtonStyle(theme)} />
-                  {t('disconnect')}
-                </>
-              ) : (
-                <>
-                  <Icon iconName="PlugConnected" className={logCommandBarButtonStyle(theme)} />
-                  {t('connect')}
-                </>
-              )}
-            </span>
-            <span onClick={toggleStart} className={logCommandBarButtonLabelStyle}>
               {started ? (
                 <>
                   <Icon iconName="Stop" className={logCommandBarButtonStyle(theme)} />
@@ -108,12 +146,11 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
                 </>
               )}
             </span>
-            <span className={logCommandBarSeparatorStyle} />
-            <span className={logCommandBarButtonLabelStyle}>
+            <span onClick={copyLogs} className={logCommandBarButtonLabelStyle}>
               <Icon iconName="Copy" className={logCommandBarButtonStyle(theme)} />
               {t('functionKeys_copy')}
             </span>
-            <span className={logCommandBarButtonLabelStyle}>
+            <span onClick={clearLogs} className={logCommandBarButtonLabelStyle}>
               <Icon iconName="CalculatorMultiply" className={logCommandBarButtonStyle(theme)} />
               {t('logStreaming_clear')}
             </span>
@@ -133,7 +170,27 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
           </span>
         )}
       </div>
-      {isExpanded && <div className={logStreamStyle(maximized)} />}
+      {isExpanded && (
+        <div className={logStreamStyle(maximized)}>
+          {!!logEntries &&
+            logEntries.map((logEntry, logIndex) => {
+              return (
+                <div
+                  key={logIndex}
+                  className={logEntryDivStyle}
+                  style={{ color: getLogTextColor() }}
+                  /*Last Log Entry needs to be scrolled into focus*/
+                  ref={el => {
+                    if (logIndex + 1 === logEntries.length && !!el) {
+                      el.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}>
+                  {logEntry.Content.Message}
+                </div>
+              );
+            })}
+        </div>
+      )}
     </div>
   );
 };
