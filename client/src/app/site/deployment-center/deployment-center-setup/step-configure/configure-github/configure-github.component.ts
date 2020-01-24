@@ -223,11 +223,15 @@ export class ConfigureGithubComponent implements OnDestroy {
     const newRepoList: DropDownElement<string>[] = [];
     this._repoUrlToNameMap = {};
     responses.forEach(repo => {
-      newRepoList.push({
-        displayLabel: repo.name,
-        value: repo.html_url,
-      });
-      this._repoUrlToNameMap[repo.html_url] = repo.full_name;
+      // NOTE (michinoy): For either user repos or org repos, the user must have admin access to the repo
+      // this will allow us to register a webhook with that repo.
+      if (!repo.permissions || repo.permissions.admin) {
+        newRepoList.push({
+          displayLabel: repo.name,
+          value: repo.html_url,
+        });
+        this._repoUrlToNameMap[repo.html_url] = repo.full_name;
+      }
     });
 
     this.RepoList = newRepoList;
