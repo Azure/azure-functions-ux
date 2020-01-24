@@ -118,7 +118,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       return () => clearInterval(test);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [maximized, logEntries, queryLayer, appInsightsToken, clearLogs]);
+  }, [maximized, logEntries, queryLayer, appInsightsToken]);
   return (
     <div>
       <div className={logCommandBarStyle}>
