@@ -9,6 +9,7 @@ import {
   logCommandBarButtonLabelStyle,
   logCommandBarButtonStyle,
   logEntryDivStyle,
+  getLogTextColor,
 } from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
 import { Icon } from 'office-ui-fabric-react';
@@ -36,8 +37,9 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
 
   const theme = useContext(ThemeContext);
 
-  const queryAppInsightsAndUpdateLogs = (QL: QuickPulseQueryLayer, token: string) => {
-    QL.queryDetails(token, false, '')
+  const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, token: string) => {
+    quickPulseQueryLayer
+      .queryDetails(token, false, '')
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2) {
           // TODO: allisonm Decide which data we want to show in Logs
@@ -60,9 +62,9 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   };
 
   const reconnectQueryLayer = () => {
-    const qL = new QuickPulseQueryLayer(CommonConstants.QuickPulseEndpoints.public, defaultClient);
-    qL.setConfiguration([], defaultDocumentStreams, []);
-    setQueryLayer(qL);
+    const newQueryLayer = new QuickPulseQueryLayer(CommonConstants.QuickPulseEndpoints.public, defaultClient);
+    newQueryLayer.setConfiguration([], defaultDocumentStreams, []);
+    setQueryLayer(newQueryLayer);
   };
 
   const onExpandClick = () => {
@@ -100,10 +102,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   };
 
   const copyLogs = () => {
-    let logContent = '';
-    logEntries.forEach(logEntry => {
-      logContent += `${logEntry}\n`;
-    });
+    const logContent = logEntries.join('\n');
     TextUtilitiesService.copyContentToClipboard(logContent);
   };
 
@@ -113,12 +112,17 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
 
   useEffect(() => {
     toggleFullscreen(maximized);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [maximized]);
+
+  useEffect(() => {
     if (appInsightsToken && queryLayer) {
-      const test = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, appInsightsToken), 2000);
-      return () => clearInterval(test);
+      const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, appInsightsToken), 2000); // TODO: adjust timeout
+      return () => clearInterval(timeout);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [maximized, logEntries, queryLayer, appInsightsToken]);
+  }, [logEntries, queryLayer, appInsightsToken]);
+
   return (
     <div>
       <div className={logCommandBarStyle}>
@@ -171,7 +175,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
             logEntries.map((logEntry, logIndex) => {
               if (logIndex + 1 !== logEntries.length) {
                 return (
-                  <div key={logIndex} className={logEntryDivStyle} style={{ color: '#ff6161' }}>
+                  <div key={logIndex} className={logEntryDivStyle} style={{ color: getLogTextColor() }}>
                     {logEntry}
                   </div>
                 );
@@ -182,7 +186,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
                 <div
                   key={logIndex}
                   className={logEntryDivStyle}
-                  style={{ color: '#ff6161' }}
+                  style={{ color: getLogTextColor() }}
                   ref={el => {
                     if (!!el) {
                       el.scrollIntoView({ behavior: 'smooth' });

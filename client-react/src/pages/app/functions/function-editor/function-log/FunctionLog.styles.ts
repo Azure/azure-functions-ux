@@ -53,3 +53,7 @@ export const logEntryDivStyle = style({
   whiteSpace: 'pre-wrap',
   paddingBottom: '5px',
 });
+
+export function getLogTextColor(): string {
+  return '#ff6161';
+}
