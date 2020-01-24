@@ -30,7 +30,7 @@ import { BindingType } from '../../../../../models/functions/function-binding';
 export interface FunctionTestInputProps {
   functionInfo: ArmObj<FunctionInfo>;
   body: string;
-  onBodyChange: (newValue, event) => void;
+  onRequestBodyChange: (newValue, event) => void;
 }
 
 interface KeyValueComponent {
@@ -107,7 +107,7 @@ const KeyValueFieldArrayComponent: React.FC<KeyValueComponent> = props => {
 const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestInputProps> = props => {
   const { t } = useTranslation();
 
-  const { values, functionInfo, body, onBodyChange } = props;
+  const { values, functionInfo, body, onRequestBodyChange } = props;
 
   const getDropdownOptions = (): IDropdownOption[] => {
     const httpTrigger = functionInfo.properties.config.bindings.find(b => {
@@ -149,7 +149,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
           <MonacoEditor
             language="json"
             value={body}
-            onChange={onBodyChange}
+            onChange={onRequestBodyChange}
             height="300px"
             options={{
               minimap: { enabled: false },

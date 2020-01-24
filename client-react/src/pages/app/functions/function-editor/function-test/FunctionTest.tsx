@@ -55,7 +55,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     }
   };
 
-  const onBodyChange = (newValue, event) => {
+  const onRequestBodyChange = (newValue, event) => {
     setReqBody(newValue);
   };
 
@@ -113,7 +113,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           <Form className={addEditFormStyle}>
             <div className={functionTestBodyStyle}>
               {selectedPivotTab === PivotType.input && (
-                <FunctionTestInput {...formProps} functionInfo={functionInfo} body={reqBody} onBodyChange={onBodyChange} />
+                <FunctionTestInput {...formProps} functionInfo={functionInfo} body={reqBody} onRequestBodyChange={onRequestBodyChange} />
               )}
               {selectedPivotTab === PivotType.output && <FunctionTestOutput responseContent={responseContent} />}
             </div>
