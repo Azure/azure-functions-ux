@@ -2,6 +2,8 @@
 import { QPSchemaConfigurationMetric, QPSchemaDocumentStreamInfo, RequestFieldsEnum, DependencyFieldsEnum } from './QuickPulseSchema';
 import axios, { AxiosRequestConfig } from 'axios';
 
+// tslint:disable: max-classes-per-file
+
 export function makeQuickPulseId() {
   let text = '';
   let possible = 'abcdefghijklmnopqrstuvwxyz0123456789';

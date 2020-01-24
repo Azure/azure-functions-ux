@@ -12,6 +12,7 @@ import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids'
 import { Links } from '../../../../../utils/FwLinks';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import { ArmObj } from '../../../../../models/arm-obj';
+import i18next from 'i18next';
 
 type PropsType = FormikProps<AppSettingsFormValues>;
 
@@ -42,7 +43,7 @@ const getSelectedRuntimeStack = (builtInStacks: ArmObj<AvailableStack>[], versio
   }
   return '';
 };
-const getMajorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string) => {
+const getMajorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string, t: i18next.TFunction) => {
   const linuxFxVersionOptions: IDropdownOption[] = [];
 
   const currentStack = builtInStacks.find(s => s.name === stack);
@@ -51,7 +52,9 @@ const getMajorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string
   }
   currentStack.properties.majorVersions.forEach(majorVersion => {
     linuxFxVersionOptions.push({
-      text: majorVersion.displayVersion,
+      text: majorVersion.allMinorVersionsEndOfLife
+        ? t('endOfLifeTagTemplate').format(majorVersion.displayVersion)
+        : majorVersion.displayVersion,
       key: majorVersion.runtimeVersion.toLowerCase(),
     });
   });
@@ -76,7 +79,7 @@ const getSelectedMajorVersion = (builtInStacks: ArmObj<AvailableStack>[], versio
   }
   return '';
 };
-const getMinorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string, majorVersion: string) => {
+const getMinorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string, majorVersion: string, t: i18next.TFunction) => {
   const linuxFxVersionOptions: IDropdownOption[] = [];
   // included already handles the case that duplicate versions are included multiple times and needs to be filtered out
   const includedAlready = new Set();
@@ -84,25 +87,30 @@ const getMinorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string
   if (!currentStack) {
     return [];
   }
+
   const currentVersion = currentStack.properties.majorVersions.find(m => m.runtimeVersion.toLowerCase() === majorVersion);
   if (!currentVersion) {
     return [];
   }
-  linuxFxVersionOptions.push({
-    text: currentVersion.displayVersion,
-    key: currentVersion.runtimeVersion.toLowerCase(),
-  });
-  includedAlready.add(currentVersion.runtimeVersion.toLowerCase());
+
   currentVersion.minorVersions.forEach(minVer => {
     const ver = minVer.runtimeVersion.toLowerCase();
     if (!includedAlready.has(ver)) {
       includedAlready.add(ver);
       linuxFxVersionOptions.push({
-        text: minVer.displayVersion,
+        text: minVer.isEndOfLife ? t('endOfLifeTagTemplate').format(minVer.displayVersion) : minVer.displayVersion,
         key: ver,
       });
     }
   });
+
+  if (!includedAlready.has(currentVersion.runtimeVersion.toLowerCase())) {
+    linuxFxVersionOptions.unshift({
+      text: currentVersion.isEndOfLife ? t('endOfLifeTagTemplate').format(currentVersion.displayVersion) : currentVersion.displayVersion,
+      key: currentVersion.runtimeVersion.toLowerCase(),
+    });
+    includedAlready.add(currentVersion.runtimeVersion.toLowerCase());
+  }
 
   return linuxFxVersionOptions;
 };
@@ -160,12 +168,12 @@ const LinuxStacks: React.FC<PropsType> = props => {
             value={runtimeStack}
             dirty={runtimeStack !== getSelectedRuntimeStack(stacks.value, initialValues.config.properties.linuxFxVersion)}
             onChange={(e, newVal) => {
-              const majorVersions = getMajorVersions(stacks.value, newVal.key);
+              const majorVersions = getMajorVersions(stacks.value, newVal.key, t);
               setRuntimeStack(newVal.key);
               if (majorVersions.length > 0) {
                 const majVer = majorVersions[0];
                 setMajorVersion(majVer.key as string);
-                const minorVersions = getMinorVersions(stacks.value, newVal.key, majVer.key as string);
+                const minorVersions = getMinorVersions(stacks.value, newVal.key, majVer.key as string, t);
                 setMajorVersion(majVer.key as string);
                 if (minorVersions.length > 0) {
                   setFieldValue('config.properties.linuxFxVersion', minorVersions[0].key);
@@ -182,13 +190,13 @@ const LinuxStacks: React.FC<PropsType> = props => {
               value={majorVersion || ''}
               dirty={majorVersion !== getSelectedMajorVersion(stacks.value, initialValues.config.properties.linuxFxVersion)}
               onChange={(e, newVal) => {
-                const minorVersions = getMinorVersions(stacks.value, runtimeStack, newVal.key);
+                const minorVersions = getMinorVersions(stacks.value, runtimeStack, newVal.key, t);
                 setMajorVersion(newVal.key);
                 if (minorVersions.length > 0) {
                   setFieldValue('config.properties.linuxFxVersion', minorVersions[0].key);
                 }
               }}
-              options={getMajorVersions(stacks.value, runtimeStack)}
+              options={getMajorVersions(stacks.value, runtimeStack, t)}
               disabled={disableAllControls}
               label={t('majorVersion')}
               id="linux-fx-version-major-version"
@@ -202,7 +210,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
               disabled={disableAllControls}
               label={t('minorVersion')}
               id="linux-fx-version-minor-version"
-              options={getMinorVersions(stacks.value, runtimeStack, majorVersion)}
+              options={getMinorVersions(stacks.value, runtimeStack, majorVersion, t)}
             />
           )}
         </>

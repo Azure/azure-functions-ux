@@ -9,6 +9,9 @@ import {
   keyValuePairTextStyle,
   keyValuePairButtonStyle,
   keyValuePairStyle,
+  keyValuePairLabelStyle,
+  keyValuePairLabelDivStyle,
+  testFormLabelStyle,
 } from './FunctionTest.styles';
 import { Label, IDropdownOption, ITextFieldProps, TextField } from 'office-ui-fabric-react';
 import MonacoEditor from '../../../../../components/monaco-editor/monaco-editor';
@@ -27,6 +30,7 @@ import { BindingType } from '../../../../../models/functions/function-binding';
 export interface FunctionTestInputProps {
   functionInfo: ArmObj<FunctionInfo>;
   body: string;
+  onRequestBodyChange: (newValue, event) => void;
 }
 
 interface KeyValueComponent {
@@ -55,32 +59,39 @@ const KeyValueFieldComponent: React.FC<FieldProps & ITextFieldProps> = props => 
 const KeyValueFieldArrayComponent: React.FC<KeyValueComponent> = props => {
   const { items, itemName, addItemText } = props;
   const theme = useContext(ThemeContext);
+  const { t } = useTranslation();
 
   return (
     <FieldArray
       name={itemName}
       render={arrayHelpers => (
         <div className={httpAddDataStyle}>
+          {items.length > 0 && (
+            <div className={keyValuePairLabelDivStyle}>
+              <Label className={keyValuePairLabelStyle}>{`${t('nameRes')}*`}</Label>
+              <Label className={keyValuePairLabelStyle}>{`${t('value')}*`}</Label>
+            </div>
+          )}
           {items.map((item, index) => (
             <div className={keyValuePairStyle} key={index}>
               <Field
                 className={keyValuePairTextStyle}
                 component={KeyValueFieldComponent}
-                placeholder="name"
+                placeholder={t('enterName')}
                 id={`${index}-${itemName}-name`}
                 name={`${itemName}[${index}].name`}
               />
               <Field
                 className={keyValuePairTextStyle}
                 component={KeyValueFieldComponent}
-                placeholder="value"
+                placeholder={t('enterValue')}
                 id={`${index}-${itemName}-value`}
                 name={`${itemName}[${index}].value`}
               />
               <IconButton
-                className={keyValuePairButtonStyle}
+                className={keyValuePairButtonStyle(theme)}
                 id={`${index}-cancel-${itemName}-button`}
-                iconProps={{ iconName: 'ChromeClose' }}
+                iconProps={{ iconName: 'Delete' }}
                 onClick={() => arrayHelpers.remove(index)}
               />
             </div>
@@ -96,7 +107,7 @@ const KeyValueFieldArrayComponent: React.FC<KeyValueComponent> = props => {
 const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestInputProps> = props => {
   const { t } = useTranslation();
 
-  const { values, functionInfo, body } = props;
+  const { values, functionInfo, body, onRequestBodyChange } = props;
 
   const getDropdownOptions = (): IDropdownOption[] => {
     const httpTrigger = functionInfo.properties.config.bindings.find(b => {
@@ -121,23 +132,24 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
     <div className={pivotItemWrapper}>
       {t('functionTestInputDescription')}
       <div className={functionTestGroupStyle}>
-        <Label>{t('httpRun_httpMethod')}</Label>
+        <Label className={testFormLabelStyle}>{t('httpRun_httpMethod')}</Label>
         <Field id="method" name="method" component={Dropdown} options={getDropdownOptions()} />
       </div>
       <div className={functionTestGroupStyle}>
-        <Label>{t('httpRun_query')}</Label>
+        <Label className={testFormLabelStyle}>{t('httpRun_query')}</Label>
         <KeyValueFieldArrayComponent itemName="queries" items={values.queries} addItemText={t('httpRun_addParameter')} />
       </div>
       <div className={functionTestGroupStyle}>
-        <Label>{t('httpRun_headers')}</Label>
+        <Label className={testFormLabelStyle}>{t('httpRun_headers')}</Label>
         <KeyValueFieldArrayComponent itemName="headers" items={values.headers} addItemText={t('httpRun_addHeader')} />
       </div>
       <div className={functionTestGroupStyle}>
-        <Label>{t('rrOverride_boby')}</Label>
+        <Label className={testFormLabelStyle}>{t('rrOverride_boby')}</Label>
         <div className={bodyEditorStyle}>
           <MonacoEditor
             language="json"
             value={body}
+            onChange={onRequestBodyChange}
             height="300px"
             options={{
               minimap: { enabled: false },

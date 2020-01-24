@@ -73,3 +73,27 @@ export const editorStyle = style({
 });
 
 export const defaultMonacoEditorHeight = 'calc(100vh - 138px)';
+
+export const urlCalloutTextfieldStyle = style({
+  marginTop: '5px',
+});
+
+export const keyDivStyle = style({
+  width: '200px',
+  float: 'left',
+  marginRight: '15px',
+});
+
+export const urlDivStyle = style({
+  width: '380px',
+  float: 'right',
+});
+
+export const urlFieldStyle = style({
+  minWidth: '350px',
+});
+
+export const urlFormStyle = style({
+  marginBottom: '0px',
+  paddingTop: '5px',
+});
