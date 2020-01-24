@@ -11,6 +11,7 @@ import { HttpResponseObject } from '../../../ArmHelper.types';
 import PortalCommunicator from '../../../portal-communicator';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
 import { AvailableStack } from '../../../models/available-stacks';
+import { markEndOfLifeStacksInPlace } from '../../../utils/stacks-utils';
 import { sortBy } from 'lodash-es';
 
 const insertDotNetCore31ForLinuxInPlace = (linuxStacks: HttpResponseObject<ArmArray<AvailableStack>>) => {
@@ -46,6 +47,11 @@ const insertDotNetCore31ForLinuxInPlace = (linuxStacks: HttpResponseObject<ArmAr
   }
 };
 
+const markEndOfLifeInPlace = (stacksResponse: HttpResponseObject<ArmArray<AvailableStack>>) => {
+  const stacksArray = !!stacksResponse && !!stacksResponse.metadata.success && !!stacksResponse.data && stacksResponse.data.value;
+  markEndOfLifeStacksInPlace(stacksArray || []);
+};
+
 export const fetchApplicationSettingValues = async (resourceId: string) => {
   const [
     webConfig,
@@ -71,6 +77,10 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
   // This is a temporary fix because the response from the availableStacks API doesn't include .NET Core 3.1.
   // We only care about this for Linux apps because the .NET Core version isn't configurable for Windows apps.
   insertDotNetCore31ForLinuxInPlace(linuxStacks);
+
+  // Mark stacks as EOL based on hard-coded logic, since they aren't marked as EOL in the payload returned by the availableStacks API
+  markEndOfLifeInPlace(windowsStacks);
+  markEndOfLifeInPlace(linuxStacks);
 
   return {
     webConfig,
