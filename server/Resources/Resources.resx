@@ -5577,7 +5577,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="httpRun_responseCode" xml:space="preserve">
         <value>HTTP response code</value>
     </data>
-    <data name="editor_changeFileConfirmMessage" xml:space="">
+    <data name="editor_changeFileConfirmMessage" xml:space="preserve">
         <value>Your unsaved edits will be discarded.</value>
     </data>
     <data name="editor_changeFile" xml:space="preserve">
