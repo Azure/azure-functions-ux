@@ -28,4 +28,4 @@ export const defaultDocumentStreams: QPSchemaDocumentStreamInfo[] = [
   },
 ];
 
-export const defaultClient = 'v2;';
+export const defaultClient = 'v2';
