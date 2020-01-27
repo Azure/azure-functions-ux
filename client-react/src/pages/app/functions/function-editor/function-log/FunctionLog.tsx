@@ -42,14 +42,12 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     quickPulseQueryLayer
       .queryDetails(token, false, '')
       .then((dataV2: SchemaResponseV2) => {
-        if (dataV2.DataRanges && dataV2.DataRanges[0]) {
+        if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
           let documents = dataV2.DataRanges[0].Documents;
-          if (documents) {
-            if (callCount === 0) {
-              documents = trimPreviousLogs(documents);
-            }
-            setLogEntries(logEntries.concat(documents));
+          if (callCount === 0) {
+            documents = trimPreviousLogs(documents);
           }
+          setLogEntries(logEntries.concat(documents));
         }
       })
       .catch(error => {
