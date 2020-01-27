@@ -312,7 +312,7 @@ export enum FunctionAppEditMode {
   ReadOnlySlots,
   ReadOnlyVSGenerated,
   ReadWriteVSGenerated,
-  ReadOnlyRunFromZip,
+  ReadOnlyRunFromPackage,
   ReadOnlyLocalCache,
   ReadOnlyLinuxDynamic,
   ReadOnlyBYOC,
