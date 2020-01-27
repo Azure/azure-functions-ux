@@ -26,7 +26,6 @@ export interface FunctionEditorProps {
   site: ArmObj<Site>;
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
   functionRunning: boolean;
-
   urlObjs: UrlObj[];
   resetAppInsightsToken: () => void;
   responseContent?: ResponseContent;
