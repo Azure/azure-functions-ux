@@ -72,6 +72,11 @@ export class CommonConstants {
     functionsExtensionVersion: 'FUNCTIONS_EXTENSION_VERSION',
     functionsWorkerRuntime: 'FUNCTIONS_WORKER_RUNTIME',
     websiteNodeDefaultVersion: 'WEBSITE_NODE_DEFAULT_VERSION',
+    websiteUseZip: 'WEBSITE_USE_ZIP',
+    websiteRunFromZip: 'WEBSITE_RUN_FROM_ZIP',
+    websiteRunFromPackage: 'WEBSITE_RUN_FROM_PACKAGE',
+    localCacheOptionSettingName: 'WEBSITE_LOCAL_CACHE_OPTION',
+    functionAppEditModeSettingName: 'FUNCTION_APP_EDIT_MODE',
   };
 
   public static readonly SkuNames = {
@@ -97,6 +102,17 @@ export class CommonConstants {
     v2: '~10',
     v3: '~12',
   };
+
+  public static readonly WorkerRuntimeLanguages = {
+    dotnet: 'C#',
+    node: 'JavaScript',
+    nodejs: 'JavaScript',
+    python: 'Python',
+    java: 'Java',
+    powershell: 'PowerShell',
+  };
+
+  public static localCacheOptionSettingValue = 'always';
 
   public static readonly QuickPulseEndpoints = {
     public: 'https://rt.services.visualstudio.com/QuickPulseService.svc',

@@ -5,7 +5,15 @@ import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
 import { SiteRouterData } from './SiteRouter.data';
 import { SiteStateContext } from '../../SiteStateContext';
-import { SiteState } from '../../models/portal-models';
+import { SiteState, FunctionAppEditMode } from '../../models/portal-models';
+import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
+import SiteService from '../../ApiHelpers/SiteService';
+import { isFunctionApp, isLinuxDynamic, isLinuxApp, isElastic, isContainerApp } from '../../utils/arm-utils';
+import SiteHelper from '../../utils/SiteHelper';
+import FunctionAppService from '../../utils/FunctionAppService';
+import { CommonConstants } from '../../utils/CommonConstants';
+import { ArmObj } from '../../models/arm-obj';
+import { Site } from '../../models/site/site';
 export interface SiteRouterProps {
   subscriptionId?: string;
   resourcegroup?: string;
@@ -45,16 +53,59 @@ const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
+  const [siteAppEditState, setSiteAppEditState] = useState(SiteState.readwrite);
 
-  const fetchData = async () => {
-    // TODO [krmitta]: Add the logic for read-only permissions on the site
+  const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode => {
+    if (isLinuxDynamic(site)) {
+      return FunctionAppEditMode.ReadOnlyLinuxDynamic;
+    }
+    if (isContainerApp(site)) {
+      return FunctionAppEditMode.ReadOnlyBYOC;
+    }
+    if (isLinuxApp(site) && isElastic(site)) {
+      return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
+    }
+    return FunctionAppEditMode.ReadWrite;
+  };
+
+  const getSiteStateFromAppSettings = (appSettings: ArmObj<{ [key: string]: string }>): FunctionAppEditMode => {
+    if (FunctionAppService.usingRunFromPackage(appSettings)) {
+      return FunctionAppEditMode.ReadOnlyRunFromPackage;
+    }
+    if (FunctionAppService.usingLocalCache(appSettings)) {
+      return FunctionAppEditMode.ReadOnlyLocalCache;
+    }
+    if (FunctionAppService.usingPythonWorkerRuntime(appSettings)) {
+      return FunctionAppEditMode.ReadOnlyPython;
+    }
+    if (FunctionAppService.usingJavaWorkerRuntime(appSettings)) {
+      return FunctionAppEditMode.ReadOnlyJava;
+    }
+    const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';
+    if (editModeString.toLowerCase() === SiteState.readonly.toString()) {
+      return FunctionAppEditMode.ReadOnly;
+    }
+    return FunctionAppEditMode.ReadWrite;
+  };
+
+  const findAndSetSiteState = async () => {
+    if (!!resourceId) {
+      const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
+      const siteResourceId = armSiteDescriptor.getSiteOnlyResourceId();
+      const site = await SiteService.fetchSite(siteResourceId);
+      if (site.metadata.success && isFunctionApp(site.data)) {
+        let functionAppEditMode = getSiteStateFromSiteData(site.data);
+        if (functionAppEditMode === FunctionAppEditMode.ReadWrite) {
+          const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
+          functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
+        }
+        setSiteAppEditState(SiteHelper.isFunctionAppReadOnly(functionAppEditMode) ? SiteState.readonly : SiteState.readwrite);
+      }
+    }
   };
 
   useEffect(() => {
-    if (!!resourceId) {
-      fetchData();
-    }
-
+    findAndSetSiteState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resourceId]);
   return (
@@ -65,7 +116,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token && (
-                <SiteStateContext.Provider value={SiteState.readwrite}>
+                <SiteStateContext.Provider value={siteAppEditState}>
                   <Router>
                     <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
                     <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />

@@ -7,7 +7,7 @@ export default class SiteHelper {
       editMode === FunctionAppEditMode.ReadOnlySourceControlled ||
       editMode === FunctionAppEditMode.ReadOnlySlots ||
       editMode === FunctionAppEditMode.ReadOnlyVSGenerated ||
-      editMode === FunctionAppEditMode.ReadOnlyRunFromZip ||
+      editMode === FunctionAppEditMode.ReadOnlyRunFromPackage ||
       editMode === FunctionAppEditMode.ReadOnlyLocalCache ||
       editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic ||
       editMode === FunctionAppEditMode.ReadOnlyBYOC ||
