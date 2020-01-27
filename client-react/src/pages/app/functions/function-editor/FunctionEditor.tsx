@@ -41,7 +41,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [fileContent, setFileContent] = useState<FileContent>({ default: '', latest: '' });
   const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
-  const [dirty, setDirty] = useState<boolean>(false);
   const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption | undefined>(undefined);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [savingFile, setSavingFile] = useState<boolean>(false);
@@ -88,8 +87,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setShowTestPanel(false);
   };
 
+  const isDirty = () => {
+    return fileContent.default !== fileContent.latest;
+  };
+
   const onFileSelectorChange = async (e: unknown, option: IDropdownOption) => {
-    if (dirty) {
+    if (isDirty()) {
       setSelectedDropdownOption(option);
       return;
     }
@@ -212,9 +215,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logPanelExpanded]);
   useEffect(() => {
-    setDirty(fileContent.default !== fileContent.latest);
-  }, [fileContent]);
-  useEffect(() => {
     if (!!responseContent) {
       changePivotTab(PivotType.output);
     }
@@ -232,7 +232,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           resetFunction={discard}
           testFunction={test}
           showGetFunctionUrlCommand={!!inputBinding}
-          dirty={dirty}
+          dirty={isDirty()}
           disabled={isLoading()}
           urlObjs={urlObjs}
         />
