@@ -10,6 +10,7 @@ import {
   logCommandBarButtonStyle,
   logEntryDivStyle,
   getLogTextColor,
+  logErrorDivStyle,
 } from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
 import { Icon } from 'office-ui-fabric-react';
@@ -24,17 +25,19 @@ interface FunctionLogProps {
   toggleExpand: () => void;
   toggleFullscreen: (fullscreen: boolean) => void;
   isExpanded: boolean;
+  fileSaved: boolean;
   appInsightsToken?: string;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
   const { t } = useTranslation();
-  const { toggleExpand, isExpanded, toggleFullscreen, appInsightsToken } = props;
+  const { toggleExpand, isExpanded, toggleFullscreen, appInsightsToken, fileSaved } = props;
   const [maximized, setMaximized] = useState(false);
   const [started, setStarted] = useState(false);
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
   const [logEntries, setLogEntries] = useState<SchemaDocument[]>([]);
   const [callCount, setCallCount] = useState(0);
+  const [appInsightsError, setAppInsightsError] = useState(false);
 
   const theme = useContext(ThemeContext);
 
@@ -104,7 +107,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       disconnectQueryLayer();
       reconnectQueryLayer();
     } else {
-      // todo allisonm: Add messaging for app insights logs
+      setAppInsightsError(true);
     }
     setStarted(true);
   };
@@ -131,6 +134,13 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     toggleFullscreen(maximized);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maximized]);
+
+  useEffect(() => {
+    if (fileSaved) {
+      startLogs();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fileSaved]);
 
   useEffect(() => {
     if (appInsightsToken && queryLayer) {
@@ -188,6 +198,10 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       </div>
       {isExpanded && (
         <div className={logStreamStyle(maximized)}>
+          {/*Error Message*/}
+          {appInsightsError && <div className={logErrorDivStyle}>{t('functionEditor_appInsightsNotConfigured')}</div>}
+
+          {/*Log Entries*/}
           {!!logEntries &&
             logEntries.map((logEntry: SchemaDocument, logIndex) => {
               return (

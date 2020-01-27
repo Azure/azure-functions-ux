@@ -5601,4 +5601,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="endOfLifeTagTemplate" xml:space="preserve">
         <value>{0} (EOL)</value>
     </data>
+    <data name="functionEditor_appInsightsNotConfigured" xml:space="preserve">
+        <value>Application Insights is not configured. Go to the Monitor tab and configure Application Insights to capture function logs.</value>
+    </data>
 </root>
