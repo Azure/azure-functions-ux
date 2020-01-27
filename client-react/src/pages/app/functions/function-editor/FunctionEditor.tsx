@@ -48,6 +48,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [monacoHeight, setMonacoHeight] = useState(defaultMonacoEditorHeight);
   const [logPanelExpanded, setLogPanelExpanded] = useState(false);
   const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
+  const [fileSaved, setFileSaved] = useState(false);
 
   const { t } = useTranslation();
 
@@ -71,6 +72,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     );
     if (fileResponse.metadata.success) {
       setFileContent({ ...fileContent, default: fileContent.latest });
+      setLogPanelExpanded(true);
+      setFileSaved(true);
     }
     setSavingFile(false);
   };
@@ -300,6 +303,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           toggleExpand={toggleLogPanelExpansion}
           isExpanded={logPanelExpanded}
           toggleFullscreen={setLogPanelFullscreen}
+          fileSaved={fileSaved}
           appInsightsToken={appInsightsToken}
         />
       </div>

@@ -25,12 +25,13 @@ interface FunctionLogProps {
   toggleExpand: () => void;
   toggleFullscreen: (fullscreen: boolean) => void;
   isExpanded: boolean;
+  fileSaved: boolean;
   appInsightsToken?: string;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
   const { t } = useTranslation();
-  const { toggleExpand, isExpanded, toggleFullscreen, appInsightsToken } = props;
+  const { toggleExpand, isExpanded, toggleFullscreen, appInsightsToken, fileSaved } = props;
   const [maximized, setMaximized] = useState(false);
   const [started, setStarted] = useState(false);
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
@@ -133,6 +134,13 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     toggleFullscreen(maximized);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maximized]);
+
+  useEffect(() => {
+    if (fileSaved) {
+      startLogs();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fileSaved]);
 
   useEffect(() => {
     if (appInsightsToken && queryLayer) {
