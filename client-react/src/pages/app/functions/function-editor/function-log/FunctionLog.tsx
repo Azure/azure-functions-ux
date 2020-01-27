@@ -34,6 +34,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const [started, setStarted] = useState(false);
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
   const [logEntries, setLogEntries] = useState<SchemaDocument[]>([]);
+  const [callCount, setCallCount] = useState(0);
 
   const theme = useContext(ThemeContext);
 
@@ -41,12 +42,12 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     quickPulseQueryLayer
       .queryDetails(token, false, '')
       .then((dataV2: SchemaResponseV2) => {
-        if (dataV2.DataRanges && dataV2.DataRanges[0]) {
-          const documents = dataV2.DataRanges[0].Documents;
-          if (documents) {
-            console.log(documents);
-            setLogEntries(documents);
+        if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
+          let documents = dataV2.DataRanges[0].Documents;
+          if (callCount === 0) {
+            documents = trimPreviousLogs(documents);
           }
+          setLogEntries(logEntries.concat(documents));
         }
       })
       .catch(error => {
@@ -55,7 +56,21 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
           'getAppInsightsComponentToken',
           `Error when attempting to Query Application Insights: ${error}`
         );
+      })
+      .finally(() => {
+        setCallCount(callCount + 1);
       });
+  };
+
+  const trimPreviousLogs = (documents: SchemaDocument[]) => {
+    if (documents.length > 100) {
+      return documents.slice(0, 100).reverse();
+    }
+    return documents.reverse();
+  };
+
+  const formatLog = (logEntry: SchemaDocument) => {
+    return `${logEntry.Timestamp}   [${logEntry.Content.SeverityLevel}]   ${logEntry.Content.Message}`;
   };
 
   const disconnectQueryLayer = () => {
@@ -66,6 +81,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     const newQueryLayer = new QuickPulseQueryLayer(CommonConstants.QuickPulseEndpoints.public, defaultClient);
     newQueryLayer.setConfiguration([], defaultDocumentStreams, []);
     setQueryLayer(newQueryLayer);
+    setCallCount(0);
   };
 
   const onExpandClick = () => {
@@ -103,7 +119,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   };
 
   const copyLogs = () => {
-    const logContent = logEntries.join('\n');
+    const logContent = logEntries.map(logEntry => formatLog(logEntry)).join('\n');
     TextUtilitiesService.copyContentToClipboard(logContent);
   };
 
@@ -122,7 +138,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       return () => clearInterval(timeout);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [logEntries, queryLayer, appInsightsToken]);
+  }, [logEntries, queryLayer, appInsightsToken, callCount]);
 
   return (
     <div>
@@ -173,19 +189,19 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       {isExpanded && (
         <div className={logStreamStyle(maximized)}>
           {!!logEntries &&
-            logEntries.map((logEntry, logIndex) => {
+            logEntries.map((logEntry: SchemaDocument, logIndex) => {
               return (
                 <div
                   key={logIndex}
                   className={logEntryDivStyle}
-                  style={{ color: getLogTextColor() }}
+                  style={{ color: getLogTextColor(logEntry.Content.SeverityLevel || '') }}
                   /*Last Log Entry needs to be scrolled into focus*/
                   ref={el => {
                     if (logIndex + 1 === logEntries.length && !!el) {
                       el.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}>
-                  {logEntry.Content.Message}
+                  {formatLog(logEntry)}
                 </div>
               );
             })}
