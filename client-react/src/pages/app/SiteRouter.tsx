@@ -82,7 +82,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       isJava = CommonConstants.WorkerRuntimeLanguages[workerRuntime] === CommonConstants.WorkerRuntimeLanguages.java;
     }
     if (usingRunFromPackage) {
-      return FunctionAppEditMode.ReadOnlyRunFromZip;
+      return FunctionAppEditMode.ReadOnlyRunFromPackage;
     }
     if (usingLocalCache) {
       return FunctionAppEditMode.ReadOnlyLocalCache;
