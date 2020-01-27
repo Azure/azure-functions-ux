@@ -10,6 +10,7 @@ import {
   logCommandBarButtonStyle,
   logEntryDivStyle,
   getLogTextColor,
+  logErrorDivStyle,
 } from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
 import { Icon } from 'office-ui-fabric-react';
@@ -35,6 +36,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
   const [logEntries, setLogEntries] = useState<SchemaDocument[]>([]);
   const [callCount, setCallCount] = useState(0);
+  const [appInsightsError, setAppInsightsError] = useState(false);
 
   const theme = useContext(ThemeContext);
 
@@ -104,7 +106,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       disconnectQueryLayer();
       reconnectQueryLayer();
     } else {
-      // todo allisonm: Add messaging for app insights logs
+      setAppInsightsError(true);
     }
     setStarted(true);
   };
@@ -188,6 +190,10 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       </div>
       {isExpanded && (
         <div className={logStreamStyle(maximized)}>
+          {/*Error Message*/}
+          {appInsightsError && <div className={logErrorDivStyle}>{t('functionEditor_appInsightsNotConfigured')}</div>}
+
+          {/*Log Entries*/}
           {!!logEntries &&
             logEntries.map((logEntry: SchemaDocument, logIndex) => {
               return (
