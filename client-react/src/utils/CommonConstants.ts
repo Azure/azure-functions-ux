@@ -103,4 +103,11 @@ export class CommonConstants {
     fairfax: 'https://quickpulse.applicationinsights.us/QuickPulseService.svc',
     mooncake: 'https://live.applicationinsights.azure.cn/QuickPulseService.svc',
   };
+
+  public static readonly LogLevels = {
+    error: 'error',
+    information: 'information',
+    verbose: 'verbose',
+    warning: 'warning',
+  };
 }
