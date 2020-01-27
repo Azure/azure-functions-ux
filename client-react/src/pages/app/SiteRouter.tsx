@@ -9,7 +9,6 @@ import { SiteState, FunctionAppEditMode } from '../../models/portal-models';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import SiteService from '../../ApiHelpers/SiteService';
 import { isFunctionApp, isLinuxDynamic, isLinuxApp, isElastic, isContainerApp } from '../../utils/arm-utils';
-import SiteHelper from '../../utils/SiteHelper';
 import FunctionAppService from '../../utils/FunctionAppService';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { ArmObj } from '../../models/arm-obj';
@@ -53,7 +52,7 @@ const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
-  const [siteAppEditState, setSiteAppEditState] = useState(SiteState.readwrite);
+  const [siteAppEditState, setSiteAppEditState] = useState(FunctionAppEditMode.ReadWrite);
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode => {
     if (isLinuxDynamic(site)) {
@@ -99,7 +98,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
           const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
           functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
         }
-        setSiteAppEditState(SiteHelper.isFunctionAppReadOnly(functionAppEditMode) ? SiteState.readonly : SiteState.readwrite);
+        setSiteAppEditState(functionAppEditMode);
       }
     }
   };

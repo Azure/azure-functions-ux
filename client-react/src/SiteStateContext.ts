@@ -1,4 +1,4 @@
 import React from 'react';
-import { SiteState } from './models/portal-models';
+import { FunctionAppEditMode } from './models/portal-models';
 
-export const SiteStateContext = React.createContext<SiteState>(SiteState.readwrite);
+export const SiteStateContext = React.createContext<FunctionAppEditMode>(FunctionAppEditMode.ReadWrite);
