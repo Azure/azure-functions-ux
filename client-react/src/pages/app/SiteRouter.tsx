@@ -69,31 +69,20 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   };
 
   const getSiteStateFromAppSettings = (appSettings: ArmObj<{ [key: string]: string }>): FunctionAppEditMode => {
-    const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName].toLowerCase() || '';
-    const usingRunFromPackage = FunctionAppService.getRFPSetting(appSettings) !== '0';
-    const usingLocalCache =
-      !!appSettings.properties[CommonConstants.AppSettingNames.localCacheOptionSettingName] &&
-      appSettings.properties[CommonConstants.AppSettingNames.localCacheOptionSettingName] === CommonConstants.localCacheOptionSettingValue;
-    const workerRuntime = appSettings && appSettings.properties[CommonConstants.AppSettingNames.functionsWorkerRuntime];
-    let isPython = false;
-    let isJava = false;
-    if (workerRuntime) {
-      isPython = CommonConstants.WorkerRuntimeLanguages[workerRuntime] === CommonConstants.WorkerRuntimeLanguages.python;
-      isJava = CommonConstants.WorkerRuntimeLanguages[workerRuntime] === CommonConstants.WorkerRuntimeLanguages.java;
-    }
-    if (usingRunFromPackage) {
+    if (FunctionAppService.usingRunFromPackage(appSettings)) {
       return FunctionAppEditMode.ReadOnlyRunFromPackage;
     }
-    if (usingLocalCache) {
+    if (FunctionAppService.usingLocalCache(appSettings)) {
       return FunctionAppEditMode.ReadOnlyLocalCache;
     }
-    if (isPython) {
+    if (FunctionAppService.usingPythonWorkerRuntime(appSettings)) {
       return FunctionAppEditMode.ReadOnlyPython;
     }
-    if (isJava) {
+    if (FunctionAppService.usingJavaWorkerRuntime(appSettings)) {
       return FunctionAppEditMode.ReadOnlyJava;
     }
-    if (editModeString === SiteState.readonly.toString()) {
+    const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';
+    if (editModeString.toLowerCase() === SiteState.readonly.toString()) {
       return FunctionAppEditMode.ReadOnly;
     }
     return FunctionAppEditMode.ReadWrite;

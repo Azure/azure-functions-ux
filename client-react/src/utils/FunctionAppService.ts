@@ -10,4 +10,29 @@ export default class FunctionAppService {
       '0'
     );
   }
+
+  public static getWorkerRuntimeSetting(appSettings: ArmObj<{ [key: string]: string }>): string {
+    return appSettings.properties[CommonConstants.AppSettingNames.functionsWorkerRuntime] || '';
+  }
+
+  public static usingRunFromPackage(appSettings: ArmObj<{ [key: string]: string }>): boolean {
+    return FunctionAppService.getRFPSetting(appSettings) !== '0';
+  }
+
+  public static usingLocalCache(appSettings: ArmObj<{ [key: string]: string }>): boolean {
+    return (
+      !!appSettings.properties[CommonConstants.AppSettingNames.localCacheOptionSettingName] &&
+      appSettings.properties[CommonConstants.AppSettingNames.localCacheOptionSettingName] === CommonConstants.localCacheOptionSettingValue
+    );
+  }
+
+  public static usingPythonWorkerRuntime(appSettings: ArmObj<{ [key: string]: string }>): boolean {
+    const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
+    return !!workerRuntime && CommonConstants.WorkerRuntimeLanguages[workerRuntime] === CommonConstants.WorkerRuntimeLanguages.python;
+  }
+
+  public static usingJavaWorkerRuntime(appSettings: ArmObj<{ [key: string]: string }>): boolean {
+    const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
+    return !!workerRuntime && CommonConstants.WorkerRuntimeLanguages[workerRuntime] === CommonConstants.WorkerRuntimeLanguages.java;
+  }
 }
