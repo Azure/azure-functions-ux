@@ -78,15 +78,16 @@ export class ConfigureDropboxComponent implements OnInit, OnDestroy {
             value: `${DeploymentCenterConstants.dropboxUri}/${siteName}`,
           });
 
-          rawFolders.entries.forEach(item => {
-            if (siteName.toLowerCase() === item.name.toLowerCase() || item['.tag'] !== 'folder') {
-            } else {
-              options.push({
-                displayLabel: item.name,
-                value: `${DeploymentCenterConstants.dropboxUri}/${item.name}`,
-              });
-            }
-          });
+          if (rawFolders && rawFolders.entries) {
+            rawFolders.entries.forEach(item => {
+              if (siteName.toLowerCase() !== item.name.toLowerCase() && item['.tag'] === 'folder') {
+                options.push({
+                  displayLabel: item.name,
+                  value: `${DeploymentCenterConstants.dropboxUri}/${item.name}`,
+                });
+              }
+            });
+          }
 
           this.folderList = options;
           this.selectedFolder = `${DeploymentCenterConstants.dropboxUri}/${siteName}`;
