@@ -25,13 +25,14 @@ interface FunctionLogProps {
   toggleExpand: () => void;
   toggleFullscreen: (fullscreen: boolean) => void;
   isExpanded: boolean;
-  fileSaved: boolean;
+  fileSavedCount: number;
+  resetAppInsightsToken: () => void;
   appInsightsToken?: string;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
   const { t } = useTranslation();
-  const { toggleExpand, isExpanded, toggleFullscreen, appInsightsToken, fileSaved } = props;
+  const { toggleExpand, isExpanded, toggleFullscreen, appInsightsToken, fileSavedCount, resetAppInsightsToken } = props;
   const [maximized, setMaximized] = useState(false);
   const [started, setStarted] = useState(false);
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
@@ -54,6 +55,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         }
       })
       .catch(error => {
+        resetAppInsightsToken();
         LogService.error(
           LogCategories.FunctionEdit,
           'getAppInsightsComponentToken',
@@ -136,15 +138,15 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   }, [maximized]);
 
   useEffect(() => {
-    if (fileSaved) {
+    if (!started && fileSavedCount > 0) {
       startLogs();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fileSaved]);
+  }, [fileSavedCount]);
 
   useEffect(() => {
     if (appInsightsToken && queryLayer) {
-      const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, appInsightsToken), 2000); // TODO: adjust timeout
+      const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, appInsightsToken), 3000);
       return () => clearInterval(timeout);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
