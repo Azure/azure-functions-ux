@@ -103,7 +103,6 @@ export class CommonConstants {
     v3: '~12',
   };
 
-
   public static readonly WorkerRuntimeLanguages = {
     dotnet: 'C#',
     node: 'JavaScript',
@@ -114,6 +113,7 @@ export class CommonConstants {
   };
 
   public static localCacheOptionSettingValue = 'always';
+
   public static readonly QuickPulseEndpoints = {
     public: 'https://rt.services.visualstudio.com/QuickPulseService.svc',
     fairfax: 'https://quickpulse.applicationinsights.us/QuickPulseService.svc',

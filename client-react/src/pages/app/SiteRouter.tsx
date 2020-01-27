@@ -70,7 +70,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
 
   const getSiteStateFromAppSettings = (appSettings: ArmObj<{ [key: string]: string }>): FunctionAppEditMode => {
     const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName].toLowerCase() || '';
-    const usingRunFromZip = FunctionAppService.getRFZSetting(appSettings) !== '0';
+    const usingRunFromPackage = FunctionAppService.getRFPSetting(appSettings) !== '0';
     const usingLocalCache =
       !!appSettings.properties[CommonConstants.AppSettingNames.localCacheOptionSettingName] &&
       appSettings.properties[CommonConstants.AppSettingNames.localCacheOptionSettingName] === CommonConstants.localCacheOptionSettingValue;
@@ -81,7 +81,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       isPython = CommonConstants.WorkerRuntimeLanguages[workerRuntime] === CommonConstants.WorkerRuntimeLanguages.python;
       isJava = CommonConstants.WorkerRuntimeLanguages[workerRuntime] === CommonConstants.WorkerRuntimeLanguages.java;
     }
-    if (usingRunFromZip) {
+    if (usingRunFromPackage) {
       return FunctionAppEditMode.ReadOnlyRunFromZip;
     }
     if (usingLocalCache) {
