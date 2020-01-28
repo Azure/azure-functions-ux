@@ -178,11 +178,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const options = getDropdownOptions();
     let file = options.length > 0 ? options[0] : undefined;
     const scriptFilename = getScriptFile().toLowerCase();
-    if (!!scriptFilename) {
-      const scriptFileOption = options.filter(option => option.text === scriptFilename);
-      if (scriptFileOption.length === 1) {
-        file = scriptFileOption[0];
-      }
+    const scriptFileOption = options.filter(option => option.text === scriptFilename);
+    if (scriptFileOption.length === 1) {
+      file = scriptFileOption[0];
     }
     if (!!file) {
       setSelectedFileContent(file.data);
