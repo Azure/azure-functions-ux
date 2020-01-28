@@ -96,7 +96,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         let functionAppEditMode = getSiteStateFromSiteData(site.data);
         if (functionAppEditMode === FunctionAppEditMode.ReadWrite) {
           const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
-          functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
+          if (appSettingsResponse.metadata.success) {
+            functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
+          }
         }
         setSiteAppEditState(functionAppEditMode);
       }
