@@ -20,6 +20,7 @@ import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 import { editorStyle } from '../../app-files/AppFiles.styles';
 import FunctionLog from './function-log/FunctionLog';
 import { FormikActions } from 'formik';
+import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -169,9 +170,20 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     }
   };
 
-  const fetchData = async () => {
+  const getScriptFileOption = (): IDropdownOption | undefined => {
+    const scriptHref = functionInfo.properties.script_href;
+    const filename = (scriptHref && scriptHref.split('/').pop()) || '';
+    const filteredOptions = getDropdownOptions().filter(option => option.text === filename.toLowerCase());
+    return filteredOptions.length === 1 ? filteredOptions[0] : getDefaultFile();
+  };
+
+  const getDefaultFile = (): IDropdownOption | undefined => {
     const options = getDropdownOptions();
-    const file = options.length > 0 ? options[0] : undefined;
+    return options.length > 0 ? options[0] : undefined;
+  };
+
+  const fetchData = async () => {
+    const file = getScriptFileOption();
     if (!!file) {
       setSelectedFileContent(file.data);
       setSelectedFile(file);
@@ -264,6 +276,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={closeConfirmDialog}
         />
+        <EditModeBanner />
         <FunctionEditorFileSelectorBar
           disabled={isLoading()}
           functionAppNameLabel={site.name}

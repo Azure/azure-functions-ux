@@ -68,6 +68,7 @@ export const keyValuePairLabelStyle = style({
   width: '45%',
   display: 'inline-block',
   marginRight: '10px',
+  fontSize: '12px',
 });
 
 export const keyValuePairLabelDivStyle = style({
@@ -78,4 +79,5 @@ export const keyValuePairLabelDivStyle = style({
 
 export const testFormLabelStyle = style({
   fontWeight: 600,
+  fontSize: '14px',
 });

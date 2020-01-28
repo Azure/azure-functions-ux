@@ -1811,4 +1811,5 @@ export class PortalResources {
   public static connect = 'connect';
   public static endOfLifeTagTemplate = 'endOfLifeTagTemplate';
   public static functionEditor_appInsightsNotConfigured = 'functionEditor_appInsightsNotConfigured';
+  public static functionEditor_connectingToAppInsights = 'functionEditor_connectingToAppInsights';
 }

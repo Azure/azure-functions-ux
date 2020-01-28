@@ -11,6 +11,7 @@ import {
   logEntryDivStyle,
   getLogTextColor,
   logErrorDivStyle,
+  logConnectingDivStyle,
 } from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
 import { Icon } from 'office-ui-fabric-react';
@@ -133,6 +134,13 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   };
 
   useEffect(() => {
+    if (isExpanded) {
+      startLogs();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isExpanded]);
+
+  useEffect(() => {
     toggleFullscreen(maximized);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maximized]);
@@ -156,7 +164,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     <div>
       <div className={logCommandBarStyle}>
         <span className={logExpandButtonStyle} onClick={onExpandClick}>
-          <DownChevron className={chevronIconStyle(isExpanded)} />
+          <DownChevron className={chevronIconStyle(!isExpanded)} />
           {t('logStreaming_logs')}
         </span>
         {isExpanded && (
@@ -202,6 +210,9 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         <div className={logStreamStyle(maximized)}>
           {/*Error Message*/}
           {appInsightsError && <div className={logErrorDivStyle}>{t('functionEditor_appInsightsNotConfigured')}</div>}
+
+          {/*Loading Message*/}
+          {started && logEntries.length === 0 && <div className={logConnectingDivStyle}>{t('functionEditor_connectingToAppInsights')}</div>}
 
           {/*Log Entries*/}
           {!!logEntries &&
