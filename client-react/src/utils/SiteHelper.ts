@@ -19,45 +19,35 @@ export default class SiteHelper {
   }
 
   public static getFunctionAppEditModeString(mode: FunctionAppEditMode, t: i18n.TFunction): string {
-    let modeString = t('readOnly');
     switch (mode) {
       case FunctionAppEditMode.ReadOnlySourceControlled: {
-        modeString = t('readOnlySourceControlled');
-        break;
+        return t('readOnlySourceControlled');
       }
       case FunctionAppEditMode.ReadOnlySlots: {
-        modeString = t('readOnlySlots');
-        break;
+        return t('readOnlySlots');
       }
       case FunctionAppEditMode.ReadOnlyVSGenerated: {
-        modeString = t('readOnlyVSGenerated');
-        break;
+        return t('readOnlyVSGenerated');
       }
       case FunctionAppEditMode.ReadOnlyRunFromPackage: {
-        modeString = t('readOnlyRunFromZip');
-        break;
+        return t('readOnlyRunFromZip');
       }
       case FunctionAppEditMode.ReadOnlyLocalCache: {
-        modeString = t('readOnlyLocalCache');
-        break;
+        return t('readOnlyLocalCache');
       }
       case FunctionAppEditMode.ReadOnlyLinuxDynamic: {
-        modeString = t('readOnlyLinuxDynamic');
-        break;
+        return t('readOnlyLinuxDynamic');
       }
       case FunctionAppEditMode.ReadOnlyBYOC: {
-        modeString = t('readOnlyBYOC');
-        break;
+        return t('readOnlyBYOC');
       }
       case FunctionAppEditMode.ReadOnlyPython: {
-        modeString = t('readOnlyPython');
-        break;
+        return t('readOnlyPython');
       }
       case FunctionAppEditMode.ReadOnlyJava: {
-        modeString = t('readOnlyJava');
-        break;
+        return t('readOnlyJava');
       }
     }
-    return modeString;
+    return t('readOnly');
   }
 }
