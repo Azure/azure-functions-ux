@@ -74,3 +74,9 @@ export const logErrorDivStyle = style({
   paddingBottom: '5px',
   color: '#ff6161',
 });
+
+export const logConnectingDivStyle = style({
+  whiteSpace: 'pre-wrap',
+  paddingBottom: '5px',
+  color: 'white',
+});
