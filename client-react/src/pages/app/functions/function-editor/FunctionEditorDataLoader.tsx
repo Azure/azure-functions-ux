@@ -24,6 +24,7 @@ import { Method } from 'axios';
 import { getJsonHeaders } from '../../../../ApiHelpers/HttpClient';
 import AppInsightsService from '../../../../ApiHelpers/AppInsightsService';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
+import { AppInsightsComponent } from '../../../../models/app-insights';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -47,6 +48,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [appInsightsToken, setAppInsightsToken] = useState<string | undefined>(undefined);
   const [hostUrls, setHostUrls] = useState<UrlObj[]>([]);
   const [functionUrls, setFunctionUrls] = useState<UrlObj[]>([]);
+  const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined>(undefined);
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -75,7 +77,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       const appInsightsConnectionString = appSettings[CommonConstants.AppSettingNames.appInsightsConnectionString];
       const appInsightsInstrumentationKey = appSettings[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
 
-      const [hostJsonResponse, fileListResponse, appInsightsComponent] = await Promise.all([
+      const [hostJsonResponse, fileListResponse, appInsightsResponse] = await Promise.all([
         FunctionsService.getHostJson(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
         FunctionsService.getFileContent(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
         appInsightsConnectionString
@@ -95,18 +97,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         setFileList(fileListResponse.data as VfsObject[]);
       }
 
-      if (appInsightsComponent) {
-        AppInsightsService.getAppInsightsComponentToken(appInsightsComponent.id).then(response => {
-          if (response.metadata.success) {
-            setAppInsightsToken(response.data.token);
-          } else {
-            LogService.error(
-              LogCategories.FunctionEdit,
-              'getAppInsightsComponentToken',
-              `Failed to get App Insights Component Token: ${appInsightsComponent}`
-            );
-          }
-        });
+      if (appInsightsResponse) {
+        setAppInsightsComponent(appInsightsResponse as ArmObj<AppInsightsComponent>);
       }
     }
     if (appKeysResponse.metadata.success) {
@@ -287,11 +279,34 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
+  const resetAppInsightsToken = () => {
+    setAppInsightsToken(undefined);
+  };
+
   useEffect(() => {
     fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (appInsightsComponent && !appInsightsToken) {
+      AppInsightsService.getAppInsightsComponentToken(appInsightsComponent.id).then(appInsightsComponentTokenResponse => {
+        if (appInsightsComponentTokenResponse.metadata.success) {
+          setAppInsightsToken(appInsightsComponentTokenResponse.data.token);
+        } else {
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'getAppInsightsComponentToken',
+            `Failed to get App Insights Component Token: ${appInsightsComponent}`
+          );
+        }
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appInsightsComponent, appInsightsToken]);
+
   useEffect(() => {
     if (!!site && !!functionInfo) {
       if (!!hostKeys) {
@@ -321,6 +336,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         functionRunning={functionRunning}
         appInsightsToken={appInsightsToken}
         urlObjs={[...hostUrls, ...functionUrls]}
+        resetAppInsightsToken={resetAppInsightsToken}
       />
     </FunctionEditorContext.Provider>
   );
