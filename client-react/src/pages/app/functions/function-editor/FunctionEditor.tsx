@@ -171,11 +171,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const getScriptFile = (): string => {
     const scriptHref = functionInfo.properties.script_href;
-    let scriptFilename;
-    if (!!scriptHref) {
-      scriptFilename = scriptHref.split('/').pop();
-    }
-    return scriptFilename || '';
+    return (scriptHref && scriptHref.split('/').pop()) || '';
   };
 
   const fetchData = async () => {
