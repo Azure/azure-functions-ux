@@ -24,7 +24,7 @@ export const logExpandButtonStyle = style({
 
 export const logStreamStyle = (maximized: boolean) =>
   style({
-    height: maximized ? 'calc(100vh - 124px)' : '175px',
+    height: maximized ? 'calc(100vh - 164px)' : '135px',
     backgroundColor: '#000000',
     overflow: 'auto',
     padding: '20px',
