@@ -62,8 +62,16 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   useEffect(() => {
     defaultInputFormValues.headers = [];
     defaultInputFormValues.queries = [];
+    let testData;
     try {
-      const testData = JSON.parse(functionInfo.properties.test_data);
+      testData = JSON.parse(functionInfo.properties.test_data);
+      if (!testData.headers) {
+        testData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
+      }
+    } catch (err) {
+      LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
+    }
+    if (!!testData) {
       if (!!testData.body) {
         setReqBody(testData.body);
       }
@@ -82,10 +90,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           defaultInputFormValues.headers.push({ name: header.name, value: header.value });
         }
       }
-    } catch (err) {
-      LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
