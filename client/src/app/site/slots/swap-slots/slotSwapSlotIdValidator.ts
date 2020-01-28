@@ -11,7 +11,7 @@ export class SlotSwapSlotIdValidator implements AsyncValidator {
     private _authZService: AuthzService,
     private _translateService: TranslateService,
     private _siteService: SiteService
-  ) {}
+  ) { }
 
   validate(control: FormControl) {
     if (!this._formGroup) {
@@ -20,16 +20,21 @@ export class SlotSwapSlotIdValidator implements AsyncValidator {
 
     const srcIdCtrl: FormControl = this._formGroup.get('srcId') as FormControl;
     const srcAuthCtrl: FormControl = this._formGroup.get('srcAuth') as FormControl;
+    const srcMultiPhaseCtrl: FormControl = this._formGroup.get('srcMultiPhase') as FormControl;
     const destIdCtrl: FormControl = this._formGroup.get('destId') as FormControl;
     const destAuthCtrl: FormControl = this._formGroup.get('destAuth') as FormControl;
+    const destMultiPhaseCtrl: FormControl = this._formGroup.get('destMultiPhase') as FormControl;
     const multiPhaseCtrl: FormControl = this._formGroup.get('multiPhase') as FormControl;
 
-    if (!srcIdCtrl || !srcAuthCtrl || !destIdCtrl || !destAuthCtrl || !multiPhaseCtrl) {
-      throw new Error('Validator requires FormGroup with the following controls: srcId, srcAuth, destId, destAuth, multiPhase');
+    if (!srcIdCtrl || !srcAuthCtrl || !srcMultiPhaseCtrl || !destIdCtrl || !destAuthCtrl || !destMultiPhaseCtrl || !multiPhaseCtrl) {
+      throw new Error(
+        'Validator requires FormGroup with the following controls: srcId, srcAuth, srcMultiPhase, destId, destAuth, destMultiPhase, multiPhase'
+      );
     }
 
     if (control === srcIdCtrl || control === destIdCtrl) {
       const authControl = control === srcIdCtrl ? srcAuthCtrl : destAuthCtrl;
+      const multiPhaseControl = control === srcIdCtrl ? srcMultiPhaseCtrl : destMultiPhaseCtrl;
       const resourceId: string = control.value as string;
 
       if (!resourceId) {
@@ -37,28 +42,22 @@ export class SlotSwapSlotIdValidator implements AsyncValidator {
       } else {
         return new Promise(resolve => {
           Observable.zip(
-            this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
-            this._authZService.hasPermission(resourceId, [
-              AuthzService.slotswapScope,
-              AuthzService.applySlotConfigScope,
-              AuthzService.resetSlotConfigScope,
-            ]),
+            this._authZService.hasPermission(resourceId, [AuthzService.slotswapScope]),
+            this._authZService.hasPermission(resourceId, [AuthzService.applySlotConfigScope, AuthzService.resetSlotConfigScope]),
             this._authZService.hasReadOnlyLock(resourceId),
             this._siteService.getSiteConfig(resourceId)
           ).subscribe(r => {
-            const [hasWritePermission, hasSwapPermission, hasReadOnlyLock, siteConfigResult] = r;
+            const [hasSwapPermission, hasMultiPhaseSwapPermission, hasReadOnlyLock, siteConfigResult] = r;
 
+            multiPhaseControl.setValue(hasMultiPhaseSwapPermission);
             authControl.setValue(siteConfigResult.isSuccessful ? siteConfigResult.result.properties.siteAuthEnabled : false);
 
-            if (hasSwapPermission && hasWritePermission && !hasReadOnlyLock) {
+            if (hasSwapPermission && !hasReadOnlyLock) {
               resolve(null);
             } else {
               const errors: ValidationErrors = {};
               if (!hasSwapPermission) {
                 errors['noSwapPermission'] = this._translateService.instant(PortalResources.noSwapPermission);
-              }
-              if (!hasWritePermission) {
-                errors['noWritePermission'] = this._translateService.instant(PortalResources.noWritePermission);
               }
               if (hasReadOnlyLock) {
                 errors['readOnlyLock'] = this._translateService.instant(PortalResources.slotReadOnlyLock);
