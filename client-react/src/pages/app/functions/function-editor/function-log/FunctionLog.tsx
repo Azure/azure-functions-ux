@@ -156,7 +156,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     <div>
       <div className={logCommandBarStyle}>
         <span className={logExpandButtonStyle} onClick={onExpandClick}>
-          <DownChevron className={chevronIconStyle(isExpanded)} />
+          <DownChevron className={chevronIconStyle(!isExpanded)} />
           {t('logStreaming_logs')}
         </span>
         {isExpanded && (
