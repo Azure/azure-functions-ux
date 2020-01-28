@@ -300,8 +300,8 @@ export enum MenuId {
 }
 
 export enum SiteState {
-  readonly,
-  readwrite,
+  readonly = 'readonly',
+  readwrite = 'readwrite',
 }
 
 export enum FunctionAppEditMode {
