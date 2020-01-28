@@ -255,7 +255,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           onDismiss={closeConfirmDialog}
         />
         <EditModeBanner />
-
         <FunctionEditorFileSelectorBar
           disabled={isLoading()}
           functionAppNameLabel={site.name}
