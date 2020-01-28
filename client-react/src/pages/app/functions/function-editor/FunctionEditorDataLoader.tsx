@@ -291,9 +291,9 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   useEffect(() => {
     if (appInsightsComponent && !appInsightsToken) {
-      AppInsightsService.getAppInsightsComponentToken(appInsightsComponent.id).then(response => {
-        if (response.metadata.success) {
-          setAppInsightsToken(response.data.token);
+      AppInsightsService.getAppInsightsComponentToken(appInsightsComponent.id).then(appInsightsComponentTokenResponse => {
+        if (appInsightsComponentTokenResponse.metadata.success) {
+          setAppInsightsToken(appInsightsComponentTokenResponse.data.token);
         } else {
           LogService.error(
             LogCategories.FunctionEdit,
