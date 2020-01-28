@@ -169,9 +169,20 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     }
   };
 
-  const fetchData = async () => {
+  const getScriptFileOption = (): IDropdownOption | undefined => {
+    const scriptHref = functionInfo.properties.script_href;
+    const filename = (scriptHref && scriptHref.split('/').pop()) || '';
+    const filteredOptions = getDropdownOptions().filter(option => option.text === filename.toLowerCase());
+    return filteredOptions.length === 1 ? filteredOptions[0] : getDefaultFile();
+  };
+
+  const getDefaultFile = (): IDropdownOption | undefined => {
     const options = getDropdownOptions();
-    const file = options.length > 0 ? options[0] : undefined;
+    return options.length > 0 ? options[0] : undefined;
+  };
+
+  const fetchData = async () => {
+    const file = getScriptFileOption();
     if (!!file) {
       setSelectedFileContent(file.data);
       setSelectedFile(file);
