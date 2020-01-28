@@ -20,6 +20,7 @@ import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 import { editorStyle } from '../../app-files/AppFiles.styles';
 import FunctionLog from './function-log/FunctionLog';
 import { FormikActions } from 'formik';
+import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -253,6 +254,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={closeConfirmDialog}
         />
+        <EditModeBanner />
         <FunctionEditorFileSelectorBar
           disabled={isLoading()}
           functionAppNameLabel={site.name}
