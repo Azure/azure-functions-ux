@@ -68,8 +68,8 @@ const KeyValueFieldArrayComponent: React.FC<KeyValueComponent> = props => {
         <div className={httpAddDataStyle}>
           {items.length > 0 && (
             <div className={keyValuePairLabelDivStyle}>
-              <Label className={keyValuePairLabelStyle}>{`${t('nameRes')}*`}</Label>
-              <Label className={keyValuePairLabelStyle}>{`${t('value')}*`}</Label>
+              <Label className={keyValuePairLabelStyle}>{`${t('nameRes')}`}</Label>
+              <Label className={keyValuePairLabelStyle}>{`${t('value')}`}</Label>
             </div>
           )}
           {items.map((item, index) => (
