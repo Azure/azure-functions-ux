@@ -14,6 +14,7 @@ import {
   SwapOperationType,
   ARMApiVersions,
   Constants,
+  FeatureFlags,
 } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
@@ -140,6 +141,31 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         this._setAppState(context);
 
         this.clearBusyEarly();
+        this.notifications = [];
+
+        if (Url.getFeatureValue(FeatureFlags.FunctionsPreview) && this.notifications.length === 0) {
+          this.notifications = [
+            {
+              id: NotificationIds.clientCertEnabled,
+              message: this.ts.instant(PortalResources.tryPreview),
+              iconClass: '',
+              learnMoreLink: null,
+              level: 'info',
+              clickCallback: () => {
+                const overviewBladeInput = {
+                  detailBlade: 'AppsOverviewBlade',
+                  detailBladeInputs: {
+                    id: this.context.site.id,
+                  },
+                };
+
+                this._portalService.openBlade(overviewBladeInput, 'top-overview-banner');
+              },
+            },
+          ];
+
+          this._globalStateService.setTopBarNotifications(this.notifications);
+        }
 
         // Go ahead and assume write access at this point to unveal everything. This allows things to work when the RBAC API fails and speeds up reveal. In
         // cases where this causes a false positive, the backend will take care of giving a graceful failure.
@@ -223,7 +249,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           });
         }
 
-        this.notifications = [];
         if (
           ArmUtil.isContainerApp(this.context.site) &&
           r.siteConfig &&
@@ -268,7 +293,12 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           const iKeyExists = appSettings && !!appSettings[Constants.instrumentationKeySettingName];
           const connectionStringExists = appSettings && !!appSettings[Constants.connectionStringSettingName];
 
-          if (r.appInsightsEnablement && r.appInsightsEnablement.status === 'enabled' && (iKeyExists || connectionStringExists)) {
+          if (
+            !Url.getFeatureValue(FeatureFlags.FunctionsPreview) &&
+            r.appInsightsEnablement &&
+            r.appInsightsEnablement.status === 'enabled' &&
+            (iKeyExists || connectionStringExists)
+          ) {
             this.notifications.push({
               id: 'testnote',
               message: this.ts.instant(PortalResources.appInsightsNotConfigured),
