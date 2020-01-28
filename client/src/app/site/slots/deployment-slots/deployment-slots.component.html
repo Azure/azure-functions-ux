@@ -73,14 +73,6 @@
             [infoActionFn]="showAddControlsFn">
         </info-box>
 
-        <info-box
-            *ngIf="!fetchingContent && featureSupported && !loadingFailed && isSlot"
-            [isBanner]="true"
-            [infoText]="'slotsList_tipDeprecationMessage' | translate"
-            typeClass="info"
-            [infoLink]="FwdLinks.tipDeprecationLink">
-        </info-box>
-
         <div class="config-container"
             [is-dirty]="!!mainForm?.dirty || !!dirtyMessage || !swapOperationsComplete || !addOperationsComplete"
             [is-dirty-message]="dirtyMessage">
