@@ -81,7 +81,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       return FunctionAppEditMode.ReadOnlyJava;
     }
     const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';
-    if (editModeString.toLowerCase() === SiteState.readonly.toString()) {
+    if (editModeString.toLowerCase() === SiteState.readonly) {
       return FunctionAppEditMode.ReadOnly;
     }
     return FunctionAppEditMode.ReadWrite;
