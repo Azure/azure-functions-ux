@@ -172,13 +172,17 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const getScriptFileOption = (): IDropdownOption | undefined => {
     const scriptHref = functionInfo.properties.script_href;
     const filename = (scriptHref && scriptHref.split('/').pop()) || '';
-    const options = getDropdownOptions().filter(option => option.text === filename.toLowerCase());
-    return options.length === 1 ? options[0] : undefined;
+    const filteredOptions = getDropdownOptions().filter(option => option.text === filename.toLowerCase());
+    return filteredOptions.length === 1 ? filteredOptions[0] : getDefaultFile();
+  };
+
+  const getDefaultFile = (): IDropdownOption | undefined => {
+    const options = getDropdownOptions();
+    return options.length > 0 ? options[0] : undefined;
   };
 
   const fetchData = async () => {
-    const options = getDropdownOptions();
-    const file = getScriptFileOption() || (options.length > 0 && options[0]);
+    const file = getScriptFileOption();
     if (!!file) {
       setSelectedFileContent(file.data);
       setSelectedFile(file);
