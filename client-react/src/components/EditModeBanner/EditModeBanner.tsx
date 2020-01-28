@@ -13,13 +13,15 @@ const EditModeBanner: React.FC<EditModeBannerProps> = props => {
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
 
-  if (!SiteHelper.isFunctionAppReadOnly(siteState)) {
-    return <></>;
+  if (SiteHelper.isFunctionAppReadOnly(siteState)) {
+    return (
+      <MessageBar id="site-state-banner" isMultiline={true} className={messageBannerStyle(theme)} messageBarType={MessageBarType.info}>
+        {SiteHelper.getFunctionAppEditModeString(siteState, t)}
+      </MessageBar>
+    );
   }
-  return (
-    <MessageBar id="site-state-banner" isMultiline={false} className={messageBannerStyle(theme)} messageBarType={MessageBarType.info}>
-      {SiteHelper.getFunctionAppEditModeString(siteState, t)}
-    </MessageBar>
-  );
+
+  return <></>;
 };
+
 export default EditModeBanner;
