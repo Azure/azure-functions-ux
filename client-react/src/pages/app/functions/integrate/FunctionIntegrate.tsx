@@ -25,6 +25,7 @@ import {
   smallPageStyle,
 } from './FunctionIntegrate.style';
 import { useWindowSize } from 'react-use';
+import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 
 export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -155,6 +156,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   return (
     <>
       <BindingEditorContext.Provider value={editorContext}>
+        <EditModeBanner />
         <BindingPanel
           functionInfo={functionInfo}
           functionAppId={functionAppId}
