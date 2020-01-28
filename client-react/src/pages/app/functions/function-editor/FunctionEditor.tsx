@@ -27,6 +27,7 @@ export interface FunctionEditorProps {
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
   functionRunning: boolean;
   urlObjs: UrlObj[];
+  resetAppInsightsToken: () => void;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
@@ -34,7 +35,17 @@ export interface FunctionEditorProps {
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
-  const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning, urlObjs, appInsightsToken } = props;
+  const {
+    functionInfo,
+    site,
+    fileList,
+    runtimeVersion,
+    responseContent,
+    functionRunning,
+    urlObjs,
+    appInsightsToken,
+    resetAppInsightsToken,
+  } = props;
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -48,7 +59,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [monacoHeight, setMonacoHeight] = useState(defaultMonacoEditorHeight);
   const [logPanelExpanded, setLogPanelExpanded] = useState(false);
   const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
-  const [fileSaved, setFileSaved] = useState(false);
+  const [fileSavedCount, setFileSavedCount] = useState(0);
 
   const { t } = useTranslation();
 
@@ -73,7 +84,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (fileResponse.metadata.success) {
       setFileContent({ ...fileContent, default: fileContent.latest });
       setLogPanelExpanded(true);
-      setFileSaved(true);
+      setFileSavedCount(fileSavedCount + 1);
     }
     setSavingFile(false);
   };
@@ -303,7 +314,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           toggleExpand={toggleLogPanelExpansion}
           isExpanded={logPanelExpanded}
           toggleFullscreen={setLogPanelFullscreen}
-          fileSaved={fileSaved}
+          fileSavedCount={fileSavedCount}
+          resetAppInsightsToken={resetAppInsightsToken}
           appInsightsToken={appInsightsToken}
         />
       </div>
