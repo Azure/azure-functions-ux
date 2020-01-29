@@ -28,12 +28,21 @@ interface FunctionLogProps {
   isExpanded: boolean;
   fileSavedCount: number;
   resetAppInsightsToken: () => void;
+  readOnlyBannerHeight: number;
   appInsightsToken?: string;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
   const { t } = useTranslation();
-  const { toggleExpand, isExpanded, toggleFullscreen, appInsightsToken, fileSavedCount, resetAppInsightsToken } = props;
+  const {
+    toggleExpand,
+    isExpanded,
+    toggleFullscreen,
+    appInsightsToken,
+    fileSavedCount,
+    resetAppInsightsToken,
+    readOnlyBannerHeight,
+  } = props;
   const [maximized, setMaximized] = useState(false);
   const [started, setStarted] = useState(false);
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
@@ -207,7 +216,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         )}
       </div>
       {isExpanded && (
-        <div className={logStreamStyle(maximized)}>
+        <div className={logStreamStyle(maximized, readOnlyBannerHeight)}>
           {/*Error Message*/}
           {appInsightsError && <div className={logErrorDivStyle}>{t('functionEditor_appInsightsNotConfigured')}</div>}
 
