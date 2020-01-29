@@ -1812,4 +1812,5 @@ export class PortalResources {
   public static functionEditor_appInsightsNotConfigured = 'functionEditor_appInsightsNotConfigured';
   public static functionEditor_connectingToAppInsights = 'functionEditor_connectingToAppInsights';
   public static functionCreate_extensionBundlesRequired = 'functionCreate_extensionBundlesRequired';
+  public static tryFunctionsPreview = 'tryFunctionsPreview';
 }
