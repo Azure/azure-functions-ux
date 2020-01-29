@@ -19,7 +19,7 @@ export class CommonConstants {
     ipRestrictionsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=854597',
     appDensityWarningLink: 'https://go.microsoft.com/fwlink/?linkid=2098431',
     byosBlobReadonlyLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2110146',
-    extensionBunldesRequiredLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2116575',
+    extensionBundlesRequiredLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2116575',
   };
 
   public static readonly Kinds = {

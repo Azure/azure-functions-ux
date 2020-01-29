@@ -57,7 +57,7 @@ const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
       {!hostStatus.version.startsWith('1') && !hostStatus.extensionBundle && (
         <p className={extensionBundlesRequiredStyle()}>
           {t('functionCreate_extensionBundlesRequired')}
-          <Link href={CommonConstants.Links.extensionBunldesRequiredLearnMore} target="_blank" className={learnMoreLinkStyle}>
+          <Link href={CommonConstants.Links.extensionBundlesRequiredLearnMore} target="_blank" className={learnMoreLinkStyle}>
             {t('learnMore')}
           </Link>
         </p>
