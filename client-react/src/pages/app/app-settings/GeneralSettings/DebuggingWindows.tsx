@@ -9,6 +9,7 @@ import { settingsWrapper } from '../AppSettingsForm';
 import { PermissionsContext } from '../Contexts';
 import { MessageBar, MessageBarType, IDropdownOption } from 'office-ui-fabric-react';
 import SiteHelper from '../../../../utils/SiteHelper';
+import { Links } from '../../../../utils/FwLinks';
 
 const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
@@ -61,6 +62,7 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
           label={t('remoteDebuggingEnabledLabel')}
           disabled={disableAllControls || flexStamp}
           infoBubbleMessage={flexStamp && t('remoteDebuggingNotAvailableOnFlexStamp')}
+          learnMoreLink={flexStamp && Links.remoteDebuggingLearnMore}
           id="remote-debugging-switch"
           options={[
             {

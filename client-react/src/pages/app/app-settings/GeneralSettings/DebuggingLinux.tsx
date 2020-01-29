@@ -6,6 +6,7 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
 import { PermissionsContext, AvailableStacksContext } from '../Contexts';
 import SiteHelper from '../../../../utils/SiteHelper';
+import { Links } from '../../../../utils/FwLinks';
 
 const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
@@ -65,6 +66,7 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           disabled={disableAllControls || !enabledStack || flexStamp}
           id="remote-debugging-switch"
           infoBubbleMessage={getInfoBubbleText()}
+          learnMoreLink={flexStamp && Links.remoteDebuggingLearnMore}
           options={[
             {
               key: true,
