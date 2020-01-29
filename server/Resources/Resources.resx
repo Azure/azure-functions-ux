@@ -2230,6 +2230,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
         <value>Enable deployment slots</value>
     </data>
+    <data name="appFunctionSettings_slotsEnableWarning" xml:space="preserve">
+        <value>Azure functions slots is currently disabled. Enabling this feature will reset any pre-existing secrets. Function secrets can be found on the 'Function Keys' blade for each function.</value>
+    </data>
     <data name="appFunctionSettings_warning_1" xml:space="preserve">
         <value>Known issues:</value>
     </data>
@@ -2280,6 +2283,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="error_unableToLoadTipConfig" xml:space="preserve">
         <value>Unable to retrieve routing rules: {{errorMessage}}</value>
+    </data>
+    <data name="error_unableToLoadConfig" xml:space="preserve">
+        <value>Unable to retrieve configuration: {{errorMessage}}</value>
+    </data>
+    <data name="error_unableToLoadSite" xml:space="preserve">
+        <value>Unable to retrieve site: {{errorMessage}}</value>
     </data>
     <data name="slotNew_quotaReached" xml:space="preserve">
         <value>You have reached the slots quota limit ({{quota}}) for the current plan.</value>
