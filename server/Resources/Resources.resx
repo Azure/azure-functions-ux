@@ -2276,7 +2276,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Failed to create slot '{0}' </value>
     </data>
     <data name="error_unableToLoadSlotsList" xml:space="preserve">
-        <value>Unable to update the list of slots</value>
+        <value>Unable to retrieve the list of slots: {{errorMessage}}</value>
+    </data>
+    <data name="error_unableToLoadTipConfig" xml:space="preserve">
+        <value>Unable to retrieve routing rules: {{errorMessage}}</value>
     </data>
     <data name="slotNew_quotaReached" xml:space="preserve">
         <value>You have reached the slots quota limit ({{quota}}) for the current plan.</value>
@@ -2325,9 +2328,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="slotsList_trafficPercentHeader" xml:space="preserve">
         <value>Traffic %</value>
-    </data>
-    <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
-        <value>Upcoming changes to Routing Rules</value>
     </data>
     <data name="monitoring_appInsights" xml:space="preserve">
         <value>For a richer monitoring experience, including live metrics and custom queries:</value>
@@ -4078,6 +4078,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>Source and Destination cannot be the same deployment slot</value>
+    </data>
+    <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>Swap with preview cannot be performed because you do not have the necessary permissions on the following slots: '{{slotNames}}'</value>
     </data>
     <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
