@@ -29,6 +29,13 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       .map(x => x.runtimeVersion.toLowerCase());
   }, [availableStacks.value]);
 
+  const getInfoBubbleText = (): string => {
+    if (!enabledStack) {
+      return t('remoteDebuggingNotAvailableForRuntimeStack');
+    }
+    return flexStamp ? t('remoteDebuggingNotAvailableOnFlexStamp') : '';
+  };
+
   useEffect(() => {
     const currentLinuxFxVersion = props.values.config.properties.linuxFxVersion;
     const enabled =
@@ -57,9 +64,7 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           label={t('remoteDebuggingEnabledLabel')}
           disabled={disableAllControls || !enabledStack || flexStamp}
           id="remote-debugging-switch"
-          infoBubbleMessage={
-            (!enabledStack && t('remoteDebuggingNotAvailableForRuntimeStack')) || (flexStamp && t('remoteDebuggingNotAvailableOnFlexStamp'))
-          }
+          infoBubbleMessage={getInfoBubbleText()}
           options={[
             {
               key: true,
