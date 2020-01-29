@@ -147,7 +147,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           this.notifications = [
             {
               id: NotificationIds.clientCertEnabled,
-              message: this.ts.instant(PortalResources.tryPreview),
+              message: this.ts.instant(PortalResources.tryFunctionsPreview),
               iconClass: '',
               learnMoreLink: null,
               level: 'info',
