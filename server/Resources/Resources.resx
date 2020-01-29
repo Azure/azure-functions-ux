@@ -5611,7 +5611,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Connecting to Application Insights...</value>
     </data>
     <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
-        <value>Remote debugging is not available for your application.</value>
+        <value>Remote debugging is not available for your application. </value>
     </data>
     <data name="tryFunctionsPreview" xml:space="preserve">
         <value>Preview the new Azure Functions management experience</value>
