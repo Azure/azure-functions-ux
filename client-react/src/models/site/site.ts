@@ -105,6 +105,7 @@ export interface Site {
   reserved: boolean;
   dailyMemoryTimeQuota: number;
   siteDisabledReason: SiteDisabledReason;
+  possibleInboundIpAddresses?: string;
 }
 
 export interface HostNameSslState {
