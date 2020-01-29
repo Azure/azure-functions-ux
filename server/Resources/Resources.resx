@@ -5610,4 +5610,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
         <value>Connecting to Application Insights...</value>
     </data>
+    <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>Remote debugging is not available for your application.</value>
+    </data>
 </root>
