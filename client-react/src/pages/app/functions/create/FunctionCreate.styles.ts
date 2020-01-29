@@ -128,3 +128,12 @@ export const getSelectStyle = () => {
     bottom: '12px',
   });
 };
+
+export const extensionBundlesRequiredStyle = () => {
+  return style({
+    marginRight: '20px',
+    marginTop: '200px',
+    position: 'fixed',
+    textAlign: 'center',
+  });
+};

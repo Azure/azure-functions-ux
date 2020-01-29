@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import CreateCard from './CreateCard';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { PivotState } from './FunctionCreate';
-import { SearchBox } from 'office-ui-fabric-react';
-import { filterBoxStyle } from './FunctionCreate.styles';
+import { SearchBox, Link } from 'office-ui-fabric-react';
+import { filterBoxStyle, extensionBundlesRequiredStyle } from './FunctionCreate.styles';
 import { useTranslation } from 'react-i18next';
 import { Order } from './CreateConstants';
 import { Binding } from '../../../../models/functions/binding';
 import { HostStatus } from '../../../../models/functions/host-status';
+import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 interface TemplatesPivotProps {
   functionTemplates: FunctionTemplate[];
@@ -25,12 +27,15 @@ const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
   const [filterValue, setFilterValue] = useState<string | undefined>(undefined);
   return (
     <>
+      {/*Template Search Box*/}
       <SearchBox
         id="create-functions-search"
         styles={filterBoxStyle}
         placeholder={t('functionCreate_searchByTemplateName')}
         onChange={newValue => setFilterValue(newValue)}
       />
+
+      {/*Function Templates*/}
       {!!functionTemplates &&
         functionTemplates
           .filter(template => !filterValue || template.name.toLowerCase().includes(filterValue.toLowerCase()))
@@ -47,6 +52,16 @@ const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
               />
             );
           })}
+
+      {/*Extension Bundles Required Message*/}
+      {!hostStatus.version.startsWith('1') && !hostStatus.extensionBundle && (
+        <p className={extensionBundlesRequiredStyle()}>
+          {t('functionCreate_extensionBundlesRequired')}
+          <Link href={CommonConstants.Links.extensionBunldesRequiredLearnMore} target="_blank" className={learnMoreLinkStyle}>
+            {t('learnMore')}
+          </Link>
+        </p>
+      )}
     </>
   );
 };
