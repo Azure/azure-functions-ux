@@ -5610,6 +5610,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
         <value>In order to see the entire list of available function templates, you must set up extension bundles for your app. </value>
     </data>
+    <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>Remote debugging is not available for your application. </value>
+    </data>
     <data name="tryFunctionsPreview" xml:space="preserve">
         <value>Preview the new Azure Functions management experience</value>
     </data>

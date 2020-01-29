@@ -5,6 +5,8 @@ import RadioButton from '../../../../components/form-controls/RadioButton';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
 import { PermissionsContext, AvailableStacksContext } from '../Contexts';
+import SiteHelper from '../../../../utils/SiteHelper';
+import { Links } from '../../../../utils/FwLinks';
 
 const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
@@ -12,6 +14,7 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const disableAllControls = !app_write || !editable || saving;
   const availableStacks = useContext(AvailableStacksContext);
   const [enabledStack, setEnabledStack] = useState(false);
+  const [flexStamp, setFlexStamp] = useState(false);
 
   const remoteDebuggingEnabledStacks = useMemo(() => {
     return availableStacks.value
@@ -27,6 +30,13 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       .map(x => x.runtimeVersion.toLowerCase());
   }, [availableStacks.value]);
 
+  const getInfoBubbleText = (): string => {
+    if (!enabledStack) {
+      return t('remoteDebuggingNotAvailableForRuntimeStack');
+    }
+    return flexStamp ? t('remoteDebuggingNotAvailableOnFlexStamp') : '';
+  };
+
   useEffect(() => {
     const currentLinuxFxVersion = props.values.config.properties.linuxFxVersion;
     const enabled =
@@ -35,9 +45,14 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     if (!enabled) {
       props.setFieldValue('config.properties.remoteDebuggingEnabled', false);
     }
+    setFlexStamp(SiteHelper.isFlexStamp(props.values.site));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.values.config.properties.linuxFxVersion, remoteDebuggingEnabledStacks]);
+  }, [
+    props.values.config.properties.linuxFxVersion,
+    remoteDebuggingEnabledStacks,
+    props.values.site.properties.possibleInboundIpAddresses,
+  ]);
   return (
     <div id="app-settings-remote-debugging-section">
       <h3>{t('debugging')}</h3>
@@ -48,9 +63,10 @@ const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           component={RadioButton}
           fullpage
           label={t('remoteDebuggingEnabledLabel')}
-          disabled={disableAllControls || !enabledStack}
+          disabled={disableAllControls || !enabledStack || flexStamp}
           id="remote-debugging-switch"
-          infoBubbleMessage={!enabledStack && t('remoteDebuggingNotAvailableForRuntimeStack')}
+          infoBubbleMessage={getInfoBubbleText()}
+          learnMoreLink={flexStamp && Links.remoteDebuggingLearnMore}
           options={[
             {
               key: true,
