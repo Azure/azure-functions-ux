@@ -1,5 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../../components/form-controls/DropDown';
@@ -8,11 +8,14 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
 import { PermissionsContext } from '../Contexts';
 import { MessageBar, MessageBarType, IDropdownOption } from 'office-ui-fabric-react';
+import SiteHelper from '../../../../utils/SiteHelper';
+import { Links } from '../../../../utils/FwLinks';
 
 const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
+  const [flexStamp, setFlexStamp] = useState(false);
   const { values, initialValues } = props;
 
   const options: IDropdownOption[] = [
@@ -37,6 +40,11 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
   const showWarningForVS2015 =
     values.config.properties.remoteDebuggingVersion === 'VS2015' && values.config.properties.remoteDebuggingEnabled;
 
+  useEffect(() => {
+    setFlexStamp(SiteHelper.isFlexStamp(values.site));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.site.properties.possibleInboundIpAddresses]);
   return (
     <div id="app-settings-remote-debugging-section">
       <h3>{t('debugging')}</h3>
@@ -52,7 +60,9 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
           component={RadioButton}
           fullpage
           label={t('remoteDebuggingEnabledLabel')}
-          disabled={disableAllControls}
+          disabled={disableAllControls || flexStamp}
+          infoBubbleMessage={flexStamp && t('remoteDebuggingNotAvailableOnFlexStamp')}
+          learnMoreLink={flexStamp && Links.remoteDebuggingLearnMore}
           id="remote-debugging-switch"
           options={[
             {
