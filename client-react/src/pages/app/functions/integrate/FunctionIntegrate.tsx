@@ -1,14 +1,19 @@
 import { IStackTokens, Stack } from 'office-ui-fabric-react';
 import React, { useContext, useRef, useState } from 'react';
+import { useWindowSize } from 'react-use';
 import { Observable, Subject } from 'rxjs';
 import { classes } from 'typestyle';
+import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 import { ReactComponent as DoubleArrow } from '../../../../images/Functions/double-arrow-left-right.svg';
 import { ReactComponent as SingleArrow } from '../../../../images/Functions/single-arrow-left-right.svg';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../models/functions/binding';
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
+import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
 import { ThemeContext } from '../../../../ThemeContext';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
 import FunctionNameBindingCard from './BindingsDiagram/FunctionNameBindingCard';
@@ -24,14 +29,17 @@ import {
   singleCardStackStyle,
   smallPageStyle,
 } from './FunctionIntegrate.style';
-import { useWindowSize } from 'react-use';
-import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
+import { EventGrid } from './FunctionIntegrateConstants';
 
 export interface FunctionIntegrateProps {
+  functionAppApplicationSettings: { [key: string]: string };
+  functionAppId: string;
+  functionAppSystemKeys: { [key: string]: string };
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
-  // setRequiredBindingId: pass in the id of a binding for which more information is required
-  // Data Loader will then do an additional request to retrieve that binding's complete info
+
+  // Post-Mount Data Loader calls
+  // setRequiredBindingId: Id of binding that we need the complete settings info for
   setRequiredBindingId: (id: string) => void;
 }
 
@@ -50,7 +58,14 @@ export interface BindingEditorContextInfo {
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
-  const { functionInfo: initialFunctionInfo, bindings, setRequiredBindingId } = props;
+  const {
+    functionAppApplicationSettings,
+    functionAppId,
+    functionAppSystemKeys,
+    functionInfo: initialFunctionInfo,
+    bindings,
+    setRequiredBindingId,
+  } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
   const fullPageWidth = 1000;
@@ -107,7 +122,11 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     updateFunctionInfo: setFunctionInfo,
   };
 
-  const functionAppId = functionInfo.properties.function_app_id || functionInfo.id.split('/function')[0];
+  const functionAppRuntimeVersion = functionAppApplicationSettings[CommonConstants.AppSettingNames.functionsExtensionVersion];
+  const runtimeIsV1 =
+    FunctionsRuntimeVersionHelper.parseConfiguredRuntimeVersion(functionAppRuntimeVersion) === RuntimeExtensionMajorVersions.v1;
+  const eventGridName = runtimeIsV1 ? EventGrid.EventGridName.v1 : EventGrid.EventGridName.v2;
+  const functionAppSystemKey = functionAppSystemKeys[eventGridName];
 
   const tokens: IStackTokens = {
     childrenGap: 0,
@@ -158,8 +177,10 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       <BindingEditorContext.Provider value={editorContext}>
         <EditModeBanner />
         <BindingPanel
-          functionInfo={functionInfo}
           functionAppId={functionAppId}
+          functionAppRuntimeVersion={functionAppRuntimeVersion}
+          functionAppSystemKey={functionAppSystemKey}
+          functionInfo={functionInfo}
           bindings={bindings}
           bindingInfo={bindingToUpdate}
           bindingDirection={bindingDirection}
