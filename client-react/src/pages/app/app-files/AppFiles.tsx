@@ -100,7 +100,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     );
     if (fileResponse.metadata.success) {
       let fileText = fileResponse.data as string;
-      if (file.mime === 'application/json') {
+      if (typeof fileResponse.data !== 'string') {
         // third parameter refers to the number of white spaces.
         // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
         fileText = JSON.stringify(fileResponse.data, null, 2);
