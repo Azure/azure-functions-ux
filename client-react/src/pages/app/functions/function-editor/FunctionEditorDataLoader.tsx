@@ -148,12 +148,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         }
         return getFunctionInvokeUrlPath(result, queryParams);
       }
+    } else {
+      LogService.error(
+        LogCategories.functionInvokeUrl,
+        'GetFunctionInvokeUrl',
+        `No function Info found for the site: ${JSON.stringify(site)}`
+      );
     }
-    LogService.error(
-      LogCategories.functionInvokeUrl,
-      'GetFunctionInvokeUrl',
-      `No function Info found for the site: ${JSON.stringify(site)}`
-    );
     return '';
   };
 
