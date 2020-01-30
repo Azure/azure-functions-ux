@@ -127,9 +127,10 @@ const AppFiles: React.FC<AppFilesProps> = props => {
       : [];
   };
 
-  const fetchData = async () => {
+  const getAndSetFile = async () => {
     const options = getDropdownOptions();
-    const file = options.length > 0 ? options[0] : undefined;
+    const hostsJsonFile = options.find(f => (f.key as string).toLowerCase() === 'host.json');
+    const file = hostsJsonFile || (options.length > 0 && options[0]);
     if (!!file) {
       setSelectedFile(file);
       setSelectedFileContent(file.data);
@@ -144,7 +145,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     setDirty(fileContent.default !== fileContent.latest);
   }, [fileContent]);
   useEffect(() => {
-    fetchData();
+    getAndSetFile();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
