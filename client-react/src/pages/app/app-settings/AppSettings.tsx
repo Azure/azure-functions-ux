@@ -1,4 +1,4 @@
-import { Formik, FormikProps } from 'formik';
+import { Formik, FormikProps, FormikActions } from 'formik';
 import React, { useRef, useContext, useState } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
@@ -78,9 +78,21 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
   const [showRefreshConfirmDialog, setShowRefreshConfirmDialog] = useState(false);
+  const [showSaveConfirmDialog, setShowSaveConfirmDialog] = useState(false);
+  const [updatedValues, setUpdatedValues] = useState<AppSettingsFormValues | undefined>(undefined);
+  const [formActions, setFormActions] = useState<FormikActions<AppSettingsFormValues> | undefined>(undefined);
 
-  const closeConfirmDialog = () => {
+  const closeRefreshConfirmDialog = () => {
     setShowRefreshConfirmDialog(false);
+  };
+
+  const closeSaveConfirmDialog = () => {
+    setShowSaveConfirmDialog(false);
+  };
+
+  const setSubmitParamters = (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
+    setUpdatedValues(values);
+    setFormActions(actions);
   };
 
   return (
@@ -94,7 +106,10 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                   return (
                     <Formik
                       initialValues={initialFormValues}
-                      onSubmit={onSubmit}
+                      onSubmit={(values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
+                        setSubmitParamters(values, actions);
+                        setShowSaveConfirmDialog(true);
+                      }}
                       enableReinitialize={true}
                       validate={values => validate(values, t, scenarioChecker, site)}
                       validateOnBlur={false}
@@ -113,19 +128,40 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               primaryActionButton={{
                                 title: t('continue'),
                                 onClick: () => {
-                                  closeConfirmDialog();
+                                  closeRefreshConfirmDialog();
                                   refreshAppSettings();
                                 },
                               }}
                               defaultActionButton={{
                                 title: t('cancel'),
-                                onClick: closeConfirmDialog,
+                                onClick: closeRefreshConfirmDialog,
                               }}
                               title={t('refreshAppSettingsTitle')}
                               content={t('refreshAppSettingsMessage')}
                               hidden={!showRefreshConfirmDialog}
-                              onDismiss={closeConfirmDialog}
+                              onDismiss={closeRefreshConfirmDialog}
                             />
+
+                            {!!updatedValues && !!formActions && (
+                              <ConfirmDialog
+                                primaryActionButton={{
+                                  title: t('continue'),
+                                  onClick: () => {
+                                    closeSaveConfirmDialog();
+                                    onSubmit(updatedValues, formActions);
+                                  },
+                                }}
+                                defaultActionButton={{
+                                  title: t('cancel'),
+                                  onClick: closeSaveConfirmDialog,
+                                }}
+                                title={t('saveAppSettingsTitle')}
+                                content={t('saveAppSettingsMessage')}
+                                hidden={!showSaveConfirmDialog}
+                                onDismiss={closeSaveConfirmDialog}
+                              />
+                            )}
+
                             {!!initialFormValues &&
                               scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
                                 <UpsellBanner onClick={scaleUpPlan} />
