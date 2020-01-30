@@ -293,12 +293,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           const iKeyExists = appSettings && !!appSettings[Constants.instrumentationKeySettingName];
           const connectionStringExists = appSettings && !!appSettings[Constants.connectionStringSettingName];
 
-          if (
-            !Url.getFeatureValue(FeatureFlags.FunctionsPreview) &&
-            r.appInsightsEnablement &&
-            r.appInsightsEnablement.status === 'enabled' &&
-            (iKeyExists || connectionStringExists)
-          ) {
+          if (r.appInsightsEnablement && r.appInsightsEnablement.status === 'enabled' && !(iKeyExists || connectionStringExists)) {
             this.notifications.push({
               id: 'testnote',
               message: this.ts.instant(PortalResources.appInsightsNotConfigured),
