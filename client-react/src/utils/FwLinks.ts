@@ -8,4 +8,5 @@ export const Links = {
   funcConnStringsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=875276',
   mountedStorageLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2088516',
   runtimeScaleMonitoringLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2104710',
+  remoteDebuggingLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2116583',
 };

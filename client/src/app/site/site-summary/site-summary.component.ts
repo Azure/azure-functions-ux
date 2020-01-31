@@ -297,7 +297,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             !Url.getFeatureValue(FeatureFlags.FunctionsPreview) &&
             r.appInsightsEnablement &&
             r.appInsightsEnablement.status === 'enabled' &&
-            (iKeyExists || connectionStringExists)
+            !(iKeyExists || connectionStringExists)
           ) {
             this.notifications.push({
               id: 'testnote',
