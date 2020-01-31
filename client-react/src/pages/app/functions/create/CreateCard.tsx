@@ -4,10 +4,10 @@ import {
   getCardStyle,
   getHeaderStyle,
   getDescriptionStyle,
-  getSrc,
   getTitleStyle,
   getInfoStyle,
   getSelectStyle,
+  getSvg,
 } from './FunctionCreate.styles';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { PivotState } from './FunctionCreate';
@@ -25,6 +25,7 @@ export interface CreateCardProps {
 
 const CreateCard: React.SFC<CreateCardProps> = props => {
   const { functionTemplate, setSelectedFunctionTemplate, setPivotStateKey, setRequiredBindingIds, hostStatus } = props;
+  const Svg = getSvg(functionTemplate);
   const theme = useContext(ThemeContext);
 
   return (
@@ -38,7 +39,7 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
         }
       }}>
       <div className={getHeaderStyle()}>
-        <img src={getSrc(functionTemplate)} alt={functionTemplate.name} />
+        <Svg />
       </div>
 
       <div className={getDescriptionStyle()}>
