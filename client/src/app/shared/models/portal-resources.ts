@@ -1815,4 +1815,6 @@ export class PortalResources {
   public static remoteDebuggingNotAvailableOnFlexStamp = 'remoteDebuggingNotAvailableOnFlexStamp';
   public static tryFunctionsPreview = 'tryFunctionsPreview';
   public static azureFunctionsV1Linux = 'azureFunctionsV1Linux';
+  public static hostConfigurationLabel = 'hostConfigurationLabel';
+  public static configureHostJson = 'configureHostJson';
 }

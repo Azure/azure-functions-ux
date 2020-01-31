@@ -29,13 +29,13 @@ const HostJsonConfiguration: React.FC<AppSettingsFormProps & WithTranslation> = 
   };
 
   return (
-    <ReactiveFormControl label={'Host Configuration'} id="function-app-settings-hostjson-configuration">
+    <ReactiveFormControl label={t('hostConfigurationLabel')} id="function-app-settings-hostjson-configuration">
       <div
         id="function-app-settings-hostjson-configuration"
         aria-labelledby="function-app-settings-hostjson-configuration-label"
         className={linkStyle(theme)}
         onClick={() => openHostJson()}>
-        {t('Configure host.json')}
+        {t('configureHostJson')}
       </div>
     </ReactiveFormControl>
   );

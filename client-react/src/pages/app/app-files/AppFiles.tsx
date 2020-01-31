@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
 import { FileContent } from '../functions/function-editor/FunctionEditor.types';
 import EditorManager, { EditorLanguage } from '../../../utils/EditorManager';
+import { CommonConstants } from '../../../utils/CommonConstants';
 
 interface AppFilesProps {
   site: ArmObj<Site>;
@@ -129,7 +130,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
 
   const getAndSetFile = async () => {
     const options = getDropdownOptions();
-    const hostsJsonFile = options.find(f => (f.key as string).toLowerCase() === 'host.json');
+    const hostsJsonFile = options.find(f => (f.key as string).toLowerCase() === CommonConstants.hostJsonFileName);
     const file = hostsJsonFile || (options.length > 0 && options[0]);
     if (!!file) {
       setSelectedFile(file);
