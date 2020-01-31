@@ -790,6 +790,7 @@ export class PortalResources {
   public static apiProxy_noOverride = 'apiProxy_noOverride';
   public static expressAADRegistration = 'expressAADRegistration';
   public static eventGrid_create = 'eventGrid_create';
+  public static eventGrid_createConnection = 'eventGrid_createConnection';
   public static eventGrid_createMessage = 'eventGrid_createMessage';
   public static eventGrid_help = 'eventGrid_help';
   public static eventGrid_label = 'eventGrid_label';
