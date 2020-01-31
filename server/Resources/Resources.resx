@@ -2485,6 +2485,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="eventGrid_create" xml:space="preserve">
         <value>create</value>
     </data>
+    <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>Create Event Grid subscription</value>
+    </data>
     <data name="eventGrid_createMessage" xml:space="preserve">
         <value>You need to add Event Grid subscription after function creation.</value>
     </data>
