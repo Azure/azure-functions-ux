@@ -219,9 +219,9 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       {isExpanded && (
         <div
           className={logStreamStyle(maximized, readOnlyBannerHeight)}
-          ref={el => {
-            if (!!el) {
-              setAutoScroll(el.scrollHeight - el.scrollTop === el.clientHeight);
+          ref={logsContainer => {
+            if (!!logsContainer) {
+              setAutoScroll(logsContainer.scrollHeight - logsContainer.scrollTop === logsContainer.clientHeight);
             }
           }}>
           {/*Error Message*/}
@@ -241,9 +241,9 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
                   className={logEntryDivStyle}
                   style={{ color: getLogTextColor(logEntry.Content.SeverityLevel || '') }}
                   /*Last Log Entry needs to be scrolled into focus*/
-                  ref={el => {
-                    if (logIndex + 1 === logEntries.length && autoScroll && !!el) {
-                      el.scrollIntoView({ behavior: 'smooth' });
+                  ref={log => {
+                    if (logIndex + 1 === logEntries.length && autoScroll && !!log) {
+                      log.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}>
                   {formatLog(logEntry)}
