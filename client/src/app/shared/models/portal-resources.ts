@@ -1662,7 +1662,6 @@ export class PortalResources {
   public static editBindingCommands = 'editBindingCommands';
   public static functionCreate_newFunction = 'functionCreate_newFunction';
   public static functionCreate_createFunctionMessage = 'functionCreate_createFunctionMessage';
-  public static functionCreate_goToQuickstart = 'functionCreate_goToQuickstart';
   public static functionCreate_templates = 'functionCreate_templates';
   public static functionCreate_details = 'functionCreate_details';
   public static functionCreate_searchByTemplateName = 'functionCreate_searchByTemplateName';
@@ -1813,6 +1812,7 @@ export class PortalResources {
   public static endOfLifeTagTemplate = 'endOfLifeTagTemplate';
   public static functionEditor_appInsightsNotConfigured = 'functionEditor_appInsightsNotConfigured';
   public static functionEditor_connectingToAppInsights = 'functionEditor_connectingToAppInsights';
+  public static functionCreate_extensionBundlesRequired = 'functionCreate_extensionBundlesRequired';
   public static remoteDebuggingNotAvailableOnFlexStamp = 'remoteDebuggingNotAvailableOnFlexStamp';
   public static tryFunctionsPreview = 'tryFunctionsPreview';
   public static azureFunctionsV1Linux = 'azureFunctionsV1Linux';
