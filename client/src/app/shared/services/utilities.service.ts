@@ -34,6 +34,6 @@ export class UtilitiesService {
       return;
     }
     // This method should work on most modern browsers
-    nav.clipboard.writeText(text);
+    nav.clipboard.writeText(text).catch(() => this.fallbackCopyTextToClipboard(text));
   }
 }

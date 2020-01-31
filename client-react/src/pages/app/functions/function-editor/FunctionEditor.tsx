@@ -61,6 +61,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [logPanelExpanded, setLogPanelExpanded] = useState(false);
   const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
   const [fileSavedCount, setFileSavedCount] = useState(0);
+  const [readOnlyBanner, setReadOnlyBanner] = useState<HTMLDivElement | null>(null);
 
   const { t } = useTranslation();
 
@@ -161,7 +162,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const fileResponse = await FunctionsService.getFileContent(site.id, functionInfo.properties.name, runtimeVersion, headers, file.name);
     if (fileResponse.metadata.success) {
       let fileText = fileResponse.data as string;
-      if (file.mime === 'application/json') {
+      if (typeof fileResponse.data !== 'string') {
         // third parameter refers to the number of white spaces.
         // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
         fileText = JSON.stringify(fileResponse.data, null, 2);
@@ -235,11 +236,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setLogPanelExpanded(!logPanelExpanded);
   };
 
-  useEffect(() => {
-    setMonacoHeight(logPanelExpanded ? 'calc(100vh - 310px)' : defaultMonacoEditorHeight);
+  const getReadOnlyBannerHeight = () => {
+    return !!readOnlyBanner ? readOnlyBanner.offsetHeight : 0;
+  };
 
+  useEffect(() => {
+    setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? 310 : 138) + getReadOnlyBannerHeight()}px)`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [logPanelExpanded]);
+  }, [logPanelExpanded, readOnlyBanner]);
   useEffect(() => {
     if (!!responseContent) {
       changePivotTab(PivotType.output);
@@ -276,7 +280,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={closeConfirmDialog}
         />
-        <EditModeBanner />
+        <EditModeBanner setBanner={setReadOnlyBanner} />
         <FunctionEditorFileSelectorBar
           disabled={isLoading()}
           functionAppNameLabel={site.name}
@@ -322,7 +326,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           />
         </div>
       )}
-      <div className={logPanelStyle(logPanelExpanded, logPanelFullscreen)}>
+      <div className={logPanelStyle(logPanelExpanded, logPanelFullscreen, getReadOnlyBannerHeight())}>
         <FunctionLog
           toggleExpand={toggleLogPanelExpansion}
           isExpanded={logPanelExpanded}
@@ -330,6 +334,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           fileSavedCount={fileSavedCount}
           resetAppInsightsToken={resetAppInsightsToken}
           appInsightsToken={appInsightsToken}
+          readOnlyBannerHeight={getReadOnlyBannerHeight()}
         />
       </div>
     </>
