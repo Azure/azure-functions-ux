@@ -5610,4 +5610,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
         <value>Connecting to Application Insights...</value>
     </data>
+    <data name="runtimeStack" xml:space="preserve">
+        <value>Runtime stack</value>
+    </data>
+    <data name="runtimeStackVersion" xml:space="preserve">
+        <value>Version</value>
+    </data>
 </root>

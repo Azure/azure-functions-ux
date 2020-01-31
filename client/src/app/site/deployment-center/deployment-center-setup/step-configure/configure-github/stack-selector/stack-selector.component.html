@@ -1,0 +1,42 @@
+<div class="settings-group-wrapper" [formGroup]="wizard?.buildSettings" novalidate>
+    <div class="settings-wrapper">
+        <div class="setting-wrapper">
+            <label id="github-action-configure-stack-label" class="setting-label">{{ 'runtimeStack' | translate }} </label>
+            <div class="setting-control-container">
+            <ng-select
+                aria-labelledby="github-action-configure-stack-label"
+                class="custom-select"
+                [clearable]="false"
+                [searchable]="false"
+                [items]="runtimeStackItems"
+                bindLabel="displayLabel"
+                bindValue="value"
+                [(ngModel)]="selectedRuntimeStack"
+                [loading]="runtimeStacksLoading && !appLoaded"
+                formControlName="runtimeStack"
+                (change)="runtimeStackChanged($event)">
+            </ng-select>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-wrapper">
+        <div class="setting-wrapper">
+            <label id="github-action-configure-stackversion-label" class="setting-label">{{ 'runtimeStackVersion' | translate }} </label>
+            <div class="setting-control-container">
+                <ng-select
+                aria-labelledby="github-action-configure-stackversion-label"
+                class="custom-select"
+                [clearable]="false"
+                [searchable]="false"
+                [items]="runtimeStackVersionItems"
+                bindLabel="displayLabel"
+                bindValue="value"
+                [(ngModel)]="selectedRuntimeStackVersion"
+                [loading]="runtimeStackVersionsLoading"
+                formControlName="runtimeStackVersion">
+                </ng-select>
+            </div>
+        </div>
+    </div>
+</div>

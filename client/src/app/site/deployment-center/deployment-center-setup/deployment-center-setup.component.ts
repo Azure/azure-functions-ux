@@ -48,6 +48,8 @@ export class DeploymentCenterSetupComponent implements OnChanges {
         nodejsTaskRunner: [null, []],
         frameworkVersion: ['', []],
         startupCommand: ['', []],
+        runtimeStack: ['', []],
+        runtimeStackVersion: ['', []],
       }),
     });
   }
