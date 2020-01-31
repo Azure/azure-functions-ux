@@ -34,6 +34,7 @@ export class StackSelectorComponent implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
   private _runtimeStacks: WebAppCreateStack[] = [];
   private _runtimeStackStream$ = new ReplaySubject<string>();
+  private _runtimeStackVersionStream$ = new ReplaySubject<string>();
 
   constructor(
     public wizard: DeploymentCenterStateManager,
@@ -67,6 +68,8 @@ export class StackSelectorComponent implements OnDestroy {
 
   private _registerSubscribers() {
     this._runtimeStackStream$.takeUntil(this._ngUnsubscribe$).subscribe(stackValue => {
+      this.selectedRuntimeStack = stackValue;
+      this.selectedRuntimeStackVersion = '';
       this.runtimeStackVersionsLoading = true;
       this.runtimeStackVersionItems = [];
 
@@ -78,9 +81,11 @@ export class StackSelectorComponent implements OnDestroy {
       } else {
         this.stackMismatchMessage = '';
       }
-
-      this.selectedRuntimeStackVersion = '';
       this._populateRuntimeStackVersionItems(stackValue);
+    });
+
+    this._runtimeStackVersionStream$.takeUntil(this._ngUnsubscribe$).subscribe(versionValue => {
+      this.selectedRuntimeStackVersion = versionValue;
     });
 
     this.wizard.siteArmObj$.subscribe(_ => {
@@ -123,7 +128,7 @@ export class StackSelectorComponent implements OnDestroy {
     const appSelectedStack = this.runtimeStackItems.filter(item => item.value === this.wizard.stack.toLowerCase());
     if (appSelectedStack && appSelectedStack.length === 1) {
       this.stackNotSupportedMessage = '';
-      this.selectedRuntimeStack = appSelectedStack[0].value;
+      this._runtimeStackStream$.next(appSelectedStack[0].value);
     } else {
       this.stackNotSupportedMessage = this._translateService.instant(PortalResources.githubActionStackNotSupportedMessage, {
         appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
@@ -155,7 +160,7 @@ export class StackSelectorComponent implements OnDestroy {
 
       const appSelectedStackVersion = this.runtimeStackVersionItems.filter(item => item.value === this.wizard.stackVersion.toLowerCase());
       if (appSelectedStackVersion && appSelectedStackVersion.length === 1) {
-        this.selectedRuntimeStackVersion = appSelectedStackVersion[0].value;
+        this._runtimeStackVersionStream$.next(appSelectedStackVersion[0].value);
       }
     }
 
