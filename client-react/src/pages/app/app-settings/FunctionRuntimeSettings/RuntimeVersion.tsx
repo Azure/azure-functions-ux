@@ -1,181 +1,160 @@
 import React, { useContext } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
-import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import RuntimeVersionControl from './RuntimeVersionControl';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { FormAppSetting, AppSettingsFormProps } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
-import { ThemeContext } from '../../../../ThemeContext';
-import { messageBannerStyle } from '../AppSettings.styles';
-import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
-import { findFormAppSettingValue } from '../AppSettingsFormData';
+import { addOrUpdateFormAppSetting, findFormAppSettingValue, removeFormAppSetting } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-
-interface MessageBarInfo {
-  messageText: string;
-  messageType?: MessageBarType;
-}
-
-type ComparisonResult = 'ExactMatch' | 'PartialMatch' | 'NoMatch';
+import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
+import { IDropdownOption, MessageBarType, MessageBar } from 'office-ui-fabric-react';
+import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
+import { messageBannerStyle } from '../AppSettings.styles';
+import { ThemeContext } from '../../../../ThemeContext';
+import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
+import { isLinuxApp } from '../../../../utils/arm-utils';
 
 const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props => {
-  const { t, initialValues, asyncData } = props;
-  const { app_write, editable } = useContext(PermissionsContext);
+  const { t, values, initialValues, asyncData, setFieldValue } = props;
+  const { app_write, editable, saving } = useContext(PermissionsContext);
   const theme = useContext(ThemeContext);
-
-  const getVersionToDispaly = () => {
-    switch (asyncData.functionsHostStatus.loadingState) {
-      case LoadingStates.loading:
-        return t('loading');
-      case LoadingStates.complete:
-        return asyncData.functionsHostStatus.value && asyncData.functionsHostStatus.value.properties.version;
-      case LoadingStates.failed:
-        return t('loadingFailed');
-    }
-  };
-
-  const getBundleVersion = () => {
-    const extensionBundle = asyncData.functionsHostStatus.value && asyncData.functionsHostStatus.value.properties.extensionBundle;
-    return (
-      extensionBundle &&
-      extensionBundle.id &&
-      extensionBundle.id.toLowerCase() === 'Microsoft.Azure.Functions.ExtensionBundle'.toLowerCase() &&
-      extensionBundle.version
-    );
-  };
-
-  // Returns a warning/error message to be shown if one of the the following scenarios is true:
-  //  -FUNCTIONS_EXTENSION_VERSION is missing or set to empty.
-  //  -FUNCTIONS_EXTENSION_VERSION is set to 'latest' or 'beta'.
-  //  -FUNCTIONS_EXTENSION_VERSION is set to a valid exact version.
-  //  -FUNCTIONS_EXTENSION_VERSION is set to an invalid value.
-  const getVersionMessageBar = (): MessageBarInfo => {
-    switch (initialVersionToLowerTrimmed) {
-      case RuntimeExtensionMajorVersions.v1:
-      case RuntimeExtensionMajorVersions.v2:
-      case RuntimeExtensionMajorVersions.v3:
-        // FUNCTIONS_EXTENSION_VERSION is set to a valid major version, so we don't need to show any warning/error
-        return { messageText: '' };
-      case '':
-        // FUNCTIONS_EXTENSION_VERSION is missing or set to empty, so show an error message.
-        return {
-          messageText: t('functionsRuntimeVersionMissingWarning'),
-          messageType: MessageBarType.error,
-        };
-      case 'latest':
-      case 'beta':
-        // FUNCTIONS_EXTENSION_VERSION is set to 'latest' or 'beta', so show a warning message.
-        // If we know the running version (from the host status call), include it in the warning message.
-        return {
-          messageText: !exactRuntimeVersion
-            ? t('functionsRuntimeVersionLatestOrBetaWarning').format(initialRuntimeVersion)
-            : t('functionsRuntimeVersionLatestOrBetaWithExactVersionWarning').format(initialRuntimeVersion, exactRuntimeVersion),
-          messageType: MessageBarType.warning,
-        };
-      default:
-        // FUNCTIONS_EXTENSION_VERSION is set to a non-empty value other than 'latest' or 'beta'.
-        // We need to check against the running version (from the host satus call) to determine whether the value is valid.
-        return getVersionMessageBarForCustom();
-    }
-  };
-
-  const getVersionMessageBarForCustom = (): MessageBarInfo => {
-    // We need to compare the custom runtime version against the running version (from the host satus call) to determine whether the value is valid.
-
-    if (asyncData.functionsHostStatus.loadingState === 'loading') {
-      // The host status call hasn't completed yet, so we can't check whether the configured rutime version is valid.
-      // Don't show any error/warning, and wait for the call to complete.
-      return { messageText: '' };
-    }
-
-    if (!exactRuntimeVersion) {
-      // The host status call failed or it completed but returned a null/empty version.
-      // We can't tell whether the configured version is valid, but we show a warning.
-      return {
-        messageText: t('functionsRuntimeVersionMissingWarning'),
-        messageType: MessageBarType.warning,
-      };
-    }
-
-    // The host status call completed and we have a running version to validate against.
-    // Show the appropraite warning/error based on whether the configured and running versions match.
-    const comparison = compareConfiguredAndRunningVersions();
-    switch (comparison) {
-      case 'ExactMatch':
-        return {
-          messageText: t('functionsRuntimeVersionNeedsUpdateWarning').format(exactRuntimeVersion),
-          messageType: MessageBarType.warning,
-        };
-      case 'PartialMatch':
-        return {
-          messageText: t('functionsRuntimeVersionNeedsUpdateWarning').format(`${exactRuntimeVersion} (${initialRuntimeVersion})`),
-          messageType: MessageBarType.warning,
-        };
-      case 'NoMatch':
-        return {
-          messageText: t('functionsRuntimeVersionInvalidWarning').format(initialRuntimeVersion, exactRuntimeVersion),
-          messageType: MessageBarType.error,
-        };
-    }
-  };
-
-  const compareConfiguredAndRunningVersions = (): ComparisonResult => {
-    const exactVersionToLower = (exactRuntimeVersion || '').toLowerCase();
-
-    if (initialVersionToLowerTrimmed === exactVersionToLower) {
-      return 'ExactMatch';
-    }
-
-    // remove single leading '~', trailing '-alpha'
-    const initialVersionNormalized = (initialVersionToLowerTrimmed || '').toLowerCase().replace(/^~?|(-alpha)?$/g, '');
-
-    return !!initialVersionNormalized && exactVersionToLower.startsWith(initialVersionNormalized) ? 'PartialMatch' : 'NoMatch';
-  };
-
-  const exactRuntimeVersion = (asyncData.functionsHostStatus.value && asyncData.functionsHostStatus.value.properties.version) || '';
-
-  const extensionBundleVersion = getBundleVersion();
+  const disableAllControls = !app_write || !editable || saving;
 
   const initialRuntimeVersion =
     findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
-  const initialVersionToLowerTrimmed = (initialRuntimeVersion || '').toLowerCase().replace(/^\s*|\s*$/g, '');
+  const initialRuntimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(initialRuntimeVersion);
 
-  const { messageText, messageType } = getVersionMessageBar() as { messageText: string; messageType?: MessageBarType };
+  const runtimeVersion = findFormAppSettingValue(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion);
+  const runtimeMajorVersion = FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersion(runtimeVersion);
+
+  const hasCustomRuntimeVersion = runtimeMajorVersion === RuntimeExtensionMajorVersions.custom;
+  let [waitingOnFunctionsApi, hasFunctions, failedToGetFunctions] = [false, false, false];
+
+  switch (asyncData.functionsCount.loadingState) {
+    case 'loading':
+      // The functions call hasn't completed, so we don't know the functions count. Keep the control disabled until the call completes or fails.
+      waitingOnFunctionsApi = true;
+      break;
+    case 'complete':
+      // The functions call completed successfully. If the function count > 0 , prevent the user from changing major versions.
+      hasFunctions = !!asyncData.functionsCount.value;
+      break;
+    case 'failed':
+      // The functions call failed, so we don't know the functions count. To be safe, prevent the user from changing major versions.
+      failedToGetFunctions = true;
+      break;
+  }
+
+  const getPlaceHolder = (): string => {
+    if (waitingOnFunctionsApi && !hasCustomRuntimeVersion) {
+      return t('loading');
+    }
+
+    if (failedToGetFunctions) {
+      return t('loadingFiled');
+    }
+
+    return '';
+  };
+
+  const getOptions = (): IDropdownOption[] => {
+    return hasCustomRuntimeVersion
+      ? [
+          {
+            key: RuntimeExtensionMajorVersions.custom,
+            text: t('custom'),
+          },
+        ]
+      : [
+          {
+            key: RuntimeExtensionMajorVersions.v1,
+            text: RuntimeExtensionMajorVersions.v1,
+            disabled: isLinuxApp(values.site),
+          },
+          {
+            key: RuntimeExtensionMajorVersions.v2,
+            text: RuntimeExtensionMajorVersions.v2,
+          },
+          {
+            key: RuntimeExtensionMajorVersions.v3,
+            text: RuntimeExtensionMajorVersions.v3,
+          },
+        ];
+  };
+
+  const dropDownlDisabled = (): boolean => waitingOnFunctionsApi || hasFunctions || failedToGetFunctions || hasCustomRuntimeVersion;
+
+  const getNodeVersionForRuntime = version => {
+    switch (version) {
+      case RuntimeExtensionMajorVersions.v2:
+        return CommonConstants.NodeVersions.v2;
+      case RuntimeExtensionMajorVersions.v3:
+        return CommonConstants.NodeVersions.v3;
+      default:
+        return CommonConstants.NodeVersions.default;
+    }
+  };
+
+  const onDropDownChange = newVersion => {
+    let appSettings: FormAppSetting[] = [...values.appSettings];
+
+    // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
+    appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.azureJobsExtensionVersion);
+
+    if (newVersion === RuntimeExtensionMajorVersions.v1) {
+      // If functions extension version is V1, remove FUNCTIONS_WORKER_RUNTIME app setting (if present)
+      appSettings = removeFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime);
+    } else {
+      // If functions extension version is not V1, restore the initial value for FUNCTIONS_WORKER_RUNTIME app setting (if present)
+      const initialWorkerRuntime = findFormAppSettingValue(
+        initialValues.appSettings,
+        CommonConstants.AppSettingNames.functionsWorkerRuntime
+      );
+      if (initialWorkerRuntime) {
+        appSettings = addOrUpdateFormAppSetting(
+          values.appSettings,
+          CommonConstants.AppSettingNames.functionsWorkerRuntime,
+          initialWorkerRuntime
+        );
+      }
+    }
+
+    // Add or update WEBSITE_NODE_DEFAULT_VERSION app setting
+    const nodeVersion = getNodeVersionForRuntime(newVersion);
+    appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.websiteNodeDefaultVersion, nodeVersion);
+
+    // Add or update FUNCTIONS_EXTENSION_VERSION app setting
+    appSettings = addOrUpdateFormAppSetting(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion, newVersion);
+
+    setFieldValue('appSettings', appSettings);
+  };
 
   return (
     <>
-      {!app_write || !editable ? (
-        <MessageBar
-          id="function-runtime-settings-rbac-message"
-          isMultiline={true}
-          className={messageBannerStyle(theme, MessageBarType.warning)}
-          messageBarType={MessageBarType.warning}>
-          {t('readWritePermissionsRequired')}
-        </MessageBar>
-      ) : (
-        !!messageText && (
-          <MessageBar
-            id="function-app-settings-runtime-version-message"
-            isMultiline={true}
-            className={messageType ? messageBannerStyle(theme, messageType) : undefined}
-            messageBarType={messageType}>
-            {messageText}
-          </MessageBar>
-        )
+      {app_write && editable && (
+        <>
+          {hasFunctions && (
+            <MessageBar
+              id="function-app-settings-runtime-version-message"
+              isMultiline={true}
+              className={messageBannerStyle(theme, MessageBarType.warning)}
+              messageBarType={MessageBarType.warning}>
+              {t('functionsRuntimeVersionExistingFunctionsWarning')}
+            </MessageBar>
+          )}
+          <DropdownNoFormik
+            placeHolder={getPlaceHolder()}
+            value={runtimeMajorVersion}
+            dirty={runtimeMajorVersion !== initialRuntimeMajorVersion}
+            onChange={(event, option) => onDropDownChange(option ? option.key : undefined)}
+            options={getOptions()}
+            disabled={disableAllControls || dropDownlDisabled()}
+            label={t('runtimeVersion')}
+            id="function-app-settings-runtime-version"
+            infoBubbleMessage={
+              runtimeMajorVersion === RuntimeExtensionMajorVersions.custom ? t('functionsRuntimeVersionCustomInfo') : undefined
+            }
+          />
+        </>
       )}
-      {extensionBundleVersion && (
-        <ReactiveFormControl label={t('extensionBundleVersion')} id="function-app-settings-bundle-version">
-          <div id="function-app-settings-bundle-version" aria-labelledby="function-app-settings-bundle-version-label">
-            {extensionBundleVersion}
-          </div>
-        </ReactiveFormControl>
-      )}
-      <ReactiveFormControl label={t('currentRuntimeVersion')} id="function-app-settings-exact-runtime-version">
-        <div id="function-app-settings-exact-runtime-version" aria-labelledby="function-app-settings-exact-runtime-version-label">
-          {getVersionToDispaly()}
-        </div>
-      </ReactiveFormControl>
-      {app_write && editable && <RuntimeVersionControl {...props} />}
     </>
   );
 };

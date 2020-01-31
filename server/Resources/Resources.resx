@@ -5557,7 +5557,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Your custom runtime version ({0}) is not supported. As a result your app is using the latest version {1}, and you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
     </data>
     <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>The runtime version is controlled by the FUNCTIONS_EXTENSION_VERSION app setting. Configuring a custom version is not advised because you will end up on the latest version if the configured value is invalid or becomes unsupported. This may leave your functions in a broken state since major version updates which might contain breaking changes.</value>
+        <value>By configuring the value of FUNCTIONS_EXTENSION_VERSION in Application setting, you have opted to use a custom runtime version.</value>
     </data>
     <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>Cannot upgrade with existing functions: Major version upgrades can introduce breaking changes to languages and bindings. When upgrading major versions of the runtime, consider creating a new function app and migrate your functions to this new app.</value>
