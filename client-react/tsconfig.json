@@ -18,7 +18,7 @@
     "strictFunctionTypes": false,
     "strictPropertyInitialization": false,
     "noImplicitAny": false,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "downlevelIteration": true
   },
   "include": ["src"]
