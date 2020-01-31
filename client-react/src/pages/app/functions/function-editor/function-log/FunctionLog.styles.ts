@@ -22,9 +22,9 @@ export const logExpandButtonStyle = style({
   cursor: 'pointer',
 });
 
-export const logStreamStyle = (maximized: boolean) =>
+export const logStreamStyle = (maximized: boolean, readOnlyBannerHeight: number) =>
   style({
-    height: maximized ? 'calc(100vh - 164px)' : '135px',
+    height: maximized ? `calc(100vh - ${164 + readOnlyBannerHeight}px)` : '135px',
     backgroundColor: '#000000',
     overflow: 'auto',
     padding: '20px',
