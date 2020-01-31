@@ -78,6 +78,9 @@ const getPanelHeader = (t: i18next.TFunction, bindingDirection: BindingDirection
       case BindingDirection.out: {
         return t('integrateCreateOutput');
       }
+      default: {
+        return t('integrateCreateTrigger');
+      }
     }
   }
 

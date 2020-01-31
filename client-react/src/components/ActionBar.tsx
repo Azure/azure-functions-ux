@@ -10,7 +10,7 @@ import { SpinnerSize, Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { ThemeContext } from '../ThemeContext';
 import { Overlay } from 'office-ui-fabric-react';
 
-interface StatusMessage {
+export interface StatusMessage {
   message: string;
   level: MessageBarType;
   infoLink?: string;

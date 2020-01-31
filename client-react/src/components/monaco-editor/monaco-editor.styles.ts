@@ -1,8 +1,9 @@
 import { style } from 'typestyle';
-export const editorStyle = style({
-  height: 'calc(100vh - 100px)',
-  overflow: 'hidden',
-});
+export const editorStyle = (height: string) =>
+  style({
+    height,
+    overflow: 'hidden',
+  });
 
 export const disabledEditorStyle = style({
   opacity: 0.4,

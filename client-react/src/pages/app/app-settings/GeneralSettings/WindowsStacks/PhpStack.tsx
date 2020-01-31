@@ -37,7 +37,7 @@ const PhpStack: React.SFC<Props> = props => {
       disabled={disableAllControls}
       options={phpStack!.properties.majorVersions.map(x => ({
         key: x.runtimeVersion,
-        text: x.displayVersion,
+        text: x.isEndOfLife ? t('endOfLifeTagTemplate').format(x.displayVersion) : x.displayVersion,
       }))}
     />
   );

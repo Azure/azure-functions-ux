@@ -34,6 +34,16 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     }
   };
 
+  const getBundleVersion = () => {
+    const extensionBundle = asyncData.functionsHostStatus.value && asyncData.functionsHostStatus.value.properties.extensionBundle;
+    return (
+      extensionBundle &&
+      extensionBundle.id &&
+      extensionBundle.id.toLowerCase() === 'Microsoft.Azure.Functions.ExtensionBundle'.toLowerCase() &&
+      extensionBundle.version
+    );
+  };
+
   // Returns a warning/error message to be shown if one of the the following scenarios is true:
   //  -FUNCTIONS_EXTENSION_VERSION is missing or set to empty.
   //  -FUNCTIONS_EXTENSION_VERSION is set to 'latest' or 'beta'.
@@ -123,6 +133,9 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   };
 
   const exactRuntimeVersion = (asyncData.functionsHostStatus.value && asyncData.functionsHostStatus.value.properties.version) || '';
+
+  const extensionBundleVersion = getBundleVersion();
+
   const initialRuntimeVersion =
     findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
   const initialVersionToLowerTrimmed = (initialRuntimeVersion || '').toLowerCase().replace(/^\s*|\s*$/g, '');
@@ -149,6 +162,13 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
             {messageText}
           </MessageBar>
         )
+      )}
+      {extensionBundleVersion && (
+        <ReactiveFormControl label={t('extensionBundleVersion')} id="function-app-settings-bundle-version">
+          <div id="function-app-settings-bundle-version" aria-labelledby="function-app-settings-bundle-version-label">
+            {extensionBundleVersion}
+          </div>
+        </ReactiveFormControl>
       )}
       <ReactiveFormControl label={t('currentRuntimeVersion')} id="function-app-settings-exact-runtime-version">
         <div id="function-app-settings-exact-runtime-version" aria-labelledby="function-app-settings-exact-runtime-version-label">

@@ -1,9 +1,11 @@
-import React, { lazy, useContext, createContext } from 'react';
+import React, { lazy, useContext, createContext, useEffect, useState } from 'react';
 import { RouteComponentProps, Router } from '@reach/router';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
 import { SiteRouterData } from './SiteRouter.data';
+import { SiteStateContext } from '../../SiteStateContext';
+import { SiteState } from '../../models/portal-models';
 export interface SiteRouterProps {
   subscriptionId?: string;
   resourcegroup?: string;
@@ -38,29 +40,46 @@ const FunctionEditorLoadable: any = lazy(() =>
 const FunctionQuickstart: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/quickstart/FunctionQuickstartDataLoader')
 );
+const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-files/AppFilesDataLoader'));
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
+  const [resourceId, setResourceId] = useState<string | undefined>(undefined);
 
+  const fetchData = async () => {
+    // TODO [krmitta]: Add the logic for read-only permissions on the site
+  };
+
+  useEffect(() => {
+    if (!!resourceId) {
+      fetchData();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resourceId]);
   return (
     <main className={iconStyles(theme)}>
       <SiteRouterContext.Provider value={siteRouterData}>
         <StartupInfoContext.Consumer>
           {value => {
+            setResourceId(value.token && value.resourceId);
             return (
               value.token && (
-                <Router>
-                  <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
-                  <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
-                  <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
-                  <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
-                  <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
-                  <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
-                  <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
-                  <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
-                  <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
-                  <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
-                </Router>
+                <SiteStateContext.Provider value={SiteState.readwrite}>
+                  <Router>
+                    <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
+                    <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
+                    <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
+                    <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
+                    <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
+                    <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
+                    <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
+                    <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
+                    <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
+                    <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
+                    <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
+                  </Router>
+                </SiteStateContext.Provider>
               )
             );
           }}
