@@ -2,13 +2,11 @@ import React, { useContext, useState } from 'react';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import { Pivot, PivotItem, IPivotItemProps, Link } from 'office-ui-fabric-react';
+import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react';
 import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
 import { ThemeContext } from '../../../../ThemeContext';
 import TemplatesPivot from './TemplatesPivot';
 import DetailsPivot from './DetailsPivot';
-import { Links } from '../../../../utils/FwLinks';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { useTranslation } from 'react-i18next';
 import { Binding } from '../../../../models/functions/binding';
 import { paddingStyle } from './FunctionCreate.styles';
@@ -39,12 +37,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
     <>
       <div style={paddingStyle}>
         <h2>{t('functionCreate_newFunction')}</h2>
-        <p>
-          {t('functionCreate_createFunctionMessage')}
-          <Link href={Links.applicationSettingsInfo} target="_blank" className={learnMoreLinkStyle}>
-            {t('functionCreate_goToQuickstart')}
-          </Link>
-        </p>
+        <p>{t('functionCreate_createFunctionMessage')}</p>
         <Pivot getTabId={getPivotTabId} selectedKey={pivotStateKey}>
           <PivotItem
             onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
