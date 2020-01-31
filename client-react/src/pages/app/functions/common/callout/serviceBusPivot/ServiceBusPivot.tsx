@@ -99,6 +99,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & IDropdownProps & Fiel
                     setNamespaceAuthRules(undefined);
                     setKeyList(undefined);
                   }}
+                  errorMessage={undefined}
                   {...props}
                 />
                 {!namespaceAuthRules && <LoadingComponent />}
@@ -114,6 +115,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & IDropdownProps & Fiel
                         setFormValues({ ...formValues, policy: e && e.data });
                         setKeyList(undefined);
                       }}
+                      errorMessage={undefined}
                       {...props}
                     />
                     {!keyList && <LoadingComponent />}
