@@ -49,6 +49,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const [logEntries, setLogEntries] = useState<SchemaDocument[]>([]);
   const [callCount, setCallCount] = useState(0);
   const [appInsightsError, setAppInsightsError] = useState(false);
+  const [autoScroll, setAutoScroll] = useState(true);
 
   const theme = useContext(ThemeContext);
 
@@ -216,7 +217,13 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         )}
       </div>
       {isExpanded && (
-        <div className={logStreamStyle(maximized, readOnlyBannerHeight)}>
+        <div
+          className={logStreamStyle(maximized, readOnlyBannerHeight)}
+          ref={el => {
+            if (!!el) {
+              setAutoScroll(el.scrollHeight - el.scrollTop === el.clientHeight);
+            }
+          }}>
           {/*Error Message*/}
           {appInsightsError && <div className={logErrorDivStyle}>{t('functionEditor_appInsightsNotConfigured')}</div>}
 
@@ -235,7 +242,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
                   style={{ color: getLogTextColor(logEntry.Content.SeverityLevel || '') }}
                   /*Last Log Entry needs to be scrolled into focus*/
                   ref={el => {
-                    if (logIndex + 1 === logEntries.length && !!el) {
+                    if (logIndex + 1 === logEntries.length && autoScroll && !!el) {
                       el.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}>
