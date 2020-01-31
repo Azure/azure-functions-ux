@@ -191,14 +191,14 @@ export class DeploymentCenterStateManager implements OnDestroy {
     } else if (this.stack === RuntimeStacks.python) {
       this.stackVersion = siteConfig.pythonVersion;
     } else {
-      this.stackVersion = null;
+      this.stackVersion = '';
     }
   }
 
   private _setStackAndVersionForLinux(siteConfig: SiteConfig) {
     const linuxFxVersionParts = siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion.split('|')[0] : [];
     this.stack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0] : null;
-    this.stackVersion = linuxFxVersionParts.length > 1 ? linuxFxVersionParts[1] : null;
+    this.stackVersion = siteConfig.linuxFxVersion;
   }
 
   private _deployGithubActions() {

@@ -1817,4 +1817,6 @@ export class PortalResources {
   public static remoteDebuggingNotAvailableOnFlexStamp = 'remoteDebuggingNotAvailableOnFlexStamp';
   public static tryFunctionsPreview = 'tryFunctionsPreview';
   public static azureFunctionsV1Linux = 'azureFunctionsV1Linux';
+  public static githubActionStackNotSupportedMessage = 'githubActionStackNotSupportedMessage';
+  public static githubActionStackMismatchMessage = 'githubActionStackMismatchMessage';
 }

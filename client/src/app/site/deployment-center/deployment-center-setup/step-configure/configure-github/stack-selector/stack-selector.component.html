@@ -16,6 +16,7 @@
                 formControlName="runtimeStack"
                 (change)="runtimeStackChanged($event)">
             </ng-select>
+            <div invalidmessage="runtimeStack" id="dc-github-stack-error" role="alert"></div>
             </div>
         </div>
     </div>
@@ -36,7 +37,16 @@
                 [loading]="runtimeStackVersionsLoading"
                 formControlName="runtimeStackVersion">
                 </ng-select>
+                <div invalidmessage="runtimeStackVersion" id="dc-github-stack-error" role="alert"></div>
             </div>
+        </div>
+    </div>
+
+    <div class="setting-wrapper">
+        <div class="setting-label" aria-hidden="true"></div>
+        <div class="setting-control-container">
+            <info-box *ngIf="stackNotSupportedMessage" typeClass="warning" [infoText]="stackNotSupportedMessage"></info-box>
+            <info-box *ngIf="stackMismatchMessage" typeClass="warning" [infoText]="stackMismatchMessage"></info-box>
         </div>
     </div>
 </div>

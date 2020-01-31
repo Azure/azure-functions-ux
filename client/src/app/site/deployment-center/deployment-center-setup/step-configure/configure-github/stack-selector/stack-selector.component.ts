@@ -8,6 +8,7 @@ import { LogCategories } from 'app/shared/models/constants';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from 'app/shared/models/portal-resources';
 
 @Component({
   selector: 'app-stack-selector',
@@ -25,6 +26,10 @@ export class StackSelectorComponent implements OnDestroy {
   public runtimeStacksLoading = false;
   public runtimeStackVersionsLoading = false;
   public requiredValidator: RequiredValidator;
+  public stackNotSupportedMessage = '';
+  public stackMismatchMessage = '';
+  public selectedRuntimeStack = '';
+  public selectedRuntimeStackVersion = '';
 
   private _ngUnsubscribe$ = new Subject();
   private _runtimeStacks: WebAppCreateStack[] = [];
@@ -64,6 +69,17 @@ export class StackSelectorComponent implements OnDestroy {
     this._runtimeStackStream$.takeUntil(this._ngUnsubscribe$).subscribe(stackValue => {
       this.runtimeStackVersionsLoading = true;
       this.runtimeStackVersionItems = [];
+
+      if (stackValue !== this.wizard.stack.toLowerCase() && !this.stackNotSupportedMessage) {
+        this.stackNotSupportedMessage = this._translateService.instant(PortalResources.githubActionStackMismatchMessage, {
+          appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
+          stack: this.wizard.stack,
+        });
+      } else {
+        this.stackMismatchMessage = '';
+      }
+
+      this.selectedRuntimeStackVersion = '';
       this._populateRuntimeStackVersionItems(stackValue);
     });
 
@@ -89,7 +105,7 @@ export class StackSelectorComponent implements OnDestroy {
   }
 
   private _populateRuntimeStackItems() {
-    const dropdodownItems = [
+    const dropdownItems = [
       {
         displayLabel: '',
         value: '',
@@ -101,8 +117,20 @@ export class StackSelectorComponent implements OnDestroy {
       value: stack.value.toLowerCase(),
     }));
 
-    dropdodownItems.push(...stackItems);
-    this.runtimeStackItems = dropdodownItems;
+    dropdownItems.push(...stackItems);
+    this.runtimeStackItems = dropdownItems;
+
+    const appSelectedStack = this.runtimeStackItems.filter(item => item.value === this.wizard.stack.toLowerCase());
+    if (appSelectedStack && appSelectedStack.length === 1) {
+      this.stackNotSupportedMessage = '';
+      this.selectedRuntimeStack = appSelectedStack[0].value;
+    } else {
+      this.stackNotSupportedMessage = this._translateService.instant(PortalResources.githubActionStackNotSupportedMessage, {
+        appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
+        stack: this.wizard.stack,
+      });
+    }
+
     this.runtimeStacksLoading = false;
   }
 
@@ -124,6 +152,11 @@ export class StackSelectorComponent implements OnDestroy {
 
       dropdodownItems.push(...versionItems);
       this.runtimeStackVersionItems = dropdodownItems;
+
+      const appSelectedStackVersion = this.runtimeStackVersionItems.filter(item => item.value === this.wizard.stackVersion.toLowerCase());
+      if (appSelectedStackVersion && appSelectedStackVersion.length === 1) {
+        this.selectedRuntimeStackVersion = appSelectedStackVersion[0].value;
+      }
     }
 
     this.runtimeStackVersionsLoading = false;

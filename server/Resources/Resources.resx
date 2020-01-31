@@ -5625,4 +5625,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="azureFunctionsV1Linux" xml:space="preserve">
         <value>Version 1 Runtime is not supported on Linux Azure Function Apps</value>
     </data>
+    <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack '{{stack}}' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+    <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack '{{stack}}', which does not match current build selection.</value>
+    </data>
 </root>
