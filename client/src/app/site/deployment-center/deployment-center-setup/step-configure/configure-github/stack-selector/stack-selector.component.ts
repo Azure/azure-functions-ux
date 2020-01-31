@@ -89,34 +89,43 @@ export class StackSelectorComponent implements OnDestroy {
   }
 
   private _populateRuntimeStackItems() {
-    this.runtimeStackItems.push({
-      displayLabel: '',
-      value: '-1',
-    });
+    const dropdodownItems = [
+      {
+        displayLabel: '',
+        value: '',
+      },
+    ];
 
-    const items = this._runtimeStacks.map(stack => ({
+    const stackItems = this._runtimeStacks.map(stack => ({
       displayLabel: stack.displayText,
       value: stack.value.toLowerCase(),
     }));
 
-    this.runtimeStackItems.push(...items);
+    dropdodownItems.push(...stackItems);
+    this.runtimeStackItems = dropdodownItems;
     this.runtimeStacksLoading = false;
   }
 
   private _populateRuntimeStackVersionItems(stackValue: string) {
-    this.runtimeStackVersionItems.push({
-      displayLabel: '',
-      value: '-1',
-    });
+    if (stackValue) {
+      const dropdodownItems = [
+        {
+          displayLabel: '',
+          value: '',
+        },
+      ];
 
-    const runtimeStack = this._runtimeStacks.find(stack => stack.value.toLowerCase() === stackValue);
+      const runtimeStack = this._runtimeStacks.find(stack => stack.value.toLowerCase() === stackValue);
 
-    const items = runtimeStack.versions.map(version => ({
-      displayLabel: version.displayText,
-      value: version.supportedPlatforms[0].runtimeVersion,
-    }));
+      const versionItems = runtimeStack.versions.map(version => ({
+        displayLabel: version.displayText,
+        value: version.supportedPlatforms[0].runtimeVersion,
+      }));
 
-    this.runtimeStackItems.push(...items);
+      dropdodownItems.push(...versionItems);
+      this.runtimeStackVersionItems = dropdodownItems;
+    }
+
     this.runtimeStackVersionsLoading = false;
   }
 }
