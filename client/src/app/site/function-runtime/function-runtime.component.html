@@ -102,11 +102,19 @@
                 </div>
             </ng-container>
             <div *ngIf="disableRuntimeSelector || functionRutimeOptions[0].disabled" class="alert alert-warning">
-                <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
-                <div class="alert-message">
-                    <span class="title-label">{{ 'appFunctionSettings_warning_6' | translate }}</span><br/>
-                    <span>{{ 'appFunctionSettings_warning_7' | translate }}</span><br/>
-                </div>
+                <ng-container *ngIf="hasFunctions">
+                    <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
+                    <div class="alert-message">
+                        <span class="title-label">{{ 'appFunctionSettings_warning_6' | translate }}</span><br/>
+                        <span>{{ 'appFunctionSettings_warning_7' | translate }}</span><br/>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!hasFunctions && isLinuxApp">
+                    <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
+                    <div class="alert-message">
+                        <span class="title-label">{{ 'azureFunctionsV1Linux' | translate }}</span><br/>
+                    </div>
+                </ng-container>
             </div>
             <div>
                 <radio-selector

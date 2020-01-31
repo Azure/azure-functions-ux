@@ -53,10 +53,10 @@ export const fileSelectorDropdownStyle = () => styleProps => {
   } as IDropdownStyles;
 };
 
-export const logPanelStyle = (isExpanded: boolean, fullscreen: boolean) =>
+export const logPanelStyle = (isExpanded: boolean, fullscreen: boolean, readOnlyBannerHeight: number) =>
   fullscreen
     ? style({
-        height: 'calc(100vh - 87px)',
+        height: `calc(100vh - ${87 + readOnlyBannerHeight}px)`,
       })
     : style({
         position: 'sticky',
