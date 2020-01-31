@@ -6,18 +6,24 @@ import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { messageBannerStyle } from './EditModeBanner.styles';
 import { ThemeContext } from '../../ThemeContext';
 
-interface EditModeBannerProps {}
+interface EditModeBannerProps {
+  setBanner?: (banner: HTMLDivElement | null) => void;
+}
 
 const EditModeBanner: React.FC<EditModeBannerProps> = props => {
   const siteState = useContext(SiteStateContext);
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
 
+  const { setBanner } = props;
+
   if (SiteHelper.isFunctionAppReadOnly(siteState)) {
     return (
-      <MessageBar id="site-state-banner" isMultiline={true} className={messageBannerStyle(theme)} messageBarType={MessageBarType.info}>
-        {SiteHelper.getFunctionAppEditModeString(siteState, t)}
-      </MessageBar>
+      <div ref={ref => !!setBanner && setBanner(ref)}>
+        <MessageBar id="site-state-banner" isMultiline={true} className={messageBannerStyle(theme)} messageBarType={MessageBarType.info}>
+          {SiteHelper.getFunctionAppEditModeString(siteState, t)}
+        </MessageBar>
+      </div>
     );
   }
 

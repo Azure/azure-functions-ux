@@ -2485,6 +2485,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="eventGrid_create" xml:space="preserve">
         <value>create</value>
     </data>
+    <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>Create Event Grid subscription</value>
+    </data>
     <data name="eventGrid_createMessage" xml:space="preserve">
         <value>You need to add Event Grid subscription after function creation.</value>
     </data>
@@ -5152,10 +5155,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>New Function</value>
     </data>
     <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Create a new function in this Function App. You can start by selecting from a template below or </value>
-    </data>
-    <data name="functionCreate_goToQuickstart" xml:space="preserve">
-        <value>go to the quickstart.</value>
+        <value>Create a new function in this Function App. You can start by selecting a template below.</value>
     </data>
     <data name="functionCreate_templates" xml:space="preserve">
         <value>Templates</value>
@@ -5609,6 +5609,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
         <value>Connecting to Application Insights...</value>
+    </data>
+    <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
+        <value>In order to see the entire list of available function templates, you must set up extension bundles for your app. </value>
     </data>
     <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Remote debugging is not available for your application. </value>

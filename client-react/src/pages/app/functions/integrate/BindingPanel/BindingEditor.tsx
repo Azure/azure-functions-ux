@@ -1,23 +1,26 @@
 import { Field, Formik, FormikProps } from 'formik';
-import { Dropdown } from 'office-ui-fabric-react';
-import React, { useState } from 'react';
+import { Dropdown, Link } from 'office-ui-fabric-react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 import { FormControlWrapper, Layout } from '../../../../../components/FormControlWrapper/FormControlWrapper';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../../models/functions/binding';
-import { BindingInfo, BindingDirection as FunctionBindingDirection } from '../../../../../models/functions/function-binding';
+import { BindingDirection as FunctionBindingDirection, BindingInfo } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
+import PortalCommunicator from '../../../../../portal-communicator';
+import { PortalContext } from '../../../../../PortalContext';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import { BindingFormBuilder } from '../../common/BindingFormBuilder';
+import { EventGrid } from '../FunctionIntegrateConstants';
 import EditBindingCommandBar from './EditBindingCommandBar';
 
 export interface BindingEditorProps {
   allBindings: Binding[];
   currentBindingInfo: BindingInfo;
+  functionAppId: string;
   functionInfo: ArmObj<FunctionInfo>;
-  resourceId: string;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
   onDelete: (currentBindingInfo: BindingInfo) => void;
 }
@@ -37,8 +40,9 @@ const fieldWrapperStyle = style({
 });
 
 const BindingEditor: React.SFC<BindingEditorProps> = props => {
-  const { allBindings, currentBindingInfo, resourceId, onSubmit, onDelete } = props;
+  const { allBindings, currentBindingInfo, functionAppId, functionInfo, onSubmit, onDelete } = props;
   const { t } = useTranslation();
+  const portalContext = useContext(PortalContext);
   const [isDisabled, setIsDisabled] = useState(false);
 
   const currentBinding = allBindings.find(
@@ -50,7 +54,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
     return <div />;
   }
 
-  const builder = new BindingFormBuilder([currentBindingInfo], [currentBinding], resourceId, t);
+  const builder = new BindingFormBuilder([currentBindingInfo], [currentBinding], functionAppId, t);
   const initialFormValues: BindingEditorFormValues = builder.getInitialFormValues();
 
   const submit = (newBindingInfo: BindingInfo) => {
@@ -73,30 +77,37 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
     <Formik initialValues={initialFormValues} onSubmit={values => submit(values as BindingInfo)}>
       {(formProps: FormikProps<BindingEditorFormValues>) => {
         return (
-          <form>
-            <EditBindingCommandBar
-              submitForm={formProps.submitForm}
-              resetForm={() => formProps.resetForm(initialFormValues)}
-              delete={() => onDelete(currentBindingInfo)}
-              dirty={formProps.dirty}
-              valid={formProps.isValid}
-              loading={isDisabled}
-            />
-            <div className={fieldWrapperStyle}>
-              <FormControlWrapper label={t('integrateBindingType')} layout={Layout.vertical}>
-                <Field
-                  name="type"
-                  component={Dropdown}
-                  options={[{ key: currentBinding.type, text: currentBinding.displayName }]}
-                  disabled={true}
-                  selectedKey={currentBinding.type}
-                  {...formProps}
-                />
-              </FormControlWrapper>
+          <>
+            <form>
+              <EditBindingCommandBar
+                submitForm={formProps.submitForm}
+                resetForm={() => formProps.resetForm(initialFormValues)}
+                delete={() => onDelete(currentBindingInfo)}
+                dirty={formProps.dirty}
+                valid={formProps.isValid}
+                loading={isDisabled}
+              />
+              <div className={fieldWrapperStyle}>
+                <FormControlWrapper label={t('integrateBindingType')} layout={Layout.vertical}>
+                  <Field
+                    name="type"
+                    component={Dropdown}
+                    options={[{ key: currentBinding.type, text: currentBinding.displayName }]}
+                    disabled={true}
+                    selectedKey={currentBinding.type}
+                    {...formProps}
+                  />
+                </FormControlWrapper>
 
-              {builder.getFields(formProps, isDisabled)}
-            </div>
-          </form>
+                {builder.getFields(formProps, isDisabled)}
+              </div>
+            </form>
+            {currentBinding.type === EventGrid.eventGridType ? (
+              <Link onClick={() => onEventGridCreateClick(functionInfo, portalContext)}>{t('eventGrid_createConnection')}</Link>
+            ) : (
+              undefined
+            )}
+          </>
         );
       }}
     </Formik>
@@ -115,6 +126,25 @@ export const getBindingDirection = (bindingInfo: BindingInfo): BindingDirection 
 
 export const getFunctionBindingDirection = (bindingDirection: BindingDirection): FunctionBindingDirection => {
   return bindingDirection === BindingDirection.out ? FunctionBindingDirection.out : FunctionBindingDirection.in;
+};
+
+const onEventGridCreateClick = (functionInfo: ArmObj<FunctionInfo>, portalContext: PortalCommunicator) => {
+  const functionName = functionInfo.name.split('/')[1];
+
+  portalContext.openBlade(
+    {
+      detailBlade: 'CreateEventSubscriptionBlade',
+      extension: 'Microsoft_Azure_EventGrid',
+      detailBladeInputs: {
+        inputs: {
+          label: `functions-${functionName.toLowerCase()}`,
+          endpointType: 'AzureFunction',
+          endpointResourceId: functionInfo.id,
+        },
+      },
+    },
+    'function-dev'
+  );
 };
 
 export default BindingEditor;

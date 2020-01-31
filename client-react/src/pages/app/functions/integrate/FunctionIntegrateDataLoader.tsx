@@ -1,12 +1,12 @@
 import React from 'react';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { ArmObj } from '../../../../models/arm-obj';
+import { Binding } from '../../../../models/functions/binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import { FunctionIntegrate } from './FunctionIntegrate';
 import FunctionIntegrateData from './FunctionIntegrate.data';
-import { Binding } from '../../../../models/functions/binding';
 
 const functionIntegrateData = new FunctionIntegrateData();
 export const FunctionIntegrateContext = React.createContext(functionIntegrateData);
@@ -16,6 +16,7 @@ interface FunctionIntegrateDataLoaderProps {
 }
 
 interface FunctionIntegrateDataLoaderState {
+  functionAppId: string;
   functionInfo: ArmObj<FunctionInfo> | undefined;
   bindings: Binding[] | undefined;
 }
@@ -25,6 +26,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     super(props);
 
     this.state = {
+      functionAppId: props.resourceId.split('/functions')[0],
       functionInfo: undefined,
       bindings: undefined,
     };
@@ -41,7 +43,12 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     }
 
     return (
-      <FunctionIntegrate functionInfo={this.state.functionInfo} bindings={this.state.bindings} setRequiredBindingId={this._loadBinding} />
+      <FunctionIntegrate
+        bindings={this.state.bindings}
+        functionAppId={this.state.functionAppId}
+        functionInfo={this.state.functionInfo}
+        setRequiredBindingId={this._loadBinding}
+      />
     );
   }
 
@@ -61,10 +68,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   }
 
   private _loadBindings() {
-    const { resourceId } = this.props;
-
-    const functionAppId = resourceId.split('/functions')[0];
-    functionIntegrateData.getBindings(functionAppId).then(r => {
+    functionIntegrateData.getBindings(this.state.functionAppId).then(r => {
       if (r.metadata.success) {
         this.setState({
           ...this.state,
@@ -77,9 +81,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   }
 
   private _loadBinding = (bindingId: string) => {
-    const { resourceId } = this.props;
-    const functionAppId = resourceId.split('/functions')[0];
-    functionIntegrateData.getBinding(functionAppId, bindingId).then(r => {
+    functionIntegrateData.getBinding(this.state.functionAppId, bindingId).then(r => {
       if (r.metadata.success) {
         const newBinding: Binding = r.data.properties[0];
         const bindings = this.state.bindings || [];
