@@ -5631,4 +5631,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="azureFunctionsV1Linux" xml:space="preserve">
         <value>Version 1 Runtime is not supported on Linux Azure Function Apps</value>
     </data>
+    <data name="hostConfigurationLabel" xml:space="preserve">
+        <value>Host configuration</value>
+    </data>
+    <data name="configureHostJson" xml:space="preserve">
+        <value>Configure host.json</value>
+    </data>
 </root>
