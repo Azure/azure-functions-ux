@@ -1,5 +1,4 @@
 import React from 'react';
-import AppKeyService from '../../../../ApiHelpers/AppKeysService';
 import LoadingComponent from '../../../../components/loading/loading-component';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Binding } from '../../../../models/functions/binding';
@@ -8,7 +7,6 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import { FunctionIntegrate } from './FunctionIntegrate';
 import FunctionIntegrateData from './FunctionIntegrate.data';
-import { EventGrid } from './FunctionIntegrateConstants';
 
 const functionIntegrateData = new FunctionIntegrateData();
 export const FunctionIntegrateContext = React.createContext(functionIntegrateData);
@@ -19,8 +17,6 @@ interface FunctionIntegrateDataLoaderProps {
 
 interface FunctionIntegrateDataLoaderState {
   functionAppId: string;
-  functionAppApplicationSettings: { [key: string]: string };
-  functionAppSystemKeys: { [key: string]: string };
   functionInfo: ArmObj<FunctionInfo> | undefined;
   bindings: Binding[] | undefined;
 }
@@ -31,8 +27,6 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
 
     this.state = {
       functionAppId: props.resourceId.split('/functions')[0],
-      functionAppApplicationSettings: {},
-      functionAppSystemKeys: {},
       functionInfo: undefined,
       bindings: undefined,
     };
@@ -51,43 +45,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     return (
       <FunctionIntegrate
         bindings={this.state.bindings}
-        functionAppApplicationSettings={this.state.functionAppApplicationSettings}
         functionAppId={this.state.functionAppId}
-        functionAppSystemKeys={this.state.functionAppSystemKeys}
         functionInfo={this.state.functionInfo}
         setRequiredBindingId={this._loadBinding}
       />
     );
-  }
-
-  private _loadFunctionAppApplicationSettings() {
-    functionIntegrateData.getFunctionAppApplicationSettings(this.state.functionAppId).then(r => {
-      if (r.metadata.success) {
-        this.setState({
-          ...this.state,
-          functionAppApplicationSettings: r.data.properties,
-        });
-      } else {
-        LogService.error(
-          LogCategories.functionIntegrate,
-          'getFunctionAppApplicationSettings',
-          `Failed to get application settings: ${r.metadata.error}`
-        );
-      }
-    });
-  }
-
-  private _loadFunctionAppSystemKeys() {
-    AppKeyService.fetchKeys(this.state.functionAppId).then(r => {
-      if (r.metadata.success) {
-        this.setState({
-          ...this.state,
-          functionAppSystemKeys: r.data.systemKeys,
-        });
-      } else {
-        LogService.error(LogCategories.functionIntegrate, 'fetchKeys', `Failed to get system keys: ${r.metadata.error}`);
-      }
-    });
   }
 
   private _loadFunction() {
@@ -134,11 +96,6 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
         LogService.error(LogCategories.functionIntegrate, 'getBinding', `Failed to get binding: ${r.metadata.error}`);
       }
     });
-
-    if (bindingId.toLowerCase() === EventGrid.eventGridBindingId) {
-      this._loadFunctionAppApplicationSettings();
-      this._loadFunctionAppSystemKeys();
-    }
   };
 }
 

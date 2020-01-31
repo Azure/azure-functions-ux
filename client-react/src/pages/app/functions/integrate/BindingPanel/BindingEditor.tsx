@@ -1,6 +1,5 @@
 import { Field, Formik, FormikProps } from 'formik';
-import i18next from 'i18next';
-import { Dropdown, Link, TextField } from 'office-ui-fabric-react';
+import { Dropdown, Link } from 'office-ui-fabric-react';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
@@ -9,22 +8,18 @@ import { ArmObj } from '../../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../../models/functions/binding';
 import { BindingDirection as FunctionBindingDirection, BindingInfo } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
-import { RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
 import PortalCommunicator from '../../../../../portal-communicator';
 import { PortalContext } from '../../../../../PortalContext';
-import { FunctionsRuntimeVersionHelper } from '../../../../../utils/FunctionsRuntimeVersionHelper';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import { BindingFormBuilder } from '../../common/BindingFormBuilder';
-import EditBindingCommandBar from './EditBindingCommandBar';
 import { EventGrid } from '../FunctionIntegrateConstants';
+import EditBindingCommandBar from './EditBindingCommandBar';
 
 export interface BindingEditorProps {
   allBindings: Binding[];
   currentBindingInfo: BindingInfo;
   functionAppId: string;
-  functionAppRuntimeVersion: string;
-  functionAppSystemKey: string;
   functionInfo: ArmObj<FunctionInfo>;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
   onDelete: (currentBindingInfo: BindingInfo) => void;
@@ -45,16 +40,7 @@ const fieldWrapperStyle = style({
 });
 
 const BindingEditor: React.SFC<BindingEditorProps> = props => {
-  const {
-    allBindings,
-    currentBindingInfo,
-    functionAppId,
-    functionAppRuntimeVersion,
-    functionAppSystemKey,
-    functionInfo,
-    onSubmit,
-    onDelete,
-  } = props;
+  const { allBindings, currentBindingInfo, functionAppId, functionInfo, onSubmit, onDelete } = props;
   const { t } = useTranslation();
   const portalContext = useContext(PortalContext);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -116,9 +102,11 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
                 {builder.getFields(formProps, isDisabled)}
               </div>
             </form>
-            {currentBinding.type === EventGrid.eventGridType
-              ? eventGridField(functionAppRuntimeVersion, functionAppSystemKey, functionInfo, t, portalContext)
-              : undefined}
+            {currentBinding.type === EventGrid.eventGridType ? (
+              <Link onClick={() => onEventGridCreateClick(functionInfo, portalContext)}>{t('eventGrid_createConnection')}</Link>
+            ) : (
+              undefined
+            )}
           </>
         );
       }}
@@ -140,50 +128,22 @@ export const getFunctionBindingDirection = (bindingDirection: BindingDirection):
   return bindingDirection === BindingDirection.out ? FunctionBindingDirection.out : FunctionBindingDirection.in;
 };
 
-const eventGridField = (
-  functionAppRuntimeVersion: string,
-  functionAppSystemKey: string,
-  functionInfo: ArmObj<FunctionInfo>,
-  t: i18next.TFunction,
-  portalContext: PortalCommunicator
-): JSX.Element => {
-  const mainSiteUrl = !!functionInfo.properties.href ? functionInfo.properties.href.split('/admin')[0] : '';
-  const path =
-    FunctionsRuntimeVersionHelper.parseConfiguredRuntimeVersion(functionAppRuntimeVersion) === RuntimeExtensionMajorVersions.v1
-      ? EventGrid.EventGridPath.v1
-      : EventGrid.EventGridPath.v2;
+const onEventGridCreateClick = (functionInfo: ArmObj<FunctionInfo>, portalContext: PortalCommunicator) => {
   const functionName = functionInfo.name.split('/')[1];
-  const finalUrl = `${mainSiteUrl.toLowerCase()}/${path}?functionName=${functionName}&code=${functionAppSystemKey}`;
 
-  return (
-    <div className={fieldWrapperStyle}>
-      <FormControlWrapper
-        label={t('eventGrid_label')}
-        layout={Layout.vertical}
-        tooltip={t('eventGrid_help')}
-        key={'event-grid-subscription-url'}>
-        <Field
-          name={'event-grid-subscription-url'}
-          id={'event-grid-subscription-url'}
-          component={TextField}
-          disabled={true}
-          value={finalUrl}
-        />
-      </FormControlWrapper>
-
-      <Link onClick={() => onEventGridCreateClick(finalUrl, functionName, portalContext)}>{t('eventGrid_createConnection')}</Link>
-    </div>
-  );
-};
-
-const onEventGridCreateClick = (url: string, functionName: string, portalContext: PortalCommunicator) => {
   portalContext.openBlade(
     {
       detailBlade: 'CreateEventSubscriptionBlade',
-      detailBladeInputs: { inputs: { subscriberEndpointUrl: url, labels: ['functions', functionName] } },
       extension: 'Microsoft_Azure_EventGrid',
+      detailBladeInputs: {
+        inputs: {
+          label: `functions-${functionName.toLowerCase()}`,
+          endpointType: 'AzureFunction',
+          endpointResourceId: functionInfo.id,
+        },
+      },
     },
-    'event-grid-binding'
+    'function-dev'
   );
 };
 

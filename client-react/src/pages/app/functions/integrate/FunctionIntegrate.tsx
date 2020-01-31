@@ -10,10 +10,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../models/functions/binding';
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
 import { ThemeContext } from '../../../../ThemeContext';
-import { CommonConstants } from '../../../../utils/CommonConstants';
-import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
 import FunctionNameBindingCard from './BindingsDiagram/FunctionNameBindingCard';
@@ -29,12 +26,9 @@ import {
   singleCardStackStyle,
   smallPageStyle,
 } from './FunctionIntegrate.style';
-import { EventGrid } from './FunctionIntegrateConstants';
 
 export interface FunctionIntegrateProps {
-  functionAppApplicationSettings: { [key: string]: string };
   functionAppId: string;
-  functionAppSystemKeys: { [key: string]: string };
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
 
@@ -58,14 +52,7 @@ export interface BindingEditorContextInfo {
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
-  const {
-    functionAppApplicationSettings,
-    functionAppId,
-    functionAppSystemKeys,
-    functionInfo: initialFunctionInfo,
-    bindings,
-    setRequiredBindingId,
-  } = props;
+  const { functionAppId, functionInfo: initialFunctionInfo, bindings, setRequiredBindingId } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
   const fullPageWidth = 1000;
@@ -122,12 +109,6 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     updateFunctionInfo: setFunctionInfo,
   };
 
-  const functionAppRuntimeVersion = functionAppApplicationSettings[CommonConstants.AppSettingNames.functionsExtensionVersion];
-  const runtimeIsV1 =
-    FunctionsRuntimeVersionHelper.parseConfiguredRuntimeVersion(functionAppRuntimeVersion) === RuntimeExtensionMajorVersions.v1;
-  const eventGridName = runtimeIsV1 ? EventGrid.EventGridName.v1 : EventGrid.EventGridName.v2;
-  const functionAppSystemKey = functionAppSystemKeys[eventGridName];
-
   const tokens: IStackTokens = {
     childrenGap: 0,
   };
@@ -178,8 +159,6 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
         <EditModeBanner />
         <BindingPanel
           functionAppId={functionAppId}
-          functionAppRuntimeVersion={functionAppRuntimeVersion}
-          functionAppSystemKey={functionAppSystemKey}
           functionInfo={functionInfo}
           bindings={bindings}
           bindingInfo={bindingToUpdate}

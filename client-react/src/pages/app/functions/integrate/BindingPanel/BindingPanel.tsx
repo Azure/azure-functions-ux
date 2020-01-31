@@ -12,8 +12,6 @@ import BindingEditor from './BindingEditor';
 
 export interface BindingPanelProps {
   functionAppId: string;
-  functionAppRuntimeVersion: string;
-  functionAppSystemKey: string;
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
   bindingInfo?: BindingInfo;
@@ -28,8 +26,6 @@ export interface BindingPanelProps {
 const BindingPanel: React.SFC<BindingPanelProps> = props => {
   const {
     functionAppId,
-    functionAppRuntimeVersion,
-    functionAppSystemKey,
     functionInfo,
     bindings,
     bindingInfo,
@@ -60,8 +56,6 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
             />
           ) : (
             <BindingEditor
-              functionAppRuntimeVersion={functionAppRuntimeVersion}
-              functionAppSystemKey={functionAppSystemKey}
               functionInfo={functionInfo}
               allBindings={bindings}
               currentBindingInfo={bindingInfo}
