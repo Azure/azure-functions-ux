@@ -1814,4 +1814,7 @@ export class PortalResources {
   public static functionEditor_connectingToAppInsights = 'functionEditor_connectingToAppInsights';
   public static runtimeStack = 'runtimeStack';
   public static runtimeStackVersion = 'runtimeStackVersion';
+  public static remoteDebuggingNotAvailableOnFlexStamp = 'remoteDebuggingNotAvailableOnFlexStamp';
+  public static tryFunctionsPreview = 'tryFunctionsPreview';
+  public static azureFunctionsV1Linux = 'azureFunctionsV1Linux';
 }
