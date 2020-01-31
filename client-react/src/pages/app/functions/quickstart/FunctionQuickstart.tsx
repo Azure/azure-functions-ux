@@ -13,7 +13,6 @@ import { FunctionQuickstartContext } from './FunctionQuickstartDataLoader';
 import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
 import Markdown from 'markdown-to-jsx';
 import { MarkdownHighlighter } from '../../../../components/MarkdownComponents/MarkdownComponents';
-import { StartupInfoContext } from '../../../../StartupInfoContext';
 
 registerIcons({
   icons: {
@@ -43,7 +42,6 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   const { site, workerRuntime } = props;
   const [file, setFile] = useState('');
   const quickstartContext = useContext(FunctionQuickstartContext);
-  const startupInfoContext = useContext(StartupInfoContext);
 
   const isVSOptionVisible = (): boolean => {
     return !isLinuxApp(site) && workerRuntime === 'dotnet';
@@ -98,7 +96,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
 
   const onChange = async (e: unknown, option: IDropdownOption) => {
     const key = option.key as string;
-    const result = await quickstartContext.getQuickstartFile(key, startupInfoContext.effectiveLocale);
+    const result = await quickstartContext.getQuickstartFile(key);
     if (result.metadata.success) {
       setFile(result.data);
     }
