@@ -15,7 +15,7 @@ export class RuntimeStackService {
 
   public getWebAppGitHubActionStacks(os: 'linux' | 'windows'): Result<WebAppCreateStack[]> {
     const getWebAppGitHubActionStacks = this._cacheService
-      .post(`${Constants.serviceHost}stacks/getWebAppGitHubActionStacks?api-version=v1&os=${os}`, false, null, null)
+      .post(`${Constants.serviceHost}stacks/webAppGitHubActionStacks?api-version=v1&os=${os}`, false, null, null)
       .map(r => r.json());
 
     return this._client.execute({ resourceId: null }, t => getWebAppGitHubActionStacks);
