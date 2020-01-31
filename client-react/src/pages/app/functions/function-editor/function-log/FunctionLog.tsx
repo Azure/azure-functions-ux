@@ -221,7 +221,9 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
           {appInsightsError && <div className={logErrorDivStyle}>{t('functionEditor_appInsightsNotConfigured')}</div>}
 
           {/*Loading Message*/}
-          {started && logEntries.length === 0 && <div className={logConnectingDivStyle}>{t('functionEditor_connectingToAppInsights')}</div>}
+          {!appInsightsError && started && logEntries.length === 0 && (
+            <div className={logConnectingDivStyle}>{t('functionEditor_connectingToAppInsights')}</div>
+          )}
 
           {/*Log Entries*/}
           {!!logEntries &&
