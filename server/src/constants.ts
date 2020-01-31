@@ -12,10 +12,4 @@ export class Constants {
     onedrive_state_key: 'onedrive_state_key',
     dropbox_state_key: 'dropbox_state_key',
   };
-  static quickstartLanguageMap: { [key: string]: string } = {
-    'zh-hans': 'zh-CN',
-    'zh-hant': 'zh-TW',
-    'en-us': 'en',
-    'en-gb': 'en',
-  };
 }

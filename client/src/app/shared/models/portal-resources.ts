@@ -793,6 +793,7 @@ export class PortalResources {
   public static apiProxy_noOverride = 'apiProxy_noOverride';
   public static expressAADRegistration = 'expressAADRegistration';
   public static eventGrid_create = 'eventGrid_create';
+  public static eventGrid_createConnection = 'eventGrid_createConnection';
   public static eventGrid_createMessage = 'eventGrid_createMessage';
   public static eventGrid_help = 'eventGrid_help';
   public static eventGrid_label = 'eventGrid_label';
@@ -1664,7 +1665,6 @@ export class PortalResources {
   public static editBindingCommands = 'editBindingCommands';
   public static functionCreate_newFunction = 'functionCreate_newFunction';
   public static functionCreate_createFunctionMessage = 'functionCreate_createFunctionMessage';
-  public static functionCreate_goToQuickstart = 'functionCreate_goToQuickstart';
   public static functionCreate_templates = 'functionCreate_templates';
   public static functionCreate_details = 'functionCreate_details';
   public static functionCreate_searchByTemplateName = 'functionCreate_searchByTemplateName';
@@ -1815,6 +1815,7 @@ export class PortalResources {
   public static endOfLifeTagTemplate = 'endOfLifeTagTemplate';
   public static functionEditor_appInsightsNotConfigured = 'functionEditor_appInsightsNotConfigured';
   public static functionEditor_connectingToAppInsights = 'functionEditor_connectingToAppInsights';
+  public static functionCreate_extensionBundlesRequired = 'functionCreate_extensionBundlesRequired';
   public static remoteDebuggingNotAvailableOnFlexStamp = 'remoteDebuggingNotAvailableOnFlexStamp';
   public static tryFunctionsPreview = 'tryFunctionsPreview';
   public static azureFunctionsV1Linux = 'azureFunctionsV1Linux';
