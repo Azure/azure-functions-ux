@@ -172,22 +172,21 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
           if (this.isFunctionApp) {
             this._setFunctionAppContext(siteResult, appSettingsResult);
 
-            let slotOptInNeeded = true;
             // This is a function app, so we need to check if it needs to be opted in to using slots.
             if (this._slotsArm.length > 1) {
               // The app already has slots, so it must have already been opted in.
-              slotOptInNeeded = false;
+              this.slotOptInNeeded = false;
             } else if (appSettingsResult.isSuccessful) {
               // The app doesn't have slots, so we check the app settings to see if it already opted in.
-              slotOptInNeeded = !this._functionAppService.isSlotsSupported(appSettingsResult.result);
+              this.slotOptInNeeded = !this._functionAppService.isSlotsSupported(appSettingsResult.result);
             } else {
               // The app doesn't have slots, and the app settings failed to load so we can't check.
+              this.slotOptInNeeded = false;
               this.loadingFailed = true;
               this.loadingAppSettingsFailureMessage = this._translateService.instant(PortalResources.error_unableToLoadConfig, {
                 errorMessage: (appSettingsResult.error && appSettingsResult.error.message) || '',
               });
             }
-            this.slotOptInNeeded = slotOptInNeeded;
             this.executeButtonDisabled = this.slotOptInNeeded && !this.slotOptInEnabled;
           }
         }
@@ -301,9 +300,11 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
 
     this._enableSlotOptIn(siteId)
       .switchMap(s => {
-        if (s.isSuccessful) {
+        if (!s || s.isSuccessful) {
+          // _enableSlotOptIn() was a no-op or completed successfully
           return this._siteService.createSlot(siteId, newSlotName, location, serverFarmId, cloneConfig);
         } else {
+          // _enableSlotOptIn() failed so we pass on the failure
           return Observable.of(s);
         }
       })
@@ -328,12 +329,8 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
   }
 
   private _enableSlotOptIn(siteId: string) {
-    if (!this.isFunctionApp || this.slotOptInEnabled) {
-      return Observable.of({
-        isSuccessful: true,
-        error: null,
-        result: null,
-      });
+    if (!this.isFunctionApp || !this.slotOptInNeeded) {
+      return Observable.of(null);
     } else {
       const newOrUpdatedSettings = {};
       newOrUpdatedSettings[Constants.secretStorageSettingsName] = Constants.secretStorageSettingsValueBlob;
