@@ -26,15 +26,13 @@ export class FunctionsService implements OnModuleInit {
 
   async getQuickStart(fileName: string, language: string) {
     const langLower = language.toLowerCase();
-    let langCode;
+    let langCode = 'en';
     if (langLower !== 'en') {
       if (!!Constants.quickstartLanguageMap[langLower]) {
         langCode = Constants.quickstartLanguageMap[langLower].toLowerCase();
       } else {
         langCode = langLower;
       }
-    } else {
-      langCode = 'en';
     }
     let fileNameLower = `${fileName.toLowerCase()}${langCode !== 'en' ? `_${langCode}` : ''}`;
 
