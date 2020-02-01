@@ -1818,6 +1818,8 @@ export class PortalResources {
   public static functionCreate_extensionBundlesRequired = 'functionCreate_extensionBundlesRequired';
   public static remoteDebuggingNotAvailableOnFlexStamp = 'remoteDebuggingNotAvailableOnFlexStamp';
   public static tryFunctionsPreview = 'tryFunctionsPreview';
+  public static saveAppSettingsTitle = 'saveAppSettingsTitle';
+  public static saveAppSettingsMessage = 'saveAppSettingsMessage';
   public static azureFunctionsV1Linux = 'azureFunctionsV1Linux';
   public static hostConfigurationLabel = 'hostConfigurationLabel';
   public static configureHostJson = 'configureHostJson';

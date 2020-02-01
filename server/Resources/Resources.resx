@@ -5628,6 +5628,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="tryFunctionsPreview" xml:space="preserve">
         <value>Preview the new Azure Functions management experience</value>
     </data>
+    <data name="saveAppSettingsTitle" xml:space="preserve">
+        <value>Save changes</value>
+    </data>
+    <data name="saveAppSettingsMessage" xml:space="preserve">
+        <value>Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?</value>
+    </data>
     <data name="azureFunctionsV1Linux" xml:space="preserve">
         <value>Version 1 Runtime is not supported on Linux Azure Function Apps</value>
     </data>
