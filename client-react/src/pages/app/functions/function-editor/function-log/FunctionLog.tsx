@@ -22,6 +22,7 @@ import { defaultDocumentStreams, defaultClient } from './FunctionLog.constants';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { TextUtilitiesService } from '../../../../../utils/textUtilities';
+import FunctionLogCommandBar from './FunctionLogCommandBar';
 interface FunctionLogProps {
   toggleExpand: () => void;
   toggleFullscreen: (fullscreen: boolean) => void;
@@ -172,6 +173,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
 
   return (
     <div>
+      <FunctionLogCommandBar onChevronClick={onExpandClick} isPanelVisible={isExpanded} copy={copyLogs} />
       <div className={logCommandBarStyle}>
         <span className={logExpandButtonStyle} onClick={onExpandClick}>
           <DownChevron className={chevronIconStyle(!isExpanded)} />
