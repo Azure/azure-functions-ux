@@ -2,7 +2,7 @@ import { Injectable, HttpException, OnModuleInit } from '@nestjs/common';
 import { join, normalize } from 'path';
 import { readdir, exists, readFile } from 'async-file';
 import * as fs from 'fs';
-import { Constants } from 'src/constants';
+import { Constants } from '../constants';
 
 @Injectable()
 export class FunctionsService implements OnModuleInit {

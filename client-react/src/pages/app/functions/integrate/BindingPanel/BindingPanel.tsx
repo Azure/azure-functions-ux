@@ -11,8 +11,8 @@ import BindingCreator from './BindingCreator';
 import BindingEditor from './BindingEditor';
 
 export interface BindingPanelProps {
-  functionInfo: ArmObj<FunctionInfo>;
   functionAppId: string;
+  functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
   bindingInfo?: BindingInfo;
   bindingDirection: BindingDirection;
@@ -25,8 +25,8 @@ export interface BindingPanelProps {
 
 const BindingPanel: React.SFC<BindingPanelProps> = props => {
   const {
-    functionInfo,
     functionAppId,
+    functionInfo,
     bindings,
     bindingInfo,
     bindingDirection,
@@ -37,6 +37,7 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
     setRequiredBindingId,
   } = props;
   const { t } = useTranslation();
+
   return (
     <Panel
       isOpen={isOpen}
@@ -58,7 +59,7 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
               functionInfo={functionInfo}
               allBindings={bindings}
               currentBindingInfo={bindingInfo}
-              resourceId={functionAppId}
+              functionAppId={functionAppId}
               onSubmit={onSubmit}
               onDelete={onDelete}
             />
