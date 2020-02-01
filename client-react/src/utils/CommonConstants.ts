@@ -127,4 +127,6 @@ export class CommonConstants {
     verbose: 'verbose',
     warning: 'warning',
   };
+
+  public static readonly hostJsonFileName = 'host.json';
 }
