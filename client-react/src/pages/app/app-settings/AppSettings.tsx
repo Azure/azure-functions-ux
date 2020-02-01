@@ -78,9 +78,14 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
   const [showRefreshConfirmDialog, setShowRefreshConfirmDialog] = useState(false);
+  const [showSaveConfirmDialog, setShowSaveConfirmDialog] = useState(false);
 
-  const closeConfirmDialog = () => {
+  const closeRefreshConfirmDialog = () => {
     setShowRefreshConfirmDialog(false);
+  };
+
+  const closeSaveConfirmDialog = () => {
+    setShowSaveConfirmDialog(false);
   };
 
   return (
@@ -103,7 +108,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                         <form onKeyDown={onKeyDown}>
                           <div className={commandBarSticky}>
                             <AppSettingsCommandBar
-                              submitForm={formProps.submitForm}
+                              onSave={() => setShowSaveConfirmDialog(true)}
                               resetForm={formProps.resetForm}
                               refreshAppSettings={() => setShowRefreshConfirmDialog(true)}
                               disabled={permissions.saving}
@@ -113,19 +118,37 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               primaryActionButton={{
                                 title: t('continue'),
                                 onClick: () => {
-                                  closeConfirmDialog();
+                                  closeRefreshConfirmDialog();
                                   refreshAppSettings();
                                 },
                               }}
                               defaultActionButton={{
                                 title: t('cancel'),
-                                onClick: closeConfirmDialog,
+                                onClick: closeRefreshConfirmDialog,
                               }}
                               title={t('refreshAppSettingsTitle')}
                               content={t('refreshAppSettingsMessage')}
                               hidden={!showRefreshConfirmDialog}
-                              onDismiss={closeConfirmDialog}
+                              onDismiss={closeRefreshConfirmDialog}
                             />
+                            <ConfirmDialog
+                              primaryActionButton={{
+                                title: t('continue'),
+                                onClick: () => {
+                                  closeSaveConfirmDialog();
+                                  formProps.submitForm();
+                                },
+                              }}
+                              defaultActionButton={{
+                                title: t('cancel'),
+                                onClick: closeSaveConfirmDialog,
+                              }}
+                              title={t('saveAppSettingsTitle')}
+                              content={t('saveAppSettingsMessage')}
+                              hidden={!showSaveConfirmDialog}
+                              onDismiss={closeSaveConfirmDialog}
+                            />
+
                             {!!initialFormValues &&
                               scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
                                 <UpsellBanner onClick={scaleUpPlan} />

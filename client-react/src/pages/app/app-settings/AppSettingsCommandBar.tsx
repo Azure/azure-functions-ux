@@ -48,7 +48,7 @@ const getItems = (
   ];
 };
 interface AppSettingsCommandBarProps {
-  submitForm: () => void;
+  onSave: () => void;
   resetForm: () => void;
   refreshAppSettings: () => void;
   dirty: boolean;
@@ -57,7 +57,7 @@ interface AppSettingsCommandBarProps {
 
 type AppSettingsCommandBarPropsCombined = AppSettingsCommandBarProps;
 const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = props => {
-  const { submitForm, resetForm, refreshAppSettings, dirty, disabled } = props;
+  const { onSave, resetForm, refreshAppSettings, dirty, disabled } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
   useEffect(() => {
@@ -65,7 +65,7 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
   }, [dirty, portalCommunicator]);
   return (
     <CommandBar
-      items={getItems(submitForm, () => resetForm(), refreshAppSettings, dirty, disabled, t)}
+      items={getItems(onSave, () => resetForm(), refreshAppSettings, dirty, disabled, t)}
       role="nav"
       styles={CommandBarStyles}
       ariaLabel={t('appSettingsCommandBarAriaLabel')}
