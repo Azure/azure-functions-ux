@@ -108,7 +108,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                         <form onKeyDown={onKeyDown}>
                           <div className={commandBarSticky}>
                             <AppSettingsCommandBar
-                              submitForm={() => setShowSaveConfirmDialog(true)}
+                              onSave={() => setShowSaveConfirmDialog(true)}
                               resetForm={formProps.resetForm}
                               refreshAppSettings={() => setShowRefreshConfirmDialog(true)}
                               disabled={permissions.saving}
