@@ -12,7 +12,7 @@
                 bindLabel="displayLabel"
                 bindValue="value"
                 [(ngModel)]="selectedRuntimeStack"
-                [loading]="runtimeStacksLoading && !appLoaded"
+                [loading]="runtimeStacksLoading"
                 formControlName="runtimeStack"
                 (change)="runtimeStackChanged($event)">
             </ng-select>
