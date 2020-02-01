@@ -12,7 +12,7 @@ import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { ARMApiVersions, ScenarioIds, Kinds, RuntimeStacks } from '../../../../shared/models/constants';
+import { ARMApiVersions, ScenarioIds, Kinds, RuntimeStacks, Constants } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -187,7 +187,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
 
     if (this.stack === RuntimeStacks.node) {
-      this.stackVersion = siteAppSettings[''];
+      this.stackVersion = siteAppSettings[Constants.nodeVersionAppSettingName];
     } else if (this.stack === RuntimeStacks.python) {
       this.stackVersion = siteConfig.pythonVersion;
     } else {

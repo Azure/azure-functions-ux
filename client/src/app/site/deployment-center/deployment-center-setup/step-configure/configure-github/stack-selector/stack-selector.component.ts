@@ -70,11 +70,12 @@ export class StackSelectorComponent implements OnDestroy {
     this._runtimeStackStream$.takeUntil(this._ngUnsubscribe$).subscribe(stackValue => {
       this.selectedRuntimeStack = stackValue;
       this.selectedRuntimeStackVersion = '';
+
       this.runtimeStackVersionsLoading = true;
       this.runtimeStackVersionItems = [];
 
       if (stackValue !== this.wizard.stack.toLowerCase() && !this.stackNotSupportedMessage) {
-        this.stackNotSupportedMessage = this._translateService.instant(PortalResources.githubActionStackMismatchMessage, {
+        this.stackMismatchMessage = this._translateService.instant(PortalResources.githubActionStackMismatchMessage, {
           appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
           stack: this.wizard.stack,
         });

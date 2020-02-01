@@ -42,11 +42,15 @@
         </div>
     </div>
 
-    <div class="setting-wrapper">
-        <div class="setting-label" aria-hidden="true"></div>
-        <div class="setting-control-container">
-            <info-box *ngIf="stackNotSupportedMessage" typeClass="warning" [infoText]="stackNotSupportedMessage"></info-box>
-            <info-box *ngIf="stackMismatchMessage" typeClass="warning" [infoText]="stackMismatchMessage"></info-box>
+    
+
+    <div class="settings-wrapper">
+        <div class="setting-wrapper">
+            <label id="github-action-configure-stackversion-label" class="setting-label"></label>
+            <div class="setting-control-container">
+                <info-box *ngIf="stackNotSupportedMessage" typeClass="warning" [infoText]="stackNotSupportedMessage"></info-box>
+                <info-box *ngIf="stackMismatchMessage" typeClass="warning" [infoText]="stackMismatchMessage"></info-box>
+            </div>
         </div>
     </div>
 </div>
