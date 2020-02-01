@@ -46,7 +46,7 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         label={t('functionAppSettings_dailyUsageQuota')}
         id="function-app-settings-daily-memory-time-quota"
         disabled={disableAllControls}
-        style={{ marginLeft: '1px', marginTop: '1px' }}
+        style={{ marginLeft: '1px', marginTop: '1px', width: '275px' }}
         infoBubbleMessage={t('functionAppSettings_quotaInfo')}
       />
     </>
