@@ -1,22 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react';
+import { IDropdownOption, DefaultButton, IDropdownProps } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import LoadingComponent from '../../../../../../components/loading/loading-component';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Namespace, AuthorizationRule, KeyList } from '../../../../../../models/servicebus';
 import { NewConnectionCalloutProps } from '../Callout.properties';
-import { FormikProps, Formik } from 'formik';
+import { FormikProps, Formik, FieldProps } from 'formik';
 import { ServiceBusPivotContext } from './ServiceBusPivotDataLoader';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
+import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 
 export interface ServiceBusPivotFormValues {
   namespace: ArmObj<Namespace> | undefined;
   policy: ArmObj<AuthorizationRule> | undefined;
 }
 
-const EventHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
+const EventHubPivot: React.SFC<NewConnectionCalloutProps & IDropdownProps & FieldProps & CustomDropdownProps> = props => {
   const provider = useContext(ServiceBusPivotContext);
   const { t } = useTranslation();
   const { resourceId } = props;
@@ -98,6 +99,8 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
                     setNamespaceAuthRules(undefined);
                     setKeyList(undefined);
                   }}
+                  errorMessage={undefined}
+                  {...props}
                 />
                 {!namespaceAuthRules && <LoadingComponent />}
                 {!!namespaceAuthRules && namespaceAuthRules.length === 0 ? (
@@ -112,6 +115,8 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
                         setFormValues({ ...formValues, policy: e && e.data });
                         setKeyList(undefined);
                       }}
+                      errorMessage={undefined}
+                      {...props}
                     />
                     {!keyList && <LoadingComponent />}
                   </>
