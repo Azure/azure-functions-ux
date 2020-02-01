@@ -19,7 +19,7 @@ export const messageBannerStyles = {
     marginTop: '9px',
   },
   iconContainer: {
-    display: 'none',
+    display: 'none' as 'none',
   },
 };
 

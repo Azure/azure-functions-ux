@@ -5,7 +5,7 @@ import SiteHelper from '../../utils/SiteHelper';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { messageBannerStyles, messageBannerClass, messageBannerIconStyle, messageBannerTextStyle } from './EditModeBanner.styles';
 import { ThemeContext } from '../../ThemeContext';
-import { ReactComponent as InfoSvg } from '../../images/Common/info.svg';
+import { ReactComponent as InfoSvg } from '../../images/Common/ibiza-info.svg';
 
 interface EditModeBannerProps {
   setBanner?: (banner: HTMLDivElement | null) => void;
