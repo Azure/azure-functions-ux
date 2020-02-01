@@ -5,13 +5,16 @@ import CustomPivot from './customPivot/CustomPivot';
 import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
 import { paddingSidesStyle } from './Callout.styles';
 import DocumentDBPivotDataLoader from './documentDBPivot/DocumentDBDataLoader';
+import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
+import { FieldProps } from 'formik';
+import { IDropdownProps } from 'office-ui-fabric-react';
 
 enum RadioState {
   documentAccount = 'documentAccount',
   custom = 'custom',
 }
 
-const NewDocumentDBConnectionCallout: React.SFC<NewConnectionCalloutProps> = props => {
+const NewDocumentDBConnectionCallout: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const { t } = useTranslation();
   const [radioState, setRadioState] = useState<RadioState>(RadioState.documentAccount);
 
