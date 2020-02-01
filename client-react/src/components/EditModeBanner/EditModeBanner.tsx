@@ -3,8 +3,9 @@ import { SiteStateContext } from '../../SiteStateContext';
 import { useTranslation } from 'react-i18next';
 import SiteHelper from '../../utils/SiteHelper';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
-import { messageBannerStyle } from './EditModeBanner.styles';
+import { messageBannerStyles, messageBannerClass, messageBannerIconStyle, messageBannerTextStyle } from './EditModeBanner.styles';
 import { ThemeContext } from '../../ThemeContext';
+import { ReactComponent as InfoSvg } from '../../images/Common/info.svg';
 
 interface EditModeBannerProps {
   setBanner?: (banner: HTMLDivElement | null) => void;
@@ -20,8 +21,14 @@ const EditModeBanner: React.FC<EditModeBannerProps> = props => {
   if (SiteHelper.isFunctionAppReadOnly(siteState)) {
     return (
       <div ref={ref => !!setBanner && setBanner(ref)}>
-        <MessageBar id="site-state-banner" isMultiline={true} className={messageBannerStyle(theme)} messageBarType={MessageBarType.info}>
-          {SiteHelper.getFunctionAppEditModeString(siteState, t)}
+        <MessageBar
+          id="site-state-banner"
+          isMultiline={true}
+          className={messageBannerClass(theme)}
+          messageBarType={MessageBarType.info}
+          styles={messageBannerStyles}>
+          <InfoSvg className={messageBannerIconStyle} />
+          <span className={messageBannerTextStyle}>{SiteHelper.getFunctionAppEditModeString(siteState, t)}</span>
         </MessageBar>
       </div>
     );
