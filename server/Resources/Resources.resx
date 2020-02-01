@@ -5629,6 +5629,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The app '{{appName}}' is setup with stack '{{stack}}' which is currently not supported in Deployment Center via GitHub Actions.</value>
     </data>
     <data name="githubActionStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack '{{stack}}', which does not match current build selection.</value>
+        <value>The app '{{appName}}' is currently configured for '{{stack}}', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
 </root>
