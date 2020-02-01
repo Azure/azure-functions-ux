@@ -1,4 +1,4 @@
-import { Formik, FormikProps, FormikActions } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import React, { useRef, useContext, useState } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
@@ -79,8 +79,6 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const scenarioChecker = scenarioCheckerRef.current!;
   const [showRefreshConfirmDialog, setShowRefreshConfirmDialog] = useState(false);
   const [showSaveConfirmDialog, setShowSaveConfirmDialog] = useState(false);
-  const [updatedValues, setUpdatedValues] = useState<AppSettingsFormValues | undefined>(undefined);
-  const [formActions, setFormActions] = useState<FormikActions<AppSettingsFormValues> | undefined>(undefined);
 
   const closeRefreshConfirmDialog = () => {
     setShowRefreshConfirmDialog(false);
@@ -88,11 +86,6 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
 
   const closeSaveConfirmDialog = () => {
     setShowSaveConfirmDialog(false);
-  };
-
-  const setSubmitParamters = (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
-    setUpdatedValues(values);
-    setFormActions(actions);
   };
 
   return (
@@ -106,10 +99,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                   return (
                     <Formik
                       initialValues={initialFormValues}
-                      onSubmit={(values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
-                        setSubmitParamters(values, actions);
-                        setShowSaveConfirmDialog(true);
-                      }}
+                      onSubmit={onSubmit}
                       enableReinitialize={true}
                       validate={values => validate(values, t, scenarioChecker, site)}
                       validateOnBlur={false}
@@ -118,7 +108,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                         <form onKeyDown={onKeyDown}>
                           <div className={commandBarSticky}>
                             <AppSettingsCommandBar
-                              submitForm={formProps.submitForm}
+                              submitForm={() => setShowSaveConfirmDialog(true)}
                               resetForm={formProps.resetForm}
                               refreshAppSettings={() => setShowRefreshConfirmDialog(true)}
                               disabled={permissions.saving}
@@ -141,26 +131,23 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               hidden={!showRefreshConfirmDialog}
                               onDismiss={closeRefreshConfirmDialog}
                             />
-
-                            {!!updatedValues && !!formActions && (
-                              <ConfirmDialog
-                                primaryActionButton={{
-                                  title: t('continue'),
-                                  onClick: () => {
-                                    closeSaveConfirmDialog();
-                                    onSubmit(updatedValues, formActions);
-                                  },
-                                }}
-                                defaultActionButton={{
-                                  title: t('cancel'),
-                                  onClick: closeSaveConfirmDialog,
-                                }}
-                                title={t('saveAppSettingsTitle')}
-                                content={t('saveAppSettingsMessage')}
-                                hidden={!showSaveConfirmDialog}
-                                onDismiss={closeSaveConfirmDialog}
-                              />
-                            )}
+                            <ConfirmDialog
+                              primaryActionButton={{
+                                title: t('continue'),
+                                onClick: () => {
+                                  closeSaveConfirmDialog();
+                                  formProps.submitForm();
+                                },
+                              }}
+                              defaultActionButton={{
+                                title: t('cancel'),
+                                onClick: closeSaveConfirmDialog,
+                              }}
+                              title={t('saveAppSettingsTitle')}
+                              content={t('saveAppSettingsMessage')}
+                              hidden={!showSaveConfirmDialog}
+                              onDismiss={closeSaveConfirmDialog}
+                            />
 
                             {!!initialFormValues &&
                               scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' && (
