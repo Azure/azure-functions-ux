@@ -5,13 +5,16 @@ import CustomPivot from './customPivot/CustomPivot';
 import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
 import { paddingSidesStyle } from './Callout.styles';
 import ServiceBusPivotDataLoader from './serviceBusPivot/ServiceBusPivotDataLoader';
+import { IDropdownProps } from 'office-ui-fabric-react';
+import { FieldProps } from 'formik';
+import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
 
 enum RadioState {
   serviceBus = 'serviceBus',
   custom = 'custom',
 }
 
-const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps> = props => {
+const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps & IDropdownProps & FieldProps & CustomDropdownProps> = props => {
   const { t } = useTranslation();
   const [radioState, setRadioState] = useState<RadioState>(RadioState.serviceBus);
 

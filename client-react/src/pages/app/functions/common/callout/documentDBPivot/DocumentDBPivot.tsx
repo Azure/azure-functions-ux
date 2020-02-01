@@ -1,21 +1,22 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { NewConnectionCalloutProps } from '../Callout.properties';
-import { Formik, FormikProps } from 'formik';
+import { Formik, FormikProps, FieldProps } from 'formik';
 import LoadingComponent from '../../../../../../components/loading/loading-component';
 import { DocumentDBPivotContext } from './DocumentDBDataLoader';
 import { DatabaseAccount, KeyList } from '../../../../../../models/documentDB';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
-import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react';
+import { IDropdownOption, DefaultButton, IDropdownProps } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
+import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 
 interface DocumentDBPivotFormValues {
   databaseAccount: ArmObj<DatabaseAccount> | undefined;
 }
 
-const DocumentDBPivot: React.SFC<NewConnectionCalloutProps> = props => {
+const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(DocumentDBPivotContext);
   const { t } = useTranslation();
   const { resourceId } = props;
@@ -80,6 +81,8 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps> = props => {
                     setFormValues({ databaseAccount: e && e.data });
                     setKeyList(undefined);
                   }}
+                  errorMessage={undefined}
+                  {...props}
                 />
                 {!keyList && <LoadingComponent />}
               </>

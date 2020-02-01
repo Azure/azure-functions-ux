@@ -70,6 +70,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
               setNewAppSetting={setNewAppSetting}
               setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
+              {...props}
             />
           </Callout>
         )}
@@ -80,6 +81,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
               setNewAppSetting={setNewAppSetting}
               setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
+              {...props}
             />
           </Callout>
         )}
@@ -90,6 +92,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
               setNewAppSetting={setNewAppSetting}
               setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
+              {...props}
             />
           </Callout>
         )}
@@ -100,6 +103,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
               setNewAppSetting={setNewAppSetting}
               setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
+              {...props}
             />
           </Callout>
         )}
@@ -110,6 +114,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
               setNewAppSetting={setNewAppSetting}
               setSelectedItem={setSelectedItem}
               setIsDialogVisible={setIsDialogVisible}
+              {...props}
             />
           </Callout>
         )}
