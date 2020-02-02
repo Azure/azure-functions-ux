@@ -705,6 +705,7 @@ export class PortalResources {
   public static emptyBrowse_title = 'emptyBrowse_title';
   public static appFunctionSettings_slotsDesc = 'appFunctionSettings_slotsDesc';
   public static appFunctionSettings_slotsEnable = 'appFunctionSettings_slotsEnable';
+  public static appFunctionSettings_slotsEnableWarning = 'appFunctionSettings_slotsEnableWarning';
   public static appFunctionSettings_warning_1 = 'appFunctionSettings_warning_1';
   public static appFunctionSettings_warning_2 = 'appFunctionSettings_warning_2';
   public static appFunctionSettings_warning_3 = 'appFunctionSettings_warning_3';
@@ -722,6 +723,8 @@ export class PortalResources {
   public static slotNew_startCreateFailureNotifyTitle = 'slotNew_startCreateFailureNotifyTitle';
   public static error_unableToLoadSlotsList = 'error_unableToLoadSlotsList';
   public static error_unableToLoadTipConfig = 'error_unableToLoadTipConfig';
+  public static error_unableToLoadConfig = 'error_unableToLoadConfig';
+  public static error_unableToLoadSite = 'error_unableToLoadSite';
   public static slotNew_quotaReached = 'slotNew_quotaReached';
   public static slotNew_quotaUpgrade = 'slotNew_quotaUpgrade';
   public static slotNew_noAccess = 'slotNew_noAccess';
@@ -1815,6 +1818,8 @@ export class PortalResources {
   public static functionCreate_extensionBundlesRequired = 'functionCreate_extensionBundlesRequired';
   public static remoteDebuggingNotAvailableOnFlexStamp = 'remoteDebuggingNotAvailableOnFlexStamp';
   public static tryFunctionsPreview = 'tryFunctionsPreview';
+  public static saveAppSettingsTitle = 'saveAppSettingsTitle';
+  public static saveAppSettingsMessage = 'saveAppSettingsMessage';
   public static azureFunctionsV1Linux = 'azureFunctionsV1Linux';
   public static hostConfigurationLabel = 'hostConfigurationLabel';
   public static configureHostJson = 'configureHostJson';
