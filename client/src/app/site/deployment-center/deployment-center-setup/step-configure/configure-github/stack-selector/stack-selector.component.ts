@@ -4,7 +4,7 @@ import { DeploymentCenterStateManager } from '../../../wizard-logic/deployment-c
 import { RuntimeStackService } from 'app/shared/services/runtimestack.service';
 import { WebAppCreateStack } from 'app/shared/models/stacks';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories, Constants, Os } from 'app/shared/models/constants';
+import { LogCategories, Os } from 'app/shared/models/constants';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
@@ -161,7 +161,9 @@ export class StackSelectorComponent implements OnDestroy {
       dropdodownItems.push(...versionItems);
       this.runtimeStackVersionItems = dropdodownItems;
 
-      const appSelectedStackVersion = this.runtimeStackVersionItems.filter(item => item.value === this.wizard.stackVersion.toLocaleLowerCase());
+      const appSelectedStackVersion = this.runtimeStackVersionItems.filter(
+        item => item.value === this.wizard.stackVersion.toLocaleLowerCase()
+      );
       if (appSelectedStackVersion && appSelectedStackVersion.length === 1) {
         this._runtimeStackVersionStream$.next(appSelectedStackVersion[0].value);
       }
