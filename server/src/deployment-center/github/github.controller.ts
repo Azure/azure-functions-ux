@@ -48,6 +48,10 @@ export class GithubController {
     }
   }
 
+  @Put('api/github/actionWorkflow')
+  @HttpCode(200)
+  async actionWorkflow(@Body('authToken') authToken: string, @Body('content') content: any) {}
+
   @Put('api/github/fileContent')
   @HttpCode(200)
   async fileContent(@Body('authToken') authToken: string, @Body('url') url: string, @Body('content') content: any) {
