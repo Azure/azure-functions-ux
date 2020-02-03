@@ -15,7 +15,14 @@ import LoadingComponent from '../../../../components/loading/loading-component';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
-import { pivotStyle, testLoadingStyle, commandBarSticky, logPanelStyle, defaultMonacoEditorHeight } from './FunctionEditor.styles';
+import {
+  pivotStyle,
+  testLoadingStyle,
+  commandBarSticky,
+  logPanelStyle,
+  defaultMonacoEditorHeight,
+  testPanelStyle,
+} from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 import { editorStyle } from '../../app-files/AppFiles.styles';
 import FunctionLog from './function-log/FunctionLog';
@@ -29,6 +36,8 @@ export interface FunctionEditorProps {
   functionRunning: boolean;
   urlObjs: UrlObj[];
   resetAppInsightsToken: () => void;
+  showTestPanel: boolean;
+  setShowTestPanel: (showPanel: boolean) => void;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
@@ -46,8 +55,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     urlObjs,
     appInsightsToken,
     resetAppInsightsToken,
+    showTestPanel,
+    setShowTestPanel,
   } = props;
-  const [showTestPanel, setShowTestPanel] = useState(false);
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
   const [fileContent, setFileContent] = useState<FileContent>({ default: '', latest: '' });
@@ -291,11 +301,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         />
       </div>
       <Panel
+        id="editor-test-panel"
         type={PanelType.medium}
         isOpen={showTestPanel}
         onDismiss={onCancelTest}
         overlay={functionRunning}
-        headerContent={getHeaderContent()}>
+        headerContent={getHeaderContent()}
+        isBlocking={false}
+        customStyle={testPanelStyle}>
         {functionRunning && <LoadingComponent className={testLoadingStyle} />}
         <FunctionTest
           cancel={onCancelTest}
