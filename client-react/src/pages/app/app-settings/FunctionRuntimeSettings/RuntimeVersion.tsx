@@ -11,6 +11,7 @@ import { messageBannerStyle } from '../AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
 import { isLinuxApp } from '../../../../utils/arm-utils';
+import { HostStates } from '../../../../models/functions/host-status';
 
 const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props => {
   const { t, values, initialValues, asyncData, setFieldValue } = props;
@@ -55,32 +56,63 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     return '';
   };
 
-  const getOptions = (): IDropdownOption[] => {
-    return hasCustomRuntimeVersion
-      ? [
-          {
-            key: RuntimeExtensionMajorVersions.custom,
-            text: t('custom'),
-          },
-        ]
-      : [
-          {
-            key: RuntimeExtensionMajorVersions.v1,
-            text: RuntimeExtensionMajorVersions.v1,
-            disabled: isLinuxApp(values.site),
-          },
-          {
-            key: RuntimeExtensionMajorVersions.v2,
-            text: RuntimeExtensionMajorVersions.v2,
-          },
-          {
-            key: RuntimeExtensionMajorVersions.v3,
-            text: RuntimeExtensionMajorVersions.v3,
-          },
-        ];
+  const getRuntimeVersionInUse = () => {
+    let runtimeVersionInUse: RuntimeExtensionMajorVersions | null = null;
+
+    if (
+      asyncData.functionsHostStatus.loadingState === 'complete' &&
+      asyncData.functionsHostStatus.value &&
+      asyncData.functionsHostStatus.value.properties.state !== HostStates.error
+    ) {
+      // Try to get the current running major version from the result of the host status call.
+      runtimeVersionInUse = FunctionsRuntimeVersionHelper.parseExactRuntimeVersion(asyncData.functionsHostStatus.value!.properties.version);
+    }
+
+    if (!runtimeVersionInUse) {
+      // We weren't able to determine the major version because the host status call failed or returned a null/invalid value.
+      // Try to get the intended major version based off of the FUNCTIONS_EXTENSION_VERSION value configured
+      runtimeVersionInUse = FunctionsRuntimeVersionHelper.parseConfiguredRuntimeVersion(initialRuntimeVersion);
+    }
+
+    return runtimeVersionInUse;
   };
 
-  const dropDownlDisabled = (): boolean => waitingOnFunctionsApi || hasFunctions || failedToGetFunctions || hasCustomRuntimeVersion;
+  const getOptions = (): IDropdownOption[] => {
+    if (hasCustomRuntimeVersion) {
+      return [
+        {
+          key: RuntimeExtensionMajorVersions.custom,
+          text: t('custom'),
+        },
+      ];
+    }
+
+    const runtimeVersionInUse = getRuntimeVersionInUse();
+    const disableV1 =
+      hasFunctions &&
+      (runtimeVersionInUse === RuntimeExtensionMajorVersions.v2 || runtimeVersionInUse === RuntimeExtensionMajorVersions.v3);
+    const disableV2AndV3 = hasFunctions && runtimeVersionInUse === RuntimeExtensionMajorVersions.v1;
+
+    return [
+      {
+        key: RuntimeExtensionMajorVersions.v1,
+        text: RuntimeExtensionMajorVersions.v1,
+        disabled: isLinuxApp(values.site) || disableV1,
+      },
+      {
+        key: RuntimeExtensionMajorVersions.v2,
+        text: RuntimeExtensionMajorVersions.v2,
+        disabled: disableV2AndV3,
+      },
+      {
+        key: RuntimeExtensionMajorVersions.v3,
+        text: RuntimeExtensionMajorVersions.v3,
+        disabled: disableV2AndV3,
+      },
+    ];
+  };
+
+  const dropDownDisabled = (): boolean => waitingOnFunctionsApi || failedToGetFunctions || hasCustomRuntimeVersion;
 
   const getNodeVersionForRuntime = version => {
     switch (version) {
@@ -146,7 +178,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
             dirty={runtimeMajorVersion !== initialRuntimeMajorVersion}
             onChange={(event, option) => onDropDownChange(option ? option.key : undefined)}
             options={getOptions()}
-            disabled={disableAllControls || dropDownlDisabled()}
+            disabled={disableAllControls || dropDownDisabled()}
             label={t('runtimeVersion')}
             id="function-app-settings-runtime-version"
             infoBubbleMessage={
