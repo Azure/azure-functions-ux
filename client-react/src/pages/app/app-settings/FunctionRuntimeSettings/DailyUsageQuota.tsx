@@ -5,7 +5,7 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import TextField from '../../../../components/form-controls/TextField';
 import { KeyCodes, MessageBar, MessageBarType } from 'office-ui-fabric-react';
-import { messageBannerStyle } from '../AppSettings.styles';
+import { messageBannerStyle, textFieldStyle } from '../AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 import { SiteDisabledReason } from '../../../../models/site/site';
 
@@ -46,7 +46,7 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         label={t('functionAppSettings_dailyUsageQuota')}
         id="function-app-settings-daily-memory-time-quota"
         disabled={disableAllControls}
-        style={{ marginLeft: '1px', marginTop: '1px', width: '275px' }}
+        style={textFieldStyle}
         infoBubbleMessage={t('functionAppSettings_quotaInfo')}
       />
     </>
