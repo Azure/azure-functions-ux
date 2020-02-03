@@ -213,16 +213,20 @@ export class StepCompleteComponent {
   }
 
   get GithubActionsWorkflowConfig() {
-    const information = this._githubService.getWorkflowInformation(
-      this.wizard.wizardValues.buildSettings,
-      this.wizard.wizardValues.sourceSettings,
-      this.wizard.isLinuxApp,
-      this.wizard.gitHubPublishProfileSecretGuid,
-      this.wizard.siteName,
-      this.wizard.slotName
-    );
+    if (this.wizard.wizardValues.buildSettings.runtimeStack && this.wizard.wizardValues.buildSettings.runtimeStackVersion) {
+      const information = this._githubService.getWorkflowInformation(
+        this.wizard.wizardValues.buildSettings,
+        this.wizard.wizardValues.sourceSettings,
+        this.wizard.isLinuxApp,
+        this.wizard.gitHubPublishProfileSecretGuid,
+        this.wizard.siteName,
+        this.wizard.slotName
+      );
 
-    return information.content;
+      return information.content;
+    } else {
+      return '';
+    }
   }
 
   private _buildControlgroup(): SummaryGroup {

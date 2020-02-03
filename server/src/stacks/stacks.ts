@@ -84,6 +84,11 @@ export interface WebAppCreateStackVersionPlatform {
   applicationInsightsEnabled: boolean;
   remoteDebuggingEnabled: boolean;
   runtimeVersion: string;
+  githubActionSettings?: WebAppCreateStackVersionPlatformGithubAction;
+}
+
+export interface WebAppCreateStackVersionPlatformGithubAction {
+  supported: boolean;
 }
 
 export interface FunctionAppStack {
