@@ -10,10 +10,10 @@ const AzurePortalColors = {
   itemBackgroundOnSelect: 'rgba(128, 128, 128, 0.25)',
   itemBackgroundOnHover: 'rgba(128, 128, 128, 0.15)',
   overlay: 'rgba(0, 0, 0, 0.6)',
-  successText: LightThemePortalColors.successText,
+  successText: LightThemePortalColors.successText, // No official dark color yet
   successBackground: '#1a3300',
   successIcon: '#5db300',
-  errorText: LightThemePortalColors.errorText,
+  errorText: LightThemePortalColors.errorText, // No official dark color yet
   errorBackground: '#61050c',
   errorIcon: '#e00b1c',
   warningBackground: '#b36200',
