@@ -4,7 +4,7 @@ import { StacksFunctionAppCreateService } from './stacks.functionapp.create.serv
 import { StacksWebAppConfigService } from './stacks.webapp.config.service';
 import { StacksWebAppCreateService } from './stacks.webapp.create.service';
 import { StackAPIVersions, WebAppCreateStackVersionPlatform, WebAppCreateStackVersion, WebAppCreateStack } from './stacks';
-import { ArrayUtil } from 'src/utilities/array.util';
+import { ArrayUtil } from '../utilities/array.util';
 
 @Controller('stacks')
 export class StacksController {

@@ -5593,7 +5593,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Your unsaved edits will be discarded.</value>
     </data>
     <data name="editor_changeFile" xml:space="preserve">
-        <value>Change file</value>
+        <value>Are you sure you would like to change files?</value>
     </data>
     <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
