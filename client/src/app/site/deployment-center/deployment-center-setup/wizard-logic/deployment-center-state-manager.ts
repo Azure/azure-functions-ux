@@ -12,7 +12,7 @@ import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { ARMApiVersions, ScenarioIds, Kinds } from '../../../../shared/models/constants';
+import { ARMApiVersions, ScenarioIds, Kinds, RuntimeStacks, Constants } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -29,6 +29,7 @@ import { GithubService } from './github.service';
 import { WorkflowCommit } from '../../Models/github';
 import { Guid } from 'app/shared/Utilities/Guid';
 import { SubscriptionService } from 'app/shared/services/subscription.service';
+import { SiteConfig } from 'app/shared/models/arm/site-config';
 
 const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
 
@@ -59,6 +60,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public slotName = '';
   public gitHubPublishProfileSecretGuid = '';
   public isGithubActionWorkflowScopeAvailable = false;
+  public stack = '';
+  public stackVersion = '';
 
   constructor(
     private _cacheService: CacheService,
@@ -86,15 +89,27 @@ export class DeploymentCenterStateManager implements OnDestroy {
           .toLowerCase()
           .replace(/[-]/g, '');
 
-        return forkJoin(siteService.getSite(this._resourceId), subscriptionService.getSubscription(siteDescriptor.subscription));
+        return forkJoin(
+          siteService.getSite(this._resourceId),
+          siteService.getSiteConfig(this._resourceId),
+          siteService.getAppSettings(this._resourceId),
+          siteService.fetchSiteConfigMetadata(this._resourceId),
+          subscriptionService.getSubscription(siteDescriptor.subscription)
+        );
       })
       .switchMap(result => {
-        const [site, sub] = result;
+        const [site, config, appSettings, configMetadata, sub] = result;
         this.siteArm = site.result;
         this.isLinuxApp = this.siteArm.kind.toLowerCase().includes(Kinds.linux);
         this.isFunctionApp = this.siteArm.kind.toLowerCase().includes(Kinds.functionApp);
-        this.siteArmObj$.next(this.siteArm);
         this.subscriptionName = sub.result.displayName;
+
+        if (config.isSuccessful && appSettings.isSuccessful && configMetadata.isSuccessful) {
+          this._setStackAndVersion(config.result.properties, appSettings.result.properties, configMetadata.result.properties);
+        }
+
+        this.siteArmObj$.next(this.siteArm);
+
         return this._scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm });
       })
       .subscribe(vstsScenarioCheck => {
@@ -148,6 +163,42 @@ export class DeploymentCenterStateManager implements OnDestroy {
             return this._cacheService.get(AzureDevOpsService.AzDevProfileUri, true, this._azureDevOpsService.getAzDevDirectHeaders(false));
           });
       });
+  }
+
+  private _setStackAndVersion(
+    siteConfig: SiteConfig,
+    siteAppSettings: { [key: string]: string },
+    configMetadata: { [key: string]: string }
+  ) {
+    if (this.isLinuxApp) {
+      this._setStackAndVersionForLinux(siteConfig);
+    } else {
+      this._setStackAndVersionForWindows(siteConfig, siteAppSettings, configMetadata);
+    }
+  }
+
+  private _setStackAndVersionForWindows(
+    siteConfig: SiteConfig,
+    siteAppSettings: { [key: string]: string },
+    configMetadata: { [key: string]: string }
+  ) {
+    if (configMetadata['CURRENT_STACK']) {
+      this.stack = configMetadata['CURRENT_STACK'].toLowerCase();
+    }
+
+    if (this.stack === RuntimeStacks.node) {
+      this.stackVersion = siteAppSettings[Constants.nodeVersionAppSettingName];
+    } else if (this.stack === RuntimeStacks.python) {
+      this.stackVersion = siteConfig.pythonVersion;
+    } else {
+      this.stackVersion = '';
+    }
+  }
+
+  private _setStackAndVersionForLinux(siteConfig: SiteConfig) {
+    const linuxFxVersionParts = siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion.split('|')[0] : [];
+    this.stack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0] : null;
+    this.stackVersion = siteConfig.linuxFxVersion;
   }
 
   private _deployGithubActions() {
