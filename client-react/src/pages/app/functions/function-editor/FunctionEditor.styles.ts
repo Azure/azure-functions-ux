@@ -100,6 +100,7 @@ export const urlFormStyle = style({
 
 export const shrinkEditorStyle = (width: number) => {
   let panelWidth = width;
+
   if (width >= 1024) {
     panelWidth = 644;
   } else if (width >= 640) {
@@ -107,6 +108,7 @@ export const shrinkEditorStyle = (width: number) => {
   } else if (width >= 480) {
     panelWidth = 272;
   }
+
   return {
     width: `calc(100vw - ${panelWidth}px)`,
   };
