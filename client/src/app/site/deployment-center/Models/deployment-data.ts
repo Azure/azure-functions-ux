@@ -5,7 +5,7 @@ import { ArmArrayResult, ArmObj } from '../../../shared/models/arm/arm-obj';
 export class DeploymentData {
   site: ArmObj<Site>;
   siteConfig?: ArmObj<SiteConfig>;
-  siteMetadata?: ArmObj<any>;
+  siteMetadata?: ArmObj<{ [key: string]: string }>;
   deployments: ArmArrayResult<Deployment>;
   publishingCredentials?: ArmObj<PublishingCredentials>;
   sourceControls?: ArmObj<SourceControlData>;

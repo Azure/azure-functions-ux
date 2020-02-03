@@ -5593,7 +5593,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Your unsaved edits will be discarded.</value>
     </data>
     <data name="editor_changeFile" xml:space="preserve">
-        <value>Change file</value>
+        <value>Are you sure you would like to change files?</value>
     </data>
     <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
@@ -5619,6 +5619,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
         <value>Connecting to Application Insights...</value>
     </data>
+    <data name="runtimeStack" xml:space="preserve">
+        <value>Runtime stack</value>
+    </data>
+    <data name="runtimeStackVersion" xml:space="preserve">
+        <value>Version</value>
+    </data>
     <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
         <value>In order to see the entire list of available function templates, you must set up extension bundles for your app. </value>
     </data>
@@ -5636,6 +5642,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="azureFunctionsV1Linux" xml:space="preserve">
         <value>Version 1 Runtime is not supported on Linux Azure Function Apps</value>
+    </data>
+    <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack '{{stack}}' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+    <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for '{{stack}}', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
     <data name="hostConfigurationLabel" xml:space="preserve">
         <value>Host configuration</value>

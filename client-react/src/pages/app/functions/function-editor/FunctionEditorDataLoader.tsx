@@ -25,6 +25,7 @@ import { getJsonHeaders } from '../../../../ApiHelpers/HttpClient';
 import AppInsightsService from '../../../../ApiHelpers/AppInsightsService';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
 import { AppInsightsComponent } from '../../../../models/app-insights';
+import { shrinkEditorStyle } from './FunctionEditor.styles';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -49,6 +50,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [hostUrls, setHostUrls] = useState<UrlObj[]>([]);
   const [functionUrls, setFunctionUrls] = useState<UrlObj[]>([]);
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined>(undefined);
+  const [showTestPanel, setShowTestPanel] = useState(false);
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -327,18 +329,22 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   }
   return (
     <FunctionEditorContext.Provider value={functionEditorData}>
-      <FunctionEditor
-        functionInfo={functionInfo}
-        site={site}
-        run={run}
-        fileList={fileList}
-        runtimeVersion={runtimeVersion}
-        responseContent={responseContent}
-        functionRunning={functionRunning}
-        appInsightsToken={appInsightsToken}
-        urlObjs={[...hostUrls, ...functionUrls]}
-        resetAppInsightsToken={resetAppInsightsToken}
-      />
+      <div style={showTestPanel ? shrinkEditorStyle(window.innerWidth) : undefined}>
+        <FunctionEditor
+          functionInfo={functionInfo}
+          site={site}
+          run={run}
+          fileList={fileList}
+          runtimeVersion={runtimeVersion}
+          responseContent={responseContent}
+          functionRunning={functionRunning}
+          appInsightsToken={appInsightsToken}
+          urlObjs={[...hostUrls, ...functionUrls]}
+          resetAppInsightsToken={resetAppInsightsToken}
+          showTestPanel={showTestPanel}
+          setShowTestPanel={setShowTestPanel}
+        />
+      </div>
     </FunctionEditorContext.Provider>
   );
 };
