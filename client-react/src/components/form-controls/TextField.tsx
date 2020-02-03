@@ -60,7 +60,9 @@ class TextField extends React.Component<FieldProps & ITextFieldProps & CustomTex
       return (
         <>
           Invalid Cron Expression. Please consult the{' '}
-          <a target="_blank" href="https://azure.microsoft.com/en-us/documentation/articles/functions-bindings-timer/">
+          <a // eslint-disable-next-line react/jsx-no-target-blank
+            target="_blank"
+            href="https://go.microsoft.com/fwlink/?linkid=2117147&clcid=0x409">
             documentation
           </a>{' '}
           to learn more.
