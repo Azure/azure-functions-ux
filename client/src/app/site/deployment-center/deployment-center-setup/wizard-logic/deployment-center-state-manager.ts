@@ -26,7 +26,7 @@ import { VSOAccount } from '../../Models/vso-repo';
 import { AzureDevOpsService, AzureDevOpsDeploymentMethod, TargetAzDevDeployment } from './azure-devops.service';
 import { LocalStorageService } from '../../../../shared/services/local-storage.service';
 import { GithubService } from './github.service';
-import { WorkflowCommit } from '../../Models/github';
+import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../Models/github';
 import { Guid } from 'app/shared/Utilities/Guid';
 import { SubscriptionService } from 'app/shared/services/subscription.service';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
@@ -213,26 +213,32 @@ export class DeploymentCenterStateManager implements OnDestroy {
       this.slotName
     );
 
-    const commitInfo: WorkflowCommit = {
+    const commitInfo: GitHubCommit = {
+      repoName: repo,
+      branchName: branch,
+      filePath: `.github/workflows/${workflowInformation.fileName}`,
       message: this._translateService.instant(PortalResources.githubActionWorkflowCommitMessage),
-      content: btoa(workflowInformation.content),
+      contentBase64Encoded: btoa(workflowInformation.content),
       committer: {
         name: 'Azure App Service',
         email: 'donotreply@microsoft.com',
       },
-      branch,
     };
 
-    const workflowYmlPath = `.github/workflows/${workflowInformation.fileName}`;
-
     return this._githubService
-      .fetchWorkflowConfiguration(this.getToken(), this.wizardValues.sourceSettings.repoUrl, repo, branch, workflowYmlPath)
+      .fetchWorkflowConfiguration(this.getToken(), this.wizardValues.sourceSettings.repoUrl, repo, branch, commitInfo.filePath)
       .switchMap(fileContentResponse => {
         if (fileContentResponse) {
           commitInfo.sha = fileContentResponse.sha;
         }
 
-        return this._githubService.commitWorkflowConfiguration(this.getToken(), repo, workflowYmlPath, commitInfo);
+        const requestContent: GitHubActionWorkflowRequestContent = {
+          resourceId: this._resourceId,
+          secretName: workflowInformation.secretName,
+          commit: commitInfo,
+        };
+
+        return this._githubService.createOrUpdateActionWorkflow(this.getToken(), requestContent);
       })
       .switchMap(_ => {
         return this._deployKudu();

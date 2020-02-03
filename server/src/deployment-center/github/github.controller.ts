@@ -5,6 +5,7 @@ import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
+import { GitHubActionWorkflowRequestContent } from './github';
 @Controller()
 export class GithubController {
   private readonly provider = 'github';
@@ -50,7 +51,15 @@ export class GithubController {
 
   @Put('api/github/actionWorkflow')
   @HttpCode(200)
-  async actionWorkflow(@Body('authToken') authToken: string, @Body('content') content: any) {}
+  async actionWorkflow(@Body('authToken') authToken: string, @Body('content') content: GitHubActionWorkflowRequestContent) {
+    console.log('request received.');
+    console.log(authToken);
+    console.log(content);
+    // GET the publishing profile
+    // GET the public key
+    // PUT the secret
+    // PUT the workflow file
+  }
 
   @Put('api/github/fileContent')
   @HttpCode(200)

@@ -1,17 +1,3 @@
-export class FileContent {
-  path: string;
-  type: string;
-  contents: string;
-  encoding: string;
-  sha: string;
-}
-
-export class WorkflowInformation {
-  fileName: string;
-  secretName: string;
-  content: string;
-}
-
 export interface GitHubCommitter {
   name: string;
   email: string;
