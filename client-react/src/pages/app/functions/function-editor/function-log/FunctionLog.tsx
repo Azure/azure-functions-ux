@@ -1,27 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { ReactComponent as DownChevron } from './../../../../../images/Common/down-chevron.svg';
-import {
-  chevronIconStyle,
-  logCommandBarStyle,
-  logExpandButtonStyle,
-  logStreamStyle,
-  logCommandBarButtonListStyle,
-  logCommandBarButtonLabelStyle,
-  logCommandBarButtonStyle,
-  logEntryDivStyle,
-  getLogTextColor,
-  logErrorDivStyle,
-  logConnectingDivStyle,
-} from './FunctionLog.styles';
+import React, { useState, useEffect } from 'react';
+import { logStreamStyle, logEntryDivStyle, getLogTextColor, logErrorDivStyle, logConnectingDivStyle } from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
-import { Icon } from 'office-ui-fabric-react';
-import { ThemeContext } from '../../../../../ThemeContext';
 import { QuickPulseQueryLayer, SchemaResponseV2, SchemaDocument } from '../../../../../QuickPulseQuery';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { defaultDocumentStreams, defaultClient } from './FunctionLog.constants';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { TextUtilitiesService } from '../../../../../utils/textUtilities';
+import FunctionLogCommandBar from './FunctionLogCommandBar';
 interface FunctionLogProps {
   toggleExpand: () => void;
   toggleFullscreen: (fullscreen: boolean) => void;
@@ -50,8 +36,6 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const [callCount, setCallCount] = useState(0);
   const [appInsightsError, setAppInsightsError] = useState(false);
   const [autoScroll, setAutoScroll] = useState(true);
-
-  const theme = useContext(ThemeContext);
 
   const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, token: string) => {
     quickPulseQueryLayer
@@ -172,50 +156,16 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
 
   return (
     <div>
-      <div className={logCommandBarStyle}>
-        <span className={logExpandButtonStyle} onClick={onExpandClick}>
-          <DownChevron className={chevronIconStyle(!isExpanded)} />
-          {t('logStreaming_logs')}
-        </span>
-        {isExpanded && (
-          <span className={logCommandBarButtonListStyle}>
-            <span onClick={toggleConnection} className={logCommandBarButtonLabelStyle}>
-              {started ? (
-                <>
-                  <Icon iconName="Stop" className={logCommandBarButtonStyle(theme)} />
-                  {t('stop')}
-                </>
-              ) : (
-                <>
-                  <Icon iconName="TriangleRight12" className={logCommandBarButtonStyle(theme)} />
-                  {t('start')}
-                </>
-              )}
-            </span>
-            <span onClick={copyLogs} className={logCommandBarButtonLabelStyle}>
-              <Icon iconName="Copy" className={logCommandBarButtonStyle(theme)} />
-              {t('functionKeys_copy')}
-            </span>
-            <span onClick={clearLogs} className={logCommandBarButtonLabelStyle}>
-              <Icon iconName="CalculatorMultiply" className={logCommandBarButtonStyle(theme)} />
-              {t('logStreaming_clear')}
-            </span>
-            <span onClick={toggleMaximize} className={logCommandBarButtonLabelStyle}>
-              {maximized ? (
-                <>
-                  <Icon iconName="BackToWindow" className={logCommandBarButtonStyle(theme)} />
-                  {t('minimize')}
-                </>
-              ) : (
-                <>
-                  <Icon iconName="FullScreen" className={logCommandBarButtonStyle(theme)} />
-                  {t('maximize')}
-                </>
-              )}
-            </span>
-          </span>
-        )}
-      </div>
+      <FunctionLogCommandBar
+        onChevronClick={onExpandClick}
+        isPanelVisible={isExpanded}
+        copy={copyLogs}
+        started={started}
+        toggleConnection={toggleConnection}
+        clear={clearLogs}
+        toggleMaximize={toggleMaximize}
+        maximized={maximized}
+      />
       {isExpanded && (
         <div
           className={logStreamStyle(maximized, readOnlyBannerHeight)}
