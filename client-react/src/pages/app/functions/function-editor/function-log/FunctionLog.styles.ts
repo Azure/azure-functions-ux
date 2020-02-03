@@ -1,25 +1,8 @@
 import { style } from 'typestyle';
-import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
-
-export const chevronIconStyle = (expand?: boolean) =>
-  style({
-    width: '13px',
-    height: '8px',
-    marginRight: '9px',
-    transform: expand ? 'rotate(180deg)' : '',
-  });
 
 export const logCommandBarStyle = style({
   height: '37px',
-  display: 'flex',
-  alignItems: 'center',
-  marginLeft: '10px',
-  justifyContent: 'space-between',
-});
-
-export const logExpandButtonStyle = style({
-  cursor: 'pointer',
 });
 
 export const logStreamStyle = (maximized: boolean, readOnlyBannerHeight: number) =>
@@ -34,21 +17,6 @@ export const logCommandBarButton = style({
   marginTop: '5px',
   paddingRight: '5px',
 });
-
-export const logCommandBarButtonListStyle = style({
-  float: 'right',
-});
-
-export const logCommandBarButtonLabelStyle = style({
-  marginRight: '16px',
-  cursor: 'pointer',
-});
-
-export const logCommandBarButtonStyle = (theme: ThemeExtended) =>
-  style({
-    color: theme.semanticColors.primaryButtonBackground,
-    paddingRight: '5px',
-  });
 
 export const logEntryDivStyle = style({
   whiteSpace: 'pre-wrap',
