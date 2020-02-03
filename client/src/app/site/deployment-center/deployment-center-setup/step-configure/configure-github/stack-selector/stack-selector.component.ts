@@ -4,7 +4,7 @@ import { DeploymentCenterStateManager } from '../../../wizard-logic/deployment-c
 import { RuntimeStackService } from 'app/shared/services/runtimestack.service';
 import { WebAppCreateStack } from 'app/shared/models/stacks';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, Constants, Os } from 'app/shared/models/constants';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
@@ -74,7 +74,7 @@ export class StackSelectorComponent implements OnDestroy {
       this.runtimeStackVersionsLoading = true;
       this.runtimeStackVersionItems = [];
 
-      if (stackValue !== this.wizard.stack.toLowerCase() && !this.stackNotSupportedMessage) {
+      if (stackValue !== this.wizard.stack.toLocaleLowerCase() && !this.stackNotSupportedMessage) {
         this.stackMismatchMessage = this._translateService.instant(PortalResources.githubActionStackMismatchMessage, {
           appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
           stack: this.wizard.stack,
@@ -97,7 +97,7 @@ export class StackSelectorComponent implements OnDestroy {
   }
 
   private _fetchStacks() {
-    const os = this.wizard.isLinuxApp ? 'linux' : 'windows';
+    const os = this.wizard.isLinuxApp ? Os.linux : Os.windows;
     this.runtimeStacksLoading = true;
 
     this._runtimeStackService.getWebAppGitHubActionStacks(os).subscribe(runtimeStackItemsResult => {
@@ -120,13 +120,15 @@ export class StackSelectorComponent implements OnDestroy {
 
     const stackItems = this._runtimeStacks.map(stack => ({
       displayLabel: stack.displayText,
-      value: stack.value.toLowerCase(),
+      value: stack.value.toLocaleLowerCase(),
     }));
 
     dropdownItems.push(...stackItems);
     this.runtimeStackItems = dropdownItems;
 
-    const appSelectedStack = this.runtimeStackItems.filter(item => item.value === this.wizard.stack.toLowerCase());
+    // NOTE(michinoy): Once the dropdown is populated, preselect stack that the user had selected during create.
+    // If the users app was built using a stack that is not supported, show a warning message.
+    const appSelectedStack = this.runtimeStackItems.filter(item => item.value === this.wizard.stack.toLocaleLowerCase());
     if (appSelectedStack && appSelectedStack.length === 1) {
       this.stackNotSupportedMessage = '';
       this._runtimeStackStream$.next(appSelectedStack[0].value);
@@ -149,7 +151,7 @@ export class StackSelectorComponent implements OnDestroy {
         },
       ];
 
-      const runtimeStack = this._runtimeStacks.find(stack => stack.value.toLowerCase() === stackValue);
+      const runtimeStack = this._runtimeStacks.find(stack => stack.value.toLocaleLowerCase() === stackValue);
 
       const versionItems = runtimeStack.versions.map(version => ({
         displayLabel: version.displayText,
@@ -159,7 +161,7 @@ export class StackSelectorComponent implements OnDestroy {
       dropdodownItems.push(...versionItems);
       this.runtimeStackVersionItems = dropdodownItems;
 
-      const appSelectedStackVersion = this.runtimeStackVersionItems.filter(item => item.value === this.wizard.stackVersion.toLowerCase());
+      const appSelectedStackVersion = this.runtimeStackVersionItems.filter(item => item.value === this.wizard.stackVersion.toLocaleLowerCase());
       if (appSelectedStackVersion && appSelectedStackVersion.length === 1) {
         this._runtimeStackVersionStream$.next(appSelectedStackVersion[0].value);
       }

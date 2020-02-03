@@ -678,3 +678,8 @@ export class RuntimeStacks {
   public static python = 'python';
   public static dotnetcore = 'dotnetcore';
 }
+
+export class Os {
+  public static linux: 'linux' | 'windows' = 'linux';
+  public static windows: 'linux' | 'windows' = 'windows';
+}
