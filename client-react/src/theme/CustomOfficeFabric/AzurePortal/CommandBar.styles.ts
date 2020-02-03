@@ -12,5 +12,8 @@ export const CommandBarStyles = (props: ICommandBarStyleProps): ICommandBarStyle
         width: '100%',
       },
     ],
+    secondarySet: {
+      marginRight: '20px',
+    },
   };
 };

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { WebAppCreateStack, WebAppCreateStackVersionPlatform, WebAppCreateStackVersion } from './stacks';
-import { ArrayUtil } from 'src/utilities/array.util';
+import { ArrayUtil } from '../utilities/array.util';
 
 @Injectable()
 export class StacksWebAppCreateService {
