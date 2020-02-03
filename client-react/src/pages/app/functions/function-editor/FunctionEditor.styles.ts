@@ -97,3 +97,23 @@ export const urlFormStyle = style({
   marginBottom: '0px',
   paddingTop: '5px',
 });
+
+export const shrinkEditorStyle = (width: number) => {
+  let panelWidth = width;
+  if (width >= 1024) {
+    panelWidth = 644;
+  } else if (width >= 640) {
+    panelWidth = 592;
+  } else if (width >= 480) {
+    panelWidth = 272;
+  }
+  return {
+    width: `calc(100vw - ${panelWidth}px)`,
+  };
+};
+
+export const testPanelStyle = {
+  main: {
+    boxShadow: 'rgba(0, 0, 0, 0.2) 0px 0px 5px 0px',
+  },
+};
