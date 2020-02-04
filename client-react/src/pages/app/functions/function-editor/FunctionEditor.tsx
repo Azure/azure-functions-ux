@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
@@ -28,6 +28,8 @@ import { editorStyle } from '../../app-files/AppFiles.styles';
 import FunctionLog from './function-log/FunctionLog';
 import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
+import { SiteStateContext } from '../../../../SiteStateContext';
+import SiteHelper from '../../../../utils/SiteHelper';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -74,6 +76,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [readOnlyBanner, setReadOnlyBanner] = useState<HTMLDivElement | null>(null);
 
   const { t } = useTranslation();
+
+  const siteState = useContext(SiteStateContext);
 
   const save = async () => {
     if (!selectedFile) {
@@ -215,6 +219,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return fetchingFileContent || initialLoading || savingFile;
   };
 
+  const isDisabled = () => {
+    return functionRunning;
+  };
+
   const closeConfirmDialog = () => {
     setSelectedDropdownOption(undefined);
   };
@@ -273,7 +281,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           testFunction={test}
           showGetFunctionUrlCommand={!!inputBinding}
           dirty={isDirty()}
-          disabled={isLoading()}
+          disabled={isLoading() || isDisabled()}
           urlObjs={urlObjs}
         />
         <ConfirmDialog
@@ -292,7 +300,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         />
         <EditModeBanner setBanner={setReadOnlyBanner} />
         <FunctionEditorFileSelectorBar
-          disabled={isLoading()}
+          disabled={isLoading() || isDisabled()}
           functionAppNameLabel={site.name}
           functionInfo={functionInfo}
           fileDropdownOptions={getDropdownOptions()}
@@ -328,12 +336,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             language={editorLanguage}
             onChange={onChange}
             height={monacoHeight}
-            disabled={isLoading()}
+            disabled={isLoading() || isDisabled()}
             options={{
               minimap: { enabled: false },
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
+              readOnly: SiteHelper.isFunctionAppReadOnly(siteState),
             }}
           />
         </div>
