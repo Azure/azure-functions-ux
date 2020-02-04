@@ -18,3 +18,8 @@ export interface GitHubActionWorkflowRequestContent {
   secretName: string;
   commit: GitHubCommit;
 }
+
+export interface GitHubSecretPublicKey {
+  key_id: string;
+  key: string;
+}

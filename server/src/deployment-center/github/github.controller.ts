@@ -5,10 +5,14 @@ import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
-import { GitHubActionWorkflowRequestContent } from './github';
+import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey } from './github';
+import { TokenData } from '../deployment-center';
+
 @Controller()
 export class GithubController {
   private readonly provider = 'github';
+  private readonly githubApiUrl = 'https://api.github.com';
+
   constructor(
     private dcService: DeploymentCenterService,
     private configService: ConfigService,
@@ -52,32 +56,17 @@ export class GithubController {
   @Put('api/github/actionWorkflow')
   @HttpCode(200)
   async actionWorkflow(@Body('authToken') authToken: string, @Body('content') content: GitHubActionWorkflowRequestContent) {
-    console.log('request received.');
-    console.log(authToken);
-    console.log(content);
-    // GET the publishing profile
-    // GET the public key
-    // PUT the secret
-    // PUT the workflow file
-  }
+    // NOTE(michinoy): In order for the action workflow to succesfully execute, it needs to have the secret allowing access
+    // to the web app. This secret is the publish profile. This one method will retrieve publish profile, encrypt it, put it
+    // as a GitHub secret, and then publish the workflow file.
 
-  @Put('api/github/fileContent')
-  @HttpCode(200)
-  async fileContent(@Body('authToken') authToken: string, @Body('url') url: string, @Body('content') content: any) {
+    const publishProfile = await this.dcService.getSitePublishProfile(authToken, content.resourceId);
     const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
+    const publicKey = await this._getGitHubRepoPublicKey(tokenData, content.commit.repoName);
+    console.log(publicKey);
 
-    try {
-      await this.httpService.put(url, content, {
-        headers: {
-          Authorization: `Bearer ${tokenData.token}`,
-        },
-      });
-    } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
-    }
+    await this._putGitHubRepoSecret(tokenData, publicKey, content.commit.repoName, content.secretName, publishProfile);
+    await this._commitFile(tokenData, content);
   }
 
   @Get('auth/github/authorize')
@@ -132,6 +121,101 @@ export class GithubController {
         throw new HttpException(err.response.data, err.response.status);
       }
       throw new HttpException('Internal Server Error', 500);
+    }
+  }
+
+  private async _getGitHubRepoPublicKey(tokenData: TokenData, repoName: string): Promise<GitHubSecretPublicKey> {
+    const url = `${this.githubApiUrl}/repos/${repoName}/actions/secrets/public-key`;
+
+    try {
+      const response = await this.httpService.get(url, {
+        headers: {
+          Authorization: `Bearer ${tokenData.token}`,
+        },
+      });
+
+      return response.data;
+    } catch (err) {
+      this.loggingService.error(`Failed to get the public key for '${repoName}'.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
+  private async _putGitHubRepoSecret(
+    tokenData: TokenData,
+    publicKey: GitHubSecretPublicKey,
+    repoName: string,
+    secretName: string,
+    value: string
+  ) {
+    // NOTE(michinoy): Refer to:
+    // https://developer.github.com/v3/actions/secrets/#create-or-update-a-secret-for-a-repository
+    // to learn more about GitHub secrets.
+
+    const url = `${this.githubApiUrl}/repos/${repoName}/actions/secrets/${secretName}`;
+
+    const messageBytes = Buffer.from(value);
+    const keyBytes = Buffer.from(publicKey.key, 'base64');
+
+    const sodium = require('tweetsodium');
+    const encryptedBytes = sodium.seal(messageBytes, keyBytes);
+    const encrypted = Buffer.from(encryptedBytes).toString('base64');
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${tokenData.token}`,
+        },
+      };
+
+      const data = {
+        encrypted_value: encrypted,
+        key_id: publicKey.key_id,
+      };
+
+      await this.httpService.put(url, data, config);
+    } catch (err) {
+      this.loggingService.error(`Failed to set the publish profile secret to GitHub repo '${repoName}'.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
+  private async _commitFile(tokenData: TokenData, content: GitHubActionWorkflowRequestContent) {
+    const url = `${this.githubApiUrl}/repos/${content.commit.repoName}/contents/${content.commit.filePath}`;
+
+    const commitContent = {
+      message: content.commit.message,
+      content: content.commit.contentBase64Encoded,
+      sha: content.commit.sha,
+      branch: content.commit.branchName,
+      comitter: content.commit.committer,
+    };
+
+    try {
+      await this.httpService.put(url, commitContent, {
+        headers: {
+          Authorization: `Bearer ${tokenData.token}`,
+        },
+      });
+    } catch (err) {
+      this.loggingService.error(
+        `Failed to commit action workflow '${content.commit.filePath}' on branch '${content.commit.branchName}' in repo '${
+          content.commit.repoName
+        }'.`
+      );
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
     }
   }
 }
