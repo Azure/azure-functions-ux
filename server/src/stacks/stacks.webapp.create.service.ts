@@ -584,7 +584,7 @@ export class StacksWebAppCreateService {
       {
         displayText: 'Tomcat 8.5',
         value: 'Tomcat8.5Auto',
-        sortOrder: 3,
+        sortOrder: 2,
         supportedPlatforms: [
           {
             os: 'linux',
@@ -617,7 +617,7 @@ export class StacksWebAppCreateService {
       {
         displayText: 'Tomcat 9.0',
         value: 'Tomcat9.0Auto',
-        sortOrder: 2,
+        sortOrder: 1,
         supportedPlatforms: [
           {
             os: 'linux',
@@ -641,26 +641,6 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '1.8|Tomcat|9.0',
             sortOrder: 1,
-            githubActionSettings: {
-              supported: false,
-            },
-          },
-        ],
-      },
-      {
-        displayText: 'WildFly 14 (Preview)',
-        value: 'WildFly14Auto',
-        sortOrder: 1,
-        supportedPlatforms: [
-          {
-            os: 'linux',
-            isPreview: true,
-            isDeprecated: false,
-            isHidden: false,
-            applicationInsightsEnabled: true,
-            remoteDebuggingEnabled: false,
-            runtimeVersion: 'WILDFLY|14-jre8',
-            sortOrder: 0,
             githubActionSettings: {
               supported: false,
             },
