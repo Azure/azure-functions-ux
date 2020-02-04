@@ -15,7 +15,7 @@ import { BindingManager } from '../../../../utils/BindingManager';
 import { AppKeysInfo } from '../app-keys/AppKeys.types';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
+import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../../../../models/functions/runtime-extension';
 import { Host } from '../../../../models/functions/host';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
@@ -161,7 +161,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const getResultFromHostJson = (): string => {
     let result = '';
     switch (runtimeVersion) {
-      case RuntimeExtensionMajorVersions.beta:
+      case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3: {
         result =

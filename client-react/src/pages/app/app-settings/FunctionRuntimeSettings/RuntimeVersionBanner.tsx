@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { AppSettingsFormProps } from '../AppSettings.types';
+import { AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import { findFormAppSettingValue } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { MessageBarType, MessageBar } from 'office-ui-fabric-react';
-import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
+import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../../../../models/functions/runtime-extension';
 import { messageBannerStyle } from '../AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 
@@ -13,7 +13,11 @@ interface MessageBarInfo {
   messageType?: MessageBarType;
 }
 
-type ComparisonResult = 'ExactMatch' | 'PartialMatch' | 'NoMatch';
+enum ComparisonResult {
+  ExactMatch = 'ExactMatch',
+  PartialMatch = 'PartialMatch',
+  NoMatch = 'NoMatch',
+}
 
 const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = props => {
   const { t, initialValues, asyncData } = props;
@@ -37,8 +41,8 @@ const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = p
           messageText: t('functionsRuntimeVersionMissingWarning'),
           messageType: MessageBarType.error,
         };
-      case 'latest':
-      case 'beta':
+      case RuntimeExtensionCustomVersions.latest:
+      case RuntimeExtensionCustomVersions.beta:
         // FUNCTIONS_EXTENSION_VERSION is set to 'latest' or 'beta', so show a warning message.
         // If we know the running version (from the host status call), include it in the warning message.
         return {
@@ -57,7 +61,7 @@ const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = p
   const getVersionMessageBarForCustom = (): MessageBarInfo => {
     // We need to compare the custom runtime version against the running version (from the host satus call) to determine whether the value is valid.
 
-    if (asyncData.functionsHostStatus.loadingState === 'loading') {
+    if (asyncData.functionsHostStatus.loadingState === LoadingStates.loading) {
       // The host status call hasn't completed yet, so we can't check whether the configured rutime version is valid.
       // Don't show any error/warning, and wait for the call to complete.
       return { messageText: '' };
@@ -74,37 +78,44 @@ const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = p
 
     // The host status call completed and we have a running version to validate against.
     // Show the appropraite warning/error based on whether the configured and running versions match.
+    let messageBarInfo: MessageBarInfo = { messageText: '' };
     const comparison = compareConfiguredAndRunningVersions();
     switch (comparison) {
-      case 'ExactMatch':
-        return {
+      case ComparisonResult.ExactMatch:
+        messageBarInfo = {
           messageText: t('functionsRuntimeVersionNeedsUpdateWarning').format(exactRuntimeVersion),
           messageType: MessageBarType.warning,
         };
-      case 'PartialMatch':
-        return {
+        break;
+      case ComparisonResult.PartialMatch:
+        messageBarInfo = {
           messageText: t('functionsRuntimeVersionNeedsUpdateWarning').format(`${exactRuntimeVersion} (${initialRuntimeVersion})`),
           messageType: MessageBarType.warning,
         };
-      case 'NoMatch':
-        return {
+        break;
+      case ComparisonResult.NoMatch:
+        messageBarInfo = {
           messageText: t('functionsRuntimeVersionInvalidWarning').format(initialRuntimeVersion, exactRuntimeVersion),
           messageType: MessageBarType.error,
         };
+        break;
     }
+    return messageBarInfo;
   };
 
   const compareConfiguredAndRunningVersions = (): ComparisonResult => {
     const exactVersionToLower = (exactRuntimeVersion || '').toLowerCase();
 
     if (initialVersionToLowerTrimmed === exactVersionToLower) {
-      return 'ExactMatch';
+      return ComparisonResult.ExactMatch;
     }
 
     // remove single leading '~', trailing '-alpha'
     const initialVersionNormalized = (initialVersionToLowerTrimmed || '').toLowerCase().replace(/^~?|(-alpha)?$/g, '');
 
-    return !!initialVersionNormalized && exactVersionToLower.startsWith(initialVersionNormalized) ? 'PartialMatch' : 'NoMatch';
+    return !!initialVersionNormalized && exactVersionToLower.startsWith(initialVersionNormalized)
+      ? ComparisonResult.PartialMatch
+      : ComparisonResult.NoMatch;
   };
 
   const initialRuntimeVersion =

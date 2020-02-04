@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import { FormAppSetting, AppSettingsFormProps } from '../AppSettings.types';
+import { FormAppSetting, AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import { addOrUpdateFormAppSetting, findFormAppSettingValue, removeFormAppSetting } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
@@ -30,15 +30,15 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   let [waitingOnFunctionsApi, hasFunctions, failedToGetFunctions] = [false, false, false];
 
   switch (asyncData.functionsCount.loadingState) {
-    case 'loading':
+    case LoadingStates.loading:
       // The functions call hasn't completed, so we don't know the functions count. Keep the control disabled until the call completes or fails.
       waitingOnFunctionsApi = true;
       break;
-    case 'complete':
+    case LoadingStates.complete:
       // The functions call completed successfully. If the function count > 0 , prevent the user from changing major versions.
       hasFunctions = !!asyncData.functionsCount.value;
       break;
-    case 'failed':
+    case LoadingStates.failed:
       // The functions call failed, so we don't know the functions count. To be safe, prevent the user from changing major versions.
       failedToGetFunctions = true;
       break;
@@ -60,7 +60,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     let runtimeVersionInUse: RuntimeExtensionMajorVersions | null = null;
 
     if (
-      asyncData.functionsHostStatus.loadingState === 'complete' &&
+      asyncData.functionsHostStatus.loadingState === LoadingStates.complete &&
       asyncData.functionsHostStatus.value &&
       asyncData.functionsHostStatus.value.properties.state !== HostStates.error
     ) {
@@ -125,7 +125,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     }
   };
 
-  const onDropDownChange = newVersion => {
+  const onDropDownChange = (newVersion: RuntimeExtensionMajorVersions) => {
     let appSettings: FormAppSetting[] = [...values.appSettings];
 
     // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
