@@ -8,6 +8,7 @@ import { AppSettingsFormValues, FormApi, FormState } from '../../AppSettings.typ
 import { PermissionsContext } from '../../Contexts';
 import { Links } from '../../../../../utils/FwLinks';
 import { ArmObj } from '../../../../../models/arm-obj';
+import { IDropdownOption } from 'office-ui-fabric-react';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];
@@ -29,14 +30,14 @@ const PythonStack: React.StatelessComponent<Props> = props => {
   if (!pythonStack) {
     return null;
   }
-  const pythonVersions: {
-    key: string;
-    text: string;
-  }[] = pythonStack!.properties.majorVersions.map(x => ({
-    key: x.runtimeVersion,
-    text: x.isEndOfLife ? t('endOfLifeTagTemplate').format(x.displayVersion) : x.displayVersion,
-  }));
+  const pythonVersions: IDropdownOption[] = pythonStack!.properties.majorVersions
+    .filter(v => !v.isEndOfLife || (!!v.runtimeVersion && v.runtimeVersion === values.config.properties.pythonVersion))
+    .map(x => ({
+      key: x.runtimeVersion,
+      text: x.isEndOfLife ? t('endOfLifeTagTemplate').format(x.displayVersion) : x.displayVersion,
+    }));
   pythonVersions.push({ key: '', text: t('off') });
+
   return (
     <Field
       name="config.properties.pythonVersion"
