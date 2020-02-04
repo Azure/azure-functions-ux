@@ -100,16 +100,6 @@ export class GithubService implements OnDestroy {
     });
   }
 
-  // commitWorkflowConfiguration(authToken: string, repoName: string, workflowYmlPath: string, content: any) {
-  //   const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/${workflowYmlPath}`;
-
-  //   return this._cacheService.put(Constants.serviceHost + `api/github/fileContent`, null, {
-  //     url,
-  //     content,
-  //     authToken,
-  //   });
-  // }
-
   getWorkflowInformation(
     buildSettings: BuildSettings,
     sourceSettings: SourceSettings,
