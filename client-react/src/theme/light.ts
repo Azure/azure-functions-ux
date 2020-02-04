@@ -1,7 +1,7 @@
 import { IPalette } from 'office-ui-fabric-react/lib/Styling';
 import { ThemeExtended } from './SemanticColorsExtended';
 
-const AzurePortalColors = {
+export const AzurePortalColors = {
   lineSeparator: 'rgba(107, 132, 156, 0.25)',
   sectionDividerScrollbar: 'rgba(107, 132, 156, 0.35)',
   background: '#ffffff',
@@ -9,8 +9,10 @@ const AzurePortalColors = {
   itemBackgroundOnSelect: 'rgba(85, 179, 255, 0.2)',
   itemBackgroundOnHover: 'rgba(85, 179, 255, 0.1)',
   overlay: 'rgba(0, 0, 0, 0.6)',
+  successText: '#428000',
   successBackground: '#e6ffcc',
   successIcon: '#5db300',
+  errorText: '#A4262C',
   errorBackground: '#fdd8db',
   errorIcon: '#e00b1c',
   warningBackground: '#ffdfb8',
@@ -68,6 +70,7 @@ const themePalette: IPalette = {
   accent: '#0078d4',
   white: '#ffffff',
   whiteTranslucent40: 'rgba(255,255,255,.4)',
+  yellowDark: '#d29200',
   yellow: '#ffb900',
   yellowLight: '#fff100',
   orange: '#d83b01',
@@ -194,7 +197,7 @@ const semanticColors = {
   ...AzurePortalColors,
 };
 
-const lightTheme: Partial<ThemeExtended> = {
+export const lightTheme: Partial<ThemeExtended> = {
   semanticColors,
   palette: themePalette,
   fonts: {
@@ -261,7 +264,23 @@ const lightTheme: Partial<ThemeExtended> = {
       fontSize: '21px',
       fontWeight: 100,
     },
+    xLargePlus: {
+      fontFamily:
+        "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+      MozOsxFontSmoothing: 'grayscale',
+      WebkitFontSmoothing: 'antialiased',
+      fontSize: '21px',
+      fontWeight: 100,
+    },
     xxLarge: {
+      fontFamily:
+        "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+      MozOsxFontSmoothing: 'grayscale',
+      WebkitFontSmoothing: 'antialiased',
+      fontSize: '28px',
+      fontWeight: 100,
+    },
+    xxLargePlus: {
       fontFamily:
         "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
       MozOsxFontSmoothing: 'grayscale',
@@ -289,5 +308,3 @@ const lightTheme: Partial<ThemeExtended> = {
   isInverted: false,
   disableGlobalClassNames: false,
 };
-
-export default lightTheme;
