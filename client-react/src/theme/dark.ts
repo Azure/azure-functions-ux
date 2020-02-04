@@ -1,5 +1,6 @@
 import { IPalette } from 'office-ui-fabric-react/lib/Styling';
 import { ThemeExtended } from './SemanticColorsExtended';
+import { AzurePortalColors as LightThemePortalColors } from './light';
 
 const AzurePortalColors = {
   lineSeparator: 'rgba(107, 132, 156, 0.25)',
@@ -9,8 +10,10 @@ const AzurePortalColors = {
   itemBackgroundOnSelect: 'rgba(128, 128, 128, 0.25)',
   itemBackgroundOnHover: 'rgba(128, 128, 128, 0.15)',
   overlay: 'rgba(0, 0, 0, 0.6)',
+  successText: LightThemePortalColors.successText, // No official dark color yet
   successBackground: '#1a3300',
   successIcon: '#5db300',
+  errorText: LightThemePortalColors.errorText, // No official dark color yet
   errorBackground: '#61050c',
   errorIcon: '#e00b1c',
   warningBackground: '#b36200',
@@ -68,6 +71,7 @@ const themePalette: IPalette = {
   neutralSecondaryAlt: 'rgb(54, 54, 54)',
   accent: '#0078d4',
   whiteTranslucent40: 'rgba(255,255,255,.4)',
+  yellowDark: '#d29200',
   yellow: '#ffb900',
   yellowLight: '#fff100',
   orange: '#d83b01',
@@ -113,13 +117,14 @@ const semanticColors = {
   variantBorderHovered: AzurePortalColors.standardControlOutlineHover,
   defaultStateBackground: AzurePortalColors.standardControlOutlineDisabled,
 
-  errorText: AzurePortalColors.inlineErrorText,
+  successText: AzurePortalColors.successText,
+  successBackground: AzurePortalColors.successBackground,
   warningText: AzurePortalColors.textColor,
-  errorBackground: AzurePortalColors.errorBackground,
-  blockingBackground: AzurePortalColors.errorBackground,
   warningBackground: AzurePortalColors.warningBackground,
   warningHighlight: AzurePortalColors.warningIcon,
-  successBackground: AzurePortalColors.successBackground,
+  errorText: AzurePortalColors.inlineErrorText,
+  errorBackground: AzurePortalColors.errorBackground,
+  blockingBackground: AzurePortalColors.errorBackground,
 
   inputBorder: AzurePortalColors.textControlOutlineRest,
   inputBorderHovered: AzurePortalColors.textControlOutlineHovered,
@@ -194,7 +199,7 @@ const semanticColors = {
   ...AzurePortalColors,
 };
 
-const darkModeTheme: Partial<ThemeExtended> = {
+export const darkTheme: Partial<ThemeExtended> = {
   palette: themePalette,
   fonts: {
     tiny: {
@@ -260,7 +265,23 @@ const darkModeTheme: Partial<ThemeExtended> = {
       fontSize: '21px',
       fontWeight: 100,
     },
+    xLargePlus: {
+      fontFamily:
+        "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+      MozOsxFontSmoothing: 'grayscale',
+      WebkitFontSmoothing: 'antialiased',
+      fontSize: '21px',
+      fontWeight: 100,
+    },
     xxLarge: {
+      fontFamily:
+        "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+      MozOsxFontSmoothing: 'grayscale',
+      WebkitFontSmoothing: 'antialiased',
+      fontSize: '28px',
+      fontWeight: 100,
+    },
+    xxLargePlus: {
       fontFamily:
         "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
       MozOsxFontSmoothing: 'grayscale',
@@ -290,5 +311,3 @@ const darkModeTheme: Partial<ThemeExtended> = {
   isInverted: false,
   disableGlobalClassNames: false,
 };
-
-export default darkModeTheme;
