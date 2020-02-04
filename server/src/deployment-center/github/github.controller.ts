@@ -63,8 +63,6 @@ export class GithubController {
     const publishProfile = await this.dcService.getSitePublishProfile(authToken, content.resourceId);
     const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
     const publicKey = await this._getGitHubRepoPublicKey(tokenData, content.commit.repoName);
-    console.log(publicKey);
-
     await this._putGitHubRepoSecret(tokenData, publicKey, content.commit.repoName, content.secretName, publishProfile);
     await this._commitFile(tokenData, content);
   }
