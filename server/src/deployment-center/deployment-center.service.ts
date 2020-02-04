@@ -27,7 +27,7 @@ export class DeploymentCenterService {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
       }
-      throw new HttpException('Internal Server Error', 501);
+      throw new HttpException('Internal Server Error', 500);
     }
   }
 
