@@ -7,7 +7,7 @@ import { FunctionTemplate } from '../models/functions/function-template';
 import { FunctionConfig } from '../models/functions/function-config';
 import Url from '../utils/url';
 import { Binding } from '../models/functions/binding';
-import { RuntimeExtensionMajorVersions } from '../models/functions/runtime-extension';
+import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../models/functions/runtime-extension';
 import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
 import { Method } from 'axios';
@@ -129,7 +129,7 @@ export default class FunctionsService {
 
   public static getHostJson(resourceId: string, functionName: string, runtimeVersion?: string) {
     switch (runtimeVersion) {
-      case RuntimeExtensionMajorVersions.beta:
+      case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3: {
         return MakeArmCall<Host>({
@@ -159,7 +159,7 @@ export default class FunctionsService {
   ) {
     const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
     switch (runtimeVersion) {
-      case RuntimeExtensionMajorVersions.beta:
+      case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3: {
         return MakeArmCall<VfsObject[] | string>({
@@ -194,7 +194,7 @@ export default class FunctionsService {
   ) {
     const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
     switch (runtimeVersion) {
-      case RuntimeExtensionMajorVersions.beta:
+      case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3: {
         return MakeArmCall<VfsObject[] | string>({

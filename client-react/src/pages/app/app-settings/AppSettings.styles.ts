@@ -69,6 +69,12 @@ export const sourceTextStyle = style({
   marginLeft: '15px',
 });
 
+export const textFieldStyle = style({
+  marginLeft: '1px',
+  marginTop: '1px',
+  width: '275px',
+});
+
 export const messageBannerStyle = (theme: ThemeExtended, type: MessageBarType) => {
   let backgroundColor: string;
 
