@@ -58,6 +58,10 @@ export class StackSelectorComponent implements OnDestroy {
     this._runtimeStackStream$.next(stackSelected.value);
   }
 
+  runtimeStackVersionChanged(stackVersionSelected: DropDownElement<string>) {
+    this._runtimeStackVersionStream$.next(stackVersionSelected.value);
+  }
+
   private _setupValidators() {
     this.requiredValidator = new RequiredValidator(this._translateService, false);
     this.wizard.buildSettings.get('runtimeStack').setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
@@ -89,6 +93,9 @@ export class StackSelectorComponent implements OnDestroy {
 
     this._runtimeStackVersionStream$.takeUntil(this._ngUnsubscribe$).subscribe(versionValue => {
       this.selectedRuntimeStackVersion = versionValue;
+      this.wizard.buildSettings
+        .get('runtimeStackRecommendedVersion')
+        .setValue(this._getRuntimeStackRecommendedVersion(this.selectedRuntimeStack, versionValue));
     });
 
     this.wizard.siteArmObj$.subscribe(_ => {
@@ -153,5 +160,12 @@ export class StackSelectorComponent implements OnDestroy {
     }
 
     this.runtimeStackVersionsLoading = false;
+  }
+
+  private _getRuntimeStackRecommendedVersion(stackValue: string, runtimeVersionValue: string): string {
+    const runtimeStack = this._runtimeStacks.find(stack => stack.value.toLocaleLowerCase() === stackValue);
+    const runtimeStackVersion = runtimeStack.versions.find(version => version.supportedPlatforms[0].runtimeVersion === runtimeVersionValue);
+
+    return runtimeStackVersion.supportedPlatforms[0].githubActionSettings.recommendedVersion;
   }
 }

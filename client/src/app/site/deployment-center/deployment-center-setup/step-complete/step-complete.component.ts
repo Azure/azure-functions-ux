@@ -213,7 +213,12 @@ export class StepCompleteComponent {
   }
 
   get GithubActionsWorkflowConfig() {
-    if (this.wizard.wizardValues.buildSettings.runtimeStack && this.wizard.wizardValues.buildSettings.runtimeStackVersion) {
+    if (
+      this.wizard.wizardValues.sourceSettings.repoUrl &&
+      this.wizard.wizardValues.sourceSettings.branch &&
+      this.wizard.wizardValues.buildSettings.runtimeStack &&
+      this.wizard.wizardValues.buildSettings.runtimeStackVersion
+    ) {
       const information = this._githubService.getWorkflowInformation(
         this.wizard.wizardValues.buildSettings,
         this.wizard.wizardValues.sourceSettings,

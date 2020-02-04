@@ -23,6 +23,7 @@ export class BuildSettings {
   public startupCommand: string;
   public runtimeStack: string;
   public runtimeStackVersion: string;
+  public runtimeStackRecommendedVersion: string;
 }
 
 export class VstsBuildSettings extends BuildSettings {

@@ -114,8 +114,7 @@ export class GithubService implements OnDestroy {
     const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
 
     let content = '';
-    const runtimeStackVersion =
-      buildSettings.runtimeStackVersion && isLinuxApp ? buildSettings.runtimeStackVersion.split('|')[1] : buildSettings.runtimeStackVersion;
+    const runtimeStackVersion = this._getRuntimeVersion(isLinuxApp, buildSettings);
 
     switch (buildSettings.runtimeStack) {
       case 'node':
@@ -140,6 +139,14 @@ export class GithubService implements OnDestroy {
 
   getWorkflowFileName(branch: string, siteName: string, slotName?: string): string {
     return slotName ? `${branch}_${siteName}(${slotName}).yml` : `${branch}_${siteName}.yml`;
+  }
+
+  private _getRuntimeVersion(isLinuxApp: boolean, buildSettings: BuildSettings) {
+    if (buildSettings.runtimeStackRecommendedVersion) {
+      return buildSettings.runtimeStackRecommendedVersion;
+    } else {
+      return isLinuxApp ? buildSettings.runtimeStackVersion.split('|')[1] : buildSettings.runtimeStackVersion;
+    }
   }
 
   // TODO(michinoy): Need to implement templated github action workflow generation.
