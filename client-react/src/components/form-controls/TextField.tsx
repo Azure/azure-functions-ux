@@ -5,6 +5,8 @@ import { FieldProps } from 'formik';
 import { Subject } from 'rxjs';
 import get from 'lodash-es/get';
 import TextFieldNoFormik from './TextFieldNoFormik';
+import { Link } from 'office-ui-fabric-react';
+import { CommonConstants } from '../../utils/CommonConstants';
 
 interface EventMsg {
   e: any;
@@ -60,11 +62,11 @@ class TextField extends React.Component<FieldProps & ITextFieldProps & CustomTex
       return (
         <>
           Invalid Cron Expression. Please consult the{' '}
-          <a // eslint-disable-next-line react/jsx-no-target-blank
+          <Link // eslint-disable-next-line react/jsx-no-target-blank
             target="_blank"
-            href="https://go.microsoft.com/fwlink/?linkid=2117147&clcid=0x409">
+            href={CommonConstants.Links.cronLearnMore}>
             documentation
-          </a>{' '}
+          </Link>{' '}
           to learn more.
         </>
       );

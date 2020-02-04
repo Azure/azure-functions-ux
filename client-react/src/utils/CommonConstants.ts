@@ -20,6 +20,7 @@ export class CommonConstants {
     appDensityWarningLink: 'https://go.microsoft.com/fwlink/?linkid=2098431',
     byosBlobReadonlyLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2110146',
     extensionBundlesRequiredLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2116575',
+    cronLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2117147&clcid=0x409',
   };
 
   public static readonly Kinds = {
