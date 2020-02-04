@@ -59,7 +59,17 @@ class TextField extends React.Component<FieldProps & ITextFieldProps & CustomTex
   // Remove this once we get the API update so that errors have learn more
   private cronErrorMessage(errorMessage: string): string | JSX.Element {
     if (errorMessage.includes('Invalid Cron Expression')) {
-      t('readOnlyLocalCache');
+      return (
+        <>
+          Invalid Cron Expression. Please consult the{' '}
+          <Link // eslint-disable-next-line react/jsx-no-target-blank
+            target="_blank"
+            href={CommonConstants.Links.cronLearnMore}>
+            documentation
+          </Link>{' '}
+          to learn more.
+        </>
+      );
     }
     return errorMessage;
   }
