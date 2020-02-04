@@ -115,18 +115,23 @@ export class GithubService implements OnDestroy {
     const fileName = this.getWorkflowFileName(branch, siteName, slotName);
     const secretName = `AzureAppService_PublishProfile_${secretNameGuid}`;
     const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
-    const virtualEnvironment = isLinuxApp ? 'ubuntu-latest' : 'windows-latest';
 
     let content = '';
+    const runtimeStackVersion =
+      buildSettings.runtimeStackVersion && isLinuxApp ? buildSettings.runtimeStackVersion.split('|')[1] : buildSettings.runtimeStackVersion;
 
-    // TODO(michinoy): Need to implement stack specific definition generation.
-    switch (buildSettings.applicationFramework) {
-      case 'Node':
-        content = this._getNodeGithubActionWorkflowDefinition(webAppName, branch, virtualEnvironment, secretName);
+    switch (buildSettings.runtimeStack) {
+      case 'node':
+        content = this._getNodeGithubActionWorkflowDefinition(webAppName, branch, isLinuxApp, secretName, runtimeStackVersion);
+        break;
+      case 'python':
+        content = this._getPythonGithubActionWorkflowDefinition(webAppName, branch, isLinuxApp, secretName, runtimeStackVersion);
+        break;
+      case 'dotnetcore':
+        content = this._getDotnetCoreGithubActionWorkflowDefinition(webAppName, branch, isLinuxApp, secretName, runtimeStackVersion);
         break;
       default:
-        content = this._getDefaultGithubActionWorkflowDefinition(webAppName, branch, virtualEnvironment, secretName);
-        break;
+        throw Error(`Incorrect stack value '${buildSettings.runtimeStack}' provided.`);
     }
 
     return {
@@ -141,8 +146,18 @@ export class GithubService implements OnDestroy {
   }
 
   // TODO(michinoy): Need to implement templated github action workflow generation.
-  private _getNodeGithubActionWorkflowDefinition(webAppName: string, branch: string, virtualEnvironment: string, secretName: string) {
-    return `# Azure Web App: ${webAppName}
+  private _getNodeGithubActionWorkflowDefinition(
+    webAppName: string,
+    branch: string,
+    isLinuxApp: boolean,
+    secretName: string,
+    runtimeStackVersion: string
+  ) {
+    return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Node.js app to Azure Web App
+
 on:
   push:
     branches:
@@ -150,50 +165,117 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ${virtualEnvironment}
+    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
+    
     steps:
-    # checkout the repo
-    - name: 'Checkout Github Action' 
-      uses: actions/checkout@v1.0.0
+    - uses: actions/checkout@master
 
-    # install dependencies, build, and test
-    - name: 'Use Node.js 10.x'
+    - name: Set up Node.js version
       uses: actions/setup-node@v1
       with:
-        node-version: '10.x'
-
-    - name: 'npm install, build, and test'
+        node-version: '${runtimeStackVersion}'
+    
+    - name: npm install, build, and test
       run: |
         npm install
         npm run build --if-present
         npm run test --if-present
 
-    # deploy web app using publish profile credentials
-    - name: 'Deploy to Azure WebApp'
+    - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v1
-      with:
-        app-name: ${webAppName}
+      with: 
+        app-name: '${webAppName}'
         publish-profile: \${{ secrets.${secretName} }}
-        package: '.'`;
+        package: .`;
   }
 
   // TODO(michinoy): Need to implement templated github action workflow generation.
-  private _getDefaultGithubActionWorkflowDefinition(webAppName: string, branch: string, virtualEnvironment: string, secretName: string) {
-    return `# Azure Web App: ${webAppName}
+  private _getPythonGithubActionWorkflowDefinition(
+    webAppName: string,
+    branch: string,
+    isLinuxApp: boolean,
+    secretName: string,
+    runtimeStackVersion: string
+  ) {
+    return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Python app to Azure Web App
+
 on:
   push:
     branches:
       - ${branch}
+
 jobs:
   build-and-deploy:
-    runs-on: ${virtualEnvironment}
+    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
+    
     steps:
-    # checkout the repo
     - uses: actions/checkout@master
-    # deploy web app using publish profile credentials
-    - uses: azure/appservice-actions/webapp@master
+
+    - name: Set up Python version
+      uses: actions/setup-python@v1
       with:
-        app-name: ${webAppName}
-        publish-profile: \${{ secrets.${secretName} }}`;
+        python-version: '${runtimeStackVersion}'
+    
+    - name: Install Python dependencies
+      run: |
+        python3 -m venv env
+        source env/bin/activate
+        pip install -r requirements.txt
+    - name: Zip the application files
+      run: zip -r myapp.zip .
+    
+    - name: 'Deploy to Azure Web App'
+    - uses: azure/webapps-deploy@v1
+      with: 
+        app-name: '${webAppName}'
+        publish-profile: \${{ secrets.${secretName} }}
+        package: './myapp.zip'`;
+  }
+
+  // TODO(michinoy): Need to implement templated github action workflow generation.
+  private _getDotnetCoreGithubActionWorkflowDefinition(
+    webAppName: string,
+    branch: string,
+    isLinuxApp: boolean,
+    secretName: string,
+    runtimeStackVersion: string
+  ) {
+    return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy ASP.Net Core app to Azure Web App
+
+on:
+  push:
+    branches:
+      - ${branch}
+
+jobs:
+  build-and-deploy:
+    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
+    
+    steps:
+    - uses: actions/checkout@master
+    
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '${runtimeStackVersion}'
+
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+    
+    - name: dotnet publish
+      run: dotnet publish -c Release -o \${{env.DOTNET_ROOT}}/myapp 
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v1
+      with: 
+        app-name: '${webAppName}'
+        publish-profile: \${{ secrets.${secretName} }}
+        package: \${{env.DOTNET_ROOT}}/myapp `;
   }
 }

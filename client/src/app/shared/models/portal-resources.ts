@@ -1815,12 +1815,16 @@ export class PortalResources {
   public static endOfLifeTagTemplate = 'endOfLifeTagTemplate';
   public static functionEditor_appInsightsNotConfigured = 'functionEditor_appInsightsNotConfigured';
   public static functionEditor_connectingToAppInsights = 'functionEditor_connectingToAppInsights';
+  public static runtimeStack = 'runtimeStack';
+  public static runtimeStackVersion = 'runtimeStackVersion';
   public static functionCreate_extensionBundlesRequired = 'functionCreate_extensionBundlesRequired';
   public static remoteDebuggingNotAvailableOnFlexStamp = 'remoteDebuggingNotAvailableOnFlexStamp';
   public static tryFunctionsPreview = 'tryFunctionsPreview';
   public static saveAppSettingsTitle = 'saveAppSettingsTitle';
   public static saveAppSettingsMessage = 'saveAppSettingsMessage';
   public static azureFunctionsV1Linux = 'azureFunctionsV1Linux';
+  public static githubActionStackNotSupportedMessage = 'githubActionStackNotSupportedMessage';
+  public static githubActionStackMismatchMessage = 'githubActionStackMismatchMessage';
   public static hostConfigurationLabel = 'hostConfigurationLabel';
   public static configureHostJson = 'configureHostJson';
 }

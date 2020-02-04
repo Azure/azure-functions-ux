@@ -21,6 +21,8 @@ export class BuildSettings {
   public pythonSettings: PythonSettings;
   public frameworkVersion: string;
   public startupCommand: string;
+  public runtimeStack: string;
+  public runtimeStackVersion: string;
 }
 
 export class VstsBuildSettings extends BuildSettings {
