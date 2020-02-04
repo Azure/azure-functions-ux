@@ -1,6 +1,7 @@
 export class Constants {
   static templatesPath = '';
   static AntaresApiVersion = '2016-03-01';
+  static AntaresApiVersion20181101 = '2018-11-01';
   static AntaresAppSettingsApiVersion = '2015-08-01';
   static KeyvaultApiVersion = '2016-10-01';
   static KeyvaultUri = 'https://vault.azure.net';

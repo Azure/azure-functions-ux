@@ -4,7 +4,7 @@ import { Constants, DeploymentCenterConstants } from 'app/shared/models/constant
 import { CacheService } from 'app/shared/services/cache.service';
 import { Guid } from 'app/shared/Utilities/Guid';
 import { Observable } from 'rxjs/Observable';
-import { FileContent, WorkflowInformation } from '../../Models/github';
+import { FileContent, WorkflowInformation, GitHubActionWorkflowRequestContent } from '../../Models/github';
 import { BuildSettings, SourceSettings } from './deployment-center-setup-models';
 
 @Injectable()
@@ -93,13 +93,10 @@ export class GithubService implements OnDestroy {
       .catch(e => Observable.of(null));
   }
 
-  commitWorkflowConfiguration(authToken: string, repoName: string, workflowYmlPath: string, content: any) {
-    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/${workflowYmlPath}`;
-
-    return this._cacheService.put(Constants.serviceHost + `api/github/fileContent`, null, {
-      url,
-      content,
+  createOrUpdateActionWorkflow(authToken: string, content: GitHubActionWorkflowRequestContent) {
+    return this._cacheService.put(Constants.serviceHost + `api/github/actionWorkflow`, null, {
       authToken,
+      content,
     });
   }
 
@@ -166,7 +163,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
-    
+
     steps:
     - uses: actions/checkout@master
 
@@ -174,7 +171,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '${runtimeStackVersion}'
-    
+
     - name: npm install, build, and test
       run: |
         npm install
@@ -183,7 +180,7 @@ jobs:
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v1
-      with: 
+      with:
         app-name: '${webAppName}'
         publish-profile: \${{ secrets.${secretName} }}
         package: .`;
@@ -210,7 +207,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
-    
+
     steps:
     - uses: actions/checkout@master
 
@@ -218,7 +215,7 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: '${runtimeStackVersion}'
-    
+
     - name: Install Python dependencies
       run: |
         python3 -m venv env
@@ -226,10 +223,10 @@ jobs:
         pip install -r requirements.txt
     - name: Zip the application files
       run: zip -r myapp.zip .
-    
+
     - name: 'Deploy to Azure Web App'
     - uses: azure/webapps-deploy@v1
-      with: 
+      with:
         app-name: '${webAppName}'
         publish-profile: \${{ secrets.${secretName} }}
         package: './myapp.zip'`;
@@ -256,10 +253,10 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
-    
+
     steps:
     - uses: actions/checkout@master
-    
+
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -267,13 +264,13 @@ jobs:
 
     - name: Build with dotnet
       run: dotnet build --configuration Release
-    
+
     - name: dotnet publish
-      run: dotnet publish -c Release -o \${{env.DOTNET_ROOT}}/myapp 
+      run: dotnet publish -c Release -o \${{env.DOTNET_ROOT}}/myapp
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v1
-      with: 
+      with:
         app-name: '${webAppName}'
         publish-profile: \${{ secrets.${secretName} }}
         package: \${{env.DOTNET_ROOT}}/myapp `;
