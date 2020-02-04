@@ -74,6 +74,7 @@ export class StackSelectorComponent implements OnDestroy {
       this.runtimeStackVersionsLoading = true;
       this.runtimeStackVersionItems = [];
 
+      // NOTE(michinoy): Show a warning message if the user selects a stack which does not match what their app is configured with.
       if (stackValue !== this.wizard.stack.toLocaleLowerCase() && !this.stackNotSupportedMessage) {
         this.stackMismatchMessage = this._translateService.instant(PortalResources.githubActionStackMismatchMessage, {
           appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
@@ -82,6 +83,7 @@ export class StackSelectorComponent implements OnDestroy {
       } else {
         this.stackMismatchMessage = '';
       }
+
       this._populateRuntimeStackVersionItems(stackValue);
     });
 
@@ -111,20 +113,10 @@ export class StackSelectorComponent implements OnDestroy {
   }
 
   private _populateRuntimeStackItems() {
-    const dropdownItems = [
-      {
-        displayLabel: '',
-        value: '',
-      },
-    ];
-
-    const stackItems = this._runtimeStacks.map(stack => ({
+    this.runtimeStackItems = this._runtimeStacks.map(stack => ({
       displayLabel: stack.displayText,
       value: stack.value.toLocaleLowerCase(),
     }));
-
-    dropdownItems.push(...stackItems);
-    this.runtimeStackItems = dropdownItems;
 
     // NOTE(michinoy): Once the dropdown is populated, preselect stack that the user had selected during create.
     // If the users app was built using a stack that is not supported, show a warning message.
@@ -144,26 +136,17 @@ export class StackSelectorComponent implements OnDestroy {
 
   private _populateRuntimeStackVersionItems(stackValue: string) {
     if (stackValue) {
-      const dropdodownItems = [
-        {
-          displayLabel: '',
-          value: '',
-        },
-      ];
-
       const runtimeStack = this._runtimeStacks.find(stack => stack.value.toLocaleLowerCase() === stackValue);
 
-      const versionItems = runtimeStack.versions.map(version => ({
+      this.runtimeStackVersionItems = runtimeStack.versions.map(version => ({
         displayLabel: version.displayText,
         value: version.supportedPlatforms[0].runtimeVersion,
       }));
 
-      dropdodownItems.push(...versionItems);
-      this.runtimeStackVersionItems = dropdodownItems;
-
       const appSelectedStackVersion = this.runtimeStackVersionItems.filter(
-        item => item.value === this.wizard.stackVersion.toLocaleLowerCase()
+        item => item.value.toLocaleLowerCase() === this.wizard.stackVersion.toLocaleLowerCase()
       );
+
       if (appSelectedStackVersion && appSelectedStackVersion.length === 1) {
         this._runtimeStackVersionStream$.next(appSelectedStackVersion[0].value);
       }
