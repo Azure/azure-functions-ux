@@ -41,11 +41,20 @@ const isStackVersionEndOfLife = (stackName: string, runtimeVersion: string) => {
     return runtimeVersion === '2.7' || runtimeVersion.startsWith('2.7.');
   }
 
+  if (stackName === 'java8') {
+    return runtimeVersion.toLowerCase() === 'wildfly|14-jre8';
+  }
+
   return false;
 };
 
-const extractRuntimeVersion = (runtimeVersion: string, isLinux?: boolean): string => {
+const extractRuntimeVersion = (runtimeVersion: string, stackName: string, isLinux?: boolean): string => {
   let version = runtimeVersion || '';
+
+  if (isLinux && stackName === 'java8') {
+    return runtimeVersion;
+  }
+
   if (isLinux) {
     const runtimeVersionSplitOnPipe = runtimeVersion.split('|');
     version = runtimeVersionSplitOnPipe.length === 2 ? runtimeVersionSplitOnPipe[1] : '';
@@ -62,18 +71,18 @@ export const markEndOfLifeStacksInPlace = (stacks: ArmObj<AvailableStack>[]) => 
     const isLinux = !!stack.type && stack.type.toLowerCase() === 'Microsoft.Web/availableStacks?osTypeSelected=Linux'.toLowerCase();
     const stackName = (stack.name || '').toLowerCase();
 
-    if (stackName === 'dotnetcore' || stackName === 'node' || stackName === 'php' || stackName === 'python') {
+    if (stackName === 'dotnetcore' || stackName === 'node' || stackName === 'php' || stackName === 'python' || stackName === 'java8') {
       const majorVersions = stack.properties.majorVersions || [];
       majorVersions.forEach(majorVersion => {
         let allMinorVersionsEndOfLife = true;
         const minorVersions = majorVersion.minorVersions || [];
         minorVersions.forEach(minorVersion => {
-          const minorVersionRuntime = extractRuntimeVersion(minorVersion.runtimeVersion, isLinux);
+          const minorVersionRuntime = extractRuntimeVersion(minorVersion.runtimeVersion, stackName, isLinux);
           minorVersion.isEndOfLife = isStackVersionEndOfLife(stackName, minorVersionRuntime);
           allMinorVersionsEndOfLife = allMinorVersionsEndOfLife && minorVersion.isEndOfLife;
         });
 
-        const majorVersionRuntime = extractRuntimeVersion(majorVersion.runtimeVersion, isLinux);
+        const majorVersionRuntime = extractRuntimeVersion(majorVersion.runtimeVersion, stackName, isLinux);
         majorVersion.isEndOfLife = isStackVersionEndOfLife(stackName, majorVersionRuntime);
         majorVersion.allMinorVersionsEndOfLife = allMinorVersionsEndOfLife;
       });

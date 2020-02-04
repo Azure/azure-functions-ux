@@ -8,8 +8,10 @@ export interface AzurePortalColors {
   itemBackgroundOnSelect: string;
   itemBackgroundOnHover: string;
   overlay: string;
+  successText: string;
   successBackground: string;
   successIcon: string;
+  errorText: string;
   errorBackground: string;
   errorIcon: string;
   warningBackground: string;
@@ -60,13 +62,14 @@ export interface SemanticColorsExtended extends ISemanticColors, AzurePortalColo
   variantBorderHovered: string;
   defaultStateBackground: string;
 
-  errorText: string;
+  successText: string;
+  successBackground: string;
   warningText: string;
-  errorBackground: string;
-  blockingBackground: string;
   warningBackground: string;
   warningHighlight: string;
-  successBackground: string;
+  errorText: string;
+  errorBackground: string;
+  blockingBackground: string;
 
   inputBorder: string;
   inputBorderHovered: string;
