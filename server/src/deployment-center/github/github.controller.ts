@@ -60,8 +60,9 @@ export class GithubController {
     // to the web app. This secret is the publish profile. This one method will retrieve publish profile, encrypt it, put it
     // as a GitHub secret, and then publish the workflow file.
 
-    const publishProfile = await this.dcService.getSitePublishProfile(authToken, content.resourceId);
-    const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
+    const publishProfileRequest = this.dcService.getSitePublishProfile(authToken, content.resourceId);
+    const tokenDataRequest = this.dcService.getSourceControlToken(authToken, this.provider);
+    const [publishProfile, tokenData] = await Promise.all([publishProfileRequest, tokenDataRequest]);
     const publicKey = await this._getGitHubRepoPublicKey(tokenData, content.commit.repoName);
     await this._putGitHubRepoSecret(tokenData, publicKey, content.commit.repoName, content.secretName, publishProfile);
     await this._commitFile(tokenData, content);
