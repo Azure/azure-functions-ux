@@ -11,10 +11,18 @@ import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
 import { Links } from '../../../../../utils/FwLinks';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
-import { ArmObj } from '../../../../../models/arm-obj';
+import { ArmObj, ArmArray } from '../../../../../models/arm-obj';
 import i18next from 'i18next';
 
 type PropsType = FormikProps<AppSettingsFormValues>;
+
+interface VersionDetails {
+  runtimeStackName: string;
+  majorVersionName: string;
+  majorVersionRuntime: string;
+  minorVersionName: string;
+  minorVersionRuntime: string;
+}
 
 const getRuntimeStacks = (builtInStacks: ArmObj<AvailableStack>[]) => {
   const stacks: IDropdownOption[] = [];
@@ -28,103 +36,181 @@ const getRuntimeStacks = (builtInStacks: ArmObj<AvailableStack>[]) => {
   return stacks;
 };
 
-const getSelectedRuntimeStack = (builtInStacks: ArmObj<AvailableStack>[], version: string) => {
-  for (const s of builtInStacks) {
-    for (const majVer of s.properties.majorVersions) {
-      if (majVer.runtimeVersion.toLowerCase() === version) {
-        return s.name;
-      }
-      for (const minVer of majVer.minorVersions) {
-        if (minVer.runtimeVersion.toLowerCase() === version) {
-          return s.name;
-        }
-      }
-    }
-  }
-  return '';
-};
 const getMajorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string, t: i18next.TFunction) => {
   const linuxFxVersionOptions: IDropdownOption[] = [];
 
-  const currentStack = builtInStacks.find(s => s.name === stack);
+  const stackToLower = (stack || '').toLowerCase();
+  const currentStack = builtInStacks.find(s => !!s.name && s.name.toLowerCase() === stackToLower);
   if (!currentStack) {
     return [];
   }
+
   currentStack.properties.majorVersions.forEach(majorVersion => {
     linuxFxVersionOptions.push({
       text: majorVersion.allMinorVersionsEndOfLife
         ? t('endOfLifeTagTemplate').format(majorVersion.displayVersion)
         : majorVersion.displayVersion,
-      key: majorVersion.runtimeVersion.toLowerCase(),
+      key: majorVersion.runtimeVersion || '',
     });
   });
 
   return linuxFxVersionOptions;
 };
-const getSelectedMajorVersion = (builtInStacks: ArmObj<AvailableStack>[], version: string) => {
-  const stack = getSelectedRuntimeStack(builtInStacks, version);
-  const currentStack = builtInStacks.find(s => s.name === stack);
-  if (!currentStack) {
-    return '';
-  }
-  for (const majVer of currentStack.properties.majorVersions) {
-    if (majVer.runtimeVersion.toLowerCase() === version) {
-      return majVer.runtimeVersion.toLowerCase();
-    }
-    for (const minVer of majVer.minorVersions) {
-      if (minVer.runtimeVersion.toLowerCase() === version) {
-        return majVer.runtimeVersion.toLowerCase();
-      }
-    }
-  }
-  return '';
-};
+
 const getMinorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string, majorVersion: string, t: i18next.TFunction) => {
   const linuxFxVersionOptions: IDropdownOption[] = [];
   // included already handles the case that duplicate versions are included multiple times and needs to be filtered out
   const includedAlready = new Set();
-  const currentStack = builtInStacks.find(s => s.name === stack);
+  const stackToLower = (stack || '').toLowerCase();
+  const currentStack = builtInStacks.find(s => !!s.name && s.name.toLowerCase() === stackToLower);
   if (!currentStack) {
     return [];
   }
 
-  const currentVersion = currentStack.properties.majorVersions.find(m => m.runtimeVersion.toLowerCase() === majorVersion);
+  const majorVersionToLower = (majorVersion || '').toLowerCase();
+  const currentVersion = currentStack.properties.majorVersions.find(
+    m => !!m.runtimeVersion && m.runtimeVersion.toLowerCase() === majorVersionToLower
+  );
   if (!currentVersion) {
     return [];
   }
 
   currentVersion.minorVersions.forEach(minVer => {
-    const ver = minVer.runtimeVersion.toLowerCase();
-    if (!includedAlready.has(ver)) {
-      includedAlready.add(ver);
+    const runtime = minVer.runtimeVersion || '';
+    const runtimeToLower = runtime.toLowerCase();
+    if (!includedAlready.has(runtimeToLower)) {
+      includedAlready.add(runtimeToLower);
       linuxFxVersionOptions.push({
         text: minVer.isEndOfLife ? t('endOfLifeTagTemplate').format(minVer.displayVersion) : minVer.displayVersion,
-        key: ver,
+        key: runtime,
       });
     }
   });
 
-  if (!includedAlready.has(currentVersion.runtimeVersion.toLowerCase())) {
+  const currentRuntime = currentVersion.runtimeVersion || '';
+  const currentRuntimeToLower = currentRuntime.toLowerCase();
+  if (!includedAlready.has(currentRuntimeToLower)) {
     linuxFxVersionOptions.unshift({
       text: currentVersion.isEndOfLife ? t('endOfLifeTagTemplate').format(currentVersion.displayVersion) : currentVersion.displayVersion,
-      key: currentVersion.runtimeVersion.toLowerCase(),
+      key: currentRuntime,
     });
-    includedAlready.add(currentVersion.runtimeVersion.toLowerCase());
+    includedAlready.add(currentRuntimeToLower);
   }
 
   return linuxFxVersionOptions;
 };
 
-const getSelectedMinorVersion = (builtInStacks: ArmObj<AvailableStack>[], stack: string, majorVersion: string) => {
-  const currentStack = builtInStacks.find(s => s.name === stack);
-  if (!currentStack) {
-    return '';
+const getVersionDetails = (builtInStacks: ArmObj<AvailableStack>[], version: string): VersionDetails => {
+  if (!!builtInStacks && !!version) {
+    for (const s of builtInStacks) {
+      const stackName = s.name || '';
+
+      for (const majVer of s.properties.majorVersions) {
+        const majVerRuntime = majVer.runtimeVersion || '';
+
+        for (const minVer of majVer.minorVersions) {
+          const minVerRuntime = minVer.runtimeVersion || '';
+
+          if (minVerRuntime.toLowerCase() === version.toLowerCase()) {
+            return {
+              runtimeStackName: stackName,
+              majorVersionName: majVer.displayVersion,
+              majorVersionRuntime: majVerRuntime,
+              minorVersionName: minVer.displayVersion,
+              minorVersionRuntime: minVerRuntime,
+            };
+          }
+        }
+
+        if (majVerRuntime.toLowerCase() === version.toLowerCase()) {
+          return {
+            runtimeStackName: stackName,
+            majorVersionName: majVer.displayVersion,
+            majorVersionRuntime: majVerRuntime,
+            minorVersionName: majVer.displayVersion,
+            minorVersionRuntime: majVerRuntime,
+          };
+        }
+      }
+    }
   }
-  const currentVersion = currentStack.properties.majorVersions.find(m => m.runtimeVersion.toLowerCase() === majorVersion);
-  if (currentVersion) {
-    return currentVersion.displayVersion;
+
+  return {
+    runtimeStackName: '',
+    majorVersionName: '',
+    majorVersionRuntime: '',
+    minorVersionName: '',
+    minorVersionRuntime: '',
+  };
+};
+
+const getSelectedRuntimeStack = (builtInStacks: ArmObj<AvailableStack>[], version: string) => {
+  const versionDetails = getVersionDetails(builtInStacks, version);
+  return versionDetails.runtimeStackName;
+};
+
+const getSelectedMajorVersion = (builtInStacks: ArmObj<AvailableStack>[], version: string) => {
+  const versionDetails = getVersionDetails(builtInStacks, version);
+  return versionDetails.majorVersionRuntime;
+};
+
+const getSelectedMinorVersion = (builtInStacks: ArmObj<AvailableStack>[], stack: string, version: string) => {
+  const versionDetails = getVersionDetails(builtInStacks, version);
+  return versionDetails.minorVersionRuntime;
+};
+
+const filterOutEolStacks = (builtInStacks: ArmArray<AvailableStack>, version: string): ArmArray<AvailableStack> => {
+  const versionToLower = (version || '').toLowerCase();
+
+  const stacksArm = { ...builtInStacks };
+  stacksArm.value = [];
+
+  if (!!builtInStacks && !!builtInStacks.value) {
+    for (const s of builtInStacks.value) {
+      const stack = {
+        ...s,
+        properties: { ...s.properties },
+      };
+
+      stack.properties.majorVersions = [];
+
+      for (const majVer of s.properties.majorVersions) {
+        const majorVersion = { ...majVer };
+        const majorVerRuntimeSplit = (majorVersion.runtimeVersion || '').split('|');
+        majorVerRuntimeSplit[0] = majorVerRuntimeSplit[0].toLowerCase();
+        majorVersion.runtimeVersion = majorVerRuntimeSplit.join('|');
+        majorVersion.minorVersions = [];
+
+        for (const minVer of majVer.minorVersions) {
+          const minorVersion = { ...minVer };
+          const minorVerRuntimeSplit = (minorVersion.runtimeVersion || '').split('|');
+          minorVerRuntimeSplit[0] = minorVerRuntimeSplit[0].toLowerCase();
+          minorVersion.runtimeVersion = minorVerRuntimeSplit.join('|');
+
+          if (
+            !minorVersion.isEndOfLife ||
+            (!!minorVersion.runtimeVersion && minorVersion.runtimeVersion.toLowerCase() === versionToLower)
+          ) {
+            majorVersion.minorVersions.push(minorVersion);
+          }
+        }
+
+        if (
+          !!majorVersion.minorVersions.length ||
+          !majorVersion.isEndOfLife ||
+          (!!majorVersion.runtimeVersion && majorVersion.runtimeVersion.toLowerCase() === versionToLower)
+        ) {
+          stack.properties.majorVersions.push(majorVersion);
+        }
+      }
+
+      if (!!stack.properties.majorVersions.length) {
+        stacksArm.value.push(stack);
+      }
+    }
   }
-  return '';
+
+  return stacksArm;
 };
 
 const LinuxStacks: React.FC<PropsType> = props => {
@@ -132,49 +218,51 @@ const LinuxStacks: React.FC<PropsType> = props => {
   const { site } = values;
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
-  const stacks = useContext(AvailableStacksContext);
+  const unfilteredStacks = useContext(AvailableStacksContext);
+  const stacks = filterOutEolStacks(unfilteredStacks, initialValues.config.properties.linuxFxVersion);
   const runtimeOptions = getRuntimeStacks(stacks.value);
   const { t } = useTranslation();
 
   const [runtimeStack, setRuntimeStack] = useState(getSelectedRuntimeStack(stacks.value, values.config.properties.linuxFxVersion));
-  const [majorVersion, setMajorVersion] = useState<string | null>(
+  const [majorVersionRuntime, setMajorVersionRuntime] = useState<string | null>(
     getSelectedMajorVersion(stacks.value, values.config.properties.linuxFxVersion)
   );
 
-  const getInitialMinorVersion = () => {
-    const initialRunTimeStack = getSelectedRuntimeStack(stacks.value, initialValues.config.properties.linuxFxVersion);
-    if (!initialRunTimeStack) {
-      return '';
-    }
-    const initialMajorVersion = getSelectedMajorVersion(stacks.value, initialValues.config.properties.linuxFxVersion);
-    if (!initialMajorVersion) {
-      return '';
-    }
-    return getSelectedMinorVersion(stacks.value, initialRunTimeStack, initialMajorVersion);
+  const initialVersionDetails = getVersionDetails(stacks.value, initialValues.config.properties.linuxFxVersion);
+
+  const stackDirty = (): boolean => (runtimeStack || '').toLowerCase() !== initialVersionDetails.runtimeStackName.toLowerCase();
+
+  const majorVersionDirty = (): boolean =>
+    (majorVersionRuntime || '').toLowerCase() !== initialVersionDetails.majorVersionRuntime.toLowerCase();
+
+  const minorVersionDirty = (): boolean => {
+    const minorVersion = getSelectedMinorVersion(stacks.value, runtimeStack, values.config.properties.linuxFxVersion);
+    return (minorVersion || '').toLowerCase() !== initialVersionDetails.minorVersionRuntime.toLowerCase();
   };
 
   useEffect(() => {
-    setRuntimeStack(getSelectedRuntimeStack(stacks.value, values.config.properties.linuxFxVersion));
-    setMajorVersion(getSelectedMajorVersion(stacks.value, values.config.properties.linuxFxVersion));
-
+    const selectedVersionDetails = getVersionDetails(stacks.value, values.config.properties.linuxFxVersion);
+    setRuntimeStack(selectedVersionDetails.runtimeStackName || '');
+    setMajorVersionRuntime(selectedVersionDetails.majorVersionRuntime);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.linuxFxVersion]);
+
   const scenarioService = new ScenarioService(t);
+
   return (
     <>
       {scenarioService.checkScenario(ScenarioIds.linuxAppRuntime, { site }).status !== 'disabled' && (
         <>
           <DropdownNoFormik
             value={runtimeStack}
-            dirty={runtimeStack !== getSelectedRuntimeStack(stacks.value, initialValues.config.properties.linuxFxVersion)}
+            dirty={stackDirty()}
             onChange={(e, newVal) => {
               const majorVersions = getMajorVersions(stacks.value, newVal.key, t);
               setRuntimeStack(newVal.key);
               if (majorVersions.length > 0) {
                 const majVer = majorVersions[0];
-                setMajorVersion(majVer.key as string);
+                setMajorVersionRuntime(majVer.key as string);
                 const minorVersions = getMinorVersions(stacks.value, newVal.key, majVer.key as string, t);
-                setMajorVersion(majVer.key as string);
                 if (minorVersions.length > 0) {
                   setFieldValue('config.properties.linuxFxVersion', minorVersions[0].key);
                 }
@@ -187,11 +275,11 @@ const LinuxStacks: React.FC<PropsType> = props => {
           />
           {runtimeStack && (
             <DropdownNoFormik
-              value={majorVersion || ''}
-              dirty={majorVersion !== getSelectedMajorVersion(stacks.value, initialValues.config.properties.linuxFxVersion)}
+              value={majorVersionRuntime || ''}
+              dirty={majorVersionDirty()}
               onChange={(e, newVal) => {
                 const minorVersions = getMinorVersions(stacks.value, runtimeStack, newVal.key, t);
-                setMajorVersion(newVal.key);
+                setMajorVersionRuntime(newVal.key);
                 if (minorVersions.length > 0) {
                   setFieldValue('config.properties.linuxFxVersion', minorVersions[0].key);
                 }
@@ -202,15 +290,15 @@ const LinuxStacks: React.FC<PropsType> = props => {
               id="linux-fx-version-major-version"
             />
           )}
-          {majorVersion && (
+          {majorVersionRuntime && (
             <Field
               name="config.properties.linuxFxVersion"
-              dirty={getSelectedMinorVersion(stacks.value, runtimeStack, majorVersion) !== getInitialMinorVersion()}
+              dirty={minorVersionDirty()}
               component={Dropdown}
               disabled={disableAllControls}
               label={t('minorVersion')}
               id="linux-fx-version-minor-version"
-              options={getMinorVersions(stacks.value, runtimeStack, majorVersion, t)}
+              options={getMinorVersions(stacks.value, runtimeStack, majorVersionRuntime, t)}
             />
           )}
         </>
