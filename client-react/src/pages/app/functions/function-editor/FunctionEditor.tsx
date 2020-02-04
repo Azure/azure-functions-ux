@@ -220,7 +220,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isDisabled = () => {
-    return functionRunning;
+    return isLoading() || functionRunning;
   };
 
   const closeConfirmDialog = () => {
@@ -281,7 +281,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           testFunction={test}
           showGetFunctionUrlCommand={!!inputBinding}
           dirty={isDirty()}
-          disabled={isLoading() || isDisabled()}
+          disabled={isDisabled()}
           urlObjs={urlObjs}
         />
         <ConfirmDialog
@@ -300,7 +300,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         />
         <EditModeBanner setBanner={setReadOnlyBanner} />
         <FunctionEditorFileSelectorBar
-          disabled={isLoading() || isDisabled()}
+          disabled={isDisabled()}
           functionAppNameLabel={site.name}
           functionInfo={functionInfo}
           fileDropdownOptions={getDropdownOptions()}
@@ -336,7 +336,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             language={editorLanguage}
             onChange={onChange}
             height={monacoHeight}
-            disabled={isLoading() || isDisabled()}
+            disabled={isDisabled()}
             options={{
               minimap: { enabled: false },
               scrollBeyondLastLine: false,
