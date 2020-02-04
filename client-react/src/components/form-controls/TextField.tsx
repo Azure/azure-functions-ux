@@ -20,6 +20,7 @@ interface CustomTextFieldProps {
   label: string;
   learnMoreLink?: string;
   dirty?: boolean;
+  widthOverride?: string;
 }
 
 class TextField extends React.Component<FieldProps & ITextFieldProps & CustomTextFieldProps, any> {
