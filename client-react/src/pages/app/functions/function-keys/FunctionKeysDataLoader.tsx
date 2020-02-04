@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import FunctionKeysData from './FunctionKeys.data';
 import { FunctionKeysFormValues } from './FunctionKeys.types';
 import { PortalContext } from '../../../../PortalContext';
-import LoadingComponent from '../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import FunctionKeys from './FunctionKeys';
 
 const functionKeysData = new FunctionKeysData();

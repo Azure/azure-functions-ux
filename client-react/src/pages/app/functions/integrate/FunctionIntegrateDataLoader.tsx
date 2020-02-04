@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingComponent from '../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Binding } from '../../../../models/functions/binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';

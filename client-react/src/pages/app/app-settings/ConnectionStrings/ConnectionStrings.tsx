@@ -11,7 +11,7 @@ import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
 import { typeValueToString } from './connectionStringTypes';
 import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
-import LoadingComponent from '../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
 import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
 import { filterBoxStyle, dirtyElementStyle } from '../AppSettings.styles';

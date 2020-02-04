@@ -4,6 +4,7 @@ import { useWindowSize } from 'react-use';
 import { Observable, Subject } from 'rxjs';
 import { classes } from 'typestyle';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ReactComponent as DoubleArrow } from '../../../../images/Functions/double-arrow-left-right.svg';
 import { ReactComponent as SingleArrow } from '../../../../images/Functions/single-arrow-left-right.svg';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -44,6 +45,7 @@ export interface BindingUpdateInfo {
 }
 
 export interface BindingEditorContextInfo {
+  setIsUpdating: (isUpdating: boolean) => void;
   openEditor: (bindingDirection: BindingDirection, bindingInfo?: BindingInfo) => Observable<BindingUpdateInfo>;
   closeEditor: () => void;
   updateFunctionInfo: React.Dispatch<React.SetStateAction<ArmObj<FunctionInfo>>>;
@@ -62,6 +64,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const [bindingDirection, setBindingDirection] = useState<BindingDirection>(BindingDirection.in);
   const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo>>(initialFunctionInfo);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const openEditor = (editorBindingDirection: BindingDirection, bindingInfo?: BindingInfo): Observable<BindingUpdateInfo> => {
     setBindingDirection(editorBindingDirection);
@@ -106,6 +109,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const editorContext: BindingEditorContextInfo = {
     openEditor,
     closeEditor,
+    setIsUpdating,
     updateFunctionInfo: setFunctionInfo,
   };
 
@@ -155,6 +159,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
   return (
     <>
+      {isUpdating && <LoadingComponent overlay={true} />}
       <BindingEditorContext.Provider value={editorContext}>
         <EditModeBanner />
         <BindingPanel
@@ -169,7 +174,6 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
           isOpen={isOpen}
           setRequiredBindingId={setRequiredBindingId}
         />
-
         {width > fullPageWidth ? fullPageContent : smallPageContent}
       </BindingEditorContext.Provider>
     </>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import AppKeysData from './AppKeys.data';
 import AppKeys from './AppKeys';
 import { AppKeysFormValues } from './AppKeys.types';
-import LoadingComponent from '../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { PortalContext } from '../../../../PortalContext';
 import { SiteRouterContext } from '../../SiteRouter';
 import { disableIFrameStyle } from './AppKeys.styles';
