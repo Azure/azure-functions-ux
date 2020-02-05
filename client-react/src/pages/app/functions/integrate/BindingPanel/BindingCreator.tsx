@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../../components/ActionBar';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { FormControlWrapper, Layout } from '../../../../../components/FormControlWrapper/FormControlWrapper';
-import LoadingComponent from '../../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { Binding, BindingDirection } from '../../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../../models/functions/function-binding';
 import { BindingEditorFormValues, BindingFormBuilder } from '../../common/BindingFormBuilder';

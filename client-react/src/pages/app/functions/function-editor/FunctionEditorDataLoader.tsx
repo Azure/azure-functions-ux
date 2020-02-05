@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import LoadingComponent from '../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { FunctionEditor } from './FunctionEditor';
 import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import FunctionEditorData from './FunctionEditor.data';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import LoadingComponent from '../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { SiteRouterContext } from '../../SiteRouter';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';

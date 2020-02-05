@@ -13,7 +13,7 @@ import { ThemeExtended } from '../theme/SemanticColorsExtended';
 import { ThemeContext } from '../ThemeContext';
 import { IStartupInfo } from '../models/portal-models';
 import { StartupInfoContext } from '../StartupInfoContext';
-import LoadingComponent from '../components/loading/loading-component';
+import LoadingComponent from '../components/Loading/LoadingComponent';
 
 const portalCommunicator = new PortalCommunicator();
 
