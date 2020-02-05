@@ -44,6 +44,13 @@ export interface SpecPickerInput<T> {
   specPicker: SpecPickerComponent;
 }
 
+export interface InboundOutboundIpAddresses {
+  inboundIpAddress: string;
+  possibleInboundIpAddresses: string;
+  outboundIpAddresses: string;
+  possibleOutboundIpAddresses: string;
+}
+
 export interface PlanSpecPickerData {
   returnObjectResult?: boolean;
   subscriptionId: string;
@@ -71,6 +78,7 @@ export class PlanPriceSpecManager {
 
   selectedSpecGroup: PriceSpecGroup;
   specGroups: PriceSpecGroup[] = [];
+  specSpecificBanner: BannerMessage;
 
   get currentSkuCode(): string {
     if (!this._plan) {
@@ -86,6 +94,7 @@ export class PlanPriceSpecManager {
   private _inputs: SpecPickerInput<PlanSpecPickerData>;
   private _ngUnsubscribe$ = new Subject();
   private _numberOfSites = 0;
+  private _inboundOutboundIpAddresses: InboundOutboundIpAddresses;
 
   constructor(
     private _authZService: AuthzService,
@@ -349,21 +358,38 @@ export class PlanPriceSpecManager {
       const tier = this._plan.sku.tier;
 
       this._updateAppDensityStatusMessage(spec);
-      const shouldShowUpsellStatusMessage =
-        !this._specPicker.statusMessage ||
-        (this._specPicker.statusMessage &&
-          this._specPicker.statusMessage.level !== 'warning' &&
-          this._specPicker.statusMessage.level !== 'error');
+      const possibleInboundIpAddresses = this._inboundOutboundIpAddresses.possibleInboundIpAddresses.split(',');
+      const isFlexStamp = possibleInboundIpAddresses.length > 1;
+
       if (
-        (shouldShowUpsellStatusMessage && (tier === Tier.premiumV2 && spec.tier !== Tier.premiumV2)) ||
-        (tier !== Tier.premiumV2 && spec.tier === Tier.premiumV2)
+        isFlexStamp &&
+        ((tier === Tier.premiumV2 && spec.tier !== Tier.premiumV2) || (tier !== Tier.premiumV2 && spec.tier === Tier.premiumV2))
       ) {
-        // show message when upgrading to PV2 or downgrading from PV2.
+        const possibleOutboundIpAddresses = this._inboundOutboundIpAddresses.possibleOutboundIpAddresses.split(',');
+        const inboundIpAddress = this._inboundOutboundIpAddresses.inboundIpAddress.split(',');
+        const outboundIpAddresses = this._inboundOutboundIpAddresses.outboundIpAddresses.split(',');
+
+        // show flex stamp message when upgrading to PV2 or downgrading from PV2 if it is flex stamp.
         this._specPicker.statusMessage = {
-          message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
+          message: this._ts.instant(PortalResources.pricing_pv2FlexStampCheckboxLabel),
           level: 'info',
-          infoLink: Links.pv2UpsellInfoLearnMore,
+          infoLink: Links.pv2FlexStampInfoLearnMore,
+          showCheckbox: true,
         };
+
+        this.specSpecificBanner = {
+          level: BannerMessageLevel.INFO,
+          message: this._ts.instant(PortalResources.pricing_pv2FlexStampInfoMessage, {
+            inbound: possibleInboundIpAddresses.filter(
+              possibleInboundIpAddress => !(<any>inboundIpAddress).includes(possibleInboundIpAddress)
+            ),
+            outbound: possibleOutboundIpAddresses.filter(
+              possibleOutboundIpAddress => !(<any>outboundIpAddresses).includes(possibleOutboundIpAddress)
+            ),
+          }),
+        };
+      } else {
+        this.specSpecificBanner = null;
       }
     }
   }
@@ -522,10 +548,17 @@ export class PlanPriceSpecManager {
   private _getServerFarmSites(inputs: SpecPickerInput<PlanSpecPickerData>) {
     if (this._isUpdateScenario(inputs)) {
       this._numberOfSites = 0;
+      this._inboundOutboundIpAddresses = null;
       return this._planService.getServerFarmSites(inputs.id, true).subscribe(
         response => {
           if (response.isSuccessful) {
             this._numberOfSites = this._numberOfSites + response.result.value.length;
+            this._inboundOutboundIpAddresses = {
+              inboundIpAddress: (<any>response.result.value[0].properties).inboundIpAddress,
+              outboundIpAddresses: (<any>response.result.value[0].properties).outboundIpAddresses,
+              possibleInboundIpAddresses: (<any>response.result.value[0].properties).possibleInboundIpAddresses,
+              possibleOutboundIpAddresses: (<any>response.result.value[0].properties).possibleOutboundIpAddresses,
+            };
           }
         },
         null,
