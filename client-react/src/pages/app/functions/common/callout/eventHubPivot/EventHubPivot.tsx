@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { IDropdownOption, DefaultButton, IDropdownProps } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import LoadingComponent from '../../../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Namespace, EventHub, AuthorizationRule, KeyList } from '../../../../../../models/eventhub';

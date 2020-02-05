@@ -10,7 +10,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { detailsPaddingStyle } from './FunctionCreate.styles';
 import { FunctionCreateContext } from './FunctionCreateDataLoader';
 import { PortalContext } from '../../../../PortalContext';
-import LoadingComponent from '../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 
 interface DetailsPivotProps {
   functionsInfo: ArmObj<FunctionInfo>[] | undefined;
