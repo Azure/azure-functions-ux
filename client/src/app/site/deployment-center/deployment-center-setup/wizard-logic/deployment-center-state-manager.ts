@@ -198,7 +198,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   private _setStackAndVersionForLinux(siteConfig: SiteConfig) {
     const linuxFxVersionParts = siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion.split('|') : [];
     this.stack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : null;
-    this.stackVersion = siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion : '';
+    this.stackVersion = !!siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion : '';
   }
 
   private _deployGithubActions() {
