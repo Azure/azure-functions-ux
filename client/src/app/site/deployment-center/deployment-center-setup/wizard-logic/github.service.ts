@@ -11,7 +11,7 @@ import { BuildSettings, SourceSettings } from './deployment-center-setup-models'
 export class GithubService implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
 
-  constructor(private _cacheService: CacheService) {}
+  constructor(private _cacheService: CacheService) { }
 
   ngOnDestroy(): void {
     this._ngUnsubscribe$.next();
@@ -114,8 +114,7 @@ export class GithubService implements OnDestroy {
     const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
 
     let content = '';
-    const runtimeStackVersion =
-      buildSettings.runtimeStackVersion && isLinuxApp ? buildSettings.runtimeStackVersion.split('|')[1] : buildSettings.runtimeStackVersion;
+    const runtimeStackVersion = this._getRuntimeVersion(isLinuxApp, buildSettings);
 
     switch (buildSettings.runtimeStack) {
       case 'node':
@@ -140,6 +139,14 @@ export class GithubService implements OnDestroy {
 
   getWorkflowFileName(branch: string, siteName: string, slotName?: string): string {
     return slotName ? `${branch}_${siteName}(${slotName}).yml` : `${branch}_${siteName}.yml`;
+  }
+
+  private _getRuntimeVersion(isLinuxApp: boolean, buildSettings: BuildSettings) {
+    if (buildSettings.runtimeStackRecommendedVersion) {
+      return buildSettings.runtimeStackRecommendedVersion;
+    } else {
+      return isLinuxApp ? buildSettings.runtimeStackVersion.split('|')[1] : buildSettings.runtimeStackVersion;
+    }
   }
 
   // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -225,7 +232,7 @@ jobs:
       run: zip -r myapp.zip .
 
     - name: 'Deploy to Azure Web App'
-    - uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v1
       with:
         app-name: '${webAppName}'
         publish-profile: \${{ secrets.${secretName} }}
