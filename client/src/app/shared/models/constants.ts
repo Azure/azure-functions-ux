@@ -159,7 +159,7 @@ export class Links {
   public static linuxContainersLearnMore = 'https://go.microsoft.com/fwlink/?linkid=861969';
   public static premiumV2NotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2009376';
   public static azureComputeUnitLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2027465';
-  public static pv2FlexStampInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2116583';
+  public static pv2UpsellInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2028474';
   public static containerPrivateRegistryLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2041449';
   public static byosLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2045372';
   public static deploymentCredentialsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2082375';
@@ -170,6 +170,7 @@ export class Links {
   public static appDensityWarningLink = 'https://go.microsoft.com/fwlink/?linkid=2098431';
   public static apimUpsellLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104075';
   public static runtimeScaleMonitoringLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104710';
+  public static pv2FlexStampInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2116583';
 }
 
 export class Kinds {

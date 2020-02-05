@@ -390,6 +390,23 @@ export class PlanPriceSpecManager {
         };
       } else {
         this.specSpecificBanner = null;
+        const shouldShowUpsellStatusMessage =
+          !this._specPicker.statusMessage ||
+          (this._specPicker.statusMessage &&
+            this._specPicker.statusMessage.level !== 'warning' &&
+            this._specPicker.statusMessage.level !== 'error');
+
+        if (
+          (shouldShowUpsellStatusMessage && (tier === Tier.premiumV2 && spec.tier !== Tier.premiumV2)) ||
+          (tier !== Tier.premiumV2 && spec.tier === Tier.premiumV2)
+        ) {
+          // show message when upgrading to PV2 or downgrading from PV2.
+          this._specPicker.statusMessage = {
+            message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
+            level: 'info',
+            infoLink: Links.pv2UpsellInfoLearnMore,
+          };
+        }
       }
     }
   }
