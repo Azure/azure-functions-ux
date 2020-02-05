@@ -203,7 +203,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       // Remove doubled slashes
       const re = new RegExp('//', 'g');
       path = path.replace(re, '/').replace('/?', '?');
-      return `${path}${path.endsWith('?') ? '' : '?'}${queryParams.join('&')}`;
+      return `${path}${path.endsWith('?') || queryParams.length === 0 ? '' : '?'}${queryParams.join('&')}`;
     }
     return '';
   };
