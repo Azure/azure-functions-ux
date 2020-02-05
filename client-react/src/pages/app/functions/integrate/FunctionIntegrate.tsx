@@ -39,9 +39,9 @@ export interface FunctionIntegrateProps {
 }
 
 export interface BindingUpdateInfo {
-  newBindingInfo?: BindingInfo;
-  currentBindingInfo?: BindingInfo;
   closedReason: ClosedReason;
+  currentBindingInfo?: BindingInfo;
+  newBindingInfo?: BindingInfo;
 }
 
 export interface BindingEditorContextInfo {
