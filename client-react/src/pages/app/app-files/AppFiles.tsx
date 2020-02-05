@@ -7,7 +7,7 @@ import FunctionEditorFileSelectorBar from '../functions/function-editor/Function
 import { IDropdownOption } from 'office-ui-fabric-react';
 import MonacoEditor from '../../../components/monaco-editor/monaco-editor';
 import { VfsObject } from '../../../models/functions/vfs';
-import LoadingComponent from '../../../components/loading/loading-component';
+import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';

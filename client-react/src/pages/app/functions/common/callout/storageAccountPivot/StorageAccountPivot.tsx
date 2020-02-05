@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { Formik, FormikProps, FieldProps } from 'formik';
-import LoadingComponent from '../../../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import LogService from '../../../../../../utils/LogService';

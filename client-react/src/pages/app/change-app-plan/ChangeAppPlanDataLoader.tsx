@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ArmSubcriptionDescriptor } from '../../../utils/resourceDescriptors';
 import { ChangeAppPlan } from './ChangeAppPlan';
-import LoadingComponent from '../../../components/loading/loading-component';
+import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import SiteService from '../../../ApiHelpers/SiteService';
 import ResourceGroupService from '../../../ApiHelpers/ResourceGroupService';
 import ServerFarmService from '../../../ApiHelpers/ServerFarmService';
