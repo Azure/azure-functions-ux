@@ -5655,4 +5655,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="configureHostJson" xml:space="preserve">
         <value>Configure host.json</value>
     </data>
+    <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
+        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+    </data>
+    <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
+        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
 </root>

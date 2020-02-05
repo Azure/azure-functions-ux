@@ -170,6 +170,7 @@ export class Links {
   public static appDensityWarningLink = 'https://go.microsoft.com/fwlink/?linkid=2098431';
   public static apimUpsellLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104075';
   public static runtimeScaleMonitoringLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104710';
+  public static pv2FlexStampInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2116583';
 }
 
 export class Kinds {

@@ -1827,4 +1827,6 @@ export class PortalResources {
   public static githubActionStackMismatchMessage = 'githubActionStackMismatchMessage';
   public static hostConfigurationLabel = 'hostConfigurationLabel';
   public static configureHostJson = 'configureHostJson';
+  public static pricing_pv2FlexStampInfoMessage = 'pricing_pv2FlexStampInfoMessage';
+  public static pricing_pv2FlexStampCheckboxLabel = 'pricing_pv2FlexStampCheckboxLabel';
 }
