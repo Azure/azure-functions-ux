@@ -1,9 +1,8 @@
-import { NationalCloudArmUris, ScenarioIds, FeatureFlags } from './../../models/constants';
+import { NationalCloudArmUris, ScenarioIds } from './../../models/constants';
 import { AzureEnvironment } from './azure.environment';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Url } from 'app/shared/Utilities/url';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
   name = 'NationalCloud';
