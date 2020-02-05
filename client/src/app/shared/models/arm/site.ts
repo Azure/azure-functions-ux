@@ -45,4 +45,8 @@ export interface Site {
   isXenon?: boolean;
   siteProperties?: SiteProperties;
   availabilityState: SiteAvailabilityState;
+  inboundIpAddress: string;
+  outboundIpAddresses: string;
+  possibleInboundIpAddresses: string;
+  possibleOutboundIpAddresses: string;
 }

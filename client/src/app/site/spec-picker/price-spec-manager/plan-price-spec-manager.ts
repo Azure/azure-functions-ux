@@ -44,6 +44,13 @@ export interface SpecPickerInput<T> {
   specPicker: SpecPickerComponent;
 }
 
+export interface StampIpAddresses {
+  inboundIpAddress: string;
+  possibleInboundIpAddresses: string;
+  outboundIpAddresses: string;
+  possibleOutboundIpAddresses: string;
+}
+
 export interface PlanSpecPickerData {
   returnObjectResult?: boolean;
   subscriptionId: string;
@@ -68,9 +75,11 @@ export type ApplyButtonState = 'enabled' | 'disabled';
 @Injectable()
 export class PlanPriceSpecManager {
   private readonly DynamicSku = 'Y1';
+  private readonly StampIpAddressesDelimeter = ',';
 
   selectedSpecGroup: PriceSpecGroup;
   specGroups: PriceSpecGroup[] = [];
+  specSpecificBanner: BannerMessage;
 
   get currentSkuCode(): string {
     if (!this._plan) {
@@ -86,6 +95,7 @@ export class PlanPriceSpecManager {
   private _inputs: SpecPickerInput<PlanSpecPickerData>;
   private _ngUnsubscribe$ = new Subject();
   private _numberOfSites = 0;
+  private _stampIpAddresses: StampIpAddresses;
 
   constructor(
     private _authZService: AuthzService,
@@ -349,21 +359,57 @@ export class PlanPriceSpecManager {
       const tier = this._plan.sku.tier;
 
       this._updateAppDensityStatusMessage(spec);
-      const shouldShowUpsellStatusMessage =
-        !this._specPicker.statusMessage ||
-        (this._specPicker.statusMessage &&
-          this._specPicker.statusMessage.level !== 'warning' &&
-          this._specPicker.statusMessage.level !== 'error');
+      const possibleInboundIpAddresses = this._stampIpAddresses.possibleInboundIpAddresses.split(this.StampIpAddressesDelimeter);
+      const isFlexStamp = possibleInboundIpAddresses.length > 1;
+
       if (
-        (shouldShowUpsellStatusMessage && (tier === Tier.premiumV2 && spec.tier !== Tier.premiumV2)) ||
-        (tier !== Tier.premiumV2 && spec.tier === Tier.premiumV2)
+        isFlexStamp &&
+        ((tier === Tier.premiumV2 && spec.tier !== Tier.premiumV2) || (tier !== Tier.premiumV2 && spec.tier === Tier.premiumV2))
       ) {
-        // show message when upgrading to PV2 or downgrading from PV2.
+        const possibleOutboundIpAddresses = this._stampIpAddresses.possibleOutboundIpAddresses.split(this.StampIpAddressesDelimeter);
+        const inboundIpAddresses = this._stampIpAddresses.inboundIpAddress.split(this.StampIpAddressesDelimeter);
+        const outboundIpAddresses = this._stampIpAddresses.outboundIpAddresses.split(this.StampIpAddressesDelimeter);
+
+        // show flex stamp message when upgrading to PV2 or downgrading from PV2 if it is flex stamp.
         this._specPicker.statusMessage = {
-          message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
+          message: this._ts.instant(PortalResources.pricing_pv2FlexStampCheckboxLabel),
           level: 'info',
-          infoLink: Links.pv2UpsellInfoLearnMore,
+          infoLink: Links.pv2FlexStampInfoLearnMore,
+          showCheckbox: true,
         };
+
+        this.specSpecificBanner = {
+          level: BannerMessageLevel.INFO,
+          message: this._ts.instant(PortalResources.pricing_pv2FlexStampInfoMessage, {
+            inbound: possibleInboundIpAddresses
+              .filter(
+                possibleInboundIpAddress => !inboundIpAddresses.find(inboundIpAddress => inboundIpAddress === possibleInboundIpAddress)
+              )
+              .join(this.StampIpAddressesDelimeter),
+            outbound: possibleOutboundIpAddresses
+              .filter(
+                possibleOutboundIpAddress => !outboundIpAddresses.find(outboundIpAddress => outboundIpAddress === possibleOutboundIpAddress)
+              )
+              .join(this.StampIpAddressesDelimeter),
+          }),
+        };
+      } else {
+        this.specSpecificBanner = null;
+        const shouldShowUpsellStatusMessage =
+          !this._specPicker.statusMessage ||
+          (this._specPicker.statusMessage.level !== 'warning' && this._specPicker.statusMessage.level !== 'error');
+
+        if (
+          (shouldShowUpsellStatusMessage && (tier === Tier.premiumV2 && spec.tier !== Tier.premiumV2)) ||
+          (tier !== Tier.premiumV2 && spec.tier === Tier.premiumV2)
+        ) {
+          // show message when upgrading to PV2 or downgrading from PV2.
+          this._specPicker.statusMessage = {
+            message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
+            level: 'info',
+            infoLink: Links.pv2UpsellInfoLearnMore,
+          };
+        }
       }
     }
   }
@@ -522,10 +568,17 @@ export class PlanPriceSpecManager {
   private _getServerFarmSites(inputs: SpecPickerInput<PlanSpecPickerData>) {
     if (this._isUpdateScenario(inputs)) {
       this._numberOfSites = 0;
+      this._stampIpAddresses = null;
       return this._planService.getServerFarmSites(inputs.id, true).subscribe(
         response => {
           if (response.isSuccessful) {
             this._numberOfSites = this._numberOfSites + response.result.value.length;
+            this._stampIpAddresses = {
+              inboundIpAddress: response.result.value[0].properties.inboundIpAddress,
+              outboundIpAddresses: response.result.value[0].properties.outboundIpAddresses,
+              possibleInboundIpAddresses: response.result.value[0].properties.possibleInboundIpAddresses,
+              possibleOutboundIpAddresses: response.result.value[0].properties.possibleOutboundIpAddresses,
+            };
           }
         },
         null,
