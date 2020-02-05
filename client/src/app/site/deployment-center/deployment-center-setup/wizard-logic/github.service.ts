@@ -11,7 +11,7 @@ import { BuildSettings, SourceSettings } from './deployment-center-setup-models'
 export class GithubService implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
 
-  constructor(private _cacheService: CacheService) {}
+  constructor(private _cacheService: CacheService) { }
 
   ngOnDestroy(): void {
     this._ngUnsubscribe$.next();
@@ -232,7 +232,7 @@ jobs:
       run: zip -r myapp.zip .
 
     - name: 'Deploy to Azure Web App'
-    - uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v1
       with:
         app-name: '${webAppName}'
         publish-profile: \${{ secrets.${secretName} }}
