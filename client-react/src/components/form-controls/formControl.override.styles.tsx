@@ -53,6 +53,9 @@ export const textFieldStyleOverrides = (theme: ThemeExtended, fullpage: boolean,
     root: {
       width: widthOverride || formDefaultWidth,
     },
+    field: {
+      width: widthOverride || formDefaultWidth,
+    },
   } as ITextFieldStyles;
 };
 
