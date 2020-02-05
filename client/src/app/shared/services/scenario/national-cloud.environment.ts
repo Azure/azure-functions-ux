@@ -59,7 +59,7 @@ export class NationalCloudEnvironment extends AzureEnvironment {
     this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
       id: ScenarioIds.appInsightsConfigurable,
       runCheckAsync: (input: ScenarioCheckInput) => {
-        if (NationalCloudEnvironment.isBlackforest() || !Url.getFeatureValue(FeatureFlags.EnableAIOnNationalCloud)) {
+        if (NationalCloudEnvironment.isBlackforest()) {
           return Observable.of<ScenarioResult>({
             status: 'disabled',
             data: null,
