@@ -319,4 +319,5 @@ export enum FunctionAppEditMode {
   ReadOnlyPython,
   ReadOnlyJava,
   ReadOnlyLinuxCodeElastic,
+  ReadOnlyLock,
 }
