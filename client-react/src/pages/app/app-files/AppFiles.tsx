@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import AppFilesCommandBar from './AppFilesCommandBar';
@@ -14,6 +14,8 @@ import FunctionsService from '../../../ApiHelpers/FunctionsService';
 import { FileContent } from '../functions/function-editor/FunctionEditor.types';
 import EditorManager, { EditorLanguage } from '../../../utils/EditorManager';
 import { CommonConstants } from '../../../utils/CommonConstants';
+import { SiteStateContext } from '../../../SiteStateContext';
+import SiteHelper from '../../../utils/SiteHelper';
 
 interface AppFilesProps {
   site: ArmObj<Site>;
@@ -34,6 +36,8 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   const [savingFile, setSavingFile] = useState(false);
 
   const { t } = useTranslation();
+
+  const siteState = useContext(SiteStateContext);
 
   const save = async () => {
     if (!selectedFile) {
@@ -186,6 +190,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
             scrollBeyondLastLine: false,
             cursorBlinking: true,
             renderWhitespace: 'all',
+            readOnly: SiteHelper.isFunctionAppReadOnly(siteState),
           }}
         />
       </div>
