@@ -13,6 +13,8 @@ import FunctionAppService from '../../utils/FunctionAppService';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { ArmObj } from '../../models/arm-obj';
 import { Site } from '../../models/site/site';
+import { PortalContext } from '../../PortalContext';
+
 export interface SiteRouterProps {
   subscriptionId?: string;
   resourcegroup?: string;
@@ -51,6 +53,7 @@ const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
+  const portalContext = useContext(PortalContext);
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
   const [siteAppEditState, setSiteAppEditState] = useState(FunctionAppEditMode.ReadWrite);
 
@@ -93,11 +96,17 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       const siteResourceId = armSiteDescriptor.getSiteOnlyResourceId();
       const site = await SiteService.fetchSite(siteResourceId);
       if (site.metadata.success && isFunctionApp(site.data)) {
-        let functionAppEditMode = getSiteStateFromSiteData(site.data);
-        if (functionAppEditMode === FunctionAppEditMode.ReadWrite) {
-          const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
-          if (appSettingsResponse.metadata.success) {
-            functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
+        let functionAppEditMode = FunctionAppEditMode.ReadWrite;
+        const readOnlyLock = await portalContext.hasLock(siteResourceId, 'ReadOnly');
+        if (readOnlyLock) {
+          functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
+        } else {
+          functionAppEditMode = getSiteStateFromSiteData(site.data);
+          if (functionAppEditMode === FunctionAppEditMode.ReadWrite) {
+            const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
+            if (appSettingsResponse.metadata.success) {
+              functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
+            }
           }
         }
         setSiteAppEditState(functionAppEditMode);
