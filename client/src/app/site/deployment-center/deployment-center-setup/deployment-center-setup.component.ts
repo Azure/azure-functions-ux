@@ -50,6 +50,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
         startupCommand: ['', []],
         runtimeStack: ['', []],
         runtimeStackVersion: ['', []],
+        runtimeStackRecommendedVersion: ['', []],
       }),
     });
   }

@@ -35,7 +35,8 @@
                 bindValue="value"
                 [(ngModel)]="selectedRuntimeStackVersion"
                 [loading]="runtimeStackVersionsLoading"
-                formControlName="runtimeStackVersion">
+                formControlName="runtimeStackVersion"
+                (change)="runtimeStackVersionChanged($event)">
                 </ng-select>
                 <div invalidmessage="runtimeStackVersion" id="dc-github-stack-error" role="alert"></div>
             </div>

@@ -73,6 +73,7 @@ export class StacksWebAppCreateService {
             sortOrder: 0,
             githubActionSettings: {
               supported: true,
+              recommendedVersion: '12.x',
             },
           },
           {
@@ -106,6 +107,7 @@ export class StacksWebAppCreateService {
             sortOrder: 0,
             githubActionSettings: {
               supported: true,
+              recommendedVersion: '10.x',
             },
           },
         ],
