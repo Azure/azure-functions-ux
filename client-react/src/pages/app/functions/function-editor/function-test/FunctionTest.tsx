@@ -39,7 +39,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { run, cancel, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab, functionRunning } = props;
 
   const errorMessage = {
-    message: t('requiredField_validationMessage'),
+    message: t('requiredField_validationMessage'), // TODO (krmitta): Specific message for empty and incorrect characters
     level: MessageBarType.error,
   };
 
