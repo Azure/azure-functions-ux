@@ -212,15 +212,9 @@ export class StepCompleteComponent {
   }
 
   get ExistingGitHubActionConfigurationMessage() {
-    if (
-      this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption &&
-      this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.Overwrite
-    ) {
+    if (this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.Overwrite) {
       return this._translateService.instant(PortalResources.githubActionWorkflowOptionOverwriteMessage);
-    } else if (
-      this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption &&
-      this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.UseExisting
-    ) {
+    } else if (this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.UseExisting) {
       return this._translateService.instant(PortalResources.githubActionWorkflowOptionUseExistingMessage);
     } else {
       return '';
@@ -261,7 +255,6 @@ export class StepCompleteComponent {
     return (
       this.wizard.wizardValues.sourceSettings.repoUrl &&
       this.wizard.wizardValues.sourceSettings.branch &&
-      this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption &&
       this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.UseExisting
     );
   }

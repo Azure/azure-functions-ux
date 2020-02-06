@@ -5368,7 +5368,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
     <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully setup GitHub action build and deployment pipeline.</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
     <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
@@ -5566,7 +5566,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Missing 'workflow' scope in GitHub token.</value>
     </data>
     <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Please select an option below to either overwrite existing configuration or use existing configuration.</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
     <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 is no longer supported for remote debugging. Please select a supported Visual Studio version.</value>
