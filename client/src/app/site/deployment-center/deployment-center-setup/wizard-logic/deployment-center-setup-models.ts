@@ -49,6 +49,8 @@ export class SourceSettings {
   public privateRepo: boolean;
   public username: string;
   public password: string;
+  public githubActionWorkflowOption: string;
+  public githubActionExistingWorkflowContents: string;
 }
 export class DeploymentCenterSetupModel {
   public sourceProvider: sourceControlProvider;
