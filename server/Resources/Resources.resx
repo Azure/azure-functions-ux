@@ -5661,4 +5661,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
         <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
     </data>
+    <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
+    </data>
 </root>
