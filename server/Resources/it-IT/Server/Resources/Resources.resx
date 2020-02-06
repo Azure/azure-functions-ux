@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>I test non sono supportati per le funzioni webhook di GitHub.</value>
     </data>
+  <data name="extensionBundleVersion" xml:space="preserve">
+        <value>Versione bundle estensione</value>
+    </data>
   <data name="currentRuntimeVersion" xml:space="preserve">
         <value>Versione run-time corrente</value>
     </data>
@@ -2224,6 +2227,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
         <value>Abilita slot di distribuzione</value>
     </data>
+  <data name="appFunctionSettings_slotsEnableWarning" xml:space="preserve">
+        <value>Gli slot di Funzioni di Azure sono attualmente disabilitati. Se si abilita questa funzionalità, i segreti preesistenti verranno reimpostati. I segreti delle funzioni sono disponibili nel pannello 'Chiavi di funzione' per ogni funzione.</value>
+    </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
         <value>Problemi noti:</value>
     </data>
@@ -2270,7 +2276,16 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Non è stato possibile creare lo slot '{0}' </value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-        <value>Non è possibile aggiornare l'elenco di slot</value>
+        <value>Non è possibile recuperare l'elenco di slot: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadTipConfig" xml:space="preserve">
+        <value>Non è possibile recuperare le regole di routing: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadConfig" xml:space="preserve">
+        <value>Non è possibile recuperare la configurazione: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadSite" xml:space="preserve">
+        <value>Non è possibile recuperare il sito: {{errorMessage}}</value>
     </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
         <value>È stato raggiunto il limite di quota ({{quota}}) degli slot per il piano corrente.</value>
@@ -2319,9 +2334,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
         <value>% traffico</value>
-    </data>
-  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
-        <value>Prossime modifiche alle regole di routing</value>
     </data>
   <data name="monitoring_appInsights" xml:space="preserve">
         <value>Per un'esperienza di monitoraggio avanzata, con metriche attive e query personalizzate:</value>
@@ -2479,6 +2491,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="eventGrid_create" xml:space="preserve">
         <value>crea</value>
     </data>
+  <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>Crea sottoscrizione di Griglia di eventi</value>
+    </data>
   <data name="eventGrid_createMessage" xml:space="preserve">
         <value>È necessario aggiungere la sottoscrizione di Griglia di eventi dopo la creazione della funzione.</value>
     </data>
@@ -2525,7 +2540,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Europa occidentale</value>
     </data>
   <data name="southeastasia" xml:space="preserve">
-        <value>Asia sudorientale</value>
+        <value>Asia sud-orientale</value>
     </data>
   <data name="koreacentral" xml:space="preserve">
         <value>Corea centrale</value>
@@ -4073,6 +4088,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>Origine e destinazione non possono essere nello stesso slot di distribuzione</value>
     </data>
+  <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>Non è possibile eseguire lo scambio con anteprima perché non si dispone delle autorizzazioni necessarie per gli slot seguenti: '{{slotNames}}'</value>
+    </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>Non è possibile eseguire lo scambio con anteprima perché l'autenticazione è abilitata per gli slot di distribuzione seguenti: '{{slotNames}}'</value>
     </data>
@@ -5073,14 +5091,17 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Non è stato possibile convalidare le impostazioni del contenitore.</value>
     </data>
-  <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>Nessun trigger definito</value>
-    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Nessun input definito</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
         <value>Nessun output definito</value>
+    </data>
+  <data name="integrateAddTrigger" xml:space="preserve">
+        <value>+ Aggiungi trigger</value>
+    </data>
+  <data name="integrateCreateTrigger" xml:space="preserve">
+        <value>Crea trigger</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Aggiungi input</value>
@@ -5140,10 +5161,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Nuova funzione</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Creare una nuova funzione in questa app per le funzioni. Per iniziare, selezionare uno dei modelli seguenti oppure</value>
-    </data>
-  <data name="functionCreate_goToQuickstart" xml:space="preserve">
-        <value>passare all'Avvio rapido.</value>
+        <value>Creare una nuova funzione in questa app per le funzioni. Per iniziare, selezionare uno dei modelli seguenti.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Modelli</value>
@@ -5344,10 +5362,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Configurazione del flusso di lavoro dell'azione GitHub</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Aggiunta della configurazione del flusso di lavoro alle azioni GitHub</value>
+        <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>È stato eseguito il commit della definizione del flusso di lavoro dell'azione GitHub nel ramo '{0}' nel repository '{1}'.</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Aggiunge o aggiorna la configurazione del flusso di lavoro di distribuzione del servizio app dal portale di Azure.</value>
@@ -5536,7 +5554,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>La versione run-time personalizzata ({0}) non è supportata, di conseguenza l'app usa l'ultima versione {1} e verrà sempre eseguita l'ultima versione del run-time anche in caso di aggiornamenti della versione principale che potrebbero contenere modifiche che causano interruzioni. È consigliabile impostare questo valore su una versione principale specifica, ad esempio ~2, in modo da ricevere le notifiche delle versioni più recenti per l'aggiornamento.</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>La versione run-time è controllata dall'impostazione app FUNCTIONS_EXTENSION_VERSION. La configurazione di una versione personalizzata non è consigliabile perché verrà usata l'ultima versione se il valore configurato non è valido o non è supportato, causando un'interruzione delle funzioni in seguito ad aggiornamenti della versione principale che potrebbero contenere modifiche che causano interruzioni.</value>
+        <value>Configurando il valore di FUNCTIONS_EXTENSION_VERSIONnell'impostazione dell'applicazione, si è scelto di usare una versione run-time personalizzata.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>Non è possibile procedere all'aggiornamento con le funzioni esistenti. Gli aggiornamenti della versione principale possono introdurre modifiche significative a linguaggi e associazioni. Per l'aggiornamento delle versioni principali del run-time, è consigliabile creare una nuova app per le funzioni ed eseguire la migrazione delle funzioni alla nuova app.</value>
@@ -5545,7 +5563,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Nel token di GitHub manca l'ambito del 'flusso di lavoro'.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>Il file del flusso di lavoro dell'azione GitHub '{{workflowFilePath}}' esiste già nel ramo '{{branchName}}'. Se si continua, questo file verrà sovrascritto.</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 non è più supportato per il debug remoto. Selezionare una versione di Visual Studio supportata.</value>
@@ -5562,10 +5580,100 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="functionTestInputDescription" xml:space="preserve">
         <value>Fornire i parametri per testare la richiesta HTTP. I risultati sono disponibili nella scheda Output.</value>
     </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>Risposta HTTP</value>
+  <data name="httpRun_responseContent" xml:space="preserve">
+        <value>Contenuto della risposta HTTP</value>
     </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>Stato risposta HTTP</value>
+  <data name="httpRun_responseCode" xml:space="preserve">
+        <value>Codice di risposta HTTP</value>
+    </data>
+  <data name="editor_changeFileConfirmMessage" xml:space="preserve">
+        <value>Le modifiche non salvate verranno rimosse.</value>
+    </data>
+  <data name="editor_changeFile" xml:space="preserve">
+        <value>Cambiare i file?</value>
+    </data>
+  <data name="defaultDocumentsInfoMessage" xml:space="preserve">
+        <value>L'elenco dei documenti predefiniti è ordinato per priorità. Gli elementi in alto nell'elenco avranno una priorità maggiore rispetto a quelli più in basso nell'elenco.</value>
+    </data>
+  <data name="requiredField_validationMessage" xml:space="preserve">
+        <value>Nome e valore sono campi obbligatori</value>
+    </data>
+  <data name="maximize" xml:space="preserve">
+        <value>Ingrandisci</value>
+    </data>
+  <data name="minimize" xml:space="preserve">
+        <value>Riduci a icona</value>
+    </data>
+  <data name="connect" xml:space="preserve">
+        <value>Connetti</value>
+    </data>
+  <data name="endOfLifeTagTemplate" xml:space="preserve">
+        <value>{0} (scadenza)</value>
+    </data>
+  <data name="functionEditor_appInsightsNotConfigured" xml:space="preserve">
+        <value>Application Insights non è configurato. Passare alla scheda Monitoraggio e configurare Application Insights per acquisire i log delle funzioni.</value>
+    </data>
+  <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
+        <value>Connessione ad Application Insights...</value>
+    </data>
+  <data name="runtimeStack" xml:space="preserve">
+        <value>Stack di runtime</value>
+    </data>
+  <data name="runtimeStackVersion" xml:space="preserve">
+        <value>Versione</value>
+    </data>
+  <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
+        <value>Per poter visualizzare l'elenco completo dei modelli di funzione disponibili, è necessario configurare i bundle di estensioni per l'app.</value>
+    </data>
+  <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>Il debug remoto non è disponibile per questa applicazione.</value>
+    </data>
+  <data name="tryFunctionsPreview" xml:space="preserve">
+        <value>Anteprima della nuova esperienza di gestione di Funzioni di Azure</value>
+    </data>
+  <data name="saveAppSettingsTitle" xml:space="preserve">
+        <value>Salva modifiche</value>
+    </data>
+  <data name="saveAppSettingsMessage" xml:space="preserve">
+        <value>Qualsiasi modifica alle impostazioni dell'applicazione e alle stringhe di connessione comporta il riavvio dell'applicazione. Continuare?</value>
+    </data>
+  <data name="azureFunctionsV1Linux" xml:space="preserve">
+        <value>La versione 1 del runtime non è supportata nelle app per le funzioni di Azure Linux</value>
+    </data>
+  <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>L'app '{{appName}}' è configurata con lo stack '{{stack}}' che non è attualmente supportato nel Centro distribuzione tramite GitHub Actions.</value>
+    </data>
+  <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>L'app '{{appName}}' è attualmente configurata per '{{stack}}', che non corrisponde alla selezione della build corrente. L'app potrebbe non funzionare correttamente con la selezione della build corrente.</value>
+    </data>
+  <data name="hostConfigurationLabel" xml:space="preserve">
+        <value>Configurazione host</value>
+    </data>
+  <data name="configureHostJson" xml:space="preserve">
+        <value>Configura host.json</value>
+    </data>
+  <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
+        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
+        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
+  <data name="githubActionWorkflowOption" xml:space="preserve">
+        <value>Workflow Option</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Configure using existing workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+    </data>
+  <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
     </data>
 </root>
