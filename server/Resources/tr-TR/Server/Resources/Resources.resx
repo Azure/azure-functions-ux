@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Test, GitHub web kancası işlevleri için desteklenmiyor.</value>
     </data>
+  <data name="extensionBundleVersion" xml:space="preserve">
+        <value>Uzantı paketi sürümü</value>
+    </data>
   <data name="currentRuntimeVersion" xml:space="preserve">
         <value>Geçerli çalışma zamanı sürümü</value>
     </data>
@@ -2224,6 +2227,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
         <value>Dağıtım yuvalarını etkinleştirin</value>
     </data>
+  <data name="appFunctionSettings_slotsEnableWarning" xml:space="preserve">
+        <value>Azure işlevleri yuvaları şu anda devre dışı. Bu özellik etkinleştirildiğinde mevcut gizli diziler sıfırlanır. İşlev gizli dizileri, her işlev için 'İşlev Anahtarları' dikey penceresinde bulunabilir.</value>
+    </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
         <value>Bilinen sorunlar:</value>
     </data>
@@ -2270,7 +2276,16 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>'{0}' yuvası oluşturulamadı </value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-        <value>Yuva listesi güncelleştirilemiyor</value>
+        <value>Yuva listesi alınamıyor: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadTipConfig" xml:space="preserve">
+        <value>Yönlendirme kuralları alınamıyor: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadConfig" xml:space="preserve">
+        <value>Yapılandırma alınamıyor: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadSite" xml:space="preserve">
+        <value>Site alınamıyor: {{errorMessage}}</value>
     </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
         <value>Geçerli planın yuva kotası sınırına ({{quota}}) ulaştınız.</value>
@@ -2319,9 +2334,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
         <value>Trafik yüzdesi</value>
-    </data>
-  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
-        <value>Yönlendirme Kuralları için gelecek değişiklikler</value>
     </data>
   <data name="monitoring_appInsights" xml:space="preserve">
         <value>Canlı ölçümler ve özel sorgular içeren daha zengin bir izleme deneyimi için:</value>
@@ -2479,6 +2491,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="eventGrid_create" xml:space="preserve">
         <value>oluştur</value>
     </data>
+  <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>Event Grid aboneliği oluştur</value>
+    </data>
   <data name="eventGrid_createMessage" xml:space="preserve">
         <value>Event Grid aboneliğini işlev oluşturma işleminden sonra eklemeniz gerekir.</value>
     </data>
@@ -2540,10 +2555,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Doğu ABD</value>
     </data>
   <data name="japanwest" xml:space="preserve">
-        <value>Batı Japonya</value>
+        <value>Japonya Batı</value>
     </data>
   <data name="japaneast" xml:space="preserve">
-        <value>Doğu Japonya</value>
+        <value>Japonya Doğu</value>
     </data>
   <data name="eastasia" xml:space="preserve">
         <value>Doğu Asya</value>
@@ -4073,6 +4088,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>Kaynak ve Hedef aynı dağıtım yuvası olamaz</value>
     </data>
+  <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>Şu yuvalarda gerekli izinlere sahip olmadığınızdan önizleme ile değiştirme işlemi gerçekleştirilemiyor: '{{slotNames}}'</value>
+    </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>Şu dağıtım yuvalarında kimlik doğrulaması etkin olduğundan önizleme ile takas yapılamıyor: '{{slotNames}}'</value>
     </data>
@@ -5073,14 +5091,17 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Kapsayıcı ayarları doğrulanamadı.</value>
     </data>
-  <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>Hiçbir tetikleyici tanımlanmadı</value>
-    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Hiçbir giriş tanımlanmadı</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
         <value>Çıktı tanımlanmadı</value>
+    </data>
+  <data name="integrateAddTrigger" xml:space="preserve">
+        <value>+ Tetikleyici ekle</value>
+    </data>
+  <data name="integrateCreateTrigger" xml:space="preserve">
+        <value>Tetikleyici Oluştur</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Giriş ekle</value>
@@ -5140,10 +5161,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Yeni İşlev</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Bu İşlev Uygulaması'nda yeni bir işlev oluşturun. Başlamak için aşağıdan bir şablondan seçebilir veya </value>
-    </data>
-  <data name="functionCreate_goToQuickstart" xml:space="preserve">
-        <value>hızlı başlangıca gidebilirsiniz.</value>
+        <value>Bu İşlev Uygulaması'nda yeni bir işlev oluşturun. Aşağıdan bir şablon seçerek başlayın.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Şablonlar</value>
@@ -5344,10 +5362,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>GitHub Eylem İş Akışı Yapılandırması</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>GitHub Eylemlerine iş akışı yapılandırması ekleniyor</value>
+        <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>'{1}' adlı depoda '{0}' dalına GitHub eylemi iş akışı tanımı başarıyla işlendi.</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Azure Portalından App Service dağıtım iş akışı yapılandırmasını ekleyin veya güncelleştirin.</value>
@@ -5536,7 +5554,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Özel çalışma zamanı sürümünüz ({0}) desteklenmiyor. Bu nedenle uygulamanız en son sürümü {1} kullanıyor ve her zaman, bozukluğa neden olacak değişiklikler içerebilecek ana sürüm güncelleştirmelerinden sonra bile çalışma zamanının en son sürümünü çalıştırıyor olacaksınız. Bu değeri (~2 gibi) belirli bir ana sürüme ayarlamanız önerilir. Bunu yaparsanız, daha yeni sürümler güncelleştirme için size bildirilir.</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>Çalışma zamanı sürümü FUNCTIONS_EXTENSION_VERSION uygulama ayarı tarafından denetlenir. Özel bir sürümün yapılandırılması, yapılandırılan değerin geçersiz olması veya desteklenmemesi durumunda en son sürüm ayarlanacağından önerilmez. Bu durum, büyük sürüm güncelleştirmeleri bozulmaya neden olan değişiklikler içerebileceğinden işlevlerinizi bozuk bir durumda bırakabilir.</value>
+        <value>Uygulama ayarındaki FUNCTIONS_EXTENSION_VERSION değerini yapılandırdığınızda özel bir çalışma zamanı sürümü kullanmayı kabul etmiş olursunuz.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>Mevcut işlevlerle yükseltme işlemi yapılamaz: Ana sürüm yükseltme, diller ve bağlamalar için bozucu değişiklikler ortaya çıkarabilir. Çalışma zamanının ana sürümünü yükseltirken, yeni bir işlev uygulaması oluşturup işlevlerinizi bu yeni uygulamaya geçirmeyi düşünün.</value>
@@ -5545,7 +5563,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>GitHub belirtecinde 'iş akışı' kapsamı eksik.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub eylemi iş akışı dosyası olan '{{workflowFilePath}}', '{{branchName}} ' dalında zaten var. İşleme devam edildiğinde bu dosyanın üzerine yazılacak.</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015, artık uzaktan hata ayıklama için desteklenmiyor. Lütfen desteklenen bir Visual Studio sürümü seçin.</value>
@@ -5562,10 +5580,100 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="functionTestInputDescription" xml:space="preserve">
         <value>HTTP isteğini test etmek için parametreleri belirtin. Sonuçları Çıkış sekmesinde bulabilirsiniz.</value>
     </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP yanıtı</value>
+  <data name="httpRun_responseContent" xml:space="preserve">
+        <value>HTTP yanıt içeriği</value>
     </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>HTTP yanıt durumu</value>
+  <data name="httpRun_responseCode" xml:space="preserve">
+        <value>HTTP yanıt kodu</value>
+    </data>
+  <data name="editor_changeFileConfirmMessage" xml:space="preserve">
+        <value>Kaydedilmemiş düzenlemeleriniz atılacak.</value>
+    </data>
+  <data name="editor_changeFile" xml:space="preserve">
+        <value>Dosyaları değiştirmek istediğinizden emin misiniz?</value>
+    </data>
+  <data name="defaultDocumentsInfoMessage" xml:space="preserve">
+        <value>Varsayılan belgeler listesi önceliğe göre sıralanmıştır. Listenin en üstündeki öğeler, en altındaki öğelerden daha yüksek önceliğe sahiptir.</value>
+    </data>
+  <data name="requiredField_validationMessage" xml:space="preserve">
+        <value>Ad ve değer gerekli alanlardır</value>
+    </data>
+  <data name="maximize" xml:space="preserve">
+        <value>Ekranı Kapla</value>
+    </data>
+  <data name="minimize" xml:space="preserve">
+        <value>Simge Durumuna Küçült</value>
+    </data>
+  <data name="connect" xml:space="preserve">
+        <value>Bağlan</value>
+    </data>
+  <data name="endOfLifeTagTemplate" xml:space="preserve">
+        <value>{0} (EOL)</value>
+    </data>
+  <data name="functionEditor_appInsightsNotConfigured" xml:space="preserve">
+        <value>Application Insights yapılandırılmadı. İzleyici sekmesine gidin ve işlev günlüklerini yakalamak için Application Insights'ı yapılandırın.</value>
+    </data>
+  <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
+        <value>Application Insights'a bağlanılıyor...</value>
+    </data>
+  <data name="runtimeStack" xml:space="preserve">
+        <value>Çalışma zamanı yığını</value>
+    </data>
+  <data name="runtimeStackVersion" xml:space="preserve">
+        <value>Sürüm</value>
+    </data>
+  <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
+        <value>Kullanılabilir işlev şablonlarının tüm listesini görmek için, uygulamanız için uzantı paketleri ayarlamanız gerekir. </value>
+    </data>
+  <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>Uzaktan hata ayıklama uygulamanız için kullanılamıyor. </value>
+    </data>
+  <data name="tryFunctionsPreview" xml:space="preserve">
+        <value>Yeni Azure İşlevleri yönetim deneyiminin önizlemesini görüntüleyin</value>
+    </data>
+  <data name="saveAppSettingsTitle" xml:space="preserve">
+        <value>Değişiklikleri kaydet</value>
+    </data>
+  <data name="saveAppSettingsMessage" xml:space="preserve">
+        <value>Uygulama ayarlarında ve bağlantı dizelerinde yapılan değişiklikler uygulamanızı yeniden başlatır. Devam etmek istediğinizden emin misiniz?</value>
+    </data>
+  <data name="azureFunctionsV1Linux" xml:space="preserve">
+        <value>Linux Azure İşlev Uygulamalarında Sürüm 1 Çalışma Zamanı desteklenmiyor</value>
+    </data>
+  <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>'{{appName}}' uygulaması şu anda GitHub Eylemleri aracılığıyla Dağıtım Merkezinde desteklenmeyen '{{stack}}' yığını ile kuruldu.</value>
+    </data>
+  <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>'{{appName}}' uygulaması, şu anda geçerli derleme seçimiyle eşleşmeyen '{{stack}}' için yapılandırılmış. Uygulama, geçerli derleme seçimiyle düzgün çalışmayabilir.</value>
+    </data>
+  <data name="hostConfigurationLabel" xml:space="preserve">
+        <value>Konak yapılandırması</value>
+    </data>
+  <data name="configureHostJson" xml:space="preserve">
+        <value>host.json öğesini yapılandır</value>
+    </data>
+  <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
+        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
+        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
+  <data name="githubActionWorkflowOption" xml:space="preserve">
+        <value>Workflow Option</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Configure using existing workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+    </data>
+  <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
     </data>
 </root>

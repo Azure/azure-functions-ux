@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Тестирование для функций веб-перехватчика GitHub не поддерживается.</value>
     </data>
+  <data name="extensionBundleVersion" xml:space="preserve">
+        <value>Версия пакета расширений</value>
+    </data>
   <data name="currentRuntimeVersion" xml:space="preserve">
         <value>Текущая версия среды выполнения</value>
     </data>
@@ -2224,6 +2227,9 @@
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
         <value>Включить слоты развертывания</value>
     </data>
+  <data name="appFunctionSettings_slotsEnableWarning" xml:space="preserve">
+        <value>Слоты Функций Azure сейчас отключены. Включение этого компонента сбросит все существующие секреты. Секреты доступны в колонке "Ключи Функций" для каждой функции.</value>
+    </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
         <value>Известные проблемы:</value>
     </data>
@@ -2270,7 +2276,16 @@
         <value>Не удалось создать слот "{0}" </value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-        <value>Не удалось обновить список слотов.</value>
+        <value>Невозможно получить список слотов. {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadTipConfig" xml:space="preserve">
+        <value>Невозможно получить правила маршрутизации. {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadConfig" xml:space="preserve">
+        <value>Невозможно получить конфигурацию. {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadSite" xml:space="preserve">
+        <value>Невозможно получить сайт. {{errorMessage}}</value>
     </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
         <value>Вы использовали всю квоту на слоты ({{quota}}) для текущего плана.</value>
@@ -2319,9 +2334,6 @@
     </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
         <value>% трафика</value>
-    </data>
-  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
-        <value>Правила маршрутизации будут изменены.</value>
     </data>
   <data name="monitoring_appInsights" xml:space="preserve">
         <value>Чтобы получить дополнительные возможности мониторинга, включая метрики в реальном времени и пользовательские запросы,</value>
@@ -2479,6 +2491,9 @@
   <data name="eventGrid_create" xml:space="preserve">
         <value>create</value>
     </data>
+  <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>Создание подписки для Сетки событий</value>
+    </data>
   <data name="eventGrid_createMessage" xml:space="preserve">
         <value>После создания функции нужно добавить подписку сетки событий.</value>
     </data>
@@ -2528,7 +2543,7 @@
         <value>Юго-Восточная Азия</value>
     </data>
   <data name="koreacentral" xml:space="preserve">
-        <value>Центральная Корея</value>
+        <value>Республика Корея центральный регион</value>
     </data>
   <data name="koreasouth" xml:space="preserve">
         <value>Республика Корея, южный регион</value>
@@ -2555,7 +2570,7 @@
         <value>Центрально-северная часть США</value>
     </data>
   <data name="centralus" xml:space="preserve">
-        <value>Центральная часть США</value>
+        <value>центральная часть США</value>
     </data>
   <data name="brazilsouth" xml:space="preserve">
         <value>Южная Бразилия</value>
@@ -4073,6 +4088,9 @@
   <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>Слот развертывания не может быть одновременно исходным и целевым.</value>
     </data>
+  <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>Замена на предварительную версию невозможна, так как у вас нет необходимых разрешений для следующих слотов: "{{slotNames}}".</value>
+    </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>Переключение с использованием предварительной версии невозможно, так как в следующих слотах развертывания включена проверка подлинности: "{{slotNames}}".</value>
     </data>
@@ -5073,14 +5091,17 @@
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Не удалось проверить параметры контейнера.</value>
     </data>
-  <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>Триггер не задан.</value>
-    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Входные данные не заданы.</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
         <value>Выводов не задано</value>
+    </data>
+  <data name="integrateAddTrigger" xml:space="preserve">
+        <value>+ Добавить триггер</value>
+    </data>
+  <data name="integrateCreateTrigger" xml:space="preserve">
+        <value>Создать триггер</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Добавить входные данные</value>
@@ -5140,10 +5161,7 @@
         <value>Новая функция</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Создание функции в этом приложении-функции. Вы можете выбрать шаблон ниже или </value>
-    </data>
-  <data name="functionCreate_goToQuickstart" xml:space="preserve">
-        <value>перейти к краткому руководству.</value>
+        <value>Создайте в этом приложении-функции новую функцию. В качестве отправной точки можно выбрать шаблон ниже.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Шаблоны</value>
@@ -5344,10 +5362,10 @@
         <value>Конфигурация рабочего процесса действия GitHub</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Добавление конфигурации рабочего процесса в GitHub Actions</value>
+        <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Определение рабочего процесса действия GitHub зафиксировано в ветви "{0}" репозитория "{1}".</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Добавьте или измените конфигурацию рабочего процесса развертывания Службы приложений на портале Azure.</value>
@@ -5536,7 +5554,7 @@
         <value>Настраиваемая версия среды выполнения ({0}) не поддерживается. Поэтому ваше приложение использует последнюю версию {1}, и вы всегда будете работать с последней версией среды выполнения даже в обновлениях основной версии, которые могут содержать критические изменения. В качестве этого значения рекомендуется задать конкретную основную версию (например, ~2), чтобы получать уведомления о выходе новых версий.</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>Версия среды выполнения управляется параметром приложения FUNCTIONS_EXTENSION_VERSION. Настраивать пользовательскую версию не рекомендуется, так как если настроенное значение недопустимо или не поддерживается, вы будете использовать последнюю версию. Это может привести к нарушению работы функций, поскольку обновления основной версии могут содержать критические изменения.</value>
+        <value>Установив значение переменной FUNCTIONS_EXTENSION_VERSION в параметре приложения, вы соглашаетесь на использование настраиваемой версии среды выполнения.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>Невозможно выполнить обновление с помощью существующих функций. Обновление основной версии может вызвать критические изменения в языках и привязках. В случае обновления основных версий среды выполнения можно создать новое приложение-функцию и перенести в него свои функции.</value>
@@ -5545,7 +5563,7 @@
         <value>Отсутствует область "Рабочий процесс" в токене GitHub.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>Файл рабочего процесса GitHub Action "{{workflowFilePath}}" уже существует в ветви "{{branchName}}". При продолжении он будет перезаписан.</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 больше не поддерживается для удаленной отладки. Выберите поддерживаемую версию Visual Studio.</value>
@@ -5562,10 +5580,100 @@
   <data name="functionTestInputDescription" xml:space="preserve">
         <value>Укажите параметры для тестирования HTTP-запроса. Результаты можно найти на вкладке "Выходные данные".</value>
     </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP-ответ</value>
+  <data name="httpRun_responseContent" xml:space="preserve">
+        <value>Содержимое отклика HTTP</value>
     </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>Состояние HTTP-ответа</value>
+  <data name="httpRun_responseCode" xml:space="preserve">
+        <value>Код отклика HTTP</value>
+    </data>
+  <data name="editor_changeFileConfirmMessage" xml:space="preserve">
+        <value>Несохраненные изменения будут потеряны.</value>
+    </data>
+  <data name="editor_changeFile" xml:space="preserve">
+        <value>Вы действительно хотите изменить файлы?</value>
+    </data>
+  <data name="defaultDocumentsInfoMessage" xml:space="preserve">
+        <value>Список документов по умолчанию упорядочен по приоритету. Элементы, стоящие выше, более приоритетны, чем стоящие ниже.</value>
+    </data>
+  <data name="requiredField_validationMessage" xml:space="preserve">
+        <value>Поля "Имя" и "Значение" являются обязательными.</value>
+    </data>
+  <data name="maximize" xml:space="preserve">
+        <value>Развернуть</value>
+    </data>
+  <data name="minimize" xml:space="preserve">
+        <value>Свернуть</value>
+    </data>
+  <data name="connect" xml:space="preserve">
+        <value>Подключение</value>
+    </data>
+  <data name="endOfLifeTagTemplate" xml:space="preserve">
+        <value>{0} (прекращение поддержки)</value>
+    </data>
+  <data name="functionEditor_appInsightsNotConfigured" xml:space="preserve">
+        <value>Служба Application Insights не настроена. Перейдите на вкладку мониторинга и настройте Application Insights для сбора журналов функций.</value>
+    </data>
+  <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
+        <value>Подключение к Application Insights…</value>
+    </data>
+  <data name="runtimeStack" xml:space="preserve">
+        <value>Стек времени выполнения</value>
+    </data>
+  <data name="runtimeStackVersion" xml:space="preserve">
+        <value>Версия</value>
+    </data>
+  <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
+        <value>Чтобы просмотреть весь список доступных шаблонов функций, настройте пакеты расширений для своего приложения. </value>
+    </data>
+  <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>Удаленная отладка недоступна для вашего приложения. </value>
+    </data>
+  <data name="tryFunctionsPreview" xml:space="preserve">
+        <value>Попробуйте предварительную версию нового интерфейса управления для Функций Azure</value>
+    </data>
+  <data name="saveAppSettingsTitle" xml:space="preserve">
+        <value>Сохранить изменения</value>
+    </data>
+  <data name="saveAppSettingsMessage" xml:space="preserve">
+        <value>При любом изменении параметров приложения и строк подключений приложение будет перезапущено. Продолжить?</value>
+    </data>
+  <data name="azureFunctionsV1Linux" xml:space="preserve">
+        <value>Среда выполнения версии 1 не поддерживается в приложениях-функциях Azure для Linux.</value>
+    </data>
+  <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>Для приложения "{{appName}}" настроен стек "{{stack}}", который сейчас не поддерживается в Центре развертывания с использованием GitHub Actions.</value>
+    </data>
+  <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>Для приложения "{{appName}}" сейчас настроен стек "{{stack}}", который не соответствует выбранной сборке. Приложение может работать неправильно с выбранной сборкой.</value>
+    </data>
+  <data name="hostConfigurationLabel" xml:space="preserve">
+        <value>Конфигурация узла</value>
+    </data>
+  <data name="configureHostJson" xml:space="preserve">
+        <value>Настройка host.json</value>
+    </data>
+  <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
+        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
+        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
+  <data name="githubActionWorkflowOption" xml:space="preserve">
+        <value>Workflow Option</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Configure using existing workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+    </data>
+  <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
     </data>
 </root>

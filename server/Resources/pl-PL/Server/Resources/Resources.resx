@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Testowanie funkcji elementu webhook usługi GitHub nie jest obsługiwane.</value>
     </data>
+  <data name="extensionBundleVersion" xml:space="preserve">
+        <value>Wersja pakietu rozszerzenia</value>
+    </data>
   <data name="currentRuntimeVersion" xml:space="preserve">
         <value>Bieżąca wersja środowiska uruchomieniowego</value>
     </data>
@@ -2224,6 +2227,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
         <value>Włącz miejsca wdrożenia</value>
     </data>
+  <data name="appFunctionSettings_slotsEnableWarning" xml:space="preserve">
+        <value>Miejsca usługi Azure Functions są obecnie wyłączone. Włączenie tej funkcji spowoduje zresetowanie wszelkich istniejących wcześniej wpisów tajnych. Wpisy tajne funkcji można znaleźć w bloku „Klucze funkcji” dla każdej funkcji.</value>
+    </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
         <value>Znane problemy:</value>
     </data>
@@ -2270,7 +2276,16 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Nie można utworzyć miejsca „{0}”</value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-        <value>Nie można zaktualizować listy miejsc</value>
+        <value>Nie można pobrać listy miejsc: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadTipConfig" xml:space="preserve">
+        <value>Nie można pobrać reguł routingu: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadConfig" xml:space="preserve">
+        <value>Nie można pobrać konfiguracji: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadSite" xml:space="preserve">
+        <value>Nie można pobrać witryny: {{errorMessage}}</value>
     </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
         <value>Osiągnięto limit przydziału miejsc ({{quota}}) dla bieżącego planu.</value>
@@ -2319,9 +2334,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
         <value>% ruchu</value>
-    </data>
-  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
-        <value>Nadchodzące zmiany w regułach routingu</value>
     </data>
   <data name="monitoring_appInsights" xml:space="preserve">
         <value>Aby skorzystać z bogatszego środowiska monitorowania, w tym metryk na żywo i zapytań niestandardowych:</value>
@@ -2478,6 +2490,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     </data>
   <data name="eventGrid_create" xml:space="preserve">
         <value>create</value>
+    </data>
+  <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>Utwórz subskrypcję siatki zdarzeń</value>
     </data>
   <data name="eventGrid_createMessage" xml:space="preserve">
         <value>Po utworzeniu funkcji należy dodać subskrypcję siatki zdarzeń.</value>
@@ -4073,6 +4088,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>Źródło i cel nie mogą wskazywać tego samego miejsca wdrożenia</value>
     </data>
+  <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>Zamiany z wersją zapoznawczą nie można wykonać, ponieważ nie masz potrzebnych uprawnień dla następujących miejsc: „{{slotNames}}”</value>
+    </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>Nie można wykonać zamiany z wersją zapoznawczą, ponieważ następujące miejsca wdrożenia mają włączone uwierzytelnianie: „{{slotNames}}”</value>
     </data>
@@ -5073,14 +5091,17 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Nie można zweryfikować ustawień kontenera.</value>
     </data>
-  <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>Nie zdefiniowano wyzwalacza</value>
-    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Nie zdefiniowano danych wejściowych</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
         <value>Nie zdefiniowano wyjść</value>
+    </data>
+  <data name="integrateAddTrigger" xml:space="preserve">
+        <value>+ Dodaj wyzwalacz</value>
+    </data>
+  <data name="integrateCreateTrigger" xml:space="preserve">
+        <value>Utwórz wyzwalacz</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Dodaj dane wejściowe</value>
@@ -5140,10 +5161,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Nowa funkcja</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Utwórz nową funkcję w tej aplikacji funkcji. Możesz zacząć od wybrania szablonu poniżej lub </value>
-    </data>
-  <data name="functionCreate_goToQuickstart" xml:space="preserve">
-        <value>przejść do przewodnika Szybki start.</value>
+        <value>Utwórz nową funkcję w tej aplikacji funkcji. Możesz zacząć od wybrania szablonu poniżej.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Szablony</value>
@@ -5344,10 +5362,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Konfiguracja przepływu pracy akcji GitHub</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Dodawanie konfiguracji przepływu pracy do usługi GitHub Actions</value>
+        <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Pomyślnie zatwierdzono definicję przepływu pracy akcji GitHub w gałęzi „{0}” repozytorium „{1}”.</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Dodaj lub zaktualizuj konfigurację przepływu pracy wdrażania usługi App Service w witrynie Azure Portal.</value>
@@ -5536,7 +5554,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Niestandardowa wersja środowiska uruchomieniowego ({0}) nie jest obsługiwana. W rezultacie aplikacja używa najnowszej wersji {1} i zawsze będzie używana najnowsza wersja środowiska uruchomieniowego, nawet w przypadku aktualizacji wersji głównej, które mogą zawierać zmiany powodujące niezgodność. Zaleca się ustawienie tej wartości na określoną wersję główną (np. ~2), a otrzymasz powiadomienie o nowszych wersjach dla aktualizacji.</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>Wersja środowiska uruchomieniowego jest kontrolowana przez ustawienie aplikacji FUNCTIONS_EXTENSION_VERSION. Skonfigurowanie niestandardowej wersji nie jest zalecane, ponieważ ostatecznie będzie używana najnowsza wersja, jeśli skonfigurowana wartość będzie nieprawidłowa lub przestanie być obsługiwana. To może spowodować uszkodzenie funkcji w przypadku aktualizacji wersji głównej, które mogą zawierać zmiany powodujące niezgodność.</value>
+        <value>Podczas konfigurowania wartości FUNCTIONS_EXTENSION_VERSION w ustawieniach aplikacji została wybrana niestandardowa wersja środowiska uruchomieniowego.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>Nie można uaktualnić z istniejącymi funkcjami: uaktualnienia wersji głównej mogą wprowadzać zmiany powodujące niezgodność do języków i powiązań. Gdy uaktualniane są wersje główne środowiska uruchomieniowego, warto rozważyć utworzenie nowej aplikacji funkcji i zmigrowanie swoich funkcji do tej nowej aplikacji.</value>
@@ -5545,7 +5563,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Brak zakresu „workflow” w tokenie usługi GitHub.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>Plik przepływu pracy akcji usługi GitHub „{{workflowFilePath}}” istnieje już w gałęzi „{{branchName}}”. Jeśli będziesz kontynuować, ten plik zostanie zastąpiony.</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Program Visual Studio 2015 nie jest już obsługiwany na potrzeby zdalnego debugowania. Wybierz obsługiwaną wersję programu Visual Studio.</value>
@@ -5562,10 +5580,100 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="functionTestInputDescription" xml:space="preserve">
         <value>Podaj parametry, aby przetestować żądanie HTTP. Wyniki można znaleźć na karcie Dane wyjściowe.</value>
     </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>Odpowiedź HTTP</value>
+  <data name="httpRun_responseContent" xml:space="preserve">
+        <value>Zawartość odpowiedzi HTTP</value>
     </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>Stan odpowiedzi HTTP</value>
+  <data name="httpRun_responseCode" xml:space="preserve">
+        <value>Kod odpowiedzi HTTP</value>
+    </data>
+  <data name="editor_changeFileConfirmMessage" xml:space="preserve">
+        <value>Niezapisane edycje zostaną odrzucone.</value>
+    </data>
+  <data name="editor_changeFile" xml:space="preserve">
+        <value>Czy na pewno chcesz zmienić pliki?</value>
+    </data>
+  <data name="defaultDocumentsInfoMessage" xml:space="preserve">
+        <value>Lista dokumentów domyślnych jest uporządkowana według pierwszeństwa. Elementy bliżej góry listy mają pierwszeństwo nad elementami u dołu listy.</value>
+    </data>
+  <data name="requiredField_validationMessage" xml:space="preserve">
+        <value>Nazwa i wartość są polami wymaganymi</value>
+    </data>
+  <data name="maximize" xml:space="preserve">
+        <value>Maksymalizuj</value>
+    </data>
+  <data name="minimize" xml:space="preserve">
+        <value>Minimalizuj</value>
+    </data>
+  <data name="connect" xml:space="preserve">
+        <value>Połącz</value>
+    </data>
+  <data name="endOfLifeTagTemplate" xml:space="preserve">
+        <value>{0} (EOL)</value>
+    </data>
+  <data name="functionEditor_appInsightsNotConfigured" xml:space="preserve">
+        <value>Nie skonfigurowano usługi Application Insights. Przejdź na kartę Monitorowanie i skonfiguruj usługę Application Insights do przechwytywania dzienników funkcji.</value>
+    </data>
+  <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
+        <value>Trwa łączenie z usługą Application Insights...</value>
+    </data>
+  <data name="runtimeStack" xml:space="preserve">
+        <value>Stos środowiska uruchomieniowego</value>
+    </data>
+  <data name="runtimeStackVersion" xml:space="preserve">
+        <value>Wersja</value>
+    </data>
+  <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
+        <value>Aby zobaczyć całą listę dostępnych szablonów funkcji, musisz skonfigurować pakiety rozszerzeń dla swojej aplikacji. </value>
+    </data>
+  <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>Debugowanie zdalne nie jest dostępne dla Twojej aplikacji. </value>
+    </data>
+  <data name="tryFunctionsPreview" xml:space="preserve">
+        <value>Podgląd nowego środowiska zarządzania usługi Azure Functions</value>
+    </data>
+  <data name="saveAppSettingsTitle" xml:space="preserve">
+        <value>Zapisz zmiany</value>
+    </data>
+  <data name="saveAppSettingsMessage" xml:space="preserve">
+        <value>Wszelkie zmiany ustawień aplikacji i parametrów połączenia spowodują ponowne uruchomienie aplikacji. Czy na pewno chcesz kontynuować?</value>
+    </data>
+  <data name="azureFunctionsV1Linux" xml:space="preserve">
+        <value>Środowisko uruchomieniowe w wersji 1 nie jest obsługiwane w przypadku aplikacji funkcji platformy Azure dla systemu Linux</value>
+    </data>
+  <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>Aplikacja „{{appName}}” ma skonfigurowany stos „{{stack}}”, który nie jest obecnie obsługiwany w centrum wdrażania przez funkcję GitHub Actions.</value>
+    </data>
+  <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>Aplikacja „{{appName}}” jest obecnie skonfigurowana dla stosu „{{stack}}”, który nie jest zgodny z bieżącym wyborem dotyczącym kompilacji. Aplikacja może nie działać poprawnie z aktualnie wybranym wyborem dotyczącym kompilacji.</value>
+    </data>
+  <data name="hostConfigurationLabel" xml:space="preserve">
+        <value>Konfiguracja hosta</value>
+    </data>
+  <data name="configureHostJson" xml:space="preserve">
+        <value>Konfiguruj plik host.json</value>
+    </data>
+  <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
+        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
+        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
+  <data name="githubActionWorkflowOption" xml:space="preserve">
+        <value>Workflow Option</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Configure using existing workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+    </data>
+  <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
     </data>
 </root>
