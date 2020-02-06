@@ -12,6 +12,7 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { functionTestBodyStyle } from './FunctionTest.styles';
 import { MessageBarType } from 'office-ui-fabric-react';
+import { ValidationRegex } from '../../../../../utils/constants/ValidationRegex';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -43,15 +44,18 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   };
 
   const validateForm = (values: InputFormValues) => {
-    const emptyQueries = values.queries.filter(q => !q.name || !q.value);
+    const invalidQueries = values.queries.filter(q => !ValidationRegex.queryName.test(q.name) || !q.value);
     setStatusMessage(undefined);
 
-    if (emptyQueries.length > 0) {
+    if (invalidQueries.length > 0) {
       setStatusMessage(errorMessage);
+      return;
     }
-    const emptyHeaders = values.headers.filter(h => !h.name || !h.value);
-    if (emptyHeaders.length > 0) {
+
+    const invalidHeaders = values.headers.filter(h => !ValidationRegex.headerName.test(h.name) || !h.value);
+    if (invalidHeaders.length > 0) {
       setStatusMessage(errorMessage);
+      return;
     }
   };
 
