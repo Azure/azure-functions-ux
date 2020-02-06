@@ -16,10 +16,11 @@ export interface AppKeyAddEditProps {
   otherAppKeys: AppKeysModel[];
   resourceId: string;
   panelItem: string;
+  readOnlyPermission: boolean;
 }
 
 const AppKeyAddEdit: React.FC<AppKeyAddEditProps> = props => {
-  const { appKey, otherAppKeys, createAppKey, closeBlade, panelItem, showRenewKeyDialog } = props;
+  const { appKey, otherAppKeys, createAppKey, closeBlade, panelItem, showRenewKeyDialog, readOnlyPermission } = props;
   const [nameError, setNameError] = useState('');
   const [currentAppKey, setCurrentAppKey] = useState(appKey);
 
@@ -40,7 +41,7 @@ const AppKeyAddEdit: React.FC<AppKeyAddEditProps> = props => {
     id: 'save',
     title: t('ok'),
     onClick: () => createAppKey(currentAppKey),
-    disable: !!nameError,
+    disable: readOnlyPermission || !!nameError,
   };
 
   const renewKey = () => {
@@ -65,7 +66,7 @@ const AppKeyAddEdit: React.FC<AppKeyAddEditProps> = props => {
   return (
     <>
       <form className={addEditFormStyle}>
-        {panelItem === 'edit' && (
+        {!readOnlyPermission && panelItem === 'edit' && (
           <Label className={renewPanelStyle()} onClick={renewKey}>
             <Icon iconName="Refresh" className={renewPanelIconStyle(theme)} />
             <span className={renewPanelTextStyle()}>{t('renewAppKey')}</span>

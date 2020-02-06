@@ -21,6 +21,8 @@ import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithC
 import Panel from '../../../../components/Panel/Panel';
 import FunctionKeyAddEdit from './FunctionKeyAddEdit';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import { SiteStateContext } from '../../../../SiteStateContext';
+import SiteHelper from '../../../../utils/SiteHelper';
 
 interface FunctionKeysProps {
   resourceId: string;
@@ -32,7 +34,6 @@ interface FunctionKeysProps {
 const emptyKey = { name: '', value: '' };
 
 const FunctionKeys: React.FC<FunctionKeysProps> = props => {
-  const writePermission = false;
   const {
     refreshData,
     initialValues: { keys },
@@ -52,6 +53,9 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
 
   const functionKeysContext = useContext(FunctionKeysContext);
   const theme = useContext(ThemeContext);
+
+  const siteStateContext = useContext(SiteStateContext);
+  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext);
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(keys.map(h => h.name))]);
@@ -188,7 +192,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         <TooltipHost content={t('delete')} id={`function-keys-delete-tooltip-${index}`} calloutProps={{ gapSpace: 0 }} closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={false}
+            disabled={readOnlyPermission}
             id={`function-keys-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -235,7 +239,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
       {
         key: 'function-keys-add',
         onClick: () => showAddEditPanel(),
-        disabled: writePermission,
+        disabled: readOnlyPermission,
         iconProps: { iconName: 'Add' },
         name: t('newFunctionKey'),
         ariaLabel: t('functionKeys_addNewFunctionKey'),
@@ -310,6 +314,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
             otherAppKeys={keys}
             panelItem={panelItem}
             showRenewKeyDialog={showRenewKeyDialog}
+            readOnlyPermission={readOnlyPermission}
           />
         </Panel>
       </div>
