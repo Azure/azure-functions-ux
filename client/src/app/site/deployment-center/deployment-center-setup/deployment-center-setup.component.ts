@@ -31,6 +31,8 @@ export class DeploymentCenterSetupComponent implements OnChanges {
         privateRepo: [false, []],
         username: ['', []],
         password: ['', []],
+        githubActionWorkflowOption: ['', []],
+        githubActionExistingWorkflowContents: ['', []],
       }),
       buildSettings: this._fb.group({
         createNewVsoAccount: [false, []],

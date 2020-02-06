@@ -14,6 +14,7 @@ import { ResponseHeader } from 'app/shared/Utilities/response-header';
 import { GithubService } from '../../wizard-logic/github.service';
 import { FileContent } from 'app/site/deployment-center/Models/github';
 import { PortalResources } from 'app/shared/models/portal-resources';
+import { WorkflowOptions } from '../../../Models/deployment-enums';
 
 @Component({
   selector: 'app-configure-github',
@@ -24,6 +25,7 @@ export class ConfigureGithubComponent implements OnDestroy {
   public OrgList: DropDownElement<string>[] = [];
   public RepoList: DropDownElement<string>[] = [];
   public BranchList: DropDownElement<string>[] = [];
+  public WorkflowOptionList: DropDownElement<string>[] = [];
   public reposLoading = false;
   public branchesLoading = false;
   public permissionInfoLink = DeploymentCenterConstants.permissionsInfoLink;
@@ -31,6 +33,8 @@ export class ConfigureGithubComponent implements OnDestroy {
   public selectedRepo = '';
   public selectedBranch = '';
   public workflowFileExistsWarningMessage = '';
+  public selectedWorkflowOption = '';
+  public showStackSelector = true;
 
   private _repoUrlToNameMap: { [key: string]: string } = {};
   private _buildProvider: string;
@@ -55,6 +59,17 @@ export class ConfigureGithubComponent implements OnDestroy {
 
     this.fetchOrgs();
     this.updateFormValidation();
+
+    this.WorkflowOptionList = [
+      {
+        displayLabel: this._translateService.instant(PortalResources.githubActionWorkflowOptionOverwrite),
+        value: WorkflowOptions.Overwrite,
+      },
+      {
+        displayLabel: this._translateService.instant(PortalResources.githubActionWorkflowOptionUseExisting),
+        value: WorkflowOptions.UseExisting,
+      },
+    ];
 
     // if auth changes then this will force refresh the config data
     this.wizard.updateSourceProviderConfig$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
@@ -156,6 +171,12 @@ export class ConfigureGithubComponent implements OnDestroy {
       const workflowFileName = this._githubService.getWorkflowFileName(this.selectedBranch, this.wizard.siteName, this.wizard.slotName);
       const workflowFilePath = `.github/workflows/${workflowFileName}`;
       this.workflowFileExistsWarningMessage = '';
+      this.selectedWorkflowOption = '';
+      this.showStackSelector = true;
+      this.wizard.sourceSettings.get('githubActionWorkflowOption').setValue('');
+      this.wizard.sourceSettings.get('githubActionWorkflowOption').setValidators([]);
+      this.wizard.sourceSettings.get('githubActionWorkflowOption').updateValueAndValidity();
+      this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue('');
       this.wizard.hideConfigureStepContinueButton = true;
 
       this._githubService
@@ -173,6 +194,12 @@ export class ConfigureGithubComponent implements OnDestroy {
               workflowFilePath: workflowFilePath,
               branchName: this.selectedBranch,
             });
+
+            this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue(atob(r.content));
+
+            const required = new RequiredValidator(this._translateService, false);
+            this.wizard.sourceSettings.get('githubActionWorkflowOption').setValidators(required.validate.bind(required));
+            this.wizard.sourceSettings.get('githubActionWorkflowOption').updateValueAndValidity();
           }
         });
     }
@@ -199,11 +226,15 @@ export class ConfigureGithubComponent implements OnDestroy {
     this.workflowFileExistsWarningMessage = '';
   }
 
-  BranchChanged(org: DropDownElement<string>) {
+  BranchChanged(branch: DropDownElement<string>) {
     // NOTE(michinoy): In case of github action, check to see if the workflow file already exists.
     if (this.wizard.wizardValues.sourceProvider === 'github' && this.wizard.wizardValues.buildProvider === 'github') {
       this.checkWorkflowFileExists();
     }
+  }
+
+  WorkflowOptionChanged(option: DropDownElement<string>) {
+    this.showStackSelector = !this.selectedWorkflowOption || this.selectedWorkflowOption === WorkflowOptions.Overwrite;
   }
 
   private _loadBranches(responses: any[]) {

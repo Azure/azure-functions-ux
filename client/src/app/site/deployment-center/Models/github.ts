@@ -1,7 +1,7 @@
 export class FileContent {
   path: string;
   type: string;
-  contents: string;
+  content: string;
   encoding: string;
   sha: string;
 }
