@@ -5365,10 +5365,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>GitHub Action Workflow Configuration</value>
     </data>
     <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Adding workflow configuration to GitHub Actions</value>
+        <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
     <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
     <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
@@ -5566,7 +5566,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Missing 'workflow' scope in GitHub token.</value>
     </data>
     <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch, by continuing this file will be overwritten.</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
     <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 is no longer supported for remote debugging. Please select a supported Visual Studio version.</value>
@@ -5660,5 +5660,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
         <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
+    <data name="githubActionWorkflowOption" xml:space="preserve">
+        <value>Workflow Option</value>
+    </data>
+    <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite workflow definition</value>
+    </data>
+    <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Configure using existing workflow definition</value>
+    </data>
+    <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+    </data>
+    <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+    </data>
+    <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
     </data>
 </root>
