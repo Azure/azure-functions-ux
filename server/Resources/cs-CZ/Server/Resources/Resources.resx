@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Pro funkce webhooků GitHubu se testování nepodporuje.</value>
     </data>
+  <data name="extensionBundleVersion" xml:space="preserve">
+        <value>Verze sady rozšíření</value>
+    </data>
   <data name="currentRuntimeVersion" xml:space="preserve">
         <value>Aktuální verze modulu runtime</value>
     </data>
@@ -2224,6 +2227,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
         <value>Povolit sloty nasazení</value>
     </data>
+  <data name="appFunctionSettings_slotsEnableWarning" xml:space="preserve">
+        <value>Sloty Azure Functions jsou v tuto chvíli zakázané. Když tuto funkci povolíte, resetují se všechny stávající tajné kódy. Tajné kódy jednotlivých funkcí najdete v příslušných oknech Klíč funkcí.</value>
+    </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
         <value>Známé problémy:</value>
     </data>
@@ -2270,7 +2276,16 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nepovedlo se vytvořit slot {0} </value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-        <value>Nejde aktualizovat seznam slotů.</value>
+        <value>Nejde načíst seznam slotů: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadTipConfig" xml:space="preserve">
+        <value>Nepovedlo se načíst pravidla směrování: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadConfig" xml:space="preserve">
+        <value>Nepovedlo se načíst konfiguraci: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadSite" xml:space="preserve">
+        <value>Nepovedlo se načíst web: {{errorMessage}}</value>
     </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
         <value>Dosáhli jste maximální kvóty počtu slotů ({{quota}}) pro aktuální plán.</value>
@@ -2319,9 +2334,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
         <value>Provoz (%)</value>
-    </data>
-  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
-        <value>Nadcházející změny pravidel směrování</value>
     </data>
   <data name="monitoring_appInsights" xml:space="preserve">
         <value>Abyste měli k dispozici rozmanitější možnosti monitorování, včetně živých metrik a vlastních dotazů:</value>
@@ -2479,6 +2491,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="eventGrid_create" xml:space="preserve">
         <value>create</value>
     </data>
+  <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>Vytvořit předplatné Event Gridu</value>
+    </data>
   <data name="eventGrid_createMessage" xml:space="preserve">
         <value>Po vytvoření funkce musíte přidat předplatné Event Gridu.</value>
     </data>
@@ -2570,7 +2585,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Indie – západ</value>
     </data>
   <data name="centralindia" xml:space="preserve">
-        <value>Indie – střed</value>
+        <value>Střed Indie</value>
     </data>
   <data name="southindia" xml:space="preserve">
         <value>Jižní Indie</value>
@@ -4073,6 +4088,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>Zdroj a cíl nemůžou mít stejný slot nasazení.</value>
     </data>
+  <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>Prohození s náhledem se nedá provést, protože nemáte potřebná oprávnění pro následující sloty: {{slotNames}}</value>
+    </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>Prohození s náhledem se nedá provést, protože následující sloty nasazení mají povolené ověřování: {{slotNames}}</value>
     </data>
@@ -5073,14 +5091,17 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Nepovedlo se ověřit nastavení kontejneru.</value>
     </data>
-  <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>Nejsou definované žádné triggery.</value>
-    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Nejsou definované žádné vstupy.</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
         <value>Nedefinovaly se žádné výstupy.</value>
+    </data>
+  <data name="integrateAddTrigger" xml:space="preserve">
+        <value>+ Přidat trigger</value>
+    </data>
+  <data name="integrateCreateTrigger" xml:space="preserve">
+        <value>Vytvořit aktivační událost</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Přidat vstup</value>
@@ -5140,10 +5161,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nová funkce</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Vytvořte novou funkci v této aplikaci funkcí. Můžete začít tak, že si vyberete nějakou ze šablon níže, nebo </value>
-    </data>
-  <data name="functionCreate_goToQuickstart" xml:space="preserve">
-        <value>přejdete na rychlý start.</value>
+        <value>Vytvořte novou funkci v této aplikaci funkcí. Můžete začít tak, že si níže vyberete nějakou šablonu.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Šablony</value>
@@ -5344,10 +5362,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Konfigurace pracovního postupu akce GitHubu</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Přidává se konfigurace pracovního postupu do akcí GitHubu</value>
+        <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Definice pracovního postupu akce GitHubu se úspěšně zapsala do větve {0} v úložišti {1}.</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Přidejte nebo aktualizujte konfiguraci pracovního postupu nasazení služby App Service přes portál Azure Portal.</value>
@@ -5536,7 +5554,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Vlastní verze modulu runtime ({0}) se nepodporuje. Kvůli tomu vaše aplikace používá nejnovější verzi {1}. Nejnovější verzi modulu runtime budete používat vždy, a to i v případě, že se aktualizuje hlavní verze, která může po aktualizaci obsahovat změny způsobující chyby. Doporučuje se nastavit danou hodnotu na konkrétní hlavní verzi (např. ~2), a až bude k dispozici aktualizace na novější verze, dostanete oznámení.</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>Verzi modulu runtime určuje nastavení aplikace FUNCTIONS_EXTENSION_VERSION. Konfigurace vlastní verze se nedoporučuje, protože v případě, že nakonfigurovaná hodnota nebude platná nebo se přestane podporovat, dojde k aktualizaci na nejnovější verzi. To může způsobit, že funkce přestanou fungovat, protože aktualizace hlavních verzí můžou obsahovat změny způsobující chyby.</value>
+        <value>Když se v nastavení aplikace nakonfiguruje hodnota FUNCTIONS_EXTENSION_VERSION, znamená to, že se bude používat vlastní verze modulu runtime.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>Se stávajícími funkcemi se nedá provést upgrade: Upgrady hlavní verze můžou zavést změny jazyků a vazeb, které způsobují chyby. Při upgradu hlavních verzí modulu runtime zvažte možnost vytvořit novou aplikaci funkcí a migrovat do ní své funkce.</value>
@@ -5545,7 +5563,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>V tokenu GitHubu chybí obor workflow.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>Soubor pracovního postupu akce GitHubu {{workflowFilePath}} už ve větvi {{branchName}} existuje. Když budete pokračovat, tento soubor se přepíše.</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 se už pro vzdálené ladění nepodporuje. Vyberte prosím podporovanou verzi sady Visual Studio.</value>
@@ -5562,10 +5580,100 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="functionTestInputDescription" xml:space="preserve">
         <value>Pokud chcete otestovat požadavek HTTP, zadejte parametry. Výsledky najdete na kartě Výstup.</value>
     </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>Odpověď protokolu HTTP</value>
+  <data name="httpRun_responseContent" xml:space="preserve">
+        <value>Obsah odpovědi protokolu HTTP</value>
     </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>Stav odpovědi protokolu HTTP</value>
+  <data name="httpRun_responseCode" xml:space="preserve">
+        <value>Kód odpovědi protokolu HTTP</value>
+    </data>
+  <data name="editor_changeFileConfirmMessage" xml:space="preserve">
+        <value>Vaše neuložené úpravy se zahodí.</value>
+    </data>
+  <data name="editor_changeFile" xml:space="preserve">
+        <value>Opravdu chcete změnit soubory?</value>
+    </data>
+  <data name="defaultDocumentsInfoMessage" xml:space="preserve">
+        <value>Výchozí seznam dokumentů je řazený podle priority. Položky v horní části seznamu budou mít větší prioritu nebo položky v dolní části.</value>
+    </data>
+  <data name="requiredField_validationMessage" xml:space="preserve">
+        <value>Název a hodnota jsou povinná pole.</value>
+    </data>
+  <data name="maximize" xml:space="preserve">
+        <value>Maximalizovat</value>
+    </data>
+  <data name="minimize" xml:space="preserve">
+        <value>Minimalizovat</value>
+    </data>
+  <data name="connect" xml:space="preserve">
+        <value>Připojit</value>
+    </data>
+  <data name="endOfLifeTagTemplate" xml:space="preserve">
+        <value>{0} (konec životnosti)</value>
+    </data>
+  <data name="functionEditor_appInsightsNotConfigured" xml:space="preserve">
+        <value>Služba Application Insights není nakonfigurovaná. Pokud chcete zachytávat protokoly funkcí, přejděte na kartu Monitorování a nakonfigurujte Application Insights.</value>
+    </data>
+  <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
+        <value>Připojování k Application Insights...</value>
+    </data>
+  <data name="runtimeStack" xml:space="preserve">
+        <value>Zásobník modulu runtime</value>
+    </data>
+  <data name="runtimeStackVersion" xml:space="preserve">
+        <value>Verze</value>
+    </data>
+  <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
+        <value>Abyste si mohli zobrazit celý seznam dostupných šablon funkcí, musíte pro svou aplikaci nastavit sady rozšíření. </value>
+    </data>
+  <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>Vzdálené ladění není pro vaši aplikaci k dispozici. </value>
+    </data>
+  <data name="tryFunctionsPreview" xml:space="preserve">
+        <value>Prohlédněte si nové prostředí pro správu Azure Functions.</value>
+    </data>
+  <data name="saveAppSettingsTitle" xml:space="preserve">
+        <value>Uložit změny</value>
+    </data>
+  <data name="saveAppSettingsMessage" xml:space="preserve">
+        <value>Jakákoli změna nastavení aplikace a připojovacích řetězců restartuje vaši aplikaci. Opravdu chcete pokračovat?</value>
+    </data>
+  <data name="azureFunctionsV1Linux" xml:space="preserve">
+        <value>Modul runtime verze 1 se pro linuxové aplikace Azure Functions nepodporuje.</value>
+    </data>
+  <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>Aplikace {{appName}} má nastavený stack {{stack}}, který se v současné době v Centru nasazení přes GitHub Actions nepodporuje.</value>
+    </data>
+  <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>Aplikace {{appName}} má v tuto chvíli nakonfigurovaný stack {{stack}}, což neodpovídá aktuálnímu výběru buildu. Je možné, že aplikace nebude se stávajícím výběrem buildu fungovat správně.</value>
+    </data>
+  <data name="hostConfigurationLabel" xml:space="preserve">
+        <value>Konfigurace hostitele</value>
+    </data>
+  <data name="configureHostJson" xml:space="preserve">
+        <value>Nakonfigurovat host.json</value>
+    </data>
+  <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
+        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
+        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
+  <data name="githubActionWorkflowOption" xml:space="preserve">
+        <value>Workflow Option</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Configure using existing workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+    </data>
+  <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
     </data>
 </root>

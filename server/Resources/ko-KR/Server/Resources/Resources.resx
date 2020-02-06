@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>GitHub webhook 함수의 테스트는 지원되지 않습니다.</value>
     </data>
+  <data name="extensionBundleVersion" xml:space="preserve">
+        <value>확장 번들 버전</value>
+    </data>
   <data name="currentRuntimeVersion" xml:space="preserve">
         <value>현재 런타임 버전</value>
     </data>
@@ -2224,6 +2227,9 @@
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
         <value>배포 슬롯 사용</value>
     </data>
+  <data name="appFunctionSettings_slotsEnableWarning" xml:space="preserve">
+        <value>Azure Functions 슬롯을 현재 사용할 수 없습니다. 이 기능을 사용하도록 설정하면 기존 비밀이 모두 재설정됩니다. 함수 비밀은 각 함수의 '함수 키' 블레이드에서 찾을 수 있습니다.</value>
+    </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
         <value>알려진 문제:</value>
     </data>
@@ -2270,7 +2276,16 @@
         <value>'{0}' 슬롯 만들기 실패 </value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-        <value>슬롯 목록을 업데이트할 수 없습니다.</value>
+        <value>슬롯 목록을 가져올 수 없습니다. {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadTipConfig" xml:space="preserve">
+        <value>라우팅 규칙을 가져올 수 없습니다. {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadConfig" xml:space="preserve">
+        <value>구성을 검색할 수 없음: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadSite" xml:space="preserve">
+        <value>사이트를 검색할 수 없음: {{errorMessage}}</value>
     </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
         <value>현재 계획에 대한 슬롯 할당량 한도({{quota}})에 도달했습니다.</value>
@@ -2319,9 +2334,6 @@
     </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
         <value>트래픽 %</value>
-    </data>
-  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
-        <value>회람 규칙에 대한 예정된 변경</value>
     </data>
   <data name="monitoring_appInsights" xml:space="preserve">
         <value>더 풍부한 모니터링 환경(라이브 메트릭 및 사용자 지정 쿼리 포함)을 사용하려면:</value>
@@ -2479,6 +2491,9 @@
   <data name="eventGrid_create" xml:space="preserve">
         <value>만들기</value>
     </data>
+  <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>Event Grid 구독 만들기</value>
+    </data>
   <data name="eventGrid_createMessage" xml:space="preserve">
         <value>함수를 만든 후에는 Event Grid 구독을 추가해야 합니다.</value>
     </data>
@@ -2552,7 +2567,7 @@
         <value>미국 동부 2</value>
     </data>
   <data name="northcentralus" xml:space="preserve">
-        <value>미국 중북부</value>
+        <value>미국 중부</value>
     </data>
   <data name="centralus" xml:space="preserve">
         <value>미국 중부</value>
@@ -2570,10 +2585,10 @@
         <value>서인도</value>
     </data>
   <data name="centralindia" xml:space="preserve">
-        <value>중앙 인도</value>
+        <value>인도 중부</value>
     </data>
   <data name="southindia" xml:space="preserve">
-        <value>남인도</value>
+        <value>인도 남부</value>
     </data>
   <data name="canadacentral" xml:space="preserve">
         <value>캐나다 중부</value>
@@ -4073,6 +4088,9 @@
   <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>소스 및 대상은 동일한 배포 슬롯일 수 없음</value>
     </data>
+  <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>'{{slotNames}}' 슬롯에 대해 필요한 권한이 없으므로 미리 보기로 바꿀 수 없습니다.</value>
+    </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>'{{slotNames}}' 배포 슬롯은 인증을 사용하도록 설정되었으므로 미리 보기를 사용한 교환을 수행할 수 없습니다.</value>
     </data>
@@ -5073,14 +5091,17 @@
   <data name="containerValidationFailed" xml:space="preserve">
         <value>컨테이너 설정을 확인하지 못했습니다.</value>
     </data>
-  <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>트리거가 정의되지 않음</value>
-    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>입력이 정의되지 않음</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
         <value>출력이 정의되지 않음</value>
+    </data>
+  <data name="integrateAddTrigger" xml:space="preserve">
+        <value>+ 트리거 추가</value>
+    </data>
+  <data name="integrateCreateTrigger" xml:space="preserve">
+        <value>트리거 만들기</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ 입력 추가</value>
@@ -5140,10 +5161,7 @@
         <value>새 함수</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>이 함수 앱에서 새 함수를 만듭니다. 아래에서 템플릿을 선택하여 시작하거나</value>
-    </data>
-  <data name="functionCreate_goToQuickstart" xml:space="preserve">
-        <value>빠른 시작으로 이동합니다.</value>
+        <value>이 함수 앱에서 새 함수를 만듭니다. 아래에서 템플릿을 선택하여 시작할 수 있습니다.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>템플릿</value>
@@ -5344,10 +5362,10 @@
         <value>GitHub 작업 워크플로 구성</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>GitHub 작업에 워크플로 구성을 추가하는 중</value>
+        <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>'{1}' 리포지토리의 '{0}' 분기에 대한 GitHub 작업 워크플로 정의를 커밋했습니다.</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Azure Portal에서 App Service 배포 워크플로 구성을 추가하거나 업데이트합니다.</value>
@@ -5536,7 +5554,7 @@
         <value>사용자 지정 런타임 버전({0})이 지원되지 않습니다. 따라서 앱에서 최신 버전의 {1}을(를) 사용하고 있으므로 호환성이 손상될 수 있는 변경 배용이 포함된 주 버전 업데이트에서도 항상 최신 버전의 런타임을 실행하게 됩니다. 이 값을 특정 주 버전(예: ~2)으로 설정하는 것이 좋습니다. 이렇게 하면 업데이트할 새 버전이 있을 경우 알림을 받게 됩니다.</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>런타임 버전은 FUNCTIONS_EXTENSION_VERSION 앱 설정에 의해 제어됩니다. 사용자 지정 버전을 구성할 경우, 구성된 값이 올바르지 않거나 지원되지 않게 되면 최신 버전이 적용되게 되므로 사용자 지정 버전을 구성하는 것은 권장되지 않습니다. 이렇게 되면 주 버전 업데이트가 호환성이 손상되는 변경 내용을 포함할 수 있으므로 함수가 손상된 상태가 될 수 있습니다.</value>
+        <value>애플리케이션 설정에서 FUNCTIONS_EXTENSION_VERSION의 값을 구성하여 사용자 지정 런타임 버전을 사용하도록 선택했습니다.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>기존 함수를 사용하여 업그레이드할 수 없습니다. 주 버전을 업그레이드하면 언어 및 바인딩에 대한 변경이 발생할 수 있습니다. 런타임의 주 버전을 업그레이드할 경우 새 함수 앱을 만들어서 함수를 새 앱으로 마이그레이션하는 방안을 고려하세요.</value>
@@ -5545,7 +5563,7 @@
         <value>GitHub 토큰에 '워크플로' 범위가 없습니다.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub 작업 워크플로 파일 '{{workflowFilePath}}'이(가) '{{branchName}}' 분기에 이미 있으므로, 계속하면 이 파일을 덮어쓰게 됩니다.</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015에서는 원격 디버깅이 더 이상 지원되지 않습니다. 지원되는 Visual Studio 버전을 선택하세요.</value>
@@ -5562,10 +5580,100 @@
   <data name="functionTestInputDescription" xml:space="preserve">
         <value>HTTP 요청을 테스트하는 매개 변수를 제공합니다. 결과는 [출력] 탭에서 확인할 수 있습니다.</value>
     </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP 응답</value>
+  <data name="httpRun_responseContent" xml:space="preserve">
+        <value>HTTP 응답 콘텐츠</value>
     </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>HTTP 응답 상태</value>
+  <data name="httpRun_responseCode" xml:space="preserve">
+        <value>HTTP 응답 코드</value>
+    </data>
+  <data name="editor_changeFileConfirmMessage" xml:space="preserve">
+        <value>저장하지 않은 편집 내용은 삭제됩니다.</value>
+    </data>
+  <data name="editor_changeFile" xml:space="preserve">
+        <value>파일을 변경하시겠습니까?</value>
+    </data>
+  <data name="defaultDocumentsInfoMessage" xml:space="preserve">
+        <value>기본 문서 목록은 우선 순위에 따라 정렬됩니다. 목록 위쪽에 있는 항목은 목록 아래쪽에 있는 항목보다 우선 순위가 높습니다.</value>
+    </data>
+  <data name="requiredField_validationMessage" xml:space="preserve">
+        <value>이름 및 값은 필수 필드입니다.</value>
+    </data>
+  <data name="maximize" xml:space="preserve">
+        <value>최대화</value>
+    </data>
+  <data name="minimize" xml:space="preserve">
+        <value>최소화</value>
+    </data>
+  <data name="connect" xml:space="preserve">
+        <value>연결</value>
+    </data>
+  <data name="endOfLifeTagTemplate" xml:space="preserve">
+        <value>{0}(EOL)</value>
+    </data>
+  <data name="functionEditor_appInsightsNotConfigured" xml:space="preserve">
+        <value>Application Insights가 구성되어 있지 않습니다. [모니터] 탭으로 이동하고 Application Insights를 구성하여 함수 로그를 캡처하세요.</value>
+    </data>
+  <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
+        <value>Application Insights에 연결하는 중...</value>
+    </data>
+  <data name="runtimeStack" xml:space="preserve">
+        <value>런타임 스택</value>
+    </data>
+  <data name="runtimeStackVersion" xml:space="preserve">
+        <value>버전</value>
+    </data>
+  <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
+        <value>사용 가능한 함수 템플릿의 전체 목록을 보려면 앱에 대한 확장 번들을 설정해야 합니다. </value>
+    </data>
+  <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>애플리케이션에 원격 디버깅을 사용할 수 없습니다. </value>
+    </data>
+  <data name="tryFunctionsPreview" xml:space="preserve">
+        <value>새 Azure Functions 관리 환경 미리 보기</value>
+    </data>
+  <data name="saveAppSettingsTitle" xml:space="preserve">
+        <value>변경 내용 저장</value>
+    </data>
+  <data name="saveAppSettingsMessage" xml:space="preserve">
+        <value>애플리케이션 설정 및 연결 문자열을 변경하면 애플리케이션이 다시 시작됩니다. 계속하시겠습니까?</value>
+    </data>
+  <data name="azureFunctionsV1Linux" xml:space="preserve">
+        <value>Linux Azure 함수 앱에서는 버전 1 런타임이 지원되지 않습니다.</value>
+    </data>
+  <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>'{{appName}}' 앱이 현재 GitHub 작업을 통해 배포 센터에서 지원되지 않는 '{{stack}}' 스택을 사용하여 설치되었습니다.</value>
+    </data>
+  <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>'{{appName}}' 앱이 현재 '{{stack}}'에 대해 구성되어 있는데, 이는 현재 빌드 선택과 일치하지 않습니다. 앱이 현재 빌드 선택에서 제대로 작동하지 않을 수 있습니다.</value>
+    </data>
+  <data name="hostConfigurationLabel" xml:space="preserve">
+        <value>호스트 구성</value>
+    </data>
+  <data name="configureHostJson" xml:space="preserve">
+        <value>host.json 구성</value>
+    </data>
+  <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
+        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
+        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
+  <data name="githubActionWorkflowOption" xml:space="preserve">
+        <value>Workflow Option</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Configure using existing workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+    </data>
+  <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
     </data>
 </root>
