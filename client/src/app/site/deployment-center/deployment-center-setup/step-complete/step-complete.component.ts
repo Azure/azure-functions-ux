@@ -12,6 +12,7 @@ import { PortalService } from '../../../../shared/services/portal.service';
 import { Guid } from 'app/shared/Utilities/Guid';
 import { PythonFrameworkType } from '../wizard-logic/deployment-center-setup-models';
 import { GithubService } from '../wizard-logic/github.service';
+import { WorkflowOptions } from '../../Models/deployment-enums';
 
 interface SummaryItem {
   label: string;
@@ -160,9 +161,7 @@ export class StepCompleteComponent {
             this._portalService.stopNotification(
               notificationId,
               true,
-              this._translateService
-                .instant(PortalResources.githubActionSettingsSavedSuccessfully)
-                .format(this.wizard.wizardValues.sourceSettings.branch, this.wizard.wizardValues.sourceSettings.repoUrl)
+              this._translateService.instant(PortalResources.githubActionSettingsSavedSuccessfully)
             );
             this._broadcastService.broadcastEvent<void>(BroadcastEvent.ReloadDeploymentCenter);
             this._portalService.logAction('deploymentcenter', 'save', {
@@ -212,13 +211,18 @@ export class StepCompleteComponent {
     return returnVal;
   }
 
+  get ExistingGitHubActionConfigurationMessage() {
+    if (this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.Overwrite) {
+      return this._translateService.instant(PortalResources.githubActionWorkflowOptionOverwriteMessage);
+    } else if (this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.UseExisting) {
+      return this._translateService.instant(PortalResources.githubActionWorkflowOptionUseExistingMessage);
+    } else {
+      return '';
+    }
+  }
+
   get GithubActionsWorkflowConfig() {
-    if (
-      this.wizard.wizardValues.sourceSettings.repoUrl &&
-      this.wizard.wizardValues.sourceSettings.branch &&
-      this.wizard.wizardValues.buildSettings.runtimeStack &&
-      this.wizard.wizardValues.buildSettings.runtimeStackVersion
-    ) {
+    if (this._generateWorkflowInformation()) {
       const information = this._githubService.getWorkflowInformation(
         this.wizard.wizardValues.buildSettings,
         this.wizard.wizardValues.sourceSettings,
@@ -229,9 +233,30 @@ export class StepCompleteComponent {
       );
 
       return information.content;
+    } else if (this._useExistingWorkflow()) {
+      return this.wizard.wizardValues.sourceSettings.githubActionExistingWorkflowContents;
     } else {
       return '';
     }
+  }
+
+  private _generateWorkflowInformation() {
+    return (
+      this.wizard.wizardValues.sourceSettings.repoUrl &&
+      this.wizard.wizardValues.sourceSettings.branch &&
+      this.wizard.wizardValues.buildSettings.runtimeStack &&
+      this.wizard.wizardValues.buildSettings.runtimeStackVersion &&
+      (!this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption ||
+        this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.Overwrite)
+    );
+  }
+
+  private _useExistingWorkflow() {
+    return (
+      this.wizard.wizardValues.sourceSettings.repoUrl &&
+      this.wizard.wizardValues.sourceSettings.branch &&
+      this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.UseExisting
+    );
   }
 
   private _buildControlgroup(): SummaryGroup {
