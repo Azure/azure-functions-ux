@@ -12,7 +12,7 @@ import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { ARMApiVersions, ScenarioIds, Kinds } from '../../../../shared/models/constants';
+import { ARMApiVersions, ScenarioIds, Kinds, RuntimeStacks, Constants } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,9 +26,11 @@ import { VSOAccount } from '../../Models/vso-repo';
 import { AzureDevOpsService, AzureDevOpsDeploymentMethod, TargetAzDevDeployment } from './azure-devops.service';
 import { LocalStorageService } from '../../../../shared/services/local-storage.service';
 import { GithubService } from './github.service';
-import { WorkflowCommit } from '../../Models/github';
+import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../Models/github';
 import { Guid } from 'app/shared/Utilities/Guid';
 import { SubscriptionService } from 'app/shared/services/subscription.service';
+import { SiteConfig } from 'app/shared/models/arm/site-config';
+import { WorkflowOptions } from '../../Models/deployment-enums';
 
 const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
 
@@ -59,6 +61,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public slotName = '';
   public gitHubPublishProfileSecretGuid = '';
   public isGithubActionWorkflowScopeAvailable = false;
+  public stack = '';
+  public stackVersion = '';
 
   constructor(
     private _cacheService: CacheService,
@@ -86,15 +90,27 @@ export class DeploymentCenterStateManager implements OnDestroy {
           .toLowerCase()
           .replace(/[-]/g, '');
 
-        return forkJoin(siteService.getSite(this._resourceId), subscriptionService.getSubscription(siteDescriptor.subscription));
+        return forkJoin(
+          siteService.getSite(this._resourceId),
+          siteService.getSiteConfig(this._resourceId),
+          siteService.getAppSettings(this._resourceId),
+          siteService.fetchSiteConfigMetadata(this._resourceId),
+          subscriptionService.getSubscription(siteDescriptor.subscription)
+        );
       })
       .switchMap(result => {
-        const [site, sub] = result;
+        const [site, config, appSettings, configMetadata, sub] = result;
         this.siteArm = site.result;
         this.isLinuxApp = this.siteArm.kind.toLowerCase().includes(Kinds.linux);
         this.isFunctionApp = this.siteArm.kind.toLowerCase().includes(Kinds.functionApp);
-        this.siteArmObj$.next(this.siteArm);
         this.subscriptionName = sub.result.displayName;
+
+        if (config.isSuccessful && appSettings.isSuccessful && configMetadata.isSuccessful) {
+          this._setStackAndVersion(config.result.properties, appSettings.result.properties, configMetadata.result.properties);
+        }
+
+        this.siteArmObj$.next(this.siteArm);
+
         return this._scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm });
       })
       .subscribe(vstsScenarioCheck => {
@@ -130,7 +146,16 @@ export class DeploymentCenterStateManager implements OnDestroy {
       case 'vsts':
         return this._deployVsts();
       case 'github':
-        return this._deployGithubActions().map(result => ({ status: 'succeeded', statusMessage: null, result }));
+        // NOTE(michinoy): Only initiate writing a workflow configuration file if the branch does not already have it OR
+        // the user opted to overwrite it.
+        if (
+          !this.wizardValues.sourceSettings.githubActionWorkflowOption ||
+          this.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.Overwrite
+        ) {
+          return this._deployGithubActions().map(result => ({ status: 'succeeded', statusMessage: null, result }));
+        } else {
+          return this._deployKudu().map(result => ({ status: 'succeeded', statusMessage: null, result }));
+        }
       default:
         return this._deployKudu().map(result => ({ status: 'succeeded', statusMessage: null, result }));
     }
@@ -150,6 +175,42 @@ export class DeploymentCenterStateManager implements OnDestroy {
       });
   }
 
+  private _setStackAndVersion(
+    siteConfig: SiteConfig,
+    siteAppSettings: { [key: string]: string },
+    configMetadata: { [key: string]: string }
+  ) {
+    if (this.isLinuxApp) {
+      this._setStackAndVersionForLinux(siteConfig);
+    } else {
+      this._setStackAndVersionForWindows(siteConfig, siteAppSettings, configMetadata);
+    }
+  }
+
+  private _setStackAndVersionForWindows(
+    siteConfig: SiteConfig,
+    siteAppSettings: { [key: string]: string },
+    configMetadata: { [key: string]: string }
+  ) {
+    if (configMetadata['CURRENT_STACK']) {
+      this.stack = configMetadata['CURRENT_STACK'].toLowerCase();
+    }
+
+    if (this.stack === RuntimeStacks.node) {
+      this.stackVersion = siteAppSettings[Constants.nodeVersionAppSettingName];
+    } else if (this.stack === RuntimeStacks.python) {
+      this.stackVersion = siteConfig.pythonVersion;
+    } else {
+      this.stackVersion = '';
+    }
+  }
+
+  private _setStackAndVersionForLinux(siteConfig: SiteConfig) {
+    const linuxFxVersionParts = siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion.split('|') : [];
+    this.stack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : null;
+    this.stackVersion = !!siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion : '';
+  }
+
   private _deployGithubActions() {
     const repo = this.wizardValues.sourceSettings.repoUrl.replace('https://github.com/', '');
     const branch = this.wizardValues.sourceSettings.branch || 'master';
@@ -162,26 +223,32 @@ export class DeploymentCenterStateManager implements OnDestroy {
       this.slotName
     );
 
-    const commitInfo: WorkflowCommit = {
+    const commitInfo: GitHubCommit = {
+      repoName: repo,
+      branchName: branch,
+      filePath: `.github/workflows/${workflowInformation.fileName}`,
       message: this._translateService.instant(PortalResources.githubActionWorkflowCommitMessage),
-      content: btoa(workflowInformation.content),
+      contentBase64Encoded: btoa(workflowInformation.content),
       committer: {
         name: 'Azure App Service',
         email: 'donotreply@microsoft.com',
       },
-      branch,
     };
 
-    const workflowYmlPath = `.github/workflows/${workflowInformation.fileName}`;
-
     return this._githubService
-      .fetchWorkflowConfiguration(this.getToken(), this.wizardValues.sourceSettings.repoUrl, repo, branch, workflowYmlPath)
+      .fetchWorkflowConfiguration(this.getToken(), this.wizardValues.sourceSettings.repoUrl, repo, branch, commitInfo.filePath)
       .switchMap(fileContentResponse => {
         if (fileContentResponse) {
           commitInfo.sha = fileContentResponse.sha;
         }
 
-        return this._githubService.commitWorkflowConfiguration(this.getToken(), repo, workflowYmlPath, commitInfo);
+        const requestContent: GitHubActionWorkflowRequestContent = {
+          resourceId: this._resourceId,
+          secretName: workflowInformation.secretName,
+          commit: commitInfo,
+        };
+
+        return this._githubService.createOrUpdateActionWorkflow(this.getToken(), requestContent);
       })
       .switchMap(_ => {
         return this._deployKudu();

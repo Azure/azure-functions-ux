@@ -164,13 +164,13 @@ export class Links {
   public static byosLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2045372';
   public static deploymentCredentialsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2082375';
   public static ipRestrictionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086703';
-  public static tipDeprecationLink = 'https://go.microsoft.com/fwlink/?linkid=2084425';
   public static elasticPremiumNotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086603';
   public static clientCertEnabledLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086188';
   public static powershellPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086831';
   public static appDensityWarningLink = 'https://go.microsoft.com/fwlink/?linkid=2098431';
   public static apimUpsellLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104075';
   public static runtimeScaleMonitoringLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2104710';
+  public static pv2FlexStampInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2116583';
 }
 
 export class Kinds {
@@ -643,7 +643,7 @@ export class FeatureFlags {
   public static enablePublishProfileBasedDeployment = 'enablePublishProfileBasedDeployment';
   public static targetAzDevDeployment = 'targetAzDevDeployment';
   public static authTokenOverride = 'authTokenOverride';
-  public static EnableAIOnNationalCloud = 'EnableAIOnNationalCloud';
+  public static FunctionsPreview = 'FunctionsPreview';
 }
 
 export class SupportedFeatures {
@@ -677,4 +677,9 @@ export class RuntimeStacks {
   public static node = 'node';
   public static python = 'python';
   public static dotnetcore = 'dotnetcore';
+}
+
+export class Os {
+  public static linux: 'linux' | 'windows' = 'linux';
+  public static windows: 'linux' | 'windows' = 'windows';
 }

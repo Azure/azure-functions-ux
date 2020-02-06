@@ -57,10 +57,7 @@ export const createNew = (
     .pipe(first())
     .subscribe(info => {
       if (info.closedReason === ClosedReason.Save) {
-        const updatedFunctionInfo = submit(portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo);
-
-        bindingEditorContext.closeEditor();
-        bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
+        createOrUpdateBinding(bindingEditorContext, portalCommunicator, t, functionInfo, info.newBindingInfo as BindingInfo);
       }
     });
 };
@@ -78,16 +75,14 @@ export const editExisting = (
     .pipe(first())
     .subscribe(info => {
       if (info.closedReason === ClosedReason.Save) {
-        const updatedFunctionInfo = submit(
+        createOrUpdateBinding(
+          bindingEditorContext,
           portalCommunicator,
           t,
           functionInfo,
           info.newBindingInfo as BindingInfo,
           info.currentBindingInfo
         );
-
-        bindingEditorContext.closeEditor();
-        bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
       } else if (info.closedReason === ClosedReason.Delete) {
         deleteBinding(bindingEditorContext, portalCommunicator, t, functionInfo, info.currentBindingInfo as BindingInfo);
       }
@@ -102,17 +97,19 @@ export const emptyList = (emptyMessage: string): JSX.Element[] => {
   ];
 };
 
-const submit = (
+const createOrUpdateBinding = (
+  bindingEditorContext: BindingEditorContextInfo,
   portalCommunicator: PortalCommunicator,
   t: i18next.TFunction,
   functionInfo: ArmObj<FunctionInfo>,
   newBindingInfo: BindingInfo,
   currentBindingInfo?: BindingInfo
-): ArmObj<FunctionInfo> => {
+) => {
+  bindingEditorContext.setIsUpdating(true);
+
   const updatedFunctionInfo = {
     ...functionInfo,
   };
-
   const bindings = [...updatedFunctionInfo.properties.config.bindings];
   const index = functionInfo.properties.config.bindings.findIndex(b => b === currentBindingInfo);
 
@@ -140,18 +137,19 @@ const submit = (
         false,
         t('updateBindingNotificationFailed').format(updatedFunctionInfo.properties.name, newBindingInfo.name, errorMessage)
       );
-
-      return;
+    } else {
+      portalCommunicator.stopNotification(
+        notificationId,
+        true,
+        t('updateBindingNotificationSuccess').format(updatedFunctionInfo.properties.name, newBindingInfo.name)
+      );
     }
 
-    portalCommunicator.stopNotification(
-      notificationId,
-      true,
-      t('updateBindingNotificationSuccess').format(updatedFunctionInfo.properties.name, newBindingInfo.name)
-    );
+    bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
+    bindingEditorContext.setIsUpdating(false);
   });
 
-  return updatedFunctionInfo;
+  bindingEditorContext.closeEditor();
 };
 
 export const deleteBinding = (
@@ -161,10 +159,11 @@ export const deleteBinding = (
   functionInfo: ArmObj<FunctionInfo>,
   currentBindingInfo: BindingInfo
 ) => {
+  bindingEditorContext.setIsUpdating(true);
+
   const updatedFunctionInfo = {
     ...functionInfo,
   };
-
   const bindings = [...updatedFunctionInfo.properties.config.bindings];
   const index = functionInfo.properties.config.bindings.findIndex(b => b === currentBindingInfo);
 
@@ -189,20 +188,20 @@ export const deleteBinding = (
           false,
           t('deleteBindingNotificationFailed').format(updatedFunctionInfo.properties.name, currentBindingInfo.name, errorMessage)
         );
-
-        return;
+      } else {
+        portalCommunicator.stopNotification(
+          notificationId,
+          true,
+          t('deleteBindingNotificationSuccess').format(updatedFunctionInfo.properties.name, currentBindingInfo.name)
+        );
       }
 
-      portalCommunicator.stopNotification(
-        notificationId,
-        true,
-        t('deleteBindingNotificationSuccess').format(updatedFunctionInfo.properties.name, currentBindingInfo.name)
-      );
+      bindingEditorContext.setIsUpdating(false);
+      bindingEditorContext.updateFunctionInfo(r.data);
     });
-  }
 
-  bindingEditorContext.closeEditor();
-  bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
+    bindingEditorContext.closeEditor();
+  }
 };
 
 export default BindingCard;

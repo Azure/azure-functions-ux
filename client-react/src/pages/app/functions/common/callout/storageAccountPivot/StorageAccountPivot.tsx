@@ -1,21 +1,22 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { NewConnectionCalloutProps } from '../Callout.properties';
-import { Formik, FormikProps } from 'formik';
-import LoadingComponent from '../../../../../../components/loading/loading-component';
+import { Formik, FormikProps, FieldProps } from 'formik';
+import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
-import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react';
+import { IDropdownOption, DefaultButton, IDropdownProps } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { paddingTopStyle } from '../Callout.styles';
 import { StorageAccount } from '../../../../../../models/storage-account';
+import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 
 interface StorageAccountPivotFormValues {
   storageAccount: ArmObj<StorageAccount> | undefined;
 }
 
-const StorageAccountPivot: React.SFC<NewConnectionCalloutProps> = props => {
+const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(StorageAccountPivotContext);
   const { t } = useTranslation();
   const { resourceId } = props;
@@ -64,6 +65,8 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps> = props => {
                   onChange={(o, e) => {
                     setFormValues({ storageAccount: e && e.data });
                   }}
+                  errorMessage={undefined}
+                  {...props}
                 />
               </>
             )}

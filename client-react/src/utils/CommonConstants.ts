@@ -19,6 +19,8 @@ export class CommonConstants {
     ipRestrictionsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=854597',
     appDensityWarningLink: 'https://go.microsoft.com/fwlink/?linkid=2098431',
     byosBlobReadonlyLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2110146',
+    extensionBundlesRequiredLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2116575',
+    cronLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2117147&clcid=0x409',
   };
 
   public static readonly Kinds = {
@@ -72,6 +74,11 @@ export class CommonConstants {
     functionsExtensionVersion: 'FUNCTIONS_EXTENSION_VERSION',
     functionsWorkerRuntime: 'FUNCTIONS_WORKER_RUNTIME',
     websiteNodeDefaultVersion: 'WEBSITE_NODE_DEFAULT_VERSION',
+    websiteUseZip: 'WEBSITE_USE_ZIP',
+    websiteRunFromZip: 'WEBSITE_RUN_FROM_ZIP',
+    websiteRunFromPackage: 'WEBSITE_RUN_FROM_PACKAGE',
+    localCacheOptionSettingName: 'WEBSITE_LOCAL_CACHE_OPTION',
+    functionAppEditModeSettingName: 'FUNCTION_APP_EDIT_MODE',
   };
 
   public static readonly SkuNames = {
@@ -98,9 +105,29 @@ export class CommonConstants {
     v3: '~12',
   };
 
+  public static readonly WorkerRuntimeLanguages = {
+    dotnet: 'C#',
+    node: 'JavaScript',
+    nodejs: 'JavaScript',
+    python: 'Python',
+    java: 'Java',
+    powershell: 'PowerShell',
+  };
+
+  public static localCacheOptionSettingValue = 'always';
+
   public static readonly QuickPulseEndpoints = {
     public: 'https://rt.services.visualstudio.com/QuickPulseService.svc',
     fairfax: 'https://quickpulse.applicationinsights.us/QuickPulseService.svc',
     mooncake: 'https://live.applicationinsights.azure.cn/QuickPulseService.svc',
   };
+
+  public static readonly LogLevels = {
+    error: 'error',
+    information: 'information',
+    verbose: 'verbose',
+    warning: 'warning',
+  };
+
+  public static readonly hostJsonFileName = 'host.json';
 }

@@ -56,6 +56,7 @@ export interface SiteConfig extends ContainerSiteConfig {
   http20Enabled: boolean;
   azureStorageAccounts: ByosStorageAccounts;
   ipSecurityRestrictions: IpRestriction[];
+  scmIpSecurityRestrictions?: IpRestriction[];
   functionsRuntimeScaleMonitoringEnabled?: boolean;
   // NOTE: We'll need to rename this property to "preWarmedInstanceCount",
   // whenever we start using api-version "2019-03-01" (or higher) for getting/setting site-config

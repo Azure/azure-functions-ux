@@ -1,14 +1,16 @@
-<div check-scenario="TopBarWarning"
+<div *ngIf="notification" 
+    check-scenario="TopBarWarning"
     [cs-input]="{}"
     cs-enabledByDefault="true"
-    *ngFor="let notification of notifications;"
     style="margin-left: 250px">
 
-    <div class="alert alert-warning alert-dismissible" role="alert">
+    <div [class]="cssClass" role="alert">
 
-        <span *ngIf="notification.clickCallback" class="link" (click)="notificationClick(notification)">
+        <span *ngIf="notification.clickCallback" class="link"  (click)="notificationClick(notification)">
+            <span *ngIf="!isWarning" load-image="image/functions.svg" class="info-svg"></span>
+
             <i [class]="notification.iconClass"></i>
-            {{notification.message}}
+            <span [class.info-link]="!isWarning">{{notification.message}}</span>
         </span>
         <span *ngIf="!notification.clickCallback">
             <i [class]="notification.iconClass"></i>

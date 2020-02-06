@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>GitHub Webhook 函式不支援測試。</value>
     </data>
+  <data name="extensionBundleVersion" xml:space="preserve">
+        <value>延伸模組組合版本</value>
+    </data>
   <data name="currentRuntimeVersion" xml:space="preserve">
         <value>目前的執行階段版本</value>
     </data>
@@ -2224,6 +2227,9 @@
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
         <value>啟用部署位置</value>
     </data>
+  <data name="appFunctionSettings_slotsEnableWarning" xml:space="preserve">
+        <value>Azure 函式位置目前已停用。啟用此功能將會重設任何既有的祕密。函式祕密位於各個函式的 [函式金鑰] 刀鋒視窗。</value>
+    </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
         <value>已知問題:</value>
     </data>
@@ -2270,7 +2276,16 @@
         <value>無法建立位置 '{0}' </value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-        <value>無法更新位置的清單</value>
+        <value>無法擷取位置清單: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadTipConfig" xml:space="preserve">
+        <value>無法擷取路由規則: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadConfig" xml:space="preserve">
+        <value>無法擷取設定: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadSite" xml:space="preserve">
+        <value>無法擷取網站: {{errorMessage}}</value>
     </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
         <value>您已達目前方案的位置配額限制 ({{quota}})。</value>
@@ -2319,9 +2334,6 @@
     </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
         <value>流量百分比</value>
-    </data>
-  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
-        <value>即將進行的路由規則變更</value>
     </data>
   <data name="monitoring_appInsights" xml:space="preserve">
         <value>如需更多的監視體驗，包括即時計量與自訂查詢:</value>
@@ -2479,6 +2491,9 @@
   <data name="eventGrid_create" xml:space="preserve">
         <value>create</value>
     </data>
+  <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>建立事件方格訂用帳戶</value>
+    </data>
   <data name="eventGrid_createMessage" xml:space="preserve">
         <value>您必須在函式建立之後新增事件格線訂用帳戶。</value>
     </data>
@@ -2528,7 +2543,7 @@
         <value>東南亞</value>
     </data>
   <data name="koreacentral" xml:space="preserve">
-        <value>南韓中部</value>
+        <value>韓國中部</value>
     </data>
   <data name="koreasouth" xml:space="preserve">
         <value>南韓南部</value>
@@ -4073,6 +4088,9 @@
   <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>來源與目的地不可為相同的部署位置</value>
     </data>
+  <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>無法執行與預覽交換的動作，原因是您沒有下列位置的必要權限: '{{slotNames}}'</value>
+    </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>因為下列部署位置已啟用驗證，所以無法執行提供預覽的交換: ' {{slotNames}}'</value>
     </data>
@@ -5073,14 +5091,17 @@
   <data name="containerValidationFailed" xml:space="preserve">
         <value>無法驗證容器設定。</value>
     </data>
-  <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>未定義任何觸發程序</value>
-    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>未定義任何輸入</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
         <value>未定義任何輸出</value>
+    </data>
+  <data name="integrateAddTrigger" xml:space="preserve">
+        <value>+ 新增觸發程序</value>
+    </data>
+  <data name="integrateCreateTrigger" xml:space="preserve">
+        <value>建立觸發程序</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ 新增輸入</value>
@@ -5140,10 +5161,7 @@
         <value>新函式</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>在此函數應用程式中建立新的函式。您可以從選取下方的範本開始著手，或</value>
-    </data>
-  <data name="functionCreate_goToQuickstart" xml:space="preserve">
-        <value>前往快速入門。</value>
+        <value>在此函數應用程式中建立新的函式。您可以選取下方的範本開始著手。</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>範本</value>
@@ -5344,10 +5362,10 @@
         <value>GitHub 動作工作流程設定</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>正在將工作流程設定新增至 GitHub Actions</value>
+        <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>已成功認可存放庫 '{1}' 中分支 '{0}' 的 GitHub 動作工作流程定義。</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>從 Azure 入口網站新增或更新 App Service 部署工作流程設定。</value>
@@ -5536,7 +5554,7 @@
         <value>因為不支援您的自訂執行階段版本 ({0})，所以應用程式正在使用最新版本 {1}，而您將一律執行最新的執行階段版本，即使在可能包含中斷性變更的主要版本更新間也一樣。建議您將值設定為特定主要版本 (例如 ~2)，以在有較新版本可供更新時收到通知。</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>執行階段版本由 FUNCTIONS_EXTENSION_VERSION 應用程式設定控制。假如設定的值無效或失去支援，您就會獲得最新版本，所以不建議設定自訂版本。因為主要版本更新可能包含中斷性變更，所以這可能會使您的函數處於中斷狀態。</value>
+        <value>在 [應用程式] 設定中設定 FUNCTIONS_EXTENSION_VERSION 的值，即表示已選擇使用自訂執行階段版本。</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>無法以現有的函數升級: 主要版本升級可能會對語言和繫結造成中斷性變更。升級執行階段的主要版本時，請考慮建立新的函數應用程式，並將您的函數移轉到這個新的應用程式。</value>
@@ -5545,7 +5563,7 @@
         <value>GitHub 權杖中缺少「工作流程」範圍。</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action 工作流程檔案 '{{workflowFilePath}}' 已存在於 '{{branchName}}' 分支中，繼續會覆寫此檔案。</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>遠端偵錯不再支援 Visual Studio 2015。請選取支援的 Visual Studio 版本。</value>
@@ -5562,10 +5580,100 @@
   <data name="functionTestInputDescription" xml:space="preserve">
         <value>提供用來測試 HTTP 要求的參數。可在 [輸出] 索引標籤中找到結果。</value>
     </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP 回應</value>
+  <data name="httpRun_responseContent" xml:space="preserve">
+        <value>HTTP 回應內容</value>
     </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>HTTP 回應狀態</value>
+  <data name="httpRun_responseCode" xml:space="preserve">
+        <value>HTTP 回應碼</value>
+    </data>
+  <data name="editor_changeFileConfirmMessage" xml:space="preserve">
+        <value>系統會捨棄未儲存的編輯內容。</value>
+    </data>
+  <data name="editor_changeFile" xml:space="preserve">
+        <value>確定要變更檔案嗎?</value>
+    </data>
+  <data name="defaultDocumentsInfoMessage" xml:space="preserve">
+        <value>預設文件清單會依優先順序排序。清單前幾個項目的優先順序大於清單最後幾個項目。</value>
+    </data>
+  <data name="requiredField_validationMessage" xml:space="preserve">
+        <value>名稱和值是必要欄位</value>
+    </data>
+  <data name="maximize" xml:space="preserve">
+        <value>最大化</value>
+    </data>
+  <data name="minimize" xml:space="preserve">
+        <value>最小化</value>
+    </data>
+  <data name="connect" xml:space="preserve">
+        <value>連線</value>
+    </data>
+  <data name="endOfLifeTagTemplate" xml:space="preserve">
+        <value>{0} (EOL)</value>
+    </data>
+  <data name="functionEditor_appInsightsNotConfigured" xml:space="preserve">
+        <value>未設定 Application Insights。請前往 [監視] 索引標籤，並設定 Application Insights 以擷取函式記錄。</value>
+    </data>
+  <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
+        <value>正在連線至 Application Insights...</value>
+    </data>
+  <data name="runtimeStack" xml:space="preserve">
+        <value>執行階段堆疊</value>
+    </data>
+  <data name="runtimeStackVersion" xml:space="preserve">
+        <value>版本</value>
+    </data>
+  <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
+        <value>若要查看可用函式範本的完整清單，您必須為應用程式設定延伸模組組合。 </value>
+    </data>
+  <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>您的應用程式無法使用遠端偵錯。 </value>
+    </data>
+  <data name="tryFunctionsPreview" xml:space="preserve">
+        <value>預覽新的 Azure Functions 管理體驗</value>
+    </data>
+  <data name="saveAppSettingsTitle" xml:space="preserve">
+        <value>儲存變更</value>
+    </data>
+  <data name="saveAppSettingsMessage" xml:space="preserve">
+        <value>對應用程式設定和連接字串所做的任何變更都會重新啟動您的應用程式。確定要繼續嗎?</value>
+    </data>
+  <data name="azureFunctionsV1Linux" xml:space="preserve">
+        <value>Linux Azure 函數應用程式不支援版本 1 執行階段</value>
+    </data>
+  <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>使用堆疊 '{{stack}}' 設定了應用程式 ' {{appName}} '，但 GitHub Actions 目前在部署中心並不支援。</value>
+    </data>
+  <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>目前為 '{{stack}}' 設定了應用程式 '{{appName}}'，但這與目前選取的組建不符。若搭配目前選取的組建，應用程式可能無法正常運作。</value>
+    </data>
+  <data name="hostConfigurationLabel" xml:space="preserve">
+        <value>主機設定</value>
+    </data>
+  <data name="configureHostJson" xml:space="preserve">
+        <value>設定 host.json</value>
+    </data>
+  <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
+        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
+        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
+  <data name="githubActionWorkflowOption" xml:space="preserve">
+        <value>Workflow Option</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Configure using existing workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+    </data>
+  <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
     </data>
 </root>

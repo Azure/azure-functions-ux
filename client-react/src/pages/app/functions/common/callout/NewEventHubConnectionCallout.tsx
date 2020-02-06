@@ -6,6 +6,9 @@ import IoTHubPivotDataLoader from './iotHubPivot/IoTHubPivotDataLoader';
 import CustomPivot from './customPivot/CustomPivot';
 import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
 import { paddingSidesStyle } from './Callout.styles';
+import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
+import { FieldProps } from 'formik';
+import { IDropdownProps } from 'office-ui-fabric-react';
 
 enum RadioState {
   eventHub = 'eventHub',
@@ -13,7 +16,7 @@ enum RadioState {
   custom = 'custom',
 }
 
-const NewEventHubConnectionCallout: React.SFC<NewConnectionCalloutProps> = props => {
+const NewEventHubConnectionCallout: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const { t } = useTranslation();
   const [radioState, setRadioState] = useState<RadioState>(RadioState.eventHub);
 

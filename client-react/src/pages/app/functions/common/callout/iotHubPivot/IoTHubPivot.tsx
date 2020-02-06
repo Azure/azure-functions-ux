@@ -1,22 +1,23 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { NewConnectionCalloutProps } from '../Callout.properties';
-import { Formik, FormikProps } from 'formik';
-import LoadingComponent from '../../../../../../components/loading/loading-component';
+import { Formik, FormikProps, FieldProps } from 'formik';
+import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { IoTHubPivotContext } from './IoTHubPivotDataLoader';
 import { IotHub, KeyList, Key } from '../../../../../../models/iothub';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
-import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react';
+import { IDropdownOption, DefaultButton, IDropdownProps } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
+import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 
 interface IoTHubPivotFormValues {
   iotHub: ArmObj<IotHub> | undefined;
   endpoint: string | undefined;
 }
 
-const IotHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
+const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(IoTHubPivotContext);
   const { t } = useTranslation();
   const { resourceId } = props;
@@ -91,6 +92,8 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
                     setFormValues({ iotHub: e && e.data, endpoint: undefined });
                     setKeyList(undefined);
                   }}
+                  errorMessage={undefined}
+                  {...props}
                 />
                 {!keyList && <LoadingComponent />}
                 {!!keyList && !!endpointOptions && endpointOptions.length === 0 ? (
@@ -103,6 +106,8 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
                     onChange={(o, e) => {
                       setFormValues({ ...formValues, endpoint: e && e.data });
                     }}
+                    errorMessage={undefined}
+                    {...props}
                   />
                 )}
               </>

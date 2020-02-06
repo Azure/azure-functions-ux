@@ -1,31 +1,16 @@
 import { style } from 'typestyle';
-import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
-
-export const chevronIconStyle = (expand?: boolean) =>
-  style({
-    width: '13px',
-    height: '8px',
-    marginRight: '9px',
-    transform: expand ? 'rotate(180deg)' : '',
-  });
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 
 export const logCommandBarStyle = style({
   height: '37px',
-  display: 'flex',
-  alignItems: 'center',
-  marginLeft: '10px',
-  justifyContent: 'space-between',
 });
 
-export const logExpandButtonStyle = style({
-  cursor: 'pointer',
-});
-
-export const logStreamStyle = (maximized: boolean) =>
+export const logStreamStyle = (maximized: boolean, readOnlyBannerHeight: number) =>
   style({
-    height: maximized ? 'calc(100vh - 124px)' : '175px',
+    height: maximized ? `calc(100vh - ${164 + readOnlyBannerHeight}px)` : '135px',
     backgroundColor: '#000000',
     overflow: 'auto',
+    padding: '20px',
   });
 
 export const logCommandBarButton = style({
@@ -33,25 +18,33 @@ export const logCommandBarButton = style({
   paddingRight: '5px',
 });
 
-export const logCommandBarButtonListStyle = style({
-  float: 'right',
+export const logEntryDivStyle = style({
+  whiteSpace: 'pre-wrap',
+  paddingBottom: '5px',
 });
 
-export const logCommandBarButtonLabelStyle = style({
-  marginRight: '16px',
-  cursor: 'pointer',
+export function getLogTextColor(severity: string): string {
+  switch (severity.toLowerCase()) {
+    case CommonConstants.LogLevels.error:
+      return '#ff6161';
+    case CommonConstants.LogLevels.information:
+      return '#00bfff';
+    case CommonConstants.LogLevels.warning:
+      return 'orange';
+    case CommonConstants.LogLevels.verbose:
+    default:
+      return 'white';
+  }
+}
+
+export const logErrorDivStyle = style({
+  whiteSpace: 'pre-wrap',
+  paddingBottom: '5px',
+  color: '#ff6161',
 });
 
-export const logCommandBarButtonStyle = (theme: ThemeExtended) =>
-  style({
-    color: theme.semanticColors.primaryButtonBackground,
-    paddingRight: '5px',
-  });
-
-export const logCommandBarSeparatorStyle = style({
-  marginLeft: '7px',
-  marginRight: '23px',
-  width: '1px',
-  border: '1px solid rgba(128, 128, 128, 0.7)',
-  height: '16px',
+export const logConnectingDivStyle = style({
+  whiteSpace: 'pre-wrap',
+  paddingBottom: '5px',
+  color: 'white',
 });

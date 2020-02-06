@@ -8,12 +8,12 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '../utils/i18n';
 import { PortalContext } from '../PortalContext';
 import PortalCommunicator from '../portal-communicator';
-import lightTheme from '../theme/light';
+import { lightTheme } from '../theme/light';
 import { ThemeExtended } from '../theme/SemanticColorsExtended';
 import { ThemeContext } from '../ThemeContext';
 import { IStartupInfo } from '../models/portal-models';
 import { StartupInfoContext } from '../StartupInfoContext';
-import LoadingComponent from '../components/loading/loading-component';
+import LoadingComponent from '../components/Loading/LoadingComponent';
 
 const portalCommunicator = new PortalCommunicator();
 

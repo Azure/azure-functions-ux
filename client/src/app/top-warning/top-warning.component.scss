@@ -5,3 +5,26 @@
 .alert {
     margin-bottom: 0px;
 }
+
+.info-link{
+    color: #000;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.info-banner{
+  background-color: #d1e4ff;
+  border-color: #d1e4ff;
+  height: 45px;
+}
+
+.info-svg{
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    vertical-align: middle;
+    margin-top: -5px;
+    margin-right: 5px;
+}

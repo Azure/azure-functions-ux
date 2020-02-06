@@ -3,7 +3,8 @@ import { StacksFunctionAppConfigService } from './stacks.functionapp.config.serv
 import { StacksFunctionAppCreateService } from './stacks.functionapp.create.service';
 import { StacksWebAppConfigService } from './stacks.webapp.config.service';
 import { StacksWebAppCreateService } from './stacks.webapp.create.service';
-import { StackAPIVersions } from './stacks';
+import { StackAPIVersions, WebAppCreateStackVersionPlatform, WebAppCreateStackVersion, WebAppCreateStack } from './stacks';
+import { ArrayUtil } from '../utilities/array.util';
 
 @Controller('stacks')
 export class StacksController {
@@ -30,6 +31,36 @@ export class StacksController {
 
     if (apiVersion === StackAPIVersions.v1) {
       return this._stackWebAppConfigService.getStacks(os);
+    }
+  }
+
+  @Post('webAppGitHubActionStacks')
+  webAppGitHubActionStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
+    this._validateApiVersion(apiVersion);
+    this._validateOs(os);
+
+    if (apiVersion === StackAPIVersions.v1) {
+      const stacks = this._stackWebAppCreateService.getStacks(os);
+
+      // remove all supported platforms which are not github action supported.
+      stacks.forEach(stack =>
+        stack.versions.forEach(version =>
+          ArrayUtil.remove<WebAppCreateStackVersionPlatform>(
+            version.supportedPlatforms,
+            platform => !platform.githubActionSettings || !platform.githubActionSettings.supported
+          )
+        )
+      );
+
+      // remove all versions which do not have any platforms.
+      stacks.forEach(stack =>
+        ArrayUtil.remove<WebAppCreateStackVersion>(stack.versions, version => version.supportedPlatforms.length === 0)
+      );
+
+      // remove all stacks which do not have any versions.
+      ArrayUtil.remove<WebAppCreateStack>(stacks, stackItem => stackItem.versions.length === 0);
+
+      return stacks;
     }
   }
 

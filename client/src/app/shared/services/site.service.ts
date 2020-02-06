@@ -249,7 +249,7 @@ export class SiteService {
     this._cacheService.clearArmIdCachePrefix(`${resourceId}/config/web`);
   }
 
-  fetchSiteConfigMetadata(resourceId: string, force?: boolean): Result<ArmObj<SiteConfig>> {
+  fetchSiteConfigMetadata(resourceId: string, force?: boolean): Result<ArmObj<{ [key: string]: string }>> {
     const fetchSiteConfigMetadata = this._cacheService
       .postArm(`${resourceId}/config/metadata/list`, force, ARMApiVersions.antaresApiVersion20181101)
       .map(r => r.json());

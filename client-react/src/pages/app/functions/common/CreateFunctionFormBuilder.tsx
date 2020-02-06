@@ -44,7 +44,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
     while (true) {
       // eslint-disable-next-line no-loop-func
       const func = this._functionsInfo.find(value => {
-        return `${this._defaultName.toLowerCase()} ${i.toString()}` === value.properties.name.toLowerCase();
+        return `${this._defaultName.toLowerCase()}${i.toString()}` === value.properties.name.toLowerCase();
       });
 
       if (func) {

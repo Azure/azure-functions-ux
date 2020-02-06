@@ -2230,6 +2230,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
         <value>Enable deployment slots</value>
     </data>
+    <data name="appFunctionSettings_slotsEnableWarning" xml:space="preserve">
+        <value>Azure functions slots is currently disabled. Enabling this feature will reset any pre-existing secrets. Function secrets can be found on the 'Function Keys' blade for each function.</value>
+    </data>
     <data name="appFunctionSettings_warning_1" xml:space="preserve">
         <value>Known issues:</value>
     </data>
@@ -2276,7 +2279,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Failed to create slot '{0}' </value>
     </data>
     <data name="error_unableToLoadSlotsList" xml:space="preserve">
-        <value>Unable to update the list of slots</value>
+        <value>Unable to retrieve the list of slots: {{errorMessage}}</value>
+    </data>
+    <data name="error_unableToLoadTipConfig" xml:space="preserve">
+        <value>Unable to retrieve routing rules: {{errorMessage}}</value>
+    </data>
+    <data name="error_unableToLoadConfig" xml:space="preserve">
+        <value>Unable to retrieve configuration: {{errorMessage}}</value>
+    </data>
+    <data name="error_unableToLoadSite" xml:space="preserve">
+        <value>Unable to retrieve site: {{errorMessage}}</value>
     </data>
     <data name="slotNew_quotaReached" xml:space="preserve">
         <value>You have reached the slots quota limit ({{quota}}) for the current plan.</value>
@@ -2325,9 +2337,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="slotsList_trafficPercentHeader" xml:space="preserve">
         <value>Traffic %</value>
-    </data>
-    <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
-        <value>Upcoming changes to Routing Rules</value>
     </data>
     <data name="monitoring_appInsights" xml:space="preserve">
         <value>For a richer monitoring experience, including live metrics and custom queries:</value>
@@ -2484,6 +2493,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="eventGrid_create" xml:space="preserve">
         <value>create</value>
+    </data>
+    <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>Create Event Grid subscription</value>
     </data>
     <data name="eventGrid_createMessage" xml:space="preserve">
         <value>You need to add Event Grid subscription after function creation.</value>
@@ -4079,6 +4091,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>Source and Destination cannot be the same deployment slot</value>
     </data>
+    <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>Swap with preview cannot be performed because you do not have the necessary permissions on the following slots: '{{slotNames}}'</value>
+    </data>
     <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
     </data>
@@ -5149,10 +5164,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>New Function</value>
     </data>
     <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Create a new function in this Function App. You can start by selecting from a template below or </value>
-    </data>
-    <data name="functionCreate_goToQuickstart" xml:space="preserve">
-        <value>go to the quickstart.</value>
+        <value>Create a new function in this Function App. You can start by selecting a template below.</value>
     </data>
     <data name="functionCreate_templates" xml:space="preserve">
         <value>Templates</value>
@@ -5353,10 +5365,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>GitHub Action Workflow Configuration</value>
     </data>
     <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Adding workflow configuration to GitHub Actions</value>
+        <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
     <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully committed GitHub action workflow definition to branch '{0}' in repo '{1}'.</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
     <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Add or update the App Service deployment workflow configuration from Azure Portal.</value>
@@ -5545,7 +5557,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Your custom runtime version ({0}) is not supported. As a result your app is using the latest version {1}, and you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
     </data>
     <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>The runtime version is controlled by the FUNCTIONS_EXTENSION_VERSION app setting. Configuring a custom version is not advised because you will end up on the latest version if the configured value is invalid or becomes unsupported. This may leave your functions in a broken state since major version updates which might contain breaking changes.</value>
+        <value>By configuring the value of FUNCTIONS_EXTENSION_VERSION in Application setting, you have opted to use a custom runtime version.</value>
     </data>
     <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>Cannot upgrade with existing functions: Major version upgrades can introduce breaking changes to languages and bindings. When upgrading major versions of the runtime, consider creating a new function app and migrate your functions to this new app.</value>
@@ -5554,7 +5566,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Missing 'workflow' scope in GitHub token.</value>
     </data>
     <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch, by continuing this file will be overwritten.</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
     <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 is no longer supported for remote debugging. Please select a supported Visual Studio version.</value>
@@ -5577,11 +5589,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="httpRun_responseCode" xml:space="preserve">
         <value>HTTP response code</value>
     </data>
-    <data name="editor_changeFileConfirmMessage" xml:space="">
+    <data name="editor_changeFileConfirmMessage" xml:space="preserve">
         <value>Your unsaved edits will be discarded.</value>
     </data>
     <data name="editor_changeFile" xml:space="preserve">
-        <value>Change file</value>
+        <value>Are you sure you would like to change files?</value>
     </data>
     <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
@@ -5600,5 +5612,71 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="endOfLifeTagTemplate" xml:space="preserve">
         <value>{0} (EOL)</value>
+    </data>
+    <data name="functionEditor_appInsightsNotConfigured" xml:space="preserve">
+        <value>Application Insights is not configured. Go to the Monitor tab and configure Application Insights to capture function logs.</value>
+    </data>
+    <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
+        <value>Connecting to Application Insights...</value>
+    </data>
+    <data name="runtimeStack" xml:space="preserve">
+        <value>Runtime stack</value>
+    </data>
+    <data name="runtimeStackVersion" xml:space="preserve">
+        <value>Version</value>
+    </data>
+    <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
+        <value>In order to see the entire list of available function templates, you must set up extension bundles for your app. </value>
+    </data>
+    <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>Remote debugging is not available for your application. </value>
+    </data>
+    <data name="tryFunctionsPreview" xml:space="preserve">
+        <value>Preview the new Azure Functions management experience</value>
+    </data>
+    <data name="saveAppSettingsTitle" xml:space="preserve">
+        <value>Save changes</value>
+    </data>
+    <data name="saveAppSettingsMessage" xml:space="preserve">
+        <value>Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?</value>
+    </data>
+    <data name="azureFunctionsV1Linux" xml:space="preserve">
+        <value>Version 1 Runtime is not supported on Linux Azure Function Apps</value>
+    </data>
+    <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack '{{stack}}' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+    <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for '{{stack}}', which does not match current build selection. The app might not function correctly with current build selection.</value>
+    </data>
+    <data name="hostConfigurationLabel" xml:space="preserve">
+        <value>Host configuration</value>
+    </data>
+    <data name="configureHostJson" xml:space="preserve">
+        <value>Configure host.json</value>
+    </data>
+    <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
+        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+    </data>
+    <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
+        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
+    <data name="githubActionWorkflowOption" xml:space="preserve">
+        <value>Workflow Option</value>
+    </data>
+    <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite workflow definition</value>
+    </data>
+    <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Configure using existing workflow definition</value>
+    </data>
+    <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+    </data>
+    <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+    </data>
+    <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
     </data>
 </root>

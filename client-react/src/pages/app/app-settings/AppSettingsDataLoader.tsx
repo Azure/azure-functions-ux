@@ -8,7 +8,7 @@ import {
   getCleanedConfigForSave,
   getCleanedReferences,
 } from './AppSettingsFormData';
-import LoadingComponent from '../../../components/loading/loading-component';
+import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import {
   fetchApplicationSettingValues,
   fetchSlots,

@@ -14,7 +14,7 @@ export const linkPaddingStyle = {
 
 export const calloutStyle3Fields = {
   padding: '10px',
-  height: 300,
+  height: 310,
   width: 400,
 };
 

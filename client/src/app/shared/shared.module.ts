@@ -75,6 +75,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { GroupTabsComponent } from '../controls/group-tabs/group-tabs.component';
 import { FunctionService } from './services/function.service';
 import { SubscriptionService } from './services/subscription.service';
+import { RuntimeStackService } from './services/runtimestack.service';
 
 export function ArmServiceFactory(
   http: Http,
@@ -219,6 +220,7 @@ export class SharedModule {
         QuotaService,
         FunctionService,
         SubscriptionService,
+        RuntimeStackService,
       ],
     };
   }

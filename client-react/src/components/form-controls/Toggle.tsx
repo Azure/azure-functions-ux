@@ -24,7 +24,7 @@ const Toggle = (props: FieldProps & IToggleProps) => {
       tabIndex={0}
       onChange={onChange}
       onBlur={field.onBlur}
-      ariaLabel={rest.label}
+      ariaLabel={rest.ariaLabel}
       {...rest}
     />
   );

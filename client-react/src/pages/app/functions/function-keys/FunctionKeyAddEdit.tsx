@@ -40,7 +40,7 @@ const FunctionKeyAddEdit: React.FC<FunctionKeyAddEditProps> = props => {
     id: 'save',
     title: t('ok'),
     onClick: () => createAppKey(currentAppKey),
-    disable: !!nameError,
+    disable: !!nameError || !currentAppKey.name,
   };
 
   const actionBarSecondaryButtonProps = {

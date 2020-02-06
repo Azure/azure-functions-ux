@@ -1,7 +1,10 @@
 import { IStackTokens, Stack } from 'office-ui-fabric-react';
 import React, { useContext, useRef, useState } from 'react';
+import { useWindowSize } from 'react-use';
 import { Observable, Subject } from 'rxjs';
 import { classes } from 'typestyle';
+import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ReactComponent as DoubleArrow } from '../../../../images/Functions/double-arrow-left-right.svg';
 import { ReactComponent as SingleArrow } from '../../../../images/Functions/single-arrow-left-right.svg';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -24,23 +27,25 @@ import {
   singleCardStackStyle,
   smallPageStyle,
 } from './FunctionIntegrate.style';
-import { useWindowSize } from 'react-use';
 
 export interface FunctionIntegrateProps {
+  functionAppId: string;
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
-  // setRequiredBindingId: pass in the id of a binding for which more information is required
-  // Data Loader will then do an additional request to retrieve that binding's complete info
+
+  // Post-Mount Data Loader calls
+  // setRequiredBindingId: Id of binding that we need the complete settings info for
   setRequiredBindingId: (id: string) => void;
 }
 
 export interface BindingUpdateInfo {
-  newBindingInfo?: BindingInfo;
-  currentBindingInfo?: BindingInfo;
   closedReason: ClosedReason;
+  currentBindingInfo?: BindingInfo;
+  newBindingInfo?: BindingInfo;
 }
 
 export interface BindingEditorContextInfo {
+  setIsUpdating: (isUpdating: boolean) => void;
   openEditor: (bindingDirection: BindingDirection, bindingInfo?: BindingInfo) => Observable<BindingUpdateInfo>;
   closeEditor: () => void;
   updateFunctionInfo: React.Dispatch<React.SetStateAction<ArmObj<FunctionInfo>>>;
@@ -49,7 +54,7 @@ export interface BindingEditorContextInfo {
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
-  const { functionInfo: initialFunctionInfo, bindings, setRequiredBindingId } = props;
+  const { functionAppId, functionInfo: initialFunctionInfo, bindings, setRequiredBindingId } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
   const fullPageWidth = 1000;
@@ -59,6 +64,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const [bindingDirection, setBindingDirection] = useState<BindingDirection>(BindingDirection.in);
   const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo>>(initialFunctionInfo);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const openEditor = (editorBindingDirection: BindingDirection, bindingInfo?: BindingInfo): Observable<BindingUpdateInfo> => {
     setBindingDirection(editorBindingDirection);
@@ -103,10 +109,9 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const editorContext: BindingEditorContextInfo = {
     openEditor,
     closeEditor,
+    setIsUpdating,
     updateFunctionInfo: setFunctionInfo,
   };
-
-  const functionAppId = functionInfo.properties.function_app_id || functionInfo.id.split('/function')[0];
 
   const tokens: IStackTokens = {
     childrenGap: 0,
@@ -154,10 +159,12 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
   return (
     <>
+      {isUpdating && <LoadingComponent overlay={true} />}
       <BindingEditorContext.Provider value={editorContext}>
+        <EditModeBanner />
         <BindingPanel
-          functionInfo={functionInfo}
           functionAppId={functionAppId}
+          functionInfo={functionInfo}
           bindings={bindings}
           bindingInfo={bindingToUpdate}
           bindingDirection={bindingDirection}
@@ -167,7 +174,6 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
           isOpen={isOpen}
           setRequiredBindingId={setRequiredBindingId}
         />
-
         {width > fullPageWidth ? fullPageContent : smallPageContent}
       </BindingEditorContext.Provider>
     </>

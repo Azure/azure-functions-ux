@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
@@ -11,15 +11,25 @@ import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj } from './FunctionEditor.types';
 import { VfsObject } from '../../../../models/functions/vfs';
-import LoadingComponent from '../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
-import { pivotStyle, testLoadingStyle, commandBarSticky, logPanelStyle, defaultMonacoEditorHeight } from './FunctionEditor.styles';
+import {
+  pivotStyle,
+  testLoadingStyle,
+  commandBarSticky,
+  logPanelStyle,
+  defaultMonacoEditorHeight,
+  testPanelStyle,
+} from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 import { editorStyle } from '../../app-files/AppFiles.styles';
 import FunctionLog from './function-log/FunctionLog';
 import { FormikActions } from 'formik';
+import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
+import { SiteStateContext } from '../../../../SiteStateContext';
+import SiteHelper from '../../../../utils/SiteHelper';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -27,6 +37,9 @@ export interface FunctionEditorProps {
   run: (functionInfo: ArmObj<FunctionInfo>) => void;
   functionRunning: boolean;
   urlObjs: UrlObj[];
+  resetAppInsightsToken: () => void;
+  showTestPanel: boolean;
+  setShowTestPanel: (showPanel: boolean) => void;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
@@ -34,14 +47,24 @@ export interface FunctionEditorProps {
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
-  const { functionInfo, site, fileList, runtimeVersion, responseContent, functionRunning, urlObjs, appInsightsToken } = props;
-  const [showTestPanel, setShowTestPanel] = useState(false);
+  const {
+    functionInfo,
+    site,
+    fileList,
+    runtimeVersion,
+    responseContent,
+    functionRunning,
+    urlObjs,
+    appInsightsToken,
+    resetAppInsightsToken,
+    showTestPanel,
+    setShowTestPanel,
+  } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
   const [fileContent, setFileContent] = useState<FileContent>({ default: '', latest: '' });
   const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
-  const [dirty, setDirty] = useState<boolean>(false);
   const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption | undefined>(undefined);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [savingFile, setSavingFile] = useState<boolean>(false);
@@ -49,8 +72,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [monacoHeight, setMonacoHeight] = useState(defaultMonacoEditorHeight);
   const [logPanelExpanded, setLogPanelExpanded] = useState(false);
   const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
+  const [fileSavedCount, setFileSavedCount] = useState(0);
+  const [readOnlyBanner, setReadOnlyBanner] = useState<HTMLDivElement | null>(null);
 
   const { t } = useTranslation();
+
+  const siteState = useContext(SiteStateContext);
 
   const save = async () => {
     if (!selectedFile) {
@@ -72,6 +99,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     );
     if (fileResponse.metadata.success) {
       setFileContent({ ...fileContent, default: fileContent.latest });
+      setLogPanelExpanded(true);
+      setFileSavedCount(fileSavedCount + 1);
     }
     setSavingFile(false);
   };
@@ -88,8 +117,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setShowTestPanel(false);
   };
 
+  const isDirty = () => {
+    return fileContent.default !== fileContent.latest;
+  };
+
   const onFileSelectorChange = async (e: unknown, option: IDropdownOption) => {
-    if (dirty) {
+    if (isDirty()) {
       setSelectedDropdownOption(option);
       return;
     }
@@ -143,7 +176,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const fileResponse = await FunctionsService.getFileContent(site.id, functionInfo.properties.name, runtimeVersion, headers, file.name);
     if (fileResponse.metadata.success) {
       let fileText = fileResponse.data as string;
-      if (file.mime === 'application/json') {
+      if (typeof fileResponse.data !== 'string') {
         // third parameter refers to the number of white spaces.
         // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
         fileText = JSON.stringify(fileResponse.data, null, 2);
@@ -152,9 +185,20 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     }
   };
 
-  const fetchData = async () => {
+  const getScriptFileOption = (): IDropdownOption | undefined => {
+    const scriptHref = functionInfo.properties.script_href;
+    const filename = (scriptHref && scriptHref.split('/').pop()) || '';
+    const filteredOptions = getDropdownOptions().filter(option => option.text === filename.toLowerCase());
+    return filteredOptions.length === 1 ? filteredOptions[0] : getDefaultFile();
+  };
+
+  const getDefaultFile = (): IDropdownOption | undefined => {
     const options = getDropdownOptions();
-    const file = options.length > 0 ? options[0] : undefined;
+    return options.length > 0 ? options[0] : undefined;
+  };
+
+  const fetchData = async () => {
+    const file = getScriptFileOption();
     if (!!file) {
       setSelectedFileContent(file.data);
       setSelectedFile(file);
@@ -173,6 +217,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const isLoading = () => {
     return fetchingFileContent || initialLoading || savingFile;
+  };
+
+  const isDisabled = () => {
+    return isLoading() || functionRunning;
   };
 
   const closeConfirmDialog = () => {
@@ -206,14 +254,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setLogPanelExpanded(!logPanelExpanded);
   };
 
-  useEffect(() => {
-    setMonacoHeight(logPanelExpanded ? 'calc(100vh - 310px)' : defaultMonacoEditorHeight);
+  const getReadOnlyBannerHeight = () => {
+    return !!readOnlyBanner ? readOnlyBanner.offsetHeight : 0;
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [logPanelExpanded]);
   useEffect(() => {
-    setDirty(fileContent.default !== fileContent.latest);
-  }, [fileContent]);
+    setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? 310 : 138) + getReadOnlyBannerHeight()}px)`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logPanelExpanded, readOnlyBanner]);
   useEffect(() => {
     if (!!responseContent) {
       changePivotTab(PivotType.output);
@@ -232,8 +280,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           resetFunction={discard}
           testFunction={test}
           showGetFunctionUrlCommand={!!inputBinding}
-          dirty={dirty}
-          disabled={isLoading()}
+          dirty={isDirty()}
+          disabled={isDisabled()}
           urlObjs={urlObjs}
         />
         <ConfirmDialog
@@ -250,8 +298,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={closeConfirmDialog}
         />
+        <EditModeBanner setBanner={setReadOnlyBanner} />
         <FunctionEditorFileSelectorBar
-          disabled={isLoading()}
+          disabled={isDisabled()}
           functionAppNameLabel={site.name}
           functionInfo={functionInfo}
           fileDropdownOptions={getDropdownOptions()}
@@ -264,7 +313,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         isOpen={showTestPanel}
         onDismiss={onCancelTest}
         overlay={functionRunning}
-        headerContent={getHeaderContent()}>
+        headerContent={getHeaderContent()}
+        isBlocking={false}
+        customStyle={testPanelStyle}>
         {functionRunning && <LoadingComponent className={testLoadingStyle} />}
         <FunctionTest
           cancel={onCancelTest}
@@ -285,22 +336,26 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             language={editorLanguage}
             onChange={onChange}
             height={monacoHeight}
-            disabled={isLoading()}
+            disabled={isDisabled()}
             options={{
               minimap: { enabled: false },
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
+              readOnly: SiteHelper.isFunctionAppReadOnly(siteState),
             }}
           />
         </div>
       )}
-      <div className={logPanelStyle(logPanelExpanded, logPanelFullscreen)}>
+      <div className={logPanelStyle(logPanelExpanded, logPanelFullscreen, getReadOnlyBannerHeight())}>
         <FunctionLog
           toggleExpand={toggleLogPanelExpansion}
           isExpanded={logPanelExpanded}
           toggleFullscreen={setLogPanelFullscreen}
+          fileSavedCount={fileSavedCount}
+          resetAppInsightsToken={resetAppInsightsToken}
           appInsightsToken={appInsightsToken}
+          readOnlyBannerHeight={getReadOnlyBannerHeight()}
         />
       </div>
     </>

@@ -64,6 +64,7 @@
         <div invalidmessage="branch" id="dc-github-branch-error" role="alert"></div>
       </div>
     </div>
+
     <div class="setting-wrapper">
       <div class="setting-label" aria-hidden="true"></div>
       <div class="setting-control-container">
@@ -71,12 +72,32 @@
         <info-box *ngIf="workflowFileExistsWarningMessage" typeClass="warning" [infoText]="workflowFileExistsWarningMessage"></info-box>
       </div>
     </div>
+
+    <div *ngIf="workflowFileExistsWarningMessage" class="setting-wrapper">
+      <label class="setting-label" id="dc-github-workflow-option-label">{{ 'githubActionWorkflowOption' | translate }}</label>
+      <div class="setting-control-container">
+        <ng-select
+          id="configure-github-workflow-option-select"
+          class="custom-select"
+          [items]="WorkflowOptionList"
+          aria-describedby="dc-github-workflow-option-error"
+          aria-labelledby="dc-github-workflow-option-label"
+          bindLabel="displayLabel"
+          bindValue="value"
+          [clearable]="false"
+          [(ngModel)]="selectedWorkflowOption"
+          [loading]="false"
+          formControlName="githubActionWorkflowOption"
+          (change)="WorkflowOptionChanged($event)"
+        >
+        </ng-select>
+        <div invalidmessage="branch" id="dc-github-branch-error" role="alert"></div>
+      </div>
   </div>
 
-  <ng-container *ngIf="!wizard.isFunctionApp && buildProvider === 'github'">
+  <ng-container *ngIf="!wizard.isFunctionApp && buildProvider === 'github' && showStackSelector">
     <h3 class="first-config-heading">{{ 'build' | translate }}</h3>
-    <app-linux-frameworks *ngIf="wizard.isLinuxApp" ></app-linux-frameworks>
-    <app-windows-frameworks *ngIf="!wizard.isLinuxApp" ></app-windows-frameworks>
+    <app-stack-selector></app-stack-selector>
   </ng-container>
 
 </div>

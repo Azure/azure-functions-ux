@@ -21,6 +21,9 @@ export class BuildSettings {
   public pythonSettings: PythonSettings;
   public frameworkVersion: string;
   public startupCommand: string;
+  public runtimeStack: string;
+  public runtimeStackVersion: string;
+  public runtimeStackRecommendedVersion: string;
 }
 
 export class VstsBuildSettings extends BuildSettings {
@@ -46,6 +49,8 @@ export class SourceSettings {
   public privateRepo: boolean;
   public username: string;
   public password: string;
+  public githubActionWorkflowOption: string;
+  public githubActionExistingWorkflowContents: string;
 }
 export class DeploymentCenterSetupModel {
   public sourceProvider: sourceControlProvider;

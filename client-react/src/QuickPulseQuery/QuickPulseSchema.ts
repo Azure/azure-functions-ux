@@ -109,23 +109,23 @@ export class QPMetricDefinition {
 }
 
 export class SchemaDocumentContent {
-  public DocumentType: string;
-  public DependencyKind: string;
-  public HttpMethod: string;
-  public Url: string;
-  public Target: string;
-  public CommandName: string;
-  public Name: string;
-  public ResponseCode: string;
-  public ResultCode: string;
-  public Success: boolean;
-  public Duration: number;
-  public Exception: string;
-  public Message: string;
-  public ExceptionType: string;
-  public ExceptionMessage: string;
-
-  public Properties: QPSchemaProperty[];
+  public DocumentType?: string;
+  public DependencyKind?: string;
+  public HttpMethod?: string;
+  public Url?: string;
+  public Target?: string;
+  public CommandName?: string;
+  public Name?: string;
+  public ResponseCode?: string;
+  public ResultCode?: string;
+  public Success?: boolean;
+  public Duration?: number;
+  public Exception?: string;
+  public Message?: string;
+  public ExceptionType?: string;
+  public ExceptionMessage?: string;
+  public SeverityLevel?: string;
+  public Properties?: QPSchemaProperty[];
 }
 
 export class QPSchemaProperty {
@@ -135,12 +135,12 @@ export class QPSchemaProperty {
 
 export class SchemaDocument {
   public SequenceNumber: number;
-  public DocumentStreamIds: string[];
+  public DocumentStreamIds?: string[];
   public Content: SchemaDocumentContent;
-  public Instance: string;
+  public Instance?: string;
   public Timestamp: string;
-  public ExceptionType: string;
-  public UniqueKey: string;
+  public ExceptionType?: string;
+  public UniqueKey?: string;
 }
 
 export class QuickPulseMetric {
