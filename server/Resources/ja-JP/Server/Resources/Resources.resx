@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>テストは GitHub webhook 関数でサポートされていません。</value>
     </data>
+  <data name="extensionBundleVersion" xml:space="preserve">
+        <value>拡張機能バンドル バージョン</value>
+    </data>
   <data name="currentRuntimeVersion" xml:space="preserve">
         <value>現在のランタイム バージョン</value>
     </data>
@@ -1580,7 +1583,7 @@
         <value>コンテナーのスタートアップの一環として実行される、オプションのスタートアップ コマンドを提供します。</value>
     </data>
   <data name="newest" xml:space="preserve">
-        <value>新しい順</value>
+        <value>最新</value>
     </data>
   <data name="architecture32" xml:space="preserve">
         <value>32 ビット</value>
@@ -2224,6 +2227,9 @@
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
         <value>デプロイ スロットを有効にする</value>
     </data>
+  <data name="appFunctionSettings_slotsEnableWarning" xml:space="preserve">
+        <value>Azure Functions スロットは現在無効です。この機能を有効にすると、既存のシークレットがすべてリセットされます。関数のシークレットは、各関数の [関数キー] ブレードにあります。</value>
+    </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
         <value>既知の問題:</value>
     </data>
@@ -2270,7 +2276,16 @@
         <value>スロット '{0}' を作成できませんでした </value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-        <value>スロットの一覧を更新できません</value>
+        <value>スロットの一覧を取得できません: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadTipConfig" xml:space="preserve">
+        <value>ルーティング規則を取得できません: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadConfig" xml:space="preserve">
+        <value>構成を取得できません: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadSite" xml:space="preserve">
+        <value>サイトを取得できません: {{errorMessage}}</value>
     </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
         <value>現在のプランのスロット クォータの上限 ({{quota}}) に達しました。</value>
@@ -2319,9 +2334,6 @@
     </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
         <value>トラフィック %</value>
-    </data>
-  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
-        <value>ルーティング規則への今後の変更</value>
     </data>
   <data name="monitoring_appInsights" xml:space="preserve">
         <value>ライブ メトリックやカスタム クエリなど、これまで以上に充実した監視エクスペリエンスを実現するには:</value>
@@ -2479,6 +2491,9 @@
   <data name="eventGrid_create" xml:space="preserve">
         <value>作成</value>
     </data>
+  <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>Event Grid サブスクリプションの作成</value>
+    </data>
   <data name="eventGrid_createMessage" xml:space="preserve">
         <value>関数の作成後に Event Grid のサブスクリプションを追加する必要があります。</value>
     </data>
@@ -2570,10 +2585,10 @@
         <value>西インド</value>
     </data>
   <data name="centralindia" xml:space="preserve">
-        <value>中央インド</value>
+        <value>インド中部</value>
     </data>
   <data name="southindia" xml:space="preserve">
-        <value>南インド</value>
+        <value>インド南部</value>
     </data>
   <data name="canadacentral" xml:space="preserve">
         <value>カナダ中部</value>
@@ -4073,6 +4088,9 @@
   <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>デプロイ元とデプロイ先に同じデプロイ スロットを指定できません</value>
     </data>
+  <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>次のスロットに対する必要なアクセス許可がないため、プレビューとのスワップを実行できません: '{{slotNames}}'</value>
+    </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>次のデプロイ スロットで認証が有効になっているため、プレビュー付きのスワップを実行できません: '{{slotNames}}'</value>
     </data>
@@ -5073,14 +5091,17 @@
   <data name="containerValidationFailed" xml:space="preserve">
         <value>コンテナー設定を検証できませんでした。</value>
     </data>
-  <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>トリガーが定義されていません</value>
-    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>入力が定義されていません</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
         <value>出力が定義されていません</value>
+    </data>
+  <data name="integrateAddTrigger" xml:space="preserve">
+        <value>+ トリガーの追加</value>
+    </data>
+  <data name="integrateCreateTrigger" xml:space="preserve">
+        <value>トリガーの作成</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ 入力の追加</value>
@@ -5140,10 +5161,7 @@
         <value>新しい関数</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>この関数アプリで新しい関数を作成します。次のテンプレートから選択するか、</value>
-    </data>
-  <data name="functionCreate_goToQuickstart" xml:space="preserve">
-        <value>クイック スタートに移動して開始できます。</value>
+        <value>この関数アプリで新しい関数を作成します。次のテンプレートから選択すると開始できます。</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>テンプレート</value>
@@ -5344,10 +5362,10 @@
         <value>GitHub アクションのワークフロー構成</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>GitHub アクションにワークフローの構成を追加しています</value>
+        <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>GitHub アクションのワークフロー定義が、リポジトリ '{1}' のブランチ '{0}' に正常にコミットされました。</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Azure portal から App Service デプロイのワークフロー構成を追加または更新します。</value>
@@ -5536,7 +5554,7 @@
         <value>カスタム ランタイム バージョン ({0}) はサポートされていません。そのため、アプリでは最新バージョン {1} が使用されており、メジャー バージョンの更新により破壊的変更があった場合でも、常に最新バージョンのランタイムが実行されることになります。この値は、特定のメジャー バージョン (~2 など) に設定することをお勧めします。その場合、新しいバージョンが公開されたときには更新の通知を受け取ります。</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>ランタイム バージョンは FUNCTIONS_EXTENSION_VERSION アプリ設定によって制御されます。カスタム バージョンを構成することはお勧めしません。構成された値が無効である場合や、サポートされなくなった場合に、これが最新バージョンになるためです。メジャー バージョンの更新に破壊的変更が含まれる可能性があるため、これによって関数は破損した状態になる可能性があります。</value>
+        <value>By configuring the value of FUNCTIONS_EXTENSION_VERSION in Application setting, you have opted to use a custom runtime version.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>既存の関数を使用してアップグレードすることはできません: メジャー バージョンのアップグレードによって、言語とバインディングに破壊的変更が生じる可能性があります。ランタイムのメジャー バージョンをアップグレードする場合、新しい関数アプリを作成し、その新しいアプリに機能を移行することをご検討ください。</value>
@@ -5545,7 +5563,7 @@
         <value>GitHub トークンに 'ワークフロー' スコープがありません。</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub アクションのワークフロー ファイル '{{workflowFilePath}}' は '{{branchName}}' ブランチに既に存在します。続行すると、このファイルが上書きされます。</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 はリモート デバッグでサポートされなくなりました。サポートされている Visual Studio のバージョンを選択してください。</value>
@@ -5562,10 +5580,100 @@
   <data name="functionTestInputDescription" xml:space="preserve">
         <value>HTTP 要求をテストするためのパラメーターを指定します。結果は [出力] タブに表示されます。</value>
     </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP 応答</value>
+  <data name="httpRun_responseContent" xml:space="preserve">
+        <value>HTTP 応答のコンテンツ</value>
     </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>HTTP 応答の状態</value>
+  <data name="httpRun_responseCode" xml:space="preserve">
+        <value>HTTP 応答コード</value>
+    </data>
+  <data name="editor_changeFileConfirmMessage" xml:space="preserve">
+        <value>保存されていない編集は破棄されます。</value>
+    </data>
+  <data name="editor_changeFile" xml:space="preserve">
+        <value>ファイルを変更しますか?</value>
+    </data>
+  <data name="defaultDocumentsInfoMessage" xml:space="preserve">
+        <value>既定のドキュメントの一覧は優先順位に従って並べ替えられます。一覧の上部にある項目は、一覧の下部にある項目よりも優先されます。</value>
+    </data>
+  <data name="requiredField_validationMessage" xml:space="preserve">
+        <value>名前と値は必須フィールドです</value>
+    </data>
+  <data name="maximize" xml:space="preserve">
+        <value>最大化</value>
+    </data>
+  <data name="minimize" xml:space="preserve">
+        <value>最小化</value>
+    </data>
+  <data name="connect" xml:space="preserve">
+        <value>接続</value>
+    </data>
+  <data name="endOfLifeTagTemplate" xml:space="preserve">
+        <value>{0} (EOL)</value>
+    </data>
+  <data name="functionEditor_appInsightsNotConfigured" xml:space="preserve">
+        <value>Application Insights が構成されていません。[モニター] タブに移動し、関数ログをキャプチャするように Application Insights を構成してください。</value>
+    </data>
+  <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
+        <value>Application Insights に接続しています...</value>
+    </data>
+  <data name="runtimeStack" xml:space="preserve">
+        <value>ランタイム スタック</value>
+    </data>
+  <data name="runtimeStackVersion" xml:space="preserve">
+        <value>バージョン</value>
+    </data>
+  <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
+        <value>使用可能な関数テンプレートの一覧全体を表示するには、アプリの拡張バンドルを設定する必要があります。 </value>
+    </data>
+  <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>お使いのアプリケーションではリモート デバッグを利用できません。 </value>
+    </data>
+  <data name="tryFunctionsPreview" xml:space="preserve">
+        <value>新しい Azure Functions 管理エクスペリエンスのプレビュー</value>
+    </data>
+  <data name="saveAppSettingsTitle" xml:space="preserve">
+        <value>変更の保存</value>
+    </data>
+  <data name="saveAppSettingsMessage" xml:space="preserve">
+        <value>アプリケーション設定と接続文字列を変更すると、アプリケーションが再起動します。続行しますか?</value>
+    </data>
+  <data name="azureFunctionsV1Linux" xml:space="preserve">
+        <value>バージョン 1 のランタイムは、Linux Azure 関数アプリではサポートされていません</value>
+    </data>
+  <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>アプリ '{{appName}}' はスタック '{{stack}}' でセットアップされていますが、これは現在、GitHub Actions を経由したデプロイ センターではサポートされていません。</value>
+    </data>
+  <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>アプリ '{{appName}}' は現在、'{{stack}}' 用に構成されていますが、これは現在のビルドの選択と一致しません。このアプリは、現在のビルドの選択では正常に機能しない可能性があります。</value>
+    </data>
+  <data name="hostConfigurationLabel" xml:space="preserve">
+        <value>ホストの構成</value>
+    </data>
+  <data name="configureHostJson" xml:space="preserve">
+        <value>host.json の構成</value>
+    </data>
+  <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
+        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
+        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
+  <data name="githubActionWorkflowOption" xml:space="preserve">
+        <value>Workflow Option</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Configure using existing workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+    </data>
+  <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
     </data>
 </root>
