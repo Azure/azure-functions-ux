@@ -1,14 +1,14 @@
 ### Install dependencies
 
-Before you can get started, you should [install Visual Studio Code](https://go.microsoft.com/fwlink/?linkid=2016593). You should also [install Node.JS](https://go.microsoft.com/fwlink/?linkid=2016195) which includes npm, which is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node, see the other installation options in our [Core Tools reference](https://go.microsoft.com/fwlink/?linkid=2016192).
+Before you can get started, you should <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">install Visual Studio Code</a>. You should also <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">install Node.JS</a> which includes npm, which is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node, see the other installation options in our <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">Core Tools reference</a>.
 
 Run the following command to install the Core Tools package:
 
 <MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
 
-The Core Tools make use of [.NET Core 2.1](https://go.microsoft.com/fwlink/?linkid=2016373), so you should install that, too.
+The Core Tools make use of <a href="https://go.microsoft.com/fwlink/?linkid=2016373" target="_blank">.NET Core 2.1</a>, so you should install that, too.
 
-Next, [install the Azure Functions extension for Visual Studio Code](https://go.microsoft.com/fwlink/?linkid=2016800). Once the extension is installed, click on the Azure logo in the Activity Bar. Under **Azure: Functions**, click **Sign in to Azure...** and follow the on-screen instructions.
+Next, <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">install the Azure Functions extension for Visual Studio Code</a>. Once the extension is installed, click on the Azure logo in the Activity Bar. Under **Azure: Functions**, click **Sign in to Azure...** and follow the on-screen instructions.
 
 <br/>
 ### Create an Azure Functions project
