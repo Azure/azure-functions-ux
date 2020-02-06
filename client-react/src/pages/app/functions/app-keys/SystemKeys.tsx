@@ -194,7 +194,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={false}
+            disabled={readOnlyPermission}
             id={`app-settings-application-settings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
