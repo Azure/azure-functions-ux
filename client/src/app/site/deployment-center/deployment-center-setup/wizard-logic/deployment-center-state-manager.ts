@@ -30,6 +30,7 @@ import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../Models/g
 import { Guid } from 'app/shared/Utilities/Guid';
 import { SubscriptionService } from 'app/shared/services/subscription.service';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
+import { WorkflowOptions } from '../../Models/deployment-enums';
 
 const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
 
@@ -145,7 +146,16 @@ export class DeploymentCenterStateManager implements OnDestroy {
       case 'vsts':
         return this._deployVsts();
       case 'github':
-        return this._deployGithubActions().map(result => ({ status: 'succeeded', statusMessage: null, result }));
+        // NOTE(michinoy): Only initiate writing a workflow configuration file if the branch does not already have it OR
+        // the user opted to overwrite it.
+        if (
+          !this.wizardValues.sourceSettings.githubActionWorkflowOption ||
+          this.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.Overwrite
+        ) {
+          return this._deployGithubActions().map(result => ({ status: 'succeeded', statusMessage: null, result }));
+        } else {
+          return this._deployKudu().map(result => ({ status: 'succeeded', statusMessage: null, result }));
+        }
       default:
         return this._deployKudu().map(result => ({ status: 'succeeded', statusMessage: null, result }));
     }
