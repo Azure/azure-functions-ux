@@ -172,6 +172,7 @@ export class ConfigureGithubComponent implements OnDestroy {
       const workflowFilePath = `.github/workflows/${workflowFileName}`;
       this.workflowFileExistsWarningMessage = '';
       this.selectedWorkflowOption = '';
+      this.showStackSelector = true;
       this.wizard.sourceSettings.get('githubActionWorkflowOption').setValue('');
       this.wizard.sourceSettings.get('githubActionWorkflowOption').setValidators([]);
       this.wizard.sourceSettings.get('githubActionWorkflowOption').updateValueAndValidity();
@@ -194,7 +195,7 @@ export class ConfigureGithubComponent implements OnDestroy {
               branchName: this.selectedBranch,
             });
 
-            this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue(r.contents);
+            this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue(atob(r.content));
 
             const required = new RequiredValidator(this._translateService, false);
             this.wizard.sourceSettings.get('githubActionWorkflowOption').setValidators(required.validate.bind(required));
