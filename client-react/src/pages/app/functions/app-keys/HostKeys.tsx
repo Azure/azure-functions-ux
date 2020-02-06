@@ -27,11 +27,11 @@ interface HostKeysProps {
   initialLoading: boolean;
   hostKeys: AppKeysModel[];
   refreshData: () => void;
+  readOnlyPermission: boolean;
 }
 
 const HostKeys: React.FC<HostKeysProps> = props => {
-  const writePermission = false;
-  const { hostKeys, resourceId, refreshData, initialLoading } = props;
+  const { hostKeys, resourceId, refreshData, initialLoading, readOnlyPermission } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -215,7 +215,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       {
         key: 'app-keys-host-keys-add',
         onClick: () => showAddEditPanel(),
-        disabled: writePermission || initialLoading,
+        disabled: readOnlyPermission || initialLoading,
         iconProps: { iconName: 'Add' },
         name: t('newHostKey'),
         ariaLabel: t('addHostKey'),
@@ -311,6 +311,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
           otherAppKeys={hostKeys}
           panelItem={panelItem}
           showRenewKeyDialog={showRenewKeyDialog}
+          readOnlyPermission={readOnlyPermission}
         />
       </Panel>
     </>
