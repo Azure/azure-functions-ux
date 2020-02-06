@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>A tesztelés GitHub-webhookfüggvények esetében nem támogatott.</value>
     </data>
+  <data name="extensionBundleVersion" xml:space="preserve">
+        <value>Bővítményköteg verziója</value>
+    </data>
   <data name="currentRuntimeVersion" xml:space="preserve">
         <value>Aktuális futtatókörnyezet verziója</value>
     </data>
@@ -2224,6 +2227,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
         <value>Üzembe helyezési pontok engedélyezése</value>
     </data>
+  <data name="appFunctionSettings_slotsEnableWarning" xml:space="preserve">
+        <value>Az Azure Functions-tárolóhelyek jelenleg le vannak tiltva. A funkció engedélyezése alaphelyzetbe állítja a már meglévő titkos kódokat. A függvények titkos kódjait az egyes függvények Függvénykulcsok paneljén találja.</value>
+    </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
         <value>Ismert problémák:</value>
     </data>
@@ -2270,7 +2276,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem sikerült létrehozni a(z) {0} tárolóhelyet </value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-        <value>Nem sikerült frissíteni a tárolóhelyek listáját</value>
+        <value>Nem sikerült beolvasni a tárolóhelyek listáját: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadTipConfig" xml:space="preserve">
+        <value>Nem sikerült beolvasni az útválasztási szabályokat: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadConfig" xml:space="preserve">
+        <value>Nem sikerült beolvasni a konfigurációt: {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadSite" xml:space="preserve">
+        <value>Nem sikerült beolvasni a webhelyet: {{errorMessage}}</value>
     </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
         <value>Elérte a jelenlegi csomag üzembe helyezési tárhelykre vonatkozó kvótakorlátját ({{quota}}).</value>
@@ -2319,9 +2334,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
         <value>Adatforgalom (%)</value>
-    </data>
-  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
-        <value>Az útválasztási szabályok közelgő módosításai</value>
     </data>
   <data name="monitoring_appInsights" xml:space="preserve">
         <value>Ha további funkciókkal, például élő metrikákkal és egyéni lekérdezésekkel szeretné bővíteni a figyelési környezetet,</value>
@@ -2479,6 +2491,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="eventGrid_create" xml:space="preserve">
         <value>létrehozás</value>
     </data>
+  <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>Event Grid-előfizetés hozzáadása</value>
+    </data>
   <data name="eventGrid_createMessage" xml:space="preserve">
         <value>A függvény létrehozása után kell felvennie az Even Grid-előfizetést.</value>
     </data>
@@ -2516,7 +2531,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Csoportosítás előfizetés szerint</value>
     </data>
   <data name="southcentralus" xml:space="preserve">
-        <value>Dél-USA</value>
+        <value>USA déli középső régiója</value>
     </data>
   <data name="northeurope" xml:space="preserve">
         <value>Észak-Európa</value>
@@ -2534,7 +2549,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Korea déli régiója</value>
     </data>
   <data name="westus" xml:space="preserve">
-        <value>Nyugat-USA</value>
+        <value>USA nyugati régiója</value>
     </data>
   <data name="eastus" xml:space="preserve">
         <value>USA keleti régiója</value>
@@ -4073,6 +4088,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>A forrás és a cél nem lehet ugyanaz az üzembe helyezési pont</value>
     </data>
+  <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>Az előzetes verzióval történő csere nem hajtható végre, mert nem rendelkezik a szükséges engedélyekkel a következő tárolóhelyeken: {{slotNames}}</value>
+    </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>Az előnézettel végrehajtott felcserélés nem hajtható végre, mert a következő üzembe helyezési pontokon engedélyezve van a hitelesítés: {{slotNames}}</value>
     </data>
@@ -5073,14 +5091,17 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Nem sikerült érvényesíteni a tárolóbeállításokat.</value>
     </data>
-  <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>Nincs definiálva trigger</value>
-    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Nincs definiálva bemenet</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
         <value>Nincs megadva kimenet</value>
+    </data>
+  <data name="integrateAddTrigger" xml:space="preserve">
+        <value>+ Trigger hozzáadása</value>
+    </data>
+  <data name="integrateCreateTrigger" xml:space="preserve">
+        <value>Trigger létrehozása</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Bemenet hozzáadása</value>
@@ -5140,10 +5161,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Új függvény</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Új függvény létrehozása ebben a függvényalkalmazásban. A kezdéshez válasszon az alábbi sablonok közül, vagy </value>
-    </data>
-  <data name="functionCreate_goToQuickstart" xml:space="preserve">
-        <value>nyissa meg a gyorsútmutatót</value>
+        <value>Új függvény létrehozása ebben a függvényalkalmazásban. A kezdéshez válasszon az alábbi sablonok közül.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Sablonok</value>
@@ -5344,10 +5362,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>GitHub-művelet munkafolyamatának konfigurációja</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Munkafolyamat-konfiguráció hozzáadása GitHub-műveletekhez</value>
+        <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Sikerült véglegesíteni a GitHub-művelet munkafolyamat-definícióját a(z) {1} adattár {0} ágán.</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Adja hozzá vagy frissítse az App Service üzembehelyezési munkafolyamatának konfigurációját az Azure Portalról.</value>
@@ -5536,7 +5554,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Az egyéni futtatókörnyezet verziója ({0}) nem támogatott. Ennek eredményeként az alkalmazás a legújabb verziót ({1}) használja, és a rendszer még azon főverzió-frissítések esetében is a futtatókörnyezet legújabb verzióját fogja futtatja, amelyek kompatibilitástörő változásokat tartalmazhatnak. Azt javasoljuk, hogy állítson be egy adott főverziót (például a következőt: ~2), és az újabb verziók megjelenésekor frissítési értesítést küldünk Önnek.</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>A futtatókörnyezet verzióját a FUNCTIONS_EXTENSION_VERSION alkalmazásbeállítás szabályozza. Egyéni verzió konfigurálása nem javasolt, mert ha a konfigurált érték érvénytelen, vagy elavul, a rendszer lecseréli a legújabb verzióval. Ez a függvények hibás működéséhez vezethet, mivel a főverzió-frissítések kompatibilitástörő változásokat tartalmazhatnak.</value>
+        <value>By configuring the value of FUNCTIONS_EXTENSION_VERSION in Application setting, you have opted to use a custom runtime version.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>A frissítés a meglévő függvények miatt nem hajtható végre: a jelentősebb verziófrissítések kompatibilitástörő változásokat eredményezhetnek a nyelvekben és a kötésekben. A futtatókörnyezet főverzióinak frissítésekor célszerű létrehozni egy új függvényalkalmazást, és migrálni a függvényeket ebbe az új alkalmazásba.</value>
@@ -5545,7 +5563,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem található a munkafolyamat hatókör a GitHub-tokenben.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>A GitHub-művelet munkafolyamat-fájlja ({{workflowFilePath}}) már létezik a(z) {{branchName}} ágban, ha folytatja, ez a fájl felülíródik.</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>A Visual Studio 2015 használata már nem támogatott a távoli hibakereséshez. Válasszon támogatott Visual Studio-verziót.</value>
@@ -5562,10 +5580,100 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="functionTestInputDescription" xml:space="preserve">
         <value>Paraméterek megadása a HTTP-kérelem teszteléséhez. Az eredmények a Kimenet lapon találhatók.</value>
     </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>HTTP-válasz</value>
+  <data name="httpRun_responseContent" xml:space="preserve">
+        <value>HTTP-válasz tartalma</value>
     </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>HTTP-válasz állapotkódja</value>
+  <data name="httpRun_responseCode" xml:space="preserve">
+        <value>HTTP-válaszkód</value>
+    </data>
+  <data name="editor_changeFileConfirmMessage" xml:space="preserve">
+        <value>A nem mentett módosítások elvesznek.</value>
+    </data>
+  <data name="editor_changeFile" xml:space="preserve">
+        <value>Are you sure you would like to change files?</value>
+    </data>
+  <data name="defaultDocumentsInfoMessage" xml:space="preserve">
+        <value>Az alapértelmezett dokumentumlista precedencia szerint van rendezve. A lista elején található elemek nagyobb precedenciával rendelkeznek, mint a lista végén találhatók.</value>
+    </data>
+  <data name="requiredField_validationMessage" xml:space="preserve">
+        <value>A név és az érték mezők kitöltése kötelező</value>
+    </data>
+  <data name="maximize" xml:space="preserve">
+        <value>Teljes méret</value>
+    </data>
+  <data name="minimize" xml:space="preserve">
+        <value>Kis méret</value>
+    </data>
+  <data name="connect" xml:space="preserve">
+        <value>Kapcsolódás</value>
+    </data>
+  <data name="endOfLifeTagTemplate" xml:space="preserve">
+        <value>{0} (EOL)</value>
+    </data>
+  <data name="functionEditor_appInsightsNotConfigured" xml:space="preserve">
+        <value>A Application Insights nincs konfigurálva. Nyissa meg a Figyelés lapot, és konfigurálja a Application Insights-t a függvénynaplók rögzítéséhez.</value>
+    </data>
+  <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
+        <value>Kapcsolódás az Application Insightshoz...</value>
+    </data>
+  <data name="runtimeStack" xml:space="preserve">
+        <value>Futtatókörnyezet verme</value>
+    </data>
+  <data name="runtimeStackVersion" xml:space="preserve">
+        <value>Verzió</value>
+    </data>
+  <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
+        <value>Ha meg szeretné tekinteni a rendelkezésre álló függvénysablonok teljes listáját, bővítménycsomagokat kell beállítania az alkalmazáshoz. </value>
+    </data>
+  <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>A távoli hibakeresés nem érhető el az alkalmazáshoz. </value>
+    </data>
+  <data name="tryFunctionsPreview" xml:space="preserve">
+        <value>Az új Azure Functions felügyeleti felület előzetes verziójának megtekintése</value>
+    </data>
+  <data name="saveAppSettingsTitle" xml:space="preserve">
+        <value>Módosítások mentése</value>
+    </data>
+  <data name="saveAppSettingsMessage" xml:space="preserve">
+        <value>Ha az alkalmazásbeállítások és a kapcsolati sztringek módosulnak, az alkalmazás újraindul. Biztosan folytatja?</value>
+    </data>
+  <data name="azureFunctionsV1Linux" xml:space="preserve">
+        <value>Az 1-es verziójú futtatókörnyezet nem támogatott a Linuxos Azure Function-alkalmazásokban</value>
+    </data>
+  <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack '{{stack}}' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+  <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for '{{stack}}', which does not match current build selection. The app might not function correctly with current build selection.</value>
+    </data>
+  <data name="hostConfigurationLabel" xml:space="preserve">
+        <value>Gazdagép konfigurációja</value>
+    </data>
+  <data name="configureHostJson" xml:space="preserve">
+        <value>host.json konfigurálása</value>
+    </data>
+  <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
+        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
+        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
+  <data name="githubActionWorkflowOption" xml:space="preserve">
+        <value>Workflow Option</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Configure using existing workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+    </data>
+  <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
     </data>
 </root>

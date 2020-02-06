@@ -1,16 +1,16 @@
 ### Install dependencies
 
-Before you can get started, you should [install the Java Developer Kit, version 8](https://go.microsoft.com/fwlink/?linkid=2016706). Make sure that the JAVA_HOME environment variable gets set to the install location of the JDK. You will also need to [install Apache Maven, version 3.0 or above](https://go.microsoft.com/fwlink/?linkid=2016384).
+Before you can get started, you should <a href="https://go.microsoft.com/fwlink/?linkid=2016706" target="_blank">install the Java Developer Kit, version 8</a>. Make sure that the JAVA_HOME environment variable gets set to the install location of the JDK. You will also need to <a href="https://go.microsoft.com/fwlink/?linkid=2016384" target="_blank">install Apache Maven, version 3.0 or above</a>.
 
-You should also [install Node.JS](https://go.microsoft.com/fwlink/?linkid=2016195) which includes npm. This is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node, see the other installation options in our [Core Tools reference](https://go.microsoft.com/fwlink/?linkid=2016192).
+You should also <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">install Node.JS</a> which includes npm. This is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node, see the other installation options in our <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">Core Tools reference</a>.
 
 Run the following command to install the Core Tools package:
 
 <MarkdownHighlighter>npm install -g azure-functions-core-tools</MarkdownHighlighter>
 
-The Core Tools make use of [.NET Core 2.1](https://go.microsoft.com/fwlink/?linkid=2016373), so you should install that, too.
+The Core Tools make use of <a href="https://go.microsoft.com/fwlink/?linkid=2016373" target="_blank">.NET Core 2.1</a>, so you should install that, too.
 
-Lastly, [install the Azure CLI 2.0](https://go.microsoft.com/fwlink/?linkid=2016701). Once this is installed, make sure you are logged in by running the login command and following the onscreen instructions:
+Lastly, <a href="https://go.microsoft.com/fwlink/?linkid=2016701" target="_blank">install the Azure CLI 2.0</a>. Once this is installed, make sure you are logged in by running the login command and following the onscreen instructions:
 
 <MarkdownHighlighter>az login</MarkdownHighlighter>
 

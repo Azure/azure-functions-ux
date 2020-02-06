@@ -203,7 +203,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       // Remove doubled slashes
       const re = new RegExp('//', 'g');
       path = path.replace(re, '/').replace('/?', '?');
-      return `${path}${path.endsWith('?') ? '' : '?'}${queryParams.join('&')}`;
+      path = `${path}${path.endsWith('?') ? '' : '?'}${queryParams.join('&')}`;
+      return path.endsWith('?') ? path.slice(0, -1) : path;
     }
     return '';
   };
@@ -339,7 +340,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           responseContent={responseContent}
           functionRunning={functionRunning}
           appInsightsToken={appInsightsToken}
-          urlObjs={[...hostUrls, ...functionUrls]}
+          urlObjs={[...functionUrls, ...hostUrls]}
           resetAppInsightsToken={resetAppInsightsToken}
           showTestPanel={showTestPanel}
           setShowTestPanel={setShowTestPanel}

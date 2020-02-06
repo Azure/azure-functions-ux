@@ -997,6 +997,9 @@
   <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
         <value>Les tests ne sont pas n’est pas pris en charge pour les fonctions webhook GitHub.</value>
     </data>
+  <data name="extensionBundleVersion" xml:space="preserve">
+        <value>Version du bundle d'extension</value>
+    </data>
   <data name="currentRuntimeVersion" xml:space="preserve">
         <value>Version actuelle du runtime</value>
     </data>
@@ -2224,6 +2227,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="appFunctionSettings_slotsEnable" xml:space="preserve">
         <value>Activer les emplacements de déploiement</value>
     </data>
+  <data name="appFunctionSettings_slotsEnableWarning" xml:space="preserve">
+        <value>Les emplacements des fonctions Azure sont actuellement désactivés. L'activation de cette fonctionnalité réinitialise tous les secrets préexistants. Les secrets de fonction se trouvent dans le panneau « Clés de fonction » de chaque fonction.</value>
+    </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
         <value>Problèmes connus :</value>
     </data>
@@ -2270,7 +2276,16 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Échec de la création de l’emplacement « {0} » </value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-        <value>Impossible de mettre à jour la liste des emplacements</value>
+        <value>Impossible de récupérer la liste des emplacements : {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadTipConfig" xml:space="preserve">
+        <value>Impossible de récupérer les règles de routage : {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadConfig" xml:space="preserve">
+        <value>Impossible de récupérer la configuration : {{errorMessage}}</value>
+    </data>
+  <data name="error_unableToLoadSite" xml:space="preserve">
+        <value>Impossible de récupérer le site : {{errorMessage}}</value>
     </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
         <value>Vous avez atteint la limite de quota d'emplacements ({{quota}}) pour le plan actuel.</value>
@@ -2319,9 +2334,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
         <value>% de trafic</value>
-    </data>
-  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
-        <value>Modifications à venir apportées aux règles d'acheminement</value>
     </data>
   <data name="monitoring_appInsights" xml:space="preserve">
         <value>Pour bénéficier d'une expérience de monitoring plus complète, notamment des métriques en temps réel et des requêtes personnalisées :</value>
@@ -2479,6 +2491,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="eventGrid_create" xml:space="preserve">
         <value>créer</value>
     </data>
+  <data name="eventGrid_createConnection" xml:space="preserve">
+        <value>Créer un abonnement Event Grid</value>
+    </data>
   <data name="eventGrid_createMessage" xml:space="preserve">
         <value>Vous devez ajouter l'abonnement Event Grid après la création de la fonction.</value>
     </data>
@@ -2525,10 +2540,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Europe Ouest</value>
     </data>
   <data name="southeastasia" xml:space="preserve">
-        <value>Asie Sud-Est</value>
+        <value>Sud-Est asiatique</value>
     </data>
   <data name="koreacentral" xml:space="preserve">
-        <value>Corée - Centre</value>
+        <value>Corée Centre</value>
     </data>
   <data name="koreasouth" xml:space="preserve">
         <value>Corée Sud</value>
@@ -2540,10 +2555,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>USA Est</value>
     </data>
   <data name="japanwest" xml:space="preserve">
-        <value>Japon Ouest</value>
+        <value>Japon de l'Ouest</value>
     </data>
   <data name="japaneast" xml:space="preserve">
-        <value>Japon Est</value>
+        <value>Japon de l'Est</value>
     </data>
   <data name="eastasia" xml:space="preserve">
         <value>Asie Est</value>
@@ -2570,10 +2585,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Inde Ouest</value>
     </data>
   <data name="centralindia" xml:space="preserve">
-        <value>Inde Centre</value>
+        <value>Centre de l'Inde</value>
     </data>
   <data name="southindia" xml:space="preserve">
-        <value>Inde Sud</value>
+        <value>Inde du Sud</value>
     </data>
   <data name="canadacentral" xml:space="preserve">
         <value>Canada Centre</value>
@@ -4073,6 +4088,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="swapSrcDestNotUnique" xml:space="preserve">
         <value>La destination et la source ne peuvent pas avoir le même emplacement de déploiement</value>
     </data>
+  <data name="swapMultiPhasePermissionsFailure" xml:space="preserve">
+        <value>L'échange avec la préversion ne peut pas être effectué parce que vous n'avez pas les autorisations nécessaires sur les emplacements suivants : « {{slotNames}} »</value>
+    </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
         <value>L’échange avec la préversion ne peut pas être effectué, car l’authentification est activée pour les emplacements de déploiement suivants : « {{slotNames}} »</value>
     </data>
@@ -5073,14 +5091,17 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Échec de la validation des paramètres du conteneur.</value>
     </data>
-  <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>Aucun déclencheur défini</value>
-    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Aucune entrée définie</value>
     </data>
   <data name="integrateNoOutputsDefined" xml:space="preserve">
         <value>Aucune sortie définie</value>
+    </data>
+  <data name="integrateAddTrigger" xml:space="preserve">
+        <value>+ Ajouter un déclencheur</value>
+    </data>
+  <data name="integrateCreateTrigger" xml:space="preserve">
+        <value>Créer un déclencheur</value>
     </data>
   <data name="integrateAddInput" xml:space="preserve">
         <value>+ Ajouter une entrée</value>
@@ -5140,10 +5161,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Nouvelle fonction</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Créez une fonction dans cette application de fonction. Vous pouvez commencer par sélectionner un modèle ci-dessous ou </value>
-    </data>
-  <data name="functionCreate_goToQuickstart" xml:space="preserve">
-        <value>accédez au démarrage rapide.</value>
+        <value>Créez une fonction dans cette application de fonction. Vous pouvez commencer par sélectionner un modèle ci-dessous.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Modèles</value>
@@ -5344,10 +5362,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Configuration du workflow d'action GitHub</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Ajout d'une configuration de workflow à GitHub Actions</value>
+        <value>Setting up GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>La définition du workflow d'action GitHub a été validée dans la branche « {0} » dans le dépôt « {1} ».</value>
+        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Ajoutez ou mettez à jour la configuration de workflow du déploiement App Service à partir du portail Azure.</value>
@@ -5536,7 +5554,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>Votre version de runtime personnalisée ({0}) n'est pas prise en charge. Votre application utilise donc la dernière version {1} et vous exécutez toujours la dernière version du runtime même pour les mises à jour de version majeure qui peuvent contenir des changements cassants. Nous vous recommandons de définir cette valeur sur une version majeure spécifique (par ex., ~2) et vous serez informé des versions plus récentes de mise à jour.</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>La version du runtime est contrôlée par le paramètre d'application FUNCTIONS_EXTENSION_VERSION. La configuration d'une version personnalisée n'est pas conseillée, car si la valeur configurée n'est pas valide ou n'est pas prise en charge, vous obtenez la dernière version. Cela peut interrompre vos fonctions puisque les mises à jour de version majeure peuvent contenir des changements cassants.</value>
+        <value>By configuring the value of FUNCTIONS_EXTENSION_VERSION in Application setting, you have opted to use a custom runtime version.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>Impossible d'effectuer la mise à niveau avec les fonctions existantes : les mises à niveau de version majeure peuvent introduire des changements cassants dans les langages et les liaisons. Quand vous mettez à niveau des versions majeures du runtime, créez une application de fonction pour y migrer vos fonctions.</value>
@@ -5545,7 +5563,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
         <value>L'étendue « workflow » est manquante dans le jeton GitHub.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>Le fichier de workflow d'action GitHub « {{workflowFilePath}} » existe déjà dans la branche « {{branchName}} », si vous continuez, ce fichier est remplacé.</value>
+        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 n'est plus pris en charge pour le débogage à distance. Sélectionnez une version prise en charge de Visual Studio.</value>
@@ -5562,10 +5580,100 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="functionTestInputDescription" xml:space="preserve">
         <value>Indiquez les paramètres de test de la demande HTTP. Les résultats se trouvent sous l'onglet Sortie.</value>
     </data>
-  <data name="httpRun_response" xml:space="preserve">
-        <value>Réponse HTTP</value>
+  <data name="httpRun_responseContent" xml:space="preserve">
+        <value>Contenu de la réponse HTTP</value>
     </data>
-  <data name="httpRun_responseStatus" xml:space="preserve">
-        <value>État de réponse HTTP</value>
+  <data name="httpRun_responseCode" xml:space="preserve">
+        <value>Code de réponse HTTP</value>
+    </data>
+  <data name="editor_changeFileConfirmMessage" xml:space="preserve">
+        <value>Vos modifications non enregistrées seront ignorées.</value>
+    </data>
+  <data name="editor_changeFile" xml:space="preserve">
+        <value>Are you sure you would like to change files?</value>
+    </data>
+  <data name="defaultDocumentsInfoMessage" xml:space="preserve">
+        <value>La liste des documents par défaut est classée par ordre de priorité. Les éléments en haut de la liste sont prioritaires par rapport aux éléments en bas de la liste.</value>
+    </data>
+  <data name="requiredField_validationMessage" xml:space="preserve">
+        <value>Le nom et la valeur sont des champs obligatoires</value>
+    </data>
+  <data name="maximize" xml:space="preserve">
+        <value>Agrandir</value>
+    </data>
+  <data name="minimize" xml:space="preserve">
+        <value>Réduire</value>
+    </data>
+  <data name="connect" xml:space="preserve">
+        <value>Connexion</value>
+    </data>
+  <data name="endOfLifeTagTemplate" xml:space="preserve">
+        <value>{0} (EOL)</value>
+    </data>
+  <data name="functionEditor_appInsightsNotConfigured" xml:space="preserve">
+        <value>Application Insights n'est pas configuré. Accédez à l'onglet Superviser et configurez Application Insights pour capturer les journaux de fonction.</value>
+    </data>
+  <data name="functionEditor_connectingToAppInsights" xml:space="preserve">
+        <value>Connexion à Application Insights...</value>
+    </data>
+  <data name="runtimeStack" xml:space="preserve">
+        <value>Pile de runtime</value>
+    </data>
+  <data name="runtimeStackVersion" xml:space="preserve">
+        <value>Version</value>
+    </data>
+  <data name="functionCreate_extensionBundlesRequired" xml:space="preserve">
+        <value>Pour voir la liste complète des modèles de fonction disponibles, vous devez configurer des bundles d'extensions pour votre application. </value>
+    </data>
+  <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
+        <value>Le débogage à distance n'est pas disponible pour votre application. </value>
+    </data>
+  <data name="tryFunctionsPreview" xml:space="preserve">
+        <value>Afficher un aperçu de la nouvelle expérience de gestion d'Azure Functions</value>
+    </data>
+  <data name="saveAppSettingsTitle" xml:space="preserve">
+        <value>Enregistrer les changements</value>
+    </data>
+  <data name="saveAppSettingsMessage" xml:space="preserve">
+        <value>Tout changement apporté aux paramètres d'application et aux chaînes de connexion entraîne le redémarrage de votre application. Voulez-vous vraiment continuer ?</value>
+    </data>
+  <data name="azureFunctionsV1Linux" xml:space="preserve">
+        <value>La version 1 du runtime n'est pas prise en charge sur les applications de fonction Azure Linux</value>
+    </data>
+  <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack '{{stack}}' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+  <data name="githubActionStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for '{{stack}}', which does not match current build selection. The app might not function correctly with current build selection.</value>
+    </data>
+  <data name="hostConfigurationLabel" xml:space="preserve">
+        <value>Configuration de l'hôte</value>
+    </data>
+  <data name="configureHostJson" xml:space="preserve">
+        <value>Configurer host.json</value>
+    </data>
+  <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
+        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+    </data>
+  <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
+        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+    </data>
+  <data name="githubActionWorkflowOption" xml:space="preserve">
+        <value>Workflow Option</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
+        <value>Overwrite workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
+        <value>Configure using existing workflow definition</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+    </data>
+  <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+    </data>
+  <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
     </data>
 </root>
