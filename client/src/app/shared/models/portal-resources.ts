@@ -1834,4 +1834,5 @@ export class PortalResources {
   public static githubActionWorkflowOptionUseExisting = 'githubActionWorkflowOptionUseExisting';
   public static githubActionWorkflowOptionUseExistingMessage = 'githubActionWorkflowOptionUseExistingMessage';
   public static githubActionWorkflowOptionOverwriteMessage = 'githubActionWorkflowOptionOverwriteMessage';
+  public static emptyFunctionKeys = 'emptyFunctionKeys';
 }

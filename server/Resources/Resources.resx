@@ -5676,4 +5676,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
         <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
     </data>
+    <data name="emptyFunctionKeys" xml:space="preserve">
+        <value>(no function keys to display)</value>
+    </data>
 </root>

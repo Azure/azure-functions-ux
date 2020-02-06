@@ -270,7 +270,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyHostKeys')}>
+          emptyMessage={t('emptyFunctionKeys')}>
           {showFilter && (
             <SearchBox
               id="function-keys-search"

@@ -35,7 +35,7 @@ const FunctionQuickstartDataLoader: React.FC<FunctionQuickstartDataLoaderProps> 
       quickstartData.fetchApplicationSettings(resourceId),
     ]);
     if (!siteData.metadata.success || !appSettingsData.metadata.success) {
-      setApiFailure(false);
+      setApiFailure(true);
     } else {
       setSite(siteData.data);
       const appSettings = appSettingsData.data.properties;
