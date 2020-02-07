@@ -1,4 +1,5 @@
 import { style } from 'typestyle';
+import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 
 export const formStyle = style({
   padding: '5px 25px',
@@ -20,3 +21,8 @@ export const quickstartDropdownContainerStyle = style({
   marginTop: '20px',
   marginBottom: '20px',
 });
+
+export const quickstartLinksStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.link,
+  });

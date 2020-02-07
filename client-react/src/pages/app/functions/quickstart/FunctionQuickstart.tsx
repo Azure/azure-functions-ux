@@ -3,7 +3,13 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import { useTranslation } from 'react-i18next';
 import { Link, IDropdownOption, registerIcons, Icon } from 'office-ui-fabric-react';
-import { formStyle, dropdownIconStyle, quickstartDropdownContainerStyle, quickstartDropdownLabelStyle } from './FunctionQuickstart.styles';
+import {
+  formStyle,
+  dropdownIconStyle,
+  quickstartDropdownContainerStyle,
+  quickstartDropdownLabelStyle,
+  quickstartLinksStyle,
+} from './FunctionQuickstart.styles';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs_code.svg';
@@ -14,6 +20,7 @@ import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
 import Markdown from 'markdown-to-jsx';
 import { MarkdownHighlighter } from '../../../../components/MarkdownComponents/MarkdownComponents';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
+import { ThemeContext } from '../../../../ThemeContext';
 
 registerIcons({
   icons: {
@@ -44,6 +51,8 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   const [file, setFile] = useState('');
   const quickstartContext = useContext(FunctionQuickstartContext);
   const startupInfoContext = useContext(StartupInfoContext);
+
+  const theme = useContext(ThemeContext);
 
   const isVSOptionVisible = (): boolean => {
     return !isLinuxApp(site) && workerRuntime === 'dotnet';
@@ -149,6 +158,11 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
           overrides: {
             MarkdownHighlighter: {
               component: MarkdownHighlighter,
+            },
+            a: {
+              props: {
+                className: quickstartLinksStyle(theme),
+              },
             },
           },
         }}>
