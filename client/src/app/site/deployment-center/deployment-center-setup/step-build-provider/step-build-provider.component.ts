@@ -76,6 +76,16 @@ export class StepBuildProviderComponent implements OnDestroy {
         }
       });
 
+    wizard.gitHubTokenUpdated$.subscribe(_ => {
+      const githubActionCard = this.providerCards.find(x => x.id === 'github');
+      if (githubActionCard && !githubActionCard.hidden) {
+        githubActionCard.enabled = this.wizard.isGithubActionWorkflowScopeAvailable;
+        githubActionCard.errorMessage = !this.wizard.isGithubActionWorkflowScopeAvailable
+          ? this._translateService.instant(PortalResources.githubActionWorkflowScopeMissing)
+          : '';
+      }
+    });
+
     this.wizard.wizardForm.controls.sourceProvider.valueChanges.takeUntil(this._ngUnsubscribe).subscribe(provider => {
       if (provider !== this._currentSourceControlProvider) {
         this._currentSourceControlProvider = provider;
