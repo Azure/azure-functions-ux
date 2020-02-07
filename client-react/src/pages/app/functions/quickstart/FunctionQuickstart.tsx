@@ -54,7 +54,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       region: site.location,
       resourceGroup: site.properties.resourceGroup,
       subscriptionName: resourceDescriptor.subscription,
-      workerRuntime: workerRuntime,
+      workerRuntime: workerRuntime || '',
     };
   };
 
