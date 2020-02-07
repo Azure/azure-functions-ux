@@ -49,9 +49,9 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   const { t } = useTranslation();
   const { site, workerRuntime } = props;
   const [file, setFile] = useState('');
+
   const quickstartContext = useContext(FunctionQuickstartContext);
   const startupInfoContext = useContext(StartupInfoContext);
-
   const theme = useContext(ThemeContext);
 
   const isVSOptionVisible = (): boolean => {
