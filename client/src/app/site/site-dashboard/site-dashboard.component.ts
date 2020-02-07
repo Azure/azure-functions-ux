@@ -23,7 +23,7 @@ import { Subject } from 'rxjs/Subject';
 import { PortalService } from './../../shared/services/portal.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { AiService } from './../../shared/services/ai.service';
-import { SiteTabIds, ScenarioIds, LogCategories, KeyCodes } from './../../shared/models/constants';
+import { SiteTabIds, ScenarioIds, LogCategories, KeyCodes, FeatureFlags } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
@@ -57,6 +57,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
   public site: ArmObj<Site>;
   public viewInfoStream: Subject<TreeViewInfo<SiteData>>;
   public Resources = PortalResources;
+  public isPreview = false;
 
   private _currentTabId: string;
   private _prevTabId: string;
@@ -112,6 +113,8 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
       this._currentTabId = activeTab.id;
       this._currentTabIndex = this.tabInfos.findIndex(info => info.active);
     }
+
+    this.isPreview = Url.getFeatureValue(FeatureFlags.FunctionsPreview) === 'true';
   }
 
   setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
