@@ -63,6 +63,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public isGithubActionWorkflowScopeAvailable = false;
   public stack = '';
   public stackVersion = '';
+  public gitHubTokenUpdated$ = new ReplaySubject<boolean>();
 
   constructor(
     private _cacheService: CacheService,
