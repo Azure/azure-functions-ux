@@ -16,10 +16,11 @@ export interface FunctionKeyAddEditProps {
   otherAppKeys: FunctionKeysModel[];
   resourceId: string;
   panelItem: string;
+  readOnlyPermission: boolean;
 }
 
 const FunctionKeyAddEdit: React.FC<FunctionKeyAddEditProps> = props => {
-  const { appKey, otherAppKeys, createAppKey, closeBlade, panelItem, showRenewKeyDialog } = props;
+  const { appKey, otherAppKeys, createAppKey, closeBlade, panelItem, showRenewKeyDialog, readOnlyPermission } = props;
   const [nameError, setNameError] = useState('');
   const [currentAppKey, setCurrentAppKey] = useState(appKey);
 
@@ -40,7 +41,7 @@ const FunctionKeyAddEdit: React.FC<FunctionKeyAddEditProps> = props => {
     id: 'save',
     title: t('ok'),
     onClick: () => createAppKey(currentAppKey),
-    disable: !!nameError || !currentAppKey.name,
+    disable: readOnlyPermission || !!nameError || !currentAppKey.name,
   };
 
   const actionBarSecondaryButtonProps = {
@@ -65,7 +66,7 @@ const FunctionKeyAddEdit: React.FC<FunctionKeyAddEditProps> = props => {
   return (
     <>
       <form className={addEditFormStyle}>
-        {panelItem === 'edit' && (
+        {!readOnlyPermission && panelItem === 'edit' && (
           <Label className={renewPanelStyle()} onClick={renewKey}>
             <Icon iconName="Refresh" className={renewPanelIconStyle(theme)} />
             <span className={renewPanelTextStyle()}>{t('renewAppKey')}</span>
