@@ -30,6 +30,7 @@ import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 import { SiteStateContext } from '../../../../SiteStateContext';
 import SiteHelper from '../../../../utils/SiteHelper';
+import { BindingManager } from '../../../../utils/BindingManager';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -258,6 +259,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return !!readOnlyBanner ? readOnlyBanner.offsetHeight : 0;
   };
 
+  const isTestDisabled = () => {
+    const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
+    const webHookTypeInfo = BindingManager.getWebHookTypeInfo(functionInfo.properties);
+    return !httpTriggerTypeInfo && !webHookTypeInfo;
+  };
+
   useEffect(() => {
     setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? 310 : 138) + getReadOnlyBannerHeight()}px)`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -283,6 +290,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           dirty={isDirty()}
           disabled={isDisabled()}
           urlObjs={urlObjs}
+          testDisabled={isTestDisabled()}
         />
         <ConfirmDialog
           primaryActionButton={{
