@@ -159,6 +159,8 @@ export class StepSourceControlComponent {
             headersJson['x-oauth-scopes'] &&
             headersJson['x-oauth-scopes'].filter((scope: string) => scope.toLowerCase() === 'workflow').length > 0;
 
+          this._wizardService.gitHubTokenUpdated$.next(true);
+
           if (enableGitHubAction && !this._wizardService.isGithubActionWorkflowScopeAvailable) {
             this.setProviderCardStatus('github', 'notAuthorized');
           } else {
