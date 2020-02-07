@@ -59,6 +59,7 @@ const AppSettingsBulkEdit: React.FC<AppSettingsBulkEditProps> = props => {
           minimap: { enabled: false },
           scrollBeyondLastLine: false,
         }}
+        height="calc(100vh - 140px)"
       />
       <ActionBar
         id="app-settings-bulk-edit-footer"

@@ -5563,7 +5563,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Cannot upgrade with existing functions: Major version upgrades can introduce breaking changes to languages and bindings. When upgrading major versions of the runtime, consider creating a new function app and migrate your functions to this new app.</value>
     </data>
     <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
-        <value>Missing 'workflow' scope in GitHub token.</value>
+        <value>Missing 'workflow' scope in GitHub token. Please return to 'source control' step to re-authorize GitHub.</value>
     </data>
     <data name="githubActionWorkflowFileExists" xml:space="preserve">
         <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
