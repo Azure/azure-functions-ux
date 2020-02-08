@@ -25,4 +25,11 @@ export const quickstartDropdownContainerStyle = style({
 export const quickstartLinksStyle = (theme: ThemeExtended) =>
   style({
     color: theme.semanticColors.link,
+    textDecoration: 'none',
+    $nest: {
+      '&:hover': {
+        color: theme.semanticColors.linkHovered,
+        textDecoration: 'underline',
+      },
+    },
   });
