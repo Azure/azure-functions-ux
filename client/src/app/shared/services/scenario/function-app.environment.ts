@@ -47,6 +47,20 @@ export class FunctionAppEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.enableBackups] = {
+      id: ScenarioIds.enableBackups,
+      runCheck: (input?: ScenarioCheckInput) => {
+        if (this._isPremium(input.site)) {
+          return {
+            status: 'disabled',
+            data: this._ts.instant(PortalResources.featureNotSupportedPremium),
+          };
+        } else {
+          return null;
+        }
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
@@ -63,5 +77,17 @@ export class FunctionAppEnvironment extends Environment {
 
   private _isDynamic(site: ArmObj<Site>) {
     return site.properties.sku.toLowerCase() === Tier.dynamic.toLowerCase();
+  }
+
+  private _isPremium(site: ArmObj<Site>): boolean {
+    const siteSku = site.properties.sku && site.properties.sku.toLocaleLowerCase();
+    const premiumSkuTiers = [
+      Tier.premium.toLocaleLowerCase(),
+      Tier.premiumV2.toLocaleLowerCase(),
+      Tier.premiumContainer.toLocaleLowerCase(),
+      Tier.elasticPremium.toLocaleLowerCase(),
+    ];
+
+    return premiumSkuTiers.findIndex(sku => sku === siteSku) > -1;
   }
 }
