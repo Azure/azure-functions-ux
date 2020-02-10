@@ -17,10 +17,11 @@ interface FunctionEditorCommandBarProps {
   dirty: boolean;
   disabled: boolean;
   urlObjs: UrlObj[];
+  testDisabled: boolean;
 }
 
 const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props => {
-  const { saveFunction, resetFunction, testFunction, showGetFunctionUrlCommand, dirty, disabled, urlObjs } = props;
+  const { saveFunction, resetFunction, testFunction, showGetFunctionUrlCommand, dirty, disabled, urlObjs, testDisabled } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
@@ -58,7 +59,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         iconProps: {
           iconName: 'DockRight',
         },
-        disabled: disabled,
+        disabled: disabled || testDisabled,
         ariaLabel: t('functionEditorTestAriaLabel'),
         onClick: testFunction,
       },
