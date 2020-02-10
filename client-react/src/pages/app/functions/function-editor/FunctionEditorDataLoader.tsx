@@ -256,7 +256,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const getQueryString = (queries: NameValuePair[]): string => {
-    const queryString = queries.map(query => `${query.name}=${query.value}`);
+    const queryString = queries.map(query => `${encodeURIComponent(query.name)}=${encodeURIComponent(query.value)}`);
     return queryString.join('&');
   };
 
