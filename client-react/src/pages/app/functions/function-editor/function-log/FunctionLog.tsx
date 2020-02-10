@@ -178,28 +178,30 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
           {appInsightsError && <div className={logErrorDivStyle}>{t('functionEditor_appInsightsNotConfigured')}</div>}
 
           {/*Loading Message*/}
-          {!appInsightsError && started && logEntries.length === 0 && (
+          {!appInsightsError && started && callCount === 0 && (
             <div className={logConnectingDivStyle}>{t('functionEditor_connectingToAppInsights')}</div>
           )}
 
           {/*Log Entries*/}
           {!!logEntries &&
-            logEntries.map((logEntry: SchemaDocument, logIndex) => {
-              return (
-                <div
-                  key={logIndex}
-                  className={logEntryDivStyle}
-                  style={{ color: getLogTextColor(logEntry.Content.SeverityLevel || '') }}
-                  /*Last Log Entry needs to be scrolled into focus*/
-                  ref={log => {
-                    if (logIndex + 1 === logEntries.length && autoScroll && !!log) {
-                      log.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}>
-                  {formatLog(logEntry)}
-                </div>
-              );
-            })}
+            logEntries
+              .filter((logEntry: SchemaDocument) => !!logEntry.Content.Message)
+              .map((logEntry: SchemaDocument, logIndex: number) => {
+                return (
+                  <div
+                    key={logIndex}
+                    className={logEntryDivStyle}
+                    style={{ color: getLogTextColor(logEntry.Content.SeverityLevel || '') }}
+                    /*Last Log Entry needs to be scrolled into focus*/
+                    ref={log => {
+                      if (logIndex + 1 === logEntries.length && autoScroll && !!log) {
+                        log.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}>
+                    {formatLog(logEntry)}
+                  </div>
+                );
+              })}
         </div>
       )}
     </div>
