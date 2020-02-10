@@ -2,7 +2,7 @@ import { Controller, Post, Body, HttpException, Response, Get, Session, HttpCode
 import { ConfigService } from '../shared/config/config.service';
 import { HttpService } from '../shared/http/http.service';
 import { Constants } from '../constants';
-import { HttpUtil } from 'src/utilities/http.util';
+import { HttpUtil } from '../utilities/http.util';
 
 @Controller('api/staticsites')
 export class StaticSitesController {
