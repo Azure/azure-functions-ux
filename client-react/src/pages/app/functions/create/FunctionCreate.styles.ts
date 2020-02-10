@@ -128,15 +128,6 @@ export const getInfoStyle = () => {
   });
 };
 
-export const getSelectStyle = () => {
-  return style({
-    position: 'absolute',
-    fontSize: '12px',
-    color: '#015CDA',
-    bottom: '12px',
-  });
-};
-
 export const extensionBundlesRequiredStyle = () => {
   return style({
     marginRight: '20px',
