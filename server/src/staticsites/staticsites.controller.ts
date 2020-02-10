@@ -27,9 +27,6 @@ export class StaticSitesController {
       const accessToken = HttpUtil.getQueryParameterValue('access_token', `?${response.data}`);
       return { access_token: accessToken };
     } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
       throw new HttpException(err, 500);
     }
   }
