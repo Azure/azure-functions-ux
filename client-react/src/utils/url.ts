@@ -1,5 +1,5 @@
 import { ArmObj } from '../models/arm-obj';
-import { Site } from '../models/site/site';
+import { Site, HostType } from '../models/site/site';
 
 export default class Url {
   public static serviceHost =
@@ -98,6 +98,20 @@ export default class Url {
       return `https://${site.properties.defaultHostName}/functions/${site.name}`;
     }
     return `https://${site.properties.defaultHostName}`;
+  }
+
+  public static getScmUrl(site: ArmObj<Site>) {
+    if (window.appsvc && window.appsvc.env.runtimeType === 'Standalone') {
+      return this.getMainUrl(site);
+    } else {
+      const scmHostName =
+        site.properties.hostNameSslStates && site.properties.hostNameSslStates.find(s => s.hostType === HostType.Repository);
+      return scmHostName ? `https://${scmHostName.name}` : this.getMainUrl(site);
+    }
+  }
+
+  public static getSyncTriggerUrl(site: ArmObj<Site>) {
+    return `${this.getScmUrl(site)}/api/functions/synctriggers`;
   }
 
   private static queryStrings: { [key: string]: string };
