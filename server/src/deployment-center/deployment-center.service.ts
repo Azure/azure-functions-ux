@@ -6,6 +6,7 @@ import { SourceControlProvider } from '../types/source-control-provider';
 import * as crypto from 'crypto';
 import { LoggingService } from '../shared/logging/logging.service';
 import { TokenData } from './deployment-center';
+import { HttpUtil } from 'src/utilities/http.util';
 
 @Injectable()
 export class DeploymentCenterService {
@@ -130,16 +131,7 @@ export class DeploymentCenterService {
   }
 
   getParameterByName(nameIn: string, url: string): string {
-    const name = nameIn.replace(/[\[\]]/g, '\\$&');
-    const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`);
-    const results = regex.exec(url);
-    if (!results) {
-      return '';
-    }
-    if (!results[2]) {
-      return '';
-    }
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    return HttpUtil.getQueryParameterValue(nameIn, url);
   }
   hashStateGuid(guid: string) {
     const hash = crypto.createHmac('sha256', process.env.SALT || '');
