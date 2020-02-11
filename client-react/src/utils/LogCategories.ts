@@ -49,4 +49,5 @@ export class LogCategories {
   public static readonly bindingResource = 'BindingResource';
   public static readonly functionIntegrate = 'FunctionIntegrate';
   public static readonly functionInvokeUrl = 'FunctionInvokeUrl';
+  public static readonly functionKeys = 'FunctionKeys';
 }
