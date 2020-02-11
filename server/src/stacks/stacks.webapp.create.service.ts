@@ -422,7 +422,7 @@ export class StacksWebAppCreateService {
         ],
       },
       {
-        displayText: '.NET Core 3.0 (Current)',
+        displayText: '.NET Core 3.0',
         value: 'DotnetCore3.0',
         sortOrder: 1,
         supportedPlatforms: [

@@ -1779,6 +1779,7 @@ export class PortalResources {
   public static createFunctionNotication = 'createFunctionNotication';
   public static createFunctionNotificationDetails = 'createFunctionNotificationDetails';
   public static createFunctionNotificationFailed = 'createFunctionNotificationFailed';
+  public static createFunctionNotificationFailedDetails = 'createFunctionNotificationFailedDetails';
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
   public static readonlyBlobStorageWarning = 'readonlyBlobStorageWarning';
   public static quickstartHeader = 'quickstartHeader';
@@ -1835,4 +1836,9 @@ export class PortalResources {
   public static githubActionWorkflowOptionUseExistingMessage = 'githubActionWorkflowOptionUseExistingMessage';
   public static githubActionWorkflowOptionOverwriteMessage = 'githubActionWorkflowOptionOverwriteMessage';
   public static emptyFunctionKeys = 'emptyFunctionKeys';
+  public static featureNotSupportedForPremium = 'featureNotSupportedForPremium';
+  public static deleteFunctionKeyNotification = 'deleteFunctionKeyNotification';
+  public static deleteFunctionKeyNotificationDetails = 'deleteFunctionKeyNotificationDetails';
+  public static deleteFunctionKeyNotificationFailed = 'deleteFunctionKeyNotificationFailed';
+  public static deleteFunctionKeyNotificationSuccess = 'deleteFunctionKeyNotificationSuccess';
 }
