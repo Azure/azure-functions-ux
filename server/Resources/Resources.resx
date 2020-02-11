@@ -5509,6 +5509,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Creating {0}</value>
     </data>
     <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Failed to create {0}</value>
+    </data>
+    <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>Failed to create {0}: {1}</value>
     </data>
     <data name="createFunctionNotificationSuccess" xml:space="preserve">
