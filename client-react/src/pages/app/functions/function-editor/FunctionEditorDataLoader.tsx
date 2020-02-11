@@ -58,7 +58,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const fetchData = async () => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
-    const siteResourceId = armSiteDescriptor.getSiteOnlyResourceId();
+    const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
     const [
       siteResponse,
       functionInfoResponse,
