@@ -124,6 +124,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         <StartupInfoContext.Consumer>
           {value => {
             setResourceId(value.token && value.resourceId);
+            console.log(props);
             return (
               value.token && (
                 <SiteStateContext.Provider value={siteAppEditState}>

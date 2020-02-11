@@ -77,10 +77,14 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
     if (siteResponse.metadata.success) {
       setSite(siteResponse.data);
+    } else {
+      LogService.error(LogCategories.FunctionEdit, 'fetchSite', `Failed to fetch site: ${siteResponse.metadata.error}`);
     }
 
     if (functionInfoResponse.metadata.success) {
       setFunctionInfo(functionInfoResponse.data);
+    } else {
+      LogService.error(LogCategories.FunctionEdit, 'getFunction', `Failed to get function info: ${functionInfoResponse.metadata.error}`);
     }
 
     if (appSettingsResponse.metadata.success && appSettingsResponse.data.properties) {
@@ -97,6 +101,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       if (appInsightsResponse) {
         setAppInsightsComponent(appInsightsResponse as ArmObj<AppInsightsComponent>);
       }
+    } else {
+      LogService.error(LogCategories.FunctionEdit, 'fetchAppSetting', `Failed to fetch app setting: ${appSettingsResponse.metadata.error}`);
     }
 
     if (hostStatusResponse.metadata.success) {
@@ -109,19 +115,31 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       ]);
       if (hostJsonResponse && hostJsonResponse.metadata.success) {
         setHostJsonContent(hostJsonResponse.data);
+      } else {
+        LogService.error(LogCategories.FunctionEdit, 'getHostJson', `Failed to get host json file: ${hostJsonResponse.metadata.error}`);
       }
 
       if (fileListResponse && fileListResponse.metadata.success) {
         setFileList(fileListResponse.data as VfsObject[]);
+      } else {
+        LogService.error(LogCategories.FunctionEdit, 'getFileContent', `Failed to get file content: ${fileListResponse.metadata.error}`);
       }
     }
 
     if (appKeysResponse.metadata.success) {
       setHostKeys(appKeysResponse.data);
+    } else {
+      LogService.error(LogCategories.FunctionEdit, 'fetchAppKeys', `Failed to fetch app keys: ${appKeysResponse.metadata.error}`);
     }
 
     if (functionKeysResponse.metadata.success) {
       setFunctionKeys(functionKeysResponse.data);
+    } else {
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'fetchFunctionKeys',
+        `Failed to fetch function keys: ${functionKeysResponse.metadata.error}`
+      );
     }
 
     setInitialLoading(false);
