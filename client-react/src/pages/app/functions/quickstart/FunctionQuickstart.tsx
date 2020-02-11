@@ -8,7 +8,7 @@ import {
   dropdownIconStyle,
   quickstartDropdownContainerStyle,
   quickstartDropdownLabelStyle,
-  quickstartLinksStyle,
+  quickstartLinkStyle,
 } from './FunctionQuickstart.styles';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
@@ -174,7 +174,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
             },
             a: {
               props: {
-                className: quickstartLinksStyle(theme),
+                className: quickstartLinkStyle(theme),
               },
             },
           },

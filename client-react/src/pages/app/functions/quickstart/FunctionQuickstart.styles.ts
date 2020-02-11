@@ -22,7 +22,7 @@ export const quickstartDropdownContainerStyle = style({
   marginBottom: '20px',
 });
 
-export const quickstartLinksStyle = (theme: ThemeExtended) =>
+export const quickstartLinkStyle = (theme: ThemeExtended) =>
   style({
     color: theme.semanticColors.link,
     textDecoration: 'none',
