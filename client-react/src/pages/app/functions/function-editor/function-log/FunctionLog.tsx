@@ -186,7 +186,6 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
           {!!logEntries &&
             logEntries
               .filter((logEntry: SchemaDocument) => !!logEntry.Content.Message)
-              // .filter((logEntry: SchemaDocument) => logEntry.Content.SeverityLevel?.toLowerCase() !== CommonConstants.LogLevels.verbose)
               .map((logEntry: SchemaDocument, logIndex: number) => {
                 return (
                   <div
