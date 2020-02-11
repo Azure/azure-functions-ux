@@ -23,6 +23,10 @@ import FunctionKeyAddEdit from './FunctionKeyAddEdit';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { SiteStateContext } from '../../../../SiteStateContext';
 import SiteHelper from '../../../../utils/SiteHelper';
+import { LogCategories } from '../../../../utils/LogCategories';
+import LogService from '../../../../utils/LogService';
+import { PortalContext } from '../../../../PortalContext';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 
 interface FunctionKeysProps {
   resourceId: string;
@@ -50,9 +54,11 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
   const [shownValues, setShownValues] = useState<string[]>([]);
+  const [deletingKey, setDeletingKey] = useState(false);
 
   const functionKeysContext = useContext(FunctionKeysContext);
   const theme = useContext(ThemeContext);
+  const portalCommunicator = useContext(PortalContext);
 
   const siteStateContext = useContext(SiteStateContext);
   const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext);
@@ -150,9 +156,21 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     setShownValues([...newShownValues]);
   };
 
-  const deleteHostKey = (itemKey: string) => {
-    functionKeysContext.deleteKey(resourceId, itemKey);
-    refreshData();
+  const deleteHostKey = async (itemKey: string) => {
+    setDeletingKey(true);
+    const notificationId = portalCommunicator.startNotification(
+      t('deleteFunctionKeyNotification'),
+      t('deleteFunctionKeyNotificationDetails').format(itemKey)
+    );
+    const response = await functionKeysContext.deleteKey(resourceId, itemKey);
+    if (response.metadata.success) {
+      portalCommunicator.stopNotification(notificationId, true, t('deleteFunctionKeyNotificationSuccess').format(itemKey));
+      refreshData();
+    } else {
+      portalCommunicator.stopNotification(notificationId, false, t('deleteFunctionKeyNotificationFailed').format(itemKey));
+      LogService.error(LogCategories.functionKeys, 'delete keys', `Failed to delete keys: ${response.metadata.error}`);
+    }
+    setDeletingKey(false);
   };
 
   const onRenderColumnItem = (item: FunctionKeysModel, index: number, column: IColumn) => {
@@ -261,6 +279,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
 
   return (
     <div>
+      {deletingKey && <LoadingComponent overlay={true} />}
       <div id="command-bar" className={commandBarSticky}>
         <FunctionKeysCommandBar refreshFunction={refreshData} />
       </div>
