@@ -5679,7 +5679,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="emptyFunctionKeys" xml:space="preserve">
         <value>(no function keys to display)</value>
     </data>
-    <data name="featureNotSupportedPremium" xml:space="preserve">
+    <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>This feature is not supported for apps on a Premium plan</value>
     </data>
 </root>

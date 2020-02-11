@@ -54,7 +54,7 @@ export class FunctionAppEnvironment extends Environment {
         if (this._isPremium(input.site)) {
           return {
             status: 'disabled',
-            data: this._ts.instant(PortalResources.featureNotSupportedPremium),
+            data: this._ts.instant(PortalResources.featureNotSupportedForPremium),
           };
         } else {
           return null;
