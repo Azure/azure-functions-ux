@@ -132,11 +132,14 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
                     <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
                     <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
+                    <FunctionIntegrateLoadable resourceId={value.resourceId} path="/functions/:functionName/integrate" />
                     <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
                     <FunctionCreateLoadable resourceId={value.resourceId} path="/functioncreate" />
                     <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
                     <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
+                    <FunctionKeysLoadable resourceId={value.resourceId} path="/functions/:functionName/functionkeys" />
                     <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
+                    <FunctionEditorLoadable resourceId={value.resourceId} path="/functions/:functionName/functioneditor" />
                     <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
                     <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
                   </Router>
