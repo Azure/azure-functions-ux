@@ -15,7 +15,7 @@ export default class FunctionKeysData {
   };
 
   public deleteKey = (resourceId: string, keyName: string) => {
-    FunctionsService.deleteKey(resourceId, keyName);
+    return FunctionsService.deleteKey(resourceId, keyName);
   };
 
   public createKey = (resourceId: string, keyName: string, keyValue: string) => {
