@@ -26,6 +26,7 @@ import AppInsightsService from '../../../../ApiHelpers/AppInsightsService';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
 import { AppInsightsComponent } from '../../../../models/app-insights';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
+import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -57,39 +58,54 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const fetchData = async () => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
-    const siteResourceId = armSiteDescriptor.getSiteOnlyResourceId();
-    const [siteResponse, functionInfoResponse, appSettingsResponse, appKeysResponse, functionKeysResponse] = await Promise.all([
+    const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
+    const [
+      siteResponse,
+      functionInfoResponse,
+      appSettingsResponse,
+      appKeysResponse,
+      functionKeysResponse,
+      hostStatusResponse,
+    ] = await Promise.all([
       siteContext.fetchSite(siteResourceId),
       functionEditorData.getFunctionInfo(resourceId),
       SiteService.fetchApplicationSettings(siteResourceId),
       AppKeyService.fetchKeys(siteResourceId),
       FunctionsService.fetchKeys(resourceId),
+      SiteService.fetchFunctionsHostStatus(siteResourceId),
     ]);
 
     if (siteResponse.metadata.success) {
       setSite(siteResponse.data);
     }
+
     if (functionInfoResponse.metadata.success) {
       setFunctionInfo(functionInfoResponse.data);
     }
+
     if (appSettingsResponse.metadata.success && appSettingsResponse.data.properties) {
       const appSettings = appSettingsResponse.data.properties;
-      const currentRuntimeVersion = appSettings[CommonConstants.AppSettingNames.functionsExtensionVersion];
-      setRuntimeVersion(currentRuntimeVersion);
       const appInsightsConnectionString = appSettings[CommonConstants.AppSettingNames.appInsightsConnectionString];
       const appInsightsInstrumentationKey = appSettings[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
 
-      const [hostJsonResponse, fileListResponse, appInsightsResponse] = await Promise.all([
+      const appInsightsResponse = await (appInsightsConnectionString
+        ? AppInsightsService.getAppInsightsComponentFromConnectionString(appInsightsConnectionString, startupInfoContext.subscriptions)
+        : appInsightsInstrumentationKey
+        ? AppInsightsService.getAppInsightsComponentFromInstrumentationKey(appInsightsInstrumentationKey, startupInfoContext.subscriptions)
+        : null);
+
+      if (appInsightsResponse) {
+        setAppInsightsComponent(appInsightsResponse as ArmObj<AppInsightsComponent>);
+      }
+    }
+
+    if (hostStatusResponse.metadata.success) {
+      const hostStatusData = hostStatusResponse.data;
+      const currentRuntimeVersion = getRuntimeVersionString(hostStatusData.properties.version);
+      setRuntimeVersion(currentRuntimeVersion);
+      const [hostJsonResponse, fileListResponse] = await Promise.all([
         FunctionsService.getHostJson(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
         FunctionsService.getFileContent(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
-        appInsightsConnectionString
-          ? AppInsightsService.getAppInsightsComponentFromConnectionString(appInsightsConnectionString, startupInfoContext.subscriptions)
-          : appInsightsInstrumentationKey
-          ? AppInsightsService.getAppInsightsComponentFromInstrumentationKey(
-              appInsightsInstrumentationKey,
-              startupInfoContext.subscriptions
-            )
-          : null,
       ]);
       if (hostJsonResponse && hostJsonResponse.metadata.success) {
         setHostJsonContent(hostJsonResponse.data);
@@ -98,18 +114,25 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       if (fileListResponse && fileListResponse.metadata.success) {
         setFileList(fileListResponse.data as VfsObject[]);
       }
-
-      if (appInsightsResponse) {
-        setAppInsightsComponent(appInsightsResponse as ArmObj<AppInsightsComponent>);
-      }
     }
+
     if (appKeysResponse.metadata.success) {
       setHostKeys(appKeysResponse.data);
     }
+
     if (functionKeysResponse.metadata.success) {
       setFunctionKeys(functionKeysResponse.data);
     }
+
     setInitialLoading(false);
+  };
+
+  const getRuntimeVersionString = (exactVersion: string): string => {
+    if (ValidationRegex.runtimeVersion.test(exactVersion)) {
+      const versionElements = exactVersion.split('.');
+      return `~${versionElements[0]}`;
+    }
+    return exactVersion;
   };
 
   const createAndGetFunctionInvokeUrlPath = (key?: string) => {
@@ -256,7 +279,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const getQueryString = (queries: NameValuePair[]): string => {
-    const queryString = queries.map(query => `${query.name}=${query.value}`);
+    const queryString = queries.map(query => `${encodeURIComponent(query.name)}=${encodeURIComponent(query.value)}`);
     return queryString.join('&');
   };
 
