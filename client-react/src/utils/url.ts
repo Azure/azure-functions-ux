@@ -94,19 +94,18 @@ export default class Url {
   }
 
   public static getMainUrl(site: ArmObj<Site>) {
-    if (window.appsvc && window.appsvc.env.runtimeType === 'Standalone' && !!site) {
+    if (window.appsvc && window.appsvc.env.runtimeType.toLowerCase() === 'standalone' && !!site) {
       return `https://${site.properties.defaultHostName}/functions/${site.name}`;
     }
     return `https://${site.properties.defaultHostName}`;
   }
 
   public static getScmUrl(site: ArmObj<Site>) {
-    if (window.appsvc && window.appsvc.env.runtimeType === 'Standalone') {
+    if (window.appsvc && window.appsvc.env.runtimeType.toLowerCase() === 'standalone') {
       return this.getMainUrl(site);
     } else {
-      const scmHostName =
-        site.properties.hostNameSslStates && site.properties.hostNameSslStates.find(s => s.hostType === HostType.Repository);
-      return scmHostName ? `https://${scmHostName.name}` : this.getMainUrl(site);
+      const scmHost = site.properties.hostNameSslStates && site.properties.hostNameSslStates.find(s => s.hostType === HostType.Repository);
+      return scmHost ? `https://${scmHost.name}` : this.getMainUrl(site);
     }
   }
 
