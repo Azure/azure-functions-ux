@@ -139,11 +139,9 @@ const getDefaultValues = (bindingType: BindingType, filteredBindings: Binding[])
     for (const setting of binding.settings || []) {
       defaultValues[setting.name] = setting.defaultValue;
     }
-
-    return defaultValues;
   }
 
-  return {};
+  return defaultValues;
 };
 
 const actionBarPrimaryButtonProps = (formProps: FormikProps<BindingInfo>, t: i18next.TFunction) => {
