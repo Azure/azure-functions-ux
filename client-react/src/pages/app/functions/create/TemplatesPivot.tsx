@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import CreateCard from './CreateCard';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { PivotState } from './FunctionCreate';
-import { SearchBox, Link } from 'office-ui-fabric-react';
-import { filterBoxStyle, extensionBundlesRequiredStyle } from './FunctionCreate.styles';
+import { SearchBox, Link, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { filterBoxStyle } from './FunctionCreate.styles';
 import { useTranslation } from 'react-i18next';
 import { Order } from './CreateConstants';
 import { Binding } from '../../../../models/functions/binding';
@@ -55,12 +55,12 @@ const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
 
       {/*Extension Bundles Required Message*/}
       {!hostStatus.version.startsWith('1') && !hostStatus.extensionBundle && (
-        <p className={extensionBundlesRequiredStyle()}>
+        <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
           {t('functionCreate_extensionBundlesRequired')}
           <Link href={CommonConstants.Links.extensionBundlesRequiredLearnMore} target="_blank" className={learnMoreLinkStyle}>
             {t('learnMore')}
           </Link>
-        </p>
+        </MessageBar>
       )}
     </>
   );
