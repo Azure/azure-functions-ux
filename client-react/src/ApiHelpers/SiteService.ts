@@ -8,6 +8,9 @@ import { SiteConfig, ArmAzureStorageMount } from '../models/site/config';
 import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
 import { HostStatus } from '../models/functions/host-status';
+import { isLinuxDynamic } from '../utils/arm-utils';
+import { sendHttpRequest } from './HttpClient';
+import Url from '../utils/url';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -147,5 +150,13 @@ export default class SiteService {
   public static fetchFunctionsHostStatus = async (resourceId: string, force?: boolean) => {
     const id = `${resourceId}/host/default/properties/status`;
     return MakeArmCall<ArmObj<HostStatus>>({ resourceId: id, commandName: 'getHostStatus', skipBuffer: force });
+  };
+
+  public static fireSyncTrigger = (site: ArmObj<Site>, token: string) => {
+    if (isLinuxDynamic(site)) {
+      return MakeArmCall<any>({ resourceId: `${site.id}/hostruntime/admin/host/synctriggers`, commandName: 'syncTrigger', method: 'POST' });
+    } else {
+      return sendHttpRequest({ url: Url.getSyncTriggerUrl(site), method: 'POST', headers: { Authorization: `Bearer ${token}` } });
+    }
   };
 }
