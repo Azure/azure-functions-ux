@@ -127,21 +127,3 @@ export const getInfoStyle = () => {
     fontSize: '12px',
   });
 };
-
-export const getSelectStyle = () => {
-  return style({
-    position: 'absolute',
-    fontSize: '12px',
-    color: '#015CDA',
-    bottom: '12px',
-  });
-};
-
-export const extensionBundlesRequiredStyle = () => {
-  return style({
-    marginRight: '20px',
-    marginTop: '200px',
-    position: 'fixed',
-    textAlign: 'center',
-  });
-};

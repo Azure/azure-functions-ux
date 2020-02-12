@@ -3,7 +3,13 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import { useTranslation } from 'react-i18next';
 import { Link, IDropdownOption, registerIcons, Icon } from 'office-ui-fabric-react';
-import { formStyle, dropdownIconStyle, quickstartDropdownContainerStyle, quickstartDropdownLabelStyle } from './FunctionQuickstart.styles';
+import {
+  formStyle,
+  dropdownIconStyle,
+  quickstartDropdownContainerStyle,
+  quickstartDropdownLabelStyle,
+  quickstartLinkStyle,
+} from './FunctionQuickstart.styles';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs_code.svg';
@@ -14,6 +20,9 @@ import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
 import Markdown from 'markdown-to-jsx';
 import { MarkdownHighlighter } from '../../../../components/MarkdownComponents/MarkdownComponents';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
+import { ThemeContext } from '../../../../ThemeContext';
+import StringUtils from '../../../../utils/string';
+import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
 
 registerIcons({
   icons: {
@@ -40,10 +49,23 @@ export interface QuickstartOption {
 
 const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   const { t } = useTranslation();
-  const { site, workerRuntime } = props;
+  const { site, workerRuntime, resourceId } = props;
   const [file, setFile] = useState('');
+
   const quickstartContext = useContext(FunctionQuickstartContext);
   const startupInfoContext = useContext(StartupInfoContext);
+  const theme = useContext(ThemeContext);
+
+  const getParameters = (): { [key: string]: string } => {
+    const resourceDescriptor = new ArmResourceDescriptor(resourceId);
+    return {
+      functionAppName: site.name,
+      region: site.location,
+      resourceGroup: site.properties.resourceGroup,
+      subscriptionName: resourceDescriptor.subscription,
+      workerRuntime: workerRuntime || '',
+    };
+  };
 
   const isVSOptionVisible = (): boolean => {
     return !isLinuxApp(site) && workerRuntime === 'dotnet';
@@ -100,7 +122,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
     const key = option.key as string;
     const result = await quickstartContext.getQuickstartFile(key, startupInfoContext.effectiveLocale);
     if (result.metadata.success) {
-      setFile(result.data);
+      setFile(StringUtils.formatString(result.data, getParameters()));
     }
   };
 
@@ -149,6 +171,11 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
           overrides: {
             MarkdownHighlighter: {
               component: MarkdownHighlighter,
+            },
+            a: {
+              props: {
+                className: quickstartLinkStyle(theme),
+              },
             },
           },
         }}>
