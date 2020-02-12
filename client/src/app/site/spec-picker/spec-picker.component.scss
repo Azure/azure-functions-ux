@@ -177,6 +177,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
     margin: 0;
     display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
   }
 
   .feature-list {
@@ -184,6 +185,8 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
     max-width: 700px;
     margin-top: 10px;
     width: calc(100% / 2);
+    position: relative;
+    min-width: 250px;
   }
 
   .feature-item {

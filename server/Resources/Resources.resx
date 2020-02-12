@@ -5509,6 +5509,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Creating {0}</value>
     </data>
     <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Failed to create {0}</value>
+    </data>
+    <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>Failed to create {0}: {1}</value>
     </data>
     <data name="createFunctionNotificationSuccess" xml:space="preserve">
@@ -5678,5 +5681,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="emptyFunctionKeys" xml:space="preserve">
         <value>(no function keys to display)</value>
+    </data>
+    <data name="featureNotSupportedForPremium" xml:space="preserve">
+        <value>This feature is not supported for apps on a Premium plan</value>
+    </data>
+    <data name="deleteFunctionKeyNotification" xml:space="preserve">
+        <value>Deleting function key</value>
+    </data>
+    <data name="deleteFunctionKeyNotificationDetails" xml:space="preserve">
+        <value>Deleting {0}</value>
+    </data>
+    <data name="deleteFunctionKeyNotificationFailed" xml:space="preserve">
+        <value>Failed to delete {0}</value>
+    </data>
+    <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
+        <value>Succeeded in deleting {0}</value>
     </data>
 </root>
