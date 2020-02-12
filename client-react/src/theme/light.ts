@@ -41,6 +41,7 @@ export const AzurePortalColors = {
   controlErrorStateOutline: '#e00b1c',
   controlDirtyOutline: '#8a2da5',
   cardBorderColor: '#b2b2b2',
+  hyperlinkHoverText: '#004578',
 };
 
 const themePalette: IPalette = {
@@ -184,7 +185,7 @@ const semanticColors = {
   actionLink: AzurePortalColors.hyperlinkText,
   actionLinkHovered: AzurePortalColors.hyperlinkText,
   link: AzurePortalColors.hyperlinkText,
-  linkHovered: AzurePortalColors.hyperlinkText,
+  linkHovered: AzurePortalColors.hyperlinkHoverText,
 
   // Deprecated slots, second pass by _fixDeprecatedSlots() later for self-referential slots
   listTextColor: '',
