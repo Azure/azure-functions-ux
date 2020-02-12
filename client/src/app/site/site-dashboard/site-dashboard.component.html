@@ -27,6 +27,7 @@
     </nav>
 
     <img check-scenario="ShowSitePin"
+        *ngIf="!isPreview"
          [cs-input]="{}"
          cs-enabledByDefault="true"
          id="site-dashboard-pin"

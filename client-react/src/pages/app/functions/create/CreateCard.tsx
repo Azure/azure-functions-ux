@@ -1,14 +1,6 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from '../../../../ThemeContext';
-import {
-  getCardStyle,
-  getHeaderStyle,
-  getDescriptionStyle,
-  getTitleStyle,
-  getInfoStyle,
-  getSelectStyle,
-  getSvg,
-} from './FunctionCreate.styles';
+import { getCardStyle, getHeaderStyle, getDescriptionStyle, getTitleStyle, getInfoStyle, getSvg } from './FunctionCreate.styles';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { PivotState } from './FunctionCreate';
 import { KeyCodes } from 'office-ui-fabric-react';
@@ -45,7 +37,6 @@ const CreateCard: React.SFC<CreateCardProps> = props => {
       <div className={getDescriptionStyle()}>
         <div className={getTitleStyle()}>{getFunctionTitle(functionTemplate, hostStatus)}</div>
         <div className={getInfoStyle()}>{functionTemplate.description}</div>
-        <div className={getSelectStyle()}>{'Select >'}</div>
       </div>
     </div>
   );

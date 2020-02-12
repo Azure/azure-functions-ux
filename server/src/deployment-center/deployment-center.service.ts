@@ -6,7 +6,7 @@ import { SourceControlProvider } from '../types/source-control-provider';
 import * as crypto from 'crypto';
 import { LoggingService } from '../shared/logging/logging.service';
 import { TokenData } from './deployment-center';
-import { HttpUtil } from 'src/utilities/http.util';
+import { HttpUtil } from '../utilities/http.util';
 
 @Injectable()
 export class DeploymentCenterService {
