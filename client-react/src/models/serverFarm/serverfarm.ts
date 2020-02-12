@@ -29,6 +29,7 @@ export interface ServerFarm {
   hostingEnvironmentId: string;
   isLinux: boolean;
   isXenon: boolean;
+  hyperV: boolean;
   kind: string;
   reserved: boolean;
   tags: { [key: string]: string };
