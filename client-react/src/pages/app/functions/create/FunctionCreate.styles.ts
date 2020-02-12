@@ -127,12 +127,3 @@ export const getInfoStyle = () => {
     fontSize: '12px',
   });
 };
-
-export const extensionBundlesRequiredStyle = () => {
-  return style({
-    marginRight: '20px',
-    marginTop: '200px',
-    position: 'fixed',
-    textAlign: 'center',
-  });
-};
