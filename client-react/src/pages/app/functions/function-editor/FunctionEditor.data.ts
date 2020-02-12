@@ -36,6 +36,9 @@ export default class FunctionEditorData {
       }
       response.headers = headers;
     }
+    if (!!data.body) {
+      response.body = data.body;
+    }
     return response;
   }
 }
