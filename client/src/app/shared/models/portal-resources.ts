@@ -1647,7 +1647,9 @@ export class PortalResources {
   public static integrateCreateTrigger = 'integrateCreateTrigger';
   public static integrateAddInput = 'integrateAddInput';
   public static integrateCreateInput = 'integrateCreateInput';
-  public static integrateCreateBindingInstructions = 'integrateCreateBindingInstructions';
+  public static integrateCreateInputBindingInstructions = 'integrateCreateInputBindingInstructions';
+  public static integrateCreateOutputBindingInstructions = 'integrateCreateOutputBindingInstructions';
+  public static integrateCreateTriggerBindingInstructions = 'integrateCreateTriggerBindingInstructions';
   public static integrateBindingType = 'integrateBindingType';
   public static integrateCreateBindingTypeDetails = 'integrateCreateBindingTypeDetails';
   public static _function = '_function';

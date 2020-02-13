@@ -1,38 +1,42 @@
 import { Field, Formik, FormikProps } from 'formik';
 import i18next from 'i18next';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption, Link, MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../../components/ActionBar';
-import Dropdown from '../../../../../components/form-controls/DropDown';
+import { learnMoreLinkStyle } from '../../../../../components/form-controls/formControl.override.styles';
 import { FormControlWrapper, Layout } from '../../../../../components/FormControlWrapper/FormControlWrapper';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { Binding, BindingDirection } from '../../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../../models/functions/function-binding';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { BindingFormBuilder } from '../../common/BindingFormBuilder';
+import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
 import { getFunctionBindingDirection } from './BindingEditor';
+import Dropdown from '../../../../../components/form-controls/DropDown';
 
 export interface BindingCreatorProps {
+  bindingDirection: BindingDirection;
   bindings: Binding[];
   functionAppId: string;
-  bindingDirection: BindingDirection;
+  onlyBuiltInBindings: boolean;
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo) => void;
   setRequiredBindingId: (id: string) => void;
 }
 
 const BindingCreator: React.SFC<BindingCreatorProps> = props => {
-  const { onSubmit, onPanelClose, functionAppId, bindings, bindingDirection, setRequiredBindingId } = props;
+  const { bindingDirection, bindings, functionAppId, onlyBuiltInBindings, onPanelClose, onSubmit, setRequiredBindingId } = props;
   const [currentType, setCurrentType] = useState<BindingType>(
     bindingDirection === BindingDirection.trigger ? BindingType.httpTrigger : BindingType.blob
   );
   const { t } = useTranslation();
 
-  const filteredBindings = bindings.filter(binding => {
+  const directionalBindings = bindings.filter(binding => {
     return binding.direction === bindingDirection;
   });
 
-  getRequiredBindingData(filteredBindings, setRequiredBindingId);
+  getRequiredBindingData(directionalBindings, setRequiredBindingId);
 
   if (!bindings) {
     return <LoadingComponent />;
@@ -42,8 +46,14 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
     name: '',
     direction: getFunctionBindingDirection(bindingDirection),
     type: currentType,
-    ...getDefaultValues(currentType, filteredBindings),
+    ...getDefaultValues(currentType, directionalBindings),
   };
+
+  const filteredBindings = onlyBuiltInBindings
+    ? directionalBindings.filter(binding => {
+        return FunctionIntegrateConstants.builtInBindingTypes.includes(binding.type);
+      })
+    : directionalBindings;
 
   const dropdownOptions: IDropdownOption[] = filteredBindings.map(binding => {
     return { key: binding.type, text: binding.displayName };
@@ -59,19 +69,36 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
       {(formProps: FormikProps<BindingInfo>) => {
         return (
           <form>
-            <p>{t('integrateCreateBindingInstructions').format(formProps.values.direction)}</p>
+            <p>{getInstructions(formProps.values.direction, t)}</p>
             <FormControlWrapper label={t('integrateBindingType')} layout={Layout.vertical}>
-              <Field component={Dropdown} name="type" options={dropdownOptions} {...formProps} />
+              <Field
+                component={Dropdown}
+                name="type"
+                disabled={onlyBuiltInBindings && dropdownOptions.length === 0}
+                options={dropdownOptions}
+                {...formProps}
+              />
             </FormControlWrapper>
 
-            {formProps.values.type ? (
+            {/* Extension bundles warning */}
+            {onlyBuiltInBindings ? (
+              <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
+                {t('functionCreate_extensionBundlesRequired')}
+                <Link href={CommonConstants.Links.extensionBundlesRequiredLearnMore} target="_blank" className={learnMoreLinkStyle}>
+                  {t('learnMore')}
+                </Link>
+              </MessageBar>
+            ) : null}
+
+            {/* Binding specific fields */}
+            {dropdownOptions.length > 0 && formProps.values.type ? (
               <div>
                 <h3>
                   {t('integrateCreateBindingTypeDetails').format(
-                    (filteredBindings.find(binding => formProps.values.type === binding.type) as Binding).displayName
+                    (directionalBindings.find(binding => formProps.values.type === binding.type) as Binding).displayName
                   )}
                 </h3>
-                {bindingTypeSpecificFields(formProps, filteredBindings, functionAppId, t, currentType, setCurrentType)}
+                {bindingTypeSpecificFields(formProps, directionalBindings, functionAppId, t, currentType, setCurrentType)}
               </div>
             ) : null}
 
@@ -142,6 +169,20 @@ const getDefaultValues = (bindingType: BindingType, filteredBindings: Binding[])
   }
 
   return defaultValues;
+};
+
+const getInstructions = (bindingDirection: BindingDirection, t: i18next.TFunction) => {
+  switch (bindingDirection) {
+    case BindingDirection.in: {
+      return t('integrateCreateInputBindingInstructions');
+    }
+    case BindingDirection.out: {
+      return t('integrateCreateOutputBindingInstructions');
+    }
+    default: {
+      return t('integrateCreateTriggerBindingInstructions');
+    }
+  }
 };
 
 const actionBarPrimaryButtonProps = (formProps: FormikProps<BindingInfo>, t: i18next.TFunction) => {
