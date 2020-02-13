@@ -1,3 +1,5 @@
+import { isEqual } from 'lodash-es';
+
 export default class StringUtils {
   public static fileSeparator = '\\';
 
@@ -21,5 +23,12 @@ export default class StringUtils {
     }
 
     return updatedValue;
+  }
+
+  public static isEqualStringArray(items: string[] | null, otherItems: string[] | null): boolean {
+    const itmesSorted = items && items.sort();
+    const otherItemsSorted = otherItems && otherItems.sort();
+
+    return isEqual(itmesSorted, otherItemsSorted);
   }
 }
