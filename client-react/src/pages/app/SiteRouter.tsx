@@ -14,6 +14,8 @@ import { CommonConstants } from '../../utils/CommonConstants';
 import { ArmObj } from '../../models/arm-obj';
 import { Site } from '../../models/site/site';
 import { PortalContext } from '../../PortalContext';
+import { SiteConfig } from '../../models/site/config';
+import SiteHelper from '../../utils/SiteHelper';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -57,7 +59,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
   const [siteAppEditState, setSiteAppEditState] = useState(FunctionAppEditMode.ReadWrite);
 
-  const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode => {
+  const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site)) {
       return FunctionAppEditMode.ReadOnlyLinuxDynamic;
     }
@@ -67,10 +69,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     if (isLinuxApp(site) && isElastic(site)) {
       return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
     }
-    return FunctionAppEditMode.ReadWrite;
+    return undefined;
   };
 
-  const getSiteStateFromAppSettings = (appSettings: ArmObj<{ [key: string]: string }>): FunctionAppEditMode => {
+  const getSiteStateFromAppSettings = (appSettings: ArmObj<{ [key: string]: string }>): FunctionAppEditMode | undefined => {
     if (FunctionAppService.usingRunFromPackage(appSettings)) {
       return FunctionAppEditMode.ReadOnlyRunFromPackage;
     }
@@ -87,27 +89,48 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     if (editModeString.toLowerCase() === SiteState.readonly) {
       return FunctionAppEditMode.ReadOnly;
     }
+    if (editModeString.toLowerCase() === SiteState.readwrite) {
+      return FunctionAppEditMode.ReadWrite;
+    }
+
+    return undefined;
+  };
+
+  const resolveAndGetUndefinedSiteState = (armSiteDescriptor: ArmSiteDescriptor, config?: ArmObj<SiteConfig>) => {
+    if (!!config && SiteHelper.isSourceControlEnabled(config)) {
+      return FunctionAppEditMode.ReadOnlySourceControlled;
+    }
+    if (armSiteDescriptor.slot) {
+      return FunctionAppEditMode.ReadOnlySlots;
+    }
     return FunctionAppEditMode.ReadWrite;
   };
 
   const findAndSetSiteState = async () => {
     if (!!resourceId) {
       const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
-      const siteResourceId = armSiteDescriptor.getSiteOnlyResourceId();
-      const site = await SiteService.fetchSite(siteResourceId);
+      const trimmedResourceId = armSiteDescriptor.getTrimmedResourceId();
+      const site = await SiteService.fetchSite(trimmedResourceId);
       if (site.metadata.success && isFunctionApp(site.data)) {
-        let functionAppEditMode = FunctionAppEditMode.ReadWrite;
-        const readOnlyLock = await portalContext.hasLock(siteResourceId, 'ReadOnly');
+        let functionAppEditMode: FunctionAppEditMode | undefined;
+        const readOnlyLock = await portalContext.hasLock(trimmedResourceId, 'ReadOnly');
         if (readOnlyLock) {
           functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
         } else {
           functionAppEditMode = getSiteStateFromSiteData(site.data);
           if (functionAppEditMode === FunctionAppEditMode.ReadWrite) {
-            const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
+            const appSettingsResponse = await SiteService.fetchApplicationSettings(trimmedResourceId);
             if (appSettingsResponse.metadata.success) {
               functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
             }
           }
+        }
+        if (!functionAppEditMode) {
+          const configResponse = await SiteService.fetchWebConfig(trimmedResourceId);
+          functionAppEditMode = resolveAndGetUndefinedSiteState(
+            armSiteDescriptor,
+            configResponse.metadata.success ? configResponse.data : undefined
+          );
         }
         setSiteAppEditState(functionAppEditMode);
       }
