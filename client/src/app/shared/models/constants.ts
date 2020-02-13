@@ -677,6 +677,8 @@ export class RuntimeStacks {
   public static node = 'node';
   public static python = 'python';
   public static dotnetcore = 'dotnetcore';
+  public static java8 = 'java-8';
+  public static java11 = 'java-11';
 }
 
 export class Os {

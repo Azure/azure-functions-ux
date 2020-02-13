@@ -194,21 +194,44 @@ export class DeploymentCenterStateManager implements OnDestroy {
     configMetadata: { [key: string]: string }
   ) {
     if (configMetadata['CURRENT_STACK']) {
-      this.stack = configMetadata['CURRENT_STACK'].toLowerCase();
+      const metadataStack = configMetadata['CURRENT_STACK'].toLowerCase();
+
+      // NOTE(michinoy): Java is special, so need to handle it carefully.
+      if (metadataStack === 'java') {
+        this.stack = siteConfig.javaVersion === '1.8' ? RuntimeStacks.java8 : RuntimeStacks.java11;
+      } else {
+        this.stack = metadataStack;
+      }
     }
 
     if (this.stack === RuntimeStacks.node) {
       this.stackVersion = siteAppSettings[Constants.nodeVersionAppSettingName];
     } else if (this.stack === RuntimeStacks.python) {
       this.stackVersion = siteConfig.pythonVersion;
-    } else {
+    } else if (this.stack === RuntimeStacks.java8 || this.stack === RuntimeStacks.java11) {
+      this.stackVersion = `${siteConfig.javaVersion}|${siteConfig.javaContainer}|${siteConfig.javaContainerVersion}`;
+    } else if (this.stack === '') {
       this.stackVersion = '';
     }
   }
 
   private _setStackAndVersionForLinux(siteConfig: SiteConfig) {
     const linuxFxVersionParts = siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion.split('|') : [];
-    this.stack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : null;
+    const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : null;
+
+    // NOTE(michinoy): Java is special, so need to handle it carefully.
+    if (runtimeStack === 'java' || runtimeStack === 'tomcat') {
+      const fxVersionParts = !!siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion.split('-') : [];
+      const fxStack = fxVersionParts.length === 2 ? fxVersionParts[1].toLocaleLowerCase() : '';
+      if (fxStack === 'java8' || fxStack === 'java11') {
+        this.stack = fxStack === 'java8' ? RuntimeStacks.java8 : RuntimeStacks.java11;
+      } else {
+        this.stack = '';
+      }
+    } else {
+      this.stack = runtimeStack;
+    }
+
     this.stackVersion = !!siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion : '';
   }
 
