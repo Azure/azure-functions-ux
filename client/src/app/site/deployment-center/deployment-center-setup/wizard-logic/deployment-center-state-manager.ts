@@ -227,7 +227,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
 
   private _setStackAndVersionForLinux(siteConfig: SiteConfig) {
     const linuxFxVersionParts = siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion.split('|') : [];
-    const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : null;
+    const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
 
     // NOTE(michinoy): Java is special, so need to handle it carefully.
     if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat) {
