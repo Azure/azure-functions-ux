@@ -1,8 +1,9 @@
 import { Field, Formik, FormikProps } from 'formik';
-import { Dropdown, Link } from 'office-ui-fabric-react';
+import { Link } from 'office-ui-fabric-react';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
+import Dropdown from '../../../../../components/form-controls/DropDown';
 import { FormControlWrapper, Layout } from '../../../../../components/FormControlWrapper/FormControlWrapper';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../../models/functions/binding';
@@ -13,7 +14,7 @@ import { PortalContext } from '../../../../../PortalContext';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import { BindingFormBuilder } from '../../common/BindingFormBuilder';
-import { EventGrid } from '../FunctionIntegrateConstants';
+import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
 import EditBindingCommandBar from './EditBindingCommandBar';
 
 export interface BindingEditorProps {
@@ -102,7 +103,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
                 {builder.getFields(formProps, isDisabled)}
               </div>
             </form>
-            {currentBinding.type === EventGrid.eventGridType ? (
+            {currentBinding.type === FunctionIntegrateConstants.eventGridType ? (
               <Link onClick={() => onEventGridCreateClick(functionInfo, portalContext)}>{t('eventGrid_createConnection')}</Link>
             ) : (
               undefined

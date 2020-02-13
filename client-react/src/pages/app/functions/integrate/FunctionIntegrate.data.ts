@@ -20,4 +20,8 @@ export default class FunctionIntegrateData {
   public updateFunction(functionResourceId: string, functionInfo: ArmObj<FunctionInfo>): Promise<HttpResponseObject<ArmObj<FunctionInfo>>> {
     return FunctionsService.updateFunction(functionResourceId, functionInfo);
   }
+
+  public getHostStatus(resourceId: string) {
+    return FunctionsService.getHostStatus(resourceId);
+  }
 }
