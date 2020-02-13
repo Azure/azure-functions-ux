@@ -685,3 +685,15 @@ export class Os {
   public static linux: 'linux' | 'windows' = 'linux';
   public static windows: 'linux' | 'windows' = 'windows';
 }
+
+export class JavaVersions {
+  public static WindowsVersion8 = '1.8';
+  public static WindowsVersion11 = '11';
+  public static LinuxVersion8 = 'java8';
+  public static LinuxVersion11 = 'java11';
+}
+
+export class JavaContainers {
+  public static JavaSE = 'java';
+  public static Tomcat = 'tomcat';
+}

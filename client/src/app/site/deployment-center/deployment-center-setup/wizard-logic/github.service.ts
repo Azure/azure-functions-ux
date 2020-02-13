@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Constants, DeploymentCenterConstants, RuntimeStacks } from 'app/shared/models/constants';
+import { Constants, DeploymentCenterConstants, RuntimeStacks, JavaContainers } from 'app/shared/models/constants';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Guid } from 'app/shared/Utilities/Guid';
 import { Observable } from 'rxjs/Observable';
@@ -128,10 +128,10 @@ export class GithubService implements OnDestroy {
         break;
       case RuntimeStacks.java8:
       case RuntimeStacks.java11:
-        if (this._isJavaJarBuild(isLinuxApp, buildSettings)) {
-          content = this._getJavaJarGithubActionWorkflowDefinition(webAppName, branch, isLinuxApp, secretName, runtimeStackVersion);
-        } else {
+        if (this._isJavaWarBuild(buildSettings)) {
           content = this._getJavaWarGithubActionWorkflowDefinition(webAppName, branch, isLinuxApp, secretName, runtimeStackVersion);
+        } else {
+          content = this._getJavaJarGithubActionWorkflowDefinition(webAppName, branch, isLinuxApp, secretName, runtimeStackVersion);
         }
         break;
       default:
@@ -157,8 +157,8 @@ export class GithubService implements OnDestroy {
     }
   }
 
-  private _isJavaJarBuild(isLinuxApp: boolean, buildSettings: BuildSettings) {
-    return true;
+  private _isJavaWarBuild(buildSettings: BuildSettings) {
+    return buildSettings.runtimeStackVersion.toLocaleLowerCase().indexOf(JavaContainers.Tomcat) > 0;
   }
 
   // TODO(michinoy): Need to implement templated github action workflow generation.
