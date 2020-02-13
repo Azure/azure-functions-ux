@@ -38,12 +38,7 @@ export class StaticSitesController {
   @HttpCode(200)
   async user(@Body('accessToken') accessToken: string) {
     try {
-      const response = await this.httpService.get(`${Constants.githubApiUrl}/user`, {
-        headers: {
-          Authorization: `token ${accessToken}`,
-        },
-      });
-
+      const response = await this._getGithubUser(accessToken);
       return { login: response.data.login };
     } catch (err) {
       if (err.response) {
@@ -57,11 +52,7 @@ export class StaticSitesController {
   @HttpCode(200)
   async orgs(@Body('accessToken') accessToken: string) {
     try {
-      const userPromise = this.httpService.get(`${Constants.githubApiUrl}/user`, {
-        headers: {
-          Authorization: `token ${accessToken}`,
-        },
-      });
+      const userPromise = this._getGithubUser(accessToken);
 
       const orgPromise = this.httpService.get(`${Constants.githubApiUrl}/user/orgs`, {
         headers: {
@@ -139,38 +130,37 @@ export class StaticSitesController {
   }
 
   private _processOrgs(data: any[]): { login: string; url: string }[] {
-    const newOrgList: any[] = [];
-    data.forEach(org => {
-      newOrgList.push({
+    return data.map(org => {
+      return {
         login: org.login,
         url: org.url,
-      });
+      };
     });
-
-    return newOrgList;
   }
 
   private _processBranches(data: any[]): { name: string }[] {
-    const newBranchList: any[] = [];
-    data.forEach(branch => {
-      newBranchList.push({
+    return data.map(branch => {
+      return {
         name: branch.name,
-      });
+      };
     });
-
-    return newBranchList;
   }
 
   private _processRepos(data: any[]): { name: string; html_url: string }[] {
-    const newRepoList: any[] = [];
-    data.forEach(repo => {
-      newRepoList.push({
+    return data.map(repo => {
+      return {
         name: repo.name,
         html_url: repo.html_url,
         full_name: repo.full_name,
-      });
+      };
     });
+  }
 
-    return newRepoList;
+  private _getGithubUser(accessToken: string): Promise<any> {
+    return this.httpService.get(`${Constants.githubApiUrl}/user`, {
+      headers: {
+        Authorization: `token ${accessToken}`,
+      },
+    });
   }
 }
