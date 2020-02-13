@@ -34,6 +34,25 @@ export class StaticSitesController {
     }
   }
 
+  @Post('github/user')
+  @HttpCode(200)
+  async user(@Body('accessToken') accessToken: string) {
+    try {
+      const response = await this.httpService.get(`${Constants.githubApiUrl}/user`, {
+        headers: {
+          Authorization: `token ${accessToken}`,
+        },
+      });
+
+      return { login: response.data.login };
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
   @Post('github/orgs')
   @HttpCode(200)
   async orgs(@Body('accessToken') accessToken: string) {
