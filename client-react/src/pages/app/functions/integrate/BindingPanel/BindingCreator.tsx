@@ -1,6 +1,7 @@
 import { Field, Formik, FormikProps } from 'formik';
+import i18next from 'i18next';
 import { IDropdownOption } from 'office-ui-fabric-react';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../../components/ActionBar';
 import Dropdown from '../../../../../components/form-controls/DropDown';
@@ -8,9 +9,8 @@ import { FormControlWrapper, Layout } from '../../../../../components/FormContro
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { Binding, BindingDirection } from '../../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../../models/functions/function-binding';
-import { BindingEditorFormValues, BindingFormBuilder } from '../../common/BindingFormBuilder';
+import { BindingFormBuilder } from '../../common/BindingFormBuilder';
 import { getFunctionBindingDirection } from './BindingEditor';
-import i18next from 'i18next';
 
 export interface BindingCreatorProps {
   bindings: Binding[];
@@ -23,33 +23,40 @@ export interface BindingCreatorProps {
 
 const BindingCreator: React.SFC<BindingCreatorProps> = props => {
   const { onSubmit, onPanelClose, functionAppId, bindings, bindingDirection, setRequiredBindingId } = props;
+  const [currentType, setCurrentType] = useState<BindingType>(
+    bindingDirection === BindingDirection.trigger ? BindingType.httpTrigger : BindingType.blob
+  );
   const { t } = useTranslation();
+
   const filteredBindings = bindings.filter(binding => {
     return binding.direction === bindingDirection;
   });
+
   getRequiredBindingData(filteredBindings, setRequiredBindingId);
 
   if (!bindings) {
     return <LoadingComponent />;
   }
 
+  const initialFormValues: BindingInfo = {
+    name: '',
+    direction: getFunctionBindingDirection(bindingDirection),
+    type: currentType,
+    ...getDefaultValues(currentType, filteredBindings),
+  };
+
   const dropdownOptions: IDropdownOption[] = filteredBindings.map(binding => {
     return { key: binding.type, text: binding.displayName };
   });
 
-  const initialFormValues: BindingInfo = {
-    name: '',
-    direction: getFunctionBindingDirection(bindingDirection),
-    type: bindingDirection === BindingDirection.trigger ? BindingType.httpTrigger : BindingType.blob,
-  };
-
   return (
     <Formik
+      enableReinitialize={true}
       initialValues={initialFormValues}
-      onSubmit={(values: BindingEditorFormValues) => {
+      onSubmit={(values: BindingInfo) => {
         onSubmit({ ...(values as BindingInfo) });
       }}>
-      {(formProps: FormikProps<BindingEditorFormValues>) => {
+      {(formProps: FormikProps<BindingInfo>) => {
         return (
           <form>
             <p>{t('integrateCreateBindingInstructions').format(formProps.values.direction)}</p>
@@ -64,7 +71,7 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
                     (filteredBindings.find(binding => formProps.values.type === binding.type) as Binding).displayName
                   )}
                 </h3>
-                {bindingTypeSpecificFields(formProps, filteredBindings, functionAppId, t)}
+                {bindingTypeSpecificFields(formProps, filteredBindings, functionAppId, t, currentType, setCurrentType)}
               </div>
             ) : null}
 
@@ -89,25 +96,55 @@ const getRequiredBindingData = (bindings: Binding[], setRequiredBindingId: (id: 
 };
 
 const bindingTypeSpecificFields = (
-  formProps: FormikProps<BindingEditorFormValues>,
+  formProps: FormikProps<BindingInfo>,
   filteredBindings: Binding[],
   functionAppId: string,
-  t: i18next.TFunction
+  t: i18next.TFunction,
+  currentType: BindingType,
+  setCurrentType
 ): JSX.Element[] => {
-  const typeSpecificMetadata = filteredBindings.find(metadata => {
-    return metadata.type === formProps.values.type;
+  const binding = filteredBindings.find(filteredBinding => {
+    return filteredBinding.type === formProps.values.type;
   });
 
-  if (!typeSpecificMetadata) {
+  if (!binding) {
     return [];
   }
 
-  const builder = new BindingFormBuilder([formProps.values as BindingInfo], [typeSpecificMetadata], functionAppId, t);
+  if (currentType !== formProps.values.type) {
+    const cleanedValues: BindingInfo = {
+      name: formProps.values.name,
+      type: formProps.values.type,
+      direction: formProps.values.direction,
+      ...getDefaultValues(formProps.values.type, [binding]),
+    };
+
+    setCurrentType(cleanedValues.type);
+    formProps.setValues(cleanedValues);
+  }
+
+  const builder = new BindingFormBuilder([formProps.values], [binding], functionAppId, t);
 
   return builder.getFields(formProps, false);
 };
 
-const actionBarPrimaryButtonProps = (formProps: FormikProps<BindingEditorFormValues>, t: i18next.TFunction) => {
+const getDefaultValues = (bindingType: BindingType, filteredBindings: Binding[]): { [key: string]: string } => {
+  const defaultValues: { [key: string]: string } = {};
+
+  const binding = filteredBindings.find(filteredBinding => {
+    return filteredBinding.type === bindingType;
+  });
+
+  if (binding) {
+    for (const setting of binding.settings || []) {
+      defaultValues[setting.name] = setting.defaultValue;
+    }
+  }
+
+  return defaultValues;
+};
+
+const actionBarPrimaryButtonProps = (formProps: FormikProps<BindingInfo>, t: i18next.TFunction) => {
   return {
     id: 'save',
     title: t('ok'),
