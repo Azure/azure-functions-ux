@@ -15,7 +15,7 @@ export interface HostStatus {
   id: string;
   state: HostStates;
   version: string;
-  verionDetails?: string[];
+  versionDetails?: string[];
   errors?: string[];
   extensionBundle?: ExtensionBundle;
 }

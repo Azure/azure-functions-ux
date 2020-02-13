@@ -38,6 +38,6 @@ To stop debugging, press **Shift + F5**.
 <br/>
 ### Deploy your code to Azure
 
-Click the **Deploy to Function App…** (blue up arrow) icon in the **Azure: Functions** panel.
+Click the **Deploy to Function App…** (<ChevronUp/>) icon in the **Azure: Functions** panel.
 
 When prompted to select a function app, choose {functionAppName}.

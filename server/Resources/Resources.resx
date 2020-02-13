@@ -5112,8 +5112,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrateCreateInput" xml:space="preserve">
         <value>Create Input</value>
     </data>
-    <data name="integrateCreateBindingInstructions" xml:space="preserve">
-        <value>Start by selecting the type of {0} binding you want to add.</value>
+    <data name="integrateCreateInputBindingInstructions" xml:space="preserve">
+        <value>Start by selecting the type of input binding you want to add.</value>
+    </data>
+    <data name="integrateCreateOutputBindingInstructions" xml:space="preserve">
+        <value>Start by selecting the type of output binding you want to add.</value>
+    </data>
+    <data name="integrateCreateTriggerBindingInstructions" xml:space="preserve">
+        <value>Start by selecting the type of trigger binding you want to add.</value>
     </data>
     <data name="integrateBindingType" xml:space="preserve">
         <value>Binding Type</value>
