@@ -13,6 +13,7 @@ export class Constants {
     onedrive_state_key: 'onedrive_state_key',
     dropbox_state_key: 'dropbox_state_key',
   };
+  static githubApiUrl = 'https://api.github.com';
   static quickstartLanguageMap: { [key: string]: string } = {
     'zh-hans': 'zh-CN',
     'zh-hant': 'zh-TW',
