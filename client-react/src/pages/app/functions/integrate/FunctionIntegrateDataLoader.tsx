@@ -18,9 +18,9 @@ interface FunctionIntegrateDataLoaderProps {
 
 interface FunctionIntegrateDataLoaderState {
   functionAppId: string;
-  functionInfo: ArmObj<FunctionInfo> | undefined;
-  bindings: Binding[] | undefined;
-  hostStatus: HostStatus | undefined;
+  functionInfo?: ArmObj<FunctionInfo>;
+  bindings?: Binding[];
+  hostStatus?: HostStatus;
 }
 
 class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataLoaderProps, FunctionIntegrateDataLoaderState> {
