@@ -74,7 +74,7 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
     if (input.plan) {
       if (
         input.plan.properties.hostingEnvironmentProfile ||
-        input.plan.properties.isXenon ||
+        input.plan.properties.hyperV ||
         AppKind.hasAnyKind(input.plan, [CommonConstants.Kinds.linux, CommonConstants.Kinds.elastic])
       ) {
         this.state = 'hidden';
@@ -84,6 +84,7 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
         input.specPickerInput.data.hostingEnvironmentName ||
         input.specPickerInput.data.isLinux ||
         input.specPickerInput.data.isXenon ||
+        input.specPickerInput.data.hyperV ||
         (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic)
       ) {
         this.state = 'hidden';

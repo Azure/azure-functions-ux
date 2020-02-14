@@ -42,7 +42,7 @@ export interface Site {
   name?: string;
   resourceGroup?: string;
   computeMode?: ComputeMode;
-  isXenon?: boolean;
+  hyperV: boolean;
   siteProperties?: SiteProperties;
   availabilityState: SiteAvailabilityState;
   inboundIpAddress: string;
