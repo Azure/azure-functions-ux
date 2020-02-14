@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { WebAppCreateStack } from './stacks';
+import { WebAppCreateStack, WebAppCreateStackVersionPlatform, WebAppCreateStackVersion } from './stacks';
+import { ArrayUtil } from '../utilities/array.util';
 
 @Injectable()
 export class StacksWebAppCreateService {
@@ -22,6 +23,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'v4.0',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
@@ -39,6 +43,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'v2.0',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
@@ -64,6 +71,10 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'NODE|12-lts',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+              recommendedVersion: '12.x',
+            },
           },
           {
             os: 'windows',
@@ -74,6 +85,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '12.13.0',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: true,
+            },
           },
         ],
       },
@@ -91,6 +105,10 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'NODE|10-lts',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+              recommendedVersion: '10.x',
+            },
           },
         ],
       },
@@ -108,6 +126,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'NODE|10.14',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+            },
           },
           {
             os: 'windows',
@@ -118,6 +139,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '10.14.1',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: true,
+            },
           },
         ],
       },
@@ -135,6 +159,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'NODE|10.10',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+            },
           },
         ],
       },
@@ -152,6 +179,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'NODE|10.6',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+            },
           },
           {
             os: 'windows',
@@ -162,6 +192,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '10.6.0',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: true,
+            },
           },
         ],
       },
@@ -179,6 +212,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'NODE|10.1',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+            },
           },
         ],
       },
@@ -196,6 +232,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '10.0.0',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+            },
           },
         ],
       },
@@ -221,6 +260,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'PYTHON|3.8',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+            },
           },
         ],
       },
@@ -238,6 +280,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'PYTHON|3.7',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+            },
           },
         ],
       },
@@ -255,6 +300,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'PYTHON|3.6',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+            },
           },
           {
             os: 'windows',
@@ -265,6 +313,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '3.4',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: true,
+            },
           },
         ],
       },
@@ -290,6 +341,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'PHP|7.3',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: false,
+            },
           },
           {
             os: 'windows',
@@ -300,6 +354,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '7.3',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
@@ -317,6 +374,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'PHP|7.2',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: false,
+            },
           },
           {
             os: 'windows',
@@ -327,6 +387,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '7.2',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
@@ -352,6 +415,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'DOTNETCORE|3.1',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: true,
+            },
           },
         ],
       },
@@ -369,6 +435,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '3.0',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+            },
           },
           {
             os: 'linux',
@@ -379,6 +448,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'DOTNETCORE|3.0',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: true,
+            },
           },
         ],
       },
@@ -396,6 +468,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '2.1',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+            },
           },
           {
             os: 'linux',
@@ -406,6 +481,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'DOTNETCORE|2.1',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: true,
+            },
           },
         ],
       },
@@ -431,6 +509,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'RUBY|2.6',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
@@ -448,6 +529,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'RUBY|2.5',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
@@ -465,6 +549,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'RUBY|2.4',
             sortOrder: 2,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
@@ -482,6 +569,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'RUBY|2.3',
             sortOrder: 3,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
@@ -496,7 +586,7 @@ export class StacksWebAppCreateService {
       {
         displayText: 'Tomcat 8.5',
         value: 'Tomcat8.5Auto',
-        sortOrder: 3,
+        sortOrder: 2,
         supportedPlatforms: [
           {
             os: 'linux',
@@ -507,6 +597,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'TOMCAT|8.5-jre8',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: false,
+            },
           },
           {
             os: 'windows',
@@ -517,13 +610,16 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '1.8|Tomcat|8.5',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
       {
         displayText: 'Tomcat 9.0',
         value: 'Tomcat9.0Auto',
-        sortOrder: 2,
+        sortOrder: 1,
         supportedPlatforms: [
           {
             os: 'linux',
@@ -534,6 +630,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'TOMCAT|9.0-jre8',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: false,
+            },
           },
           {
             os: 'windows',
@@ -544,23 +643,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '1.8|Tomcat|9.0',
             sortOrder: 1,
-          },
-        ],
-      },
-      {
-        displayText: 'WildFly 14 (Preview)',
-        value: 'WildFly14Auto',
-        sortOrder: 1,
-        supportedPlatforms: [
-          {
-            os: 'linux',
-            isPreview: true,
-            isDeprecated: false,
-            isHidden: false,
-            applicationInsightsEnabled: true,
-            remoteDebuggingEnabled: false,
-            runtimeVersion: 'WILDFLY|14-jre8',
-            sortOrder: 0,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
@@ -578,6 +663,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'JAVA|8-jre8',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: false,
+            },
           },
           {
             os: 'windows',
@@ -588,6 +676,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '1.8|JAVA|8',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
@@ -613,6 +704,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'TOMCAT|8.5-java11',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: false,
+            },
           },
           {
             os: 'windows',
@@ -623,6 +717,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '11|Tomcat|8.5',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
@@ -640,6 +737,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'TOMCAT|9.0-java11',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: false,
+            },
           },
           {
             os: 'windows',
@@ -650,6 +750,9 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: '11|Tomcat|9.0',
             sortOrder: 1,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
@@ -667,22 +770,48 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'JAVA|11-java11',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: false,
+            },
           },
         ],
       },
     ],
   };
 
-  getStacks(): WebAppCreateStack[] {
-    return [
-      this._aspNetStacks,
-      this._nodeStacks,
-      this._pythonStacks,
-      this._phpStacks,
-      this._netCoreStacks,
-      this._rubyStacks,
-      this._java8Stacks,
-      this._java11Stacks,
-    ];
+  getStacks(os?: 'linux' | 'windows'): WebAppCreateStack[] {
+    const stacks = JSON.parse(
+      JSON.stringify([
+        this._aspNetStacks,
+        this._nodeStacks,
+        this._pythonStacks,
+        this._phpStacks,
+        this._netCoreStacks,
+        this._rubyStacks,
+        this._java8Stacks,
+        this._java11Stacks,
+      ])
+    );
+
+    if (!os) {
+      return stacks;
+    } else {
+      // remove all supported platforms which do not support the provided os.
+      stacks.forEach(stack =>
+        stack.versions.forEach(version =>
+          ArrayUtil.remove<WebAppCreateStackVersionPlatform>(version.supportedPlatforms, platform => platform.os !== os)
+        )
+      );
+
+      // remove all versions which do not have any platforms.
+      stacks.forEach(stack =>
+        ArrayUtil.remove<WebAppCreateStackVersion>(stack.versions, version => version.supportedPlatforms.length === 0)
+      );
+
+      // remove all stacks which do not have any versions.
+      ArrayUtil.remove<WebAppCreateStack>(stacks, stackItem => stackItem.versions.length === 0);
+
+      return stacks;
+    }
   }
 }

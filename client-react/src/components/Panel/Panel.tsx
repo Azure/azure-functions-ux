@@ -8,20 +8,20 @@ import { ThemeContext } from '../../ThemeContext';
 type IPanelPropsReduced = Pick<IPanelProps, Exclude<keyof IPanelProps, 'styles' | 'closeButtonAriaLabel' | 'onRenderNavigationContent'>>;
 
 interface CustomPanelProps {
-  style?: {};
+  customStyle?: {};
   headerContent?: JSX.Element;
   overlay?: boolean;
 }
 
 const Panel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
-  const { headerText, isOpen, type, style: customPanelStyle, headerContent, overlay, ...rest } = props;
+  const { headerText, isOpen, type, customStyle, headerContent, overlay, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
   let allPanelStyle = panelStyle;
 
-  if (customPanelStyle) {
-    allPanelStyle = Object.assign(panelStyle, customPanelStyle);
+  if (customStyle) {
+    allPanelStyle = Object.assign(panelStyle, customStyle);
   }
 
   const onRenderNavigationContent = panelProps => {

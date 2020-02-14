@@ -8,13 +8,18 @@ import { TopBarNotification } from './../top-bar/top-bar-models';
   styleUrls: ['./top-warning.component.scss'],
 })
 export class TopWarningComponent implements OnInit {
-  public notifications: TopBarNotification[] = [];
+  public notification: TopBarNotification = null;
+  public isWarning = true;
+  public cssClass = '';
 
   constructor(private _globalStateService: GlobalStateService) {}
 
   ngOnInit() {
     this._globalStateService.topBarNotificationsStream.subscribe(topBarNotifications => {
-      this.notifications = topBarNotifications;
+      this.notification =
+        topBarNotifications && topBarNotifications.length > 0 ? topBarNotifications[topBarNotifications.length - 1] : null;
+      this.isWarning = this.notification && this.notification.level !== 'info';
+      this.cssClass = this.isWarning ? 'alert alert-warning alert-dismissible' : 'alert alert-warning alert-dismissible info-banner';
     });
   }
 

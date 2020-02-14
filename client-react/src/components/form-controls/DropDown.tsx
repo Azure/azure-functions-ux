@@ -3,6 +3,7 @@ import { IDropdownProps, IDropdownOption } from 'office-ui-fabric-react/lib/Drop
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
 import DropdownNoFormik from './DropDownnoFormik';
+import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 
 export interface CustomDropdownProps {
   id: string;
@@ -26,6 +27,9 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
       onBlur={field.onBlur}
       errorMessage={errorMessage}
       onChange={onChange}
+      // Overridding default dropdown to panel transfer due to many of our dropsdown existing in panels
+      // https://github.com/OfficeDev/office-ui-fabric-react/commit/1aa8ab4e9e16ecc17d8e90c1374c0958eba77ee3#diff-406409baf14f369160f322b075e148d4
+      responsiveMode={ResponsiveMode.large}
       {...props}
     />
   );

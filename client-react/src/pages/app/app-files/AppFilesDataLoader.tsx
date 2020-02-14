@@ -4,7 +4,7 @@ import AppFiles from './AppFiles';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import SiteService from '../../../ApiHelpers/SiteService';
-import LoadingComponent from '../../../components/loading/loading-component';
+import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
 import { VfsObject } from '../../../models/functions/vfs';

@@ -29,3 +29,8 @@ export type ProviderType =
   | 'GitHubAction';
 
 export type ProviderDashboardType = '' | 'zip' | 'ftp' | 'webdeploy' | 'reset' | 'credentials-dashboard';
+
+export enum WorkflowOptions {
+  Overwrite = 'overwrite',
+  UseExisting = 'useExisting',
+}

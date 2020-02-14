@@ -13,21 +13,30 @@
     [attr.aria-label]="specManager.selectedSpecGroup.title">
 
     <section>
-      <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage?.infoLink"
-        [isBanner]="true"
-        [infoText]="specManager.selectedSpecGroup.bannerMessage.message"
-        [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"
-        [infoLink]="specManager.selectedSpecGroup.bannerMessage.infoLink"></info-box>
+      <ng-container *ngIf="!specManager.specSpecificBanner">
+        <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage?.infoLink"
+          [isBanner]="true"
+          [infoText]="specManager.selectedSpecGroup.bannerMessage.message"
+          [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"
+          [infoLink]="specManager.selectedSpecGroup.bannerMessage.infoLink"></info-box>
 
-      <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage?.infoActionFn"
-        [isBanner]="true"
-        [infoText]="specManager.selectedSpecGroup.bannerMessage.message"
-        [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"
-        [infoActionFn]="specManager.selectedSpecGroup.bannerMessage.infoActionFn"></info-box>
+        <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage?.infoActionFn"
+          [isBanner]="true"
+          [infoText]="specManager.selectedSpecGroup.bannerMessage.message"
+          [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"
+          [infoActionFn]="specManager.selectedSpecGroup.bannerMessage.infoActionFn"></info-box>
 
-      <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage && !specManager.selectedSpecGroup.bannerMessage.infoLink && !specManager.selectedSpecGroup.bannerMessage.infoActionFn"
-        [infoText]="specManager.selectedSpecGroup.bannerMessage.message"
-        [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"></info-box>
+        <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage && !specManager.selectedSpecGroup.bannerMessage.infoLink && !specManager.selectedSpecGroup.bannerMessage.infoActionFn"
+          [infoText]="specManager.selectedSpecGroup.bannerMessage.message"
+          [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"></info-box>
+      </ng-container>
+
+      <info-box *ngIf="!!specManager.specSpecificBanner"
+          [isBanner]="true"
+          [infoText]="specManager.specSpecificBanner.message"
+          [typeClass]="specManager.specSpecificBanner.level"
+          [infoLink]="specManager.specSpecificBanner.infoLink"></info-box>
+
     </section>
 
     <section *ngIf="isEmpty" class="empty-group">
@@ -98,8 +107,13 @@
         <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
       </button>
 
+      <input class="message-icon"
+        *ngIf="statusMessage && statusMessage.message && statusMessage?.showCheckbox"
+        [(ngModel)]="isStatusMessageCheckboxSelected"
+        type="checkbox">
+
       <span class="message-icon icon-medium"
-        *ngIf="statusMessage && statusMessage.message"
+        *ngIf="statusMessage && statusMessage.message && !statusMessage?.showCheckbox"
         [load-image]="statusMessageImage"></span>
 
       <div>

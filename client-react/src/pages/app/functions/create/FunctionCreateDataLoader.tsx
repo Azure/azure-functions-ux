@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingComponent from '../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';

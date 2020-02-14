@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { IDropdownOption, Dropdown, DefaultButton } from 'office-ui-fabric-react';
+import { IDropdownOption, DefaultButton, IDropdownProps } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import LoadingComponent from '../../../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Namespace, EventHub, AuthorizationRule, KeyList } from '../../../../../../models/eventhub';
 import { NewConnectionCalloutProps } from '../Callout.properties';
-import { FormikProps, Formik } from 'formik';
+import { FormikProps, Formik, FieldProps } from 'formik';
 import { EventHubPivotContext } from './EventHubPivotDataLoader';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
+import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 
 export interface EventHubPivotFormValues {
   namespace: ArmObj<Namespace> | undefined;
@@ -17,7 +18,7 @@ export interface EventHubPivotFormValues {
   policy: ArmObj<AuthorizationRule> | undefined;
 }
 
-const EventHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
+const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(EventHubPivotContext);
   const { t } = useTranslation();
   const { resourceId } = props;
@@ -132,6 +133,8 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
                     setNamespaceAuthRules(undefined);
                     setKeyList(undefined);
                   }}
+                  errorMessage={undefined}
+                  {...props}
                 />
                 {!eventHubs && <LoadingComponent />}
                 {!!eventHubs && eventHubs.length === 0 ? (
@@ -147,6 +150,8 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
                         setEventHubAuthRules(undefined);
                         setKeyList(undefined);
                       }}
+                      errorMessage={undefined}
+                      {...props}
                     />
                     {(!namespaceAuthRules || !eventHubAuthRules) && <LoadingComponent />}
                     {!!namespaceAuthRules && namespaceAuthRules.length === 0 && (!!eventHubAuthRules && eventHubAuthRules.length === 0) ? (
@@ -161,6 +166,8 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps> = props => {
                             setFormValues({ ...formValues, policy: e && e.data });
                             setKeyList(undefined);
                           }}
+                          errorMessage={undefined}
+                          {...props}
                         />
                         {!keyList && <LoadingComponent />}
                       </>

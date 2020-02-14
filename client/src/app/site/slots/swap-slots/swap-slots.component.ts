@@ -74,7 +74,6 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   public swapping = false;
   public loadingFailure: string;
   public swapPermissionsMessage: string;
-  public writePermissionsMessage: string;
   public readOnlyLockMessage: string;
 
   public srcDropDownOptions: DropDownElement<string>[];
@@ -215,7 +214,6 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     let loadingFailed = false;
     if (!siteResult.isSuccessful) {
       this._logService.error(LogCategories.swapSlots, '/swap-slots', siteResult.error.result);
-      loadingFailed = true;
     }
     if (!slotsResult.isSuccessful) {
       this._logService.error(LogCategories.swapSlots, '/swap-slots', slotsResult.error.result);
@@ -238,7 +236,10 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   }
 
   private _processLoadingResults(siteResult: HttpResult<ArmObj<Site>>, slotsResult: HttpResult<ArmArrayResult<Site>>) {
-    this._slotsList = [siteResult.result, ...slotsResult.result.value];
+    this._slotsList = [...slotsResult.result.value];
+    if (siteResult.isSuccessful) {
+      this._slotsList.unshift(siteResult.result);
+    }
     const options: DropDownElement<string>[] = this._slotsList.map(slot => {
       return {
         displayLabel: slot.name ? slot.name.replace('/', '-') : '-',
@@ -246,7 +247,9 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
       };
     });
     this.destDropDownOptions = JSON.parse(JSON.stringify(options));
-    options.shift();
+    if (siteResult.isSuccessful) {
+      options.shift();
+    }
     this.srcDropDownOptions = JSON.parse(JSON.stringify(options));
   }
 
@@ -267,8 +270,6 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this._setupPhase2Loading(srcId, destId);
 
     return Observable.zip(
-      this._authZService.hasPermission(srcId, [AuthzService.writeScope]),
-      this._authZService.hasPermission(destId, [AuthzService.writeScope]),
       this._authZService.hasPermission(srcId, [
         AuthzService.slotswapScope,
         AuthzService.applySlotConfigScope,
@@ -282,27 +283,22 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
       this._authZService.hasReadOnlyLock(srcId),
       this._authZService.hasReadOnlyLock(destId)
     ).mergeMap(result => {
-      const srcWritePermission = result[0];
-      const destWritePermission = result[1];
-      const srcSwapPermission = result[2];
-      const destSwapPermission = result[3];
-      const srcReadOnlyLock = result[4];
-      const destReadOnlyLock = result[5];
+      const srcSwapPermission = result[0];
+      const destSwapPermission = result[1];
+      const srcReadOnlyLock = result[2];
+      const destReadOnlyLock = result[3];
 
-      if (!srcWritePermission || !destWritePermission) {
-        const slotNames = this._buildSlotNamesString(srcName, !srcWritePermission, destName, !destWritePermission);
-        this.writePermissionsMessage = this._translateService.instant(PortalResources.noWritePermissionOnSlots, { slotNames: slotNames });
-      }
       if (!srcSwapPermission || !destSwapPermission) {
         const slotNames = this._buildSlotNamesString(srcName, !srcSwapPermission, destName, !destSwapPermission);
         this.swapPermissionsMessage = this._translateService.instant(PortalResources.noSwapPermissionOnSlots, { slotNames: slotNames });
       }
+
       if (srcReadOnlyLock || destReadOnlyLock) {
         const slotNames = this._buildSlotNamesString(srcName, srcReadOnlyLock, destName, destReadOnlyLock);
         this.readOnlyLockMessage = this._translateService.instant(PortalResources.readOnlyLockOnSlots, { slotNames: slotNames });
       }
 
-      if (!this.writePermissionsMessage && !this.swapPermissionsMessage) {
+      if (!this.swapPermissionsMessage) {
         this._setupPhase2();
       }
 
@@ -325,9 +321,11 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   private _resetSwapForm() {
     const srcIdCtrl = this._fb.control({ value: null, disabled: true });
     const srcAuthCtrl = this._fb.control({ value: null, disabled: true });
+    const srcMultiPhaseCtrl = this._fb.control({ value: null, disabled: true });
 
     const destIdCtrl = this._fb.control({ value: null, disabled: true });
     const destAuthCtrl = this._fb.control({ value: null, disabled: true });
+    const destMultiPhaseCtrl = this._fb.control({ value: null, disabled: true });
 
     const multiPhaseCtrl = this._fb.control({ value: false, disabled: true });
 
@@ -336,8 +334,10 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this.swapForm = this._fb.group({
       srcId: srcIdCtrl,
       srcAuth: srcAuthCtrl,
+      srcMultiPhase: srcMultiPhaseCtrl,
       destId: destIdCtrl,
       destAuth: destAuthCtrl,
+      destMultiPhase: destMultiPhaseCtrl,
       multiPhase: multiPhaseCtrl,
       revertSwap: revertSwapCtrl,
     });
@@ -372,7 +372,6 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this.swapping = false;
     this.loadingFailure = null;
     this.swapPermissionsMessage = null;
-    this.writePermissionsMessage = null;
     this.readOnlyLockMessage = null;
     this.srcDropDownOptions = [];
     this.destDropDownOptions = [];
@@ -396,8 +395,10 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   private _setupPhase1() {
     this.swapForm.controls['srcId'].enable();
     this.swapForm.controls['srcAuth'].enable();
+    this.swapForm.controls['srcMultiPhase'].enable();
     this.swapForm.controls['destId'].enable();
     this.swapForm.controls['destAuth'].enable();
+    this.swapForm.controls['destMultiPhase'].enable();
     if (!this.noStickySettings) {
       this.swapForm.controls['multiPhase'].enable();
     }

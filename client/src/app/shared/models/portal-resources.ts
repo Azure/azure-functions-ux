@@ -705,6 +705,7 @@ export class PortalResources {
   public static emptyBrowse_title = 'emptyBrowse_title';
   public static appFunctionSettings_slotsDesc = 'appFunctionSettings_slotsDesc';
   public static appFunctionSettings_slotsEnable = 'appFunctionSettings_slotsEnable';
+  public static appFunctionSettings_slotsEnableWarning = 'appFunctionSettings_slotsEnableWarning';
   public static appFunctionSettings_warning_1 = 'appFunctionSettings_warning_1';
   public static appFunctionSettings_warning_2 = 'appFunctionSettings_warning_2';
   public static appFunctionSettings_warning_3 = 'appFunctionSettings_warning_3';
@@ -721,6 +722,9 @@ export class PortalResources {
   public static slotNew_startCreateSuccessNotifyTitle = 'slotNew_startCreateSuccessNotifyTitle';
   public static slotNew_startCreateFailureNotifyTitle = 'slotNew_startCreateFailureNotifyTitle';
   public static error_unableToLoadSlotsList = 'error_unableToLoadSlotsList';
+  public static error_unableToLoadTipConfig = 'error_unableToLoadTipConfig';
+  public static error_unableToLoadConfig = 'error_unableToLoadConfig';
+  public static error_unableToLoadSite = 'error_unableToLoadSite';
   public static slotNew_quotaReached = 'slotNew_quotaReached';
   public static slotNew_quotaUpgrade = 'slotNew_quotaUpgrade';
   public static slotNew_noAccess = 'slotNew_noAccess';
@@ -737,7 +741,6 @@ export class PortalResources {
   public static slotsList_statusHeader = 'slotsList_statusHeader';
   public static slotsList_serverfarmHeader = 'slotsList_serverfarmHeader';
   public static slotsList_trafficPercentHeader = 'slotsList_trafficPercentHeader';
-  public static slotsList_tipDeprecationMessage = 'slotsList_tipDeprecationMessage';
   public static monitoring_appInsights = 'monitoring_appInsights';
   public static monitoring_appInsightsConfigureLink = 'monitoring_appInsightsConfigureLink';
   public static slotNew_nameLabel_balloonText = 'slotNew_nameLabel_balloonText';
@@ -790,6 +793,7 @@ export class PortalResources {
   public static apiProxy_noOverride = 'apiProxy_noOverride';
   public static expressAADRegistration = 'expressAADRegistration';
   public static eventGrid_create = 'eventGrid_create';
+  public static eventGrid_createConnection = 'eventGrid_createConnection';
   public static eventGrid_createMessage = 'eventGrid_createMessage';
   public static eventGrid_help = 'eventGrid_help';
   public static eventGrid_label = 'eventGrid_label';
@@ -1313,6 +1317,7 @@ export class PortalResources {
   public static noWritePermission = 'noWritePermission';
   public static slotReadOnlyLock = 'slotReadOnlyLock';
   public static swapSrcDestNotUnique = 'swapSrcDestNotUnique';
+  public static swapMultiPhasePermissionsFailure = 'swapMultiPhasePermissionsFailure';
   public static swapMultiPhaseAuthConflict = 'swapMultiPhaseAuthConflict';
   public static swapMultiPhaseNoStickySettings = 'swapMultiPhaseNoStickySettings';
   public static swapMultiPhasePreviewMessage = 'swapMultiPhasePreviewMessage';
@@ -1660,7 +1665,6 @@ export class PortalResources {
   public static editBindingCommands = 'editBindingCommands';
   public static functionCreate_newFunction = 'functionCreate_newFunction';
   public static functionCreate_createFunctionMessage = 'functionCreate_createFunctionMessage';
-  public static functionCreate_goToQuickstart = 'functionCreate_goToQuickstart';
   public static functionCreate_templates = 'functionCreate_templates';
   public static functionCreate_details = 'functionCreate_details';
   public static functionCreate_searchByTemplateName = 'functionCreate_searchByTemplateName';
@@ -1809,4 +1813,26 @@ export class PortalResources {
   public static minimize = 'minimize';
   public static connect = 'connect';
   public static endOfLifeTagTemplate = 'endOfLifeTagTemplate';
+  public static functionEditor_appInsightsNotConfigured = 'functionEditor_appInsightsNotConfigured';
+  public static functionEditor_connectingToAppInsights = 'functionEditor_connectingToAppInsights';
+  public static runtimeStack = 'runtimeStack';
+  public static runtimeStackVersion = 'runtimeStackVersion';
+  public static functionCreate_extensionBundlesRequired = 'functionCreate_extensionBundlesRequired';
+  public static remoteDebuggingNotAvailableOnFlexStamp = 'remoteDebuggingNotAvailableOnFlexStamp';
+  public static tryFunctionsPreview = 'tryFunctionsPreview';
+  public static saveAppSettingsTitle = 'saveAppSettingsTitle';
+  public static saveAppSettingsMessage = 'saveAppSettingsMessage';
+  public static azureFunctionsV1Linux = 'azureFunctionsV1Linux';
+  public static githubActionStackNotSupportedMessage = 'githubActionStackNotSupportedMessage';
+  public static githubActionStackMismatchMessage = 'githubActionStackMismatchMessage';
+  public static hostConfigurationLabel = 'hostConfigurationLabel';
+  public static configureHostJson = 'configureHostJson';
+  public static pricing_pv2FlexStampInfoMessage = 'pricing_pv2FlexStampInfoMessage';
+  public static pricing_pv2FlexStampCheckboxLabel = 'pricing_pv2FlexStampCheckboxLabel';
+  public static githubActionWorkflowOption = 'githubActionWorkflowOption';
+  public static githubActionWorkflowOptionOverwrite = 'githubActionWorkflowOptionOverwrite';
+  public static githubActionWorkflowOptionUseExisting = 'githubActionWorkflowOptionUseExisting';
+  public static githubActionWorkflowOptionUseExistingMessage = 'githubActionWorkflowOptionUseExistingMessage';
+  public static githubActionWorkflowOptionOverwriteMessage = 'githubActionWorkflowOptionOverwriteMessage';
+  public static emptyFunctionKeys = 'emptyFunctionKeys';
 }

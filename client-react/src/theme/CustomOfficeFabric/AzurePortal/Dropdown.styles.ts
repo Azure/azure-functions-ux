@@ -155,6 +155,7 @@ export const DropDownStyles = props => {
         color: semanticColors.hyperlinkText,
         height: DROPDOWN_ITEMHEIGHT,
         lineHeight: DROPDOWN_ITEMHEIGHT,
+        paddingLeft: '12px',
       },
     ],
   };

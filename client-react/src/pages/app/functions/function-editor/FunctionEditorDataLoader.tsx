@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import LoadingComponent from '../../../../components/loading/loading-component';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { FunctionEditor } from './FunctionEditor';
 import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import FunctionEditorData from './FunctionEditor.data';
@@ -15,7 +15,7 @@ import { BindingManager } from '../../../../utils/BindingManager';
 import { AppKeysInfo } from '../app-keys/AppKeys.types';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
+import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../../../../models/functions/runtime-extension';
 import { Host } from '../../../../models/functions/host';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
@@ -24,6 +24,8 @@ import { Method } from 'axios';
 import { getJsonHeaders } from '../../../../ApiHelpers/HttpClient';
 import AppInsightsService from '../../../../ApiHelpers/AppInsightsService';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
+import { AppInsightsComponent } from '../../../../models/app-insights';
+import { shrinkEditorStyle } from './FunctionEditor.styles';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -47,6 +49,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [appInsightsToken, setAppInsightsToken] = useState<string | undefined>(undefined);
   const [hostUrls, setHostUrls] = useState<UrlObj[]>([]);
   const [functionUrls, setFunctionUrls] = useState<UrlObj[]>([]);
+  const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined>(undefined);
+  const [showTestPanel, setShowTestPanel] = useState(false);
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -75,7 +79,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       const appInsightsConnectionString = appSettings[CommonConstants.AppSettingNames.appInsightsConnectionString];
       const appInsightsInstrumentationKey = appSettings[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
 
-      const [hostJsonResponse, fileListResponse, appInsightsComponent] = await Promise.all([
+      const [hostJsonResponse, fileListResponse, appInsightsResponse] = await Promise.all([
         FunctionsService.getHostJson(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
         FunctionsService.getFileContent(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
         appInsightsConnectionString
@@ -95,18 +99,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         setFileList(fileListResponse.data as VfsObject[]);
       }
 
-      if (appInsightsComponent) {
-        AppInsightsService.getAppInsightsComponentToken(appInsightsComponent.id).then(response => {
-          if (response.metadata.success) {
-            setAppInsightsToken(response.data.token);
-          } else {
-            LogService.error(
-              LogCategories.FunctionEdit,
-              'getAppInsightsComponentToken',
-              `Failed to get App Insights Component Token: ${appInsightsComponent}`
-            );
-          }
-        });
+      if (appInsightsResponse) {
+        setAppInsightsComponent(appInsightsResponse as ArmObj<AppInsightsComponent>);
       }
     }
     if (appKeysResponse.metadata.success) {
@@ -156,19 +150,20 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         }
         return getFunctionInvokeUrlPath(result, queryParams);
       }
+    } else {
+      LogService.error(
+        LogCategories.functionInvokeUrl,
+        'GetFunctionInvokeUrl',
+        `No function Info found for the site: ${JSON.stringify(site)}`
+      );
     }
-    LogService.error(
-      LogCategories.functionInvokeUrl,
-      'GetFunctionInvokeUrl',
-      `No function Info found for the site: ${JSON.stringify(site)}`
-    );
     return '';
   };
 
   const getResultFromHostJson = (): string => {
     let result = '';
     switch (runtimeVersion) {
-      case RuntimeExtensionMajorVersions.beta:
+      case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3: {
         result =
@@ -287,11 +282,34 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
+  const resetAppInsightsToken = () => {
+    setAppInsightsToken(undefined);
+  };
+
   useEffect(() => {
     fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (appInsightsComponent && !appInsightsToken) {
+      AppInsightsService.getAppInsightsComponentToken(appInsightsComponent.id).then(appInsightsComponentTokenResponse => {
+        if (appInsightsComponentTokenResponse.metadata.success) {
+          setAppInsightsToken(appInsightsComponentTokenResponse.data.token);
+        } else {
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'getAppInsightsComponentToken',
+            `Failed to get App Insights Component Token: ${appInsightsComponent}`
+          );
+        }
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appInsightsComponent, appInsightsToken]);
+
   useEffect(() => {
     if (!!site && !!functionInfo) {
       if (!!hostKeys) {
@@ -311,17 +329,22 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   }
   return (
     <FunctionEditorContext.Provider value={functionEditorData}>
-      <FunctionEditor
-        functionInfo={functionInfo}
-        site={site}
-        run={run}
-        fileList={fileList}
-        runtimeVersion={runtimeVersion}
-        responseContent={responseContent}
-        functionRunning={functionRunning}
-        appInsightsToken={appInsightsToken}
-        urlObjs={[...hostUrls, ...functionUrls]}
-      />
+      <div style={showTestPanel ? shrinkEditorStyle(window.innerWidth) : undefined}>
+        <FunctionEditor
+          functionInfo={functionInfo}
+          site={site}
+          run={run}
+          fileList={fileList}
+          runtimeVersion={runtimeVersion}
+          responseContent={responseContent}
+          functionRunning={functionRunning}
+          appInsightsToken={appInsightsToken}
+          urlObjs={[...hostUrls, ...functionUrls]}
+          resetAppInsightsToken={resetAppInsightsToken}
+          showTestPanel={showTestPanel}
+          setShowTestPanel={setShowTestPanel}
+        />
+      </div>
     </FunctionEditorContext.Provider>
   );
 };

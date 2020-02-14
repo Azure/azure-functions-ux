@@ -5,10 +5,32 @@ import { Constants } from '../constants';
 import { SourceControlProvider } from '../types/source-control-provider';
 import * as crypto from 'crypto';
 import { LoggingService } from '../shared/logging/logging.service';
+import { TokenData } from './deployment-center';
 
 @Injectable()
 export class DeploymentCenterService {
   constructor(private logService: LoggingService, private config: ConfigService, private httpService: HttpService) {}
+
+  async getSitePublishProfile(authToken: string, resourceId: string) {
+    try {
+      const url = `${this.config.get('ARM_ENDPOINT')}/${resourceId}/publishxml?api-version=${Constants.AntaresApiVersion20181101}`;
+      const config = {
+        headers: {
+          Authorization: authToken,
+        },
+      };
+      const r = await this.httpService.post(url, null, config);
+      return r.data;
+    } catch (err) {
+      this.logService.error(`Failed to retrieve publish profile for '${resourceId}'.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException('Internal Server Error', 500);
+    }
+  }
+
   async getSourceControlAuthState(authToken) {
     try {
       const r = await this.httpService.get(
@@ -40,7 +62,7 @@ export class DeploymentCenterService {
     }
   }
 
-  async getSourceControlToken(aadToken: string, provider: string) {
+  async getSourceControlToken(aadToken: string, provider: string): Promise<TokenData> {
     try {
       const r = await this.httpService.get(
         `${this.config.get('ARM_ENDPOINT')}/providers/Microsoft.Web/sourcecontrols/${provider}?api-version=${Constants.AntaresApiVersion}`,

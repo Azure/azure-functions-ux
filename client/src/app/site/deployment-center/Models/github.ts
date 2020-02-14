@@ -1,33 +1,34 @@
 export class FileContent {
   path: string;
   type: string;
-  contents: string;
+  content: string;
   encoding: string;
   sha: string;
-}
-
-export class WorkflowCommitter {
-  name: string;
-  email: string;
-}
-
-export class WorkflowCommit {
-  message: string;
-  committer: WorkflowCommitter;
-  content: string;
-  branch: string;
-  sha?: string;
 }
 
 export class WorkflowInformation {
   fileName: string;
   secretName: string;
-  content: string; // base64 encoded contents
+  content: string;
 }
 
-export class WorkflowFramework {
-  isLinuxApp: boolean;
-  stack: string;
-  version: string;
-  startupCommand: string;
+export interface GitHubCommitter {
+  name: string;
+  email: string;
+}
+
+export interface GitHubCommit {
+  repoName: string;
+  branchName: string;
+  filePath: string;
+  message: string;
+  committer: GitHubCommitter;
+  contentBase64Encoded: string;
+  sha?: string;
+}
+
+export interface GitHubActionWorkflowRequestContent {
+  resourceId: string;
+  secretName: string;
+  commit: GitHubCommit;
 }

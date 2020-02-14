@@ -31,6 +31,8 @@ export class DeploymentCenterSetupComponent implements OnChanges {
         privateRepo: [false, []],
         username: ['', []],
         password: ['', []],
+        githubActionWorkflowOption: ['', []],
+        githubActionExistingWorkflowContents: ['', []],
       }),
       buildSettings: this._fb.group({
         createNewVsoAccount: [false, []],
@@ -48,6 +50,9 @@ export class DeploymentCenterSetupComponent implements OnChanges {
         nodejsTaskRunner: [null, []],
         frameworkVersion: ['', []],
         startupCommand: ['', []],
+        runtimeStack: ['', []],
+        runtimeStackVersion: ['', []],
+        runtimeStackRecommendedVersion: ['', []],
       }),
     });
   }
