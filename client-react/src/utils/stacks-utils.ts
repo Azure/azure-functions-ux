@@ -42,7 +42,7 @@ const isStackVersionEndOfLife = (stackName: string, runtimeVersion: string) => {
   }
 
   if (stackName === 'java8') {
-    return runtimeVersion.toLowerCase() === 'wildfly|14-jre8';
+    return runtimeVersion.toLowerCase().startsWith('wildfly|');
   }
 
   return false;
