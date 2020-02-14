@@ -9,6 +9,7 @@ import {
   quickstartDropdownContainerStyle,
   quickstartDropdownLabelStyle,
   quickstartLinkStyle,
+  markdownIconStyle,
 } from './FunctionQuickstart.styles';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
@@ -46,6 +47,12 @@ export interface QuickstartOption {
     description: string;
   };
 }
+
+const ChevronUp: React.FC<{}> = props => {
+  const theme = useContext(ThemeContext);
+
+  return <Icon iconName="ChevronUp" className={markdownIconStyle(theme)} />;
+};
 
 const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   const { t } = useTranslation();
@@ -171,6 +178,9 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
           overrides: {
             MarkdownHighlighter: {
               component: MarkdownHighlighter,
+            },
+            ChevronUp: {
+              component: ChevronUp,
             },
             a: {
               props: {

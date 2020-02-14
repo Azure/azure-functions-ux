@@ -33,3 +33,8 @@ export const quickstartLinkStyle = (theme: ThemeExtended) =>
       },
     },
   });
+
+export const markdownIconStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.menuIcon,
+  });

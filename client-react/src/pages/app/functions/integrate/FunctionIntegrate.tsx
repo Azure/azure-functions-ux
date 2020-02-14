@@ -11,6 +11,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../models/functions/binding';
 import { BindingInfo } from '../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
+import { HostStatus } from '../../../../models/functions/host-status';
 import { ThemeContext } from '../../../../ThemeContext';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
@@ -32,6 +33,7 @@ export interface FunctionIntegrateProps {
   functionAppId: string;
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
+  hostStatus: HostStatus;
 
   // Post-Mount Data Loader calls
   // setRequiredBindingId: Id of binding that we need the complete settings info for
@@ -54,7 +56,7 @@ export interface BindingEditorContextInfo {
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
-  const { functionAppId, functionInfo: initialFunctionInfo, bindings, setRequiredBindingId } = props;
+  const { functionAppId, functionInfo: initialFunctionInfo, bindings, hostStatus, setRequiredBindingId } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
   const fullPageWidth = 1000;
@@ -65,6 +67,8 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo>>(initialFunctionInfo);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
+
+  const onlyBuiltInBindings = !hostStatus.version.startsWith('1') && !hostStatus.extensionBundle;
 
   const openEditor = (editorBindingDirection: BindingDirection, bindingInfo?: BindingInfo): Observable<BindingUpdateInfo> => {
     setBindingDirection(editorBindingDirection);
@@ -168,10 +172,11 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
           bindings={bindings}
           bindingInfo={bindingToUpdate}
           bindingDirection={bindingDirection}
+          isOpen={isOpen}
+          onlyBuiltInBindings={onlyBuiltInBindings}
           onPanelClose={onCancel}
           onSubmit={onSubmit}
           onDelete={onDelete}
-          isOpen={isOpen}
           setRequiredBindingId={setRequiredBindingId}
         />
         {width > fullPageWidth ? fullPageContent : smallPageContent}

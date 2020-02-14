@@ -3,6 +3,7 @@ import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Binding } from '../../../../models/functions/binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
+import { HostStatus } from '../../../../models/functions/host-status';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import { FunctionIntegrate } from './FunctionIntegrate';
@@ -17,8 +18,9 @@ interface FunctionIntegrateDataLoaderProps {
 
 interface FunctionIntegrateDataLoaderState {
   functionAppId: string;
-  functionInfo: ArmObj<FunctionInfo> | undefined;
-  bindings: Binding[] | undefined;
+  functionInfo?: ArmObj<FunctionInfo>;
+  bindings?: Binding[];
+  hostStatus?: HostStatus;
 }
 
 class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataLoaderProps, FunctionIntegrateDataLoaderState> {
@@ -29,16 +31,18 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
       functionAppId: props.resourceId.split('/functions')[0],
       functionInfo: undefined,
       bindings: undefined,
+      hostStatus: undefined,
     };
   }
 
   public componentWillMount() {
     this._loadFunction();
     this._loadBindings();
+    this._loadHostStatus();
   }
 
   public render() {
-    if (!this.state.functionInfo || !this.state.bindings) {
+    if (!this.state.functionInfo || !this.state.bindings || !this.state.hostStatus) {
       return <LoadingComponent />;
     }
 
@@ -48,6 +52,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
         functionAppId={this.state.functionAppId}
         functionInfo={this.state.functionInfo}
         setRequiredBindingId={this._loadBinding}
+        hostStatus={this.state.hostStatus}
       />
     );
   }
@@ -97,6 +102,19 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
       }
     });
   };
+
+  private _loadHostStatus() {
+    functionIntegrateData.getHostStatus(this.state.functionAppId).then(r => {
+      if (r.metadata.success) {
+        this.setState({
+          ...this.state,
+          hostStatus: r.data.properties,
+        });
+      } else {
+        LogService.trackEvent(LogCategories.functionIntegrate, 'getHostStatus', `Failed to get hostStatus: ${r.metadata.error}`);
+      }
+    });
+  }
 }
 
 export default FunctionIntegrateDataLoader;
