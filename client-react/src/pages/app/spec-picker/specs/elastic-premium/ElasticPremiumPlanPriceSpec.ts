@@ -78,12 +78,18 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
   }
 
   protected _shouldHideForNewPlan(data: PlanSpecPickerData): boolean {
-    return !!data.hostingEnvironmentName || data.isXenon || !data.isFunctionApp || (!!data.isNewFunctionAppCreate && !data.isElastic);
+    return (
+      !!data.hostingEnvironmentName ||
+      data.isXenon ||
+      data.hyperV ||
+      !data.isFunctionApp ||
+      (!!data.isNewFunctionAppCreate && !data.isElastic)
+    );
   }
 
   protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {
     return (
-      !!plan.properties.hostingEnvironmentProfile || plan.properties.isXenon || !AppKind.hasAnyKind(plan, [CommonConstants.Kinds.elastic])
+      !!plan.properties.hostingEnvironmentProfile || plan.properties.hyperV || !AppKind.hasAnyKind(plan, [CommonConstants.Kinds.elastic])
     );
   }
 }
