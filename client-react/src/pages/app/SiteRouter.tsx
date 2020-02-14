@@ -16,6 +16,8 @@ import { Site } from '../../models/site/site';
 import { PortalContext } from '../../PortalContext';
 import { SiteConfig } from '../../models/site/config';
 import SiteHelper from '../../utils/SiteHelper';
+import { LogCategories } from '../../utils/LogCategories';
+import LogService from '../../utils/LogService';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -110,30 +112,47 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     if (!!resourceId) {
       const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
       const trimmedResourceId = armSiteDescriptor.getTrimmedResourceId();
-      const site = await SiteService.fetchSite(trimmedResourceId);
-      if (site.metadata.success && isFunctionApp(site.data)) {
-        let functionAppEditMode: FunctionAppEditMode | undefined;
-        const readOnlyLock = await portalContext.hasLock(trimmedResourceId, 'ReadOnly');
-        if (readOnlyLock) {
-          functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
-        } else {
+      const readOnlyLock = await portalContext.hasLock(trimmedResourceId, 'ReadOnly');
+      let functionAppEditMode: FunctionAppEditMode | undefined;
+
+      if (readOnlyLock) {
+        functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
+      } else {
+        const site = await SiteService.fetchSite(trimmedResourceId);
+
+        if (site.metadata.success && isFunctionApp(site.data)) {
           functionAppEditMode = getSiteStateFromSiteData(site.data);
+
           if (functionAppEditMode === FunctionAppEditMode.ReadWrite) {
             const appSettingsResponse = await SiteService.fetchApplicationSettings(trimmedResourceId);
+
             if (appSettingsResponse.metadata.success) {
               functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
+            } else {
+              LogService.error(
+                LogCategories.siteDashboard,
+                'fetchAppSetting',
+                `Failed to fetch app settings: ${appSettingsResponse.metadata.error}`
+              );
             }
           }
+        } else if (!site.metadata.success) {
+          LogService.error(LogCategories.siteDashboard, 'get site', `Failed to get site: ${site.metadata.error}`);
         }
+
         if (!functionAppEditMode) {
           const configResponse = await SiteService.fetchWebConfig(trimmedResourceId);
           functionAppEditMode = resolveAndGetUndefinedSiteState(
             armSiteDescriptor,
             configResponse.metadata.success ? configResponse.data : undefined
           );
+          if (!configResponse.metadata.success) {
+            LogService.error(LogCategories.siteDashboard, 'fetchWebConfig', `Failed to fetch web config: ${configResponse.metadata.error}`);
+          }
         }
-        setSiteAppEditState(functionAppEditMode);
       }
+
+      setSiteAppEditState(functionAppEditMode);
     }
   };
 
