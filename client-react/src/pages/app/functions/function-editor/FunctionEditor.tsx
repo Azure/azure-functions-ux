@@ -31,6 +31,8 @@ import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner
 import { SiteStateContext } from '../../../../SiteStateContext';
 import SiteHelper from '../../../../utils/SiteHelper';
 import { BindingManager } from '../../../../utils/BindingManager';
+import { StartupInfoContext } from '../../../../StartupInfoContext';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -79,6 +81,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const { t } = useTranslation();
 
   const siteState = useContext(SiteStateContext);
+  const startUpInfoContext = useContext(StartupInfoContext);
 
   const save = async () => {
     if (!selectedFile) {
@@ -352,6 +355,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               renderWhitespace: 'all',
               readOnly: SiteHelper.isFunctionAppReadOnly(siteState),
             }}
+            theme={startUpInfoContext.theme === 'dark' ? CommonConstants.MonacoEditorTheme.dark : CommonConstants.MonacoEditorTheme.light}
           />
         </div>
       )}
