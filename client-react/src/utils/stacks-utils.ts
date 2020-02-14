@@ -45,6 +45,10 @@ const isStackVersionEndOfLife = (stackName: string, runtimeVersion: string) => {
     return runtimeVersion.toLowerCase().startsWith('wildfly|');
   }
 
+  if (stackName === 'ruby') {
+    return runtimeVersion === '2.3' || runtimeVersion.startsWith('2.3.');
+  }
+
   return false;
 };
 
