@@ -8,7 +8,7 @@ import { Site } from '../../../../models/site/site';
 import Panel from '../../../../components/Panel/Panel';
 import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
-import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
+import MonacoEditor, { getMonacoEditorTheme } from '../../../../components/monaco-editor/monaco-editor';
 import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj } from './FunctionEditor.types';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
@@ -32,7 +32,7 @@ import { SiteStateContext } from '../../../../SiteStateContext';
 import SiteHelper from '../../../../utils/SiteHelper';
 import { BindingManager } from '../../../../utils/BindingManager';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { PortalTheme } from '../../../../models/portal-models';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -355,7 +355,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               renderWhitespace: 'all',
               readOnly: SiteHelper.isFunctionAppReadOnly(siteState),
             }}
-            theme={startUpInfoContext.theme === 'dark' ? CommonConstants.MonacoEditorTheme.dark : CommonConstants.MonacoEditorTheme.light}
+            theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
           />
         </div>
       )}
