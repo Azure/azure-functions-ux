@@ -130,4 +130,9 @@ export class CommonConstants {
   };
 
   public static readonly hostJsonFileName = 'host.json';
+
+  public static readonly MonacoEditorTheme = {
+    dark: 'vs-dark',
+    light: 'vs-light',
+  };
 }
