@@ -315,6 +315,7 @@ export class StacksWebAppCreateService {
             sortOrder: 1,
             githubActionSettings: {
               supported: true,
+              recommendedVersion: '3.6',
             },
           },
         ],
