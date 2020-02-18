@@ -315,6 +315,7 @@ export class StacksWebAppCreateService {
             sortOrder: 1,
             githubActionSettings: {
               supported: true,
+              recommendedVersion: '3.6',
             },
           },
         ],
@@ -598,7 +599,8 @@ export class StacksWebAppCreateService {
             runtimeVersion: 'TOMCAT|8.5-jre8',
             sortOrder: 0,
             githubActionSettings: {
-              supported: false,
+              supported: true,
+              recommendedVersion: '8',
             },
           },
           {
@@ -611,7 +613,8 @@ export class StacksWebAppCreateService {
             runtimeVersion: '1.8|Tomcat|8.5',
             sortOrder: 1,
             githubActionSettings: {
-              supported: false,
+              supported: true,
+              recommendedVersion: '8',
             },
           },
         ],
@@ -631,7 +634,8 @@ export class StacksWebAppCreateService {
             runtimeVersion: 'TOMCAT|9.0-jre8',
             sortOrder: 0,
             githubActionSettings: {
-              supported: false,
+              supported: true,
+              recommendedVersion: '8',
             },
           },
           {
@@ -644,7 +648,8 @@ export class StacksWebAppCreateService {
             runtimeVersion: '1.8|Tomcat|9.0',
             sortOrder: 1,
             githubActionSettings: {
-              supported: false,
+              supported: true,
+              recommendedVersion: '8',
             },
           },
         ],
@@ -664,7 +669,8 @@ export class StacksWebAppCreateService {
             runtimeVersion: 'JAVA|8-jre8',
             sortOrder: 0,
             githubActionSettings: {
-              supported: false,
+              supported: true,
+              recommendedVersion: '8',
             },
           },
           {
@@ -677,7 +683,8 @@ export class StacksWebAppCreateService {
             runtimeVersion: '1.8|JAVA|8',
             sortOrder: 1,
             githubActionSettings: {
-              supported: false,
+              supported: true,
+              recommendedVersion: '8',
             },
           },
         ],
@@ -705,7 +712,8 @@ export class StacksWebAppCreateService {
             runtimeVersion: 'TOMCAT|8.5-java11',
             sortOrder: 0,
             githubActionSettings: {
-              supported: false,
+              supported: true,
+              recommendedVersion: '11',
             },
           },
           {
@@ -718,7 +726,8 @@ export class StacksWebAppCreateService {
             runtimeVersion: '11|Tomcat|8.5',
             sortOrder: 1,
             githubActionSettings: {
-              supported: false,
+              supported: true,
+              recommendedVersion: '11',
             },
           },
         ],
@@ -738,7 +747,8 @@ export class StacksWebAppCreateService {
             runtimeVersion: 'TOMCAT|9.0-java11',
             sortOrder: 0,
             githubActionSettings: {
-              supported: false,
+              supported: true,
+              recommendedVersion: '11',
             },
           },
           {
@@ -751,7 +761,8 @@ export class StacksWebAppCreateService {
             runtimeVersion: '11|Tomcat|9.0',
             sortOrder: 1,
             githubActionSettings: {
-              supported: false,
+              supported: true,
+              recommendedVersion: '11',
             },
           },
         ],
@@ -771,7 +782,8 @@ export class StacksWebAppCreateService {
             runtimeVersion: 'JAVA|11-java11',
             sortOrder: 0,
             githubActionSettings: {
-              supported: false,
+              supported: true,
+              recommendedVersion: '11',
             },
           },
         ],

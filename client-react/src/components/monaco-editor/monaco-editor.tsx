@@ -2,6 +2,7 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import * as PropTypes from 'prop-types';
 import React from 'react';
 import { editorStyle, disabledEditorStyle } from './monaco-editor.styles';
+import { PortalTheme } from '../../models/portal-models';
 
 class MonacoEditor extends React.Component<any, any> {
   public static propTypes: any;
@@ -107,6 +108,10 @@ class MonacoEditor extends React.Component<any, any> {
     this.editor.layout();
   }
 }
+
+export const getMonacoEditorTheme = (portalTheme: PortalTheme) => {
+  return `vs-${portalTheme}`;
+};
 
 MonacoEditor.propTypes = {
   value: PropTypes.string,

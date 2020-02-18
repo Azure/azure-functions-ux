@@ -101,7 +101,7 @@ export interface Site {
   tags: { [key: string]: string };
   resourceGroup: string;
   isLinux: boolean;
-  isXenon: boolean;
+  hyperV: boolean;
   reserved: boolean;
   dailyMemoryTimeQuota: number;
   siteDisabledReason: SiteDisabledReason;

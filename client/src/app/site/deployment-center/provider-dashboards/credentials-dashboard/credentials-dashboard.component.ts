@@ -6,7 +6,7 @@ import { SiteService } from 'app/shared/services/site.service';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { SiteAvailabilityState } from 'app/shared/models/arm/site';
 import { Dom } from '../../../../shared/Utilities/dom';
-import { KeyCodes } from '../../../../shared/models/constants';
+import { KeyCodes, Links } from '../../../../shared/models/constants';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
@@ -54,6 +54,7 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
   public resetting = false;
   public publishProfileLink: SafeUrl;
   public profileName: string = '';
+  public learnMoreLink = Links.deploymentCredentialsLearnMore;
 
   public scopeItems: SelectOption<CredentialScopeType>[] = [];
 

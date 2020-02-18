@@ -14,6 +14,10 @@ import { CommonConstants } from '../../utils/CommonConstants';
 import { ArmObj } from '../../models/arm-obj';
 import { Site } from '../../models/site/site';
 import { PortalContext } from '../../PortalContext';
+import { SiteConfig } from '../../models/site/config';
+import SiteHelper from '../../utils/SiteHelper';
+import { LogCategories } from '../../utils/LogCategories';
+import LogService from '../../utils/LogService';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -57,7 +61,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
   const [siteAppEditState, setSiteAppEditState] = useState(FunctionAppEditMode.ReadWrite);
 
-  const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode => {
+  const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site)) {
       return FunctionAppEditMode.ReadOnlyLinuxDynamic;
     }
@@ -67,10 +71,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     if (isLinuxApp(site) && isElastic(site)) {
       return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
     }
-    return FunctionAppEditMode.ReadWrite;
+    return undefined;
   };
 
-  const getSiteStateFromAppSettings = (appSettings: ArmObj<{ [key: string]: string }>): FunctionAppEditMode => {
+  const getSiteStateFromAppSettings = (appSettings: ArmObj<{ [key: string]: string }>): FunctionAppEditMode | undefined => {
     if (FunctionAppService.usingRunFromPackage(appSettings)) {
       return FunctionAppEditMode.ReadOnlyRunFromPackage;
     }
@@ -87,30 +91,68 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     if (editModeString.toLowerCase() === SiteState.readonly) {
       return FunctionAppEditMode.ReadOnly;
     }
+    if (editModeString.toLowerCase() === SiteState.readwrite) {
+      return FunctionAppEditMode.ReadWrite;
+    }
+
+    return undefined;
+  };
+
+  const resolveAndGetUndefinedSiteState = (armSiteDescriptor: ArmSiteDescriptor, config?: ArmObj<SiteConfig>) => {
+    if (!!config && SiteHelper.isSourceControlEnabled(config)) {
+      return FunctionAppEditMode.ReadOnlySourceControlled;
+    }
+    if (armSiteDescriptor.slot) {
+      return FunctionAppEditMode.ReadOnlySlots;
+    }
     return FunctionAppEditMode.ReadWrite;
   };
 
   const findAndSetSiteState = async () => {
     if (!!resourceId) {
       const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
-      const siteResourceId = armSiteDescriptor.getSiteOnlyResourceId();
-      const site = await SiteService.fetchSite(siteResourceId);
-      if (site.metadata.success && isFunctionApp(site.data)) {
-        let functionAppEditMode = FunctionAppEditMode.ReadWrite;
-        const readOnlyLock = await portalContext.hasLock(siteResourceId, 'ReadOnly');
-        if (readOnlyLock) {
-          functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
-        } else {
+      const trimmedResourceId = armSiteDescriptor.getTrimmedResourceId();
+      const readOnlyLock = await portalContext.hasLock(trimmedResourceId, 'ReadOnly');
+      let functionAppEditMode: FunctionAppEditMode | undefined;
+
+      if (readOnlyLock) {
+        functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
+      } else {
+        const site = await SiteService.fetchSite(trimmedResourceId);
+
+        if (site.metadata.success && isFunctionApp(site.data)) {
           functionAppEditMode = getSiteStateFromSiteData(site.data);
-          if (functionAppEditMode === FunctionAppEditMode.ReadWrite) {
-            const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
+
+          if (!functionAppEditMode) {
+            const appSettingsResponse = await SiteService.fetchApplicationSettings(trimmedResourceId);
+
             if (appSettingsResponse.metadata.success) {
               functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data);
+            } else {
+              LogService.error(
+                LogCategories.siteDashboard,
+                'fetchAppSetting',
+                `Failed to fetch app settings: ${appSettingsResponse.metadata.error}`
+              );
             }
           }
+        } else if (!site.metadata.success) {
+          LogService.error(LogCategories.siteDashboard, 'get site', `Failed to get site: ${site.metadata.error}`);
         }
-        setSiteAppEditState(functionAppEditMode);
+
+        if (!functionAppEditMode) {
+          const configResponse = await SiteService.fetchWebConfig(trimmedResourceId);
+          functionAppEditMode = resolveAndGetUndefinedSiteState(
+            armSiteDescriptor,
+            configResponse.metadata.success ? configResponse.data : undefined
+          );
+          if (!configResponse.metadata.success) {
+            LogService.error(LogCategories.siteDashboard, 'fetchWebConfig', `Failed to fetch web config: ${configResponse.metadata.error}`);
+          }
+        }
       }
+
+      setSiteAppEditState(functionAppEditMode);
     }
   };
 

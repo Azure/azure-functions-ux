@@ -62,6 +62,7 @@ export interface PlanSpecPickerData {
   isFunctionApp?: boolean;
   isLinux: boolean;
   isXenon: boolean;
+  hyperV: boolean;
   selectedLegacySkuName: string; // Looks like "small_standard"
   selectedSkuCode?: string; // Can be set in update scenario for initial spec selection
   isElastic?: boolean;
