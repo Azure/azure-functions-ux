@@ -364,6 +364,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           resetAppInsightsToken={resetAppInsightsToken}
           appInsightsToken={appInsightsToken}
           readOnlyBannerHeight={getReadOnlyBannerHeight()}
+          functionName={functionInfo.properties.name}
         />
       </div>
     </>
