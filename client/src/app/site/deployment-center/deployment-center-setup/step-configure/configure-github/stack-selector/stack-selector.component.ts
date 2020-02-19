@@ -150,12 +150,18 @@ export class StackSelectorComponent implements OnDestroy {
         value: version.supportedPlatforms[0].runtimeVersion,
       }));
 
+      // NOTE(michinoy): once the stack versions dropdown is populated, default selection can be done in either of following ways:
+      // 1. If the stack version is selected for the app and it exists in the list
+      // 2. Select the first item in the list if the stack version does not exist (e.g. .NET Core) Or does not exist in the list (e.g. Node LTS)
+
       const appSelectedStackVersion = this.runtimeStackVersionItems.filter(
         item => item.value.toLocaleLowerCase() === this.wizard.stackVersion.toLocaleLowerCase()
       );
 
       if (appSelectedStackVersion && appSelectedStackVersion.length === 1) {
         this._runtimeStackVersionStream$.next(appSelectedStackVersion[0].value);
+      } else {
+        this._runtimeStackVersionStream$.next(this.runtimeStackVersionItems[0].value);
       }
     }
 

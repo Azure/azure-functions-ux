@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { CacheService } from 'app/shared/services/cache.service';
-import { Constants, LogCategories, ScenarioIds, KeyCodes, FeatureFlags } from 'app/shared/models/constants';
+import { Constants, LogCategories, ScenarioIds, KeyCodes } from 'app/shared/models/constants';
 import { Subject } from 'rxjs/Subject';
 import { LogService } from 'app/shared/services/log.service';
 import { Observable } from 'rxjs/Observable';
@@ -11,7 +11,7 @@ import { BroadcastService } from '../../../../shared/services/broadcast.service'
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
-import { Url } from 'app/shared/Utilities/url';
+
 @Component({
   selector: 'app-step-source-control',
   templateUrl: './step-source-control.component.html',
@@ -152,7 +152,8 @@ export class StepSourceControlComponent {
       .subscribe(
         r => {
           const headersJson = r.headers.toJSON();
-          const enableGitHubAction = Url.getFeatureValue(FeatureFlags.enableGitHubAction);
+          const enableGitHubAction =
+            this._scenarioService.checkScenario(ScenarioIds.enableGitHubAction, { site: this._wizardService.siteArm }).status === 'enabled';
 
           this._wizardService.isGithubActionWorkflowScopeAvailable =
             headersJson &&

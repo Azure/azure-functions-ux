@@ -1476,7 +1476,7 @@ export class PortalResources {
   public static detailContainerLogFetchFailure = 'detailContainerLogFetchFailure';
   public static resettingCredentials = 'resettingCredentials';
   public static resettingCredentialsFail = 'resettingCredentialsFail';
-  public static resettingCredentialsSucccess = 'resettingCredentialsSucccess';
+  public static resettingCredentialsSuccess = 'resettingCredentialsSuccess';
   public static savingCredentials = 'savingCredentials';
   public static savingCredentialsFail = 'savingCredentialsFail';
   public static savingCredentialsSuccess = 'savingCredentialsSuccess';
