@@ -42,8 +42,8 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
         if (!response.metadata.success) {
           LogService.trackEvent(
             LogCategories.bindingResource,
-            'fetchStorageAccountSecrets',
-            `Failed to get storage account secrets: ${response.metadata.error}`
+            'fetchStorageAccountKeys',
+            `Failed to get storage account keys: ${response.metadata.error}`
           );
           return;
         }
