@@ -4577,7 +4577,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="resettingCredentialsFail" xml:space="preserve">
         <value>Failed to reset credentials</value>
     </data>
-    <data name="resettingCredentialsSucccess" xml:space="preserve">
+    <data name="resettingCredentialsSuccess" xml:space="preserve">
         <value>Successfully reset credentials</value>
     </data>
     <data name="savingCredentials" xml:space="preserve">
