@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { Formik, FormikProps } from 'formik';
-import { DefaultButton, TextField } from 'office-ui-fabric-react';
+import { DefaultButton, TextField, IDropdownOption } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 interface CustomPivotFormValues {
@@ -39,9 +39,9 @@ const NewPivot: React.SFC<NewConnectionCalloutProps> = props => {
 
 const setNewConnection = (
   formValues: CustomPivotFormValues,
-  setNewAppSetting: (a: { key: string; value: string }) => void,
-  setSelectedItem: (u: undefined) => void,
-  setIsDialogVisible: (b: boolean) => void
+  setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
+  setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
+  setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   if (formValues.name) {
     const appSettingName = formValues.name;

@@ -1,16 +1,16 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { NewConnectionCalloutProps } from '../Callout.properties';
-import { Formik, FormikProps, FieldProps } from 'formik';
-import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
-import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
-import { ArmObj } from '../../../../../../models/arm-obj';
-import LogService from '../../../../../../utils/LogService';
-import { LogCategories } from '../../../../../../utils/LogCategories';
-import { IDropdownOption, DefaultButton, IDropdownProps } from 'office-ui-fabric-react';
+import { FieldProps, Formik, FormikProps } from 'formik';
+import { DefaultButton, IDropdownOption, IDropdownProps } from 'office-ui-fabric-react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { paddingTopStyle } from '../Callout.styles';
-import { StorageAccount } from '../../../../../../models/storage-account';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
+import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
+import { ArmObj } from '../../../../../../models/arm-obj';
+import { StorageAccount, StorageAccountKeys } from '../../../../../../models/storage-account';
+import { LogCategories } from '../../../../../../utils/LogCategories';
+import LogService from '../../../../../../utils/LogService';
+import { NewConnectionCalloutProps } from '../Callout.properties';
+import { paddingTopStyle } from '../Callout.styles';
+import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
 
 interface StorageAccountPivotFormValues {
   storageAccount: ArmObj<StorageAccount> | undefined;
@@ -22,15 +22,33 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
   const { resourceId } = props;
   const [formValues, setFormValues] = useState<StorageAccountPivotFormValues>({ storageAccount: undefined });
   const [storageAccounts, setStorageAccounts] = useState<ArmObj<StorageAccount>[] | undefined>(undefined);
+  const [keyList, setKeyList] = useState<StorageAccountKeys | undefined>(undefined);
 
   useEffect(() => {
     if (!storageAccounts) {
       provider.fetchAzureStorageAccounts(resourceId).then(r => {
         if (!r.metadata.success) {
-          LogService.trackEvent(LogCategories.bindingResource, 'getStorageAccounts', `Failed to get Storage Accounts: ${r.metadata.error}`);
+          LogService.trackEvent(
+            LogCategories.bindingResource,
+            'fetchAzureStorageAccounts',
+            `Failed to get Storage Accounts: ${r.metadata.error}`
+          );
           return;
         }
         setStorageAccounts(r.data.value);
+      });
+    } else if (formValues.storageAccount && !keyList) {
+      provider.fetchStorageAccountKeys(formValues.storageAccount.id).then(response => {
+        if (!response.metadata.success) {
+          LogService.trackEvent(
+            LogCategories.bindingResource,
+            'fetchStorageAccountKeys',
+            `Failed to get storage account keys: ${response.metadata.error}`
+          );
+          return;
+        }
+
+        setKeyList(response.data);
       });
     }
 
@@ -50,7 +68,16 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
   return (
     <Formik
       initialValues={formValues}
-      onSubmit={() => setStorageAccountConnection(formValues, props.setNewAppSetting, props.setSelectedItem, props.setIsDialogVisible)}>
+      onSubmit={() =>
+        setStorageAccountConnection(
+          formValues,
+          keyList,
+          props.setNewAppSetting,
+          props.setSelectedItem,
+          props.setIsDialogVisible,
+          setKeyList
+        )
+      }>
       {(formProps: FormikProps<StorageAccountPivotFormValues>) => {
         return (
           <form>
@@ -84,14 +111,20 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
 
 const setStorageAccountConnection = (
   formValues: StorageAccountPivotFormValues,
-  setNewAppSetting: (a: { key: string; value: string }) => void,
-  setSelectedItem: (u: undefined) => void,
-  setIsDialogVisible: (b: boolean) => void
+  keyList: StorageAccountKeys | undefined,
+  setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
+  setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
+  setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>,
+  setKeyList: React.Dispatch<React.SetStateAction<StorageAccountKeys | undefined>>
 ) => {
-  if (formValues.storageAccount) {
+  if (formValues.storageAccount && keyList) {
     const appSettingName = `${formValues.storageAccount.name}_STORAGE`;
-    setNewAppSetting({ key: appSettingName, value: appSettingName });
-    setSelectedItem(undefined);
+    const appSettingValue = `DefaultEndpointsProtocol=https;AccountName=${formValues.storageAccount.name};AccountKey=${
+      keyList.keys[0].value
+    }`;
+    setNewAppSetting({ key: appSettingName, value: appSettingValue });
+    setKeyList(undefined);
+    setSelectedItem({ key: appSettingName, text: appSettingValue });
     setIsDialogVisible(false);
   }
 };
