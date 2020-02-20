@@ -1,7 +1,7 @@
 import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 import { style } from 'typestyle';
 import { DropDownStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/Dropdown.styles';
-import { IDropdownStyles } from 'office-ui-fabric-react';
+import { IDropdownStyles, ITooltipHostStyles } from 'office-ui-fabric-react';
 
 export const fileSelectorStackStyle = (theme: ThemeExtended) =>
   style({
@@ -119,3 +119,5 @@ export const testPanelStyle = {
     boxShadow: 'rgba(0, 0, 0, 0.2) 0px 0px 5px 0px',
   },
 };
+
+export const toolTipStyle: Partial<ITooltipHostStyles> = { root: { display: 'inherit' } };
