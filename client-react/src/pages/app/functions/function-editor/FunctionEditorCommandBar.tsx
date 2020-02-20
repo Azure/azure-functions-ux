@@ -5,7 +5,7 @@ import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePort
 import { PortalContext } from '../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
-import { IContextualMenuRenderItem, TooltipHost, ITooltipHostStyles } from 'office-ui-fabric-react';
+import { IContextualMenuRenderItem, TooltipHost } from 'office-ui-fabric-react';
 import { UrlObj } from './FunctionEditor.types';
 import { toolTipStyle } from './FunctionEditor.styles';
 
