@@ -25,6 +25,7 @@ import { ThemeContext } from '../../../../ThemeContext';
 import StringUtils from '../../../../utils/string';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
 import { QuickstartOptions } from './FunctionQuickstart.types';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 registerIcons({
   icons: {
@@ -81,15 +82,15 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   };
 
   const isVSCodeOptionVisible = (): boolean => {
-    return workerRuntime === 'java' || !isLinuxApp(site) || !isElastic(site);
+    return workerRuntime === CommonConstants.WorkerRuntimeLanguages.java.toLocaleLowerCase() || !isLinuxApp(site) || !isElastic(site);
   };
 
   const isCoreToolsOptionVisible = (): boolean => {
-    return workerRuntime !== 'java';
+    return workerRuntime !== CommonConstants.WorkerRuntimeLanguages.java.toLocaleLowerCase();
   };
 
   const isMavenToolsOptionVisible = (): boolean => {
-    return workerRuntime === 'java';
+    return workerRuntime === CommonConstants.WorkerRuntimeLanguages.java.toLocaleLowerCase();
   };
 
   const dropdownOptions = [
