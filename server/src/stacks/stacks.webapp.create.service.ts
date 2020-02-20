@@ -418,6 +418,7 @@ export class StacksWebAppCreateService {
             sortOrder: 1,
             githubActionSettings: {
               supported: true,
+              recommendedVersion: '3.1.102',
             },
           },
         ],
@@ -438,6 +439,7 @@ export class StacksWebAppCreateService {
             sortOrder: 0,
             githubActionSettings: {
               supported: true,
+              recommendedVersion: '3.0.103',
             },
           },
           {
@@ -451,6 +453,7 @@ export class StacksWebAppCreateService {
             sortOrder: 1,
             githubActionSettings: {
               supported: true,
+              recommendedVersion: '3.0.103',
             },
           },
         ],
@@ -471,6 +474,7 @@ export class StacksWebAppCreateService {
             sortOrder: 0,
             githubActionSettings: {
               supported: true,
+              recommendedVersion: '2.1.804',
             },
           },
           {
@@ -484,6 +488,7 @@ export class StacksWebAppCreateService {
             sortOrder: 1,
             githubActionSettings: {
               supported: true,
+              recommendedVersion: '2.1.804',
             },
           },
         ],
