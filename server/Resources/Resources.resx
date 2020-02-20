@@ -5208,9 +5208,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="errorDetails" xml:space="preserve">
         <value>Error Details</value>
     </data>
-    <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Function keys can be configured in function settings.</value>
-    </data>
     <data name="appKeysHost" xml:space="preserve">
         <value>Host keys (all functions)</value>
     </data>
