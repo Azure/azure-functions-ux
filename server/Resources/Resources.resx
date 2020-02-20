@@ -1466,7 +1466,7 @@
         <value>Successfully updated web app settings</value>
     </data>
     <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings: </value>
+        <value>Failed to update web app settings</value>
     </data>
     <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Save Error: Invlid input provided.</value>
@@ -5093,6 +5093,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="containerValidationFailed" xml:space="preserve">
         <value>Failed to validate container settings.</value>
+    </data>
+    <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
     </data>
     <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>No inputs defined</value>
