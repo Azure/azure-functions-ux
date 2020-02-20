@@ -1847,4 +1847,5 @@ export class PortalResources {
   public static deleteFunctionKeyNotificationDetails = 'deleteFunctionKeyNotificationDetails';
   public static deleteFunctionKeyNotificationFailed = 'deleteFunctionKeyNotificationFailed';
   public static deleteFunctionKeyNotificationSuccess = 'deleteFunctionKeyNotificationSuccess';
+  public static disableFunctionTestTooltip = 'disableFunctionTestTooltip';
 }
