@@ -1466,7 +1466,7 @@
         <value>Successfully updated web app settings</value>
     </data>
     <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings: </value>
+        <value>Failed to update web app settings</value>
     </data>
     <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Save Error: Invlid input provided.</value>
