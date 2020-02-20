@@ -3,6 +3,7 @@ import { DefaultButton, IDropdownOption, IDropdownProps } from 'office-ui-fabric
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
+import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { StorageAccount, StorageAccountKeys } from '../../../../../../models/storage-account';
@@ -84,9 +85,8 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
             {!!storageAccounts && storageAccounts.length === 0 ? (
               <p>{t('storageAccountPivot_noStorageAccounts')}</p>
             ) : (
-              <>
+              <FormControlWrapper label={t('storageAccountPivot_storageAccount')} layout={Layout.vertical}>
                 <Dropdown
-                  label={t('storageAccountPivot_storageAccount')}
                   options={storageAccountOptions}
                   selectedKey={formValues.storageAccount && formValues.storageAccount.id}
                   onChange={(o, e) => {
@@ -95,7 +95,7 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
                   errorMessage={undefined}
                   {...props}
                 />
-              </>
+              </FormControlWrapper>
             )}
             <footer style={paddingTopStyle}>
               <DefaultButton disabled={!formValues.storageAccount} onClick={formProps.submitForm}>

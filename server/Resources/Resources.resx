@@ -5418,6 +5418,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="eventHubPicker_noNamespaces" xml:space="preserve">
         <value>There are no namespaces in this subscription</value>
     </data>
+    <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
+        <value>New Event Hub connection</value>
+    </data>
     <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>There are no Event Hubs in this namespace</value>
     </data>
@@ -5448,8 +5451,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="customPivot_value" xml:space="preserve">
         <value>Value</value>
     </data>
+    <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
+        <value>New Service Bus connection</value>
+    </data>
     <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus</value>
+    </data>
+    <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
+        <value>New Custom App Setting</value>
     </data>
     <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Custom App Setting</value>
@@ -5466,6 +5475,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>Policy</value>
     </data>
+    <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
+        <value>New Cosmos DB connection</value>
+    </data>
     <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB Account</value>
     </data>
@@ -5475,11 +5487,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>Database Account</value>
     </data>
-    <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+    <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
         <value>Existing Storage Account</value>
     </data>
-    <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
-        <value>New Storage Account</value>
+    <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
+        <value>New Storage Account connection</value>
     </data>
     <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>There are no storage accounts in this subscription</value>
