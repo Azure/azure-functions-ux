@@ -20,13 +20,14 @@ export interface BindingCreatorProps {
   bindings: Binding[];
   functionAppId: string;
   onlyBuiltInBindings: boolean;
+  readOnly: boolean;
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo) => void;
   setRequiredBindingId: (id: string) => void;
 }
 
 const BindingCreator: React.SFC<BindingCreatorProps> = props => {
-  const { bindingDirection, bindings, functionAppId, onlyBuiltInBindings, onPanelClose, onSubmit, setRequiredBindingId } = props;
+  const { bindingDirection, bindings, functionAppId, onlyBuiltInBindings, readOnly, onPanelClose, onSubmit, setRequiredBindingId } = props;
   const [currentType, setCurrentType] = useState<BindingType>(
     bindingDirection === BindingDirection.trigger ? BindingType.httpTrigger : BindingType.blob
   );
@@ -104,7 +105,7 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
 
             <ActionBar
               id="connection-string-edit-footer"
-              primaryButton={actionBarPrimaryButtonProps(formProps, t)}
+              primaryButton={actionBarPrimaryButtonProps(formProps, readOnly, t)}
               secondaryButton={actionBarSecondaryButtonProps(onPanelClose, t)}
             />
           </form>
@@ -185,12 +186,12 @@ const getInstructions = (bindingDirection: BindingDirection, t: i18next.TFunctio
   }
 };
 
-const actionBarPrimaryButtonProps = (formProps: FormikProps<BindingInfo>, t: i18next.TFunction) => {
+const actionBarPrimaryButtonProps = (formProps: FormikProps<BindingInfo>, readOnly: boolean, t: i18next.TFunction) => {
   return {
     id: 'save',
     title: t('ok'),
     onClick: () => formProps.submitForm(),
-    disable: !formProps.isValid,
+    disable: readOnly || !formProps.isValid,
   };
 };
 

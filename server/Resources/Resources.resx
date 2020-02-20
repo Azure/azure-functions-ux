@@ -5094,6 +5094,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerValidationFailed" xml:space="preserve">
         <value>Failed to validate container settings.</value>
     </data>
+    <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
     <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>No inputs defined</value>
     </data>
