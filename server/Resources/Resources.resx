@@ -5715,4 +5715,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
         <value>Succeeded in deleting {0}</value>
     </data>
+    <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
+    </data>
 </root>
