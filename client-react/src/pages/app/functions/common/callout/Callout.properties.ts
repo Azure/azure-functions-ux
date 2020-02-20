@@ -1,6 +1,8 @@
+import { IDropdownOption } from 'office-ui-fabric-react';
+
 export interface NewConnectionCalloutProps {
   resourceId: string;
-  setNewAppSetting: (a: { key: string; value: string }) => void;
-  setSelectedItem: (u: undefined) => void;
-  setIsDialogVisible: (b: boolean) => void;
+  setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>;
+  setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>;
+  setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }

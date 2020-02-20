@@ -315,6 +315,7 @@ export class StacksWebAppCreateService {
             sortOrder: 1,
             githubActionSettings: {
               supported: true,
+              recommendedVersion: '3.6',
             },
           },
         ],
@@ -780,6 +781,20 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'JAVA|11-java11',
             sortOrder: 0,
+            githubActionSettings: {
+              supported: true,
+              recommendedVersion: '11',
+            },
+          },
+          {
+            os: 'windows',
+            isPreview: false,
+            isDeprecated: false,
+            isHidden: false,
+            applicationInsightsEnabled: false,
+            remoteDebuggingEnabled: false,
+            runtimeVersion: '11|JAVA|SE',
+            sortOrder: 1,
             githubActionSettings: {
               supported: true,
               recommendedVersion: '11',

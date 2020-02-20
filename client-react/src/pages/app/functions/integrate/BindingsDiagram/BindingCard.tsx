@@ -2,6 +2,7 @@ import i18next from 'i18next';
 import React, { useContext } from 'react';
 import { first } from 'rxjs/operators';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import SiteService from '../../../../../ApiHelpers/SiteService';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../../models/functions/binding';
 import { BindingInfo } from '../../../../../models/functions/function-binding';
@@ -112,6 +113,18 @@ const createOrUpdateBinding = (
   };
   const bindings = [...updatedFunctionInfo.properties.config.bindings];
   const index = functionInfo.properties.config.bindings.findIndex(b => b === currentBindingInfo);
+
+  if (newBindingInfo['newAppSettings']) {
+    SiteService.updateApplicationSettings(functionInfo.id.split('/functions/')[0], newBindingInfo['newAppSettings']).then(r => {
+      if (!r.metadata.success) {
+        const errorMessage = (r.metadata.error && r.metadata.error.error && r.metadata.error.error.message) || t('configUpdateFailure');
+        portalCommunicator.stopNotification(notificationId, false, errorMessage);
+        return;
+      }
+
+      delete newBindingInfo['newAppSettings'];
+    });
+  }
 
   if (index > -1) {
     bindings[index] = newBindingInfo;

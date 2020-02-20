@@ -338,7 +338,11 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
           resourceId: this._credentialsData.resourceId,
         });
         if (result) {
-          this._portalService.stopNotification(resetPublishingProfileNotificationId, true, PortalResources.resettingCredentialsSucccess);
+          this._portalService.stopNotification(
+            resetPublishingProfileNotificationId,
+            true,
+            this._translateService.instant(PortalResources.resettingCredentialsSuccess)
+          );
         }
       });
   }

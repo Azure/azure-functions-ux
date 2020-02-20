@@ -169,7 +169,7 @@ const getStorageSettings = (appSettings: { [key: string]: string }, newAppSettin
   const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
   for (const key of Object.keys(appSettings)) {
     const value = appSettings[key].toLowerCase();
-    if (value.indexOf('accountname') > -1 && value.indexOf('accountkey') > -1) {
+    if (value.indexOf('accountname') > -1 && value.indexOf('accountkey') > -1 && key !== newAppSettingName) {
       result.push(key);
     }
   }

@@ -20,6 +20,7 @@ const NewServiceBusConnectionCallout: React.SFC<NewConnectionCalloutProps & IDro
 
   return (
     <div style={paddingSidesStyle}>
+      <h4>{t('serviceBusCallout_newServiceBusConnection')}</h4>
       <RadioButtonNoFormik
         id="service-bus-connection-callout-options"
         ariaLabelledBy={`service-bus-connection-callout-options-label`}

@@ -327,6 +327,7 @@ export class ScenarioIds {
   public static readonly hasRoleAssignmentPermission = 'hasRoleAssignmentPermission';
   public static readonly containerSettings = 'containerSettings';
   public static readonly isPublishProfileBasedDeploymentEnabled = 'isPublishProfileBasedDeploymentEnabled';
+  public static readonly enableGitHubAction = 'enableGitHubAction';
 }
 
 export class NationalCloudArmUris {
@@ -639,10 +640,10 @@ export class FeatureFlags {
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
   public static AllowFreeLinux = 'allowfreelinux';
-  public static enableGitHubAction = 'enableGitHubAction';
   public static enablePublishProfileBasedDeployment = 'enablePublishProfileBasedDeployment';
   public static targetAzDevDeployment = 'targetAzDevDeployment';
   public static authTokenOverride = 'authTokenOverride';
+  public static EnableAIOnNationalCloud = 'EnableAIOnNationalCloud';
   public static FunctionsPreview = 'FunctionsPreview';
 }
 

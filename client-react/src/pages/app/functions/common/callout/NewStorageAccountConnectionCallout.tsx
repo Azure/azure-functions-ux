@@ -14,7 +14,7 @@ const NewStorageAccountConnectionCallout: React.SFC<
 
   return (
     <div style={paddingSidesStyle}>
-      <p>{t('stoageAccountCallout_existingStorageAccount')}</p>
+      <h4>{t('storageAccountCallout_newStorageAccountConnection')}</h4>
       <StorageAccountPivotDataLoader {...props} />
     </div>
   );

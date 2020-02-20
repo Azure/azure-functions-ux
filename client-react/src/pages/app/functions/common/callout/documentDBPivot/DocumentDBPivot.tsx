@@ -102,9 +102,9 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps
 const setDocumentDBConnection = (
   formValues: DocumentDBPivotFormValues,
   keyList: KeyList | undefined,
-  setNewAppSetting: (a: { key: string; value: string }) => void,
-  setSelectedItem: (u: undefined) => void,
-  setIsDialogVisible: (d: boolean) => void
+  setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
+  setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
+  setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   if (formValues.databaseAccount && keyList) {
     const appSettingName = `${formValues.databaseAccount.name}_DOCUMENTDB`;
