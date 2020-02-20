@@ -34,14 +34,13 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
   const onTestItemRender = (item: any, dismissMenu: () => void) => {
     const tooltipId = 'tooltip-id';
-    const calloutProps = { gapSpace: 0 };
     if (testDisabled) {
       return (
         <TooltipHost
           content={t('disableFunctionTestTooltip')}
           closeDelay={500}
           id={tooltipId}
-          calloutProps={calloutProps}
+          calloutProps={{ gapSpace: 0 }}
           styles={toolTipStyle}>
           <CustomCommandBarButton ariaDescribedBy={tooltipId} {...item} />
         </TooltipHost>
