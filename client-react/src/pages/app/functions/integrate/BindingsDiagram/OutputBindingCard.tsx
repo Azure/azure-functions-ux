@@ -18,7 +18,7 @@ import BindingCard, { EditableBindingCardProps, createNew, editExisting, emptyLi
 import { listStyle } from './BindingDiagram.styles';
 
 const OutputBindingCard: React.SFC<EditableBindingCardProps> = props => {
-  const { functionInfo, bindings, setRequiredBindingId } = props;
+  const { functionInfo, bindings, readOnly, setRequiredBindingId } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
@@ -26,7 +26,7 @@ const OutputBindingCard: React.SFC<EditableBindingCardProps> = props => {
 
   const outputs = getOutputBindings(functionInfo.properties.config.bindings);
   getRequiredBindingData(outputs, bindings, setRequiredBindingId);
-  const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, outputs);
+  const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, outputs, readOnly);
 
   return <BindingCard title={t('output')} Svg={OutputSvg} content={content} {...props} />;
 };
@@ -55,7 +55,8 @@ const getContent = (
   t: i18next.TFunction,
   bindingEditorContext: BindingEditorContextInfo,
   theme: ThemeExtended,
-  outputBindings: BindingInfo[]
+  outputBindings: BindingInfo[],
+  readOnly: boolean
 ): JSX.Element => {
   const outputList: JSX.Element[] = outputBindings.map((item, i) => {
     const name = item.name ? `(${item.name})` : '';
@@ -70,13 +71,15 @@ const getContent = (
   });
 
   const completeOutputList = outputList.length > 0 ? outputList : emptyList(t('integrateNoOutputsDefined'));
-  completeOutputList.push(
-    <li key={'newOutput'}>
-      <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingDirection.out)}>
-        {t('integrateAddOutput')}
-      </Link>
-    </li>
-  );
+  if (!readOnly) {
+    completeOutputList.push(
+      <li key={'newOutput'}>
+        <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingDirection.out)}>
+          {t('integrateAddOutput')}
+        </Link>
+      </li>
+    );
+  }
 
   return <ul className={listStyle(theme)}>{completeOutputList}</ul>;
 };
