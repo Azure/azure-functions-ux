@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,8 @@ import { StartupInfoContext } from '../../../../StartupInfoContext';
 import { ThemeContext } from '../../../../ThemeContext';
 import StringUtils from '../../../../utils/string';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
+import { QuickstartOptions } from './FunctionQuickstart.types';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 registerIcons({
   icons: {
@@ -58,6 +60,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   const { t } = useTranslation();
   const { site, workerRuntime, resourceId } = props;
   const [file, setFile] = useState('');
+  const [selectedKey, setSelectedKey] = useState('');
 
   const quickstartContext = useContext(FunctionQuickstartContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -79,20 +82,20 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   };
 
   const isVSCodeOptionVisible = (): boolean => {
-    return !isLinuxApp(site) || !isElastic(site);
+    return workerRuntime === CommonConstants.WorkerRuntimeLanguages.java.toLocaleLowerCase() || !isLinuxApp(site) || !isElastic(site);
   };
 
   const isCoreToolsOptionVisible = (): boolean => {
-    return workerRuntime !== 'java';
+    return workerRuntime !== CommonConstants.WorkerRuntimeLanguages.java.toLocaleLowerCase();
   };
 
   const isMavenToolsOptionVisible = (): boolean => {
-    return workerRuntime === 'java';
+    return workerRuntime === CommonConstants.WorkerRuntimeLanguages.java.toLocaleLowerCase();
   };
 
   const dropdownOptions = [
     {
-      key: 'vsDirectPublish',
+      key: QuickstartOptions.visualStudio,
       text: t('vsCardTitle'),
       data: {
         icon: <Icon iconName="visual-studio" />,
@@ -100,7 +103,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       },
     },
     {
-      key: 'vsCodeDirectPublish',
+      key: QuickstartOptions.visualStudioCode,
       text: t('vscodeCardTitle'),
       data: {
         icon: <Icon iconName="vs-code" />,
@@ -108,7 +111,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       },
     },
     {
-      key: 'coretoolsDirectPublish',
+      key: QuickstartOptions.coreTools,
       text: t('coretoolsCardTitle'),
       data: {
         icon: <Icon iconName="terminal" />,
@@ -116,7 +119,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       },
     },
     {
-      key: 'mavenDirectPublish',
+      key: QuickstartOptions.maven,
       text: t('mavenCardTitle'),
       data: {
         icon: <Icon iconName="terminal" />,
@@ -126,11 +129,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   ];
 
   const onChange = async (e: unknown, option: IDropdownOption) => {
-    const key = option.key as string;
-    const result = await quickstartContext.getQuickstartFile(key, startupInfoContext.effectiveLocale);
-    if (result.metadata.success) {
-      setFile(StringUtils.formatString(result.data, getParameters()));
-    }
+    setSelectedKey(option.key as string);
   };
 
   const onRenderOption = (option: IDropdownOption): JSX.Element => {
@@ -153,6 +152,24 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
     );
   };
 
+  const getAndSetSelectedFile = async (fileName: string) => {
+    const result = await quickstartContext.getQuickstartFile(fileName, startupInfoContext.effectiveLocale);
+    if (result.metadata.success) {
+      setFile(StringUtils.formatString(result.data, getParameters()));
+    }
+  };
+
+  useEffect(() => {
+    setSelectedKey(isVSCodeOptionVisible() ? QuickstartOptions.visualStudioCode : QuickstartOptions.coreTools);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    getAndSetSelectedFile(selectedKey);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedKey]);
   return (
     <div className={formStyle}>
       <h2>{t('quickstartHeader')}</h2>
@@ -171,6 +188,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
           responsiveMode={ResponsiveMode.large}
           onRenderOption={onRenderOption}
           onRenderTitle={onRenderTitle}
+          selectedKey={selectedKey}
         />
       </div>
       <Markdown
