@@ -21,6 +21,7 @@ export class CommonConstants {
     byosBlobReadonlyLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2110146',
     extensionBundlesRequiredLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2116575',
     cronLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2117147&clcid=0x409',
+    quickstartViewDocumentation: 'https://go.microsoft.com/fwlink/?linkid=2119201',
   };
 
   public static readonly Kinds = {

@@ -175,7 +175,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       <h2>{t('quickstartHeader')}</h2>
       <div>
         {t('quickstartDesc')}
-        <Link href={'functions.azure.com'} target="_blank">
+        <Link href={`${CommonConstants.Links.quickstartViewDocumentation}&pivots=programming-language-${workerRuntime}`} target="_blank">
           {t('viewDocumentation')}
         </Link>
       </div>
