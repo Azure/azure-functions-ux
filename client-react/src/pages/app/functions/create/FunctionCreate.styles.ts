@@ -1,14 +1,17 @@
 import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 import { style } from 'typestyle';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
+import { ReactComponent as Blob } from '../../../../images/CreateCardIcons/blob.svg';
 import { ReactComponent as ConsmosDB } from '../../../../images/CreateCardIcons/cosmosDB.svg';
 import { ReactComponent as EventGrid } from '../../../../images/CreateCardIcons/eventGrid.svg';
 import { ReactComponent as EventHub } from '../../../../images/CreateCardIcons/eventHub.svg';
 import { ReactComponent as HTTP } from '../../../../images/CreateCardIcons/http.svg';
 import { ReactComponent as IoT } from '../../../../images/CreateCardIcons/iot.svg';
+import { ReactComponent as Queue } from '../../../../images/CreateCardIcons/queue.svg';
 import { ReactComponent as ServiceBus } from '../../../../images/CreateCardIcons/serviceBus.svg';
 import { ReactComponent as Timer } from '../../../../images/CreateCardIcons/timer.svg';
-import { ReactComponent as Other } from '../../../../images/CreateCardIcons/other.svg';
+import { ReactComponent as Webhook } from '../../../../images/CreateCardIcons/webhook.svg';
+import { ReactComponent as Other } from '../../../../images/CreateCardIcons/function.svg';
 
 export const paddingStyle = {
   padding: '20px',
@@ -78,10 +81,9 @@ export const getHeaderStyle = () => {
 
 export const getSvg = (functionTemplate: FunctionTemplate) => {
   if (functionTemplate && functionTemplate.categoryStyle) {
-    // TODO(allisonm): Reintroduce icons for blob, queue, and webhook (waiting on designer)
     switch (functionTemplate.categoryStyle) {
-      // case 'blob':
-      //   return require('images/CreateCardIcons/blob.svg');
+      case 'blob':
+        return Blob;
       case 'cosmosDB':
         return ConsmosDB;
       case 'eventGrid':
@@ -92,14 +94,14 @@ export const getSvg = (functionTemplate: FunctionTemplate) => {
         return HTTP;
       case 'iot':
         return IoT;
-      // case 'queue':
-      //   return require('images/CreateCardIcons/queue.svg');
+      case 'queue':
+        return Queue;
       case 'serviceBus':
         return ServiceBus;
       case 'timer':
         return Timer;
-      // case 'webhook':
-      //   return require('images/CreateCardIcons/webhook.svg');
+      case 'webhook':
+        return Webhook;
     }
   }
   return Other;
