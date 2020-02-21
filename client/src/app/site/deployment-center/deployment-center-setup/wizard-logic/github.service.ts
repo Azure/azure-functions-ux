@@ -152,7 +152,8 @@ export class GithubService implements OnDestroy {
   }
 
   getWorkflowFileName(branch: string, siteName: string, slotName?: string): string {
-    return slotName ? `${branch}_${siteName}(${slotName}).yml` : `${branch}_${siteName}.yml`;
+    const normalizedBranchName = branch.split('/').join('-');
+    return slotName ? `${normalizedBranchName}_${siteName}(${slotName}).yml` : `${normalizedBranchName}_${siteName}.yml`;
   }
 
   private _getRuntimeVersion(isLinuxApp: boolean, buildSettings: BuildSettings) {
@@ -345,21 +346,21 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
-    
+
     steps:
     - uses: actions/checkout@master
-    
+
     - name: Set up Java version
       uses: actions/setup-java@v1
       with:
         java-version: '${runtimeStackVersion}'
-    
+
     - name: Build with Maven
       run: mvn clean install
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v1
-      with: 
+      with:
         app-name: '${webAppName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
@@ -392,21 +393,21 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
-    
+
     steps:
     - uses: actions/checkout@master
-    
+
     - name: Set up Java version
       uses: actions/setup-java@v1
       with:
         java-version: '${runtimeStackVersion}'
-        
+
     - name: Build with Maven
       run: mvn clean install
-    
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v1
-      with: 
+      with:
         app-name: '${siteName}'
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
