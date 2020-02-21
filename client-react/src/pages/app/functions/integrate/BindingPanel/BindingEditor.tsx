@@ -22,6 +22,7 @@ export interface BindingEditorProps {
   currentBindingInfo: BindingInfo;
   functionAppId: string;
   functionInfo: ArmObj<FunctionInfo>;
+  readOnly: boolean;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
   onDelete: (currentBindingInfo: BindingInfo) => void;
 }
@@ -41,7 +42,7 @@ const fieldWrapperStyle = style({
 });
 
 const BindingEditor: React.SFC<BindingEditorProps> = props => {
-  const { allBindings, currentBindingInfo, functionAppId, functionInfo, onSubmit, onDelete } = props;
+  const { allBindings, currentBindingInfo, functionAppId, functionInfo, readOnly, onSubmit, onDelete } = props;
   const { t } = useTranslation();
   const portalContext = useContext(PortalContext);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -87,6 +88,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
                 dirty={formProps.dirty}
                 valid={formProps.isValid}
                 loading={isDisabled}
+                disabled={readOnly}
               />
               <div className={fieldWrapperStyle}>
                 <FormControlWrapper label={t('integrateBindingType')} layout={Layout.vertical}>
@@ -100,7 +102,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
                   />
                 </FormControlWrapper>
 
-                {builder.getFields(formProps, isDisabled)}
+                {builder.getFields(formProps, readOnly || isDisabled)}
               </div>
             </form>
             {currentBinding.type === FunctionIntegrateConstants.eventGridType ? (

@@ -1466,7 +1466,7 @@
         <value>Successfully updated web app settings</value>
     </data>
     <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings: </value>
+        <value>Failed to update web app settings</value>
     </data>
     <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Save Error: Invlid input provided.</value>
@@ -5094,6 +5094,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerValidationFailed" xml:space="preserve">
         <value>Failed to validate container settings.</value>
     </data>
+    <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
     <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>No inputs defined</value>
     </data>
@@ -5204,9 +5207,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="errorDetails" xml:space="preserve">
         <value>Error Details</value>
-    </data>
-    <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Function keys can be configured in function settings.</value>
     </data>
     <data name="appKeysHost" xml:space="preserve">
         <value>Host keys (all functions)</value>
@@ -5714,5 +5714,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
         <value>Succeeded in deleting {0}</value>
+    </data>
+    <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
     </data>
 </root>

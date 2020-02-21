@@ -1641,6 +1641,7 @@ export class PortalResources {
   public static majorVersion = 'majorVersion';
   public static minorVersion = 'minorVersion';
   public static containerValidationFailed = 'containerValidationFailed';
+  public static integrateNoTriggerDefined = 'integrateNoTriggerDefined';
   public static integrateNoInputsDefined = 'integrateNoInputsDefined';
   public static integrateNoOutputsDefined = 'integrateNoOutputsDefined';
   public static integrateAddTrigger = 'integrateAddTrigger';
@@ -1678,7 +1679,6 @@ export class PortalResources {
   public static keyVaultSecretVersion = 'keyVaultSecretVersion';
   public static identity = 'identity';
   public static errorDetails = 'errorDetails';
-  public static appKeysInformationBanner = 'appKeysInformationBanner';
   public static appKeysHost = 'appKeysHost';
   public static appKeysSystem = 'appKeysSystem';
   public static addHostKey = 'addHostKey';
@@ -1847,4 +1847,5 @@ export class PortalResources {
   public static deleteFunctionKeyNotificationDetails = 'deleteFunctionKeyNotificationDetails';
   public static deleteFunctionKeyNotificationFailed = 'deleteFunctionKeyNotificationFailed';
   public static deleteFunctionKeyNotificationSuccess = 'deleteFunctionKeyNotificationSuccess';
+  public static disableFunctionTestTooltip = 'disableFunctionTestTooltip';
 }
