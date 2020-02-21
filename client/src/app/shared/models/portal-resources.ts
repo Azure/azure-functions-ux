@@ -1849,4 +1849,5 @@ export class PortalResources {
   public static deleteFunctionKeyNotificationSuccess = 'deleteFunctionKeyNotificationSuccess';
   public static disableFunctionTestTooltip = 'disableFunctionTestTooltip';
   public static githubActionAspNetStackNotSupportedMessage = 'githubActionAspNetStackNotSupportedMessage';
+  public static githubActionAspNetStackMismatchMessage = 'githubActionAspNetStackMismatchMessage';
 }

@@ -79,11 +79,17 @@ export class StackSelectorComponent implements OnDestroy {
       this.runtimeStackVersionItems = [];
 
       // NOTE(michinoy): Show a warning message if the user selects a stack which does not match what their app is configured with.
-      if (stackValue !== this.wizard.stack.toLocaleLowerCase() && !this.stackNotSupportedMessage) {
-        this.stackMismatchMessage = this._translateService.instant(PortalResources.githubActionStackMismatchMessage, {
-          appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
-          stack: this.wizard.stack,
-        });
+      if (this.wizard.stack && stackValue !== this.wizard.stack.toLocaleLowerCase() && !this.stackNotSupportedMessage) {
+        if (this.wizard.stack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
+          this.stackMismatchMessage = this._translateService.instant(PortalResources.githubActionAspNetStackMismatchMessage, {
+            appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
+          });
+        } else {
+          this.stackMismatchMessage = this._translateService.instant(PortalResources.githubActionStackMismatchMessage, {
+            appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
+            stack: this.wizard.stack,
+          });
+        }
       } else {
         this.stackMismatchMessage = '';
       }
