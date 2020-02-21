@@ -1463,7 +1463,7 @@
         <value>Le impostazioni dell'app Web sono state aggiornate</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Non è stato possibile aggiornare le impostazioni dell'app Web: </value>
+        <value>Failed to update web app settings</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>Errore di salvataggio per {{configGroupName}}: è stato specificato un input non valido.</value>
@@ -4574,7 +4574,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="resettingCredentialsFail" xml:space="preserve">
         <value>Non è possibile reimpostare le credenziali</value>
     </data>
-  <data name="resettingCredentialsSucccess" xml:space="preserve">
+  <data name="resettingCredentialsSuccess" xml:space="preserve">
         <value>Le credenziali sono state reimpostate</value>
     </data>
   <data name="savingCredentials" xml:space="preserve">
@@ -5091,6 +5091,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Non è stato possibile convalidare le impostazioni del contenitore.</value>
     </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Nessun input definito</value>
     </data>
@@ -5109,8 +5112,14 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="integrateCreateInput" xml:space="preserve">
         <value>Crea input</value>
     </data>
-  <data name="integrateCreateBindingInstructions" xml:space="preserve">
-        <value>Per iniziare, selezionare il tipo di associazione {0} da aggiungere.</value>
+  <data name="integrateCreateInputBindingInstructions" xml:space="preserve">
+        <value>Per iniziare, selezionare il tipo di associazione di input da aggiungere.</value>
+    </data>
+  <data name="integrateCreateOutputBindingInstructions" xml:space="preserve">
+        <value>Per iniziare, selezionare il tipo di associazione di output da aggiungere.</value>
+    </data>
+  <data name="integrateCreateTriggerBindingInstructions" xml:space="preserve">
+        <value>Per iniziare, selezionare il tipo di associazione di trigger da aggiungere.</value>
     </data>
   <data name="integrateBindingType" xml:space="preserve">
         <value>Tipo di binding</value>
@@ -5195,9 +5204,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="errorDetails" xml:space="preserve">
         <value>Dettagli errore</value>
-    </data>
-  <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>È possibile configurare le chiavi di funzione nelle impostazioni della funzione.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Chiavi host (tutte le funzioni)</value>
@@ -5293,10 +5299,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>I nomi delle chiavi di funzione devono essere univoci</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>Azioni GitHub (anteprima)</value>
+        <value>GitHub Actions (anteprima)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>È possibile automatizzare gratuitamente le attività di compilazione, test e distribuzione con le Azioni GitHub. Verrà aggiunto un flusso di lavoro di YML al repository con la procedura per compilare e distribuire l'applicazione nel servizio app.</value>
+        <value>È possibile automatizzare gratuitamente le attività di compilazione, test e distribuzione con GitHub Actions. Verrà aggiunto un flusso di lavoro di YML al repository con la procedura per compilare e distribuire l'applicazione nel servizio app.</value>
     </data>
   <data name="azureKeyVault" xml:space="preserve">
         <value>Riferimenti dell'insieme di credenziali delle chiavi</value>
@@ -5362,10 +5368,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Configurazione del flusso di lavoro dell'azione GitHub</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Setting up GitHub Action build and deployment pipeline.</value>
+        <value>Impostazione della pipeline di compilazione e distribuzione dell'azione GitHub.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
+        <value>La pipeline di compilazione e distribuzione dell'azione GitHub è stata configurata.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Aggiunge o aggiorna la configurazione del flusso di lavoro di distribuzione del servizio app dal portale di Azure.</value>
@@ -5409,6 +5415,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="eventHubPicker_noNamespaces" xml:space="preserve">
         <value>Non sono presenti spazi dei nomi in questa sottoscrizione</value>
     </data>
+  <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
+        <value>New Event Hub connection</value>
+    </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>Non sono presenti Hub eventi in questo spazio dei nomi</value>
     </data>
@@ -5439,8 +5448,14 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="customPivot_value" xml:space="preserve">
         <value>Valore</value>
     </data>
+  <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
+        <value>New Service Bus connection</value>
+    </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Bus di servizio</value>
+    </data>
+  <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
+        <value>New Custom App Setting</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Impostazione app personalizzata</value>
@@ -5457,6 +5472,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>Criteri</value>
     </data>
+  <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
+        <value>New Cosmos DB connection</value>
+    </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Account Azure Cosmos DB</value>
     </data>
@@ -5466,11 +5484,11 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>Account del database</value>
     </data>
-  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Account di archiviazione esistente</value>
+  <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existing Storage Account</value>
     </data>
-  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
-        <value>Nuovo account di archiviazione</value>
+  <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
+        <value>New Storage Account connection</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>Non sono presenti account di archiviazione in questa sottoscrizione</value>
@@ -5506,6 +5524,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Creazione del tipo di risorsa {0}</value>
     </data>
   <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Non è stato possibile creare {0}</value>
+    </data>
+  <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>Non è stato possibile creare {0}: {1}</value>
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
@@ -5560,10 +5581,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Non è possibile procedere all'aggiornamento con le funzioni esistenti. Gli aggiornamenti della versione principale possono introdurre modifiche significative a linguaggi e associazioni. Per l'aggiornamento delle versioni principali del run-time, è consigliabile creare una nuova app per le funzioni ed eseguire la migrazione delle funzioni alla nuova app.</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
-        <value>Nel token di GitHub manca l'ambito del 'flusso di lavoro'.</value>
+        <value>Manca l'ambito 'workflow' nel token di GitHub. Tornare al passaggio 'source control' per autorizzare nuovamente GitHub.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
+        <value>Il file del flusso di lavoro dell'azione GitHub '{{workflowFilePath}}' esiste già nel ramo '{{branchName}}'. Scegliere una delle opzioni seguenti per sovrascrivere il file del flusso di lavoro esistente o continuare a usare quello esistente senza modifiche.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 non è più supportato per il debug remoto. Selezionare una versione di Visual Studio supportata.</value>
@@ -5653,27 +5674,51 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Configura host.json</value>
     </data>
   <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
-        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+        <value>L'indirizzo IP in ingresso e l'indirizzo IP in uscita per l'app verranno sostituiti con quelli seguenti: in ingresso: {{inbound}}, in uscita: {{outbound}}.</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
-        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+        <value>Dichiarare di aver compreso che l'indirizzo IP in ingresso e l'indirizzo IP in uscita per l'app verranno modificati.</value>
     </data>
   <data name="githubActionWorkflowOption" xml:space="preserve">
-        <value>Workflow Option</value>
+        <value>Opzioni flusso di lavoro</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite workflow definition</value>
+        <value>Sovrascrivi definizione flusso di lavoro</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Configure using existing workflow definition</value>
+        <value>Configura usando la definizione flusso di lavoro esistente</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+        <value>La configurazione del flusso di lavoro esistente in GitHub verà usata per la compilazione e la distribuzione. Vedere l'anteprima sotto.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+        <value>La configurazione del flusso di lavoro esistente in GitHub verrà sovrascritta con la configurazione seguente.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>(nessuna chiave di funzione da visualizzare)</value>
+    </data>
+  <data name="featureNotSupportedForPremium" xml:space="preserve">
+        <value>Questa funzionalità non è supportata per le app con un piano Premium</value>
+    </data>
+  <data name="deleteFunctionKeyNotification" xml:space="preserve">
+        <value>Eliminazione della chiave di funzione</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationDetails" xml:space="preserve">
+        <value>Eliminazione di {0} in corso</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationFailed" xml:space="preserve">
+        <value>Non è stato possibile eliminare {0}</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
+        <value>L'eliminazione di {0} è riuscita</value>
+    </data>
+  <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
+    </data>
+  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
 </root>

@@ -1463,7 +1463,7 @@
         <value>已成功更新 Web 應用程式設定</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>無法更新 Web 應用程式設定: </value>
+        <value>Failed to update web app settings</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} 儲存錯誤: 提供的輸入無效。</value>
@@ -4574,7 +4574,7 @@
   <data name="resettingCredentialsFail" xml:space="preserve">
         <value>無法重設認證</value>
     </data>
-  <data name="resettingCredentialsSucccess" xml:space="preserve">
+  <data name="resettingCredentialsSuccess" xml:space="preserve">
         <value>已成功重設認證</value>
     </data>
   <data name="savingCredentials" xml:space="preserve">
@@ -5091,6 +5091,9 @@
   <data name="containerValidationFailed" xml:space="preserve">
         <value>無法驗證容器設定。</value>
     </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>未定義任何輸入</value>
     </data>
@@ -5109,8 +5112,14 @@
   <data name="integrateCreateInput" xml:space="preserve">
         <value>建立輸入</value>
     </data>
-  <data name="integrateCreateBindingInstructions" xml:space="preserve">
-        <value>從選取要新增的 {0} 繫結類型開始。</value>
+  <data name="integrateCreateInputBindingInstructions" xml:space="preserve">
+        <value>請透過選取要新增的輸入繫結類型以開始。</value>
+    </data>
+  <data name="integrateCreateOutputBindingInstructions" xml:space="preserve">
+        <value>從選取要新增的輸出繫結類型開始。</value>
+    </data>
+  <data name="integrateCreateTriggerBindingInstructions" xml:space="preserve">
+        <value>從選取要新增的觸發程序繫結類型開始。</value>
     </data>
   <data name="integrateBindingType" xml:space="preserve">
         <value>繫結類型</value>
@@ -5195,9 +5204,6 @@
     </data>
   <data name="errorDetails" xml:space="preserve">
         <value>錯誤詳細資料</value>
-    </data>
-  <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>函式索引鍵可在函式設定中設定。</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>主機金鑰 (所有函式)</value>
@@ -5362,10 +5368,10 @@
         <value>GitHub 動作工作流程設定</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Setting up GitHub Action build and deployment pipeline.</value>
+        <value>正在設定 GitHub Action 組建與部署管線。</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
+        <value>已成功設定 GitHub Action 組建與部署管線。</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>從 Azure 入口網站新增或更新 App Service 部署工作流程設定。</value>
@@ -5409,6 +5415,9 @@
   <data name="eventHubPicker_noNamespaces" xml:space="preserve">
         <value>此訂用帳戶沒有任何命名空間</value>
     </data>
+  <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
+        <value>New Event Hub connection</value>
+    </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>此命名空間沒有任何事件中樞</value>
     </data>
@@ -5439,8 +5448,14 @@
   <data name="customPivot_value" xml:space="preserve">
         <value>值</value>
     </data>
+  <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
+        <value>New Service Bus connection</value>
+    </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>服務匯流排</value>
+    </data>
+  <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
+        <value>New Custom App Setting</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>自訂應用程式設定</value>
@@ -5457,6 +5472,9 @@
   <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>原則</value>
     </data>
+  <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
+        <value>New Cosmos DB connection</value>
+    </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB 帳戶</value>
     </data>
@@ -5466,11 +5484,11 @@
   <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>資料庫帳戶</value>
     </data>
-  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>現有的儲存體帳戶</value>
+  <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existing Storage Account</value>
     </data>
-  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
-        <value>新增儲存體帳戶</value>
+  <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
+        <value>New Storage Account connection</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>此訂用帳戶中沒有任何儲存體帳戶</value>
@@ -5506,6 +5524,9 @@
         <value>正在建立 {0}</value>
     </data>
   <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>無法建立 {0}</value>
+    </data>
+  <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>無法建立 {0}: {1}</value>
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
@@ -5560,10 +5581,10 @@
         <value>無法以現有的函數升級: 主要版本升級可能會對語言和繫結造成中斷性變更。升級執行階段的主要版本時，請考慮建立新的函數應用程式，並將您的函數移轉到這個新的應用程式。</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
-        <value>GitHub 權杖中缺少「工作流程」範圍。</value>
+        <value>GitHub 權杖中缺少「工作流程」範圍。請返回「原始檔控制」步驟，重新授權 GitHub。</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
+        <value>'{{branchName}}' 分支中已有 GitHub 動作工作流程檔案 '{{workflowFilePath}}'。選擇下方的選項可覆寫現有的工作流程檔案，或是繼續使用現有工作流程檔案而不加以修改。</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>遠端偵錯不再支援 Visual Studio 2015。請選取支援的 Visual Studio 版本。</value>
@@ -5653,27 +5674,51 @@
         <value>設定 host.json</value>
     </data>
   <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
-        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+        <value>應用程式的輸入和輸出 IP 位址將變更為: 輸入 - {{inbound}} 輸出 - {{outbound}}。</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
-        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+        <value>確認應用程式的輸入和輸出 IP 位址都將變更。</value>
     </data>
   <data name="githubActionWorkflowOption" xml:space="preserve">
-        <value>Workflow Option</value>
+        <value>工作流程選項</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite workflow definition</value>
+        <value>覆寫工作流程定義</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Configure using existing workflow definition</value>
+        <value>使用現有工作流程定義進行設定</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+        <value>將為建置及部署，使用 GitHub 中現有的工作流程設定。請參閱下方預覽。</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+        <value>將使用下方的設定，覆寫 GitHub 中現有的工作流程設定。</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>(沒有可顯示的功能鍵)</value>
+    </data>
+  <data name="featureNotSupportedForPremium" xml:space="preserve">
+        <value>使用進階方案的應用程式不支援此功能</value>
+    </data>
+  <data name="deleteFunctionKeyNotification" xml:space="preserve">
+        <value>正在刪除函式索引鍵</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationDetails" xml:space="preserve">
+        <value>正在刪除 {0}</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationFailed" xml:space="preserve">
+        <value>無法刪除 {0}</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
+        <value>已成功刪除 {0}</value>
+    </data>
+  <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
+    </data>
+  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
 </root>

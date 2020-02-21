@@ -27,11 +27,11 @@ interface SystemKeysProps {
   initialLoading: boolean;
   systemKeys: AppKeysModel[];
   refreshData: () => void;
+  readOnlyPermission: boolean;
 }
 
 const SystemKeys: React.FC<SystemKeysProps> = props => {
-  const writePermission = false;
-  const { systemKeys, resourceId, refreshData, initialLoading } = props;
+  const { systemKeys, resourceId, refreshData, initialLoading, readOnlyPermission } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -194,7 +194,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
           closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={false}
+            disabled={readOnlyPermission}
             id={`app-settings-application-settings-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -235,7 +235,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
       {
         key: 'app-keys-system-keys-add',
         onClick: () => showAddEditPanel(),
-        disabled: writePermission || initialLoading,
+        disabled: readOnlyPermission || initialLoading,
         iconProps: { iconName: 'Add' },
         name: t('newSystemKey'),
         ariaLabel: t('addSystemKey'),
@@ -308,6 +308,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
           otherAppKeys={systemKeys}
           panelItem={panelItem}
           showRenewKeyDialog={showRenewKeyDialog}
+          readOnlyPermission={readOnlyPermission}
         />
       </Panel>
     </>

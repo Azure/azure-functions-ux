@@ -7,9 +7,20 @@ import { ProxyModule } from './proxy/proxy.module';
 import { StorageModule } from './storage/storage.module';
 import { DeploymentCenterModule } from './deployment-center/deployment-center.module';
 import { StacksModule } from './stacks/stacks.module';
+import { StaticSitesModule } from './staticsites/staticsites.module';
 
 @Module({
   // HomeModule should always be last in this list because it includes the catch all route
-  imports: [SharedModule, ApiModule, FunctionsModule, ProxyModule, StorageModule, DeploymentCenterModule, HomeModule, StacksModule],
+  imports: [
+    SharedModule,
+    ApiModule,
+    FunctionsModule,
+    ProxyModule,
+    StorageModule,
+    DeploymentCenterModule,
+    StaticSitesModule,
+    HomeModule,
+    StacksModule,
+  ],
 })
 export class AppModule {}

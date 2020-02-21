@@ -493,7 +493,7 @@ const changeSiteToNewPlan = async (
     properties: {
       webSiteId,
       reserved: currentServerFarm.properties.reserved,
-      isXenon: currentServerFarm.properties.isXenon,
+      hyperV: currentServerFarm.properties.hyperV,
       hostingEnvironmentId: currentServerFarm.properties.hostingEnvironmentId,
       hostingEnvironmentProfile: currentServerFarm.properties.hostingEnvironmentProfile,
     },

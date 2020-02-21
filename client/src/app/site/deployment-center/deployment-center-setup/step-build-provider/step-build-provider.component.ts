@@ -3,14 +3,13 @@ import { DeploymentCenterStateManager } from 'app/site/deployment-center/deploym
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { ProviderCard } from '../../Models/provider-card';
-import { ScenarioIds, KeyCodes, FeatureFlags } from '../../../../shared/models/constants';
+import { ScenarioIds, KeyCodes } from '../../../../shared/models/constants';
 import { from } from 'rxjs/observable/from';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { of } from 'rxjs/observable/of';
 import { Subject } from 'rxjs/Subject';
 import { sourceControlProvider } from '../wizard-logic/deployment-center-setup-models';
-import { Url } from 'app/shared/Utilities/url';
 @Component({
   selector: 'app-step-build-provider',
   templateUrl: './step-build-provider.component.html',
@@ -99,7 +98,9 @@ export class StepBuildProviderComponent implements OnDestroy {
           kuduCard.hidden = false;
         }
 
-        const enableGitHubAction = Url.getFeatureValue(FeatureFlags.enableGitHubAction);
+        const enableGitHubAction =
+          this._scenarioService.checkScenario(ScenarioIds.enableGitHubAction, { site: wizard.siteArm }).status === 'enabled';
+
         const githubActionCard = this.providerCards.find(x => x.id === 'github');
         githubActionCard.hidden = this._currentSourceControlProvider !== 'github' || !enableGitHubAction;
         githubActionCard.enabled = this.wizard.isGithubActionWorkflowScopeAvailable;

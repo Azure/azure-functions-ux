@@ -11,14 +11,14 @@ import PortalCommunicator from '../../../../../portal-communicator';
 import { PortalContext } from '../../../../../PortalContext';
 import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../ThemeContext';
+import { BindingFormBuilder } from '../../common/BindingFormBuilder';
 import { getBindingDirection } from '../BindingPanel/BindingEditor';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
-import BindingCard, { EditableBindingCardProps, editExisting, createNew } from './BindingCard';
+import BindingCard, { createNew, EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
 import { listStyle } from './BindingDiagram.styles';
-import { BindingFormBuilder } from '../../common/BindingFormBuilder';
 
 const TriggerBindingCard: React.SFC<EditableBindingCardProps> = props => {
-  const { functionInfo, bindings, setRequiredBindingId } = props;
+  const { functionInfo, bindings, readOnly, setRequiredBindingId } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
@@ -26,7 +26,7 @@ const TriggerBindingCard: React.SFC<EditableBindingCardProps> = props => {
 
   const trigger = getTrigger(functionInfo.properties.config.bindings);
   getRequiredBindingData(trigger, bindings, setRequiredBindingId);
-  const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, trigger);
+  const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, trigger, readOnly);
 
   return <BindingCard title={t('trigger')} Svg={PowerSvg} content={content} {...props} />;
 };
@@ -53,7 +53,8 @@ const getContent = (
   t: i18next.TFunction,
   bindingEditorContext: BindingEditorContextInfo,
   theme: ThemeExtended,
-  trigger: BindingInfo | undefined
+  trigger: BindingInfo | undefined,
+  readOnly: boolean
 ): JSX.Element => {
   return (
     <ul className={listStyle(theme)}>
@@ -64,12 +65,14 @@ const getContent = (
               editExisting(portalCommunicator, t, functionInfo, trigger, bindingEditorContext, BindingDirection.trigger)
             }>{`${BindingFormBuilder.getBindingTypeName(trigger, bindings)} (${trigger.name})`}</Link>
         </li>
-      ) : (
+      ) : !readOnly ? (
         <li key={'newTrigger'}>
           <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingDirection.trigger)}>
             {t('integrateAddTrigger')}
           </Link>
         </li>
+      ) : (
+        emptyList(t('integrateNoTriggerDefined'))
       )}
     </ul>
   );

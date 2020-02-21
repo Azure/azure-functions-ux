@@ -127,9 +127,9 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
 const setIoTHubConnection = (
   formValues: IoTHubPivotFormValues,
   serviceKey: Key | undefined,
-  setNewAppSetting: (a: { key: string; value: string }) => void,
-  setSelectedItem: (u: undefined) => void,
-  setIsDialogVisible: (b: boolean) => void
+  setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
+  setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
+  setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   if (formValues.iotHub && formValues.endpoint && serviceKey) {
     const appSettingName = `${formValues.iotHub.name}_${formValues.endpoint}_IOTHUB`;

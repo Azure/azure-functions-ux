@@ -5,8 +5,9 @@ import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePort
 import { PortalContext } from '../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
-import { IContextualMenuRenderItem } from 'office-ui-fabric-react';
+import { IContextualMenuRenderItem, TooltipHost } from 'office-ui-fabric-react';
 import { UrlObj } from './FunctionEditor.types';
+import { toolTipStyle } from './FunctionEditor.styles';
 
 // Data for CommandBar
 interface FunctionEditorCommandBarProps {
@@ -17,10 +18,11 @@ interface FunctionEditorCommandBarProps {
   dirty: boolean;
   disabled: boolean;
   urlObjs: UrlObj[];
+  testDisabled: boolean;
 }
 
 const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props => {
-  const { saveFunction, resetFunction, testFunction, showGetFunctionUrlCommand, dirty, disabled, urlObjs } = props;
+  const { saveFunction, resetFunction, testFunction, showGetFunctionUrlCommand, dirty, disabled, urlObjs, testDisabled } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
@@ -30,11 +32,29 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
   const getFunctionUrlButtonRef = useRef<IContextualMenuRenderItem | null>(null);
 
+  const onTestItemRender = (item: any, dismissMenu: () => void) => {
+    const tooltipId = 'tooltip-id';
+    if (testDisabled) {
+      return (
+        <TooltipHost
+          content={t('disableFunctionTestTooltip')}
+          closeDelay={500}
+          id={tooltipId}
+          calloutProps={{ gapSpace: 0 }}
+          styles={toolTipStyle}>
+          <CustomCommandBarButton ariaDescribedBy={tooltipId} {...item} />
+        </TooltipHost>
+      );
+    } else {
+      return <CustomCommandBarButton {...item} />;
+    }
+  };
+
   const getItems = (): ICommandBarItemProps[] => {
     const items: ICommandBarItemProps[] = [
       {
         key: 'save',
-        name: t('save'),
+        text: t('save'),
         iconProps: {
           iconName: 'Save',
         },
@@ -44,7 +64,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       },
       {
         key: 'discard',
-        name: t('discard'),
+        text: t('discard'),
         iconProps: {
           iconName: 'ChromeClose',
         },
@@ -54,20 +74,21 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       },
       {
         key: 'test',
-        name: t('test'),
+        text: t('test'),
         iconProps: {
           iconName: 'DockRight',
         },
-        disabled: disabled,
+        disabled: disabled || testDisabled,
         ariaLabel: t('functionEditorTestAriaLabel'),
         onClick: testFunction,
+        onRender: onTestItemRender,
       },
     ];
 
     if (showGetFunctionUrlCommand) {
       items.push({
         key: 'getFunctionUrl',
-        name: t('keysDialog_getFunctionUrl'),
+        text: t('keysDialog_getFunctionUrl'),
         iconProps: {
           iconName: 'FileSymLink',
         },

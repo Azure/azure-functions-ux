@@ -55,6 +55,7 @@
                         <a tabindex="0" (click)="branchOnClick()">
                             {{ branchText }}
                         </a>
+                        <copy-pre [content]="branchText" [onlyCopyButton]="true"></copy-pre>
                     </div>
                     <div *ngIf="!branchText">
                         {{ 'functionMonitor_loading' | translate }}

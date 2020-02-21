@@ -12,7 +12,15 @@ import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { ARMApiVersions, ScenarioIds, Kinds, RuntimeStacks, Constants } from '../../../../shared/models/constants';
+import {
+  ARMApiVersions,
+  ScenarioIds,
+  Kinds,
+  RuntimeStacks,
+  Constants,
+  JavaVersions,
+  JavaContainers,
+} from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -194,21 +202,46 @@ export class DeploymentCenterStateManager implements OnDestroy {
     configMetadata: { [key: string]: string }
   ) {
     if (configMetadata['CURRENT_STACK']) {
-      this.stack = configMetadata['CURRENT_STACK'].toLowerCase();
+      const metadataStack = configMetadata['CURRENT_STACK'].toLowerCase();
+
+      // NOTE(michinoy): Java is special, so need to handle it carefully. Also in this case, use
+      // the string 'java' rather than any of the constants defined as it is not related to any of the
+      // defined constants.
+      if (metadataStack === 'java') {
+        this.stack = siteConfig.javaVersion === JavaVersions.WindowsVersion8 ? RuntimeStacks.java8 : RuntimeStacks.java11;
+      } else {
+        this.stack = metadataStack;
+      }
     }
 
     if (this.stack === RuntimeStacks.node) {
       this.stackVersion = siteAppSettings[Constants.nodeVersionAppSettingName];
     } else if (this.stack === RuntimeStacks.python) {
       this.stackVersion = siteConfig.pythonVersion;
-    } else {
+    } else if (this.stack === RuntimeStacks.java8 || this.stack === RuntimeStacks.java11) {
+      this.stackVersion = `${siteConfig.javaVersion}|${siteConfig.javaContainer}|${siteConfig.javaContainerVersion}`;
+    } else if (this.stack === '') {
       this.stackVersion = '';
     }
   }
 
   private _setStackAndVersionForLinux(siteConfig: SiteConfig) {
     const linuxFxVersionParts = siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion.split('|') : [];
-    this.stack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : null;
+    const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
+
+    // NOTE(michinoy): Java is special, so need to handle it carefully.
+    if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat) {
+      const fxVersionParts = !!siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion.split('-') : [];
+      const fxStack = fxVersionParts.length === 2 ? fxVersionParts[1].toLocaleLowerCase() : '';
+      if (fxStack === JavaVersions.LinuxVersion8 || fxStack === JavaVersions.LinuxVersion11) {
+        this.stack = fxStack === JavaVersions.LinuxVersion8 ? RuntimeStacks.java8 : RuntimeStacks.java11;
+      } else {
+        this.stack = '';
+      }
+    } else {
+      this.stack = runtimeStack;
+    }
+
     this.stackVersion = !!siteConfig.linuxFxVersion ? siteConfig.linuxFxVersion : '';
   }
 

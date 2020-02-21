@@ -16,5 +16,6 @@
     "**/.DS_Store": true,
     "**/__snapshots__": true
   },
-  "debug.node.autoAttach": "on"
+  "debug.node.autoAttach": "on",
+  "typescript.preferences.importModuleSpecifier": "relative"
 }

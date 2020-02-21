@@ -1463,7 +1463,7 @@
         <value>웹앱 설정을 업데이트함</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>웹앱 설정 업데이트 실패: </value>
+        <value>Failed to update web app settings</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} 저장 오류: 잘못된 입력이 제공되었습니다.</value>
@@ -3206,7 +3206,7 @@
         <value>App Service 계획의 모든 인스턴스에는 다음 하드웨어 구성이 포함됩니다.</value>
     </data>
   <data name="pricing_includedHardware_azureComputeUnits" xml:space="preserve">
-        <value>ACU(Azure 컴퓨팅 단위)</value>
+        <value>ACU(Azure Compute 단위)</value>
     </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Linux의 첫 번째 기본(B1) 코어는 처음 30일간 무료입니다!</value>
@@ -4574,7 +4574,7 @@
   <data name="resettingCredentialsFail" xml:space="preserve">
         <value>자격 증명을 다시 설정하지 못함</value>
     </data>
-  <data name="resettingCredentialsSucccess" xml:space="preserve">
+  <data name="resettingCredentialsSuccess" xml:space="preserve">
         <value>자격 증명을 다시 설정함</value>
     </data>
   <data name="savingCredentials" xml:space="preserve">
@@ -5091,6 +5091,9 @@
   <data name="containerValidationFailed" xml:space="preserve">
         <value>컨테이너 설정을 확인하지 못했습니다.</value>
     </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>입력이 정의되지 않음</value>
     </data>
@@ -5109,8 +5112,14 @@
   <data name="integrateCreateInput" xml:space="preserve">
         <value>입력 만들기</value>
     </data>
-  <data name="integrateCreateBindingInstructions" xml:space="preserve">
-        <value>추가하려는 {0} 바인딩 형식을 선택하여 시작합니다.</value>
+  <data name="integrateCreateInputBindingInstructions" xml:space="preserve">
+        <value>추가하려는 입력 바인딩 형식을 선택하여 시작합니다.</value>
+    </data>
+  <data name="integrateCreateOutputBindingInstructions" xml:space="preserve">
+        <value>추가하려는 출력 바인딩 형식을 선택하여 시작합니다.</value>
+    </data>
+  <data name="integrateCreateTriggerBindingInstructions" xml:space="preserve">
+        <value>추가하려는 트리거 바인딩 형식을 선택하여 시작합니다.</value>
     </data>
   <data name="integrateBindingType" xml:space="preserve">
         <value>바인딩 형식</value>
@@ -5195,9 +5204,6 @@
     </data>
   <data name="errorDetails" xml:space="preserve">
         <value>오류 정보</value>
-    </data>
-  <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>함수 설정에서 기능 키를 구성할 수 있습니다.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>호스트 키(모든 함수)</value>
@@ -5293,10 +5299,10 @@
         <value>함수 키 이름은 고유해야 합니다.</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub 작업(미리 보기)</value>
+        <value>GitHub Actions (미리 보기)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>무료로 제공되는 GitHub 작업을 사용하여 빌드, 테스트 및 배포 단계를 자동화합니다. 이렇게 하면 애플리케이션을 빌드하고 App Service에 배포하는 단계를 통해 리포지토리에 YML 워크플로가 추가됩니다.</value>
+        <value>무료로 제공되는 GitHub Actions를 사용하여 빌드, 테스트 및 배포 단계를 자동화합니다. 이렇게 하면 애플리케이션을 빌드하고 App Service에 배포하는 단계를 통해 리포지토리에 YML 워크플로가 추가됩니다.</value>
     </data>
   <data name="azureKeyVault" xml:space="preserve">
         <value>주요 Key Vault 참조</value>
@@ -5362,10 +5368,10 @@
         <value>GitHub 작업 워크플로 구성</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Setting up GitHub Action build and deployment pipeline.</value>
+        <value>GitHub 작업 빌드 및 배포 파이프라인을 설정하는 중입니다.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
+        <value>GitHub 작업 빌드 및 배포 파이프라인을 설정했습니다.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Azure Portal에서 App Service 배포 워크플로 구성을 추가하거나 업데이트합니다.</value>
@@ -5409,6 +5415,9 @@
   <data name="eventHubPicker_noNamespaces" xml:space="preserve">
         <value>이 구독에는 네임스페이스가 없습니다.</value>
     </data>
+  <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
+        <value>New Event Hub connection</value>
+    </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>이 네임스페이스에 Event Hubs가 없습니다.</value>
     </data>
@@ -5439,8 +5448,14 @@
   <data name="customPivot_value" xml:space="preserve">
         <value>값</value>
     </data>
+  <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
+        <value>New Service Bus connection</value>
+    </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus</value>
+    </data>
+  <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
+        <value>New Custom App Setting</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>사용자 지정 앱 설정</value>
@@ -5457,6 +5472,9 @@
   <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>정책</value>
     </data>
+  <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
+        <value>New Cosmos DB connection</value>
+    </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB 계정</value>
     </data>
@@ -5466,11 +5484,11 @@
   <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>데이터베이스 계정</value>
     </data>
-  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>기존 스토리지 계정</value>
+  <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existing Storage Account</value>
     </data>
-  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
-        <value>새 스토리지 계정</value>
+  <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
+        <value>New Storage Account connection</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>이 구독에 스토리지 계정이 없습니다.</value>
@@ -5506,6 +5524,9 @@
         <value>{0} 만드는 중</value>
     </data>
   <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>{0}을(를) 만들지 못했습니다.</value>
+    </data>
+  <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>{0}을(를) 만들지 못함: {1}</value>
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
@@ -5560,10 +5581,10 @@
         <value>기존 함수를 사용하여 업그레이드할 수 없습니다. 주 버전을 업그레이드하면 언어 및 바인딩에 대한 변경이 발생할 수 있습니다. 런타임의 주 버전을 업그레이드할 경우 새 함수 앱을 만들어서 함수를 새 앱으로 마이그레이션하는 방안을 고려하세요.</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
-        <value>GitHub 토큰에 '워크플로' 범위가 없습니다.</value>
+        <value>GitHub 토큰에 '워크플로' 범위가 없습니다. GitHub에 다시 권한을 부여하려면 '소스 제어' 단계로 돌아가세요.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
+        <value>GitHub Action 워크플로 파일 '{{workflowFilePath}}'이(가) '{{branchName}}' 분기에 이미 있습니다. 아래 옵션을 선택하여 기존 워크플로 파일을 덮어쓰거나 수정하지 않고 기존 워크플로 파일을 계속 사용하세요.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015에서는 원격 디버깅이 더 이상 지원되지 않습니다. 지원되는 Visual Studio 버전을 선택하세요.</value>
@@ -5641,7 +5662,7 @@
         <value>Linux Azure 함수 앱에서는 버전 1 런타임이 지원되지 않습니다.</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
-        <value>'{{appName}}' 앱이 현재 GitHub 작업을 통해 배포 센터에서 지원되지 않는 '{{stack}}' 스택을 사용하여 설치되었습니다.</value>
+        <value>'{{appName}}' 앱이 현재 GitHub Actions를 통해 배포 센터에서 지원되지 않는 '{{stack}}' 스택을 사용하여 설치되었습니다.</value>
     </data>
   <data name="githubActionStackMismatchMessage" xml:space="preserve">
         <value>'{{appName}}' 앱이 현재 '{{stack}}'에 대해 구성되어 있는데, 이는 현재 빌드 선택과 일치하지 않습니다. 앱이 현재 빌드 선택에서 제대로 작동하지 않을 수 있습니다.</value>
@@ -5653,27 +5674,51 @@
         <value>host.json 구성</value>
     </data>
   <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
-        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+        <value>앱의 인바운드 및 아웃바운드 IP 주소가 다음과 같이 변경됩니다. 인바운드 - {{inbound}} 아웃바운드 - {{outbound}}</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
-        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+        <value>앱의 인바운드 및 아웃바운드 IP 주소가 모두 변경되는 것을 승인합니다.</value>
     </data>
   <data name="githubActionWorkflowOption" xml:space="preserve">
-        <value>Workflow Option</value>
+        <value>워크플로 옵션</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite workflow definition</value>
+        <value>워크플로 정의 덮어쓰기</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Configure using existing workflow definition</value>
+        <value>기존 워크플로 정의를 사용하여 구성</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+        <value>GitHub의 기존 워크플로 구성이 빌드 및 배포에 사용됩니다. 아래 미리 보기를 참조하세요.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+        <value>GitHub의 기존 워크플로 구성을 아래의 구성으로 덮어씁니다.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>(표시할 함수 키 없음)</value>
+    </data>
+  <data name="featureNotSupportedForPremium" xml:space="preserve">
+        <value>프리미엄 플랜의 앱에서는 이 기능이 지원되지 않습니다.</value>
+    </data>
+  <data name="deleteFunctionKeyNotification" xml:space="preserve">
+        <value>함수 키 삭제 중</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationDetails" xml:space="preserve">
+        <value>{0}을(를) 삭제하고 있습니다.</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationFailed" xml:space="preserve">
+        <value>{0}을(를) 삭제할 수 없습니다.</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
+        <value>{0} 삭제 성공</value>
+    </data>
+  <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
+    </data>
+  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
 </root>

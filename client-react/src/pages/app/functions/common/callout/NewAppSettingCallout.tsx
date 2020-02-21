@@ -9,7 +9,7 @@ const NewAppSettingCallout: React.SFC<NewConnectionCalloutProps> = props => {
 
   return (
     <div style={paddingSidesStyle}>
-      <p>{t('resourceCallout_customAppSetting')}</p>
+      <h4>{t('resourceCallout_newCustomAppSetting')}</h4>
       <CustomPivot {...props} />
     </div>
   );

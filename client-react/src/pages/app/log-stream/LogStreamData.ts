@@ -80,7 +80,7 @@ export function processLogConfig(site: Site, logsConfig: SiteLogsConfig): LogsEn
 
   if (site.reserved) {
     appLogs = true;
-  } else if (site.isXenon) {
+  } else if (site.hyperV) {
     appLogs = true;
     webLogs = logsConfig.httpLogs.fileSystem.enabled;
   } else {

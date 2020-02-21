@@ -4,7 +4,7 @@ import { DeploymentCenterStateManager } from '../../../wizard-logic/deployment-c
 import { RuntimeStackService } from 'app/shared/services/runtimestack.service';
 import { WebAppCreateStack } from 'app/shared/models/stacks';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories, Os } from 'app/shared/models/constants';
+import { LogCategories, Os, RuntimeStacks } from 'app/shared/models/constants';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
@@ -79,11 +79,17 @@ export class StackSelectorComponent implements OnDestroy {
       this.runtimeStackVersionItems = [];
 
       // NOTE(michinoy): Show a warning message if the user selects a stack which does not match what their app is configured with.
-      if (stackValue !== this.wizard.stack.toLocaleLowerCase() && !this.stackNotSupportedMessage) {
-        this.stackMismatchMessage = this._translateService.instant(PortalResources.githubActionStackMismatchMessage, {
-          appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
-          stack: this.wizard.stack,
-        });
+      if (this.wizard.stack && stackValue !== this.wizard.stack.toLocaleLowerCase() && !this.stackNotSupportedMessage) {
+        if (this.wizard.stack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
+          this.stackMismatchMessage = this._translateService.instant(PortalResources.githubActionAspNetStackMismatchMessage, {
+            appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
+          });
+        } else {
+          this.stackMismatchMessage = this._translateService.instant(PortalResources.githubActionStackMismatchMessage, {
+            appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
+            stack: this.wizard.stack,
+          });
+        }
       } else {
         this.stackMismatchMessage = '';
       }
@@ -127,15 +133,21 @@ export class StackSelectorComponent implements OnDestroy {
 
     // NOTE(michinoy): Once the dropdown is populated, preselect stack that the user had selected during create.
     // If the users app was built using a stack that is not supported, show a warning message.
-    const appSelectedStack = this.runtimeStackItems.filter(item => item.value === this.wizard.stack.toLocaleLowerCase());
-    if (appSelectedStack && appSelectedStack.length === 1) {
-      this.stackNotSupportedMessage = '';
-      this._runtimeStackStream$.next(appSelectedStack[0].value);
-    } else {
-      this.stackNotSupportedMessage = this._translateService.instant(PortalResources.githubActionStackNotSupportedMessage, {
-        appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
-        stack: this.wizard.stack,
-      });
+    if (this.wizard.stack) {
+      const appSelectedStack = this.runtimeStackItems.filter(item => item.value === this.wizard.stack.toLocaleLowerCase());
+      if (appSelectedStack && appSelectedStack.length === 1) {
+        this.stackNotSupportedMessage = '';
+        this._runtimeStackStream$.next(appSelectedStack[0].value);
+      } else if (this.wizard.stack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
+        this.stackNotSupportedMessage = this._translateService.instant(PortalResources.githubActionAspNetStackNotSupportedMessage, {
+          appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
+        });
+      } else {
+        this.stackNotSupportedMessage = this._translateService.instant(PortalResources.githubActionStackNotSupportedMessage, {
+          appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
+          stack: this.wizard.stack,
+        });
+      }
     }
 
     this.runtimeStacksLoading = false;
@@ -150,12 +162,18 @@ export class StackSelectorComponent implements OnDestroy {
         value: version.supportedPlatforms[0].runtimeVersion,
       }));
 
+      // NOTE(michinoy): once the stack versions dropdown is populated, default selection can be done in either of following ways:
+      // 1. If the stack version is selected for the app and it exists in the list
+      // 2. Select the first item in the list if the stack version does not exist (e.g. .NET Core) Or does not exist in the list (e.g. Node LTS)
+
       const appSelectedStackVersion = this.runtimeStackVersionItems.filter(
         item => item.value.toLocaleLowerCase() === this.wizard.stackVersion.toLocaleLowerCase()
       );
 
       if (appSelectedStackVersion && appSelectedStackVersion.length === 1) {
         this._runtimeStackVersionStream$.next(appSelectedStackVersion[0].value);
+      } else {
+        this._runtimeStackVersionStream$.next(this.runtimeStackVersionItems[0].value);
       }
     }
 

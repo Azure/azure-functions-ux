@@ -1463,7 +1463,7 @@
         <value>A webalkalmazás-beállítások sikeresen frissítve</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>A webalkalmazás-beállítások frissítése sikertelen: </value>
+        <value>Failed to update web app settings</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Mentési hiba: a megadott adat érvénytelen.</value>
@@ -4574,7 +4574,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="resettingCredentialsFail" xml:space="preserve">
         <value>Nem sikerült alaphelyzetbe állítani a hitelesítő adatokat</value>
     </data>
-  <data name="resettingCredentialsSucccess" xml:space="preserve">
+  <data name="resettingCredentialsSuccess" xml:space="preserve">
         <value>Sikerült alaphelyzetbe állítani a hitelesítő adatokat</value>
     </data>
   <data name="savingCredentials" xml:space="preserve">
@@ -5091,6 +5091,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Nem sikerült érvényesíteni a tárolóbeállításokat.</value>
     </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Nincs definiálva bemenet</value>
     </data>
@@ -5109,8 +5112,14 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="integrateCreateInput" xml:space="preserve">
         <value>Bemenet létrehozása</value>
     </data>
-  <data name="integrateCreateBindingInstructions" xml:space="preserve">
-        <value>Először válassza ki a hozzáadni kívánt {0}-kötés típusát.</value>
+  <data name="integrateCreateInputBindingInstructions" xml:space="preserve">
+        <value>Először válassza ki a hozzáadni kívánt bemeneti kötés típusát.</value>
+    </data>
+  <data name="integrateCreateOutputBindingInstructions" xml:space="preserve">
+        <value>Először válassza ki a hozzáadni kívánt kimeneti kötés típusát.</value>
+    </data>
+  <data name="integrateCreateTriggerBindingInstructions" xml:space="preserve">
+        <value>Először válassza ki a hozzáadni kívánt triggerkötés típusát.</value>
     </data>
   <data name="integrateBindingType" xml:space="preserve">
         <value>Kötéstípus</value>
@@ -5195,9 +5204,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="errorDetails" xml:space="preserve">
         <value>Hiba részletei</value>
-    </data>
-  <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>A függvénykulcsok a függvénybeállításoknál konfigurálhatók.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Állomáskulcsok (minden függvény)</value>
@@ -5362,10 +5368,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>GitHub-művelet munkafolyamatának konfigurációja</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Setting up GitHub Action build and deployment pipeline.</value>
+        <value>A GitHub-művelet buildelési és üzembe helyezési folyamatának beállítása.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
+        <value>Sikerült beállítani a GitHub-művelet buildelési és üzembe helyezési folyamatát.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Adja hozzá vagy frissítse az App Service üzembehelyezési munkafolyamatának konfigurációját az Azure Portalról.</value>
@@ -5409,6 +5415,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="eventHubPicker_noNamespaces" xml:space="preserve">
         <value>Ebben az előfizetésben nincsenek névterek</value>
     </data>
+  <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
+        <value>New Event Hub connection</value>
+    </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>Ebben a névtérben nincsenek eseményközpontok</value>
     </data>
@@ -5439,8 +5448,14 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="customPivot_value" xml:space="preserve">
         <value>Érték</value>
     </data>
+  <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
+        <value>New Service Bus connection</value>
+    </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus</value>
+    </data>
+  <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
+        <value>New Custom App Setting</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Egyéni alkalmazásbeállítás</value>
@@ -5457,6 +5472,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>Házirend</value>
     </data>
+  <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
+        <value>New Cosmos DB connection</value>
+    </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB-fiók</value>
     </data>
@@ -5466,11 +5484,11 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>Adatbázisfiók</value>
     </data>
-  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Meglévő tárfiók</value>
+  <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existing Storage Account</value>
     </data>
-  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
-        <value>Új tárfiók</value>
+  <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
+        <value>New Storage Account connection</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>Ebben az előfizetésben nem találhatók tárfiókok</value>
@@ -5506,6 +5524,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>{0} létrehozása</value>
     </data>
   <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>A(z) {0} létrehozása nem sikerült</value>
+    </data>
+  <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>Nem sikerült létrehozni a(z) {0} elemet: {1}</value>
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
@@ -5554,16 +5575,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Az egyéni futtatókörnyezet verziója ({0}) nem támogatott. Ennek eredményeként az alkalmazás a legújabb verziót ({1}) használja, és a rendszer még azon főverzió-frissítések esetében is a futtatókörnyezet legújabb verzióját fogja futtatja, amelyek kompatibilitástörő változásokat tartalmazhatnak. Azt javasoljuk, hogy állítson be egy adott főverziót (például a következőt: ~2), és az újabb verziók megjelenésekor frissítési értesítést küldünk Önnek.</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>By configuring the value of FUNCTIONS_EXTENSION_VERSION in Application setting, you have opted to use a custom runtime version.</value>
+        <value>A FUNCTIONS_EXTENSION_VERSION alkalmazásbeállítási értékének konfigurálásával egyéni futtatókörnyezet-verzió használatát választotta.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>A frissítés a meglévő függvények miatt nem hajtható végre: a jelentősebb verziófrissítések kompatibilitástörő változásokat eredményezhetnek a nyelvekben és a kötésekben. A futtatókörnyezet főverzióinak frissítésekor célszerű létrehozni egy új függvényalkalmazást, és migrálni a függvényeket ebbe az új alkalmazásba.</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
-        <value>Nem található a munkafolyamat hatókör a GitHub-tokenben.</value>
+        <value>A GitHub-jogkivonatból hiányzik a munkafolyamat hatóköre. A GitHub újbóli engedélyezéséhez térjen vissza a verziókövetési lépéshez.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
+        <value>A GitHub-művelet munkafolyamatfájlja ({{workflowFilePath}}) már létezik a(z) {{branchName}} ágban. Válasszon az alábbi lehetőségek közül a meglévő munkafolyamatfájl felülírásához, vagy módosítás nélkül használja továbbra is a meglévő fájlt.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>A Visual Studio 2015 használata már nem támogatott a távoli hibakereséshez. Válasszon támogatott Visual Studio-verziót.</value>
@@ -5590,7 +5611,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A nem mentett módosítások elvesznek.</value>
     </data>
   <data name="editor_changeFile" xml:space="preserve">
-        <value>Are you sure you would like to change files?</value>
+        <value>Biztos, hogy módosítja a fájlokat?</value>
     </data>
   <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Az alapértelmezett dokumentumlista precedencia szerint van rendezve. A lista elején található elemek nagyobb precedenciával rendelkeznek, mint a lista végén találhatók.</value>
@@ -5641,10 +5662,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Az 1-es verziójú futtatókörnyezet nem támogatott a Linuxos Azure Function-alkalmazásokban</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack '{{stack}}' which is currently not supported in Deployment Center via GitHub Actions.</value>
+        <value>A(z) {{appName}} alkalmazás a(z) {{stack}} veremmel van beállítva, ami jelenleg nem támogatott az üzembe helyezési központban a GitHub Actions szolgáltatáson keresztül.</value>
     </data>
   <data name="githubActionStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is currently configured for '{{stack}}', which does not match current build selection. The app might not function correctly with current build selection.</value>
+        <value>A(z) {{appName}} alkalmazás jelenleg konfigurálva van a(z) {{stack}} típushoz, amely nem felel meg az aktuális Build-kijelölésnek. Lehetséges, hogy az alkalmazás nem működik megfelelően az aktuális Build-kijelöléssel.</value>
     </data>
   <data name="hostConfigurationLabel" xml:space="preserve">
         <value>Gazdagép konfigurációja</value>
@@ -5653,27 +5674,51 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>host.json konfigurálása</value>
     </data>
   <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
-        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+        <value>Az alkalmazás bejövő és kimenő IP-címei a következőkre fognak módosulni: bejövő – {{inbound}} kimenő – {{outbound}}.</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
-        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+        <value>Annak tudomásul vétele, hogy az alkalmazás bejövő és kimenő IP-címei is megváltoznak.</value>
     </data>
   <data name="githubActionWorkflowOption" xml:space="preserve">
-        <value>Workflow Option</value>
+        <value>Munkafolyamat-beállítás</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite workflow definition</value>
+        <value>Munkafolyamat-definíció felülírása</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Configure using existing workflow definition</value>
+        <value>Konfigurálás a meglévő munkafolyamat-definíció használatával</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+        <value>A rendszer a GitHubban már meglévő munkafolyamat-konfigurációt fogja használni a buildeléshez és az üzembe helyezéshez. Az alábbiakban megtekintheti az előnézetet.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+        <value>A GitHubban már meglévő munkafolyamat-konfiguráció felül lesz írva az alábbi konfigurációval.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>(nincsenek megjeleníthető függvénykulcsok)</value>
+    </data>
+  <data name="featureNotSupportedForPremium" xml:space="preserve">
+        <value>A prémium szintű csomag alkalmazásai nem támogatják ezt a funkciót</value>
+    </data>
+  <data name="deleteFunctionKeyNotification" xml:space="preserve">
+        <value>Funkcióbillentyű törlése</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationDetails" xml:space="preserve">
+        <value>A(z) {0} törlése</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationFailed" xml:space="preserve">
+        <value>Nem sikerült a(z) {0} törlése</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
+        <value>A(z) {0} törlése sikerült</value>
+    </data>
+  <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
+    </data>
+  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
 </root>

@@ -1476,7 +1476,7 @@ export class PortalResources {
   public static detailContainerLogFetchFailure = 'detailContainerLogFetchFailure';
   public static resettingCredentials = 'resettingCredentials';
   public static resettingCredentialsFail = 'resettingCredentialsFail';
-  public static resettingCredentialsSucccess = 'resettingCredentialsSucccess';
+  public static resettingCredentialsSuccess = 'resettingCredentialsSuccess';
   public static savingCredentials = 'savingCredentials';
   public static savingCredentialsFail = 'savingCredentialsFail';
   public static savingCredentialsSuccess = 'savingCredentialsSuccess';
@@ -1641,13 +1641,16 @@ export class PortalResources {
   public static majorVersion = 'majorVersion';
   public static minorVersion = 'minorVersion';
   public static containerValidationFailed = 'containerValidationFailed';
+  public static integrateNoTriggerDefined = 'integrateNoTriggerDefined';
   public static integrateNoInputsDefined = 'integrateNoInputsDefined';
   public static integrateNoOutputsDefined = 'integrateNoOutputsDefined';
   public static integrateAddTrigger = 'integrateAddTrigger';
   public static integrateCreateTrigger = 'integrateCreateTrigger';
   public static integrateAddInput = 'integrateAddInput';
   public static integrateCreateInput = 'integrateCreateInput';
-  public static integrateCreateBindingInstructions = 'integrateCreateBindingInstructions';
+  public static integrateCreateInputBindingInstructions = 'integrateCreateInputBindingInstructions';
+  public static integrateCreateOutputBindingInstructions = 'integrateCreateOutputBindingInstructions';
+  public static integrateCreateTriggerBindingInstructions = 'integrateCreateTriggerBindingInstructions';
   public static integrateBindingType = 'integrateBindingType';
   public static integrateCreateBindingTypeDetails = 'integrateCreateBindingTypeDetails';
   public static _function = '_function';
@@ -1676,7 +1679,6 @@ export class PortalResources {
   public static keyVaultSecretVersion = 'keyVaultSecretVersion';
   public static identity = 'identity';
   public static errorDetails = 'errorDetails';
-  public static appKeysInformationBanner = 'appKeysInformationBanner';
   public static appKeysHost = 'appKeysHost';
   public static appKeysSystem = 'appKeysSystem';
   public static addHostKey = 'addHostKey';
@@ -1746,6 +1748,7 @@ export class PortalResources {
   public static refreshAppSettingsTitle = 'refreshAppSettingsTitle';
   public static refreshAppSettingsMessage = 'refreshAppSettingsMessage';
   public static eventHubPicker_noNamespaces = 'eventHubPicker_noNamespaces';
+  public static eventHubCallout_newEventHubConnection = 'eventHubCallout_newEventHubConnection';
   public static eventHubPicker_noEventHubs = 'eventHubPicker_noEventHubs';
   public static eventHubPicker_noPolicies = 'eventHubPicker_noPolicies';
   public static iotHubPivot_noIoTHubs = 'iotHubPivot_noIoTHubs';
@@ -1756,17 +1759,20 @@ export class PortalResources {
   public static iotHubPivot_IOTMonitoring = 'iotHubPivot_IOTMonitoring';
   public static customPivot_key = 'customPivot_key';
   public static customPivot_value = 'customPivot_value';
+  public static serviceBusCallout_newServiceBusConnection = 'serviceBusCallout_newServiceBusConnection';
   public static serviceBusCallout_serviceBus = 'serviceBusCallout_serviceBus';
+  public static resourceCallout_newCustomAppSetting = 'resourceCallout_newCustomAppSetting';
   public static resourceCallout_customAppSetting = 'resourceCallout_customAppSetting';
   public static serviceBusPicker_noNamespaces = 'serviceBusPicker_noNamespaces';
   public static serviceBusPicker_noPolicies = 'serviceBusPicker_noPolicies';
   public static serviceBusPicker_namespace = 'serviceBusPicker_namespace';
   public static serviceBusPicker_policy = 'serviceBusPicker_policy';
+  public static documentDBCallout_newDocumentDBConnection = 'documentDBCallout_newDocumentDBConnection';
   public static documentDBCallout_azureCosmosDBAccount = 'documentDBCallout_azureCosmosDBAccount';
   public static documentDBPivot_noDatabaseAccounts = 'documentDBPivot_noDatabaseAccounts';
   public static documentDBPivot_databaseAccount = 'documentDBPivot_databaseAccount';
-  public static stoageAccountCallout_existingStorageAccount = 'stoageAccountCallout_existingStorageAccount';
-  public static stoageAccountCallout_newStorageAccount = 'stoageAccountCallout_newStorageAccount';
+  public static storageAccountCallout_existingStorageAccount = 'storageAccountCallout_existingStorageAccount';
+  public static storageAccountCallout_newStorageAccountConnection = 'storageAccountCallout_newStorageAccountConnection';
   public static storageAccountPivot_noStorageAccounts = 'storageAccountPivot_noStorageAccounts';
   public static storageAccountPivot_storageAccount = 'storageAccountPivot_storageAccount';
   public static newPivot_name = 'newPivot_name';
@@ -1779,6 +1785,7 @@ export class PortalResources {
   public static createFunctionNotication = 'createFunctionNotication';
   public static createFunctionNotificationDetails = 'createFunctionNotificationDetails';
   public static createFunctionNotificationFailed = 'createFunctionNotificationFailed';
+  public static createFunctionNotificationFailedDetails = 'createFunctionNotificationFailedDetails';
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
   public static readonlyBlobStorageWarning = 'readonlyBlobStorageWarning';
   public static quickstartHeader = 'quickstartHeader';
@@ -1835,4 +1842,13 @@ export class PortalResources {
   public static githubActionWorkflowOptionUseExistingMessage = 'githubActionWorkflowOptionUseExistingMessage';
   public static githubActionWorkflowOptionOverwriteMessage = 'githubActionWorkflowOptionOverwriteMessage';
   public static emptyFunctionKeys = 'emptyFunctionKeys';
+  public static featureNotSupportedForPremium = 'featureNotSupportedForPremium';
+  public static deleteFunctionKeyNotification = 'deleteFunctionKeyNotification';
+  public static deleteFunctionKeyNotificationDetails = 'deleteFunctionKeyNotificationDetails';
+  public static deleteFunctionKeyNotificationFailed = 'deleteFunctionKeyNotificationFailed';
+  public static deleteFunctionKeyNotificationSuccess = 'deleteFunctionKeyNotificationSuccess';
+  public static disableFunctionTestTooltip = 'disableFunctionTestTooltip';
+  public static githubActionAspNetStackNotSupportedMessage = 'githubActionAspNetStackNotSupportedMessage';
+  public static githubActionAspNetStackMismatchMessage = 'githubActionAspNetStackMismatchMessage';
+  public static gitHubActionWorkflowFileNameTitle = 'gitHubActionWorkflowFileNameTitle';
 }
