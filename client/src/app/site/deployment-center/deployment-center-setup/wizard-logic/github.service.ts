@@ -111,27 +111,33 @@ export class GithubService implements OnDestroy {
     const branch = sourceSettings.branch || 'master';
     const fileName = this.getWorkflowFileName(branch, siteName, slotName);
     const secretName = `AzureAppService_PublishProfile_${secretNameGuid}`;
-    const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
 
     let content = '';
     const runtimeStackVersion = this._getRuntimeVersion(isLinuxApp, buildSettings);
 
     switch (buildSettings.runtimeStack) {
       case RuntimeStacks.node:
-        content = this._getNodeGithubActionWorkflowDefinition(webAppName, branch, isLinuxApp, secretName, runtimeStackVersion);
+        content = this._getNodeGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion);
         break;
       case RuntimeStacks.python:
-        content = this._getPythonGithubActionWorkflowDefinition(webAppName, branch, isLinuxApp, secretName, runtimeStackVersion);
+        content = this._getPythonGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion);
         break;
       case RuntimeStacks.dotnetcore:
-        content = this._getDotnetCoreGithubActionWorkflowDefinition(webAppName, branch, isLinuxApp, secretName, runtimeStackVersion);
+        content = this._getDotnetCoreGithubActionWorkflowDefinition(
+          siteName,
+          slotName,
+          branch,
+          isLinuxApp,
+          secretName,
+          runtimeStackVersion
+        );
         break;
       case RuntimeStacks.java8:
       case RuntimeStacks.java11:
         if (this._isJavaWarBuild(buildSettings)) {
-          content = this._getJavaWarGithubActionWorkflowDefinition(webAppName, branch, isLinuxApp, secretName, runtimeStackVersion);
+          content = this._getJavaWarGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion);
         } else {
-          content = this._getJavaJarGithubActionWorkflowDefinition(webAppName, branch, isLinuxApp, secretName, runtimeStackVersion);
+          content = this._getJavaJarGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion);
         }
         break;
       default:
@@ -164,16 +170,20 @@ export class GithubService implements OnDestroy {
   // TODO(michinoy): Need to implement templated github action workflow generation.
   // Current reference - https://github.com/Azure/actions-workflow-templates
   private _getNodeGithubActionWorkflowDefinition(
-    webAppName: string,
+    siteName: string,
+    slotName: string,
     branch: string,
     isLinuxApp: boolean,
     secretName: string,
     runtimeStackVersion: string
   ) {
+    const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+    const slot = slotName || 'production';
+
     return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App
+name: Build and deploy Node.js app to Azure Web App - ${webAppName}
 
 on:
   push:
@@ -202,6 +212,7 @@ jobs:
       uses: azure/webapps-deploy@v1
       with:
         app-name: '${webAppName}'
+        slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
         package: .`;
   }
@@ -209,16 +220,20 @@ jobs:
   // TODO(michinoy): Need to implement templated github action workflow generation.
   // Current reference - https://github.com/Azure/actions-workflow-templates
   private _getPythonGithubActionWorkflowDefinition(
-    webAppName: string,
+    siteName: string,
+    slotName: string,
     branch: string,
     isLinuxApp: boolean,
     secretName: string,
     runtimeStackVersion: string
   ) {
+    const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+    const slot = slotName || 'production';
+
     return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Python app to Azure Web App
+name: Build and deploy Python app to Azure Web App - ${webAppName}
 
 on:
   push:
@@ -249,6 +264,7 @@ jobs:
       uses: azure/webapps-deploy@v1
       with:
         app-name: '${webAppName}'
+        slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
         package: './myapp.zip'`;
   }
@@ -256,16 +272,20 @@ jobs:
   // TODO(michinoy): Need to implement templated github action workflow generation.
   // Current reference - https://github.com/Azure/actions-workflow-templates
   private _getDotnetCoreGithubActionWorkflowDefinition(
-    webAppName: string,
+    siteName: string,
+    slotName: string,
     branch: string,
     isLinuxApp: boolean,
     secretName: string,
     runtimeStackVersion: string
   ) {
+    const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+    const slot = slotName || 'production';
+
     return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App
+name: Build and deploy ASP.Net Core app to Azure Web App - ${webAppName}
 
 on:
   push:
@@ -294,6 +314,7 @@ jobs:
       uses: azure/webapps-deploy@v1
       with:
         app-name: '${webAppName}'
+        slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
         package: \${{env.DOTNET_ROOT}}/myapp `;
   }
@@ -301,16 +322,20 @@ jobs:
   // TODO(michinoy): Need to implement templated github action workflow generation.
   // Current reference - https://github.com/Azure/actions-workflow-templates
   private _getJavaJarGithubActionWorkflowDefinition(
-    webAppName: string,
+    siteName: string,
+    slotName: string,
     branch: string,
     isLinuxApp: boolean,
     secretName: string,
     runtimeStackVersion: string
   ) {
+    const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+    const slot = slotName || 'production';
+
     return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App
+name: Build and deploy JAR app to Azure Web App - ${webAppName}
 
 on:
   push:
@@ -336,6 +361,7 @@ jobs:
       uses: azure/webapps-deploy@v1
       with: 
         app-name: '${webAppName}'
+        slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
         package: '\${{ github.workspace }}/target/*.jar'`;
   }
@@ -343,16 +369,20 @@ jobs:
   // TODO(michinoy): Need to implement templated github action workflow generation.
   // Current reference - https://github.com/Azure/actions-workflow-templates
   private _getJavaWarGithubActionWorkflowDefinition(
-    webAppName: string,
+    siteName: string,
+    slotName: string,
     branch: string,
     isLinuxApp: boolean,
     secretName: string,
     runtimeStackVersion: string
   ) {
+    const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+    const slot = slotName || 'production';
+
     return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy WAR app to Azure Web App
+name: Build and deploy WAR app to Azure Web App - ${webAppName}
 
 on:
   push:
@@ -361,7 +391,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
     
     steps:
     - uses: actions/checkout@master
@@ -377,7 +407,8 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v1
       with: 
-        app-name: '${webAppName}'
+        app-name: '${siteName}'
+        slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
         package: '\${{ github.workspace }}/target/*.war'`;
   }
