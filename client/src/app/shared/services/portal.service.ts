@@ -104,6 +104,7 @@ export class PortalService implements IPortalService {
     'powerapps.cloudapp.net',
     'web.powerapps.com',
     'portal.azure.eaglex.ic.gov',
+    'portal.azure.microsoft.scloud',
   ];
 
   private startupInfo: StartupInfo<any> | null;
