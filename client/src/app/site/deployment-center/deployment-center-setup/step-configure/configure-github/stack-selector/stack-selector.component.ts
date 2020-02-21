@@ -4,7 +4,7 @@ import { DeploymentCenterStateManager } from '../../../wizard-logic/deployment-c
 import { RuntimeStackService } from 'app/shared/services/runtimestack.service';
 import { WebAppCreateStack } from 'app/shared/models/stacks';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories, Os } from 'app/shared/models/constants';
+import { LogCategories, Os, RuntimeStacks } from 'app/shared/models/constants';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
@@ -127,15 +127,21 @@ export class StackSelectorComponent implements OnDestroy {
 
     // NOTE(michinoy): Once the dropdown is populated, preselect stack that the user had selected during create.
     // If the users app was built using a stack that is not supported, show a warning message.
-    const appSelectedStack = this.runtimeStackItems.filter(item => item.value === this.wizard.stack.toLocaleLowerCase());
-    if (appSelectedStack && appSelectedStack.length === 1) {
-      this.stackNotSupportedMessage = '';
-      this._runtimeStackStream$.next(appSelectedStack[0].value);
-    } else {
-      this.stackNotSupportedMessage = this._translateService.instant(PortalResources.githubActionStackNotSupportedMessage, {
-        appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
-        stack: this.wizard.stack,
-      });
+    if (this.wizard.stack) {
+      const appSelectedStack = this.runtimeStackItems.filter(item => item.value === this.wizard.stack.toLocaleLowerCase());
+      if (appSelectedStack && appSelectedStack.length === 1) {
+        this.stackNotSupportedMessage = '';
+        this._runtimeStackStream$.next(appSelectedStack[0].value);
+      } else if (this.wizard.stack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
+        this.stackNotSupportedMessage = this._translateService.instant(PortalResources.githubActionAspNetStackNotSupportedMessage, {
+          appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
+        });
+      } else {
+        this.stackNotSupportedMessage = this._translateService.instant(PortalResources.githubActionStackNotSupportedMessage, {
+          appName: this.wizard.slotName ? `${this.wizard.siteName} (${this.wizard.slotName})` : this.wizard.siteName,
+          stack: this.wizard.stack,
+        });
+      }
     }
 
     this.runtimeStacksLoading = false;

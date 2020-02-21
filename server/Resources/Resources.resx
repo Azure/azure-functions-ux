@@ -5718,4 +5718,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="disableFunctionTestTooltip" xml:space="preserve">
         <value>Test is only supported for HTTP triggered functions</value>
     </data>
+    <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
 </root>
