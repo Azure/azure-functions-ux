@@ -11,11 +11,24 @@ export class StacksFunctionAppConfigService {
       {
         displayText: '3.1',
         value: '3.1',
-        sortOrder: 0,
+        sortOrder: 1,
         isDefault: true,
         supportedPlatforms: [
           {
             sortOrder: 0,
+            os: 'windows',
+            isPreview: false,
+            isDeprecated: false,
+            isHidden: false,
+            applicationInsightsEnabled: true,
+            runtimeVersion: '2.2',
+            appSettingsDictionary: {
+              FUNCTIONS_WORKER_RUNTIME: 'dotnet',
+            },
+            siteConfigPropertiesDictionary: {},
+          },
+          {
+            sortOrder: 1,
             os: 'linux',
             isPreview: false,
             isDeprecated: false,
@@ -29,19 +42,6 @@ export class StacksFunctionAppConfigService {
               Use32BitWorkerProcess: false,
             },
           },
-          {
-            sortOrder: 1,
-            os: 'windows',
-            isPreview: false,
-            isDeprecated: false,
-            isHidden: false,
-            applicationInsightsEnabled: true,
-            runtimeVersion: '2.2',
-            appSettingsDictionary: {
-              FUNCTIONS_WORKER_RUNTIME: 'dotnet',
-            },
-            siteConfigPropertiesDictionary: {},
-          },
         ],
       },
     ],
@@ -53,13 +53,27 @@ export class StacksFunctionAppConfigService {
     value: 'node',
     versions: [
       {
-        sortOrder: 0,
+        sortOrder: 1,
         displayText: '12',
         value: '12',
         isDefault: false,
         supportedPlatforms: [
           {
             sortOrder: 0,
+            os: 'windows',
+            isPreview: false,
+            isDeprecated: false,
+            isHidden: false,
+            applicationInsightsEnabled: true,
+            runtimeVersion: '~12',
+            appSettingsDictionary: {
+              FUNCTIONS_WORKER_RUNTIME: 'node',
+              WEBSITE_NODE_DEFAULT_VERSION: '~12',
+            },
+            siteConfigPropertiesDictionary: {},
+          },
+          {
+            sortOrder: 1,
             os: 'linux',
             isPreview: false,
             isDeprecated: false,
@@ -74,30 +88,30 @@ export class StacksFunctionAppConfigService {
               linuxFxVersion: 'Node|12',
             },
           },
-          {
-            sortOrder: 1,
-            os: 'windows',
-            isPreview: false,
-            isDeprecated: false,
-            isHidden: false,
-            applicationInsightsEnabled: true,
-            runtimeVersion: '~12',
-            appSettingsDictionary: {
-              FUNCTIONS_WORKER_RUNTIME: 'node',
-              WEBSITE_NODE_DEFAULT_VERSION: '~12',
-            },
-            siteConfigPropertiesDictionary: {},
-          },
         ],
       },
       {
-        sortOrder: 1,
+        sortOrder: 2,
         displayText: '10',
         value: '10',
         isDefault: false,
         supportedPlatforms: [
           {
             sortOrder: 0,
+            os: 'windows',
+            isPreview: false,
+            isDeprecated: false,
+            isHidden: false,
+            applicationInsightsEnabled: true,
+            runtimeVersion: '~10',
+            appSettingsDictionary: {
+              FUNCTIONS_WORKER_RUNTIME: 'node',
+              WEBSITE_NODE_DEFAULT_VERSION: '~10',
+            },
+            siteConfigPropertiesDictionary: {},
+          },
+          {
+            sortOrder: 1,
             os: 'linux',
             isPreview: false,
             isDeprecated: false,
@@ -112,20 +126,6 @@ export class StacksFunctionAppConfigService {
               linuxFxVersion: 'Node|10',
             },
           },
-          {
-            sortOrder: 1,
-            os: 'windows',
-            isPreview: false,
-            isDeprecated: false,
-            isHidden: false,
-            applicationInsightsEnabled: true,
-            runtimeVersion: '~10',
-            appSettingsDictionary: {
-              FUNCTIONS_WORKER_RUNTIME: 'node',
-              WEBSITE_NODE_DEFAULT_VERSION: '~10',
-            },
-            siteConfigPropertiesDictionary: {},
-          },
         ],
       },
     ],
@@ -137,9 +137,9 @@ export class StacksFunctionAppConfigService {
     value: 'python',
     versions: [
       {
-        sortOrder: 0,
-        displayText: '3.6',
-        value: '3.6',
+        sortOrder: 1,
+        displayText: '3.8',
+        value: '3.8',
         isDefault: false,
         supportedPlatforms: [
           {
@@ -149,19 +149,19 @@ export class StacksFunctionAppConfigService {
             isDeprecated: false,
             isHidden: false,
             applicationInsightsEnabled: true,
-            runtimeVersion: 'Python|3.6',
+            runtimeVersion: 'Python|3.8',
             appSettingsDictionary: {
               FUNCTIONS_WORKER_RUNTIME: 'python',
             },
             siteConfigPropertiesDictionary: {
               Use32BitWorkerProcess: false,
-              linuxFxVersion: 'Python|3.6',
+              linuxFxVersion: 'Python|3.8',
             },
           },
         ],
       },
       {
-        sortOrder: 1,
+        sortOrder: 2,
         displayText: '3.7',
         value: '3.7',
         isDefault: true,
@@ -185,9 +185,9 @@ export class StacksFunctionAppConfigService {
         ],
       },
       {
-        sortOrder: 2,
-        displayText: '3.8',
-        value: '3.8',
+        sortOrder: 3,
+        displayText: '3.6',
+        value: '3.6',
         isDefault: false,
         supportedPlatforms: [
           {
@@ -197,13 +197,13 @@ export class StacksFunctionAppConfigService {
             isDeprecated: false,
             isHidden: false,
             applicationInsightsEnabled: true,
-            runtimeVersion: 'Python|3.8',
+            runtimeVersion: 'Python|3.6',
             appSettingsDictionary: {
               FUNCTIONS_WORKER_RUNTIME: 'python',
             },
             siteConfigPropertiesDictionary: {
               Use32BitWorkerProcess: false,
-              linuxFxVersion: 'Python|3.8',
+              linuxFxVersion: 'Python|3.6',
             },
           },
         ],
@@ -224,6 +224,19 @@ export class StacksFunctionAppConfigService {
         supportedPlatforms: [
           {
             sortOrder: 0,
+            os: 'windows',
+            isPreview: false,
+            isDeprecated: false,
+            isHidden: false,
+            applicationInsightsEnabled: true,
+            runtimeVersion: '1.8',
+            appSettingsDictionary: {
+              FUNCTIONS_WORKER_RUNTIME: 'java',
+            },
+            siteConfigPropertiesDictionary: {},
+          },
+          {
+            sortOrder: 1,
             os: 'linux',
             isPreview: false,
             isDeprecated: false,
@@ -237,19 +250,6 @@ export class StacksFunctionAppConfigService {
               Use32BitWorkerProcess: false,
               linuxFxVersion: 'Java|8',
             },
-          },
-          {
-            sortOrder: 1,
-            os: 'windows',
-            isPreview: false,
-            isDeprecated: false,
-            isHidden: false,
-            applicationInsightsEnabled: true,
-            runtimeVersion: '1.8',
-            appSettingsDictionary: {
-              FUNCTIONS_WORKER_RUNTIME: 'java',
-            },
-            siteConfigPropertiesDictionary: {},
           },
         ],
       },
