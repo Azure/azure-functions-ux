@@ -1850,4 +1850,5 @@ export class PortalResources {
   public static disableFunctionTestTooltip = 'disableFunctionTestTooltip';
   public static githubActionAspNetStackNotSupportedMessage = 'githubActionAspNetStackNotSupportedMessage';
   public static githubActionAspNetStackMismatchMessage = 'githubActionAspNetStackMismatchMessage';
+  public static gitHubActionWorkflowFileNameTitle = 'gitHubActionWorkflowFileNameTitle';
 }

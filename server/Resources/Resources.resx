@@ -5724,4 +5724,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
         <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
+    <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
+        <value>GitHub Action Workflow Filename</value>
+    </data>
 </root>

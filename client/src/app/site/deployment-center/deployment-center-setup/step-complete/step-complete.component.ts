@@ -262,122 +262,150 @@ export class StepCompleteComponent {
   private _buildControlgroup(): SummaryGroup {
     const wizValues = this.wizard.wizardValues;
     const buildProvider = wizValues.buildProvider;
-    const buildSettings = wizValues.buildSettings;
     const returnSummaryItems = [];
+
     if (buildProvider === 'kudu') {
-      returnSummaryItems.push({
-        label: this._translateService.instant(PortalResources.provider),
-        value: this._translateService.instant(PortalResources.kuduTitle),
-      });
+      returnSummaryItems.push(...this._getKuduBuildSummary());
+    } else if (buildProvider === 'github') {
+      returnSummaryItems.push(...this._getGitHubActionBuildSummary());
     } else {
-      const appFramework = wizValues.buildSettings.applicationFramework;
-
-      if (buildProvider === 'github') {
-        returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.provider),
-          value: this._translateService.instant(PortalResources.gitHubActionBuildServerTitle),
-        });
-      } else {
-        returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.provider),
-          value: this._translateService.instant(PortalResources.vstsBuildServerTitle),
-        });
-
-        returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.newAccount),
-          value: buildSettings.createNewVsoAccount
-            ? this._translateService.instant(PortalResources.yes)
-            : this._translateService.instant(PortalResources.no),
-        });
-
-        returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.account),
-          value: buildSettings.vstsAccount,
-        });
-
-        if (!wizValues.buildSettings.createNewVsoAccount) {
-          returnSummaryItems.push({
-            label: this._translateService.instant(PortalResources.project),
-            value: buildSettings.vstsProject,
-          });
-        }
-
-        if (wizValues.buildSettings.createNewVsoAccount) {
-          returnSummaryItems.push({
-            label: this._translateService.instant(PortalResources.location),
-            value: buildSettings.location,
-          });
-        }
-      }
-
-      returnSummaryItems.push({
-        label: this._translateService.instant(PortalResources.webAppFramework),
-        value: buildSettings.applicationFramework,
-      });
-
-      if (this.wizard.isLinuxApp) {
-        returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.frameworkVersion),
-          value: buildSettings.frameworkVersion,
-        });
-      }
-
-      if (appFramework !== 'AspNetWap' && appFramework !== 'AspNetCore' && !!buildSettings.workingDirectory) {
-        returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.workingDirectory),
-          value: buildSettings.workingDirectory,
-        });
-      }
-
-      if (appFramework === 'Node') {
-        returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.taskRunner),
-          value: buildSettings.nodejsTaskRunner,
-        });
-      }
-
-      if (appFramework === 'Python') {
-        returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.pythonVersionLabel),
-          value: buildSettings.pythonSettings.version,
-        });
-
-        let frameWorkValue = '';
-        switch (buildSettings.pythonSettings.framework) {
-          case PythonFrameworkType.Bottle:
-            frameWorkValue = 'Bottle';
-            break;
-          case PythonFrameworkType.Flask:
-            frameWorkValue = 'Flask';
-            break;
-          case PythonFrameworkType.Django:
-            frameWorkValue = 'Django';
-            break;
-        }
-        returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.pythonFramework),
-          value: frameWorkValue,
-        });
-
-        if (wizValues.buildSettings.pythonSettings.framework === PythonFrameworkType.Flask) {
-          returnSummaryItems.push({
-            label: this._translateService.instant(PortalResources.flaskProjectName),
-            value: buildSettings.pythonSettings.flaskProjectName,
-          });
-        }
-
-        if (wizValues.buildSettings.pythonSettings.framework === PythonFrameworkType.Django) {
-          returnSummaryItems.push({
-            label: this._translateService.instant(PortalResources.djangoSettings),
-            value: buildSettings.pythonSettings.djangoSettingsModule,
-          });
-        }
-      }
+      returnSummaryItems.push(...this._getDevOpsBuildSummary());
     }
+
     return {
       label: this._translateService.instant(PortalResources.buildProvider),
       items: returnSummaryItems,
     };
+  }
+
+  private _getKuduBuildSummary() {
+    return [
+      {
+        label: this._translateService.instant(PortalResources.provider),
+        value: this._translateService.instant(PortalResources.gitHubActionBuildServerTitle),
+      },
+    ];
+  }
+
+  private _getGitHubActionBuildSummary() {
+    return [
+      {
+        label: this._translateService.instant(PortalResources.provider),
+        value: this._translateService.instant(PortalResources.gitHubActionBuildServerTitle),
+      },
+      {
+        label: this._translateService.instant(PortalResources.gitHubActionWorkflowFileNameTitle),
+        value: this._githubService.getWorkflowFileName(
+          this.wizard.wizardValues.sourceSettings.branch,
+          this.wizard.siteName,
+          this.wizard.slotName
+        ),
+      },
+    ];
+  }
+
+  private _getDevOpsBuildSummary() {
+    const returnSummaryItems = [];
+    const wizValues = this.wizard.wizardValues;
+    const buildSettings = wizValues.buildSettings;
+    const appFramework = wizValues.buildSettings.applicationFramework;
+
+    returnSummaryItems.push({
+      label: this._translateService.instant(PortalResources.provider),
+      value: this._translateService.instant(PortalResources.vstsBuildServerTitle),
+    });
+
+    returnSummaryItems.push({
+      label: this._translateService.instant(PortalResources.newAccount),
+      value: buildSettings.createNewVsoAccount
+        ? this._translateService.instant(PortalResources.yes)
+        : this._translateService.instant(PortalResources.no),
+    });
+
+    returnSummaryItems.push({
+      label: this._translateService.instant(PortalResources.account),
+      value: buildSettings.vstsAccount,
+    });
+
+    if (!wizValues.buildSettings.createNewVsoAccount) {
+      returnSummaryItems.push({
+        label: this._translateService.instant(PortalResources.project),
+        value: buildSettings.vstsProject,
+      });
+    }
+
+    if (wizValues.buildSettings.createNewVsoAccount) {
+      returnSummaryItems.push({
+        label: this._translateService.instant(PortalResources.location),
+        value: buildSettings.location,
+      });
+    }
+
+    returnSummaryItems.push({
+      label: this._translateService.instant(PortalResources.webAppFramework),
+      value: buildSettings.applicationFramework,
+    });
+
+    if (this.wizard.isLinuxApp) {
+      returnSummaryItems.push({
+        label: this._translateService.instant(PortalResources.frameworkVersion),
+        value: buildSettings.frameworkVersion,
+      });
+    }
+
+    if (appFramework !== 'AspNetWap' && appFramework !== 'AspNetCore' && !!buildSettings.workingDirectory) {
+      returnSummaryItems.push({
+        label: this._translateService.instant(PortalResources.workingDirectory),
+        value: buildSettings.workingDirectory,
+      });
+    }
+
+    if (appFramework === 'Node') {
+      returnSummaryItems.push({
+        label: this._translateService.instant(PortalResources.taskRunner),
+        value: buildSettings.nodejsTaskRunner,
+      });
+    }
+
+    if (appFramework === 'Python') {
+      returnSummaryItems.push({
+        label: this._translateService.instant(PortalResources.pythonVersionLabel),
+        value: buildSettings.pythonSettings.version,
+      });
+
+      let frameWorkValue = '';
+      switch (buildSettings.pythonSettings.framework) {
+        case PythonFrameworkType.Bottle:
+          frameWorkValue = 'Bottle';
+          break;
+        case PythonFrameworkType.Flask:
+          frameWorkValue = 'Flask';
+          break;
+        case PythonFrameworkType.Django:
+          frameWorkValue = 'Django';
+          break;
+      }
+      returnSummaryItems.push({
+        label: this._translateService.instant(PortalResources.pythonFramework),
+        value: frameWorkValue,
+      });
+
+      if (wizValues.buildSettings.pythonSettings.framework === PythonFrameworkType.Flask) {
+        returnSummaryItems.push({
+          label: this._translateService.instant(PortalResources.flaskProjectName),
+          value: buildSettings.pythonSettings.flaskProjectName,
+        });
+      }
+
+      if (wizValues.buildSettings.pythonSettings.framework === PythonFrameworkType.Django) {
+        returnSummaryItems.push({
+          label: this._translateService.instant(PortalResources.djangoSettings),
+          value: buildSettings.pythonSettings.djangoSettingsModule,
+        });
+      }
+    }
+
+    return returnSummaryItems;
   }
 
   private _sourceControlGroup(): SummaryGroup {
