@@ -18,14 +18,13 @@ import BindingCard, { EditableBindingCardProps, createNew, editExisting, emptyLi
 import { listStyle } from './BindingDiagram.styles';
 
 const InputBindingCard: React.SFC<EditableBindingCardProps> = props => {
-  const { functionInfo, bindings, readOnly, setRequiredBindingId } = props;
+  const { functionInfo, bindings, readOnly } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
   const bindingEditorContext = useContext(BindingEditorContext) as BindingEditorContextInfo;
 
   const inputs = getInputBindings(functionInfo.properties.config.bindings);
-  getRequiredBindingData(inputs, bindings, setRequiredBindingId);
   const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, inputs, readOnly);
 
   return <BindingCard title={t('input')} Svg={InputSvg} content={content} {...props} />;
@@ -37,15 +36,6 @@ const getInputBindings = (bindings: BindingInfo[]): BindingInfo[] => {
   });
 
   return inputBindings ? inputBindings : [];
-};
-
-const getRequiredBindingData = (inputs: BindingInfo[], bindings: Binding[], setRequiredBindingId: (id: string) => void) => {
-  inputs.forEach(input => {
-    const binding = bindings.find(b => b.type === input.type && b.direction === BindingDirection.in);
-    if (binding && !binding.settings) {
-      setRequiredBindingId(binding.id);
-    }
-  });
 };
 
 const getContent = (

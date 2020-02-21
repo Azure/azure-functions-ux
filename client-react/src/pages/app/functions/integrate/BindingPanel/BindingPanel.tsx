@@ -22,7 +22,6 @@ export interface BindingPanelProps {
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
   onDelete: (currentBindingInfo: BindingInfo) => void;
-  setRequiredBindingId: (id: string) => void;
 }
 
 const BindingPanel: React.SFC<BindingPanelProps> = props => {
@@ -38,7 +37,6 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
     onPanelClose,
     onSubmit,
     onDelete,
-    setRequiredBindingId,
   } = props;
   const { t } = useTranslation();
 
@@ -59,7 +57,6 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
               onlyBuiltInBindings={onlyBuiltInBindings}
               onPanelClose={onPanelClose}
               onSubmit={onSubmit}
-              setRequiredBindingId={setRequiredBindingId}
             />
           ) : (
             <BindingEditor
