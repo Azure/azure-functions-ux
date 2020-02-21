@@ -675,6 +675,7 @@ export class Pricing {
 }
 
 export class RuntimeStacks {
+  public static aspnet = 'dotnet';
   public static node = 'node';
   public static python = 'python';
   public static dotnetcore = 'dotnetcore';
