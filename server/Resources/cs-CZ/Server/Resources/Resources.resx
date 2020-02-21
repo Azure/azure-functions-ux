@@ -1463,7 +1463,7 @@
         <value>Nastavení webové aplikace se úspěšně aktualizovalo</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Nastavení webové aplikace se nepovedlo aktualizovat: </value>
+        <value>Failed to update web app settings</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>Chyba při ukládání {{configGroupName}}: Byl zadán neplatný vstup.</value>
@@ -3224,7 +3224,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Vytvořit nové prostředí App Service Environment</value>
     </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-        <value>Cenové úrovně pro vývoj a testování nejsou k dispozici pro vaši konfiguraci. Jsou k dispozici jen plánům, které se nehostují ve službě App Service Environment.</value>
+        <value>Cenové úrovně pro vývoj/testování nejsou k dispozici pro vaši konfiguraci. Jsou k dispozici jen plánům, které se nehostují ve službě App Service Environment.</value>
     </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
         <value>Produkční cenové úrovně nejsou k dispozici pro vaši konfiguraci. Jsou k dispozici jen plánům, které se nehostují ve službě App Service Environment.</value>
@@ -4574,7 +4574,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="resettingCredentialsFail" xml:space="preserve">
         <value>Nepovedlo se resetovat přihlašovací údaje.</value>
     </data>
-  <data name="resettingCredentialsSucccess" xml:space="preserve">
+  <data name="resettingCredentialsSuccess" xml:space="preserve">
         <value>Přihlašovací údaje se úspěšně resetovaly.</value>
     </data>
   <data name="savingCredentials" xml:space="preserve">
@@ -5091,6 +5091,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Nepovedlo se ověřit nastavení kontejneru.</value>
     </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Nejsou definované žádné vstupy.</value>
     </data>
@@ -5109,8 +5112,14 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="integrateCreateInput" xml:space="preserve">
         <value>Vytvořit vstup</value>
     </data>
-  <data name="integrateCreateBindingInstructions" xml:space="preserve">
-        <value>Začněte tak, že vyberete typ vazby {0}, který chcete přidat.</value>
+  <data name="integrateCreateInputBindingInstructions" xml:space="preserve">
+        <value>Začněte tak, že vyberete typ vstupní vazby, který chcete přidat.</value>
+    </data>
+  <data name="integrateCreateOutputBindingInstructions" xml:space="preserve">
+        <value>Začněte tak, že vyberete typ výstupní vazby, který chcete přidat.</value>
+    </data>
+  <data name="integrateCreateTriggerBindingInstructions" xml:space="preserve">
+        <value>Začněte tak, že vyberete typ vazby triggeru, který chcete přidat.</value>
     </data>
   <data name="integrateBindingType" xml:space="preserve">
         <value>Typ vazby</value>
@@ -5195,9 +5204,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="errorDetails" xml:space="preserve">
         <value>Podrobnosti o chybě</value>
-    </data>
-  <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>V nastaveních funkce se dají nakonfigurovat funkční klávesy.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Klíče hostitelů (všechny funkce)</value>
@@ -5362,10 +5368,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Konfigurace pracovního postupu akce GitHubu</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Setting up GitHub Action build and deployment pipeline.</value>
+        <value>Nastavuje se kanál pro sestavování a nasazování GitHub Actions.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
+        <value>Kanál pro sestavování a nasazování GitHub Actions se úspěšně nastavil.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Přidejte nebo aktualizujte konfiguraci pracovního postupu nasazení služby App Service přes portál Azure Portal.</value>
@@ -5409,6 +5415,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="eventHubPicker_noNamespaces" xml:space="preserve">
         <value>V tomto předplatném nejsou žádné obory názvů.</value>
     </data>
+  <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
+        <value>New Event Hub connection</value>
+    </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>V tomto oboru názvů se nenacházejí žádná centra událostí.</value>
     </data>
@@ -5439,8 +5448,14 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="customPivot_value" xml:space="preserve">
         <value>Hodnota</value>
     </data>
+  <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
+        <value>New Service Bus connection</value>
+    </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus</value>
+    </data>
+  <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
+        <value>New Custom App Setting</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Vlastní nastavení aplikace</value>
@@ -5457,6 +5472,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>Zásady</value>
     </data>
+  <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
+        <value>New Cosmos DB connection</value>
+    </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Účet Azure Cosmos DB</value>
     </data>
@@ -5466,11 +5484,11 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>Databázový účet</value>
     </data>
-  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Existující účet úložiště</value>
+  <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existing Storage Account</value>
     </data>
-  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
-        <value>Nový účet úložiště</value>
+  <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
+        <value>New Storage Account connection</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>V tomto předplatném se nenacházejí žádné účty úložiště.</value>
@@ -5506,6 +5524,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Vytváří se {0}.</value>
     </data>
   <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Nepovedlo se vytvořit {0}.</value>
+    </data>
+  <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>Nepovedlo se vytvořit {0}: {1}</value>
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
@@ -5560,10 +5581,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Se stávajícími funkcemi se nedá provést upgrade: Upgrady hlavní verze můžou zavést změny jazyků a vazeb, které způsobují chyby. Při upgradu hlavních verzí modulu runtime zvažte možnost vytvořit novou aplikaci funkcí a migrovat do ní své funkce.</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
-        <value>V tokenu GitHubu chybí obor workflow.</value>
+        <value>V tokenu GitHubu chybí obor workflow. Pokud chcete GitHub znovu autorizovat, vraťte se prosím na krok source control.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
+        <value>Soubor pracovního postupu GitHub Action {{workflowFilePath}} už ve větvi {{branchName}} existuje. Níže vyberte, jestli chcete přepsat stávající soubor pracovního postupu, nebo i nadále beze změny používat ten, který už existuje.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 se už pro vzdálené ladění nepodporuje. Vyberte prosím podporovanou verzi sady Visual Studio.</value>
@@ -5653,27 +5674,51 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nakonfigurovat host.json</value>
     </data>
   <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
-        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+        <value>Příchozí a odchozí IP adresy pro vaši aplikaci se změní takto: příchozí – {{inbound}}, odchozí – {{outbound}}</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
-        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+        <value>Potvrďte, že se změní příchozí a odchozí IP adresy pro vaši aplikaci</value>
     </data>
   <data name="githubActionWorkflowOption" xml:space="preserve">
-        <value>Workflow Option</value>
+        <value>Možnost pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite workflow definition</value>
+        <value>Přepsat definice pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Configure using existing workflow definition</value>
+        <value>Nakonfigurovat pomocí stávající definice pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+        <value>K sestavování a nasazování se použije stávající konfigurace pracovního postupu v GitHubu. Podívejte se na náhled níže.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+        <value>Stávající konfigurace pracovního postupu v GitHubu se přepíše konfigurací uvedenou níže.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>(Nejsou k dispozici žádné klíče funkcí, které by se daly zobrazit.)</value>
+    </data>
+  <data name="featureNotSupportedForPremium" xml:space="preserve">
+        <value>Pro aplikace v plánu Premium se tato funkce nepodporuje.</value>
+    </data>
+  <data name="deleteFunctionKeyNotification" xml:space="preserve">
+        <value>Odstraňuje se funkční klávesa.</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationDetails" xml:space="preserve">
+        <value>Odstraňování {0}</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationFailed" xml:space="preserve">
+        <value>Nepovedlo se odstranit {0}.</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
+        <value>Odstraňování {0} proběhlo úspěšně.</value>
+    </data>
+  <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
+    </data>
+  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
 </root>
