@@ -42,12 +42,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   }
 
   public render() {
-    if (
-      !this.state.functionInfo ||
-      !this.state.bindings ||
-      !this.state.bindings.every(binding => !!binding.settings) ||
-      !this.state.hostStatus
-    ) {
+    if (!this.state.functionInfo || !this.state.bindings || !this.state.hostStatus) {
       return <LoadingComponent />;
     }
 
