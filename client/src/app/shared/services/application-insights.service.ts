@@ -19,12 +19,13 @@ import { MonitorViewItem } from '../models/localStorage/local-storage';
 import * as moment from 'moment-mini-ts';
 import { ResourcesTopology, ArmObj } from '../models/arm/arm-obj';
 import { ArmUtil } from '../Utilities/arm-utils';
+import { NationalCloudEnvironment } from './scenario/national-cloud.environment';
 
 @Injectable()
 export class ApplicationInsightsService {
   private readonly _client: ConditionalHttpClient;
 
-  private readonly _aiUrl = 'https://api.applicationinsights.io/v1/apps';
+  private _aiUrl = '';
   private readonly _aiApiVersion = '2018-04-20';
   private readonly _resourceGraphApiVersion = '2018-09-01-preview';
   private readonly _sourceName: 'Microsoft.Web-FunctionApp';
@@ -37,6 +38,14 @@ export class ApplicationInsightsService {
     injector: Injector
   ) {
     this._client = new ConditionalHttpClient(injector, _ => this._userService.getStartupInfo().map(i => i.token));
+
+    if (NationalCloudEnvironment.isMooncake()) {
+      this._aiUrl = 'https://api.applicationinsights.azure.cn/v1/apps';
+    } else if (NationalCloudEnvironment.isFairFax()) {
+      this._aiUrl = 'https://api.applicationinsights.us/v1/apps';
+    } else {
+      this._aiUrl = 'https://api.applicationinsights.io/v1/apps';
+    }
   }
 
   public getLast30DaySummary(appId: string, aiToken: string, functionAppName: string, functionName: string): Observable<AIMonthlySummary> {
