@@ -7,6 +7,7 @@ import LogService from '../../../utils/LogService';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { isFunctionApp } from '../../../utils/arm-utils';
+import Url from '../../../utils/url';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;
@@ -178,8 +179,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
   };
 
   private _setLogUrl = (): string => {
-    const hostNameSslStates = this.state.site.properties.hostNameSslStates;
-    const scmHostName = hostNameSslStates.find(h => !!h.name && h.name.includes('.scm.'))!.name;
+    const scmHostName = Url.getScmUrl(this.state.site);
 
     if (isFunctionApp(this.state.site) && this._logType === LogType.Application) {
       return `https://${scmHostName}/api/logstream/application/functions/host`;

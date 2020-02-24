@@ -103,10 +103,10 @@ export default class Url {
   public static getScmUrl(site: ArmObj<Site>) {
     if (window.appsvc && window.appsvc.env.runtimeType.toLowerCase() === 'standalone') {
       return this.getMainUrl(site);
-    } else {
-      const scmHost = site.properties.hostNameSslStates && site.properties.hostNameSslStates.find(s => s.hostType === HostType.Repository);
-      return scmHost ? `https://${scmHost.name}` : this.getMainUrl(site);
     }
+
+    const scmHost = site.properties.hostNameSslStates && site.properties.hostNameSslStates.find(s => s.hostType === HostType.Repository);
+    return scmHost ? `https://${scmHost.name}` : this.getMainUrl(site);
   }
 
   public static getSyncTriggerUrl(site: ArmObj<Site>) {
