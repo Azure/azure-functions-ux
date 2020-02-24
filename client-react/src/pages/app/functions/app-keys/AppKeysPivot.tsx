@@ -11,14 +11,15 @@ interface AppKeysPivotProps {
   initialValues: AppKeysFormValues | null;
   initialLoading: boolean;
   refreshData: () => void;
+  appPermission: boolean;
 }
 
 const AppKeysPivot: React.FC<AppKeysPivotProps> = props => {
   const { t } = useTranslation();
-  const { refreshData, initialValues, resourceId, initialLoading } = props;
+  const { refreshData, initialValues, resourceId, initialLoading, appPermission } = props;
 
   const siteStateContext = useContext(SiteStateContext);
-  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext);
+  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext) || !appPermission;
   return (
     <>
       <h3>{t('appKeysHost')}</h3>
