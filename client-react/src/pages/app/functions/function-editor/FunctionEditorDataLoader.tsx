@@ -52,6 +52,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [functionUrls, setFunctionUrls] = useState<UrlObj[]>([]);
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined>(undefined);
   const [showTestPanel, setShowTestPanel] = useState(false);
+  const [appPermission, setAppPermission] = useState(true);
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -102,6 +103,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         setAppInsightsComponent(appInsightsResponse as ArmObj<AppInsightsComponent>);
       }
     } else {
+      if (appSettingsResponse.metadata.status === 403) {
+        // RBAC Permissions
+        setAppPermission(false);
+      }
       LogService.error(LogCategories.FunctionEdit, 'fetchAppSetting', `Failed to fetch app setting: ${appSettingsResponse.metadata.error}`);
     }
 
@@ -385,6 +390,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           resetAppInsightsToken={resetAppInsightsToken}
           showTestPanel={showTestPanel}
           setShowTestPanel={setShowTestPanel}
+          appPermission={appPermission}
         />
       </div>
     </FunctionEditorContext.Provider>
