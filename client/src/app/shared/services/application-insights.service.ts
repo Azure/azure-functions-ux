@@ -25,7 +25,7 @@ import { NationalCloudEnvironment } from './scenario/national-cloud.environment'
 export class ApplicationInsightsService {
   private readonly _client: ConditionalHttpClient;
 
-  private _aiUrl = '';
+  private _aiUrl: string;
   private readonly _aiApiVersion = '2018-04-20';
   private readonly _resourceGraphApiVersion = '2018-09-01-preview';
   private readonly _sourceName: 'Microsoft.Web-FunctionApp';
