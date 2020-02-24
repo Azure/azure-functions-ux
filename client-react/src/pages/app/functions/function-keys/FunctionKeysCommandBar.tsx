@@ -6,10 +6,11 @@ import { CustomCommandBarButton } from '../../../../components/CustomCommandBarB
 
 interface FunctionKeysCommandBarProps {
   refreshFunction: () => void;
+  appPermission: boolean;
 }
 
 const FunctionKeysCommandBar: React.FC<FunctionKeysCommandBarProps> = props => {
-  const { refreshFunction } = props;
+  const { refreshFunction, appPermission } = props;
   const { t } = useTranslation();
 
   const getItems = (): ICommandBarItemProps[] => {
@@ -20,7 +21,7 @@ const FunctionKeysCommandBar: React.FC<FunctionKeysCommandBarProps> = props => {
         iconProps: {
           iconName: 'Refresh',
         },
-        disabled: false,
+        disabled: !appPermission,
         ariaLabel: t('functionKeysRefreshAriaLabel'),
         onClick: refreshFunction,
       },
