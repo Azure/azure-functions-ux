@@ -67,7 +67,7 @@ export default class FunctionsService {
 
   public static getBinding = (functionAppId: string, bindingId: string) => {
     const resourceId = `${functionAppId}/host/default/bindings/${bindingId}`;
-    return MakeArmCall<ArmObj<Binding>>({ resourceId, commandName: 'fetchBinding' });
+    return MakeArmCall<ArmObj<Binding>>({ resourceId, commandName: `fetchBinding-${bindingId}` });
   };
 
   public static updateFunction = (resourceId: string, functionInfo: ArmObj<FunctionInfo>) => {
