@@ -179,14 +179,14 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
   };
 
   private _setLogUrl = (): string => {
-    const scmHostName = Url.getScmUrl(this.state.site);
+    const scmUrl = Url.getScmUrl(this.state.site);
 
     if (isFunctionApp(this.state.site) && this._logType === LogType.Application) {
-      return `https://${scmHostName}/api/logstream/application/functions/host`;
+      return `${scmUrl}/api/logstream/application/functions/host`;
     }
 
     const suffix = this._logType === LogType.WebServer ? 'http' : '';
-    return `https://${scmHostName}/api/logstream/${suffix}`;
+    return `${scmUrl}/api/logstream/${suffix}`;
   };
 }
 
