@@ -6,6 +6,7 @@ import SiteService from '../../../ApiHelpers/SiteService';
 import LogService from '../../../utils/LogService';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
+import { isFunctionApp } from '../../../utils/arm-utils';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;
@@ -135,10 +136,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
     if (!this.state.site || !logStreamEnabled(this._logType, this.state.logsEnabled)) {
       return;
     }
-    const hostNameSslStates = this.state.site.properties.hostNameSslStates;
-    const scmHostName = hostNameSslStates.find(h => !!h.name && h.name.includes('.scm.'))!.name;
-    const suffix = this._logType === LogType.WebServer ? 'http' : '';
-    const logUrl = `https://${scmHostName}/api/logstream/${suffix}`;
+    const logUrl = this._setLogUrl();
     const token = window.appsvc && window.appsvc.env && window.appsvc.env.armToken;
     this._xhReq = new XMLHttpRequest();
     this._xhReq.open('GET', logUrl, true);
@@ -177,6 +175,18 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
         });
       }
     }
+  };
+
+  private _setLogUrl = (): string => {
+    const hostNameSslStates = this.state.site.properties.hostNameSslStates;
+    const scmHostName = hostNameSslStates.find(h => !!h.name && h.name.includes('.scm.'))!.name;
+
+    if (isFunctionApp(this.state.site) && this._logType === LogType.Application) {
+      return `https://${scmHostName}/api/logstream/application/functions/host`;
+    }
+
+    const suffix = this._logType === LogType.WebServer ? 'http' : '';
+    return `https://${scmHostName}/api/logstream/${suffix}`;
   };
 }
 
