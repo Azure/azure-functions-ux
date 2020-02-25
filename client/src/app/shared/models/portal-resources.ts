@@ -1851,4 +1851,6 @@ export class PortalResources {
   public static githubActionAspNetStackNotSupportedMessage = 'githubActionAspNetStackNotSupportedMessage';
   public static githubActionAspNetStackMismatchMessage = 'githubActionAspNetStackMismatchMessage';
   public static gitHubActionWorkflowFileNameTitle = 'gitHubActionWorkflowFileNameTitle';
+  public static noAppFilesWhileFunctionAppStopped = 'noAppFilesWhileFunctionAppStopped';
+  public static noAppKeysWhileFunctionAppStopped = 'noAppKeysWhileFunctionAppStopped';
 }
