@@ -43,6 +43,7 @@ export interface FunctionEditorProps {
   resetAppInsightsToken: () => void;
   showTestPanel: boolean;
   setShowTestPanel: (showPanel: boolean) => void;
+  appPermission: boolean;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
@@ -62,6 +63,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     resetAppInsightsToken,
     showTestPanel,
     setShowTestPanel,
+    appPermission,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -291,7 +293,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           testFunction={test}
           showGetFunctionUrlCommand={!!inputBinding}
           dirty={isDirty()}
-          disabled={isDisabled()}
+          disabled={isDisabled() || !appPermission}
           urlObjs={urlObjs}
           testDisabled={isTestDisabled()}
         />
@@ -353,7 +355,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
-              readOnly: SiteHelper.isFunctionAppReadOnly(siteState),
+              readOnly: SiteHelper.isFunctionAppReadOnly(siteState) || !appPermission,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
           />
