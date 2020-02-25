@@ -61,7 +61,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   const portalCommunicator = useContext(PortalContext);
 
   const siteStateContext = useContext(SiteStateContext);
-  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext);
+  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext.readOnlyState);
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(keys.map(h => h.name))]);

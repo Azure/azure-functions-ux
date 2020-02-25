@@ -18,7 +18,7 @@ const EditModeBanner: React.FC<EditModeBannerProps> = props => {
 
   const { setBanner } = props;
 
-  if (SiteHelper.isFunctionAppReadOnly(siteState)) {
+  if (SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState)) {
     return (
       <div ref={ref => !!setBanner && setBanner(ref)}>
         <MessageBar
@@ -28,7 +28,7 @@ const EditModeBanner: React.FC<EditModeBannerProps> = props => {
           messageBarType={MessageBarType.info}
           styles={messageBannerStyles}>
           <InfoSvg className={messageBannerIconStyle} />
-          <span className={messageBannerTextStyle}>{SiteHelper.getFunctionAppEditModeString(siteState, t)}</span>
+          <span className={messageBannerTextStyle}>{SiteHelper.getFunctionAppEditModeString(siteState.readOnlyState, t)}</span>
         </MessageBar>
       </div>
     );

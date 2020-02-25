@@ -68,7 +68,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const onlyBuiltInBindings = !hostStatus.version.startsWith('1') && !hostStatus.extensionBundle;
-  const readOnly = SiteHelper.isFunctionAppReadOnly(siteState);
+  const readOnly = SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState);
 
   const openEditor = (editorBindingDirection: BindingDirection, bindingInfo?: BindingInfo): Observable<BindingUpdateInfo> => {
     setBindingDirection(editorBindingDirection);

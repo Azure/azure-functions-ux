@@ -60,6 +60,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const portalContext = useContext(PortalContext);
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
   const [siteAppEditState, setSiteAppEditState] = useState(FunctionAppEditMode.ReadWrite);
+  const [siteStopped, setSiteStopped] = useState(false);
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site)) {
@@ -115,11 +116,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       const readOnlyLock = await portalContext.hasLock(trimmedResourceId, 'ReadOnly');
       let functionAppEditMode: FunctionAppEditMode | undefined;
 
+      const site = await SiteService.fetchSite(trimmedResourceId);
+
       if (readOnlyLock) {
         functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
       } else {
-        const site = await SiteService.fetchSite(trimmedResourceId);
-
         if (site.metadata.success && isFunctionApp(site.data)) {
           functionAppEditMode = getSiteStateFromSiteData(site.data);
 
@@ -152,6 +153,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         }
       }
 
+      if (site.metadata.success && site.data.properties.state.toLocaleLowerCase() === 'stopped') {
+        setSiteStopped(true);
+      }
+
       setSiteAppEditState(functionAppEditMode);
     }
   };
@@ -168,7 +173,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token && (
-                <SiteStateContext.Provider value={siteAppEditState}>
+                <SiteStateContext.Provider value={{ stopped: siteStopped, readOnlyState: siteAppEditState }}>
                   <Router>
                     <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
                     <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
