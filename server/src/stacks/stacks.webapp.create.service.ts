@@ -561,26 +561,6 @@ export class StacksWebAppCreateService {
           },
         ],
       },
-      {
-        displayText: 'Ruby 2.3',
-        value: '2.3',
-        sortOrder: 1,
-        supportedPlatforms: [
-          {
-            os: 'linux',
-            isPreview: false,
-            isDeprecated: false,
-            isHidden: false,
-            applicationInsightsEnabled: false,
-            remoteDebuggingEnabled: false,
-            runtimeVersion: 'RUBY|2.3',
-            sortOrder: 3,
-            githubActionSettings: {
-              supported: false,
-            },
-          },
-        ],
-      },
     ],
   };
 
