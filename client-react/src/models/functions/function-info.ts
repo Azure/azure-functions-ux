@@ -13,4 +13,5 @@ export interface FunctionInfo {
   test_data: string;
   invoke_url_template?: string;
   language?: string;
+  test_data_href?: string;
 }
