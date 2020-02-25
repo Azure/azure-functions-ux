@@ -53,6 +53,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined>(undefined);
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [appPermission, setAppPermission] = useState(true);
+  const [testData, setTestData] = useState<string | undefined>(undefined);
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -272,11 +273,12 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
     if (updatedFunctionInfo.metadata.success) {
       const data = updatedFunctionInfo.data;
+      setFunctionInfo(data);
       if (!!site) {
         let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
         let parsedTestData = {};
         try {
-          parsedTestData = JSON.parse(data.properties.test_data);
+          parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
         } catch (err) {
           // TODO (krmitta): Log an error if parsing the data throws an error
         }
@@ -333,6 +335,32 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     setAppInsightsToken(undefined);
   };
 
+  const getKeyHeader = (): { [key: string]: string } => {
+    if (hostKeys && hostKeys.masterKey) {
+      return {
+        'Cache-Control': 'no-cache',
+        'x-functions-key': hostKeys.masterKey,
+      };
+    }
+    return {};
+  };
+
+  const getAndSetTestData = async () => {
+    if (!!functionInfo && !!hostKeys && !!functionInfo.properties.test_data_href) {
+      const headers = getKeyHeader();
+      const testDataResponse = await FunctionsService.getDataFromFunctionHref(functionInfo.properties.test_data_href, 'GET', headers);
+      if (testDataResponse.metadata.success) {
+        let data = testDataResponse.data;
+        try {
+          data = JSON.stringify(testDataResponse.data);
+        } catch (err) {
+          LogService.error(LogCategories.FunctionEdit, 'invalid-test-data', err);
+        }
+        setTestData(data as string);
+      }
+    }
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -370,6 +398,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [site, functionInfo, hostKeys, functionKeys]);
 
+  useEffect(() => {
+    getAndSetTestData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [functionInfo, hostKeys]);
   // TODO (krmitta): Show a loading error message site or functionInfo call fails
   if (initialLoading || !site || !functionInfo) {
     return <LoadingComponent />;
@@ -391,6 +424,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           showTestPanel={showTestPanel}
           setShowTestPanel={setShowTestPanel}
           appPermission={appPermission}
+          testData={testData}
         />
       </div>
     </FunctionEditorContext.Provider>
