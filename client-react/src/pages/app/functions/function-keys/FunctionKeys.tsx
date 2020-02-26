@@ -12,6 +12,7 @@ import {
   SelectionMode,
   SearchBox,
   PanelType,
+  Overlay,
 } from 'office-ui-fabric-react';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { FunctionKeysContext } from './FunctionKeysDataLoader';
@@ -33,6 +34,7 @@ interface FunctionKeysProps {
   initialValues: FunctionKeysFormValues;
   refreshData: () => void;
   setRefeshLoading: (loading: boolean) => void;
+  refreshLoading: boolean;
 }
 
 const emptyKey = { name: '', value: '' };
@@ -42,7 +44,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     refreshData,
     initialValues: { keys },
     resourceId,
-    setRefeshLoading,
+    refreshLoading,
   } = props;
   const { t } = useTranslation();
   const [showValues, setShowValues] = useState(false);
@@ -82,6 +84,11 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     setShowPanel(true);
     setCurrentKey(key ? key : emptyKey);
     setPanelItem(key ? 'edit' : 'add');
+  };
+
+  const setRefeshLoading = (refresh: boolean) => {
+    onClosePanel();
+    props.setRefeshLoading(refresh);
   };
 
   const getColumns = (): IColumn[] => {
@@ -278,66 +285,73 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   };
 
   return (
-    <div>
-      {deletingKey && <LoadingComponent overlay={true} />}
-      <div id="command-bar" className={commandBarSticky}>
-        <FunctionKeysCommandBar refreshFunction={refreshData} />
-      </div>
-      <div id="function-keys-data" className={formStyle}>
-        <h3>{t('functionKeys_title')}</h3>
-        <DisplayTableWithCommandBar
-          commandBarItems={getCommandBarItems()}
-          columns={getColumns()}
-          items={filterValues()}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyFunctionKeys')}>
-          {showFilter && (
-            <SearchBox
-              id="function-keys-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterBoxStyle}
-              placeholder={t('filterFunctionKeys')}
-              onChange={newValue => setFilterValue(newValue)}
-            />
-          )}
-        </DisplayTableWithCommandBar>
-        <ConfirmDialog
-          primaryActionButton={{
-            title: t('functionKeys_renew'),
-            onClick: renewFunctionKey,
-          }}
-          defaultActionButton={{
-            title: t('cancel'),
-            onClick: closeRenewKeyDialog,
-          }}
-          title={t('renewKeyValue')}
-          content={t('renewKeyValueContent').format(renewKey.name)}
-          hidden={!showRenewDialog}
-          onDismiss={closeRenewKeyDialog}
-        />
-        <Panel
-          isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
-          onDismiss={onClosePanel}
-          headerText={panelItem === 'edit' ? t('editFunctionKey') : t('addFunctionKey')}
-          type={PanelType.medium}>
-          <FunctionKeyAddEdit
-            resourceId={resourceId}
-            createAppKey={createFunctionKey}
-            closeBlade={onClosePanel}
-            appKey={currentKey}
-            otherAppKeys={keys}
-            panelItem={panelItem}
-            showRenewKeyDialog={showRenewKeyDialog}
-            readOnlyPermission={readOnlyPermission}
+    <>
+      <div>
+        <div id="command-bar" className={commandBarSticky}>
+          <FunctionKeysCommandBar refreshFunction={refreshData} />
+        </div>
+        <div id="function-keys-data" className={formStyle}>
+          <h3>{t('functionKeys_title')}</h3>
+          <DisplayTableWithCommandBar
+            commandBarItems={getCommandBarItems()}
+            columns={getColumns()}
+            items={filterValues()}
+            isHeaderVisible={true}
+            layoutMode={DetailsListLayoutMode.justified}
+            selectionMode={SelectionMode.none}
+            selectionPreservedOnEmptyClick={true}
+            emptyMessage={t('emptyFunctionKeys')}>
+            {showFilter && (
+              <SearchBox
+                id="function-keys-search"
+                className="ms-slideDownIn20"
+                autoFocus
+                iconProps={{ iconName: 'Filter' }}
+                styles={filterBoxStyle}
+                placeholder={t('filterFunctionKeys')}
+                onChange={newValue => setFilterValue(newValue)}
+              />
+            )}
+          </DisplayTableWithCommandBar>
+          <ConfirmDialog
+            primaryActionButton={{
+              title: t('functionKeys_renew'),
+              onClick: renewFunctionKey,
+            }}
+            defaultActionButton={{
+              title: t('cancel'),
+              onClick: closeRenewKeyDialog,
+            }}
+            title={t('renewKeyValue')}
+            content={t('renewKeyValueContent').format(renewKey.name)}
+            hidden={!showRenewDialog}
+            onDismiss={closeRenewKeyDialog}
           />
-        </Panel>
+          <Panel
+            isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
+            onDismiss={onClosePanel}
+            headerText={panelItem === 'edit' ? t('editFunctionKey') : t('addFunctionKey')}
+            type={PanelType.medium}>
+            <FunctionKeyAddEdit
+              resourceId={resourceId}
+              createAppKey={createFunctionKey}
+              closeBlade={onClosePanel}
+              appKey={currentKey}
+              otherAppKeys={keys}
+              panelItem={panelItem}
+              showRenewKeyDialog={showRenewKeyDialog}
+              readOnlyPermission={readOnlyPermission}
+            />
+          </Panel>
+        </div>
       </div>
-    </div>
+      {(deletingKey || refreshLoading) && (
+        <>
+          <LoadingComponent />
+          <Overlay />
+        </>
+      )}
+    </>
   );
 };
 
