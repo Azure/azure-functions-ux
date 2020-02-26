@@ -5173,7 +5173,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>New Function</value>
     </data>
     <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Create a new function in this Function App. You can start by selecting a template below.</value>
+        <value>Create a new function in this Function App. Start by selecting a template below.</value>
     </data>
     <data name="functionCreate_templates" xml:space="preserve">
         <value>Templates</value>
