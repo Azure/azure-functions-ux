@@ -19,7 +19,8 @@ const AppKeysPivot: React.FC<AppKeysPivotProps> = props => {
   const { refreshData, initialValues, resourceId, initialLoading, appPermission } = props;
 
   const siteStateContext = useContext(SiteStateContext);
-  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext) || !appPermission;
+  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext.readOnlyState) || !appPermission;
+
   return (
     <>
       <h3>{t('appKeysHost')}</h3>

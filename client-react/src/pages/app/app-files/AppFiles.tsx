@@ -188,7 +188,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
             scrollBeyondLastLine: false,
             cursorBlinking: true,
             renderWhitespace: 'all',
-            readOnly: SiteHelper.isFunctionAppReadOnly(siteState),
+            readOnly: SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState),
           }}
         />
       </div>

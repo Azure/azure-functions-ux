@@ -48,6 +48,7 @@ export interface FunctionEditorProps {
   runtimeVersion?: string;
   fileList?: VfsObject[];
   appInsightsToken?: string;
+  testData?: string;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
@@ -64,6 +65,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     showTestPanel,
     setShowTestPanel,
     appPermission,
+    testData,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -339,6 +341,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           responseContent={responseContent}
           selectedPivotTab={selectedPivotTab}
           functionRunning={functionRunning}
+          testData={testData}
         />
       </Panel>
       {isLoading() && <LoadingComponent />}
@@ -355,7 +358,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
-              readOnly: SiteHelper.isFunctionAppReadOnly(siteState) || !appPermission,
+              readOnly: SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState) || !appPermission,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
           />

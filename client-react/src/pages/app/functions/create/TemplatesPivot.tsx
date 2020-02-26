@@ -23,7 +23,6 @@ interface TemplatesPivotProps {
 const TemplatesPivot: React.FC<TemplatesPivotProps> = props => {
   const { functionTemplates, setSelectedFunctionTemplate, setPivotStateKey, setRequiredBindingIds, hostStatus } = props;
   const { t } = useTranslation();
-  setPivotStateKey(PivotState.templates);
   const [filterValue, setFilterValue] = useState<string | undefined>(undefined);
   return (
     <>
