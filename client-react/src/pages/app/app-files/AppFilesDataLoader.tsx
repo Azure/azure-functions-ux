@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import AppFilesData from './AppFiles.data';
 import AppFiles from './AppFiles';
 import { ArmObj } from '../../../models/arm-obj';
@@ -8,6 +8,9 @@ import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
 import { VfsObject } from '../../../models/functions/vfs';
+import { SiteStateContext } from '../../../SiteStateContext';
+import WarningBanner from '../../../components/WarningBanner/WarningBanner';
+import { useTranslation } from 'react-i18next';
 
 interface AppFilesDataLoaderProps {
   resourceId: string;
@@ -23,6 +26,10 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   const [runtimeVersion, setRuntimeVersion] = useState<string | undefined>(undefined);
 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
+
+  const siteStateContext = useContext(SiteStateContext);
+
+  const { t } = useTranslation();
 
   const fetchData = async () => {
     const [siteResponse, appSettingsResponse] = await Promise.all([
@@ -42,7 +49,9 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   };
 
   useEffect(() => {
-    fetchData();
+    if (!siteStateContext.stopped) {
+      fetchData();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -51,7 +60,8 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   }
   return (
     <AppFilesContext.Provider value={appFilesData}>
-      <AppFiles site={site} fileList={fileList} runtimeVersion={runtimeVersion} />
+      {siteStateContext.stopped && <WarningBanner message={t('noAppFilesWhileFunctionAppStopped')} />}
+      <AppFiles site={site} fileList={fileList} runtimeVersion={runtimeVersion} />}
     </AppFilesContext.Provider>
   );
 };

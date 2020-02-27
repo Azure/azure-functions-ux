@@ -5727,4 +5727,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
         <value>GitHub Action Workflow Filename</value>
     </data>
+    <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view app files while your Function App is stopped</value>
+    </data>
+    <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view app keys while your Function App is stopped</value>
+    </data>
 </root>

@@ -6,6 +6,9 @@ import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { PortalContext } from '../../../../PortalContext';
 import { SiteRouterContext } from '../../SiteRouter';
 import { disableIFrameStyle } from './AppKeys.styles';
+import { SiteStateContext } from '../../../../SiteStateContext';
+import { useTranslation } from 'react-i18next';
+import WarningBanner from '../../../../components/WarningBanner/WarningBanner';
 
 const appKeysData = new AppKeysData();
 export const AppKeysContext = React.createContext(appKeysData);
@@ -20,8 +23,12 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   const [refreshLoading, setRefeshLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [appPermission, setAppPermission] = useState(true);
+
   const portalContext = useContext(PortalContext);
   const siteContext = useContext(SiteRouterContext);
+  const siteStateContext = useContext(SiteStateContext);
+
+  const { t } = useTranslation();
 
   const refreshData = () => {
     setRefeshLoading(true);
@@ -55,6 +62,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
 
   return (
     <AppKeysContext.Provider value={appKeysData}>
+      {siteStateContext.stopped && <WarningBanner message={t('noAppKeysWhileFunctionAppStopped')} />}
       {refreshLoading && (
         <div>
           <LoadingComponent />
@@ -66,7 +74,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
         resourceId={resourceId}
         initialValues={initialValues}
         refreshData={refreshData}
-        appPermission={appPermission}
+        appPermission={appPermission || !siteStateContext.stopped}
       />
     </AppKeysContext.Provider>
   );
