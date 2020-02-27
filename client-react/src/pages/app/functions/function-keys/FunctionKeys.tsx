@@ -33,6 +33,7 @@ interface FunctionKeysProps {
   initialValues: FunctionKeysFormValues;
   refreshData: () => void;
   setRefeshLoading: (loading: boolean) => void;
+  appPermission: boolean;
 }
 
 const emptyKey = { name: '', value: '' };
@@ -43,6 +44,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     initialValues: { keys },
     resourceId,
     setRefeshLoading,
+    appPermission,
   } = props;
   const { t } = useTranslation();
   const [showValues, setShowValues] = useState(false);
@@ -61,7 +63,8 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   const portalCommunicator = useContext(PortalContext);
 
   const siteStateContext = useContext(SiteStateContext);
-  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext.readOnlyState);
+
+  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext.readOnlyState) || !appPermission;
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(keys.map(h => h.name))]);
@@ -281,7 +284,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     <div>
       {deletingKey && <LoadingComponent overlay={true} />}
       <div id="command-bar" className={commandBarSticky}>
-        <FunctionKeysCommandBar refreshFunction={refreshData} />
+        <FunctionKeysCommandBar refreshFunction={refreshData} appPermission={appPermission} />
       </div>
       <div id="function-keys-data" className={formStyle}>
         <h3>{t('functionKeys_title')}</h3>
