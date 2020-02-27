@@ -8,7 +8,7 @@ import { SiteRouterContext } from '../../SiteRouter';
 import { disableIFrameStyle } from './AppKeys.styles';
 import { SiteStateContext } from '../../../../SiteStateContext';
 import { useTranslation } from 'react-i18next';
-import AppStopBanner from '../../../../components/AppStopBanner/AppStopBanner';
+import WarningBanner from '../../../../components/WarningBanner/WarningBanner';
 
 const appKeysData = new AppKeysData();
 export const AppKeysContext = React.createContext(appKeysData);
@@ -62,7 +62,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
 
   return (
     <AppKeysContext.Provider value={appKeysData}>
-      {siteStateContext.stopped && <AppStopBanner message={t('noAppKeysWhileFunctionAppStopped')} />}
+      {siteStateContext.stopped && <WarningBanner message={t('noAppKeysWhileFunctionAppStopped')} />}
       {refreshLoading && (
         <div>
           <LoadingComponent />

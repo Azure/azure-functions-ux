@@ -9,7 +9,7 @@ import { CommonConstants } from '../../../utils/CommonConstants';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
 import { VfsObject } from '../../../models/functions/vfs';
 import { SiteStateContext } from '../../../SiteStateContext';
-import AppStopBanner from '../../../components/AppStopBanner/AppStopBanner';
+import WarningBanner from '../../../components/WarningBanner/WarningBanner';
 import { useTranslation } from 'react-i18next';
 
 interface AppFilesDataLoaderProps {
@@ -60,7 +60,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   }
   return (
     <AppFilesContext.Provider value={appFilesData}>
-      {siteStateContext.stopped && <AppStopBanner message={t('noAppFilesWhileFunctionAppStopped')} />}
+      {siteStateContext.stopped && <WarningBanner message={t('noAppFilesWhileFunctionAppStopped')} />}
       <AppFiles site={site} fileList={fileList} runtimeVersion={runtimeVersion} />}
     </AppFilesContext.Provider>
   );

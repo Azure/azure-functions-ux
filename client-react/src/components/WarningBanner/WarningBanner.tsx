@@ -1,12 +1,12 @@
 import React from 'react';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
-import { messageBannerStyles } from './AppStopBanner.styles';
+import { messageBannerStyles } from './WarningBanner.styles';
 
-interface AppStopBannerProps {
+interface WarningBannerProps {
   message: string;
 }
 
-const AppStopBanner: React.FC<AppStopBannerProps> = props => {
+const WarningBanner: React.FC<WarningBannerProps> = props => {
   const { message } = props;
 
   return (
@@ -18,4 +18,4 @@ const AppStopBanner: React.FC<AppStopBannerProps> = props => {
   );
 };
 
-export default AppStopBanner;
+export default WarningBanner;
