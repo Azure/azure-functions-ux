@@ -1815,7 +1815,7 @@ export class PortalResources {
   public static editor_changeFileConfirmMessage = 'editor_changeFileConfirmMessage';
   public static editor_changeFile = 'editor_changeFile';
   public static defaultDocumentsInfoMessage = 'defaultDocumentsInfoMessage';
-  public static requiredField_validationMessage = 'requiredField_validationMessage';
+  public static validField_validationMessage = 'validField_validationMessage';
   public static maximize = 'maximize';
   public static minimize = 'minimize';
   public static connect = 'connect';
@@ -1851,4 +1851,6 @@ export class PortalResources {
   public static githubActionAspNetStackNotSupportedMessage = 'githubActionAspNetStackNotSupportedMessage';
   public static githubActionAspNetStackMismatchMessage = 'githubActionAspNetStackMismatchMessage';
   public static gitHubActionWorkflowFileNameTitle = 'gitHubActionWorkflowFileNameTitle';
+  public static noAppFilesWhileFunctionAppStopped = 'noAppFilesWhileFunctionAppStopped';
+  public static noAppKeysWhileFunctionAppStopped = 'noAppKeysWhileFunctionAppStopped';
 }

@@ -5619,8 +5619,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
     </data>
-    <data name="requiredField_validationMessage" xml:space="preserve">
-        <value>Name and value are required fields</value>
+    <data name="validField_validationMessage" xml:space="preserve">
+        <value>Name and value must not be empty and must contain only letters and numbers.</value>
     </data>
     <data name="maximize" xml:space="preserve">
         <value>Maximize</value>
@@ -5726,5 +5726,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
         <value>GitHub Action Workflow Filename</value>
+    </data>
+    <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view app files while your Function App is stopped</value>
+    </data>
+    <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view app keys while your Function App is stopped</value>
     </data>
 </root>
