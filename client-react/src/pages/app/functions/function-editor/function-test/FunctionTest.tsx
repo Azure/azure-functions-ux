@@ -16,7 +16,7 @@ import { ValidationRegex } from '../../../../../utils/constants/ValidationRegex'
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
-  cancel: () => void;
+  close: () => void;
   functionInfo: ArmObj<FunctionInfo>;
   reqBody: string;
   setReqBody: (reqBody: string) => void;
@@ -37,7 +37,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { t } = useTranslation();
   const [statusMessage, setStatusMessage] = useState<StatusMessage | undefined>(undefined);
 
-  const { run, cancel, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab, functionRunning, testData } = props;
+  const { run, close, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab, functionRunning, testData } = props;
 
   const errorMessage = {
     message: t('validField_validationMessage'),
@@ -113,9 +113,9 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
         };
 
         const actionBarSecondaryButtonProps = {
-          id: 'cancel',
-          title: t('cancel'),
-          onClick: cancel,
+          id: 'close',
+          title: t('close'),
+          onClick: close,
           disable: false,
         };
 
