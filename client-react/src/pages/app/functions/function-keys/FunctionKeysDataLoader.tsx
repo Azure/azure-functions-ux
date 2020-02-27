@@ -48,7 +48,7 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (initialLoading || !initialValues || refreshLoading) {
+  if (initialLoading || !initialValues) {
     return <LoadingComponent />;
   }
 
@@ -59,6 +59,7 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
         initialValues={initialValues}
         refreshData={refreshData}
         setRefeshLoading={setRefeshLoading}
+        refreshLoading={refreshLoading}
         appPermission={appPermission}
       />
     </FunctionKeysContext.Provider>
