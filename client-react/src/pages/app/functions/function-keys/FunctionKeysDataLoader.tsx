@@ -17,6 +17,7 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
   const [initialValues, setInitialValues] = useState<FunctionKeysFormValues | null>(null);
   const [refreshLoading, setRefeshLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [appPermission, setAppPermission] = useState(true);
   const portalContext = useContext(PortalContext);
 
   const refreshData = () => {
@@ -27,8 +28,8 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
   const fetchData = async () => {
     const functionKeys = await functionKeysData.fetchKeys(resourceId);
 
-    if (functionKeys.metadata.status === 409) {
-      // TODO: [krmitta] read only permission given (WI: TASK 5476044)
+    if (functionKeys.metadata.status === 409 || functionKeys.metadata.status === 403) {
+      setAppPermission(false);
     }
 
     setInitialValues(
@@ -59,6 +60,7 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
         refreshData={refreshData}
         setRefeshLoading={setRefeshLoading}
         refreshLoading={refreshLoading}
+        appPermission={appPermission}
       />
     </FunctionKeysContext.Provider>
   );
