@@ -103,6 +103,7 @@ export class CommonConstants {
 
   public static readonly SiteStates = {
     running: 'running',
+    stopped: 'stopped',
   };
 
   public static readonly NodeVersions = {

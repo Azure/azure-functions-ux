@@ -153,7 +153,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         }
       }
 
-      if (site.metadata.success && site.data.properties.state.toLocaleLowerCase() === 'stopped') {
+      if (site.metadata.success && site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped) {
         setSiteStopped(true);
       }
 
