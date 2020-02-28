@@ -44,11 +44,13 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
 
   public componentWillMount() {
     this._loadSite();
-    this._loadData();
+    this._loadFunction();
+    this._loadBindings();
+    this._loadHostStatus();
   }
 
   public render() {
-    if (!this.state.functionInfo || !this.state.bindings || !this.state.hostStatus) {
+    if (!this.state.site || !this.state.functionInfo || !this.state.bindings || !this.state.hostStatus) {
       return <LoadingComponent />;
     }
 
@@ -76,7 +78,9 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
       this._setRefreshState(true);
 
       SiteService.fireSyncTrigger(this.state.site, this.context.token || '').then(r => {
-        this._loadData();
+        this._loadSite();
+        this._loadFunction();
+        this._loadHostStatus();
         this._setRefreshState(false);
 
         if (!r.metadata.success) {
@@ -86,14 +90,12 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     }
   }
 
-  private _loadData() {
-    this._loadFunction();
-    this._loadBindings();
-    this._loadHostStatus();
-  }
-
   private _loadSite() {
+    this._setRefreshState(true);
+
     SiteService.fetchSite(this.state.functionAppId).then(r => {
+      this._setRefreshState(false);
+
       if (r.metadata.success) {
         this.setState({
           ...this.state,
@@ -125,13 +127,9 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   }
 
   private _loadBindings() {
-    this._setRefreshState(true);
-
     functionIntegrateData
       .getBindings(this.state.functionAppId)
       .then(r => {
-        this._setRefreshState(false);
-
         if (r.metadata.success) {
           this.setState({
             ...this.state,
