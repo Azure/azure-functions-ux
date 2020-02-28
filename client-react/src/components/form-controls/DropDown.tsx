@@ -12,6 +12,7 @@ export interface CustomDropdownProps {
   label: string;
   learnMoreLink?: string;
   dirty?: boolean;
+  onPanel?: boolean;
 }
 
 const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
