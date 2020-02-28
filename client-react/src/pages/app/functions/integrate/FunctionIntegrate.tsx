@@ -30,12 +30,15 @@ import {
   singleCardStackStyle,
   smallPageStyle,
 } from './FunctionIntegrate.style';
+import FunctionIntegrateCommandBar from './FunctionIntegrateCommandBar';
 
 export interface FunctionIntegrateProps {
   functionAppId: string;
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
   hostStatus: HostStatus;
+  isRefreshing: boolean;
+  refreshIntegrate: () => void;
 }
 
 export interface BindingUpdateInfo {
@@ -54,7 +57,7 @@ export interface BindingEditorContextInfo {
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
-  const { functionAppId, functionInfo: initialFunctionInfo, bindings, hostStatus } = props;
+  const { functionAppId, functionInfo: initialFunctionInfo, bindings, hostStatus, isRefreshing, refreshIntegrate } = props;
   const siteState = useContext(SiteStateContext);
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
@@ -163,9 +166,10 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
   return (
     <>
-      {isUpdating && <LoadingComponent overlay={true} />}
+      {(isRefreshing || isUpdating) && <LoadingComponent overlay={true} />}
       <BindingEditorContext.Provider value={editorContext}>
         <EditModeBanner />
+        <FunctionIntegrateCommandBar refreshIntegrate={refreshIntegrate} isRefreshing={isRefreshing} />
         <BindingPanel
           functionAppId={functionAppId}
           functionInfo={functionInfo}
