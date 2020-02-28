@@ -8,6 +8,9 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import { FunctionIntegrate } from './FunctionIntegrate';
 import FunctionIntegrateData from './FunctionIntegrate.data';
+import SiteService from '../../../../ApiHelpers/SiteService';
+import { Site } from '../../../../models/site/site';
+import { StartupInfoContext } from '../../../../StartupInfoContext';
 
 const functionIntegrateData = new FunctionIntegrateData();
 export const FunctionIntegrateContext = React.createContext(functionIntegrateData);
@@ -18,9 +21,12 @@ interface FunctionIntegrateDataLoaderProps {
 
 interface FunctionIntegrateDataLoaderState {
   functionAppId: string;
+  appPermission: boolean;
+  refresh: boolean;
   functionInfo?: ArmObj<FunctionInfo>;
   bindings?: Binding[];
   hostStatus?: HostStatus;
+  site?: ArmObj<Site>;
 }
 
 class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataLoaderProps, FunctionIntegrateDataLoaderState> {
@@ -32,13 +38,15 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
       functionInfo: undefined,
       bindings: undefined,
       hostStatus: undefined,
+      site: undefined,
+      appPermission: true,
+      refresh: false,
     };
   }
 
   public componentWillMount() {
-    this._loadFunction();
-    this._loadBindings();
-    this._loadHostStatus();
+    this._loadSite();
+    this._loadData();
   }
 
   public render() {
@@ -52,14 +60,62 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
         functionAppId={this.state.functionAppId}
         functionInfo={this.state.functionInfo}
         hostStatus={this.state.hostStatus}
+        refreshIntegrate={() => this._refresh()}
+        refreshState={this.state.refresh}
+        appPermission={this.state.appPermission}
       />
     );
+  }
+
+  private _setRefreshState(refresh: boolean) {
+    this.setState({
+      ...this.state,
+      refresh,
+    });
+  }
+
+  private _refresh() {
+    if (!!this.state.site) {
+      this._setRefreshState(true);
+
+      SiteService.fireSyncTrigger(this.state.site, this.context.token || '').then(r => {
+        this._loadData();
+        this._setRefreshState(false);
+
+        if (!r.metadata.success) {
+          LogService.error(LogCategories.functionIntegrate, 'fireSyncTrigger', `Failed to fire syncTrigger: ${r.metadata.error}`);
+        }
+      });
+    }
+  }
+
+  private _loadData() {
+    this._loadFunction();
+    this._loadBindings();
+    this._loadHostStatus();
+  }
+
+  private _loadSite() {
+    SiteService.fetchSite(this.state.functionAppId).then(r => {
+      if (r.metadata.success) {
+        this.setState({
+          ...this.state,
+          site: r.data,
+        });
+      } else {
+        LogService.error(LogCategories.functionIntegrate, 'fetchSite', `Failed to fetch site: ${r.metadata.error}`);
+      }
+    });
   }
 
   private _loadFunction() {
     const { resourceId } = this.props;
 
+    this._setRefreshState(true);
+
     functionIntegrateData.getFunction(resourceId).then(r => {
+      this._setRefreshState(false);
+
       if (r.metadata.success) {
         this.setState({
           ...this.state,
@@ -72,9 +128,13 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   }
 
   private _loadBindings() {
+    this._setRefreshState(true);
+
     functionIntegrateData
       .getBindings(this.state.functionAppId)
       .then(r => {
+        this._setRefreshState(false);
+
         if (r.metadata.success) {
           this.setState({
             ...this.state,
@@ -110,7 +170,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   };
 
   private _loadHostStatus() {
+    this._setRefreshState(true);
+
     functionIntegrateData.getHostStatus(this.state.functionAppId).then(r => {
+      this._setRefreshState(false);
+
       if (r.metadata.success) {
         this.setState({
           ...this.state,
@@ -122,5 +186,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     });
   }
 }
+
+FunctionIntegrateDataLoader.contextType = StartupInfoContext;
 
 export default FunctionIntegrateDataLoader;
