@@ -5,13 +5,12 @@ import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePort
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 
 interface FunctionIntegrateCommandBarProps {
+  isRefreshing: boolean;
   refreshIntegrate: () => void;
-  refreshState: boolean;
-  appPermission: boolean;
 }
 
 const FunctionIntegrateCommandBar: React.FC<FunctionIntegrateCommandBarProps> = props => {
-  const { refreshIntegrate, refreshState, appPermission } = props;
+  const { isRefreshing, refreshIntegrate } = props;
   const { t } = useTranslation();
 
   const getItems = (): ICommandBarItemProps[] => {
@@ -22,7 +21,7 @@ const FunctionIntegrateCommandBar: React.FC<FunctionIntegrateCommandBarProps> = 
         iconProps: {
           iconName: 'Refresh',
         },
-        disabled: refreshState || !appPermission,
+        disabled: isRefreshing,
         ariaLabel: t('functionIntegrateRefreshAriaLabel'),
         onClick: refreshIntegrate,
       },

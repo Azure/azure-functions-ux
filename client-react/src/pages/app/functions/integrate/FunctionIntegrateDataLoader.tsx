@@ -21,7 +21,6 @@ interface FunctionIntegrateDataLoaderProps {
 
 interface FunctionIntegrateDataLoaderState {
   functionAppId: string;
-  appPermission: boolean;
   refresh: boolean;
   functionInfo?: ArmObj<FunctionInfo>;
   bindings?: Binding[];
@@ -39,7 +38,6 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
       bindings: undefined,
       hostStatus: undefined,
       site: undefined,
-      appPermission: true,
       refresh: false,
     };
   }
@@ -61,8 +59,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
         functionInfo={this.state.functionInfo}
         hostStatus={this.state.hostStatus}
         refreshIntegrate={() => this._refresh()}
-        refreshState={this.state.refresh}
-        appPermission={this.state.appPermission}
+        isRefreshing={this.state.refresh}
       />
     );
   }

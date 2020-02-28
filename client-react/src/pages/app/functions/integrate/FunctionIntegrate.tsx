@@ -37,9 +37,8 @@ export interface FunctionIntegrateProps {
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
   hostStatus: HostStatus;
+  isRefreshing: boolean;
   refreshIntegrate: () => void;
-  refreshState: boolean;
-  appPermission: boolean;
 }
 
 export interface BindingUpdateInfo {
@@ -58,7 +57,7 @@ export interface BindingEditorContextInfo {
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
-  const { functionAppId, functionInfo: initialFunctionInfo, bindings, hostStatus, refreshIntegrate, refreshState, appPermission } = props;
+  const { functionAppId, functionInfo: initialFunctionInfo, bindings, hostStatus, isRefreshing, refreshIntegrate } = props;
   const siteState = useContext(SiteStateContext);
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
@@ -167,10 +166,10 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
   return (
     <>
-      {(refreshState || isUpdating) && <LoadingComponent overlay={true} />}
+      {(isRefreshing || isUpdating) && <LoadingComponent overlay={true} />}
       <BindingEditorContext.Provider value={editorContext}>
         <EditModeBanner />
-        <FunctionIntegrateCommandBar refreshIntegrate={refreshIntegrate} appPermission={appPermission} refreshState={refreshState} />
+        <FunctionIntegrateCommandBar refreshIntegrate={refreshIntegrate} isRefreshing={isRefreshing} />
         <BindingPanel
           functionAppId={functionAppId}
           functionInfo={functionInfo}
