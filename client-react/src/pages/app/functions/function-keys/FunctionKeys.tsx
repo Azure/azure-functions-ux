@@ -21,6 +21,12 @@ import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithC
 import Panel from '../../../../components/Panel/Panel';
 import FunctionKeyAddEdit from './FunctionKeyAddEdit';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import { SiteStateContext } from '../../../../SiteStateContext';
+import SiteHelper from '../../../../utils/SiteHelper';
+import { LogCategories } from '../../../../utils/LogCategories';
+import LogService from '../../../../utils/LogService';
+import { PortalContext } from '../../../../PortalContext';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 
 interface FunctionKeysProps {
   resourceId: string;
@@ -32,7 +38,6 @@ interface FunctionKeysProps {
 const emptyKey = { name: '', value: '' };
 
 const FunctionKeys: React.FC<FunctionKeysProps> = props => {
-  const writePermission = false;
   const {
     refreshData,
     initialValues: { keys },
@@ -49,9 +54,14 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
   const [shownValues, setShownValues] = useState<string[]>([]);
+  const [deletingKey, setDeletingKey] = useState(false);
 
   const functionKeysContext = useContext(FunctionKeysContext);
   const theme = useContext(ThemeContext);
+  const portalCommunicator = useContext(PortalContext);
+
+  const siteStateContext = useContext(SiteStateContext);
+  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext);
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(keys.map(h => h.name))]);
@@ -146,9 +156,21 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     setShownValues([...newShownValues]);
   };
 
-  const deleteHostKey = (itemKey: string) => {
-    functionKeysContext.deleteKey(resourceId, itemKey);
-    refreshData();
+  const deleteHostKey = async (itemKey: string) => {
+    setDeletingKey(true);
+    const notificationId = portalCommunicator.startNotification(
+      t('deleteFunctionKeyNotification'),
+      t('deleteFunctionKeyNotificationDetails').format(itemKey)
+    );
+    const response = await functionKeysContext.deleteKey(resourceId, itemKey);
+    if (response.metadata.success) {
+      portalCommunicator.stopNotification(notificationId, true, t('deleteFunctionKeyNotificationSuccess').format(itemKey));
+      refreshData();
+    } else {
+      portalCommunicator.stopNotification(notificationId, false, t('deleteFunctionKeyNotificationFailed').format(itemKey));
+      LogService.error(LogCategories.functionKeys, 'delete keys', `Failed to delete keys: ${response.metadata.error}`);
+    }
+    setDeletingKey(false);
   };
 
   const onRenderColumnItem = (item: FunctionKeysModel, index: number, column: IColumn) => {
@@ -188,7 +210,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         <TooltipHost content={t('delete')} id={`function-keys-delete-tooltip-${index}`} calloutProps={{ gapSpace: 0 }} closeDelay={500}>
           <IconButton
             className={defaultCellStyle}
-            disabled={false}
+            disabled={readOnlyPermission}
             id={`function-keys-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -235,7 +257,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
       {
         key: 'function-keys-add',
         onClick: () => showAddEditPanel(),
-        disabled: writePermission,
+        disabled: readOnlyPermission,
         iconProps: { iconName: 'Add' },
         name: t('newFunctionKey'),
         ariaLabel: t('functionKeys_addNewFunctionKey'),
@@ -257,6 +279,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
 
   return (
     <div>
+      {deletingKey && <LoadingComponent overlay={true} />}
       <div id="command-bar" className={commandBarSticky}>
         <FunctionKeysCommandBar refreshFunction={refreshData} />
       </div>
@@ -310,6 +333,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
             otherAppKeys={keys}
             panelItem={panelItem}
             showRenewKeyDialog={showRenewKeyDialog}
+            readOnlyPermission={readOnlyPermission}
           />
         </Panel>
       </div>

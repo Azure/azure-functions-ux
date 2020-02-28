@@ -20,6 +20,7 @@ const NewDocumentDBConnectionCallout: React.SFC<NewConnectionCalloutProps & Cust
 
   return (
     <div style={paddingSidesStyle}>
+      <h4>{t('documentDBCallout_newDocumentDBConnection')}</h4>
       <RadioButtonNoFormik
         id="event-hub-connection-callout-options"
         ariaLabelledBy={`event-hub-connection-callout-options-label`}

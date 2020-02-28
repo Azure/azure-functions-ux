@@ -60,6 +60,7 @@ const ConnectionStringsBulkEdit: React.FC<ConnectionStringsBulkEditProps> = prop
           minimap: { enabled: false },
           scrollBeyondLastLine: false,
         }}
+        height="calc(100vh - 140px)"
       />
       <ActionBar
         id="connection-strings-bulk-edit-footer"

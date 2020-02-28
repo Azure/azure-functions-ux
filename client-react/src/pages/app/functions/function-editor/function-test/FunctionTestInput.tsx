@@ -14,7 +14,7 @@ import {
   testFormLabelStyle,
 } from './FunctionTest.styles';
 import { Label, IDropdownOption, ITextFieldProps, TextField } from 'office-ui-fabric-react';
-import MonacoEditor from '../../../../../components/monaco-editor/monaco-editor';
+import MonacoEditor, { getMonacoEditorTheme } from '../../../../../components/monaco-editor/monaco-editor';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { InputFormValues, EmptyNameValuePair, NameValuePair, HttpMethods } from '../FunctionEditor.types';
 import { FormikProps, Field, FieldArray, FieldProps } from 'formik';
@@ -26,6 +26,8 @@ import { debounceTime } from 'rxjs/operators';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { BindingType } from '../../../../../models/functions/function-binding';
+import { PortalTheme } from '../../../../../models/portal-models';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
 
 export interface FunctionTestInputProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -107,6 +109,8 @@ const KeyValueFieldArrayComponent: React.FC<KeyValueComponent> = props => {
 const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestInputProps> = props => {
   const { t } = useTranslation();
 
+  const startUpInfoContext = useContext(StartupInfoContext);
+
   const { values, functionInfo, body, onRequestBodyChange } = props;
 
   const getDropdownOptions = (): IDropdownOption[] => {
@@ -156,6 +160,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
               scrollBeyondLastLine: false,
               cursorBlinking: true,
             }}
+            theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
           />
         </div>
       </div>

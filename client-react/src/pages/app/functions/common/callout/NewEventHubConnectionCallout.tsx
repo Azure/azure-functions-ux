@@ -22,6 +22,7 @@ const NewEventHubConnectionCallout: React.SFC<NewConnectionCalloutProps & Custom
 
   return (
     <div style={paddingSidesStyle}>
+      <h4>{t('eventHubCallout_newEventHubConnection')}</h4>
       <RadioButtonNoFormik
         id="event-hub-connection-callout-options"
         ariaLabelledBy={`event-hub-connection-callout-options-label`}

@@ -13,6 +13,7 @@ export interface EditBindingCommandBarProps {
   dirty: boolean;
   loading: boolean;
   valid: boolean;
+  disabled: boolean;
 }
 
 export const CommandBarStyles = (theme: ThemeExtended, loading: boolean): ICommandBarStyles => {
@@ -59,7 +60,7 @@ const getItems = (props: EditBindingCommandBarProps, t: i18next.TFunction): ICom
       iconProps: {
         iconName: 'Save',
       },
-      disabled: !props.dirty || !props.valid,
+      disabled: props.disabled || !props.dirty || !props.valid,
       ariaLabel: t('appSettingsSaveAriaLabel'),
       onClick: props.submitForm,
     },
@@ -69,7 +70,7 @@ const getItems = (props: EditBindingCommandBarProps, t: i18next.TFunction): ICom
       iconProps: {
         iconName: 'ChromeClose',
       },
-      disabled: !props.dirty,
+      disabled: props.disabled || !props.dirty,
       ariaLabel: t('appSettingsDiscardAriaLabel'),
       onClick: props.resetForm,
     },
@@ -79,6 +80,7 @@ const getItems = (props: EditBindingCommandBarProps, t: i18next.TFunction): ICom
       iconProps: {
         iconName: 'Delete',
       },
+      disabled: props.disabled,
       ariaLabel: t('delete'),
       onClick: props.delete,
     },

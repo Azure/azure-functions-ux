@@ -1,8 +1,9 @@
 import { Field, Formik, FormikProps } from 'formik';
-import { Dropdown, Link } from 'office-ui-fabric-react';
+import { Link } from 'office-ui-fabric-react';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
+import Dropdown from '../../../../../components/form-controls/DropDown';
 import { FormControlWrapper, Layout } from '../../../../../components/FormControlWrapper/FormControlWrapper';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../../models/functions/binding';
@@ -13,7 +14,7 @@ import { PortalContext } from '../../../../../PortalContext';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import { BindingFormBuilder } from '../../common/BindingFormBuilder';
-import { EventGrid } from '../FunctionIntegrateConstants';
+import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
 import EditBindingCommandBar from './EditBindingCommandBar';
 
 export interface BindingEditorProps {
@@ -21,6 +22,7 @@ export interface BindingEditorProps {
   currentBindingInfo: BindingInfo;
   functionAppId: string;
   functionInfo: ArmObj<FunctionInfo>;
+  readOnly: boolean;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
   onDelete: (currentBindingInfo: BindingInfo) => void;
 }
@@ -40,7 +42,7 @@ const fieldWrapperStyle = style({
 });
 
 const BindingEditor: React.SFC<BindingEditorProps> = props => {
-  const { allBindings, currentBindingInfo, functionAppId, functionInfo, onSubmit, onDelete } = props;
+  const { allBindings, currentBindingInfo, functionAppId, functionInfo, readOnly, onSubmit, onDelete } = props;
   const { t } = useTranslation();
   const portalContext = useContext(PortalContext);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -86,6 +88,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
                 dirty={formProps.dirty}
                 valid={formProps.isValid}
                 loading={isDisabled}
+                disabled={readOnly}
               />
               <div className={fieldWrapperStyle}>
                 <FormControlWrapper label={t('integrateBindingType')} layout={Layout.vertical}>
@@ -99,10 +102,10 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
                   />
                 </FormControlWrapper>
 
-                {builder.getFields(formProps, isDisabled)}
+                {builder.getFields(formProps, readOnly || isDisabled)}
               </div>
             </form>
-            {currentBinding.type === EventGrid.eventGridType ? (
+            {currentBinding.type === FunctionIntegrateConstants.eventGridType ? (
               <Link onClick={() => onEventGridCreateClick(functionInfo, portalContext)}>{t('eventGrid_createConnection')}</Link>
             ) : (
               undefined

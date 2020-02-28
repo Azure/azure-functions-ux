@@ -28,6 +28,7 @@ import {
   LockType,
   PortalDebugInformation,
   FrameBladeParams,
+  PortalTheme,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import { darkTheme } from './theme/dark';
@@ -417,7 +418,7 @@ export default class PortalCommunicator {
     if (methodName === Verbs.sendStartupInfo) {
       const startupInfo = data as IStartupInfo<any>;
       if (this.currentTheme !== startupInfo.theme) {
-        const newTheme = startupInfo.theme === 'dark' ? darkTheme : lightTheme;
+        const newTheme = startupInfo.theme === PortalTheme.dark ? darkTheme : lightTheme;
         loadTheme(newTheme);
         this.setTheme(newTheme as ThemeExtended);
         this.currentTheme = startupInfo.theme;

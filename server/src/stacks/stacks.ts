@@ -104,6 +104,7 @@ export interface FunctionAppStackVersion {
   displayText: string;
   value: string;
   supportedPlatforms: FunctionAppStackVersionPlatform[];
+  isDefault: boolean;
 }
 
 export interface FunctionAppStackVersionPlatform {
@@ -114,4 +115,6 @@ export interface FunctionAppStackVersionPlatform {
   isHidden: boolean;
   applicationInsightsEnabled: boolean;
   runtimeVersion: string;
+  appSettingsDictionary: any;
+  siteConfigPropertiesDictionary: any;
 }

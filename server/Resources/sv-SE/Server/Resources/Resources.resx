@@ -1463,7 +1463,7 @@
         <value>Webbprograminställningarna har uppdaterats</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Det gick inte att uppdatera webbappinställningar: </value>
+        <value>Failed to update web app settings</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Fel vid sparande: Ogiltiga indata.</value>
@@ -4574,7 +4574,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="resettingCredentialsFail" xml:space="preserve">
         <value>Det gick inte att återställa autentiseringsuppgifterna</value>
     </data>
-  <data name="resettingCredentialsSucccess" xml:space="preserve">
+  <data name="resettingCredentialsSuccess" xml:space="preserve">
         <value>Autentiseringsuppgifterna har återställts</value>
     </data>
   <data name="savingCredentials" xml:space="preserve">
@@ -5091,6 +5091,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Det gick inte att validera containerinställningarna.</value>
     </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Inga indata har definierats</value>
     </data>
@@ -5109,8 +5112,14 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="integrateCreateInput" xml:space="preserve">
         <value>Skapa indata</value>
     </data>
-  <data name="integrateCreateBindingInstructions" xml:space="preserve">
-        <value>Börja med att välja typen av {0}-bindning som du vill lägga till.</value>
+  <data name="integrateCreateInputBindingInstructions" xml:space="preserve">
+        <value>Börja med att välja den typ av indatabindning som du vill lägga till.</value>
+    </data>
+  <data name="integrateCreateOutputBindingInstructions" xml:space="preserve">
+        <value>Börja med att välja den typ av utdata-bindning som du vill lägga till.</value>
+    </data>
+  <data name="integrateCreateTriggerBindingInstructions" xml:space="preserve">
+        <value>Börja med att välja den typ av utlösare-bindning som du vill lägga till.</value>
     </data>
   <data name="integrateBindingType" xml:space="preserve">
         <value>Bindningstyp</value>
@@ -5195,9 +5204,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     </data>
   <data name="errorDetails" xml:space="preserve">
         <value>Felinformation</value>
-    </data>
-  <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Funktionsnycklar kan konfigureras i funktionsinställningarna.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Värdtangenter (alla funktioner)</value>
@@ -5293,10 +5299,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Funktionsnyckelnamnen måste vara unika</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub-åtgärder (förhandsversion)</value>
+        <value>GitHub Actions (förhandsversion)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Automatisera dina versions-, test- och distributionssteg med GitHub-åtgärder kostnadsfritt. Detta lägger till ett YML-arbetsflöde till din lagringsplats med steg för att skapa och distribuera ditt program till App Service.</value>
+        <value>Automatisera dina versions-, test- och distributionssteg med GitHub Actions kostnadsfritt. Detta lägger till ett YML-arbetsflöde till din lagringsplats med steg för att skapa och distribuera ditt program till App Service.</value>
     </data>
   <data name="azureKeyVault" xml:space="preserve">
         <value>Nyckelvalvsreferens</value>
@@ -5362,10 +5368,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Arbetsflödeskonfiguration för GitHub-åtgärd</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Setting up GitHub Action build and deployment pipeline.</value>
+        <value>Konfigurerar pipeline för GitHub Action build och distribution.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
+        <value>GitHub Action build och distribution pipeline har slutförts.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Lägg till eller uppdatera arbetsflödeskonfigurationen för App Service-distributionen från Azure Portal.</value>
@@ -5409,6 +5415,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="eventHubPicker_noNamespaces" xml:space="preserve">
         <value>Det finns inga namnområden i den här prenumerationen</value>
     </data>
+  <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
+        <value>New Event Hub connection</value>
+    </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>Det finns inga Event Hubs i det här namnområdet</value>
     </data>
@@ -5439,8 +5448,14 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="customPivot_value" xml:space="preserve">
         <value>Värde</value>
     </data>
+  <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
+        <value>New Service Bus connection</value>
+    </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus</value>
+    </data>
+  <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
+        <value>New Custom App Setting</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Anpassad appinställning</value>
@@ -5457,6 +5472,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>Princip</value>
     </data>
+  <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
+        <value>New Cosmos DB connection</value>
+    </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB-konto</value>
     </data>
@@ -5466,11 +5484,11 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>Databaskonto</value>
     </data>
-  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Befintligt lagringskonto</value>
+  <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existing Storage Account</value>
     </data>
-  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
-        <value>Nytt lagringskonto</value>
+  <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
+        <value>New Storage Account connection</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>Det finns inga lagringskonton i den här prenumerationen</value>
@@ -5506,6 +5524,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>{0} skapas</value>
     </data>
   <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Det gick inte att skapa {0}</value>
+    </data>
+  <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>Det gick inte att skapa {0}: {1}</value>
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
@@ -5560,10 +5581,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Det går inte att uppgradera med befintliga funktioner: huvudversionsuppgraderingar kan medföra icke-bakåtkompatibla ändringar av språk och bindningar. När du uppgraderar huvudversioner av körningen kan du överväga att skapa en ny funktionsapp och migrera funktionerna till den.</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
-        <value>Arbetsflödets omfattning saknas i GitHub-token.</value>
+        <value>Arbetsflödesomfattningen saknas i GitHub-token. Återgå till källkontrollsteget för att omauktorisera GitHub.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
+        <value>GitHub-åtgärdens arbetsflödesfil {{workflowFilePath}} finns redan i {{branchName}}-grenen. Välj ett alternativ nedan om du antingen vill skriva över den befintliga arbetsflödesfilen eller fortsätta att använda den befintliga utan ändring.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 stöds inte längre för fjärrfelsökning. Välj en Visual Studio-version som stöds.</value>
@@ -5641,7 +5662,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Version 1 runtime stöds inte på Linux Azure-funktionsappar</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
-        <value>Appen {{appName}} är konfigurerad med stacken {{stack}} vilket för närvarande inte stöds i Distributioncenter via GitHub-åtgärder.</value>
+        <value>Appen {{appName}} är konfigurerad med stacken {{stack}} vilket för närvarande inte stöds i Distributioncenter via GitHub Actions.</value>
     </data>
   <data name="githubActionStackMismatchMessage" xml:space="preserve">
         <value>Appen {{appName}} har konfigurerats för {{stack}}, vilket inte matchar den aktuellt valda versionen. Appen kanske inte fungerar korrekt med den aktuellt valda versionen.</value>
@@ -5653,27 +5674,51 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Konfigurera hos.json</value>
     </data>
   <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
-        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+        <value>De inkommande och utgående IP-adresserna för appen ändras till: inkommande – {{inbound}} utgående – {{outbound}}.</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
-        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+        <value>Bekräfta att både inkommande och utgående IP-adresser för din app kommer att ändras.</value>
     </data>
   <data name="githubActionWorkflowOption" xml:space="preserve">
-        <value>Workflow Option</value>
+        <value>Arbetsflödesalternativ</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite workflow definition</value>
+        <value>Skriv över arbetsflödesdefinitionen</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Configure using existing workflow definition</value>
+        <value>Konfigurera användning av befintlig arbetsflödesdefinition</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+        <value>Den befintliga arbetsflödeskonfigurationen i GitHub kommer att användas för att skapa och distribuera. Se förhandsversionen nedan.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+        <value>Den befintliga arbetsflödeskonfigurationen i GitHub kommer att skrivas över med konfigurationen nedan.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>(inga funktionstangenter att visa)</value>
+    </data>
+  <data name="featureNotSupportedForPremium" xml:space="preserve">
+        <value>Den här funktionen stöds inte för appar i en Premium-plan</value>
+    </data>
+  <data name="deleteFunctionKeyNotification" xml:space="preserve">
+        <value>Tar bort funktionsnyckeln</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationDetails" xml:space="preserve">
+        <value>Tar bort {0}</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationFailed" xml:space="preserve">
+        <value>Det gick inte att ta bort {0}</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
+        <value>{0} togs bort</value>
+    </data>
+  <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
+    </data>
+  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
 </root>

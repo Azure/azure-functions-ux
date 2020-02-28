@@ -73,7 +73,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
     } else if (input.plan) {
       if (
         !input.plan.properties.hostingEnvironmentProfile ||
-        input.plan.properties.isXenon ||
+        input.plan.properties.hyperV ||
         AppKind.hasAnyKind(input.plan, [Kinds.elastic])
       ) {
         this.state = 'hidden';
@@ -92,6 +92,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
       input.specPickerInput.data &&
       (!input.specPickerInput.data.allowAseV2Creation ||
         input.specPickerInput.data.isXenon ||
+        input.specPickerInput.data.hyperV ||
         (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic))
     ) {
       this.state = 'hidden';

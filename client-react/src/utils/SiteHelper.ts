@@ -2,6 +2,7 @@ import { FunctionAppEditMode } from '../models/portal-models';
 import i18n from './i18n';
 import { ArmObj } from '../models/arm-obj';
 import { Site } from '../models/site/site';
+import { SiteConfig } from '../models/site/config';
 
 export default class SiteHelper {
   public static isFunctionAppReadOnly(editMode: FunctionAppEditMode): boolean {
@@ -59,5 +60,9 @@ export default class SiteHelper {
 
   public static isFlexStamp(site: ArmObj<Site>) {
     return !!site.properties.possibleInboundIpAddresses && site.properties.possibleInboundIpAddresses.split(',').length > 1;
+  }
+
+  public static isSourceControlEnabled(config: ArmObj<SiteConfig>) {
+    return !config.properties.scmType || config.properties.scmType !== 'None';
   }
 }

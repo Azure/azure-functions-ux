@@ -1463,7 +1463,7 @@
         <value>Web-appinstellingen zijn bijgewerkt</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Kan de web-appinstellingen niet bijwerken: </value>
+        <value>Failed to update web app settings</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>Kan {{configGroupName}} niet opslaan: ongeldige invoer opgegeven.</value>
@@ -3144,7 +3144,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Deze prijscategorie is niet toegestaan voor uw abonnement</value>
     </data>
   <data name="pricing_devTestTitle" xml:space="preserve">
-        <value>Ontwikkelen/testen</value>
+        <value>Dev/Test</value>
     </data>
   <data name="pricing_devTestDesc" xml:space="preserve">
         <value>Voor minder veeleisende workloads</value>
@@ -3225,7 +3225,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Nieuwe App Service Environment-instantie maken</value>
     </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-        <value>De prijscategorieën voor ontwikkelen/testen zijn niet beschikbaar voor uw configuratie en zijn alleen beschikbaar voor abonnementen die niet worden gehost in een App Service Environment.</value>
+        <value>De prijscategorieën voor Dev/Test zijn niet beschikbaar voor uw configuratie en zijn alleen beschikbaar voor abonnementen die niet worden gehost in een App Service Environment.</value>
     </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
         <value>De prijscategorieën voor productie zijn niet beschikbaar voor uw configuratie en zijn alleen beschikbaar voor abonnementen die niet worden gehost in een App Service Environment.</value>
@@ -4575,7 +4575,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="resettingCredentialsFail" xml:space="preserve">
         <value>Het opnieuw instellen van de referenties is mislukt</value>
     </data>
-  <data name="resettingCredentialsSucccess" xml:space="preserve">
+  <data name="resettingCredentialsSuccess" xml:space="preserve">
         <value>De referenties zijn opnieuw ingesteld</value>
     </data>
   <data name="savingCredentials" xml:space="preserve">
@@ -5092,6 +5092,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Kan de containerinstellingen niet valideren.</value>
     </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Geen invoerwaarden gedefinieerd</value>
     </data>
@@ -5110,8 +5113,14 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="integrateCreateInput" xml:space="preserve">
         <value>Invoer maken</value>
     </data>
-  <data name="integrateCreateBindingInstructions" xml:space="preserve">
-        <value>Begin met het selecteren van het type {0}-binding dat u wilt toevoegen.</value>
+  <data name="integrateCreateInputBindingInstructions" xml:space="preserve">
+        <value>Begin met het selecteren van het type invoerbinding dat u wilt toevoegen.</value>
+    </data>
+  <data name="integrateCreateOutputBindingInstructions" xml:space="preserve">
+        <value>Begin met het selecteren van het type uitvoerbinding dat u wilt toevoegen.</value>
+    </data>
+  <data name="integrateCreateTriggerBindingInstructions" xml:space="preserve">
+        <value>Begin met het selecteren van het type triggerbinding dat u wilt toevoegen.</value>
     </data>
   <data name="integrateBindingType" xml:space="preserve">
         <value>Bindingstype</value>
@@ -5196,9 +5205,6 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="errorDetails" xml:space="preserve">
         <value>Foutdetails</value>
-    </data>
-  <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Functietoetsen kunnen worden geconfigureerd in functie-instellingen.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Hostsleutels (alle functies)</value>
@@ -5363,10 +5369,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Configuratie van GitHub Action-werkstroom</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Setting up GitHub Action build and deployment pipeline.</value>
+        <value>Een GitHub Actions-build en implementatiepijplijn instellen.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
+        <value>De GitHub Actions-build en implementatiepijplijn zijn ingesteld.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Voeg de configuratie van de App Service-implementatiewerkstroom toe of werk deze bij vanuit Azure Portal.</value>
@@ -5410,6 +5416,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="eventHubPicker_noNamespaces" xml:space="preserve">
         <value>Er zijn geen naamruimten in dit abonnement</value>
     </data>
+  <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
+        <value>New Event Hub connection</value>
+    </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>Er zijn geen Event Hubs in deze naamruimte</value>
     </data>
@@ -5440,8 +5449,14 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="customPivot_value" xml:space="preserve">
         <value>Waarde</value>
     </data>
+  <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
+        <value>New Service Bus connection</value>
+    </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus</value>
+    </data>
+  <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
+        <value>New Custom App Setting</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Aangepaste app-instelling</value>
@@ -5458,6 +5473,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>Beleid</value>
     </data>
+  <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
+        <value>New Cosmos DB connection</value>
+    </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB-account</value>
     </data>
@@ -5467,11 +5485,11 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>Databaseaccount</value>
     </data>
-  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Bestaand opslagaccount</value>
+  <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existing Storage Account</value>
     </data>
-  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
-        <value>Nieuw opslagaccount</value>
+  <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
+        <value>New Storage Account connection</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>Er zijn geen opslagaccounts in dit abonnement</value>
@@ -5507,6 +5525,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>{0} maken</value>
     </data>
   <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Kan {0} niet maken</value>
+    </data>
+  <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>Kan {0} niet maken: {1}</value>
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
@@ -5561,10 +5582,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Kan niet upgraden met de huidige functies: Met upgrades van de primaire versie worden mogelijk wijzigingen geïntroduceerd die fouten veroorzaken voor talen en bindingen. Bij het upgraden van de primaire versies van de runtime kunt u overwegen om een nieuwe functie-app te maken en uw functies te migreren naar deze nieuwe app.</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
-        <value>Het bereik van de werkstroom ontbreekt in het GitHub-token.</value>
+        <value>Het bereik workflow ontbreekt in het GitHub-token. Ga terug naar de stap voor broncodebeheer om GitHub opnieuw te autoriseren.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
+        <value>Het GitHub Actions-werkstroombestand {{workflowFilePath}} bestaat al in de vertakking {{branchName}}. Kies een van de onderstaande opties om het bestaande werkstroombestand te overschrijven of het bestaande bestand zonder wijzigingen te blijven gebruiken.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 wordt niet meer ondersteund voor externe foutopsporing. Selecteer een ondersteunde Visual Studio-versie.</value>
@@ -5642,7 +5663,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Runtime van versie 1 wordt niet ondersteund voor Linux Azure Function-apps</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
-        <value>De app {{appName}} is ingesteld voor de stack {{stack}} die momenteel niet wordt ondersteund in Deployment Center via GitHub-acties.</value>
+        <value>De app {{appName}} is ingesteld voor de stack {{stack}} die momenteel niet wordt ondersteund in Deployment Center via GitHub Actions.</value>
     </data>
   <data name="githubActionStackMismatchMessage" xml:space="preserve">
         <value>De app {{appName}} is momenteel geconfigureerd voor {{stack}}, hetgeen niet overeenkomt met de huidige buildselectie. De app werkt mogelijk niet correct met de huidige buildselectie.</value>
@@ -5654,27 +5675,51 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>host.json configureren</value>
     </data>
   <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
-        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+        <value>De inkomende en uitgaande IP-adressen voor uw app worden als volgt gewijzigd: inkomend - {{inbound}} uitgaand - {{outbound}}.</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
-        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+        <value>Bevestigen dat zowel inkomende als uitgaande IP-adressen voor uw app worden gewijzigd.</value>
     </data>
   <data name="githubActionWorkflowOption" xml:space="preserve">
-        <value>Workflow Option</value>
+        <value>Werkstroomoptie</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite workflow definition</value>
+        <value>Werkstroomdefinitie overschrijven</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Configure using existing workflow definition</value>
+        <value>Configureren met de bestaande werkstroomdefinitie</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+        <value>De bestaande werkstroomconfiguratie in GitHub wordt gebruikt voor de build en implementatie. Zie de preview-versie hieronder.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+        <value>De bestaande werkstroomconfiguratie in GitHub wordt overschreven met de onderstaande configuratie.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>(geen functiesleutels om weer te geven)</value>
+    </data>
+  <data name="featureNotSupportedForPremium" xml:space="preserve">
+        <value>Deze functie wordt niet ondersteund voor apps in een Premium-abonnement</value>
+    </data>
+  <data name="deleteFunctionKeyNotification" xml:space="preserve">
+        <value>De functietoets wordt verwijderd</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationDetails" xml:space="preserve">
+        <value>{0} verwijderen</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationFailed" xml:space="preserve">
+        <value>Kan {0} niet verwijderen</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
+        <value>{0} is verwijderd</value>
+    </data>
+  <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
+    </data>
+  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
 </root>

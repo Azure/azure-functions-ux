@@ -68,6 +68,7 @@ xdescribe('Price Spec Manager', () => {
         forbiddenSkus: [],
         isLinux: false,
         isXenon: false,
+        hyperV: false,
         selectedLegacySkuName: 'Legacy-Group2-Recommended1',
       },
       specPicker: null,

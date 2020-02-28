@@ -17,6 +17,8 @@ export interface BindingPanelProps {
   bindingInfo?: BindingInfo;
   bindingDirection: BindingDirection;
   isOpen: boolean;
+  onlyBuiltInBindings: boolean;
+  readOnly: boolean;
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
   onDelete: (currentBindingInfo: BindingInfo) => void;
@@ -31,6 +33,8 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
     bindingInfo,
     bindingDirection,
     isOpen,
+    onlyBuiltInBindings,
+    readOnly,
     onPanelClose,
     onSubmit,
     onDelete,
@@ -51,8 +55,11 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
               bindings={bindings}
               functionAppId={functionAppId}
               bindingDirection={bindingDirection}
+              readOnly={readOnly}
+              onlyBuiltInBindings={onlyBuiltInBindings}
+              onPanelClose={onPanelClose}
+              onSubmit={onSubmit}
               setRequiredBindingId={setRequiredBindingId}
-              {...props}
             />
           ) : (
             <BindingEditor
@@ -60,6 +67,7 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
               allBindings={bindings}
               currentBindingInfo={bindingInfo}
               functionAppId={functionAppId}
+              readOnly={readOnly}
               onSubmit={onSubmit}
               onDelete={onDelete}
             />

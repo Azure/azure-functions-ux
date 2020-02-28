@@ -1,9 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import { useTranslation } from 'react-i18next';
 import { Link, IDropdownOption, registerIcons, Icon } from 'office-ui-fabric-react';
-import { formStyle, dropdownIconStyle, quickstartDropdownContainerStyle, quickstartDropdownLabelStyle } from './FunctionQuickstart.styles';
+import {
+  formStyle,
+  dropdownIconStyle,
+  quickstartDropdownContainerStyle,
+  quickstartDropdownLabelStyle,
+  quickstartLinkStyle,
+  markdownIconStyle,
+} from './FunctionQuickstart.styles';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs_code.svg';
@@ -14,6 +21,11 @@ import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
 import Markdown from 'markdown-to-jsx';
 import { MarkdownHighlighter } from '../../../../components/MarkdownComponents/MarkdownComponents';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
+import { ThemeContext } from '../../../../ThemeContext';
+import StringUtils from '../../../../utils/string';
+import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
+import { QuickstartOptions } from './FunctionQuickstart.types';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 registerIcons({
   icons: {
@@ -38,32 +50,52 @@ export interface QuickstartOption {
   };
 }
 
+const ChevronUp: React.FC<{}> = props => {
+  const theme = useContext(ThemeContext);
+
+  return <Icon iconName="ChevronUp" className={markdownIconStyle(theme)} />;
+};
+
 const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   const { t } = useTranslation();
-  const { site, workerRuntime } = props;
+  const { site, workerRuntime, resourceId } = props;
   const [file, setFile] = useState('');
+  const [selectedKey, setSelectedKey] = useState('');
+
   const quickstartContext = useContext(FunctionQuickstartContext);
   const startupInfoContext = useContext(StartupInfoContext);
+  const theme = useContext(ThemeContext);
+
+  const getParameters = (): { [key: string]: string } => {
+    const resourceDescriptor = new ArmResourceDescriptor(resourceId);
+    return {
+      functionAppName: site.name,
+      region: site.location,
+      resourceGroup: site.properties.resourceGroup,
+      subscriptionName: resourceDescriptor.subscription,
+      workerRuntime: workerRuntime || '',
+    };
+  };
 
   const isVSOptionVisible = (): boolean => {
     return !isLinuxApp(site) && workerRuntime === 'dotnet';
   };
 
   const isVSCodeOptionVisible = (): boolean => {
-    return !isLinuxApp(site) || !isElastic(site);
+    return workerRuntime === CommonConstants.WorkerRuntimeLanguages.java.toLocaleLowerCase() || !isLinuxApp(site) || !isElastic(site);
   };
 
   const isCoreToolsOptionVisible = (): boolean => {
-    return workerRuntime !== 'java';
+    return workerRuntime !== CommonConstants.WorkerRuntimeLanguages.java.toLocaleLowerCase();
   };
 
   const isMavenToolsOptionVisible = (): boolean => {
-    return workerRuntime === 'java';
+    return workerRuntime === CommonConstants.WorkerRuntimeLanguages.java.toLocaleLowerCase();
   };
 
   const dropdownOptions = [
     {
-      key: 'vsDirectPublish',
+      key: QuickstartOptions.visualStudio,
       text: t('vsCardTitle'),
       data: {
         icon: <Icon iconName="visual-studio" />,
@@ -71,7 +103,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       },
     },
     {
-      key: 'vsCodeDirectPublish',
+      key: QuickstartOptions.visualStudioCode,
       text: t('vscodeCardTitle'),
       data: {
         icon: <Icon iconName="vs-code" />,
@@ -79,7 +111,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       },
     },
     {
-      key: 'coretoolsDirectPublish',
+      key: QuickstartOptions.coreTools,
       text: t('coretoolsCardTitle'),
       data: {
         icon: <Icon iconName="terminal" />,
@@ -87,7 +119,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
       },
     },
     {
-      key: 'mavenDirectPublish',
+      key: QuickstartOptions.maven,
       text: t('mavenCardTitle'),
       data: {
         icon: <Icon iconName="terminal" />,
@@ -97,11 +129,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   ];
 
   const onChange = async (e: unknown, option: IDropdownOption) => {
-    const key = option.key as string;
-    const result = await quickstartContext.getQuickstartFile(key, startupInfoContext.effectiveLocale);
-    if (result.metadata.success) {
-      setFile(result.data);
-    }
+    setSelectedKey(option.key as string);
   };
 
   const onRenderOption = (option: IDropdownOption): JSX.Element => {
@@ -124,12 +152,30 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
     );
   };
 
+  const getAndSetSelectedFile = async (fileName: string) => {
+    const result = await quickstartContext.getQuickstartFile(fileName, startupInfoContext.effectiveLocale);
+    if (result.metadata.success) {
+      setFile(StringUtils.formatString(result.data, getParameters()));
+    }
+  };
+
+  useEffect(() => {
+    setSelectedKey(isVSCodeOptionVisible() ? QuickstartOptions.visualStudioCode : QuickstartOptions.coreTools);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    getAndSetSelectedFile(selectedKey);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedKey]);
   return (
     <div className={formStyle}>
       <h2>{t('quickstartHeader')}</h2>
       <div>
         {t('quickstartDesc')}
-        <Link href={'functions.azure.com'} target="_blank">
+        <Link href={`${CommonConstants.Links.quickstartViewDocumentation}&pivots=programming-language-${workerRuntime}`} target="_blank">
           {t('viewDocumentation')}
         </Link>
       </div>
@@ -142,6 +188,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
           responsiveMode={ResponsiveMode.large}
           onRenderOption={onRenderOption}
           onRenderTitle={onRenderTitle}
+          selectedKey={selectedKey}
         />
       </div>
       <Markdown
@@ -149,6 +196,14 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
           overrides: {
             MarkdownHighlighter: {
               component: MarkdownHighlighter,
+            },
+            ChevronUp: {
+              component: ChevronUp,
+            },
+            a: {
+              props: {
+                className: quickstartLinkStyle(theme),
+              },
             },
           },
         }}>

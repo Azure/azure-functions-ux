@@ -111,7 +111,7 @@ export class GenericSpecGroup extends PriceSpecGroup {
   initialize(input: PriceSpecInput) {
     this.pricingTiers.value.forEach(pricingTier => {
       if (input.plan) {
-        if (input.plan.properties.isXenon !== pricingTier.properties.isXenon) {
+        if (input.plan.properties.hyperV !== pricingTier.properties.isXenon) {
           return;
         }
       }
@@ -122,7 +122,10 @@ export class GenericSpecGroup extends PriceSpecGroup {
         if (input.specPickerInput.data.isLinux !== pricingTier.properties.isLinux) {
           return;
         }
-        if (input.specPickerInput.data.isXenon !== pricingTier.properties.isXenon) {
+        if (
+          input.specPickerInput.data.isXenon !== pricingTier.properties.isXenon &&
+          input.specPickerInput.data.hyperV !== pricingTier.properties.isXenon
+        ) {
           return;
         }
       }
@@ -193,7 +196,7 @@ export class DevSpecGroup extends PriceSpecGroup {
           message: this.ts.instant(PortalResources.pricing_linuxTrial),
           level: BannerMessageLevel.INFO,
         };
-      } else if (input.specPickerInput.data.isXenon) {
+      } else if (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_windowsContainers),
           level: BannerMessageLevel.INFO,
@@ -244,7 +247,7 @@ export class ProdSpecGroup extends PriceSpecGroup {
           message: this.ts.instant(PortalResources.pricing_linuxTrial),
           level: BannerMessageLevel.INFO,
         };
-      } else if (input.specPickerInput.data.isXenon) {
+      } else if (input.specPickerInput.data.isXenon || input.specPickerInput.data.hyperV) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_windowsContainers),
           level: BannerMessageLevel.INFO,

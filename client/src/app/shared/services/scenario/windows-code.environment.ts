@@ -44,6 +44,11 @@ export class WindowsCodeEnvironment extends Environment {
       id: ScenarioIds.hasRoleAssignmentPermission,
       runCheckAsync: (input: ScenarioCheckInput) => this._hasRoleAssignmentPermissionCheck(input),
     };
+
+    this.scenarioChecks[ScenarioIds.enableGitHubAction] = {
+      id: ScenarioIds.enableGitHubAction,
+      runCheck: () => ({ status: 'enabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

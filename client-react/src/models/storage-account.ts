@@ -6,3 +6,18 @@ export interface StorageAccount {
   statusOfPrimary: string;
   statusOfSecondary: string;
 }
+
+export interface StorageAccountKeys {
+  keys: StorageAccountKey[];
+}
+
+export interface StorageAccountKey {
+  keyName: string;
+  value: string;
+  permissions: StorageAccountKeyPermission;
+}
+
+export enum StorageAccountKeyPermission {
+  Full = 'FULL',
+  ReadOnly = 'READ',
+}

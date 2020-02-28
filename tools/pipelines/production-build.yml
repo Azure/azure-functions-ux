@@ -197,6 +197,8 @@ jobs:
           onedriveClientSecret: $(onedriveClientSecret)
           onedriveClientID: $(onedriveClientID)
           onedriveRedirectUrl: $(onedriveRedirectUrl)
+          staticSitesGithubClientId: $(staticSitesGithubClientId)
+          staticSitesGithubClientSecret: $(staticSitesGithubClientSecret)
 
       - script: |
           cd server/dist

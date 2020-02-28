@@ -3,7 +3,7 @@ import { logStreamStyle, logEntryDivStyle, getLogTextColor, logErrorDivStyle, lo
 import { useTranslation } from 'react-i18next';
 import { QuickPulseQueryLayer, SchemaResponseV2, SchemaDocument } from '../../../../../QuickPulseQuery';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
-import { defaultDocumentStreams, defaultClient } from './FunctionLog.constants';
+import { getDefaultDocumentStreams, defaultClient } from './FunctionLog.constants';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { TextUtilitiesService } from '../../../../../utils/textUtilities';
@@ -15,6 +15,7 @@ interface FunctionLogProps {
   fileSavedCount: number;
   resetAppInsightsToken: () => void;
   readOnlyBannerHeight: number;
+  functionName: string;
   appInsightsToken?: string;
 }
 
@@ -28,6 +29,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     fileSavedCount,
     resetAppInsightsToken,
     readOnlyBannerHeight,
+    functionName,
   } = props;
   const [maximized, setMaximized] = useState(false);
   const [started, setStarted] = useState(false);
@@ -35,14 +37,17 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const [logEntries, setLogEntries] = useState<SchemaDocument[]>([]);
   const [callCount, setCallCount] = useState(0);
   const [appInsightsError, setAppInsightsError] = useState(false);
-  const [autoScroll, setAutoScroll] = useState(true);
+  const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
+  const [scrollHeight, setScrollHeight] = useState(0);
 
   const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, token: string) => {
     quickPulseQueryLayer
       .queryDetails(token, false, '')
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
-          let documents = dataV2.DataRanges[0].Documents;
+          let documents = dataV2.DataRanges[0].Documents.filter(
+            (doc: SchemaDocument) => !!doc.Content.Message && doc.Content.SeverityLevel !== CommonConstants.LogLevels.verbose
+          );
           if (callCount === 0) {
             documents = trimPreviousLogs(documents);
           }
@@ -79,7 +84,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
 
   const reconnectQueryLayer = () => {
     const newQueryLayer = new QuickPulseQueryLayer(CommonConstants.QuickPulseEndpoints.public, defaultClient);
-    newQueryLayer.setConfiguration([], defaultDocumentStreams, []);
+    newQueryLayer.setConfiguration([], getDefaultDocumentStreams(functionName), []);
     setQueryLayer(newQueryLayer);
     setCallCount(0);
   };
@@ -169,22 +174,23 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       {isExpanded && (
         <div
           className={logStreamStyle(maximized, readOnlyBannerHeight)}
-          ref={logsContainer => {
-            if (!!logsContainer) {
-              setAutoScroll(logsContainer.scrollHeight - logsContainer.scrollTop === logsContainer.clientHeight);
+          ref={container => {
+            if (!!container) {
+              setLogsContainer(container);
+              setScrollHeight(container.scrollHeight);
             }
           }}>
           {/*Error Message*/}
           {appInsightsError && <div className={logErrorDivStyle}>{t('functionEditor_appInsightsNotConfigured')}</div>}
 
           {/*Loading Message*/}
-          {!appInsightsError && started && logEntries.length === 0 && (
+          {!appInsightsError && started && callCount === 0 && (
             <div className={logConnectingDivStyle}>{t('functionEditor_connectingToAppInsights')}</div>
           )}
 
           {/*Log Entries*/}
           {!!logEntries &&
-            logEntries.map((logEntry: SchemaDocument, logIndex) => {
+            logEntries.map((logEntry: SchemaDocument, logIndex: number) => {
               return (
                 <div
                   key={logIndex}
@@ -192,8 +198,10 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
                   style={{ color: getLogTextColor(logEntry.Content.SeverityLevel || '') }}
                   /*Last Log Entry needs to be scrolled into focus*/
                   ref={log => {
-                    if (logIndex + 1 === logEntries.length && autoScroll && !!log) {
-                      log.scrollIntoView({ behavior: 'smooth' });
+                    if (logIndex + 1 === logEntries.length && logsContainer && !!log) {
+                      if (Math.floor(scrollHeight - logsContainer.scrollTop) === Math.floor(logsContainer.clientHeight)) {
+                        log.scrollIntoView({ behavior: 'smooth' });
+                      }
                     }
                   }}>
                   {formatLog(logEntry)}

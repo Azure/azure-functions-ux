@@ -26,7 +26,6 @@ interface AppFilesProps {
 const AppFiles: React.FC<AppFilesProps> = props => {
   const { site, fileList, runtimeVersion } = props;
 
-  const [dirty, setDirty] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
   const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption | undefined>(undefined);
@@ -68,7 +67,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   };
 
   const onFileSelectorChange = async (e: unknown, option: IDropdownOption) => {
-    if (dirty) {
+    if (isDirty()) {
       setSelectedDropdownOption(option);
       return;
     }
@@ -144,11 +143,10 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     setInitialLoading(false);
   };
 
+  const isDirty = () => fileContent.default !== fileContent.latest;
+
   const isLoading = () => initialLoading || fetchingFileContent;
 
-  useEffect(() => {
-    setDirty(fileContent.default !== fileContent.latest);
-  }, [fileContent]);
   useEffect(() => {
     getAndSetFile();
 
@@ -156,7 +154,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   }, []);
   return (
     <div className={commandBarSticky}>
-      <AppFilesCommandBar dirty={dirty} disabled={false} saveFile={save} resetFile={discard} />
+      <AppFilesCommandBar dirty={isDirty()} disabled={false} saveFile={save} resetFile={discard} />
       <ConfirmDialog
         primaryActionButton={{
           title: t('ok'),

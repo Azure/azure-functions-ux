@@ -1463,7 +1463,7 @@
         <value>已成功更新 Web 应用设置</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>未能更新 Web 应用设置: </value>
+        <value>Failed to update web app settings</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} 保存错误: 提供了无效的输入。</value>
@@ -4574,7 +4574,7 @@
   <data name="resettingCredentialsFail" xml:space="preserve">
         <value>未能重置凭据</value>
     </data>
-  <data name="resettingCredentialsSucccess" xml:space="preserve">
+  <data name="resettingCredentialsSuccess" xml:space="preserve">
         <value>已成功重置凭据</value>
     </data>
   <data name="savingCredentials" xml:space="preserve">
@@ -5091,6 +5091,9 @@
   <data name="containerValidationFailed" xml:space="preserve">
         <value>未能验证容器设置。</value>
     </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>未定义输入</value>
     </data>
@@ -5109,8 +5112,14 @@
   <data name="integrateCreateInput" xml:space="preserve">
         <value>创建输入</value>
     </data>
-  <data name="integrateCreateBindingInstructions" xml:space="preserve">
-        <value>首先选择要添加的 {0} 绑定类型。</value>
+  <data name="integrateCreateInputBindingInstructions" xml:space="preserve">
+        <value>首先选择要添加的输入绑定类型。</value>
+    </data>
+  <data name="integrateCreateOutputBindingInstructions" xml:space="preserve">
+        <value>首先，选择要添加的输出绑定的类型。</value>
+    </data>
+  <data name="integrateCreateTriggerBindingInstructions" xml:space="preserve">
+        <value>首先，选择要添加的触发器绑定的类型。</value>
     </data>
   <data name="integrateBindingType" xml:space="preserve">
         <value>绑定类型</value>
@@ -5195,9 +5204,6 @@
     </data>
   <data name="errorDetails" xml:space="preserve">
         <value>错误详细信息</value>
-    </data>
-  <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>可以在功能设置中配置功能键。</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>主机键(所有功能)</value>
@@ -5293,10 +5299,10 @@
         <value>功能密钥名称必须唯一</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub 操作(预览)</value>
+        <value>GitHub Actions (预览)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>免费实现 GitHub 操作的生成、测试和部署步骤自动化。这将向存储库添加 YML 工作流，其中包含生成应用程序并将其部署到应用服务的步骤。</value>
+        <value>免费实现 GitHub Actions 的生成、测试和部署步骤自动化。这将向存储库添加 YML 工作流，其中包含生成应用程序并将其部署到应用服务的步骤。</value>
     </data>
   <data name="azureKeyVault" xml:space="preserve">
         <value>密钥保管库引用</value>
@@ -5362,10 +5368,10 @@
         <value>GitHub 操作工作流配置</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Setting up GitHub Action build and deployment pipeline.</value>
+        <value>正在设置 GitHub 操作生成和部署管道。</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
+        <value>已成功设置 GitHub 操作生成和部署管道。</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>从 Azure 门户添加或更新应用服务部署工作流配置。</value>
@@ -5409,6 +5415,9 @@
   <data name="eventHubPicker_noNamespaces" xml:space="preserve">
         <value>此订阅中没有命名空间</value>
     </data>
+  <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
+        <value>New Event Hub connection</value>
+    </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>此命名空间中没有事件中心</value>
     </data>
@@ -5439,8 +5448,14 @@
   <data name="customPivot_value" xml:space="preserve">
         <value>值</value>
     </data>
+  <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
+        <value>New Service Bus connection</value>
+    </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>服务总线</value>
+    </data>
+  <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
+        <value>New Custom App Setting</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>自定义应用设置</value>
@@ -5457,6 +5472,9 @@
   <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>策略</value>
     </data>
+  <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
+        <value>New Cosmos DB connection</value>
+    </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB 帐户</value>
     </data>
@@ -5466,11 +5484,11 @@
   <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>数据库帐户</value>
     </data>
-  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>现有的存储帐户</value>
+  <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existing Storage Account</value>
     </data>
-  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
-        <value>新建存储帐户</value>
+  <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
+        <value>New Storage Account connection</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>此订阅中没有存储帐户</value>
@@ -5506,6 +5524,9 @@
         <value>正在创建 {0}</value>
     </data>
   <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>未能创建 {0}</value>
+    </data>
+  <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>未能创建 {0}: {1}</value>
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
@@ -5554,16 +5575,16 @@
         <value>你的自定义运行时版本({0})不受支持。因此你的应用将使用最新版本 {1}，并且你将始终运行最新版本的运行时，甚至会跨越可能包含重大更改的主要版本更新。建议将该值设置为特定主要版本(例如 ~2)，这样在有新的更新版本时将通知你。</value>
     </data>
   <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
-        <value>By configuring the value of FUNCTIONS_EXTENSION_VERSION in Application setting, you have opted to use a custom runtime version.</value>
+        <value>通过在“应用程序”设置中配置 FUNCTIONS_EXTENSION_VERSION 的值，你已选择使用自定义运行时版本。</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
         <value>无法使用现有函数升级: 主版本升级可以引入对语言和绑定的重大更改。升级运行时的主版本时，请考虑创建新的函数应用并将函数迁移到此新应用。</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
-        <value>GitHub 令牌中缺少“工作流”范围。</value>
+        <value>GitHub 令牌中缺少“工作流”范围。请返回到“源代码管理”步骤，以重新授权 GitHub。</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
+        <value>“{{branchName}}”分支中已有 GitHub 操作工作流文件“{{workflowFilePath}}”。请选择下面的选项，以覆盖现有工作流文件，或继续使用现有工作流文件而不修改。</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>远程调试不再支持 Visual Studio 2015。请选择一个受支持的 Visual Studio 版本。</value>
@@ -5590,7 +5611,7 @@
         <value>将丢弃未保存的编辑。</value>
     </data>
   <data name="editor_changeFile" xml:space="preserve">
-        <value>Are you sure you would like to change files?</value>
+        <value>是否确定要更改文件?</value>
     </data>
   <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>默认文档列表按优先级排序。列表上面项的优先级高于列表下面项。</value>
@@ -5641,10 +5662,10 @@
         <value>Linux Azure Function Apps 不支持版本 1 运行时</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack '{{stack}}' which is currently not supported in Deployment Center via GitHub Actions.</value>
+        <value>应用“{{appName}}”已设置堆栈“{{stack}}”，暂不支持在部署中心内通过 GitHub Actions 这样做。</value>
     </data>
   <data name="githubActionStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is currently configured for '{{stack}}', which does not match current build selection. The app might not function correctly with current build selection.</value>
+        <value>应用“{{appName}}”目前已配置“{{stack}}”，这与当前选择的生成号不一致。在当前选择的生成号下，应用可能无法正常运行。</value>
     </data>
   <data name="hostConfigurationLabel" xml:space="preserve">
         <value>主机配置</value>
@@ -5653,27 +5674,51 @@
         <value>配置 host.json</value>
     </data>
   <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
-        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+        <value>应用的入站和出站 IP 地址将更改为: 入站 - {{inbound}} 出站 - {{outbound}}。</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
-        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+        <value>确认应用的入站和出站 IP 地址都将更改。</value>
     </data>
   <data name="githubActionWorkflowOption" xml:space="preserve">
-        <value>Workflow Option</value>
+        <value>工作流选项</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite workflow definition</value>
+        <value>覆盖工作流定义</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Configure using existing workflow definition</value>
+        <value>使用现有工作流定义进行配置</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+        <value>GitHub 中的现有工作流配置将用于生成和部署。请参见下面的预览。</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+        <value>GitHub 中的现有工作流配置将被下面的配置覆盖。</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>(没有功能键可显示)</value>
+    </data>
+  <data name="featureNotSupportedForPremium" xml:space="preserve">
+        <value>高级计划中的应用不支持此功能</value>
+    </data>
+  <data name="deleteFunctionKeyNotification" xml:space="preserve">
+        <value>正在删除功能键</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationDetails" xml:space="preserve">
+        <value>正在删除 {0}</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationFailed" xml:space="preserve">
+        <value>未能删除 {0}</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
+        <value>已成功删除 {0}</value>
+    </data>
+  <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
+    </data>
+  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
 </root>

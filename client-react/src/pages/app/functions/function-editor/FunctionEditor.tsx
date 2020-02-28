@@ -8,7 +8,7 @@ import { Site } from '../../../../models/site/site';
 import Panel from '../../../../components/Panel/Panel';
 import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
-import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
+import MonacoEditor, { getMonacoEditorTheme } from '../../../../components/monaco-editor/monaco-editor';
 import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj } from './FunctionEditor.types';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
@@ -30,6 +30,9 @@ import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 import { SiteStateContext } from '../../../../SiteStateContext';
 import SiteHelper from '../../../../utils/SiteHelper';
+import { BindingManager } from '../../../../utils/BindingManager';
+import { StartupInfoContext } from '../../../../StartupInfoContext';
+import { PortalTheme } from '../../../../models/portal-models';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -78,6 +81,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const { t } = useTranslation();
 
   const siteState = useContext(SiteStateContext);
+  const startUpInfoContext = useContext(StartupInfoContext);
 
   const save = async () => {
     if (!selectedFile) {
@@ -258,6 +262,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return !!readOnlyBanner ? readOnlyBanner.offsetHeight : 0;
   };
 
+  const isTestDisabled = () => {
+    const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
+    const webHookTypeInfo = BindingManager.getWebHookTypeInfo(functionInfo.properties);
+    return !httpTriggerTypeInfo && !webHookTypeInfo;
+  };
+
   useEffect(() => {
     setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? 310 : 138) + getReadOnlyBannerHeight()}px)`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -283,6 +293,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           dirty={isDirty()}
           disabled={isDisabled()}
           urlObjs={urlObjs}
+          testDisabled={isTestDisabled()}
         />
         <ConfirmDialog
           primaryActionButton={{
@@ -344,6 +355,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               renderWhitespace: 'all',
               readOnly: SiteHelper.isFunctionAppReadOnly(siteState),
             }}
+            theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
           />
         </div>
       )}
@@ -356,6 +368,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           resetAppInsightsToken={resetAppInsightsToken}
           appInsightsToken={appInsightsToken}
           readOnlyBannerHeight={getReadOnlyBannerHeight()}
+          functionName={functionInfo.properties.name}
         />
       </div>
     </>

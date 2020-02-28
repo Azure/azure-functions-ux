@@ -18,7 +18,7 @@ import BindingCard, { EditableBindingCardProps, createNew, editExisting, emptyLi
 import { listStyle } from './BindingDiagram.styles';
 
 const InputBindingCard: React.SFC<EditableBindingCardProps> = props => {
-  const { functionInfo, bindings, setRequiredBindingId } = props;
+  const { functionInfo, bindings, readOnly, setRequiredBindingId } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
@@ -26,7 +26,7 @@ const InputBindingCard: React.SFC<EditableBindingCardProps> = props => {
 
   const inputs = getInputBindings(functionInfo.properties.config.bindings);
   getRequiredBindingData(inputs, bindings, setRequiredBindingId);
-  const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, inputs);
+  const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, inputs, readOnly);
 
   return <BindingCard title={t('input')} Svg={InputSvg} content={content} {...props} />;
 };
@@ -55,7 +55,8 @@ const getContent = (
   t: i18next.TFunction,
   bindingEditorContext: BindingEditorContextInfo,
   theme: ThemeExtended,
-  inputBindings: BindingInfo[]
+  inputBindings: BindingInfo[],
+  readOnly: boolean
 ): JSX.Element => {
   const inputList = inputBindings.map((item, i) => {
     const name = item.name ? `(${item.name})` : '';
@@ -70,13 +71,15 @@ const getContent = (
   });
 
   const completeInputList = inputList.length > 0 ? inputList : emptyList(t('integrateNoInputsDefined'));
-  completeInputList.push(
-    <li key={'newInput'}>
-      <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingDirection.in)}>
-        {t('integrateAddInput')}
-      </Link>
-    </li>
-  );
+  if (!readOnly) {
+    completeInputList.push(
+      <li key={'newInput'}>
+        <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingDirection.in)}>
+          {t('integrateAddInput')}
+        </Link>
+      </li>
+    );
+  }
 
   return <ul className={listStyle(theme)}>{completeInputList}</ul>;
 };

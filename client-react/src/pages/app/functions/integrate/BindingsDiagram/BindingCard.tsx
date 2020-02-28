@@ -2,6 +2,7 @@ import i18next from 'i18next';
 import React, { useContext } from 'react';
 import { first } from 'rxjs/operators';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import SiteService from '../../../../../ApiHelpers/SiteService';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../../models/functions/binding';
 import { BindingInfo } from '../../../../../models/functions/function-binding';
@@ -18,6 +19,7 @@ export interface BindingCardChildProps {
 }
 
 export interface EditableBindingCardProps extends BindingCardChildProps {
+  readOnly: boolean;
   setRequiredBindingId: (id: string) => void;
 }
 
@@ -113,6 +115,21 @@ const createOrUpdateBinding = (
   const bindings = [...updatedFunctionInfo.properties.config.bindings];
   const index = functionInfo.properties.config.bindings.findIndex(b => b === currentBindingInfo);
 
+  const updateAppSettingsNotificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
+
+  if (newBindingInfo['newAppSettings']) {
+    SiteService.updateApplicationSettings(functionInfo.id.split('/functions/')[0], newBindingInfo['newAppSettings']).then(r => {
+      if (!r.metadata.success) {
+        const errorMessage = (r.metadata.error && r.metadata.error.error && r.metadata.error.error.message) || t('configUpdateFailure');
+        portalCommunicator.stopNotification(updateAppSettingsNotificationId, false, errorMessage);
+      } else {
+        portalCommunicator.stopNotification(updateAppSettingsNotificationId, true, t('configUpdateSuccess'));
+      }
+
+      delete newBindingInfo['newAppSettings'];
+    });
+  }
+
   if (index > -1) {
     bindings[index] = newBindingInfo;
   } else {
@@ -124,7 +141,7 @@ const createOrUpdateBinding = (
     bindings,
   };
 
-  const notificationId = portalCommunicator.startNotification(
+  const updateBindingNotificationId = portalCommunicator.startNotification(
     t('updateBindingNotification'),
     t('updateBindingNotificationDetails').format(updatedFunctionInfo.properties.name, newBindingInfo.name)
   );
@@ -133,13 +150,13 @@ const createOrUpdateBinding = (
     if (!r.metadata.success) {
       const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
       portalCommunicator.stopNotification(
-        notificationId,
+        updateBindingNotificationId,
         false,
         t('updateBindingNotificationFailed').format(updatedFunctionInfo.properties.name, newBindingInfo.name, errorMessage)
       );
     } else {
       portalCommunicator.stopNotification(
-        notificationId,
+        updateBindingNotificationId,
         true,
         t('updateBindingNotificationSuccess').format(updatedFunctionInfo.properties.name, newBindingInfo.name)
       );

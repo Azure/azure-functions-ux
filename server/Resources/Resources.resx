@@ -1466,7 +1466,7 @@
         <value>Successfully updated web app settings</value>
     </data>
     <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings: </value>
+        <value>Failed to update web app settings</value>
     </data>
     <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Save Error: Invlid input provided.</value>
@@ -4577,7 +4577,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="resettingCredentialsFail" xml:space="preserve">
         <value>Failed to reset credentials</value>
     </data>
-    <data name="resettingCredentialsSucccess" xml:space="preserve">
+    <data name="resettingCredentialsSuccess" xml:space="preserve">
         <value>Successfully reset credentials</value>
     </data>
     <data name="savingCredentials" xml:space="preserve">
@@ -5094,6 +5094,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerValidationFailed" xml:space="preserve">
         <value>Failed to validate container settings.</value>
     </data>
+    <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
     <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>No inputs defined</value>
     </data>
@@ -5112,8 +5115,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrateCreateInput" xml:space="preserve">
         <value>Create Input</value>
     </data>
-    <data name="integrateCreateBindingInstructions" xml:space="preserve">
-        <value>Start by selecting the type of {0} binding you want to add.</value>
+    <data name="integrateCreateInputBindingInstructions" xml:space="preserve">
+        <value>Start by selecting the type of input binding you want to add.</value>
+    </data>
+    <data name="integrateCreateOutputBindingInstructions" xml:space="preserve">
+        <value>Start by selecting the type of output binding you want to add.</value>
+    </data>
+    <data name="integrateCreateTriggerBindingInstructions" xml:space="preserve">
+        <value>Start by selecting the type of trigger binding you want to add.</value>
     </data>
     <data name="integrateBindingType" xml:space="preserve">
         <value>Binding Type</value>
@@ -5198,9 +5207,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="errorDetails" xml:space="preserve">
         <value>Error Details</value>
-    </data>
-    <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Function keys can be configured in function settings.</value>
     </data>
     <data name="appKeysHost" xml:space="preserve">
         <value>Host keys (all functions)</value>
@@ -5412,6 +5418,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="eventHubPicker_noNamespaces" xml:space="preserve">
         <value>There are no namespaces in this subscription</value>
     </data>
+    <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
+        <value>New Event Hub connection</value>
+    </data>
     <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>There are no Event Hubs in this namespace</value>
     </data>
@@ -5442,8 +5451,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="customPivot_value" xml:space="preserve">
         <value>Value</value>
     </data>
+    <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
+        <value>New Service Bus connection</value>
+    </data>
     <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus</value>
+    </data>
+    <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
+        <value>New Custom App Setting</value>
     </data>
     <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Custom App Setting</value>
@@ -5460,6 +5475,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>Policy</value>
     </data>
+    <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
+        <value>New Cosmos DB connection</value>
+    </data>
     <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB Account</value>
     </data>
@@ -5469,11 +5487,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>Database Account</value>
     </data>
-    <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
+    <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
         <value>Existing Storage Account</value>
     </data>
-    <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
-        <value>New Storage Account</value>
+    <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
+        <value>New Storage Account connection</value>
     </data>
     <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>There are no storage accounts in this subscription</value>
@@ -5509,6 +5527,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Creating {0}</value>
     </data>
     <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Failed to create {0}</value>
+    </data>
+    <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>Failed to create {0}: {1}</value>
     </data>
     <data name="createFunctionNotificationSuccess" xml:space="preserve">
@@ -5678,5 +5699,32 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="emptyFunctionKeys" xml:space="preserve">
         <value>(no function keys to display)</value>
+    </data>
+    <data name="featureNotSupportedForPremium" xml:space="preserve">
+        <value>This feature is not supported for apps on a Premium plan</value>
+    </data>
+    <data name="deleteFunctionKeyNotification" xml:space="preserve">
+        <value>Deleting function key</value>
+    </data>
+    <data name="deleteFunctionKeyNotificationDetails" xml:space="preserve">
+        <value>Deleting {0}</value>
+    </data>
+    <data name="deleteFunctionKeyNotificationFailed" xml:space="preserve">
+        <value>Failed to delete {0}</value>
+    </data>
+    <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
+        <value>Succeeded in deleting {0}</value>
+    </data>
+    <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
+    </data>
+    <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+    <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
+    </data>
+    <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
+        <value>GitHub Action Workflow Filename</value>
     </data>
 </root>

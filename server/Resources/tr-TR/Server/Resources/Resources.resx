@@ -1463,7 +1463,7 @@
         <value>Web uygulaması ayarları başarıyla güncelleştirildi</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Web uygulaması ayarları güncelleştirilemedi: </value>
+        <value>Failed to update web app settings</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Kayıt Hatası: Geçersiz değerler girildi.</value>
@@ -3143,7 +3143,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Aboneliğiniz bu fiyatlandırma katmanına izin vermiyor</value>
     </data>
   <data name="pricing_devTestTitle" xml:space="preserve">
-        <value>Geliştirme / Test</value>
+        <value>Geliştirme ve Test</value>
     </data>
   <data name="pricing_devTestDesc" xml:space="preserve">
         <value>Daha az kaynak gerektiren iş yükleri için</value>
@@ -3224,7 +3224,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Yeni App Service Ortamı oluştur</value>
     </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-        <value>Geliştirme / Test fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service Ortamında barındırılmayan planlarda kullanılabilir.</value>
+        <value>Geliştirme ve Test fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service Ortamında barındırılmayan planlarda kullanılabilir.</value>
     </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
         <value>Üretim fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service Ortamında barındırılmayan planlarda kullanılabilir.</value>
@@ -4574,7 +4574,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="resettingCredentialsFail" xml:space="preserve">
         <value>Kimlik bilgileri sıfırlanamadı</value>
     </data>
-  <data name="resettingCredentialsSucccess" xml:space="preserve">
+  <data name="resettingCredentialsSuccess" xml:space="preserve">
         <value>Kimlik bilgileri başarıyla sıfırlandı</value>
     </data>
   <data name="savingCredentials" xml:space="preserve">
@@ -5091,6 +5091,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Kapsayıcı ayarları doğrulanamadı.</value>
     </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Hiçbir giriş tanımlanmadı</value>
     </data>
@@ -5109,8 +5112,14 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="integrateCreateInput" xml:space="preserve">
         <value>Giriş Oluştur</value>
     </data>
-  <data name="integrateCreateBindingInstructions" xml:space="preserve">
-        <value>Eklemek istediğiniz {0} bağlama türünü seçerek başlayın.</value>
+  <data name="integrateCreateInputBindingInstructions" xml:space="preserve">
+        <value>Eklemek istediğiniz giriş bağlama türünü seçerek başlayın.</value>
+    </data>
+  <data name="integrateCreateOutputBindingInstructions" xml:space="preserve">
+        <value>Eklemek istediğiniz çıkış bağlama türünü seçerek başlayın.</value>
+    </data>
+  <data name="integrateCreateTriggerBindingInstructions" xml:space="preserve">
+        <value>Eklemek istediğiniz tetikleyici bağlama türünü seçerek başlayın.</value>
     </data>
   <data name="integrateBindingType" xml:space="preserve">
         <value>Bağlama Türü</value>
@@ -5195,9 +5204,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="errorDetails" xml:space="preserve">
         <value>Hata Ayrıntıları</value>
-    </data>
-  <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>İşlev anahtarları, işlev ayarlarında yapılandırılabilir.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Ana bilgisayar anahtarları (tüm işlevler)</value>
@@ -5293,10 +5299,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>İşlev anahtarı adları benzersiz olmalıdır</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>GitHub Eylemleri (Önizleme)</value>
+        <value>GitHub Actions (Önizleme)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>GitHub Eylemleri ile derleme, test ve dağıtım adımlarınızı ücretsiz olarak otomatikleştirin. Bu, uygulamanızı derleyip App Service'e dağıtma adımlarını içeren bir YML iş akışını deponuza ekler.</value>
+        <value>GitHub Actions ile derleme, test ve dağıtım adımlarınızı ücretsiz olarak otomatikleştirin. Bu, uygulamanızı derleyip App Service'e dağıtma adımlarını içeren bir YML iş akışını deponuza ekler.</value>
     </data>
   <data name="azureKeyVault" xml:space="preserve">
         <value>Anahtar Kasası Başvurusu</value>
@@ -5362,10 +5368,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>GitHub Eylem İş Akışı Yapılandırması</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Setting up GitHub Action build and deployment pipeline.</value>
+        <value>GitHub Eylemi derleme ve dağıtım işlem hattı ayarlanıyor.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
+        <value>GitHub Eylemi derleme ve dağıtım işlem hattı başarıyla ayarlandı.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Azure Portalından App Service dağıtım iş akışı yapılandırmasını ekleyin veya güncelleştirin.</value>
@@ -5409,6 +5415,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="eventHubPicker_noNamespaces" xml:space="preserve">
         <value>Bu abonelikte hiçbir ad alanı yok</value>
     </data>
+  <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
+        <value>New Event Hub connection</value>
+    </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>Bu ad alanında bir Olay Hub'ı yok</value>
     </data>
@@ -5439,8 +5448,14 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="customPivot_value" xml:space="preserve">
         <value>Değer</value>
     </data>
+  <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
+        <value>New Service Bus connection</value>
+    </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus </value>
+    </data>
+  <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
+        <value>New Custom App Setting</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Özel Uygulama Ayarı</value>
@@ -5457,6 +5472,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>İlke</value>
     </data>
+  <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
+        <value>New Cosmos DB connection</value>
+    </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB Hesabı</value>
     </data>
@@ -5466,11 +5484,11 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>Veritabanı Hesabı</value>
     </data>
-  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Mevcut Depolama Hesabı</value>
+  <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existing Storage Account</value>
     </data>
-  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
-        <value>Yeni Depolama Hesabı</value>
+  <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
+        <value>New Storage Account connection</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>Bu abonelikte depolama hesabı yok</value>
@@ -5506,6 +5524,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>{0} oluşturuluyor</value>
     </data>
   <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>{0} oluşturulamadı</value>
+    </data>
+  <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>{0} oluşturulamadı: {1}</value>
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
@@ -5560,10 +5581,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Mevcut işlevlerle yükseltme işlemi yapılamaz: Ana sürüm yükseltme, diller ve bağlamalar için bozucu değişiklikler ortaya çıkarabilir. Çalışma zamanının ana sürümünü yükseltirken, yeni bir işlev uygulaması oluşturup işlevlerinizi bu yeni uygulamaya geçirmeyi düşünün.</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
-        <value>GitHub belirtecinde 'iş akışı' kapsamı eksik.</value>
+        <value>GitHub belirtecinde 'iş akışı' kapsamı eksik. GitHub'ı yeniden yetkilendirmek için lütfen 'kaynak denetimi' adımına dönün.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
+        <value>'{{branchName}}' dalında GitHub Eylemi '{{workflowFilePath}}' iş akışı dosyası zaten var. Mevcut iş akışı dosyasının üzerine yazmak için aşağıdan bir seçenek belirleyin ya da değişiklik yapmadan mevcut dosyayı kullanmaya devam edin.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015, artık uzaktan hata ayıklama için desteklenmiyor. Lütfen desteklenen bir Visual Studio sürümü seçin.</value>
@@ -5641,7 +5662,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Linux Azure İşlev Uygulamalarında Sürüm 1 Çalışma Zamanı desteklenmiyor</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
-        <value>'{{appName}}' uygulaması şu anda GitHub Eylemleri aracılığıyla Dağıtım Merkezinde desteklenmeyen '{{stack}}' yığını ile kuruldu.</value>
+        <value>'{{appName}}' uygulaması şu anda GitHub Actions aracılığıyla Dağıtım Merkezinde desteklenmeyen '{{stack}}' yığını ile kuruldu.</value>
     </data>
   <data name="githubActionStackMismatchMessage" xml:space="preserve">
         <value>'{{appName}}' uygulaması, şu anda geçerli derleme seçimiyle eşleşmeyen '{{stack}}' için yapılandırılmış. Uygulama, geçerli derleme seçimiyle düzgün çalışmayabilir.</value>
@@ -5653,27 +5674,51 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>host.json öğesini yapılandır</value>
     </data>
   <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
-        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+        <value>Uygulamanızın gelen ve giden IP adresleri şu şekilde değiştirilecek: gelen - {{inbound}}, giden - {{outbound}}.</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
-        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+        <value>Uygulamamın gelen ve giden IP adreslerinin değiştirileceğini kabul ediyorum.</value>
     </data>
   <data name="githubActionWorkflowOption" xml:space="preserve">
-        <value>Workflow Option</value>
+        <value>İş Akışı Seçeneği</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite workflow definition</value>
+        <value>İş akışı tanımının üzerine yaz</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Configure using existing workflow definition</value>
+        <value>Mevcut iş akışı tanımını kullanarak yapılandır</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+        <value>GitHub'daki mevcut iş akışı yapılandırması, derleme ve dağıtım için kullanılacak. Aşağıdaki önizlemeye bakın.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+        <value>Aşağıdaki yapılandırmayla GitHub'daki mevcut iş akışı yapılandırmasının üzerine yazılacak.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>(görüntülenecek işlev anahtarı yok)</value>
+    </data>
+  <data name="featureNotSupportedForPremium" xml:space="preserve">
+        <value>Bu özellik, Premium planlarındaki uygulamalarda desteklenmez</value>
+    </data>
+  <data name="deleteFunctionKeyNotification" xml:space="preserve">
+        <value>İşlev anahtarı siliniyor</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationDetails" xml:space="preserve">
+        <value>{0} siliniyor</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationFailed" xml:space="preserve">
+        <value>{0} silinemedi</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
+        <value>{0} başarıyla silindi</value>
+    </data>
+  <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
+    </data>
+  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
 </root>

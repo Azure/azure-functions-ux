@@ -140,7 +140,7 @@ export class XenonSiteEnvironment extends Environment {
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     if (input && input.site) {
-      return input.site.properties && input.site.properties.isXenon;
+      return input.site.properties && input.site.properties.hyperV;
     }
 
     return false;

@@ -191,9 +191,9 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
 const setEventHubConnection = (
   formValues: EventHubPivotFormValues,
   keyList: KeyList | undefined,
-  setNewAppSetting: (a: { key: string; value: string }) => void,
-  setSelectedItem: (u: undefined) => void,
-  setIsDialogVisible: (b: boolean) => void
+  setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
+  setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
+  setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   if (formValues.namespace && formValues.eventHub && keyList) {
     const appSettingName = `${formValues.namespace.name}_${keyList.keyName}_EVENTHUB`;

@@ -1463,7 +1463,7 @@
         <value>Параметры веб-приложения успешно обновлены.</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Не удалось обновить параметры веб-приложения: </value>
+        <value>Failed to update web app settings</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Ошибка сохранения: недопустимые входные данные.</value>
@@ -3206,7 +3206,7 @@
         <value>Каждый экземпляр вашего плана службы приложений будет включать следующую конфигурацию оборудования:</value>
     </data>
   <data name="pricing_includedHardware_azureComputeUnits" xml:space="preserve">
-        <value>Единицы вычислений Azure (ACU)</value>
+        <value>Единицы Вычислений Azure (ACU)</value>
     </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
         <value>Первое ядро категории "Базовый" (B1) для Linux предоставляется бесплатно в первые 30 дней.</value>
@@ -4574,7 +4574,7 @@
   <data name="resettingCredentialsFail" xml:space="preserve">
         <value>Не удалось сбросить учетные данные.</value>
     </data>
-  <data name="resettingCredentialsSucccess" xml:space="preserve">
+  <data name="resettingCredentialsSuccess" xml:space="preserve">
         <value>Учетные данные сброшены.</value>
     </data>
   <data name="savingCredentials" xml:space="preserve">
@@ -5091,6 +5091,9 @@
   <data name="containerValidationFailed" xml:space="preserve">
         <value>Не удалось проверить параметры контейнера.</value>
     </data>
+  <data name="integrateNoTriggerDefined" xml:space="preserve">
+        <value>No trigger defined</value>
+    </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Входные данные не заданы.</value>
     </data>
@@ -5109,8 +5112,14 @@
   <data name="integrateCreateInput" xml:space="preserve">
         <value>Создать входные данные</value>
     </data>
-  <data name="integrateCreateBindingInstructions" xml:space="preserve">
-        <value>Сначала выберите тип привязки {0}, которую нужно добавить.</value>
+  <data name="integrateCreateInputBindingInstructions" xml:space="preserve">
+        <value>Сначала выберите тип привязки входных данных, которую нужно добавить.</value>
+    </data>
+  <data name="integrateCreateOutputBindingInstructions" xml:space="preserve">
+        <value>Сначала выберите тип выходной привязки, которую нужно добавить.</value>
+    </data>
+  <data name="integrateCreateTriggerBindingInstructions" xml:space="preserve">
+        <value>Сначала выберите тип привязки триггера, которую нужно добавить.</value>
     </data>
   <data name="integrateBindingType" xml:space="preserve">
         <value>Тип привязки</value>
@@ -5195,9 +5204,6 @@
     </data>
   <data name="errorDetails" xml:space="preserve">
         <value>Сведения об ошибке</value>
-    </data>
-  <data name="appKeysInformationBanner" xml:space="preserve">
-        <value>Функциональные клавиши можно настраивать в параметрах функции.</value>
     </data>
   <data name="appKeysHost" xml:space="preserve">
         <value>Ключи узла (все функции)</value>
@@ -5293,10 +5299,10 @@
         <value>Имена ключей функции должны быть уникальными</value>
     </data>
   <data name="gitHubActionBuildServerTitle" xml:space="preserve">
-        <value>Действия GitHub (предварительная версия)</value>
+        <value>GitHub Actions (предварительная версия)</value>
     </data>
   <data name="gitHubActionBuildServerDesc" xml:space="preserve">
-        <value>Автоматизируйте шаги сборки, тестирования и развертывания с помощью действий GitHub. Это приведет к добавлению рабочего процесса YML в репозиторий с шагами для создания и развертывания приложения в Службе приложений.</value>
+        <value>Автоматизируйте шаги сборки, тестирования и развертывания с помощью GitHub Actions. Это приведет к добавлению рабочего процесса YML в репозиторий с шагами для создания и развертывания приложения в Службе приложений.</value>
     </data>
   <data name="azureKeyVault" xml:space="preserve">
         <value>Ссылка на хранилище ключей</value>
@@ -5362,10 +5368,10 @@
         <value>Конфигурация рабочего процесса действия GitHub</value>
     </data>
   <data name="githubActionSavingSettings" xml:space="preserve">
-        <value>Setting up GitHub Action build and deployment pipeline.</value>
+        <value>Настройка конвейера сборки и развертывания действия GitHub.</value>
     </data>
   <data name="githubActionSettingsSavedSuccessfully" xml:space="preserve">
-        <value>Successfully setup GitHub Action build and deployment pipeline.</value>
+        <value>Конвейер сборки и развертывания действия GitHub настроен.</value>
     </data>
   <data name="githubActionWorkflowCommitMessage" xml:space="preserve">
         <value>Добавьте или измените конфигурацию рабочего процесса развертывания Службы приложений на портале Azure.</value>
@@ -5409,6 +5415,9 @@
   <data name="eventHubPicker_noNamespaces" xml:space="preserve">
         <value>В этой подписке нет пространств имен.</value>
     </data>
+  <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
+        <value>New Event Hub connection</value>
+    </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>Центры событий в этом пространстве имен отсутствуют</value>
     </data>
@@ -5439,8 +5448,14 @@
   <data name="customPivot_value" xml:space="preserve">
         <value>Значение</value>
     </data>
+  <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
+        <value>New Service Bus connection</value>
+    </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Служебная шина</value>
+    </data>
+  <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
+        <value>New Custom App Setting</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Настраиваемый параметр приложения</value>
@@ -5457,6 +5472,9 @@
   <data name="serviceBusPicker_policy" xml:space="preserve">
         <value>Политика</value>
     </data>
+  <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
+        <value>New Cosmos DB connection</value>
+    </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Учетная запись Azure Cosmos DB</value>
     </data>
@@ -5466,11 +5484,11 @@
   <data name="documentDBPivot_databaseAccount" xml:space="preserve">
         <value>Учетная запись базы данных</value>
     </data>
-  <data name="stoageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Существующая учетная запись хранения</value>
+  <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
+        <value>Existing Storage Account</value>
     </data>
-  <data name="stoageAccountCallout_newStorageAccount" xml:space="preserve">
-        <value>Новая учетная запись хранилища</value>
+  <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
+        <value>New Storage Account connection</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>В этой подписке нет учетных записей хранения.</value>
@@ -5506,6 +5524,9 @@
         <value>Создание {0}</value>
     </data>
   <data name="createFunctionNotificationFailed" xml:space="preserve">
+        <value>Не удалось создать {0}</value>
+    </data>
+  <data name="createFunctionNotificationFailedDetails" xml:space="preserve">
         <value>Не удалось создать {0}: {1}.</value>
     </data>
   <data name="createFunctionNotificationSuccess" xml:space="preserve">
@@ -5560,10 +5581,10 @@
         <value>Невозможно выполнить обновление с помощью существующих функций. Обновление основной версии может вызвать критические изменения в языках и привязках. В случае обновления основных версий среды выполнения можно создать новое приложение-функцию и перенести в него свои функции.</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
-        <value>Отсутствует область "Рабочий процесс" в токене GitHub.</value>
+        <value>Токен GitHub не содержит область "workflow". Вернитесь на шаг "Управление версиями" и повторите авторизацию GitHub.</value>
     </data>
   <data name="githubActionWorkflowFileExists" xml:space="preserve">
-        <value>GitHub Action workflow file '{{workflowFilePath}}' already exists in the '{{branchName}}' branch. Choose an option below to either overwrite the existing workflow file or continue using the existing one without modification.</value>
+        <value>Файл рабочего процесса действия GitHub "{{workflowFilePath}}" уже существует в ветви "{{branchName}}". Выберите ниже, следует ли перезаписать существующий файл или использовать его без изменений.</value>
     </data>
   <data name="remoteDebuggingVS2015NotSupported" xml:space="preserve">
         <value>Visual Studio 2015 больше не поддерживается для удаленной отладки. Выберите поддерживаемую версию Visual Studio.</value>
@@ -5653,27 +5674,51 @@
         <value>Настройка host.json</value>
     </data>
   <data name="pricing_pv2FlexStampInfoMessage" xml:space="preserve">
-        <value>The inbound and outbound IP addresses for your app will change to : inbound - {{inbound}} outbound - {{outbound}}.</value>
+        <value>Входящие и исходящие IP-адреса вашего приложения изменятся следующим образом. Входящие: {{inbound}}. Исходящие: {{outbound}}.</value>
     </data>
   <data name="pricing_pv2FlexStampCheckboxLabel" xml:space="preserve">
-        <value>Acknowledge that both inbound and outbound IP addresses for your app will change.</value>
+        <value>Подтверждение изменения входящих и исходящих IP-адресов приложения.</value>
     </data>
   <data name="githubActionWorkflowOption" xml:space="preserve">
-        <value>Workflow Option</value>
+        <value>Настройка рабочего процесса</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite workflow definition</value>
+        <value>Перезаписать определение рабочего процесса</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
-        <value>Configure using existing workflow definition</value>
+        <value>Настроить с использованием существующего определения рабочего процесса</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment. See preview below.</value>
+        <value>Для сборки и развертывания будет использована существующая конфигурация рабочего процесса в GitHub. См. предварительный просмотр ниже.</value>
     </data>
   <data name="githubActionWorkflowOptionOverwriteMessage" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
+        <value>Существующая конфигурация рабочего процесса в GitHub будет перезаписана конфигурацией ниже.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>(нет ключей функции для отображения)</value>
+    </data>
+  <data name="featureNotSupportedForPremium" xml:space="preserve">
+        <value>Эта функция не поддерживается для приложений в плане Premium.</value>
+    </data>
+  <data name="deleteFunctionKeyNotification" xml:space="preserve">
+        <value>Идет удаление ключа функции.</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationDetails" xml:space="preserve">
+        <value>Удаление {0}</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationFailed" xml:space="preserve">
+        <value>Не удалось удалить {0}</value>
+    </data>
+  <data name="deleteFunctionKeyNotificationSuccess" xml:space="preserve">
+        <value>Удаление {0} выполнено.</value>
+    </data>
+  <data name="disableFunctionTestTooltip" xml:space="preserve">
+        <value>Test is only supported for HTTP triggered functions</value>
+    </data>
+  <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+    </data>
+  <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
+        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
     </data>
 </root>

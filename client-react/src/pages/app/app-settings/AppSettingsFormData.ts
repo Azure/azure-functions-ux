@@ -1,11 +1,12 @@
 import SiteService from '../../../ApiHelpers/SiteService';
 import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
-import { sortBy } from 'lodash-es';
+import { sortBy, isEqual } from 'lodash-es';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
+import StringUtils from '../../../utils/string';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return !!settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -113,11 +114,14 @@ export interface ApiSetupReturn {
   config: ArmObj<SiteConfig>;
   slotConfigNames: ArmObj<SlotConfigNames>;
   storageMounts: ArmObj<ArmAzureStorageMount>;
+  slotConfigNamesModified: boolean;
+  storageMountsModified: boolean;
 }
 export const convertFormToState = (
   values: AppSettingsFormValues,
   currentMetadata: ArmObj<{ [key: string]: string }>,
-  oldSlotNameSettings: ArmObj<SlotConfigNames>
+  initialValues: AppSettingsFormValues,
+  oldSlotConfigNames: ArmObj<SlotConfigNames>
 ): ApiSetupReturn => {
   const config = values.config;
   config.properties.virtualApplications = unFlattenVirtualApplicationsList(values.virtualApplications);
@@ -130,7 +134,7 @@ export const convertFormToState = (
     metadata: getMetadataToSet(currentMetadata, values.currentlySelectedStack),
   };
 
-  const slotConfigNames = getStickySettings(values.appSettings, values.connectionStrings, oldSlotNameSettings);
+  const slotConfigNames = getStickySettings(values.appSettings, values.connectionStrings, oldSlotConfigNames);
   const configWithStack = getConfigWithStackSettings(config, values);
   const storageMounts = getAzureStorageMountFromForm(values.azureStorageMounts);
 
@@ -151,7 +155,28 @@ export const convertFormToState = (
     slotConfigNames,
     storageMounts,
     config: configWithStack,
+    slotConfigNamesModified: isSlotConfigNamesModified(oldSlotConfigNames, slotConfigNames),
+    storageMountsModified: isStorageMountsModified(initialValues, values),
   };
+};
+
+export const isSlotConfigNamesModified = (oldSlotConfigNames: ArmObj<SlotConfigNames>, slotConfigNames: ArmObj<SlotConfigNames>) => {
+  const [oldProperties, properties] = [oldSlotConfigNames.properties, slotConfigNames.properties];
+  return (
+    !StringUtils.isEqualStringArray(oldProperties.appSettingNames, properties.appSettingNames) ||
+    !StringUtils.isEqualStringArray(oldProperties.connectionStringNames, properties.connectionStringNames) ||
+    !StringUtils.isEqualStringArray(oldProperties.azureStorageConfigNames, properties.azureStorageConfigNames)
+  );
+};
+
+export const isStorageMountsModified = (initialValues: AppSettingsFormValues | null, values: AppSettingsFormValues | null) => {
+  const [azureStorageMountsInitial, azureStorageMounts] = [
+    (initialValues && initialValues.azureStorageMounts) || [],
+    (values && values.azureStorageMounts) || [],
+  ];
+  const azureStorageMountsInitialSorted = azureStorageMountsInitial.sort((a, b) => (a.name > b.name ? 1 : -1));
+  const azureStorageMountsSorted = azureStorageMounts.sort((a, b) => (a.name > b.name ? 1 : -1));
+  return !isEqual(azureStorageMountsInitialSorted, azureStorageMountsSorted);
 };
 
 export function getStickySettings(

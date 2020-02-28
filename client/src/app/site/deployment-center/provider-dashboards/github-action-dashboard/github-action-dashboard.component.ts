@@ -204,9 +204,12 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
             publishingUser: r.publishingUser,
           };
 
-          this.repositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
-          this.githubActionLink = `${this.deploymentObject.sourceControls.properties.repoUrl}/actions`;
-          this.branchText = this.deploymentObject.sourceControls.properties.branch;
+          if (this.deploymentObject.sourceControls && this.deploymentObject.sourceControls.properties) {
+            this.repositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
+            this.githubActionLink = `${this.deploymentObject.sourceControls.properties.repoUrl}/actions`;
+            this.branchText = this.deploymentObject.sourceControls.properties.branch;
+          }
+
           this._populateTable();
         },
         err => {

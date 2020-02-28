@@ -138,9 +138,9 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & IDropdownProps & Fiel
 const setServiceBusConnection = (
   formValues: ServiceBusPivotFormValues,
   keyList: KeyList | undefined,
-  setNewAppSetting: (a: { key: string; value: string }) => void,
-  setSelectedItem: (u: undefined) => void,
-  setIsDialogVisible: (b: boolean) => void
+  setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
+  setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
+  setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   if (formValues.namespace && keyList) {
     const appSettingName = `${formValues.namespace.name}_${keyList.keyName}_SERVICEBUS`;
