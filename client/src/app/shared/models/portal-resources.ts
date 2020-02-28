@@ -1853,4 +1853,5 @@ export class PortalResources {
   public static gitHubActionWorkflowFileNameTitle = 'gitHubActionWorkflowFileNameTitle';
   public static noAppFilesWhileFunctionAppStopped = 'noAppFilesWhileFunctionAppStopped';
   public static noAppKeysWhileFunctionAppStopped = 'noAppKeysWhileFunctionAppStopped';
+  public static functionIntegrateRefreshAriaLabel = 'functionIntegrateRefreshAriaLabel';
 }
