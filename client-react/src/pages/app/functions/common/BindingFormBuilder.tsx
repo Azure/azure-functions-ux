@@ -124,6 +124,7 @@ export class BindingFormBuilder {
           options={options}
           disabled={isDisabled}
           validate={value => this._validateField(value, setting.required, setting.validators)}
+          onPanel={true}
           {...formProps}
         />
       </FormControlWrapper>

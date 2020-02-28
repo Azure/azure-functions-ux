@@ -17,14 +17,15 @@ interface CustomDropdownProps {
   onChange: (e: unknown, option: IDropdownOption) => void;
   learnMoreLink?: string;
   widthOverride?: string;
+  onPanel?: boolean;
 }
 
 const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
-  const { value, onChange, errorMessage, options, label, widthOverride, ...rest } = props;
+  const { value, onChange, errorMessage, options, label, widthOverride, onPanel, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
 
-  const fullpage = width > 1000;
+  const fullpage = !onPanel && width > 1000;
 
   // Multiselect conflicts with selectedKey.  For some reason
   // you can't just set selectedKey to undefined if multiselect is set,
