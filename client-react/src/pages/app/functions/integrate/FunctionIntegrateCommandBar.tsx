@@ -23,7 +23,7 @@ const FunctionIntegrateCommandBar: React.FC<FunctionIntegrateCommandBarProps> = 
           iconName: 'Refresh',
         },
         disabled: refreshState || !appPermission,
-        ariaLabel: t('appSettingsRefreshAriaLabel'),
+        ariaLabel: t('functionIntegrateRefreshAriaLabel'),
         onClick: refreshIntegrate,
       },
     ];
