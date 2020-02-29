@@ -13,6 +13,9 @@ import FunctionsService from '../../../ApiHelpers/FunctionsService';
 import { AvailableStack } from '../../../models/available-stacks';
 import { markEndOfLifeStacksInPlace } from '../../../utils/stacks-utils';
 import { sortBy } from 'lodash-es';
+import Url from '../../../utils/url';
+import { CommonConstants } from '../../../utils/CommonConstants';
+import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 
 const insertDotNetCore31ForLinuxInPlace = (linuxStacks: HttpResponseObject<ArmArray<AvailableStack>>) => {
   const dotNetCore31Static = {
@@ -53,6 +56,11 @@ const markEndOfLifeInPlace = (stacksResponse: HttpResponseObject<ArmArray<Availa
 };
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
+  const [windowsStacksPromise, linuxStacksPromise] =
+    Url.getFeatureValue(CommonConstants.FeatureFlags.UseNewStacksApi) === 'true'
+      ? [RuntimeStackService.getWebAppConfigurationStacks('windows'), RuntimeStackService.getWebAppConfigurationStacks('linux')]
+      : [SiteService.fetchStacks('Windows'), SiteService.fetchStacks('Linux')];
+
   const [
     webConfig,
     metadata,
@@ -69,8 +77,8 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     SiteService.fetchConnectionStrings(resourceId),
     SiteService.fetchApplicationSettings(resourceId),
     SiteService.fetchAzureStorageMounts(resourceId),
-    SiteService.fetchStacks('Windows'),
-    SiteService.fetchStacks('Linux'),
+    windowsStacksPromise,
+    linuxStacksPromise,
   ]);
 
   // TODO (andimarc): Remove this once the availableStacks API has been updated to include .NET Core 3.1. TASK: 5854457

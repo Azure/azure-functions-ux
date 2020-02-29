@@ -9,8 +9,8 @@ import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
 import { HostStatus } from '../models/functions/host-status';
 import { isLinuxDynamic } from '../utils/arm-utils';
-import { sendHttpRequest } from './HttpClient';
 import Url from '../utils/url';
+import { sendHttpRequest } from './HttpClient';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
