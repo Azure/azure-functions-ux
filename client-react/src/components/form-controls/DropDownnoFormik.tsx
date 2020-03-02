@@ -27,29 +27,9 @@ const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
 
   const fullpage = !onPanel && width > 1000;
 
-  // Multiselect conflicts with selectedKey.  For some reason
-  // you can't just set selectedKey to undefined if multiselect is set,
-  // so we just return different versions of the dropdown
-  if (props.multiSelect) {
-    return (
-      <ReactiveFormControl {...props}>
-        <OfficeDropdown
-          aria-labelledby={`${props.id}-label`}
-          ariaLabel={props.label}
-          options={options}
-          onChange={onChange}
-          errorMessage={errorMessage}
-          {...rest}
-          styles={dropdownStyleOverrides(theme, fullpage, widthOverride)}
-        />
-      </ReactiveFormControl>
-    );
-  }
-
   return (
     <ReactiveFormControl {...props}>
       <OfficeDropdown
-        selectedKey={value}
         aria-labelledby={`${props.id}-label`}
         ariaLabel={props.label}
         options={options}

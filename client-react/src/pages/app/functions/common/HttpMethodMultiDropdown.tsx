@@ -1,16 +1,15 @@
 import React from 'react';
 import { BindingSetting } from '../../../../models/functions/binding';
-import { FieldProps, FormikProps } from 'formik';
+import { FieldProps } from 'formik';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
 import { IDropdownOption, IDropdownProps } from 'office-ui-fabric-react';
-import { BindingEditorFormValues } from './BindingFormBuilder';
 
 export interface HttpMethodMultiDropdownProps {
   setting: BindingSetting;
 }
 
 const HttpMethodMultiDropdown: React.SFC<HttpMethodMultiDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
-  const { setting, form: formProps, field } = props;
+  const { setting, form: formProps } = props;
 
   let options: IDropdownOption[] = [];
   if (setting.enum) {
@@ -30,22 +29,7 @@ const HttpMethodMultiDropdown: React.SFC<HttpMethodMultiDropdownProps & CustomDr
     }
   }
 
-  return <Dropdown options={options} multiSelect onChange={(e, o) => onChange(o as IDropdownOption, formProps, field)} {...props} />;
-};
-
-const onChange = (option: IDropdownOption, formProps: FormikProps<BindingEditorFormValues>, field: { name: string; value: any }) => {
-  const existingValueIndex: number = field.value.findIndex(v => {
-    return v === option.key;
-  });
-
-  let values: string[] = field.value;
-  if (existingValueIndex > -1 && !option.selected) {
-    values = values.splice(existingValueIndex, 1);
-  } else if (existingValueIndex === -1 && option.selected) {
-    values = [...values, option.key as string];
-  }
-
-  formProps.setFieldValue(field.name, values);
+  return <Dropdown options={options} multiSelect {...props} />;
 };
 
 export default HttpMethodMultiDropdown;
