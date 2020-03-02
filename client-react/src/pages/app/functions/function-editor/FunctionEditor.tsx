@@ -121,7 +121,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setShowTestPanel(true);
   };
 
-  const onCancelTest = () => {
+  const onCloseTest = () => {
     setShowTestPanel(false);
   };
 
@@ -326,14 +326,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       <Panel
         type={PanelType.medium}
         isOpen={showTestPanel}
-        onDismiss={onCancelTest}
+        onDismiss={onCloseTest}
         overlay={functionRunning}
         headerContent={getHeaderContent()}
         isBlocking={false}
         customStyle={testPanelStyle}>
         {functionRunning && <LoadingComponent className={testLoadingStyle} />}
         <FunctionTest
-          cancel={onCancelTest}
+          close={onCloseTest}
           run={run}
           functionInfo={functionInfo}
           reqBody={reqBody}
