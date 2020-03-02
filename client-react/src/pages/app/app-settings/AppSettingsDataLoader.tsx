@@ -36,6 +36,8 @@ import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { isFunctionApp } from '../../../utils/arm-utils';
+import { StartupInfoContext } from '../../../StartupInfoContext';
+import { LogCategories } from '../../../utils/LogCategories';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -95,6 +97,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
   const siteContext = useContext(SiteRouterContext);
+  const startUpInfoContext = useContext(StartupInfoContext);
 
   const [asyncData, setAsyncData] = useState<AppSettingsAsyncData>({
     functionsHostStatus: { loadingState: LoadingStates.loading },
@@ -139,7 +142,12 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       setCurrentSiteNonForm(site.data);
 
       if (isFunctionApp(site.data)) {
-        fetchAsyncData();
+        SiteService.fireSyncTrigger(site.data, startUpInfoContext.token || '').then(r => {
+          if (!r.metadata.success) {
+            LogService.error(LogCategories.appSettings, 'fireSyncTrigger', `Failed to fire syncTrigger: ${r.metadata.error}`);
+          }
+          fetchAsyncData();
+        });
       }
 
       if (
@@ -319,9 +327,15 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (slotConfigNamesResult) {
         setSlotConfigNamesFromApi(slotConfigNamesResult.data);
       }
+
       fetchReferences();
       if (isFunctionApp(site)) {
-        fetchAsyncData();
+        SiteService.fireSyncTrigger(site, startUpInfoContext.token || '').then(r => {
+          if (!r.metadata.success) {
+            LogService.error(LogCategories.appSettings, 'fireSyncTrigger', `Failed to fire syncTrigger: ${r.metadata.error}`);
+          }
+          fetchAsyncData();
+        });
       }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
