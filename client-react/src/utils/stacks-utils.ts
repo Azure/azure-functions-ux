@@ -75,7 +75,14 @@ export const markEndOfLifeStacksInPlace = (stacks: ArmObj<AvailableStack>[]) => 
     const isLinux = !!stack.type && stack.type.toLowerCase() === 'Microsoft.Web/availableStacks?osTypeSelected=Linux'.toLowerCase();
     const stackName = (stack.name || '').toLowerCase();
 
-    if (stackName === 'dotnetcore' || stackName === 'node' || stackName === 'php' || stackName === 'python' || stackName === 'java8') {
+    if (
+      stackName === 'dotnetcore' ||
+      stackName === 'node' ||
+      stackName === 'php' ||
+      stackName === 'python' ||
+      stackName === 'java8' ||
+      stackName === 'ruby'
+    ) {
       const majorVersions = stack.properties.majorVersions || [];
       majorVersions.forEach(majorVersion => {
         let allMinorVersionsEndOfLife = true;
