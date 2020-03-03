@@ -539,7 +539,7 @@ export class DeploymentCenterConstants {
 
   public static readonly EmptyGuid = '00000000-0000-0000-0000-000000000000';
 
-  public static readonly protectedBranchSelectedLink = 'https://go.microsoft.com/fwlink/?linkid=';
+  public static readonly protectedBranchSelectedLink = 'https://go.microsoft.com/fwlink/?linkid=2120729';
 }
 
 export class ComponentNames {

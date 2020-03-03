@@ -219,6 +219,8 @@ export class ConfigureGithubComponent implements OnDestroy {
   RepoChanged(repo: DropDownElement<string>) {
     this._reposStream$.next(repo.value);
     this.selectedBranch = '';
+    this._branches = [];
+    this.protectedBranchSelected = false;
     this.workflowFileExistsWarningMessage = '';
   }
 
@@ -226,6 +228,8 @@ export class ConfigureGithubComponent implements OnDestroy {
     this._orgStream$.next(org.value);
     this.selectedRepo = '';
     this.selectedBranch = '';
+    this._branches = [];
+    this.protectedBranchSelected = false;
     this.workflowFileExistsWarningMessage = '';
   }
 
