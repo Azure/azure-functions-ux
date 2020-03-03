@@ -1855,4 +1855,5 @@ export class PortalResources {
   public static noAppKeysWhileFunctionAppStopped = 'noAppKeysWhileFunctionAppStopped';
   public static functionIntegrateRefreshAriaLabel = 'functionIntegrateRefreshAriaLabel';
   public static gitHubProtectedBranchSelected = 'gitHubProtectedBranchSelected';
+  public static noRuntimeVersionWhileFunctionAppStopped = 'noRuntimeVersionWhileFunctionAppStopped';
 }

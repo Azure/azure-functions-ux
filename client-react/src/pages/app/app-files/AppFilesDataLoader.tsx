@@ -5,12 +5,12 @@ import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import SiteService from '../../../ApiHelpers/SiteService';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
-import { CommonConstants } from '../../../utils/CommonConstants';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
 import { VfsObject } from '../../../models/functions/vfs';
 import { SiteStateContext } from '../../../SiteStateContext';
 import WarningBanner from '../../../components/WarningBanner/WarningBanner';
 import { useTranslation } from 'react-i18next';
+import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
 
 interface AppFilesDataLoaderProps {
   resourceId: string;
@@ -32,20 +32,29 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   const { t } = useTranslation();
 
   const fetchData = async () => {
-    const [siteResponse, appSettingsResponse] = await Promise.all([
+    const [siteResponse, hostStatusResponse] = await Promise.all([
       SiteService.fetchSite(resourceId),
-      SiteService.fetchApplicationSettings(resourceId),
+      SiteService.fetchFunctionsHostStatus(resourceId),
     ]);
     if (siteResponse.metadata.success) {
       setSite(siteResponse.data);
     }
-    if (appSettingsResponse.metadata.success) {
-      const currentRuntimeVersion = appSettingsResponse.data.properties[CommonConstants.AppSettingNames.functionsExtensionVersion];
+    if (hostStatusResponse.metadata.success) {
+      const hostStatusData = hostStatusResponse.data;
+      const currentRuntimeVersion = getRuntimeVersionString(hostStatusData.properties.version);
       setRuntimeVersion(currentRuntimeVersion);
       const fileListResponse = await FunctionsService.getFileContent(resourceId, undefined, currentRuntimeVersion);
       setFileList(fileListResponse.data as VfsObject[]);
     }
     setInitialLoading(false);
+  };
+
+  const getRuntimeVersionString = (exactVersion: string): string => {
+    if (ValidationRegex.runtimeVersion.test(exactVersion)) {
+      const versionElements = exactVersion.split('.');
+      return `~${versionElements[0]}`;
+    }
+    return exactVersion;
   };
 
   useEffect(() => {
