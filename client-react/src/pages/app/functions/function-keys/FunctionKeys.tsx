@@ -33,7 +33,7 @@ interface FunctionKeysProps {
   resourceId: string;
   initialValues: FunctionKeysFormValues;
   refreshData: () => void;
-  setRefeshLoading: (loading: boolean) => void;
+  setRefreshLoading: (loading: boolean) => void;
   refreshLoading: boolean;
   appPermission: boolean;
 }
@@ -89,9 +89,9 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     setPanelItem(key ? 'edit' : 'add');
   };
 
-  const setRefeshLoading = (refresh: boolean) => {
+  const setRefreshLoading = (refresh: boolean) => {
     onClosePanel();
-    props.setRefeshLoading(refresh);
+    props.setRefreshLoading(refresh);
   };
 
   const getColumns = (): IColumn[] => {
@@ -240,7 +240,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   };
 
   const createFunctionKey = async (key: FunctionKeysModel) => {
-    setRefeshLoading(true);
+    setRefreshLoading(true);
     await functionKeysContext.createKey(resourceId, key.name, key.value);
     refreshData();
   };
@@ -291,7 +291,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     <>
       <div>
         <div id="command-bar" className={commandBarSticky}>
-          <FunctionKeysCommandBar refreshFunction={refreshData} appPermission={appPermission} />
+          <FunctionKeysCommandBar refreshFunction={refreshData} appPermission={appPermission} refreshLoading={refreshLoading} />
         </div>
         <div id="function-keys-data" className={formStyle}>
           <h3>{t('functionKeys_title')}</h3>
