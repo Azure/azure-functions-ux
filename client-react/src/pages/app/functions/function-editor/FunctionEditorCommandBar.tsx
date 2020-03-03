@@ -14,6 +14,7 @@ interface FunctionEditorCommandBarProps {
   saveFunction: () => void;
   resetFunction: () => void;
   testFunction: () => void;
+  refreshFunction: () => void;
   showGetFunctionUrlCommand: boolean;
   dirty: boolean;
   disabled: boolean;
@@ -22,7 +23,17 @@ interface FunctionEditorCommandBarProps {
 }
 
 const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props => {
-  const { saveFunction, resetFunction, testFunction, showGetFunctionUrlCommand, dirty, disabled, urlObjs, testDisabled } = props;
+  const {
+    saveFunction,
+    resetFunction,
+    testFunction,
+    showGetFunctionUrlCommand,
+    dirty,
+    disabled,
+    urlObjs,
+    testDisabled,
+    refreshFunction,
+  } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
@@ -52,6 +63,16 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
   const getItems = (): ICommandBarItemProps[] => {
     const items: ICommandBarItemProps[] = [
+      {
+        key: 'refresh',
+        text: t('refresh'),
+        iconProps: {
+          iconName: 'Refresh',
+        },
+        disabled: disabled,
+        ariaLabel: t('functionEditorRefreshAriaLabel'),
+        onClick: refreshFunction,
+      },
       {
         key: 'save',
         text: t('save'),
