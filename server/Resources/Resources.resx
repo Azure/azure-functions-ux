@@ -5736,4 +5736,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
         <value>Refresh all bindings for your function</value>
     </data>
+    <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+    </data>
 </root>
