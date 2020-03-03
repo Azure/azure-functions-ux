@@ -5736,4 +5736,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
         <value>Refresh all bindings for your function</value>
     </data>
+    <data name="gitHubProtectedBranchSelected" xml:space="preserve">
+        <value>Selected branch has protection rules enabled.</value>
+    </data>
 </root>

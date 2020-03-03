@@ -6,6 +6,7 @@ import { Guid } from 'app/shared/Utilities/Guid';
 import { Observable } from 'rxjs/Observable';
 import { FileContent, WorkflowInformation, GitHubActionWorkflowRequestContent } from '../../Models/github';
 import { BuildSettings, SourceSettings } from './deployment-center-setup-models';
+import { Response } from '@angular/http';
 
 @Injectable()
 export class GithubService implements OnDestroy {
@@ -59,7 +60,7 @@ export class GithubService implements OnDestroy {
     });
   }
 
-  fetchBranches(authToken: string, repoUrl: string, repoName: string, page?: number) {
+  fetchBranches(authToken: string, repoUrl: string, repoName: string, page?: number): Observable<Response> {
     const url = page
       ? `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches?per_page=100&page=${page}`
       : `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches?per_page=100`;

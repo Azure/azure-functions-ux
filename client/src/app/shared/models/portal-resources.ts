@@ -1854,4 +1854,5 @@ export class PortalResources {
   public static noAppFilesWhileFunctionAppStopped = 'noAppFilesWhileFunctionAppStopped';
   public static noAppKeysWhileFunctionAppStopped = 'noAppKeysWhileFunctionAppStopped';
   public static functionIntegrateRefreshAriaLabel = 'functionIntegrateRefreshAriaLabel';
+  public static gitHubProtectedBranchSelected = 'gitHubProtectedBranchSelected';
 }

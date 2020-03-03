@@ -538,6 +538,8 @@ export class DeploymentCenterConstants {
   public static readonly createRepositoryPermission = 256;
 
   public static readonly EmptyGuid = '00000000-0000-0000-0000-000000000000';
+
+  public static readonly protectedBranchSelectedLink = 'https://go.microsoft.com/fwlink/?linkid=';
 }
 
 export class ComponentNames {
