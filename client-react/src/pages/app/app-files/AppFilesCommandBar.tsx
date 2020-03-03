@@ -8,18 +8,29 @@ import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/
 interface AppFilesCommandBarProps {
   saveFile: () => void;
   resetFile: () => void;
+  refreshFunction: () => void;
   dirty: boolean;
   disabled: boolean;
 }
 
 const AppFilesCommandBar: React.FC<AppFilesCommandBarProps> = props => {
-  const { saveFile, resetFile, dirty, disabled } = props;
+  const { saveFile, resetFile, dirty, disabled, refreshFunction } = props;
 
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
 
   const getItems = (): ICommandBarItemProps[] => {
     return [
+      {
+        key: 'refresh',
+        name: t('refresh'),
+        iconProps: {
+          iconName: 'refresh',
+        },
+        disabled: disabled,
+        ariaLabel: t('appFilesSaveAriaLabel'),
+        onClick: refreshFunction,
+      },
       {
         key: 'save',
         name: t('save'),
