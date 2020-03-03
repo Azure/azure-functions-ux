@@ -5,7 +5,7 @@ import AppFilesCommandBar from './AppFilesCommandBar';
 import { commandBarSticky, editorStyle } from './AppFiles.styles';
 import FunctionEditorFileSelectorBar from '../functions/function-editor/FunctionEditorFileSelectorBar';
 import { IDropdownOption } from 'office-ui-fabric-react';
-import MonacoEditor from '../../../components/monaco-editor/monaco-editor';
+import MonacoEditor, { getMonacoEditorTheme } from '../../../components/monaco-editor/monaco-editor';
 import { VfsObject } from '../../../models/functions/vfs';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
@@ -16,6 +16,8 @@ import EditorManager, { EditorLanguage } from '../../../utils/EditorManager';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import { SiteStateContext } from '../../../SiteStateContext';
 import SiteHelper from '../../../utils/SiteHelper';
+import { StartupInfoContext } from '../../../StartupInfoContext';
+import { PortalTheme } from '../../../models/portal-models';
 
 interface AppFilesProps {
   site: ArmObj<Site>;
@@ -37,6 +39,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   const { t } = useTranslation();
 
   const siteState = useContext(SiteStateContext);
+  const startUpInfoContext = useContext(StartupInfoContext);
 
   const save = async () => {
     if (!selectedFile) {
@@ -190,6 +193,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
             renderWhitespace: 'all',
             readOnly: SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState),
           }}
+          theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
         />
       </div>
     </div>
