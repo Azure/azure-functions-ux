@@ -291,7 +291,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     <>
       <div>
         <div id="command-bar" className={commandBarSticky}>
-          <FunctionKeysCommandBar refreshFunction={refreshData} appPermission={appPermission} />
+          <FunctionKeysCommandBar refreshFunction={refreshData} appPermission={appPermission} refreshLoading={refreshLoading} />
         </div>
         <div id="function-keys-data" className={formStyle}>
           <h3>{t('functionKeys_title')}</h3>
