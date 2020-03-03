@@ -5745,4 +5745,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>Refresh app files</value>
     </data>
+    <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
 </root>
