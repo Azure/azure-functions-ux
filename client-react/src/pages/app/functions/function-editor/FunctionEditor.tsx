@@ -44,6 +44,8 @@ export interface FunctionEditorProps {
   showTestPanel: boolean;
   setShowTestPanel: (showPanel: boolean) => void;
   appPermission: boolean;
+  refresh: () => void;
+  isRefreshing: boolean;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
@@ -66,6 +68,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setShowTestPanel,
     appPermission,
     testData,
+    refresh,
+    isRefreshing,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -228,7 +232,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isDisabled = () => {
-    return isLoading() || functionRunning;
+    return isLoading() || functionRunning || isRefreshing;
   };
 
   const closeConfirmDialog = () => {
@@ -282,6 +286,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     }
   }, [responseContent]);
   useEffect(() => {
+    if (!isRefreshing && !initialLoading) {
+      fetchData();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRefreshing]);
+  useEffect(() => {
     fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -293,6 +304,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           saveFunction={save}
           resetFunction={discard}
           testFunction={test}
+          refreshFunction={refresh}
           showGetFunctionUrlCommand={!!inputBinding}
           dirty={isDirty()}
           disabled={isDisabled() || !appPermission}

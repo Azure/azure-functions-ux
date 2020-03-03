@@ -54,6 +54,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [appPermission, setAppPermission] = useState(true);
   const [testData, setTestData] = useState<string | undefined>(undefined);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -149,6 +150,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
 
     setInitialLoading(false);
+    setIsRefreshing(false);
   };
 
   const getRuntimeVersionString = (exactVersion: string): string => {
@@ -361,6 +363,18 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
+  const refresh = async () => {
+    if (!!site) {
+      setIsRefreshing(true);
+      SiteService.fireSyncTrigger(site, startupInfoContext.token).then(r => {
+        fetchData();
+        if (!r.metadata.success) {
+          LogService.error(LogCategories.FunctionEdit, 'fireSyncTrigger', `Failed to fire syncTrigger: ${r.metadata.error}`);
+        }
+      });
+    }
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -425,8 +439,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           setShowTestPanel={setShowTestPanel}
           appPermission={appPermission}
           testData={testData}
+          refresh={refresh}
+          isRefreshing={isRefreshing}
         />
       </div>
+      {isRefreshing && <LoadingComponent overlay={true} />}
     </FunctionEditorContext.Provider>
   );
 };
