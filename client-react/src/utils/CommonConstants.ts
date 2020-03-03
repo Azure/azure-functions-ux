@@ -50,6 +50,10 @@ export class CommonConstants {
     appInsightsApiVersion20150501: '2015-05-01',
   };
 
+  public static readonly StackApiVersions = {
+    v1: 'v1',
+  };
+
   public static readonly NonThemeColors = {
     upsell: '#804998',
     upsellBackground: '#e7ddf2',
@@ -59,6 +63,7 @@ export class CommonConstants {
   public static readonly FeatureFlags = {
     AllowFreeLinux: 'allowfreelinux',
     ShowFunctionsItems: 'showfunctionsitems',
+    UseNewStacksApi: 'usenewstacksapi',
   };
 
   public static readonly AppDensityLimit = 8;
