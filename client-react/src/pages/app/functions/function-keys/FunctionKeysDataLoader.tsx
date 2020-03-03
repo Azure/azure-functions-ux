@@ -22,7 +22,7 @@ interface FunctionsKeysDataLoaderProps {
 const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props => {
   const { resourceId } = props;
   const [initialValues, setInitialValues] = useState<FunctionKeysFormValues | null>(null);
-  const [refreshLoading, setRefeshLoading] = useState(false);
+  const [refreshLoading, setRefreshLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [appPermission, setAppPermission] = useState(true);
   const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
@@ -32,7 +32,7 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
 
   const refreshData = async () => {
     if (!!site) {
-      setRefeshLoading(true);
+      setRefreshLoading(true);
       SiteService.fireSyncTrigger(site, startupInfoContext.token).then(r => {
         fetchData();
         if (!r.metadata.success) {
@@ -65,7 +65,7 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
     );
     portalContext.loadComplete();
     setInitialLoading(false);
-    setRefeshLoading(false);
+    setRefreshLoading(false);
   };
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
         resourceId={resourceId}
         initialValues={initialValues}
         refreshData={refreshData}
-        setRefeshLoading={setRefeshLoading}
+        setRefreshLoading={setRefreshLoading}
         refreshLoading={refreshLoading}
         appPermission={appPermission}
       />
