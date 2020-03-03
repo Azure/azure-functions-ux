@@ -5742,4 +5742,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
         <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
     </data>
+    <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
 </root>
