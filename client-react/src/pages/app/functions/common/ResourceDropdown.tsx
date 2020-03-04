@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { BindingSetting, BindingSettingResource } from '../../../../models/functions/binding';
 import { FieldProps, FormikProps } from 'formik';
-import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
-import { IDropdownOption, IDropdownProps, Link, Callout } from 'office-ui-fabric-react';
+import { Callout, IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
+import React, { useEffect, useState } from 'react';
 import SiteService from '../../../../ApiHelpers/SiteService';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
+import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../models/arm-obj';
+import { BindingSetting, BindingSettingResource } from '../../../../models/functions/binding';
+import { LogCategories } from '../../../../utils/LogCategories';
+import LogService from '../../../../utils/LogService';
 import { BindingEditorFormValues } from './BindingFormBuilder';
+import { calloutStyle1Field, calloutStyle2Fields, calloutStyle3Fields, linkPaddingStyle } from './callout/Callout.styles';
+import NewAppSettingCallout from './callout/NewAppSettingCallout';
+import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCallout';
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
 import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
-import LoadingComponent from '../../../../components/Loading/LoadingComponent';
-import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCallout';
-import NewAppSettingCallout from './callout/NewAppSettingCallout';
-import { linkPaddingStyle, calloutStyle3Fields, calloutStyle2Fields, calloutStyle1Field } from './callout/Callout.styles';
+import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
 
 export interface ResourceDropdownProps {
   setting: BindingSetting;
@@ -42,23 +42,22 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
     return <LoadingComponent />;
   }
 
-  const options: IDropdownOption[] = [];
-  const resourceAppSettings = filterResourcesFromAppSetting(setting, appSettings.properties, newAppSetting && newAppSetting.key);
-  resourceAppSettings.forEach((resourceAppSetting, i) => options.push({ text: resourceAppSetting, key: i }));
+  const options = filterResourcesFromAppSetting(setting, appSettings.properties, newAppSetting && newAppSetting.key);
 
-  if (!selectedItem && options.length > 0) {
-    onChange(options[0], formProps, field, setSelectedItem, appSettings, newAppSetting);
+  // Set the onload value
+  if (!field.value && options.length > 0) {
+    formProps.setFieldValue(field.name, options[0].key);
   }
+
+  // Set the value when coming back from the callout
+  if (selectedItem) {
+    onChange(selectedItem, formProps, field, appSettings);
+    setSelectedItem(undefined);
+  }
+
   return (
     <div>
-      <Dropdown
-        options={options}
-        selectedKey={selectedItem ? selectedItem.key : undefined}
-        onChange={(e, o) => {
-          onChange(o as IDropdownOption, formProps, field, setSelectedItem, appSettings, newAppSetting);
-        }}
-        {...props}
-      />
+      <Dropdown options={options} onChange={(_e, option) => onChange(option, formProps, field, appSettings)} {...props} />
       {!isDisabled ? (
         <div style={linkPaddingStyle}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>
@@ -128,25 +127,24 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
 };
 
 const onChange = (
-  option: IDropdownOption,
+  option: IDropdownOption | undefined,
   formProps: FormikProps<BindingEditorFormValues>,
   field: { name: string; value: any },
-  setSelectedItem: any,
-  appSettings: ArmObj<{ [key: string]: string }>,
-  newAppSetting?: { key: string; value: string }
+  appSettings: ArmObj<{ [key: string]: string }>
 ) => {
-  // Make sure the value is saved to the form
-  setSelectedItem(option);
-  const appSettingName = option.text.split(' ')[0]; // allisonm: removes (new) if present
-  formProps.setFieldValue(field.name, appSettingName);
+  if (option) {
+    // Make sure the value is saved to the form
+    const appSettingName = option.key;
+    formProps.setFieldValue(field.name, appSettingName);
 
-  // Set new App Settings if a PUT is required to update them
-  if (option.text.endsWith('(new)') && newAppSetting) {
-    const newAppSettings = appSettings;
-    newAppSettings.properties[newAppSetting.key] = newAppSetting.value;
-    formProps.setFieldValue('newAppSettings', newAppSettings);
-  } else {
-    formProps.setFieldValue('newAppSettings', null);
+    // Set new App Settings if a PUT is required to update them
+    if (option.data) {
+      const newAppSettings = appSettings;
+      newAppSettings.properties[option.key] = option.data;
+      formProps.setFieldValue('newAppSettings', newAppSettings);
+    } else {
+      formProps.setFieldValue('newAppSettings', null);
+    }
   }
 };
 
@@ -154,7 +152,7 @@ const filterResourcesFromAppSetting = (
   setting: BindingSetting,
   appSettings: { [key: string]: string },
   newAppSettingName?: string
-): string[] => {
+): IDropdownOption[] => {
   switch (setting.resource) {
     case BindingSettingResource.Storage:
       return getStorageSettings(appSettings, newAppSettingName);
@@ -169,43 +167,47 @@ const filterResourcesFromAppSetting = (
   return [];
 };
 
-const getStorageSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
-  const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
+const getStorageSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): IDropdownOption[] => {
+  const result: IDropdownOption[] = newAppSettingName ? [{ text: `${newAppSettingName} (new)`, key: newAppSettingName }] : [];
+
   for (const key of Object.keys(appSettings)) {
     const value = appSettings[key].toLowerCase();
     if (value.indexOf('accountname') > -1 && value.indexOf('accountkey') > -1 && key !== newAppSettingName) {
-      result.push(key);
+      result.push({ key, text: key });
     }
   }
   return result;
 };
 
-const getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
-  const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
+const getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): IDropdownOption[] => {
+  const result: IDropdownOption[] = newAppSettingName ? [{ text: `${newAppSettingName} (new)`, key: newAppSettingName }] : [];
+
   for (const key of Object.keys(appSettings)) {
     const value = appSettings[key].toLowerCase();
     if (value.indexOf('sb://') > -1 && value.indexOf('sharedaccesskeyname') > -1) {
-      result.push(key);
+      result.push({ key, text: key });
     }
   }
   return result;
 };
 
-const getAppSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
-  const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
+const getAppSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): IDropdownOption[] => {
+  const result: IDropdownOption[] = newAppSettingName ? [{ text: `${newAppSettingName} (new)`, key: newAppSettingName }] : [];
+
   for (const key of Object.keys(appSettings)) {
-    result.push(key);
+    result.push({ key, text: key });
   }
 
   return result;
 };
 
-const getDocumentDBSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): string[] => {
-  const result: string[] = newAppSettingName ? [`${newAppSettingName} (new)`] : [];
+const getDocumentDBSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): IDropdownOption[] => {
+  const result: IDropdownOption[] = newAppSettingName ? [{ text: `${newAppSettingName} (new)`, key: newAppSettingName }] : [];
+
   for (const key of Object.keys(appSettings)) {
     const value = appSettings[key].toLowerCase();
     if (value.indexOf('accountendpoint') > -1 && value.indexOf('documents.azure.com') > -1) {
-      result.push(key);
+      result.push({ key, text: key });
     }
   }
   return result;

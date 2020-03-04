@@ -114,9 +114,9 @@ const createOrUpdateBinding = (
   const bindings = [...updatedFunctionInfo.properties.config.bindings];
   const index = functionInfo.properties.config.bindings.findIndex(b => b === currentBindingInfo);
 
-  const updateAppSettingsNotificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
-
   if (newBindingInfo['newAppSettings']) {
+    const updateAppSettingsNotificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
+
     SiteService.updateApplicationSettings(functionInfo.id.split('/functions/')[0], newBindingInfo['newAppSettings']).then(r => {
       if (!r.metadata.success) {
         const errorMessage = (r.metadata.error && r.metadata.error.error && r.metadata.error.error.message) || t('configUpdateFailure');
@@ -124,10 +124,10 @@ const createOrUpdateBinding = (
       } else {
         portalCommunicator.stopNotification(updateAppSettingsNotificationId, true, t('configUpdateSuccess'));
       }
-
-      delete newBindingInfo['newAppSettings'];
     });
   }
+
+  delete newBindingInfo['newAppSettings'];
 
   if (index > -1) {
     bindings[index] = newBindingInfo;
