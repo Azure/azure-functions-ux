@@ -1864,4 +1864,6 @@ export class PortalResources {
   public static integrateDeleteOutputConfirmMessage = 'integrateDeleteOutputConfirmMessage';
   public static integrateDeleteInputConfirmHeader = 'integrateDeleteInputConfirmHeader';
   public static integrateDeleteInputConfirmMessage = 'integrateDeleteInputConfirmMessage';
+  public static deleteFunctionKeyHeader = 'deleteFunctionKeyHeader';
+  public static deleteFunctionKeyMessage = 'deleteFunctionKeyMessage';
 }

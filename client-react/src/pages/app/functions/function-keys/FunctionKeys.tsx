@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { FunctionKeysFormValues, FunctionKeysModel } from './FunctionKeys.types';
+import { FunctionKeysFormValues, FunctionKeysModel, DialogType } from './FunctionKeys.types';
 import { useTranslation } from 'react-i18next';
 import { commandBarSticky, formStyle, renewTextStyle, filterBoxStyle } from './FunctionKeys.styles';
 import FunctionKeysCommandBar from './FunctionKeysCommandBar';
@@ -52,13 +52,14 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
-  const [showRenewDialog, setShowRenewDialog] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
   const [renewKey, setRenewKey] = useState(emptyKey);
   const [filterValue, setFilterValue] = useState('');
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
   const [shownValues, setShownValues] = useState<string[]>([]);
-  const [deletingKey, setDeletingKey] = useState(false);
+  const [deletingKey, setDeletingKey] = useState<string | undefined>(undefined);
+  const [dialogType, setDialogType] = useState<DialogType>(DialogType.renew);
 
   const functionKeysContext = useContext(FunctionKeysContext);
   const theme = useContext(ThemeContext);
@@ -166,21 +167,25 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     setShownValues([...newShownValues]);
   };
 
-  const deleteHostKey = async (itemKey: string) => {
-    setDeletingKey(true);
-    const notificationId = portalCommunicator.startNotification(
-      t('deleteFunctionKeyNotification'),
-      t('deleteFunctionKeyNotificationDetails').format(itemKey)
-    );
-    const response = await functionKeysContext.deleteKey(resourceId, itemKey);
-    if (response.metadata.success) {
-      portalCommunicator.stopNotification(notificationId, true, t('deleteFunctionKeyNotificationSuccess').format(itemKey));
-      refreshData();
-    } else {
-      portalCommunicator.stopNotification(notificationId, false, t('deleteFunctionKeyNotificationFailed').format(itemKey));
-      LogService.error(LogCategories.functionKeys, 'delete keys', `Failed to delete keys: ${response.metadata.error}`);
+  const deleteHostKey = async () => {
+    const key = deletingKey;
+    closeDialog();
+    if (!!key) {
+      setRefreshLoading(true);
+      const notificationId = portalCommunicator.startNotification(
+        t('deleteFunctionKeyNotification'),
+        t('deleteFunctionKeyNotificationDetails').format(key)
+      );
+      const response = await functionKeysContext.deleteKey(resourceId, key);
+      if (response.metadata.success) {
+        portalCommunicator.stopNotification(notificationId, true, t('deleteFunctionKeyNotificationSuccess').format(key));
+        refreshData();
+      } else {
+        portalCommunicator.stopNotification(notificationId, false, t('deleteFunctionKeyNotificationFailed').format(key));
+        LogService.error(LogCategories.functionKeys, 'delete keys', `Failed to delete keys: ${response.metadata.error}`);
+      }
+      setRefreshLoading(false);
     }
-    setDeletingKey(false);
   };
 
   const onRenderColumnItem = (item: FunctionKeysModel, index: number, column: IColumn) => {
@@ -224,7 +229,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
             id={`function-keys-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
-            onClick={() => deleteHostKey(itemKey)}
+            onClick={() => showDeleteKeyDialog(itemKey)}
           />
         </TooltipHost>
       );
@@ -245,21 +250,23 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     refreshData();
   };
 
-  const closeRenewKeyDialog = () => {
+  const closeDialog = () => {
     setRenewKey(emptyKey);
-    setShowRenewDialog(false);
+    setDeletingKey(undefined);
+    setShowDialog(false);
   };
 
   const showRenewKeyDialog = (item: FunctionKeysModel) => {
     setRenewKey(item);
-    setShowRenewDialog(true);
+    setDialogType(DialogType.renew);
+    setShowDialog(true);
   };
 
   const renewFunctionKey = () => {
     if (renewKey.name) {
       createFunctionKey({ name: renewKey.name, value: '' });
     }
-    closeRenewKeyDialog();
+    closeDialog();
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
@@ -285,6 +292,12 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         name: t('filter'),
       },
     ];
+  };
+
+  const showDeleteKeyDialog = (itemKey: string) => {
+    setShowDialog(true);
+    setDialogType(DialogType.delete);
+    setDeletingKey(itemKey);
   };
 
   return (
@@ -318,17 +331,21 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
           </DisplayTableWithCommandBar>
           <ConfirmDialog
             primaryActionButton={{
-              title: t('functionKeys_renew'),
-              onClick: renewFunctionKey,
+              title: dialogType === DialogType.renew ? t('functionKeys_renew') : t('delete'),
+              onClick: () => (dialogType === DialogType.renew ? renewFunctionKey() : deleteHostKey()),
             }}
             defaultActionButton={{
               title: t('cancel'),
-              onClick: closeRenewKeyDialog,
+              onClick: closeDialog,
             }}
-            title={t('renewKeyValue')}
-            content={t('renewKeyValueContent').format(renewKey.name)}
-            hidden={!showRenewDialog}
-            onDismiss={closeRenewKeyDialog}
+            title={dialogType === DialogType.renew ? t('renewKeyValue') : t('deleteFunctionKeyHeader')}
+            content={
+              dialogType === DialogType.renew
+                ? t('renewKeyValueContent').format(renewKey.name)
+                : t('deleteFunctionKeyMessage').format(deletingKey)
+            }
+            hidden={!showDialog}
+            onDismiss={closeDialog}
           />
           <Panel
             isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}

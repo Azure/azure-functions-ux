@@ -6,3 +6,8 @@ export interface FunctionKeysModel {
 export interface FunctionKeysFormValues {
   keys: FunctionKeysModel[];
 }
+
+export enum DialogType {
+  renew,
+  delete,
+}
