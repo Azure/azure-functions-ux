@@ -118,6 +118,9 @@ export const testPanelStyle = {
   main: {
     boxShadow: 'rgba(0, 0, 0, 0.2) 0px 0px 5px 0px',
   },
+  contentInner: {
+    marginTop: '20px',
+  },
 };
 
 export const toolTipStyle: Partial<ITooltipHostStyles> = { root: { display: 'inherit' } };
