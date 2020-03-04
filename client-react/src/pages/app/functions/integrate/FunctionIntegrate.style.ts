@@ -45,7 +45,6 @@ export const dialogModelStyle = {
     position: 'absolute' as 'absolute',
     top: '125px',
     right: '0px',
-    minWidth: '272px',
-    maxWidth: '272px',
+    minWidth: '340px !important',
   },
 };
