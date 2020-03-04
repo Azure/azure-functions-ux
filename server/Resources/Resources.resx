@@ -5748,4 +5748,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
         <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
     </data>
+    <data name="appFilesSaveAriaLabel" xml:space="preserve">
+        <value>Refresh app files</value>
+    </data>
+    <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
 </root>

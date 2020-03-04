@@ -24,6 +24,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
   const [runtimeVersion, setRuntimeVersion] = useState<string | undefined>(undefined);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
 
@@ -46,7 +47,9 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
       const fileListResponse = await FunctionsService.getFileContent(resourceId, undefined, currentRuntimeVersion);
       setFileList(fileListResponse.data as VfsObject[]);
     }
+
     setInitialLoading(false);
+    setIsRefreshing(false);
   };
 
   const getRuntimeVersionString = (exactVersion: string): string => {
@@ -55,6 +58,11 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
       return `~${versionElements[0]}`;
     }
     return exactVersion;
+  };
+
+  const refresh = () => {
+    setIsRefreshing(true);
+    fetchData();
   };
 
   useEffect(() => {
@@ -70,7 +78,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   return (
     <AppFilesContext.Provider value={appFilesData}>
       {siteStateContext.stopped && <WarningBanner message={t('noAppFilesWhileFunctionAppStopped')} />}
-      <AppFiles site={site} fileList={fileList} runtimeVersion={runtimeVersion} />}
+      <AppFiles site={site} fileList={fileList} runtimeVersion={runtimeVersion} refreshFunction={refresh} isRefreshing={isRefreshing} />}
     </AppFilesContext.Provider>
   );
 };

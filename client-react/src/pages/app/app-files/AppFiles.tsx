@@ -21,12 +21,14 @@ import { PortalTheme } from '../../../models/portal-models';
 
 interface AppFilesProps {
   site: ArmObj<Site>;
+  refreshFunction: () => void;
+  isRefreshing: boolean;
   fileList?: VfsObject[];
   runtimeVersion?: string;
 }
 
 const AppFiles: React.FC<AppFilesProps> = props => {
-  const { site, fileList, runtimeVersion } = props;
+  const { site, fileList, runtimeVersion, refreshFunction, isRefreshing } = props;
 
   const [initialLoading, setInitialLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
@@ -157,7 +159,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   }, []);
   return (
     <div className={commandBarSticky}>
-      <AppFilesCommandBar dirty={isDirty()} disabled={false} saveFile={save} resetFile={discard} />
+      <AppFilesCommandBar dirty={isDirty()} disabled={isRefreshing} saveFile={save} resetFile={discard} refreshFunction={refreshFunction} />
       <ConfirmDialog
         primaryActionButton={{
           title: t('ok'),
@@ -176,7 +178,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
         functionAppNameLabel={site.name}
         fileDropdownOptions={getDropdownOptions()}
         fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
-        disabled={false}
+        disabled={isRefreshing}
         onChangeDropdown={onFileSelectorChange}
       />
       {(isLoading() || savingFile) && <LoadingComponent />}
@@ -196,6 +198,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
           theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
         />
       </div>
+      {isRefreshing && <LoadingComponent overlay={true} />}
     </div>
   );
 };
