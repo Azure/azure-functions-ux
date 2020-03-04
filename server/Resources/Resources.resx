@@ -5686,7 +5686,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Workflow Option</value>
     </data>
     <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Add or Overwrite workflow definition</value>
+        <value>Add or overwrite workflow definition</value>
     </data>
     <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Configure using existing workflow definition</value>

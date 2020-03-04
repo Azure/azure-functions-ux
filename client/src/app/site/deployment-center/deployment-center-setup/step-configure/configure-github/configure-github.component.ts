@@ -207,17 +207,15 @@ export class ConfigureGithubComponent implements OnDestroy {
           });
 
           this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue(atob(appWorkflowConfiguration.content));
-
-          const required = new RequiredValidator(this._translateService, false);
-          this.wizard.sourceSettings.get('githubActionWorkflowOption').setValidators(required.validate.bind(required));
-          this.wizard.sourceSettings.get('githubActionWorkflowOption').updateValueAndValidity();
         } else if (allWorkflowConfigurations && allWorkflowConfigurations.length > 0) {
           this.workflowFileExistsWarningMessage = this._translateService.instant(PortalResources.githubActionWorkflowsExist, {
             branchName: this.selectedBranch,
           });
 
           this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue('');
+        }
 
+        if (appWorkflowConfiguration || (allWorkflowConfigurations && allWorkflowConfigurations.length > 0)) {
           const required = new RequiredValidator(this._translateService, false);
           this.wizard.sourceSettings.get('githubActionWorkflowOption').setValidators(required.validate.bind(required));
           this.wizard.sourceSettings.get('githubActionWorkflowOption').updateValueAndValidity();
