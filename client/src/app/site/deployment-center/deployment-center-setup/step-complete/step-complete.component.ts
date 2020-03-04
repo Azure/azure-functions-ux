@@ -293,8 +293,7 @@ export class StepCompleteComponent {
     const includeFileName =
       !this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption ||
       this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.Overwrite ||
-      (this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.UseExisting &&
-        this.wizard.wizardValues.sourceSettings.githubActionExistingWorkflowContents);
+      this.wizard.wizardValues.sourceSettings.githubActionExistingWorkflowContents;
 
     const items = [
       {
