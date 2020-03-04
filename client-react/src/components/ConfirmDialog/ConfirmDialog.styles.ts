@@ -11,7 +11,7 @@ export const modalContentStyles = {
   inner: {
     paddingLeft: '0px',
     paddingBottom: '10px',
-    paddingRight: '0px',
+    paddingRight: '3px',
     overflow: 'hidden' as 'hidden',
   },
   header: {

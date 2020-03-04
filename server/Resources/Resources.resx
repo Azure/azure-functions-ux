@@ -5754,4 +5754,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
         <value>Refresh code editor</value>
     </data>
+    <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
+        <value>Delete Trigger</value>
+    </data>
+    <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the trigger?</value>
+    </data>
+    <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
+        <value>Delete Output</value>
+    </data>
+    <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the output?</value>
+    </data>
+    <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
+        <value>Delete Input</value>
+    </data>
+    <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the input?</value>
+    </data>
 </root>

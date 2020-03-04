@@ -1860,4 +1860,10 @@ export class PortalResources {
   public static githubActionWorkflowOptionUseExistingMessageWithoutPreview = 'githubActionWorkflowOptionUseExistingMessageWithoutPreview';
   public static appFilesSaveAriaLabel = 'appFilesSaveAriaLabel';
   public static functionEditorRefreshAriaLabel = 'functionEditorRefreshAriaLabel';
+  public static integrateDeleteTriggerConfirmHeader = 'integrateDeleteTriggerConfirmHeader';
+  public static integrateDeleteTriggerConfirmMessage = 'integrateDeleteTriggerConfirmMessage';
+  public static integrateDeleteOutputConfirmHeader = 'integrateDeleteOutputConfirmHeader';
+  public static integrateDeleteOutputConfirmMessage = 'integrateDeleteOutputConfirmMessage';
+  public static integrateDeleteInputConfirmHeader = 'integrateDeleteInputConfirmHeader';
+  public static integrateDeleteInputConfirmMessage = 'integrateDeleteInputConfirmMessage';
 }
