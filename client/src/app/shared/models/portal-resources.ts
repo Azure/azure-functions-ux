@@ -1856,4 +1856,6 @@ export class PortalResources {
   public static functionIntegrateRefreshAriaLabel = 'functionIntegrateRefreshAriaLabel';
   public static gitHubProtectedBranchSelected = 'gitHubProtectedBranchSelected';
   public static noRuntimeVersionWhileFunctionAppStopped = 'noRuntimeVersionWhileFunctionAppStopped';
+  public static githubActionWorkflowsExist = 'githubActionWorkflowsExist';
+  public static githubActionWorkflowOptionUseExistingMessageWithoutPreview = 'githubActionWorkflowOptionUseExistingMessageWithoutPreview';
 }

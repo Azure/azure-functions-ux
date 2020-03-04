@@ -12,7 +12,7 @@ import { RequiredValidator } from '../../../../../shared/validators/requiredVali
 import { Url } from '../../../../../shared/Utilities/url';
 import { ResponseHeader } from 'app/shared/Utilities/response-header';
 import { GithubService } from '../../wizard-logic/github.service';
-import { FileContent, GitHubBranchSummary } from 'app/site/deployment-center/Models/github';
+import { GitHubBranchSummary } from 'app/site/deployment-center/Models/github';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { WorkflowOptions } from '../../../Models/deployment-enums';
 
@@ -182,29 +182,47 @@ export class ConfigureGithubComponent implements OnDestroy {
       this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue('');
       this.wizard.hideConfigureStepContinueButton = true;
 
-      this._githubService
-        .fetchWorkflowConfiguration(
+      Observable.zip(
+        this._githubService.fetchAllWorkflowConfigurations(
+          this.wizard.getToken(),
+          this.selectedRepo,
+          this._repoUrlToNameMap[this.selectedRepo],
+          this.selectedBranch
+        ),
+        this._githubService.fetchWorkflowConfiguration(
           this.wizard.getToken(),
           this.selectedRepo,
           this._repoUrlToNameMap[this.selectedRepo],
           this.selectedBranch,
           workflowFilePath
         )
-        .subscribe((r: FileContent) => {
-          this.wizard.hideConfigureStepContinueButton = false;
-          if (r) {
-            this.workflowFileExistsWarningMessage = this._translateService.instant(PortalResources.githubActionWorkflowFileExists, {
-              workflowFilePath: workflowFilePath,
-              branchName: this.selectedBranch,
-            });
+      ).subscribe(results => {
+        this.wizard.hideConfigureStepContinueButton = false;
+        const [allWorkflowConfigurations, appWorkflowConfiguration] = results;
 
-            this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue(atob(r.content));
+        if (appWorkflowConfiguration) {
+          this.workflowFileExistsWarningMessage = this._translateService.instant(PortalResources.githubActionWorkflowFileExists, {
+            workflowFilePath: workflowFilePath,
+            branchName: this.selectedBranch,
+          });
 
-            const required = new RequiredValidator(this._translateService, false);
-            this.wizard.sourceSettings.get('githubActionWorkflowOption').setValidators(required.validate.bind(required));
-            this.wizard.sourceSettings.get('githubActionWorkflowOption').updateValueAndValidity();
-          }
-        });
+          this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue(atob(appWorkflowConfiguration.content));
+
+          const required = new RequiredValidator(this._translateService, false);
+          this.wizard.sourceSettings.get('githubActionWorkflowOption').setValidators(required.validate.bind(required));
+          this.wizard.sourceSettings.get('githubActionWorkflowOption').updateValueAndValidity();
+        } else if (allWorkflowConfigurations && allWorkflowConfigurations.length > 0) {
+          this.workflowFileExistsWarningMessage = this._translateService.instant(PortalResources.githubActionWorkflowsExist, {
+            branchName: this.selectedBranch,
+          });
+
+          this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue('');
+
+          const required = new RequiredValidator(this._translateService, false);
+          this.wizard.sourceSettings.get('githubActionWorkflowOption').setValidators(required.validate.bind(required));
+          this.wizard.sourceSettings.get('githubActionWorkflowOption').updateValueAndValidity();
+        }
+      });
     }
   }
 

@@ -11,7 +11,7 @@
   <div class="summary-group">
     <h3 class="heading">{{ 'githubActionWorkflowConfiguration' | translate }}</h3>
     <info-box *ngIf="ExistingGitHubActionConfigurationMessage" typeClass="info" [infoText]="ExistingGitHubActionConfigurationMessage"></info-box>
-    <pre>{{GithubActionsWorkflowConfig}}</pre>
+    <pre *ngIf="GithubActionsWorkflowConfig">{{GithubActionsWorkflowConfig}}</pre>
     <br/><br/>
   </div>
 </div>
