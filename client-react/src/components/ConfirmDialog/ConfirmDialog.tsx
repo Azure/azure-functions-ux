@@ -7,19 +7,31 @@ interface ConfirmDialogProps {
   defaultActionButton: { title: string; onClick: () => void };
   title: string;
   content: string;
+  modalStyles?: any;
+  showCloseModal?: boolean;
 }
 
 const ConfirmDialog: React.FC<ConfirmDialogProps & IDialogProps> = props => {
-  const { primaryActionButton, defaultActionButton, hidden, title, content, onDismiss } = props;
+  const {
+    primaryActionButton,
+    defaultActionButton,
+    hidden,
+    title,
+    content,
+    onDismiss,
+    showCloseModal,
+    modalStyles: customModalStyles,
+  } = props;
+
   return (
     <Dialog
       hidden={hidden}
       dialogContentProps={{
-        type: DialogType.close,
+        type: showCloseModal === undefined || showCloseModal ? DialogType.close : DialogType.normal,
         styles: modalContentStyles,
       }}
       modalProps={{
-        styles: modalStyles,
+        styles: !!customModalStyles ? customModalStyles : modalStyles,
         isBlocking: true,
       }}
       onDismiss={onDismiss}>

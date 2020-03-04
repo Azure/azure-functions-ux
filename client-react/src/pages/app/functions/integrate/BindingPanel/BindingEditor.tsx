@@ -16,6 +16,9 @@ import LogService from '../../../../../utils/LogService';
 import { BindingFormBuilder } from '../../common/BindingFormBuilder';
 import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
 import EditBindingCommandBar from './EditBindingCommandBar';
+import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
+import { dialogModelStyle } from '../FunctionIntegrate.style';
+import { DeleteDialog } from './BindingPanel';
 
 export interface BindingEditorProps {
   allBindings: Binding[];
@@ -23,6 +26,7 @@ export interface BindingEditorProps {
   functionAppId: string;
   functionInfo: ArmObj<FunctionInfo>;
   readOnly: boolean;
+  deleteDialogDetails: DeleteDialog;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
   onDelete: (currentBindingInfo: BindingInfo) => void;
 }
@@ -42,10 +46,11 @@ const fieldWrapperStyle = style({
 });
 
 const BindingEditor: React.SFC<BindingEditorProps> = props => {
-  const { allBindings, currentBindingInfo, functionAppId, functionInfo, readOnly, onSubmit, onDelete } = props;
+  const { allBindings, currentBindingInfo, functionAppId, functionInfo, readOnly, onSubmit, deleteDialogDetails } = props;
   const { t } = useTranslation();
   const portalContext = useContext(PortalContext);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
 
   const currentBinding = allBindings.find(
     b => b.type === currentBindingInfo.type && b.direction === getBindingDirection(currentBindingInfo)
@@ -75,16 +80,41 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
     onSubmit(newBindingInfo, currentBindingInfo);
   };
 
+  const closeDeleteConfirmDialog = () => {
+    setShowDeleteConfirmDialog(false);
+  };
+
+  const onDelete = () => {
+    closeDeleteConfirmDialog();
+    props.onDelete(currentBindingInfo);
+  };
+
   return (
     <Formik initialValues={initialFormValues} onSubmit={values => submit(values as BindingInfo)}>
       {(formProps: FormikProps<BindingEditorFormValues>) => {
         return (
           <>
+            <ConfirmDialog
+              primaryActionButton={{
+                title: t('ok'),
+                onClick: () => onDelete,
+              }}
+              defaultActionButton={{
+                title: t('cancel'),
+                onClick: closeDeleteConfirmDialog,
+              }}
+              title={deleteDialogDetails.header}
+              content={deleteDialogDetails.content}
+              hidden={!showDeleteConfirmDialog}
+              onDismiss={closeDeleteConfirmDialog}
+              modalStyles={dialogModelStyle}
+              showCloseModal={false}
+            />
             <form>
               <EditBindingCommandBar
                 submitForm={formProps.submitForm}
                 resetForm={() => formProps.resetForm(initialFormValues)}
-                delete={() => onDelete(currentBindingInfo)}
+                delete={() => setShowDeleteConfirmDialog(true)}
                 dirty={formProps.dirty}
                 valid={formProps.isValid}
                 loading={isDisabled}
