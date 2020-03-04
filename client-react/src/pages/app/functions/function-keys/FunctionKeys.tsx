@@ -167,21 +167,20 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     setShownValues([...newShownValues]);
   };
 
-  const deleteHostKey = async () => {
-    const key = deletingKey;
+  const deleteHostKey = async (deletingKey: string | undefined) => {
     closeDialog();
-    if (!!key) {
+    if (!!deletingKey) {
       setRefreshLoading(true);
       const notificationId = portalCommunicator.startNotification(
         t('deleteFunctionKeyNotification'),
-        t('deleteFunctionKeyNotificationDetails').format(key)
+        t('deleteFunctionKeyNotificationDetails').format(deletingKey)
       );
-      const response = await functionKeysContext.deleteKey(resourceId, key);
+      const response = await functionKeysContext.deleteKey(resourceId, deletingKey);
       if (response.metadata.success) {
-        portalCommunicator.stopNotification(notificationId, true, t('deleteFunctionKeyNotificationSuccess').format(key));
+        portalCommunicator.stopNotification(notificationId, true, t('deleteFunctionKeyNotificationSuccess').format(deletingKey));
         refreshData();
       } else {
-        portalCommunicator.stopNotification(notificationId, false, t('deleteFunctionKeyNotificationFailed').format(key));
+        portalCommunicator.stopNotification(notificationId, false, t('deleteFunctionKeyNotificationFailed').format(deletingKey));
         LogService.error(LogCategories.functionKeys, 'delete keys', `Failed to delete keys: ${response.metadata.error}`);
       }
       setRefreshLoading(false);
@@ -329,24 +328,37 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
               />
             )}
           </DisplayTableWithCommandBar>
-          <ConfirmDialog
-            primaryActionButton={{
-              title: dialogType === DialogType.renew ? t('functionKeys_renew') : t('delete'),
-              onClick: () => (dialogType === DialogType.renew ? renewFunctionKey() : deleteHostKey()),
-            }}
-            defaultActionButton={{
-              title: t('cancel'),
-              onClick: closeDialog,
-            }}
-            title={dialogType === DialogType.renew ? t('renewKeyValue') : t('deleteFunctionKeyHeader')}
-            content={
-              dialogType === DialogType.renew
-                ? t('renewKeyValueContent').format(renewKey.name)
-                : t('deleteFunctionKeyMessage').format(deletingKey)
-            }
-            hidden={!showDialog}
-            onDismiss={closeDialog}
-          />
+          {dialogType === DialogType.renew ? (
+            <ConfirmDialog
+              primaryActionButton={{
+                title: t('functionKeys_renew'),
+                onClick: renewFunctionKey,
+              }}
+              defaultActionButton={{
+                title: t('cancel'),
+                onClick: closeDialog,
+              }}
+              title={t('renewKeyValue')}
+              content={t('renewKeyValueContent').format(renewKey.name)}
+              hidden={!showDialog}
+              onDismiss={closeDialog}
+            />
+          ) : (
+            <ConfirmDialog
+              primaryActionButton={{
+                title: t('delete'),
+                onClick: () => deleteHostKey(deletingKey),
+              }}
+              defaultActionButton={{
+                title: t('cancel'),
+                onClick: closeDialog,
+              }}
+              title={t('deleteFunctionKeyHeader')}
+              content={t('deleteFunctionKeyMessage').format(deletingKey)}
+              hidden={!showDialog}
+              onDismiss={closeDialog}
+            />
+          )}
           <Panel
             isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
             onDismiss={onClosePanel}
