@@ -200,6 +200,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       setFileContent({ default: fileText, latest: fileText });
       setIsFileContentAvailable(true);
     } else {
+      setFileContent({ default: '', latest: '' });
       setIsFileContentAvailable(false);
       LogService.error(LogCategories.FunctionEdit, 'getFileContent', `Failed to get file content: ${fileResponse.metadata.error}`);
     }

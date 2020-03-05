@@ -4,7 +4,7 @@ import { Site } from '../../../models/site/site';
 import AppFilesCommandBar from './AppFilesCommandBar';
 import { commandBarSticky, editorStyle } from './AppFiles.styles';
 import FunctionEditorFileSelectorBar from '../functions/function-editor/FunctionEditorFileSelectorBar';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../components/monaco-editor/monaco-editor';
 import { VfsObject } from '../../../models/functions/vfs';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
@@ -18,6 +18,9 @@ import { SiteStateContext } from '../../../SiteStateContext';
 import SiteHelper from '../../../utils/SiteHelper';
 import { StartupInfoContext } from '../../../StartupInfoContext';
 import { PortalTheme } from '../../../models/portal-models';
+import LogService from '../../../utils/LogService';
+import { LogCategories } from '../../../utils/LogCategories';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 
 interface AppFilesProps {
   site: ArmObj<Site>;
@@ -37,6 +40,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   const [fileContent, setFileContent] = useState<FileContent>({ default: '', latest: '' });
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
   const [savingFile, setSavingFile] = useState(false);
+  const [isFileContentAvailable, setIsFileContentAvailable] = useState(false);
 
   const { t } = useTranslation();
 
@@ -115,6 +119,11 @@ const AppFiles: React.FC<AppFilesProps> = props => {
         fileText = JSON.stringify(fileResponse.data, null, 2);
       }
       setFileContent({ default: fileText, latest: fileText });
+      setIsFileContentAvailable(true);
+    } else {
+      setFileContent({ default: '', latest: '' });
+      setIsFileContentAvailable(false);
+      LogService.error(LogCategories.appFiles, 'getFileContent', `Failed to get file content: ${fileResponse.metadata.error}`);
     }
   };
 
@@ -182,12 +191,13 @@ const AppFiles: React.FC<AppFilesProps> = props => {
         onChangeDropdown={onFileSelectorChange}
       />
       {(isLoading() || savingFile) && <LoadingComponent />}
+      {!isFileContentAvailable && <CustomBanner message={t('fetchFileContentFailureMessage')} type={MessageBarType.error} />}
       <div className={editorStyle}>
         <MonacoEditor
           value={fileContent.latest}
           language={editorLanguage}
           onChange={onChange}
-          disabled={initialLoading}
+          disabled={initialLoading || !isFileContentAvailable}
           options={{
             minimap: { enabled: false },
             scrollBeyondLastLine: false,

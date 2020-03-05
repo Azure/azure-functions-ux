@@ -20,7 +20,6 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
 
   const modeSpecificProps = multiSelect
     ? {
-        ...props,
         selectedKeys: field.value,
         onChange: (_, option: IDropdownOption) => {
           const value = field.value as any[];
@@ -35,13 +34,14 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
             }
           }
         },
+        ...props,
       }
     : {
-        ...props,
         selectedKey: field.value,
         onChange: (_, option: IDropdownOption) => {
           form.setFieldValue(field.name, option.key);
         },
+        ...props,
       };
 
   const errorMessage = get(form.errors, field.name, '') as string;

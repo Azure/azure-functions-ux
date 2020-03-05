@@ -147,9 +147,9 @@ const setServiceBusConnection = (
 ) => {
   if (formValues.namespace && keyList) {
     const appSettingName = `${formValues.namespace.name}_${keyList.keyName}_SERVICEBUS`;
-    const appSettingValue = keyList.primaryKey;
+    const appSettingValue = keyList.primaryConnectionString;
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
-    setSelectedItem(undefined);
+    setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
     setIsDialogVisible(false);
   }
 };
