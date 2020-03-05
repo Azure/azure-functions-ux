@@ -1463,7 +1463,7 @@
         <value>Web-appinstellingen zijn bijgewerkt</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings</value>
+        <value>Kan web-appinstellingen niet bijwerken</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>Kan {{configGroupName}} niet opslaan: ongeldige invoer opgegeven.</value>
@@ -2531,7 +2531,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Groeperen op abonnement</value>
     </data>
   <data name="southcentralus" xml:space="preserve">
-        <value>US - zuid-centraal</value>
+        <value>VS - zuid-centraal</value>
     </data>
   <data name="northeurope" xml:space="preserve">
         <value>Europa - noord</value>
@@ -2549,10 +2549,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Korea - zuid</value>
     </data>
   <data name="westus" xml:space="preserve">
-        <value>US - west</value>
+        <value>VS - west</value>
     </data>
   <data name="eastus" xml:space="preserve">
-        <value>US - oost</value>
+        <value>VS - oost</value>
     </data>
   <data name="japanwest" xml:space="preserve">
         <value>Japan - west</value>
@@ -2564,13 +2564,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Azië - oost</value>
     </data>
   <data name="eastus2" xml:space="preserve">
-        <value>US - oost 2</value>
+        <value>VS - oost 2</value>
     </data>
   <data name="northcentralus" xml:space="preserve">
-        <value>US - noord-centraal</value>
+        <value>VS - noord-centraal</value>
     </data>
   <data name="centralus" xml:space="preserve">
-        <value>US - centraal</value>
+        <value>VS - centraal</value>
     </data>
   <data name="brazilsouth" xml:space="preserve">
         <value>Brazilië - zuid</value>
@@ -2597,16 +2597,16 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Canada - oost</value>
     </data>
   <data name="westcentralus" xml:space="preserve">
-        <value>US - west-centraal</value>
+        <value>VS - west-centraal</value>
     </data>
   <data name="ukwest" xml:space="preserve">
         <value>VK West</value>
     </data>
   <data name="uksouth" xml:space="preserve">
-        <value>VK Zuid</value>
+        <value>VK - zuid</value>
     </data>
   <data name="westus2" xml:space="preserve">
-        <value>US - west 2</value>
+        <value>VS - west 2</value>
     </data>
   <data name="allResourceGroups" xml:space="preserve">
         <value>Alle resourcegroepen</value>
@@ -5093,7 +5093,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Kan de containerinstellingen niet valideren.</value>
     </data>
   <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>No trigger defined</value>
+        <value>Geen trigger gedefinieerd</value>
     </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Geen invoerwaarden gedefinieerd</value>
@@ -5171,7 +5171,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Nieuwe functie</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Maak een nieuwe functie in deze functie-app. U kunt beginnen door een van de onderstaande sjablonen te selecteren.</value>
+        <value>Maak een nieuwe functie in deze functie-app. Selecteer om te beginnen een van de onderstaande sjablonen.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Sjablonen</value>
@@ -5417,7 +5417,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Er zijn geen naamruimten in dit abonnement</value>
     </data>
   <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
-        <value>New Event Hub connection</value>
+        <value>Nieuwe Event Hub-verbinding</value>
     </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>Er zijn geen Event Hubs in deze naamruimte</value>
@@ -5450,13 +5450,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Waarde</value>
     </data>
   <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
-        <value>New Service Bus connection</value>
+        <value>Nieuwe Service Bus-verbinding</value>
     </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus</value>
     </data>
   <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
-        <value>New Custom App Setting</value>
+        <value>Nieuwe aangepaste app-instelling</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Aangepaste app-instelling</value>
@@ -5474,7 +5474,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Beleid</value>
     </data>
   <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
-        <value>New Cosmos DB connection</value>
+        <value>Nieuwe Cosmos DB-verbinding</value>
     </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB-account</value>
@@ -5486,10 +5486,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Databaseaccount</value>
     </data>
   <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Existing Storage Account</value>
+        <value>Bestaand opslagaccount</value>
     </data>
   <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
-        <value>New Storage Account connection</value>
+        <value>Nieuwe opslagaccountverbinding</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>Er zijn geen opslagaccounts in dit abonnement</value>
@@ -5617,8 +5617,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>De lijst met standaarddocumenten is gerangschikt op prioriteit. Items die boven in de lijst worden weergegeven, hebben een hogere prioriteit dan items onder in de lijst.</value>
     </data>
-  <data name="requiredField_validationMessage" xml:space="preserve">
-        <value>Naam en Waarde zijn vereiste velden</value>
+  <data name="validField_validationMessage" xml:space="preserve">
+        <value>De naam en waarde mogen niet leeg zijn en mogen alleen letters en cijfers bevatten.</value>
     </data>
   <data name="maximize" xml:space="preserve">
         <value>Maximaliseren</value>
@@ -5684,7 +5684,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Werkstroomoptie</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Werkstroomdefinitie overschrijven</value>
+        <value>Add or overwrite workflow definition</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Configureren met de bestaande werkstroomdefinitie</value>
@@ -5714,12 +5714,69 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>{0} is verwijderd</value>
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
-        <value>Test is only supported for HTTP triggered functions</value>
+        <value>De test wordt alleen ondersteund voor met HTTP geactiveerde functies</value>
     </data>
   <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+        <value>De app {{appName}} is ingesteld met stack ASP.NET, hetgeen momenteel niet wordt ondersteund in Implementatiecentrum via GitHub Actions.</value>
     </data>
   <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
+        <value>De app {{appName}} is momenteel geconfigureerd voor ASP.NET, hetgeen niet overeenkomt met de huidige buildselectie. De app werkt mogelijk niet correct met de huidige buildselectie.</value>
+    </data>
+  <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
+        <value>Bestandsnaam van GitHub Action-werkstroom</value>
+    </data>
+  <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
+        <value>U kunt geen app-bestanden weergeven zolang uw functie-app is gestopt</value>
+    </data>
+  <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
+        <value>U kunt geen app-sleutels weergeven zolang uw functie-app is gestopt</value>
+    </data>
+  <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
+        <value>Alle bindingen voor uw functies vernieuwen</value>
+    </data>
+  <data name="gitHubProtectedBranchSelected" xml:space="preserve">
+        <value>Selected branch has protection rules enabled.</value>
+    </data>
+  <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
+        <value>U kunt de runtimeversie niet weergeven of wijzigen zolang uw functie-app is gestopt.</value>
+    </data>
+  <data name="githubActionWorkflowsExist" xml:space="preserve">
+        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+    </data>
+  <data name="appFilesSaveAriaLabel" xml:space="preserve">
+        <value>Refresh app files</value>
+    </data>
+  <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
+        <value>Trigger verwijderen</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the trigger?</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
+        <value>Delete Output</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
+        <value>Weet u zeker dat u de uitvoer wilt verwijderen?</value>
+    </data>
+  <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
+        <value>Delete Input</value>
+    </data>
+  <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
+        <value>Weet u zeker dat u de invoer wilt verwijderen?</value>
+    </data>
+  <data name="deleteFunctionKeyHeader" xml:space="preserve">
+        <value>Delete Function Key</value>
+    </data>
+  <data name="deleteFunctionKeyMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the key {0}?</value>
+    </data>
+  <data name="fetchFileContentFailureMessage" xml:space="preserve">
+        <value>Failed to fetch the file content</value>
     </data>
 </root>
