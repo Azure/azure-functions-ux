@@ -28,7 +28,6 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
   const [runtimeVersion, setRuntimeVersion] = useState<string | undefined>(undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isRuntimeReachable, setIsRuntimeReachable] = useState(true);
 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
 
@@ -52,7 +51,6 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
       if (fileListResponse.metadata.success) {
         setFileList(fileListResponse.data as VfsObject[]);
       } else {
-        setIsRuntimeReachable(false);
         LogService.error(LogCategories.appFiles, 'getFileList', `Failed to get file list: ${fileListResponse.metadata.error}`);
       }
     }
@@ -87,15 +85,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   return (
     <AppFilesContext.Provider value={appFilesData}>
       {siteStateContext.stopped && <CustomBanner message={t('noAppFilesWhileFunctionAppStopped')} type={MessageBarType.warning} />}
-      <AppFiles
-        site={site}
-        fileList={fileList}
-        runtimeVersion={runtimeVersion}
-        refreshFunction={refresh}
-        isRefreshing={isRefreshing}
-        isRuntimeReachable={isRuntimeReachable}
-      />
-      }
+      <AppFiles site={site} fileList={fileList} runtimeVersion={runtimeVersion} refreshFunction={refresh} isRefreshing={isRefreshing} />}
     </AppFilesContext.Provider>
   );
 };

@@ -26,13 +26,12 @@ interface AppFilesProps {
   site: ArmObj<Site>;
   refreshFunction: () => void;
   isRefreshing: boolean;
-  isRuntimeReachable: boolean;
   fileList?: VfsObject[];
   runtimeVersion?: string;
 }
 
 const AppFiles: React.FC<AppFilesProps> = props => {
-  const { site, fileList, runtimeVersion, refreshFunction, isRefreshing, isRuntimeReachable } = props;
+  const { site, fileList, runtimeVersion, refreshFunction, isRefreshing } = props;
 
   const [initialLoading, setInitialLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
@@ -162,6 +161,8 @@ const AppFiles: React.FC<AppFilesProps> = props => {
 
   const isLoading = () => initialLoading || fetchingFileContent;
 
+  const isRuntimeReachable = () => !!fileList;
+
   useEffect(() => {
     getAndSetFile();
 
@@ -192,9 +193,9 @@ const AppFiles: React.FC<AppFilesProps> = props => {
         onChangeDropdown={onFileSelectorChange}
       />
       {(isLoading() || savingFile) && <LoadingComponent />}
-      {(!isRuntimeReachable || !isFileContentAvailable) && (
+      {(!isRuntimeReachable() || !isFileContentAvailable) && (
         <CustomBanner
-          message={!isRuntimeReachable ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+          message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
           type={MessageBarType.error}
         />
       )}
@@ -203,7 +204,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
           value={fileContent.latest}
           language={editorLanguage}
           onChange={onChange}
-          disabled={initialLoading || !isFileContentAvailable || !isRuntimeReachable}
+          disabled={initialLoading || !isFileContentAvailable || !isRuntimeReachable()}
           options={{
             minimap: { enabled: false },
             scrollBeyondLastLine: false,

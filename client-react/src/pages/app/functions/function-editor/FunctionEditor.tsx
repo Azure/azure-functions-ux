@@ -49,7 +49,6 @@ export interface FunctionEditorProps {
   appPermission: boolean;
   refresh: () => void;
   isRefreshing: boolean;
-  isRuntimeReachable: boolean;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
@@ -74,7 +73,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     testData,
     refresh,
     isRefreshing,
-    isRuntimeReachable,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -281,14 +279,19 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return !!readOnlyBanner ? readOnlyBanner.offsetHeight : 0;
   };
 
+  const isRuntimeReachable = () => {
+    console.log(fileList);
+    return !!fileList;
+  };
+
   const isTestDisabled = () => {
     const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
     const webHookTypeInfo = BindingManager.getWebHookTypeInfo(functionInfo.properties);
-    return (!httpTriggerTypeInfo && !webHookTypeInfo) || !isRuntimeReachable;
+    return (!httpTriggerTypeInfo && !webHookTypeInfo) || !isRuntimeReachable();
   };
 
   const isEditorDisabled = () => {
-    return isDisabled() || !isFileContentAvailable || !isRuntimeReachable;
+    return isDisabled() || !isFileContentAvailable || !isRuntimeReachable();
   };
 
   useEffect(() => {
@@ -341,9 +344,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           onDismiss={closeConfirmDialog}
         />
         <EditModeBanner setBanner={setReadOnlyBanner} />
-        {(!isRuntimeReachable || !isFileContentAvailable) && (
+        {(!isRuntimeReachable() || !isFileContentAvailable) && (
           <CustomBanner
-            message={!isRuntimeReachable ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+            message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
             type={MessageBarType.error}
           />
         )}
