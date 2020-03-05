@@ -26,12 +26,13 @@ interface AppFilesProps {
   site: ArmObj<Site>;
   refreshFunction: () => void;
   isRefreshing: boolean;
+  isRuntimeReachable: boolean;
   fileList?: VfsObject[];
   runtimeVersion?: string;
 }
 
 const AppFiles: React.FC<AppFilesProps> = props => {
-  const { site, fileList, runtimeVersion, refreshFunction, isRefreshing } = props;
+  const { site, fileList, runtimeVersion, refreshFunction, isRefreshing, isRuntimeReachable } = props;
 
   const [initialLoading, setInitialLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
@@ -191,13 +192,18 @@ const AppFiles: React.FC<AppFilesProps> = props => {
         onChangeDropdown={onFileSelectorChange}
       />
       {(isLoading() || savingFile) && <LoadingComponent />}
-      {!isFileContentAvailable && <CustomBanner message={t('fetchFileContentFailureMessage')} type={MessageBarType.error} />}
+      {(!isRuntimeReachable || !isFileContentAvailable) && (
+        <CustomBanner
+          message={!isRuntimeReachable ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+          type={MessageBarType.error}
+        />
+      )}
       <div className={editorStyle}>
         <MonacoEditor
           value={fileContent.latest}
           language={editorLanguage}
           onChange={onChange}
-          disabled={initialLoading || !isFileContentAvailable}
+          disabled={initialLoading || !isFileContentAvailable || !isRuntimeReachable}
           options={{
             minimap: { enabled: false },
             scrollBeyondLastLine: false,

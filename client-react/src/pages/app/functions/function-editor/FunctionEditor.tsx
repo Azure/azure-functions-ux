@@ -49,6 +49,7 @@ export interface FunctionEditorProps {
   appPermission: boolean;
   refresh: () => void;
   isRefreshing: boolean;
+  isRuntimeReachable: boolean;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
@@ -73,6 +74,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     testData,
     refresh,
     isRefreshing,
+    isRuntimeReachable,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -282,7 +284,11 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const isTestDisabled = () => {
     const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
     const webHookTypeInfo = BindingManager.getWebHookTypeInfo(functionInfo.properties);
-    return !httpTriggerTypeInfo && !webHookTypeInfo;
+    return (!httpTriggerTypeInfo && !webHookTypeInfo) || !isRuntimeReachable;
+  };
+
+  const isEditorDisabled = () => {
+    return isDisabled() || !isFileContentAvailable || !isRuntimeReachable;
   };
 
   useEffect(() => {
@@ -335,7 +341,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           onDismiss={closeConfirmDialog}
         />
         <EditModeBanner setBanner={setReadOnlyBanner} />
-        {!isFileContentAvailable && <CustomBanner message={t('fetchFileContentFailureMessage')} type={MessageBarType.error} />}
+        {(!isRuntimeReachable || !isFileContentAvailable) && (
+          <CustomBanner
+            message={!isRuntimeReachable ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+            type={MessageBarType.error}
+          />
+        )}
         <FunctionEditorFileSelectorBar
           disabled={isDisabled()}
           functionAppNameLabel={site.name}
@@ -374,7 +385,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             language={editorLanguage}
             onChange={onChange}
             height={monacoHeight}
-            disabled={isDisabled() || !isFileContentAvailable}
+            disabled={isEditorDisabled()}
             options={{
               minimap: { enabled: false },
               scrollBeyondLastLine: false,

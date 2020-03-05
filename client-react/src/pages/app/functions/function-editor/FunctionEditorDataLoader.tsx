@@ -55,6 +55,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [appPermission, setAppPermission] = useState(true);
   const [testData, setTestData] = useState<string | undefined>(undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isRuntimeReachable, setIsRuntimeReachable] = useState(true);
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
@@ -129,6 +130,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       if (fileListResponse && fileListResponse.metadata.success) {
         setFileList(fileListResponse.data as VfsObject[]);
       } else {
+        setIsRuntimeReachable(false);
         LogService.error(LogCategories.FunctionEdit, 'getFileContent', `Failed to get file content: ${fileListResponse.metadata.error}`);
       }
     }
@@ -441,6 +443,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           testData={testData}
           refresh={refresh}
           isRefreshing={isRefreshing}
+          isRuntimeReachable={isRuntimeReachable}
         />
       </div>
       {isRefreshing && <LoadingComponent overlay={true} />}

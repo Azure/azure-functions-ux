@@ -12,6 +12,8 @@ import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { useTranslation } from 'react-i18next';
 import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
 import { MessageBarType } from 'office-ui-fabric-react';
+import LogService from '../../../utils/LogService';
+import { LogCategories } from '../../../utils/LogCategories';
 
 interface AppFilesDataLoaderProps {
   resourceId: string;
@@ -26,6 +28,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
   const [runtimeVersion, setRuntimeVersion] = useState<string | undefined>(undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isRuntimeReachable, setIsRuntimeReachable] = useState(true);
 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
 
@@ -46,7 +49,12 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
       const currentRuntimeVersion = getRuntimeVersionString(hostStatusData.properties.version);
       setRuntimeVersion(currentRuntimeVersion);
       const fileListResponse = await FunctionsService.getFileContent(resourceId, undefined, currentRuntimeVersion);
-      setFileList(fileListResponse.data as VfsObject[]);
+      if (fileListResponse.metadata.success) {
+        setFileList(fileListResponse.data as VfsObject[]);
+      } else {
+        setIsRuntimeReachable(false);
+        LogService.error(LogCategories.appFiles, 'getFileList', `Failed to get file list: ${fileListResponse.metadata.error}`);
+      }
     }
 
     setInitialLoading(false);
@@ -79,7 +87,15 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   return (
     <AppFilesContext.Provider value={appFilesData}>
       {siteStateContext.stopped && <CustomBanner message={t('noAppFilesWhileFunctionAppStopped')} type={MessageBarType.warning} />}
-      <AppFiles site={site} fileList={fileList} runtimeVersion={runtimeVersion} refreshFunction={refresh} isRefreshing={isRefreshing} />}
+      <AppFiles
+        site={site}
+        fileList={fileList}
+        runtimeVersion={runtimeVersion}
+        refreshFunction={refresh}
+        isRefreshing={isRefreshing}
+        isRuntimeReachable={isRuntimeReachable}
+      />
+      }
     </AppFilesContext.Provider>
   );
 };
