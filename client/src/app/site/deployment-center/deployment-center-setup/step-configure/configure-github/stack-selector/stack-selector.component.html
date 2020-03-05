@@ -1,4 +1,6 @@
 <div class="settings-group-wrapper" [formGroup]="wizard?.buildSettings" novalidate>
+    <h3 class="first-config-heading">{{ 'build' | translate }}</h3>
+
     <div class="settings-wrapper">
         <div class="setting-wrapper">
             <label id="github-action-configure-stack-label" class="setting-label">{{ 'runtimeStack' | translate }} </label>
@@ -42,8 +44,6 @@
             </div>
         </div>
     </div>
-
-    
 
     <div class="settings-wrapper">
         <div class="setting-wrapper">

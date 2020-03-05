@@ -97,7 +97,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
             <ConfirmDialog
               primaryActionButton={{
                 title: t('ok'),
-                onClick: () => onDelete,
+                onClick: onDelete,
               }}
               defaultActionButton={{
                 title: t('cancel'),

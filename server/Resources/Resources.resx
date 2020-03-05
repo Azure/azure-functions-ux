@@ -5686,7 +5686,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Workflow Option</value>
     </data>
     <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite workflow definition</value>
+        <value>Add or overwrite workflow definition</value>
     </data>
     <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Configure using existing workflow definition</value>
@@ -5742,6 +5742,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
         <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
     </data>
+    <data name="githubActionWorkflowsExist" xml:space="preserve">
+        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+    </data>
+    <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+    </data>
     <data name="appFilesSaveAriaLabel" xml:space="preserve">
         <value>Refresh app files</value>
     </data>
@@ -5771,5 +5777,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deleteFunctionKeyMessage" xml:space="preserve">
         <value>Are you sure you want to delete the key {0}?</value>
+    </data>
+    <data name="fetchFileContentFailureMessage" xml:space="preserve">
+        <value>Failed to fetch the file content</value>
     </data>
 </root>

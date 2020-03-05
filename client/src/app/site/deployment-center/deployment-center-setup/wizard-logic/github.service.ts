@@ -71,6 +71,23 @@ export class GithubService implements OnDestroy {
     });
   }
 
+  fetchAllWorkflowConfigurations(authToken: string, repoUrl: string, repoName: string, branchName: string): Observable<FileContent[]> {
+    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/.github/workflows?ref=${branchName}`;
+
+    return this._cacheService
+      .post(
+        Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}/contents/.github/workflows&t=${Guid.newTinyGuid()}`,
+        true,
+        null,
+        {
+          url,
+          authToken,
+        }
+      )
+      .map(r => r.json())
+      .catch(e => Observable.of(null));
+  }
+
   fetchWorkflowConfiguration(
     authToken: string,
     repoUrl: string,
@@ -316,8 +333,7 @@ jobs:
       with:
         app-name: '${webAppName}'
         slot-name: '${slot}'
-        publish-profile: \${{ secrets.${secretName} }}
-        package: './myapp.zip'`;
+        publish-profile: \${{ secrets.${secretName} }}`;
   }
 
   // TODO(michinoy): Need to implement templated github action workflow generation.
