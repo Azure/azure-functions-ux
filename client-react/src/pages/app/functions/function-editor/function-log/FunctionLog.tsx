@@ -46,7 +46,10 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
           let documents = dataV2.DataRanges[0].Documents.filter(
-            (doc: SchemaDocument) => !!doc.Content.Message && doc.Content.SeverityLevel !== CommonConstants.LogLevels.verbose
+            (doc: SchemaDocument) =>
+              !!doc.Content.Message &&
+              (!doc.Content.SeverityLevel || doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.verbose) &&
+              doc.Content.OperationName === functionName
           );
           if (callCount === 0) {
             documents = trimPreviousLogs(documents);
