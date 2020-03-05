@@ -121,6 +121,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
       setFileContent({ default: fileText, latest: fileText });
       setIsFileContentAvailable(true);
     } else {
+      setFileContent({ default: '', latest: '' });
       setIsFileContentAvailable(false);
       LogService.error(LogCategories.appFiles, 'getFileContent', `Failed to get file content: ${fileResponse.metadata.error}`);
     }
