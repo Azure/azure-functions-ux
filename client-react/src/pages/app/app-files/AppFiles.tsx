@@ -40,7 +40,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   const [fileContent, setFileContent] = useState<FileContent>({ default: '', latest: '' });
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
   const [savingFile, setSavingFile] = useState(false);
-  const [isFileContentAvailable, setIsFileContentAvailable] = useState(false);
+  const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -193,7 +193,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
         onChangeDropdown={onFileSelectorChange}
       />
       {(isLoading() || savingFile) && <LoadingComponent />}
-      {(!isRuntimeReachable() || !isFileContentAvailable) && (
+      {(!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
         <CustomBanner
           message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
           type={MessageBarType.error}
