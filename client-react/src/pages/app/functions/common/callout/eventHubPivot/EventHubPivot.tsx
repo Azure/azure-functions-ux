@@ -203,7 +203,7 @@ const setEventHubConnection = (
     const appSettingName = `${formValues.namespace.name}_${keyList.keyName}_EVENTHUB`;
     const appSettingValue = formatEventHubValue(keyList, formValues.eventHub);
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
-    setSelectedItem(undefined);
+    setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
     setIsDialogVisible(false);
   }
 };

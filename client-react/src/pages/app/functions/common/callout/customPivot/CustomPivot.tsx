@@ -53,7 +53,7 @@ const setCustomConnection = (
 ) => {
   if (formValues.key && formValues.value) {
     setNewAppSetting({ key: formValues.key, value: formValues.value });
-    setSelectedItem(undefined);
+    setSelectedItem({ key: formValues.key, text: formValues.key, data: formValues.value });
     setIsDialogVisible(false);
   }
 };
