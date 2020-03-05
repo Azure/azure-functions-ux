@@ -5173,7 +5173,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>New Function</value>
     </data>
     <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Create a new function in this Function App. You can start by selecting a template below.</value>
+        <value>Create a new function in this Function App. Start by selecting a template below.</value>
     </data>
     <data name="functionCreate_templates" xml:space="preserve">
         <value>Templates</value>
@@ -5619,8 +5619,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
     </data>
-    <data name="requiredField_validationMessage" xml:space="preserve">
-        <value>Name and value are required fields</value>
+    <data name="validField_validationMessage" xml:space="preserve">
+        <value>Name and value must not be empty and must contain only letters and numbers.</value>
     </data>
     <data name="maximize" xml:space="preserve">
         <value>Maximize</value>
@@ -5686,7 +5686,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Workflow Option</value>
     </data>
     <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Overwrite workflow definition</value>
+        <value>Add or overwrite workflow definition</value>
     </data>
     <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Configure using existing workflow definition</value>
@@ -5726,5 +5726,59 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
         <value>GitHub Action Workflow Filename</value>
+    </data>
+    <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view app files while your Function App is stopped</value>
+    </data>
+    <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view app keys while your Function App is stopped</value>
+    </data>
+    <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh all bindings for your function</value>
+    </data>
+    <data name="gitHubProtectedBranchSelected" xml:space="preserve">
+        <value>Selected branch has protection rules enabled.</value>
+    </data>
+    <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+    </data>
+    <data name="githubActionWorkflowsExist" xml:space="preserve">
+        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+    </data>
+    <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+    </data>
+    <data name="appFilesSaveAriaLabel" xml:space="preserve">
+        <value>Refresh app files</value>
+    </data>
+    <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
+    <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
+        <value>Delete Trigger</value>
+    </data>
+    <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the trigger?</value>
+    </data>
+    <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
+        <value>Delete Output</value>
+    </data>
+    <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the output?</value>
+    </data>
+    <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
+        <value>Delete Input</value>
+    </data>
+    <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the input?</value>
+    </data>
+    <data name="deleteFunctionKeyHeader" xml:space="preserve">
+        <value>Delete Function Key</value>
+    </data>
+    <data name="deleteFunctionKeyMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the key {0}?</value>
+    </data>
+    <data name="fetchFileContentFailureMessage" xml:space="preserve">
+        <value>Failed to fetch the file content</value>
     </data>
 </root>

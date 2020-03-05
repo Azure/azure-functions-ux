@@ -2,7 +2,7 @@ import { style } from 'typestyle';
 import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 
 export const pivotItemWrapper = style({
-  marginTop: '25px',
+  marginTop: '10px',
 });
 
 export const bodyEditorStyle = style({

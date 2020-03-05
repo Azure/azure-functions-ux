@@ -538,6 +538,8 @@ export class DeploymentCenterConstants {
   public static readonly createRepositoryPermission = 256;
 
   public static readonly EmptyGuid = '00000000-0000-0000-0000-000000000000';
+
+  public static readonly protectedBranchSelectedLink = 'https://go.microsoft.com/fwlink/?linkid=2120729';
 }
 
 export class ComponentNames {
@@ -644,7 +646,6 @@ export class FeatureFlags {
   public static targetAzDevDeployment = 'targetAzDevDeployment';
   public static authTokenOverride = 'authTokenOverride';
   public static EnableAIOnNationalCloud = 'EnableAIOnNationalCloud';
-  public static FunctionsPreview = 'FunctionsPreview';
 }
 
 export class SupportedFeatures {

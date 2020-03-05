@@ -18,14 +18,13 @@ import BindingCard, { createNew, EditableBindingCardProps, editExisting, emptyLi
 import { listStyle } from './BindingDiagram.styles';
 
 const TriggerBindingCard: React.SFC<EditableBindingCardProps> = props => {
-  const { functionInfo, bindings, readOnly, setRequiredBindingId } = props;
+  const { functionInfo, bindings, readOnly } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
   const bindingEditorContext = useContext(BindingEditorContext) as BindingEditorContextInfo;
 
   const trigger = getTrigger(functionInfo.properties.config.bindings);
-  getRequiredBindingData(trigger, bindings, setRequiredBindingId);
   const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, trigger, readOnly);
 
   return <BindingCard title={t('trigger')} Svg={PowerSvg} content={content} {...props} />;
@@ -35,15 +34,6 @@ const getTrigger = (bindingsInfo: BindingInfo[]): BindingInfo | undefined => {
   return bindingsInfo.find(b => {
     return getBindingDirection(b) === BindingDirection.trigger;
   });
-};
-
-const getRequiredBindingData = (trigger: BindingInfo | undefined, bindings: Binding[], setRequiredBindingId: (id: string) => void) => {
-  if (trigger) {
-    const binding = bindings.find(b => b.type === trigger.type && b.direction === BindingDirection.trigger);
-    if (binding && !binding.settings) {
-      setRequiredBindingId(binding.id);
-    }
-  }
 };
 
 const getContent = (

@@ -126,6 +126,7 @@ export class SchemaDocumentContent {
   public ExceptionMessage?: string;
   public SeverityLevel?: string;
   public Properties?: QPSchemaProperty[];
+  public OperationName?: string;
 }
 
 export class QPSchemaProperty {

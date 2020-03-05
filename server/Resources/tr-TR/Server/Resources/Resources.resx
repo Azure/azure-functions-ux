@@ -1463,7 +1463,7 @@
         <value>Web uygulaması ayarları başarıyla güncelleştirildi</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings</value>
+        <value>Web uygulaması ayarları güncelleştirilemedi</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Kayıt Hatası: Geçersiz değerler girildi.</value>
@@ -2543,10 +2543,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Güneydoğu Asya</value>
     </data>
   <data name="koreacentral" xml:space="preserve">
-        <value>Kore Orta</value>
+        <value>Güney Kore - Orta</value>
     </data>
   <data name="koreasouth" xml:space="preserve">
-        <value>Kore Güney</value>
+        <value>Güney Kore - Güney</value>
     </data>
   <data name="westus" xml:space="preserve">
         <value>Batı ABD</value>
@@ -2555,10 +2555,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Doğu ABD</value>
     </data>
   <data name="japanwest" xml:space="preserve">
-        <value>Japonya Batı</value>
+        <value>Batı Japonya</value>
     </data>
   <data name="japaneast" xml:space="preserve">
-        <value>Japonya Doğu</value>
+        <value>Doğu Japonya</value>
     </data>
   <data name="eastasia" xml:space="preserve">
         <value>Doğu Asya</value>
@@ -2573,13 +2573,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Orta ABD</value>
     </data>
   <data name="brazilsouth" xml:space="preserve">
-        <value>Brezilya Güney</value>
+        <value>Güney Brezilya</value>
     </data>
   <data name="australiaeast" xml:space="preserve">
-        <value>Avustralya Doğu</value>
+        <value>Doğu Avustralya</value>
     </data>
   <data name="australiasoutheast" xml:space="preserve">
-        <value>Avustralya Güneydoğu</value>
+        <value>Güneydoğu Avustralya</value>
     </data>
   <data name="westindia" xml:space="preserve">
         <value>Batı Hindistan</value>
@@ -2591,10 +2591,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Güney Hindistan</value>
     </data>
   <data name="canadacentral" xml:space="preserve">
-        <value>Kanada Orta</value>
+        <value>Orta Kanada</value>
     </data>
   <data name="canadaeast" xml:space="preserve">
-        <value>Kanada Doğu</value>
+        <value>Doğu Kanada</value>
     </data>
   <data name="westcentralus" xml:space="preserve">
         <value>Orta Batı ABD</value>
@@ -5092,7 +5092,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Kapsayıcı ayarları doğrulanamadı.</value>
     </data>
   <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>No trigger defined</value>
+        <value>Hiçbir tetikleyici tanımlanmadı</value>
     </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Hiçbir giriş tanımlanmadı</value>
@@ -5416,7 +5416,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Bu abonelikte hiçbir ad alanı yok</value>
     </data>
   <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
-        <value>New Event Hub connection</value>
+        <value>Yeni Olay Hub'ı bağlantısı</value>
     </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>Bu ad alanında bir Olay Hub'ı yok</value>
@@ -5449,13 +5449,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Değer</value>
     </data>
   <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
-        <value>New Service Bus connection</value>
+        <value>Yeni Service Bus bağlantısı</value>
     </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus </value>
     </data>
   <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
-        <value>New Custom App Setting</value>
+        <value>Yeni Özel Uygulama Ayarı</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Özel Uygulama Ayarı</value>
@@ -5473,7 +5473,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>İlke</value>
     </data>
   <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
-        <value>New Cosmos DB connection</value>
+        <value>Yeni Cosmos DB bağlantısı</value>
     </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB Hesabı</value>
@@ -5485,10 +5485,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Veritabanı Hesabı</value>
     </data>
   <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Existing Storage Account</value>
+        <value>Mevcut Depolama Hesabı</value>
     </data>
   <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
-        <value>New Storage Account connection</value>
+        <value>Yeni Depolama Hesabı bağlantısı</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>Bu abonelikte depolama hesabı yok</value>
@@ -5616,8 +5616,8 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Varsayılan belgeler listesi önceliğe göre sıralanmıştır. Listenin en üstündeki öğeler, en altındaki öğelerden daha yüksek önceliğe sahiptir.</value>
     </data>
-  <data name="requiredField_validationMessage" xml:space="preserve">
-        <value>Ad ve değer gerekli alanlardır</value>
+  <data name="validField_validationMessage" xml:space="preserve">
+        <value>Ad ve değer boş olmamalı ve yalnızca harf ve rakam içermelidir.</value>
     </data>
   <data name="maximize" xml:space="preserve">
         <value>Ekranı Kapla</value>
@@ -5683,7 +5683,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>İş Akışı Seçeneği</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>İş akışı tanımının üzerine yaz</value>
+        <value>Add or overwrite workflow definition</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Mevcut iş akışı tanımını kullanarak yapılandır</value>
@@ -5713,12 +5713,69 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>{0} başarıyla silindi</value>
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
-        <value>Test is only supported for HTTP triggered functions</value>
+        <value>Test yalnızca HTTP tarafından tetiklenen işlevler için desteklenir</value>
     </data>
   <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+        <value>'{{appName}}' uygulaması şu anda GitHub Actions aracılığıyla Dağıtım Merkezinde desteklenmeyen 'ASP.NET' yığını ile kuruldu.</value>
     </data>
   <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
+        <value>'{{appName}}' uygulaması, şu anda geçerli derleme seçimiyle eşleşmeyen 'ASP.NET' için yapılandırıldı. Uygulama, geçerli derleme seçimiyle düzgün çalışmayabilir.</value>
+    </data>
+  <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
+        <value>GitHub Eylem İş Akışı Dosya Adı</value>
+    </data>
+  <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
+        <value>İşlev Uygulamanız durdurulduğunda uygulama dosyalarını görüntüleyemezsiniz</value>
+    </data>
+  <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
+        <value>İşlev Uygulamanız durdurulduğunda uygulama anahtarlarını görüntüleyemezsiniz</value>
+    </data>
+  <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
+        <value>İşleviniz için tüm bağlamaları yenileyin</value>
+    </data>
+  <data name="gitHubProtectedBranchSelected" xml:space="preserve">
+        <value>Selected branch has protection rules enabled.</value>
+    </data>
+  <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+    </data>
+  <data name="githubActionWorkflowsExist" xml:space="preserve">
+        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+    </data>
+  <data name="appFilesSaveAriaLabel" xml:space="preserve">
+        <value>Refresh app files</value>
+    </data>
+  <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
+        <value>Tetikleyiciyi Sil</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the trigger?</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
+        <value>Delete Output</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
+        <value>Çıkışı silmek istediğinizden emin misiniz?</value>
+    </data>
+  <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
+        <value>Delete Input</value>
+    </data>
+  <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
+        <value>Girişi silmek istediğinizden emin misiniz?</value>
+    </data>
+  <data name="deleteFunctionKeyHeader" xml:space="preserve">
+        <value>Delete Function Key</value>
+    </data>
+  <data name="deleteFunctionKeyMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the key {0}?</value>
+    </data>
+  <data name="fetchFileContentFailureMessage" xml:space="preserve">
+        <value>Failed to fetch the file content</value>
     </data>
 </root>

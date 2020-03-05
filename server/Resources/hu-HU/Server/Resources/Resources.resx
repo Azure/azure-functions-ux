@@ -1463,7 +1463,7 @@
         <value>A webalkalmazás-beállítások sikeresen frissítve</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings</value>
+        <value>A webalkalmazás-beállítások frissítése sikertelen</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Mentési hiba: a megadott adat érvénytelen.</value>
@@ -5092,7 +5092,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Nem sikerült érvényesíteni a tárolóbeállításokat.</value>
     </data>
   <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>No trigger defined</value>
+        <value>Nincs definiálva trigger</value>
     </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Nincs definiálva bemenet</value>
@@ -5416,7 +5416,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Ebben az előfizetésben nincsenek névterek</value>
     </data>
   <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
-        <value>New Event Hub connection</value>
+        <value>Új eseményközpont-kapcsolat</value>
     </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>Ebben a névtérben nincsenek eseményközpontok</value>
@@ -5449,13 +5449,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Érték</value>
     </data>
   <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
-        <value>New Service Bus connection</value>
+        <value>Új Service Bus-kapcsolat</value>
     </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus</value>
     </data>
   <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
-        <value>New Custom App Setting</value>
+        <value>Új egyéni alkalmazásbeállítás</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Egyéni alkalmazásbeállítás</value>
@@ -5473,7 +5473,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Házirend</value>
     </data>
   <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
-        <value>New Cosmos DB connection</value>
+        <value>Új Cosmos DB-kapcsolat</value>
     </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB-fiók</value>
@@ -5485,10 +5485,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Adatbázisfiók</value>
     </data>
   <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Existing Storage Account</value>
+        <value>Meglévő tárfiók</value>
     </data>
   <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
-        <value>New Storage Account connection</value>
+        <value>Új tárfiókkapcsolat</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>Ebben az előfizetésben nem találhatók tárfiókok</value>
@@ -5616,8 +5616,8 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Az alapértelmezett dokumentumlista precedencia szerint van rendezve. A lista elején található elemek nagyobb precedenciával rendelkeznek, mint a lista végén találhatók.</value>
     </data>
-  <data name="requiredField_validationMessage" xml:space="preserve">
-        <value>A név és az érték mezők kitöltése kötelező</value>
+  <data name="validField_validationMessage" xml:space="preserve">
+        <value>A név és az érték nem lehet üres, és csak betűkből és számokból állhat.</value>
     </data>
   <data name="maximize" xml:space="preserve">
         <value>Teljes méret</value>
@@ -5683,7 +5683,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Munkafolyamat-beállítás</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Munkafolyamat-definíció felülírása</value>
+        <value>Add or overwrite workflow definition</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Konfigurálás a meglévő munkafolyamat-definíció használatával</value>
@@ -5713,12 +5713,69 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A(z) {0} törlése sikerült</value>
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
-        <value>Test is only supported for HTTP triggered functions</value>
+        <value>A teszt csak HTTP-triggeres függvények esetén támogatott</value>
     </data>
   <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+        <value>A(z) {{appName}} alkalmazás a(z) ASP.NET veremmel van beállítva, ami jelenleg nem támogatott az üzembe helyezési központban a GitHub Actions szolgáltatáson keresztül.</value>
     </data>
   <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
+        <value>A(z) {{appName}} alkalmazás jelenleg konfigurálva van az ASP.NET típushoz, amely nem felel meg az aktuális Build-kijelölésnek. Lehetséges, hogy az alkalmazás nem működik megfelelően az aktuális Build-kijelöléssel.</value>
+    </data>
+  <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
+        <value>GitHub-művelet munkafolyamatának neve</value>
+    </data>
+  <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
+        <value>Nem tudja megtekinteni az alkalmazásfájlokat, amíg a függvényalkalmazás le van állítva</value>
+    </data>
+  <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
+        <value>Nem tudja megtekinteni az alkalmazáskulcsokat, amíg a függvényalkalmazás le van állítva</value>
+    </data>
+  <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
+        <value>A függvény összes kötésének frissítése</value>
+    </data>
+  <data name="gitHubProtectedBranchSelected" xml:space="preserve">
+        <value>Selected branch has protection rules enabled.</value>
+    </data>
+  <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+    </data>
+  <data name="githubActionWorkflowsExist" xml:space="preserve">
+        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+    </data>
+  <data name="appFilesSaveAriaLabel" xml:space="preserve">
+        <value>Refresh app files</value>
+    </data>
+  <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
+        <value>Trigger törlése</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the trigger?</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
+        <value>Delete Output</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
+        <value>Biztosan törli a kimenetet?</value>
+    </data>
+  <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
+        <value>Delete Input</value>
+    </data>
+  <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
+        <value>Biztosan törli a bemenetet?</value>
+    </data>
+  <data name="deleteFunctionKeyHeader" xml:space="preserve">
+        <value>Delete Function Key</value>
+    </data>
+  <data name="deleteFunctionKeyMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the key {0}?</value>
+    </data>
+  <data name="fetchFileContentFailureMessage" xml:space="preserve">
+        <value>Failed to fetch the file content</value>
     </data>
 </root>

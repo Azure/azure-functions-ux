@@ -6,6 +6,10 @@ import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { PortalContext } from '../../../../PortalContext';
 import { SiteRouterContext } from '../../SiteRouter';
 import { disableIFrameStyle } from './AppKeys.styles';
+import { SiteStateContext } from '../../../../SiteStateContext';
+import { useTranslation } from 'react-i18next';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { MessageBarType } from 'office-ui-fabric-react';
 
 const appKeysData = new AppKeysData();
 export const AppKeysContext = React.createContext(appKeysData);
@@ -19,8 +23,13 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   const [initialValues, setInitialValues] = useState<AppKeysFormValues | null>(null);
   const [refreshLoading, setRefeshLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [appPermission, setAppPermission] = useState(true);
+
   const portalContext = useContext(PortalContext);
   const siteContext = useContext(SiteRouterContext);
+  const siteStateContext = useContext(SiteStateContext);
+
+  const { t } = useTranslation();
 
   const refreshData = () => {
     setRefeshLoading(true);
@@ -31,8 +40,8 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
     const site = await siteContext.fetchSite(resourceId);
     const appKeys = await appKeysData.fetchKeys(resourceId);
 
-    if (appKeys.metadata.status === 409) {
-      // TODO: [krmitta] read only permission given (WI: TASK 5476044)
+    if (appKeys.metadata.status === 409 || appKeys.metadata.status === 403) {
+      setAppPermission(false);
     }
 
     setInitialValues(
@@ -54,13 +63,20 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
 
   return (
     <AppKeysContext.Provider value={appKeysData}>
+      {siteStateContext.stopped && <CustomBanner message={t('noAppKeysWhileFunctionAppStopped')} type={MessageBarType.warning} />}
       {refreshLoading && (
         <div>
           <LoadingComponent />
           <div className={disableIFrameStyle} />
         </div>
       )}
-      <AppKeys initialLoading={initialLoading} resourceId={resourceId} initialValues={initialValues} refreshData={refreshData} />
+      <AppKeys
+        initialLoading={initialLoading}
+        resourceId={resourceId}
+        initialValues={initialValues}
+        refreshData={refreshData}
+        appPermission={appPermission || !siteStateContext.stopped}
+      />
     </AppKeysContext.Provider>
   );
 };

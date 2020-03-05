@@ -39,3 +39,12 @@ export const arrowProps: SVGAttributes<SVGSVGElement> = {
 export const smallPageStyle = style({
   padding: '20px',
 });
+
+export const dialogModelStyle = {
+  main: {
+    position: 'absolute' as 'absolute',
+    top: '125px',
+    right: '0px',
+    minWidth: '340px !important',
+  },
+};

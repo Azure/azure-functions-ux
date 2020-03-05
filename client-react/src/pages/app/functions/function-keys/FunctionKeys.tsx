@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { FunctionKeysFormValues, FunctionKeysModel } from './FunctionKeys.types';
+import { FunctionKeysFormValues, FunctionKeysModel, DialogType } from './FunctionKeys.types';
 import { useTranslation } from 'react-i18next';
 import { commandBarSticky, formStyle, renewTextStyle, filterBoxStyle } from './FunctionKeys.styles';
 import FunctionKeysCommandBar from './FunctionKeysCommandBar';
@@ -12,6 +12,7 @@ import {
   SelectionMode,
   SearchBox,
   PanelType,
+  Overlay,
 } from 'office-ui-fabric-react';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { FunctionKeysContext } from './FunctionKeysDataLoader';
@@ -32,7 +33,9 @@ interface FunctionKeysProps {
   resourceId: string;
   initialValues: FunctionKeysFormValues;
   refreshData: () => void;
-  setRefeshLoading: (loading: boolean) => void;
+  setRefreshLoading: (loading: boolean) => void;
+  refreshLoading: boolean;
+  appPermission: boolean;
 }
 
 const emptyKey = { name: '', value: '' };
@@ -42,26 +45,29 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     refreshData,
     initialValues: { keys },
     resourceId,
-    setRefeshLoading,
+    refreshLoading,
+    appPermission,
   } = props;
   const { t } = useTranslation();
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
-  const [showRenewDialog, setShowRenewDialog] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
   const [renewKey, setRenewKey] = useState(emptyKey);
   const [filterValue, setFilterValue] = useState('');
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
   const [shownValues, setShownValues] = useState<string[]>([]);
-  const [deletingKey, setDeletingKey] = useState(false);
+  const [deletingKey, setDeletingKey] = useState<string | undefined>(undefined);
+  const [dialogType, setDialogType] = useState<DialogType>(DialogType.renew);
 
   const functionKeysContext = useContext(FunctionKeysContext);
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
 
   const siteStateContext = useContext(SiteStateContext);
-  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext);
+
+  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext.readOnlyState) || !appPermission;
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(keys.map(h => h.name))]);
@@ -84,6 +90,11 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     setPanelItem(key ? 'edit' : 'add');
   };
 
+  const setRefreshLoading = (refresh: boolean) => {
+    onClosePanel();
+    props.setRefreshLoading(refresh);
+  };
+
   const getColumns = (): IColumn[] => {
     return [
       {
@@ -102,7 +113,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 210,
+        minWidth: 260,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
@@ -124,8 +135,8 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         key: 'delete',
         name: '',
         fieldName: 'delete',
-        minWidth: 100,
-        maxWidth: 100,
+        minWidth: 50,
+        maxWidth: 50,
         isRowHeader: false,
         isResizable: false,
         isCollapsable: false,
@@ -156,21 +167,24 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     setShownValues([...newShownValues]);
   };
 
-  const deleteHostKey = async (itemKey: string) => {
-    setDeletingKey(true);
-    const notificationId = portalCommunicator.startNotification(
-      t('deleteFunctionKeyNotification'),
-      t('deleteFunctionKeyNotificationDetails').format(itemKey)
-    );
-    const response = await functionKeysContext.deleteKey(resourceId, itemKey);
-    if (response.metadata.success) {
-      portalCommunicator.stopNotification(notificationId, true, t('deleteFunctionKeyNotificationSuccess').format(itemKey));
-      refreshData();
-    } else {
-      portalCommunicator.stopNotification(notificationId, false, t('deleteFunctionKeyNotificationFailed').format(itemKey));
-      LogService.error(LogCategories.functionKeys, 'delete keys', `Failed to delete keys: ${response.metadata.error}`);
+  const deleteHostKey = async (deletingKey: string | undefined) => {
+    closeDialog();
+    if (!!deletingKey) {
+      setRefreshLoading(true);
+      const notificationId = portalCommunicator.startNotification(
+        t('deleteFunctionKeyNotification'),
+        t('deleteFunctionKeyNotificationDetails').format(deletingKey)
+      );
+      const response = await functionKeysContext.deleteKey(resourceId, deletingKey);
+      if (response.metadata.success) {
+        portalCommunicator.stopNotification(notificationId, true, t('deleteFunctionKeyNotificationSuccess').format(deletingKey));
+        refreshData();
+      } else {
+        portalCommunicator.stopNotification(notificationId, false, t('deleteFunctionKeyNotificationFailed').format(deletingKey));
+        LogService.error(LogCategories.functionKeys, 'delete keys', `Failed to delete keys: ${response.metadata.error}`);
+      }
+      setRefreshLoading(false);
     }
-    setDeletingKey(false);
   };
 
   const onRenderColumnItem = (item: FunctionKeysModel, index: number, column: IColumn) => {
@@ -214,7 +228,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
             id={`function-keys-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
-            onClick={() => deleteHostKey(itemKey)}
+            onClick={() => showDeleteKeyDialog(itemKey)}
           />
         </TooltipHost>
       );
@@ -230,26 +244,28 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   };
 
   const createFunctionKey = async (key: FunctionKeysModel) => {
-    setRefeshLoading(true);
+    setRefreshLoading(true);
     await functionKeysContext.createKey(resourceId, key.name, key.value);
     refreshData();
   };
 
-  const closeRenewKeyDialog = () => {
+  const closeDialog = () => {
     setRenewKey(emptyKey);
-    setShowRenewDialog(false);
+    setDeletingKey(undefined);
+    setShowDialog(false);
   };
 
   const showRenewKeyDialog = (item: FunctionKeysModel) => {
     setRenewKey(item);
-    setShowRenewDialog(true);
+    setDialogType(DialogType.renew);
+    setShowDialog(true);
   };
 
   const renewFunctionKey = () => {
     if (renewKey.name) {
       createFunctionKey({ name: renewKey.name, value: '' });
     }
-    closeRenewKeyDialog();
+    closeDialog();
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
@@ -277,67 +293,97 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     ];
   };
 
+  const showDeleteKeyDialog = (itemKey: string) => {
+    setShowDialog(true);
+    setDialogType(DialogType.delete);
+    setDeletingKey(itemKey);
+  };
+
   return (
-    <div>
-      {deletingKey && <LoadingComponent overlay={true} />}
-      <div id="command-bar" className={commandBarSticky}>
-        <FunctionKeysCommandBar refreshFunction={refreshData} />
-      </div>
-      <div id="function-keys-data" className={formStyle}>
-        <h3>{t('functionKeys_title')}</h3>
-        <DisplayTableWithCommandBar
-          commandBarItems={getCommandBarItems()}
-          columns={getColumns()}
-          items={filterValues()}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('emptyFunctionKeys')}>
-          {showFilter && (
-            <SearchBox
-              id="function-keys-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterBoxStyle}
-              placeholder={t('filterFunctionKeys')}
-              onChange={newValue => setFilterValue(newValue)}
+    <>
+      <div>
+        <div id="command-bar" className={commandBarSticky}>
+          <FunctionKeysCommandBar refreshFunction={refreshData} appPermission={appPermission} refreshLoading={refreshLoading} />
+        </div>
+        <div id="function-keys-data" className={formStyle}>
+          <h3>{t('functionKeys_title')}</h3>
+          <DisplayTableWithCommandBar
+            commandBarItems={getCommandBarItems()}
+            columns={getColumns()}
+            items={filterValues()}
+            isHeaderVisible={true}
+            layoutMode={DetailsListLayoutMode.justified}
+            selectionMode={SelectionMode.none}
+            selectionPreservedOnEmptyClick={true}
+            emptyMessage={t('emptyFunctionKeys')}>
+            {showFilter && (
+              <SearchBox
+                id="function-keys-search"
+                className="ms-slideDownIn20"
+                autoFocus
+                iconProps={{ iconName: 'Filter' }}
+                styles={filterBoxStyle}
+                placeholder={t('filterFunctionKeys')}
+                onChange={newValue => setFilterValue(newValue)}
+              />
+            )}
+          </DisplayTableWithCommandBar>
+          {dialogType === DialogType.renew ? (
+            <ConfirmDialog
+              primaryActionButton={{
+                title: t('functionKeys_renew'),
+                onClick: renewFunctionKey,
+              }}
+              defaultActionButton={{
+                title: t('cancel'),
+                onClick: closeDialog,
+              }}
+              title={t('renewKeyValue')}
+              content={t('renewKeyValueContent').format(renewKey.name)}
+              hidden={!showDialog}
+              onDismiss={closeDialog}
+            />
+          ) : (
+            <ConfirmDialog
+              primaryActionButton={{
+                title: t('delete'),
+                onClick: () => deleteHostKey(deletingKey),
+              }}
+              defaultActionButton={{
+                title: t('cancel'),
+                onClick: closeDialog,
+              }}
+              title={t('deleteFunctionKeyHeader')}
+              content={t('deleteFunctionKeyMessage').format(deletingKey)}
+              hidden={!showDialog}
+              onDismiss={closeDialog}
             />
           )}
-        </DisplayTableWithCommandBar>
-        <ConfirmDialog
-          primaryActionButton={{
-            title: t('functionKeys_renew'),
-            onClick: renewFunctionKey,
-          }}
-          defaultActionButton={{
-            title: t('cancel'),
-            onClick: closeRenewKeyDialog,
-          }}
-          title={t('renewKeyValue')}
-          content={t('renewKeyValueContent').format(renewKey.name)}
-          hidden={!showRenewDialog}
-          onDismiss={closeRenewKeyDialog}
-        />
-        <Panel
-          isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
-          onDismiss={onClosePanel}
-          headerText={panelItem === 'edit' ? t('editFunctionKey') : t('addFunctionKey')}
-          type={PanelType.medium}>
-          <FunctionKeyAddEdit
-            resourceId={resourceId}
-            createAppKey={createFunctionKey}
-            closeBlade={onClosePanel}
-            appKey={currentKey}
-            otherAppKeys={keys}
-            panelItem={panelItem}
-            showRenewKeyDialog={showRenewKeyDialog}
-            readOnlyPermission={readOnlyPermission}
-          />
-        </Panel>
+          <Panel
+            isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
+            onDismiss={onClosePanel}
+            headerText={panelItem === 'edit' ? t('editFunctionKey') : t('addFunctionKey')}
+            type={PanelType.medium}>
+            <FunctionKeyAddEdit
+              resourceId={resourceId}
+              createAppKey={createFunctionKey}
+              closeBlade={onClosePanel}
+              appKey={currentKey}
+              otherAppKeys={keys}
+              panelItem={panelItem}
+              showRenewKeyDialog={showRenewKeyDialog}
+              readOnlyPermission={readOnlyPermission}
+            />
+          </Panel>
+        </div>
       </div>
-    </div>
+      {(deletingKey || refreshLoading) && (
+        <>
+          <LoadingComponent />
+          <Overlay />
+        </>
+      )}
+    </>
   );
 };
 

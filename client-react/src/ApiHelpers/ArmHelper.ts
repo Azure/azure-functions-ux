@@ -12,6 +12,7 @@ import { ArmArray, ArmObj } from '../models/arm-obj';
 
 const alwaysSkipBatch = !!Url.getParameterByName(null, 'appsvc.skipbatching');
 const sessionId = Url.getParameterByName(null, 'sessionId');
+
 interface InternalArmRequest {
   method: MethodTypes;
   resourceId: string;
@@ -30,14 +31,16 @@ interface ArmBatchObject {
   content: any;
   id?: string;
 }
+
 interface ArmBatchResponse {
   responses: ArmBatchObject[];
 }
+
 const bufferTimeInterval = 100; // ms
 const maxBufferSize = 20;
 const armSubject$ = new Subject<InternalArmRequest>();
 const armObs$ = armSubject$.pipe(
-  bufferTime(bufferTimeInterval, bufferTimeInterval, maxBufferSize, async),
+  bufferTime(bufferTimeInterval, null, maxBufferSize, async),
   filter(x => x.length > 0),
   concatMap(x => {
     const batchBody = x.map(arm => {
@@ -53,6 +56,7 @@ const armObs$ = armSubject$.pipe(
         url: Url.appendQueryString(`${arm.resourceId}${arm.queryString || ''}`, apiVersionString),
       };
     });
+
     return from(
       makeArmRequest<ArmBatchResponse>({
         method: 'POST',
@@ -84,9 +88,11 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
     'x-ms-client-request-id': armObj.id,
     ...armObj.headers,
   };
+
   if (sessionId) {
     headers['x-ms-client-session-id'] = sessionId;
   }
+
   try {
     const result = await axios({
       url,
@@ -95,6 +101,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
       data: body,
       validateStatus: () => true, // never throw on an error, we can check the status and handle the error in the UI
     });
+
     if (retry < 2 && result.status === 401) {
       if (window.updateAuthToken) {
         const newToken = await window.updateAuthToken('');
@@ -103,10 +110,13 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
         } else {
           throw Error('window.appsvc not available');
         }
+
         return makeArmRequest(armObj, retry + 1);
       }
     }
+
     LogService.trackEvent(LogCategories.armHelper, 'makeArmRequest', { resourceId, method, sessionId, correlationId: armObj.id });
+
     return result;
   } catch (err) {
     // This shouldn't be hit since we're telling axios to not throw on error
@@ -140,8 +150,10 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
         .subscribe(x => {
           resolve(x);
         });
+
       armSubject$.next(armBatchObject);
     });
+
     const res = await fetchFromBatch;
     const resSuccess = res.httpStatusCode < 300;
     const ret: HttpResponseObject<T> = {
@@ -153,8 +165,10 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
       },
       data: resSuccess ? res.content : null,
     };
+
     return ret;
   }
+
   const response = await makeArmRequest<T>(armBatchObject);
   const responseSuccess = response.status < 300;
   const retObj: HttpResponseObject<T> = {
@@ -166,6 +180,7 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
     },
     data: response.data,
   };
+
   return retObj;
 };
 

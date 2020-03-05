@@ -6,6 +6,7 @@ import { Guid } from 'app/shared/Utilities/Guid';
 import { Observable } from 'rxjs/Observable';
 import { FileContent, WorkflowInformation, GitHubActionWorkflowRequestContent } from '../../Models/github';
 import { BuildSettings, SourceSettings } from './deployment-center-setup-models';
+import { Response } from '@angular/http';
 
 @Injectable()
 export class GithubService implements OnDestroy {
@@ -59,7 +60,7 @@ export class GithubService implements OnDestroy {
     });
   }
 
-  fetchBranches(authToken: string, repoUrl: string, repoName: string, page?: number) {
+  fetchBranches(authToken: string, repoUrl: string, repoName: string, page?: number): Observable<Response> {
     const url = page
       ? `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches?per_page=100&page=${page}`
       : `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches?per_page=100`;
@@ -68,6 +69,23 @@ export class GithubService implements OnDestroy {
       url,
       authToken,
     });
+  }
+
+  fetchAllWorkflowConfigurations(authToken: string, repoUrl: string, repoName: string, branchName: string): Observable<FileContent[]> {
+    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/.github/workflows?ref=${branchName}`;
+
+    return this._cacheService
+      .post(
+        Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}/contents/.github/workflows&t=${Guid.newTinyGuid()}`,
+        true,
+        null,
+        {
+          url,
+          authToken,
+        }
+      )
+      .map(r => r.json())
+      .catch(e => Observable.of(null));
   }
 
   fetchWorkflowConfiguration(
@@ -120,7 +138,9 @@ export class GithubService implements OnDestroy {
         content = this._getNodeGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion);
         break;
       case RuntimeStacks.python:
-        content = this._getPythonGithubActionWorkflowDefinition(siteName, slotName, branch, isLinuxApp, secretName, runtimeStackVersion);
+        content = isLinuxApp
+          ? this._getPythonGithubActionWorkflowDefinitionForLinux(siteName, slotName, branch, secretName, runtimeStackVersion)
+          : this._getPythonGithubActionWorkflowDefinitionForWindows(siteName, slotName, branch, secretName, runtimeStackVersion);
         break;
       case RuntimeStacks.dotnetcore:
         content = this._getDotnetCoreGithubActionWorkflowDefinition(
@@ -220,11 +240,10 @@ jobs:
 
   // TODO(michinoy): Need to implement templated github action workflow generation.
   // Current reference - https://github.com/Azure/actions-workflow-templates
-  private _getPythonGithubActionWorkflowDefinition(
+  private _getPythonGithubActionWorkflowDefinitionForWindows(
     siteName: string,
     slotName: string,
     branch: string,
-    isLinuxApp: boolean,
     secretName: string,
     runtimeStackVersion: string
   ) {
@@ -243,7 +262,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ${isLinuxApp ? 'ubuntu-latest' : 'windows-latest'}
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@master
@@ -268,6 +287,53 @@ jobs:
         slot-name: '${slot}'
         publish-profile: \${{ secrets.${secretName} }}
         package: './myapp.zip'`;
+  }
+
+  // TODO(michinoy): Need to implement templated github action workflow generation.
+  // Current reference - https://github.com/Azure/actions-workflow-templates
+  private _getPythonGithubActionWorkflowDefinitionForLinux(
+    siteName: string,
+    slotName: string,
+    branch: string,
+    secretName: string,
+    runtimeStackVersion: string
+  ) {
+    const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
+    const slot = slotName || 'production';
+
+    return `# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Python app to Azure Web App - ${webAppName}
+
+on:
+  push:
+    branches:
+      - ${branch}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Set up Python version
+      uses: actions/setup-python@v1
+      with:
+        python-version: '${runtimeStackVersion}'
+
+    - name: Build using AppService-Build
+      uses: azure/appservice-build@v1
+      with:
+        platform: python
+
+    - name: 'Deploy to Azure Web App'
+      uses: azure/webapps-deploy@v1
+      with:
+        app-name: '${webAppName}'
+        slot-name: '${slot}'
+        publish-profile: \${{ secrets.${secretName} }}`;
   }
 
   // TODO(michinoy): Need to implement templated github action workflow generation.

@@ -1,16 +1,17 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { NewConnectionCalloutProps } from '../Callout.properties';
-import { Formik, FormikProps, FieldProps } from 'formik';
-import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
-import { IoTHubPivotContext } from './IoTHubPivotDataLoader';
-import { IotHub, KeyList, Key } from '../../../../../../models/iothub';
-import { ArmObj } from '../../../../../../models/arm-obj';
-import LogService from '../../../../../../utils/LogService';
-import { LogCategories } from '../../../../../../utils/LogCategories';
-import { IDropdownOption, DefaultButton, IDropdownProps } from 'office-ui-fabric-react';
+import { FieldProps, Formik, FormikProps } from 'formik';
+import { DefaultButton, IDropdownOption, IDropdownProps } from 'office-ui-fabric-react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
+import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
+import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
+import { ArmObj } from '../../../../../../models/arm-obj';
+import { IotHub, Key, KeyList } from '../../../../../../models/iothub';
+import { LogCategories } from '../../../../../../utils/LogCategories';
+import LogService from '../../../../../../utils/LogService';
+import { NewConnectionCalloutProps } from '../Callout.properties';
+import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
+import { IoTHubPivotContext } from './IoTHubPivotDataLoader';
 
 interface IoTHubPivotFormValues {
   iotHub: ArmObj<IotHub> | undefined;
@@ -54,6 +55,7 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
 
   const iotHubOptions: IDropdownOption[] = [];
   iotHubs.forEach(iotHub => iotHubOptions.push({ text: iotHub.name, key: iotHub.id, data: iotHub }));
+
   if (!formValues.iotHub && iotHubOptions.length > 0) {
     setFormValues({ ...formValues, iotHub: iotHubs[0] });
   }
@@ -61,13 +63,18 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
   let endpointOptions: IDropdownOption[] = [];
   if (keyList) {
     const keyFound = keyList.value.find(key => key.rights.toLowerCase().indexOf('registry') > -1);
+
     if (keyFound) {
-      setServiceKey(keyFound);
+      if (!serviceKey) {
+        setServiceKey(keyFound);
+      }
+
       endpointOptions = [
         { text: t('iotHubPivot_IOTEvents'), key: 'events', data: 'events' },
         { text: t('iotHubPivot_IOTMonitoring'), key: 'monitoring', data: 'monitoring' },
       ];
     }
+
     if (!formValues.endpoint && endpointOptions.length > 0) {
       setFormValues({ ...formValues, endpoint: 'events' });
     }
@@ -84,31 +91,33 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
               <p>{t('iotHubPivot_noIoTHubs')}</p>
             ) : (
               <>
-                <Dropdown
-                  label={t('iotHubPivot_IoTHub')}
-                  options={iotHubOptions}
-                  selectedKey={formValues.iotHub && formValues.iotHub.id}
-                  onChange={(o, e) => {
-                    setFormValues({ iotHub: e && e.data, endpoint: undefined });
-                    setKeyList(undefined);
-                  }}
-                  errorMessage={undefined}
-                  {...props}
-                />
-                {!keyList && <LoadingComponent />}
-                {!!keyList && !!endpointOptions && endpointOptions.length === 0 ? (
-                  <p>{t('iotHubPivot_noEndpoints')}</p>
-                ) : (
+                <FormControlWrapper label={t('iotHubPivot_IoTHub')} layout={Layout.vertical}>
                   <Dropdown
-                    label={t('iotHubPivot_Endpoint')}
-                    options={endpointOptions}
-                    selectedKey={formValues.endpoint}
+                    options={iotHubOptions}
+                    selectedKey={formValues.iotHub && formValues.iotHub.id}
                     onChange={(o, e) => {
-                      setFormValues({ ...formValues, endpoint: e && e.data });
+                      setFormValues({ iotHub: e && e.data, endpoint: undefined });
+                      setKeyList(undefined);
                     }}
                     errorMessage={undefined}
                     {...props}
                   />
+                </FormControlWrapper>
+                {!keyList && <LoadingComponent />}
+                {!!keyList && !!endpointOptions && endpointOptions.length === 0 ? (
+                  <p>{t('iotHubPivot_noEndpoints')}</p>
+                ) : (
+                  <FormControlWrapper label={t('iotHubPivot_Endpoint')} layout={Layout.vertical}>
+                    <Dropdown
+                      options={endpointOptions}
+                      selectedKey={formValues.endpoint}
+                      onChange={(o, e) => {
+                        setFormValues({ ...formValues, endpoint: e && e.data });
+                      }}
+                      errorMessage={undefined}
+                      {...props}
+                    />
+                  </FormControlWrapper>
                 )}
               </>
             )}
@@ -135,7 +144,7 @@ const setIoTHubConnection = (
     const appSettingName = `${formValues.iotHub.name}_${formValues.endpoint}_IOTHUB`;
     const appSettingValue = formatIoTHubValue(formValues.endpoint, formValues.iotHub, serviceKey);
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
-    setSelectedItem(undefined);
+    setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
     setIsDialogVisible(false);
   }
 };

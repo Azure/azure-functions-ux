@@ -4,8 +4,8 @@ import { Site } from '../../../models/site/site';
 import AppFilesCommandBar from './AppFilesCommandBar';
 import { commandBarSticky, editorStyle } from './AppFiles.styles';
 import FunctionEditorFileSelectorBar from '../functions/function-editor/FunctionEditorFileSelectorBar';
-import { IDropdownOption } from 'office-ui-fabric-react';
-import MonacoEditor from '../../../components/monaco-editor/monaco-editor';
+import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
+import MonacoEditor, { getMonacoEditorTheme } from '../../../components/monaco-editor/monaco-editor';
 import { VfsObject } from '../../../models/functions/vfs';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
@@ -16,15 +16,22 @@ import EditorManager, { EditorLanguage } from '../../../utils/EditorManager';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import { SiteStateContext } from '../../../SiteStateContext';
 import SiteHelper from '../../../utils/SiteHelper';
+import { StartupInfoContext } from '../../../StartupInfoContext';
+import { PortalTheme } from '../../../models/portal-models';
+import LogService from '../../../utils/LogService';
+import { LogCategories } from '../../../utils/LogCategories';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 
 interface AppFilesProps {
   site: ArmObj<Site>;
+  refreshFunction: () => void;
+  isRefreshing: boolean;
   fileList?: VfsObject[];
   runtimeVersion?: string;
 }
 
 const AppFiles: React.FC<AppFilesProps> = props => {
-  const { site, fileList, runtimeVersion } = props;
+  const { site, fileList, runtimeVersion, refreshFunction, isRefreshing } = props;
 
   const [initialLoading, setInitialLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
@@ -33,10 +40,12 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   const [fileContent, setFileContent] = useState<FileContent>({ default: '', latest: '' });
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
   const [savingFile, setSavingFile] = useState(false);
+  const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean | undefined>(undefined);
 
   const { t } = useTranslation();
 
   const siteState = useContext(SiteStateContext);
+  const startUpInfoContext = useContext(StartupInfoContext);
 
   const save = async () => {
     if (!selectedFile) {
@@ -110,6 +119,11 @@ const AppFiles: React.FC<AppFilesProps> = props => {
         fileText = JSON.stringify(fileResponse.data, null, 2);
       }
       setFileContent({ default: fileText, latest: fileText });
+      setIsFileContentAvailable(true);
+    } else {
+      setFileContent({ default: '', latest: '' });
+      setIsFileContentAvailable(false);
+      LogService.error(LogCategories.appFiles, 'getFileContent', `Failed to get file content: ${fileResponse.metadata.error}`);
     }
   };
 
@@ -147,6 +161,8 @@ const AppFiles: React.FC<AppFilesProps> = props => {
 
   const isLoading = () => initialLoading || fetchingFileContent;
 
+  const isRuntimeReachable = () => !!fileList;
+
   useEffect(() => {
     getAndSetFile();
 
@@ -154,7 +170,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   }, []);
   return (
     <div className={commandBarSticky}>
-      <AppFilesCommandBar dirty={isDirty()} disabled={false} saveFile={save} resetFile={discard} />
+      <AppFilesCommandBar dirty={isDirty()} disabled={isRefreshing} saveFile={save} resetFile={discard} refreshFunction={refreshFunction} />
       <ConfirmDialog
         primaryActionButton={{
           title: t('ok'),
@@ -173,25 +189,33 @@ const AppFiles: React.FC<AppFilesProps> = props => {
         functionAppNameLabel={site.name}
         fileDropdownOptions={getDropdownOptions()}
         fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
-        disabled={false}
+        disabled={isRefreshing}
         onChangeDropdown={onFileSelectorChange}
       />
       {(isLoading() || savingFile) && <LoadingComponent />}
+      {(!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
+        <CustomBanner
+          message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+          type={MessageBarType.error}
+        />
+      )}
       <div className={editorStyle}>
         <MonacoEditor
           value={fileContent.latest}
           language={editorLanguage}
           onChange={onChange}
-          disabled={initialLoading}
+          disabled={initialLoading || !isFileContentAvailable || !isRuntimeReachable()}
           options={{
             minimap: { enabled: false },
             scrollBeyondLastLine: false,
             cursorBlinking: true,
             renderWhitespace: 'all',
-            readOnly: SiteHelper.isFunctionAppReadOnly(siteState),
+            readOnly: SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState),
           }}
+          theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
         />
       </div>
+      {isRefreshing && <LoadingComponent overlay={true} />}
     </div>
   );
 };

@@ -4,14 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 
-interface AppKeysCommandBarProps {
-  refreshFunction: () => void;
-  initialLoading: boolean;
-  appPermission: boolean;
+interface FunctionIntegrateCommandBarProps {
+  isRefreshing: boolean;
+  refreshIntegrate: () => void;
 }
 
-const AppKeysCommandBar: React.FC<AppKeysCommandBarProps> = props => {
-  const { refreshFunction, initialLoading, appPermission } = props;
+const FunctionIntegrateCommandBar: React.FC<FunctionIntegrateCommandBarProps> = props => {
+  const { isRefreshing, refreshIntegrate } = props;
   const { t } = useTranslation();
 
   const getItems = (): ICommandBarItemProps[] => {
@@ -22,9 +21,9 @@ const AppKeysCommandBar: React.FC<AppKeysCommandBarProps> = props => {
         iconProps: {
           iconName: 'Refresh',
         },
-        disabled: initialLoading || !appPermission,
-        ariaLabel: t('appSettingsRefreshAriaLabel'),
-        onClick: refreshFunction,
+        disabled: isRefreshing,
+        ariaLabel: t('functionIntegrateRefreshAriaLabel'),
+        onClick: refreshIntegrate,
       },
     ];
   };
@@ -40,4 +39,4 @@ const AppKeysCommandBar: React.FC<AppKeysCommandBarProps> = props => {
   );
 };
 
-export default AppKeysCommandBar;
+export default FunctionIntegrateCommandBar;

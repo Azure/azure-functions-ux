@@ -14,18 +14,17 @@ import { ThemeContext } from '../../../../../ThemeContext';
 import { BindingFormBuilder } from '../../common/BindingFormBuilder';
 import { getBindingDirection } from '../BindingPanel/BindingEditor';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
-import BindingCard, { EditableBindingCardProps, createNew, editExisting, emptyList } from './BindingCard';
+import BindingCard, { createNew, EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
 import { listStyle } from './BindingDiagram.styles';
 
 const OutputBindingCard: React.SFC<EditableBindingCardProps> = props => {
-  const { functionInfo, bindings, readOnly, setRequiredBindingId } = props;
+  const { functionInfo, bindings, readOnly } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
   const bindingEditorContext = useContext(BindingEditorContext) as BindingEditorContextInfo;
 
   const outputs = getOutputBindings(functionInfo.properties.config.bindings);
-  getRequiredBindingData(outputs, bindings, setRequiredBindingId);
   const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, outputs, readOnly);
 
   return <BindingCard title={t('output')} Svg={OutputSvg} content={content} {...props} />;
@@ -37,15 +36,6 @@ const getOutputBindings = (bindings: BindingInfo[]): BindingInfo[] => {
   });
 
   return outputBindings ? outputBindings : [];
-};
-
-const getRequiredBindingData = (outputs: BindingInfo[], bindings: Binding[], setRequiredBindingId: (id: string) => void) => {
-  outputs.forEach(input => {
-    const binding = bindings.find(b => b.type === input.type && b.direction === BindingDirection.out);
-    if (binding && !binding.settings) {
-      setRequiredBindingId(binding.id);
-    }
-  });
 };
 
 const getContent = (

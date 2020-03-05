@@ -30,16 +30,15 @@ import {
   singleCardStackStyle,
   smallPageStyle,
 } from './FunctionIntegrate.style';
+import FunctionIntegrateCommandBar from './FunctionIntegrateCommandBar';
 
 export interface FunctionIntegrateProps {
   functionAppId: string;
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
   hostStatus: HostStatus;
-
-  // Post-Mount Data Loader calls
-  // setRequiredBindingId: Id of binding that we need the complete settings info for
-  setRequiredBindingId: (id: string) => void;
+  isRefreshing: boolean;
+  refreshIntegrate: () => void;
 }
 
 export interface BindingUpdateInfo {
@@ -49,16 +48,17 @@ export interface BindingUpdateInfo {
 }
 
 export interface BindingEditorContextInfo {
-  setIsUpdating: (isUpdating: boolean) => void;
   openEditor: (bindingDirection: BindingDirection, bindingInfo?: BindingInfo) => Observable<BindingUpdateInfo>;
   closeEditor: () => void;
+  refreshIntegrate: () => void;
+  setIsUpdating: (isUpdating: boolean) => void;
   updateFunctionInfo: React.Dispatch<React.SetStateAction<ArmObj<FunctionInfo>>>;
 }
 
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
-  const { functionAppId, functionInfo: initialFunctionInfo, bindings, hostStatus, setRequiredBindingId } = props;
+  const { functionAppId, functionInfo: initialFunctionInfo, bindings, hostStatus, isRefreshing, refreshIntegrate } = props;
   const siteState = useContext(SiteStateContext);
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
@@ -72,7 +72,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const onlyBuiltInBindings = !hostStatus.version.startsWith('1') && !hostStatus.extensionBundle;
-  const readOnly = SiteHelper.isFunctionAppReadOnly(siteState);
+  const readOnly = SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState);
 
   const openEditor = (editorBindingDirection: BindingDirection, bindingInfo?: BindingInfo): Observable<BindingUpdateInfo> => {
     setBindingDirection(editorBindingDirection);
@@ -117,6 +117,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const editorContext: BindingEditorContextInfo = {
     openEditor,
     closeEditor,
+    refreshIntegrate,
     setIsUpdating,
     updateFunctionInfo: setFunctionInfo,
   };
@@ -129,18 +130,8 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     <Stack className={diagramWrapperStyle} horizontal horizontalAlign={'center'} tokens={tokens}>
       <Stack.Item grow>
         <Stack gap={40}>
-          <TriggerBindingCard
-            functionInfo={functionInfo}
-            bindings={bindings}
-            setRequiredBindingId={setRequiredBindingId}
-            readOnly={readOnly}
-          />
-          <InputBindingCard
-            functionInfo={functionInfo}
-            bindings={bindings}
-            setRequiredBindingId={setRequiredBindingId}
-            readOnly={readOnly}
-          />
+          <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} />
+          <InputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} />
         </Stack>
       </Stack.Item>
 
@@ -160,12 +151,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
       <Stack.Item grow>
         <Stack verticalFill={true} className={singleCardStackStyle}>
-          <OutputBindingCard
-            functionInfo={functionInfo}
-            bindings={bindings}
-            setRequiredBindingId={setRequiredBindingId}
-            readOnly={readOnly}
-          />
+          <OutputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} />
         </Stack>
       </Stack.Item>
     </Stack>
@@ -173,18 +159,19 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
   const smallPageContent: JSX.Element = (
     <Stack className={smallPageStyle} gap={40} horizontalAlign={'start'}>
-      <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} setRequiredBindingId={setRequiredBindingId} readOnly={readOnly} />
-      <InputBindingCard functionInfo={functionInfo} bindings={bindings} setRequiredBindingId={setRequiredBindingId} readOnly={readOnly} />
+      <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} />
+      <InputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} />
       <FunctionNameBindingCard functionInfo={functionInfo} bindings={bindings} />
-      <OutputBindingCard functionInfo={functionInfo} bindings={bindings} setRequiredBindingId={setRequiredBindingId} readOnly={readOnly} />
+      <OutputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} />
     </Stack>
   );
 
   return (
     <>
-      {isUpdating && <LoadingComponent overlay={true} />}
+      {(isRefreshing || isUpdating) && <LoadingComponent overlay={true} />}
       <BindingEditorContext.Provider value={editorContext}>
         <EditModeBanner />
+        <FunctionIntegrateCommandBar refreshIntegrate={refreshIntegrate} isRefreshing={isRefreshing} />
         <BindingPanel
           functionAppId={functionAppId}
           functionInfo={functionInfo}
@@ -197,7 +184,6 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
           onPanelClose={onCancel}
           onSubmit={onSubmit}
           onDelete={onDelete}
-          setRequiredBindingId={setRequiredBindingId}
         />
         {width > fullPageWidth ? fullPageContent : smallPageContent}
       </BindingEditorContext.Provider>

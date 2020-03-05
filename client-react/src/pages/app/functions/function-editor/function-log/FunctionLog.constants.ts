@@ -23,15 +23,7 @@ export function getDefaultDocumentStreams(functionName: string): QPSchemaDocumen
         },
         {
           TelemetryType: TelemetryTypesEnum.Trace,
-          Filters: {
-            Filters: [
-              {
-                FieldName: 'CustomDimensions.Category',
-                Predicate: 'Equal',
-                Comparand: `Function.${functionName}`,
-              },
-            ],
-          },
+          Filters: { Filters: [] },
         },
       ],
     },

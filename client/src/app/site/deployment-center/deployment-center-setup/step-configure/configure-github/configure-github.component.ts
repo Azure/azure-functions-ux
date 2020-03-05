@@ -12,7 +12,7 @@ import { RequiredValidator } from '../../../../../shared/validators/requiredVali
 import { Url } from '../../../../../shared/Utilities/url';
 import { ResponseHeader } from 'app/shared/Utilities/response-header';
 import { GithubService } from '../../wizard-logic/github.service';
-import { FileContent } from 'app/site/deployment-center/Models/github';
+import { GitHubBranchSummary } from 'app/site/deployment-center/Models/github';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { WorkflowOptions } from '../../../Models/deployment-enums';
 
@@ -35,12 +35,15 @@ export class ConfigureGithubComponent implements OnDestroy {
   public workflowFileExistsWarningMessage = '';
   public selectedWorkflowOption = '';
   public showStackSelector = true;
+  public protectedBranchSelected = false;
+  public protectedBranchSelectedLink = DeploymentCenterConstants.protectedBranchSelectedLink;
 
   private _repoUrlToNameMap: { [key: string]: string } = {};
   private _buildProvider: string;
   private _reposStream$ = new ReplaySubject<string>();
   private _orgStream$ = new ReplaySubject<string>();
   private _ngUnsubscribe$ = new Subject();
+  private _branches: GitHubBranchSummary[] = [];
 
   constructor(
     public wizard: DeploymentCenterStateManager,
@@ -127,7 +130,7 @@ export class ConfigureGithubComponent implements OnDestroy {
       fetchListCall = org.toLocaleLowerCase().indexOf('github.com/users/') > -1 ? this._fetchUserRepos(org) : this._fetchOrgRepos(org);
 
       fetchListCall
-        .switchMap(r => this._flattenResponses(r))
+        .switchMap(r => this._flattenResponses<any>(r))
         .subscribe(
           r => this._loadRepositories(r),
           err => {
@@ -155,7 +158,7 @@ export class ConfigureGithubComponent implements OnDestroy {
           }
           return Observable.forkJoin(pageCalls);
         })
-        .switchMap(r => this._flattenResponses(r))
+        .switchMap(r => this._flattenResponses<GitHubBranchSummary>(r))
         .subscribe(
           r => this._loadBranches(r),
           err => {
@@ -179,29 +182,45 @@ export class ConfigureGithubComponent implements OnDestroy {
       this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue('');
       this.wizard.hideConfigureStepContinueButton = true;
 
-      this._githubService
-        .fetchWorkflowConfiguration(
+      Observable.zip(
+        this._githubService.fetchAllWorkflowConfigurations(
+          this.wizard.getToken(),
+          this.selectedRepo,
+          this._repoUrlToNameMap[this.selectedRepo],
+          this.selectedBranch
+        ),
+        this._githubService.fetchWorkflowConfiguration(
           this.wizard.getToken(),
           this.selectedRepo,
           this._repoUrlToNameMap[this.selectedRepo],
           this.selectedBranch,
           workflowFilePath
         )
-        .subscribe((r: FileContent) => {
-          this.wizard.hideConfigureStepContinueButton = false;
-          if (r) {
-            this.workflowFileExistsWarningMessage = this._translateService.instant(PortalResources.githubActionWorkflowFileExists, {
-              workflowFilePath: workflowFilePath,
-              branchName: this.selectedBranch,
-            });
+      ).subscribe(results => {
+        this.wizard.hideConfigureStepContinueButton = false;
+        const [allWorkflowConfigurations, appWorkflowConfiguration] = results;
 
-            this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue(atob(r.content));
+        if (appWorkflowConfiguration) {
+          this.workflowFileExistsWarningMessage = this._translateService.instant(PortalResources.githubActionWorkflowFileExists, {
+            workflowFilePath: workflowFilePath,
+            branchName: this.selectedBranch,
+          });
 
-            const required = new RequiredValidator(this._translateService, false);
-            this.wizard.sourceSettings.get('githubActionWorkflowOption').setValidators(required.validate.bind(required));
-            this.wizard.sourceSettings.get('githubActionWorkflowOption').updateValueAndValidity();
-          }
-        });
+          this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue(atob(appWorkflowConfiguration.content));
+        } else if (allWorkflowConfigurations && allWorkflowConfigurations.length > 0) {
+          this.workflowFileExistsWarningMessage = this._translateService.instant(PortalResources.githubActionWorkflowsExist, {
+            branchName: this.selectedBranch,
+          });
+
+          this.wizard.sourceSettings.get('githubActionExistingWorkflowContents').setValue('');
+        }
+
+        if (appWorkflowConfiguration || (allWorkflowConfigurations && allWorkflowConfigurations.length > 0)) {
+          const required = new RequiredValidator(this._translateService, false);
+          this.wizard.sourceSettings.get('githubActionWorkflowOption').setValidators(required.validate.bind(required));
+          this.wizard.sourceSettings.get('githubActionWorkflowOption').updateValueAndValidity();
+        }
+      });
     }
   }
 
@@ -216,6 +235,8 @@ export class ConfigureGithubComponent implements OnDestroy {
   RepoChanged(repo: DropDownElement<string>) {
     this._reposStream$.next(repo.value);
     this.selectedBranch = '';
+    this._branches = [];
+    this.protectedBranchSelected = false;
     this.workflowFileExistsWarningMessage = '';
   }
 
@@ -223,12 +244,16 @@ export class ConfigureGithubComponent implements OnDestroy {
     this._orgStream$.next(org.value);
     this.selectedRepo = '';
     this.selectedBranch = '';
+    this._branches = [];
+    this.protectedBranchSelected = false;
     this.workflowFileExistsWarningMessage = '';
   }
 
-  BranchChanged(branch: DropDownElement<string>) {
+  BranchChanged(branchSelection: DropDownElement<string>) {
     // NOTE(michinoy): In case of github action, check to see if the workflow file already exists.
     if (this.wizard.wizardValues.sourceProvider === 'github' && this.wizard.wizardValues.buildProvider === 'github') {
+      const branch = this._branches.find(branch => branch.name === branchSelection.value);
+      this.protectedBranchSelected = branch && branch.protected;
       this.checkWorkflowFileExists();
     }
   }
@@ -237,9 +262,10 @@ export class ConfigureGithubComponent implements OnDestroy {
     this.showStackSelector = !this.selectedWorkflowOption || this.selectedWorkflowOption === WorkflowOptions.Overwrite;
   }
 
-  private _loadBranches(responses: any[]) {
-    const newBranchList: any[] = [];
-    responses.forEach(branch => {
+  private _loadBranches(branches: GitHubBranchSummary[]) {
+    const newBranchList: DropDownElement<string>[] = [];
+    this._branches = branches;
+    this._branches.forEach(branch => {
       newBranchList.push({
         displayLabel: branch.name,
         value: branch.name,
@@ -269,10 +295,10 @@ export class ConfigureGithubComponent implements OnDestroy {
     this.reposLoading = false;
   }
 
-  private _flattenResponses(responses: any[]) {
-    let ret: any[] = [];
+  private _flattenResponses<T>(responses: any[]): Observable<T[]> {
+    let ret: T[] = [];
     responses.forEach(e => {
-      ret = ret.concat(e.json());
+      ret = ret.concat(<T>e.json());
     });
     return Observable.of(ret);
   }

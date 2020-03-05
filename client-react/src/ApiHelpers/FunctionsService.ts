@@ -67,7 +67,7 @@ export default class FunctionsService {
 
   public static getBinding = (functionAppId: string, bindingId: string) => {
     const resourceId = `${functionAppId}/host/default/bindings/${bindingId}`;
-    return MakeArmCall<ArmObj<Binding>>({ resourceId, commandName: 'fetchBinding' });
+    return MakeArmCall<ArmObj<Binding>>({ resourceId, commandName: `fetchBinding-${bindingId}` });
   };
 
   public static updateFunction = (resourceId: string, functionInfo: ArmObj<FunctionInfo>) => {
@@ -222,6 +222,12 @@ export default class FunctionsService {
   }
 
   public static runFunction(url: string, method: Method, headers: { [key: string]: string }, body: any) {
+    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
+      return this.tryPassThroughController(err, url, method, headers, body);
+    });
+  }
+
+  public static getDataFromFunctionHref(url: string, method: Method, headers: { [key: string]: string }, body?: any) {
     return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
       return this.tryPassThroughController(err, url, method, headers, body);
     });

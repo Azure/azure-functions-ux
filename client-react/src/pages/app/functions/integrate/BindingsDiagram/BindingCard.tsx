@@ -20,7 +20,6 @@ export interface BindingCardChildProps {
 
 export interface EditableBindingCardProps extends BindingCardChildProps {
   readOnly: boolean;
-  setRequiredBindingId: (id: string) => void;
 }
 
 export interface BindingCardProps extends BindingCardChildProps {
@@ -115,9 +114,9 @@ const createOrUpdateBinding = (
   const bindings = [...updatedFunctionInfo.properties.config.bindings];
   const index = functionInfo.properties.config.bindings.findIndex(b => b === currentBindingInfo);
 
-  const updateAppSettingsNotificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
-
   if (newBindingInfo['newAppSettings']) {
+    const updateAppSettingsNotificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
+
     SiteService.updateApplicationSettings(functionInfo.id.split('/functions/')[0], newBindingInfo['newAppSettings']).then(r => {
       if (!r.metadata.success) {
         const errorMessage = (r.metadata.error && r.metadata.error.error && r.metadata.error.error.message) || t('configUpdateFailure');
@@ -125,10 +124,10 @@ const createOrUpdateBinding = (
       } else {
         portalCommunicator.stopNotification(updateAppSettingsNotificationId, true, t('configUpdateSuccess'));
       }
-
-      delete newBindingInfo['newAppSettings'];
     });
   }
+
+  delete newBindingInfo['newAppSettings'];
 
   if (index > -1) {
     bindings[index] = newBindingInfo;
@@ -148,6 +147,9 @@ const createOrUpdateBinding = (
 
   FunctionsService.updateFunction(functionInfo.id, updatedFunctionInfo).then(r => {
     if (!r.metadata.success) {
+      // Refresh on failure to get actual state
+      bindingEditorContext.refreshIntegrate();
+
       const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
       portalCommunicator.stopNotification(
         updateBindingNotificationId,
@@ -155,6 +157,8 @@ const createOrUpdateBinding = (
         t('updateBindingNotificationFailed').format(updatedFunctionInfo.properties.name, newBindingInfo.name, errorMessage)
       );
     } else {
+      bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
+
       portalCommunicator.stopNotification(
         updateBindingNotificationId,
         true,
@@ -162,7 +166,6 @@ const createOrUpdateBinding = (
       );
     }
 
-    bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
     bindingEditorContext.setIsUpdating(false);
   });
 
@@ -199,6 +202,9 @@ export const deleteBinding = (
 
     FunctionsService.updateFunction(functionInfo.id, updatedFunctionInfo).then(r => {
       if (!r.metadata.success) {
+        // Refresh on failure to get actual state
+        bindingEditorContext.refreshIntegrate();
+
         const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
         portalCommunicator.stopNotification(
           notificationId,
@@ -206,6 +212,8 @@ export const deleteBinding = (
           t('deleteBindingNotificationFailed').format(updatedFunctionInfo.properties.name, currentBindingInfo.name, errorMessage)
         );
       } else {
+        bindingEditorContext.updateFunctionInfo(r.data);
+
         portalCommunicator.stopNotification(
           notificationId,
           true,
@@ -214,7 +222,6 @@ export const deleteBinding = (
       }
 
       bindingEditorContext.setIsUpdating(false);
-      bindingEditorContext.updateFunctionInfo(r.data);
     });
 
     bindingEditorContext.closeEditor();

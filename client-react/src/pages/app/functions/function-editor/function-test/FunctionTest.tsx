@@ -16,13 +16,14 @@ import { ValidationRegex } from '../../../../../utils/constants/ValidationRegex'
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
-  cancel: () => void;
+  close: () => void;
   functionInfo: ArmObj<FunctionInfo>;
   reqBody: string;
   setReqBody: (reqBody: string) => void;
   selectedPivotTab: PivotType;
   functionRunning: boolean;
   responseContent?: ResponseContent;
+  testData?: string;
 }
 
 const defaultInputFormValues: InputFormValues = {
@@ -36,10 +37,10 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { t } = useTranslation();
   const [statusMessage, setStatusMessage] = useState<StatusMessage | undefined>(undefined);
 
-  const { run, cancel, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab, functionRunning } = props;
+  const { run, close, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab, functionRunning, testData } = props;
 
   const errorMessage = {
-    message: t('requiredField_validationMessage'), // TODO (krmitta): Specific message for empty and incorrect characters
+    message: t('validField_validationMessage'),
     level: MessageBarType.error,
   };
 
@@ -66,37 +67,37 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   useEffect(() => {
     defaultInputFormValues.headers = [];
     defaultInputFormValues.queries = [];
-    let testData;
+    let localTestData;
     try {
-      testData = JSON.parse(functionInfo.properties.test_data);
-      if (!testData.headers) {
-        testData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
+      localTestData = JSON.parse(testData || functionInfo.properties.test_data || '');
+      if (!localTestData.headers) {
+        localTestData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
       }
     } catch (err) {
       LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
     }
-    if (!!testData) {
-      if (!!testData.body) {
-        setReqBody(testData.body);
+    if (!!localTestData) {
+      if (!!localTestData.body) {
+        setReqBody(localTestData.body);
       }
-      if (!!testData.method) {
-        defaultInputFormValues.method = testData.method;
+      if (!!localTestData.method) {
+        defaultInputFormValues.method = localTestData.method;
       }
-      if (!!testData.queryStringParams) {
-        const queryParameters = testData.queryStringParams;
+      if (!!localTestData.queryStringParams) {
+        const queryParameters = localTestData.queryStringParams;
         for (const parameters of queryParameters) {
           defaultInputFormValues.queries.push({ name: parameters.name, value: parameters.value });
         }
       }
-      if (!!testData.headers) {
-        const headers = testData.headers;
+      if (!!localTestData.headers) {
+        const headers = localTestData.headers;
         for (const header of headers) {
           defaultInputFormValues.headers.push({ name: header.name, value: header.value });
         }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [testData]);
 
   return (
     <Formik
@@ -112,9 +113,9 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
         };
 
         const actionBarSecondaryButtonProps = {
-          id: 'cancel',
-          title: t('cancel'),
-          onClick: cancel,
+          id: 'close',
+          title: t('close'),
+          onClick: close,
           disable: false,
         };
 
