@@ -34,6 +34,8 @@ import { BindingManager } from '../../../../utils/BindingManager';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
 import { PortalTheme } from '../../../../models/portal-models';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -199,6 +201,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       setIsFileContentAvailable(true);
     } else {
       setIsFileContentAvailable(false);
+      LogService.error(LogCategories.FunctionEdit, 'getFileContent', `Failed to get file content: ${fileResponse.metadata.error}`);
     }
   };
 
