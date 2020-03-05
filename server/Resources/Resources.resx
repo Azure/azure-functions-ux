@@ -5778,4 +5778,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deleteFunctionKeyMessage" xml:space="preserve">
         <value>Are you sure you want to delete the key {0}?</value>
     </data>
+    <data name="fetchFileContentFailureMessage" xml:space="preserve">
+        <value>Failed to fetch the file content</value>
+    </data>
 </root>
