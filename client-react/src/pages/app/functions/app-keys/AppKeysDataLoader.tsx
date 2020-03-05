@@ -8,7 +8,8 @@ import { SiteRouterContext } from '../../SiteRouter';
 import { disableIFrameStyle } from './AppKeys.styles';
 import { SiteStateContext } from '../../../../SiteStateContext';
 import { useTranslation } from 'react-i18next';
-import WarningBanner from '../../../../components/WarningBanner/WarningBanner';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { MessageBarType } from 'office-ui-fabric-react';
 
 const appKeysData = new AppKeysData();
 export const AppKeysContext = React.createContext(appKeysData);
@@ -62,7 +63,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
 
   return (
     <AppKeysContext.Provider value={appKeysData}>
-      {siteStateContext.stopped && <WarningBanner message={t('noAppKeysWhileFunctionAppStopped')} />}
+      {siteStateContext.stopped && <CustomBanner message={t('noAppKeysWhileFunctionAppStopped')} type={MessageBarType.warning} />}
       {refreshLoading && (
         <div>
           <LoadingComponent />
