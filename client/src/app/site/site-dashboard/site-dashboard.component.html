@@ -26,19 +26,6 @@
         </div>
     </nav>
 
-    <img check-scenario="ShowSitePin"
-        *ngIf="!isPreview"
-         [cs-input]="{}"
-         cs-enabledByDefault="true"
-         id="site-dashboard-pin"
-         class="link"
-         src="image/pin.svg"
-         (click)="pinPart()"
-         (keypress)="keypress($event)"
-         role="button"
-         tabindex="0"
-         [attr.aria-label]="'siteDashboard_pinApp' | translate"/>
-
     <section id="site-tab-content">
 
         <site-tab *ngFor="let info of tabInfos"

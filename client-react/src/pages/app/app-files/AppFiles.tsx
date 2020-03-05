@@ -161,6 +161,8 @@ const AppFiles: React.FC<AppFilesProps> = props => {
 
   const isLoading = () => initialLoading || fetchingFileContent;
 
+  const isRuntimeReachable = () => !!fileList;
+
   useEffect(() => {
     getAndSetFile();
 
@@ -191,13 +193,18 @@ const AppFiles: React.FC<AppFilesProps> = props => {
         onChangeDropdown={onFileSelectorChange}
       />
       {(isLoading() || savingFile) && <LoadingComponent />}
-      {!isFileContentAvailable && <CustomBanner message={t('fetchFileContentFailureMessage')} type={MessageBarType.error} />}
+      {(!isRuntimeReachable() || !isFileContentAvailable) && (
+        <CustomBanner
+          message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+          type={MessageBarType.error}
+        />
+      )}
       <div className={editorStyle}>
         <MonacoEditor
           value={fileContent.latest}
           language={editorLanguage}
           onChange={onChange}
-          disabled={initialLoading || !isFileContentAvailable}
+          disabled={initialLoading || !isFileContentAvailable || !isRuntimeReachable()}
           options={{
             minimap: { enabled: false },
             scrollBeyondLastLine: false,
