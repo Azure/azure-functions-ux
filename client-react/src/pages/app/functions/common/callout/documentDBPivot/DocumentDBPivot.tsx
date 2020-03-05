@@ -114,7 +114,7 @@ const setDocumentDBConnection = (
       keyList.primaryMasterKey
     };`;
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
-    setSelectedItem(undefined);
+    setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
     setIsDialogVisible(false);
   }
 };

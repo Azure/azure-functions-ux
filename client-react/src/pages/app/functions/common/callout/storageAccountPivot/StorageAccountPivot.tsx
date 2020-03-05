@@ -123,8 +123,8 @@ const setStorageAccountConnection = (
       keyList.keys[0].value
     }`;
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
+    setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
     setKeyList(undefined);
-    setSelectedItem({ key: appSettingName, text: appSettingValue });
     setIsDialogVisible(false);
   }
 };
