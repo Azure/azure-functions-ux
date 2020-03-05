@@ -147,6 +147,9 @@ const createOrUpdateBinding = (
 
   FunctionsService.updateFunction(functionInfo.id, updatedFunctionInfo).then(r => {
     if (!r.metadata.success) {
+      // Refresh on failure to get actual state
+      bindingEditorContext.refreshIntegrate();
+
       const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
       portalCommunicator.stopNotification(
         updateBindingNotificationId,
@@ -154,6 +157,8 @@ const createOrUpdateBinding = (
         t('updateBindingNotificationFailed').format(updatedFunctionInfo.properties.name, newBindingInfo.name, errorMessage)
       );
     } else {
+      bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
+
       portalCommunicator.stopNotification(
         updateBindingNotificationId,
         true,
@@ -161,7 +166,6 @@ const createOrUpdateBinding = (
       );
     }
 
-    bindingEditorContext.updateFunctionInfo(updatedFunctionInfo);
     bindingEditorContext.setIsUpdating(false);
   });
 
@@ -198,6 +202,9 @@ export const deleteBinding = (
 
     FunctionsService.updateFunction(functionInfo.id, updatedFunctionInfo).then(r => {
       if (!r.metadata.success) {
+        // Refresh on failure to get actual state
+        bindingEditorContext.refreshIntegrate();
+
         const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
         portalCommunicator.stopNotification(
           notificationId,
@@ -205,6 +212,8 @@ export const deleteBinding = (
           t('deleteBindingNotificationFailed').format(updatedFunctionInfo.properties.name, currentBindingInfo.name, errorMessage)
         );
       } else {
+        bindingEditorContext.updateFunctionInfo(r.data);
+
         portalCommunicator.stopNotification(
           notificationId,
           true,
@@ -213,7 +222,6 @@ export const deleteBinding = (
       }
 
       bindingEditorContext.setIsUpdating(false);
-      bindingEditorContext.updateFunctionInfo(r.data);
     });
 
     bindingEditorContext.closeEditor();
