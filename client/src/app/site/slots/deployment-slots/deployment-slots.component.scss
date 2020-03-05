@@ -8,6 +8,7 @@
 .config-wrapper{
     position: absolute;
     height: calc(100% - 42px);
+    width: 100vw;
     overflow-y: auto;
 }
 
@@ -76,6 +77,16 @@
 .slots-description{
     font-size: 14px;
     line-height: 18px;
+}
+
+.slots-table-wrapper-outer{
+    position: absolute;
+    overflow-x: auto;
+    width: calc(100vw - 40px - 5px);
+}
+
+.slots-table-wrapper-inner{
+    min-width: 600px;
 }
 
 .underline{

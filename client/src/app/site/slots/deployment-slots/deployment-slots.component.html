@@ -132,105 +132,109 @@
                 <div class="underline"></div>
             </div>
 
-            <table-root
-                tblClass="tbl fixed stretch"
-                [name]="'feature_deploymentSlotsName' | translate">
+            <div class="slots-table-wrapper-outer">
+                <div class="slots-table-wrapper-inner">
+                    <table-root
+                        tblClass="tbl fixed stretch"
+                        [name]="'feature_deploymentSlotsName' | translate">
 
-                <tr class="header-row" table-row>
-                    <th class="padded-col" table-cell>
-                        {{ 'slotsList_nameHeader' | translate }}
-                    </th>
-                    <th class="padded-col" table-cell>
-                        {{ 'slotsList_statusHeader' | translate }}
-                    </th>
-                    <th class="padded-col" table-cell>
-                        {{ 'slotsList_serverfarmHeader' | translate }}
-                    </th>
-                    <th *ngIf="!!mainForm" class="padded-col" table-cell>
-                        {{ 'slotsList_trafficPercentHeader' | translate }}
-                    </th>
-                </tr>
+                        <tr class="header-row" table-row>
+                            <th class="padded-col" table-cell>
+                                {{ 'slotsList_nameHeader' | translate }}
+                            </th>
+                            <th class="padded-col" table-cell>
+                                {{ 'slotsList_statusHeader' | translate }}
+                            </th>
+                            <th class="padded-col" table-cell>
+                                {{ 'slotsList_serverfarmHeader' | translate }}
+                            </th>
+                            <th *ngIf="!!mainForm" class="padded-col" table-cell>
+                                {{ 'slotsList_trafficPercentHeader' | translate }}
+                            </th>
+                        </tr>
 
-                <tr *ngIf="!!deploymentSlotsArm" table-row>
+                        <tr *ngIf="!!deploymentSlotsArm" table-row>
 
-                    <td class="padded-col" table-cell>
-                        {{ (prodSiteArm && prodSiteArm.name) || prodSiteName || '-' }}
-                        <div class="pill">
-                            {{ 'production' | translate }}
-                        </div>
-                    </td>
+                            <td class="padded-col" table-cell>
+                                {{ (prodSiteArm && prodSiteArm.name) || prodSiteName || '-' }}
+                                <div class="pill">
+                                    {{ 'production' | translate }}
+                                </div>
+                            </td>
 
-                    <td class="padded-col" table-cell>
-                        {{ prodSiteArm ? prodSiteArm.properties.state : '-' }}
-                    </td>
+                            <td class="padded-col" table-cell>
+                                {{ prodSiteArm ? prodSiteArm.properties.state : '-' }}
+                            </td>
 
-                    <td class="padded-col" table-cell>
-                        {{ prodSiteArm ? getSegment(prodSiteArm.properties.serverFarmId, 8) : '-' }}
-                    </td>
+                            <td class="padded-col" table-cell>
+                                {{ prodSiteArm ? getSegment(prodSiteArm.properties.serverFarmId, 8) : '-' }}
+                            </td>
 
-                    <td *ngIf="!!mainForm" class="padded-col" table-cell>
-                        <div class="pct-wrapper">
-                            <textbox
-                                disabled="true"
-                                readonly="true"
-                                [control]="mainForm ? mainForm.controls[SumValidator.REMAINDER_CONTROL_NAME] : null">
-                            </textbox>
-                        </div>
-                    </td>
+                            <td *ngIf="!!mainForm" class="padded-col" table-cell>
+                                <div class="pct-wrapper">
+                                    <textbox
+                                        disabled="true"
+                                        readonly="true"
+                                        [control]="mainForm ? mainForm.controls[SumValidator.REMAINDER_CONTROL_NAME] : null">
+                                    </textbox>
+                                </div>
+                            </td>
 
-                </tr>
+                        </tr>
 
-                <tr *ngFor="let deploymentSlotArm of (deploymentSlotsArm || [])" table-row>
+                        <tr *ngFor="let deploymentSlotArm of (deploymentSlotsArm || [])" table-row>
 
-                    <td class="padded-col" table-cell>
+                            <td class="padded-col" table-cell>
 
-                        <a *ngIf="!navigationDisabled"
-                            tabindex="0"
-                            (click)="openSlotBlade(deploymentSlotArm.id)"
-                            [activate-with-keys]>
-                            {{ deploymentSlotArm.name ? deploymentSlotArm.name.replace('/', '-') : '-' }}
-                        </a>
-                        <span *ngIf="!!navigationDisabled">
-                            {{ deploymentSlotArm.name ? deploymentSlotArm.name.replace('/', '-') : '-' }}
-                        </span>
-                    </td>
+                                <a *ngIf="!navigationDisabled"
+                                    tabindex="0"
+                                    (click)="openSlotBlade(deploymentSlotArm.id)"
+                                    [activate-with-keys]>
+                                    {{ deploymentSlotArm.name ? deploymentSlotArm.name.replace('/', '-') : '-' }}
+                                </a>
+                                <span *ngIf="!!navigationDisabled">
+                                    {{ deploymentSlotArm.name ? deploymentSlotArm.name.replace('/', '-') : '-' }}
+                                </span>
+                            </td>
 
-                    <td class="padded-col" table-cell>
-                        {{ deploymentSlotArm.properties.state }}
-                    </td>
+                            <td class="padded-col" table-cell>
+                                {{ deploymentSlotArm.properties.state }}
+                            </td>
 
-                    <td class="padded-col" table-cell>
-                        {{ getSegment(deploymentSlotArm.properties.serverFarmId, 8) }}
-                    </td>
+                            <td class="padded-col" table-cell>
+                                {{ getSegment(deploymentSlotArm.properties.serverFarmId, 8) }}
+                            </td>
 
-                    <td *ngIf="!!mainForm" class="padded-col" table-cell [editable]="!isSlot && !!prodSiteConfigArm && hasWriteAccess">
-                        <div class="pct-wrapper">
-                            <textbox
-                                [disabled]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
-                                [readonly]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
-                                [control]="mainForm.controls['rulesGroup'] ? mainForm.controls['rulesGroup'].controls[deploymentSlotArm.name] : null"
-                                [placeholder]="0"
-                                [highlightDirty]="true">
-                            </textbox>
-                        </div>
-                    </td>
+                            <td *ngIf="!!mainForm" class="padded-col" table-cell [editable]="!isSlot && !!prodSiteConfigArm && hasWriteAccess">
+                                <div class="pct-wrapper">
+                                    <textbox
+                                        [disabled]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
+                                        [readonly]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
+                                        [control]="mainForm.controls['rulesGroup'] ? mainForm.controls['rulesGroup'].controls[deploymentSlotArm.name] : null"
+                                        [placeholder]="0"
+                                        [highlightDirty]="true">
+                                    </textbox>
+                                </div>
+                            </td>
 
-                </tr>
+                        </tr>
 
-                <!-- Placeholder/Message Row -->
-                <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-                <tr *ngIf="!deploymentSlotsArm" table-row>
+                        <!-- Placeholder/Message Row -->
+                        <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
+                        <tr *ngIf="!deploymentSlotsArm" table-row>
 
-                    <td *ngIf="fetchingContent" class="message-row" [attr.colspan]="!!mainForm ? 4 : 3" table-cell>
-                        {{ 'loading' | translate }}
-                    </td>
+                            <td *ngIf="fetchingContent" class="message-row" [attr.colspan]="!!mainForm ? 4 : 3" table-cell>
+                                {{ 'loading' | translate }}
+                            </td>
 
-                    <td *ngIf="!fetchingContent" class="message-row" [attr.colspan]="!!mainForm ? 4 : 3" table-cell>
-                        {{ 'error_unableToLoadSlotsList' | translate }}
-                    </td>
+                            <td *ngIf="!fetchingContent" class="message-row" [attr.colspan]="!!mainForm ? 4 : 3" table-cell>
+                                {{ 'error_unableToLoadSlotsList' | translate }}
+                            </td>
 
-                </tr>
-            </table-root>
+                        </tr>
+                    </table-root>
+                </div>
+            </div>
 
         </div>
 
