@@ -48,9 +48,10 @@ export interface BindingUpdateInfo {
 }
 
 export interface BindingEditorContextInfo {
-  setIsUpdating: (isUpdating: boolean) => void;
   openEditor: (bindingDirection: BindingDirection, bindingInfo?: BindingInfo) => Observable<BindingUpdateInfo>;
   closeEditor: () => void;
+  refreshIntegrate: () => void;
+  setIsUpdating: (isUpdating: boolean) => void;
   updateFunctionInfo: React.Dispatch<React.SetStateAction<ArmObj<FunctionInfo>>>;
 }
 
@@ -116,6 +117,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const editorContext: BindingEditorContextInfo = {
     openEditor,
     closeEditor,
+    refreshIntegrate,
     setIsUpdating,
     updateFunctionInfo: setFunctionInfo,
   };
