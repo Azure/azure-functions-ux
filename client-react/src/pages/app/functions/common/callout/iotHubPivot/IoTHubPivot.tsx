@@ -55,6 +55,7 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
 
   const iotHubOptions: IDropdownOption[] = [];
   iotHubs.forEach(iotHub => iotHubOptions.push({ text: iotHub.name, key: iotHub.id, data: iotHub }));
+
   if (!formValues.iotHub && iotHubOptions.length > 0) {
     setFormValues({ ...formValues, iotHub: iotHubs[0] });
   }
@@ -62,13 +63,18 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
   let endpointOptions: IDropdownOption[] = [];
   if (keyList) {
     const keyFound = keyList.value.find(key => key.rights.toLowerCase().indexOf('registry') > -1);
+
     if (keyFound) {
-      setServiceKey(keyFound);
+      if (!serviceKey) {
+        setServiceKey(keyFound);
+      }
+
       endpointOptions = [
         { text: t('iotHubPivot_IOTEvents'), key: 'events', data: 'events' },
         { text: t('iotHubPivot_IOTMonitoring'), key: 'monitoring', data: 'monitoring' },
       ];
     }
+
     if (!formValues.endpoint && endpointOptions.length > 0) {
       setFormValues({ ...formValues, endpoint: 'events' });
     }
@@ -138,7 +144,7 @@ const setIoTHubConnection = (
     const appSettingName = `${formValues.iotHub.name}_${formValues.endpoint}_IOTHUB`;
     const appSettingValue = formatIoTHubValue(formValues.endpoint, formValues.iotHub, serviceKey);
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
-    setSelectedItem(undefined);
+    setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
     setIsDialogVisible(false);
   }
 };

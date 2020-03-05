@@ -21,7 +21,7 @@ interface CustomDropdownProps {
 }
 
 const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
-  const { value, onChange, errorMessage, options, label, widthOverride, onPanel, ...rest } = props;
+  const { onChange, errorMessage, options, label, widthOverride, onPanel, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
 
@@ -31,7 +31,7 @@ const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
     <ReactiveFormControl {...props}>
       <OfficeDropdown
         aria-labelledby={`${props.id}-label`}
-        ariaLabel={props.label}
+        ariaLabel={label}
         options={options}
         onChange={onChange}
         errorMessage={errorMessage}
