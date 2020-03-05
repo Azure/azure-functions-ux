@@ -88,7 +88,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
   const [fileSavedCount, setFileSavedCount] = useState(0);
   const [readOnlyBanner, setReadOnlyBanner] = useState<HTMLDivElement | null>(null);
-  const [isFileContentAvailable, setIsFileContentAvailable] = useState(false);
+  const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -197,8 +197,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
         fileText = JSON.stringify(fileResponse.data, null, 2);
       }
-      setFileContent({ default: fileText, latest: fileText });
       setIsFileContentAvailable(true);
+      setFileContent({ default: fileText, latest: fileText });
     } else {
       setFileContent({ default: '', latest: '' });
       setIsFileContentAvailable(false);
@@ -280,7 +280,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isRuntimeReachable = () => {
-    console.log(fileList);
     return !!fileList;
   };
 
@@ -344,7 +343,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           onDismiss={closeConfirmDialog}
         />
         <EditModeBanner setBanner={setReadOnlyBanner} />
-        {(!isRuntimeReachable() || !isFileContentAvailable) && (
+        {(!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
           <CustomBanner
             message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
             type={MessageBarType.error}
