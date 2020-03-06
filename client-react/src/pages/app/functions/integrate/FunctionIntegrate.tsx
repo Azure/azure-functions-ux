@@ -83,7 +83,6 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
   const closeEditor = () => {
     setIsOpen(false);
-    setBindingToUpdate(undefined);
   };
 
   const onSubmit = (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => {
@@ -101,7 +100,6 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     });
 
     setIsOpen(false);
-    setBindingToUpdate(undefined);
   };
 
   const onDelete = (currentBindingInfo: BindingInfo) => {
@@ -110,7 +108,6 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       closedReason: ClosedReason.Delete,
     });
 
-    setBindingToUpdate(undefined);
     setIsOpen(false);
   };
 
