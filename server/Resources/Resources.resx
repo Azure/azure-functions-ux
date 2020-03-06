@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root"
-        xmlns=""
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    <xsd:schema id="root" 
+        xmlns="" 
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
         xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
@@ -5780,5 +5780,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="fetchFileContentFailureMessage" xml:space="preserve">
         <value>Failed to fetch the file content</value>
+    </data>
+    <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>Selected connection is missing from app settings</value>
     </data>
 </root>
