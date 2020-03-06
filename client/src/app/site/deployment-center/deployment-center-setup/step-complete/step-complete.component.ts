@@ -284,7 +284,7 @@ export class StepCompleteComponent {
     return [
       {
         label: this._translateService.instant(PortalResources.provider),
-        value: this._translateService.instant(PortalResources.gitHubActionBuildServerTitle),
+        value: this._translateService.instant(PortalResources.kuduTitle),
       },
     ];
   }
