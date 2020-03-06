@@ -15,6 +15,7 @@ import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCal
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
 import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
+import { useTranslation } from 'react-i18next';
 
 export interface ResourceDropdownProps {
   setting: BindingSetting;
@@ -27,6 +28,9 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   const [selectedItem, setSelectedItem] = useState<IDropdownOption | undefined>(undefined);
   const [newAppSetting, setNewAppSetting] = useState<{ key: string; value: string } | undefined>(undefined);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+  const [shownMissingOptionError, setShownMissingOptionError] = useState<boolean>(false);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     SiteService.fetchApplicationSettings(resourceId).then(r => {
@@ -53,6 +57,11 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   if (selectedItem) {
     onChange(selectedItem, formProps, field, appSettings);
     setSelectedItem(undefined);
+  }
+
+  if (field.value && !options.some(option => option.key === field.value) && !shownMissingOptionError) {
+    formProps.setFieldError(field.name, t('resourceDropdown_missingAppSetting'));
+    setShownMissingOptionError(true);
   }
 
   return (
