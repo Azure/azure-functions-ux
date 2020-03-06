@@ -68,7 +68,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
     <div>
       <Dropdown
         options={options}
-        placeholder={options.length < 1 ? t('resourceDropdown_noAppsFound') : undefined}
+        placeholder={options.length < 1 ? t('resourceDropdown_noAppSettingsFound') : undefined}
         onChange={(_e, option) => onChange(option, formProps, field, appSettings)}
         {...props}
       />

@@ -1870,5 +1870,5 @@ export class PortalResources {
   public static deleteFunctionKeyMessage = 'deleteFunctionKeyMessage';
   public static fetchFileContentFailureMessage = 'fetchFileContentFailureMessage';
   public static resourceDropdown_missingAppSetting = 'resourceDropdown_missingAppSetting';
-  public static resourceDropdown_noAppsFound = 'resourceDropdown_noAppsFound';
+  public static resourceDropdown_noAppSettingsFound = 'resourceDropdown_noAppSettingsFound';
 }
