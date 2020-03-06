@@ -1463,7 +1463,7 @@
         <value>Die Web-App-Einstellungen wurden erfolgreich aktualisiert.</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings</value>
+        <value>Fehler beim Aktualisieren der Web-App-Einstellungen.</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>Fehler beim Speichern von "{{configGroupName}}": ungültige Eingabe.</value>
@@ -3161,10 +3161,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Erweiterte Funktionen für Netzwerkbetrieb und Skalierung</value>
     </data>
   <data name="pricing_notAvailableConsumption" xml:space="preserve">
-        <value>Das zentrale Hochskalieren ist für Verbrauchstarife nicht verfügbar.</value>
+        <value>Das Hochskalieren ist für Verbrauchstarife nicht verfügbar.</value>
     </data>
   <data name="pricing_noWritePermissionsOnPlan" xml:space="preserve">
-        <value>Sie benötigen Schreibberechtigungen für diesen Plan, um ihn zu skalieren.</value>
+        <value>Sie benötigen Schreibberechtigungen für diesen Plan, um ihn hochzuskalieren.</value>
     </data>
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
         <value>Sie benötigen Schreibberechtigungen für den Plan "{0}", um ihn zu aktualisieren.</value>
@@ -3236,7 +3236,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>"Elastic Premium" wird für diese Skalierungseinheit nicht unterstützt. Erwägen Sie eine erneute Bereitstellung, oder klonen Sie ggf. Ihre App.</value>
     </data>
   <data name="pricing_scaleUp" xml:space="preserve">
-        <value>Zentral hochskalieren</value>
+        <value>Hochskalieren</value>
     </data>
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Die ausgehenden IP-Adressen für Ihre App können sich ändern.</value>
@@ -3296,13 +3296,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Schnelle Skalierung</value>
     </data>
   <data name="pricing_rapidScaleDesc" xml:space="preserve">
-        <value>Hiermit werden Funktions-Apps basierend auf einem Ereignistrigger horizontal hochskaliert.</value>
+        <value>Hiermit werden Funktions-Apps basierend auf einem Ereignistrigger aufskaliert.</value>
     </data>
   <data name="pricing_autoScale" xml:space="preserve">
         <value>Automatische Staffelung</value>
     </data>
   <data name="pricing_scaleOut" xml:space="preserve">
-        <value>Horizontal hochskalieren.</value>
+        <value>Aufskalieren.</value>
     </data>
   <data name="pricing_computeVmSize" xml:space="preserve">
         <value>Compute-VM-Größe: {0}</value>
@@ -4794,7 +4794,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Dieses Feature steht nur für Funktions-Apps zur Verfügung, die in einem Linux-App Service-Plan ausgeführt werden. Verwenden Sie zur Runtimeprotokollierung Application Insights.</value>
     </data>
   <data name="scaleOut" xml:space="preserve">
-        <value>Horizontal hochskalieren</value>
+        <value>Aufskalieren</value>
     </data>
   <data name="scaleOutDescription" xml:space="preserve">
         <value>Hiermit konfigurieren Sie die Einstellungen zum horizontalen Hochskalieren für Ihren App Service-Plan.</value>
@@ -5092,7 +5092,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Fehler beim Überprüfen der Containereinstellungen.</value>
     </data>
   <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>No trigger defined</value>
+        <value>Kein Trigger definiert.</value>
     </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Keine Eingaben definiert.</value>
@@ -5170,7 +5170,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Neue Funktion</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Erstellen Sie eine neue Funktion in dieser Funktions-App. Sie können beginnen, indem Sie unten eine Vorlage auswählen.</value>
+        <value>Erstellen Sie eine neue Funktion in dieser Funktions-App. Wählen Sie zu Beginn unten eine Vorlage aus.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Vorlagen</value>
@@ -5416,7 +5416,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Dieses Abonnement enthält keine Namespaces.</value>
     </data>
   <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
-        <value>New Event Hub connection</value>
+        <value>Neue Event Hub-Verbindung</value>
     </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>Dieser Namespace enthält keine Event Hubs.</value>
@@ -5449,13 +5449,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Wert</value>
     </data>
   <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
-        <value>New Service Bus connection</value>
+        <value>Neue Service Bus-Verbindung</value>
     </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus</value>
     </data>
   <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
-        <value>New Custom App Setting</value>
+        <value>Neue benutzerdefinierte App-Einstellung</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Benutzerdefinierte App-Einstellung</value>
@@ -5473,7 +5473,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Richtlinie</value>
     </data>
   <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
-        <value>New Cosmos DB connection</value>
+        <value>Neue Cosmos DB-Verbindung</value>
     </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB-Konto</value>
@@ -5485,10 +5485,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Datenbankkonto</value>
     </data>
   <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Existing Storage Account</value>
+        <value>Vorhandenes Speicherkonto</value>
     </data>
   <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
-        <value>New Storage Account connection</value>
+        <value>Neue Speicherkontoverbindung</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>In diesem Abonnement liegen keine Speicherkonten vor.</value>
@@ -5616,8 +5616,8 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Die Liste der Standarddokumente wird nach Rangfolge sortiert. Elemente am oberen Ende der Liste besitzen einen höheren Rang als die Elemente am Ende der Liste.</value>
     </data>
-  <data name="requiredField_validationMessage" xml:space="preserve">
-        <value>Name und Wert sind Pflichtfelder.</value>
+  <data name="validField_validationMessage" xml:space="preserve">
+        <value>Name und Wert dürfen nicht leer sein und dürfen nur Buchstaben und Ziffern enthalten.</value>
     </data>
   <data name="maximize" xml:space="preserve">
         <value>Maximieren</value>
@@ -5683,7 +5683,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Workflowoption</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Workflowdefinition überschreiben</value>
+        <value>Add or overwrite workflow definition</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Mit vorhandener Workflowdefinition konfigurieren</value>
@@ -5713,12 +5713,69 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>"{0}" wurde erfolgreich gelöscht.</value>
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
-        <value>Test is only supported for HTTP triggered functions</value>
+        <value>Der Test wird nur für über HTTP ausgelöste Funktionen unterstützt.</value>
     </data>
   <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+        <value>Die App "{{appName}}" ist mit dem Stack "ASP.NET" konfiguriert. Dies wird im Bereitstellungscenter über GitHub Actions aktuell nicht unterstützt.</value>
     </data>
   <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
+        <value>Die App "{{appName}}" ist aktuell für "ASP.NET" konfiguriert. Dies entspricht nicht der aktuellen Buildauswahl. Die App funktioniert mit der aktuellen Buildauswahl möglicherweise nicht ordnungsgemäß.</value>
+    </data>
+  <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
+        <value>Dateiname für GitHub-Aktionsworkflow</value>
+    </data>
+  <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
+        <value>Sie können keine App-Dateien anzeigen, solange Ihre Funktions-App beendet ist.</value>
+    </data>
+  <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
+        <value>Sie können keine App-Schlüssel anzeigen, solange Ihre Funktions-App beendet ist.</value>
+    </data>
+  <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
+        <value>Alle Bindungen für Ihre Funktion aktualisieren</value>
+    </data>
+  <data name="gitHubProtectedBranchSelected" xml:space="preserve">
+        <value>Selected branch has protection rules enabled.</value>
+    </data>
+  <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
+        <value>Sie können die Runtimeversion nicht anzeigen oder ändern, solange Ihre Funktions-App beendet ist.</value>
+    </data>
+  <data name="githubActionWorkflowsExist" xml:space="preserve">
+        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+    </data>
+  <data name="appFilesSaveAriaLabel" xml:space="preserve">
+        <value>Refresh app files</value>
+    </data>
+  <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
+        <value>Trigger löschen</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the trigger?</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
+        <value>Delete Output</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
+        <value>Ausgabe wirklich löschen?</value>
+    </data>
+  <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
+        <value>Delete Input</value>
+    </data>
+  <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
+        <value>Eingabe wirklich löschen?</value>
+    </data>
+  <data name="deleteFunctionKeyHeader" xml:space="preserve">
+        <value>Delete Function Key</value>
+    </data>
+  <data name="deleteFunctionKeyMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the key {0}?</value>
+    </data>
+  <data name="fetchFileContentFailureMessage" xml:space="preserve">
+        <value>Failed to fetch the file content</value>
     </data>
 </root>

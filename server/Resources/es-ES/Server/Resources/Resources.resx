@@ -1463,7 +1463,7 @@
         <value>La configuración de la aplicación web se actualizó correctamente</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings</value>
+        <value>No se pudo actualizar la configuración de la aplicación web</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>Error al guardar {{configGroupName}}: se proporcionó una entrada no válida.</value>
@@ -2561,7 +2561,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Japón Oriental</value>
     </data>
   <data name="eastasia" xml:space="preserve">
-        <value>Asia Oriental</value>
+        <value>Este de Asia</value>
     </data>
   <data name="eastus2" xml:space="preserve">
         <value>Este de EE. UU. 2</value>
@@ -2588,7 +2588,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Centro de la India</value>
     </data>
   <data name="southindia" xml:space="preserve">
-        <value>India del Sur</value>
+        <value>Sur de la India</value>
     </data>
   <data name="canadacentral" xml:space="preserve">
         <value>Centro de Canadá</value>
@@ -5092,7 +5092,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>No se pudo validar la configuración del contenedor.</value>
     </data>
   <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>No trigger defined</value>
+        <value>No se definió ningún desencadenador.</value>
     </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>No se definió ninguna entrada.</value>
@@ -5416,7 +5416,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>No hay ningún espacio de nombres en esta suscripción.</value>
     </data>
   <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
-        <value>New Event Hub connection</value>
+        <value>Nueva conexión del centro de eventos</value>
     </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>No hay ninguna instancia de Event Hubs en este espacio de nombres.</value>
@@ -5449,13 +5449,13 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Valor</value>
     </data>
   <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
-        <value>New Service Bus connection</value>
+        <value>Nueva conexión de Service Bus</value>
     </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Bus de servicio</value>
     </data>
   <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
-        <value>New Custom App Setting</value>
+        <value>Nueva configuración de aplicación personalizada</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Configuración de aplicación personalizada</value>
@@ -5473,7 +5473,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Directiva</value>
     </data>
   <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
-        <value>New Cosmos DB connection</value>
+        <value>Nueva conexión de Cosmos DB</value>
     </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Cuenta de Azure Cosmos DB</value>
@@ -5485,10 +5485,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Cuenta de base de datos</value>
     </data>
   <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Existing Storage Account</value>
+        <value>Cuenta de almacenamiento existente</value>
     </data>
   <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
-        <value>New Storage Account connection</value>
+        <value>Nueva conexión de cuenta de almacenamiento</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>No hay ninguna cuenta de almacenamiento en esta suscripción.</value>
@@ -5616,8 +5616,8 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>La lista de documentos predeterminados se ordena por precedencia. Los elementos de la parte superior de esta lista tendrán una precedencia mayor que los elementos de la parte inferior.</value>
     </data>
-  <data name="requiredField_validationMessage" xml:space="preserve">
-        <value>El nombre y el valor son campos obligatorios.</value>
+  <data name="validField_validationMessage" xml:space="preserve">
+        <value>El nombre y el valor no deben estar vacíos y solo deben contener letras y números.</value>
     </data>
   <data name="maximize" xml:space="preserve">
         <value>Maximizar</value>
@@ -5683,7 +5683,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>Opción de flujo de trabajo</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Sobrescribir definición de flujo de trabajo</value>
+        <value>Add or overwrite workflow definition</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Configurar usando la definición de flujo de trabajo existente</value>
@@ -5713,12 +5713,69 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
         <value>{0} se eliminó correctamente.</value>
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
-        <value>Test is only supported for HTTP triggered functions</value>
+        <value>La prueba solo se admite para las funciones desencadenadas por HTTP</value>
     </data>
   <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+        <value>La aplicación "{{appName}}" está configurada con la pila "ASP.NET", que, actualmente, no se admite en el centro de implementación mediante Acciones de GitHub.</value>
     </data>
   <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
+        <value>Actualmente, la aplicación "{{appName}}" está configurada para "ASP.NET", lo que no se corresponde con la selección de la compilación actual. Es posible que la aplicación no funcione correctamente con la selección de la compilación actual.</value>
+    </data>
+  <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
+        <value>Nombre de archivo del flujo de trabajo de acción de GitHub</value>
+    </data>
+  <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
+        <value>Si la aplicación de funciones está detenida, los archivos de aplicación no se pueden ver.</value>
+    </data>
+  <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
+        <value>Si la aplicación de funciones está detenida, las claves de aplicación no se pueden ver.</value>
+    </data>
+  <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
+        <value>Actualizar todos los enlaces de la función</value>
+    </data>
+  <data name="gitHubProtectedBranchSelected" xml:space="preserve">
+        <value>Selected branch has protection rules enabled.</value>
+    </data>
+  <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+    </data>
+  <data name="githubActionWorkflowsExist" xml:space="preserve">
+        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+    </data>
+  <data name="appFilesSaveAriaLabel" xml:space="preserve">
+        <value>Refresh app files</value>
+    </data>
+  <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
+        <value>Eliminar desencadenador</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the trigger?</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
+        <value>Delete Output</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
+        <value>¿Está seguro de que quiere eliminar la salida?</value>
+    </data>
+  <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
+        <value>Delete Input</value>
+    </data>
+  <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
+        <value>¿Está seguro de que quiere eliminar la entrada?</value>
+    </data>
+  <data name="deleteFunctionKeyHeader" xml:space="preserve">
+        <value>Delete Function Key</value>
+    </data>
+  <data name="deleteFunctionKeyMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the key {0}?</value>
+    </data>
+  <data name="fetchFileContentFailureMessage" xml:space="preserve">
+        <value>Failed to fetch the file content</value>
     </data>
 </root>

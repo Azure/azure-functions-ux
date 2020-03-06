@@ -1463,7 +1463,7 @@
         <value>Параметры веб-приложения успешно обновлены.</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings</value>
+        <value>Не удалось обновить параметры веб-приложения</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Ошибка сохранения: недопустимые входные данные.</value>
@@ -3161,10 +3161,10 @@
         <value>Улучшенные сетевые функции и масштабирование</value>
     </data>
   <data name="pricing_notAvailableConsumption" xml:space="preserve">
-        <value>Вертикальное масштабирование недоступно для планов потребления</value>
+        <value>Вертикальное увеличение масштаба недоступно для планов потребления</value>
     </data>
   <data name="pricing_noWritePermissionsOnPlan" xml:space="preserve">
-        <value>Для расширения этого плана необходимы разрешения на запись</value>
+        <value>Для вертикального увеличения масштаба этого плана необходимы разрешения на запись.</value>
     </data>
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
         <value>Для обновления плана "{0}" необходимы разрешения на запись для этого плана</value>
@@ -3236,7 +3236,7 @@
         <value>Ценовая категория "Премиум" для этой единицы масштабирования эластичной базы данных не поддерживается. Разверните ваше приложение повторно или клонируйте его.</value>
     </data>
   <data name="pricing_scaleUp" xml:space="preserve">
-        <value>Увеличить масштаб</value>
+        <value>Вертикально увеличить масштаб</value>
     </data>
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>Исходящие IP-адреса для вашего приложения могут измениться.</value>
@@ -3296,13 +3296,13 @@
         <value>Быстрое масштабирование</value>
     </data>
   <data name="pricing_rapidScaleDesc" xml:space="preserve">
-        <value>Масштабирование приложений-функций на основе триггера событий.</value>
+        <value>Горизонтальное увеличение масштаба приложений-функций на основе триггера событий.</value>
     </data>
   <data name="pricing_autoScale" xml:space="preserve">
         <value>Автомасштабирование</value>
     </data>
   <data name="pricing_scaleOut" xml:space="preserve">
-        <value>Горизонтальное масштабирование.</value>
+        <value>Горизонтальное увеличение масштаба.</value>
     </data>
   <data name="pricing_computeVmSize" xml:space="preserve">
         <value>Вычислить размер виртуальной машины: {0}</value>
@@ -4794,7 +4794,7 @@
         <value>Эта функция доступна только для приложений-функций, выполняющихся в плане службы приложений Linux. Для ведения журналов среды выполнения используйте Application Insights.</value>
     </data>
   <data name="scaleOut" xml:space="preserve">
-        <value>Горизонтальное масштабирование</value>
+        <value>Горизонтальное увеличение масштаба</value>
     </data>
   <data name="scaleOutDescription" xml:space="preserve">
         <value>Настройка параметров масштабирования для плана службы приложений.</value>
@@ -5092,7 +5092,7 @@
         <value>Не удалось проверить параметры контейнера.</value>
     </data>
   <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>No trigger defined</value>
+        <value>Триггер не задан.</value>
     </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Входные данные не заданы.</value>
@@ -5170,7 +5170,7 @@
         <value>Новая функция</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Создайте в этом приложении-функции новую функцию. В качестве отправной точки можно выбрать шаблон ниже.</value>
+        <value>Создайте в этом приложении-функции новую функцию. Для начала выберите шаблон ниже.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Шаблоны</value>
@@ -5416,7 +5416,7 @@
         <value>В этой подписке нет пространств имен.</value>
     </data>
   <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
-        <value>New Event Hub connection</value>
+        <value>Новое подключение центра событий</value>
     </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>Центры событий в этом пространстве имен отсутствуют</value>
@@ -5449,13 +5449,13 @@
         <value>Значение</value>
     </data>
   <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
-        <value>New Service Bus connection</value>
+        <value>Новое подключение служебной шины</value>
     </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Служебная шина</value>
     </data>
   <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
-        <value>New Custom App Setting</value>
+        <value>Новый параметр пользовательского приложения</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Настраиваемый параметр приложения</value>
@@ -5473,7 +5473,7 @@
         <value>Политика</value>
     </data>
   <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
-        <value>New Cosmos DB connection</value>
+        <value>Новое подключение Cosmos DB</value>
     </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Учетная запись Azure Cosmos DB</value>
@@ -5485,10 +5485,10 @@
         <value>Учетная запись базы данных</value>
     </data>
   <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Existing Storage Account</value>
+        <value>Существующая учетная запись хранения</value>
     </data>
   <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
-        <value>New Storage Account connection</value>
+        <value>Новое подключение учетной записи хранения</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>В этой подписке нет учетных записей хранения.</value>
@@ -5616,8 +5616,8 @@
   <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Список документов по умолчанию упорядочен по приоритету. Элементы, стоящие выше, более приоритетны, чем стоящие ниже.</value>
     </data>
-  <data name="requiredField_validationMessage" xml:space="preserve">
-        <value>Поля "Имя" и "Значение" являются обязательными.</value>
+  <data name="validField_validationMessage" xml:space="preserve">
+        <value>Имя и значение не могут быть пустыми и должны содержать только буквы и цифры.</value>
     </data>
   <data name="maximize" xml:space="preserve">
         <value>Развернуть</value>
@@ -5683,7 +5683,7 @@
         <value>Настройка рабочего процесса</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Перезаписать определение рабочего процесса</value>
+        <value>Add or overwrite workflow definition</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Настроить с использованием существующего определения рабочего процесса</value>
@@ -5713,12 +5713,69 @@
         <value>Удаление {0} выполнено.</value>
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
-        <value>Test is only supported for HTTP triggered functions</value>
+        <value>Тест поддерживается только для функций, активируемых по HTTP.</value>
     </data>
   <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+        <value>Для приложения "{{appName}}" настроен стек "ASP.NET", который сейчас не поддерживается в Центре развертывания с использованием GitHub Actions.</value>
     </data>
   <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
+        <value>Для приложения "{{appName}}" сейчас настроено "ASP.NET", что не соответствует выбранной сборке. При ее использовании приложение может работать некорректно.</value>
+    </data>
+  <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
+        <value>Имя файла рабочего процесса действия GitHub</value>
+    </data>
+  <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
+        <value>Вы не можете просматривать файлы приложения, пока приложение-функция остановлено.</value>
+    </data>
+  <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
+        <value>Вы не можете просматривать ключи приложения, пока приложение-функция остановлено.</value>
+    </data>
+  <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
+        <value>Обновить все привязки для функции</value>
+    </data>
+  <data name="gitHubProtectedBranchSelected" xml:space="preserve">
+        <value>Selected branch has protection rules enabled.</value>
+    </data>
+  <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+    </data>
+  <data name="githubActionWorkflowsExist" xml:space="preserve">
+        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+    </data>
+  <data name="appFilesSaveAriaLabel" xml:space="preserve">
+        <value>Refresh app files</value>
+    </data>
+  <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
+        <value>Удаление триггера</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the trigger?</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
+        <value>Delete Output</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
+        <value>Вы действительно хотите удалить выходные данные?</value>
+    </data>
+  <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
+        <value>Delete Input</value>
+    </data>
+  <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
+        <value>Вы действительно хотите удалить входные данные?</value>
+    </data>
+  <data name="deleteFunctionKeyHeader" xml:space="preserve">
+        <value>Delete Function Key</value>
+    </data>
+  <data name="deleteFunctionKeyMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the key {0}?</value>
+    </data>
+  <data name="fetchFileContentFailureMessage" xml:space="preserve">
+        <value>Failed to fetch the file content</value>
     </data>
 </root>

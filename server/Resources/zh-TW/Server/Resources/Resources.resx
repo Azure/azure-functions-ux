@@ -1463,7 +1463,7 @@
         <value>已成功更新 Web 應用程式設定</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings</value>
+        <value>無法更新 Web 應用程式設定</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} 儲存錯誤: 提供的輸入無效。</value>
@@ -2534,10 +2534,10 @@
         <value>美國中南部</value>
     </data>
   <data name="northeurope" xml:space="preserve">
-        <value>歐洲北部</value>
+        <value>北歐</value>
     </data>
   <data name="westeurope" xml:space="preserve">
-        <value>歐洲西部</value>
+        <value>西歐</value>
     </data>
   <data name="southeastasia" xml:space="preserve">
         <value>東南亞</value>
@@ -3161,10 +3161,10 @@
         <value>進階網路與縮放</value>
     </data>
   <data name="pricing_notAvailableConsumption" xml:space="preserve">
-        <value>相應增加不適用於使用情況方案</value>
+        <value>擴大不適用於使用情況方案</value>
     </data>
   <data name="pricing_noWritePermissionsOnPlan" xml:space="preserve">
-        <value>您必須具有寫入權限才能相應增加此方案</value>
+        <value>您必須具有寫入權限才能擴大此方案</value>
     </data>
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
         <value>您必須具有方案 '{0}' 的寫入權限才能將其更新</value>
@@ -3236,7 +3236,7 @@
         <value>此縮放單位不支援彈性進階。請考慮重新部署或複製您的應用程式。</value>
     </data>
   <data name="pricing_scaleUp" xml:space="preserve">
-        <value>相應增加</value>
+        <value>擴大</value>
     </data>
   <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
         <value>您應用程式的連出 IP 位址可能會變更。</value>
@@ -3296,13 +3296,13 @@
         <value>快速縮放</value>
     </data>
   <data name="pricing_rapidScaleDesc" xml:space="preserve">
-        <value>依事件觸發程序相應放大函數應用程式。</value>
+        <value>依事件觸發程序擴增函數應用程式。</value>
     </data>
   <data name="pricing_autoScale" xml:space="preserve">
         <value>自動調整規模</value>
     </data>
   <data name="pricing_scaleOut" xml:space="preserve">
-        <value>向外延展。</value>
+        <value>擴增。</value>
     </data>
   <data name="pricing_computeVmSize" xml:space="preserve">
         <value>計算 VM 大小: {0}</value>
@@ -4794,7 +4794,7 @@
         <value>此功能僅適用於 Linux App Service 方案上執行的函數應用程式。若要記錄執行階段，請使用 Application Insights。</value>
     </data>
   <data name="scaleOut" xml:space="preserve">
-        <value>相應放大</value>
+        <value>擴增</value>
     </data>
   <data name="scaleOutDescription" xml:space="preserve">
         <value>為您的 App Service 方案設定向外延展設定。</value>
@@ -5092,7 +5092,7 @@
         <value>無法驗證容器設定。</value>
     </data>
   <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>No trigger defined</value>
+        <value>未定義任何觸發程序</value>
     </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>未定義任何輸入</value>
@@ -5170,7 +5170,7 @@
         <value>新函式</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>在此函數應用程式中建立新的函式。您可以選取下方的範本開始著手。</value>
+        <value>在此函數應用程式中建立新的函式。請先在下方選取範本。</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>範本</value>
@@ -5416,7 +5416,7 @@
         <value>此訂用帳戶沒有任何命名空間</value>
     </data>
   <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
-        <value>New Event Hub connection</value>
+        <value>新增事件中樞連線</value>
     </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>此命名空間沒有任何事件中樞</value>
@@ -5449,13 +5449,13 @@
         <value>值</value>
     </data>
   <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
-        <value>New Service Bus connection</value>
+        <value>新增服務匯流排連線</value>
     </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>服務匯流排</value>
     </data>
   <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
-        <value>New Custom App Setting</value>
+        <value>新增自訂應用程式設定</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>自訂應用程式設定</value>
@@ -5473,7 +5473,7 @@
         <value>原則</value>
     </data>
   <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
-        <value>New Cosmos DB connection</value>
+        <value>新增 Cosmos DB 帳戶連線</value>
     </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB 帳戶</value>
@@ -5485,10 +5485,10 @@
         <value>資料庫帳戶</value>
     </data>
   <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Existing Storage Account</value>
+        <value>現有的儲存體帳戶</value>
     </data>
   <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
-        <value>New Storage Account connection</value>
+        <value>新增儲存體帳戶連線</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>此訂用帳戶中沒有任何儲存體帳戶</value>
@@ -5616,8 +5616,8 @@
   <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>預設文件清單會依優先順序排序。清單前幾個項目的優先順序大於清單最後幾個項目。</value>
     </data>
-  <data name="requiredField_validationMessage" xml:space="preserve">
-        <value>名稱和值是必要欄位</value>
+  <data name="validField_validationMessage" xml:space="preserve">
+        <value>名稱和值不得為空白，且只能包含字母及數字。</value>
     </data>
   <data name="maximize" xml:space="preserve">
         <value>最大化</value>
@@ -5683,7 +5683,7 @@
         <value>工作流程選項</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>覆寫工作流程定義</value>
+        <value>Add or overwrite workflow definition</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>使用現有工作流程定義進行設定</value>
@@ -5713,12 +5713,69 @@
         <value>已成功刪除 {0}</value>
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
-        <value>Test is only supported for HTTP triggered functions</value>
+        <value>只有 HTTP 觸發的函式支援測試</value>
     </data>
   <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+        <value>使用堆疊 'ASP.NET' 設定了應用程式 ' {{appName}} '，但 GitHub Actions 目前在部署中心未予以支援。</value>
     </data>
   <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
+        <value>目前為 'ASP.NET' 設定了應用程式 '{{appName}}'，但這與目前選取的組建不符。若搭配目前選取的組建，應用程式可能無法正常運作。</value>
+    </data>
+  <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
+        <value>GitHub 動作工作流程檔案名稱</value>
+    </data>
+  <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
+        <value>當您的函數應用程式停止時，即無法檢視應用程式檔案</value>
+    </data>
+  <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
+        <value>當您的函數應用程式停止時，即無法檢視應用程式金鑰</value>
+    </data>
+  <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
+        <value>重新整理函式的所有繫結</value>
+    </data>
+  <data name="gitHubProtectedBranchSelected" xml:space="preserve">
+        <value>Selected branch has protection rules enabled.</value>
+    </data>
+  <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+    </data>
+  <data name="githubActionWorkflowsExist" xml:space="preserve">
+        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+    </data>
+  <data name="appFilesSaveAriaLabel" xml:space="preserve">
+        <value>Refresh app files</value>
+    </data>
+  <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
+        <value>刪除觸發程序</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the trigger?</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
+        <value>Delete Output</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
+        <value>確定要刪除此輸出嗎?</value>
+    </data>
+  <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
+        <value>Delete Input</value>
+    </data>
+  <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
+        <value>確定要刪除此輸入嗎?</value>
+    </data>
+  <data name="deleteFunctionKeyHeader" xml:space="preserve">
+        <value>Delete Function Key</value>
+    </data>
+  <data name="deleteFunctionKeyMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the key {0}?</value>
+    </data>
+  <data name="fetchFileContentFailureMessage" xml:space="preserve">
+        <value>Failed to fetch the file content</value>
     </data>
 </root>
