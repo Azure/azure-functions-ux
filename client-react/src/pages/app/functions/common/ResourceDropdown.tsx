@@ -1,6 +1,7 @@
 import { FieldProps, FormikProps } from 'formik';
 import { Callout, IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
@@ -15,7 +16,6 @@ import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCal
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
 import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
-import { useTranslation } from 'react-i18next';
 
 export interface ResourceDropdownProps {
   setting: BindingSetting;
@@ -66,7 +66,12 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
 
   return (
     <div>
-      <Dropdown options={options} onChange={(_e, option) => onChange(option, formProps, field, appSettings)} {...props} />
+      <Dropdown
+        options={options}
+        placeholder={options.length < 1 ? t('resourceDropdown_noAppsFound') : undefined}
+        onChange={(_e, option) => onChange(option, formProps, field, appSettings)}
+        {...props}
+      />
       {!isDisabled ? (
         <div style={linkPaddingStyle}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>

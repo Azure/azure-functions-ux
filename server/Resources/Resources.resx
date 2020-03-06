@@ -5784,4 +5784,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
         <value>Selected connection is missing from app settings</value>
     </data>
+    <data name="resourceDropdown_noAppsFound" xml:space="preserve">
+        <value>No connections found</value>
+    </data>
 </root>
