@@ -175,10 +175,9 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             this._functionAppService.pingScmSite(context),
             this._functionAppService.getRuntimeGeneration(context),
             this._functionService.getFunctions(context.site.id),
-            this._siteService.getAppSettings(context.site.id, true),
             this._siteService.getSiteConfig(context.site.id, true),
             this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: context.site }),
-            (p, s, l, slots, ping, version, functions, appSettings, siteConfig, appInsightsEnablement) => ({
+            (p, s, l, slots, ping, version, functions, siteConfig, appInsightsEnablement) => ({
               hasWritePermission: p,
               hasSwapPermission: s,
               hasReadOnlyLock: l,
@@ -186,7 +185,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
               pingedScmSite: ping.isSuccessful ? ping.result : false,
               runtime: version,
               functionsInfo: functions.isSuccessful ? functions.result.value : [],
-              appSettings: appSettings,
               siteConfig: siteConfig,
               appInsightsEnablement: appInsightsEnablement,
             })
@@ -222,8 +220,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         this.hideAvailability =
           this._scenarioService.checkScenario(ScenarioIds.showSiteAvailability, { site: this.context.site }).status === 'disabled' ||
           !this.siteAvailabilityStateNormal;
-
-        const appSettings = r.appSettings && r.appSettings.result && r.appSettings.result.properties;
 
         if (
           r.functionsInfo.length === 0 &&
@@ -285,38 +281,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           });
           this._globalStateService.setTopBarNotifications(this.notifications);
         } else {
-          const iKeyExists = appSettings && !!appSettings[Constants.instrumentationKeySettingName];
-          const connectionStringExists = appSettings && !!appSettings[Constants.connectionStringSettingName];
-
-          if (r.appInsightsEnablement && r.appInsightsEnablement.status === 'enabled' && !(iKeyExists || connectionStringExists)) {
-            this.notifications.push({
-              id: 'testnote',
-              message: this.ts.instant(PortalResources.appInsightsNotConfigured),
-              iconClass: 'fa fa-exclamation-triangle warning',
-              learnMoreLink: null,
-              clickCallback: () => {
-                const appInsightBladeInput = {
-                  detailBlade: 'AppServicesEnablementBlade',
-                  detailBladeInputs: {
-                    resourceUri: this.context.site.id,
-                    linkedComponent: null,
-                  },
-                  extension: 'AppInsightsExtension',
-                };
-
-                this._portalService.openBlade(appInsightBladeInput, 'top-overview-banner').subscribe(
-                  result => {
-                    this._viewInfo.node.refresh(null, true);
-                  },
-                  err => {
-                    this._logService.error(LogCategories.applicationInsightsConfigure, errorIds.applicationInsightsConfigure, err);
-                  }
-                );
-              },
-            });
-            this._globalStateService.setTopBarNotifications(this.notifications);
-          }
-
           if (r.siteConfig && r.siteConfig.isSuccessful) {
             const siteConfig = r.siteConfig.result && r.siteConfig.result.properties;
             const showIpRestrictionsWarning =
