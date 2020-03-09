@@ -7,6 +7,7 @@ import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, K
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 import StringUtils from '../../../utils/string';
+import { KeyValue } from '../../../models/portal-models';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return !!settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -40,11 +41,11 @@ export const addOrUpdateFormAppSetting = (appSettings: FormAppSetting[], setting
 interface StateToFormParams {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
-  appSettings: ArmObj<{ [key: string]: string }> | null;
+  appSettings: ArmObj<KeyValue<string>> | null;
   connectionStrings: ArmObj<{ [key: string]: { type: string; value: string } }> | null;
   azureStorageMounts: ArmObj<ArmAzureStorageMount> | null;
   slotConfigNames: ArmObj<SlotConfigNames> | null;
-  metadata: ArmObj<{ [key: string]: string }> | null;
+  metadata: ArmObj<KeyValue<string>> | null;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
   const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata } = props;
@@ -119,7 +120,7 @@ export interface ApiSetupReturn {
 }
 export const convertFormToState = (
   values: AppSettingsFormValues,
-  currentMetadata: ArmObj<{ [key: string]: string }>,
+  currentMetadata: ArmObj<KeyValue<string>>,
   initialValues: AppSettingsFormValues,
   oldSlotConfigNames: ArmObj<SlotConfigNames>
 ): ApiSetupReturn => {
@@ -207,10 +208,7 @@ export function getStickySettings(
     },
   };
 }
-export function getFormAppSetting(
-  settingsData: ArmObj<{ [key: string]: string }> | null,
-  slotConfigNames?: ArmObj<SlotConfigNames> | null
-) {
+export function getFormAppSetting(settingsData: ArmObj<KeyValue<string>> | null, slotConfigNames?: ArmObj<SlotConfigNames> | null) {
   if (!settingsData) {
     return [];
   }
@@ -257,7 +255,7 @@ export function getAppSettingsFromForm(appSettings: FormAppSetting[]): NameValue
   return appSettings.map(({ name, value }) => ({ name, value }));
 }
 
-export function getMetadataToSet(currentMetadata: ArmObj<{ [key: string]: string }>, currentStack: string) {
+export function getMetadataToSet(currentMetadata: ArmObj<KeyValue<string>>, currentStack: string) {
   const properties = {
     ...currentMetadata.properties,
     CURRENT_STACK: currentStack,
@@ -353,7 +351,7 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
   return newList;
 }
 
-export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata?: ArmObj<{ [key: string]: string }> | null): string {
+export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata?: ArmObj<KeyValue<string>> | null): string {
   if (!!config.properties.javaVersion) {
     return 'java';
   }

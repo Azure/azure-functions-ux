@@ -38,6 +38,7 @@ import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { isFunctionApp } from '../../../utils/arm-utils';
 import { StartupInfoContext } from '../../../StartupInfoContext';
 import { LogCategories } from '../../../utils/LogCategories';
+import { KeyValue } from '../../../models/portal-models';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -78,7 +79,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
   const [references, setReferences] = useState<AppSettingsReferences | null>(null);
-  const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<{ [key: string]: string }>>({
+  const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<KeyValue<string>>>({
     name: '',
     id: '',
     location: '',

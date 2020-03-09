@@ -1,4 +1,5 @@
 import { isEqual } from 'lodash-es';
+import { KeyValue } from '../models/portal-models';
 
 export default class StringUtils {
   public static fileSeparator = '\\';
@@ -13,7 +14,7 @@ export default class StringUtils {
     return str.substring(first, str.length - last);
   };
 
-  public static formatString(value: string, formatParams: { [key: string]: string }): string {
+  public static formatString(value: string, formatParams: KeyValue<string>): string {
     let updatedValue = value;
 
     for (const param in formatParams) {

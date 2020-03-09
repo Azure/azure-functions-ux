@@ -27,6 +27,7 @@ import { StartupInfoContext } from '../../../../StartupInfoContext';
 import { AppInsightsComponent } from '../../../../models/app-insights';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
+import { KeyValue } from '../../../../models/portal-models';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -41,7 +42,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
   const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo> | undefined>(undefined);
   const [hostKeys, setHostKeys] = useState<AppKeysInfo | undefined>(undefined);
-  const [functionKeys, setFunctionKeys] = useState<{ [key: string]: string }>({});
+  const [functionKeys, setFunctionKeys] = useState<KeyValue<string>>({});
   const [runtimeVersion, setRuntimeVersion] = useState<string | undefined>(undefined);
   const [hostJsonContent, setHostJsonContent] = useState<Host | undefined>(undefined);
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
@@ -258,7 +259,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return '';
   };
 
-  const getHeaders = (testHeaders: NameValuePair[]): { [key: string]: string } => {
+  const getHeaders = (testHeaders: NameValuePair[]): KeyValue<string> => {
     const headers = getJsonHeaders();
     testHeaders.forEach(h => {
       headers[h.name] = h.value;
@@ -314,7 +315,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return !!site ? `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath(key)}` : '';
   };
 
-  const setUrlsAndOptions = (keys: { [key: string]: string }, keyType: UrlType) => {
+  const setUrlsAndOptions = (keys: KeyValue<string>, keyType: UrlType) => {
     const newUrlsObj: UrlObj[] = [];
     for (const key in keys) {
       if (key in keys) {
@@ -337,7 +338,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     setAppInsightsToken(undefined);
   };
 
-  const getKeyHeader = (): { [key: string]: string } => {
+  const getKeyHeader = (): KeyValue<string> => {
     if (hostKeys && hostKeys.masterKey) {
       return {
         'Cache-Control': 'no-cache',
