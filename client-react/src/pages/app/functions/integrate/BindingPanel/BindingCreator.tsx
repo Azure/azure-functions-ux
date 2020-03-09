@@ -53,9 +53,13 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
       })
     : directionalBindings;
 
-  const dropdownOptions: IDropdownOption[] = filteredBindings.map(binding => {
-    return { key: binding.type, text: binding.displayName };
-  });
+  const dropdownOptions: IDropdownOption[] = filteredBindings
+    .map(binding => {
+      return { key: binding.type, text: binding.displayName };
+    })
+    .sort((optionA, optionB) => {
+      return optionA.text > optionB.text ? 1 : optionA.text < optionB.text ? -1 : 0;
+    });
 
   return (
     <Formik
