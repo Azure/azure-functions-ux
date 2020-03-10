@@ -150,7 +150,7 @@ const createOrUpdateBinding = (
       // Refresh on failure to get actual state
       bindingEditorContext.refreshIntegrate();
 
-      const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
+      const errorMessage = (r.metadata.error && r.metadata.error.error && r.metadata.error.error.message) || '';
       portalCommunicator.stopNotification(
         updateBindingNotificationId,
         false,
@@ -205,7 +205,7 @@ export const deleteBinding = (
         // Refresh on failure to get actual state
         bindingEditorContext.refreshIntegrate();
 
-        const errorMessage = r.metadata.error ? r.metadata.error.Message : '';
+        const errorMessage = (r.metadata.error && r.metadata.error.error && r.metadata.error.error.message) || '';
         portalCommunicator.stopNotification(
           notificationId,
           false,
