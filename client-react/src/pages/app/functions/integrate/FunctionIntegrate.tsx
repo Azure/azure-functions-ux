@@ -1,8 +1,10 @@
-import { IStackTokens, Stack } from 'office-ui-fabric-react';
+import { IStackTokens, MessageBarType, Stack } from 'office-ui-fabric-react';
 import React, { useContext, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
 import { Observable, Subject } from 'rxjs';
 import { classes } from 'typestyle';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ReactComponent as DoubleArrow } from '../../../../images/Functions/double-arrow-left-right.svg';
@@ -59,6 +61,7 @@ export const BindingEditorContext = React.createContext<BindingEditorContextInfo
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
   const { functionAppId, functionInfo: initialFunctionInfo, bindings, hostStatus, isRefreshing, refreshIntegrate } = props;
+  const { t } = useTranslation();
   const siteState = useContext(SiteStateContext);
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
@@ -163,11 +166,23 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     </Stack>
   );
 
+  const bindingsMissingDirection = functionInfo.properties.config.bindings.filter(binding => !binding.direction);
+  let bindingsMissingDirectionBanner: JSX.Element | undefined;
+  if (bindingsMissingDirection.length > 0) {
+    bindingsMissingDirectionBanner = (
+      <CustomBanner
+        message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
+        type={MessageBarType.warning}
+      />
+    );
+  }
+
   return (
     <>
       {(isRefreshing || isUpdating) && <LoadingComponent overlay={true} />}
       <BindingEditorContext.Provider value={editorContext}>
         <EditModeBanner />
+        {bindingsMissingDirectionBanner}
         <FunctionIntegrateCommandBar refreshIntegrate={refreshIntegrate} isRefreshing={isRefreshing} />
         <BindingPanel
           functionAppId={functionAppId}
