@@ -210,7 +210,15 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const scriptHref = functionInfo.properties.script_href;
     const filename = (scriptHref && scriptHref.split('/').pop()) || '';
     const filteredOptions = getDropdownOptions().filter(option => option.text === filename.toLowerCase());
-    return filteredOptions.length === 1 ? filteredOptions[0] : getDefaultFile();
+    return filteredOptions.length === 1 ? filteredOptions[0] : getSelectedFile();
+  };
+
+  const getSelectedFile = () => {
+    if (startUpInfoContext.featureInfo.data && startUpInfoContext.featureInfo.data.filename) {
+      return startUpInfoContext.featureInfo.data.filename;
+    } else {
+      return getDefaultFile();
+    }
   };
 
   const getDefaultFile = (): IDropdownOption | undefined => {
