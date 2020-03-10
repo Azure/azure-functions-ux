@@ -7,6 +7,7 @@ export const fileSelectorStackStyle = (theme: ThemeExtended) =>
   style({
     padding: '8px 15px 8px 15px',
     borderBottom: `1px solid ${theme.palette.neutralTertiaryAlt}`,
+    background: theme.semanticColors.background,
   });
 
 export const pivotWrapper = style({
