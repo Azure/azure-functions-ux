@@ -167,15 +167,15 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   );
 
   const bindingsMissingDirection = functionInfo.properties.config.bindings.filter(binding => !binding.direction);
-  let bindingsMissingDirectionBanner: JSX.Element | undefined;
-  if (bindingsMissingDirection.length > 0) {
-    bindingsMissingDirectionBanner = (
+  const bindingsMissingDirectionBanner =
+    bindingsMissingDirection.length > 0 ? (
       <CustomBanner
         message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
         type={MessageBarType.warning}
       />
+    ) : (
+      undefined
     );
-  }
 
   return (
     <>

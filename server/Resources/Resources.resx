@@ -5788,8 +5788,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>No existing connections available</value>
     </data>
     <data name="integrate_bindingsMissingDirection" xml:space="preserve">
-        <value>The following bindings are missing the required direction property and may have been placed incorrectly: {0}</value>
-    </data>    <data name="functionMonitor_invocation" xml:space="preserve">
+        <value>The following bindings are missing the required direction property and may have been placed incorrectly: {0}. Please update the bindings in your functions.json file.</value>
+    </data>
+    <data name="functionMonitor_invocation" xml:space="preserve">
         <value>Invocation</value>
     </data>
     <data name="functionMonitor_logs" xml:space="preserve">
