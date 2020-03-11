@@ -5802,4 +5802,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
         <value>Open in Live Metrics</value>
     </data>
+    <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>Edit your HTTP trigger to enable additional HTTP methods</value>
+    </data>
 </root>
