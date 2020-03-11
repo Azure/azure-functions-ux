@@ -40,14 +40,14 @@ const MaxHorizontalWidthPx = 750;
 // element is not an "input" element, then the screen reader won't respect it and won't read the label first.
 // In that case, you'll have to manually specify the "ariaLabel" property on the child element yourself
 export const FormControlWrapper = (props: FormControlWrapperProps) => {
-  const { label, children, layout, required, style, tooltip } = props;
+  const { label, children, layout, required, style, tooltip: toolTipContent } = props;
   const { width } = useWindowSize();
   const theme = useContext(ThemeContext);
 
   return (
     <Stack horizontal={layout !== Layout.vertical && width > MaxHorizontalWidthPx} style={style}>
       <label className={labelStyle} htmlFor={children.props.id}>
-        {label} {getRequiredIcon(theme, required)} {getToolTip(tooltip)}
+        {label} {getRequiredIcon(theme, required)} {getToolTip(`${children.props.id}-tooltip`, toolTipContent)}
       </label>
       {children}
     </Stack>
@@ -60,8 +60,8 @@ const getRequiredIcon = (theme: ThemeExtended, required?: boolean) => {
   }
 };
 
-const getToolTip = (tooltip?: string) => {
-  if (tooltip) {
-    return <InfoTooltip content={tooltip} />;
+const getToolTip = (id: string, content?: string) => {
+  if (content) {
+    return <InfoTooltip id={id} content={content} />;
   }
 };
