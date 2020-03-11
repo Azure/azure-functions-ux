@@ -22,9 +22,10 @@ import {
   logPanelStyle,
   defaultMonacoEditorHeight,
   testPanelStyle,
+  editorStyle,
+  editorDivStyle,
 } from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
-import { editorStyle } from '../../app-files/AppFiles.styles';
 import FunctionLog from '../function-log/FunctionLog';
 import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
@@ -302,7 +303,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   useEffect(() => {
-    setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? 310 : 138) + getReadOnlyBannerHeight()}px)`);
+    setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? 302 : 130) + getReadOnlyBannerHeight()}px)`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logPanelExpanded, readOnlyBanner]);
   useEffect(() => {
@@ -389,7 +390,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       </Panel>
       {isLoading() && <LoadingComponent />}
       {!logPanelFullscreen && (
-        <div className={editorStyle}>
+        <div className={editorDivStyle}>
           <MonacoEditor
             value={fileContent.latest}
             language={editorLanguage}
@@ -402,6 +403,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               cursorBlinking: true,
               renderWhitespace: 'all',
               readOnly: SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState) || !appPermission,
+              extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
           />
