@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType, Link } from 'office-ui-fabric-react';
 import { messageBannerStyles, messageBannerTextStyle, messageBannerIconStyle, messageBannerClass } from './CustomBanner.styles';
 import { ThemeContext } from '../../ThemeContext';
+import { useTranslation } from 'react-i18next';
 
 interface CustomBannerProps {
   message: string;
@@ -9,10 +10,12 @@ interface CustomBannerProps {
   id?: string;
   icon?: JSX.Element;
   className?: string;
+  learnMoreLink?: string;
 }
 
 const CustomBanner: React.FC<CustomBannerProps> = props => {
-  const { message, type, id, icon, className: customClassName } = props;
+  const { message, type, id, icon, className: customClassName, learnMoreLink } = props;
+  const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
 
@@ -33,10 +36,20 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
         {!!icon ? (
           <>
             <span className={messageBannerIconStyle}>{icon}</span>
-            <span className={messageBannerTextStyle}>{message}</span>
+            <span className={messageBannerTextStyle}>
+              {message}
+              <Link href={learnMoreLink} target="_blank">
+                {t('learnMore')}
+              </Link>
+            </span>
           </>
         ) : (
-          message
+          <span className={messageBannerTextStyle}>
+            {message}
+            <Link href={learnMoreLink} target="_blank">
+              {t('learnMore')}
+            </Link>
+          </span>
         )}
       </MessageBar>
     </div>

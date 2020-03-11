@@ -33,6 +33,7 @@ import {
   smallPageStyle,
 } from './FunctionIntegrate.style';
 import FunctionIntegrateCommandBar from './FunctionIntegrateCommandBar';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 export interface FunctionIntegrateProps {
   functionAppId: string;
@@ -172,6 +173,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       <CustomBanner
         message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
         type={MessageBarType.warning}
+        learnMoreLink={CommonConstants.Links.bindingDirectionLearnMore}
       />
     ) : (
       undefined
