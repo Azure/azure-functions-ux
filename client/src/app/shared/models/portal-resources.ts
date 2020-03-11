@@ -1871,4 +1871,7 @@ export class PortalResources {
   public static fetchFileContentFailureMessage = 'fetchFileContentFailureMessage';
   public static resourceDropdown_missingAppSetting = 'resourceDropdown_missingAppSetting';
   public static resourceDropdown_noAppSettingsFound = 'resourceDropdown_noAppSettingsFound';
+  public static functionMonitor_invocation = 'functionMonitor_invocation';
+  public static functionMonitor_logs = 'functionMonitor_logs';
+  public static logStreaming_openInLiveMetrics = 'logStreaming_openInLiveMetrics';
 }
