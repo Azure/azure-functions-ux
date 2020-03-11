@@ -1,11 +1,11 @@
+import { Link, MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import React, { useContext } from 'react';
-import { MessageBar, MessageBarType, Link } from 'office-ui-fabric-react';
-import { messageBannerStyles, messageBannerTextStyle, messageBannerIconStyle, messageBannerClass } from './CustomBanner.styles';
-import { ThemeContext } from '../../ThemeContext';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../images/Common/Error.svg';
-import { ReactComponent as WarningSvg } from '../../images/Common/Warning.svg';
 import { ReactComponent as InfoSvg } from '../../images/Common/Info.svg';
+import { ReactComponent as WarningSvg } from '../../images/Common/Warning.svg';
+import { ThemeContext } from '../../ThemeContext';
+import { messageBannerClass, messageBannerIconStyle, messageBannerStyles, messageBannerTextStyle } from './CustomBanner.styles';
 
 interface CustomBannerProps {
   message: string;
