@@ -6,15 +6,19 @@ import FunctionLog from '../function-log/FunctionLog';
 import { PivotState } from './FunctionMonitor.types';
 import { ArmFunctionDescriptor } from '../../../../utils/resourceDescriptors';
 import FunctionInvocationsDataLoader from '../invocations/FunctionInvocationsDataLoader';
+import { AppInsightsComponent } from '../../../../models/app-insights';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
+import { ArmObj } from '../../../../models/arm-obj';
 
 interface FunctionMonitorProps {
   resourceId: string;
   resetAppInsightsToken: () => void;
+  appInsightsComponent?: ArmObj<AppInsightsComponent>;
   appInsightsToken?: string;
 }
 
 const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
-  const { resourceId, resetAppInsightsToken, appInsightsToken } = props;
+  const { resourceId, resetAppInsightsToken, appInsightsComponent, appInsightsToken } = props;
   const { t } = useTranslation();
   const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.invocations);
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
@@ -36,13 +40,17 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
     return '';
   };
 
+  if (!appInsightsComponent) {
+    return <LoadingComponent />;
+  }
+
   return (
     <div style={paddingStyle}>
       <Pivot getTabId={getPivotTabId} selectedKey={pivotStateKey} onLinkClick={onPivotItemClicked}>
         <PivotItem itemKey={PivotState.invocations} headerText={t('functionMonitor_invocations')}>
           <FunctionInvocationsDataLoader
             resourceId={resourceId}
-            appInsightsComponentId={'faf6b3ce-1b4c-4fe1-84fc-5c67b75dc513'}
+            appInsightsAppId={appInsightsComponent.properties.AppId}
             appInsightsToken={appInsightsToken}
           />
         </PivotItem>

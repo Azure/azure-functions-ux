@@ -1,17 +1,17 @@
 export interface AppInsightsComponent {
-  ver: string;
-  applicationId: string;
-  appId: string;
-  instrumentationKey: string;
-  connectionString: string;
-  name: string;
-  creationDate: string;
-  tenantId: string;
   provisioningState: string;
-  application_type?: string;
-  flow_type?: string;
-  requestion_source?: string;
-  samplingPercentage?: number;
+  InstrumentationKey: string;
+  ConnectionString: string;
+  TenantId: string;
+  ApplicationId: string;
+  CreationDate: string;
+  Name: string;
+  AppId: string;
+  Ver: string;
+  Application_Type?: string;
+  Flow_Type?: string;
+  Request_Source?: string;
+  SamplingPercentage?: number;
 }
 
 export interface AppInsightsComponentToken {

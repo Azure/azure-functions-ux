@@ -3,27 +3,30 @@ import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import FunctionInvocationsData from './FunctionInvocations.data';
 import FunctionInvocations from './FunctionInvocations';
 import { AppInsightsMonthlySummary } from '../../../../models/app-insights';
+import { ArmFunctionDescriptor } from '../../../../utils/resourceDescriptors';
 
 const invocationsData = new FunctionInvocationsData();
 export const FunctionInvocationsContext = React.createContext(invocationsData);
 
 interface FunctionInvocationsDataLoaderProps {
   resourceId: string;
-  appInsightsComponentId: string;
+  appInsightsAppId: string;
   appInsightsToken?: string;
 }
 
 const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps> = props => {
-  const { resourceId, appInsightsComponentId, appInsightsToken } = props;
+  const { resourceId, appInsightsAppId, appInsightsToken } = props;
   const [monthlySummary, setMonthlySummary] = useState<AppInsightsMonthlySummary | undefined>(undefined);
+
+  const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
 
   const fetchData = async () => {
     if (appInsightsToken) {
       const monthlySummaryResponse = await invocationsData.getMonthlySummary(
-        appInsightsComponentId,
+        appInsightsAppId,
         appInsightsToken,
-        'allisonm-bundles',
-        'HttpTrigger1'
+        armFunctionDescriptor.site,
+        armFunctionDescriptor.name
       );
       setMonthlySummary(monthlySummaryResponse);
     }

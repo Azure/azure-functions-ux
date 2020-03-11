@@ -5,6 +5,9 @@ import MakeArmCall from './ArmHelper';
 import { ISubscription } from '../models/subscription';
 import { AppInsightsComponent, AppInsightsComponentToken, AppInsightsMonthlySummary, AppInsightsQueryResult } from '../models/app-insights';
 import { mapResourcesTopologyToArmObjects } from '../utils/arm-utils';
+import LogService from '../utils/LogService';
+import { LogCategories } from '../utils/LogCategories';
+import { HttpResponseObject } from '../ArmHelper.types';
 
 export default class AppInsightsService {
   public static getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[]) => {
@@ -68,58 +71,65 @@ export default class AppInsightsService {
   };
 
   public static getLast30DaysSummary = (
-    appInsightsComponentId: string,
+    appInsightsAppId: string,
     appInsightsToken: string,
     functionAppName: string,
     functionName: string
   ) => {
-    const data = {
-      query:
-        `requests ` +
-        `| where timestamp >= ago(30d) ` +
-        `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
-        `| summarize count=count() by success`,
-      timespan: 'P30D',
-    };
-    const headers = {
-      Authorization: `Bearer ${appInsightsToken}`,
-    };
+    const data = { query: AppInsightsService._formLast30DayQuery(functionAppName, functionName), timespan: 'P30D' };
+    const headers = AppInsightsService._formAppInsightsHeaders(appInsightsToken);
+    const url = AppInsightsService._formLast30DayUrl(appInsightsAppId);
+
+    return sendHttpRequest<AppInsightsQueryResult>({ data, headers, url, method: 'POST' }).then(response =>
+      AppInsightsService._extractSummaryFromResponse(response)
+    );
+  };
+
+  private static _formAppInsightsHeaders(appInsightsToken: string) {
+    return { Authorization: `Bearer ${appInsightsToken}` };
+  }
+
+  private static _formLast30DayQuery = (functionAppName: string, functionName: string): string => {
+    return (
+      `requests ` +
+      `| where timestamp >= ago(30d) ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
+      `| summarize count=count() by success`
+    );
+  };
+
+  private static _formLast30DayUrl = (appInsightsAppId: string): string => {
     // TODO (allisonm): Handle National Clouds
-    const url = `${CommonConstants.AppInsightsEndpoints.public}/${appInsightsComponentId}/query?api-version=${
+    return `${CommonConstants.AppInsightsEndpoints.public}/${appInsightsAppId}/query?api-version=${
       CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
     }&queryType=getLast30DaySummary`;
+  };
 
-    return sendHttpRequest<AppInsightsQueryResult>({
-      data,
-      headers,
-      url,
-      method: 'POST',
-    }).then(response => {
-      const summary: AppInsightsMonthlySummary = {
-        successCount: 0,
-        failedCount: 0,
-      };
+  private static _extractSummaryFromResponse = (response: HttpResponseObject<AppInsightsQueryResult>) => {
+    const summary: AppInsightsMonthlySummary = {
+      successCount: 0,
+      failedCount: 0,
+    };
 
-      if (response.metadata.success && response.data) {
-        const summaryTable = response.data.tables.find(table => table.name === 'PrimaryResult');
-        const rows = summaryTable && summaryTable.rows;
+    if (response.metadata.success && response.data) {
+      const summaryTable = response.data.tables.find(table => table.name === 'PrimaryResult');
+      const rows = summaryTable && summaryTable.rows;
 
-        // NOTE(michinoy): The query returns up to two rows, with two columns: status and count
-        // status of True = Success
-        // status of False = Failed
-        if (rows && rows.length <= 2) {
-          rows.forEach(row => {
-            if (row[0] === 'True') {
-              summary.successCount = row[1];
-            } else if (row[0] === 'False') {
-              summary.failedCount = row[1];
-            }
-          });
-        }
-      } else {
-        // TODO (allisonm): LOG ERROR
+      // NOTE(michinoy): The query returns up to two rows, with two columns: status and count
+      // status of True = Success
+      // status of False = Failed
+      if (rows && rows.length <= 2) {
+        rows.forEach(row => {
+          if (row[0] === 'True') {
+            summary.successCount = row[1];
+          } else if (row[0] === 'False') {
+            summary.failedCount = row[1];
+          }
+        });
       }
-      return summary;
-    });
+    } else {
+      LogService.trackEvent(LogCategories.applicationInsightsQuery, 'getSummary', `Failed to query summary: ${response.metadata.error}`);
+    }
+    return summary;
   };
 }

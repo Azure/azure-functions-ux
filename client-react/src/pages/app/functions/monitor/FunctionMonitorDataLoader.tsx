@@ -44,7 +44,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
       LogService.error(
         LogCategories.FunctionMonitor,
         'fetchAppSetting',
-        `Failed to fetch app setting: ${appSettingsResponse.metadata.error}`
+        `Failed to fetch app settings: ${appSettingsResponse.metadata.error}`
       );
     }
   };
@@ -81,7 +81,14 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appInsightsComponent, appInsightsToken]);
 
-  return <FunctionMonitor resourceId={resourceId} resetAppInsightsToken={resetAppInsightsToken} appInsightsToken={appInsightsToken} />;
+  return (
+    <FunctionMonitor
+      resourceId={resourceId}
+      resetAppInsightsToken={resetAppInsightsToken}
+      appInsightsComponent={appInsightsComponent}
+      appInsightsToken={appInsightsToken}
+    />
+  );
 };
 
 export default FunctionMonitorDataLoader;
