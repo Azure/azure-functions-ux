@@ -21,7 +21,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
 
   const startupInfoContext = useContext(StartupInfoContext);
 
-  const fetchData = async () => {
+  const fetchComponent = async () => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
     const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
     const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
@@ -49,29 +49,33 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
     }
   };
 
+  const fetchToken = async (component: ArmObj<AppInsightsComponent>) => {
+    AppInsightsService.getAppInsightsComponentToken(component.id).then(appInsightsComponentTokenResponse => {
+      if (appInsightsComponentTokenResponse.metadata.success) {
+        setAppInsightsToken(appInsightsComponentTokenResponse.data.token);
+      } else {
+        LogService.error(
+          LogCategories.FunctionMonitor,
+          'getAppInsightsComponentToken',
+          `Failed to get App Insights Component Token: ${component.name}`
+        );
+      }
+    });
+  };
+
   const resetAppInsightsToken = () => {
     setAppInsightsToken(undefined);
   };
 
   useEffect(() => {
-    fetchData();
+    fetchComponent();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (appInsightsComponent && !appInsightsToken) {
-      AppInsightsService.getAppInsightsComponentToken(appInsightsComponent.id).then(appInsightsComponentTokenResponse => {
-        if (appInsightsComponentTokenResponse.metadata.success) {
-          setAppInsightsToken(appInsightsComponentTokenResponse.data.token);
-        } else {
-          LogService.error(
-            LogCategories.FunctionMonitor,
-            'getAppInsightsComponentToken',
-            `Failed to get App Insights Component Token: ${appInsightsComponent}`
-          );
-        }
-      });
+      fetchToken(appInsightsComponent);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

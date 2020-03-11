@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import { paddingStyle } from './FunctionMonitor.styles';
 import FunctionLog from '../function-log/FunctionLog';
+import { PivotState } from './FunctionMonitor.types';
 
 interface FunctionMonitorProps {
   resourceId: string;
@@ -10,15 +11,11 @@ interface FunctionMonitorProps {
   appInsightsToken?: string;
 }
 
-enum PivotState {
-  invocation = 'invocation',
-  logs = 'logs',
-}
-
 const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   const { resourceId, resetAppInsightsToken, appInsightsToken } = props;
   const { t } = useTranslation();
   const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.invocation);
+  // TODO (allisonm): Create and consume Function Resource Descriptor
   const functionName = resourceId.split('/functions/').pop() || '';
 
   const onPivotItemClicked = (item?: PivotItem) => {
