@@ -18,8 +18,6 @@ import { SiteStateContext } from '../../../../SiteStateContext';
 import { ThemeContext } from '../../../../ThemeContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import SiteHelper from '../../../../utils/SiteHelper';
-import { ReactComponent as ErrorSvg } from '../../../../images/Common/Error.svg';
-import { ReactComponent as WarningSvg } from '../../../../images/Common/Warning.svg';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
 import FunctionNameBindingCard from './BindingsDiagram/FunctionNameBindingCard';
@@ -175,7 +173,6 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     bindingsMissingDirection.length > 0 ? (
       <CustomBanner
         message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
-        icon={<WarningSvg />}
         type={MessageBarType.warning}
         learnMoreLink={CommonConstants.Links.bindingDirectionLearnMore}
       />
@@ -184,7 +181,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     );
 
   const bindingsFailedToLoadBanner = bindingsError ? (
-    <CustomBanner message={t('integrate_bindingsFailedLoading')} icon={<ErrorSvg />} type={MessageBarType.error} />
+    <CustomBanner message={t('integrate_bindingsFailedLoading')} type={MessageBarType.error} />
   ) : (
     undefined
   );
