@@ -110,6 +110,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   };
 
   const getLiveMetricsItem = (): ICommandBarItemProps => {
+    // Todo (allisonm): Link to Live Metrics!
     return {
       key: 'liveMetrics',
       name: t('logStreaming_openInLiveMetrics'),
@@ -135,16 +136,14 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   };
 
   return (
-    <>
-      <CommandBar
-        items={getItems()}
-        farItems={getFarItems()}
-        styles={CommandBarStyles}
-        ariaLabel={t('logStreaming_logs')}
-        buttonAs={CustomCommandBarButton}
-        className={logCommandBarStyle}
-      />
-    </>
+    <CommandBar
+      items={getItems()}
+      farItems={getFarItems()}
+      styles={CommandBarStyles}
+      ariaLabel={t('logStreaming_logs')}
+      buttonAs={CustomCommandBarButton}
+      className={logCommandBarStyle}
+    />
   );
 };
 
