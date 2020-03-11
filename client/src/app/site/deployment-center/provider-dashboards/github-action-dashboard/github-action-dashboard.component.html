@@ -11,6 +11,9 @@
             ></command>
         </command-bar>
 
+        <info-box typeClass="info" [infoText]="'githubActionInfo' | translate" [infoLink]="githubActionLink">
+        </info-box>
+
         <div id="essentials-container">
             <div class="essentials-col">
                 <div>
@@ -64,9 +67,6 @@
             </div>
         </div>
 
-        <info-box typeClass="info" [infoText]="'githubActionInfo' | translate" [infoLink]="githubActionLink">
-        </info-box>
-
         <div class="list-container">
             <ngx-datatable
                 #myTable
@@ -88,31 +88,31 @@
                             title="Expand/Collapse Group"
                             (click)="toggleExpandGroup(group)">
                             <b>{{group.value[0].date | date:'EEEE, MMMM d, 20yy'}}</b>
-                        </span>                          
+                        </span>
                         </div>
                     </ng-template>
                 </ngx-datatable-group-header>
                 <!-- Row Column Template -->
-                <ngx-datatable-column name="{{'time' | translate}}" prop="time" editable="false" [flexGrow]="2">         
+                <ngx-datatable-column name="{{'time' | translate}}" prop="time" editable="false" [flexGrow]="2">
                     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
                         <span>
                             {{row.time | date:'longTime'}}
-                        </span>           
-                    </ng-template>          
+                        </span>
+                    </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column name="{{'status' | translate}}" prop="status" [resizeable]="true" [flexGrow]="2">
                     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"  let-group="group">
                         <span>
                             {{row.status}} {{row.active ? '(Active)' : ''}}
-                        </span>           
-                    </ng-template>   
+                        </span>
+                    </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column name="{{'commitId' | translate}}" prop="commit" [resizeable]="true" [flexGrow]="2">
                     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
                         <span>
                             {{row.commit}}
-                        </span>           
-                    </ng-template>   
+                        </span>
+                    </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column name="{{'checkinMessage' | translate}}" prop="checkinMessage" [resizeable]="true" [flexGrow]="5">
                 </ngx-datatable-column>
@@ -136,6 +136,6 @@
         [showBackdrop]="true">
 
         <app-deployment-credentials [hidden]="!hideCreds" [resourceId]="resourceId"></app-deployment-credentials>
-    
+
     </ng-sidebar>
 </ng-sidebar-container>

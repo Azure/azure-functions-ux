@@ -25,7 +25,7 @@ import {
 } from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 import { editorStyle } from '../../app-files/AppFiles.styles';
-import FunctionLog from './function-log/FunctionLog';
+import FunctionLog from '../function-log/FunctionLog';
 import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 import { SiteStateContext } from '../../../../SiteStateContext';
@@ -210,7 +210,15 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const scriptHref = functionInfo.properties.script_href;
     const filename = (scriptHref && scriptHref.split('/').pop()) || '';
     const filteredOptions = getDropdownOptions().filter(option => option.text === filename.toLowerCase());
-    return filteredOptions.length === 1 ? filteredOptions[0] : getDefaultFile();
+    return filteredOptions.length === 1 ? filteredOptions[0] : getSelectedFile();
+  };
+
+  const getSelectedFile = () => {
+    if (startUpInfoContext.featureInfo.data && startUpInfoContext.featureInfo.data.filename) {
+      return startUpInfoContext.featureInfo.data.filename;
+    } else {
+      return getDefaultFile();
+    }
   };
 
   const getDefaultFile = (): IDropdownOption | undefined => {
@@ -409,6 +417,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           appInsightsToken={appInsightsToken}
           readOnlyBannerHeight={getReadOnlyBannerHeight()}
           functionName={functionInfo.properties.name}
+          hideLiveMetrics={true}
         />
       </div>
     </>

@@ -5787,4 +5787,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
         <value>No existing connections available</value>
     </data>
+    <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>The following bindings are missing the required direction property and may have been placed incorrectly: {0}. Please update the bindings in your functions.json file.</value>
+    </data>
+    <data name="functionMonitor_invocation" xml:space="preserve">
+        <value>Invocation</value>
+    </data>
+    <data name="functionMonitor_logs" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+    <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>Open in Live Metrics</value>
+    </data>
 </root>
