@@ -25,7 +25,7 @@ import {
 } from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 import { editorStyle } from '../../app-files/AppFiles.styles';
-import FunctionLog from './function-log/FunctionLog';
+import FunctionLog from '../function-log/FunctionLog';
 import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 import { SiteStateContext } from '../../../../SiteStateContext';
@@ -417,6 +417,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           appInsightsToken={appInsightsToken}
           readOnlyBannerHeight={getReadOnlyBannerHeight()}
           functionName={functionInfo.properties.name}
+          hideLiveMetrics={true}
         />
       </div>
     </>

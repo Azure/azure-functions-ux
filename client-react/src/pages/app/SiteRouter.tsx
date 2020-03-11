@@ -54,6 +54,7 @@ const FunctionQuickstart: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/quickstart/FunctionQuickstartDataLoader')
 );
 const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-files/AppFilesDataLoader'));
+const FunctionMonitor: any = lazy(() => import(/* webpackChunkName:"functionmonitor" */ './functions/monitor/FunctionMonitorDataLoader'));
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
@@ -186,6 +187,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
                     <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
                     <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
+                    <FunctionMonitor resourceId={value.resourceId} path="/monitor" />
                   </Router>
                 </SiteStateContext.Provider>
               )
