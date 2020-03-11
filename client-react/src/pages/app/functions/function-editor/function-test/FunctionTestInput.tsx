@@ -28,6 +28,7 @@ import { ArmObj } from '../../../../../models/arm-obj';
 import { BindingType } from '../../../../../models/functions/function-binding';
 import { PortalTheme } from '../../../../../models/portal-models';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
+import { FormControlWrapper, Layout } from '../../../../../components/FormControlWrapper/FormControlWrapper';
 
 export interface FunctionTestInputProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -136,8 +137,13 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
     <div className={pivotItemWrapper}>
       {t('functionTestInputDescription')}
       <div className={functionTestGroupStyle}>
-        <Label className={testFormLabelStyle}>{t('httpRun_httpMethod')}</Label>
-        <Field id="method" name="method" component={Dropdown} options={getDropdownOptions()} />
+        <FormControlWrapper
+          label={t('httpRun_httpMethod')}
+          layout={Layout.vertical}
+          tooltip={t('httpMethod_tooltip')}
+          customLabelClassName={testFormLabelStyle}>
+          <Field id="method" name="method" component={Dropdown} options={getDropdownOptions()} />
+        </FormControlWrapper>
       </div>
       <div className={functionTestGroupStyle}>
         <Label className={testFormLabelStyle}>{t('httpRun_query')}</Label>
