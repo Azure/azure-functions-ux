@@ -206,8 +206,8 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
 
           if (this.deploymentObject.sourceControls && this.deploymentObject.sourceControls.properties) {
             this.repositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
-            this.githubActionLink = `${this.deploymentObject.sourceControls.properties.repoUrl}/actions`;
             this.branchText = this.deploymentObject.sourceControls.properties.branch;
+            this.githubActionLink = `${this.repositoryText}/actions?query=event%3Apush+branch%3A${this.branchText}`;
           }
 
           this._populateTable();
