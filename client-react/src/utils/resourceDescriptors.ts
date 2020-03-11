@@ -78,48 +78,8 @@ export class ArmResourceDescriptor extends Descriptor {
 }
 
 // tslint:disable-next-line:max-classes-per-file
-export class CdsEntityDescriptor extends Descriptor {
-  public environment: string;
-  public scope: string;
-
-  constructor(resourceId: string) {
-    super(resourceId);
-
-    if (this.parts.length < 6) {
-      throw Error(`resourceId length is too short for CDS: ${resourceId}`);
-    }
-
-    this.environment = this.parts[3];
-    this.scope = this.parts[5];
-  }
-
-  public getTrimmedResourceId() {
-    return `/providers/Microsoft.Blueridge/environments/${this.environment}/scopes/${this.scope}`;
-  }
-}
-
-// tslint:disable-next-line:max-classes-per-file
-export class CdsFunctionDescriptor extends CdsEntityDescriptor implements FunctionDescriptor {
-  public name: string;
-
-  constructor(resourceId) {
-    super(resourceId);
-
-    if (this.parts.length < 10) {
-      throw Error(`resourceId length is too short for function descriptor: ${resourceId}`);
-    }
-
-    this.name = this.parts[9];
-  }
-
-  public getTrimmedResourceId() {
-    return `${super.getTrimmedResourceId()}/functions/${this.name}`;
-  }
-}
-
-// tslint:disable-next-line:max-classes-per-file
 export class ArmSiteDescriptor extends ArmResourceDescriptor {
-  public static getSiteDescriptor(resourceId: string): ArmSiteDescriptor | CdsEntityDescriptor {
+  public static getSiteDescriptor(resourceId: string): ArmSiteDescriptor {
     const parts = resourceId.split('/').filter(part => !!part);
     let siteId = '';
     let maxIndex: number;
@@ -133,8 +93,6 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
       }
     } else if (parts.length >= 8 && parts[6].toLowerCase() === 'sites') {
       maxIndex = 7;
-    } else if (parts.length >= 6 && parts[4].toLowerCase() === 'scopes') {
-      return new CdsEntityDescriptor(resourceId);
     } else {
       throw Error(`Not enough segments in site or slot or scope id`);
     }
@@ -204,7 +162,7 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
 
 // tslint:disable-next-line:max-classes-per-file
 export class ArmPlanDescriptor extends ArmResourceDescriptor {
-  public static getSiteDescriptor(resourceId: string): ArmPlanDescriptor | CdsEntityDescriptor {
+  public static getSiteDescriptor(resourceId: string): ArmPlanDescriptor {
     const parts = resourceId.split('/').filter(part => !!part);
     let planId = '';
     let maxIndex: number;
@@ -244,20 +202,8 @@ export class ArmPlanDescriptor extends ArmResourceDescriptor {
   }
 }
 
-export interface FunctionDescriptor extends Descriptor {
-  name: string;
-}
-
 // tslint:disable-next-line:max-classes-per-file
-export class ArmFunctionDescriptor extends ArmSiteDescriptor implements FunctionDescriptor {
-  public static getFunctionDescriptor(resourceId: string): FunctionDescriptor {
-    const parts = resourceId.split('/').filter(part => !!part);
-
-    if (parts.length >= 8 && parts[6].toLowerCase() === 'entities') {
-      return new CdsFunctionDescriptor(resourceId);
-    }
-    return new ArmFunctionDescriptor(resourceId);
-  }
+export class ArmFunctionDescriptor extends ArmSiteDescriptor {
   public name: string;
   private _isProxy: boolean;
 
