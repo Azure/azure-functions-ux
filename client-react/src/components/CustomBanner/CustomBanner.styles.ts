@@ -2,7 +2,7 @@ import { style } from 'typestyle';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { MessageBarType } from 'office-ui-fabric-react';
 
-export const messageBannerStyles = isCustomIcon => {
+export const messageBannerStyles = (isCustomIcon: boolean) => {
   const styles = {
     root: {
       height: '33px',

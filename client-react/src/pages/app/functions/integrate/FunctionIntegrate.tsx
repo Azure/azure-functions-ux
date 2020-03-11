@@ -16,7 +16,10 @@ import { FunctionInfo } from '../../../../models/functions/function-info';
 import { HostStatus } from '../../../../models/functions/host-status';
 import { SiteStateContext } from '../../../../SiteStateContext';
 import { ThemeContext } from '../../../../ThemeContext';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 import SiteHelper from '../../../../utils/SiteHelper';
+import { ReactComponent as ErrorSvg } from '../../../../images/Common/Error.svg';
+import { ReactComponent as WarningSvg } from '../../../../images/Common/Warning.svg';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
 import FunctionNameBindingCard from './BindingsDiagram/FunctionNameBindingCard';
@@ -33,12 +36,12 @@ import {
   smallPageStyle,
 } from './FunctionIntegrate.style';
 import FunctionIntegrateCommandBar from './FunctionIntegrateCommandBar';
-import { CommonConstants } from '../../../../utils/CommonConstants';
 
 export interface FunctionIntegrateProps {
   functionAppId: string;
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
+  bindingsError: boolean;
   hostStatus: HostStatus;
   isRefreshing: boolean;
   refreshIntegrate: () => void;
@@ -61,7 +64,7 @@ export interface BindingEditorContextInfo {
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
-  const { functionAppId, functionInfo: initialFunctionInfo, bindings, hostStatus, isRefreshing, refreshIntegrate } = props;
+  const { functionAppId, functionInfo: initialFunctionInfo, bindings, bindingsError, hostStatus, isRefreshing, refreshIntegrate } = props;
   const { t } = useTranslation();
   const siteState = useContext(SiteStateContext);
   const theme = useContext(ThemeContext);
@@ -172,6 +175,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     bindingsMissingDirection.length > 0 ? (
       <CustomBanner
         message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
+        icon={<WarningSvg />}
         type={MessageBarType.warning}
         learnMoreLink={CommonConstants.Links.bindingDirectionLearnMore}
       />
@@ -179,12 +183,19 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       undefined
     );
 
+  const bindingsFailedToLoadBanner = bindingsError ? (
+    <CustomBanner message={t('integrate_bindingsFailedLoading')} icon={<ErrorSvg />} type={MessageBarType.error} />
+  ) : (
+    undefined
+  );
+
   return (
     <>
       {(isRefreshing || isUpdating) && <LoadingComponent overlay={true} />}
       <BindingEditorContext.Provider value={editorContext}>
         <EditModeBanner />
         {bindingsMissingDirectionBanner}
+        {bindingsFailedToLoadBanner}
         <FunctionIntegrateCommandBar refreshIntegrate={refreshIntegrate} isRefreshing={isRefreshing} />
         <BindingPanel
           functionAppId={functionAppId}
