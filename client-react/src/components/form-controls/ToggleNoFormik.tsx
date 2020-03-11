@@ -7,6 +7,7 @@ interface CustomToggleProps {
   id: string;
   infoBubbleMessage?: string;
   label?: string;
+  // Currently unsupported by office framework
   errorMessage?: string;
   checked?: boolean;
   onChange: (_e, checked: boolean) => void;
