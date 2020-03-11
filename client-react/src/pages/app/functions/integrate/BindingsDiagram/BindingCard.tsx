@@ -12,6 +12,7 @@ import { ThemeContext } from '../../../../../ThemeContext';
 import { ClosedReason } from '../BindingPanel/BindingEditor';
 import { BindingEditorContextInfo } from '../FunctionIntegrate';
 import { cardStyle, headerStyle } from './BindingDiagram.styles';
+import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
 
 export interface BindingCardChildProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -116,8 +117,9 @@ const createOrUpdateBinding = (
 
   if (newBindingInfo['newAppSettings']) {
     const updateAppSettingsNotificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
+    const armFunctionDescriptor = new ArmFunctionDescriptor(functionInfo.id);
 
-    SiteService.updateApplicationSettings(functionInfo.id.split('/functions/')[0], newBindingInfo['newAppSettings']).then(r => {
+    SiteService.updateApplicationSettings(armFunctionDescriptor.getSiteOnlyResourceId(), newBindingInfo['newAppSettings']).then(r => {
       if (!r.metadata.success) {
         const errorMessage = (r.metadata.error && r.metadata.error.error && r.metadata.error.error.message) || t('configUpdateFailure');
         portalCommunicator.stopNotification(updateAppSettingsNotificationId, false, errorMessage);
