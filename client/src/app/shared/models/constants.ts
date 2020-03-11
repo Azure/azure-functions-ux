@@ -328,6 +328,7 @@ export class ScenarioIds {
   public static readonly containerSettings = 'containerSettings';
   public static readonly isPublishProfileBasedDeploymentEnabled = 'isPublishProfileBasedDeploymentEnabled';
   public static readonly enableGitHubAction = 'enableGitHubAction';
+  public static readonly tipSupported = 'tipSupported';
 }
 
 export class NationalCloudArmUris {
