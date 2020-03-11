@@ -4,6 +4,7 @@ import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import { paddingStyle } from './FunctionMonitor.styles';
 import FunctionLog from '../function-log/FunctionLog';
 import { PivotState } from './FunctionMonitor.types';
+import { ArmFunctionDescriptor } from '../../../../utils/resourceDescriptors';
 
 interface FunctionMonitorProps {
   resourceId: string;
@@ -15,8 +16,8 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   const { resourceId, resetAppInsightsToken, appInsightsToken } = props;
   const { t } = useTranslation();
   const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.invocation);
-  // TODO (allisonm): Create and consume Function Resource Descriptor
-  const functionName = resourceId.split('/functions/').pop() || '';
+  const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
+  const functionName = armFunctionDescriptor.name;
 
   const onPivotItemClicked = (item?: PivotItem) => {
     if (!!item) {
