@@ -100,7 +100,7 @@ const ActionBar: React.FC<ActionBarPropsCombined> = ({ primaryButton, secondaryB
             className={buttonStyle(theme, false)}
             onClick={secondaryButton.onClick}
             disabled={secondaryButton.disable}>
-            {t('cancel')}
+            {secondaryButton.title}
           </DefaultButton>
         )}
       </div>
