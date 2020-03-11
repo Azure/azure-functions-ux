@@ -1,4 +1,4 @@
-import { QPSchemaDocumentStreamInfo, TelemetryTypesEnum } from '../../../../../QuickPulseQuery/QuickPulseSchema';
+import { QPSchemaDocumentStreamInfo, TelemetryTypesEnum } from '../../../../QuickPulseQuery/QuickPulseSchema';
 
 export function getDefaultDocumentStreams(functionName: string): QPSchemaDocumentStreamInfo[] {
   return [
