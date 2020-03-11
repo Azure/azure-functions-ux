@@ -141,7 +141,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
           label={t('httpRun_httpMethod')}
           layout={Layout.vertical}
           tooltip={t('httpMethod_tooltip')}
-          customLabelClassName={testFormLabelStyle}>
+          defaultLabelClassName={testFormLabelStyle}>
           <Field id="method" name="method" component={Dropdown} options={getDropdownOptions()} />
         </FormControlWrapper>
       </div>
