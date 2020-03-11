@@ -1,5 +1,5 @@
 import { style } from 'typestyle';
-import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 export const logCommandBarStyle = style({
   height: '37px',
