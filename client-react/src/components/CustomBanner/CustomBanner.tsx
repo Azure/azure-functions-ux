@@ -33,24 +33,13 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
         messageBarType={type}
         styles={messageBannerStyles(!!icon)}
         className={className}>
-        {!!icon ? (
-          <>
-            <span className={messageBannerIconStyle}>{icon}</span>
-            <span className={messageBannerTextStyle}>
-              {message}
-              <Link href={learnMoreLink} target="_blank">
-                {t('learnMore')}
-              </Link>
-            </span>
-          </>
-        ) : (
-          <span className={messageBannerTextStyle}>
-            {message}
-            <Link href={learnMoreLink} target="_blank">
-              {t('learnMore')}
-            </Link>
-          </span>
-        )}
+        {!!icon ? <span className={messageBannerIconStyle}>{icon}</span> : undefined}
+        <span className={messageBannerTextStyle}>
+          {message}
+          <Link href={learnMoreLink} target="_blank">
+            {t('learnMore')}
+          </Link>
+        </span>
       </MessageBar>
     </div>
   );
