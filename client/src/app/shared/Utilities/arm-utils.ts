@@ -20,8 +20,13 @@ export namespace ArmUtil {
   export function isContainerApp(obj: ArmObj<any> | FunctionContainer): boolean {
     return obj && obj.kind && obj.kind.toLocaleLowerCase().includes(Kinds.container);
   }
+
+  export function isDynamic(obj: ArmObj<Site> | FunctionContainer) {
+    return obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === 'dynamic';
+  }
+
   export function isLinuxDynamic(obj: ArmObj<Site> | FunctionContainer) {
-    return isLinuxApp(obj) && obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === 'dynamic';
+    return isLinuxApp(obj) && isDynamic(obj);
   }
 
   export function isElastic(obj: ArmObj<Site>): boolean {

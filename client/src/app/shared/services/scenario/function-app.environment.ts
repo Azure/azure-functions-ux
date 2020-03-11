@@ -61,6 +61,17 @@ export class FunctionAppEnvironment extends Environment {
         }
       },
     };
+
+    this.scenarioChecks[ScenarioIds.tipSupported] = {
+      id: ScenarioIds.tipSupported,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (this._isDynamic(input.site)) {
+          return { status: 'disabled' };
+        }
+
+        return null;
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
