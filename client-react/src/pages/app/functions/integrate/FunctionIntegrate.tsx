@@ -169,19 +169,16 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   );
 
   const bindingsMissingDirection = functionInfo.properties.config.bindings.filter(binding => !binding.direction);
-  const bindingsMissingDirectionBanner =
-    bindingsMissingDirection.length > 0 ? (
-      <CustomBanner
-        message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
-        type={MessageBarType.warning}
-        learnMoreLink={CommonConstants.Links.bindingDirectionLearnMore}
-      />
-    ) : (
-      undefined
-    );
-
-  const bindingsFailedToLoadBanner = bindingsError ? (
+  const banner = bindingsError ? (
     <CustomBanner message={t('integrate_bindingsFailedLoading')} type={MessageBarType.error} />
+  ) : bindingsMissingDirection.length > 0 ? (
+    <CustomBanner
+      message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
+      type={MessageBarType.warning}
+      learnMoreLink={CommonConstants.Links.bindingDirectionLearnMore}
+    />
+  ) : readOnly ? (
+    <EditModeBanner />
   ) : (
     undefined
   );
@@ -190,9 +187,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     <>
       {(isRefreshing || isUpdating) && <LoadingComponent overlay={true} />}
       <BindingEditorContext.Provider value={editorContext}>
-        <EditModeBanner />
-        {bindingsMissingDirectionBanner}
-        {bindingsFailedToLoadBanner}
+        {banner}
         <FunctionIntegrateCommandBar refreshIntegrate={refreshIntegrate} isRefreshing={isRefreshing} />
         <BindingPanel
           functionAppId={functionAppId}
