@@ -1,20 +1,53 @@
 export interface AppInsightsComponent {
-  ver: string;
-  applicationId: string;
-  appId: string;
-  instrumentationKey: string;
-  connectionString: string;
-  name: string;
-  creationDate: string;
-  tenantId: string;
   provisioningState: string;
-  application_type?: string;
-  flow_type?: string;
-  requestion_source?: string;
-  samplingPercentage?: number;
+  InstrumentationKey: string;
+  ConnectionString: string;
+  TenantId: string;
+  ApplicationId: string;
+  CreationDate: string;
+  Name: string;
+  AppId: string;
+  Ver: string;
+  Application_Type?: string;
+  Flow_Type?: string;
+  Request_Source?: string;
+  SamplingPercentage?: number;
 }
 
 export interface AppInsightsComponentToken {
   token: string;
   expires: string;
+}
+
+export interface AppInsightsMonthlySummary {
+  successCount: number;
+  failedCount: number;
+}
+
+export interface AppInsightsQueryResult {
+  tables: AppInsightsQueryResultTable[];
+}
+
+export interface AppInsightsQueryResultTable {
+  name: string;
+  columns: AppInsightsQueryResultTableColumn[];
+  rows: any[][];
+}
+
+export interface AppInsightsQueryResultTableColumn {
+  columnName: string;
+  dataType: string;
+  columnType: string;
+}
+
+export interface AppInsightsInvocationTrace {
+  timestamp: string;
+  timestampFriendly: string;
+  id: string;
+  name: string;
+  success: boolean;
+  resultCode: string;
+  duration: number;
+  operationId: string;
+  invocationId: string;
 }

@@ -48,7 +48,8 @@ export class CommonConstants {
     iotHubApiVersion20170119: '2017-01-19',
     serviceBusApiVersion20150801: '2015-08-01',
     documentDBApiVersion20150408: '2015-04-08',
-    appInsightsApiVersion20150501: '2015-05-01',
+    appInsightsTokenApiVersion20150501: '2015-05-01',
+    appInsightsQueryApiVersion20180420: '2018-04-20',
   };
 
   public static readonly StackApiVersions = {
@@ -127,6 +128,12 @@ export class CommonConstants {
     public: 'https://rt.services.visualstudio.com/QuickPulseService.svc',
     fairfax: 'https://quickpulse.applicationinsights.us/QuickPulseService.svc',
     mooncake: 'https://live.applicationinsights.azure.cn/QuickPulseService.svc',
+  };
+
+  public static readonly AppInsightsEndpoints = {
+    public: 'https://api.applicationinsights.io/v1/apps',
+    fairfax: 'https://api.applicationinsights.us/v1/apps',
+    mooncake: 'https://api.applicationsinisights.azure.cn/v1.apps',
   };
 
   public static readonly LogLevels = {
