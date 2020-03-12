@@ -7,6 +7,7 @@ export interface InputFormValues {
   method: string;
   queries: NameValuePair[];
   headers: NameValuePair[];
+  xFunctionKey?: string;
 }
 
 export const EmptyNameValuePair: NameValuePair = { name: '', value: '' };
@@ -42,6 +43,7 @@ export interface UrlObj {
   text: string;
   type: UrlType;
   url: string;
+  data?: any;
 }
 
 export enum UrlType {
