@@ -5802,9 +5802,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="httpMethod_tooltip" xml:space="preserve">
         <value>Edit your HTTP trigger to enable additional HTTP methods</value>
     </data>
-    <data name="functionsKey_tooltip" xml:space="preserve">
-        <value>Select the x-functions-key you would like to authenticate with</value>
-    </data>
     <data name="xFunctionsKey_validationMessage" xml:space="preserve">
         <value>Use the key drop-down to define the x-functions-key value</value>
     </data>

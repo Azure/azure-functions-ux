@@ -157,11 +157,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
         </FormControlWrapper>
       </div>
       <div className={functionTestGroupStyle}>
-        <FormControlWrapper
-          label={t('keysDialog_key')}
-          layout={Layout.vertical}
-          tooltip={t('functionsKey_tooltip')}
-          defaultLabelClassName={testFormLabelStyle}>
+        <FormControlWrapper label={t('keysDialog_key')} layout={Layout.vertical} defaultLabelClassName={testFormLabelStyle}>
           <Field id="xFunctionKey" name="xFunctionKey" component={Dropdown} options={getFunctionKeyDropdown()} />
         </FormControlWrapper>
       </div>
