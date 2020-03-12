@@ -326,3 +326,7 @@ export enum PortalTheme {
   dark = 'dark',
   light = 'light',
 }
+
+export interface KeyValue<T> {
+  [key: string]: T;
+}

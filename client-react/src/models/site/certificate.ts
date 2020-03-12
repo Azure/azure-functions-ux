@@ -1,4 +1,5 @@
 import { HostingEnvironmentProfile } from '../hostingEnvironment/hosting-environment-profile';
+import { KeyValue } from '../portal-models';
 
 export interface Certificate {
   friendlyName: string;
@@ -24,7 +25,7 @@ export interface Certificate {
   serverFarmId: string;
   geoRegion: string;
   name: string;
-  tags: { [key: string]: string };
+  tags: KeyValue<string>;
 }
 
 export interface Csr {

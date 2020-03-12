@@ -9,6 +9,7 @@ import { MethodTypes, ArmRequestObject, HttpResponseObject } from '../ArmHelper.
 import LogService from '../utils/LogService';
 import { LogCategories } from '../utils/LogCategories';
 import { ArmArray, ArmObj } from '../models/arm-obj';
+import { KeyValue } from '../models/portal-models';
 
 const alwaysSkipBatch = !!Url.getParameterByName(null, 'appsvc.skipbatching');
 const sessionId = Url.getParameterByName(null, 'sessionId');
@@ -21,12 +22,12 @@ interface InternalArmRequest {
   body: any;
   apiVersion: string | null;
   queryString?: string;
-  headers?: { [key: string]: string };
+  headers?: KeyValue<string>;
 }
 
 interface ArmBatchObject {
   httpStatusCode: number;
-  headers: { [key: string]: string };
+  headers: KeyValue<string>;
   contentLength: number;
   content: any;
   id?: string;
@@ -83,7 +84,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
   const { method, resourceId, body, apiVersion, queryString } = armObj;
   const armEndpoint = window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint;
   const url = Url.appendQueryString(`${armEndpoint}${resourceId}${queryString || ''}`, `api-version=${apiVersion}`);
-  const headers: { [key: string]: string } = {
+  const headers: KeyValue<string> = {
     Authorization: `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`,
     'x-ms-client-request-id': armObj.id,
     ...armObj.headers,
