@@ -5,7 +5,7 @@ import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
 import { SiteRouterData } from './SiteRouter.data';
 import { SiteStateContext } from '../../SiteStateContext';
-import { SiteState, FunctionAppEditMode } from '../../models/portal-models';
+import { SiteState, FunctionAppEditMode, KeyValue } from '../../models/portal-models';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import SiteService from '../../ApiHelpers/SiteService';
 import { isFunctionApp, isLinuxDynamic, isLinuxApp, isElastic, isContainerApp } from '../../utils/arm-utils';
@@ -76,7 +76,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     return undefined;
   };
 
-  const getSiteStateFromAppSettings = (appSettings: ArmObj<{ [key: string]: string }>): FunctionAppEditMode | undefined => {
+  const getSiteStateFromAppSettings = (appSettings: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
     if (FunctionAppService.usingRunFromPackage(appSettings)) {
       return FunctionAppEditMode.ReadOnlyRunFromPackage;
     }

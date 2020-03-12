@@ -1,6 +1,7 @@
 import { HttpResponseObject } from './../ArmHelper.types';
 import axios, { AxiosRequestConfig } from 'axios';
 import { Guid } from '../utils/Guid';
+import { KeyValue } from '../models/portal-models';
 
 export const sendHttpRequest = <T>(options: AxiosRequestConfig) => {
   return axios({
@@ -22,7 +23,7 @@ export const sendHttpRequest = <T>(options: AxiosRequestConfig) => {
   });
 };
 
-export const getJsonHeaders = (): { [key: string]: string } => {
+export const getJsonHeaders = (): KeyValue<string> => {
   return {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -30,7 +31,7 @@ export const getJsonHeaders = (): { [key: string]: string } => {
   };
 };
 
-export const getTextHeaders = (): { [key: string]: string } => {
+export const getTextHeaders = (): KeyValue<string> => {
   return {
     'Content-Type': 'text/plain',
     Accept: 'text/plain,*/*',

@@ -1,5 +1,6 @@
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
+import { KeyValue } from '../../../../models/portal-models';
 
 export interface AppKeysModel {
   name: string;
@@ -13,8 +14,8 @@ export interface FormSystemKeys {
 
 export interface AppKeysInfo {
   masterKey: string;
-  functionKeys: { [key: string]: string };
-  systemKeys: { [key: string]: string };
+  functionKeys: KeyValue<string>;
+  systemKeys: KeyValue<string>;
 }
 
 export interface AppKeysFormValues {

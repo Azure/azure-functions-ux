@@ -1,4 +1,5 @@
 import { FunctionConfig } from './function-config';
+import { KeyValue } from '../portal-models';
 
 export interface FunctionInfo {
   name: string;
@@ -9,7 +10,7 @@ export interface FunctionInfo {
   secrets_file_href?: string;
   href?: string;
   config: FunctionConfig;
-  files: { [key: string]: string };
+  files: KeyValue<string>;
   test_data: string;
   invoke_url_template?: string;
   language?: string;

@@ -3,6 +3,7 @@ import { HostingEnvironmentProfile } from '../hostingEnvironment/hosting-environ
 import { Certificate, Csr } from './certificate';
 import { SiteConfig } from './config';
 import { CloningInfo } from './cloning-info';
+import { KeyValue } from '../portal-models';
 
 export enum ContentAvailabilityState {
   Normal = 'Normal',
@@ -98,7 +99,7 @@ export interface Site {
   geoRegion: string;
   cloningInfo: CloningInfo;
   hostingEnvironmentId: string;
-  tags: { [key: string]: string };
+  tags: KeyValue<string>;
   resourceGroup: string;
   isLinux: boolean;
   hyperV: boolean;

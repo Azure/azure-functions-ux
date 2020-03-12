@@ -1,4 +1,5 @@
 import { HostingEnvironmentProfile } from '../hostingEnvironment/hosting-environment-profile';
+import { KeyValue } from '../portal-models';
 
 export interface ServerFarm {
   serverFarmId: number;
@@ -32,7 +33,7 @@ export interface ServerFarm {
   hyperV: boolean;
   kind: string;
   reserved: boolean;
-  tags: { [key: string]: string };
+  tags: KeyValue<string>;
   resourceGroup: string;
   freeOfferExpirationTime: Date;
 
