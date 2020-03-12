@@ -5806,6 +5806,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Select the x-functions-key you would like to authenticate with</value>
     </data>
     <data name="xFunctionsKey_validationMessage" xml:space="preserve">
-        <value>Use the key drop-down to define the x-function-key value</value>
+        <value>Use the key drop-down to define the x-functions-key value</value>
     </data>
 </root>
