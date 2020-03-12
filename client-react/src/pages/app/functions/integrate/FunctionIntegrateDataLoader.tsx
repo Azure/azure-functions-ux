@@ -25,6 +25,7 @@ interface FunctionIntegrateDataLoaderState {
   refresh: boolean;
   functionInfo?: ArmObj<FunctionInfo>;
   bindings?: Binding[];
+  bindingsError: boolean;
   hostStatus?: HostStatus;
   site?: ArmObj<Site>;
 }
@@ -38,6 +39,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
       functionAppId: armFunctionDescriptor.getSiteOnlyResourceId(),
       functionInfo: undefined,
       bindings: undefined,
+      bindingsError: false,
       hostStatus: undefined,
       site: undefined,
       refresh: false,
@@ -59,6 +61,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     return (
       <FunctionIntegrate
         bindings={this.state.bindings}
+        bindingsError={this.state.bindingsError}
         functionAppId={this.state.functionAppId}
         functionInfo={this.state.functionInfo}
         hostStatus={this.state.hostStatus}
@@ -162,6 +165,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
         });
       } else {
         LogService.error(LogCategories.functionIntegrate, 'getBinding', `Failed to get binding: ${r.metadata.error}`);
+        this.setState({ ...this.state, bindingsError: true });
       }
     });
   };
