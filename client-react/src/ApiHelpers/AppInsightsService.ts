@@ -3,11 +3,18 @@ import { CommonConstants } from './../utils/CommonConstants';
 import { ResourceGraph } from './../models/arm-obj';
 import MakeArmCall from './ArmHelper';
 import { ISubscription } from '../models/subscription';
-import { AppInsightsComponent, AppInsightsComponentToken, AppInsightsMonthlySummary, AppInsightsQueryResult } from '../models/app-insights';
+import {
+  AppInsightsComponent,
+  AppInsightsComponentToken,
+  AppInsightsMonthlySummary,
+  AppInsightsQueryResult,
+  AppInsightsInvocationTrace,
+} from '../models/app-insights';
 import { mapResourcesTopologyToArmObjects } from '../utils/arm-utils';
 import LogService from '../utils/LogService';
 import { LogCategories } from '../utils/LogCategories';
 import { HttpResponseObject } from '../ArmHelper.types';
+import * as moment from '../../../client/node_modules/moment-mini-ts';
 
 export default class AppInsightsService {
   public static getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[]) => {
@@ -85,9 +92,25 @@ export default class AppInsightsService {
     );
   };
 
-  private static _formAppInsightsHeaders(appInsightsToken: string) {
+  public static getInvocationTraces = (
+    appInsightsAppId: string,
+    appInsightsToken: string,
+    functionAppName: string,
+    functionName: string,
+    top: number = 20
+  ) => {
+    const data = { query: AppInsightsService._formInvocationTracesQuery(functionAppName, functionName, top), timespan: 'P30D' };
+    const headers = AppInsightsService._formAppInsightsHeaders(appInsightsToken);
+    const url = AppInsightsService._formInvocationTracesUrl(appInsightsAppId);
+
+    return sendHttpRequest<AppInsightsQueryResult>({ data, headers, url, method: 'POST' }).then(response =>
+      AppInsightsService._extractInvocationTracesFromResponse(response)
+    );
+  };
+
+  private static _formAppInsightsHeaders = (appInsightsToken: string) => {
     return { Authorization: `Bearer ${appInsightsToken}` };
-  }
+  };
 
   private static _formLast30DayQuery = (functionAppName: string, functionName: string): string => {
     return (
@@ -98,11 +121,28 @@ export default class AppInsightsService {
     );
   };
 
+  private static _formInvocationTracesQuery = (functionAppName: string, functionName: string, top: number) => {
+    return (
+      `requests ` +
+      `| project timestamp, id, operation_Name, success, resultCode, duration, operation_Id, cloud_RoleName, invocationId=customDimensions['InvocationId'] ` +
+      `| where timestamp > ago(30d) ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
+      `| order by timestamp desc | take ${top}`
+    );
+  };
+
   private static _formLast30DayUrl = (appInsightsAppId: string): string => {
     // TODO (allisonm): Handle National Clouds
     return `${CommonConstants.AppInsightsEndpoints.public}/${appInsightsAppId}/query?api-version=${
       CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
     }&queryType=getLast30DaySummary`;
+  };
+
+  private static _formInvocationTracesUrl = (appInsightsAppId: string) => {
+    // TODO (allisonm): Handle National Clouds
+    return `${CommonConstants.AppInsightsEndpoints.public}/${appInsightsAppId}/query?api-version=${
+      CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
+    }&queryType=getInvocationTraces`;
   };
 
   private static _extractSummaryFromResponse = (response: HttpResponseObject<AppInsightsQueryResult>) => {
@@ -131,5 +171,39 @@ export default class AppInsightsService {
       LogService.trackEvent(LogCategories.applicationInsightsQuery, 'getSummary', `Failed to query summary: ${response.metadata.error}`);
     }
     return summary;
+  };
+
+  private static _extractInvocationTracesFromResponse = (response: HttpResponseObject<AppInsightsQueryResult>) => {
+    const traces: AppInsightsInvocationTrace[] = [];
+
+    if (response.metadata.success && response.data) {
+      const summaryTable = response.data.tables.find(table => table.name === 'PrimaryResult');
+      const rows = summaryTable && summaryTable.rows;
+
+      if (rows && rows.length > 0) {
+        rows.forEach(row => {
+          if (row.length >= 9) {
+            traces.push({
+              timestamp: row[0],
+              timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
+              id: row[1],
+              name: row[2],
+              success: row[3] === 'True',
+              resultCode: row[4],
+              duration: Number.parseFloat(row[5]),
+              operationId: row[6],
+              invocationId: row[8],
+            });
+          }
+        });
+      }
+    } else {
+      LogService.trackEvent(
+        LogCategories.applicationInsightsQuery,
+        'getInvocationTraces',
+        `Failed to query invocationTraces: ${response.metadata.error}`
+      );
+    }
+    return traces;
   };
 }

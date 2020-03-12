@@ -39,3 +39,15 @@ export interface AppInsightsQueryResultTableColumn {
   dataType: string;
   columnType: string;
 }
+
+export interface AppInsightsInvocationTrace {
+  timestamp: string;
+  timestampFriendly: string;
+  id: string;
+  name: string;
+  success: boolean;
+  resultCode: string;
+  duration: number;
+  operationId: string;
+  invocationId: string;
+}
