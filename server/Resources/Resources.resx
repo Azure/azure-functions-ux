@@ -5772,6 +5772,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>Are you sure you want to delete the input?</value>
     </data>
+    <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>One or more bindings failed to load, please refresh the page.</value>
+    </data>
     <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Delete Function Key</value>
     </data>
