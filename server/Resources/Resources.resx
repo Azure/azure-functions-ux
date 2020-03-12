@@ -5808,4 +5808,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="xFunctionsKey_validationMessage" xml:space="preserve">
         <value>You cannot define x-functions-key as a custom header</value>
     </data>
+    <data name="filterInvocations" xml:space="preserve">
+        <value>Filter invocations</value>
+    </data>
 </root>
