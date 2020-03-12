@@ -1,9 +1,10 @@
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { FunctionKeysFormValues, FunctionKeysModel } from './FunctionKeys.types';
 import { sortBy } from 'lodash-es';
+import { KeyValue } from '../../../../models/portal-models';
 
 export default class FunctionKeysData {
-  public convertStateToForm = (props: { keys: { [key: string]: string } | null }): FunctionKeysFormValues => {
+  public convertStateToForm = (props: { keys: KeyValue<string> | null }): FunctionKeysFormValues => {
     const { keys } = props;
     return {
       keys: this._retrieveFunctionKeys(keys),
@@ -22,7 +23,7 @@ export default class FunctionKeysData {
     return FunctionsService.createKey(resourceId, keyName, keyValue);
   };
 
-  private _retrieveFunctionKeys = (keys: { [key: string]: string } | null): FunctionKeysModel[] => {
+  private _retrieveFunctionKeys = (keys: KeyValue<string> | null): FunctionKeysModel[] => {
     if (!keys) {
       return [];
     }

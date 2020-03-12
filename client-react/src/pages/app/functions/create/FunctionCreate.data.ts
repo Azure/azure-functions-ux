@@ -8,6 +8,7 @@ import PortalCommunicator from '../../../../portal-communicator';
 import i18next from 'i18next';
 import { ArmObj } from '../../../../models/arm-obj';
 import SiteService from '../../../../ApiHelpers/SiteService';
+import { KeyValue } from '../../../../models/portal-models';
 
 export default class FunctionCreateData {
   public getHostStatus(resourceId: string) {
@@ -76,7 +77,7 @@ export default class FunctionCreateData {
     portalCommunicator: PortalCommunicator,
     t: i18next.TFunction,
     resourceId: string,
-    appSettings: ArmObj<{ [key: string]: string }>
+    appSettings: ArmObj<KeyValue<string>>
   ) {
     const notificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
 

@@ -26,6 +26,7 @@ import StringUtils from '../../../../utils/string';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
 import { QuickstartOptions } from './FunctionQuickstart.types';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { KeyValue } from '../../../../models/portal-models';
 
 registerIcons({
   icons: {
@@ -66,7 +67,7 @@ const FunctionQuickstart: React.FC<FunctionQuickstartProps> = props => {
   const startupInfoContext = useContext(StartupInfoContext);
   const theme = useContext(ThemeContext);
 
-  const getParameters = (): { [key: string]: string } => {
+  const getParameters = (): KeyValue<string> => {
     const resourceDescriptor = new ArmResourceDescriptor(resourceId);
     return {
       functionAppName: site.name,

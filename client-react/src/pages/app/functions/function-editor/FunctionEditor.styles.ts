@@ -67,10 +67,8 @@ export const logPanelStyle = (isExpanded: boolean, fullscreen: boolean, readOnly
         borderTop: '1px solid rgba(204,204,204,.8)',
       });
 
-export const editorStyle = style({
-  marginTop: '10px',
+export const editorDivStyle = style({
   marginRight: '10px',
-  marginBottom: '15px',
 });
 
 export const defaultMonacoEditorHeight = 'calc(100vh - 138px)';
@@ -125,3 +123,7 @@ export const testPanelStyle = {
 };
 
 export const toolTipStyle: Partial<ITooltipHostStyles> = { root: { display: 'inherit' } };
+
+export const editorStyle = style({
+  paddingTop: '10px',
+});

@@ -16,6 +16,7 @@ import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCal
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
 import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
+import { KeyValue } from '../../../../models/portal-models';
 
 export interface ResourceDropdownProps {
   setting: BindingSetting;
@@ -24,7 +25,7 @@ export interface ResourceDropdownProps {
 
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const { setting, resourceId, form: formProps, field, isDisabled } = props;
-  const [appSettings, setAppSettings] = useState<ArmObj<{ [key: string]: string }> | undefined>(undefined);
+  const [appSettings, setAppSettings] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<IDropdownOption | undefined>(undefined);
   const [newAppSetting, setNewAppSetting] = useState<{ key: string; value: string } | undefined>(undefined);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
@@ -144,7 +145,7 @@ const onChange = (
   option: IDropdownOption | undefined,
   formProps: FormikProps<BindingEditorFormValues>,
   field: { name: string; value: any },
-  appSettings: ArmObj<{ [key: string]: string }>
+  appSettings: ArmObj<KeyValue<string>>
 ) => {
   if (option) {
     // Make sure the value is saved to the form
@@ -164,7 +165,7 @@ const onChange = (
 
 const filterResourcesFromAppSetting = (
   setting: BindingSetting,
-  appSettings: { [key: string]: string },
+  appSettings: KeyValue<string>,
   newAppSettingName?: string
 ): IDropdownOption[] => {
   switch (setting.resource) {
@@ -181,7 +182,7 @@ const filterResourcesFromAppSetting = (
   return [];
 };
 
-const getStorageSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): IDropdownOption[] => {
+const getStorageSettings = (appSettings: KeyValue<string>, newAppSettingName?: string): IDropdownOption[] => {
   const result: IDropdownOption[] = newAppSettingName ? [{ text: `${newAppSettingName} (new)`, key: newAppSettingName }] : [];
 
   for (const key of Object.keys(appSettings)) {
@@ -193,7 +194,7 @@ const getStorageSettings = (appSettings: { [key: string]: string }, newAppSettin
   return result;
 };
 
-const getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): IDropdownOption[] => {
+const getEventHubAndServiceBusSettings = (appSettings: KeyValue<string>, newAppSettingName?: string): IDropdownOption[] => {
   const result: IDropdownOption[] = newAppSettingName ? [{ text: `${newAppSettingName} (new)`, key: newAppSettingName }] : [];
 
   for (const key of Object.keys(appSettings)) {
@@ -205,7 +206,7 @@ const getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string }
   return result;
 };
 
-const getAppSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): IDropdownOption[] => {
+const getAppSettings = (appSettings: KeyValue<string>, newAppSettingName?: string): IDropdownOption[] => {
   const result: IDropdownOption[] = newAppSettingName ? [{ text: `${newAppSettingName} (new)`, key: newAppSettingName }] : [];
 
   for (const key of Object.keys(appSettings)) {
@@ -215,7 +216,7 @@ const getAppSettings = (appSettings: { [key: string]: string }, newAppSettingNam
   return result;
 };
 
-const getDocumentDBSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): IDropdownOption[] => {
+const getDocumentDBSettings = (appSettings: KeyValue<string>, newAppSettingName?: string): IDropdownOption[] => {
   const result: IDropdownOption[] = newAppSettingName ? [{ text: `${newAppSettingName} (new)`, key: newAppSettingName }] : [];
 
   for (const key of Object.keys(appSettings)) {

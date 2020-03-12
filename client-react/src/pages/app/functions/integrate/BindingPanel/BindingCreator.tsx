@@ -14,6 +14,7 @@ import { BindingFormBuilder } from '../../common/BindingFormBuilder';
 import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
 import { getFunctionBindingDirection } from './BindingEditor';
 import Dropdown from '../../../../../components/form-controls/DropDown';
+import { KeyValue } from '../../../../../models/portal-models';
 
 export interface BindingCreatorProps {
   bindingDirection: BindingDirection;
@@ -149,8 +150,8 @@ const bindingTypeSpecificFields = (
   return builder.getFields(formProps, false);
 };
 
-const getDefaultValues = (bindingType: BindingType, filteredBindings: Binding[]): { [key: string]: string } => {
-  const defaultValues: { [key: string]: string } = {};
+const getDefaultValues = (bindingType: BindingType, filteredBindings: Binding[]): KeyValue<string> => {
+  const defaultValues: KeyValue<string> = {};
 
   const binding = filteredBindings.find(filteredBinding => {
     return filteredBinding.type === bindingType;
