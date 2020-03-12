@@ -43,7 +43,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
     } else {
       LogService.error(
         LogCategories.FunctionMonitor,
-        'fetchAppSetting',
+        'fetchAppSettings',
         `Failed to fetch app settings: ${appSettingsResponse.metadata.error}`
       );
     }

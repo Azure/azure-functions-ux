@@ -13,7 +13,6 @@ import {
 import { mapResourcesTopologyToArmObjects } from '../utils/arm-utils';
 import LogService from '../utils/LogService';
 import { LogCategories } from '../utils/LogCategories';
-import { HttpResponseObject } from '../ArmHelper.types';
 import * as moment from '../../../client/node_modules/moment-mini-ts';
 
 export default class AppInsightsService {
@@ -87,9 +86,15 @@ export default class AppInsightsService {
     const headers = AppInsightsService._formAppInsightsHeaders(appInsightsToken);
     const url = AppInsightsService._formLast30DayUrl(appInsightsAppId);
 
-    return sendHttpRequest<AppInsightsQueryResult>({ data, headers, url, method: 'POST' }).then(response =>
-      AppInsightsService._extractSummaryFromResponse(response)
-    );
+    return sendHttpRequest<AppInsightsQueryResult>({ data, headers, url, method: 'POST' }).then(response => {
+      let result: AppInsightsMonthlySummary = { successCount: 0, failedCount: 0 };
+      if (response.metadata.success && response.data) {
+        result = AppInsightsService._extractSummaryFromQueryResult(response.data);
+      } else {
+        LogService.trackEvent(LogCategories.applicationInsightsQuery, 'getSummary', `Failed to query summary: ${response.metadata.error}`);
+      }
+      return result;
+    });
   };
 
   public static getInvocationTraces = (
@@ -103,9 +108,19 @@ export default class AppInsightsService {
     const headers = AppInsightsService._formAppInsightsHeaders(appInsightsToken);
     const url = AppInsightsService._formInvocationTracesUrl(appInsightsAppId);
 
-    return sendHttpRequest<AppInsightsQueryResult>({ data, headers, url, method: 'POST' }).then(response =>
-      AppInsightsService._extractInvocationTracesFromResponse(response)
-    );
+    return sendHttpRequest<AppInsightsQueryResult>({ data, headers, url, method: 'POST' }).then(response => {
+      let traces: AppInsightsInvocationTrace[] = [];
+      if (response.metadata.success && response.data) {
+        traces = AppInsightsService._extractInvocationTracesFromQueryResult(response.data);
+      } else {
+        LogService.trackEvent(
+          LogCategories.applicationInsightsQuery,
+          'getInvocationTraces',
+          `Failed to query invocationTraces: ${response.metadata.error}`
+        );
+      }
+      return traces;
+    });
   };
 
   private static _formAppInsightsHeaders = (appInsightsToken: string) => {
@@ -145,65 +160,60 @@ export default class AppInsightsService {
     }&queryType=getInvocationTraces`;
   };
 
-  private static _extractSummaryFromResponse = (response: HttpResponseObject<AppInsightsQueryResult>) => {
-    const summary: AppInsightsMonthlySummary = {
-      successCount: 0,
-      failedCount: 0,
-    };
+  private static _extractSummaryFromQueryResult = (result: AppInsightsQueryResult) => {
+    const summary: AppInsightsMonthlySummary = { successCount: 0, failedCount: 0 };
+    const summaryTable = result.tables.find(table => table.name === 'PrimaryResult');
+    const rows = summaryTable && summaryTable.rows;
 
-    if (response.metadata.success && response.data) {
-      const summaryTable = response.data.tables.find(table => table.name === 'PrimaryResult');
-      const rows = summaryTable && summaryTable.rows;
-
-      // NOTE(michinoy): The query returns up to two rows, with two columns: status and count
-      // status of True = Success
-      // status of False = Failed
-      if (rows && rows.length <= 2) {
-        rows.forEach(row => {
-          if (row[0] === 'True') {
-            summary.successCount = row[1];
-          } else if (row[0] === 'False') {
-            summary.failedCount = row[1];
-          }
-        });
-      }
+    // NOTE (michinoy & allisonm): The query returns up to two rows, with two columns: status and count
+    // status of True = Success
+    // status of False = Failed
+    if (rows) {
+      rows.forEach(row => {
+        if (row[0] === 'True') {
+          summary.successCount = row[1];
+        } else if (row[0] === 'False') {
+          summary.failedCount = row[1];
+        }
+      });
     } else {
-      LogService.trackEvent(LogCategories.applicationInsightsQuery, 'getSummary', `Failed to query summary: ${response.metadata.error}`);
+      LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseSummary', `Unable to parse summary: ${result}`);
     }
+
     return summary;
   };
 
-  private static _extractInvocationTracesFromResponse = (response: HttpResponseObject<AppInsightsQueryResult>) => {
+  private static _extractInvocationTracesFromQueryResult = (result: AppInsightsQueryResult) => {
     const traces: AppInsightsInvocationTrace[] = [];
+    const summaryTable = result.tables.find(table => table.name === 'PrimaryResult');
+    const rows = summaryTable && summaryTable.rows;
 
-    if (response.metadata.success && response.data) {
-      const summaryTable = response.data.tables.find(table => table.name === 'PrimaryResult');
-      const rows = summaryTable && summaryTable.rows;
-
-      if (rows && rows.length > 0) {
-        rows.forEach(row => {
-          if (row.length >= 9) {
-            traces.push({
-              timestamp: row[0],
-              timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
-              id: row[1],
-              name: row[2],
-              success: row[3] === 'True',
-              resultCode: row[4],
-              duration: Number.parseFloat(row[5]),
-              operationId: row[6],
-              invocationId: row[8],
-            });
-          }
-        });
-      }
+    if (rows) {
+      rows.forEach(row => {
+        if (row.length >= 9) {
+          traces.push({
+            timestamp: row[0],
+            timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
+            id: row[1],
+            name: row[2],
+            success: row[3] === 'True',
+            resultCode: row[4],
+            duration: Number.parseFloat(row[5]),
+            operationId: row[6],
+            invocationId: row[8],
+          });
+        } else {
+          LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseInvocationTrace', `Unable to parse invocation trace: ${row}`);
+        }
+      });
     } else {
       LogService.trackEvent(
         LogCategories.applicationInsightsQuery,
-        'getInvocationTraces',
-        `Failed to query invocationTraces: ${response.metadata.error}`
+        'parseInvocationTraces',
+        `Unable to parse invocation traces: ${result}`
       );
     }
+
     return traces;
   };
 }
