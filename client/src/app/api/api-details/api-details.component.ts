@@ -57,7 +57,6 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
     return super
       .setup(navigationEvents)
       .switchMap(viewInfo => {
-        console.log(viewInfo);
         this.selectedNode = <ProxyNode>viewInfo.node;
         this.proxiesNode = <ProxiesNode>this.selectedNode.parent;
         this.apiProxyEdit = this.selectedNode.proxy;
