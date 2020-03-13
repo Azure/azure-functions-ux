@@ -58,7 +58,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
   ) as Binding;
 
   if (!currentBinding) {
-    LogService.error(LogCategories.bindingEditor, 'no-binding-metadata-found', null);
+    LogService.error(LogCategories.bindingEditor, 'bindingEditorSetUp', 'Binding editor was unable to find binding information to edit');
     return <div />;
   }
 

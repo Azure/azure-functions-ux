@@ -1,4 +1,4 @@
 export enum PivotState {
-  invocation = 'invocation',
+  invocations = 'invocations',
   logs = 'logs',
 }
