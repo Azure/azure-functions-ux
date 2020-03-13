@@ -259,19 +259,20 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return '';
   };
 
-  const getHeaders = (testHeaders: NameValuePair[]): KeyValue<string> => {
+  const getHeaders = (testHeaders: NameValuePair[], xFunctionKey?: string): KeyValue<string> => {
     const headers = getJsonHeaders();
     testHeaders.forEach(h => {
       headers[h.name] = h.value;
     });
+
     if (hostKeys && hostKeys.masterKey) {
       headers['Cache-Control'] = 'no-cache';
-      headers['x-functions-key'] = hostKeys.masterKey;
+      headers['x-functions-key'] = !!xFunctionKey ? getXFunctionKeyValue(xFunctionKey) : hostKeys.masterKey;
     }
     return headers;
   };
 
-  const run = async (newFunctionInfo: ArmObj<FunctionInfo>) => {
+  const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     setFunctionRunning(true);
     const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
     if (updatedFunctionInfo.metadata.success) {
@@ -291,7 +292,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           url = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
         }
 
-        const headers = getHeaders(testDataObject.headers);
+        const headers = getHeaders(testDataObject.headers, xFunctionKey);
         try {
           const res = await FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body);
           setResponseContent({
@@ -324,6 +325,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           text: key,
           type: keyType,
           url: getFunctionUrl(keys[key]),
+          data: keys[key],
         });
       }
     }
@@ -374,6 +376,24 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         }
       });
     }
+  };
+
+  const getDefaultXFunctionKey = (): string => {
+    return hostKeys && hostKeys.masterKey ? `master - Host` : '';
+  };
+
+  const getXFunctionKeyValue = (xFunctionKey: string): string => {
+    for (const url in functionUrls) {
+      if (url in functionUrls && functionUrls[url].key === xFunctionKey) {
+        return functionUrls[url].data as string;
+      }
+    }
+    for (const url in hostUrls) {
+      if (url in hostUrls && hostUrls[url].key === xFunctionKey) {
+        return hostUrls[url].data as string;
+      }
+    }
+    return '';
   };
 
   useEffect(() => {
@@ -442,6 +462,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           testData={testData}
           refresh={refresh}
           isRefreshing={isRefreshing}
+          xFunctionKey={getDefaultXFunctionKey()}
         />
       </div>
       {isRefreshing && <LoadingComponent overlay={true} />}

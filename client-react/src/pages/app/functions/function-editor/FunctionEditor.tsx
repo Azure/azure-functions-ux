@@ -41,7 +41,7 @@ import { LogCategories } from '../../../../utils/LogCategories';
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
-  run: (functionInfo: ArmObj<FunctionInfo>) => void;
+  run: (functionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => void;
   functionRunning: boolean;
   urlObjs: UrlObj[];
   resetAppInsightsToken: () => void;
@@ -50,6 +50,7 @@ export interface FunctionEditorProps {
   appPermission: boolean;
   refresh: () => void;
   isRefreshing: boolean;
+  xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
@@ -74,6 +75,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     testData,
     refresh,
     isRefreshing,
+    xFunctionKey,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -164,7 +166,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     });
     const tempFunctionInfo = functionInfo;
     tempFunctionInfo.properties.test_data = data;
-    props.run(tempFunctionInfo);
+    props.run(tempFunctionInfo, values.xFunctionKey);
   };
 
   const inputBinding =
@@ -386,6 +388,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           selectedPivotTab={selectedPivotTab}
           functionRunning={functionRunning}
           testData={testData}
+          urlObjs={urlObjs}
+          xFunctionKey={xFunctionKey}
         />
       </Panel>
       {isLoading() && <LoadingComponent />}
