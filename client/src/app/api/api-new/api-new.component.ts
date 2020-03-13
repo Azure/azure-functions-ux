@@ -245,6 +245,7 @@ export class ApiNewComponent extends NavigableComponent {
                   detailBlade: 'FunctionProxiesBlade',
                   detailBladeInputs: {
                     resourceId: this.context.site.id,
+                    data: { ...newApiProxy },
                   },
                 },
                 ComponentNames.newProxy

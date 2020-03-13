@@ -109,11 +109,11 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         loadChildren: 'app/ibiza-feature/console-shell/console-shell.module#ConsoleShellModule',
       },
       {
-        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/newProxy',
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/newproxy',
         loadChildren: 'app/ibiza-feature/new-proxy-shell/new-proxy-shell.module#NewProxyShellModule',
       },
       {
-        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/newProxy',
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/newproxy',
         loadChildren: 'app/ibiza-feature/new-proxy-shell/new-proxy-shell.module#NewProxyShellModule',
       },
     ],
