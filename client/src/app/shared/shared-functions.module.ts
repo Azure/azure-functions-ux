@@ -24,6 +24,7 @@ import { TableFunctionMonitorComponent } from 'app/table-function-monitor/table-
 import { TableFunctionMonitorPipe } from 'app/table-function-monitor/table-function-monitor.pipe';
 import { ApiNewComponent } from '../api/api-new/api-new.component';
 import { RequestResposeOverrideComponent } from '../api/request-respose-override/request-respose-override.component';
+import { ApiDetailsComponent } from '../api/api-details/api-details.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { RequestResposeOverrideComponent } from '../api/request-respose-override
     TableFunctionMonitorPipe,
     ApiNewComponent,
     RequestResposeOverrideComponent,
+    ApiDetailsComponent,
   ],
   exports: [
     FunctionKeysComponent,
@@ -69,6 +71,7 @@ import { RequestResposeOverrideComponent } from '../api/request-respose-override
     TableFunctionMonitorPipe,
     ApiNewComponent,
     RequestResposeOverrideComponent,
+    ApiDetailsComponent,
   ],
   imports: [TranslateModule.forChild(), SharedModule, SidebarModule, FileUploadModule, PopoverModule],
 })

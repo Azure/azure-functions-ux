@@ -116,6 +116,14 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/createnewproxy',
         loadChildren: 'app/ibiza-feature/create-new-proxy-shell/create-new-proxy-shell.module#CreateNewProxyShellModule',
       },
+      {
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/proxydetail',
+        loadChildren: 'app/ibiza-feature/proxy-detail-shell/proxy-detail-shell.module#ProxyDetailShellModule',
+      },
+      {
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/proxydetail',
+        loadChildren: 'app/ibiza-feature/proxy-detail-shell/proxy-detail-shell.module#ProxyDetailShellModule',
+      },
     ],
   },
 ]);

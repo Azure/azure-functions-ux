@@ -25,7 +25,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
 
 @NgModule({
   imports: [TranslateModule.forChild(), SharedModule, SharedFunctionsModule, routing],
-  declarations: [ProxiesListComponent, ApiDetailsComponent],
+  declarations: [ProxiesListComponent],
   providers: [],
 })
 export class ProxiesModule {}
