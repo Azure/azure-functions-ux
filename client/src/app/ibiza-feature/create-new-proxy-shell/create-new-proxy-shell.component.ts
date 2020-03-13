@@ -23,7 +23,6 @@ export class CreateNewProxyShellComponent implements OnDestroy {
         param['subscriptionId'],
         param['resourceGroup'],
         param['site'],
-        undefined,
         param['slot']
       )}/proxies/new/proxy`;
 

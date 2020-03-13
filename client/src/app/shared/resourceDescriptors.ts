@@ -265,7 +265,7 @@ export class ArmFunctionDescriptor extends ArmSiteDescriptor implements Function
     }
   }
 
-  static generateResourceUri(subscription: string, resourceGroup: string, site: string, functionName?: string, slot?: string) {
+  static generateResourceUri(subscription: string, resourceGroup: string, site: string, slot?: string, functionName?: string) {
     if (!subscription || !resourceGroup || !site) {
       return null;
     }
