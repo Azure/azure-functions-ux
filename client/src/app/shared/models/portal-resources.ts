@@ -1877,4 +1877,5 @@ export class PortalResources {
   public static functionMonitor_logs = 'functionMonitor_logs';
   public static logStreaming_openInLiveMetrics = 'logStreaming_openInLiveMetrics';
   public static httpMethod_tooltip = 'httpMethod_tooltip';
+  public static xFunctionsKey_validationMessage = 'xFunctionsKey_validationMessage';
 }

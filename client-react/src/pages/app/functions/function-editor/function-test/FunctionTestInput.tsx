@@ -16,7 +16,7 @@ import {
 import { Label, IDropdownOption, ITextFieldProps, TextField } from 'office-ui-fabric-react';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../../../components/monaco-editor/monaco-editor';
 import { ThemeContext } from '../../../../../ThemeContext';
-import { InputFormValues, EmptyNameValuePair, NameValuePair, HttpMethods } from '../FunctionEditor.types';
+import { InputFormValues, EmptyNameValuePair, NameValuePair, HttpMethods, UrlObj } from '../FunctionEditor.types';
 import { FormikProps, Field, FieldArray, FieldProps } from 'formik';
 import IconButton from '../../../../../components/IconButton/IconButton';
 import Dropdown from '../../../../../components/form-controls/DropDown';
@@ -33,6 +33,7 @@ import { FormControlWrapper, Layout } from '../../../../../components/FormContro
 export interface FunctionTestInputProps {
   functionInfo: ArmObj<FunctionInfo>;
   body: string;
+  urlObjs: UrlObj[];
   onRequestBodyChange: (newValue, event) => void;
 }
 
@@ -112,7 +113,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
 
   const startUpInfoContext = useContext(StartupInfoContext);
 
-  const { values, functionInfo, body, onRequestBodyChange } = props;
+  const { values, functionInfo, body, onRequestBodyChange, urlObjs } = props;
 
   const getDropdownOptions = (): IDropdownOption[] => {
     const httpTrigger = functionInfo.properties.config.bindings.find(b => {
@@ -133,6 +134,16 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
     return dropdownOptions;
   };
 
+  const getFunctionKeyDropdown = (): IDropdownOption[] => {
+    return urlObjs.map(urlObject => {
+      return {
+        key: urlObject.key,
+        text: `${urlObject.text} (${urlObject.type} key)`,
+        data: urlObject.data,
+      };
+    });
+  };
+
   return (
     <div className={pivotItemWrapper}>
       {t('functionTestInputDescription')}
@@ -143,6 +154,11 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
           tooltip={t('httpMethod_tooltip')}
           defaultLabelClassName={testFormLabelStyle}>
           <Field id="method" name="method" component={Dropdown} options={getDropdownOptions()} />
+        </FormControlWrapper>
+      </div>
+      <div className={functionTestGroupStyle}>
+        <FormControlWrapper label={t('keysDialog_key')} layout={Layout.vertical} defaultLabelClassName={testFormLabelStyle}>
+          <Field id="xFunctionKey" name="xFunctionKey" component={Dropdown} options={getFunctionKeyDropdown()} />
         </FormControlWrapper>
       </div>
       <div className={functionTestGroupStyle}>
