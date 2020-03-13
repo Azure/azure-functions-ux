@@ -8,10 +8,10 @@ import { TreeViewInfo } from 'app/tree-view/models/tree-view-info';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 
 @Component({
-  selector: 'new-proxy-shell',
-  templateUrl: './new-proxy-shell.component.html',
+  selector: 'create-new-proxy-shell',
+  templateUrl: './create-new-proxy-shell.component.html',
 })
-export class NewProxyShellComponent implements OnDestroy {
+export class CreateNewProxyShellComponent implements OnDestroy {
   resourceId: string;
   ngUnsubscribe: Subject<void>;
 
