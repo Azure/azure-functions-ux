@@ -57,9 +57,13 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
     return super
       .setup(navigationEvents)
       .switchMap(viewInfo => {
-        this.selectedNode = <ProxyNode>viewInfo.node;
-        this.proxiesNode = <ProxiesNode>this.selectedNode.parent;
-        this.apiProxyEdit = this.selectedNode.proxy;
+        if (viewInfo.node) {
+          this.selectedNode = <ProxyNode>viewInfo.node;
+          this.proxiesNode = <ProxiesNode>this.selectedNode.parent;
+          this.apiProxyEdit = this.selectedNode.proxy;
+        } else {
+          this.apiProxyEdit = <ApiProxy>viewInfo.data;
+        }
 
         const siteDescriptor = new ArmSiteDescriptor(viewInfo.resourceId);
         return this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId()).concatMap(context => {
@@ -133,7 +137,9 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
           resourceId: `${this.context.site.id}/proxies/${this.apiProxyEdit.name}`,
         });
 
-        this.proxiesNode.select();
+        if (this.proxiesNode) {
+          this.proxiesNode.select();
+        }
       });
   }
 

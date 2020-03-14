@@ -34,7 +34,7 @@ export class ProxyDetailShellComponent implements OnDestroy {
 
       const viewInfo = <TreeViewInfo<any>>{
         resourceId: this.resourceId,
-        dashboardType: DashboardType.CreateProxyDashboard,
+        dashboardType: DashboardType.ProxyDashboard,
         node: null,
         data: this.data,
         siteDescriptor: new ArmSiteDescriptor(this.resourceId),
