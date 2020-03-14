@@ -19,7 +19,6 @@ import { SiteService } from '../../shared/services/site.service';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { FunctionService } from 'app/shared/services/function.service';
 import { PortalService } from '../../shared/services/portal.service';
-import { ComponentNames } from '../../shared/models/constants';
 
 @Component({
   selector: 'api-new',
