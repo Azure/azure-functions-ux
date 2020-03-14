@@ -240,16 +240,7 @@ export class ApiNewComponent extends NavigableComponent {
               this._proxiesNode.addChild(newApiProxy);
             } else {
               // Ibizafication Experience, open the Proxy-List tab
-              this._portalService.openBlade(
-                {
-                  detailBlade: 'FunctionProxiesBlade',
-                  detailBladeInputs: {
-                    resourceId: this.context.site.id,
-                    data: { ...newApiProxy },
-                  },
-                },
-                ComponentNames.newProxy
-              );
+              this._portalService.closeSelf({ ...newApiProxy });
             }
           });
         });

@@ -17,6 +17,7 @@ import { RequestResposeOverrideComponent } from '../request-respose-override/req
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../../shared/components/navigable-component';
 import { SiteService } from '../../shared/services/site.service';
+import { PortalService } from '../../shared/services/portal.service';
 
 @Component({
   selector: 'api-details',
@@ -46,6 +47,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
     private _aiService: AiService,
     private _functionAppService: FunctionAppService,
     private _siteService: SiteService,
+    private _portalService: PortalService,
     injector: Injector
   ) {
     super('api-details', injector, DashboardType.ProxyDashboard);
@@ -139,6 +141,8 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
 
         if (this.proxiesNode) {
           this.proxiesNode.select();
+        } else {
+          this._portalService.closeSelf(this.apiProxyEdit);
         }
       });
   }
