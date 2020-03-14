@@ -142,7 +142,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
         if (this.proxiesNode) {
           this.proxiesNode.select();
         } else {
-          this._portalService.closeSelf(this.apiProxyEdit);
+          this._portalService.closeSelf({ data: { ...this.apiProxyEdit } });
         }
       });
   }

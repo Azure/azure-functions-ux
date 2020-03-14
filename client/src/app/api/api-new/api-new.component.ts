@@ -239,7 +239,7 @@ export class ApiNewComponent extends NavigableComponent {
               this._proxiesNode.addChild(newApiProxy);
             } else {
               // Ibizafication Experience, open the Proxy-List tab
-              this._portalService.closeSelf({ ...newApiProxy });
+              this._portalService.closeSelf({ data: { ...newApiProxy } });
             }
           });
         });
