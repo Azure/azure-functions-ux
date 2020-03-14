@@ -22,7 +22,11 @@ export interface BindingPanelProps {
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo, currentBindingInfo?: BindingInfo) => void;
   onDelete: (currentBindingInfo: BindingInfo) => void;
-  setRequiredBindingId: (id: string) => void;
+}
+
+export interface DeleteDialog {
+  header: string;
+  content: string;
 }
 
 const BindingPanel: React.SFC<BindingPanelProps> = props => {
@@ -38,7 +42,6 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
     onPanelClose,
     onSubmit,
     onDelete,
-    setRequiredBindingId,
   } = props;
   const { t } = useTranslation();
 
@@ -59,7 +62,6 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
               onlyBuiltInBindings={onlyBuiltInBindings}
               onPanelClose={onPanelClose}
               onSubmit={onSubmit}
-              setRequiredBindingId={setRequiredBindingId}
             />
           ) : (
             <BindingEditor
@@ -70,6 +72,7 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
               readOnly={readOnly}
               onSubmit={onSubmit}
               onDelete={onDelete}
+              deleteDialogDetails={getDeleteDialogDetails(t, bindingDirection)}
             />
           ))}
       </div>
@@ -102,6 +105,20 @@ const getPanelHeader = (t: i18next.TFunction, bindingDirection: BindingDirection
     }
     default: {
       return t('editBindingTrigger');
+    }
+  }
+};
+
+const getDeleteDialogDetails = (t: i18next.TFunction, bindingDirection: BindingDirection): DeleteDialog => {
+  switch (bindingDirection) {
+    case BindingDirection.in: {
+      return { header: t('integrateDeleteInputConfirmHeader'), content: t('integrateDeleteInputConfirmMessage') };
+    }
+    case BindingDirection.out: {
+      return { header: t('integrateDeleteOutputConfirmHeader'), content: t('integrateDeleteOutputConfirmMessage') };
+    }
+    default: {
+      return { header: t('integrateDeleteTriggerConfirmHeader'), content: t('integrateDeleteTriggerConfirmMessage') };
     }
   }
 };

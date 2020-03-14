@@ -1815,7 +1815,7 @@ export class PortalResources {
   public static editor_changeFileConfirmMessage = 'editor_changeFileConfirmMessage';
   public static editor_changeFile = 'editor_changeFile';
   public static defaultDocumentsInfoMessage = 'defaultDocumentsInfoMessage';
-  public static requiredField_validationMessage = 'requiredField_validationMessage';
+  public static validField_validationMessage = 'validField_validationMessage';
   public static maximize = 'maximize';
   public static minimize = 'minimize';
   public static connect = 'connect';
@@ -1851,4 +1851,22 @@ export class PortalResources {
   public static githubActionAspNetStackNotSupportedMessage = 'githubActionAspNetStackNotSupportedMessage';
   public static githubActionAspNetStackMismatchMessage = 'githubActionAspNetStackMismatchMessage';
   public static gitHubActionWorkflowFileNameTitle = 'gitHubActionWorkflowFileNameTitle';
+  public static noAppFilesWhileFunctionAppStopped = 'noAppFilesWhileFunctionAppStopped';
+  public static noAppKeysWhileFunctionAppStopped = 'noAppKeysWhileFunctionAppStopped';
+  public static functionIntegrateRefreshAriaLabel = 'functionIntegrateRefreshAriaLabel';
+  public static gitHubProtectedBranchSelected = 'gitHubProtectedBranchSelected';
+  public static noRuntimeVersionWhileFunctionAppStopped = 'noRuntimeVersionWhileFunctionAppStopped';
+  public static githubActionWorkflowsExist = 'githubActionWorkflowsExist';
+  public static githubActionWorkflowOptionUseExistingMessageWithoutPreview = 'githubActionWorkflowOptionUseExistingMessageWithoutPreview';
+  public static appFilesSaveAriaLabel = 'appFilesSaveAriaLabel';
+  public static functionEditorRefreshAriaLabel = 'functionEditorRefreshAriaLabel';
+  public static integrateDeleteTriggerConfirmHeader = 'integrateDeleteTriggerConfirmHeader';
+  public static integrateDeleteTriggerConfirmMessage = 'integrateDeleteTriggerConfirmMessage';
+  public static integrateDeleteOutputConfirmHeader = 'integrateDeleteOutputConfirmHeader';
+  public static integrateDeleteOutputConfirmMessage = 'integrateDeleteOutputConfirmMessage';
+  public static integrateDeleteInputConfirmHeader = 'integrateDeleteInputConfirmHeader';
+  public static integrateDeleteInputConfirmMessage = 'integrateDeleteInputConfirmMessage';
+  public static deleteFunctionKeyHeader = 'deleteFunctionKeyHeader';
+  public static deleteFunctionKeyMessage = 'deleteFunctionKeyMessage';
+  public static fetchFileContentFailureMessage = 'fetchFileContentFailureMessage';
 }

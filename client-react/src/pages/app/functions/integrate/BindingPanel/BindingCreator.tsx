@@ -23,11 +23,10 @@ export interface BindingCreatorProps {
   readOnly: boolean;
   onPanelClose: () => void;
   onSubmit: (newBindingInfo: BindingInfo) => void;
-  setRequiredBindingId: (id: string) => void;
 }
 
 const BindingCreator: React.SFC<BindingCreatorProps> = props => {
-  const { bindingDirection, bindings, functionAppId, onlyBuiltInBindings, readOnly, onPanelClose, onSubmit, setRequiredBindingId } = props;
+  const { bindingDirection, bindings, functionAppId, onlyBuiltInBindings, readOnly, onPanelClose, onSubmit } = props;
   const [currentType, setCurrentType] = useState<BindingType>(
     bindingDirection === BindingDirection.trigger ? BindingType.httpTrigger : BindingType.blob
   );
@@ -36,8 +35,6 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
   const directionalBindings = bindings.filter(binding => {
     return binding.direction === bindingDirection;
   });
-
-  getRequiredBindingData(directionalBindings, setRequiredBindingId);
 
   if (!bindings) {
     return <LoadingComponent />;
@@ -113,14 +110,6 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
       }}
     </Formik>
   );
-};
-
-const getRequiredBindingData = (bindings: Binding[], setRequiredBindingId: (id: string) => void) => {
-  bindings.forEach(binding => {
-    if (binding && !binding.settings) {
-      setRequiredBindingId(binding.id);
-    }
-  });
 };
 
 const bindingTypeSpecificFields = (

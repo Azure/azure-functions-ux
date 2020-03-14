@@ -1463,7 +1463,7 @@
         <value>Nastavení webové aplikace se úspěšně aktualizovalo</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings</value>
+        <value>Nastavení webové aplikace se nepovedlo aktualizovat</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>Chyba při ukládání {{configGroupName}}: Byl zadán neplatný vstup.</value>
@@ -2531,7 +2531,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Seskupit podle předplatného</value>
     </data>
   <data name="southcentralus" xml:space="preserve">
-        <value>Středojižní USA</value>
+        <value>USA – středojih</value>
     </data>
   <data name="northeurope" xml:space="preserve">
         <value>Severní Evropa</value>
@@ -2549,10 +2549,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Korea – jih</value>
     </data>
   <data name="westus" xml:space="preserve">
-        <value>Západní USA</value>
+        <value>USA – západ</value>
     </data>
   <data name="eastus" xml:space="preserve">
-        <value>Východní USA</value>
+        <value>USA – východ</value>
     </data>
   <data name="japanwest" xml:space="preserve">
         <value>Japonsko – západ</value>
@@ -2564,13 +2564,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Východní Asie</value>
     </data>
   <data name="eastus2" xml:space="preserve">
-        <value>Východní USA 2</value>
+        <value>USA – východ 2</value>
     </data>
   <data name="northcentralus" xml:space="preserve">
-        <value>Středoseverní USA</value>
+        <value>USA – středosever</value>
     </data>
   <data name="centralus" xml:space="preserve">
-        <value>Střední USA</value>
+        <value>USA – střed</value>
     </data>
   <data name="brazilsouth" xml:space="preserve">
         <value>Brazílie – jih</value>
@@ -2585,10 +2585,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Indie – západ</value>
     </data>
   <data name="centralindia" xml:space="preserve">
-        <value>Střed Indie</value>
+        <value>Indie – střed</value>
     </data>
   <data name="southindia" xml:space="preserve">
-        <value>Jižní Indie</value>
+        <value>Indie – jih</value>
     </data>
   <data name="canadacentral" xml:space="preserve">
         <value>Kanada – střed</value>
@@ -2597,7 +2597,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Kanada – východ</value>
     </data>
   <data name="westcentralus" xml:space="preserve">
-        <value>Středozápadní USA</value>
+        <value>USA – středozápad</value>
     </data>
   <data name="ukwest" xml:space="preserve">
         <value>Spojené království – západ</value>
@@ -2606,7 +2606,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Spojené království – jih</value>
     </data>
   <data name="westus2" xml:space="preserve">
-        <value>Západní USA 2</value>
+        <value>USA – západ 2</value>
     </data>
   <data name="allResourceGroups" xml:space="preserve">
         <value>Všechny skupiny prostředků</value>
@@ -3296,13 +3296,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Rychlé škálování</value>
     </data>
   <data name="pricing_rapidScaleDesc" xml:space="preserve">
-        <value>Umožňuje horizontálně navýšit kapacitu aplikací funkcí podle triggeru události.</value>
+        <value>Umožňuje škálovat na více instancí aplikací funkcí podle triggeru události.</value>
     </data>
   <data name="pricing_autoScale" xml:space="preserve">
         <value>Automatické škálování</value>
     </data>
   <data name="pricing_scaleOut" xml:space="preserve">
-        <value>Horizontálně navýšit kapacitu</value>
+        <value>Škálovat na více instancí</value>
     </data>
   <data name="pricing_computeVmSize" xml:space="preserve">
         <value>Velikost výpočetního virtuálního počítače: {0}</value>
@@ -4794,7 +4794,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Tato funkce je k dispozici jen pro aplikace funkcí spuštěné v linuxovém plánu služby App Service. Pokud chcete protokolovat modul runtime, použijte prosím Application Insights.</value>
     </data>
   <data name="scaleOut" xml:space="preserve">
-        <value>Horizontálně navýšit kapacitu</value>
+        <value>Škálovat na více instancí</value>
     </data>
   <data name="scaleOutDescription" xml:space="preserve">
         <value>Umožňuje nakonfigurovat nastavení škálování na více systémů pro váš plán služby App Service.</value>
@@ -5092,7 +5092,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nepovedlo se ověřit nastavení kontejneru.</value>
     </data>
   <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>No trigger defined</value>
+        <value>Nejsou definované žádné triggery.</value>
     </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Nejsou definované žádné vstupy.</value>
@@ -5170,7 +5170,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nová funkce</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Vytvořte novou funkci v této aplikaci funkcí. Můžete začít tak, že si níže vyberete nějakou šablonu.</value>
+        <value>Vytvořte novou funkci v této aplikaci funkcí. Začněte tak, že níže vyberete nějakou šablonu.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Šablony</value>
@@ -5416,7 +5416,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>V tomto předplatném nejsou žádné obory názvů.</value>
     </data>
   <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
-        <value>New Event Hub connection</value>
+        <value>Nové připojení centra událostí</value>
     </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>V tomto oboru názvů se nenacházejí žádná centra událostí.</value>
@@ -5449,13 +5449,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Hodnota</value>
     </data>
   <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
-        <value>New Service Bus connection</value>
+        <value>Nové připojení ke službě Service Bus</value>
     </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus</value>
     </data>
   <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
-        <value>New Custom App Setting</value>
+        <value>Nové vlastní nastavení aplikace</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Vlastní nastavení aplikace</value>
@@ -5473,7 +5473,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Zásady</value>
     </data>
   <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
-        <value>New Cosmos DB connection</value>
+        <value>Nové připojení Cosmos DB</value>
     </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Účet Azure Cosmos DB</value>
@@ -5485,10 +5485,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Databázový účet</value>
     </data>
   <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Existing Storage Account</value>
+        <value>Existující účet úložiště</value>
     </data>
   <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
-        <value>New Storage Account connection</value>
+        <value>Nové připojení k účtu úložiště</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>V tomto předplatném se nenacházejí žádné účty úložiště.</value>
@@ -5616,8 +5616,8 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Výchozí seznam dokumentů je řazený podle priority. Položky v horní části seznamu budou mít větší prioritu nebo položky v dolní části.</value>
     </data>
-  <data name="requiredField_validationMessage" xml:space="preserve">
-        <value>Název a hodnota jsou povinná pole.</value>
+  <data name="validField_validationMessage" xml:space="preserve">
+        <value>Název a hodnota nesmí být prázdné a musí obsahovat jen písmena a číslice.</value>
     </data>
   <data name="maximize" xml:space="preserve">
         <value>Maximalizovat</value>
@@ -5683,7 +5683,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Možnost pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Přepsat definice pracovního postupu</value>
+        <value>Add or overwrite workflow definition</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Nakonfigurovat pomocí stávající definice pracovního postupu</value>
@@ -5713,12 +5713,69 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Odstraňování {0} proběhlo úspěšně.</value>
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
-        <value>Test is only supported for HTTP triggered functions</value>
+        <value>Test se podporuje jen pro funkce aktivované protokolem HTTP.</value>
     </data>
   <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+        <value>Aplikace {{appName}} má nastavený stack ASP.NET, který se v současné době v Centru nasazení přes GitHub Actions nepodporuje.</value>
     </data>
   <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
+        <value>Aplikace {{appName}} má v tuto chvíli nakonfigurovaný stack ASP.NET, což neodpovídá aktuálnímu výběru buildu. Je možné, že aplikace nebude se stávajícím výběrem buildu fungovat správně.</value>
+    </data>
+  <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
+        <value>Název souboru pracovního postupu akce GitHubu</value>
+    </data>
+  <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
+        <value>Dokud je aplikace funkcí pozastavená, není možné si zobrazit soubory aplikací.</value>
+    </data>
+  <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
+        <value>Dokud je aplikace funkcí pozastavená, není možné si zobrazit klíče aplikací.</value>
+    </data>
+  <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
+        <value>Aktualizovat všechny vazby pro funkci</value>
+    </data>
+  <data name="gitHubProtectedBranchSelected" xml:space="preserve">
+        <value>Selected branch has protection rules enabled.</value>
+    </data>
+  <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+    </data>
+  <data name="githubActionWorkflowsExist" xml:space="preserve">
+        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+    </data>
+  <data name="appFilesSaveAriaLabel" xml:space="preserve">
+        <value>Refresh app files</value>
+    </data>
+  <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
+        <value>Odstranit trigger</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the trigger?</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
+        <value>Delete Output</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
+        <value>Určitě chcete odstranit tento výstup?</value>
+    </data>
+  <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
+        <value>Delete Input</value>
+    </data>
+  <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
+        <value>Určitě chcete odstranit tento vstup?</value>
+    </data>
+  <data name="deleteFunctionKeyHeader" xml:space="preserve">
+        <value>Delete Function Key</value>
+    </data>
+  <data name="deleteFunctionKeyMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the key {0}?</value>
+    </data>
+  <data name="fetchFileContentFailureMessage" xml:space="preserve">
+        <value>Failed to fetch the file content</value>
     </data>
 </root>

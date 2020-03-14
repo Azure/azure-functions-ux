@@ -16,12 +16,14 @@ import { PermissionsContext } from '../Contexts';
 import { ThemeContext } from '../../../../ThemeContext';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { messageBannerStyle } from '../AppSettings.styles';
+import { SiteStateContext } from '../../../../SiteStateContext';
 
 const tabContainerStyle = style({
   marginTop: '15px',
 });
 
 const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
+  const siteStateContext = useContext(SiteStateContext);
   const { app_write, editable } = useContext(PermissionsContext);
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
@@ -39,9 +41,20 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
           {t('readWritePermissionsRequired')}
         </MessageBar>
       )}
-      <RuntimeVersionBanner {...props} />
 
-      {site.properties.state && site.properties.state.toLowerCase() === CommonConstants.SiteStates.running && <RuntimeVersion {...props} />}
+      {siteStateContext.stopped ? (
+        <MessageBar
+          isMultiline={true}
+          className={messageBannerStyle(theme, MessageBarType.warning)}
+          messageBarType={MessageBarType.warning}>
+          {t('noRuntimeVersionWhileFunctionAppStopped')}
+        </MessageBar>
+      ) : (
+        <>
+          <RuntimeVersionBanner {...props} />
+          <RuntimeVersion {...props} />
+        </>
+      )}
 
       {scenarioChecker.checkScenario(ScenarioIds.runtimeScaleMonitoringSupported, { site }).status === 'enabled' && (
         <RuntimeScaleMonitoring {...props} />

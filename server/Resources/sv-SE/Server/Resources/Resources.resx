@@ -1463,7 +1463,7 @@
         <value>Webbprograminställningarna har uppdaterats</value>
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
-        <value>Failed to update web app settings</value>
+        <value>Det gick inte att uppdatera webbprograminställningar</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Fel vid sparande: Ogiltiga indata.</value>
@@ -5092,7 +5092,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Det gick inte att validera containerinställningarna.</value>
     </data>
   <data name="integrateNoTriggerDefined" xml:space="preserve">
-        <value>No trigger defined</value>
+        <value>Ingen utlösare har definierats</value>
     </data>
   <data name="integrateNoInputsDefined" xml:space="preserve">
         <value>Inga indata har definierats</value>
@@ -5416,7 +5416,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Det finns inga namnområden i den här prenumerationen</value>
     </data>
   <data name="eventHubCallout_newEventHubConnection" xml:space="preserve">
-        <value>New Event Hub connection</value>
+        <value>Ny händelsehubbanslutning</value>
     </data>
   <data name="eventHubPicker_noEventHubs" xml:space="preserve">
         <value>Det finns inga Event Hubs i det här namnområdet</value>
@@ -5449,13 +5449,13 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Värde</value>
     </data>
   <data name="serviceBusCallout_newServiceBusConnection" xml:space="preserve">
-        <value>New Service Bus connection</value>
+        <value>Ny Service Bus-anslutning</value>
     </data>
   <data name="serviceBusCallout_serviceBus" xml:space="preserve">
         <value>Service Bus</value>
     </data>
   <data name="resourceCallout_newCustomAppSetting" xml:space="preserve">
-        <value>New Custom App Setting</value>
+        <value>Ny anpassad appinställning</value>
     </data>
   <data name="resourceCallout_customAppSetting" xml:space="preserve">
         <value>Anpassad appinställning</value>
@@ -5473,7 +5473,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Princip</value>
     </data>
   <data name="documentDBCallout_newDocumentDBConnection" xml:space="preserve">
-        <value>New Cosmos DB connection</value>
+        <value>Ny Cosmos DB-anslutning</value>
     </data>
   <data name="documentDBCallout_azureCosmosDBAccount" xml:space="preserve">
         <value>Azure Cosmos DB-konto</value>
@@ -5485,10 +5485,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Databaskonto</value>
     </data>
   <data name="storageAccountCallout_existingStorageAccount" xml:space="preserve">
-        <value>Existing Storage Account</value>
+        <value>Befintligt lagringskonto</value>
     </data>
   <data name="storageAccountCallout_newStorageAccountConnection" xml:space="preserve">
-        <value>New Storage Account connection</value>
+        <value>Ny lagringskontoanslutning</value>
     </data>
   <data name="storageAccountPivot_noStorageAccounts" xml:space="preserve">
         <value>Det finns inga lagringskonton i den här prenumerationen</value>
@@ -5616,8 +5616,8 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Listan med standarddokument är ordnad efter prioritet. Objekt som ligger överst i listan har högre prioritet än objekt längst ned i listan.</value>
     </data>
-  <data name="requiredField_validationMessage" xml:space="preserve">
-        <value>Namn och värde är obligatoriska fält</value>
+  <data name="validField_validationMessage" xml:space="preserve">
+        <value>Namn och värde får inte vara tomt och får bara innehålla bokstäver och siffror.</value>
     </data>
   <data name="maximize" xml:space="preserve">
         <value>Maximera</value>
@@ -5683,7 +5683,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>Arbetsflödesalternativ</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Skriv över arbetsflödesdefinitionen</value>
+        <value>Add or overwrite workflow definition</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Konfigurera användning av befintlig arbetsflödesdefinition</value>
@@ -5713,12 +5713,69 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
         <value>{0} togs bort</value>
     </data>
   <data name="disableFunctionTestTooltip" xml:space="preserve">
-        <value>Test is only supported for HTTP triggered functions</value>
+        <value>Testet stöds endast för HTTP-utlösta funktioner</value>
     </data>
   <data name="githubActionAspNetStackNotSupportedMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is setup with stack 'ASP.NET' which is currently not supported in Deployment Center via GitHub Actions.</value>
+        <value>Appen {{appName}} är konfigurerad med stacken ASP.NET vilket för närvarande inte stöds i Distributioncenter via GitHub-åtgärder.</value>
     </data>
   <data name="githubActionAspNetStackMismatchMessage" xml:space="preserve">
-        <value>The app '{{appName}}' is currently configured for 'ASP.NET', which does not match current build selection. The app might not function correctly with current build selection.</value>
+        <value>Appen {{appName}} har konfigurerats för ASP.NET, vilket inte matchar den aktuellt valda versionen. Appen kanske inte fungerar korrekt med den aktuellt valda versionen.</value>
+    </data>
+  <data name="gitHubActionWorkflowFileNameTitle" xml:space="preserve">
+        <value>Arbetsflödesfilnamn för GitHub-åtgärd</value>
+    </data>
+  <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
+        <value>Du kan inte visa appfiler medan din funktionsapp är stoppad</value>
+    </data>
+  <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
+        <value>Du kan inte visa appnycklar medan din funktionsapp är stoppad</value>
+    </data>
+  <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
+        <value>Uppdatera alla bindningar för din funktion</value>
+    </data>
+  <data name="gitHubProtectedBranchSelected" xml:space="preserve">
+        <value>Selected branch has protection rules enabled.</value>
+    </data>
+  <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
+        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+    </data>
+  <data name="githubActionWorkflowsExist" xml:space="preserve">
+        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+    </data>
+  <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
+        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+    </data>
+  <data name="appFilesSaveAriaLabel" xml:space="preserve">
+        <value>Refresh app files</value>
+    </data>
+  <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
+        <value>Refresh code editor</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
+        <value>Ta bort utlösaren</value>
+    </data>
+  <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the trigger?</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
+        <value>Delete Output</value>
+    </data>
+  <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
+        <value>Vill du ta bort utdata?</value>
+    </data>
+  <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
+        <value>Delete Input</value>
+    </data>
+  <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
+        <value>Vill du ta bort indata?</value>
+    </data>
+  <data name="deleteFunctionKeyHeader" xml:space="preserve">
+        <value>Delete Function Key</value>
+    </data>
+  <data name="deleteFunctionKeyMessage" xml:space="preserve">
+        <value>Are you sure you want to delete the key {0}?</value>
+    </data>
+  <data name="fetchFileContentFailureMessage" xml:space="preserve">
+        <value>Failed to fetch the file content</value>
     </data>
 </root>

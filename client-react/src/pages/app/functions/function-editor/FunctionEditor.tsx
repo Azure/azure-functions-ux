@@ -6,7 +6,7 @@ import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { BindingType } from '../../../../models/functions/function-binding';
 import { Site } from '../../../../models/site/site';
 import Panel from '../../../../components/Panel/Panel';
-import { PanelType, IDropdownOption, Pivot, PivotItem } from 'office-ui-fabric-react';
+import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../../components/monaco-editor/monaco-editor';
 import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj } from './FunctionEditor.types';
@@ -33,6 +33,9 @@ import SiteHelper from '../../../../utils/SiteHelper';
 import { BindingManager } from '../../../../utils/BindingManager';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
 import { PortalTheme } from '../../../../models/portal-models';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -43,10 +46,14 @@ export interface FunctionEditorProps {
   resetAppInsightsToken: () => void;
   showTestPanel: boolean;
   setShowTestPanel: (showPanel: boolean) => void;
+  appPermission: boolean;
+  refresh: () => void;
+  isRefreshing: boolean;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
   appInsightsToken?: string;
+  testData?: string;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
@@ -62,6 +69,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     resetAppInsightsToken,
     showTestPanel,
     setShowTestPanel,
+    appPermission,
+    testData,
+    refresh,
+    isRefreshing,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -77,6 +88,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
   const [fileSavedCount, setFileSavedCount] = useState(0);
   const [readOnlyBanner, setReadOnlyBanner] = useState<HTMLDivElement | null>(null);
+  const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -117,7 +129,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setShowTestPanel(true);
   };
 
-  const onCancelTest = () => {
+  const onCloseTest = () => {
     setShowTestPanel(false);
   };
 
@@ -185,7 +197,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
         fileText = JSON.stringify(fileResponse.data, null, 2);
       }
+      setIsFileContentAvailable(true);
       setFileContent({ default: fileText, latest: fileText });
+    } else {
+      setFileContent({ default: '', latest: '' });
+      setIsFileContentAvailable(false);
+      LogService.error(LogCategories.FunctionEdit, 'getFileContent', `Failed to get file content: ${fileResponse.metadata.error}`);
     }
   };
 
@@ -224,7 +241,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isDisabled = () => {
-    return isLoading() || functionRunning;
+    return isLoading() || functionRunning || isRefreshing;
   };
 
   const closeConfirmDialog = () => {
@@ -262,10 +279,18 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return !!readOnlyBanner ? readOnlyBanner.offsetHeight : 0;
   };
 
+  const isRuntimeReachable = () => {
+    return !!fileList;
+  };
+
   const isTestDisabled = () => {
     const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
     const webHookTypeInfo = BindingManager.getWebHookTypeInfo(functionInfo.properties);
-    return !httpTriggerTypeInfo && !webHookTypeInfo;
+    return (!httpTriggerTypeInfo && !webHookTypeInfo) || !isRuntimeReachable();
+  };
+
+  const isEditorDisabled = () => {
+    return isDisabled() || !isFileContentAvailable || !isRuntimeReachable();
   };
 
   useEffect(() => {
@@ -278,6 +303,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     }
   }, [responseContent]);
   useEffect(() => {
+    if (!isRefreshing && !initialLoading) {
+      fetchData();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRefreshing]);
+  useEffect(() => {
     fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -289,9 +321,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           saveFunction={save}
           resetFunction={discard}
           testFunction={test}
+          refreshFunction={refresh}
           showGetFunctionUrlCommand={!!inputBinding}
           dirty={isDirty()}
-          disabled={isDisabled()}
+          disabled={isDisabled() || !appPermission}
           urlObjs={urlObjs}
           testDisabled={isTestDisabled()}
         />
@@ -310,6 +343,12 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           onDismiss={closeConfirmDialog}
         />
         <EditModeBanner setBanner={setReadOnlyBanner} />
+        {(!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
+          <CustomBanner
+            message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+            type={MessageBarType.error}
+          />
+        )}
         <FunctionEditorFileSelectorBar
           disabled={isDisabled()}
           functionAppNameLabel={site.name}
@@ -322,14 +361,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       <Panel
         type={PanelType.medium}
         isOpen={showTestPanel}
-        onDismiss={onCancelTest}
+        onDismiss={onCloseTest}
         overlay={functionRunning}
         headerContent={getHeaderContent()}
         isBlocking={false}
         customStyle={testPanelStyle}>
         {functionRunning && <LoadingComponent className={testLoadingStyle} />}
         <FunctionTest
-          cancel={onCancelTest}
+          close={onCloseTest}
           run={run}
           functionInfo={functionInfo}
           reqBody={reqBody}
@@ -337,6 +376,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           responseContent={responseContent}
           selectedPivotTab={selectedPivotTab}
           functionRunning={functionRunning}
+          testData={testData}
         />
       </Panel>
       {isLoading() && <LoadingComponent />}
@@ -347,13 +387,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             language={editorLanguage}
             onChange={onChange}
             height={monacoHeight}
-            disabled={isDisabled()}
+            disabled={isEditorDisabled()}
             options={{
               minimap: { enabled: false },
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
-              readOnly: SiteHelper.isFunctionAppReadOnly(siteState),
+              readOnly: SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState) || !appPermission,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
           />

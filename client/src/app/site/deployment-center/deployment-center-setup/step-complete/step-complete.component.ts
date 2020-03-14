@@ -215,7 +215,9 @@ export class StepCompleteComponent {
     if (this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.Overwrite) {
       return this._translateService.instant(PortalResources.githubActionWorkflowOptionOverwriteMessage);
     } else if (this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.UseExisting) {
-      return this._translateService.instant(PortalResources.githubActionWorkflowOptionUseExistingMessage);
+      return this.wizard.wizardValues.sourceSettings.githubActionExistingWorkflowContents
+        ? this._translateService.instant(PortalResources.githubActionWorkflowOptionUseExistingMessage)
+        : this._translateService.instant(PortalResources.githubActionWorkflowOptionUseExistingMessageWithoutPreview);
     } else {
       return '';
     }
@@ -282,26 +284,36 @@ export class StepCompleteComponent {
     return [
       {
         label: this._translateService.instant(PortalResources.provider),
-        value: this._translateService.instant(PortalResources.gitHubActionBuildServerTitle),
+        value: this._translateService.instant(PortalResources.kuduTitle),
       },
     ];
   }
 
   private _getGitHubActionBuildSummary() {
-    return [
+    const includeFileName =
+      !this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption ||
+      this.wizard.wizardValues.sourceSettings.githubActionWorkflowOption === WorkflowOptions.Overwrite ||
+      this.wizard.wizardValues.sourceSettings.githubActionExistingWorkflowContents;
+
+    const items = [
       {
         label: this._translateService.instant(PortalResources.provider),
         value: this._translateService.instant(PortalResources.gitHubActionBuildServerTitle),
       },
-      {
+    ];
+
+    if (includeFileName) {
+      items.push({
         label: this._translateService.instant(PortalResources.gitHubActionWorkflowFileNameTitle),
         value: this._githubService.getWorkflowFileName(
           this.wizard.wizardValues.sourceSettings.branch,
           this.wizard.siteName,
           this.wizard.slotName
         ),
-      },
-    ];
+      });
+    }
+
+    return items;
   }
 
   private _getDevOpsBuildSummary() {

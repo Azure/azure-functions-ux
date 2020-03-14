@@ -1,10 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react';
-import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
-import { ThemeContext } from '../../../../ThemeContext';
+import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import TemplatesPivot from './TemplatesPivot';
 import DetailsPivot from './DetailsPivot';
 import { useTranslation } from 'react-i18next';
@@ -27,24 +25,24 @@ export enum PivotState {
 }
 
 export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
-  const theme = useContext(ThemeContext);
   const { t } = useTranslation();
   const { functionTemplates, functionsInfo, bindings, resourceId, setRequiredBindingIds, hostStatus } = props;
-  const [pivotStateKey, setPivotStateKey] = useState<PivotState | undefined>(undefined);
+  const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.templates);
   const [selectedFunctionTemplate, setSelectedFunctionTemplate] = useState<FunctionTemplate | undefined>(undefined);
+
+  const onPivotItemClicked = (item?: PivotItem) => {
+    if (!!item) {
+      setPivotStateKey(item.props.itemKey as PivotState);
+    }
+  };
 
   return (
     <>
       <div style={paddingStyle}>
         <h2>{t('functionCreate_newFunction')}</h2>
         <p>{t('functionCreate_createFunctionMessage')}</p>
-        <Pivot getTabId={getPivotTabId} selectedKey={pivotStateKey}>
-          <PivotItem
-            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-              CustomTabRenderer(link, defaultRenderer, theme)
-            }
-            itemKey={PivotState.templates}
-            headerText={t('functionCreate_templates')}>
+        <Pivot getTabId={getPivotTabId} selectedKey={pivotStateKey} onLinkClick={onPivotItemClicked}>
+          <PivotItem itemKey={PivotState.templates} headerText={t('functionCreate_templates')}>
             <TemplatesPivot
               functionTemplates={functionTemplates}
               setSelectedFunctionTemplate={setSelectedFunctionTemplate}
@@ -54,12 +52,7 @@ export const FunctionCreate: React.SFC<FunctionCreateProps> = props => {
               hostStatus={hostStatus}
             />
           </PivotItem>
-          <PivotItem
-            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-              CustomTabRenderer(link, defaultRenderer, theme)
-            }
-            itemKey={PivotState.details}
-            headerText={t('functionCreate_details')}>
+          <PivotItem itemKey={PivotState.details} headerText={t('functionCreate_details')}>
             <DetailsPivot
               functionsInfo={functionsInfo}
               bindings={bindings}
