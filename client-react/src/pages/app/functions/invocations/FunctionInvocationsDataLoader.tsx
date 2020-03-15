@@ -11,15 +11,18 @@ export const FunctionInvocationsContext = React.createContext(invocationsData);
 interface FunctionInvocationsDataLoaderProps {
   resourceId: string;
   appInsightsAppId: string;
+  appInsightsResourceId: string;
   appInsightsToken?: string;
 }
 
 const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps> = props => {
-  const { resourceId, appInsightsAppId, appInsightsToken } = props;
+  const { resourceId, appInsightsAppId, appInsightsResourceId, appInsightsToken } = props;
   const [monthlySummary, setMonthlySummary] = useState<AppInsightsMonthlySummary | undefined>(undefined);
   const [invocationTraces, setInvocationTraces] = useState<AppInsightsInvocationTrace[] | undefined>(undefined);
 
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
+  const functionAppName = armFunctionDescriptor.site;
+  const functionName = armFunctionDescriptor.name;
 
   const fetchData = async () => {
     fetchMonthlySummary();
@@ -31,8 +34,8 @@ const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps
       const monthlySummaryResponse = await invocationsData.getMonthlySummary(
         appInsightsAppId,
         appInsightsToken,
-        armFunctionDescriptor.site,
-        armFunctionDescriptor.name
+        functionAppName,
+        functionName
       );
       setMonthlySummary(monthlySummaryResponse);
     }
@@ -43,8 +46,8 @@ const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps
       const invocationTracesResponse = await invocationsData.getInvocationTraces(
         appInsightsAppId,
         appInsightsToken,
-        armFunctionDescriptor.site,
-        armFunctionDescriptor.name
+        functionAppName,
+        functionName
       );
       setInvocationTraces(invocationTracesResponse);
     }
@@ -67,7 +70,9 @@ const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps
   return (
     <FunctionInvocationsContext.Provider value={invocationsData}>
       <FunctionInvocations
-        resourceId={resourceId}
+        functionAppName={functionAppName}
+        functionName={functionName}
+        appInsightsResourceId={appInsightsResourceId}
         monthlySummary={monthlySummary}
         invocationTraces={invocationTraces}
         refreshInvocations={refreshInvocations}

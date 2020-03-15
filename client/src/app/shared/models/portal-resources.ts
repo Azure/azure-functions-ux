@@ -1879,4 +1879,5 @@ export class PortalResources {
   public static httpMethod_tooltip = 'httpMethod_tooltip';
   public static xFunctionsKey_validationMessage = 'xFunctionsKey_validationMessage';
   public static filterInvocations = 'filterInvocations';
+  public static runQueryInApplicationInsights = 'runQueryInApplicationInsights';
 }

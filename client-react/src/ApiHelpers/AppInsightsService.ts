@@ -104,7 +104,7 @@ export default class AppInsightsService {
     functionName: string,
     top: number = 20
   ) => {
-    const data = { query: AppInsightsService._formInvocationTracesQuery(functionAppName, functionName, top), timespan: 'P30D' };
+    const data = { query: AppInsightsService.formInvocationTracesQuery(functionAppName, functionName, top), timespan: 'P30D' };
     const headers = AppInsightsService._formAppInsightsHeaders(appInsightsToken);
     const url = AppInsightsService._formInvocationTracesUrl(appInsightsAppId);
 
@@ -123,6 +123,16 @@ export default class AppInsightsService {
     });
   };
 
+  public static formInvocationTracesQuery = (functionAppName: string, functionName: string, top: number = 20) => {
+    return (
+      `requests ` +
+      `| project timestamp, id, operation_Name, success, resultCode, duration, operation_Id, cloud_RoleName, invocationId=customDimensions['InvocationId'] ` +
+      `| where timestamp > ago(30d) ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
+      `| order by timestamp desc | take ${top}`
+    );
+  };
+
   private static _formAppInsightsHeaders = (appInsightsToken: string) => {
     return { Authorization: `Bearer ${appInsightsToken}` };
   };
@@ -133,16 +143,6 @@ export default class AppInsightsService {
       `| where timestamp >= ago(30d) ` +
       `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
       `| summarize count=count() by success`
-    );
-  };
-
-  private static _formInvocationTracesQuery = (functionAppName: string, functionName: string, top: number) => {
-    return (
-      `requests ` +
-      `| project timestamp, id, operation_Name, success, resultCode, duration, operation_Id, cloud_RoleName, invocationId=customDimensions['InvocationId'] ` +
-      `| where timestamp > ago(30d) ` +
-      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
-      `| order by timestamp desc | take ${top}`
     );
   };
 

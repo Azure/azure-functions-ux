@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { AppInsightsMonthlySummary, AppInsightsInvocationTrace } from '../../../../models/app-insights';
 import { DetailsListLayoutMode, SelectionMode, IColumn, SearchBox, ICommandBarItemProps } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
@@ -7,27 +7,35 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../../../images/Common/Error.svg';
 import { ReactComponent as SuccessSvg } from '../../../../images/Common/Success.svg';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
+import { PortalContext } from '../../../../PortalContext';
+import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
 
 interface FunctionInvocationsProps {
-  resourceId: string;
+  functionAppName: string;
+  functionName: string;
+  appInsightsResourceId: string;
   monthlySummary: AppInsightsMonthlySummary;
-  invocationTraces?: AppInsightsInvocationTrace[];
   refreshInvocations: () => void;
+  invocationTraces?: AppInsightsInvocationTrace[];
 }
 
 const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
-  const { monthlySummary, invocationTraces, refreshInvocations } = props;
-  const [showFilter, setShowFilter] = useState(false);
-  const [filterValue, setFilterValue] = useState('');
+  const { monthlySummary, invocationTraces, refreshInvocations, functionAppName, functionName, appInsightsResourceId } = props;
+  const invocationsContext = useContext(FunctionInvocationsContext);
+  const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
 
-  const toggleFilter = () => {
-    setFilterValue('');
-    setShowFilter(!showFilter);
-  };
+  const [showFilter, setShowFilter] = useState(false);
+  const [filterValue, setFilterValue] = useState('');
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     return [
+      {
+        key: 'invocations-run-query',
+        onClick: openAppInsightsQueryEditor,
+        iconProps: { iconName: 'LineChart' },
+        name: t('runQueryInApplicationInsights'),
+      },
       {
         key: 'invocations-refresh',
         onClick: refreshInvocations,
@@ -41,6 +49,26 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         name: t('filter'),
       },
     ];
+  };
+
+  const openAppInsightsQueryEditor = () => {
+    portalContext.openBlade(
+      {
+        detailBlade: 'LogsBlade',
+        extension: 'Microsoft_Azure_Monitoring_Logs',
+        detailBladeInputs: {
+          resourceId: appInsightsResourceId,
+          source: 'Microsoft.Web-FunctionApp',
+          query: invocationsContext.formInvocationTracesQuery(functionAppName, functionName),
+        },
+      },
+      'function-monitor'
+    );
+  };
+
+  const toggleFilter = () => {
+    setFilterValue('');
+    setShowFilter(!showFilter);
   };
 
   const getColumns = (): IColumn[] => {
