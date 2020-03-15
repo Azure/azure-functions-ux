@@ -22,14 +22,37 @@ const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
 
   const fetchData = async () => {
+    fetchMonthlySummary();
+    fetchInvocationTraces();
+  };
+
+  const fetchMonthlySummary = async () => {
     if (appInsightsToken) {
-      const [monthlySummaryResponse, invocationTracesResponse] = await Promise.all([
-        invocationsData.getMonthlySummary(appInsightsAppId, appInsightsToken, armFunctionDescriptor.site, armFunctionDescriptor.name),
-        invocationsData.getInvocationTraces(appInsightsAppId, appInsightsToken, armFunctionDescriptor.site, armFunctionDescriptor.name),
-      ]);
+      const monthlySummaryResponse = await invocationsData.getMonthlySummary(
+        appInsightsAppId,
+        appInsightsToken,
+        armFunctionDescriptor.site,
+        armFunctionDescriptor.name
+      );
       setMonthlySummary(monthlySummaryResponse);
+    }
+  };
+
+  const fetchInvocationTraces = async () => {
+    if (appInsightsToken) {
+      const invocationTracesResponse = await invocationsData.getInvocationTraces(
+        appInsightsAppId,
+        appInsightsToken,
+        armFunctionDescriptor.site,
+        armFunctionDescriptor.name
+      );
       setInvocationTraces(invocationTracesResponse);
     }
+  };
+
+  const refreshInvocations = () => {
+    setInvocationTraces(undefined);
+    fetchInvocationTraces();
   };
 
   useEffect(() => {
@@ -38,12 +61,17 @@ const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appInsightsToken]);
 
-  if (!monthlySummary || !invocationTraces) {
+  if (!appInsightsToken || !monthlySummary) {
     return <LoadingComponent />;
   }
   return (
     <FunctionInvocationsContext.Provider value={invocationsData}>
-      <FunctionInvocations resourceId={resourceId} monthlySummary={monthlySummary} invocationTraces={invocationTraces} />
+      <FunctionInvocations
+        resourceId={resourceId}
+        monthlySummary={monthlySummary}
+        invocationTraces={invocationTraces}
+        refreshInvocations={refreshInvocations}
+      />
     </FunctionInvocationsContext.Provider>
   );
 };

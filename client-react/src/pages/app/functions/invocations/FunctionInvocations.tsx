@@ -6,15 +6,17 @@ import { formStyle, filterBoxStyle } from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../../../images/Common/Error.svg';
 import { ReactComponent as SuccessSvg } from '../../../../images/Common/Success.svg';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 
 interface FunctionInvocationsProps {
   resourceId: string;
   monthlySummary: AppInsightsMonthlySummary;
-  invocationTraces: AppInsightsInvocationTrace[];
+  invocationTraces?: AppInsightsInvocationTrace[];
+  refreshInvocations: () => void;
 }
 
 const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
-  const { monthlySummary, invocationTraces } = props;
+  const { monthlySummary, invocationTraces, refreshInvocations } = props;
   const [showFilter, setShowFilter] = useState(false);
   const [filterValue, setFilterValue] = useState('');
   const { t } = useTranslation();
@@ -26,6 +28,12 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     return [
+      {
+        key: 'invocations-refresh',
+        onClick: refreshInvocations,
+        iconProps: { iconName: 'Refresh' },
+        name: t('refresh'),
+      },
       {
         key: 'invocations-show-filter',
         onClick: toggleFilter,
@@ -102,49 +110,53 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
   };
 
   const filterValues = () => {
-    return invocationTraces.filter(trace => {
-      if (!filterValue) {
-        return true;
-      }
-      return (
-        trace.timestampFriendly.toLowerCase().includes(filterValue.toLowerCase()) ||
-        trace.resultCode.toLowerCase().includes(filterValue.toLowerCase()) ||
-        trace.duration
-          .toString()
-          .toLowerCase()
-          .includes(filterValue.toLowerCase()) ||
-        trace.operationId.toLowerCase().includes(filterValue.toLowerCase())
-      );
-    });
+    return invocationTraces
+      ? invocationTraces.filter(trace => {
+          if (!filterValue) {
+            return true;
+          }
+          return (
+            trace.timestampFriendly.toLowerCase().includes(filterValue.toLowerCase()) ||
+            trace.resultCode.toLowerCase().includes(filterValue.toLowerCase()) ||
+            trace.duration
+              .toString()
+              .toLowerCase()
+              .includes(filterValue.toLowerCase()) ||
+            trace.operationId.toLowerCase().includes(filterValue.toLowerCase())
+          );
+        })
+      : [];
   };
 
   return (
     <div>
       <h2>{`Success Count: ${monthlySummary.successCount}`}</h2>
       <h2>{`Error Count: ${monthlySummary.failedCount}`}</h2>
-      <div id="invocations" className={formStyle}>
-        <DisplayTableWithCommandBar
-          commandBarItems={getCommandBarItems()}
-          columns={getColumns()}
-          items={filterValues()}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('noResults')}>
-          {showFilter && (
-            <SearchBox
-              id="invocations-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterBoxStyle}
-              placeholder={t('filterInvocations')}
-              onChange={newValue => setFilterValue(newValue)}
-            />
-          )}
-        </DisplayTableWithCommandBar>
-      </div>
+      {(invocationTraces && (
+        <div id="invocations" className={formStyle}>
+          <DisplayTableWithCommandBar
+            commandBarItems={getCommandBarItems()}
+            columns={getColumns()}
+            items={filterValues()}
+            isHeaderVisible={true}
+            layoutMode={DetailsListLayoutMode.justified}
+            selectionMode={SelectionMode.none}
+            selectionPreservedOnEmptyClick={true}
+            emptyMessage={t('noResults')}>
+            {showFilter && (
+              <SearchBox
+                id="invocations-search"
+                className="ms-slideDownIn20"
+                autoFocus
+                iconProps={{ iconName: 'Filter' }}
+                styles={filterBoxStyle}
+                placeholder={t('filterInvocations')}
+                onChange={newValue => setFilterValue(newValue)}
+              />
+            )}
+          </DisplayTableWithCommandBar>
+        </div>
+      )) || <LoadingComponent />}
     </div>
   );
 };
