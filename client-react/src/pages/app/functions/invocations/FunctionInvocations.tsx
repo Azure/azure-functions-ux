@@ -4,6 +4,8 @@ import { DetailsListLayoutMode, SelectionMode, IColumn, SearchBox, ICommandBarIt
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { formStyle, filterBoxStyle } from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as ErrorSvg } from '../../../../images/Common/Error.svg';
+import { ReactComponent as SuccessSvg } from '../../../../images/Common/Success.svg';
 
 interface FunctionInvocationsProps {
   resourceId: string;
@@ -54,6 +56,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         isRowHeader: false,
         isPadded: true,
         isResizable: true,
+        onRender: onRenderSuccessColumn,
       },
       {
         key: 'resultCode',
@@ -84,6 +87,18 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         isResizable: true,
       },
     ];
+  };
+
+  const onRenderSuccessColumn = (trace: AppInsightsInvocationTrace) => {
+    // TODO (allisonm): Update styling
+    const icon = trace.success ? <SuccessSvg /> : <ErrorSvg />;
+    const text = trace.success ? t('success') : t('error');
+    return (
+      <span>
+        {icon}
+        {text}
+      </span>
+    );
   };
 
   const filterValues = () => {
