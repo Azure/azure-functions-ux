@@ -12,4 +12,12 @@ export default class FunctionInvocationsData {
   public formInvocationTracesQuery(functionAppName: string, functionName: string) {
     return AppInsightsService.formInvocationTracesQuery(functionAppName, functionName);
   }
+
+  public getInvocationDetails(appInsightsAppId: string, appInsightsToken: string, operationId: string, invocationId: string) {
+    return AppInsightsService.getInvocationTraceDetails(appInsightsAppId, appInsightsToken, operationId, invocationId);
+  }
+
+  public formInvocationDetailsQuery(operationId: string, invocationId: string) {
+    return AppInsightsService.formInvocationTraceDetailsQuery(operationId, invocationId);
+  }
 }

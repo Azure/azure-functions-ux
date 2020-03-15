@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import FunctionInvocationsData from './FunctionInvocations.data';
 import FunctionInvocations from './FunctionInvocations';
-import { AppInsightsMonthlySummary, AppInsightsInvocationTrace } from '../../../../models/app-insights';
+import { AppInsightsMonthlySummary, AppInsightsInvocationTrace, AppInsightsInvocationTraceDetail } from '../../../../models/app-insights';
 import { ArmFunctionDescriptor } from '../../../../utils/resourceDescriptors';
 
 const invocationsData = new FunctionInvocationsData();
@@ -19,6 +19,8 @@ const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps
   const { resourceId, appInsightsAppId, appInsightsResourceId, appInsightsToken } = props;
   const [monthlySummary, setMonthlySummary] = useState<AppInsightsMonthlySummary | undefined>(undefined);
   const [invocationTraces, setInvocationTraces] = useState<AppInsightsInvocationTrace[] | undefined>(undefined);
+  const [currentTrace, setCurrentTrace] = useState<AppInsightsInvocationTrace | undefined>(undefined);
+  const [invocationDetails, setInvocationDetails] = useState<AppInsightsInvocationTraceDetail[] | undefined>(undefined);
 
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
   const functionAppName = armFunctionDescriptor.site;
@@ -58,11 +60,29 @@ const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps
     fetchInvocationTraces();
   };
 
+  const fetchInvocationTraceDetails = async () => {
+    if (appInsightsToken && currentTrace) {
+      const invocationDetailsResponse = await invocationsData.getInvocationDetails(
+        appInsightsAppId,
+        appInsightsToken,
+        currentTrace.operationId,
+        currentTrace.invocationId
+      );
+      setInvocationDetails(invocationDetailsResponse);
+    }
+  };
+
   useEffect(() => {
     fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appInsightsToken]);
+
+  useEffect(() => {
+    fetchInvocationTraceDetails();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTrace]);
 
   if (!appInsightsToken || !monthlySummary) {
     return <LoadingComponent />;
@@ -76,6 +96,9 @@ const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps
         monthlySummary={monthlySummary}
         invocationTraces={invocationTraces}
         refreshInvocations={refreshInvocations}
+        setCurrentTrace={setCurrentTrace}
+        currentTrace={currentTrace}
+        invocationDetails={invocationDetails}
       />
     </FunctionInvocationsContext.Provider>
   );

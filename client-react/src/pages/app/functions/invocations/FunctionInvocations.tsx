@@ -1,6 +1,14 @@
 import React, { useState, useContext } from 'react';
-import { AppInsightsMonthlySummary, AppInsightsInvocationTrace } from '../../../../models/app-insights';
-import { DetailsListLayoutMode, SelectionMode, IColumn, SearchBox, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { AppInsightsMonthlySummary, AppInsightsInvocationTrace, AppInsightsInvocationTraceDetail } from '../../../../models/app-insights';
+import {
+  DetailsListLayoutMode,
+  SelectionMode,
+  IColumn,
+  SearchBox,
+  ICommandBarItemProps,
+  ActionButton,
+  PanelType,
+} from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { formStyle, filterBoxStyle } from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +17,9 @@ import { ReactComponent as SuccessSvg } from '../../../../images/Common/Success.
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { PortalContext } from '../../../../PortalContext';
 import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import FunctionInvocationDetails from './FunctionInvocationDetails';
+import Panel from '../../../../components/Panel/Panel';
 
 interface FunctionInvocationsProps {
   functionAppName: string;
@@ -16,11 +27,24 @@ interface FunctionInvocationsProps {
   appInsightsResourceId: string;
   monthlySummary: AppInsightsMonthlySummary;
   refreshInvocations: () => void;
+  setCurrentTrace: (trace: AppInsightsInvocationTrace | undefined) => void;
   invocationTraces?: AppInsightsInvocationTrace[];
+  currentTrace?: AppInsightsInvocationTrace;
+  invocationDetails?: AppInsightsInvocationTraceDetail[];
 }
 
 const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
-  const { monthlySummary, invocationTraces, refreshInvocations, functionAppName, functionName, appInsightsResourceId } = props;
+  const {
+    monthlySummary,
+    invocationTraces,
+    refreshInvocations,
+    functionAppName,
+    functionName,
+    appInsightsResourceId,
+    invocationDetails,
+    setCurrentTrace,
+    currentTrace,
+  } = props;
   const invocationsContext = useContext(FunctionInvocationsContext);
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
@@ -82,6 +106,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         isRowHeader: true,
         isPadded: true,
         isResizable: true,
+        onRender: onRenderDateColumn,
       },
       {
         key: 'success',
@@ -125,6 +150,16 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
     ];
   };
 
+  const onRenderDateColumn = (trace: AppInsightsInvocationTrace, index: number, column: IColumn) => {
+    return (
+      <ActionButton className={defaultCellStyle} id={`invocations-${index}`} onClick={() => showDetailsPanel(trace)}>
+        <span aria-live="assertive" role="region">
+          {trace[column.fieldName!]}
+        </span>
+      </ActionButton>
+    );
+  };
+
   const onRenderSuccessColumn = (trace: AppInsightsInvocationTrace) => {
     // TODO (allisonm): Update styling
     const icon = trace.success ? <SuccessSvg /> : <ErrorSvg />;
@@ -135,6 +170,10 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         {text}
       </span>
     );
+  };
+
+  const showDetailsPanel = (trace: AppInsightsInvocationTrace) => {
+    setCurrentTrace(trace);
   };
 
   const filterValues = () => {
@@ -160,7 +199,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
     <div>
       <h2>{`Success Count: ${monthlySummary.successCount}`}</h2>
       <h2>{`Error Count: ${monthlySummary.failedCount}`}</h2>
-      {(invocationTraces && (
+      {(!!invocationTraces && (
         <div id="invocations" className={formStyle}>
           <DisplayTableWithCommandBar
             commandBarItems={getCommandBarItems()}
@@ -185,6 +224,13 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
           </DisplayTableWithCommandBar>
         </div>
       )) || <LoadingComponent />}
+      <Panel isOpen={!!currentTrace} onDismiss={() => setCurrentTrace(undefined)} headerText={'Invocation Details'} type={PanelType.medium}>
+        <FunctionInvocationDetails
+          invocationDetails={invocationDetails}
+          appInsightsResourceId={appInsightsResourceId}
+          currentTrace={currentTrace}
+        />
+      </Panel>
     </div>
   );
 };
