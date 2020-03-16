@@ -9,6 +9,7 @@ import {
   AppInsightsMonthlySummary,
   AppInsightsQueryResult,
   AppInsightsInvocationTrace,
+  AppInsightsInvocationTraceDetail,
 } from '../models/app-insights';
 import { mapResourcesTopologyToArmObjects } from '../utils/arm-utils';
 import LogService from '../utils/LogService';
@@ -104,7 +105,7 @@ export default class AppInsightsService {
     functionName: string,
     top: number = 20
   ) => {
-    const data = { query: AppInsightsService._formInvocationTracesQuery(functionAppName, functionName, top), timespan: 'P30D' };
+    const data = { query: AppInsightsService.formInvocationTracesQuery(functionAppName, functionName, top), timespan: 'P30D' };
     const headers = AppInsightsService._formAppInsightsHeaders(appInsightsToken);
     const url = AppInsightsService._formInvocationTracesUrl(appInsightsAppId);
 
@@ -123,6 +124,55 @@ export default class AppInsightsService {
     });
   };
 
+  public static formInvocationTracesQuery = (functionAppName: string, functionName: string, top: number = 20) => {
+    return (
+      `requests ` +
+      `| project timestamp, id, operation_Name, success, resultCode, duration, operation_Id, cloud_RoleName, invocationId=customDimensions['InvocationId'] ` +
+      `| where timestamp > ago(30d) ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
+      `| order by timestamp desc | take ${top}`
+    );
+  };
+
+  public static getInvocationTraceDetails = (
+    appInsightsAppId: string,
+    appInsightsToken: string,
+    operationId: string,
+    invocationId: string
+  ) => {
+    const data = { query: AppInsightsService.formInvocationTraceDetailsQuery(operationId, invocationId), timespan: 'P30D' };
+    const headers = AppInsightsService._formAppInsightsHeaders(appInsightsToken);
+    const url = AppInsightsService._formInvocationTraceDetailsUrl(appInsightsAppId);
+
+    return sendHttpRequest<AppInsightsQueryResult>({ data, headers, url, method: 'POST' }).then(response => {
+      let details: AppInsightsInvocationTraceDetail[] = [];
+      if (response.metadata.success && response.data) {
+        details = AppInsightsService._extractInvocationTraceDetailsFromQueryResult(response.data);
+      } else {
+        LogService.trackEvent(
+          LogCategories.applicationInsightsQuery,
+          'getInvocationTraceDetails',
+          `Failed to query invocationTraceDetails: ${response.metadata.error}`
+        );
+      }
+      return details;
+    });
+  };
+
+  public static formInvocationTraceDetailsQuery = (operationId: string, invocationId: string) => {
+    const invocationIdFilter = !!invocationId ? `| where customDimensions['InvocationId'] == '${invocationId}'` : '';
+
+    return (
+      // tslint:disable-next-line: prefer-template
+      `union traces` +
+      `| union exceptions` +
+      `| where timestamp > ago(30d)` +
+      `| where operation_Id == '${operationId}'` +
+      invocationIdFilter +
+      `| order by timestamp asc` +
+      `| project timestamp, message = iff(message != '', message, iff(innermostMessage != '', innermostMessage, customDimensions.['prop__{OriginalFormat}'])), logLevel = customDimensions.['LogLevel']`
+    );
+  };
   private static _formAppInsightsHeaders = (appInsightsToken: string) => {
     return { Authorization: `Bearer ${appInsightsToken}` };
   };
@@ -133,16 +183,6 @@ export default class AppInsightsService {
       `| where timestamp >= ago(30d) ` +
       `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
       `| summarize count=count() by success`
-    );
-  };
-
-  private static _formInvocationTracesQuery = (functionAppName: string, functionName: string, top: number) => {
-    return (
-      `requests ` +
-      `| project timestamp, id, operation_Name, success, resultCode, duration, operation_Id, cloud_RoleName, invocationId=customDimensions['InvocationId'] ` +
-      `| where timestamp > ago(30d) ` +
-      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
-      `| order by timestamp desc | take ${top}`
     );
   };
 
@@ -158,6 +198,13 @@ export default class AppInsightsService {
     return `${CommonConstants.AppInsightsEndpoints.public}/${appInsightsAppId}/query?api-version=${
       CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
     }&queryType=getInvocationTraces`;
+  };
+
+  private static _formInvocationTraceDetailsUrl = (appInsightsAppId: string) => {
+    // TODO (allisonm): Handle National Clouds
+    return `${CommonConstants.AppInsightsEndpoints.public}/${appInsightsAppId}/query?api-version=${
+      CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
+    }&queryType=getInvocationTraceDetails`;
   };
 
   private static _extractSummaryFromQueryResult = (result: AppInsightsQueryResult) => {
@@ -215,5 +262,39 @@ export default class AppInsightsService {
     }
 
     return traces;
+  };
+
+  private static _extractInvocationTraceDetailsFromQueryResult = (result: AppInsightsQueryResult) => {
+    const details: AppInsightsInvocationTraceDetail[] = [];
+    const summaryTable = result.tables.find(table => table.name === 'PrimaryResult');
+    const rows = summaryTable && summaryTable.rows;
+
+    if (rows) {
+      rows.forEach((row, index) => {
+        if (row.length >= 3) {
+          details.push({
+            rowId: index,
+            timestamp: row[0],
+            timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
+            message: row[1],
+            logLevel: row[2],
+          });
+        } else {
+          LogService.trackEvent(
+            LogCategories.applicationInsightsQuery,
+            'parseInvocationDetail',
+            `Unable to parse invocation detail: ${row}`
+          );
+        }
+      });
+    } else {
+      LogService.trackEvent(
+        LogCategories.applicationInsightsQuery,
+        'parseInvocationDetails',
+        `Unable to parse invocation details: ${result}`
+      );
+    }
+
+    return details;
   };
 }

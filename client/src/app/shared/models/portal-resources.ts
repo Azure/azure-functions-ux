@@ -1878,4 +1878,8 @@ export class PortalResources {
   public static logStreaming_openInLiveMetrics = 'logStreaming_openInLiveMetrics';
   public static httpMethod_tooltip = 'httpMethod_tooltip';
   public static xFunctionsKey_validationMessage = 'xFunctionsKey_validationMessage';
+  public static filterInvocations = 'filterInvocations';
+  public static runQueryInApplicationInsights = 'runQueryInApplicationInsights';
+  public static timestamp = 'timestamp';
+  public static message = 'message';
 }

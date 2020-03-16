@@ -51,3 +51,11 @@ export interface AppInsightsInvocationTrace {
   operationId: string;
   invocationId: string;
 }
+
+export interface AppInsightsInvocationTraceDetail {
+  rowId: number;
+  timestamp: string;
+  timestampFriendly: string;
+  message: string;
+  logLevel: string;
+}

@@ -51,6 +51,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
           <FunctionInvocationsDataLoader
             resourceId={resourceId}
             appInsightsAppId={appInsightsComponent.properties.AppId}
+            appInsightsResourceId={appInsightsComponent.id}
             appInsightsToken={appInsightsToken}
           />
         </PivotItem>
