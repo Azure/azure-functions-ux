@@ -113,7 +113,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
         label={t('type')}
         id="connection-strings-form-type"
         widthOverride="100%"
-        value={currentConnectionString.type}
+        selectedKey={currentConnectionString.type}
         options={[
           {
             key: DatabaseType.MySql,

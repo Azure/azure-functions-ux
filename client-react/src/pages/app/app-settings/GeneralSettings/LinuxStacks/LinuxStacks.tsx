@@ -254,7 +254,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
       {scenarioService.checkScenario(ScenarioIds.linuxAppRuntime, { site }).status !== 'disabled' && (
         <>
           <DropdownNoFormik
-            value={runtimeStack}
+            selectedKey={runtimeStack}
             dirty={stackDirty()}
             onChange={(e, newVal) => {
               const majorVersions = getMajorVersions(stacks.value, newVal.key, t);
@@ -275,7 +275,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
           />
           {runtimeStack && (
             <DropdownNoFormik
-              value={majorVersionRuntime || ''}
+              selectedKey={majorVersionRuntime || ''}
               dirty={majorVersionDirty()}
               onChange={(e, newVal) => {
                 const minorVersions = getMinorVersions(stacks.value, runtimeStack, newVal.key, t);
