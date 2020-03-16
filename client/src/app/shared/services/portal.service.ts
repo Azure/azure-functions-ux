@@ -377,8 +377,8 @@ export class PortalService implements IPortalService {
     this.postMessage(Verbs.closeBlades, this._packageData({}));
   }
 
-  closeSelf() {
-    this.postMessage(Verbs.closeSelf, '');
+  closeSelf(data?: any) {
+    this.postMessage(Verbs.closeSelf, data || '');
   }
 
   updateBladeInfo(title: string, subtitle: string) {

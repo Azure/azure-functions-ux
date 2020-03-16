@@ -19,7 +19,6 @@ import { SiteService } from '../../shared/services/site.service';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { FunctionService } from 'app/shared/services/function.service';
 import { PortalService } from '../../shared/services/portal.service';
-import { ComponentNames } from '../../shared/models/constants';
 
 @Component({
   selector: 'api-new',
@@ -240,16 +239,7 @@ export class ApiNewComponent extends NavigableComponent {
               this._proxiesNode.addChild(newApiProxy);
             } else {
               // Ibizafication Experience, open the Proxy-List tab
-              this._portalService.openBlade(
-                {
-                  detailBlade: 'FunctionProxiesBlade',
-                  detailBladeInputs: {
-                    resourceId: this.context.site.id,
-                    data: { ...newApiProxy },
-                  },
-                },
-                ComponentNames.newProxy
-              );
+              this._portalService.closeSelf({ data: { ...newApiProxy } });
             }
           });
         });
