@@ -152,7 +152,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
 
   const onRenderDateColumn = (trace: AppInsightsInvocationTrace, index: number, column: IColumn) => {
     return (
-      <ActionButton className={defaultCellStyle} id={`invocations-${index}`} onClick={() => showDetailsPanel(trace)}>
+      <ActionButton className={defaultCellStyle} id={`invocations-${index}`} onClick={() => setCurrentTrace(trace)}>
         <span aria-live="assertive" role="region">
           {trace[column.fieldName!]}
         </span>
@@ -170,10 +170,6 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         {text}
       </span>
     );
-  };
-
-  const showDetailsPanel = (trace: AppInsightsInvocationTrace) => {
-    setCurrentTrace(trace);
   };
 
   const filterValues = () => {
@@ -199,7 +195,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
     <div>
       <h2>{`Success Count: ${monthlySummary.successCount}`}</h2>
       <h2>{`Error Count: ${monthlySummary.failedCount}`}</h2>
-      {(!!invocationTraces && (
+      {!!invocationTraces ? (
         <div id="invocations" className={formStyle}>
           <DisplayTableWithCommandBar
             commandBarItems={getCommandBarItems()}
@@ -223,7 +219,9 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
             )}
           </DisplayTableWithCommandBar>
         </div>
-      )) || <LoadingComponent />}
+      ) : (
+        <LoadingComponent />
+      )}
       <Panel isOpen={!!currentTrace} onDismiss={() => setCurrentTrace(undefined)} headerText={'Invocation Details'} type={PanelType.medium}>
         <FunctionInvocationDetails
           invocationDetails={invocationDetails}

@@ -89,7 +89,7 @@ const FunctionInvocationDetails: React.FC<FunctionInvocationDetailsProps> = prop
 
   return (
     <div>
-      {(!!invocationDetails && (
+      {!!invocationDetails ? (
         <div id="invocation-details" className={formStyle}>
           <DisplayTableWithCommandBar
             commandBarItems={getCommandBarItems()}
@@ -102,7 +102,9 @@ const FunctionInvocationDetails: React.FC<FunctionInvocationDetailsProps> = prop
             emptyMessage={t('noResults')}
           />
         </div>
-      )) || <LoadingComponent />}
+      ) : (
+        <LoadingComponent />
+      )}
     </div>
   );
 };
