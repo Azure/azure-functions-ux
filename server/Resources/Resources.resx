@@ -2186,7 +2186,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
     </data>
     <data name="readOnlyRbac" xml:space="preserve">
-        <value>Your function is currently in read only mode because your RBAC assigned access is set to: reader</value>
+        <value>Your function is currently in read only mode because your RBAC assigned access is set to: Reader</value>
     </data>
     <data name="copypre_copy" xml:space="preserve">
         <value>Copy</value>
