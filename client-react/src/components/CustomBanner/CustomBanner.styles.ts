@@ -18,6 +18,12 @@ export const messageBannerStyles = (isCustomIcon: boolean) => {
       display: isCustomIcon ? ('none' as 'none') : ('contents' as 'contents'),
     },
     icon: {},
+    dismissal: {
+      height: '16px',
+      width: '16px',
+      position: 'absolute' as 'absolute',
+      right: '0px',
+    },
   };
   if (!isCustomIcon) {
     styles.icon = {
