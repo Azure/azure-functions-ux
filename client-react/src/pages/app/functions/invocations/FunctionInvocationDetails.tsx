@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { PortalContext } from '../../../../PortalContext';
 import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
 import { AppInsightsInvocationTraceDetail, AppInsightsInvocationTrace } from '../../../../models/app-insights';
-import { formStyle } from './FunctionInvocations.style';
+import { invocationsTabStyle } from './FunctionInvocations.style';
 import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
@@ -90,7 +90,7 @@ const FunctionInvocationDetails: React.FC<FunctionInvocationDetailsProps> = prop
   return (
     <div>
       {!!invocationDetails ? (
-        <div id="invocation-details" className={formStyle}>
+        <div id="invocation-details" className={invocationsTabStyle}>
           <DisplayTableWithCommandBar
             commandBarItems={getCommandBarItems()}
             columns={getColumns()}
