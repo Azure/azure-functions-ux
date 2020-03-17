@@ -197,17 +197,16 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
 
   useEffect(() => {
     setShowDelayMessage(!!invocationTraces && invocationTraces.length === 0);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [invocationTraces]);
 
   return (
     <div id="invocations-tab" className={invocationsTabStyle}>
-      {showDelayMessage ? (
+      {/*Delay Message Banner*/}
+      {showDelayMessage && (
         <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} onDismiss={() => setShowDelayMessage(false)} />
-      ) : (
-        undefined
       )}
+
+      {/*Summary Items*/}
       <div id="summary-container" className={invocationsSummary}>
         <div id="summary-success" className={summaryItem}>
           <h4>{t('successCount')}</h4>
@@ -220,6 +219,8 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
           <Label>{t('last30Days')}</Label>
         </div>
       </div>
+
+      {/*Invocation Traces Table*/}
       {!!invocationTraces ? (
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
@@ -245,6 +246,8 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
       ) : (
         <LoadingComponent />
       )}
+
+      {/*Invocation Details Panel*/}
       <Panel isOpen={!!currentTrace} onDismiss={() => setCurrentTrace(undefined)} headerText={'Invocation Details'} type={PanelType.medium}>
         <FunctionInvocationDetails
           invocationDetails={invocationDetails}
