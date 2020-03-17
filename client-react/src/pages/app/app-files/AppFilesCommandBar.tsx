@@ -22,16 +22,6 @@ const AppFilesCommandBar: React.FC<AppFilesCommandBarProps> = props => {
   const getItems = (): ICommandBarItemProps[] => {
     return [
       {
-        key: 'refresh',
-        name: t('refresh'),
-        iconProps: {
-          iconName: 'refresh',
-        },
-        disabled: disabled,
-        ariaLabel: t('appFilesSaveAriaLabel'),
-        onClick: refreshFunction,
-      },
-      {
         key: 'save',
         name: t('save'),
         iconProps: {
@@ -50,6 +40,16 @@ const AppFilesCommandBar: React.FC<AppFilesCommandBarProps> = props => {
         disabled: !dirty || disabled,
         ariaLabel: t('functionEditorDiscardAriaLabel'),
         onClick: resetFile,
+      },
+      {
+        key: 'refresh',
+        name: t('refresh'),
+        iconProps: {
+          iconName: 'refresh',
+        },
+        disabled: disabled,
+        ariaLabel: t('appFilesSaveAriaLabel'),
+        onClick: refreshFunction,
       },
     ];
   };
