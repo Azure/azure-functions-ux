@@ -14,10 +14,11 @@ interface CustomBannerProps {
   customIcon?: JSX.Element;
   className?: string;
   learnMoreLink?: string;
+  onDismiss?: (e?: any) => any;
 }
 
 const CustomBanner: React.FC<CustomBannerProps> = props => {
-  const { message, type, id, customIcon, className: customClassName, learnMoreLink } = props;
+  const { message, type, id, customIcon, className: customClassName, learnMoreLink, onDismiss } = props;
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
@@ -37,7 +38,8 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
         isMultiline={true}
         messageBarType={type}
         styles={messageBannerStyles(!!icon)}
-        className={className}>
+        className={className}
+        onDismiss={onDismiss}>
         {!!icon ? <span className={messageBannerIconStyle}>{icon}</span> : undefined}
         <span className={messageBannerTextStyle}>
           {message}
