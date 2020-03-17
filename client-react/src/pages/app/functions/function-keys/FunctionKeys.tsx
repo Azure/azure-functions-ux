@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { FunctionKeysFormValues, FunctionKeysModel, DialogType } from './FunctionKeys.types';
 import { useTranslation } from 'react-i18next';
-import { commandBarSticky, formStyle, renewTextStyle, filterBoxStyle } from './FunctionKeys.styles';
+import { commandBarSticky, formStyle, renewTextStyle, filterBoxStyle, deleteButtonStyle } from './FunctionKeys.styles';
 import FunctionKeysCommandBar from './FunctionKeysCommandBar';
 import {
   ActionButton,
@@ -223,7 +223,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
       return (
         <TooltipHost content={t('delete')} id={`function-keys-delete-tooltip-${index}`} calloutProps={{ gapSpace: 0 }} closeDelay={500}>
           <IconButton
-            className={defaultCellStyle}
+            className={`${defaultCellStyle} ${deleteButtonStyle(theme)}`}
             disabled={readOnlyPermission}
             id={`function-keys-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
