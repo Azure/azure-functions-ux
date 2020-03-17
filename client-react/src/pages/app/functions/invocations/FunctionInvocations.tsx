@@ -12,7 +12,7 @@ import {
   Label,
 } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { invocationsTabStyle, filterBoxStyle, invocationsSummary, summaryItem } from './FunctionInvocations.style';
+import { invocationsTabStyle, filterBoxStyle, invocationsSummary, summaryItem, successElement } from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../../../images/Common/Error.svg';
 import { ReactComponent as SuccessSvg } from '../../../../images/Common/Success.svg';
@@ -165,13 +165,9 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
   };
 
   const onRenderSuccessColumn = (trace: AppInsightsInvocationTrace) => {
-    // TODO (allisonm): Update styling
-    const icon = trace.success ? <SuccessSvg /> : <ErrorSvg />;
-    const text = trace.success ? t('success') : t('error');
     return (
-      <span>
-        {icon}
-        {text}
+      <span className={successElement}>
+        {trace.success ? <SuccessSvg /> : <ErrorSvg />} {trace.success ? t('success') : t('error')}
       </span>
     );
   };
