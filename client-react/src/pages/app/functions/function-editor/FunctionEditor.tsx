@@ -50,6 +50,7 @@ export interface FunctionEditorProps {
   appPermission: boolean;
   refresh: () => void;
   isRefreshing: boolean;
+  appInsightsResourceId: string;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
@@ -76,6 +77,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     refresh,
     isRefreshing,
     xFunctionKey,
+    appInsightsResourceId,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -424,6 +426,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           readOnlyBannerHeight={getReadOnlyBannerHeight()}
           functionName={functionInfo.properties.name}
           hideLiveMetrics={true}
+          appInsightsResourceId={appInsightsResourceId}
         />
       </div>
     </>

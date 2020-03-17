@@ -5823,4 +5823,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="message" xml:space="preserve">
         <value>Message</value>
     </data>
+    <data name="successCount" xml:space="preserve">
+        <value>Success Count</value>
+    </data>
+    <data name="errorCount" xml:space="preserve">
+        <value>Error Count</value>
+    </data>
+    <data name="last30Days" xml:space="preserve">
+        <value>Last 30 Days</value>
+    </data>
 </root>
