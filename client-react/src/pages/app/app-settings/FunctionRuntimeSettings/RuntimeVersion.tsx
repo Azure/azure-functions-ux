@@ -174,7 +174,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
           )}
           <DropdownNoFormik
             placeHolder={getPlaceHolder()}
-            value={runtimeMajorVersion}
+            selectedKey={runtimeMajorVersion}
             dirty={runtimeMajorVersion !== initialRuntimeMajorVersion}
             onChange={(event, option) => onDropDownChange(option ? option.key : undefined)}
             options={getOptions()}
