@@ -1,14 +1,17 @@
 import { FieldProps, FormikProps } from 'formik';
 import { Callout, IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../models/arm-obj';
 import { BindingSetting, BindingSettingResource } from '../../../../models/functions/binding';
+import { KeyValue } from '../../../../models/portal-models';
+import { SiteStateContext } from '../../../../SiteStateContext';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
+import SiteHelper from '../../../../utils/SiteHelper';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import { calloutStyle1Field, calloutStyle2Fields, calloutStyle3Fields, linkPaddingStyle } from './callout/Callout.styles';
 import NewAppSettingCallout from './callout/NewAppSettingCallout';
@@ -16,9 +19,6 @@ import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCal
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
 import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
-import { KeyValue } from '../../../../models/portal-models';
-import { SiteStateContext } from '../../../../SiteStateContext';
-import SiteHelper from '../../../../utils/SiteHelper';
 
 export interface ResourceDropdownProps {
   setting: BindingSetting;
