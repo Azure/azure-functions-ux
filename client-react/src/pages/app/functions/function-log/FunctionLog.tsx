@@ -12,6 +12,7 @@ interface FunctionLogProps {
   isExpanded: boolean;
   resetAppInsightsToken: () => void;
   functionName: string;
+  appInsightsResourceId: string;
   appInsightsToken?: string;
   forceMaximized?: boolean;
   toggleExpand?: () => void;
@@ -36,6 +37,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     forceMaximized,
     hideChevron,
     hideLiveMetrics,
+    appInsightsResourceId,
   } = props;
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [started, setStarted] = useState(false);
@@ -186,6 +188,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         showMaximize={!forceMaximized}
         hideChevron={!!hideChevron}
         hideLiveMetrics={!!hideLiveMetrics}
+        appInsightsResourceId={appInsightsResourceId}
       />
       {isExpanded && (
         <div

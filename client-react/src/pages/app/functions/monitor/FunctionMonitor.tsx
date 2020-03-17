@@ -63,6 +63,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
             functionName={functionName}
             forceMaximized={true}
             hideChevron={true}
+            appInsightsResourceId={appInsightsComponent.id}
           />
         </PivotItem>
       </Pivot>
