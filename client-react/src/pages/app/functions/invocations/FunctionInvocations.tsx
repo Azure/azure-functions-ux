@@ -9,9 +9,10 @@ import {
   ActionButton,
   PanelType,
   MessageBarType,
+  Label,
 } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { invocationsTabStyle, filterBoxStyle } from './FunctionInvocations.style';
+import { invocationsTabStyle, filterBoxStyle, invocationsSummary, summaryItem } from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../../../images/Common/Error.svg';
 import { ReactComponent as SuccessSvg } from '../../../../images/Common/Success.svg';
@@ -196,8 +197,18 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
   return (
     <div id="invocations-tab" className={invocationsTabStyle}>
       <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} />
-      <h2>{`Success Count: ${monthlySummary.successCount}`}</h2>
-      <h2>{`Error Count: ${monthlySummary.failedCount}`}</h2>
+      <div id="summary-container" className={invocationsSummary}>
+        <div id="summary-success" className={summaryItem}>
+          <h4>{t('successCount')}</h4>
+          <SuccessSvg /> {monthlySummary.successCount}
+          <Label>{t('last30Days')}</Label>
+        </div>
+        <div id="summary-error" className={summaryItem}>
+          <h4>{t('errorCount')}</h4>
+          <ErrorSvg /> {monthlySummary.failedCount}
+          <Label>{t('last30Days')}</Label>
+        </div>
+      </div>
       {!!invocationTraces ? (
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
