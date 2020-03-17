@@ -1882,4 +1882,7 @@ export class PortalResources {
   public static runQueryInApplicationInsights = 'runQueryInApplicationInsights';
   public static timestamp = 'timestamp';
   public static message = 'message';
+  public static successCount = 'successCount';
+  public static errorCount = 'errorCount';
+  public static last30Days = 'last30Days';
 }
