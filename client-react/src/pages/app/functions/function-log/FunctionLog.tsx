@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { logStreamStyle, logEntryDivStyle, getLogTextColor, logErrorDivStyle, logConnectingDivStyle } from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
-import { QuickPulseQueryLayer, SchemaResponseV2, SchemaDocument } from '../../../../../QuickPulseQuery';
-import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { QuickPulseQueryLayer, SchemaResponseV2, SchemaDocument } from '../../../../QuickPulseQuery';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 import { getDefaultDocumentStreams, defaultClient } from './FunctionLog.constants';
-import LogService from '../../../../../utils/LogService';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import { TextUtilitiesService } from '../../../../../utils/textUtilities';
+import LogService from '../../../../utils/LogService';
+import { LogCategories } from '../../../../utils/LogCategories';
+import { TextUtilitiesService } from '../../../../utils/textUtilities';
 import FunctionLogCommandBar from './FunctionLogCommandBar';
 interface FunctionLogProps {
-  toggleExpand: () => void;
-  toggleFullscreen: (fullscreen: boolean) => void;
   isExpanded: boolean;
-  fileSavedCount: number;
   resetAppInsightsToken: () => void;
-  readOnlyBannerHeight: number;
   functionName: string;
   appInsightsToken?: string;
+  forceMaximized?: boolean;
+  toggleExpand?: () => void;
+  toggleFullscreen?: (fullscreen: boolean) => void;
+  readOnlyBannerHeight?: number;
+  fileSavedCount?: number;
+  hideChevron?: boolean;
+  hideLiveMetrics?: boolean;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
@@ -30,8 +33,11 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     resetAppInsightsToken,
     readOnlyBannerHeight,
     functionName,
+    forceMaximized,
+    hideChevron,
+    hideLiveMetrics,
   } = props;
-  const [maximized, setMaximized] = useState(false);
+  const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [started, setStarted] = useState(false);
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
   const [logEntries, setLogEntries] = useState<SchemaDocument[]>([]);
@@ -93,10 +99,12 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   };
 
   const onExpandClick = () => {
-    if (isExpanded && maximized) {
-      toggleMaximize();
+    if (toggleExpand) {
+      if (isExpanded && maximized) {
+        toggleMaximize();
+      }
+      toggleExpand();
     }
-    toggleExpand();
   };
 
   const toggleConnection = () => {
@@ -143,12 +151,14 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   }, [isExpanded]);
 
   useEffect(() => {
-    toggleFullscreen(maximized);
+    if (toggleFullscreen) {
+      toggleFullscreen(maximized);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maximized]);
 
   useEffect(() => {
-    if (!started && fileSavedCount > 0) {
+    if (!started && fileSavedCount && fileSavedCount > 0) {
       startLogs();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -173,10 +183,13 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         clear={clearLogs}
         toggleMaximize={toggleMaximize}
         maximized={maximized}
+        showMaximize={!forceMaximized}
+        hideChevron={!!hideChevron}
+        hideLiveMetrics={!!hideLiveMetrics}
       />
       {isExpanded && (
         <div
-          className={logStreamStyle(maximized, readOnlyBannerHeight)}
+          className={logStreamStyle(maximized, readOnlyBannerHeight || 0)}
           ref={container => {
             if (!!container) {
               setLogsContainer(container);

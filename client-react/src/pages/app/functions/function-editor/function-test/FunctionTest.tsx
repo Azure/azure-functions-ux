@@ -4,7 +4,7 @@ import ActionBar, { StatusMessage } from '../../../../../components/ActionBar';
 import { useTranslation } from 'react-i18next';
 import FunctionTestInput from './FunctionTestInput';
 import FunctionTestOutput from './FunctionTestOutput';
-import { InputFormValues, HttpMethods, ResponseContent, PivotType } from '../FunctionEditor.types';
+import { InputFormValues, HttpMethods, ResponseContent, PivotType, UrlObj } from '../FunctionEditor.types';
 import { Form, FormikProps, Formik, FormikActions } from 'formik';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
@@ -22,6 +22,8 @@ export interface FunctionTestProps {
   setReqBody: (reqBody: string) => void;
   selectedPivotTab: PivotType;
   functionRunning: boolean;
+  urlObjs: UrlObj[];
+  xFunctionKey?: string;
   responseContent?: ResponseContent;
   testData?: string;
 }
@@ -37,7 +39,19 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { t } = useTranslation();
   const [statusMessage, setStatusMessage] = useState<StatusMessage | undefined>(undefined);
 
-  const { run, close, functionInfo, reqBody, setReqBody, responseContent, selectedPivotTab, functionRunning, testData } = props;
+  const {
+    run,
+    close,
+    functionInfo,
+    reqBody,
+    setReqBody,
+    responseContent,
+    selectedPivotTab,
+    functionRunning,
+    testData,
+    urlObjs,
+    xFunctionKey,
+  } = props;
 
   const errorMessage = {
     message: t('validField_validationMessage'),
@@ -53,10 +67,19 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
       return;
     }
 
-    const invalidHeaders = values.headers.filter(h => !ValidationRegex.headerName.test(h.name) || !h.value);
+    let invalidHeaders = values.headers.filter(h => !ValidationRegex.headerName.test(h.name) || !h.value);
     if (invalidHeaders.length > 0) {
       setStatusMessage(errorMessage);
       return;
+    }
+
+    // Header should not contain x-functions-key
+    invalidHeaders = values.headers.filter(h => h.name === 'x-functions-key');
+    if (invalidHeaders.length > 0) {
+      setStatusMessage({
+        message: t('xFunctionsKey_validationMessage'),
+        level: MessageBarType.error,
+      });
     }
   };
 
@@ -99,6 +122,11 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testData]);
 
+  useEffect(() => {
+    defaultInputFormValues.xFunctionKey = xFunctionKey;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Formik
       initialValues={defaultInputFormValues}
@@ -123,7 +151,13 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           <Form className={addEditFormStyle}>
             <div className={functionTestBodyStyle}>
               {selectedPivotTab === PivotType.input && (
-                <FunctionTestInput {...formProps} functionInfo={functionInfo} body={reqBody} onRequestBodyChange={onRequestBodyChange} />
+                <FunctionTestInput
+                  {...formProps}
+                  functionInfo={functionInfo}
+                  body={reqBody}
+                  onRequestBodyChange={onRequestBodyChange}
+                  urlObjs={urlObjs}
+                />
               )}
               {selectedPivotTab === PivotType.output && <FunctionTestOutput responseContent={responseContent} />}
             </div>

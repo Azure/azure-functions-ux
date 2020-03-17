@@ -22,10 +22,11 @@ import {
   logPanelStyle,
   defaultMonacoEditorHeight,
   testPanelStyle,
+  editorStyle,
+  editorDivStyle,
 } from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
-import { editorStyle } from '../../app-files/AppFiles.styles';
-import FunctionLog from './function-log/FunctionLog';
+import FunctionLog from '../function-log/FunctionLog';
 import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 import { SiteStateContext } from '../../../../SiteStateContext';
@@ -40,7 +41,7 @@ import { LogCategories } from '../../../../utils/LogCategories';
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
-  run: (functionInfo: ArmObj<FunctionInfo>) => void;
+  run: (functionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => void;
   functionRunning: boolean;
   urlObjs: UrlObj[];
   resetAppInsightsToken: () => void;
@@ -49,6 +50,7 @@ export interface FunctionEditorProps {
   appPermission: boolean;
   refresh: () => void;
   isRefreshing: boolean;
+  xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
@@ -73,6 +75,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     testData,
     refresh,
     isRefreshing,
+    xFunctionKey,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -163,7 +166,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     });
     const tempFunctionInfo = functionInfo;
     tempFunctionInfo.properties.test_data = data;
-    props.run(tempFunctionInfo);
+    props.run(tempFunctionInfo, values.xFunctionKey);
   };
 
   const inputBinding =
@@ -302,7 +305,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   useEffect(() => {
-    setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? 310 : 138) + getReadOnlyBannerHeight()}px)`);
+    setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? 302 : 130) + getReadOnlyBannerHeight()}px)`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logPanelExpanded, readOnlyBanner]);
   useEffect(() => {
@@ -385,11 +388,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           selectedPivotTab={selectedPivotTab}
           functionRunning={functionRunning}
           testData={testData}
+          urlObjs={urlObjs}
+          xFunctionKey={xFunctionKey}
         />
       </Panel>
       {isLoading() && <LoadingComponent />}
       {!logPanelFullscreen && (
-        <div className={editorStyle}>
+        <div className={editorDivStyle}>
           <MonacoEditor
             value={fileContent.latest}
             language={editorLanguage}
@@ -402,6 +407,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               cursorBlinking: true,
               renderWhitespace: 'all',
               readOnly: SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState) || !appPermission,
+              extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
           />
@@ -417,6 +423,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           appInsightsToken={appInsightsToken}
           readOnlyBannerHeight={getReadOnlyBannerHeight()}
           functionName={functionInfo.properties.name}
+          hideLiveMetrics={true}
         />
       </div>
     </>

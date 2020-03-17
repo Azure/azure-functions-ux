@@ -19,6 +19,7 @@ import EditBindingCommandBar from './EditBindingCommandBar';
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
 import { dialogModelStyle } from '../FunctionIntegrate.style';
 import { DeleteDialog } from './BindingPanel';
+import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
 
 export interface BindingEditorProps {
   allBindings: Binding[];
@@ -57,7 +58,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
   ) as Binding;
 
   if (!currentBinding) {
-    LogService.error(LogCategories.bindingEditor, 'no-binding-metadata-found', null);
+    LogService.error(LogCategories.bindingEditor, 'bindingEditorSetUp', 'Binding editor was unable to find binding information to edit');
     return <div />;
   }
 
@@ -136,7 +137,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
               </div>
             </form>
             {currentBinding.type === FunctionIntegrateConstants.eventGridType ? (
-              <Link onClick={() => onEventGridCreateClick(functionInfo, portalContext)}>{t('eventGrid_createConnection')}</Link>
+              <Link onClick={() => onEventGridCreateClick(functionInfo.id, portalContext)}>{t('eventGrid_createConnection')}</Link>
             ) : (
               undefined
             )}
@@ -161,8 +162,9 @@ export const getFunctionBindingDirection = (bindingDirection: BindingDirection):
   return bindingDirection === BindingDirection.out ? FunctionBindingDirection.out : FunctionBindingDirection.in;
 };
 
-const onEventGridCreateClick = (functionInfo: ArmObj<FunctionInfo>, portalContext: PortalCommunicator) => {
-  const functionName = functionInfo.name.split('/')[1];
+const onEventGridCreateClick = (functionResourceId: string, portalContext: PortalCommunicator) => {
+  const armFunctionDescriptor = new ArmFunctionDescriptor(functionResourceId);
+  const functionName = armFunctionDescriptor.name.toLowerCase();
 
   portalContext.openBlade(
     {
@@ -170,9 +172,9 @@ const onEventGridCreateClick = (functionInfo: ArmObj<FunctionInfo>, portalContex
       extension: 'Microsoft_Azure_EventGrid',
       detailBladeInputs: {
         inputs: {
-          label: `functions-${functionName.toLowerCase()}`,
+          label: `functions-${functionName}`,
           endpointType: 'AzureFunction',
-          endpointResourceId: functionInfo.id,
+          endpointResourceId: functionResourceId,
         },
       },
     },

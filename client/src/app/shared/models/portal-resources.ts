@@ -1866,9 +1866,20 @@ export class PortalResources {
   public static integrateDeleteOutputConfirmMessage = 'integrateDeleteOutputConfirmMessage';
   public static integrateDeleteInputConfirmHeader = 'integrateDeleteInputConfirmHeader';
   public static integrateDeleteInputConfirmMessage = 'integrateDeleteInputConfirmMessage';
+  public static integrate_bindingsFailedLoading = 'integrate_bindingsFailedLoading';
   public static deleteFunctionKeyHeader = 'deleteFunctionKeyHeader';
   public static deleteFunctionKeyMessage = 'deleteFunctionKeyMessage';
   public static fetchFileContentFailureMessage = 'fetchFileContentFailureMessage';
   public static resourceDropdown_missingAppSetting = 'resourceDropdown_missingAppSetting';
   public static resourceDropdown_noAppSettingsFound = 'resourceDropdown_noAppSettingsFound';
+  public static integrate_bindingsMissingDirection = 'integrate_bindingsMissingDirection';
+  public static functionMonitor_invocations = 'functionMonitor_invocations';
+  public static functionMonitor_logs = 'functionMonitor_logs';
+  public static logStreaming_openInLiveMetrics = 'logStreaming_openInLiveMetrics';
+  public static httpMethod_tooltip = 'httpMethod_tooltip';
+  public static xFunctionsKey_validationMessage = 'xFunctionsKey_validationMessage';
+  public static filterInvocations = 'filterInvocations';
+  public static runQueryInApplicationInsights = 'runQueryInApplicationInsights';
+  public static timestamp = 'timestamp';
+  public static message = 'message';
 }

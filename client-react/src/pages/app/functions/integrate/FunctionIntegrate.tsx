@@ -1,8 +1,10 @@
-import { IStackTokens, Stack } from 'office-ui-fabric-react';
+import { IStackTokens, MessageBarType, Stack } from 'office-ui-fabric-react';
 import React, { useContext, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
 import { Observable, Subject } from 'rxjs';
 import { classes } from 'typestyle';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ReactComponent as DoubleArrow } from '../../../../images/Functions/double-arrow-left-right.svg';
@@ -14,6 +16,7 @@ import { FunctionInfo } from '../../../../models/functions/function-info';
 import { HostStatus } from '../../../../models/functions/host-status';
 import { SiteStateContext } from '../../../../SiteStateContext';
 import { ThemeContext } from '../../../../ThemeContext';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 import SiteHelper from '../../../../utils/SiteHelper';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
@@ -36,6 +39,7 @@ export interface FunctionIntegrateProps {
   functionAppId: string;
   functionInfo: ArmObj<FunctionInfo>;
   bindings: Binding[];
+  bindingsError: boolean;
   hostStatus: HostStatus;
   isRefreshing: boolean;
   refreshIntegrate: () => void;
@@ -58,7 +62,8 @@ export interface BindingEditorContextInfo {
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
-  const { functionAppId, functionInfo: initialFunctionInfo, bindings, hostStatus, isRefreshing, refreshIntegrate } = props;
+  const { functionAppId, functionInfo: initialFunctionInfo, bindings, bindingsError, hostStatus, isRefreshing, refreshIntegrate } = props;
+  const { t } = useTranslation();
   const siteState = useContext(SiteStateContext);
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
@@ -163,11 +168,26 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     </Stack>
   );
 
+  const bindingsMissingDirection = functionInfo.properties.config.bindings.filter(binding => !binding.direction);
+  const banner = bindingsError ? (
+    <CustomBanner message={t('integrate_bindingsFailedLoading')} type={MessageBarType.error} />
+  ) : bindingsMissingDirection.length > 0 ? (
+    <CustomBanner
+      message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
+      type={MessageBarType.warning}
+      learnMoreLink={CommonConstants.Links.bindingDirectionLearnMore}
+    />
+  ) : readOnly ? (
+    <EditModeBanner />
+  ) : (
+    undefined
+  );
+
   return (
     <>
       {(isRefreshing || isUpdating) && <LoadingComponent overlay={true} />}
       <BindingEditorContext.Provider value={editorContext}>
-        <EditModeBanner />
+        {banner}
         <FunctionIntegrateCommandBar refreshIntegrate={refreshIntegrate} isRefreshing={isRefreshing} />
         <BindingPanel
           functionAppId={functionAppId}

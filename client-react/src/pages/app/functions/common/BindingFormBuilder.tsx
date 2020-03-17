@@ -96,7 +96,7 @@ export class BindingFormBuilder {
           id={setting.name}
           component={TextField}
           disabled={isDisabled}
-          validate={value => this._validateField(value, setting.required, setting.validators)}
+          validate={value => this._validateText(value, setting.required, setting.validators)}
           {...formProps}
         />
       </FormControlWrapper>
@@ -123,7 +123,7 @@ export class BindingFormBuilder {
           component={Dropdown}
           options={options}
           disabled={isDisabled}
-          validate={value => this._validateField(value, setting.required, setting.validators)}
+          validate={value => this._validateText(value, setting.required, setting.validators)}
           onPanel={true}
           {...formProps}
         />
@@ -146,7 +146,7 @@ export class BindingFormBuilder {
           disabled={isDisabled}
           onText={this._t('yes')}
           offText={this._t('no')}
-          validate={value => this._validateField(value, setting.required, setting.validators)}
+          validate={(value: boolean) => this._validateBoolean(value, setting.required)}
           {...formProps}
         />
       </FormControlWrapper>
@@ -173,7 +173,7 @@ export class BindingFormBuilder {
           setting={setting}
           resourceId={resourceId}
           disabled={isDisabled}
-          validate={value => this._validateField(value, setting.required, setting.validators)}
+          validate={value => this._validateText(value, setting.required, setting.validators)}
           onPanel={true}
           {...formProps}
         />
@@ -201,7 +201,7 @@ export class BindingFormBuilder {
             component={HttpMethodMultiDropdown}
             setting={setting}
             disabled={isDisabled}
-            validate={value => this._validateField(value, setting.required, setting.validators)}
+            validate={value => this._validateText(value, setting.required, setting.validators)}
             onPanel={true}
             {...formProps}
           />
@@ -229,7 +229,7 @@ export class BindingFormBuilder {
           options={options}
           multiSelect
           disabled={isDisabled}
-          validate={value => this._validateField(value, setting.required, setting.validators)}
+          validate={value => this._validateText(value, setting.required, setting.validators)}
           onPanel={true}
           {...formProps}
         />
@@ -237,7 +237,7 @@ export class BindingFormBuilder {
     );
   }
 
-  private _validateField(value: string, required: boolean, validators?: BindingValidator[]): string | undefined {
+  private _validateText(value: string, required: boolean, validators?: BindingValidator[]): string | undefined {
     let error: string | undefined;
     if (required && !value) {
       error = this._t('fieldRequired');
@@ -249,6 +249,15 @@ export class BindingFormBuilder {
           error = validator.errorText;
         }
       });
+    }
+
+    return error;
+  }
+
+  private _validateBoolean(value: boolean, required: boolean): string | undefined {
+    let error: string | undefined;
+    if (required && value === undefined) {
+      error = this._t('fieldRequired');
     }
 
     return error;

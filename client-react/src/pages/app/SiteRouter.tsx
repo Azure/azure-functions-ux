@@ -5,7 +5,7 @@ import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
 import { SiteRouterData } from './SiteRouter.data';
 import { SiteStateContext } from '../../SiteStateContext';
-import { SiteState, FunctionAppEditMode } from '../../models/portal-models';
+import { SiteState, FunctionAppEditMode, KeyValue } from '../../models/portal-models';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import SiteService from '../../ApiHelpers/SiteService';
 import { isFunctionApp, isLinuxDynamic, isLinuxApp, isElastic, isContainerApp } from '../../utils/arm-utils';
@@ -54,6 +54,7 @@ const FunctionQuickstart: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/quickstart/FunctionQuickstartDataLoader')
 );
 const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-files/AppFilesDataLoader'));
+const FunctionMonitor: any = lazy(() => import(/* webpackChunkName:"functionmonitor" */ './functions/monitor/FunctionMonitorDataLoader'));
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
@@ -75,7 +76,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     return undefined;
   };
 
-  const getSiteStateFromAppSettings = (appSettings: ArmObj<{ [key: string]: string }>): FunctionAppEditMode | undefined => {
+  const getSiteStateFromAppSettings = (appSettings: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
     if (FunctionAppService.usingRunFromPackage(appSettings)) {
       return FunctionAppEditMode.ReadOnlyRunFromPackage;
     }
@@ -186,6 +187,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
                     <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
                     <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
+                    <FunctionMonitor resourceId={value.resourceId} path="/monitor" />
                   </Router>
                 </SiteStateContext.Provider>
               )

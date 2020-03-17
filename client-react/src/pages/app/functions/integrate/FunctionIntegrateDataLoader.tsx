@@ -11,6 +11,7 @@ import FunctionIntegrateData from './FunctionIntegrate.data';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import { Site } from '../../../../models/site/site';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
+import { ArmFunctionDescriptor } from '../../../../utils/resourceDescriptors';
 
 const functionIntegrateData = new FunctionIntegrateData();
 export const FunctionIntegrateContext = React.createContext(functionIntegrateData);
@@ -24,6 +25,7 @@ interface FunctionIntegrateDataLoaderState {
   refresh: boolean;
   functionInfo?: ArmObj<FunctionInfo>;
   bindings?: Binding[];
+  bindingsError: boolean;
   hostStatus?: HostStatus;
   site?: ArmObj<Site>;
 }
@@ -31,11 +33,13 @@ interface FunctionIntegrateDataLoaderState {
 class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataLoaderProps, FunctionIntegrateDataLoaderState> {
   constructor(props: FunctionIntegrateDataLoaderProps) {
     super(props);
+    const armFunctionDescriptor = new ArmFunctionDescriptor(props.resourceId);
 
     this.state = {
-      functionAppId: props.resourceId.split('/functions')[0],
+      functionAppId: armFunctionDescriptor.getSiteOnlyResourceId(),
       functionInfo: undefined,
       bindings: undefined,
+      bindingsError: false,
       hostStatus: undefined,
       site: undefined,
       refresh: false,
@@ -57,6 +61,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     return (
       <FunctionIntegrate
         bindings={this.state.bindings}
+        bindingsError={this.state.bindingsError}
         functionAppId={this.state.functionAppId}
         functionInfo={this.state.functionInfo}
         hostStatus={this.state.hostStatus}
@@ -160,6 +165,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
         });
       } else {
         LogService.error(LogCategories.functionIntegrate, 'getBinding', `Failed to get binding: ${r.metadata.error}`);
+        this.setState({ ...this.state, bindingsError: true });
       }
     });
   };

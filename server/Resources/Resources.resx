@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root" 
-        xmlns="" 
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    <xsd:schema id="root"
+        xmlns=""
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
@@ -5772,6 +5772,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>Are you sure you want to delete the input?</value>
     </data>
+    <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>One or more bindings failed to load, please refresh the page.</value>
+    </data>
     <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Delete Function Key</value>
     </data>
@@ -5786,5 +5789,35 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
         <value>No existing connections available</value>
+    </data>
+    <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>The following bindings are missing the required direction property and may have been placed incorrectly: {0}. Please update the bindings in your functions.json file.</value>
+    </data>
+    <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>Invocations</value>
+    </data>
+    <data name="functionMonitor_logs" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+    <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>Open in Live Metrics</value>
+    </data>
+    <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>Edit your HTTP trigger to enable additional HTTP methods</value>
+    </data>
+    <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>You cannot define x-functions-key as a custom header</value>
+    </data>
+    <data name="filterInvocations" xml:space="preserve">
+        <value>Filter invocations</value>
+    </data>
+    <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>Run query in Application Insights</value>
+    </data>
+    <data name="timestamp" xml:space="preserve">
+        <value>Timestamp</value>
+    </data>
+    <data name="message" xml:space="preserve">
+        <value>Message</value>
     </data>
 </root>
