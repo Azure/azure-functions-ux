@@ -16,6 +16,7 @@
     "joi-browser": "^13.4.0",
     "lodash-es": "^4.17.11",
     "markdown-to-jsx": "^6.10.3",
+    "moment": "^2.24.0",
     "monaco-editor": "^0.15.6",
     "office-ui-fabric-react": "^6.211.2",
     "react": "16.8.1",
