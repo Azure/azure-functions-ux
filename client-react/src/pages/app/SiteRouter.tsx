@@ -18,10 +18,11 @@ import { SiteConfig } from '../../models/site/config';
 import SiteHelper from '../../utils/SiteHelper';
 import { LogCategories } from '../../utils/LogCategories';
 import LogService from '../../utils/LogService';
+import RbacConstants from '../../utils/rbac-constants';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
-  resourcegroup?: string;
+  resourceGroup?: string;
   siteName?: string;
   slotName?: string;
   functionName?: string;
@@ -67,12 +68,15 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     if (isLinuxDynamic(site)) {
       return FunctionAppEditMode.ReadOnlyLinuxDynamic;
     }
+
     if (isContainerApp(site)) {
       return FunctionAppEditMode.ReadOnlyBYOC;
     }
+
     if (isLinuxApp(site) && isElastic(site)) {
       return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
     }
+
     return undefined;
   };
 
@@ -80,19 +84,24 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     if (FunctionAppService.usingRunFromPackage(appSettings)) {
       return FunctionAppEditMode.ReadOnlyRunFromPackage;
     }
+
     if (FunctionAppService.usingLocalCache(appSettings)) {
       return FunctionAppEditMode.ReadOnlyLocalCache;
     }
+
     if (FunctionAppService.usingPythonWorkerRuntime(appSettings)) {
       return FunctionAppEditMode.ReadOnlyPython;
     }
+
     if (FunctionAppService.usingJavaWorkerRuntime(appSettings)) {
       return FunctionAppEditMode.ReadOnlyJava;
     }
+
     const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';
     if (editModeString.toLowerCase() === SiteState.readonly) {
       return FunctionAppEditMode.ReadOnly;
     }
+
     if (editModeString.toLowerCase() === SiteState.readwrite) {
       return FunctionAppEditMode.ReadWrite;
     }
@@ -104,9 +113,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     if (!!config && SiteHelper.isSourceControlEnabled(config)) {
       return FunctionAppEditMode.ReadOnlySourceControlled;
     }
+
     if (armSiteDescriptor.slot) {
       return FunctionAppEditMode.ReadOnlySlots;
     }
+
     return FunctionAppEditMode.ReadWrite;
   };
 
@@ -122,7 +133,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       if (readOnlyLock) {
         functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
       } else {
-        if (site.metadata.success && isFunctionApp(site.data)) {
+        const writePermission = await portalContext.hasPermission(trimmedResourceId, [RbacConstants.writeScope]);
+
+        if (!writePermission) {
+          functionAppEditMode = FunctionAppEditMode.ReadOnlyRbac;
+        } else if (site.metadata.success && isFunctionApp(site.data)) {
           functionAppEditMode = getSiteStateFromSiteData(site.data);
 
           if (!functionAppEditMode) {
@@ -148,6 +163,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             armSiteDescriptor,
             configResponse.metadata.success ? configResponse.data : undefined
           );
+
           if (!configResponse.metadata.success) {
             LogService.error(LogCategories.siteDashboard, 'fetchWebConfig', `Failed to fetch web config: ${configResponse.metadata.error}`);
           }
@@ -166,6 +182,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     findAndSetSiteState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resourceId]);
+
   return (
     <main className={iconStyles(theme)}>
       <SiteRouterContext.Provider value={siteRouterData}>

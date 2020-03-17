@@ -1,6 +1,6 @@
 import { FieldProps, FormikProps } from 'formik';
 import { Callout, IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
@@ -17,6 +17,8 @@ import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout
 import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
 import { KeyValue } from '../../../../models/portal-models';
+import { SiteStateContext } from '../../../../SiteStateContext';
+import SiteHelper from '../../../../utils/SiteHelper';
 
 export interface ResourceDropdownProps {
   setting: BindingSetting;
@@ -25,23 +27,29 @@ export interface ResourceDropdownProps {
 
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const { setting, resourceId, form: formProps, field, isDisabled } = props;
+  const siteState = useContext(SiteStateContext);
+  const { t } = useTranslation();
+
   const [appSettings, setAppSettings] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<IDropdownOption | undefined>(undefined);
   const [newAppSetting, setNewAppSetting] = useState<{ key: string; value: string } | undefined>(undefined);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const [shownMissingOptionError, setShownMissingOptionError] = useState<boolean>(false);
 
-  const { t } = useTranslation();
-
   useEffect(() => {
     SiteService.fetchApplicationSettings(resourceId).then(r => {
       if (!r.metadata.success) {
-        LogService.trackEvent(LogCategories.bindingResource, 'getAppSettings', `Failed to get appSettings: ${r.metadata.error}`);
+        LogService.error(LogCategories.bindingResource, 'getAppSettings', `Failed to get appSettings: ${r.metadata.error.error.message}`);
         return;
       }
       setAppSettings(r.data);
     });
   }, [resourceId]);
+
+  // If we are readonly, don't rely on app settings, assume that the saved value is correct
+  if (SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState)) {
+    return <Dropdown options={[{ text: field.value, key: field.value }]} selectedKey={field.value} {...props} />;
+  }
 
   if (!appSettings) {
     return <LoadingComponent />;

@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root"
-        xmlns=""
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    <xsd:schema id="root" 
+        xmlns="" 
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
         xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
@@ -2184,6 +2184,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
+    </data>
+    <data name="readOnlyRbac" xml:space="preserve">
+        <value>Your function is currently in read only mode because your RBAC assigned access is set to: reader</value>
     </data>
     <data name="copypre_copy" xml:space="preserve">
         <value>Copy</value>
