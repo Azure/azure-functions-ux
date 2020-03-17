@@ -25,5 +25,20 @@ export const summaryItem = style({
       fontSize: '11px',
       fontWeight: 'normal',
     },
+    svg: {
+      position: 'relative',
+      right: '2px',
+      top: '3px',
+    },
+  },
+});
+
+export const successElement = style({
+  $nest: {
+    svg: {
+      position: 'relative',
+      right: '2px',
+      top: '3px',
+    },
   },
 });
