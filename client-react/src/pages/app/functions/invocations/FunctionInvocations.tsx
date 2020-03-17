@@ -8,9 +8,10 @@ import {
   ICommandBarItemProps,
   ActionButton,
   PanelType,
+  MessageBarType,
 } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { formStyle, filterBoxStyle } from './FunctionInvocations.style';
+import { invocationsTabStyle, filterBoxStyle } from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../../../images/Common/Error.svg';
 import { ReactComponent as SuccessSvg } from '../../../../images/Common/Success.svg';
@@ -20,6 +21,7 @@ import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import FunctionInvocationDetails from './FunctionInvocationDetails';
 import Panel from '../../../../components/Panel/Panel';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 interface FunctionInvocationsProps {
   functionAppName: string;
@@ -192,33 +194,32 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
   };
 
   return (
-    <div>
+    <div id="invocations-tab" className={invocationsTabStyle}>
+      <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} />
       <h2>{`Success Count: ${monthlySummary.successCount}`}</h2>
       <h2>{`Error Count: ${monthlySummary.failedCount}`}</h2>
       {!!invocationTraces ? (
-        <div id="invocations" className={formStyle}>
-          <DisplayTableWithCommandBar
-            commandBarItems={getCommandBarItems()}
-            columns={getColumns()}
-            items={filterValues()}
-            isHeaderVisible={true}
-            layoutMode={DetailsListLayoutMode.justified}
-            selectionMode={SelectionMode.none}
-            selectionPreservedOnEmptyClick={true}
-            emptyMessage={t('noResults')}>
-            {showFilter && (
-              <SearchBox
-                id="invocations-search"
-                className="ms-slideDownIn20"
-                autoFocus
-                iconProps={{ iconName: 'Filter' }}
-                styles={filterBoxStyle}
-                placeholder={t('filterInvocations')}
-                onChange={newValue => setFilterValue(newValue)}
-              />
-            )}
-          </DisplayTableWithCommandBar>
-        </div>
+        <DisplayTableWithCommandBar
+          commandBarItems={getCommandBarItems()}
+          columns={getColumns()}
+          items={filterValues()}
+          isHeaderVisible={true}
+          layoutMode={DetailsListLayoutMode.justified}
+          selectionMode={SelectionMode.none}
+          selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('noResults')}>
+          {showFilter && (
+            <SearchBox
+              id="invocations-search"
+              className="ms-slideDownIn20"
+              autoFocus
+              iconProps={{ iconName: 'Filter' }}
+              styles={filterBoxStyle}
+              placeholder={t('filterInvocations')}
+              onChange={newValue => setFilterValue(newValue)}
+            />
+          )}
+        </DisplayTableWithCommandBar>
       ) : (
         <LoadingComponent />
       )}
