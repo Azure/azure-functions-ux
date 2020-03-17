@@ -14,7 +14,7 @@ import {
 import { mapResourcesTopologyToArmObjects } from '../utils/arm-utils';
 import LogService from '../utils/LogService';
 import { LogCategories } from '../utils/LogCategories';
-import moment from '../../node_modules/moment/moment';
+import moment from 'moment';
 
 export default class AppInsightsService {
   public static getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[]) => {
