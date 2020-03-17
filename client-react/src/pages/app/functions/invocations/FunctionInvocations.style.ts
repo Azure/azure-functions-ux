@@ -18,6 +18,7 @@ export const summaryItem = style({
 
   $nest: {
     h4: {
+      marginTop: '5px',
       marginBottom: '5px',
     },
     label: {

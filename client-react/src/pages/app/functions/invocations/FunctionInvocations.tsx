@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { AppInsightsMonthlySummary, AppInsightsInvocationTrace, AppInsightsInvocationTraceDetail } from '../../../../models/app-insights';
 import {
   DetailsListLayoutMode,
@@ -54,6 +54,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
 
   const [showFilter, setShowFilter] = useState(false);
   const [filterValue, setFilterValue] = useState('');
+  const [showDelayMessage, setShowDelayMessage] = useState(false);
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     return [
@@ -194,9 +195,19 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
       : [];
   };
 
+  useEffect(() => {
+    setShowDelayMessage(!!invocationTraces && invocationTraces.length === 0);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [invocationTraces]);
+
   return (
     <div id="invocations-tab" className={invocationsTabStyle}>
-      <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} />
+      {showDelayMessage ? (
+        <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} onDismiss={() => setShowDelayMessage(false)} />
+      ) : (
+        undefined
+      )}
       <div id="summary-container" className={invocationsSummary}>
         <div id="summary-success" className={summaryItem}>
           <h4>{t('successCount')}</h4>
