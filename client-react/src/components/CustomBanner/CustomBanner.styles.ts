@@ -21,7 +21,7 @@ export const messageBannerStyles = (isCustomIcon: boolean) => {
     dismissal: {
       height: '16px',
       width: '16px',
-      position: 'absolute' as 'absolute',
+      position: 'relative' as 'relative',
       right: '0px',
     },
   };
