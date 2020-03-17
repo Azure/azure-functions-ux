@@ -463,6 +463,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           refresh={refresh}
           isRefreshing={isRefreshing}
           xFunctionKey={getDefaultXFunctionKey()}
+          appInsightsResourceId={appInsightsComponent ? appInsightsComponent.id : ''}
         />
       </div>
       {isRefreshing && <LoadingComponent overlay={true} />}
