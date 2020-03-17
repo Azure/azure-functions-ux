@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { AppInsightsMonthlySummary, AppInsightsInvocationTrace, AppInsightsInvocationTraceDetail } from '../../../../models/app-insights';
 import {
   DetailsListLayoutMode,
@@ -9,9 +9,10 @@ import {
   ActionButton,
   PanelType,
   MessageBarType,
+  Label,
 } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { invocationsTabStyle, filterBoxStyle } from './FunctionInvocations.style';
+import { invocationsTabStyle, filterBoxStyle, invocationsSummary, summaryItem, successElement } from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../../../images/Common/Error.svg';
 import { ReactComponent as SuccessSvg } from '../../../../images/Common/Success.svg';
@@ -53,6 +54,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
 
   const [showFilter, setShowFilter] = useState(false);
   const [filterValue, setFilterValue] = useState('');
+  const [showDelayMessage, setShowDelayMessage] = useState(false);
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     return [
@@ -163,13 +165,9 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
   };
 
   const onRenderSuccessColumn = (trace: AppInsightsInvocationTrace) => {
-    // TODO (allisonm): Update styling
-    const icon = trace.success ? <SuccessSvg /> : <ErrorSvg />;
-    const text = trace.success ? t('success') : t('error');
     return (
-      <span>
-        {icon}
-        {text}
+      <span className={successElement}>
+        {trace.success ? <SuccessSvg /> : <ErrorSvg />} {trace.success ? t('success') : t('error')}
       </span>
     );
   };
@@ -193,11 +191,32 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
       : [];
   };
 
+  useEffect(() => {
+    setShowDelayMessage(!!invocationTraces && invocationTraces.length === 0);
+  }, [invocationTraces]);
+
   return (
     <div id="invocations-tab" className={invocationsTabStyle}>
-      <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} />
-      <h2>{`Success Count: ${monthlySummary.successCount}`}</h2>
-      <h2>{`Error Count: ${monthlySummary.failedCount}`}</h2>
+      {/*Delay Message Banner*/}
+      {showDelayMessage && (
+        <CustomBanner message={t('appInsightsDelay')} type={MessageBarType.info} onDismiss={() => setShowDelayMessage(false)} />
+      )}
+
+      {/*Summary Items*/}
+      <div id="summary-container" className={invocationsSummary}>
+        <div id="summary-success" className={summaryItem}>
+          <h4>{t('successCount')}</h4>
+          <SuccessSvg /> {monthlySummary.successCount}
+          <Label>{t('last30Days')}</Label>
+        </div>
+        <div id="summary-error" className={summaryItem}>
+          <h4>{t('errorCount')}</h4>
+          <ErrorSvg /> {monthlySummary.failedCount}
+          <Label>{t('last30Days')}</Label>
+        </div>
+      </div>
+
+      {/*Invocation Traces Table*/}
       {!!invocationTraces ? (
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
@@ -223,6 +242,8 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
       ) : (
         <LoadingComponent />
       )}
+
+      {/*Invocation Details Panel*/}
       <Panel isOpen={!!currentTrace} onDismiss={() => setCurrentTrace(undefined)} headerText={'Invocation Details'} type={PanelType.medium}>
         <FunctionInvocationDetails
           invocationDetails={invocationDetails}

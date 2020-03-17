@@ -1,9 +1,11 @@
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 import { logCommandBarStyle } from './FunctionLog.styles';
+import { PortalContext } from '../../../../PortalContext';
+import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
 
 interface FunctionLogCommandBarProps {
   onChevronClick: () => void;
@@ -17,6 +19,7 @@ interface FunctionLogCommandBarProps {
   showMaximize: boolean;
   hideChevron: boolean;
   hideLiveMetrics: boolean;
+  appInsightsResourceId: string;
 }
 
 const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
@@ -32,7 +35,9 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     showMaximize,
     hideChevron,
     hideLiveMetrics,
+    appInsightsResourceId,
   } = props;
+  const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
 
   const getItems = (): ICommandBarItemProps[] => {
@@ -110,7 +115,6 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   };
 
   const getLiveMetricsItem = (): ICommandBarItemProps => {
-    // Todo (allisonm): Link to Live Metrics!
     return {
       key: 'liveMetrics',
       name: t('logStreaming_openInLiveMetrics'),
@@ -119,7 +123,27 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       },
       disabled: false,
       ariaLabel: t('logStreaming_openInLiveMetrics'),
+      onClick: openLiveMetrics,
     };
+  };
+
+  const openLiveMetrics = () => {
+    const descriptor = new ArmResourceDescriptor(appInsightsResourceId);
+    portalContext.openBlade(
+      {
+        detailBlade: 'QuickPulseBladeV2',
+        detailBladeInputs: {
+          ComponentId: {
+            Name: descriptor.resourceName,
+            SubscriptionId: descriptor.subscription,
+            ResourceGroup: descriptor.resourceGroup,
+          },
+          ResourceId: descriptor.resourceId,
+        },
+        extension: 'AppInsightsExtension',
+      },
+      'function-logs'
+    );
   };
 
   const getMaximizeItem = (): ICommandBarItemProps => {
