@@ -64,16 +64,6 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
   const getItems = (): ICommandBarItemProps[] => {
     const items: ICommandBarItemProps[] = [
       {
-        key: 'refresh',
-        text: t('refresh'),
-        iconProps: {
-          iconName: 'Refresh',
-        },
-        disabled: disabled,
-        ariaLabel: t('functionEditorRefreshAriaLabel'),
-        onClick: refreshFunction,
-      },
-      {
         key: 'save',
         text: t('save'),
         iconProps: {
@@ -92,6 +82,16 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         disabled: !dirty || disabled,
         ariaLabel: t('functionEditorDiscardAriaLabel'),
         onClick: resetFunction,
+      },
+      {
+        key: 'refresh',
+        text: t('refresh'),
+        iconProps: {
+          iconName: 'Refresh',
+        },
+        disabled: disabled,
+        ariaLabel: t('functionEditorRefreshAriaLabel'),
+        onClick: refreshFunction,
       },
       {
         key: 'test',
