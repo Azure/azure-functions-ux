@@ -328,6 +328,7 @@ export class ScenarioIds {
   public static readonly containerSettings = 'containerSettings';
   public static readonly isPublishProfileBasedDeploymentEnabled = 'isPublishProfileBasedDeploymentEnabled';
   public static readonly enableGitHubAction = 'enableGitHubAction';
+  public static readonly showFunctionsPreview = 'showFunctionsPreview';
 }
 
 export class NationalCloudArmUris {
@@ -646,6 +647,7 @@ export class FeatureFlags {
   public static targetAzDevDeployment = 'targetAzDevDeployment';
   public static authTokenOverride = 'authTokenOverride';
   public static EnableAIOnNationalCloud = 'EnableAIOnNationalCloud';
+  public static FunctionsPreview = 'FunctionsPreview';
 }
 
 export class SupportedFeatures {
