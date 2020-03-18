@@ -15,7 +15,7 @@ import { BindingFormBuilder } from '../../common/BindingFormBuilder';
 import { getBindingDirection } from '../BindingPanel/BindingEditor';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
 import BindingCard, { createNew, EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
-import { listStyle } from './BindingDiagram.styles';
+import { listStyle } from './BindingCard.styles';
 
 const TriggerBindingCard: React.SFC<EditableBindingCardProps> = props => {
   const { functionInfo, bindings, readOnly } = props;
