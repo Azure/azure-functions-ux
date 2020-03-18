@@ -9,7 +9,7 @@ import Panel from '../../../../components/Panel/Panel';
 import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../../components/monaco-editor/monaco-editor';
-import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj } from './FunctionEditor.types';
+import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj, FunctionEditorConfirmDialogType } from './FunctionEditor.types';
 import { VfsObject } from '../../../../models/functions/vfs';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
@@ -94,6 +94,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [fileSavedCount, setFileSavedCount] = useState(0);
   const [readOnlyBanner, setReadOnlyBanner] = useState<HTMLDivElement | null>(null);
   const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean | undefined>(undefined);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [confirmDialogType, setConfirmDialogType] = useState<FunctionEditorConfirmDialogType | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -126,8 +128,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setSavingFile(false);
   };
 
-  const discard = () => {
-    setFileContent({ ...fileContent, latest: fileContent.default });
+  const resetFunction = () => {
+    setShowConfirmDialog(true);
+    setConfirmDialogType(FunctionEditorConfirmDialogType.Discard);
   };
 
   const test = () => {
@@ -145,13 +148,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const onFileSelectorChange = async (e: unknown, option: IDropdownOption) => {
     if (isDirty()) {
       setSelectedDropdownOption(option);
+      setShowConfirmDialog(true);
+      setConfirmDialogType(FunctionEditorConfirmDialogType.FileChange);
       return;
     }
     changeDropdownOption(option);
   };
 
   const changeDropdownOption = (option: IDropdownOption) => {
-    closeConfirmDialog();
     setFetchingFileContent(true);
     setSelectedFile(option);
     setSelectedFileContent(option.data);
@@ -257,8 +261,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return isLoading() || functionRunning || isRefreshing;
   };
 
-  const closeConfirmDialog = () => {
+  const onCancelButtonClick = () => {
     setSelectedDropdownOption(undefined);
+    setShowConfirmDialog(false);
+    setConfirmDialogType(undefined);
   };
 
   const getPivotTabId = (itemKey: string, index: number): string => {
@@ -306,6 +312,42 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return isDisabled() || !isFileContentAvailable || !isRuntimeReachable();
   };
 
+  const onPrimaryButtonClick = () => {
+    switch (confirmDialogType) {
+      case FunctionEditorConfirmDialogType.Discard: {
+        setFileContent({ ...fileContent, latest: fileContent.default });
+        break;
+      }
+      case FunctionEditorConfirmDialogType.FileChange: {
+        if (!!selectedDropdownOption) {
+          changeDropdownOption(selectedDropdownOption);
+        }
+        break;
+      }
+    }
+    onCancelButtonClick();
+  };
+
+  const getConfirmDialogTitle = () => {
+    switch (confirmDialogType) {
+      case FunctionEditorConfirmDialogType.Discard:
+        return t('discardChangesTitle');
+      case FunctionEditorConfirmDialogType.FileChange:
+        return t('editor_changeFile');
+    }
+    return '';
+  };
+
+  const getConfirmDialogMessage = () => {
+    switch (confirmDialogType) {
+      case FunctionEditorConfirmDialogType.Discard:
+        return t('discardChangesMesssage').format(selectedFile ? selectedFile.data.name : '');
+      case FunctionEditorConfirmDialogType.FileChange:
+        return t('editor_changeFileConfirmMessage');
+    }
+    return '';
+  };
+
   useEffect(() => {
     setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? 302 : 130) + getReadOnlyBannerHeight()}px)`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -332,7 +374,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       <div className={commandBarSticky}>
         <FunctionEditorCommandBar
           saveFunction={save}
-          resetFunction={discard}
+          resetFunction={resetFunction}
           testFunction={test}
           refreshFunction={refresh}
           showGetFunctionUrlCommand={!!inputBinding}
@@ -344,16 +386,16 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         <ConfirmDialog
           primaryActionButton={{
             title: t('ok'),
-            onClick: () => !!selectedDropdownOption && changeDropdownOption(selectedDropdownOption),
+            onClick: onPrimaryButtonClick,
           }}
           defaultActionButton={{
             title: t('cancel'),
-            onClick: closeConfirmDialog,
+            onClick: onCancelButtonClick,
           }}
-          title={t('editor_changeFile')}
-          content={t('editor_changeFileConfirmMessage')}
-          hidden={!selectedDropdownOption}
-          onDismiss={closeConfirmDialog}
+          title={getConfirmDialogTitle()}
+          content={getConfirmDialogMessage()}
+          hidden={!showConfirmDialog}
+          onDismiss={onCancelButtonClick}
         />
         <EditModeBanner setBanner={setReadOnlyBanner} />
         {(!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable)) && (

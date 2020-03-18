@@ -5829,4 +5829,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="last30Days" xml:space="preserve">
         <value>Last 30 Days</value>
     </data>
+    <data name="discardChangesTitle" xml:space="preserve">
+        <value>Discard changes</value>
+    </data>
+    <data name="discardChangesMesssage" xml:space="preserve">
+        <value>Are you sure you want to discard the changes to the file {0}?</value>
+    </data>
 </root>

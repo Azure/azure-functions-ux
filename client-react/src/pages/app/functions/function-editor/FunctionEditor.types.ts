@@ -50,3 +50,8 @@ export enum UrlType {
   Host = 'Host',
   Function = 'Function',
 }
+
+export enum FunctionEditorConfirmDialogType {
+  FileChange,
+  Discard,
+}
