@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root"
-        xmlns=""
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    <xsd:schema id="root" 
+        xmlns="" 
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
         xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
@@ -2184,6 +2184,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
+    </data>
+    <data name="readOnlyRbac" xml:space="preserve">
+        <value>Your function is currently in read only mode because your RBAC assigned access is set to: Reader</value>
     </data>
     <data name="copypre_copy" xml:space="preserve">
         <value>Copy</value>
@@ -4764,7 +4767,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Deployment Slot Setting Enabled</value>
     </data>
     <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>Hidden value. Click show values button above to view</value>
+        <value>Hidden value. Click to show value</value>
     </data>
     <data name="fieldMustBeUnique" xml:space="preserve">
         <value>Field must be unique.</value>
@@ -5698,7 +5701,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
     </data>
     <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>No function keys to display</value>
     </data>
     <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>This feature is not supported for apps on a Premium plan</value>

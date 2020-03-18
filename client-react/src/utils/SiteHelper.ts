@@ -18,7 +18,8 @@ export default class SiteHelper {
       editMode === FunctionAppEditMode.ReadOnlyPython ||
       editMode === FunctionAppEditMode.ReadOnlyJava ||
       editMode === FunctionAppEditMode.ReadOnlyLinuxCodeElastic ||
-      editMode === FunctionAppEditMode.ReadOnlyLock
+      editMode === FunctionAppEditMode.ReadOnlyLock ||
+      editMode === FunctionAppEditMode.ReadOnlyRbac
     );
   }
 
@@ -53,6 +54,9 @@ export default class SiteHelper {
       }
       case FunctionAppEditMode.ReadOnlyLock: {
         return t('featureDisabledReadOnlyLockOnApp');
+      }
+      case FunctionAppEditMode.ReadOnlyRbac: {
+        return t('readOnlyRbac');
       }
     }
     return t('readOnly');

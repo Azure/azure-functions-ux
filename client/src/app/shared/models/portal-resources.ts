@@ -690,6 +690,7 @@ export class PortalResources {
   public static readWriteSourceControlled = 'readWriteSourceControlled';
   public static readOnlyGeneratedBy = 'readOnlyGeneratedBy';
   public static readWriteGeneratedBy = 'readWriteGeneratedBy';
+  public static readOnlyRbac = 'readOnlyRbac';
   public static copypre_copy = 'copypre_copy';
   public static keysDialog_getFunctionUrl = 'keysDialog_getFunctionUrl';
   public static keysDialog_key = 'keysDialog_key';
