@@ -24,6 +24,7 @@ export interface AzurePortalColors {
   labelText: string;
   disabledText: string;
   hyperlinkText: string;
+  hyperlinkHoverText: string;
   inlineSuccessText: string;
   inlineErrorText: string;
   buttonRest: string;
@@ -40,6 +41,7 @@ export interface AzurePortalColors {
   controlDirtyOutline: string;
   disabledControlBackground: string;
   cardBorderColor: string;
+  cardBackgroundColor: string;
 }
 
 export interface SemanticColorsExtended extends ISemanticColors, AzurePortalColors {
