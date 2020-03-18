@@ -9,10 +9,10 @@ import { BindingInfo } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import PortalCommunicator from '../../../../../portal-communicator';
 import { ThemeContext } from '../../../../../ThemeContext';
+import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
 import { ClosedReason } from '../BindingPanel/BindingEditor';
 import { BindingEditorContextInfo } from '../FunctionIntegrate';
-import { cardStyle, headerStyle } from './BindingDiagram.styles';
-import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
+import { cardStyle, headerStyle } from './BindingCard.styles';
 
 export interface BindingCardChildProps {
   functionInfo: ArmObj<FunctionInfo>;
