@@ -12,7 +12,6 @@ interface CustomDropdownProps {
   label?: string;
   errorMessage?: string;
   dirty?: boolean;
-  value?: string;
   onChange: (e: unknown, option: IDropdownOption) => void;
   learnMoreLink?: string;
   widthOverride?: string;

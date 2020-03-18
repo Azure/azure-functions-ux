@@ -48,7 +48,6 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
 
   return (
     <DropdownNoFormik
-      value={field.value === undefined ? 'null' : field.value}
       onBlur={field.onBlur}
       errorMessage={errorMessage}
       // Overriding default dropdown to panel transfer due to many of our dropdown existing in panels
