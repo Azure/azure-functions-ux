@@ -5,7 +5,7 @@ import { IDropdownStyles, ITooltipHostStyles } from 'office-ui-fabric-react';
 
 export const fileSelectorStackStyle = (theme: ThemeExtended) =>
   style({
-    padding: '8px 15px 8px 15px',
+    padding: '8px 15px 8px 25px',
     borderBottom: `1px solid ${theme.palette.neutralTertiaryAlt}`,
     background: theme.semanticColors.background,
   });
