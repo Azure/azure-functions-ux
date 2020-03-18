@@ -141,24 +141,27 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
         this.clearBusyEarly();
 
-        this.notifications = [
-          {
-            id: NotificationIds.clientCertEnabled,
-            message: this.ts.instant(PortalResources.tryFunctionsPreview),
-            iconClass: '',
-            learnMoreLink: null,
-            level: 'info',
-            clickCallback: () => {
-              const overviewBladeInput = {
-                detailBlade: 'AppsOverviewBlade',
-                detailBladeInputs: {
-                  id: this.context.site.id,
+        this.notifications =
+          this._scenarioService.checkScenario(ScenarioIds.showFunctionsPreview, { site: this.context.site }).status !== 'disabled'
+            ? [
+                {
+                  id: NotificationIds.clientCertEnabled,
+                  message: this.ts.instant(PortalResources.tryFunctionsPreview),
+                  iconClass: '',
+                  learnMoreLink: null,
+                  level: 'info',
+                  clickCallback: () => {
+                    const overviewBladeInput = {
+                      detailBlade: 'AppsOverviewBlade',
+                      detailBladeInputs: {
+                        id: this.context.site.id,
+                      },
+                    };
+                    this._portalService.openBlade(overviewBladeInput, 'top-overview-banner');
+                  },
                 },
-              };
-              this._portalService.openBlade(overviewBladeInput, 'top-overview-banner');
-            },
-          },
-        ];
+              ]
+            : [];
 
         this._globalStateService.setTopBarNotifications(this.notifications);
 
