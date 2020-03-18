@@ -14,6 +14,7 @@ import {
   SwapOperationType,
   ARMApiVersions,
   Constants,
+  FeatureFlags,
 } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
@@ -142,7 +143,8 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         this.clearBusyEarly();
 
         this.notifications =
-          this._scenarioService.checkScenario(ScenarioIds.showFunctionsPreview, { site: this.context.site }).status !== 'disabled'
+          this._scenarioService.checkScenario(ScenarioIds.showFunctionsPreview, { site: this.context.site }).status !== 'disabled' ||
+          Url.getFeatureValue(FeatureFlags.FunctionsPreview) === 'true'
             ? [
                 {
                   id: NotificationIds.clientCertEnabled,
