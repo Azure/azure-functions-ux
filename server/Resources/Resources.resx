@@ -4767,7 +4767,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Deployment Slot Setting Enabled</value>
     </data>
     <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>Hidden value. Click show values button above to view</value>
+        <value>Hidden value. Click to show value</value>
     </data>
     <data name="fieldMustBeUnique" xml:space="preserve">
         <value>Field must be unique.</value>
@@ -5701,7 +5701,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
     </data>
     <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>No function keys to display</value>
     </data>
     <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>This feature is not supported for apps on a Premium plan</value>
