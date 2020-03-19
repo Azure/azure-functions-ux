@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
-import BindingCard, { BindingCardChildProps } from './BindingCard';
-import { ReactComponent as FunctionSvg } from '../../../../../images/AppService/functions_f.svg';
-import { useTranslation } from 'react-i18next';
 import { Link } from 'office-ui-fabric-react';
-import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
-import { listStyle } from './BindingDiagram.styles';
-import { ThemeContext } from '../../../../../ThemeContext';
-import { PortalContext } from '../../../../../PortalContext';
-import { BroadcastMessageId, SelectedMenuItemMessage, MenuId } from '../../../../../models/portal-models';
-import PortalCommunicator from '../../../../../portal-communicator';
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ReactComponent as FunctionSvg } from '../../../../../images/AppService/functions_f.svg';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
+import { BroadcastMessageId, MenuId, SelectedMenuItemMessage } from '../../../../../models/portal-models';
+import PortalCommunicator from '../../../../../portal-communicator';
+import { PortalContext } from '../../../../../PortalContext';
+import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
+import { ThemeContext } from '../../../../../ThemeContext';
+import BindingCard, { BindingCardChildProps } from './BindingCard';
+import { listStyle } from './BindingCard.styles';
 
 const FunctionNameBindingCard: React.SFC<BindingCardChildProps> = props => {
   const { functionInfo } = props;

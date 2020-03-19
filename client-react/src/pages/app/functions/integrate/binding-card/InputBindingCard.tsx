@@ -14,8 +14,8 @@ import { ThemeContext } from '../../../../../ThemeContext';
 import { BindingFormBuilder } from '../../common/BindingFormBuilder';
 import { getBindingDirection } from '../BindingPanel/BindingEditor';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
-import BindingCard, { EditableBindingCardProps, createNew, editExisting, emptyList } from './BindingCard';
-import { listStyle } from './BindingDiagram.styles';
+import BindingCard, { createNew, EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
+import { listStyle } from './BindingCard.styles';
 
 const InputBindingCard: React.SFC<EditableBindingCardProps> = props => {
   const { functionInfo, bindings, readOnly } = props;

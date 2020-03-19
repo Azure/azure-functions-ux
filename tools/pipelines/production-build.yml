@@ -45,7 +45,7 @@ jobs:
 
   - job: AngularFull
     pool:
-      vmImage: 'macOS-10.13'
+      vmImage: 'macOS-10.14'
 
     steps:
       - task: NodeTool@0
@@ -76,7 +76,7 @@ jobs:
 
   - job: AngularMin
     pool:
-      vmImage: 'macOS-10.13'
+      vmImage: 'macOS-10.14'
 
     steps:
       - task: NodeTool@0
@@ -123,7 +123,7 @@ jobs:
 
   - job: Server
     pool:
-      vmImage: 'macOS-10.13'
+      vmImage: 'macOS-10.14'
     dependsOn:
       - AngularFull
       - AngularMin

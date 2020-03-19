@@ -99,7 +99,7 @@ const JavaStack: React.SFC<Props> = props => {
       <DropdownNoFormik
         label={t('javaVersionLabel')}
         dirty={isJavaMajorVersionDirty()}
-        value={currentJavaMajorVersion}
+        selectedKey={currentJavaMajorVersion}
         id="app-settings-java-major-verison"
         disabled={disableAllControls}
         options={javaMajorVersionOptions}

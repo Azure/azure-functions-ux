@@ -1,10 +1,10 @@
-import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
-import { style } from 'typestyle';
 import { color } from 'csx';
+import { style } from 'typestyle';
+import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 
 export const cardStyle = (theme: ThemeExtended) => {
   return style({
-    backgroundColor: theme.palette.neutralLighter,
+    backgroundColor: theme.semanticColors.cardBackgroundColor,
     border: `solid 1px ${theme.semanticColors.cardBorderColor}`,
     borderRadius: '2px',
     minWidth: '250px',
@@ -22,18 +22,17 @@ export const headerStyle = (theme: ThemeExtended): string => {
 
     $nest: {
       h3: {
-        marginTop: '0px',
-        paddingTop: '5px',
-        paddingLeft: '15px',
+        marginTop: '5px',
         fontWeight: 600,
         display: 'inline-block',
       },
       svg: {
         height: '20px',
         width: '20px',
-        marginRight: '7px',
         marginTop: '7px',
-        float: 'right',
+        marginLeft: '14px',
+        marginRight: '7px',
+        float: 'left',
       },
     },
   });

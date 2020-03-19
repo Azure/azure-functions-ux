@@ -26,6 +26,7 @@ export const AzurePortalColors = {
   disabledText: 'rgba(128, 128, 128, 0.7)',
   disabledControlBackground: 'rgba(128, 128, 128, 0.1)',
   hyperlinkText: '#015cda',
+  hyperlinkHoverText: '#004578',
   inlineSuccessText: '#428000',
   inlineErrorText: '#e00b1c',
   buttonRest: '#015cda',
@@ -41,7 +42,7 @@ export const AzurePortalColors = {
   controlErrorStateOutline: '#e00b1c',
   controlDirtyOutline: '#8a2da5',
   cardBorderColor: '#b2b2b2',
-  hyperlinkHoverText: '#004578',
+  cardBackgroundColor: '#ffffff',
 };
 
 const themePalette: IPalette = {

@@ -18,12 +18,12 @@ import { SiteStateContext } from '../../../../SiteStateContext';
 import { ThemeContext } from '../../../../ThemeContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import SiteHelper from '../../../../utils/SiteHelper';
+import FunctionNameBindingCard from './binding-card/FunctionNameBindingCard';
+import InputBindingCard from './binding-card/InputBindingCard';
+import OutputBindingCard from './binding-card/OutputBindingCard';
+import TriggerBindingCard from './binding-card/TriggerBindingCard';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
-import FunctionNameBindingCard from './BindingsDiagram/FunctionNameBindingCard';
-import InputBindingCard from './BindingsDiagram/InputBindingCard';
-import OutputBindingCard from './BindingsDiagram/OutputBindingCard';
-import TriggerBindingCard from './BindingsDiagram/TriggerBindingCard';
 import {
   arrowProps,
   defaultArrowStyle,
