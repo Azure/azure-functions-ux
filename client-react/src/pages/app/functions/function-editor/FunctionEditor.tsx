@@ -96,6 +96,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [fileSavedCount, setFileSavedCount] = useState(0);
   const [readOnlyBanner, setReadOnlyBanner] = useState<HTMLDivElement | null>(null);
   const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean | undefined>(undefined);
+  const [showDiscardConfirmDialog, setShowDiscardConfirmDialog] = useState(false);
 
   const { t } = useTranslation();
 
@@ -128,10 +129,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setSavingFile(false);
   };
 
-  const discard = () => {
-    setFileContent({ ...fileContent, latest: fileContent.default });
-  };
-
   const test = () => {
     setShowTestPanel(true);
   };
@@ -153,7 +150,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const changeDropdownOption = (option: IDropdownOption) => {
-    closeConfirmDialog();
     setFetchingFileContent(true);
     setSelectedFile(option);
     setSelectedFileContent(option.data);
@@ -259,8 +255,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return isLoading() || functionRunning || isRefreshing;
   };
 
-  const closeConfirmDialog = () => {
+  const onCancelButtonClick = () => {
     setSelectedDropdownOption(undefined);
+    setShowDiscardConfirmDialog(false);
   };
 
   const getPivotTabId = (itemKey: string, index: number): string => {
@@ -308,6 +305,18 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return isDisabled() || !isFileContentAvailable || !isRuntimeReachable();
   };
 
+  const discard = () => {
+    setFileContent({ ...fileContent, latest: fileContent.default });
+    onCancelButtonClick();
+  };
+
+  const fileChangeConfirmClicked = () => {
+    if (!!selectedDropdownOption) {
+      changeDropdownOption(selectedDropdownOption);
+    }
+    onCancelButtonClick();
+  };
+
   useEffect(() => {
     setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? 302 : 130) + getReadOnlyBannerHeight()}px)`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -334,7 +343,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       <div className={commandBarSticky}>
         <FunctionEditorCommandBar
           saveFunction={save}
-          resetFunction={discard}
+          resetFunction={() => setShowDiscardConfirmDialog(true)}
           testFunction={test}
           refreshFunction={refresh}
           showGetFunctionUrlCommand={!!inputBinding}
@@ -346,16 +355,30 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         <ConfirmDialog
           primaryActionButton={{
             title: t('ok'),
-            onClick: () => !!selectedDropdownOption && changeDropdownOption(selectedDropdownOption),
+            onClick: discard,
           }}
           defaultActionButton={{
             title: t('cancel'),
-            onClick: closeConfirmDialog,
+            onClick: onCancelButtonClick,
+          }}
+          title={t('discardChangesTitle')}
+          content={t('discardChangesMesssage').format(selectedFile ? selectedFile.data.name : '')}
+          hidden={!showDiscardConfirmDialog}
+          onDismiss={onCancelButtonClick}
+        />
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('ok'),
+            onClick: fileChangeConfirmClicked,
+          }}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: onCancelButtonClick,
           }}
           title={t('editor_changeFile')}
           content={t('editor_changeFileConfirmMessage')}
           hidden={!selectedDropdownOption}
-          onDismiss={closeConfirmDialog}
+          onDismiss={onCancelButtonClick}
         />
         <EditModeBanner setBanner={setReadOnlyBanner} />
         {(!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
