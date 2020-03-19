@@ -35,14 +35,12 @@ export class LogService {
 
   public trace(category: string, id: string, data?: any) {
     if (!category || !id) {
-      throw Error('You must provide a category, id, and data');
+      throw Error('You must provide a category and id');
     }
-
-    const traceId = `/trace/${category}/${id}`;
 
     // Always log traces to App Insights
     const properties = data ? (typeof data === 'object' ? data : { message: data }) : null;
-    this._aiService.trackEvent(traceId, properties);
+    this._aiService.trackEvent(`/trace/${category}/${id}`, properties);
 
     if (this._shouldLog(category, LogLevel.trace)) {
       console.error(`[${category}] - ${data}`);
