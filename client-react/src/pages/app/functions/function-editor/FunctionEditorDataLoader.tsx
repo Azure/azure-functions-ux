@@ -8,7 +8,7 @@ import FunctionEditorData from './FunctionEditor.data';
 import { Site } from '../../../../models/site/site';
 import { SiteRouterContext } from '../../SiteRouter';
 import Url from '../../../../utils/url';
-import { NameValuePair, ResponseContent, UrlObj, UrlType } from './FunctionEditor.types';
+import { NameValuePair, ResponseContent, UrlObj, UrlType, urlParameterRegExp } from './FunctionEditor.types';
 import AppKeyService from '../../../../ApiHelpers/AppKeysService';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { BindingManager } from '../../../../utils/BindingManager';
@@ -287,7 +287,32 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           // TODO (krmitta): Log an error if parsing the data throws an error
         }
         const testDataObject = functionEditorData.getProcessedFunctionTestData(parsedTestData);
-        const queryString = getQueryString(testDataObject.queries);
+        const queries = testDataObject.queries;
+
+        const matchesPathParams = url.match(urlParameterRegExp);
+        const processedParams: string[] = [];
+        if (matchesPathParams) {
+          matchesPathParams.forEach(m => {
+            const name = m
+              .split(':')[0]
+              .replace('{', '')
+              .replace('}', '')
+              .toLowerCase();
+            processedParams.push(name);
+            const param = queries.find(p => {
+              return p.name.toLowerCase() === name;
+            });
+
+            if (param) {
+              url = url.replace(m, param.value);
+            }
+          });
+        }
+
+        const filteredQueryParams = queries.filter(query => {
+          return !processedParams.find(p => p === query.name);
+        });
+        const queryString = getQueryString(filteredQueryParams);
         if (!!queryString) {
           url = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
         }
@@ -464,6 +489,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           isRefreshing={isRefreshing}
           xFunctionKey={getDefaultXFunctionKey()}
           appInsightsResourceId={appInsightsComponent ? appInsightsComponent.id : ''}
+          getFunctionUrl={getFunctionUrl}
         />
       </div>
       {isRefreshing && <LoadingComponent overlay={true} />}

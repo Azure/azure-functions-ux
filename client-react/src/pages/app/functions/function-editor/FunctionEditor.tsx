@@ -51,6 +51,7 @@ export interface FunctionEditorProps {
   refresh: () => void;
   isRefreshing: boolean;
   appInsightsResourceId: string;
+  getFunctionUrl: (key?: string) => string;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
@@ -78,6 +79,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     isRefreshing,
     xFunctionKey,
     appInsightsResourceId,
+    getFunctionUrl,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -392,6 +394,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           testData={testData}
           urlObjs={urlObjs}
           xFunctionKey={xFunctionKey}
+          getFunctionUrl={getFunctionUrl}
         />
       </Panel>
       {isLoading() && <LoadingComponent />}
