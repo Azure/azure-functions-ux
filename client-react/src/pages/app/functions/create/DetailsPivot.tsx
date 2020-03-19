@@ -1,16 +1,16 @@
-import React, { useContext, useState } from 'react';
-import { FunctionTemplate } from '../../../../models/functions/function-template';
-import { DefaultButton, Spinner } from 'office-ui-fabric-react';
-import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
-import { Binding } from '../../../../models/functions/binding';
-import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
-import { FunctionInfo } from '../../../../models/functions/function-info';
+import { PrimaryButton, Spinner } from 'office-ui-fabric-react';
+import React, { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../models/arm-obj';
+import { Binding } from '../../../../models/functions/binding';
+import { FunctionInfo } from '../../../../models/functions/function-info';
+import { FunctionTemplate } from '../../../../models/functions/function-template';
+import { PortalContext } from '../../../../PortalContext';
+import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { detailsPaddingStyle } from './FunctionCreate.styles';
 import { FunctionCreateContext } from './FunctionCreateDataLoader';
-import { PortalContext } from '../../../../PortalContext';
-import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 
 interface DetailsPivotProps {
   functionsInfo: ArmObj<FunctionInfo>[] | undefined;
@@ -58,9 +58,9 @@ const DetailsPivot: React.FC<DetailsPivotProps> = props => {
               <form>
                 <div style={detailsPaddingStyle}>
                   {builder.getFields(formProps, false)}
-                  <DefaultButton onClick={formProps.submitForm} disabled={!formProps.isValid || creatingFunction}>
+                  <PrimaryButton onClick={formProps.submitForm} disabled={!formProps.isValid || creatingFunction}>
                     {creatingFunction ? <Spinner /> : t('functionCreate_createFunction')}
-                  </DefaultButton>
+                  </PrimaryButton>
                 </div>
               </form>
             );
