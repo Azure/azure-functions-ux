@@ -52,6 +52,8 @@ export class DeploymentCenterComponent implements OnDestroy {
   constructor(private _siteService: SiteService, private _logService: LogService, broadcastService: BroadcastService) {
     this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.continuousDeployment);
 
+    this._logService.trace(LogCategories.cicd, '/load-deployment-center');
+
     this.viewInfoStream
       .takeUntil(this._ngUnsubscribe$)
       .switchMap(view => {
