@@ -26,7 +26,7 @@ const hostStyle = style({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  maxWidth: 100,
+  maxWidth: 250,
 });
 
 const tooltipStyle: Partial<ITooltipHostStyles> = { root: { display: 'inline-block', float: 'left' } };
