@@ -64,6 +64,7 @@ export class StepCompleteComponent {
   }
 
   Save() {
+    this._traceStepComplete();
     this._saveDeploymentConfig$.next(true);
   }
 
@@ -456,5 +457,16 @@ export class StepCompleteComponent {
       label: this._translateService.instant(PortalResources.sourceControl),
       items: returnSummaryItems,
     };
+  }
+
+  private _traceStepComplete() {
+    const data = {
+      sourceProvider: this.wizard.wizardValues.sourceProvider,
+      sourceSettings: this.wizard.wizardValues.sourceSettings,
+      buildProvider: this.wizard.wizardValues.buildProvider,
+      buildSettings: this.wizard.wizardValues.buildSettings,
+    };
+
+    this._logService.trace(LogCategories.cicd, '/save-cicd', data);
   }
 }
