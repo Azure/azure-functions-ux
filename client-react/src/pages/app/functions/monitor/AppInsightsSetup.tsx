@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import FeatureDescriptionCard from '../../../../components/feature-description-card/FeatureDescriptionCard';
 import { ReactComponent as AppInsightsSvg } from '../../../../images/Common/AppInsights.svg';
-import { paddingStyle, buttonButtonStyle } from './FunctionMonitor.styles';
+import { paddingStyle, bottomButtonStyle } from './FunctionMonitor.styles';
 import { PrimaryButton } from 'office-ui-fabric-react';
 import { PortalContext } from '../../../../PortalContext';
 
@@ -34,7 +34,7 @@ const AppInsightsSetup: React.FC<AppInsightsSetupProps> = props => {
   return (
     <div style={paddingStyle}>
       <FeatureDescriptionCard name={t('configureAppInsightsTitle')} description={t('configureAppInsightsDesc')} Svg={AppInsightsSvg} />
-      <PrimaryButton style={buttonButtonStyle} text={t('configure')} onClick={openConfigureAppInsights} />
+      <PrimaryButton style={bottomButtonStyle} text={t('configure')} onClick={openConfigureAppInsights} />
     </div>
   );
 };

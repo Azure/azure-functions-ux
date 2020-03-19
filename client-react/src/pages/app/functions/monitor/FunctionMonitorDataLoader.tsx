@@ -84,7 +84,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   useEffect(() => {
     if (!appInsightsComponent) {
       fetchComponent(true);
-    } else if (appInsightsComponent && !appInsightsToken) {
+    } else if (!appInsightsToken) {
       fetchToken(appInsightsComponent);
     }
 
