@@ -9,9 +9,13 @@ interface FeatureDescriptionCardProps {
 }
 
 const iconClass = style({
-  height: '50px',
-  width: '50px',
-  display: 'inline-block',
+  $nest: {
+    svg: {
+      display: 'inline-block',
+      height: '50px',
+      width: '50px',
+    },
+  },
 });
 
 const headerClass = style({
