@@ -302,6 +302,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             const param = queries.find(p => {
               return p.name.toLowerCase() === name;
             });
+
             if (param) {
               url = url.replace(m, param.value);
             }
