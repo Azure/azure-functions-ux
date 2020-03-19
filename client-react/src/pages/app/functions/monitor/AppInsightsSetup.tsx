@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import FeatureDescriptionCard from '../../../../components/feature-description-card/FeatureDescriptionCard';
-// import { ReactComponent as AppServicePlanSvg } from '../../../../images/AppService/app-service-plan.svg';
 import { ReactComponent as AppInsightsSvg } from '../../../../images/Common/AppInsights.svg';
 import { paddingStyle, buttonButtonStyle } from './FunctionMonitor.styles';
 import { PrimaryButton } from 'office-ui-fabric-react';
