@@ -51,7 +51,4 @@ export enum UrlType {
   Function = 'Function',
 }
 
-export enum FunctionEditorConfirmDialogType {
-  FileChange,
-  Discard,
-}
+export const urlParameterRegExp = /\{([^}]+)\}/g;
