@@ -50,3 +50,5 @@ export enum UrlType {
   Host = 'Host',
   Function = 'Function',
 }
+
+export const urlParameterRegExp = /\{([^}]+)\}/g;
