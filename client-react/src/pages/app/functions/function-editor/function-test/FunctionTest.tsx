@@ -4,7 +4,7 @@ import ActionBar, { StatusMessage } from '../../../../../components/ActionBar';
 import { useTranslation } from 'react-i18next';
 import FunctionTestInput from './FunctionTestInput';
 import FunctionTestOutput from './FunctionTestOutput';
-import { InputFormValues, HttpMethods, ResponseContent, PivotType, UrlObj } from '../FunctionEditor.types';
+import { InputFormValues, HttpMethods, ResponseContent, PivotType, UrlObj, urlParameterRegExp } from '../FunctionEditor.types';
 import { Form, FormikProps, Formik, FormikActions } from 'formik';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
@@ -23,6 +23,7 @@ export interface FunctionTestProps {
   selectedPivotTab: PivotType;
   functionRunning: boolean;
   urlObjs: UrlObj[];
+  getFunctionUrl: (key?: string) => string;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   testData?: string;
@@ -51,6 +52,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     testData,
     urlObjs,
     xFunctionKey,
+    getFunctionUrl,
   } = props;
 
   const errorMessage = {
@@ -119,6 +121,29 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
         }
       }
     }
+
+    /**
+     * Get URL Path Params
+     */
+    const functionInvokeUrl = getFunctionUrl();
+    const matches = functionInvokeUrl.match(urlParameterRegExp);
+
+    if (matches) {
+      matches.forEach(m => {
+        const splitResult = m
+          .replace('{', '')
+          .replace('}', '')
+          .split(':');
+        const name = splitResult[0];
+        if (!defaultInputFormValues.queries.find(q => q.name.toLowerCase() === name.toLowerCase())) {
+          defaultInputFormValues.queries.push({
+            name,
+            value: splitResult.length > 0 ? splitResult[1] : '',
+          });
+        }
+      });
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testData]);
 
