@@ -22,14 +22,15 @@ export interface FormControlWrapperProps {
   multiline?: boolean;
 }
 
-const hostStyle = style({
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  maxWidth: 250,
-});
+const hostStyle = (multiline?: boolean) =>
+  style({
+    overflow: !multiline ? 'hidden' : 'visible',
+    textOverflow: 'ellipsis',
+    whiteSpace: !multiline ? 'nowrap' : 'normal',
+    maxWidth: 250,
+  });
 
-const tooltipStyle: Partial<ITooltipHostStyles> = { root: { display: 'inline-block', float: 'left' } };
+const tooltipStyle: Partial<ITooltipHostStyles> = { root: { display: 'inline', float: 'left' } };
 
 const labelStyle = style({ marginBottom: '5px' });
 
@@ -55,11 +56,7 @@ export const FormControlWrapper = (props: FormControlWrapperProps) => {
   return (
     <Stack horizontal={layout !== Layout.vertical && width > MaxHorizontalWidthPx} style={style}>
       <label className={`${labelStyle} ${defaultLabelClassName || ''}`} htmlFor={children.props.id}>
-        <TooltipHost
-          overflowMode={TooltipOverflowMode.Self}
-          content={label}
-          hostClassName={!multiline ? hostStyle : ''}
-          styles={tooltipStyle}>
+        <TooltipHost overflowMode={TooltipOverflowMode.Self} content={label} hostClassName={hostStyle(multiline)} styles={tooltipStyle}>
           {label}
         </TooltipHost>
         {getRequiredIcon(theme, required)} {getToolTip(`${children.props.id}-tooltip`, toolTipContent)}
