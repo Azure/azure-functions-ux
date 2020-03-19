@@ -64,12 +64,13 @@ export default class SiteService {
     return result;
   };
 
-  public static fetchApplicationSettings = async (resourceId: string) => {
+  public static fetchApplicationSettings = async (resourceId: string, force?: boolean) => {
     const id = `${resourceId}/config/appsettings/list`;
     const result = await MakeArmCall<ArmObj<KeyValue<string>>>({
       resourceId: id,
       commandName: 'fetchApplicationSettings',
       method: 'POST',
+      skipBuffer: force,
     });
     LogService.trackEvent('site-service', 'appSettingsLoaded', {
       success: result.metadata.success,

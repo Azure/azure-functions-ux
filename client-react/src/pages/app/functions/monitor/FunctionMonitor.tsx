@@ -9,18 +9,22 @@ import FunctionInvocationsDataLoader from '../invocations/FunctionInvocationsDat
 import { AppInsightsComponent } from '../../../../models/app-insights';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../models/arm-obj';
+import AppInsightsSetup from './AppInsightsSetup';
 
 interface FunctionMonitorProps {
   resourceId: string;
+  resetAppInsightsComponent: () => void;
   resetAppInsightsToken: () => void;
-  appInsightsComponent?: ArmObj<AppInsightsComponent>;
+  appInsightsComponent?: ArmObj<AppInsightsComponent> | null;
   appInsightsToken?: string;
 }
 
 const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
-  const { resourceId, resetAppInsightsToken, appInsightsComponent, appInsightsToken } = props;
+  const { resourceId, resetAppInsightsComponent, resetAppInsightsToken, appInsightsComponent, appInsightsToken } = props;
   const { t } = useTranslation();
+
   const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.invocations);
+
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
   const functionName = armFunctionDescriptor.name;
 
@@ -40,8 +44,14 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
     return '';
   };
 
-  if (!appInsightsComponent) {
+  if (appInsightsComponent === undefined) {
     return <LoadingComponent />;
+  }
+
+  if (appInsightsComponent === null) {
+    return (
+      <AppInsightsSetup siteId={armFunctionDescriptor.getSiteOnlyResourceId()} fetchNewAppInsightsComponent={resetAppInsightsComponent} />
+    );
   }
 
   return (
