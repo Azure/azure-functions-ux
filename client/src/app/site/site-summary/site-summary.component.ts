@@ -14,6 +14,7 @@ import {
   SwapOperationType,
   ARMApiVersions,
   Constants,
+  FeatureFlags,
 } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
@@ -141,24 +142,28 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
         this.clearBusyEarly();
 
-        this.notifications = [
-          {
-            id: NotificationIds.clientCertEnabled,
-            message: this.ts.instant(PortalResources.tryFunctionsPreview),
-            iconClass: '',
-            learnMoreLink: null,
-            level: 'info',
-            clickCallback: () => {
-              const overviewBladeInput = {
-                detailBlade: 'AppsOverviewBlade',
-                detailBladeInputs: {
-                  id: this.context.site.id,
+        this.notifications =
+          this._scenarioService.checkScenario(ScenarioIds.showFunctionsPreview, { site: this.context.site }).status !== 'disabled' ||
+          Url.getFeatureValue(FeatureFlags.FunctionsPreview) === 'true'
+            ? [
+                {
+                  id: NotificationIds.clientCertEnabled,
+                  message: this.ts.instant(PortalResources.tryFunctionsPreview),
+                  iconClass: '',
+                  learnMoreLink: null,
+                  level: 'info',
+                  clickCallback: () => {
+                    const overviewBladeInput = {
+                      detailBlade: 'AppsOverviewBlade',
+                      detailBladeInputs: {
+                        id: this.context.site.id,
+                      },
+                    };
+                    this._portalService.openBlade(overviewBladeInput, 'top-overview-banner');
+                  },
                 },
-              };
-              this._portalService.openBlade(overviewBladeInput, 'top-overview-banner');
-            },
-          },
-        ];
+              ]
+            : [];
 
         this._globalStateService.setTopBarNotifications(this.notifications);
 

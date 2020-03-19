@@ -11,8 +11,7 @@ export const defaultArrowStyle = (theme: ThemeExtended) => {
 
 export const diagramWrapperStyle = style({
   padding: '20px',
-  maxWidth: '1200px',
-  minWidth: '800px',
+  width: '1000px',
 });
 
 export const doubleArrowStyle = style({
