@@ -1886,4 +1886,6 @@ export class PortalResources {
   public static successCount = 'successCount';
   public static errorCount = 'errorCount';
   public static last30Days = 'last30Days';
+  public static discardChangesTitle = 'discardChangesTitle';
+  public static discardChangesMesssage = 'discardChangesMesssage';
 }
