@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { NewConnectionCalloutProps } from '../Callout.properties';
 import { Formik, FormikProps } from 'formik';
-import { DefaultButton, TextField, IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption, PrimaryButton, TextField } from 'office-ui-fabric-react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 
 interface CustomPivotFormValues {
@@ -34,9 +34,9 @@ const CustomPivot: React.SFC<NewConnectionCalloutProps> = props => {
               }}
             />
             <footer style={paddingTopStyle}>
-              <DefaultButton disabled={!formValues.key || !formValues.value} onClick={formProps.submitForm}>
+              <PrimaryButton disabled={!formValues.key || !formValues.value} onClick={formProps.submitForm}>
                 {t('ok')}
-              </DefaultButton>
+              </PrimaryButton>
             </footer>
           </form>
         );
