@@ -17,29 +17,33 @@ interface FunctionMonitorDataLoaderProps {
 const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = props => {
   const { resourceId } = props;
   const [appInsightsToken, setAppInsightsToken] = useState<string | undefined>(undefined);
-  const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined>(undefined);
+  const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
 
   const startupInfoContext = useContext(StartupInfoContext);
 
-  const fetchComponent = async () => {
+  const fetchComponent = async (force?: boolean) => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
     const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
-    const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
+    const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId, force);
 
     if (appSettingsResponse.metadata.success && appSettingsResponse.data.properties) {
       const appSettings = appSettingsResponse.data.properties;
       const appInsightsConnectionString = appSettings[CommonConstants.AppSettingNames.appInsightsConnectionString];
       const appInsightsInstrumentationKey = appSettings[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
 
-      const appInsightsResponse = await (appInsightsConnectionString
-        ? AppInsightsService.getAppInsightsComponentFromConnectionString(appInsightsConnectionString, startupInfoContext.subscriptions)
+      const appInsightsResponse = appInsightsConnectionString
+        ? await AppInsightsService.getAppInsightsComponentFromConnectionString(
+            appInsightsConnectionString,
+            startupInfoContext.subscriptions
+          )
         : appInsightsInstrumentationKey
-        ? AppInsightsService.getAppInsightsComponentFromInstrumentationKey(appInsightsInstrumentationKey, startupInfoContext.subscriptions)
-        : null);
+        ? await AppInsightsService.getAppInsightsComponentFromInstrumentationKey(
+            appInsightsInstrumentationKey,
+            startupInfoContext.subscriptions
+          )
+        : null;
 
-      if (appInsightsResponse) {
-        setAppInsightsComponent(appInsightsResponse as ArmObj<AppInsightsComponent>);
-      }
+      setAppInsightsComponent(appInsightsResponse);
     } else {
       LogService.error(
         LogCategories.FunctionMonitor,
@@ -63,6 +67,10 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
     });
   };
 
+  const resetAppInsightsComponent = () => {
+    setAppInsightsComponent(undefined);
+  };
+
   const resetAppInsightsToken = () => {
     setAppInsightsToken(undefined);
   };
@@ -74,7 +82,9 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   }, []);
 
   useEffect(() => {
-    if (appInsightsComponent && !appInsightsToken) {
+    if (!appInsightsComponent) {
+      fetchComponent(true);
+    } else if (!appInsightsToken) {
       fetchToken(appInsightsComponent);
     }
 
@@ -84,6 +94,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   return (
     <FunctionMonitor
       resourceId={resourceId}
+      resetAppInsightsComponent={resetAppInsightsComponent}
       resetAppInsightsToken={resetAppInsightsToken}
       appInsightsComponent={appInsightsComponent}
       appInsightsToken={appInsightsToken}

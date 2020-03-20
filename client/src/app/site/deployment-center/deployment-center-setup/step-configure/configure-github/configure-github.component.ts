@@ -264,6 +264,7 @@ export class ConfigureGithubComponent implements OnDestroy {
   }
 
   WorkflowOptionChanged(option: DropDownElement<string>) {
+    this._logService.trace(LogCategories.cicd, '/github-action-workflow-option', option.value);
     this.showStackSelector = !this.selectedWorkflowOption || this.selectedWorkflowOption === WorkflowOptions.Overwrite;
   }
 
