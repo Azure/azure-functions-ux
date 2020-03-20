@@ -3,7 +3,7 @@ import { logStreamStyle, logEntryDivStyle, getLogTextColor, logErrorDivStyle, lo
 import { useTranslation } from 'react-i18next';
 import { QuickPulseQueryLayer, SchemaResponseV2, SchemaDocument } from '../../../../QuickPulseQuery';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import { getDefaultDocumentStreams, defaultClient } from './FunctionLog.constants';
+import { getDefaultDocumentStreams, defaultClient, getQuickPulseQueryEndpoint } from './FunctionLog.constants';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { TextUtilitiesService } from '../../../../utils/textUtilities';
@@ -68,7 +68,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       .catch(error => {
         resetAppInsightsToken();
         LogService.error(
-          LogCategories.FunctionEdit,
+          LogCategories.functionLog,
           'getAppInsightsComponentToken',
           `Error when attempting to Query Application Insights: ${error}`
         );
@@ -94,8 +94,8 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   };
 
   const reconnectQueryLayer = () => {
-    const newQueryLayer = new QuickPulseQueryLayer(CommonConstants.QuickPulseEndpoints.public, defaultClient);
-    newQueryLayer.setConfiguration([], getDefaultDocumentStreams(functionName), []);
+    const newQueryLayer = new QuickPulseQueryLayer(getQuickPulseQueryEndpoint(), defaultClient);
+    newQueryLayer.setConfiguration([], getDefaultDocumentStreams(), []);
     setQueryLayer(newQueryLayer);
     setCallCount(0);
   };
