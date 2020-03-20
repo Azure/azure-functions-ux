@@ -9,7 +9,7 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { VirtualApplication } from '../../../../models/site/config';
-import { TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { TooltipHost, ICommandBarItemProps, PanelType } from 'office-ui-fabric-react';
 import Panel from '../../../../components/Panel/Panel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -249,7 +249,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyVirtualDirectories')}
       />
-      <Panel isOpen={showPanel} onDismiss={onCancelPanel} headerText={t('newApp')}>
+      <Panel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancelPanel} headerText={t('newApp')}>
         <VirtualApplicationsAddEdit
           virtualApplication={currentVirtualApplication!}
           otherVirtualApplications={values.virtualApplications}
