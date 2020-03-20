@@ -153,7 +153,7 @@ export default class FunctionsService {
     headers?: KeyValue<string>,
     fileName?: string
   ) {
-    const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
+    const endpoint = `${!!functionName ? `/${functionName}` : ''}/${!!fileName ? `${fileName}` : ''}`;
     switch (runtimeVersion) {
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
