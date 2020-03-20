@@ -1,5 +1,5 @@
 import React, { useContext, CSSProperties } from 'react';
-import { Stack } from 'office-ui-fabric-react';
+import { Stack, TooltipHost, TooltipOverflowMode, ITooltipHostStyles } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
 import { useWindowSize } from 'react-use';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
@@ -19,12 +19,20 @@ export interface FormControlWrapperProps {
   layout?: Layout;
   style?: CSSProperties;
   defaultLabelClassName?: string;
+  multiline?: boolean;
 }
 
-const labelStyle = style({
-  width: '250px',
-  marginBottom: '5px',
-});
+const hostStyle = (multiline?: boolean) =>
+  style({
+    overflow: !multiline ? 'hidden' : 'visible',
+    textOverflow: 'ellipsis',
+    whiteSpace: !multiline ? 'nowrap' : 'normal',
+    maxWidth: 250,
+  });
+
+const tooltipStyle: Partial<ITooltipHostStyles> = { root: { display: 'inline', float: 'left' } };
+
+const labelStyle = style({ marginBottom: '5px' });
 
 const requiredIcon = (theme: ThemeExtended) => {
   return style({
@@ -41,14 +49,17 @@ const MaxHorizontalWidthPx = 750;
 // element is not an "input" element, then the screen reader won't respect it and won't read the label first.
 // In that case, you'll have to manually specify the "ariaLabel" property on the child element yourself
 export const FormControlWrapper = (props: FormControlWrapperProps) => {
-  const { label, children, layout, required, style, tooltip: toolTipContent, defaultLabelClassName } = props;
+  const { label, children, layout, required, style, tooltip: toolTipContent, defaultLabelClassName, multiline } = props;
   const { width } = useWindowSize();
   const theme = useContext(ThemeContext);
 
   return (
     <Stack horizontal={layout !== Layout.vertical && width > MaxHorizontalWidthPx} style={style}>
       <label className={`${labelStyle} ${defaultLabelClassName || ''}`} htmlFor={children.props.id}>
-        {label} {getRequiredIcon(theme, required)} {getToolTip(`${children.props.id}-tooltip`, toolTipContent)}
+        <TooltipHost overflowMode={TooltipOverflowMode.Self} content={label} hostClassName={hostStyle(multiline)} styles={tooltipStyle}>
+          {label}
+        </TooltipHost>
+        {getRequiredIcon(theme, required)} {getToolTip(`${children.props.id}-tooltip`, toolTipContent)}
       </label>
       {children}
     </Stack>
