@@ -50,7 +50,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     }
 
     if (failedToGetFunctions) {
-      return t('loadingFiled');
+      return t('loadingFailed');
     }
 
     return '';
