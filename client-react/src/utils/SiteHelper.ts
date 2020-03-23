@@ -65,7 +65,7 @@ export default class SiteHelper {
 
   public static isFlexStamp(site: ArmObj<Site>) {
     return (
-      !!site.properties.possibleInboundIpAddresses && site.properties.possibleInboundIpAddresses.split(',').length > 1 && isPremiumV2(site)
+      isPremiumV2(site) && !!site.properties.possibleInboundIpAddresses && site.properties.possibleInboundIpAddresses.split(',').length > 1
     );
   }
 
