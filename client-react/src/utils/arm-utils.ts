@@ -24,6 +24,11 @@ export function isElastic(obj: ArmObj<Site>): boolean {
   return sku === CommonConstants.SkuNames.elasticPremium || sku === CommonConstants.SkuNames.elasticIsolated;
 }
 
+export function isPremiumV2(obj: ArmObj<Site>): boolean {
+  const sku = obj.properties.sku && obj.properties.sku.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.premiumV2;
+}
+
 export function mapResourcesTopologyToArmObjects<T>(columns: ResourceGraphColumn[], rows: any[][]): ArmObj<T>[] {
   const idIndex = columns.findIndex(col => col.name.toLowerCase() === 'id');
   const nameIndex = columns.findIndex(col => col.name.toLowerCase() === 'name');
