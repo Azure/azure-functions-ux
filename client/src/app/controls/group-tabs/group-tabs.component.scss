@@ -12,7 +12,7 @@ nav {
 }
 
 .group-tab {
-  background-color: $border-color;
+  background-color: #8a8886;
   text-align: center;
   height: 83px;
   padding-top: 7px;
@@ -22,12 +22,14 @@ nav {
     margin-top: 2px;
     font-size: 15px;
     font-weight: bold;
+    color: #161514;
   }
 
   h2 {
     font-size: 12px;
     line-height: 0px;
     white-space: nowrap;
+    color: #161514;
   }
 
   &.selected-container {
