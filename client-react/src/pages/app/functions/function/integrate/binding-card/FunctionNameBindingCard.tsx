@@ -1,7 +1,7 @@
 import { Link } from 'office-ui-fabric-react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as FunctionSvg } from '../../../../../images/AppService/functions_f.svg';
+import { ReactComponent as FunctionSvg } from '../../../../../../images/AppService/functions_f.svg';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../../models/functions/function-info';
 import { BroadcastMessageId, MenuId, SelectedMenuItemMessage } from '../../../../../../models/portal-models';

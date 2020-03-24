@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
-import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
-import ActionBar from '../../../../components/ActionBar';
+import TextFieldNoFormik from '../../../../../components/form-controls/TextFieldNoFormik';
+import { addEditFormStyle } from '../../../../../components/form-controls/formControl.override.styles';
+import ActionBar from '../../../../../components/ActionBar';
 import { FunctionKeysModel } from './FunctionKeys.types';
-import { renewPanelStyle, renewPanelTextStyle, renewPanelIconStyle } from '../app-keys/AppKeys.styles';
+import { renewPanelStyle, renewPanelTextStyle, renewPanelIconStyle } from '../../app-keys/AppKeys.styles';
 import { Icon, Label } from 'office-ui-fabric-react';
-import { ThemeContext } from '../../../../ThemeContext';
+import { ThemeContext } from '../../../../../ThemeContext';
 
 export interface FunctionKeyAddEditProps {
   createAppKey: (item: FunctionKeysModel) => void;

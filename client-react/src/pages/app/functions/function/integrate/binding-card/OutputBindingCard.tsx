@@ -2,7 +2,7 @@ import i18next from 'i18next';
 import { Link } from 'office-ui-fabric-react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as OutputSvg } from '../../../../../images/Common/output.svg';
+import { ReactComponent as OutputSvg } from '../../../../../../images/Common/output.svg';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
 import { BindingInfo } from '../../../../../../models/functions/function-binding';

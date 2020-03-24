@@ -1,16 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
 import FunctionKeysData from './FunctionKeys.data';
 import { FunctionKeysFormValues } from './FunctionKeys.types';
-import { PortalContext } from '../../../../PortalContext';
-import LoadingComponent from '../../../../components/Loading/LoadingComponent';
+import { PortalContext } from '../../../../../PortalContext';
+import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import FunctionKeys from './FunctionKeys';
-import { StartupInfoContext } from '../../../../StartupInfoContext';
-import SiteService from '../../../../ApiHelpers/SiteService';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
-import { ArmObj } from '../../../../models/arm-obj';
-import { Site } from '../../../../models/site/site';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
+import SiteService from '../../../../../ApiHelpers/SiteService';
+import LogService from '../../../../../utils/LogService';
+import { LogCategories } from '../../../../../utils/LogCategories';
+import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { Site } from '../../../../../models/site/site';
 
 const functionKeysData = new FunctionKeysData();
 export const FunctionKeysContext = React.createContext(functionKeysData);

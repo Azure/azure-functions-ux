@@ -1,5 +1,5 @@
 import { style } from 'typestyle';
-import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
+import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 
 export const commandBarSticky = style({
   position: 'sticky',

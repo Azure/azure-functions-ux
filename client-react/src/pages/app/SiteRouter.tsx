@@ -44,9 +44,8 @@ const FunctionCreateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioncreate" */ './functions/create/FunctionCreateDataLoader')
 );
 const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeysDataLoader'));
-
 const FunctionKeysLoadable: any = lazy(() =>
-  import(/* webpackChunkName: "functionKeys" */ './functions/function/function-keys/FunctionKeysDataLoader')
+  import(/* webpackChunkName:"functioneditor" */ './functions/function/function-keys/FunctionKeysDataLoader')
 );
 const FunctionEditorLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/function/function-editor/FunctionEditorDataLoader')

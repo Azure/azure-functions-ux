@@ -14,20 +14,20 @@ import {
   PanelType,
   Overlay,
 } from 'office-ui-fabric-react';
-import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { defaultCellStyle } from '../../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { FunctionKeysContext } from './FunctionKeysDataLoader';
-import IconButton from '../../../../components/IconButton/IconButton';
-import { ThemeContext } from '../../../../ThemeContext';
-import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import Panel from '../../../../components/Panel/Panel';
+import IconButton from '../../../../../components/IconButton/IconButton';
+import { ThemeContext } from '../../../../../ThemeContext';
+import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import Panel from '../../../../../components/Panel/Panel';
 import FunctionKeyAddEdit from './FunctionKeyAddEdit';
-import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
-import { SiteStateContext } from '../../../../SiteStateContext';
-import SiteHelper from '../../../../utils/SiteHelper';
-import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
-import { PortalContext } from '../../../../PortalContext';
-import LoadingComponent from '../../../../components/Loading/LoadingComponent';
+import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
+import { SiteStateContext } from '../../../../../SiteStateContext';
+import SiteHelper from '../../../../../utils/SiteHelper';
+import { LogCategories } from '../../../../../utils/LogCategories';
+import LogService from '../../../../../utils/LogService';
+import { PortalContext } from '../../../../../PortalContext';
+import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 
 interface FunctionKeysProps {
   resourceId: string;

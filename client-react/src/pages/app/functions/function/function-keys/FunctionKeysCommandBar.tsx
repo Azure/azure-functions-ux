@@ -1,8 +1,8 @@
 import React from 'react';
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
-import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
+import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
 
 interface FunctionKeysCommandBarProps {
   refreshFunction: () => void;

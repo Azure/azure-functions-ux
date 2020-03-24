@@ -18,8 +18,8 @@ import {
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { invocationsTabStyle, filterBoxStyle, invocationsSummary, summaryItem, successElement } from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as ErrorSvg } from '../../../../images/Common/Error.svg';
-import { ReactComponent as SuccessSvg } from '../../../../images/Common/Success.svg';
+import { ReactComponent as ErrorSvg } from '../../../../../images/Common/Error.svg';
+import { ReactComponent as SuccessSvg } from '../../../../../images/Common/Success.svg';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { PortalContext } from '../../../../../PortalContext';
 import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
