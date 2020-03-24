@@ -32,7 +32,7 @@ import {
   singleArrowStyle,
   singleCardStackStyle,
   smallPageStyle,
-} from '../integrate/FunctionIntegrate.style';
+} from './FunctionIntegrate.style';
 import FunctionIntegrateCommandBar from './FunctionIntegrateCommandBar';
 
 export interface FunctionIntegrateProps {
