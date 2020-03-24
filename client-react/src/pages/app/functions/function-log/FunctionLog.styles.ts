@@ -5,9 +5,9 @@ export const logCommandBarStyle = style({
   height: '37px',
 });
 
-export const logStreamStyle = (maximized: boolean, readOnlyBannerHeight: number) =>
+export const logStreamStyle = (maximized: boolean, logPanelHeight: number, readOnlyBannerHeight: number) =>
   style({
-    height: maximized ? `calc(100vh - ${164 + readOnlyBannerHeight}px)` : '135px',
+    height: maximized ? `${getMaximizedLogPanelHeight(readOnlyBannerHeight)}px` : `${logPanelHeight}px`,
     backgroundColor: '#000000',
     overflow: 'auto',
     padding: '20px',
@@ -48,3 +48,9 @@ export const logConnectingDivStyle = style({
   paddingBottom: '5px',
   color: 'white',
 });
+
+export const getMaximizedLogPanelHeight = (readOnlyBannerHeight?: number) => {
+  return window.innerHeight - (164 + (readOnlyBannerHeight || 0));
+};
+
+export const minimumLogPanelHeight = 135;

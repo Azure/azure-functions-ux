@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { logStreamStyle, logEntryDivStyle, getLogTextColor, logErrorDivStyle, logConnectingDivStyle } from './FunctionLog.styles';
+import {
+  logStreamStyle,
+  logEntryDivStyle,
+  getLogTextColor,
+  logErrorDivStyle,
+  logConnectingDivStyle,
+  getMaximizedLogPanelHeight,
+  minimumLogPanelHeight,
+} from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
 import { QuickPulseQueryLayer, SchemaResponseV2, SchemaDocument } from '../../../../QuickPulseQuery';
 import { CommonConstants } from '../../../../utils/CommonConstants';
@@ -8,6 +16,8 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { TextUtilitiesService } from '../../../../utils/textUtilities';
 import FunctionLogCommandBar from './FunctionLogCommandBar';
+import { Resizable } from 're-resizable';
+
 interface FunctionLogProps {
   isExpanded: boolean;
   resetAppInsightsToken: () => void;
@@ -21,6 +31,9 @@ interface FunctionLogProps {
   fileSavedCount?: number;
   hideChevron?: boolean;
   hideLiveMetrics?: boolean;
+  isResizeable?: boolean;
+  logPanelHeight?: number;
+  setLogPanelHeight?: (height: number) => void;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
@@ -38,6 +51,9 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     hideChevron,
     hideLiveMetrics,
     appInsightsResourceId,
+    isResizeable,
+    logPanelHeight,
+    setLogPanelHeight,
   } = props;
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [started, setStarted] = useState(false);
@@ -145,6 +161,20 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     setMaximized(!maximized);
   };
 
+  const resizePanel = (resizedHeight: number) => {
+    if (logPanelHeight && setLogPanelHeight) {
+      const newLogPanelHeight = logPanelHeight + resizedHeight;
+      const maximizedLogPanelHeight = getMaximizedLogPanelHeight(readOnlyBannerHeight);
+      if (newLogPanelHeight < minimumLogPanelHeight) {
+        setLogPanelHeight(minimumLogPanelHeight);
+      } else if (newLogPanelHeight < maximizedLogPanelHeight) {
+        setLogPanelHeight(newLogPanelHeight);
+      } else {
+        setMaximized(true);
+      }
+    }
+  };
+
   useEffect(() => {
     if (isExpanded) {
       startLogs();
@@ -155,6 +185,9 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   useEffect(() => {
     if (toggleFullscreen) {
       toggleFullscreen(maximized);
+    }
+    if (setLogPanelHeight) {
+      setLogPanelHeight(maximized ? getMaximizedLogPanelHeight(readOnlyBannerHeight) : minimumLogPanelHeight);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maximized]);
@@ -175,7 +208,15 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   }, [logEntries, queryLayer, appInsightsToken, callCount]);
 
   return (
-    <div>
+    <Resizable
+      size={{
+        height: 0,
+        width: '100%',
+      }}
+      enable={{ top: !!isResizeable && !maximized && !!isExpanded }}
+      onResizeStop={(e, direction, ref, d) => {
+        resizePanel(d.height);
+      }}>
       <FunctionLogCommandBar
         onChevronClick={onExpandClick}
         isPanelVisible={isExpanded}
@@ -192,7 +233,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       />
       {isExpanded && (
         <div
-          className={logStreamStyle(maximized, readOnlyBannerHeight || 0)}
+          className={logStreamStyle(maximized, logPanelHeight || minimumLogPanelHeight, readOnlyBannerHeight || 0)}
           ref={container => {
             if (!!container) {
               setLogsContainer(container);
@@ -229,7 +270,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
             })}
         </div>
       )}
-    </div>
+    </Resizable>
   );
 };
 
