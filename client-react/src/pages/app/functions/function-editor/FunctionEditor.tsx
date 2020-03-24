@@ -37,7 +37,7 @@ import { PortalTheme } from '../../../../models/portal-models';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
-import { minimumLogPanelHeight } from '../function-log/FunctionLog.styles';
+import { minimumLogPanelHeight, logCommandBarHeight } from '../function-log/FunctionLog.styles';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -325,7 +325,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logPanelExpanded]);
   useEffect(() => {
-    setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? 37 : 0) + logPanelHeight + 130 + getReadOnlyBannerHeight()}px)`);
+    setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? logCommandBarHeight : 0) + logPanelHeight + 130 + getReadOnlyBannerHeight()}px)`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logPanelExpanded, readOnlyBanner, logPanelHeight]);
   useEffect(() => {

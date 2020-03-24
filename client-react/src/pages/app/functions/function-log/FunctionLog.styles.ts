@@ -1,8 +1,16 @@
 import { style } from 'typestyle';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 
+export const getMaximizedLogPanelHeight = (readOnlyBannerHeight?: number) => {
+  return window.innerHeight - (164 + (readOnlyBannerHeight || 0));
+};
+
+export const minimumLogPanelHeight = 135;
+
+export const logCommandBarHeight = 37;
+
 export const logCommandBarStyle = style({
-  height: '37px',
+  height: `${logCommandBarHeight}px`,
 });
 
 export const logStreamStyle = (maximized: boolean, logPanelHeight: number, readOnlyBannerHeight: number) =>
@@ -48,9 +56,3 @@ export const logConnectingDivStyle = style({
   paddingBottom: '5px',
   color: 'white',
 });
-
-export const getMaximizedLogPanelHeight = (readOnlyBannerHeight?: number) => {
-  return window.innerHeight - (164 + (readOnlyBannerHeight || 0));
-};
-
-export const minimumLogPanelHeight = 135;
