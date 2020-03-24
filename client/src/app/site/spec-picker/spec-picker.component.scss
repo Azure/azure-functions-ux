@@ -150,6 +150,14 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
 
   .spec-expander {
     text-align: center;
+
+    a {
+      color: #0078d4;
+    }
+
+    a:focus {
+      color: #0078d4;
+    }
   }
 
   .isolated-spec {
@@ -192,7 +200,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
   .feature-item {
     position: relative;
     height: 70px;
-    background-color: #e1e1e1;
+    background-color: #8a8886;
     margin: 5px 0px;
 
     h4 {
