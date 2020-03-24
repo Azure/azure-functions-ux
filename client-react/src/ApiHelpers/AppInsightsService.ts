@@ -15,6 +15,7 @@ import { mapResourcesTopologyToArmObjects } from '../utils/arm-utils';
 import LogService from '../utils/LogService';
 import { LogCategories } from '../utils/LogCategories';
 import moment from 'moment';
+import { NationalCloudEnvironment } from '../utils/scenario-checker/national-cloud.environment';
 
 export default class AppInsightsService {
   public static getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[]) => {
@@ -187,24 +188,33 @@ export default class AppInsightsService {
   };
 
   private static _formLast30DayUrl = (appInsightsAppId: string): string => {
-    // TODO (allisonm): Handle National Clouds
-    return `${CommonConstants.AppInsightsEndpoints.public}/${appInsightsAppId}/query?api-version=${
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
       CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
     }&queryType=getLast30DaySummary`;
   };
 
-  private static _formInvocationTracesUrl = (appInsightsAppId: string) => {
-    // TODO (allisonm): Handle National Clouds
-    return `${CommonConstants.AppInsightsEndpoints.public}/${appInsightsAppId}/query?api-version=${
+  private static _formInvocationTracesUrl = (appInsightsAppId: string): string => {
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
       CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
     }&queryType=getInvocationTraces`;
   };
 
-  private static _formInvocationTraceDetailsUrl = (appInsightsAppId: string) => {
-    // TODO (allisonm): Handle National Clouds
-    return `${CommonConstants.AppInsightsEndpoints.public}/${appInsightsAppId}/query?api-version=${
+  private static _formInvocationTraceDetailsUrl = (appInsightsAppId: string): string => {
+    return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
       CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
     }&queryType=getInvocationTraceDetails`;
+  };
+
+  private static _getEndpoint = (): string => {
+    if (NationalCloudEnvironment.isFairFax()) {
+      return CommonConstants.AppInsightsEndpoints.fairfax;
+    }
+
+    if (NationalCloudEnvironment.isMooncake()) {
+      return CommonConstants.AppInsightsEndpoints.mooncake;
+    }
+
+    return CommonConstants.AppInsightsEndpoints.public;
   };
 
   private static _extractSummaryFromQueryResult = (result: AppInsightsQueryResult) => {
