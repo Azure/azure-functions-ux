@@ -10,7 +10,7 @@ import { BindingInfo, BindingType } from '../../../../models/functions/function-
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
 import Toggle from '../../../../components/form-controls/Toggle';
-import { getFunctionBindingDirection } from '../integrate/BindingPanel/BindingEditor';
+import { getFunctionBindingDirection } from '../function/integrate/BindingPanel/BindingEditor';
 
 export interface BindingEditorFormValues {
   [key: string]: any;
