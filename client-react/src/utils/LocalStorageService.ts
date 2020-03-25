@@ -1,5 +1,6 @@
 import { StorageKeys, StorageItem } from '../models/LocalStorage.model';
 import { KeyValue } from '../models/portal-models';
+import { getDateAfterXSeconds } from './DateUtilities';
 
 export class LocalStorageService {
   public static supportsLocalStorage(): boolean {
@@ -18,10 +19,10 @@ export class LocalStorageService {
     return null;
   }
 
-  public static setItem(resourceId: string, key: StorageKeys, value: any, expireDate?: Date) {
+  public static setItem(resourceId: string, key: StorageKeys, value: any, expireSeconds?: number) {
     if (LocalStorageService.supportsLocalStorage()) {
       try {
-        const newExpireDate = !!expireDate ? expireDate : new Date();
+        const newExpireDate = getDateAfterXSeconds(!!expireSeconds ? expireSeconds : 60);
         const item = LocalStorageService.getItem(resourceId, key);
         let newItem;
         let data = {};
@@ -36,7 +37,7 @@ export class LocalStorageService {
         };
         localStorage.setItem(resourceId, JSON.stringify(newItem));
       } catch (e) {
-        // Most likely you've run out of local storage space so we clear
+        // Most likely we've run out of local storage space so we clear
         // TODO (krmitta): Log error for JSON.stringify
         localStorage.clear();
         return;
