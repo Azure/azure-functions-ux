@@ -17,7 +17,9 @@ export const cardStyle = (theme: ThemeExtended) => {
 export const headerStyle = (theme: ThemeExtended): string => {
   return style({
     height: '35px',
-    backgroundColor: theme.palette.neutralLighterAlt,
+    backgroundColor: color(theme.semanticColors.cardBackgroundColor)
+      .darken('2%')
+      .toString(),
     borderBottom: `solid 1px ${color(theme.semanticColors.cardBorderColor).lighten('20%')}`,
 
     $nest: {
