@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 {{ 'githubActionDisconnectConfirmation' | translate }}
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideDisconnectPrompt()">&times;</button>
             </div>
             <div class="modal-body">
                 <input class="message-icon" type="checkbox" (change)="toggleDeleteWorkflowState()">
@@ -13,7 +13,7 @@
                 <button class="disconnect-button" (click)="disconnect()">
                     {{ 'githubActionDisconnectButton' | translate }}
                 </button>
-                <button class="cancel-disconnect-button" (click)="hideModal()">
+                <button class="cancel-disconnect-button" (click)="hideDisconnectPrompt()">
                     {{ 'githubActionCancelDisconnectButton' | translate }}
                 </button>
             </div>
@@ -28,7 +28,7 @@
         <command-bar>
             <command displayText="{{ 'browse' | translate }}" iconUrl="image/external.svg" (click)="browseToSite()"></command>
             <command displayText="{{ 'refresh' | translate }}" iconUrl="image/refresh.svg" (click)="refresh()"></command>
-            <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/Disconnect.svg" (click)="showModal()"></command>
+            <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/Disconnect.svg" (click)="showDisconnectPrompt()"></command>
             <command
                 displayText="{{ 'deploymentCredentialsTitle' | translate }}"
                 iconUrl="image/key.svg"

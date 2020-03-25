@@ -5842,7 +5842,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Are you sure you would like to disconnect the GitHub Action CICD pipeline?</value>
     </data>
     <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
-        <value>Select this option to try best effort to remove '{0}' workflow file from branch '{1}' in repository '{2}'</value>
+        <value>Select this option to attempt removal of '{0}' workflow file from branch '{1}' in repository '{2}'</value>
     </data>
     <data name="githubActionDisconnectButton" xml:space="preserve">
         <value>Disconnect CICD</value>

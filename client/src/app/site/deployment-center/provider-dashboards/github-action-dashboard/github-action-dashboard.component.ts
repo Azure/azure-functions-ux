@@ -142,11 +142,11 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     }
   }
 
-  public showModal() {
+  public showDisconnectPrompt() {
     this.showDisconnectModal = true;
   }
 
-  public hideModal() {
+  public hideDisconnectPrompt() {
     this._deleteWorkflowDuringDisconnect = false;
     this.showDisconnectModal = false;
   }
@@ -166,7 +166,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   private _disconnectDeployment() {
     let notificationId = null;
     this._busyManager.setBusy();
-    this.hideModal();
+    this.hideDisconnectPrompt();
     this._portalService
       .startNotification(
         this._translateService.instant(PortalResources.disconnectingDeployment),
