@@ -34,6 +34,7 @@ export class DeploymentCenterComponent implements OnDestroy {
   public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   public viewInfo: TreeViewInfo<SiteData>;
   public dashboardProviderType: ProviderDashboardType = '';
+
   @Input()
   set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
     this.viewInfo = viewInfo;

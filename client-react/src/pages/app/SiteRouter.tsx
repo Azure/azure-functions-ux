@@ -35,27 +35,28 @@ const AppSettingsLoadable: any = lazy(() => import(/* webpackChunkName:"appsetti
 const LogStreamLoadable: any = lazy(() => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamDataLoader'));
 const ChangeAppPlanLoadable: any = lazy(() => import(/* webpackChunkName:"changeappplan" */ './change-app-plan/ChangeAppPlanDataLoader'));
 const FunctionIntegrateLoadable: any = lazy(() =>
-  import(/* webpackChunkName:"functionintegrate" */ './functions/integrate/FunctionIntegrateDataLoader')
+  import(/* webpackChunkName:"functionintegrate" */ './functions/function/integrate/FunctionIntegrateDataLoader')
 );
 const FunctionBindingLoadable: any = lazy(() =>
-  import(/* webpackChunkName:"functionbinding" */ './functions/integrate/BindingPanel/BindingPanel')
+  import(/* webpackChunkName:"functionbinding" */ './functions/function/integrate/BindingPanel/BindingPanel')
 );
 const FunctionCreateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioncreate" */ './functions/create/FunctionCreateDataLoader')
 );
 const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeysDataLoader'));
-
 const FunctionKeysLoadable: any = lazy(() =>
-  import(/* webpackChunkName: "functionKeys" */ './functions/function-keys/FunctionKeysDataLoader')
+  import(/* webpackChunkName: "functionKeys" */ './functions/function/function-keys/FunctionKeysDataLoader')
 );
 const FunctionEditorLoadable: any = lazy(() =>
-  import(/* webpackChunkName:"functioneditor" */ './functions/function-editor/FunctionEditorDataLoader')
+  import(/* webpackChunkName:"functioneditor" */ './functions/function/function-editor/FunctionEditorDataLoader')
 );
 const FunctionQuickstart: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/quickstart/FunctionQuickstartDataLoader')
 );
-const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-files/AppFilesDataLoader'));
-const FunctionMonitor: any = lazy(() => import(/* webpackChunkName:"functionmonitor" */ './functions/monitor/FunctionMonitorDataLoader'));
+const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './functions/app-files/AppFilesDataLoader'));
+const FunctionMonitor: any = lazy(() =>
+  import(/* webpackChunkName:"functionmonitor" */ './functions/function/monitor/FunctionMonitorDataLoader')
+);
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);

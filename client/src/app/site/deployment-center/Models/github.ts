@@ -23,7 +23,7 @@ export interface GitHubCommit {
   filePath: string;
   message: string;
   committer: GitHubCommitter;
-  contentBase64Encoded: string;
+  contentBase64Encoded?: string;
   sha?: string;
 }
 

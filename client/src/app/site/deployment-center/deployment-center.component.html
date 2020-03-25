@@ -10,11 +10,11 @@
 
         <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="false" [trapFocus]="true"
         [autoFocus]="true" sidebarClass="sidebar-ftp-dashboard" [animate]="true" [showBackdrop]="true">
-        <app-ftp-dashboard *ngIf="dashboardProviderType === 'ftp'" [resourceId]="resourceId"></app-ftp-dashboard>
-        <app-credentials-dashboard *ngIf="dashboardProviderType === 'credentials-dashboard'" [credentialsData]="credentialsData"></app-credentials-dashboard>
-        <span class="close-button" (click)="sidebar.close()">
-            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-        </span>
-    </ng-sidebar>
+            <app-ftp-dashboard *ngIf="dashboardProviderType === 'ftp'" [resourceId]="resourceId"></app-ftp-dashboard>
+            <app-credentials-dashboard *ngIf="dashboardProviderType === 'credentials-dashboard'" [credentialsData]="credentialsData"></app-credentials-dashboard>
+            <span class="close-button" (click)="sidebar.close()">
+                <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </span>
+        </ng-sidebar>
     </ng-sidebar-container>
 </div>
