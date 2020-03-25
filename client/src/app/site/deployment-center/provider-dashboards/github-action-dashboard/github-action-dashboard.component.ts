@@ -16,6 +16,10 @@ import * as moment from 'moment-mini-ts';
 import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
 import { TableItem, GetTableHash } from 'app/controls/tbl/tbl.component';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
+import { GithubService } from '../../deployment-center-setup/wizard-logic/github.service';
+import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
+import { UserService } from '../../../../shared/services/user.service';
+import { GitHubCommit } from '../../Models/github';
 
 enum DeployStatus {
   Pending,
@@ -41,6 +45,7 @@ class GithubActionTableItem implements TableItem {
   selector: 'app-github-action-dashboard',
   templateUrl: './github-action-dashboard.component.html',
   styleUrls: ['./github-action-dashboard.component.scss'],
+  providers: [GithubService],
 })
 export class GithubActionDashboardComponent extends DeploymentDashboard implements OnChanges, OnDestroy {
   @Input()
@@ -52,6 +57,8 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   public githubActionLink: string;
   public sidePanelOpened = false;
   public hideCreds = false;
+  public showDisconnectModal = false;
+  public githubActionDisconnectDeleteWorkflowText = '';
 
   private _viewInfoStream$ = new Subject<string>();
   private _ngUnsubscribe$ = new Subject();
@@ -59,15 +66,25 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   private _forceLoad = false;
   private _oldTableHash = 0;
   private _tableItems: GithubActionTableItem[];
+  private _deleteWorkflowDuringDisconnect = false;
+  private _actionWorkflowFileName = '';
+  private _token = '';
 
   constructor(
     private _portalService: PortalService,
     private _logService: LogService,
     private _siteService: SiteService,
     private _broadcastService: BroadcastService,
+    private _githubService: GithubService,
+    userService: UserService,
     translateService: TranslateService
   ) {
     super(translateService);
+
+    userService.getStartupInfo().subscribe(info => {
+      this._token = `Bearer ${info.token}`;
+    });
+
     this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
     this._setupViewInfoStream();
   }
@@ -97,11 +114,8 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     this._viewInfoStream$.next(this.resourceId);
   }
 
-  disconnect() {
-    const confirmResult = confirm(this._translateService.instant(PortalResources.disconnectConfirm));
-    if (confirmResult) {
-      this._disconnectDeployment();
-    }
+  public disconnect() {
+    this._disconnectDeployment();
   }
 
   public githubActionOnClick() {
@@ -128,6 +142,19 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     }
   }
 
+  public showModal() {
+    this.showDisconnectModal = true;
+  }
+
+  public hideModal() {
+    this._deleteWorkflowDuringDisconnect = false;
+    this.showDisconnectModal = false;
+  }
+
+  public toggleDeleteWorkflowState() {
+    this._deleteWorkflowDuringDisconnect = !this._deleteWorkflowDuringDisconnect;
+  }
+
   get tableItems() {
     if (this._deploymentFetchTries > 10) {
       this.tableMessages.emptyMessage = this._translateService.instant(PortalResources.noDeploymentDataAvailable);
@@ -139,6 +166,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   private _disconnectDeployment() {
     let notificationId = null;
     this._busyManager.setBusy();
+    this.hideModal();
     this._portalService
       .startNotification(
         this._translateService.instant(PortalResources.disconnectingDeployment),
@@ -148,7 +176,9 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       .do(notification => {
         notificationId = notification.id;
       })
-      .concatMap(() => this._siteService.deleteSiteSourceControlConfig(this.resourceId))
+      .concatMap(() =>
+        Observable.zip(this._siteService.deleteSiteSourceControlConfig(this.resourceId), this._tryWorkflowFileRemovalIfNeeded())
+      )
       .subscribe(
         r => {
           this._busyManager.clearBusy();
@@ -168,6 +198,42 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
           this._logService.error(LogCategories.cicd, '/disconnect-github-action-dashboard', err);
         }
       );
+  }
+
+  // NOTE(michinoy): The return type is set to any as the caller should not be dependent on the data.
+  private _tryWorkflowFileRemovalIfNeeded(): Observable<any> {
+    if (!this._deleteWorkflowDuringDisconnect) {
+      return Observable.of(null);
+    }
+
+    const repoName = this.repositoryText.toLocaleLowerCase().replace('https://github.com/', '');
+    const workflowFilePath = `.github/workflows/${this._actionWorkflowFileName}`;
+
+    // NOTE(michinoy): This is a fire and forget operation. We do our best effort to delete
+    // the workflow file. No need to wait on a response.
+    // Also only do the delete operation IF the user has opted to do so.
+    return this._githubService
+      .fetchWorkflowConfiguration(this._token, this.repositoryText, repoName, this.branchText, workflowFilePath)
+      .switchMap(result => {
+        if (result) {
+          const deleteCommitInfo: GitHubCommit = {
+            repoName,
+            branchName: this.branchText,
+            filePath: workflowFilePath,
+            message: this._translateService.instant(PortalResources.githubActionWorkflowDeleteCommitMessage),
+            committer: {
+              name: 'Azure App Service',
+              email: 'donotreply@microsoft.com',
+            },
+            sha: result.sha,
+          };
+
+          return this._githubService.deleteActionWorkflow(this._token, deleteCommitInfo).catch(_ => Observable.of(null));
+        } else {
+          return Observable.of(null);
+        }
+      })
+      .catch(_ => Observable.of(null));
   }
 
   private _setupViewInfoStream() {
@@ -208,6 +274,17 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
             this.repositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
             this.branchText = this.deploymentObject.sourceControls.properties.branch;
             this.githubActionLink = `${this.repositoryText}/actions?query=event%3Apush+branch%3A${this.branchText}`;
+
+            const siteDescriptor = <ArmSiteDescriptor>ArmSiteDescriptor.getSiteDescriptor(this.deploymentObject.site.id);
+            this._actionWorkflowFileName = this._githubService.getWorkflowFileName(
+              this.branchText,
+              siteDescriptor.site,
+              siteDescriptor.slot
+            );
+
+            this.githubActionDisconnectDeleteWorkflowText = this._translateService
+              .instant(PortalResources.githubActionDisconnectDeleteWorkflow)
+              .format(this._actionWorkflowFileName, this.branchText, this.repositoryText);
           }
 
           this._populateTable();

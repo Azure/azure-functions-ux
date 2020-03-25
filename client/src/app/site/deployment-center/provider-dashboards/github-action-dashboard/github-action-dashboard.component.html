@@ -1,9 +1,34 @@
+<div *ngIf="showDisconnectModal" id="my-modal" class="modal fade in" style="display: block">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                {{ 'githubActionDisconnectConfirmation' | translate }}
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input class="message-icon" type="checkbox" (change)="toggleDeleteWorkflowState()">
+                {{ githubActionDisconnectDeleteWorkflowText }}
+            </div>
+            <div class="modal-body">
+                <button class="disconnect-button" (click)="disconnect()">
+                    {{ 'githubActionDisconnectButton' | translate }}
+                </button>
+                <button class="cancel-disconnect-button" (click)="hideModal()">
+                    {{ 'githubActionCancelDisconnectButton' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showDisconnectModal" class="modal-backdrop fade in"></div>
+
 <ng-sidebar-container style="height:100vh" [animate]="true">
     <div ng-sidebar-content>
         <command-bar>
             <command displayText="{{ 'browse' | translate }}" iconUrl="image/external.svg" (click)="browseToSite()"></command>
             <command displayText="{{ 'refresh' | translate }}" iconUrl="image/refresh.svg" (click)="refresh()"></command>
-            <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/Disconnect.svg" (click)="disconnect()"></command>
+            <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/Disconnect.svg" (click)="showModal()"></command>
             <command
                 displayText="{{ 'deploymentCredentialsTitle' | translate }}"
                 iconUrl="image/key.svg"

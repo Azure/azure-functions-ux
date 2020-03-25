@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root" 
-        xmlns="" 
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    <xsd:schema id="root"
+        xmlns=""
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
@@ -5837,5 +5837,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="discardChangesMesssage" xml:space="preserve">
         <value>Are you sure you want to discard the changes to the file {0}?</value>
+    </data>
+    <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>Are you sure you would like to disconnect the GitHub Action CICD pipeline?</value>
+    </data>
+    <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>Select this option to try best effort to remove '{0}' workflow file from branch '{1}' in repository '{2}'</value>
+    </data>
+    <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>Disconnect CICD</value>
+    </data>
+    <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
+    <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>Remove the App Service deployment workflow configuration from Azure Portal.</value>
     </data>
 </root>
