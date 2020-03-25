@@ -4,7 +4,7 @@ import { Constants, DeploymentCenterConstants, RuntimeStacks, JavaContainers } f
 import { CacheService } from 'app/shared/services/cache.service';
 import { Guid } from 'app/shared/Utilities/Guid';
 import { Observable } from 'rxjs/Observable';
-import { FileContent, WorkflowInformation, GitHubActionWorkflowRequestContent } from '../../Models/github';
+import { FileContent, WorkflowInformation, GitHubActionWorkflowRequestContent, GitHubCommit } from '../../Models/github';
 import { BuildSettings, SourceSettings } from './deployment-center-setup-models';
 import { Response } from '@angular/http';
 
@@ -115,6 +115,13 @@ export class GithubService implements OnDestroy {
     return this._cacheService.put(Constants.serviceHost + `api/github/actionWorkflow`, null, {
       authToken,
       content,
+    });
+  }
+
+  deleteActionWorkflow(authToken: string, deleteCommit: GitHubCommit) {
+    return this._cacheService.post(Constants.serviceHost + `api/github/deleteActionWorkflow`, true, null, {
+      authToken,
+      deleteCommit,
     });
   }
 
