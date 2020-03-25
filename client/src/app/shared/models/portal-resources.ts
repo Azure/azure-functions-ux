@@ -1888,4 +1888,9 @@ export class PortalResources {
   public static last30Days = 'last30Days';
   public static discardChangesTitle = 'discardChangesTitle';
   public static discardChangesMesssage = 'discardChangesMesssage';
+  public static githubActionDisconnectConfirmation = 'githubActionDisconnectConfirmation';
+  public static githubActionDisconnectDeleteWorkflow = 'githubActionDisconnectDeleteWorkflow';
+  public static githubActionDisconnectButton = 'githubActionDisconnectButton';
+  public static githubActionCancelDisconnectButton = 'githubActionCancelDisconnectButton';
+  public static githubActionWorkflowDeleteCommitMessage = 'githubActionWorkflowDeleteCommitMessage';
 }

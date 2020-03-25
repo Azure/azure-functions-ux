@@ -5,7 +5,7 @@ import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
-import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey } from './github';
+import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
 import { TokenData } from '../deployment-center';
 
 @Controller()
@@ -66,6 +66,34 @@ export class GithubController {
     const publicKey = await this._getGitHubRepoPublicKey(tokenData, content.commit.repoName);
     await this._putGitHubRepoSecret(tokenData, publicKey, content.commit.repoName, content.secretName, publishProfile);
     await this._commitFile(tokenData, content);
+  }
+
+  @Post('api/github/deleteActionWorkflow')
+  @HttpCode(200)
+  async deleteActionWorkflow(@Body('authToken') authToken: string, @Body('deleteCommit') deleteCommit: GitHubCommit) {
+    const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
+
+    const url = `${this.githubApiUrl}/repos/${deleteCommit.repoName}/contents/${deleteCommit.filePath}`;
+
+    try {
+      await this.httpService.delete(url, {
+        headers: {
+          Authorization: `Bearer ${tokenData.token}`,
+        },
+        data: deleteCommit,
+      });
+    } catch (err) {
+      this.loggingService.error(
+        `Failed to delete action workflow '${deleteCommit.filePath}' on branch '${deleteCommit.branchName}' in repo '${
+          deleteCommit.repoName
+        }'.`
+      );
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
   }
 
   @Get('auth/github/authorize')
