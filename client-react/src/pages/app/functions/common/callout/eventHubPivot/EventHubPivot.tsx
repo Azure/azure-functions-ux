@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { IDropdownOption, DefaultButton, IDropdownProps } from 'office-ui-fabric-react';
+import { FieldProps, Formik, FormikProps } from 'formik';
+import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
-import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
-import { ArmObj } from '../../../../../../models/arm-obj';
-import { Namespace, EventHub, AuthorizationRule, KeyList } from '../../../../../../models/eventhub';
-import { NewConnectionCalloutProps } from '../Callout.properties';
-import { FormikProps, Formik, FieldProps } from 'formik';
-import { EventHubPivotContext } from './EventHubPivotDataLoader';
-import LogService from '../../../../../../utils/LogService';
-import { LogCategories } from '../../../../../../utils/LogCategories';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
+import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
+import { ArmObj } from '../../../../../../models/arm-obj';
+import { AuthorizationRule, EventHub, KeyList, Namespace } from '../../../../../../models/eventhub';
+import { LogCategories } from '../../../../../../utils/LogCategories';
+import LogService from '../../../../../../utils/LogService';
+import { NewConnectionCalloutProps } from '../Callout.properties';
+import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
+import { EventHubPivotContext } from './EventHubPivotDataLoader';
 
 export interface EventHubPivotFormValues {
   namespace: ArmObj<Namespace> | undefined;
@@ -181,9 +181,9 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
               </>
             )}
             <footer style={paddingTopStyle}>
-              <DefaultButton disabled={!keyList} onClick={formProps.submitForm}>
+              <PrimaryButton disabled={!keyList} onClick={formProps.submitForm}>
                 {t('ok')}
-              </DefaultButton>
+              </PrimaryButton>
             </footer>
           </form>
         );

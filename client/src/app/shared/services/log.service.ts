@@ -7,6 +7,7 @@ export enum LogLevel {
   warning,
   debug,
   verbose,
+  trace,
 }
 
 export type LogLevelString = 'error' | 'warning' | 'debug' | 'verbose';
@@ -30,6 +31,20 @@ export class LogService {
     }
 
     this._categories = Url.getParameterArrayByName(null, 'appsvc.log.category');
+  }
+
+  public trace(category: string, id: string, data?: any) {
+    if (!category || !id) {
+      throw Error('You must provide a category and id');
+    }
+
+    // Always log traces to App Insights
+    const properties = data ? (typeof data === 'object' ? data : { message: data }) : null;
+    this._aiService.trackEvent(`/trace/${category}/${id}`, properties);
+
+    if (this._shouldLog(category, LogLevel.trace)) {
+      console.error(`[${category}] - ${data}`);
+    }
   }
 
   public error(category: string, id: string, data: any) {

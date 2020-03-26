@@ -3,6 +3,7 @@ import i18n from './i18n';
 import { ArmObj } from '../models/arm-obj';
 import { Site } from '../models/site/site';
 import { SiteConfig } from '../models/site/config';
+import { isPremiumV2 } from './arm-utils';
 
 export default class SiteHelper {
   public static isFunctionAppReadOnly(editMode: FunctionAppEditMode): boolean {
@@ -18,7 +19,8 @@ export default class SiteHelper {
       editMode === FunctionAppEditMode.ReadOnlyPython ||
       editMode === FunctionAppEditMode.ReadOnlyJava ||
       editMode === FunctionAppEditMode.ReadOnlyLinuxCodeElastic ||
-      editMode === FunctionAppEditMode.ReadOnlyLock
+      editMode === FunctionAppEditMode.ReadOnlyLock ||
+      editMode === FunctionAppEditMode.ReadOnlyRbac
     );
   }
 
@@ -54,12 +56,17 @@ export default class SiteHelper {
       case FunctionAppEditMode.ReadOnlyLock: {
         return t('featureDisabledReadOnlyLockOnApp');
       }
+      case FunctionAppEditMode.ReadOnlyRbac: {
+        return t('readOnlyRbac');
+      }
     }
     return t('readOnly');
   }
 
   public static isFlexStamp(site: ArmObj<Site>) {
-    return !!site.properties.possibleInboundIpAddresses && site.properties.possibleInboundIpAddresses.split(',').length > 1;
+    return (
+      isPremiumV2(site) && !!site.properties.possibleInboundIpAddresses && site.properties.possibleInboundIpAddresses.split(',').length > 1
+    );
   }
 
   public static isSourceControlEnabled(config: ArmObj<SiteConfig>) {

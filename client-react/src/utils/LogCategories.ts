@@ -51,4 +51,5 @@ export class LogCategories {
   public static readonly functionInvokeUrl = 'FunctionInvokeUrl';
   public static readonly functionKeys = 'FunctionKeys';
   public static readonly appFiles = 'AppFiles';
+  public static readonly functionLog = 'FunctionLog';
 }

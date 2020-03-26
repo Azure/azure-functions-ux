@@ -2185,6 +2185,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
     </data>
+    <data name="readOnlyRbac" xml:space="preserve">
+        <value>Your function is currently in read only mode because your RBAC assigned access is set to: Reader</value>
+    </data>
     <data name="copypre_copy" xml:space="preserve">
         <value>Copy</value>
     </data>
@@ -4764,7 +4767,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Deployment Slot Setting Enabled</value>
     </data>
     <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>Hidden value. Click show values button above to view</value>
+        <value>Hidden value. Click to show value</value>
     </data>
     <data name="fieldMustBeUnique" xml:space="preserve">
         <value>Field must be unique.</value>
@@ -5698,7 +5701,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
     </data>
     <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>No function keys to display</value>
     </data>
     <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>This feature is not supported for apps on a Premium plan</value>
@@ -5772,6 +5775,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>Are you sure you want to delete the input?</value>
     </data>
+    <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>One or more bindings failed to load, please refresh the page.</value>
+    </data>
     <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Delete Function Key</value>
     </data>
@@ -5780,5 +5786,71 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="fetchFileContentFailureMessage" xml:space="preserve">
         <value>Failed to fetch the file content</value>
+    </data>
+    <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>Selected connection is missing from app settings</value>
+    </data>
+    <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
+        <value>No existing connections available</value>
+    </data>
+    <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>The following bindings are missing the required direction property and may have been placed incorrectly: {0}. Please update the bindings in your functions.json file.</value>
+    </data>
+    <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>Invocations</value>
+    </data>
+    <data name="functionMonitor_logs" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+    <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>Open in Live Metrics</value>
+    </data>
+    <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>Edit your HTTP trigger to enable additional HTTP methods</value>
+    </data>
+    <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>You cannot define x-functions-key as a custom header</value>
+    </data>
+    <data name="filterInvocations" xml:space="preserve">
+        <value>Filter invocations</value>
+    </data>
+    <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>Run query in Application Insights</value>
+    </data>
+    <data name="timestamp" xml:space="preserve">
+        <value>Timestamp</value>
+    </data>
+    <data name="message" xml:space="preserve">
+        <value>Message</value>
+    </data>
+    <data name="successCount" xml:space="preserve">
+        <value>Success Count</value>
+    </data>
+    <data name="errorCount" xml:space="preserve">
+        <value>Error Count</value>
+    </data>
+    <data name="last30Days" xml:space="preserve">
+        <value>Last 30 Days</value>
+    </data>
+    <data name="discardChangesTitle" xml:space="preserve">
+        <value>Discard changes</value>
+    </data>
+    <data name="discardChangesMesssage" xml:space="preserve">
+        <value>Are you sure you want to discard the changes to the file {0}?</value>
+    </data>
+    <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>Are you sure you would like to disconnect the GitHub Action CICD pipeline?</value>
+    </data>
+    <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>Select this option to attempt removal of '{0}' workflow file from branch '{1}' in repository '{2}'</value>
+    </data>
+    <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>Disconnect CICD</value>
+    </data>
+    <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
+    <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>Remove the App Service deployment workflow configuration from Azure Portal.</value>
     </data>
 </root>

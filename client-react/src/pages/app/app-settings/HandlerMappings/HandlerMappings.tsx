@@ -9,7 +9,7 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { HandlerMapping } from '../../../../models/site/config';
-import { TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { TooltipHost, ICommandBarItemProps, PanelType } from 'office-ui-fabric-react';
 import Panel from '../../../../components/Panel/Panel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -254,7 +254,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyHandlerMappings')}
       />
-      <Panel isOpen={showPanel} onDismiss={onCancel} headerText={t('newHandlerMapping')}>
+      <Panel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancel} headerText={t('newHandlerMapping')}>
         <HandlerMappingsAddEdit handlerMapping={currentHandlerMapping!} updateHandlerMapping={onClosePanel} closeBlade={onCancel} />
       </Panel>
     </>

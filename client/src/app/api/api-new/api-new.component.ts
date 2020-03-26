@@ -18,6 +18,7 @@ import { NavigableComponent } from '../../shared/components/navigable-component'
 import { SiteService } from '../../shared/services/site.service';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { FunctionService } from 'app/shared/services/function.service';
+import { PortalService } from '../../shared/services/portal.service';
 
 @Component({
   selector: 'api-new',
@@ -62,6 +63,7 @@ export class ApiNewComponent extends NavigableComponent {
     private _functionAppService: FunctionAppService,
     private _siteService: SiteService,
     private _functionService: FunctionService,
+    private _portalService: PortalService,
     fb: FormBuilder,
     injector: Injector
   ) {
@@ -94,7 +96,10 @@ export class ApiNewComponent extends NavigableComponent {
       .takeUntil(this.ngUnsubscribe)
       .switchMap(viewInfo => {
         this._proxiesNode = <ProxiesNode>viewInfo.node;
-        this.appNode = <AppNode>this._proxiesNode.parent;
+        if (this._proxiesNode) {
+          // node = null for Ibizafication scenario
+          this.appNode = <AppNode>this._proxiesNode.parent;
+        }
 
         return this._functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId()).concatMap(context => {
           // Should be okay to query app settings without checkout RBAC/locks since this component
@@ -227,11 +232,15 @@ export class ApiNewComponent extends NavigableComponent {
 
           this._functionAppService.saveApiProxy(this.context, ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
             this.clearBusy();
-
-            // If someone refreshed the app, it would created a new set of child nodes under the app node.
-            this._proxiesNode = <ProxiesNode>this.appNode.children.find(node => node.title === this._proxiesNode.title);
-            this._proxiesNode.addChild(newApiProxy);
             this._aiService.trackEvent('/actions/proxy/create');
+            if (this._proxiesNode) {
+              // If someone refreshed the app, it would created a new set of child nodes under the app node.
+              this._proxiesNode = <ProxiesNode>this.appNode.children.find(node => node.title === this._proxiesNode.title);
+              this._proxiesNode.addChild(newApiProxy);
+            } else {
+              // Ibizafication Experience, open the Proxy-List tab
+              this._portalService.closeSelf({ data: { ...newApiProxy } });
+            }
           });
         });
     }

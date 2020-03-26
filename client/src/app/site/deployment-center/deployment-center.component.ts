@@ -34,6 +34,7 @@ export class DeploymentCenterComponent implements OnDestroy {
   public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   public viewInfo: TreeViewInfo<SiteData>;
   public dashboardProviderType: ProviderDashboardType = '';
+
   @Input()
   set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
     this.viewInfo = viewInfo;
@@ -51,6 +52,8 @@ export class DeploymentCenterComponent implements OnDestroy {
   sidePanelOpened = false;
   constructor(private _siteService: SiteService, private _logService: LogService, broadcastService: BroadcastService) {
     this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.continuousDeployment);
+
+    this._logService.trace(LogCategories.cicd, '/load-deployment-center');
 
     this.viewInfoStream
       .takeUntil(this._ngUnsubscribe$)

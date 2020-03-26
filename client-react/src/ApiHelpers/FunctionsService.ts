@@ -11,6 +11,7 @@ import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '.
 import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
 import { Method } from 'axios';
+import { KeyValue } from '../models/portal-models';
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -29,12 +30,7 @@ export default class FunctionsService {
     return MakeArmCall<ArmObj<FunctionInfo>>({ resourceId, commandName: 'fetchFunction' });
   };
 
-  public static createFunction = (
-    functionAppId: string,
-    functionName: string,
-    files: { [key: string]: string },
-    functionConfig: FunctionConfig
-  ) => {
+  public static createFunction = (functionAppId: string, functionName: string, files: KeyValue<string>, functionConfig: FunctionConfig) => {
     const resourceId = `${functionAppId}/functions/${functionName}`;
     const filesCopy = Object.assign({}, files);
     const sampleData = filesCopy['sample.dat'];
@@ -86,7 +82,7 @@ export default class FunctionsService {
 
   public static fetchKeys = (resourceId: string) => {
     const id = `${resourceId}/listkeys`;
-    return MakeArmCall<{ [key: string]: string }>({
+    return MakeArmCall<KeyValue<string>>({
       resourceId: id,
       commandName: 'fetchKeys',
       method: 'POST',
@@ -95,7 +91,7 @@ export default class FunctionsService {
 
   public static deleteKey = (resourceId: string, keyName: string) => {
     const id = `${resourceId}/keys/${keyName}`;
-    return MakeArmCall<{ [key: string]: string }>({
+    return MakeArmCall<KeyValue<string>>({
       resourceId: id,
       commandName: 'deleteKey',
       method: 'DELETE',
@@ -154,10 +150,10 @@ export default class FunctionsService {
     resourceId: string,
     functionName?: string,
     runtimeVersion?: string,
-    headers?: { [key: string]: string },
+    headers?: KeyValue<string>,
     fileName?: string
   ) {
-    const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
+    const endpoint = `${!!functionName ? `/${functionName}` : ''}/${!!fileName ? `${fileName}` : ''}`;
     switch (runtimeVersion) {
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
@@ -190,7 +186,7 @@ export default class FunctionsService {
     newFileContent: string,
     functionName?: string,
     runtimeVersion?: string,
-    headers?: { [key: string]: string }
+    headers?: KeyValue<string>
   ) {
     const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
     switch (runtimeVersion) {
@@ -221,19 +217,19 @@ export default class FunctionsService {
     }
   }
 
-  public static runFunction(url: string, method: Method, headers: { [key: string]: string }, body: any) {
+  public static runFunction(url: string, method: Method, headers: KeyValue<string>, body: any) {
     return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
       return this.tryPassThroughController(err, url, method, headers, body);
     });
   }
 
-  public static getDataFromFunctionHref(url: string, method: Method, headers: { [key: string]: string }, body?: any) {
+  public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {
     return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
       return this.tryPassThroughController(err, url, method, headers, body);
     });
   }
 
-  private static tryPassThroughController(err: any, url: string, method: Method, headers: { [key: string]: string }, body: any) {
+  private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {
     const passthroughBody = {
       url,
       headers,

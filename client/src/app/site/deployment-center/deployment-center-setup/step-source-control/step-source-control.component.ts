@@ -343,6 +343,7 @@ export class StepSourceControlComponent {
     }
   }
   public selectProvider(card: ProviderCard) {
+    this._logService.trace(LogCategories.cicd, '/build-provider-card-selected', card);
     this.selectedProvider = card;
     const currentFormValues = this._wizardService.wizardValues;
     currentFormValues.sourceProvider = card.id;

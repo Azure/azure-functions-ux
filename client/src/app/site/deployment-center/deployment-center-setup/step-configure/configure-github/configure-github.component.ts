@@ -116,6 +116,11 @@ export class ConfigureGithubComponent implements OnDestroy {
         });
       });
       this.OrgList = newOrgsList;
+
+      if (this.OrgList && this.OrgList.length === 1) {
+        this.selectedOrg = this.OrgList[0].value;
+        this.OrgChanged(this.OrgList[0]);
+      }
     });
   }
 
@@ -259,6 +264,7 @@ export class ConfigureGithubComponent implements OnDestroy {
   }
 
   WorkflowOptionChanged(option: DropDownElement<string>) {
+    this._logService.trace(LogCategories.cicd, '/github-action-workflow-option', option.value);
     this.showStackSelector = !this.selectedWorkflowOption || this.selectedWorkflowOption === WorkflowOptions.Overwrite;
   }
 
@@ -274,6 +280,11 @@ export class ConfigureGithubComponent implements OnDestroy {
 
     this.BranchList = newBranchList;
     this.branchesLoading = false;
+
+    if (this.BranchList && this.BranchList.length === 1) {
+      this.selectedBranch = this.BranchList[0].value;
+      this.BranchChanged(this.BranchList[0]);
+    }
   }
 
   private _loadRepositories(responses: any[]) {
@@ -293,6 +304,11 @@ export class ConfigureGithubComponent implements OnDestroy {
 
     this.RepoList = newRepoList;
     this.reposLoading = false;
+
+    if (this.RepoList && this.RepoList.length === 1) {
+      this.selectedRepo = this.RepoList[0].value;
+      this.RepoChanged(this.RepoList[0]);
+    }
   }
 
   private _flattenResponses<T>(responses: any[]): Observable<T[]> {

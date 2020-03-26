@@ -1,23 +1,24 @@
-import React, { lazy, useContext, createContext, useEffect, useState } from 'react';
 import { RouteComponentProps, Router } from '@reach/router';
+import React, { createContext, lazy, useContext, useEffect, useState } from 'react';
+import SiteService from '../../ApiHelpers/SiteService';
+import { ArmObj } from '../../models/arm-obj';
+import { FunctionAppEditMode, KeyValue, SiteState } from '../../models/portal-models';
+import { SiteConfig } from '../../models/site/config';
+import { Site } from '../../models/site/site';
+import { PortalContext } from '../../PortalContext';
+import { SiteStateContext } from '../../SiteStateContext';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import { SiteRouterData } from './SiteRouter.data';
-import { SiteStateContext } from '../../SiteStateContext';
-import { SiteState, FunctionAppEditMode } from '../../models/portal-models';
-import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
-import SiteService from '../../ApiHelpers/SiteService';
-import { isFunctionApp, isLinuxDynamic, isLinuxApp, isElastic, isContainerApp } from '../../utils/arm-utils';
-import FunctionAppService from '../../utils/FunctionAppService';
+import { isContainerApp, isElastic, isFunctionApp, isLinuxApp, isLinuxDynamic } from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
-import { ArmObj } from '../../models/arm-obj';
-import { Site } from '../../models/site/site';
-import { PortalContext } from '../../PortalContext';
-import { SiteConfig } from '../../models/site/config';
-import SiteHelper from '../../utils/SiteHelper';
+import FunctionAppService from '../../utils/FunctionAppService';
 import { LogCategories } from '../../utils/LogCategories';
 import LogService from '../../utils/LogService';
+import RbacConstants from '../../utils/rbac-constants';
+import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
+import SiteHelper from '../../utils/SiteHelper';
+import { SiteRouterData } from './SiteRouter.data';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -34,26 +35,28 @@ const AppSettingsLoadable: any = lazy(() => import(/* webpackChunkName:"appsetti
 const LogStreamLoadable: any = lazy(() => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamDataLoader'));
 const ChangeAppPlanLoadable: any = lazy(() => import(/* webpackChunkName:"changeappplan" */ './change-app-plan/ChangeAppPlanDataLoader'));
 const FunctionIntegrateLoadable: any = lazy(() =>
-  import(/* webpackChunkName:"functionintegrate" */ './functions/integrate/FunctionIntegrateDataLoader')
+  import(/* webpackChunkName:"functionintegrate" */ './functions/function/integrate/FunctionIntegrateDataLoader')
 );
 const FunctionBindingLoadable: any = lazy(() =>
-  import(/* webpackChunkName:"functionbinding" */ './functions/integrate/BindingPanel/BindingPanel')
+  import(/* webpackChunkName:"functionbinding" */ './functions/function/integrate/BindingPanel/BindingPanel')
 );
 const FunctionCreateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioncreate" */ './functions/create/FunctionCreateDataLoader')
 );
 const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeysDataLoader'));
-
 const FunctionKeysLoadable: any = lazy(() =>
-  import(/* webpackChunkName: "functionKeys" */ './functions/function-keys/FunctionKeysDataLoader')
+  import(/* webpackChunkName: "functionKeys" */ './functions/function/function-keys/FunctionKeysDataLoader')
 );
 const FunctionEditorLoadable: any = lazy(() =>
-  import(/* webpackChunkName:"functioneditor" */ './functions/function-editor/FunctionEditorDataLoader')
+  import(/* webpackChunkName:"functioneditor" */ './functions/function/function-editor/FunctionEditorDataLoader')
 );
 const FunctionQuickstart: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/quickstart/FunctionQuickstartDataLoader')
 );
-const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-files/AppFilesDataLoader'));
+const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './functions/app-files/AppFilesDataLoader'));
+const FunctionMonitor: any = lazy(() =>
+  import(/* webpackChunkName:"functionmonitor" */ './functions/function/monitor/FunctionMonitorDataLoader')
+);
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
@@ -66,32 +69,40 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     if (isLinuxDynamic(site)) {
       return FunctionAppEditMode.ReadOnlyLinuxDynamic;
     }
+
     if (isContainerApp(site)) {
       return FunctionAppEditMode.ReadOnlyBYOC;
     }
+
     if (isLinuxApp(site) && isElastic(site)) {
       return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
     }
+
     return undefined;
   };
 
-  const getSiteStateFromAppSettings = (appSettings: ArmObj<{ [key: string]: string }>): FunctionAppEditMode | undefined => {
+  const getSiteStateFromAppSettings = (appSettings: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
     if (FunctionAppService.usingRunFromPackage(appSettings)) {
       return FunctionAppEditMode.ReadOnlyRunFromPackage;
     }
+
     if (FunctionAppService.usingLocalCache(appSettings)) {
       return FunctionAppEditMode.ReadOnlyLocalCache;
     }
+
     if (FunctionAppService.usingPythonWorkerRuntime(appSettings)) {
       return FunctionAppEditMode.ReadOnlyPython;
     }
+
     if (FunctionAppService.usingJavaWorkerRuntime(appSettings)) {
       return FunctionAppEditMode.ReadOnlyJava;
     }
+
     const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';
     if (editModeString.toLowerCase() === SiteState.readonly) {
       return FunctionAppEditMode.ReadOnly;
     }
+
     if (editModeString.toLowerCase() === SiteState.readwrite) {
       return FunctionAppEditMode.ReadWrite;
     }
@@ -103,9 +114,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     if (!!config && SiteHelper.isSourceControlEnabled(config)) {
       return FunctionAppEditMode.ReadOnlySourceControlled;
     }
+
     if (armSiteDescriptor.slot) {
       return FunctionAppEditMode.ReadOnlySlots;
     }
+
     return FunctionAppEditMode.ReadWrite;
   };
 
@@ -121,7 +134,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       if (readOnlyLock) {
         functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
       } else {
-        if (site.metadata.success && isFunctionApp(site.data)) {
+        const writePermission = await portalContext.hasPermission(trimmedResourceId, [RbacConstants.writeScope]);
+
+        if (!writePermission) {
+          functionAppEditMode = FunctionAppEditMode.ReadOnlyRbac;
+        } else if (site.metadata.success && isFunctionApp(site.data)) {
           functionAppEditMode = getSiteStateFromSiteData(site.data);
 
           if (!functionAppEditMode) {
@@ -147,6 +164,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             armSiteDescriptor,
             configResponse.metadata.success ? configResponse.data : undefined
           );
+
           if (!configResponse.metadata.success) {
             LogService.error(LogCategories.siteDashboard, 'fetchWebConfig', `Failed to fetch web config: ${configResponse.metadata.error}`);
           }
@@ -165,6 +183,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     findAndSetSiteState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resourceId]);
+
   return (
     <main className={iconStyles(theme)}>
       <SiteRouterContext.Provider value={siteRouterData}>
@@ -186,6 +205,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
                     <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
                     <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
+                    <FunctionMonitor resourceId={value.resourceId} path="/monitor" />
                   </Router>
                 </SiteStateContext.Provider>
               )

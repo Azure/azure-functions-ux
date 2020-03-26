@@ -1,5 +1,4 @@
 import { ApiDetailsComponent } from './api/api-details/api-details.component';
-import { RequestResposeOverrideComponent } from './api/request-respose-override/request-respose-override.component';
 import { ApiNewComponent } from './api/api-new/api-new.component';
 import { ProxiesListComponent } from './proxies-list/proxies-list.component';
 import { SharedFunctionsModule } from './shared/shared-functions.module';
@@ -26,7 +25,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
 
 @NgModule({
   imports: [TranslateModule.forChild(), SharedModule, SharedFunctionsModule, routing],
-  declarations: [ProxiesListComponent, ApiNewComponent, RequestResposeOverrideComponent, ApiDetailsComponent],
+  declarations: [ProxiesListComponent],
   providers: [],
 })
 export class ProxiesModule {}

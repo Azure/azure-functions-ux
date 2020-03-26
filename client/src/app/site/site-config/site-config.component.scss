@@ -178,6 +178,10 @@ h3 {
 
     .setting-control-container {
       display: inline-block;
+      @media (max-width: 600px) {
+        display: block;
+      }
+
       vertical-align: middle;
       width: 66%;
     }

@@ -6,7 +6,7 @@ import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMe
 import { AppSettingsFormValues, FormAzureStorageMounts } from '../AppSettings.types';
 import IconButton from '../../../../components/IconButton/IconButton';
 import AzureStorageMountsAddEdit from './AzureStorageMountsAddEdit';
-import { MessageBar, MessageBarType, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType, TooltipHost, ICommandBarItemProps, PanelType } from 'office-ui-fabric-react';
 import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import { ArmAzureStorageMount, StorageType } from '../../../../models/site/config';
@@ -60,6 +60,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
           emptyMessage={t('emptyAzureStorageMount')}
         />
         <Panel
+          type={PanelType.medium}
           isOpen={this.state.showPanel}
           onDismiss={this._onCancel}
           headerText={this.state.createNewItem ? t('newAzureStorageMount') : t('editAzureStorageMount')}>

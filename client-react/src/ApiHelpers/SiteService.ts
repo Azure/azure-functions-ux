@@ -11,6 +11,7 @@ import { HostStatus } from '../models/functions/host-status';
 import { isLinuxDynamic } from '../utils/arm-utils';
 import Url from '../utils/url';
 import { sendHttpRequest } from './HttpClient';
+import { KeyValue } from '../models/portal-models';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -63,12 +64,13 @@ export default class SiteService {
     return result;
   };
 
-  public static fetchApplicationSettings = async (resourceId: string) => {
+  public static fetchApplicationSettings = async (resourceId: string, force?: boolean) => {
     const id = `${resourceId}/config/appsettings/list`;
-    const result = await MakeArmCall<ArmObj<{ [key: string]: string }>>({
+    const result = await MakeArmCall<ArmObj<KeyValue<string>>>({
       resourceId: id,
       commandName: 'fetchApplicationSettings',
       method: 'POST',
+      skipBuffer: force,
     });
     LogService.trackEvent('site-service', 'appSettingsLoaded', {
       success: result.metadata.success,
@@ -77,9 +79,9 @@ export default class SiteService {
     return result;
   };
 
-  public static updateApplicationSettings = async (resourceId: string, appSettings: ArmObj<{ [key: string]: string }>) => {
+  public static updateApplicationSettings = async (resourceId: string, appSettings: ArmObj<KeyValue<string>>) => {
     const id = `${resourceId}/config/appsettings`;
-    const result = await MakeArmCall<ArmObj<{ [key: string]: string }>>({
+    const result = await MakeArmCall<ArmObj<KeyValue<string>>>({
       resourceId: id,
       commandName: 'updateApplicationSettings',
       method: 'PUT',
@@ -94,7 +96,7 @@ export default class SiteService {
 
   public static fetchMetadata = async (resourceId: string) => {
     const id = `${resourceId}/config/metadata/list`;
-    const result = await MakeArmCall<ArmObj<{ [key: string]: string }>>({ resourceId: id, commandName: 'fetchMetadata', method: 'POST' });
+    const result = await MakeArmCall<ArmObj<KeyValue<string>>>({ resourceId: id, commandName: 'fetchMetadata', method: 'POST' });
     LogService.trackEvent('site-service', 'metadataLoaded', {
       success: result.metadata.success,
       resultCount: result.data && Object.keys(result.data.properties).length,

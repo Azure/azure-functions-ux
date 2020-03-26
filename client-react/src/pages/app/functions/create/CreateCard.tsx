@@ -4,7 +4,7 @@ import { getCardStyle, getHeaderStyle, getDescriptionStyle, getTitleStyle, getIn
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { PivotState } from './FunctionCreate';
 import { KeyCodes } from 'office-ui-fabric-react';
-import { getBindingDirection } from '../integrate/BindingPanel/BindingEditor';
+import { getBindingDirection } from '../function/integrate/BindingPanel/BindingEditor';
 import { HostStatus } from '../../../../models/functions/host-status';
 
 export interface CreateCardProps {

@@ -1,5 +1,5 @@
 import { FieldProps, Formik, FormikProps } from 'formik';
-import { DefaultButton, IDropdownOption, IDropdownProps } from 'office-ui-fabric-react';
+import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
@@ -98,9 +98,9 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
               </FormControlWrapper>
             )}
             <footer style={paddingTopStyle}>
-              <DefaultButton disabled={!formValues.storageAccount} onClick={formProps.submitForm}>
+              <PrimaryButton disabled={!formValues.storageAccount} onClick={formProps.submitForm}>
                 {t('ok')}
-              </DefaultButton>
+              </PrimaryButton>
             </footer>
           </form>
         );

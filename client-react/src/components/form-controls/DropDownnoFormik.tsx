@@ -1,9 +1,8 @@
+import { Dropdown as OfficeDropdown, IDropdownOption, IDropdownProps } from 'office-ui-fabric-react/lib/Dropdown';
 import React, { useContext } from 'react';
-import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
-
+import { useWindowSize } from 'react-use';
 import { ThemeContext } from '../../ThemeContext';
 import { dropdownStyleOverrides } from './formControl.override.styles';
-import { useWindowSize } from 'react-use';
 import ReactiveFormControl from './ReactiveFormControl';
 
 interface CustomDropdownProps {
