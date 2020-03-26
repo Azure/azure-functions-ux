@@ -387,12 +387,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={onCancelButtonClick}
         />
-        <EditModeBanner setBanner={setReadOnlyBanner} />
-        {(!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
+        {!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable) ? (
           <CustomBanner
             message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
             type={MessageBarType.error}
           />
+        ) : (
+          <EditModeBanner setBanner={setReadOnlyBanner} />
         )}
         <FunctionEditorFileSelectorBar
           disabled={isDisabled()}
