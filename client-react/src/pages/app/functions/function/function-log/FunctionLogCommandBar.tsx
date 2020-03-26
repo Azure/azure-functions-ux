@@ -87,8 +87,8 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       },
       subMenuProps: {
         items: [
-          { key: 'verbose', text: 'Verbose', onClick: () => setLogLevel(LogLevel.Verbose) },
-          { key: 'information', text: 'Information', onClick: () => setLogLevel(LogLevel.Information) },
+          { key: 'verbose', text: t('verbose'), onClick: () => setLogLevel(LogLevel.Verbose) },
+          { key: 'information', text: t('information'), onClick: () => setLogLevel(LogLevel.Information) },
           { key: 'warning', text: t('warning'), onClick: () => setLogLevel(LogLevel.Warning) },
           { key: 'error', text: t('error'), onClick: () => setLogLevel(LogLevel.Error) },
         ],
