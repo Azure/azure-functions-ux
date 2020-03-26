@@ -408,6 +408,20 @@ export class StacksWebAppCreateService {
         sortOrder: 0,
         supportedPlatforms: [
           {
+            os: 'windows',
+            isPreview: false,
+            isDeprecated: false,
+            isHidden: false,
+            applicationInsightsEnabled: false,
+            remoteDebuggingEnabled: false,
+            runtimeVersion: '3.1',
+            sortOrder: 1,
+            githubActionSettings: {
+              supported: true,
+              recommendedVersion: '3.1.102',
+            },
+          },
+          {
             os: 'linux',
             isPreview: false,
             isDeprecated: false,
@@ -419,41 +433,6 @@ export class StacksWebAppCreateService {
             githubActionSettings: {
               supported: true,
               recommendedVersion: '3.1.102',
-            },
-          },
-        ],
-      },
-      {
-        displayText: '.NET Core 3.0',
-        value: 'DotnetCore3.0',
-        sortOrder: 1,
-        supportedPlatforms: [
-          {
-            os: 'windows',
-            isPreview: false,
-            isDeprecated: false,
-            isHidden: false,
-            applicationInsightsEnabled: true,
-            remoteDebuggingEnabled: false,
-            runtimeVersion: '3.0',
-            sortOrder: 0,
-            githubActionSettings: {
-              supported: true,
-              recommendedVersion: '3.0.103',
-            },
-          },
-          {
-            os: 'linux',
-            isPreview: false,
-            isDeprecated: false,
-            isHidden: false,
-            applicationInsightsEnabled: false,
-            remoteDebuggingEnabled: false,
-            runtimeVersion: 'DOTNETCORE|3.0',
-            sortOrder: 1,
-            githubActionSettings: {
-              supported: true,
-              recommendedVersion: '3.0.103',
             },
           },
         ],
@@ -535,26 +514,6 @@ export class StacksWebAppCreateService {
             remoteDebuggingEnabled: false,
             runtimeVersion: 'RUBY|2.5',
             sortOrder: 1,
-            githubActionSettings: {
-              supported: false,
-            },
-          },
-        ],
-      },
-      {
-        displayText: 'Ruby 2.4',
-        value: '2.4',
-        sortOrder: 0,
-        supportedPlatforms: [
-          {
-            os: 'linux',
-            isPreview: false,
-            isDeprecated: false,
-            isHidden: false,
-            applicationInsightsEnabled: false,
-            remoteDebuggingEnabled: false,
-            runtimeVersion: 'RUBY|2.4',
-            sortOrder: 2,
             githubActionSettings: {
               supported: false,
             },
