@@ -461,7 +461,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           functionName={functionInfo.properties.name}
           hideLiveMetrics={true}
           appInsightsResourceId={appInsightsResourceId}
-          isResizeable={true}
+          isResizable={true}
           logPanelHeight={logPanelHeight}
           setLogPanelHeight={setLogPanelHeight}
         />
