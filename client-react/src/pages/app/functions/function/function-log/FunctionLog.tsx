@@ -31,7 +31,7 @@ interface FunctionLogProps {
   fileSavedCount?: number;
   hideChevron?: boolean;
   hideLiveMetrics?: boolean;
-  isResizeable?: boolean;
+  isResizable?: boolean;
   logPanelHeight?: number;
   setLogPanelHeight?: (height: number) => void;
 }
@@ -51,7 +51,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     hideChevron,
     hideLiveMetrics,
     appInsightsResourceId,
-    isResizeable,
+    isResizable,
     logPanelHeight,
     setLogPanelHeight,
   } = props;
@@ -213,7 +213,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         height: 0,
         width: '100%',
       }}
-      enable={{ top: !!isResizeable && !maximized && !!isExpanded }}
+      enable={{ top: !!isResizable && !maximized && !!isExpanded }}
       onResizeStop={(e, direction, ref, d) => {
         let height = d.height;
         const boundingRect = ref.getBoundingClientRect();
