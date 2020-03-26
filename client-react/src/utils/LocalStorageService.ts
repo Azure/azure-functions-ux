@@ -27,9 +27,11 @@ export class LocalStorageService {
         let newItem;
         let data = {};
         if (item && item.data) {
+          // If the cache item already exists, make sure to copy existing data
           newItem = LocalStorageService._getItem(resourceId);
           data = { ...newItem.data };
         }
+        // Overwrite the existing key-value pair if it exists or create a new one
         data[key] = value;
         newItem = {
           data,
