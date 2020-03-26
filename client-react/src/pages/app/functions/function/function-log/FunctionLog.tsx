@@ -215,7 +215,12 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       }}
       enable={{ top: !!isResizeable && !maximized && !!isExpanded }}
       onResizeStop={(e, direction, ref, d) => {
-        resizePanel(d.height);
+        let height = d.height;
+        const boundingRect = ref.getBoundingClientRect();
+        if (e['y'] && boundingRect['y']) {
+          height = boundingRect['y'] - e['y'];
+        }
+        resizePanel(height);
       }}>
       <FunctionLogCommandBar
         onChevronClick={onExpandClick}
