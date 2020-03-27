@@ -1,5 +1,5 @@
 import { style } from 'typestyle';
-import { LogLevel } from './FunctionLog.types';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 
 export const getMaximizedLogPanelHeight = (readOnlyBannerHeight?: number) => {
   return window.innerHeight - (164 + (readOnlyBannerHeight || 0));
@@ -31,20 +31,19 @@ export const logEntryDivStyle = style({
   paddingBottom: '5px',
 });
 
-export function getLogTextColor(severity: LogLevel): string {
-  switch (severity) {
-    case LogLevel.Error:
+export function getLogTextColor(severity: string = ''): string {
+  switch (severity.toLowerCase()) {
+    case CommonConstants.LogLevels.error:
       return '#ff6161';
-    case LogLevel.Information:
+    case CommonConstants.LogLevels.information:
       return '#00bfff';
-    case LogLevel.Warning:
+    case CommonConstants.LogLevels.warning:
       return 'orange';
-    case LogLevel.Verbose:
+    case CommonConstants.LogLevels.verbose:
     default:
       return 'white';
   }
 }
-
 export const logErrorDivStyle = style({
   whiteSpace: 'pre-wrap',
   paddingBottom: '5px',

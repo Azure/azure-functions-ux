@@ -26,7 +26,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.invocations);
 
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
-  const functionName = armFunctionDescriptor.name;
+  // const functionName = armFunctionDescriptor.name;
 
   const onPivotItemClicked = (item?: PivotItem) => {
     if (!!item) {

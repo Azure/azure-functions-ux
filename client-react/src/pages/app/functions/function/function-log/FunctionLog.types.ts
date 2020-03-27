@@ -6,7 +6,6 @@ export enum LogLevel {
 }
 
 export interface LogEntry {
-  timestamp: string;
-  level: LogLevel;
   message: string;
+  color: string;
 }

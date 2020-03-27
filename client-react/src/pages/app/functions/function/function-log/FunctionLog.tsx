@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   logStreamStyle,
   logEntryDivStyle,
-  getLogTextColor,
   logErrorDivStyle,
   logConnectingDivStyle,
   getMaximizedLogPanelHeight,
@@ -64,10 +63,6 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
   const [scrollHeight, setScrollHeight] = useState(0);
 
-  const formatLog = (logEntry: LogEntry): string => {
-    return `${logEntry.timestamp}   [${logEntry.level}]   ${logEntry.message}`;
-  };
-
   const onExpandClick = () => {
     if (toggleExpand) {
       if (isExpanded && maximized) {
@@ -86,7 +81,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   };
 
   const copyLogs = () => {
-    const logContent = !!logEntries ? logEntries.map(logEntry => formatLog(logEntry)).join(CommonConstants.newLine) : '';
+    const logContent = !!logEntries ? logEntries.map(logEntry => logEntry.message).join(CommonConstants.newLine) : '';
     TextUtilitiesService.copyContentToClipboard(logContent);
   };
 
@@ -184,7 +179,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
                 <div
                   key={logIndex}
                   className={logEntryDivStyle}
-                  style={{ color: getLogTextColor(logEntry.level) }}
+                  style={{ color: logEntry.color }}
                   /*Last Log Entry needs to be scrolled into focus*/
                   ref={log => {
                     if (logIndex + 1 === logEntries.length && logsContainer && !!log) {
@@ -193,7 +188,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
                       }
                     }
                   }}>
-                  {formatLog(logEntry)}
+                  {logEntry.message}
                 </div>
               );
             })}

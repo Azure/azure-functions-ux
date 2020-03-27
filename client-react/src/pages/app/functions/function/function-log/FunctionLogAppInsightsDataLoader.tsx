@@ -13,13 +13,38 @@ import { LogLevel, LogEntry } from './FunctionLog.types';
 import { getQuickPulseQueryEndpoint, defaultClient, getDefaultDocumentStreams } from './FunctionLog.constants';
 import { useTranslation } from 'react-i18next';
 import FunctionLog from './FunctionLog';
+import { getLogTextColor } from './FunctionLog.styles';
 
 interface FunctionLogAppInsightsDataLoaderProps {
   resourceId: string;
+  isExpanded: boolean;
+  forceMaximized?: boolean;
+  toggleExpand?: () => void;
+  toggleFullscreen?: (fullscreen: boolean) => void;
+  readOnlyBannerHeight?: number;
+  fileSavedCount?: number;
+  hideChevron?: boolean;
+  hideLiveMetrics?: boolean;
+  isResizable?: boolean;
+  logPanelHeight?: number;
+  setLogPanelHeight?: (height: number) => void;
 }
 
 const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoaderProps> = props => {
-  const { resourceId } = props;
+  const {
+    resourceId,
+    isExpanded,
+    forceMaximized,
+    toggleExpand,
+    toggleFullscreen,
+    readOnlyBannerHeight,
+    fileSavedCount,
+    hideChevron,
+    hideLiveMetrics,
+    isResizable,
+    logPanelHeight,
+    setLogPanelHeight,
+  } = props;
 
   const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
   const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
@@ -35,7 +60,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
   const [loadingMessage, setLoadingMessage] = useState<string | undefined>(t('functionEditor_connectingToAppInsights'));
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
-  const [allLogEntries, setAllLogEntries] = useState<SchemaDocument[]>([]);
+  const [allSchemaDocs, setAllSchemaDocs] = useState<SchemaDocument[]>([]);
   const [visibleLogEntries, setVisibleLogEntries] = useState<LogEntry[]>([]);
   const [callCount, setCallCount] = useState(0);
   const [logLevel, setLogLevel] = useState<LogLevel>(LogLevel.Information);
@@ -93,15 +118,17 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       .queryDetails(token, false, '')
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
-          let documents = dataV2.DataRanges[0].Documents.filter(doc => !!doc.Content.Message && doc.Content.OperationName === functionName);
+          let newSchemaDocs = dataV2.DataRanges[0].Documents.filter(
+            doc => !!doc.Content.Message && doc.Content.OperationName === functionName
+          );
           if (callCount === 0) {
-            documents = trimPreviousLogs(documents);
+            newSchemaDocs = trimPreviousDocs(newSchemaDocs);
           }
 
-          const newAllLogEntries = allLogEntries.concat(documents);
-          setAllLogEntries(newAllLogEntries);
-          const filteredLogs = filterByLogLevel(newAllLogEntries);
-          setVisibleLogEntries(mapToLogEntry(filteredLogs));
+          const updatedSchemaDocs = allSchemaDocs.concat(newSchemaDocs);
+          setAllSchemaDocs(updatedSchemaDocs);
+          const filteredDocs = filterDocsByLogLevel(updatedSchemaDocs);
+          setVisibleLogEntries(mapDocsToLogEntry(filteredDocs));
         }
       })
       .catch(error => {
@@ -117,14 +144,14 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       });
   };
 
-  const trimPreviousLogs = (documents: SchemaDocument[]): SchemaDocument[] => {
+  const trimPreviousDocs = (documents: SchemaDocument[]): SchemaDocument[] => {
     if (documents.length > 100) {
       return documents.slice(0, 100).reverse();
     }
     return documents.reverse();
   };
 
-  const filterByLogLevel = (documents: SchemaDocument[]): SchemaDocument[] => {
+  const filterDocsByLogLevel = (documents: SchemaDocument[]): SchemaDocument[] => {
     switch (logLevel) {
       case LogLevel.Verbose:
         return documents;
@@ -151,28 +178,11 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     }
   };
 
-  const mapToLogEntry = (documents: SchemaDocument[]): LogEntry[] => {
+  const mapDocsToLogEntry = (documents: SchemaDocument[]): LogEntry[] => {
     return documents.map<LogEntry>(doc => ({
-      timestamp: doc.Timestamp,
-      message: doc.Content.Message || '',
-      level: getLogLevel(doc.Content.SeverityLevel),
+      message: `${doc.Timestamp}   [${doc.Content.SeverityLevel}]   ${doc.Content.Message}`,
+      color: getLogTextColor(doc.Content.SeverityLevel),
     }));
-  };
-
-  const getLogLevel = (severity?: string): LogLevel => {
-    if (severity === CommonConstants.LogLevels.error) {
-      return LogLevel.Error;
-    }
-
-    if (severity === CommonConstants.LogLevels.warning) {
-      return LogLevel.Warning;
-    }
-
-    if (severity === CommonConstants.LogLevels.information) {
-      return LogLevel.Information;
-    }
-
-    return LogLevel.Verbose;
   };
 
   const disconnectQueryLayer = () => {
@@ -187,12 +197,19 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   };
 
   const startLogs = () => {
-    if (appInsightsToken) {
-      disconnectQueryLayer();
-      reconnectQueryLayer();
-    } else {
+    if (appInsightsComponent) {
+      if (appInsightsToken) {
+        disconnectQueryLayer();
+        reconnectQueryLayer();
+      } else {
+        setLoadingMessage(t('functionEditor_connectingToAppInsights'));
+      }
+    } else if (appInsightsComponent === null) {
       setErrorMessage(t('functionEditor_appInsightsNotConfigured'));
+    } else {
+      setLoadingMessage(t('functionEditor_connectingToAppInsights'));
     }
+
     setStarted(true);
   };
 
@@ -203,7 +220,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   const clearLogs = () => {
     setVisibleLogEntries([]);
-    setAllLogEntries([]);
+    setAllSchemaDocs([]);
   };
 
   useEffect(() => {
@@ -217,6 +234,9 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       fetchComponent(true);
     } else if (!appInsightsToken) {
       fetchToken(appInsightsComponent);
+    } else if (started) {
+      disconnectQueryLayer();
+      reconnectQueryLayer();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -228,11 +248,11 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       return () => clearInterval(timeout);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allLogEntries, queryLayer, appInsightsToken, callCount, logLevel]);
+  }, [allSchemaDocs, queryLayer, appInsightsToken, callCount, logLevel]);
 
   useEffect(() => {
-    const filteredLogs = filterByLogLevel(allLogEntries);
-    setVisibleLogEntries(mapToLogEntry(filteredLogs));
+    const filteredDocs = filterDocsByLogLevel(allSchemaDocs);
+    setVisibleLogEntries(mapDocsToLogEntry(filteredDocs));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logLevel]);
 
@@ -247,7 +267,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   return (
     <FunctionLog
-      isExpanded={true}
+      isExpanded={isExpanded}
       started={started}
       startLogs={startLogs}
       stopLogs={stopLogs}
@@ -256,6 +276,17 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       logEntries={visibleLogEntries}
       errorMessage={errorMessage}
       loadingMessage={loadingMessage}
+      appInsightsResourceId={appInsightsComponent ? appInsightsComponent.id : ''}
+      forceMaximized={forceMaximized}
+      toggleExpand={toggleExpand}
+      toggleFullscreen={toggleFullscreen}
+      readOnlyBannerHeight={readOnlyBannerHeight}
+      fileSavedCount={fileSavedCount}
+      hideChevron={hideChevron}
+      hideLiveMetrics={hideLiveMetrics}
+      isResizable={isResizable}
+      logPanelHeight={logPanelHeight}
+      setLogPanelHeight={setLogPanelHeight}
     />
   );
 };
