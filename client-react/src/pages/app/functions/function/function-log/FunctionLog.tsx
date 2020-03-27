@@ -17,6 +17,7 @@ import { LogCategories } from '../../../../../utils/LogCategories';
 import { TextUtilitiesService } from '../../../../../utils/textUtilities';
 import FunctionLogCommandBar from './FunctionLogCommandBar';
 import { Resizable } from 're-resizable';
+import { LogLevel } from './FunctionLog.types';
 
 interface FunctionLogProps {
   isExpanded: boolean;
@@ -58,11 +59,13 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [started, setStarted] = useState(false);
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
-  const [logEntries, setLogEntries] = useState<SchemaDocument[]>([]);
+  const [allLogEntries, setAllLogEntries] = useState<SchemaDocument[]>([]);
+  const [visibleLogEntries, setVisibleLogEntries] = useState<SchemaDocument[]>([]);
   const [callCount, setCallCount] = useState(0);
   const [appInsightsError, setAppInsightsError] = useState(false);
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
   const [scrollHeight, setScrollHeight] = useState(0);
+  const [logLevel, setLogLevel] = useState<LogLevel>(LogLevel.Information);
 
   const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, token: string) => {
     quickPulseQueryLayer
@@ -70,15 +73,15 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
           let documents = dataV2.DataRanges[0].Documents.filter(
-            (doc: SchemaDocument) =>
-              !!doc.Content.Message &&
-              (!doc.Content.SeverityLevel || doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.verbose) &&
-              doc.Content.OperationName === functionName
+            (doc: SchemaDocument) => !!doc.Content.Message && doc.Content.OperationName === functionName
           );
           if (callCount === 0) {
             documents = trimPreviousLogs(documents);
           }
-          setLogEntries(logEntries.concat(documents));
+
+          const newAllLogEntries = allLogEntries.concat(documents);
+          setAllLogEntries(newAllLogEntries);
+          setVisibleLogEntries(filterByLogLevel(newAllLogEntries));
         }
       })
       .catch(error => {
@@ -94,14 +97,41 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       });
   };
 
-  const trimPreviousLogs = (documents: SchemaDocument[]) => {
+  const trimPreviousLogs = (documents: SchemaDocument[]): SchemaDocument[] => {
     if (documents.length > 100) {
       return documents.slice(0, 100).reverse();
     }
     return documents.reverse();
   };
 
-  const formatLog = (logEntry: SchemaDocument) => {
+  const filterByLogLevel = (documents: SchemaDocument[]): SchemaDocument[] => {
+    switch (logLevel) {
+      case LogLevel.Verbose:
+        return documents;
+      case LogLevel.Information:
+        return documents.filter(
+          (doc: SchemaDocument) =>
+            !doc.Content.SeverityLevel || doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.verbose
+        );
+      case LogLevel.Warning:
+        return documents.filter(
+          (doc: SchemaDocument) =>
+            !doc.Content.SeverityLevel ||
+            (doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.verbose &&
+              doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.information)
+        );
+      case LogLevel.Error:
+        return documents.filter(
+          (doc: SchemaDocument) =>
+            !doc.Content.SeverityLevel ||
+            (doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.verbose &&
+              doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.information &&
+              doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.warning)
+        );
+    }
+  };
+
+  const formatLog = (logEntry: SchemaDocument): string => {
     return `${logEntry.Timestamp}   [${logEntry.Content.SeverityLevel}]   ${logEntry.Content.Message}`;
   };
 
@@ -149,11 +179,12 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   };
 
   const clearLogs = () => {
-    setLogEntries([]);
+    setVisibleLogEntries([]);
+    setAllLogEntries([]);
   };
 
   const copyLogs = () => {
-    const logContent = logEntries.map(logEntry => formatLog(logEntry)).join('\n');
+    const logContent = visibleLogEntries.map(logEntry => formatLog(logEntry)).join(CommonConstants.newLine);
     TextUtilitiesService.copyContentToClipboard(logContent);
   };
 
@@ -205,7 +236,12 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       return () => clearInterval(timeout);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [logEntries, queryLayer, appInsightsToken, callCount]);
+  }, [allLogEntries, queryLayer, appInsightsToken, callCount, logLevel]);
+
+  useEffect(() => {
+    setVisibleLogEntries(filterByLogLevel(allLogEntries));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logLevel]);
 
   return (
     <Resizable
@@ -235,6 +271,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         hideChevron={!!hideChevron}
         hideLiveMetrics={!!hideLiveMetrics}
         appInsightsResourceId={appInsightsResourceId}
+        setLogLevel={setLogLevel}
       />
       {isExpanded && (
         <div
@@ -254,8 +291,8 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
           )}
 
           {/*Log Entries*/}
-          {!!logEntries &&
-            logEntries.map((logEntry: SchemaDocument, logIndex: number) => {
+          {!!visibleLogEntries &&
+            visibleLogEntries.map((logEntry: SchemaDocument, logIndex: number) => {
               return (
                 <div
                   key={logIndex}
@@ -263,7 +300,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
                   style={{ color: getLogTextColor(logEntry.Content.SeverityLevel || '') }}
                   /*Last Log Entry needs to be scrolled into focus*/
                   ref={log => {
-                    if (logIndex + 1 === logEntries.length && logsContainer && !!log) {
+                    if (logIndex + 1 === visibleLogEntries.length && logsContainer && !!log) {
                       if (Math.floor(scrollHeight - logsContainer.scrollTop) === Math.floor(logsContainer.clientHeight)) {
                         log.scrollIntoView({ behavior: 'smooth' });
                       }

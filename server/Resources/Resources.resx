@@ -5853,4 +5853,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
         <value>Remove the App Service deployment workflow configuration from Azure Portal.</value>
     </data>
+    <data name="information" xml:space="preserve">
+        <value>Information</value>
+    </data>
+    <data name="verbose" xml:space="preserve">
+        <value>Verbose</value>
+    </data>
 </root>

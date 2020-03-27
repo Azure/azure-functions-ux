@@ -149,4 +149,6 @@ export class CommonConstants {
     dark: 'vs-dark',
     light: 'vs-light',
   };
+
+  public static readonly newLine = '\n';
 }

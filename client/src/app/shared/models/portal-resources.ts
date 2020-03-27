@@ -1893,4 +1893,6 @@ export class PortalResources {
   public static githubActionDisconnectButton = 'githubActionDisconnectButton';
   public static githubActionCancelDisconnectButton = 'githubActionCancelDisconnectButton';
   public static githubActionWorkflowDeleteCommitMessage = 'githubActionWorkflowDeleteCommitMessage';
+  public static information = 'information';
+  public static verbose = 'verbose';
 }

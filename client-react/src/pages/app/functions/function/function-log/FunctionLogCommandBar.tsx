@@ -6,6 +6,7 @@ import { CustomCommandBarButton } from '../../../../../components/CustomCommandB
 import { logCommandBarStyle } from './FunctionLog.styles';
 import { PortalContext } from '../../../../../PortalContext';
 import { ArmResourceDescriptor } from '../../../../../utils/resourceDescriptors';
+import { LogLevel } from './FunctionLog.types';
 
 interface FunctionLogCommandBarProps {
   onChevronClick: () => void;
@@ -20,6 +21,7 @@ interface FunctionLogCommandBarProps {
   hideChevron: boolean;
   hideLiveMetrics: boolean;
   appInsightsResourceId: string;
+  setLogLevel: (level: LogLevel) => void;
 }
 
 const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
@@ -36,6 +38,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     hideChevron,
     hideLiveMetrics,
     appInsightsResourceId,
+    setLogLevel,
   } = props;
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
@@ -51,7 +54,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   const getFarItems = (): ICommandBarItemProps[] => {
     const farItems: ICommandBarItemProps[] = [];
     if (isPanelVisible) {
-      farItems.push(getStartItem(), getCopyItem(), getClearItem());
+      farItems.push(getFilterItem(), getStartItem(), getCopyItem(), getClearItem());
       if (!hideLiveMetrics) {
         farItems.push(getLiveMetricsItem());
       }
@@ -72,6 +75,26 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       disabled: false,
       ariaLabel: t('logStreaming_logs'),
       onClick: onChevronClick,
+    };
+  };
+
+  const getFilterItem = (): ICommandBarItemProps => {
+    return {
+      key: 'filter',
+      name: t('functionMonitor_logLevel'),
+      iconProps: {
+        iconName: 'Filter',
+      },
+      subMenuProps: {
+        items: [
+          { key: 'verbose', text: t('verbose'), onClick: () => setLogLevel(LogLevel.Verbose) },
+          { key: 'information', text: t('information'), onClick: () => setLogLevel(LogLevel.Information) },
+          { key: 'warning', text: t('warning'), onClick: () => setLogLevel(LogLevel.Warning) },
+          { key: 'error', text: t('error'), onClick: () => setLogLevel(LogLevel.Error) },
+        ],
+      },
+      disabled: false,
+      ariaLabel: t('functionMonitor_logLevel'),
     };
   };
 
