@@ -280,7 +280,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
             ) {
               this.errorMessage = '';
               this.repositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
-              this._repoName = this.repositoryText.toLocaleLowerCase().replace(`${DeploymentCenterConstants.githubApiUrl}/`, '');
+              this._repoName = this.repositoryText.toLocaleLowerCase().replace(`${DeploymentCenterConstants.githubUri}/`, '');
               this.branchText = this.deploymentObject.sourceControls.properties.branch;
               this.githubActionLink = `${this.repositoryText}/actions?query=event%3Apush+branch%3A${this.branchText}`;
               this._repositoryStatusStream$.next(true);

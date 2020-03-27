@@ -247,7 +247,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   }
 
   private _deployGithubActions() {
-    const repo = this.wizardValues.sourceSettings.repoUrl.replace(`${DeploymentCenterConstants.githubApiUrl}/`, '');
+    const repo = this.wizardValues.sourceSettings.repoUrl.replace(`${DeploymentCenterConstants.githubUri}/`, '');
     const branch = this.wizardValues.sourceSettings.branch || 'master';
     const workflowInformation = this._githubService.getWorkflowInformation(
       this.wizardValues.buildSettings,
