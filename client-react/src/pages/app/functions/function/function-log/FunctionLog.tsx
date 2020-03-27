@@ -81,7 +81,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   };
 
   const copyLogs = () => {
-    const logContent = !!visibleLogEntries ? visibleLogEntries.map(logEntry => logEntry.message).join(CommonConstants.newLine) : '';
+    const logContent = visibleLogEntries.map(logEntry => logEntry.message).join(CommonConstants.newLine);
     TextUtilitiesService.copyContentToClipboard(logContent);
   };
 
@@ -193,25 +193,24 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
           {!errorMessage && started && loadingMessage && <div className={logConnectingDivStyle}>{loadingMessage}</div>}
 
           {/*Log Entries*/}
-          {!!visibleLogEntries &&
-            visibleLogEntries.map((logEntry: LogEntry, logIndex: number) => {
-              return (
-                <div
-                  key={logIndex}
-                  className={logEntryDivStyle}
-                  style={{ color: logEntry.color }}
-                  /*Last Log Entry needs to be scrolled into focus*/
-                  ref={log => {
-                    if (logIndex + 1 === visibleLogEntries.length && logsContainer && !!log) {
-                      if (Math.floor(scrollHeight - logsContainer.scrollTop) === Math.floor(logsContainer.clientHeight)) {
-                        log.scrollIntoView({ behavior: 'smooth' });
-                      }
+          {visibleLogEntries.map((logEntry: LogEntry, logIndex: number) => {
+            return (
+              <div
+                key={logIndex}
+                className={logEntryDivStyle}
+                style={{ color: logEntry.color }}
+                /*Last Log Entry needs to be scrolled into focus*/
+                ref={log => {
+                  if (logIndex + 1 === visibleLogEntries.length && logsContainer && !!log) {
+                    if (Math.floor(scrollHeight - logsContainer.scrollTop) === Math.floor(logsContainer.clientHeight)) {
+                      log.scrollIntoView({ behavior: 'smooth' });
                     }
-                  }}>
-                  {logEntry.message}
-                </div>
-              );
-            })}
+                  }
+                }}>
+                {logEntry.message}
+              </div>
+            );
+          })}
         </div>
       )}
     </Resizable>
