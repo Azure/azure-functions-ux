@@ -14,7 +14,6 @@ import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { BindingManager } from '../../../../../utils/BindingManager';
 import { AppKeysInfo } from '../../app-keys/AppKeys.types';
 import SiteService from '../../../../../ApiHelpers/SiteService';
-import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../../../../../models/functions/runtime-extension';
 import { Host } from '../../../../../models/functions/host';
 import LogService from '../../../../../utils/LogService';
@@ -22,9 +21,7 @@ import { LogCategories } from '../../../../../utils/LogCategories';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import { Method } from 'axios';
 import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
-import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { AppInsightsComponent } from '../../../../../models/app-insights';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { ValidationRegex } from '../../../../../utils/constants/ValidationRegex';
 import { KeyValue } from '../../../../../models/portal-models';
@@ -48,10 +45,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
   const [responseContent, setResponseContent] = useState<ResponseContent | undefined>(undefined);
   const [functionRunning, setFunctionRunning] = useState(false);
-  const [appInsightsToken, setAppInsightsToken] = useState<string | undefined>(undefined);
   const [hostUrls, setHostUrls] = useState<UrlObj[]>([]);
   const [functionUrls, setFunctionUrls] = useState<UrlObj[]>([]);
-  const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined>(undefined);
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [appPermission, setAppPermission] = useState(true);
   const [testData, setTestData] = useState<string | undefined>(undefined);
@@ -91,21 +86,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       LogService.error(LogCategories.FunctionEdit, 'getFunction', `Failed to get function info: ${functionInfoResponse.metadata.error}`);
     }
 
-    if (appSettingsResponse.metadata.success && appSettingsResponse.data.properties) {
-      const appSettings = appSettingsResponse.data.properties;
-      const appInsightsConnectionString = appSettings[CommonConstants.AppSettingNames.appInsightsConnectionString];
-      const appInsightsInstrumentationKey = appSettings[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
-
-      const appInsightsResponse = await (appInsightsConnectionString
-        ? AppInsightsService.getAppInsightsComponentFromConnectionString(appInsightsConnectionString, startupInfoContext.subscriptions)
-        : appInsightsInstrumentationKey
-        ? AppInsightsService.getAppInsightsComponentFromInstrumentationKey(appInsightsInstrumentationKey, startupInfoContext.subscriptions)
-        : null);
-
-      if (appInsightsResponse) {
-        setAppInsightsComponent(appInsightsResponse as ArmObj<AppInsightsComponent>);
-      }
-    } else {
+    if (!appSettingsResponse.metadata.success || !appSettingsResponse.data.properties) {
       if (appSettingsResponse.metadata.status === 403) {
         // RBAC Permissions
         setAppPermission(false);
@@ -361,10 +342,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
   };
 
-  const resetAppInsightsToken = () => {
-    setAppInsightsToken(undefined);
-  };
-
   const getKeyHeader = (): KeyValue<string> => {
     if (hostKeys && hostKeys.masterKey) {
       return {
@@ -428,24 +405,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   }, []);
 
   useEffect(() => {
-    if (appInsightsComponent && !appInsightsToken) {
-      AppInsightsService.getAppInsightsComponentToken(appInsightsComponent.id).then(appInsightsComponentTokenResponse => {
-        if (appInsightsComponentTokenResponse.metadata.success) {
-          setAppInsightsToken(appInsightsComponentTokenResponse.data.token);
-        } else {
-          LogService.error(
-            LogCategories.FunctionEdit,
-            'getAppInsightsComponentToken',
-            `Failed to get App Insights Component Token: ${appInsightsComponent}`
-          );
-        }
-      });
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appInsightsComponent, appInsightsToken]);
-
-  useEffect(() => {
     if (!!site && !!functionInfo) {
       if (!!hostKeys) {
         setUrlsAndOptions({ master: hostKeys.masterKey, ...hostKeys.functionKeys, ...hostKeys.systemKeys }, UrlType.Host);
@@ -478,9 +437,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           runtimeVersion={runtimeVersion}
           responseContent={responseContent}
           functionRunning={functionRunning}
-          appInsightsToken={appInsightsToken}
           urlObjs={[...functionUrls, ...hostUrls]}
-          resetAppInsightsToken={resetAppInsightsToken}
           showTestPanel={showTestPanel}
           setShowTestPanel={setShowTestPanel}
           appPermission={appPermission}
@@ -488,7 +445,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           refresh={refresh}
           isRefreshing={isRefreshing}
           xFunctionKey={getDefaultXFunctionKey()}
-          appInsightsResourceId={appInsightsComponent ? appInsightsComponent.id : ''}
           getFunctionUrl={getFunctionUrl}
         />
       </div>

@@ -20,8 +20,8 @@ interface FunctionLogCommandBarProps {
   showMaximize: boolean;
   hideChevron: boolean;
   hideLiveMetrics: boolean;
-  appInsightsResourceId: string;
   setLogLevel: (level: LogLevel) => void;
+  appInsightsResourceId?: string;
 }
 
 const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
@@ -151,22 +151,24 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   };
 
   const openLiveMetrics = () => {
-    const descriptor = new ArmResourceDescriptor(appInsightsResourceId);
-    portalContext.openBlade(
-      {
-        detailBlade: 'QuickPulseBladeV2',
-        detailBladeInputs: {
-          ComponentId: {
-            Name: descriptor.resourceName,
-            SubscriptionId: descriptor.subscription,
-            ResourceGroup: descriptor.resourceGroup,
+    if (appInsightsResourceId) {
+      const descriptor = new ArmResourceDescriptor(appInsightsResourceId);
+      portalContext.openBlade(
+        {
+          detailBlade: 'QuickPulseBladeV2',
+          detailBladeInputs: {
+            ComponentId: {
+              Name: descriptor.resourceName,
+              SubscriptionId: descriptor.subscription,
+              ResourceGroup: descriptor.resourceGroup,
+            },
+            ResourceId: descriptor.resourceId,
           },
-          ResourceId: descriptor.resourceId,
+          extension: 'AppInsightsExtension',
         },
-        extension: 'AppInsightsExtension',
-      },
-      'function-logs'
-    );
+        'function-logs'
+      );
+    }
   };
 
   const getMaximizeItem = (): ICommandBarItemProps => {
