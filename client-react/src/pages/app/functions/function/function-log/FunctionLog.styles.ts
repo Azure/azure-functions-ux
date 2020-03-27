@@ -31,7 +31,7 @@ export const logEntryDivStyle = style({
   paddingBottom: '5px',
 });
 
-export function getLogTextColor(severity: string = ''): string {
+export function getLogTextColor(severity: string): string {
   switch (severity.toLowerCase()) {
     case CommonConstants.LogLevels.error:
       return '#ff6161';

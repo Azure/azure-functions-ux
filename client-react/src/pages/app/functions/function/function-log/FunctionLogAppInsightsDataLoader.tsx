@@ -181,7 +181,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const mapDocsToLogEntry = (documents: SchemaDocument[]): LogEntry[] => {
     return documents.map<LogEntry>(doc => ({
       message: `${doc.Timestamp}   [${doc.Content.SeverityLevel}]   ${doc.Content.Message}`,
-      color: getLogTextColor(doc.Content.SeverityLevel),
+      color: getLogTextColor(doc.Content.SeverityLevel || ''),
     }));
   };
 
