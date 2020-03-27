@@ -20,6 +20,7 @@ import {
   Constants,
   JavaVersions,
   JavaContainers,
+  DeploymentCenterConstants,
 } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
@@ -246,7 +247,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   }
 
   private _deployGithubActions() {
-    const repo = this.wizardValues.sourceSettings.repoUrl.replace('https://github.com/', '');
+    const repo = this.wizardValues.sourceSettings.repoUrl.replace(`${DeploymentCenterConstants.githubApiUrl}/`, '');
     const branch = this.wizardValues.sourceSettings.branch || 'master';
     const workflowInformation = this._githubService.getWorkflowInformation(
       this.wizardValues.buildSettings,

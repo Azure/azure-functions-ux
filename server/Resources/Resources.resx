@@ -5857,6 +5857,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Can not find repository '{0}'. Please navigate to your GitHub account to investigate further.</value>
     </data>
     <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
-        <value>Can not find branch '{0}' in repository '{1}'. Please navigate to your respitory to investigate further.</value>
+        <value>Can not find branch '{0}' in repository '{1}'. Please navigate to your repository to investigate further.</value>
     </data>
 </root>

@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { DeploymentData, Deployment } from '../../Models/deployment-data';
 import { Component, Input, OnChanges } from '@angular/core';
-import { LogCategories, SiteTabIds } from '../../../../shared/models/constants';
+import { LogCategories, SiteTabIds, DeploymentCenterConstants } from '../../../../shared/models/constants';
 import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-manager';
 import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { DeploymentDashboard } from '../deploymentDashboard';
@@ -89,7 +89,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     });
 
     this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
-    this._setuReositoryStatusStream();
+    this._setupRepositoryStatusStream();
     this._setupViewInfoStream();
   }
 
@@ -280,7 +280,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
             ) {
               this.errorMessage = '';
               this.repositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
-              this._repoName = this.repositoryText.toLocaleLowerCase().replace('https://github.com/', '');
+              this._repoName = this.repositoryText.toLocaleLowerCase().replace(`${DeploymentCenterConstants.githubApiUrl}/`, '');
               this.branchText = this.deploymentObject.sourceControls.properties.branch;
               this.githubActionLink = `${this.repositoryText}/actions?query=event%3Apush+branch%3A${this.branchText}`;
               this._repositoryStatusStream$.next(true);
@@ -317,7 +317,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       });
   }
 
-  private _setuReositoryStatusStream() {
+  private _setupRepositoryStatusStream() {
     this._repositoryStatusStream$
       .takeUntil(this._ngUnsubscribe$)
       .switchMap(_ =>

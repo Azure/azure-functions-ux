@@ -61,10 +61,8 @@ export class GithubService implements OnDestroy {
   }
 
   fetchRepo(authToken: string, repoUrl: string, repoName: string): Observable<Response> {
-    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}`;
-
     return this._cacheService.post(Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}&t=${Guid.newTinyGuid()}`, true, null, {
-      url,
+      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}`,
       authToken,
     });
   }
@@ -81,24 +79,20 @@ export class GithubService implements OnDestroy {
   }
 
   fetchBranch(authToken: string, repoUrl: string, repoName: string, branchName: string): Observable<Response> {
-    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches/${branchName}`;
-
     return this._cacheService.post(Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}&t=${Guid.newTinyGuid()}`, true, null, {
-      url,
+      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches/${branchName}`,
       authToken,
     });
   }
 
   fetchAllWorkflowConfigurations(authToken: string, repoUrl: string, repoName: string, branchName: string): Observable<FileContent[]> {
-    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/.github/workflows?ref=${branchName}`;
-
     return this._cacheService
       .post(
         Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}/contents/.github/workflows&t=${Guid.newTinyGuid()}`,
         true,
         null,
         {
-          url,
+          url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/.github/workflows?ref=${branchName}`,
           authToken,
         }
       )
@@ -113,15 +107,13 @@ export class GithubService implements OnDestroy {
     branchName: string,
     workflowYmlPath: string
   ): Observable<FileContent> {
-    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/${workflowYmlPath}?ref=${branchName}`;
-
     return this._cacheService
       .post(
         Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}/contents/${workflowYmlPath}&t=${Guid.newTinyGuid()}`,
         true,
         null,
         {
-          url,
+          url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/${workflowYmlPath}?ref=${branchName}`,
           authToken,
         }
       )
