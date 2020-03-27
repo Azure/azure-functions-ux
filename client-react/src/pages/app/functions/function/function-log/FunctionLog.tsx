@@ -19,8 +19,7 @@ interface FunctionLogProps {
   startLogs: () => void;
   stopLogs: () => void;
   clearLogs: () => void;
-  setLogLevel: (level: LogLevel) => void;
-  logEntries?: LogEntry[];
+  allLogEntries?: LogEntry[];
   errorMessage?: string;
   loadingMessage?: string;
   appInsightsResourceId?: string;
@@ -56,12 +55,13 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     startLogs,
     stopLogs,
     clearLogs,
-    logEntries,
-    setLogLevel,
+    allLogEntries,
   } = props;
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
   const [scrollHeight, setScrollHeight] = useState(0);
+  const [visibleLogEntries, setVisibleLogEntries] = useState<LogEntry[]>([]);
+  const [logLevel, setLogLevel] = useState<LogLevel>(LogLevel.Information);
 
   const onExpandClick = () => {
     if (toggleExpand) {
@@ -81,7 +81,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   };
 
   const copyLogs = () => {
-    const logContent = !!logEntries ? logEntries.map(logEntry => logEntry.message).join(CommonConstants.newLine) : '';
+    const logContent = !!visibleLogEntries ? visibleLogEntries.map(logEntry => logEntry.message).join(CommonConstants.newLine) : '';
     TextUtilitiesService.copyContentToClipboard(logContent);
   };
 
@@ -100,6 +100,21 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       } else {
         setMaximized(true);
       }
+    }
+  };
+
+  const filterEntriesByLogLevel = (logEntries: LogEntry[]): LogEntry[] => {
+    switch (logLevel) {
+      case LogLevel.Verbose:
+        return logEntries;
+      case LogLevel.Information:
+        return logEntries.filter(logEntry => logEntry.level !== LogLevel.Verbose);
+      case LogLevel.Warning:
+        return logEntries.filter(logEntry => logEntry.level !== LogLevel.Verbose && logEntry.level !== LogLevel.Information);
+      case LogLevel.Error:
+        return logEntries.filter(
+          logEntry => logEntry.level !== LogLevel.Verbose && logEntry.level !== LogLevel.Information && logEntry.level !== LogLevel.Warning
+        );
     }
   };
 
@@ -126,6 +141,11 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fileSavedCount]);
+
+  useEffect(() => {
+    setVisibleLogEntries(filterEntriesByLogLevel(allLogEntries || []));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logLevel, allLogEntries]);
 
   return (
     <Resizable
@@ -173,8 +193,8 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
           {!errorMessage && started && loadingMessage && <div className={logConnectingDivStyle}>{loadingMessage}</div>}
 
           {/*Log Entries*/}
-          {!!logEntries &&
-            logEntries.map((logEntry: LogEntry, logIndex: number) => {
+          {!!visibleLogEntries &&
+            visibleLogEntries.map((logEntry: LogEntry, logIndex: number) => {
               return (
                 <div
                   key={logIndex}
@@ -182,7 +202,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
                   style={{ color: logEntry.color }}
                   /*Last Log Entry needs to be scrolled into focus*/
                   ref={log => {
-                    if (logIndex + 1 === logEntries.length && logsContainer && !!log) {
+                    if (logIndex + 1 === visibleLogEntries.length && logsContainer && !!log) {
                       if (Math.floor(scrollHeight - logsContainer.scrollTop) === Math.floor(logsContainer.clientHeight)) {
                         log.scrollIntoView({ behavior: 'smooth' });
                       }

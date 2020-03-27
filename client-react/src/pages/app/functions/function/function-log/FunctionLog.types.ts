@@ -8,4 +8,5 @@ export enum LogLevel {
 export interface LogEntry {
   message: string;
   color: string;
+  level: LogLevel;
 }

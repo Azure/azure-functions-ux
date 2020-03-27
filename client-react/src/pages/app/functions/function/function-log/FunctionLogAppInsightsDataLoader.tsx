@@ -60,10 +60,8 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
   const [loadingMessage, setLoadingMessage] = useState<string | undefined>(t('functionEditor_connectingToAppInsights'));
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
-  const [allSchemaDocs, setAllSchemaDocs] = useState<SchemaDocument[]>([]);
-  const [visibleLogEntries, setVisibleLogEntries] = useState<LogEntry[]>([]);
+  const [allLogEntries, setAllLogEntries] = useState<LogEntry[]>([]);
   const [callCount, setCallCount] = useState(0);
-  const [logLevel, setLogLevel] = useState<LogLevel>(LogLevel.Information);
 
   const fetchComponent = async (force?: boolean) => {
     const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId, force);
@@ -118,17 +116,14 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       .queryDetails(token, false, '')
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
-          let newSchemaDocs = dataV2.DataRanges[0].Documents.filter(
-            doc => !!doc.Content.Message && doc.Content.OperationName === functionName
-          );
+          let newDocs = dataV2.DataRanges[0].Documents.filter(doc => !!doc.Content.Message && doc.Content.OperationName === functionName);
           if (callCount === 0) {
-            newSchemaDocs = trimPreviousDocs(newSchemaDocs);
+            newDocs = trimPreviousDocs(newDocs);
           }
 
-          const updatedSchemaDocs = allSchemaDocs.concat(newSchemaDocs);
-          setAllSchemaDocs(updatedSchemaDocs);
-          const filteredDocs = filterDocsByLogLevel(updatedSchemaDocs);
-          setVisibleLogEntries(mapDocsToLogEntry(filteredDocs));
+          const newLogEntires = mapDocsToLogEntry(newDocs);
+          const updatedLogEntries = allLogEntries.concat(newLogEntires);
+          setAllLogEntries(updatedLogEntries);
         }
       })
       .catch(error => {
@@ -151,38 +146,27 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     return documents.reverse();
   };
 
-  const filterDocsByLogLevel = (documents: SchemaDocument[]): SchemaDocument[] => {
-    switch (logLevel) {
-      case LogLevel.Verbose:
-        return documents;
-      case LogLevel.Information:
-        return documents.filter(
-          (doc: SchemaDocument) =>
-            !doc.Content.SeverityLevel || doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.verbose
-        );
-      case LogLevel.Warning:
-        return documents.filter(
-          (doc: SchemaDocument) =>
-            !doc.Content.SeverityLevel ||
-            (doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.verbose &&
-              doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.information)
-        );
-      case LogLevel.Error:
-        return documents.filter(
-          (doc: SchemaDocument) =>
-            !doc.Content.SeverityLevel ||
-            (doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.verbose &&
-              doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.information &&
-              doc.Content.SeverityLevel.toLowerCase() !== CommonConstants.LogLevels.warning)
-        );
-    }
-  };
-
   const mapDocsToLogEntry = (documents: SchemaDocument[]): LogEntry[] => {
     return documents.map<LogEntry>(doc => ({
       message: `${doc.Timestamp}   [${doc.Content.SeverityLevel}]   ${doc.Content.Message}`,
       color: getLogTextColor(doc.Content.SeverityLevel || ''),
+      level: getLogLevel(doc.Content.SeverityLevel || ''),
     }));
+  };
+
+  const getLogLevel = (severity: string): LogLevel => {
+    if (severity) {
+      if (severity.toLowerCase() === CommonConstants.LogLevels.error) {
+        return LogLevel.Error;
+      }
+      if (severity.toLowerCase() === CommonConstants.LogLevels.warning) {
+        return LogLevel.Warning;
+      }
+      if (severity.toLowerCase() === CommonConstants.LogLevels.information) {
+        return LogLevel.Information;
+      }
+    }
+    return LogLevel.Verbose;
   };
 
   const disconnectQueryLayer = () => {
@@ -219,8 +203,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   };
 
   const clearLogs = () => {
-    setVisibleLogEntries([]);
-    setAllSchemaDocs([]);
+    setAllLogEntries([]);
   };
 
   useEffect(() => {
@@ -248,13 +231,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       return () => clearInterval(timeout);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allSchemaDocs, queryLayer, appInsightsToken, callCount, logLevel]);
-
-  useEffect(() => {
-    const filteredDocs = filterDocsByLogLevel(allSchemaDocs);
-    setVisibleLogEntries(mapDocsToLogEntry(filteredDocs));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [logLevel]);
+  }, [allLogEntries, queryLayer, appInsightsToken, callCount]);
 
   useEffect(() => {
     if (callCount > 0 && !!loadingMessage) {
@@ -272,8 +249,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       startLogs={startLogs}
       stopLogs={stopLogs}
       clearLogs={clearLogs}
-      setLogLevel={setLogLevel}
-      logEntries={visibleLogEntries}
+      allLogEntries={allLogEntries}
       errorMessage={errorMessage}
       loadingMessage={loadingMessage}
       appInsightsResourceId={appInsightsComponent ? appInsightsComponent.id : ''}
