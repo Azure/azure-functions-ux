@@ -55,7 +55,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     const farItems: ICommandBarItemProps[] = [];
     if (isPanelVisible) {
       farItems.push(getFilterItem(), getStartItem(), getCopyItem(), getClearItem());
-      if (!hideLiveMetrics && !!appInsightsResourceId) {
+      if (!hideLiveMetrics) {
         farItems.push(getLiveMetricsItem());
       }
       if (showMaximize) {

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import { paddingStyle } from './FunctionMonitor.styles';
-// import FunctionLog from '../function-log/FunctionLog';
 import { PivotState } from './FunctionMonitor.types';
 import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
 import FunctionInvocationsDataLoader from '../invocations/FunctionInvocationsDataLoader';
@@ -10,6 +9,7 @@ import { AppInsightsComponent } from '../../../../../models/app-insights';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../models/arm-obj';
 import AppInsightsSetup from './AppInsightsSetup';
+import FunctionLogAppInsightsDataLoader from '../function-log/FunctionLogAppInsightsDataLoader';
 
 interface FunctionMonitorProps {
   resourceId: string;
@@ -26,7 +26,6 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.invocations);
 
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
-  // const functionName = armFunctionDescriptor.name;
 
   const onPivotItemClicked = (item?: PivotItem) => {
     if (!!item) {
@@ -66,15 +65,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
           />
         </PivotItem>
         <PivotItem itemKey={PivotState.logs} headerText={t('functionMonitor_logs')}>
-          {/* <FunctionLog
-            isExpanded={true}
-            resetAppInsightsToken={resetAppInsightsToken}
-            appInsightsToken={appInsightsToken}
-            functionName={functionName}
-            forceMaximized={true}
-            hideChevron={true}
-            appInsightsResourceId={appInsightsComponent.id}
-          /> */}
+          <FunctionLogAppInsightsDataLoader resourceId={resourceId} isExpanded={true} forceMaximized={true} hideChevron={true} />
         </PivotItem>
       </Pivot>
     </div>
