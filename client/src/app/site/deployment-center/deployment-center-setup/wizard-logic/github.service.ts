@@ -60,10 +60,28 @@ export class GithubService implements OnDestroy {
     });
   }
 
+  fetchRepo(authToken: string, repoUrl: string, repoName: string): Observable<Response> {
+    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}`;
+
+    return this._cacheService.post(Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}&t=${Guid.newTinyGuid()}`, true, null, {
+      url,
+      authToken,
+    });
+  }
+
   fetchBranches(authToken: string, repoUrl: string, repoName: string, page?: number): Observable<Response> {
     const url = page
       ? `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches?per_page=100&page=${page}`
       : `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches?per_page=100`;
+
+    return this._cacheService.post(Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}&t=${Guid.newTinyGuid()}`, true, null, {
+      url,
+      authToken,
+    });
+  }
+
+  fetchBranch(authToken: string, repoUrl: string, repoName: string, branchName: string): Observable<Response> {
+    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches/${branchName}`;
 
     return this._cacheService.post(Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}&t=${Guid.newTinyGuid()}`, true, null, {
       url,

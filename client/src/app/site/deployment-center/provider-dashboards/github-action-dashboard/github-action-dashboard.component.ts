@@ -59,8 +59,10 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   public hideCreds = false;
   public showDisconnectModal = false;
   public githubActionDisconnectDeleteWorkflowText = '';
+  public errorMessage = '';
 
   private _viewInfoStream$ = new Subject<string>();
+  private _repositoryStatusStream$ = new Subject<boolean>();
   private _ngUnsubscribe$ = new Subject();
   private _busyManager: BusyStateScopeManager;
   private _forceLoad = false;
@@ -69,6 +71,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   private _deleteWorkflowDuringDisconnect = false;
   private _actionWorkflowFileName = '';
   private _token = '';
+  private _repoName = '';
 
   constructor(
     private _portalService: PortalService,
@@ -86,6 +89,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     });
 
     this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
+    this._setuReositoryStatusStream();
     this._setupViewInfoStream();
   }
 
@@ -206,18 +210,17 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       return Observable.of(null);
     }
 
-    const repoName = this.repositoryText.toLocaleLowerCase().replace('https://github.com/', '');
     const workflowFilePath = `.github/workflows/${this._actionWorkflowFileName}`;
 
     // NOTE(michinoy): This is a fire and forget operation. We do our best effort to delete
     // the workflow file. No need to wait on a response.
     // Also only do the delete operation IF the user has opted to do so.
     return this._githubService
-      .fetchWorkflowConfiguration(this._token, this.repositoryText, repoName, this.branchText, workflowFilePath)
+      .fetchWorkflowConfiguration(this._token, this.repositoryText, this._repoName, this.branchText, workflowFilePath)
       .switchMap(result => {
         if (result) {
           const deleteCommitInfo: GitHubCommit = {
-            repoName,
+            repoName: this._repoName,
             branchName: this.branchText,
             filePath: workflowFilePath,
             message: this._translateService.instant(PortalResources.githubActionWorkflowDeleteCommitMessage),
@@ -271,9 +274,17 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
           };
 
           if (this.deploymentObject.sourceControls && this.deploymentObject.sourceControls.properties) {
-            this.repositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
-            this.branchText = this.deploymentObject.sourceControls.properties.branch;
-            this.githubActionLink = `${this.repositoryText}/actions?query=event%3Apush+branch%3A${this.branchText}`;
+            if (
+              this.repositoryText !== this.deploymentObject.sourceControls.properties.repoUrl ||
+              this.branchText !== this.deploymentObject.sourceControls.properties.branch
+            ) {
+              this.errorMessage = '';
+              this.repositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
+              this._repoName = this.repositoryText.toLocaleLowerCase().replace('https://github.com/', '');
+              this.branchText = this.deploymentObject.sourceControls.properties.branch;
+              this.githubActionLink = `${this.repositoryText}/actions?query=event%3Apush+branch%3A${this.branchText}`;
+              this._repositoryStatusStream$.next(true);
+            }
 
             const siteDescriptor = <ArmSiteDescriptor>ArmSiteDescriptor.getSiteDescriptor(this.deploymentObject.site.id);
             this._actionWorkflowFileName = this._githubService.getWorkflowFileName(
@@ -303,6 +314,31 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       .subscribe(() => {
         this._deploymentFetchTries++;
         this._viewInfoStream$.next(this.resourceId);
+      });
+  }
+
+  private _setuReositoryStatusStream() {
+    this._repositoryStatusStream$
+      .takeUntil(this._ngUnsubscribe$)
+      .switchMap(_ =>
+        Observable.zip(
+          this._githubService.fetchRepo(this._token, this.repositoryText, this._repoName).catch(r => Observable.of(r)),
+          this._githubService.fetchBranch(this._token, this.repositoryText, this._repoName, this.branchText).catch(r => Observable.of(r))
+        )
+      )
+      .subscribe(responses => {
+        const [repoResponse, branchResponse] = responses;
+        if (repoResponse && repoResponse.status === 404) {
+          this.errorMessage = this._translateService
+            .instant(PortalResources.githubActionDashboardRepositoryMissingError)
+            .format(this.repositoryText);
+        } else if (branchResponse && branchResponse.status === 404) {
+          this.errorMessage = this._translateService
+            .instant(PortalResources.githubActionDashboardBranchMissingError)
+            .format(this.branchText, this.repositoryText);
+        } else {
+          this.errorMessage = '';
+        }
       });
   }
 
