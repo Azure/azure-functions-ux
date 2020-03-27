@@ -45,19 +45,16 @@ export interface FunctionEditorProps {
   run: (functionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => void;
   functionRunning: boolean;
   urlObjs: UrlObj[];
-  resetAppInsightsToken: () => void;
   showTestPanel: boolean;
   setShowTestPanel: (showPanel: boolean) => void;
   appPermission: boolean;
   refresh: () => void;
   isRefreshing: boolean;
-  appInsightsResourceId: string;
   getFunctionUrl: (key?: string) => string;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
-  appInsightsToken?: string;
   testData?: string;
 }
 
