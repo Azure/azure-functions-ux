@@ -44,6 +44,7 @@ export function getLogTextColor(severity: string): string {
       return 'white';
   }
 }
+
 export const logErrorDivStyle = style({
   whiteSpace: 'pre-wrap',
   paddingBottom: '5px',
