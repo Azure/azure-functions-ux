@@ -37,6 +37,7 @@ import { PortalTheme } from '../../../../../models/portal-models';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
+import { minimumLogPanelHeight, logCommandBarHeight } from '../function-log/FunctionLog.styles';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -97,6 +98,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [readOnlyBanner, setReadOnlyBanner] = useState<HTMLDivElement | null>(null);
   const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean | undefined>(undefined);
   const [showDiscardConfirmDialog, setShowDiscardConfirmDialog] = useState(false);
+  const [logPanelHeight, setLogPanelHeight] = useState(0);
 
   const { t } = useTranslation();
 
@@ -318,9 +320,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   useEffect(() => {
-    setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? 302 : 130) + getReadOnlyBannerHeight()}px)`);
+    setLogPanelHeight(logPanelExpanded ? minimumLogPanelHeight : 0);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [logPanelExpanded, readOnlyBanner]);
+  }, [logPanelExpanded]);
+  useEffect(() => {
+    setMonacoHeight(`calc(100vh - ${(logPanelExpanded ? logCommandBarHeight : 0) + logPanelHeight + 130 + getReadOnlyBannerHeight()}px)`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logPanelExpanded, readOnlyBanner, logPanelHeight]);
   useEffect(() => {
     if (!!responseContent) {
       changePivotTab(PivotType.output);
@@ -380,12 +387,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={onCancelButtonClick}
         />
-        <EditModeBanner setBanner={setReadOnlyBanner} />
-        {(!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
+        {!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable) ? (
           <CustomBanner
             message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
             type={MessageBarType.error}
           />
+        ) : (
+          <EditModeBanner setBanner={setReadOnlyBanner} />
         )}
         <FunctionEditorFileSelectorBar
           disabled={isDisabled()}
@@ -453,6 +461,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           functionName={functionInfo.properties.name}
           hideLiveMetrics={true}
           appInsightsResourceId={appInsightsResourceId}
+          isResizable={true}
+          logPanelHeight={logPanelHeight}
+          setLogPanelHeight={setLogPanelHeight}
         />
       </div>
     </>
