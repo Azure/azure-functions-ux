@@ -236,7 +236,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       return () => clearInterval(timeout);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allLogEntries, queryLayer, appInsightsToken, callCount]);
+  }, [allLogEntries, queryLayer, appInsightsToken, callCount, logLevel]);
 
   useEffect(() => {
     setVisibleLogEntries(filterByLogLevel(allLogEntries));
