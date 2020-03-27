@@ -184,7 +184,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   };
 
   const copyLogs = () => {
-    const logContent = visibleLogEntries.map(logEntry => formatLog(logEntry)).join('\n');
+    const logContent = visibleLogEntries.map(logEntry => formatLog(logEntry)).join(CommonConstants.newLine);
     TextUtilitiesService.copyContentToClipboard(logContent);
   };
 
