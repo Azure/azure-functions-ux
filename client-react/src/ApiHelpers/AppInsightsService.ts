@@ -16,6 +16,9 @@ import LogService from '../utils/LogService';
 import { LogCategories } from '../utils/LogCategories';
 import moment from 'moment';
 import { NationalCloudEnvironment } from '../utils/scenario-checker/national-cloud.environment';
+import { LocalStorageService } from '../utils/LocalStorageService';
+import { StorageKeys } from '../models/LocalStorage.model';
+import SiteService from './SiteService';
 
 export default class AppInsightsService {
   public static getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[]) => {
@@ -174,6 +177,61 @@ export default class AppInsightsService {
       `| project timestamp, message = iff(message != '', message, iff(innermostMessage != '', innermostMessage, customDimensions.['prop__{OriginalFormat}'])), logLevel = customDimensions.['LogLevel']`
     );
   };
+
+  public static getAppInsightsResourceId = (resourceId: string, subscriptions: ISubscription[]) => {
+    const storageItem = LocalStorageService.getItem(resourceId, StorageKeys.appInsights);
+    const aiResourceId = !!storageItem && !!storageItem.value ? storageItem.value : undefined;
+
+    if (!aiResourceId) {
+      return AppInsightsService._getAppInsightsResourceIdUsingAppSettings(resourceId, subscriptions);
+    }
+
+    if (!!storageItem && storageItem.expired) {
+      AppInsightsService._getAppInsightsResourceIdUsingAppSettings(resourceId, subscriptions);
+    }
+
+    return { metadata: { success: true }, data: aiResourceId };
+  };
+
+  private static _getAppInsightsResourceIdUsingAppSettings = async (resourceId: string, subscriptions: ISubscription[]) => {
+    const appSettingsResult = await SiteService.fetchApplicationSettings(resourceId);
+    let aiResourceId;
+    let error;
+    let success = false;
+    if (appSettingsResult.metadata.success) {
+      const appSettings = appSettingsResult.data.properties;
+      const appInsightsConnectionString = appSettings[CommonConstants.AppSettingNames.appInsightsConnectionString];
+      const appInsightsInstrumentationKey = appSettings[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
+
+      if (appInsightsConnectionString) {
+        const appInsightsResponse = await AppInsightsService.getAppInsightsComponentFromConnectionString(
+          appInsightsConnectionString,
+          subscriptions
+        );
+        aiResourceId = appInsightsResponse ? appInsightsResponse.id : undefined;
+        success = true;
+      }
+
+      if (!aiResourceId && appInsightsInstrumentationKey) {
+        const appInsightsResponse = await AppInsightsService.getAppInsightsComponentFromInstrumentationKey(
+          appInsightsInstrumentationKey,
+          subscriptions
+        );
+        aiResourceId = appInsightsResponse ? appInsightsResponse.id : undefined;
+        success = true;
+      }
+
+      if (!!aiResourceId) {
+        LocalStorageService.setItem(resourceId, StorageKeys.appInsights, aiResourceId);
+      }
+    } else {
+      error = appSettingsResult.metadata.error;
+      success = false;
+    }
+
+    return { metadata: { success, error }, data: aiResourceId };
+  };
+
   private static _formAppInsightsHeaders = (appInsightsToken: string) => {
     return { Authorization: `Bearer ${appInsightsToken}` };
   };
