@@ -5853,6 +5853,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
         <value>Remove the App Service deployment workflow configuration from Azure Portal.</value>
     </data>
+    <data name="githubActionDashboardRepositoryMissingError" xml:space="preserve">
+        <value>Can not find repository '{0}'. Please navigate to your GitHub account to investigate further.</value>
+    </data>
+    <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
+        <value>Can not find branch '{0}' in repository '{1}'. Please navigate to your repository to investigate further.</value>
+    </data>
     <data name="information" xml:space="preserve">
         <value>Information</value>
     </data>

@@ -36,7 +36,10 @@
             ></command>
         </command-bar>
 
-        <info-box typeClass="info" [infoText]="'githubActionInfo' | translate" [infoLink]="githubActionLink">
+        <info-box *ngIf="!errorMessage" typeClass="info" [infoText]="'githubActionInfo' | translate" [infoLink]="githubActionLink">
+        </info-box>
+
+        <info-box *ngIf="errorMessage" typeClass="error" [infoText]="errorMessage">
         </info-box>
 
         <div id="essentials-container">
