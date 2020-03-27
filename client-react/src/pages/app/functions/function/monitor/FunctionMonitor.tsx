@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import { paddingStyle } from './FunctionMonitor.styles';
-import FunctionLog from '../function-log/FunctionLog';
+// import FunctionLog from '../function-log/FunctionLog';
 import { PivotState } from './FunctionMonitor.types';
 import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
 import FunctionInvocationsDataLoader from '../invocations/FunctionInvocationsDataLoader';
@@ -20,7 +20,7 @@ interface FunctionMonitorProps {
 }
 
 const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
-  const { resourceId, resetAppInsightsComponent, resetAppInsightsToken, appInsightsComponent, appInsightsToken } = props;
+  const { resourceId, resetAppInsightsComponent, appInsightsComponent, appInsightsToken } = props;
   const { t } = useTranslation();
 
   const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.invocations);
@@ -66,7 +66,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
           />
         </PivotItem>
         <PivotItem itemKey={PivotState.logs} headerText={t('functionMonitor_logs')}>
-          <FunctionLog
+          {/* <FunctionLog
             isExpanded={true}
             resetAppInsightsToken={resetAppInsightsToken}
             appInsightsToken={appInsightsToken}
@@ -74,7 +74,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
             forceMaximized={true}
             hideChevron={true}
             appInsightsResourceId={appInsightsComponent.id}
-          />
+          /> */}
         </PivotItem>
       </Pivot>
     </div>
