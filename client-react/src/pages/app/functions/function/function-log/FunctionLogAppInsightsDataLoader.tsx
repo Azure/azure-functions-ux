@@ -86,7 +86,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       setAppInsightsComponent(appInsightsResponse);
     } else {
       LogService.error(
-        LogCategories.FunctionMonitor,
+        LogCategories.functionLog,
         'fetchAppSettings',
         `Failed to fetch app settings: ${appSettingsResponse.metadata.error}`
       );
@@ -99,7 +99,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
         setAppInsightsToken(appInsightsComponentTokenResponse.data.token);
       } else {
         LogService.error(
-          LogCategories.FunctionMonitor,
+          LogCategories.functionLog,
           'getAppInsightsComponentToken',
           `Failed to get App Insights Component Token: ${component.name}`
         );

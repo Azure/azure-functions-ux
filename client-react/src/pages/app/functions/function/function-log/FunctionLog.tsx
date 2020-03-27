@@ -143,7 +143,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   }, [fileSavedCount]);
 
   useEffect(() => {
-    setVisibleLogEntries(filterEntriesByLogLevel(allLogEntries || []));
+    setVisibleLogEntries(allLogEntries ? filterEntriesByLogLevel(allLogEntries) : []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logLevel, allLogEntries]);
 
