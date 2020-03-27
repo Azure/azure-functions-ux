@@ -1895,4 +1895,6 @@ export class PortalResources {
   public static githubActionWorkflowDeleteCommitMessage = 'githubActionWorkflowDeleteCommitMessage';
   public static githubActionDashboardRepositoryMissingError = 'githubActionDashboardRepositoryMissingError';
   public static githubActionDashboardBranchMissingError = 'githubActionDashboardBranchMissingError';
+  public static information = 'information';
+  public static verbose = 'verbose';
 }
