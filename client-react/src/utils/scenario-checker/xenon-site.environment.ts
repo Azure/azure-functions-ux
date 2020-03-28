@@ -109,6 +109,13 @@ export class XenonSiteEnvironment extends Environment {
         return scenarioResult;
       },
     };
+
+    this.scenarioChecks[ScenarioIds.xenonAppRuntimeStack] = {
+      id: ScenarioIds.xenonAppRuntimeStack,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
