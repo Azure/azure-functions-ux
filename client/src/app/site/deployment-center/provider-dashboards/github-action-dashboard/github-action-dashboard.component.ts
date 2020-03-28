@@ -197,27 +197,28 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       .switchMap(r => {
         this.hideDisconnectPrompt();
         if (r.isSuccessful) {
-          return this._siteService.deleteSiteSourceControlConfig(this.resourceId).switchMap(r => {
-            if (!r.isSuccessful) {
-              return this._deleteWorkflowDuringDisconnect
-                ? Observable.throw({
-                    step: DeployDisconnectStep.ClearSCMSettings,
-                    isSuccessful: false,
-                    errorMessage: this._translateService.instant(PortalResources.disconnectingDeploymentFailWorkflowFileDeleteSucceeded),
-                    error: r.error,
-                  })
-                : Observable.throw({
-                    step: DeployDisconnectStep.ClearSCMSettings,
-                    isSuccessful: false,
-                    errorMessage: this._translateService.instant(PortalResources.disconnectingDeploymentFail),
-                    error: r.error,
-                  });
-            } else {
-              return Observable.of(r);
-            }
-          });
+          return this._siteService.deleteSiteSourceControlConfig(this.resourceId);
         } else {
           return Observable.throw(r);
+        }
+      })
+      .switchMap(r => {
+        if (!r.isSuccessful) {
+          return this._deleteWorkflowDuringDisconnect
+            ? Observable.throw({
+                step: DeployDisconnectStep.ClearSCMSettings,
+                isSuccessful: false,
+                errorMessage: this._translateService.instant(PortalResources.disconnectingDeploymentFailWorkflowFileDeleteSucceeded),
+                error: r.error,
+              })
+            : Observable.throw({
+                step: DeployDisconnectStep.ClearSCMSettings,
+                isSuccessful: false,
+                errorMessage: this._translateService.instant(PortalResources.disconnectingDeploymentFail),
+                error: r.error,
+              });
+        } else {
+          return Observable.of(r);
         }
       })
       .subscribe(
@@ -359,7 +360,9 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
               .format(this._actionWorkflowFileName, this.branchText, this.repositoryText);
           }
 
-          this._populateTable();
+          if (this.deploymentObject.deployments) {
+            this._populateTable();
+          }
         },
         err => {
           this._busyManager.clearBusy();
