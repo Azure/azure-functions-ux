@@ -26,7 +26,6 @@ import {
   editorDivStyle,
 } from './FunctionEditor.styles';
 import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManager';
-import FunctionLog from '../function-log/FunctionLog';
 import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
 import { SiteStateContext } from '../../../../../SiteStateContext';
@@ -38,6 +37,7 @@ import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { minimumLogPanelHeight, logCommandBarHeight } from '../function-log/FunctionLog.styles';
+import FunctionLogAppInsightsDataLoader from '../function-log/FunctionLogAppInsightsDataLoader';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -45,19 +45,16 @@ export interface FunctionEditorProps {
   run: (functionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => void;
   functionRunning: boolean;
   urlObjs: UrlObj[];
-  resetAppInsightsToken: () => void;
   showTestPanel: boolean;
   setShowTestPanel: (showPanel: boolean) => void;
   appPermission: boolean;
   refresh: () => void;
   isRefreshing: boolean;
-  appInsightsResourceId: string;
   getFunctionUrl: (key?: string) => string;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
-  appInsightsToken?: string;
   testData?: string;
 }
 
@@ -70,8 +67,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     responseContent,
     functionRunning,
     urlObjs,
-    appInsightsToken,
-    resetAppInsightsToken,
     showTestPanel,
     setShowTestPanel,
     appPermission,
@@ -79,7 +74,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     refresh,
     isRefreshing,
     xFunctionKey,
-    appInsightsResourceId,
     getFunctionUrl,
   } = props;
   const [reqBody, setReqBody] = useState('');
@@ -450,17 +444,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         </div>
       )}
       <div className={logPanelStyle(logPanelExpanded, logPanelFullscreen, getReadOnlyBannerHeight())}>
-        <FunctionLog
+        <FunctionLogAppInsightsDataLoader
+          resourceId={functionInfo.id}
           toggleExpand={toggleLogPanelExpansion}
           isExpanded={logPanelExpanded}
           toggleFullscreen={setLogPanelFullscreen}
           fileSavedCount={fileSavedCount}
-          resetAppInsightsToken={resetAppInsightsToken}
-          appInsightsToken={appInsightsToken}
           readOnlyBannerHeight={getReadOnlyBannerHeight()}
-          functionName={functionInfo.properties.name}
           hideLiveMetrics={true}
-          appInsightsResourceId={appInsightsResourceId}
           isResizable={true}
           logPanelHeight={logPanelHeight}
           setLogPanelHeight={setLogPanelHeight}

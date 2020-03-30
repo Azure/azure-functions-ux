@@ -4,3 +4,9 @@ export enum LogLevel {
   Warning,
   Error,
 }
+
+export interface LogEntry {
+  message: string;
+  color: string;
+  level: LogLevel;
+}
