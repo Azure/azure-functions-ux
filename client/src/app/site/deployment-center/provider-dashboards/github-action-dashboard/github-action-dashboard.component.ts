@@ -19,7 +19,7 @@ import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { GithubService } from '../../deployment-center-setup/wizard-logic/github.service';
 import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { UserService } from '../../../../shared/services/user.service';
-import { GitHubCommit } from '../../Models/github';
+import { GitHubCommit, FileContent } from '../../Models/github';
 
 enum DeployStatus {
   Pending,
@@ -162,9 +162,9 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     this.showDisconnectModal = true;
   }
 
-  public hideDisconnectPrompt() {
+  public cancelDisconnectPrompt() {
     this._deleteWorkflowDuringDisconnect = false;
-    this.showDisconnectModal = false;
+    this._hideDisconnectPrompt();
   }
 
   public toggleDeleteWorkflowState() {
@@ -177,6 +177,10 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     }
 
     return this._tableItems || [];
+  }
+
+  public _hideDisconnectPrompt() {
+    this.showDisconnectModal = false;
   }
 
   private _disconnectDeployment() {
@@ -194,14 +198,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       // NOTE (michinoy): First try to delete the workflow file.
       .switchMap(() => this._deleteWorkflowFileIfNeeded())
       // NOTE (michinoy): Next try to clear the SCM settings.
-      .switchMap(r => {
-        this.hideDisconnectPrompt();
-        if (r.isSuccessful) {
-          return this._siteService.deleteSiteSourceControlConfig(this.resourceId);
-        } else {
-          return Observable.throw(r);
-        }
-      })
+      .switchMap(result => this._clearSCMSettings(result))
       .switchMap(r => {
         if (!r.isSuccessful) {
           return this._deleteWorkflowDuringDisconnect
@@ -224,6 +221,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       .subscribe(
         r => {
           this._busyManager.clearBusy();
+          this._deleteWorkflowDuringDisconnect = false;
           this._portalService.stopNotification(
             notificationId,
             true,
@@ -232,13 +230,23 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
           this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
         },
         err => {
+          this._deleteWorkflowDuringDisconnect = false;
           this._portalService.stopNotification(notificationId, false, err.errorMessage);
           this._logService.error(LogCategories.cicd, '/disconnect-github-action-dashboard', err);
         }
       );
   }
 
+  private _clearSCMSettings(deploymentDisconnectStatus: DeploymentDisconnectStatus) {
+    if (deploymentDisconnectStatus.isSuccessful) {
+      return this._siteService.deleteSiteSourceControlConfig(this.resourceId);
+    } else {
+      return Observable.throw(deploymentDisconnectStatus);
+    }
+  }
+
   private _deleteWorkflowFileIfNeeded(): Observable<DeploymentDisconnectStatus> {
+    this._hideDisconnectPrompt();
     const errorMessage = this._translateService
       .instant(PortalResources.githubActionDisconnectWorkflowDeleteFailed)
       .format(this._actionWorkflowFileName, this.branchText, this.repositoryText);
@@ -263,41 +271,36 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
 
       return this._githubService
         .fetchWorkflowConfiguration(this._token, this.repositoryText, this._repoName, this.branchText, workflowFilePath)
-        .switchMap(result => {
-          if (result) {
-            const deleteCommitInfo: GitHubCommit = {
-              repoName: this._repoName,
-              branchName: this.branchText,
-              filePath: workflowFilePath,
-              message: this._translateService.instant(PortalResources.githubActionWorkflowDeleteCommitMessage),
-              committer: {
-                name: 'Azure App Service',
-                email: 'donotreply@microsoft.com',
-              },
-              sha: result.sha,
-            };
-
-            return this._githubService
-              .deleteActionWorkflow(this._token, deleteCommitInfo)
-              .catch(err => {
-                // Something failed in deleting the file.
-                failedStatus.error = err;
-                return Observable.of(failedStatus);
-              })
-              .switchMap(_ =>
-                // The file was deleted successfully.
-                Observable.of(successStatus)
-              );
-          } else {
-            // NOTE (michinoy): fetchWorkflowConfiguration return null if the file is not found.
-            return Observable.of(failedStatus);
-          }
-        })
+        .switchMap(result => this._deleteWorkflowFile(workflowFilePath, result))
+        .switchMap(_ => Observable.of(successStatus))
         .catch(err => {
           // Something failed on the fetch action
           failedStatus.error = err;
           return Observable.of(failedStatus);
         });
+    }
+  }
+
+  private _deleteWorkflowFile(workflowFilePath: string, fileContent: FileContent) {
+    if (fileContent) {
+      const deleteCommitInfo: GitHubCommit = {
+        repoName: this._repoName,
+        branchName: this.branchText,
+        filePath: workflowFilePath,
+        message: this._translateService.instant(PortalResources.githubActionWorkflowDeleteCommitMessage),
+        committer: {
+          name: 'Azure App Service',
+          email: 'donotreply@microsoft.com',
+        },
+        sha: fileContent.sha,
+      };
+
+      return this._githubService.deleteActionWorkflow(this._token, deleteCommitInfo);
+    } else {
+      // NOTE (michinoy): fetchWorkflowConfiguration return null if the file is not found.
+      return Observable.throw({
+        errorMessage: `Workflow file '${workflowFilePath}' not found in branch '${this.branchText}' from repo '${this._repoName}'`,
+      });
     }
   }
 
