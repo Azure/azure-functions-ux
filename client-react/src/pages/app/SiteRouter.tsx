@@ -6,7 +6,7 @@ import { FunctionAppEditMode, KeyValue, SiteState } from '../../models/portal-mo
 import { SiteConfig } from '../../models/site/config';
 import { Site } from '../../models/site/site';
 import { PortalContext } from '../../PortalContext';
-import { SiteStateContext } from '../../SiteStateContext';
+import { SiteCommunicatorContext, SiteCommunicator } from '../../SiteCommunicatorContext';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
@@ -62,8 +62,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
-  const [siteAppEditState, setSiteAppEditState] = useState(FunctionAppEditMode.ReadWrite);
-  const [siteStopped, setSiteStopped] = useState(false);
+
+  const siteCommunicator = new SiteCommunicator();
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site)) {
@@ -171,11 +171,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         }
       }
 
-      if (site.metadata.success && site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped) {
-        setSiteStopped(true);
+      if (site.metadata.success) {
+        siteCommunicator.setSite(site.data);
+        siteCommunicator.setSiteStopped(site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
       }
-
-      setSiteAppEditState(functionAppEditMode);
+      siteCommunicator.setSiteAppEditState(functionAppEditMode);
     }
   };
 
@@ -192,7 +192,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token && (
-                <SiteStateContext.Provider value={{ stopped: siteStopped, readOnlyState: siteAppEditState }}>
+                <SiteCommunicatorContext.Provider value={siteCommunicator}>
                   <Router>
                     <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
                     <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
@@ -207,7 +207,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
                     <FunctionMonitor resourceId={value.resourceId} path="/monitor" />
                   </Router>
-                </SiteStateContext.Provider>
+                </SiteCommunicatorContext.Provider>
               )
             );
           }}

@@ -28,7 +28,7 @@ import {
 import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManager';
 import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
-import { SiteStateContext } from '../../../../../SiteStateContext';
+import { SiteCommunicatorContext } from '../../../../../SiteCommunicatorContext';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { BindingManager } from '../../../../../utils/BindingManager';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
@@ -96,7 +96,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const { t } = useTranslation();
 
-  const siteState = useContext(SiteStateContext);
+  const siteCommunicatorContext = useContext(SiteCommunicatorContext);
   const startUpInfoContext = useContext(StartupInfoContext);
 
   const save = async () => {
@@ -436,7 +436,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
-              readOnly: SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState) || !appPermission,
+              readOnly: SiteHelper.isFunctionAppReadOnly(siteCommunicatorContext.getSiteAppEditState()) || !appPermission,
               extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}

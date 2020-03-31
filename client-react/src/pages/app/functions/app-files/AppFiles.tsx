@@ -14,7 +14,7 @@ import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { FileContent } from '../function/function-editor/FunctionEditor.types';
 import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import { SiteStateContext } from '../../../../SiteStateContext';
+import { SiteCommunicatorContext } from '../../../../SiteCommunicatorContext';
 import SiteHelper from '../../../../utils/SiteHelper';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
 import { PortalTheme } from '../../../../models/portal-models';
@@ -44,7 +44,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
 
   const { t } = useTranslation();
 
-  const siteState = useContext(SiteStateContext);
+  const siteCommunicatorContext = useContext(SiteCommunicatorContext);
   const startUpInfoContext = useContext(StartupInfoContext);
 
   const save = async () => {
@@ -210,7 +210,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
             scrollBeyondLastLine: false,
             cursorBlinking: true,
             renderWhitespace: 'all',
-            readOnly: SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState),
+            readOnly: SiteHelper.isFunctionAppReadOnly(siteCommunicatorContext.getSiteAppEditState()),
           }}
           theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
         />

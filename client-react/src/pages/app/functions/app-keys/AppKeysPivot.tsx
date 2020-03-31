@@ -3,7 +3,7 @@ import { AppKeysFormValues } from './AppKeys.types';
 import { useTranslation } from 'react-i18next';
 import HostKeys from './HostKeys';
 import SystemKeys from './SystemKeys';
-import { SiteStateContext } from '../../../../SiteStateContext';
+import { SiteCommunicatorContext } from '../../../../SiteCommunicatorContext';
 import SiteHelper from '../../../../utils/SiteHelper';
 
 interface AppKeysPivotProps {
@@ -18,8 +18,8 @@ const AppKeysPivot: React.FC<AppKeysPivotProps> = props => {
   const { t } = useTranslation();
   const { refreshData, initialValues, resourceId, initialLoading, appPermission } = props;
 
-  const siteStateContext = useContext(SiteStateContext);
-  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext.readOnlyState) || !appPermission;
+  const siteCommunicatorContext = useContext(SiteCommunicatorContext);
+  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteCommunicatorContext.getSiteAppEditState()) || !appPermission;
 
   return (
     <>
