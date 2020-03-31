@@ -22,7 +22,11 @@ import SiteService from './SiteService';
 
 export default class AppInsightsService {
   public static getAppInsights = (resourceId: string) => {
-    return MakeArmCall<ArmObj<AppInsightsComponent>>({ resourceId, commandName: 'getAppInsights' });
+    return MakeArmCall<ArmObj<AppInsightsComponent>>({
+      resourceId,
+      commandName: 'getAppInsights',
+      apiVersion: CommonConstants.ApiVersions.appInsightsTokenApiVersion20150501,
+    });
   };
 
   public static getAppInsightsComponentToken = (appInsightsComponentId: string) => {
@@ -211,7 +215,7 @@ export default class AppInsightsService {
         const topologyObject = response.data as ResourceGraph;
         if (topologyObject.data && topologyObject.data.columns && topologyObject.data.rows) {
           const aiResources = mapResourcesTopologyToArmObjects<AppInsightsComponent>(topologyObject.data.columns, topologyObject.data.rows);
-          aiResourceId = aiResources.length === 1 ? aiResources[0] : null;
+          aiResourceId = aiResources.length === 1 ? aiResources[0].id : null;
         }
       } else {
         error = response.metadata.error;
@@ -242,7 +246,7 @@ export default class AppInsightsService {
         const topologyObject = response.data as ResourceGraph;
         if (topologyObject.data && topologyObject.data.columns && topologyObject.data.rows) {
           const aiResources = mapResourcesTopologyToArmObjects<AppInsightsComponent>(topologyObject.data.columns, topologyObject.data.rows);
-          aiResourceId = aiResources.length === 1 ? aiResources[0] : null;
+          aiResourceId = aiResources.length === 1 ? aiResources[0].id : null;
         }
       } else {
         error = response.metadata.error;
