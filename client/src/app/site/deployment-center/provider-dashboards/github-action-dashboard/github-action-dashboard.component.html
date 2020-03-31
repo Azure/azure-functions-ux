@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>{{ 'githubActionDisconnectConfirmationTitle' | translate }}</h2>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="cancelDisconnectPrompt()">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="close" (click)="cancelDisconnectPrompt()">&times;</button>
             </div>
             <div class="modal-body">
                 {{ 'githubActionDisconnectConfirmation' | translate }}
@@ -13,10 +13,10 @@
                 {{ githubActionDisconnectDeleteWorkflowText }}
             </div>
             <div class="modal-body">
-                <button class="disconnect-button" (click)="disconnect()">
+                <button type="button" class="disconnect-button" (click)="disconnect()" aria-label="disconnect">
                     {{ 'githubActionDisconnectButton' | translate }}
                 </button>
-                <button class="cancel-disconnect-button" (click)="cancelDisconnectPrompt()">
+                <button type="button" class="cancel-disconnect-button" (click)="cancelDisconnectPrompt()" aria-label="cancel">
                     {{ 'githubActionCancelDisconnectButton' | translate }}
                 </button>
             </div>

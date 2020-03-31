@@ -272,7 +272,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       return this._githubService
         .fetchWorkflowConfiguration(this._token, this.repositoryText, this._repoName, this.branchText, workflowFilePath)
         .switchMap(result => this._deleteWorkflowFile(workflowFilePath, result))
-        .switchMap(_ => Observable.of(successStatus))
+        .do(_ => successStatus)
         .catch(err => {
           // Something failed on the fetch action
           failedStatus.error = err;
