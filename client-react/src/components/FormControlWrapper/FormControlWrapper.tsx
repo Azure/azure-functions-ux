@@ -32,7 +32,7 @@ const hostStyle = (multiline?: boolean) =>
 
 const tooltipStyle: Partial<ITooltipHostStyles> = { root: { display: 'inline', float: 'left' } };
 
-const labelStyle = (layout: Layout | undefined) => {
+const labelStyle = (layout?: Layout) => {
   const s = {
     marginBottom: '5px',
   };
