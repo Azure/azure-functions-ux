@@ -24,6 +24,10 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
   size: null | 'small' | 'medium' | 'large' = 'medium';
   @Input()
   setDefault = true;
+  @Input()
+  ariaLabel = '';
+  @Input()
+  ariaErrorId = '';
 
   @Output()
   value: EventEmitter<T>;
