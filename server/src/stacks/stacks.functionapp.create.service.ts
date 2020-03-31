@@ -34,12 +34,13 @@ export class StacksFunctionAppCreateService {
             isDeprecated: false,
             isHidden: false,
             applicationInsightsEnabled: true,
-            runtimeVersion: 'dotnet',
+            runtimeVersion: 'dotnet|3.1',
             appSettingsDictionary: {
               FUNCTIONS_WORKER_RUNTIME: 'dotnet',
             },
             siteConfigPropertiesDictionary: {
               Use32BitWorkerProcess: false,
+              linuxFxVersion: 'dotnet|3.1',
             },
           },
         ],
@@ -56,7 +57,7 @@ export class StacksFunctionAppCreateService {
         sortOrder: 1,
         displayText: '12',
         value: '12',
-        isDefault: false,
+        isDefault: true,
         supportedPlatforms: [
           {
             sortOrder: 0,
@@ -219,7 +220,7 @@ export class StacksFunctionAppCreateService {
       {
         sortOrder: 0,
         displayText: '8',
-        value: '8',
+        value: '1.8',
         isDefault: true,
         supportedPlatforms: [
           {
