@@ -32,7 +32,17 @@ const hostStyle = (multiline?: boolean) =>
 
 const tooltipStyle: Partial<ITooltipHostStyles> = { root: { display: 'inline', float: 'left' } };
 
-const labelStyle = style({ marginBottom: '5px' });
+const labelStyle = (layout: Layout | undefined) => {
+  const s = {
+    marginBottom: '5px',
+  };
+
+  if (layout !== Layout.vertical) {
+    s['width'] = '250px';
+  }
+
+  return style(s);
+};
 
 const requiredIcon = (theme: ThemeExtended) => {
   return style({
@@ -55,7 +65,7 @@ export const FormControlWrapper = (props: FormControlWrapperProps) => {
 
   return (
     <Stack horizontal={layout !== Layout.vertical && width > MaxHorizontalWidthPx} style={style}>
-      <label className={`${labelStyle} ${defaultLabelClassName || ''}`} htmlFor={children.props.id}>
+      <label className={`${labelStyle(layout)} ${defaultLabelClassName || ''}`} htmlFor={children.props.id}>
         <TooltipHost overflowMode={TooltipOverflowMode.Self} content={label} hostClassName={hostStyle(multiline)} styles={tooltipStyle}>
           {label}
         </TooltipHost>
