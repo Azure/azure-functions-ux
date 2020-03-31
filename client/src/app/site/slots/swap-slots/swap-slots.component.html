@@ -51,17 +51,15 @@
                         <div *ngIf="swapForm?.controls['srcId']?.value === siteResourceId" class="pill">{{ 'production' | translate }}</div>
                     </div>
                     <div>
-                        <ng-select
-                            [loading]="false"
-                            [clearable]="false"
-                            [items]="srcDropDownOptions"
-                            bindLabel="displayLabel"
-                            bindValue="value"
-                            class="custom-select"
-                            formControlName="srcId"
-                            (change)="onSlotIdChange()">
-                        </ng-select>
-                        <div *ngIf="swapForm?.controls['srcId']" class="validation-container">
+                        <drop-down
+                          [ariaLabel]="'source' | translate"
+                          ariaErrorId="src-validation"
+                          [control]="!!swapForm ? swapForm.controls['srcId'] : null"
+                          [options]="srcDropDownOptions"
+                          [highlightDirty]="false"
+                          (value)="onSlotIdChange()">
+                        </drop-down>
+                        <div *ngIf="swapForm?.controls['srcId']" id="src-validation" class="validation-container">
                             <div *ngIf="!swapForm.pending && swapForm.invalid && swapForm.errors && swapForm.errors['slotsNotUnique']"
                                 class="error-message">
                                     {{ swapForm.errors['slotsNotUnique'] }}
@@ -93,17 +91,15 @@
                         <div *ngIf="swapForm?.controls['destId']?.value === siteResourceId" class="pill">{{ 'production' | translate }}</div>
                     </div>
                     <div>
-                        <ng-select
-                            [loading]="false"
-                            [clearable]="false"
-                            [items]="destDropDownOptions"
-                            bindLabel="displayLabel"
-                            bindValue="value"
-                            class="custom-select"
-                            formControlName="destId"
-                            (change)="onSlotIdChange()">
-                        </ng-select>
-                        <div *ngIf="swapForm?.controls['destId']" class="validation-container">
+                        <drop-down
+                          [ariaLabel]="'target' | translate"
+                          ariaErrorId="dest-validation"
+                          [control]="!!swapForm ? swapForm.controls['destId'] : null"
+                          [options]="destDropDownOptions"
+                          [highlightDirty]="false"
+                          (value)="onSlotIdChange()">
+                        </drop-down>
+                        <div *ngIf="swapForm?.controls['destId']" id="dest-validation" class="validation-container">
                             <div *ngIf="!swapForm.pending && swapForm.invalid && swapForm.errors && swapForm.errors['slotsNotUnique']"
                                 class="error-message">
                                     {{ swapForm.errors['slotsNotUnique'] }}
@@ -209,15 +205,12 @@
                         {{ 'swapActionLabel' | translate }}
                     </div>
                     <div>
-                        <ng-select
-                            [loading]="false"
-                            [clearable]="false"
-                            [items]="phase2DropDownOptions"
-                            bindLabel="displayLabel"
-                            bindValue="value"
-                            class="custom-select"
-                            formControlName="revertSwap">
-                        </ng-select>
+                        <drop-down
+                          [ariaLabel]="'swapActionLabel' | translate"
+                          [control]="!!swapForm ? swapForm.controls['revertSwap'] : null"
+                          [options]="phase2DropDownOptions"
+                          [highlightDirty]="false">
+                        </drop-down>
                     </div>
                 </div>
             </div>
