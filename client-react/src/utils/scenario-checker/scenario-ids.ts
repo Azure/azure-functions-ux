@@ -107,4 +107,5 @@ export class ScenarioIds {
   public static readonly showFunctionRuntimeSettings = 'showFunctionRuntimeSettings';
   public static readonly dailyUsageQuotaSupported = 'dailyUsageQuotaSupported';
   public static readonly runtimeScaleMonitoringSupported = 'runtimeScaleMonitoringSupported';
+  public static readonly xenonAppRuntimeStack = 'xenonAppRuntimeStack';
 }
