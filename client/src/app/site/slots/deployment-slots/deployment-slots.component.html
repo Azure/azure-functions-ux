@@ -171,6 +171,7 @@
                     <td *ngIf="!!mainForm && tipSupported" class="padded-col" table-cell>
                         <div class="pct-wrapper">
                             <textbox
+                                [ariaLabel]="'slotsList_trafficPercentHeader' | translate"
                                 disabled="true"
                                 readonly="true"
                                 [control]="mainForm ? mainForm.controls[SumValidator.REMAINDER_CONTROL_NAME] : null">
@@ -206,6 +207,7 @@
                     <td *ngIf="!!mainForm && tipSupported" class="padded-col" table-cell [editable]="!isSlot && !!prodSiteConfigArm && hasWriteAccess">
                         <div class="pct-wrapper">
                             <textbox
+                                [ariaLabel]="'slotsList_trafficPercentHeader' | translate"
                                 [disabled]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
                                 [readonly]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
                                 [control]="mainForm.controls['rulesGroup'] ? mainForm.controls['rulesGroup'].controls[deploymentSlotArm.name] : null"
