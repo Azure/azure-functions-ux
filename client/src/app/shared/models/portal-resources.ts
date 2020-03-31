@@ -1888,6 +1888,8 @@ export class PortalResources {
   public static last30Days = 'last30Days';
   public static discardChangesTitle = 'discardChangesTitle';
   public static discardChangesMesssage = 'discardChangesMesssage';
+  public static information = 'information';
+  public static verbose = 'verbose';
   public static githubActionDisconnectConfirmation = 'githubActionDisconnectConfirmation';
   public static githubActionDisconnectDeleteWorkflow = 'githubActionDisconnectDeleteWorkflow';
   public static githubActionDisconnectButton = 'githubActionDisconnectButton';
@@ -1895,6 +1897,7 @@ export class PortalResources {
   public static githubActionWorkflowDeleteCommitMessage = 'githubActionWorkflowDeleteCommitMessage';
   public static githubActionDashboardRepositoryMissingError = 'githubActionDashboardRepositoryMissingError';
   public static githubActionDashboardBranchMissingError = 'githubActionDashboardBranchMissingError';
-  public static information = 'information';
-  public static verbose = 'verbose';
+  public static githubActionDisconnectConfirmationTitle = 'githubActionDisconnectConfirmationTitle';
+  public static githubActionDisconnectWorkflowDeleteFailed = 'githubActionDisconnectWorkflowDeleteFailed';
+  public static disconnectingDeploymentFailWorkflowFileDeleteSucceeded = 'disconnectingDeploymentFailWorkflowFileDeleteSucceeded';
 }
