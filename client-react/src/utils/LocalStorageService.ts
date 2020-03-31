@@ -1,6 +1,8 @@
 import { StorageKeys, StorageItem } from '../models/LocalStorage.model';
 import { KeyValue } from '../models/portal-models';
 import { getDateAfterXSeconds } from './DateUtilities';
+import LogService from './LogService';
+import { LogCategories } from './LogCategories';
 
 export class LocalStorageService {
   public static supportsLocalStorage(): boolean {
@@ -43,6 +45,20 @@ export class LocalStorageService {
         // TODO (krmitta): Log error for JSON.stringify
         localStorage.clear();
         return;
+      }
+    }
+  }
+
+  public static removeItem(resourceId: string) {
+    if (LocalStorageService.supportsLocalStorage()) {
+      try {
+        localStorage.removeItem(resourceId);
+      } catch (e) {
+        LogService.error(
+          LogCategories.localStorage,
+          'removeCachedItem',
+          `Was not able to clear the expired resourceId from the cache: '${resourceId}'`
+        );
       }
     }
   }

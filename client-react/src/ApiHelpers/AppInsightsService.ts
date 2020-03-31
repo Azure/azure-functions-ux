@@ -187,6 +187,7 @@ export default class AppInsightsService {
     }
 
     if (!!storageItem && storageItem.expired) {
+      LocalStorageService.removeItem(resourceId);
       AppInsightsService._getAppInsightsResourceIdUsingAppSettings(resourceId, subscriptions);
     }
 
