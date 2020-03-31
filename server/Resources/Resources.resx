@@ -5838,14 +5838,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="discardChangesMesssage" xml:space="preserve">
         <value>Are you sure you want to discard the changes to the file {0}?</value>
     </data>
+    <data name="information" xml:space="preserve">
+        <value>Information</value>
+    </data>
+    <data name="verbose" xml:space="preserve">
+        <value>Verbose</value>
+    </data>
     <data name="githubActionDisconnectConfirmation" xml:space="preserve">
         <value>Are you sure you would like to disconnect the GitHub Action CICD pipeline?</value>
     </data>
     <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
-        <value>Select this option to attempt removal of '{0}' workflow file from branch '{1}' in repository '{2}'</value>
+        <value>Remove '{0}' workflow file from branch '{1}' in repository '{2}'. If you do not remove this file, commits to this branch will continue to trigger deployments to your app.</value>
     </data>
     <data name="githubActionDisconnectButton" xml:space="preserve">
-        <value>Disconnect CICD</value>
+        <value>Disconnect</value>
     </data>
     <data name="githubActionCancelDisconnectButton" xml:space="preserve">
         <value>Cancel</value>
@@ -5859,10 +5865,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
         <value>Can not find branch '{0}' in repository '{1}'. Please navigate to your repository to investigate further.</value>
     </data>
-    <data name="information" xml:space="preserve">
-        <value>Information</value>
+    <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Confirm GitHub Action Disconnect</value>
     </data>
-    <data name="verbose" xml:space="preserve">
-        <value>Verbose</value>
+    <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
+        <value>Failed to delete '{0}' workflow file from branch '{1}' in repository '{2}'. This could be caused by either the file being renamed or already deleted.</value>
+    </data>
+    <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
+        <value>Failed to disconnect your deployment, but the workflow file was successfully deleted. Try to disconnect again.</value>
     </data>
 </root>
