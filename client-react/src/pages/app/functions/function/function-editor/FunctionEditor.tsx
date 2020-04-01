@@ -38,6 +38,9 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { minimumLogPanelHeight, logCommandBarHeight } from '../function-log/FunctionLog.styles';
 import FunctionLogAppInsightsDataLoader from '../function-log/FunctionLogAppInsightsDataLoader';
+import FunctionLogFileStreamDataLoader from '../function-log/FunctionLogFileStreamDataLoader';
+import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -98,6 +101,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const siteState = useContext(SiteStateContext);
   const startUpInfoContext = useContext(StartupInfoContext);
+
+  const scenarioChecker = new ScenarioService(t);
+  const showAppInsightsLogs = !!site.id && scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
 
   const save = async () => {
     if (!selectedFile) {
@@ -444,18 +450,33 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         </div>
       )}
       <div className={logPanelStyle(logPanelExpanded, logPanelFullscreen, getReadOnlyBannerHeight())}>
-        <FunctionLogAppInsightsDataLoader
-          resourceId={functionInfo.id}
-          toggleExpand={toggleLogPanelExpansion}
-          isExpanded={logPanelExpanded}
-          toggleFullscreen={setLogPanelFullscreen}
-          fileSavedCount={fileSavedCount}
-          readOnlyBannerHeight={getReadOnlyBannerHeight()}
-          hideLiveMetrics={true}
-          isResizable={true}
-          logPanelHeight={logPanelHeight}
-          setLogPanelHeight={setLogPanelHeight}
-        />
+        {showAppInsightsLogs ? (
+          <FunctionLogAppInsightsDataLoader
+            resourceId={functionInfo.id}
+            toggleExpand={toggleLogPanelExpansion}
+            isExpanded={logPanelExpanded}
+            toggleFullscreen={setLogPanelFullscreen}
+            fileSavedCount={fileSavedCount}
+            readOnlyBannerHeight={getReadOnlyBannerHeight()}
+            hideLiveMetrics={true}
+            isResizable={true}
+            logPanelHeight={logPanelHeight}
+            setLogPanelHeight={setLogPanelHeight}
+          />
+        ) : (
+          <FunctionLogFileStreamDataLoader
+            resourceId={functionInfo.id}
+            toggleExpand={toggleLogPanelExpansion}
+            isExpanded={logPanelExpanded}
+            toggleFullscreen={setLogPanelFullscreen}
+            fileSavedCount={fileSavedCount}
+            readOnlyBannerHeight={getReadOnlyBannerHeight()}
+            hideLiveMetrics={true}
+            isResizable={true}
+            logPanelHeight={logPanelHeight}
+            setLogPanelHeight={setLogPanelHeight}
+          />
+        )}
       </div>
     </>
   );
