@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, Response, Get, Session, HttpCode, Res, Put } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, Response, Get, Session, HttpCode, Res, Put, Query, Headers, Param } from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
@@ -8,10 +8,26 @@ import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
 import { TokenData } from '../deployment-center';
 
+enum Environments {
+  Prod = 'PROD',
+  Stage = 'STAGE',
+  Release = 'RELEASE',
+  Next = 'NEXT',
+  Dev = 'DEV',
+}
+
 @Controller()
 export class GithubController {
   private readonly provider = 'github';
   private readonly githubApiUrl = 'https://api.github.com';
+
+  private readonly environmentUrlsMap: { [id in Environments]: string } = {
+    PROD: 'https://functions.azure.com',
+    STAGE: 'https://functions-staging.azure.com',
+    RELEASE: 'https://functions-release.azure.com',
+    NEXT: 'https://functions-next.azure.com',
+    DEV: 'https://localhost:44300',
+  };
 
   constructor(
     private dcService: DeploymentCenterService,
@@ -97,7 +113,7 @@ export class GithubController {
   }
 
   @Get('auth/github/authorize')
-  async authorize(@Session() session, @Response() res) {
+  async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';
     if (session) {
       stateKey = session[Constants.oauthApis.github_state_key] = GUID.newGuid();
@@ -110,10 +126,17 @@ export class GithubController {
     res.redirect(
       `${Constants.oauthApis.githubApiUri}/authorize?client_id=${this.configService.get(
         'GITHUB_CLIENT_ID'
-      )}&redirect_uri=${this.configService.get(
-        'GITHUB_REDIRECT_URL'
+      )}&redirect_uri=${this._getRedirectUri(
+        host
       )}&scope=admin:repo_hook+repo+workflow&response_type=code&state=${this.dcService.hashStateGuid(stateKey)}`
     );
+  }
+
+  @Get('auth/github/callback/env/:env')
+  async callbackRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('env') env) {
+    const envToUpper = (env && (env as string).toUpperCase()) || '';
+    const envUri = this.environmentUrlsMap[envToUpper] || this.environmentUrlsMap[Environments.Prod];
+    res.redirect(`${envUri}/auth/github/callback?code=${code}&state=${state}`);
   }
 
   @Get('auth/github/callback')
@@ -244,5 +267,35 @@ export class GithubController {
       }
       throw new HttpException(err, 500);
     }
+  }
+
+  private _getEnvironment(hostUrl: string): Environments {
+    const hostUrlToLower = (hostUrl || '').toLocaleLowerCase();
+    for (const env in this.environmentUrlsMap) {
+      if (!!this.environmentUrlsMap[env]) {
+        const envUrlToLower = (this.environmentUrlsMap[env] as string).toLocaleLowerCase();
+        if (hostUrlToLower.startsWith(envUrlToLower)) {
+          return env as Environments;
+        }
+      }
+    }
+    return null;
+  }
+
+  private _getRedirectUri(host: string): string {
+    const redirectUri =
+      this.configService.get('GITHUB_REDIRECT_URL') || `${this.environmentUrlsMap[Environments.Prod]}/auth/github/callback`;
+
+    const redirectUriToLower = redirectUri.toLocaleLowerCase();
+    const hostUrlToLower = (!!host && `https://${host}`.toLocaleLowerCase()) || '';
+    if (!redirectUriToLower.startsWith(hostUrlToLower)) {
+      // The current host doesn't match the callback URL host, so we need to add the routing segment to the callback URL
+      const env = this._getEnvironment(hostUrlToLower);
+      if (!!env) {
+        return `${redirectUri}/env/${env}`;
+      }
+    }
+
+    return redirectUri;
   }
 }
