@@ -6,7 +6,7 @@ import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { PortalContext } from '../../../../PortalContext';
 import { SiteRouterContext } from '../../SiteRouter';
 import { disableIFrameStyle } from './AppKeys.styles';
-import { SiteCommunicatorContext } from '../../../../SiteCommunicatorContext';
+import { SiteStateContext } from '../../../../SiteState';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from 'office-ui-fabric-react';
@@ -27,7 +27,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
 
   const portalContext = useContext(PortalContext);
   const siteContext = useContext(SiteRouterContext);
-  const siteCommunicatorContext = useContext(SiteCommunicatorContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const { t } = useTranslation();
 
@@ -63,9 +63,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
 
   return (
     <AppKeysContext.Provider value={appKeysData}>
-      {siteCommunicatorContext.isSiteStopped() && (
-        <CustomBanner message={t('noAppKeysWhileFunctionAppStopped')} type={MessageBarType.warning} />
-      )}
+      {siteStateContext.isSiteStopped() && <CustomBanner message={t('noAppKeysWhileFunctionAppStopped')} type={MessageBarType.warning} />}
       {refreshLoading && (
         <div>
           <LoadingComponent />
@@ -77,7 +75,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
         resourceId={resourceId}
         initialValues={initialValues}
         refreshData={refreshData}
-        appPermission={appPermission || !siteCommunicatorContext.isSiteStopped()}
+        appPermission={appPermission || !siteStateContext.isSiteStopped()}
       />
     </AppKeysContext.Provider>
   );

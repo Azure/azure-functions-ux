@@ -3,40 +3,40 @@ import { FunctionAppEditMode } from './models/portal-models';
 import { ArmObj } from './models/arm-obj';
 import { Site } from './models/site/site';
 
-export class SiteCommunicator {
+export class SiteState {
   private static _stopped: boolean;
   private static _siteAppEditState: FunctionAppEditMode;
   private static _site: ArmObj<Site> | undefined;
 
   public constructor() {
-    SiteCommunicator._stopped = false;
-    SiteCommunicator._siteAppEditState = FunctionAppEditMode.ReadWrite;
-    SiteCommunicator._site = undefined;
+    SiteState._stopped = false;
+    SiteState._siteAppEditState = FunctionAppEditMode.ReadWrite;
+    SiteState._site = undefined;
   }
 
   public setSite(site: ArmObj<Site>) {
-    SiteCommunicator._site = site;
+    SiteState._site = site;
   }
 
   public getSite() {
-    return SiteCommunicator._site;
+    return SiteState._site;
   }
 
   public setSiteStopped(stopped: boolean) {
-    SiteCommunicator._stopped = stopped;
+    SiteState._stopped = stopped;
   }
 
   public isSiteStopped() {
-    return SiteCommunicator._stopped;
+    return SiteState._stopped;
   }
 
   public setSiteAppEditState(state: FunctionAppEditMode) {
-    SiteCommunicator._siteAppEditState = state;
+    SiteState._siteAppEditState = state;
   }
 
   public getSiteAppEditState() {
-    return SiteCommunicator._siteAppEditState;
+    return SiteState._siteAppEditState;
   }
 }
 
-export const SiteCommunicatorContext = React.createContext<SiteCommunicator>(new SiteCommunicator());
+export const SiteStateContext = React.createContext<SiteState>(new SiteState());

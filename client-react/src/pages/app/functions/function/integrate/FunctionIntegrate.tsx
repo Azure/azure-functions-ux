@@ -14,7 +14,7 @@ import { Binding, BindingDirection } from '../../../../../models/functions/bindi
 import { BindingInfo } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { HostStatus } from '../../../../../models/functions/host-status';
-import { SiteCommunicatorContext } from '../../../../../SiteCommunicatorContext';
+import { SiteStateContext } from '../../../../../SiteState';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import SiteHelper from '../../../../../utils/SiteHelper';
@@ -64,7 +64,7 @@ export const BindingEditorContext = React.createContext<BindingEditorContextInfo
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
   const { functionAppId, functionInfo: initialFunctionInfo, bindings, bindingsError, hostStatus, isRefreshing, refreshIntegrate } = props;
   const { t } = useTranslation();
-  const siteCommunicatorContext = useContext(SiteCommunicatorContext);
+  const siteStateContext = useContext(SiteStateContext);
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
   const fullPageWidth = 1000;
@@ -77,7 +77,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const onlyBuiltInBindings = !hostStatus.version.startsWith('1') && !hostStatus.extensionBundle;
-  const readOnly = SiteHelper.isFunctionAppReadOnly(siteCommunicatorContext.getSiteAppEditState());
+  const readOnly = SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState());
 
   const openEditor = (editorBindingDirection: BindingDirection, bindingInfo?: BindingInfo): Observable<BindingUpdateInfo> => {
     setBindingDirection(editorBindingDirection);

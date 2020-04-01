@@ -16,14 +16,14 @@ import { PermissionsContext } from '../Contexts';
 import { ThemeContext } from '../../../../ThemeContext';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { messageBannerStyle } from '../AppSettings.styles';
-import { SiteCommunicatorContext } from '../../../../SiteCommunicatorContext';
+import { SiteStateContext } from '../../../../SiteState';
 
 const tabContainerStyle = style({
   marginTop: '15px',
 });
 
 const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
-  const siteCommunicatorContext = useContext(SiteCommunicatorContext);
+  const siteStateContext = useContext(SiteStateContext);
   const { app_write, editable } = useContext(PermissionsContext);
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
@@ -42,7 +42,7 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
         </MessageBar>
       )}
 
-      {siteCommunicatorContext.isSiteStopped() ? (
+      {siteStateContext.isSiteStopped() ? (
         <MessageBar
           isMultiline={true}
           className={messageBannerStyle(theme, MessageBarType.warning)}

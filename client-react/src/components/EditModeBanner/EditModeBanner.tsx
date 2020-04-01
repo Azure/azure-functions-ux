@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { SiteCommunicatorContext } from '../../SiteCommunicatorContext';
+import { SiteStateContext } from '../../SiteState';
 import { useTranslation } from 'react-i18next';
 import SiteHelper from '../../utils/SiteHelper';
 import { MessageBarType } from 'office-ui-fabric-react';
@@ -10,12 +10,12 @@ interface EditModeBannerProps {
 }
 
 const EditModeBanner: React.FC<EditModeBannerProps> = props => {
-  const siteCommunicatorContext = useContext(SiteCommunicatorContext);
+  const siteStateContext = useContext(SiteStateContext);
   const { t } = useTranslation();
 
   const { setBanner } = props;
 
-  const editState = siteCommunicatorContext.getSiteAppEditState();
+  const editState = siteStateContext.getSiteAppEditState();
 
   if (SiteHelper.isFunctionAppReadOnly(editState)) {
     return (

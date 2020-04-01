@@ -28,7 +28,7 @@ import {
 import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManager';
 import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
-import { SiteCommunicatorContext } from '../../../../../SiteCommunicatorContext';
+import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { BindingManager } from '../../../../../utils/BindingManager';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
@@ -99,7 +99,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const { t } = useTranslation();
 
-  const siteCommunicatorContext = useContext(SiteCommunicatorContext);
+  const siteStateContext = useContext(SiteStateContext);
   const startUpInfoContext = useContext(StartupInfoContext);
 
   const scenarioChecker = new ScenarioService(t);
@@ -442,7 +442,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
-              readOnly: SiteHelper.isFunctionAppReadOnly(siteCommunicatorContext.getSiteAppEditState()) || !appPermission,
+              readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState()) || !appPermission,
               extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}

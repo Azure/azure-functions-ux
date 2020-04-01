@@ -7,7 +7,7 @@ import SiteService from '../../../../ApiHelpers/SiteService';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { VfsObject } from '../../../../models/functions/vfs';
-import { SiteCommunicatorContext } from '../../../../SiteCommunicatorContext';
+import { SiteStateContext } from '../../../../SiteState';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { useTranslation } from 'react-i18next';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
@@ -31,7 +31,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
 
-  const siteCommunicatorContext = useContext(SiteCommunicatorContext);
+  const siteStateContext = useContext(SiteStateContext);
 
   const { t } = useTranslation();
 
@@ -73,7 +73,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   };
 
   useEffect(() => {
-    if (!siteCommunicatorContext.isSiteStopped()) {
+    if (!siteStateContext.isSiteStopped()) {
       fetchData();
     }
 
@@ -84,9 +84,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   }
   return (
     <AppFilesContext.Provider value={appFilesData}>
-      {siteCommunicatorContext.isSiteStopped() && (
-        <CustomBanner message={t('noAppFilesWhileFunctionAppStopped')} type={MessageBarType.warning} />
-      )}
+      {siteStateContext.isSiteStopped() && <CustomBanner message={t('noAppFilesWhileFunctionAppStopped')} type={MessageBarType.warning} />}
       <AppFiles site={site} fileList={fileList} runtimeVersion={runtimeVersion} refreshFunction={refresh} isRefreshing={isRefreshing} />}
     </AppFilesContext.Provider>
   );

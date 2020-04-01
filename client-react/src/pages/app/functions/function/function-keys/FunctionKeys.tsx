@@ -22,7 +22,7 @@ import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWi
 import Panel from '../../../../../components/Panel/Panel';
 import FunctionKeyAddEdit from './FunctionKeyAddEdit';
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
-import { SiteCommunicatorContext } from '../../../../../SiteCommunicatorContext';
+import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
@@ -65,9 +65,9 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
 
-  const siteCommunicatorContext = useContext(SiteCommunicatorContext);
+  const siteStateContext = useContext(SiteStateContext);
 
-  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteCommunicatorContext.getSiteAppEditState()) || !appPermission;
+  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState()) || !appPermission;
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(keys.map(h => h.name))]);

@@ -2,11 +2,11 @@ import { RouteComponentProps, Router } from '@reach/router';
 import React, { createContext, lazy, useContext, useEffect, useState } from 'react';
 import SiteService from '../../ApiHelpers/SiteService';
 import { ArmObj } from '../../models/arm-obj';
-import { FunctionAppEditMode, KeyValue, SiteState } from '../../models/portal-models';
+import { FunctionAppEditMode, KeyValue, SiteReadWriteState } from '../../models/portal-models';
 import { SiteConfig } from '../../models/site/config';
 import { Site } from '../../models/site/site';
 import { PortalContext } from '../../PortalContext';
-import { SiteCommunicatorContext, SiteCommunicator } from '../../SiteCommunicatorContext';
+import { SiteState, SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
@@ -63,7 +63,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const portalContext = useContext(PortalContext);
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
 
-  const siteCommunicator = new SiteCommunicator();
+  const siteState = new SiteState();
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site)) {
@@ -99,11 +99,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     }
 
     const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';
-    if (editModeString.toLowerCase() === SiteState.readonly) {
+    if (editModeString.toLowerCase() === SiteReadWriteState.readonly) {
       return FunctionAppEditMode.ReadOnly;
     }
 
-    if (editModeString.toLowerCase() === SiteState.readwrite) {
+    if (editModeString.toLowerCase() === SiteReadWriteState.readwrite) {
       return FunctionAppEditMode.ReadWrite;
     }
 
@@ -172,10 +172,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       }
 
       if (site.metadata.success) {
-        siteCommunicator.setSite(site.data);
-        siteCommunicator.setSiteStopped(site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
+        siteState.setSite(site.data);
+        siteState.setSiteStopped(site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
       }
-      siteCommunicator.setSiteAppEditState(functionAppEditMode);
+      siteState.setSiteAppEditState(functionAppEditMode);
     }
   };
 
@@ -192,7 +192,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token && (
-                <SiteCommunicatorContext.Provider value={siteCommunicator}>
+                <SiteStateContext.Provider value={siteState}>
                   <Router>
                     <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
                     <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
@@ -207,7 +207,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
                     <FunctionMonitor resourceId={value.resourceId} path="/monitor" />
                   </Router>
-                </SiteCommunicatorContext.Provider>
+                </SiteStateContext.Provider>
               )
             );
           }}
