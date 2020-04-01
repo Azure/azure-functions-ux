@@ -1,6 +1,6 @@
 import { sendHttpRequest } from './HttpClient';
 import { CommonConstants } from './../utils/CommonConstants';
-import { ResourceGraph } from './../models/arm-obj';
+import { ResourceGraph, ArmObj } from './../models/arm-obj';
 import MakeArmCall from './ArmHelper';
 import { ISubscription } from '../models/subscription';
 import {
@@ -16,55 +16,16 @@ import LogService from '../utils/LogService';
 import { LogCategories } from '../utils/LogCategories';
 import moment from 'moment';
 import { NationalCloudEnvironment } from '../utils/scenario-checker/national-cloud.environment';
+import { LocalStorageService } from '../utils/LocalStorageService';
+import { StorageKeys } from '../models/LocalStorage.model';
+import SiteService from './SiteService';
 
 export default class AppInsightsService {
-  public static getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[]) => {
-    const subscriptionIds = subscriptions.map(subscription => subscription.subscriptionId);
-    const body = {
-      query: `where type == 'microsoft.insights/components' | where isnotempty(properties) | where properties.ConnectionString == '${connectionString}'`,
-      subscriptions: subscriptionIds,
-    };
-
-    return MakeArmCall<any>({
-      body,
-      resourceId: `/providers/Microsoft.ResourceGraph/resources`,
-      commandName: 'getAppInsightsComponentFromConnectionString',
-      apiVersion: CommonConstants.ApiVersions.resourceGraphApiVersion,
-      method: 'POST',
-    }).then(response => {
-      if (response.metadata.success) {
-        const topologyObject = response.data as ResourceGraph;
-        if (topologyObject.data && topologyObject.data.columns && topologyObject.data.rows) {
-          const aiResources = mapResourcesTopologyToArmObjects<AppInsightsComponent>(topologyObject.data.columns, topologyObject.data.rows);
-          return aiResources.length === 1 ? aiResources[0] : null;
-        }
-      }
-      return null;
-    });
-  };
-
-  public static getAppInsightsComponentFromInstrumentationKey = (instrumentationKey: string, subscriptions: ISubscription[]) => {
-    const subscriptionIds = subscriptions.map(subscription => subscription.subscriptionId);
-    const body = {
-      query: `where type == 'microsoft.insights/components' | where isnotempty(properties) | where properties.InstrumentationKey == '${instrumentationKey}'`,
-      subscriptions: subscriptionIds,
-    };
-
-    return MakeArmCall<any>({
-      body,
-      resourceId: `/providers/Microsoft.ResourceGraph/resources`,
-      commandName: 'getAppInsightsComponentFromInstrumentationKey',
-      apiVersion: CommonConstants.ApiVersions.resourceGraphApiVersion,
-      method: 'POST',
-    }).then(response => {
-      if (response.metadata.success) {
-        const topologyObject = response.data as ResourceGraph;
-        if (topologyObject.data && topologyObject.data.columns && topologyObject.data.rows) {
-          const aiResources = mapResourcesTopologyToArmObjects<AppInsightsComponent>(topologyObject.data.columns, topologyObject.data.rows);
-          return aiResources.length === 1 ? aiResources[0] : null;
-        }
-      }
-      return null;
+  public static getAppInsights = (resourceId: string) => {
+    return MakeArmCall<ArmObj<AppInsightsComponent>>({
+      resourceId,
+      commandName: 'getAppInsights',
+      apiVersion: CommonConstants.ApiVersions.appInsightsTokenApiVersion20150501,
     });
   };
 
@@ -174,6 +135,126 @@ export default class AppInsightsService {
       `| project timestamp, message = iff(message != '', message, iff(innermostMessage != '', innermostMessage, customDimensions.['prop__{OriginalFormat}'])), logLevel = customDimensions.['LogLevel']`
     );
   };
+
+  public static getAppInsightsResourceId = async (resourceId: string, subscriptions: ISubscription[]) => {
+    const storageItem = LocalStorageService.getItem(resourceId, StorageKeys.appInsights);
+    const aiResourceId = !!storageItem && !!storageItem.value ? storageItem.value : undefined;
+
+    if (!aiResourceId) {
+      return AppInsightsService._getAppInsightsResourceIdUsingAppSettings(resourceId, subscriptions);
+    }
+
+    if (!!storageItem && storageItem.expired) {
+      LocalStorageService.removeItem(resourceId);
+      AppInsightsService._getAppInsightsResourceIdUsingAppSettings(resourceId, subscriptions);
+    }
+
+    return { metadata: { success: true, error: null }, data: aiResourceId };
+  };
+
+  private static _getAppInsightsResourceIdUsingAppSettings = async (resourceId: string, subscriptions: ISubscription[]) => {
+    const appSettingsResult = await SiteService.fetchApplicationSettings(resourceId);
+    let aiResourceId;
+    let error;
+    let success = false;
+    if (appSettingsResult.metadata.success) {
+      const appSettings = appSettingsResult.data.properties;
+      const appInsightsConnectionString = appSettings[CommonConstants.AppSettingNames.appInsightsConnectionString];
+      const appInsightsInstrumentationKey = appSettings[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
+
+      if (appInsightsConnectionString) {
+        const appInsightsResponse = await AppInsightsService._getAppInsightsComponentFromConnectionString(
+          appInsightsConnectionString,
+          subscriptions
+        );
+        aiResourceId = appInsightsResponse.data;
+        success = appInsightsResponse.metadata.success;
+        error = appInsightsResponse.metadata.error;
+      }
+
+      if (!aiResourceId && appInsightsInstrumentationKey) {
+        const appInsightsResponse = await AppInsightsService._getAppInsightsComponentFromInstrumentationKey(
+          appInsightsInstrumentationKey,
+          subscriptions
+        );
+        aiResourceId = appInsightsResponse.data;
+        success = appInsightsResponse.metadata.success;
+        error = appInsightsResponse.metadata.error;
+      }
+
+      if (!!aiResourceId) {
+        LocalStorageService.setItem(resourceId, StorageKeys.appInsights, aiResourceId);
+      }
+    } else {
+      error = appSettingsResult.metadata.error;
+      success = false;
+    }
+
+    return { metadata: { success, error }, data: aiResourceId };
+  };
+
+  private static _getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[]) => {
+    const subscriptionIds = subscriptions.map(subscription => subscription.subscriptionId);
+    const body = {
+      query: `where type == 'microsoft.insights/components' | where isnotempty(properties) | where properties.ConnectionString == '${connectionString}'`,
+      subscriptions: subscriptionIds,
+    };
+
+    return MakeArmCall<any>({
+      body,
+      resourceId: `/providers/Microsoft.ResourceGraph/resources`,
+      commandName: 'getAppInsightsComponentFromConnectionString',
+      apiVersion: CommonConstants.ApiVersions.resourceGraphApiVersion,
+      method: 'POST',
+    }).then(response => {
+      let success = false;
+      let error;
+      let aiResourceId;
+      if (response.metadata.success) {
+        success = true;
+        const topologyObject = response.data as ResourceGraph;
+        if (topologyObject.data && topologyObject.data.columns && topologyObject.data.rows) {
+          const aiResources = mapResourcesTopologyToArmObjects<AppInsightsComponent>(topologyObject.data.columns, topologyObject.data.rows);
+          aiResourceId = aiResources.length === 1 ? aiResources[0].id : null;
+        }
+      } else {
+        error = response.metadata.error;
+      }
+      return { metadata: { success, error }, data: aiResourceId };
+    });
+  };
+
+  private static _getAppInsightsComponentFromInstrumentationKey = (instrumentationKey: string, subscriptions: ISubscription[]) => {
+    const subscriptionIds = subscriptions.map(subscription => subscription.subscriptionId);
+    const body = {
+      query: `where type == 'microsoft.insights/components' | where isnotempty(properties) | where properties.InstrumentationKey == '${instrumentationKey}'`,
+      subscriptions: subscriptionIds,
+    };
+
+    return MakeArmCall<any>({
+      body,
+      resourceId: `/providers/Microsoft.ResourceGraph/resources`,
+      commandName: 'getAppInsightsComponentFromInstrumentationKey',
+      apiVersion: CommonConstants.ApiVersions.resourceGraphApiVersion,
+      method: 'POST',
+    }).then(response => {
+      let success = false;
+      let error;
+      let aiResourceId;
+      if (response.metadata.success) {
+        success = true;
+        const topologyObject = response.data as ResourceGraph;
+        if (topologyObject.data && topologyObject.data.columns && topologyObject.data.rows) {
+          const aiResources = mapResourcesTopologyToArmObjects<AppInsightsComponent>(topologyObject.data.columns, topologyObject.data.rows);
+          aiResourceId = aiResources.length === 1 ? aiResources[0].id : null;
+        }
+      } else {
+        error = response.metadata.error;
+      }
+      return { metadata: { success, error }, data: aiResourceId };
+    });
+  };
+
   private static _formAppInsightsHeaders = (appInsightsToken: string) => {
     return { Authorization: `Bearer ${appInsightsToken}` };
   };

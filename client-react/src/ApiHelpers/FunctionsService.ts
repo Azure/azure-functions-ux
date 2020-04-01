@@ -154,30 +154,13 @@ export default class FunctionsService {
     fileName?: string
   ) {
     const endpoint = `${!!functionName ? `/${functionName}` : ''}/${!!fileName ? `${fileName}` : ''}`;
-    switch (runtimeVersion) {
-      case RuntimeExtensionCustomVersions.beta:
-      case RuntimeExtensionMajorVersions.v2:
-      case RuntimeExtensionMajorVersions.v3: {
-        return MakeArmCall<VfsObject[] | string>({
-          headers,
-          resourceId: `${resourceId}/hostruntime/admin/vfs${endpoint}`,
-          commandName: 'getFileContent',
-          queryString: '?relativePath=1',
-          method: 'GET',
-          skipBuffer: !!fileName,
-        });
-      }
-      case RuntimeExtensionMajorVersions.v1:
-      default: {
-        return MakeArmCall<VfsObject[] | string>({
-          headers,
-          resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot${endpoint}`,
-          commandName: 'getFileContent',
-          method: 'GET',
-          skipBuffer: !!fileName,
-        });
-      }
-    }
+    return MakeArmCall<VfsObject[] | string>({
+      headers,
+      resourceId: `${resourceId}${FunctionsService._getVfsApiForRuntimeVersion(endpoint, runtimeVersion)}`,
+      commandName: 'getFileContent',
+      method: 'GET',
+      skipBuffer: !!fileName,
+    });
   }
 
   public static saveFileContent(
@@ -189,32 +172,14 @@ export default class FunctionsService {
     headers?: KeyValue<string>
   ) {
     const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
-    switch (runtimeVersion) {
-      case RuntimeExtensionCustomVersions.beta:
-      case RuntimeExtensionMajorVersions.v2:
-      case RuntimeExtensionMajorVersions.v3: {
-        return MakeArmCall<VfsObject[] | string>({
-          headers,
-          resourceId: `${resourceId}/hostruntime/admin/vfs/${endpoint}`,
-          commandName: 'saveFileContent',
-          queryString: '?relativePath=1',
-          method: 'PUT',
-          body: newFileContent,
-          skipBuffer: true,
-        });
-      }
-      case RuntimeExtensionMajorVersions.v1:
-      default: {
-        return MakeArmCall<VfsObject[] | string>({
-          headers,
-          resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot/${endpoint}`,
-          commandName: 'saveFileContent',
-          method: 'PUT',
-          body: newFileContent,
-          skipBuffer: true,
-        });
-      }
-    }
+    return MakeArmCall<VfsObject[] | string>({
+      headers,
+      resourceId: `${resourceId}${FunctionsService._getVfsApiForRuntimeVersion(endpoint, runtimeVersion)}`,
+      commandName: 'saveFileContent',
+      method: 'PUT',
+      body: newFileContent,
+      skipBuffer: !!fileName,
+    });
   }
 
   public static runFunction(url: string, method: Method, headers: KeyValue<string>, body: any) {
@@ -237,5 +202,17 @@ export default class FunctionsService {
       body,
     };
     return sendHttpRequest({ url: `${Url.serviceHost}api/passthrough`, method: 'POST', data: passthroughBody });
+  }
+
+  private static _getVfsApiForRuntimeVersion(endpoint: string, runtimeVersion?: string) {
+    switch (runtimeVersion) {
+      case RuntimeExtensionCustomVersions.beta:
+      case RuntimeExtensionMajorVersions.v2:
+      case RuntimeExtensionMajorVersions.v3:
+        return `/hostruntime/admin/vfs/${endpoint}?relativePath=1`;
+      case RuntimeExtensionMajorVersions.v1:
+      default:
+        return `/extensions/api/vfs/site/wwwroot/${endpoint}`;
+    }
   }
 }

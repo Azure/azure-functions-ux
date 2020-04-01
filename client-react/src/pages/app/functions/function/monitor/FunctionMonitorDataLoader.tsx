@@ -5,9 +5,7 @@ import { ArmObj } from '../../../../../models/arm-obj';
 import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
-import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
-import SiteService from '../../../../../ApiHelpers/SiteService';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 
 interface FunctionMonitorDataLoaderProps {
@@ -24,31 +22,30 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   const fetchComponent = async (force?: boolean) => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
     const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
-    const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId, force);
 
-    if (appSettingsResponse.metadata.success && appSettingsResponse.data.properties) {
-      const appSettings = appSettingsResponse.data.properties;
-      const appInsightsConnectionString = appSettings[CommonConstants.AppSettingNames.appInsightsConnectionString];
-      const appInsightsInstrumentationKey = appSettings[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
-
-      const appInsightsResponse = appInsightsConnectionString
-        ? await AppInsightsService.getAppInsightsComponentFromConnectionString(
-            appInsightsConnectionString,
-            startupInfoContext.subscriptions
-          )
-        : appInsightsInstrumentationKey
-        ? await AppInsightsService.getAppInsightsComponentFromInstrumentationKey(
-            appInsightsInstrumentationKey,
-            startupInfoContext.subscriptions
-          )
-        : null;
-
-      setAppInsightsComponent(appInsightsResponse);
+    const appInsightsResourceIdResponse = await AppInsightsService.getAppInsightsResourceId(
+      siteResourceId,
+      startupInfoContext.subscriptions
+    );
+    if (appInsightsResourceIdResponse.metadata.success) {
+      const aiResourceId = appInsightsResourceIdResponse.data;
+      if (!!aiResourceId) {
+        const appInsightsResponse = await AppInsightsService.getAppInsights(aiResourceId);
+        if (appInsightsResponse.metadata.success) {
+          setAppInsightsComponent(appInsightsResponse.data);
+        } else {
+          LogService.error(
+            LogCategories.functionLog,
+            'getAppInsights',
+            `Failed to get app insights: ${appInsightsResponse.metadata.error}`
+          );
+        }
+      }
     } else {
       LogService.error(
-        LogCategories.FunctionMonitor,
-        'fetchAppSettings',
-        `Failed to fetch app settings: ${appSettingsResponse.metadata.error}`
+        LogCategories.functionLog,
+        'getAppInsightsResourceId',
+        `Failed to get app insights resource Id: ${appInsightsResourceIdResponse.metadata.error}`
       );
     }
   };
