@@ -24,20 +24,7 @@ interface FunctionLogFileStreamDataLoaderProps {
 }
 
 const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderProps> = props => {
-  const {
-    resourceId,
-    isExpanded,
-    forceMaximized,
-    toggleExpand,
-    toggleFullscreen,
-    readOnlyBannerHeight,
-    fileSavedCount,
-    hideChevron,
-    hideLiveMetrics,
-    isResizable,
-    logPanelHeight,
-    setLogPanelHeight,
-  } = props;
+  const { resourceId } = props;
 
   const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
   const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
@@ -93,8 +80,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       if (started) {
         setLogStreamIndex(xhReq.responseText.length);
         if (newLogStream) {
-          const oldLogs = allLogEntries;
-          const newLogs = processLogs(newLogStream, oldLogs);
+          const newLogs = processLogs(newLogStream, allLogEntries);
           setAllLogEntries(newLogs);
         }
       }
@@ -102,11 +88,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   };
 
   const startLogs = () => {
-    if (xhReq) {
-      setLoadingMessage(undefined);
-    } else {
-      setLoadingMessage(t('feature_logStreamingConnecting'));
-    }
+    setLoadingMessage(xhReq ? undefined : t('feature_logStreamingConnecting'));
     setStarted(true);
   };
 
@@ -133,7 +115,6 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
 
   return (
     <FunctionLog
-      isExpanded={isExpanded}
       started={started}
       startLogs={startLogs}
       stopLogs={stopLogs}
@@ -141,16 +122,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       allLogEntries={allLogEntries}
       errorMessage={errorMessage}
       loadingMessage={loadingMessage}
-      forceMaximized={forceMaximized}
-      toggleExpand={toggleExpand}
-      toggleFullscreen={toggleFullscreen}
-      readOnlyBannerHeight={readOnlyBannerHeight}
-      fileSavedCount={fileSavedCount}
-      hideChevron={hideChevron}
-      hideLiveMetrics={hideLiveMetrics}
-      isResizable={isResizable}
-      logPanelHeight={logPanelHeight}
-      setLogPanelHeight={setLogPanelHeight}
+      {...props}
     />
   );
 };

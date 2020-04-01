@@ -13,68 +13,65 @@ export function processLogs(logStream: string, oldLogs: LogEntry[]): LogEntry[] 
 }
 
 function getLogLevel(message: string): FBLogLevel {
-  let logLevel = FBLogLevel.Unknown;
   if (message.match(LogRegex.errorLog)) {
-    logLevel = FBLogLevel.Error;
-  } else if (message.match(LogRegex.infoLog)) {
-    logLevel = FBLogLevel.Info;
-  } else if (message.match(LogRegex.warningLog)) {
-    logLevel = FBLogLevel.Warning;
-  } else if (message.match(LogRegex.log)) {
-    logLevel = FBLogLevel.Normal;
+    return FBLogLevel.Error;
   }
-  return logLevel;
+  if (message.match(LogRegex.infoLog)) {
+    return FBLogLevel.Info;
+  }
+  if (message.match(LogRegex.warningLog)) {
+    return FBLogLevel.Warning;
+  }
+  if (message.match(LogRegex.log)) {
+    return FBLogLevel.Normal;
+  }
+  return FBLogLevel.Unknown;
 }
 
 function addLogEntry(message: string, logLevel: FBLogLevel, logEntries: LogEntry[]) {
-  const logMessage = message ? message.trim() : message;
+  const logMessage = !!message ? message.trim() : '';
+  const convertedLogLevel = convertLogLevel(logLevel);
+  const logColor = getLogTextColor(logLevel);
 
-  if (!!logMessage) {
-    if (logLevel === FBLogLevel.Unknown) {
-      if (logEntries.length === 0) {
-        logEntries.push({
-          message: logMessage,
-          level: convertLogLevel(logLevel),
-          color: getLogTextColor(logLevel),
-        });
-      } else if (logEntries.length > 0 && logEntries[logEntries.length - 1].message === '') {
-        logEntries[logEntries.length - 1] = {
-          message: logMessage,
-          level: convertLogLevel(logLevel),
-          color: getLogTextColor(logLevel),
-        };
-      } else {
-        // If a message is unknown, then we assume it's just a continuation of a previous line and just prepend it to
-        // the previous line.  This allows us to write out single line entries for logs that are not formatted correctly.
-        // Like for example, Functions logs formatted JSON objects to the console which looks ok, but breaks each log line
-        // and formatting of each line.  Making this assumption of simply appending unknown strings to the previous line
-        // may not be correct, but so far it seems to check out okay with our standard web apps logging format. -Krrish
-        logEntries[logEntries.length - 1].message += logMessage;
-      }
+  if (logLevel === FBLogLevel.Unknown) {
+    if (logEntries.length === 0) {
+      logEntries.push({
+        message: logMessage,
+        level: convertedLogLevel,
+        color: logColor,
+      });
     } else if (logEntries.length > 0 && logEntries[logEntries.length - 1].message === '') {
       logEntries[logEntries.length - 1] = {
         message: logMessage,
-        level: convertLogLevel(logLevel),
-        color: getLogTextColor(logLevel),
+        level: convertedLogLevel,
+        color: logColor,
       };
     } else {
-      logEntries.push({
-        message: logMessage,
-        level: convertLogLevel(logLevel),
-        color: getLogTextColor(logLevel),
-      });
+      // If a message is unknown, then we assume it's just a continuation of a previous line and just prepend it to
+      // the previous line.  This allows us to write out single line entries for logs that are not formatted correctly.
+      // Like for example, Functions logs formatted JSON objects to the console which looks ok, but breaks each log line
+      // and formatting of each line.  Making this assumption of simply appending unknown strings to the previous line
+      // may not be correct, but so far it seems to check out okay with our standard web apps logging format. -Krrish
+      logEntries[logEntries.length - 1].message += logMessage;
     }
-
-    if (logEntries.length > maxLogEntries) {
-      logEntries.splice(0, 1);
-    }
+  } else if (logEntries.length > 0 && logEntries[logEntries.length - 1].message === '') {
+    logEntries[logEntries.length - 1] = {
+      message: logMessage,
+      level: convertedLogLevel,
+      color: logColor,
+    };
   } else {
     logEntries.push({
-      message: '',
-      level: convertLogLevel(logLevel),
-      color: getLogTextColor(logLevel),
+      message: logMessage,
+      level: convertedLogLevel,
+      color: logColor,
     });
   }
+
+  if (logEntries.length > maxLogEntries) {
+    logEntries.splice(0, 1);
+  }
+
   return logEntries;
 }
 

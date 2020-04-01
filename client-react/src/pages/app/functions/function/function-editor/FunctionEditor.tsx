@@ -103,7 +103,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const startUpInfoContext = useContext(StartupInfoContext);
 
   const scenarioChecker = new ScenarioService(t);
-  const showAppInsightsLogs = !!site.id && scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
+  const showAppInsightsLogs = scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
 
   const save = async () => {
     if (!selectedFile) {
