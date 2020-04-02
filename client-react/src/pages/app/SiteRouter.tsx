@@ -31,6 +31,8 @@ export interface SiteRouterProps {
 export const siteRouterData = new SiteRouterData();
 export const SiteRouterContext = createContext(siteRouterData);
 
+// NOTE(michinoy): For consistency sake, please keep all the webpackChunkName values lowercase and without hypens.
+
 const AppSettingsLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-settings/AppSettings'));
 const LogStreamLoadable: any = lazy(() => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamDataLoader'));
 const ChangeAppPlanLoadable: any = lazy(() => import(/* webpackChunkName:"changeappplan" */ './change-app-plan/ChangeAppPlanDataLoader'));
@@ -56,6 +58,10 @@ const FunctionQuickstart: any = lazy(() =>
 const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './functions/app-files/AppFilesDataLoader'));
 const FunctionMonitor: any = lazy(() =>
   import(/* webpackChunkName:"functionmonitor" */ './functions/function/monitor/FunctionMonitorDataLoader')
+);
+
+const DeploymentCenter: any = lazy(() =>
+  import(/* webpackChunkName:"deploymentcenter" */ './deployment-center/DeploymentCenterDataLoader')
 );
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
@@ -194,6 +200,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
               value.token && (
                 <SiteStateContext.Provider value={siteState}>
                   <Router>
+                    {/* NOTE(michinoy): The paths should be always all lowercase. */}
+
                     <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
                     <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
                     <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
@@ -206,6 +214,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
                     <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
                     <FunctionMonitor resourceId={value.resourceId} path="/monitor" />
+                    <DeploymentCenter resourceId={value.resourceId} path="/deploymentcenter" />
                   </Router>
                 </SiteStateContext.Provider>
               )
