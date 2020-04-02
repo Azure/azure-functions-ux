@@ -442,7 +442,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
-              readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState()) || !appPermission,
+              readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState()) || appReadPermission,
               extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
