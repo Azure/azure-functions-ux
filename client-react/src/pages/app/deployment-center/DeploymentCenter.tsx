@@ -9,7 +9,7 @@ const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
 
   return (
     <div>
-      <h2>Deployment Center Perview for {resourceId}</h2>
+      <h2>Deployment Center Preview for {resourceId}</h2>
     </div>
   );
 };
