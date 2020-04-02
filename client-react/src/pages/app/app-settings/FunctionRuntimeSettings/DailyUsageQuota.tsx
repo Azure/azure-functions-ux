@@ -4,10 +4,9 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
 import TextField from '../../../../components/form-controls/TextField';
-import { KeyCodes, MessageBar, MessageBarType } from 'office-ui-fabric-react';
-import { messageBannerStyle } from '../AppSettings.styles';
-import { ThemeContext } from '../../../../ThemeContext';
+import { KeyCodes, MessageBarType } from 'office-ui-fabric-react';
 import { SiteDisabledReason } from '../../../../models/site/site';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const onKeyDown = keyEvent => {
   const keyCode = keyEvent.charCode || keyEvent.keyCode;
@@ -22,7 +21,6 @@ const onKeyDown = keyEvent => {
 const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { t, values, initialValues } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
-  const theme = useContext(ThemeContext);
   const disableAllControls = !app_write || !editable || saving;
   const showWarning =
     !values.site.properties.enabled && values.site.properties.siteDisabledReason === SiteDisabledReason.FunctionQuotaExceeded;
@@ -30,13 +28,12 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
   return (
     <>
       {showWarning && (
-        <MessageBar
+        <CustomBanner
           id="function-app-settings-daily-memory-time-quota-warning"
-          isMultiline={true}
-          className={messageBannerStyle(theme, MessageBarType.warning)}
-          messageBarType={MessageBarType.warning}>
-          {t('functionAppSettings_quotaWarning')}
-        </MessageBar>
+          message={t('functionAppSettings_quotaWarning')}
+          type={MessageBarType.warning}
+          undocked={true}
+        />
       )}
       <Field
         name="site.properties.dailyMemoryTimeQuota"
