@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import { findFormAppSettingValue } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import { MessageBarType, MessageBar } from 'office-ui-fabric-react';
+import { MessageBarType } from 'office-ui-fabric-react';
 import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../../../../models/functions/runtime-extension';
-import { messageBannerStyle } from '../AppSettings.styles';
-import { ThemeContext } from '../../../../ThemeContext';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 interface MessageBarInfo {
   messageText: string;
@@ -21,7 +20,6 @@ enum ComparisonResult {
 
 const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = props => {
   const { t, initialValues, asyncData } = props;
-  const theme = useContext(ThemeContext);
 
   // Returns a warning/error message to be shown if one of the the following scenarios is true:
   //  -FUNCTIONS_EXTENSION_VERSION is missing or set to empty.
@@ -132,13 +130,12 @@ const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = p
   }
 
   return (
-    <MessageBar
+    <CustomBanner
       id="function-app-settings-runtime-version-message"
-      isMultiline={true}
-      className={messageType ? messageBannerStyle(theme, messageType) : undefined}
-      messageBarType={messageType}>
-      {messageText}
-    </MessageBar>
+      message={messageText}
+      type={messageType || MessageBarType.info}
+      undocked={true}
+    />
   );
 };
 

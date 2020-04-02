@@ -7,9 +7,10 @@ import Dropdown from '../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
 import { IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import { MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { PermissionsContext, SlotsListContext } from '../Contexts';
 import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const slots = useContext(SlotsListContext);
@@ -57,9 +58,7 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
           <h3>{t('slots')}</h3>
           {!production_write ? (
             <div data-cy="auto-swap-disabled-message">
-              <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
-                {t('autoSwapSettingPermissionFail')}
-              </MessageBar>
+              <CustomBanner message={t('autoSwapSettingPermissionFail')} type={MessageBarType.warning} undocked={true} />
             </div>
           ) : (
             <div className={settingsWrapper} data-cy="auto-swap-control-set">
