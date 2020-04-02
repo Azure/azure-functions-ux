@@ -42,6 +42,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
         }
       }
     } else {
+      setAppInsightsComponent(null);
       LogService.error(
         LogCategories.functionLog,
         'getAppInsightsResourceId',

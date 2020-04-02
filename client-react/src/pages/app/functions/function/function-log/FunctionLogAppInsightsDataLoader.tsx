@@ -82,6 +82,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
         }
       }
     } else {
+      setAppInsightsComponent(null);
       LogService.error(
         LogCategories.functionLog,
         'getAppInsightsResourceId',
