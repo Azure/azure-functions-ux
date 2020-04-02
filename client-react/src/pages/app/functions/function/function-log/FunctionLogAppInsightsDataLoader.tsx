@@ -54,7 +54,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const startupInfoContext = useContext(StartupInfoContext);
   const siteStateContext = useContext(SiteStateContext);
 
-  const appReadPermission = SiteHelper.isRbacReaderPermission(siteStateContext.getSiteAppEditState());
+  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.getSiteAppEditState());
 
   const { t } = useTranslation();
 
@@ -184,8 +184,8 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   };
 
   const startLogs = () => {
-    if (appReadPermission) {
-      setErrorMessage(t('functionEditor_rbacPermissionsForAI'));
+    if (appReadOnlyPermission) {
+      setErrorMessage(t('functionLog_rbacPermissionsForAppInsights'));
     } else if (appInsightsComponent) {
       if (appInsightsToken) {
         disconnectQueryLayer();
