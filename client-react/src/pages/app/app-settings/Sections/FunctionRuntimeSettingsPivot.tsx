@@ -5,7 +5,6 @@ import { style } from 'typestyle';
 import { AppSettingsFormValues, AppSettingsFormProps } from '../AppSettings.types';
 import { findFormAppSettingValue } from '../AppSettingsFormData';
 import DailyUsageQuota from '../FunctionRuntimeSettings/DailyUsageQuota';
-import HostJsonConfiguration from '../FunctionRuntimeSettings/HostJsonConfiguration';
 import RuntimeVersion from '../FunctionRuntimeSettings/RuntimeVersion';
 import RuntimeVersionBanner from '../FunctionRuntimeSettings/RuntimeVersionBanner';
 import RuntimeScaleMonitoring from '../FunctionRuntimeSettings/RuntimeScaleMonitoring';
@@ -61,8 +60,6 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
       )}
 
       {scenarioChecker.checkScenario(ScenarioIds.dailyUsageQuotaSupported, { site }).status === 'enabled' && <DailyUsageQuota {...props} />}
-
-      <HostJsonConfiguration {...props} />
     </div>
   );
 };
