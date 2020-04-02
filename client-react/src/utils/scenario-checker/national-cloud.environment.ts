@@ -131,6 +131,13 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       id: ScenarioIds.vstsSource,
       runCheck: () => ({ status: 'disabled' }),
     };
+
+    this.scenarioChecks[ScenarioIds.showAppInsightsLogs] = {
+      id: ScenarioIds.showAppInsightsLogs,
+      runCheck: () => {
+        return { status: NationalCloudEnvironment.isBlackforest() ? 'disabled' : 'enabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

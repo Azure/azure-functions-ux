@@ -2,11 +2,11 @@ import { RouteComponentProps, Router } from '@reach/router';
 import React, { createContext, lazy, useContext, useEffect, useState } from 'react';
 import SiteService from '../../ApiHelpers/SiteService';
 import { ArmObj } from '../../models/arm-obj';
-import { FunctionAppEditMode, KeyValue, SiteState } from '../../models/portal-models';
+import { FunctionAppEditMode, KeyValue, SiteReadWriteState } from '../../models/portal-models';
 import { SiteConfig } from '../../models/site/config';
 import { Site } from '../../models/site/site';
 import { PortalContext } from '../../PortalContext';
-import { SiteStateContext } from '../../SiteStateContext';
+import { SiteState, SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
@@ -68,8 +68,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
-  const [siteAppEditState, setSiteAppEditState] = useState(FunctionAppEditMode.ReadWrite);
-  const [siteStopped, setSiteStopped] = useState(false);
+
+  const siteState = new SiteState();
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site)) {
@@ -105,11 +105,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     }
 
     const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';
-    if (editModeString.toLowerCase() === SiteState.readonly) {
+    if (editModeString.toLowerCase() === SiteReadWriteState.readonly) {
       return FunctionAppEditMode.ReadOnly;
     }
 
-    if (editModeString.toLowerCase() === SiteState.readwrite) {
+    if (editModeString.toLowerCase() === SiteReadWriteState.readwrite) {
       return FunctionAppEditMode.ReadWrite;
     }
 
@@ -177,11 +177,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         }
       }
 
-      if (site.metadata.success && site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped) {
-        setSiteStopped(true);
+      if (site.metadata.success) {
+        siteState.setSite(site.data);
+        siteState.setSiteStopped(site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
       }
-
-      setSiteAppEditState(functionAppEditMode);
+      siteState.setSiteAppEditState(functionAppEditMode);
     }
   };
 
@@ -198,7 +198,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token && (
-                <SiteStateContext.Provider value={{ stopped: siteStopped, readOnlyState: siteAppEditState }}>
+                <SiteStateContext.Provider value={siteState}>
                   <Router>
                     {/* NOTE(michinoy): The paths should be always all lowercase. */}
 
