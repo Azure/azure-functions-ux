@@ -50,7 +50,6 @@ export interface FunctionEditorProps {
   urlObjs: UrlObj[];
   showTestPanel: boolean;
   setShowTestPanel: (showPanel: boolean) => void;
-  appPermission: boolean;
   refresh: () => void;
   isRefreshing: boolean;
   getFunctionUrl: (key?: string) => string;
@@ -72,7 +71,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     urlObjs,
     showTestPanel,
     setShowTestPanel,
-    appPermission,
     testData,
     refresh,
     isRefreshing,
@@ -104,6 +102,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const scenarioChecker = new ScenarioService(t);
   const showAppInsightsLogs = scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
+
+  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.getSiteAppEditState());
 
   const save = async () => {
     if (!selectedFile) {
@@ -355,7 +355,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           refreshFunction={refresh}
           showGetFunctionUrlCommand={!!inputBinding}
           dirty={isDirty()}
-          disabled={isDisabled() || !appPermission}
+          disabled={isDisabled() || appReadOnlyPermission}
           urlObjs={urlObjs}
           testDisabled={isTestDisabled()}
         />
@@ -442,7 +442,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
-              readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState()) || !appPermission,
+              readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState()) || appReadOnlyPermission,
               extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}

@@ -5874,4 +5874,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Failed to disconnect your deployment, but the workflow file was successfully deleted. Try to disconnect again.</value>
     </data>
+    <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
+        <value>Unable to establish a link to Application Insights. Please ensure that you have write permissions on your Function app</value>
+    </data>
 </root>

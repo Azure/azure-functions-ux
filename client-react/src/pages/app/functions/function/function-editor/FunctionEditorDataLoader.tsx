@@ -48,7 +48,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [hostUrls, setHostUrls] = useState<UrlObj[]>([]);
   const [functionUrls, setFunctionUrls] = useState<UrlObj[]>([]);
   const [showTestPanel, setShowTestPanel] = useState(false);
-  const [appPermission, setAppPermission] = useState(true);
   const [testData, setTestData] = useState<string | undefined>(undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -58,17 +57,9 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const fetchData = async () => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
     const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
-    const [
-      siteResponse,
-      functionInfoResponse,
-      appSettingsResponse,
-      appKeysResponse,
-      functionKeysResponse,
-      hostStatusResponse,
-    ] = await Promise.all([
+    const [siteResponse, functionInfoResponse, appKeysResponse, functionKeysResponse, hostStatusResponse] = await Promise.all([
       siteContext.fetchSite(siteResourceId),
       functionEditorData.getFunctionInfo(resourceId),
-      SiteService.fetchApplicationSettings(siteResourceId),
       AppKeyService.fetchKeys(siteResourceId),
       FunctionsService.fetchKeys(resourceId),
       SiteService.fetchFunctionsHostStatus(siteResourceId),
@@ -84,14 +75,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       setFunctionInfo(functionInfoResponse.data);
     } else {
       LogService.error(LogCategories.FunctionEdit, 'getFunction', `Failed to get function info: ${functionInfoResponse.metadata.error}`);
-    }
-
-    if (!appSettingsResponse.metadata.success || !appSettingsResponse.data.properties) {
-      if (appSettingsResponse.metadata.status === 403) {
-        // RBAC Permissions
-        setAppPermission(false);
-      }
-      LogService.error(LogCategories.FunctionEdit, 'fetchAppSetting', `Failed to fetch app setting: ${appSettingsResponse.metadata.error}`);
     }
 
     if (hostStatusResponse.metadata.success) {
@@ -440,7 +423,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           urlObjs={[...functionUrls, ...hostUrls]}
           showTestPanel={showTestPanel}
           setShowTestPanel={setShowTestPanel}
-          appPermission={appPermission}
           testData={testData}
           refresh={refresh}
           isRefreshing={isRefreshing}

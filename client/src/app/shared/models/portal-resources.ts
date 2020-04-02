@@ -1900,4 +1900,5 @@ export class PortalResources {
   public static githubActionDisconnectConfirmationTitle = 'githubActionDisconnectConfirmationTitle';
   public static githubActionDisconnectWorkflowDeleteFailed = 'githubActionDisconnectWorkflowDeleteFailed';
   public static disconnectingDeploymentFailWorkflowFileDeleteSucceeded = 'disconnectingDeploymentFailWorkflowFileDeleteSucceeded';
+  public static functionLog_rbacPermissionsForAppInsights = 'functionLog_rbacPermissionsForAppInsights';
 }
