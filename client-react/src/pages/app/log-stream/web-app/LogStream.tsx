@@ -2,9 +2,9 @@ import React, { useContext, useEffect } from 'react';
 import LogStreamCommandBar from './LogStreamCommandBar';
 import LogStreamLogContainer from './LogStreamLogContainer';
 import { LogEntry, LogType, LogsEnabled } from './LogStream.types';
-import { PortalContext } from '../../../PortalContext';
-import { ArmObj } from '../../../models/arm-obj';
-import { Site } from '../../../models/site/site';
+import { PortalContext } from '../../../../PortalContext';
+import { ArmObj } from '../../../../models/arm-obj';
+import { Site } from '../../../../models/site/site';
 
 export interface LogStreamProps {
   reconnect: () => void;

@@ -47,7 +47,7 @@ const FunctionCreateLoadable: any = lazy(() =>
 );
 const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeysDataLoader'));
 const FunctionKeysLoadable: any = lazy(() =>
-  import(/* webpackChunkName: "functionKeys" */ './functions/function/function-keys/FunctionKeysDataLoader')
+  import(/* webpackChunkName: "functionkeys" */ './functions/function/function-keys/FunctionKeysDataLoader')
 );
 const FunctionEditorLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/function/function-editor/FunctionEditorDataLoader')
@@ -55,7 +55,7 @@ const FunctionEditorLoadable: any = lazy(() =>
 const FunctionQuickstart: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/quickstart/FunctionQuickstartDataLoader')
 );
-const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './functions/app-files/AppFilesDataLoader'));
+const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appfiles" */ './functions/app-files/AppFilesDataLoader'));
 const FunctionMonitor: any = lazy(() =>
   import(/* webpackChunkName:"functionmonitor" */ './functions/function/monitor/FunctionMonitorDataLoader')
 );
