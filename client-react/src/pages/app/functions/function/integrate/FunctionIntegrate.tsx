@@ -187,8 +187,8 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     <>
       {(isRefreshing || isUpdating) && <LoadingComponent overlay={true} />}
       <BindingEditorContext.Provider value={editorContext}>
-        {banner}
         <FunctionIntegrateCommandBar refreshIntegrate={refreshIntegrate} isRefreshing={isRefreshing} />
+        {banner}
         <BindingPanel
           functionAppId={functionAppId}
           functionInfo={functionInfo}
