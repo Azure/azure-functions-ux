@@ -5,9 +5,11 @@ interface DeploymentCenterProps {
 }
 
 const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
+  const { resourceId } = props;
+
   return (
     <div>
-      <h2>Deployment Center Perview for {props.resourceId}</h2>
+      <h2>Deployment Center Perview for {resourceId}</h2>
     </div>
   );
 };

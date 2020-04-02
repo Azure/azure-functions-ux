@@ -58,7 +58,9 @@ const FunctionMonitor: any = lazy(() =>
   import(/* webpackChunkName:"functionmonitor" */ './functions/function/monitor/FunctionMonitorDataLoader')
 );
 
-const DeploymentCenter: any = lazy(() => import(/* webpackChunkName:"deploymentCenter" */ './deployment-center/DeploymentCenter'));
+const DeploymentCenter: any = lazy(() =>
+  import(/* webpackChunkName:"deploymentCenter" */ './deployment-center/DeploymentCenterDataLoader')
+);
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
