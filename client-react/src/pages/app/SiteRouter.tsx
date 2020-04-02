@@ -58,6 +58,8 @@ const FunctionMonitor: any = lazy(() =>
   import(/* webpackChunkName:"functionmonitor" */ './functions/function/monitor/FunctionMonitorDataLoader')
 );
 
+const DeploymentCenter: any = lazy(() => import(/* webpackChunkName:"deploymentCenter" */ './deployment-center/DeploymentCenter'));
+
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
@@ -206,6 +208,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
                     <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
                     <FunctionMonitor resourceId={value.resourceId} path="/monitor" />
+                    <DeploymentCenter resourceId={value.resourceId} path="/deploymentCenter" />
                   </Router>
                 </SiteStateContext.Provider>
               )
