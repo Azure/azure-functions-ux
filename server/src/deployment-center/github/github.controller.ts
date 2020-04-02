@@ -287,9 +287,17 @@ export class GithubController {
       this.configService.get('GITHUB_REDIRECT_URL') || `${this.environmentUrlsMap[Environments.Prod]}/auth/github/callback`;
 
     const redirectUriToLower = redirectUri.toLocaleLowerCase();
-    const hostUrlToLower = (!!host && `https://${host}`.toLocaleLowerCase()) || '';
+    const hostUrlToLower = `https://${host}`.toLocaleLowerCase();
     if (!redirectUriToLower.startsWith(hostUrlToLower)) {
-      // The current host doesn't match the callback URL host, so we need to add the routing segment to the callback URL
+      // Once GitHub authentication is complete, the browser needs to be redirected to the same host as the parent window that
+      // originally launched it. Otherwise, the parent window won't be able to extract the token due to origin mis-match.
+
+      // However, the redirect URL that we pass to GitHub needs to be an exact match or subdirectory of a pre-configured callback URL.
+      // - If the host of the parent window matches the host of the pre-configure callback, then we can just use the pre-configured
+      //   callback as the redirect URL.
+      // - If the host of the parent window doesn't match the host of the pre-configured callback, then we append '/env/<ENV>' to the
+      //   pre-configured callback and use this as the redirect URL. When the browser gets redirected to this URL from GitHub, it will
+      //   result in an additional redirect to the correct environment where the host will match the parent window's host.
       const env = this._getEnvironment(hostUrlToLower);
       if (!!env) {
         return `${redirectUri}/env/${env}`;
