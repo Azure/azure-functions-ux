@@ -7,9 +7,10 @@ import RadioButton from '../../../../components/form-controls/RadioButton';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
 import { PermissionsContext } from '../Contexts';
-import { MessageBar, MessageBarType, IDropdownOption } from 'office-ui-fabric-react';
+import { MessageBarType, IDropdownOption } from 'office-ui-fabric-react';
 import SiteHelper from '../../../../utils/SiteHelper';
 import { Links } from '../../../../utils/FwLinks';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
@@ -48,11 +49,7 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
   return (
     <div id="app-settings-remote-debugging-section">
       <h3>{t('debugging')}</h3>
-      {showWarningForVS2015 && (
-        <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
-          {t('remoteDebuggingVS2015NotSupported')}
-        </MessageBar>
-      )}
+      {showWarningForVS2015 && <CustomBanner message={t('remoteDebuggingVS2015NotSupported')} type={MessageBarType.warning} />}
       <div className={settingsWrapper}>
         <Field
           name="config.properties.remoteDebuggingEnabled"

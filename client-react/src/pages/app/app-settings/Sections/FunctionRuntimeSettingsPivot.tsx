@@ -13,10 +13,9 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { PermissionsContext } from '../Contexts';
-import { ThemeContext } from '../../../../ThemeContext';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
-import { messageBannerStyle } from '../AppSettings.styles';
+import { MessageBarType } from 'office-ui-fabric-react';
 import { SiteStateContext } from '../../../../SiteStateContext';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const tabContainerStyle = style({
   marginTop: '15px',
@@ -25,7 +24,6 @@ const tabContainerStyle = style({
 const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
   const siteStateContext = useContext(SiteStateContext);
   const { app_write, editable } = useContext(PermissionsContext);
-  const theme = useContext(ThemeContext);
   const { t } = useTranslation();
   const scenarioChecker = new ScenarioService(t);
   const site = props.initialValues.site;
@@ -33,22 +31,15 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
   return (
     <div id="function-runtime-settings" className={tabContainerStyle}>
       {(!app_write || !editable) && (
-        <MessageBar
+        <CustomBanner
           id="function-runtime-settings-rbac-message"
-          isMultiline={true}
-          className={messageBannerStyle(theme, MessageBarType.warning)}
-          messageBarType={MessageBarType.warning}>
-          {t('readWritePermissionsRequired')}
-        </MessageBar>
+          message={t('readWritePermissionsRequired')}
+          type={MessageBarType.warning}
+        />
       )}
 
       {siteStateContext.stopped ? (
-        <MessageBar
-          isMultiline={true}
-          className={messageBannerStyle(theme, MessageBarType.warning)}
-          messageBarType={MessageBarType.warning}>
-          {t('noRuntimeVersionWhileFunctionAppStopped')}
-        </MessageBar>
+        <CustomBanner message={t('noRuntimeVersionWhileFunctionAppStopped')} type={MessageBarType.warning} />
       ) : (
         <>
           <RuntimeVersionBanner {...props} />

@@ -7,9 +7,10 @@ import VirtualApplications from '../VirtualApplications/VirtualApplications';
 import { isEqual } from 'lodash-es';
 import AzureStorageMounts from '../AzureStorageMounts/AzureStorageMounts';
 import { PermissionsContext } from '../Contexts';
-import { MessageBar, MessageBarType, Link } from 'office-ui-fabric-react';
+import { MessageBarType, Link } from 'office-ui-fabric-react';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { Links } from '../../../../utils/FwLinks';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 interface PathMappingsPivotProps {
   enablePathMappings: boolean;
@@ -47,9 +48,7 @@ const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & PathMappi
             <AzureStorageMounts {...props} />
           ) : (
             <div id="app-settings-storage-mount-rbac-message">
-              <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
-                {t('storageMountsNoPermissions')}
-              </MessageBar>
+              <CustomBanner message={t('storageMountsNoPermissions')} type={MessageBarType.warning} />
             </div>
           )}
         </>

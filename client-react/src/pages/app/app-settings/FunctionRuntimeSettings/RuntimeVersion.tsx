@@ -5,18 +5,16 @@ import { PermissionsContext } from '../Contexts';
 import { addOrUpdateFormAppSetting, findFormAppSettingValue, removeFormAppSetting } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
-import { IDropdownOption, MessageBarType, MessageBar } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
-import { messageBannerStyle } from '../AppSettings.styles';
-import { ThemeContext } from '../../../../ThemeContext';
 import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import { HostStates } from '../../../../models/functions/host-status';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props => {
   const { t, values, initialValues, asyncData, setFieldValue } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
-  const theme = useContext(ThemeContext);
   const disableAllControls = !app_write || !editable || saving;
 
   const initialRuntimeVersion =
@@ -164,13 +162,11 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
       {app_write && editable && (
         <>
           {hasFunctions && (
-            <MessageBar
+            <CustomBanner
               id="function-app-settings-runtime-version-message"
-              isMultiline={true}
-              className={messageBannerStyle(theme, MessageBarType.warning)}
-              messageBarType={MessageBarType.warning}>
-              {t('functionsRuntimeVersionExistingFunctionsWarning')}
-            </MessageBar>
+              message={t('functionsRuntimeVersionExistingFunctionsWarning')}
+              type={MessageBarType.warning}
+            />
           )}
           <DropdownNoFormik
             placeHolder={getPlaceHolder()}

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
-import { MessageBar, MessageBarType, Link } from 'office-ui-fabric-react';
+import { MessageBarType, Link } from 'office-ui-fabric-react';
 import { FormikProps } from 'formik';
 import ApplicationSettings from '../ApplicationSettings/ApplicationSettings';
 import ConnectionStrings from '../ConnectionStrings/ConnectionStrings';
@@ -12,6 +12,7 @@ import { learnMoreLinkStyle } from '../../../../components/form-controls/formCon
 import { Links } from '../../../../utils/FwLinks';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
@@ -40,9 +41,7 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
         </div>
       ) : (
         <div id="app-settings-app-settings-rbac-message">
-          <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
-            {t('applicationSettingsNoPermission')}
-          </MessageBar>
+          <CustomBanner message={t('applicationSettingsNoPermission')} type={MessageBarType.warning} />
         </div>
       )}
       <h3>{t('connectionStrings')}</h3>
@@ -68,9 +67,7 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
         </div>
       ) : (
         <div id="app-settings-connection-strings-rbac-message">
-          <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
-            {t('connectionStringsNoPermissions')}
-          </MessageBar>
+          <CustomBanner message={t('connectionStringsNoPermissions')} type={MessageBarType.warning} />
         </div>
       )}
     </>
