@@ -35,7 +35,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
           setAppInsightsComponent(appInsightsResponse.data);
         } else {
           LogService.error(
-            LogCategories.functionLog,
+            LogCategories.functionAppLog,
             'getAppInsights',
             `Failed to get app insights: ${appInsightsResponse.metadata.error}`
           );
@@ -44,7 +44,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
     } else {
       setAppInsightsComponent(null);
       LogService.error(
-        LogCategories.functionLog,
+        LogCategories.functionAppLog,
         'getAppInsightsResourceId',
         `Failed to get app insights resource Id: ${appInsightsResourceIdResponse.metadata.error}`
       );
