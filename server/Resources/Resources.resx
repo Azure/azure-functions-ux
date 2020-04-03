@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root"
-        xmlns=""
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    <xsd:schema id="root" 
+        xmlns="" 
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
         xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
@@ -259,7 +259,7 @@
         <value>The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)</value>
     </data>
     <data name="gettingStarted_validateContainer4" xml:space="preserve">
-        <value>function app name {{funcName}} isn't available</value>
+        <value>Function app name {{funcName}} isn't available</value>
     </data>
     <data name="gettingStarted_youNeed" xml:space="preserve">
         <value>You need an Azure subscription in order to use this service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Click here&lt;/a&gt; to create a free trial subscription</value>
@@ -271,7 +271,7 @@
         <value>Your subscription</value>
     </data>
     <data name="createApp_description" xml:space="preserve">
-        <value>Creating a Function App will automatically provision a new container capable of hosting and running your code.</value>
+        <value>Creating a function app will automatically provision a new container capable of hosting and running your code.</value>
     </data>
     <data name="createApp_fail" xml:space="preserve">
         <value>Failed to create app</value>
@@ -443,7 +443,7 @@
         <value>Search features</value>
     </data>
     <data name="searchFunctionApps" xml:space="preserve">
-        <value>Search Function apps</value>
+        <value>Search function apps</value>
     </data>
     <data name="subscription" xml:space="preserve">
         <value>Subscription ID</value>
@@ -572,7 +572,7 @@
         <value>Delete Function {{name}}</value>
     </data>
     <data name="functionManage_areYouSure" xml:space="preserve">
-        <value>Are you sure you want to delete Function {{name}}?</value>
+        <value>Are you sure you want to delete function {{name}}?</value>
     </data>
     <data name="functionMonitor_loading" xml:space="preserve">
         <value>Loading ...</value>
@@ -752,7 +752,7 @@
         <value>Waiting for the resource</value>
     </data>
     <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-        <value>We've enjoyed hosting your functions !</value>
+        <value>We've enjoyed hosting your functions!</value>
     </data>
     <data name="trialExpired_signupForAzure" xml:space="preserve">
         <value>Your trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well.</value>
@@ -836,7 +836,7 @@
         <value>Less than 1 minute</value>
     </data>
     <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-        <value>Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!</value>
+        <value>Signing up for a free Azure account unlocks all Azure Functions capabilities without worrying about time limits!</value>
     </data>
     <data name="error_CORSNotConfigured" xml:space="preserve">
         <value>CORS is not configured for this function app. Please add {{origin}} to your CORS list.</value>
@@ -845,7 +845,7 @@
         <value>We are unable to reach your function app. Your app could be having a temporary issue or may be failing to start. You can check logs or try again in a couple of minutes.</value>
     </data>
     <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
-        <value>Unable to retrieve Function App ({{functionApp}})</value>
+        <value>Unable to retrieve function app ({{functionApp}})</value>
     </data>
     <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
         <value>We are unable to reach your function app ({{statusText}}). Please try again later.</value>
@@ -971,7 +971,7 @@
         <value>Daily Usage Quota (GB-Sec)</value>
     </data>
     <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-        <value>The Function App has reached daily usage quota and has been stopped until the next 24 hours time frame.</value>
+        <value>The function app has reached daily usage quota and has been stopped until the next 24 hours time frame.</value>
     </data>
     <data name="functionAppSettings_removeQuota" xml:space="preserve">
         <value>Remove quota</value>
@@ -980,7 +980,7 @@
         <value>Set quota</value>
     </data>
     <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-        <value>When the daily usage quota is exceeded, the Function App is stopped until the next day at 0:00 AM UTC.</value>
+        <value>When the daily usage quota is exceeded, the function app is stopped until the next day at 0:00 AM UTC.</value>
     </data>
     <data name="functionKeys_revokeConfirmation" xml:space="preserve">
         <value>Are you sure you want to revoke {{name}} key?</value>
@@ -989,7 +989,7 @@
         <value>Keys</value>
     </data>
     <data name="functionNew_nameError" xml:space="preserve">
-        <value>The name must be unique within a Function App. It must start with a letter and can contain letters, numbers (0-9), dashes ("-"), and underscores ("_").</value>
+        <value>The name must be unique within a function app. It must start with a letter and can contain letters, numbers (0-9), dashes ("-"), and underscores ("_").</value>
     </data>
     <data name="functionDev_loading" xml:space="preserve">
         <value>Loading..</value>
@@ -1820,7 +1820,7 @@
         <value>Application settings</value>
     </data>
     <data name="try_appDisabled" xml:space="preserve">
-        <value>Managing your Function app is not available for this trial.</value>
+        <value>Managing your function app is not available for this trial.</value>
     </data>
     <data name="template" xml:space="preserve">
         <value>Template</value>
@@ -2095,7 +2095,7 @@ Fill in the &lt;a href="http://swagger.io/specification/#operationObject" target
     </data>
     <data name="swaggerDefinition_keyHelp" xml:space="preserve">
         <value>This key secures your API Definition from access to anyone without the key.
-It does not secure the underlying API. See each Function to see their key security.</value>
+It does not secure the underlying API. See each function to see their key security.</value>
     </data>
     <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
         <value>Set to "Function" to enable a hosted API definition and template definition generation.
@@ -2402,7 +2402,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The proxies.json schema validation failed. Error: '{0}'.</value>
     </data>
     <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-        <value>On a Consumption plan, you can limit platform usage by setting a daily usage quota, in gigabytes-seconds. Once the daily usage quota is reached, the Function App is stopped until the next day at 0:00 AM UTC.</value>
+        <value>On a Consumption plan, you can limit platform usage by setting a daily usage quota, in gigabytes-seconds. Once the daily usage quota is reached, the function app is stopped until the next day at 0:00 AM UTC.</value>
     </data>
     <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
         <value>(hub policy)</value>
@@ -2831,7 +2831,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>hide value</value>
     </data>
     <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-        <value>App Insights instrumentation key is presented in app settings but App Insights is not found in Function App's subscription. Please make sure your App Insights is located in the same subscription as Function App.</value>
+        <value>App Insights instrumentation key is present in app settings but App Insights is not found in the function app's subscription. Please make sure your App Insights is located in the same subscription as function app.</value>
     </data>
     <data name="table_startOfRow" xml:space="preserve">
         <value>Start of row</value>
@@ -3332,7 +3332,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>High Density</value>
     </data>
     <data name="pricing_highDensityDesc" xml:space="preserve">
-        <value>Efficiently share an App Service plan across multiple Function Apps.</value>
+        <value>Efficiently share an App Service plan across multiple function apps.</value>
     </data>
     <data name="pricing_stagingSlots" xml:space="preserve">
         <value>Staging slots</value>
@@ -4074,7 +4074,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Create one now</value>
     </data>
     <data name="topBar_updateExtensions" xml:space="preserve">
-        <value>Your Function extensions need to be updated.</value>
+        <value>Your function extensions need to be updated.</value>
     </data>
     <data name="cloneConfigLoadFailure" xml:space="preserve">
         <value>Failed to retrieve source configuration</value>
@@ -4371,7 +4371,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Personal</value>
     </data>
     <data name="swaggerDefinitionReadOnly" xml:space="preserve">
-        <value>API definition (Swagger) is not available for Function Apps in readonly mode.</value>
+        <value>API definition (Swagger) is not available for function apps in readonly mode.</value>
     </data>
     <data name="troubleshootYourApp" xml:space="preserve">
         <value>Troubleshoot your app</value>
@@ -4797,7 +4797,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
     </data>
     <data name="diagnosticLogsDisabled" xml:space="preserve">
-        <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+        <value>This feature is only available for function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
     </data>
     <data name="scaleOut" xml:space="preserve">
         <value>Scale out</value>
@@ -4860,7 +4860,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
     </data>
     <data name="readOnlyPython" xml:space="preserve">
-        <value>Editing functions in the portal is not supported for Python Function Apps. Please use the CLI or VS Code for development. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Learn more&lt;/a&gt;</value>
+        <value>Editing functions in the portal is not supported for Python function apps. Please use the CLI or VS Code for development. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Learn more&lt;/a&gt;</value>
     </data>
     <data name="storageMountsNoPermissions" xml:space="preserve">
         <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
@@ -5008,7 +5008,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Filter connection strings</value>
     </data>
     <data name="readOnlyJava" xml:space="preserve">
-        <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
+        <value>Editing functions in the portal is not supported for Java function apps. Please use Maven or VS Code for development.</value>
     </data>
     <data name="validate_workingDirectory" xml:space="preserve">
         <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
@@ -5176,7 +5176,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>New Function</value>
     </data>
     <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Create a new function in this Function App. Start by selecting a template below.</value>
+        <value>Create a new function in this function app. Start by selecting a template below.</value>
     </data>
     <data name="functionCreate_templates" xml:space="preserve">
         <value>Templates</value>
@@ -5524,7 +5524,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Succeeded in deleting {0} ({1})</value>
     </data>
     <data name="createFunctionNotication" xml:space="preserve">
-        <value>Creating Function</value>
+        <value>Creating function</value>
     </data>
     <data name="createFunctionNotificationDetails" xml:space="preserve">
         <value>Creating {0}</value>
@@ -5665,7 +5665,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?</value>
     </data>
     <data name="azureFunctionsV1Linux" xml:space="preserve">
-        <value>Version 1 Runtime is not supported on Linux Azure Function Apps</value>
+        <value>Version 1 Runtime is not supported on Linux Azure Functions</value>
     </data>
     <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
         <value>The app '{{appName}}' is setup with stack '{{stack}}' which is currently not supported in Deployment Center via GitHub Actions.</value>
@@ -5731,10 +5731,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>GitHub Action Workflow Filename</value>
     </data>
     <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view app files while your Function App is stopped</value>
+        <value>You are not able to view app files while your function app is stopped</value>
     </data>
     <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view app keys while your Function App is stopped</value>
+        <value>You are not able to view app keys while your function app is stopped</value>
     </data>
     <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
         <value>Refresh all bindings for your function</value>
@@ -5743,7 +5743,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Selected branch has protection rules enabled.</value>
     </data>
     <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+        <value>You are not able to view or modify the runtime version while your function app is stopped.</value>
     </data>
     <data name="githubActionWorkflowsExist" xml:space="preserve">
         <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
