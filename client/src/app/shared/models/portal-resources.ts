@@ -1900,5 +1900,12 @@ export class PortalResources {
   public static githubActionDisconnectConfirmationTitle = 'githubActionDisconnectConfirmationTitle';
   public static githubActionDisconnectWorkflowDeleteFailed = 'githubActionDisconnectWorkflowDeleteFailed';
   public static disconnectingDeploymentFailWorkflowFileDeleteSucceeded = 'disconnectingDeploymentFailWorkflowFileDeleteSucceeded';
+  public static deploymentCenterCommandBarAriaLabel = 'deploymentCenterCommandBarAriaLabel';
+  public static deploymentCenterSaveCommandAriaLabel = 'deploymentCenterSaveCommandAriaLabel';
+  public static deploymentCenterDiscardCommandAriaLabel = 'deploymentCenterDiscardCommandAriaLabel';
+  public static deploymentCenterBrowseCommandAriaLabel = 'deploymentCenterBrowseCommandAriaLabel';
+  public static deploymentCenterPublishProfileCommandAriaLabel = 'deploymentCenterPublishProfileCommandAriaLabel';
+  public static deploymentCenterRefreshCommandAriaLabel = 'deploymentCenterRefreshCommandAriaLabel';
+  public static managePublishProfile = 'managePublishProfile';
   public static functionLog_rbacPermissionsForAppInsights = 'functionLog_rbacPermissionsForAppInsights';
 }
