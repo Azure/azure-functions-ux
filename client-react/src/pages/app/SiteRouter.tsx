@@ -34,7 +34,7 @@ export const SiteRouterContext = createContext(siteRouterData);
 // NOTE(michinoy): For consistency sake, please keep all the webpackChunkName values lowercase and without hypens.
 
 const AppSettingsLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-settings/AppSettings'));
-const LogStreamLoadable: any = lazy(() => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamDataLoader'));
+const LogStreamLoadable: any = lazy(() => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamRouter'));
 const ChangeAppPlanLoadable: any = lazy(() => import(/* webpackChunkName:"changeappplan" */ './change-app-plan/ChangeAppPlanDataLoader'));
 const FunctionIntegrateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functionintegrate" */ './functions/function/integrate/FunctionIntegrateDataLoader')
@@ -47,7 +47,7 @@ const FunctionCreateLoadable: any = lazy(() =>
 );
 const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeysDataLoader'));
 const FunctionKeysLoadable: any = lazy(() =>
-  import(/* webpackChunkName: "functionKeys" */ './functions/function/function-keys/FunctionKeysDataLoader')
+  import(/* webpackChunkName: "functionkeys" */ './functions/function/function-keys/FunctionKeysDataLoader')
 );
 const FunctionEditorLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/function/function-editor/FunctionEditorDataLoader')
@@ -55,7 +55,7 @@ const FunctionEditorLoadable: any = lazy(() =>
 const FunctionQuickstart: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/quickstart/FunctionQuickstartDataLoader')
 );
-const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './functions/app-files/AppFilesDataLoader'));
+const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appfiles" */ './functions/app-files/AppFilesDataLoader'));
 const FunctionMonitor: any = lazy(() =>
   import(/* webpackChunkName:"functionmonitor" */ './functions/function/monitor/FunctionMonitorDataLoader')
 );
