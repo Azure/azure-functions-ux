@@ -4,12 +4,10 @@ import DeploymentCenterCommandBar from './DeploymentCenterCommandBar';
 
 interface DeploymentCenterProps {
   resourceId: string;
-  loading: boolean;
-  hasPermission: boolean;
 }
 
 const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
-  const { loading, hasPermission, resourceId } = props;
+  const { resourceId } = props;
 
   const saveFunction = () => {
     throw Error('Not implemented');
@@ -40,8 +38,6 @@ const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
           browseFunction={browseFunction}
           managePublishProfileFunction={managePublishProfileFunction}
           refreshFunction={refreshFunction}
-          loading={loading}
-          hasPermission={hasPermission}
         />
       </div>
 

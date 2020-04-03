@@ -8,10 +8,7 @@ interface DeploymentCenterDataLoaderProps {
 const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
   const { resourceId } = props;
 
-  const loading = false;
-  const hasPermission = true;
-
-  return <DeploymentCenter resourceId={resourceId} loading={loading} hasPermission={hasPermission} />;
+  return <DeploymentCenter resourceId={resourceId} />;
 };
 
 export default DeploymentCenterDataLoader;

@@ -10,12 +10,10 @@ interface DeploymentCenterCommandBarProps {
   browseFunction: () => void;
   managePublishProfileFunction: () => void;
   refreshFunction: () => void;
-  loading: boolean;
-  hasPermission: boolean;
 }
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, browseFunction, managePublishProfileFunction, refreshFunction, loading, hasPermission } = props;
+  const { saveFunction, discardFunction, browseFunction, managePublishProfileFunction, refreshFunction } = props;
   const { t } = useTranslation();
 
   const commandBarItems: ICommandBarItemProps[] = [
@@ -25,7 +23,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       iconProps: {
         iconName: 'Save',
       },
-      disabled: loading || !hasPermission,
       ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
       onClick: saveFunction,
     },
@@ -35,7 +32,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       iconProps: {
         iconName: 'Cancel',
       },
-      disabled: loading || !hasPermission,
       ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
       onClick: discardFunction,
     },
@@ -45,7 +41,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       iconProps: {
         iconName: 'OpenInNewTab',
       },
-      disabled: loading || !hasPermission,
       ariaLabel: t('deploymentCenterBrowseCommandAriaLabel'),
       onClick: browseFunction,
     },
@@ -55,7 +50,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       iconProps: {
         iconName: 'FileCode',
       },
-      disabled: loading || !hasPermission,
       ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
       onClick: managePublishProfileFunction,
     },
@@ -65,7 +59,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       iconProps: {
         iconName: 'Refresh',
       },
-      disabled: loading || !hasPermission,
       ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
       onClick: refreshFunction,
     },
