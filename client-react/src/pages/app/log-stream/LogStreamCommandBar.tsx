@@ -3,7 +3,7 @@ import { IButtonProps, CommandBarButton } from 'office-ui-fabric-react/lib/Butto
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
 import { useTranslation } from 'react-i18next';
 import { LogEntry, LogType, LogsEnabled } from './LogStream.types';
-import { ThemeContext } from '../../../../ThemeContext';
+import { ThemeContext } from '../../../ThemeContext';
 import { logStreamEnabled, copyLogEntries } from './LogStreamData';
 
 // tslint:disable-next-line:member-ordering
