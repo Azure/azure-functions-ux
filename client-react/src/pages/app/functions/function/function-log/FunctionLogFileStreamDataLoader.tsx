@@ -111,6 +111,8 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       listenForErrors();
       listenForUpdates();
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [started, xhReq]);
 
   return (
