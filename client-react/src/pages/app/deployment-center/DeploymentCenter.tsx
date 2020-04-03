@@ -3,9 +3,9 @@ import { commandBarSticky } from './DeploymentCenter.styles';
 import DeploymentCenterCommandBar from './DeploymentCenterCommandBar';
 
 interface DeploymentCenterProps {
+  resourceId: string;
   loading: boolean;
   hasPermission: boolean;
-  resourceId: string;
 }
 
 const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
