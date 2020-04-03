@@ -299,7 +299,7 @@ export enum MenuId {
   FunctionKeys = 'functionKeys',
 }
 
-export enum SiteState {
+export enum SiteReadWriteState {
   readonly = 'readonly',
   readwrite = 'readwrite',
 }

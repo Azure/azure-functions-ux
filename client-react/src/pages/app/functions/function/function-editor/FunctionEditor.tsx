@@ -28,7 +28,7 @@ import {
 import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManager';
 import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
-import { SiteStateContext } from '../../../../../SiteStateContext';
+import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { BindingManager } from '../../../../../utils/BindingManager';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
@@ -38,6 +38,9 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { minimumLogPanelHeight, logCommandBarHeight } from '../function-log/FunctionLog.styles';
 import FunctionLogAppInsightsDataLoader from '../function-log/FunctionLogAppInsightsDataLoader';
+import FunctionLogFileStreamDataLoader from '../function-log/FunctionLogFileStreamDataLoader';
+import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -47,7 +50,6 @@ export interface FunctionEditorProps {
   urlObjs: UrlObj[];
   showTestPanel: boolean;
   setShowTestPanel: (showPanel: boolean) => void;
-  appPermission: boolean;
   refresh: () => void;
   isRefreshing: boolean;
   getFunctionUrl: (key?: string) => string;
@@ -69,7 +71,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     urlObjs,
     showTestPanel,
     setShowTestPanel,
-    appPermission,
     testData,
     refresh,
     isRefreshing,
@@ -96,8 +97,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const { t } = useTranslation();
 
-  const siteState = useContext(SiteStateContext);
+  const siteStateContext = useContext(SiteStateContext);
   const startUpInfoContext = useContext(StartupInfoContext);
+
+  const scenarioChecker = new ScenarioService(t);
+  const showAppInsightsLogs = scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
+
+  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.getSiteAppEditState());
 
   const save = async () => {
     if (!selectedFile) {
@@ -349,7 +355,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           refreshFunction={refresh}
           showGetFunctionUrlCommand={!!inputBinding}
           dirty={isDirty()}
-          disabled={isDisabled() || !appPermission}
+          disabled={isDisabled() || appReadOnlyPermission}
           urlObjs={urlObjs}
           testDisabled={isTestDisabled()}
         />
@@ -436,7 +442,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
-              readOnly: SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState) || !appPermission,
+              readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState()) || appReadOnlyPermission,
               extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
@@ -444,18 +450,33 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         </div>
       )}
       <div className={logPanelStyle(logPanelExpanded, logPanelFullscreen, getReadOnlyBannerHeight())}>
-        <FunctionLogAppInsightsDataLoader
-          resourceId={functionInfo.id}
-          toggleExpand={toggleLogPanelExpansion}
-          isExpanded={logPanelExpanded}
-          toggleFullscreen={setLogPanelFullscreen}
-          fileSavedCount={fileSavedCount}
-          readOnlyBannerHeight={getReadOnlyBannerHeight()}
-          hideLiveMetrics={true}
-          isResizable={true}
-          logPanelHeight={logPanelHeight}
-          setLogPanelHeight={setLogPanelHeight}
-        />
+        {showAppInsightsLogs ? (
+          <FunctionLogAppInsightsDataLoader
+            resourceId={functionInfo.id}
+            toggleExpand={toggleLogPanelExpansion}
+            isExpanded={logPanelExpanded}
+            toggleFullscreen={setLogPanelFullscreen}
+            fileSavedCount={fileSavedCount}
+            readOnlyBannerHeight={getReadOnlyBannerHeight()}
+            hideLiveMetrics={true}
+            isResizable={true}
+            logPanelHeight={logPanelHeight}
+            setLogPanelHeight={setLogPanelHeight}
+          />
+        ) : (
+          <FunctionLogFileStreamDataLoader
+            resourceId={functionInfo.id}
+            toggleExpand={toggleLogPanelExpansion}
+            isExpanded={logPanelExpanded}
+            toggleFullscreen={setLogPanelFullscreen}
+            fileSavedCount={fileSavedCount}
+            readOnlyBannerHeight={getReadOnlyBannerHeight()}
+            hideLiveMetrics={true}
+            isResizable={true}
+            logPanelHeight={logPanelHeight}
+            setLogPanelHeight={setLogPanelHeight}
+          />
+        )}
       </div>
     </>
   );
