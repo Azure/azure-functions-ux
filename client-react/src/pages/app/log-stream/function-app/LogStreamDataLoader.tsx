@@ -85,7 +85,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
         forceMaximized={true}
         isResizable={false}
         hideChevron={true}
-        isFunctionApp={true}
+        isScopeFunctionApp={true}
       />
     </div>
   );

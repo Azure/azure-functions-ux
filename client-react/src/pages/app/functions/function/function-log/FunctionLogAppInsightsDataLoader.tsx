@@ -29,15 +29,15 @@ interface FunctionLogAppInsightsDataLoaderProps {
   isResizable?: boolean;
   logPanelHeight?: number;
   setLogPanelHeight?: (height: number) => void;
-  isFunctionApp?: boolean;
+  isScopeFunctionApp?: boolean;
 }
 
 const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoaderProps> = props => {
-  const { resourceId, isFunctionApp } = props;
+  const { resourceId, isScopeFunctionApp } = props;
 
   const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
   const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
-  const functionName = isFunctionApp ? undefined : armSiteDescriptor.resourceName;
+  const functionName = isScopeFunctionApp ? undefined : armSiteDescriptor.resourceName;
 
   const startupInfoContext = useContext(StartupInfoContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -107,10 +107,9 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       .queryDetails(token, false, '')
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
-          let newDocs = dataV2.DataRanges[0].Documents.filter(doc => !!doc.Content.Message);
-          if (functionName) {
-            newDocs = newDocs.filter(doc => doc.Content.OperationName === functionName);
-          }
+          let newDocs = dataV2.DataRanges[0].Documents.filter(
+            doc => !!doc.Content.Message && (!functionName || doc.Content.OperationName === functionName)
+          );
           if (callCount === 0) {
             newDocs = trimPreviousDocs(newDocs);
           }
