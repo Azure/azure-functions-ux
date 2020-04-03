@@ -29,27 +29,15 @@ interface FunctionLogAppInsightsDataLoaderProps {
   isResizable?: boolean;
   logPanelHeight?: number;
   setLogPanelHeight?: (height: number) => void;
+  isScopeFunctionApp?: boolean;
 }
 
 const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoaderProps> = props => {
-  const {
-    resourceId,
-    isExpanded,
-    forceMaximized,
-    toggleExpand,
-    toggleFullscreen,
-    readOnlyBannerHeight,
-    fileSavedCount,
-    hideChevron,
-    hideLiveMetrics,
-    isResizable,
-    logPanelHeight,
-    setLogPanelHeight,
-  } = props;
+  const { resourceId, isScopeFunctionApp } = props;
 
   const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
   const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
-  const functionName = armSiteDescriptor.resourceName;
+  const functionName = isScopeFunctionApp ? undefined : armSiteDescriptor.resourceName;
 
   const startupInfoContext = useContext(StartupInfoContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -119,7 +107,9 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       .queryDetails(token, false, '')
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
-          let newDocs = dataV2.DataRanges[0].Documents.filter(doc => !!doc.Content.Message && doc.Content.OperationName === functionName);
+          let newDocs = dataV2.DataRanges[0].Documents.filter(
+            doc => !!doc.Content.Message && (!functionName || doc.Content.OperationName === functionName)
+          );
           if (callCount === 0) {
             newDocs = trimPreviousDocs(newDocs);
           }
@@ -249,7 +239,6 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   return (
     <FunctionLog
-      isExpanded={isExpanded}
       started={started}
       startLogs={startLogs}
       stopLogs={stopLogs}
@@ -258,16 +247,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       errorMessage={errorMessage}
       loadingMessage={loadingMessage}
       appInsightsResourceId={appInsightsComponent ? appInsightsComponent.id : ''}
-      forceMaximized={forceMaximized}
-      toggleExpand={toggleExpand}
-      toggleFullscreen={toggleFullscreen}
-      readOnlyBannerHeight={readOnlyBannerHeight}
-      fileSavedCount={fileSavedCount}
-      hideChevron={hideChevron}
-      hideLiveMetrics={hideLiveMetrics}
-      isResizable={isResizable}
-      logPanelHeight={logPanelHeight}
-      setLogPanelHeight={setLogPanelHeight}
+      {...props}
     />
   );
 };
