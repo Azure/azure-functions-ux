@@ -13,6 +13,8 @@ import { getQuickPulseQueryEndpoint, defaultClient, getDefaultDocumentStreams } 
 import { useTranslation } from 'react-i18next';
 import FunctionLog from './FunctionLog';
 import { getLogTextColor } from './FunctionLog.styles';
+import { SiteStateContext } from '../../../../../SiteState';
+import SiteHelper from '../../../../../utils/SiteHelper';
 
 interface FunctionLogAppInsightsDataLoaderProps {
   resourceId: string;
@@ -50,6 +52,9 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const functionName = armSiteDescriptor.resourceName;
 
   const startupInfoContext = useContext(StartupInfoContext);
+  const siteStateContext = useContext(SiteStateContext);
+
+  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.getSiteAppEditState());
 
   const { t } = useTranslation();
 
@@ -179,7 +184,9 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   };
 
   const startLogs = () => {
-    if (appInsightsComponent) {
+    if (appReadOnlyPermission) {
+      setErrorMessage(t('functionLog_rbacPermissionsForAppInsights'));
+    } else if (appInsightsComponent) {
       if (appInsightsToken) {
         disconnectQueryLayer();
         reconnectQueryLayer();
