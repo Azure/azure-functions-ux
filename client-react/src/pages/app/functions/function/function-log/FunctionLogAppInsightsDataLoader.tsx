@@ -13,7 +13,7 @@ import { getQuickPulseQueryEndpoint, defaultClient, getDefaultDocumentStreams } 
 import { useTranslation } from 'react-i18next';
 import FunctionLog from './FunctionLog';
 import { getLogTextColor } from './FunctionLog.styles';
-import { SiteStateContext } from '../../../../../SiteState';
+import { SiteStateContext } from '../../../../../SiteStateContext';
 import SiteHelper from '../../../../../utils/SiteHelper';
 
 interface FunctionLogAppInsightsDataLoaderProps {
@@ -40,9 +40,9 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const functionName = isScopeFunctionApp ? undefined : armSiteDescriptor.resourceName;
 
   const startupInfoContext = useContext(StartupInfoContext);
-  const siteStateContext = useContext(SiteStateContext);
+  const siteState = useContext(SiteStateContext);
 
-  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.getSiteAppEditState());
+  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteState.readOnlyState);
 
   const { t } = useTranslation();
 

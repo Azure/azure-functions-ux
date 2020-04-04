@@ -28,7 +28,7 @@ import {
 import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManager';
 import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
-import { SiteStateContext } from '../../../../../SiteState';
+import { SiteStateContext } from '../../../../../SiteStateContext';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { BindingManager } from '../../../../../utils/BindingManager';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
@@ -97,13 +97,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const { t } = useTranslation();
 
-  const siteStateContext = useContext(SiteStateContext);
+  const siteState = useContext(SiteStateContext);
   const startUpInfoContext = useContext(StartupInfoContext);
 
   const scenarioChecker = new ScenarioService(t);
   const showAppInsightsLogs = scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
 
-  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.getSiteAppEditState());
+  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteState.readOnlyState);
 
   const save = async () => {
     if (!selectedFile) {
@@ -442,7 +442,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
               scrollBeyondLastLine: false,
               cursorBlinking: true,
               renderWhitespace: 'all',
-              readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState()) || appReadOnlyPermission,
+              readOnly: SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState) || appReadOnlyPermission,
               extraEditorClassName: editorStyle,
             }}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
