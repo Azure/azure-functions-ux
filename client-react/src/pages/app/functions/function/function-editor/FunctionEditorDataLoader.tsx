@@ -284,9 +284,17 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         const headers = getHeaders(testDataObject.headers, xFunctionKey);
         try {
           const res = await FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body);
+          const resData = res.metadata.success ? res.data : res.metadata.error;
+          let responseText = '';
+          // Stringify the response if it is JSON, otherwise use it as such
+          try {
+            responseText = JSON.stringify(resData);
+          } catch (e) {
+            responseText = resData;
+          }
           setResponseContent({
             code: res.metadata.status,
-            text: res.metadata.success ? res.data : res.metadata.error,
+            text: responseText,
           });
         } catch (err) {
           // TODO (krmitta): Show an error if the call to run the function fails
