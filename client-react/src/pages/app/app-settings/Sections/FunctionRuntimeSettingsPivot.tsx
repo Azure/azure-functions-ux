@@ -16,7 +16,7 @@ import { PermissionsContext } from '../Contexts';
 import { ThemeContext } from '../../../../ThemeContext';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { messageBannerStyle } from '../AppSettings.styles';
-import { SiteStateContext } from '../../../../SiteStateContext';
+import { SiteStateContext } from '../../../../SiteState';
 
 const tabContainerStyle = style({
   marginTop: '15px',
@@ -42,7 +42,7 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
         </MessageBar>
       )}
 
-      {siteStateContext.stopped ? (
+      {siteStateContext.isSiteStopped() ? (
         <MessageBar
           isMultiline={true}
           className={messageBannerStyle(theme, MessageBarType.warning)}

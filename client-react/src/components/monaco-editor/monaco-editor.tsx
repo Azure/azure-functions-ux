@@ -42,6 +42,10 @@ class MonacoEditor extends React.Component<any, any> {
       monaco.editor.setTheme(this.props.theme);
     }
 
+    if (this.editor.updateOptions) {
+      this.editor.updateOptions({ ...this.props.options });
+    }
+
     this.editor.layout();
   }
 
