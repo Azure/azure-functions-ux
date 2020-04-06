@@ -2,11 +2,11 @@ import { RouteComponentProps, Router } from '@reach/router';
 import React, { createContext, lazy, useContext, useEffect, useState } from 'react';
 import SiteService from '../../ApiHelpers/SiteService';
 import { ArmObj } from '../../models/arm-obj';
-import { FunctionAppEditMode, KeyValue, SiteState } from '../../models/portal-models';
+import { FunctionAppEditMode, KeyValue, SiteReadWriteState } from '../../models/portal-models';
 import { SiteConfig } from '../../models/site/config';
 import { Site } from '../../models/site/site';
 import { PortalContext } from '../../PortalContext';
-import { SiteStateContext } from '../../SiteStateContext';
+import { SiteState, SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
@@ -31,8 +31,10 @@ export interface SiteRouterProps {
 export const siteRouterData = new SiteRouterData();
 export const SiteRouterContext = createContext(siteRouterData);
 
+// NOTE(michinoy): For consistency sake, please keep all the webpackChunkName values lowercase and without hypens.
+
 const AppSettingsLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-settings/AppSettings'));
-const LogStreamLoadable: any = lazy(() => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamDataLoader'));
+const LogStreamLoadable: any = lazy(() => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamRouter'));
 const ChangeAppPlanLoadable: any = lazy(() => import(/* webpackChunkName:"changeappplan" */ './change-app-plan/ChangeAppPlanDataLoader'));
 const FunctionIntegrateLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functionintegrate" */ './functions/function/integrate/FunctionIntegrateDataLoader')
@@ -45,7 +47,7 @@ const FunctionCreateLoadable: any = lazy(() =>
 );
 const FunctionAppKeysLoadable: any = lazy(() => import(/* webpackChunkName:"functionappkeys" */ './functions/app-keys/AppKeysDataLoader'));
 const FunctionKeysLoadable: any = lazy(() =>
-  import(/* webpackChunkName: "functionKeys" */ './functions/function/function-keys/FunctionKeysDataLoader')
+  import(/* webpackChunkName: "functionkeys" */ './functions/function/function-keys/FunctionKeysDataLoader')
 );
 const FunctionEditorLoadable: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/function/function-editor/FunctionEditorDataLoader')
@@ -53,17 +55,21 @@ const FunctionEditorLoadable: any = lazy(() =>
 const FunctionQuickstart: any = lazy(() =>
   import(/* webpackChunkName:"functioneditor" */ './functions/quickstart/FunctionQuickstartDataLoader')
 );
-const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './functions/app-files/AppFilesDataLoader'));
+const AppFilesLoadable: any = lazy(() => import(/* webpackChunkName:"appfiles" */ './functions/app-files/AppFilesDataLoader'));
 const FunctionMonitor: any = lazy(() =>
   import(/* webpackChunkName:"functionmonitor" */ './functions/function/monitor/FunctionMonitorDataLoader')
+);
+
+const DeploymentCenter: any = lazy(() =>
+  import(/* webpackChunkName:"deploymentcenter" */ './deployment-center/DeploymentCenterDataLoader')
 );
 
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
-  const [siteAppEditState, setSiteAppEditState] = useState(FunctionAppEditMode.ReadWrite);
-  const [siteStopped, setSiteStopped] = useState(false);
+
+  const siteState = new SiteState();
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site)) {
@@ -99,11 +105,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     }
 
     const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';
-    if (editModeString.toLowerCase() === SiteState.readonly) {
+    if (editModeString.toLowerCase() === SiteReadWriteState.readonly) {
       return FunctionAppEditMode.ReadOnly;
     }
 
-    if (editModeString.toLowerCase() === SiteState.readwrite) {
+    if (editModeString.toLowerCase() === SiteReadWriteState.readwrite) {
       return FunctionAppEditMode.ReadWrite;
     }
 
@@ -171,11 +177,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
         }
       }
 
-      if (site.metadata.success && site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped) {
-        setSiteStopped(true);
+      if (site.metadata.success) {
+        siteState.setSite(site.data);
+        siteState.setSiteStopped(site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
       }
-
-      setSiteAppEditState(functionAppEditMode);
+      siteState.setSiteAppEditState(functionAppEditMode);
     }
   };
 
@@ -192,8 +198,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token && (
-                <SiteStateContext.Provider value={{ stopped: siteStopped, readOnlyState: siteAppEditState }}>
+                <SiteStateContext.Provider value={siteState}>
                   <Router>
+                    {/* NOTE(michinoy): The paths should be always all lowercase. */}
+
                     <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
                     <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
                     <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
@@ -206,6 +214,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                     <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
                     <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
                     <FunctionMonitor resourceId={value.resourceId} path="/monitor" />
+                    <DeploymentCenter resourceId={value.resourceId} path="/deploymentcenter" />
                   </Router>
                 </SiteStateContext.Provider>
               )

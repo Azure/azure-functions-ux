@@ -3,7 +3,6 @@ import { ArmObj } from '../../../../../models/arm-obj';
 import { AppInsightsComponent } from '../../../../../models/app-insights';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import SiteService from '../../../../../ApiHelpers/SiteService';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
 import LogService from '../../../../../utils/LogService';
@@ -14,6 +13,8 @@ import { getQuickPulseQueryEndpoint, defaultClient, getDefaultDocumentStreams } 
 import { useTranslation } from 'react-i18next';
 import FunctionLog from './FunctionLog';
 import { getLogTextColor } from './FunctionLog.styles';
+import { SiteStateContext } from '../../../../../SiteState';
+import SiteHelper from '../../../../../utils/SiteHelper';
 
 interface FunctionLogAppInsightsDataLoaderProps {
   resourceId: string;
@@ -28,29 +29,20 @@ interface FunctionLogAppInsightsDataLoaderProps {
   isResizable?: boolean;
   logPanelHeight?: number;
   setLogPanelHeight?: (height: number) => void;
+  isScopeFunctionApp?: boolean;
 }
 
 const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoaderProps> = props => {
-  const {
-    resourceId,
-    isExpanded,
-    forceMaximized,
-    toggleExpand,
-    toggleFullscreen,
-    readOnlyBannerHeight,
-    fileSavedCount,
-    hideChevron,
-    hideLiveMetrics,
-    isResizable,
-    logPanelHeight,
-    setLogPanelHeight,
-  } = props;
+  const { resourceId, isScopeFunctionApp } = props;
 
   const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
   const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
-  const functionName = armSiteDescriptor.resourceName;
+  const functionName = isScopeFunctionApp ? undefined : armSiteDescriptor.resourceName;
 
   const startupInfoContext = useContext(StartupInfoContext);
+  const siteStateContext = useContext(SiteStateContext);
+
+  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.getSiteAppEditState());
 
   const { t } = useTranslation();
 
@@ -64,31 +56,30 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const [callCount, setCallCount] = useState(0);
 
   const fetchComponent = async (force?: boolean) => {
-    const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId, force);
-
-    if (appSettingsResponse.metadata.success && appSettingsResponse.data.properties) {
-      const appSettings = appSettingsResponse.data.properties;
-      const appInsightsConnectionString = appSettings[CommonConstants.AppSettingNames.appInsightsConnectionString];
-      const appInsightsInstrumentationKey = appSettings[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
-
-      const appInsightsResponse = appInsightsConnectionString
-        ? await AppInsightsService.getAppInsightsComponentFromConnectionString(
-            appInsightsConnectionString,
-            startupInfoContext.subscriptions
-          )
-        : appInsightsInstrumentationKey
-        ? await AppInsightsService.getAppInsightsComponentFromInstrumentationKey(
-            appInsightsInstrumentationKey,
-            startupInfoContext.subscriptions
-          )
-        : null;
-
-      setAppInsightsComponent(appInsightsResponse);
+    const appInsightsResourceIdResponse = await AppInsightsService.getAppInsightsResourceId(
+      siteResourceId,
+      startupInfoContext.subscriptions
+    );
+    if (appInsightsResourceIdResponse.metadata.success) {
+      const aiResourceId = appInsightsResourceIdResponse.data;
+      if (!!aiResourceId) {
+        const appInsightsResponse = await AppInsightsService.getAppInsights(aiResourceId);
+        if (appInsightsResponse.metadata.success) {
+          setAppInsightsComponent(appInsightsResponse.data);
+        } else {
+          LogService.error(
+            LogCategories.functionLog,
+            'getAppInsights',
+            `Failed to get app insights: ${appInsightsResponse.metadata.error}`
+          );
+        }
+      }
     } else {
+      setAppInsightsComponent(null);
       LogService.error(
         LogCategories.functionLog,
-        'fetchAppSettings',
-        `Failed to fetch app settings: ${appSettingsResponse.metadata.error}`
+        'getAppInsightsResourceId',
+        `Failed to get app insights resource Id: ${appInsightsResourceIdResponse.metadata.error}`
       );
     }
   };
@@ -116,7 +107,9 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       .queryDetails(token, false, '')
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
-          let newDocs = dataV2.DataRanges[0].Documents.filter(doc => !!doc.Content.Message && doc.Content.OperationName === functionName);
+          let newDocs = dataV2.DataRanges[0].Documents.filter(
+            doc => !!doc.Content.Message && (!functionName || doc.Content.OperationName === functionName)
+          );
           if (callCount === 0) {
             newDocs = trimPreviousDocs(newDocs);
           }
@@ -181,7 +174,9 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   };
 
   const startLogs = () => {
-    if (appInsightsComponent) {
+    if (appReadOnlyPermission) {
+      setErrorMessage(t('functionLog_rbacPermissionsForAppInsights'));
+    } else if (appInsightsComponent) {
       if (appInsightsToken) {
         disconnectQueryLayer();
         reconnectQueryLayer();
@@ -244,7 +239,6 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   return (
     <FunctionLog
-      isExpanded={isExpanded}
       started={started}
       startLogs={startLogs}
       stopLogs={stopLogs}
@@ -253,16 +247,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       errorMessage={errorMessage}
       loadingMessage={loadingMessage}
       appInsightsResourceId={appInsightsComponent ? appInsightsComponent.id : ''}
-      forceMaximized={forceMaximized}
-      toggleExpand={toggleExpand}
-      toggleFullscreen={toggleFullscreen}
-      readOnlyBannerHeight={readOnlyBannerHeight}
-      fileSavedCount={fileSavedCount}
-      hideChevron={hideChevron}
-      hideLiveMetrics={hideLiveMetrics}
-      isResizable={isResizable}
-      logPanelHeight={logPanelHeight}
-      setLogPanelHeight={setLogPanelHeight}
+      {...props}
     />
   );
 };

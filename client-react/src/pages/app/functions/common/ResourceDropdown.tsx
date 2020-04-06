@@ -8,7 +8,7 @@ import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../models/arm-obj';
 import { BindingSetting, BindingSettingResource } from '../../../../models/functions/binding';
 import { KeyValue } from '../../../../models/portal-models';
-import { SiteStateContext } from '../../../../SiteStateContext';
+import { SiteStateContext } from '../../../../SiteState';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import SiteHelper from '../../../../utils/SiteHelper';
@@ -27,7 +27,7 @@ export interface ResourceDropdownProps {
 
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const { setting, resourceId, form: formProps, field, isDisabled } = props;
-  const siteState = useContext(SiteStateContext);
+  const siteStateContext = useContext(SiteStateContext);
   const { t } = useTranslation();
 
   const [appSettings, setAppSettings] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
@@ -47,7 +47,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   }, [resourceId]);
 
   // If we are readonly, don't rely on app settings, assume that the saved value is correct
-  if (SiteHelper.isFunctionAppReadOnly(siteState.readOnlyState)) {
+  if (SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState())) {
     return <Dropdown options={[{ text: field.value, key: field.value }]} selectedKey={field.value} {...props} />;
   }
 

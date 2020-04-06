@@ -72,4 +72,8 @@ export default class SiteHelper {
   public static isSourceControlEnabled(config: ArmObj<SiteConfig>) {
     return !config.properties.scmType || config.properties.scmType !== 'None';
   }
+
+  public static isRbacReaderPermission(editMode: FunctionAppEditMode) {
+    return editMode === FunctionAppEditMode.ReadOnlyRbac;
+  }
 }
