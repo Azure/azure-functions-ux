@@ -5,7 +5,7 @@ import { ReactComponent as ErrorSvg } from '../../images/Common/Error.svg';
 import { ReactComponent as InfoSvg } from '../../images/Common/Info.svg';
 import { ReactComponent as WarningSvg } from '../../images/Common/Warning.svg';
 import { ThemeContext } from '../../ThemeContext';
-import { messageBannerClass, messageBannerIconStyle, messageBannerStyles, messageBannerTextStyle } from './CustomBanner.styles';
+import { messageBannerClass, messageBannerIconStyle, messageBannerStyles } from './CustomBanner.styles';
 
 interface CustomBannerProps {
   message: string;
@@ -15,10 +15,11 @@ interface CustomBannerProps {
   className?: string;
   learnMoreLink?: string;
   onDismiss?: (e?: any) => any;
+  undocked?: boolean;
 }
 
 const CustomBanner: React.FC<CustomBannerProps> = props => {
-  const { message, type, id, customIcon, className: customClassName, learnMoreLink, onDismiss } = props;
+  const { message, type, id, customIcon, className: customClassName, learnMoreLink, onDismiss, undocked: undocked } = props;
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
@@ -29,19 +30,19 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
     className = Object.assign(className, customClassName);
   }
 
-  const icon = customIcon ? customIcon : _getIconForType(type);
+  const icon = (customIcon ? customIcon : _getIconForType(type)) && undefined;
 
   return (
     <div>
       <MessageBar
         id={`${id}-custom-banner`}
-        isMultiline={true}
+        isMultiline={!!undocked}
         messageBarType={type}
-        styles={messageBannerStyles(!!icon)}
+        styles={messageBannerStyles(!!icon, !!undocked)}
         className={className}
         onDismiss={onDismiss}>
         {!!icon ? <span className={messageBannerIconStyle}>{icon}</span> : undefined}
-        <span className={messageBannerTextStyle}>
+        <span>
           {message}
           {learnMoreLink ? (
             <Link href={learnMoreLink} target="_blank">
