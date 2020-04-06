@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { FormAppSetting, AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
@@ -11,8 +11,10 @@ import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntim
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import { HostStates } from '../../../../models/functions/host-status';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 
 const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props => {
+  const [pendingVersion, setPendingVersion] = useState<RuntimeExtensionMajorVersions | null>(null);
   const { t, values, initialValues, asyncData, setFieldValue } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
@@ -124,6 +126,14 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   };
 
   const onDropDownChange = (newVersion: RuntimeExtensionMajorVersions) => {
+    //   if (!confirm('Are you sure?')) {
+    //     return;
+    //   }
+
+    setPendingVersion(newVersion);
+  };
+
+  const onDropDownChange2 = (newVersion: RuntimeExtensionMajorVersions) => {
     let appSettings: FormAppSetting[] = [...values.appSettings];
 
     // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
@@ -161,7 +171,28 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     <>
       {app_write && editable && (
         <>
-          {hasFunctions && (
+          {pendingVersion && (
+            <ConfirmDialog
+              primaryActionButton={{
+                title: t('continue'),
+                onClick: () => {
+                  onDropDownChange2(pendingVersion);
+                  setPendingVersion(null);
+                },
+              }}
+              defaultActionButton={{
+                title: t('cancel'),
+                onClick: () => setPendingVersion(null),
+              }}
+              title={'Are you sure?'}
+              content={
+                'Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? '
+              }
+              hidden={!pendingVersion}
+              onDismiss={() => setPendingVersion(null)}
+            />
+          )}
+          {(hasFunctions || !hasFunctions) && (
             <CustomBanner
               id="function-app-settings-runtime-version-message"
               message={t('functionsRuntimeVersionExistingFunctionsWarning')}
