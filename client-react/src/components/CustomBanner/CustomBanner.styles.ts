@@ -2,8 +2,9 @@ import { style } from 'typestyle';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { MessageBarType } from 'office-ui-fabric-react';
 
-export const messageBannerStyles = (isCustomIcon: boolean) => {
+export const messageBannerStyles = (isCustomIcon: boolean, undocked?: boolean) => {
   const styles = {
+    root: {},
     content: {
       paddingLeft: '15px',
     },
@@ -25,6 +26,14 @@ export const messageBannerStyles = (isCustomIcon: boolean) => {
       right: '0px',
     },
   };
+  if (undocked) {
+    styles.root = {
+      border: '1px solid #f0f6ff',
+      borderRadius: '2px',
+      marginTop: '10px',
+      marginBottom: '10px',
+    };
+  }
   if (!isCustomIcon) {
     styles.icon = {
       marginTop: '9px',
