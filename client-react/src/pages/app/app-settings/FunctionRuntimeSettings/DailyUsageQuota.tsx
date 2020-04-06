@@ -27,7 +27,7 @@ const DailyUsageQuota: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
 
   return (
     <>
-      {showWarning && (
+      {!showWarning && (
         <CustomBanner
           id="function-app-settings-daily-memory-time-quota-warning"
           message={t('functionAppSettings_quotaWarning')}

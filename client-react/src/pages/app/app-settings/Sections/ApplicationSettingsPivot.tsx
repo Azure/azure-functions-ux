@@ -35,13 +35,19 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
           {` ${t('learnMore')}`}
         </Link>
       </p>
-      {app_write ? (
+      {!app_write ? (
         <div id="app-settings-application-settings-table">
           <ApplicationSettings {...props} />
         </div>
       ) : (
         <div id="app-settings-app-settings-rbac-message">
-          <CustomBanner message={t('applicationSettingsNoPermission')} type={MessageBarType.warning} />
+          <CustomBanner
+            message={
+              'Application settings are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below. Application Settings are exposed as environment variables for access by your application at runtime'
+            }
+            type={MessageBarType.warning}
+            undocked={true}
+          />
         </div>
       )}
       <h3>{t('connectionStrings')}</h3>
@@ -61,13 +67,18 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
           </>
         )}
       </p>
-      {app_write ? (
+      {!app_write ? (
         <div id="app-settings-connection-strings-table">
           <ConnectionStrings {...props} />
         </div>
       ) : (
         <div id="app-settings-connection-strings-rbac-message">
-          <CustomBanner message={t('connectionStringsNoPermissions')} type={MessageBarType.warning} />
+          <CustomBanner
+            message={
+              'Application settings are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below. Application Settings are exposed as environment variables for access by your application at runtime'
+            }
+            type={MessageBarType.warning}
+          />
         </div>
       )}
     </>

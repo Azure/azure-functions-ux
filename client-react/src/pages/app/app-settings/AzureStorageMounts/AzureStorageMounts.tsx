@@ -41,7 +41,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
 
   public render() {
     const { values, t } = this.props;
-    if (!this.context.app_write) {
+    if (!!this.context.app_write) {
       return <CustomBanner message={t('applicationSettingsNoPermission')} type={MessageBarType.warning} />;
     }
     return (

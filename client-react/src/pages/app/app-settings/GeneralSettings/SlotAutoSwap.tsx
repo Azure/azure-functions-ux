@@ -56,7 +56,7 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
       {getCurrentSlotName() !== 'production' && (
         <>
           <h3>{t('slots')}</h3>
-          {!production_write ? (
+          {!!production_write ? (
             <div data-cy="auto-swap-disabled-message">
               <CustomBanner message={t('autoSwapSettingPermissionFail')} type={MessageBarType.warning} />
             </div>

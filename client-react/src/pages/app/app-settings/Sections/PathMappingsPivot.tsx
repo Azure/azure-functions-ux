@@ -44,7 +44,7 @@ const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & PathMappi
               {` ${t('learnMore')}`}
             </Link>
           </p>
-          {app_write ? (
+          {!app_write ? (
             <AzureStorageMounts {...props} />
           ) : (
             <div id="app-settings-storage-mount-rbac-message">
