@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { FormAppSetting, AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
@@ -12,8 +12,31 @@ import { ThemeContext } from '../../../../ThemeContext';
 import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import { HostStates } from '../../../../models/functions/host-status';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+
+const isVersionChangeSafe = (newVersion: RuntimeExtensionMajorVersions, oldVersion: RuntimeExtensionMajorVersions | null) => {
+  if (oldVersion === RuntimeExtensionMajorVersions.custom || newVersion === RuntimeExtensionMajorVersions.custom) {
+    // If the user is setting a customer version, we assume they know what they're doing.
+    return true;
+  }
+
+  switch (oldVersion) {
+    case RuntimeExtensionMajorVersions.v1:
+      // For V1, changing major versions is not supported.
+      return newVersion === RuntimeExtensionMajorVersions.v1;
+    case RuntimeExtensionMajorVersions.v2:
+    case RuntimeExtensionMajorVersions.v3:
+      // For V2 and V3, switching between V2 and V3 is supported.
+      return newVersion === RuntimeExtensionMajorVersions.v2 || newVersion === RuntimeExtensionMajorVersions.v3;
+    case null:
+      return true;
+    default:
+      return false;
+  }
+};
 
 const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props => {
+  const [pendingVersion, setPendingVersion] = useState<RuntimeExtensionMajorVersions | undefined>(undefined);
   const { t, values, initialValues, asyncData, setFieldValue } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const theme = useContext(ThemeContext);
@@ -87,27 +110,19 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
       ];
     }
 
-    const runtimeVersionInUse = getRuntimeVersionInUse();
-    const disableV1 =
-      hasFunctions &&
-      (runtimeVersionInUse === RuntimeExtensionMajorVersions.v2 || runtimeVersionInUse === RuntimeExtensionMajorVersions.v3);
-    const disableV2AndV3 = hasFunctions && runtimeVersionInUse === RuntimeExtensionMajorVersions.v1;
-
     return [
       {
         key: RuntimeExtensionMajorVersions.v1,
         text: RuntimeExtensionMajorVersions.v1,
-        disabled: isLinuxApp(values.site) || disableV1,
+        disabled: isLinuxApp(values.site),
       },
       {
         key: RuntimeExtensionMajorVersions.v2,
         text: RuntimeExtensionMajorVersions.v2,
-        disabled: disableV2AndV3,
       },
       {
         key: RuntimeExtensionMajorVersions.v3,
         text: RuntimeExtensionMajorVersions.v3,
-        disabled: disableV2AndV3,
       },
     ];
   };
@@ -125,7 +140,27 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     }
   };
 
+  const isExistingFunctionsWarningNeeded = (newVersion: RuntimeExtensionMajorVersions) =>
+    hasFunctions && !isVersionChangeSafe(newVersion, getRuntimeVersionInUse());
+
   const onDropDownChange = (newVersion: RuntimeExtensionMajorVersions) => {
+    if (isExistingFunctionsWarningNeeded(newVersion)) {
+      setPendingVersion(newVersion);
+    } else {
+      updateDropDownValue(newVersion);
+    }
+  };
+
+  const onVersionChangeConfirm = () => {
+    updateDropDownValue(pendingVersion!);
+    setPendingVersion(undefined);
+  };
+
+  const onVersionChangeDismiss = () => {
+    setPendingVersion(undefined);
+  };
+
+  const updateDropDownValue = (newVersion: RuntimeExtensionMajorVersions) => {
     let appSettings: FormAppSetting[] = [...values.appSettings];
 
     // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
@@ -159,17 +194,38 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     setFieldValue('appSettings', appSettings);
   };
 
+  const customVersionMessage =
+    runtimeMajorVersion === RuntimeExtensionMajorVersions.custom ? t('functionsRuntimeVersionCustomInfo') : undefined;
+
+  const existingFunctionsMessage = isExistingFunctionsWarningNeeded(runtimeMajorVersion)
+    ? t('functionsRuntimeVersionExistingFunctionsWarning').format(getRuntimeVersionInUse(), runtimeMajorVersion)
+    : undefined;
+
   return (
     <>
       {app_write && editable && (
         <>
-          {hasFunctions && (
+          <ConfirmDialog
+            primaryActionButton={{
+              title: t('continue'),
+              onClick: onVersionChangeConfirm,
+            }}
+            defaultActionButton={{
+              title: t('cancel'),
+              onClick: onVersionChangeDismiss,
+            }}
+            title={t('functionsRuntimeVersionExistingFunctionsConfirmationTitle')}
+            content={t('functionsRuntimeVersionExistingFunctionsConfirmationMessage').format(getRuntimeVersionInUse(), pendingVersion)}
+            hidden={!pendingVersion}
+            onDismiss={onVersionChangeDismiss}
+          />
+          {existingFunctionsMessage && (
             <MessageBar
               id="function-app-settings-runtime-version-message"
               isMultiline={true}
               className={messageBannerStyle(theme, MessageBarType.warning)}
               messageBarType={MessageBarType.warning}>
-              {t('functionsRuntimeVersionExistingFunctionsWarning')}
+              {existingFunctionsMessage}
             </MessageBar>
           )}
           <DropdownNoFormik
@@ -181,9 +237,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
             disabled={disableAllControls || dropDownDisabled()}
             label={t('runtimeVersion')}
             id="function-app-settings-runtime-version"
-            infoBubbleMessage={
-              runtimeMajorVersion === RuntimeExtensionMajorVersions.custom ? t('functionsRuntimeVersionCustomInfo') : undefined
-            }
+            infoBubbleMessage={customVersionMessage}
           />
         </>
       )}
