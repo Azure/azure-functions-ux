@@ -51,6 +51,8 @@ export class ConfigureGithubComponent implements OnDestroy {
     private _translateService: TranslateService,
     private _githubService: GithubService
   ) {
+    this._logService.trace(LogCategories.cicd, '/configure-github', { resourceId: this.wizard.siteArm.id });
+
     this._orgStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
       this.reposLoading = true;
       this.fetchRepos(r);
@@ -140,7 +142,10 @@ export class ConfigureGithubComponent implements OnDestroy {
           r => this._loadRepositories(r),
           err => {
             this.reposLoading = false;
-            this._logService.error(LogCategories.cicd, '/fetch-github-repos', err);
+            this._logService.error(LogCategories.cicd, '/configure-github-fetch-github-repos', {
+              resourceId: this.wizard.siteArm.id,
+              error: err,
+            });
           }
         );
     }
@@ -167,7 +172,10 @@ export class ConfigureGithubComponent implements OnDestroy {
         .subscribe(
           r => this._loadBranches(r),
           err => {
-            this._logService.error(LogCategories.cicd, '/fetch-github-branches', err);
+            this._logService.error(LogCategories.cicd, '/configure-github-fetch-github-branches', {
+              resourceId: this.wizard.siteArm.id,
+              error: err,
+            });
             this.branchesLoading = false;
           }
         );
@@ -264,7 +272,10 @@ export class ConfigureGithubComponent implements OnDestroy {
   }
 
   WorkflowOptionChanged(option: DropDownElement<string>) {
-    this._logService.trace(LogCategories.cicd, '/github-action-workflow-option', option.value);
+    this._logService.trace(LogCategories.cicd, '/configure-github-action-workflow-option', {
+      resourceId: this.wizard.siteArm.id,
+      workflowOption: option.value,
+    });
     this.showStackSelector = !this.selectedWorkflowOption || this.selectedWorkflowOption === WorkflowOptions.Overwrite;
   }
 
