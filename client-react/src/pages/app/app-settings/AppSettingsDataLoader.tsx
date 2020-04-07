@@ -51,6 +51,11 @@ export interface AppSettingsDataLoaderProps {
   resourceId: string;
 }
 
+const delay = async (func: () => Promise<any>, ms: number = 3000) => {
+  const sleepPromise = new Promise(resolve => setTimeout(resolve, ms));
+  return await sleepPromise.then(func);
+};
+
 const executeWithRetries = async (sendRequst: () => Promise<HttpResponseObject<any>>, maxRetries: number) => {
   let remainingAttempts = (maxRetries || 0) + 1;
   let result: HttpResponseObject<any> = await sendRequst();
@@ -62,7 +67,7 @@ const executeWithRetries = async (sendRequst: () => Promise<HttpResponseObject<a
 
     remainingAttempts = remainingAttempts - 1;
 
-    result = await sendRequst();
+    result = await delay(() => sendRequst());
   }
 
   return result;

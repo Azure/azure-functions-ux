@@ -8,6 +8,8 @@
 
     <select
         *ngIf="!control"
+        [attr.aria-label]="ariaLabel"
+        [attr.aria-describedby]="ariaErrorId"
         (change)="onSelect($event.target.value)"
         (focus)="hasFocus=true"
         (blur)="hasFocus=false"
@@ -42,6 +44,8 @@
          value to an integer id once you select an element, instead of using the option value -->
     <select
         *ngIf="control"
+        [attr.aria-label]="ariaLabel"
+        [attr.aria-describedby]="ariaErrorId"
         (change)="onSelectValue($event.target.value)"
         (focus)="hasFocus=true"
         (blur)="hasFocus=false"
