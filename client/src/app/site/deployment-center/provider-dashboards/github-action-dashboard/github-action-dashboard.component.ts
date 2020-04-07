@@ -232,13 +232,15 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
         err => {
           this._deleteWorkflowDuringDisconnect = false;
           this._portalService.stopNotification(notificationId, false, err.errorMessage);
-          this._logService.error(LogCategories.cicd, '/disconnect-github-action-dashboard', err);
+          this._logService.error(LogCategories.cicd, '/github-action-dashboard-disconnect', { resourceId: this.resourceId, error: err });
         }
       );
   }
 
   private _clearSCMSettings(deploymentDisconnectStatus: DeploymentDisconnectStatus) {
     if (deploymentDisconnectStatus.isSuccessful) {
+      this._logService.trace(LogCategories.cicd, '/github-action-dashboard-disconnect-scm', { resourceId: this.resourceId });
+
       return this._siteService.deleteSiteSourceControlConfig(this.resourceId);
     } else {
       return Observable.throw(deploymentDisconnectStatus);
@@ -267,6 +269,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       // NOTE(michinoy): In this case, the user has opted not to delete the file, it should not block any dependent actions.
       return Observable.of(successStatus);
     } else {
+      this._logService.trace(LogCategories.cicd, '/github-action-dashboard-disconnect-workflow', { resourceId: this.resourceId });
       const workflowFilePath = `.github/workflows/${this._actionWorkflowFileName}`;
 
       return this._githubService
@@ -308,6 +311,10 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     this._viewInfoStream$
       .takeUntil(this._ngUnsubscribe$)
       .switchMap(resourceId => {
+        if (resourceId !== this.resourceId) {
+          this._logService.trace(LogCategories.cicd, '/github-action-dashboard', { resourceId });
+        }
+
         return Observable.zip(
           this._siteService.getSite(resourceId, this._forceLoad),
           this._siteService.getSiteConfig(resourceId, this._forceLoad),
@@ -371,7 +378,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
           this._busyManager.clearBusy();
           this._forceLoad = false;
           this.deploymentObject = null;
-          this._logService.error(LogCategories.cicd, '/github-action-dashboard-initial-load', err);
+          this._logService.error(LogCategories.cicd, '/github-action-dashboard', { resourceId: this.resourceId, error: err });
         }
       );
 
