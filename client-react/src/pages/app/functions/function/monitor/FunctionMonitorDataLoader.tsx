@@ -7,6 +7,7 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 
 interface FunctionMonitorDataLoaderProps {
   resourceId: string;
@@ -37,7 +38,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
           LogService.error(
             LogCategories.functionLog,
             'getAppInsights',
-            `Failed to get app insights: ${appInsightsResponse.metadata.error}`
+            `Failed to get app insights: ${getErrorMessageOrStringify(appInsightsResponse.metadata.error)}`
           );
         }
       }
@@ -46,7 +47,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
       LogService.error(
         LogCategories.functionLog,
         'getAppInsightsResourceId',
-        `Failed to get app insights resource Id: ${appInsightsResourceIdResponse.metadata.error}`
+        `Failed to get app insights resource Id: ${getErrorMessageOrStringify(appInsightsResourceIdResponse.metadata.error)}`
       );
     }
   };

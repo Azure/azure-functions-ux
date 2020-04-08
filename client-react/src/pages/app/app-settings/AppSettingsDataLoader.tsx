@@ -39,7 +39,7 @@ import { isFunctionApp } from '../../../utils/arm-utils';
 import { StartupInfoContext } from '../../../StartupInfoContext';
 import { LogCategories } from '../../../utils/LogCategories';
 import { KeyValue } from '../../../models/portal-models';
-import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
+import { getErrorMessage, getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -151,7 +151,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (isFunctionApp(site.data)) {
         SiteService.fireSyncTrigger(site.data, startUpInfoContext.token || '').then(r => {
           if (!r.metadata.success) {
-            LogService.error(LogCategories.appSettings, 'fireSyncTrigger', `Failed to fire syncTrigger: ${r.metadata.error}`);
+            LogService.error(
+              LogCategories.appSettings,
+              'fireSyncTrigger',
+              `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
+            );
           }
           fetchAsyncData();
         });
@@ -339,7 +343,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (isFunctionApp(site)) {
         SiteService.fireSyncTrigger(site, startUpInfoContext.token || '').then(r => {
           if (!r.metadata.success) {
-            LogService.error(LogCategories.appSettings, 'fireSyncTrigger', `Failed to fire syncTrigger: ${r.metadata.error}`);
+            LogService.error(
+              LogCategories.appSettings,
+              'fireSyncTrigger',
+              `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
+            );
           }
           fetchAsyncData();
         });

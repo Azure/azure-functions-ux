@@ -12,6 +12,7 @@ import LogService from '../../../../../../utils/LogService';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingTopStyle } from '../Callout.styles';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
+import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 
 interface StorageAccountPivotFormValues {
   storageAccount: ArmObj<StorageAccount> | undefined;
@@ -32,7 +33,7 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
           LogService.trackEvent(
             LogCategories.bindingResource,
             'fetchAzureStorageAccounts',
-            `Failed to get Storage Accounts: ${r.metadata.error}`
+            `Failed to get Storage Accounts: ${getErrorMessageOrStringify(r.metadata.error)}`
           );
           return;
         }
@@ -44,7 +45,7 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
           LogService.trackEvent(
             LogCategories.bindingResource,
             'fetchStorageAccountKeys',
-            `Failed to get storage account keys: ${response.metadata.error}`
+            `Failed to get storage account keys: ${getErrorMessageOrStringify(response.metadata.error)}`
           );
           return;
         }
