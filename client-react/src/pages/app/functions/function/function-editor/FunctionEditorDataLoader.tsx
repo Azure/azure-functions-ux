@@ -25,6 +25,7 @@ import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { ValidationRegex } from '../../../../../utils/constants/ValidationRegex';
 import { KeyValue } from '../../../../../models/portal-models';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -68,13 +69,21 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     if (siteResponse.metadata.success) {
       setSite(siteResponse.data);
     } else {
-      LogService.error(LogCategories.FunctionEdit, 'fetchSite', `Failed to fetch site: ${siteResponse.metadata.error}`);
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'fetchSite',
+        `Failed to fetch site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
+      );
     }
 
     if (functionInfoResponse.metadata.success) {
       setFunctionInfo(functionInfoResponse.data);
     } else {
-      LogService.error(LogCategories.FunctionEdit, 'getFunction', `Failed to get function info: ${functionInfoResponse.metadata.error}`);
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'getFunction',
+        `Failed to get function info: ${getErrorMessageOrStringify(functionInfoResponse.metadata.error)}`
+      );
     }
 
     if (hostStatusResponse.metadata.success) {
@@ -88,20 +97,32 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       if (hostJsonResponse && hostJsonResponse.metadata.success) {
         setHostJsonContent(hostJsonResponse.data);
       } else {
-        LogService.error(LogCategories.FunctionEdit, 'getHostJson', `Failed to get host json file: ${hostJsonResponse.metadata.error}`);
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'getHostJson',
+          `Failed to get host json file: ${getErrorMessageOrStringify(hostJsonResponse.metadata.error)}`
+        );
       }
 
       if (fileListResponse && fileListResponse.metadata.success) {
         setFileList(fileListResponse.data as VfsObject[]);
       } else {
-        LogService.error(LogCategories.FunctionEdit, 'getFileContent', `Failed to get file content: ${fileListResponse.metadata.error}`);
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'getFileContent',
+          `Failed to get file content: ${getErrorMessageOrStringify(fileListResponse.metadata.error)}`
+        );
       }
     }
 
     if (appKeysResponse.metadata.success) {
       setHostKeys(appKeysResponse.data);
     } else {
-      LogService.error(LogCategories.FunctionEdit, 'fetchAppKeys', `Failed to fetch app keys: ${appKeysResponse.metadata.error}`);
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'fetchAppKeys',
+        `Failed to fetch app keys: ${getErrorMessageOrStringify(appKeysResponse.metadata.error)}`
+      );
     }
 
     if (functionKeysResponse.metadata.success) {
@@ -110,7 +131,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       LogService.error(
         LogCategories.FunctionEdit,
         'fetchFunctionKeys',
-        `Failed to fetch function keys: ${functionKeysResponse.metadata.error}`
+        `Failed to fetch function keys: ${getErrorMessageOrStringify(functionKeysResponse.metadata.error)}`
       );
     }
 
@@ -365,7 +386,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       SiteService.fireSyncTrigger(site, startupInfoContext.token).then(r => {
         fetchData();
         if (!r.metadata.success) {
-          LogService.error(LogCategories.FunctionEdit, 'fireSyncTrigger', `Failed to fire syncTrigger: ${r.metadata.error}`);
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'fireSyncTrigger',
+            `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
+          );
         }
       });
     }
