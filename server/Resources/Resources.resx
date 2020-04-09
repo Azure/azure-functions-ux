@@ -5928,4 +5928,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="connected" xml:space="preserve">
         <value>Connected!</value>
     </data>
+    <data name="blaclistFile_message" xml:space="preserve">
+        <value>Editing this file type is not supported in the portal editor.</value>
+    </data>
 </root>

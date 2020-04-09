@@ -1918,4 +1918,5 @@ export class PortalResources {
   public static ibizafication_readOnlyVSGenerated = 'ibizafication_readOnlyVSGenerated';
   public static ibizafication_readOnly = 'ibizafication_readOnly';
   public static connected = 'connected';
+  public static blaclistFile_message = 'blaclistFile_message';
 }

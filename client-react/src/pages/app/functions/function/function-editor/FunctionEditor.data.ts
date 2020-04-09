@@ -4,6 +4,9 @@ import { ArmObj } from '../../../../../models/arm-obj';
 import { NameValuePair, HttpMethods } from './FunctionEditor.types';
 
 export default class FunctionEditorData {
+  public FUNCTION_JSON_FILE = 'function.json';
+  private blacklistedFileTypes = ['java', 'jar', 'zip'];
+
   public getFunctionInfo(resourceId: string) {
     return FunctionsService.getFunction(resourceId);
   }
@@ -40,5 +43,15 @@ export default class FunctionEditorData {
       response.body = data.body;
     }
     return response;
+  }
+
+  public isBlacklistedFile(filename: string) {
+    for (let i = 0; i < this.blacklistedFileTypes.length; ++i) {
+      if (filename.endsWith(`.${this.blacklistedFileTypes[i]}`)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
