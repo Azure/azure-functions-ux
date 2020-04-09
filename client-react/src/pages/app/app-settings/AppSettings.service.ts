@@ -11,7 +11,7 @@ import { HttpResponseObject } from '../../../ArmHelper.types';
 import PortalCommunicator from '../../../portal-communicator';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
 import { AvailableStack, MinorVersion, MinorVersion2 } from '../../../models/available-stacks';
-import { markEndOfLifeStacksInPlace } from '../../../utils/stacks-utils';
+import { markEndOfLifeStacksInPlace, purgeJavaStacksForWindowsInPlace } from '../../../utils/stacks-utils';
 import { sortBy } from 'lodash-es';
 import Url from '../../../utils/url';
 import { CommonConstants } from '../../../utils/CommonConstants';
@@ -141,6 +141,14 @@ const insertDotNetCore31ForLinuxInPlace = (linuxStacks: HttpResponseObject<ArmAr
   }
 };
 
+const purgeJavaForWindowsInPlace = (stacksResponse: HttpResponseObject<ArmArray<AvailableStack>>, siteConfig: SiteConfig | null) => {
+  const stacksArray = !!stacksResponse && !!stacksResponse.metadata.success && !!stacksResponse.data && stacksResponse.data.value;
+  const [javaVersion, javaContainer, javaContainerVersion] = siteConfig
+    ? [siteConfig.javaVersion, siteConfig.javaContainer, siteConfig.javaContainerVersion]
+    : ['', '', ''];
+  purgeJavaStacksForWindowsInPlace(stacksArray || [], javaVersion, javaContainer, javaContainerVersion);
+};
+
 const markEndOfLifeInPlace = (stacksResponse: HttpResponseObject<ArmArray<AvailableStack>>) => {
   const stacksArray = !!stacksResponse && !!stacksResponse.metadata.success && !!stacksResponse.data && stacksResponse.data.value;
   markEndOfLifeStacksInPlace(stacksArray || []);
@@ -179,6 +187,9 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
   // This is a temporary fix because the response from the availableStacks API doesn't include .NET Core 3.1.
   // We only care about this for Linux apps because the .NET Core version isn't configurable for Windows apps.
   insertDotNetCore31ForLinuxInPlace(linuxStacks);
+
+  // Hide old Java versions (except for the configured version if applicable).
+  purgeJavaForWindowsInPlace(windowsStacks, webConfig && webConfig.data && webConfig.data.properties);
 
   // Mark stacks as EOL based on hard-coded logic, since they aren't marked as EOL in the payload returned by the availableStacks API
   markEndOfLifeInPlace(windowsStacks);
