@@ -1,9 +1,8 @@
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
-import { logCommandBarStyle } from './FunctionLog.styles';
+import { logCommandBarStyle, getCommandBarStyle } from './FunctionLog.styles';
 import { PortalContext } from '../../../../../PortalContext';
 import { ArmResourceDescriptor } from '../../../../../utils/resourceDescriptors';
 import { LogLevel } from './FunctionLog.types';
@@ -188,7 +187,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     <CommandBar
       items={getItems()}
       farItems={getFarItems()}
-      styles={CommandBarStyles}
+      styles={styleProps => getCommandBarStyle(styleProps)}
       ariaLabel={t('logStreaming_logs')}
       buttonAs={CustomCommandBarButton}
       className={logCommandBarStyle}
