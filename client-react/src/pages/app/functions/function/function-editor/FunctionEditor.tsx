@@ -42,6 +42,7 @@ import FunctionLogFileStreamDataLoader from '../function-log/FunctionLogFileStre
 import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { FunctionEditorContext } from './FunctionEditorDataLoader';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -100,6 +101,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const siteStateContext = useContext(SiteStateContext);
   const startUpInfoContext = useContext(StartupInfoContext);
+  const functionEditorContext = useContext(FunctionEditorContext);
 
   const scenarioChecker = new ScenarioService(t);
   const showAppInsightsLogs = scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
@@ -218,8 +220,11 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const getScriptFileOption = (): IDropdownOption | undefined => {
     const scriptHref = functionInfo.properties.script_href;
-    const filename = (scriptHref && scriptHref.split('/').pop()) || '';
-    const filteredOptions = getDropdownOptions().filter(option => option.text === filename.toLowerCase());
+    let filename = ((scriptHref && scriptHref.split('/').pop()) || '').toLocaleLowerCase();
+    if (functionEditorContext.isBlacklistedFile(filename)) {
+      filename = functionEditorContext.FUNCTION_JSON_FILE;
+    }
+    const filteredOptions = getDropdownOptions().filter(option => option.text === filename);
     return filteredOptions.length === 1 ? filteredOptions[0] : getSelectedFile();
   };
 
@@ -309,7 +314,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isEditorDisabled = () => {
-    return isDisabled() || !isFileContentAvailable || !isRuntimeReachable();
+    return isDisabled() || isSelectedFileBlacklisted() || !isFileContentAvailable || !isRuntimeReachable();
   };
 
   const discard = () => {
@@ -322,6 +327,10 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       changeDropdownOption(selectedDropdownOption);
     }
     onCancelButtonClick();
+  };
+
+  const isSelectedFileBlacklisted = () => {
+    return functionEditorContext.isBlacklistedFile(!!selectedFile ? (selectedFile.key as string) : '');
   };
 
   useEffect(() => {
@@ -392,7 +401,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={onCancelButtonClick}
         />
-        {!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable) ? (
+        {!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable) ? (
           <CustomBanner
             message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
             type={MessageBarType.error}
@@ -437,7 +446,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
       {!logPanelFullscreen && (
         <div className={editorDivStyle}>
           <MonacoEditor
-            value={fileContent.latest}
+            value={isSelectedFileBlacklisted() ? t('blaclistFile_message') : fileContent.latest}
             language={editorLanguage}
             onChange={onChange}
             height={monacoHeight}
