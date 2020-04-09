@@ -261,65 +261,65 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     setFunctionRunning(true);
     const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
     if (updatedFunctionInfo.metadata.success) {
-      const data = updatedFunctionInfo.data;
-      setFunctionInfo(data);
-      if (!!site) {
-        let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
-        let parsedTestData = {};
-        try {
-          parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
-        } catch (err) {
-          // TODO (krmitta): Log an error if parsing the data throws an error
-        }
-        const testDataObject = functionEditorData.getProcessedFunctionTestData(parsedTestData);
-        const queries = testDataObject.queries;
+      setFunctionInfo(updatedFunctionInfo.data);
+    }
 
-        const matchesPathParams = url.match(urlParameterRegExp);
-        const processedParams: string[] = [];
-        if (matchesPathParams) {
-          matchesPathParams.forEach(m => {
-            const name = m
-              .split(':')[0]
-              .replace('{', '')
-              .replace('}', '')
-              .toLowerCase();
-            processedParams.push(name);
-            const param = queries.find(p => {
-              return p.name.toLowerCase() === name;
-            });
+    if (!!site) {
+      let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
+      let parsedTestData = {};
+      try {
+        parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
+      } catch (err) {
+        // TODO (krmitta): Log an error if parsing the data throws an error
+      }
+      const testDataObject = functionEditorData.getProcessedFunctionTestData(parsedTestData);
+      const queries = testDataObject.queries;
 
-            if (param) {
-              url = url.replace(m, param.value);
-            }
+      const matchesPathParams = url.match(urlParameterRegExp);
+      const processedParams: string[] = [];
+      if (matchesPathParams) {
+        matchesPathParams.forEach(m => {
+          const name = m
+            .split(':')[0]
+            .replace('{', '')
+            .replace('}', '')
+            .toLowerCase();
+          processedParams.push(name);
+          const param = queries.find(p => {
+            return p.name.toLowerCase() === name;
           });
-        }
 
-        const filteredQueryParams = queries.filter(query => {
-          return !processedParams.find(p => p === query.name);
-        });
-        const queryString = getQueryString(filteredQueryParams);
-        if (!!queryString) {
-          url = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
-        }
-
-        const headers = getHeaders(testDataObject.headers, xFunctionKey);
-        try {
-          const res = await FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body);
-          const resData = res.metadata.success ? res.data : res.metadata.error;
-          let responseText = '';
-          // Stringify the response if it is JSON, otherwise use it as such
-          try {
-            responseText = JSON.stringify(resData);
-          } catch (e) {
-            responseText = resData;
+          if (param) {
+            url = url.replace(m, param.value);
           }
-          setResponseContent({
-            code: res.metadata.status,
-            text: responseText,
-          });
-        } catch (err) {
-          // TODO (krmitta): Show an error if the call to run the function fails
+        });
+      }
+
+      const filteredQueryParams = queries.filter(query => {
+        return !processedParams.find(p => p === query.name);
+      });
+      const queryString = getQueryString(filteredQueryParams);
+      if (!!queryString) {
+        url = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
+      }
+
+      const headers = getHeaders(testDataObject.headers, xFunctionKey);
+      try {
+        const res = await FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body);
+        const resData = res.metadata.success ? res.data : res.metadata.error;
+        let responseText = '';
+        // Stringify the response if it is JSON, otherwise use it as such
+        try {
+          responseText = JSON.stringify(resData);
+        } catch (e) {
+          responseText = resData;
         }
+        setResponseContent({
+          code: res.metadata.status,
+          text: responseText,
+        });
+      } catch (err) {
+        // TODO (krmitta): Show an error if the call to run the function fails
       }
     }
     setFunctionRunning(false);
