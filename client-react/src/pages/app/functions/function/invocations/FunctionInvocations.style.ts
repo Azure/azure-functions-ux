@@ -34,11 +34,17 @@ export const summaryItem = style({
 });
 
 export const successElement = style({
+  display: 'inline-block',
   $nest: {
     svg: {
-      position: 'relative',
+      display: 'inline',
       right: '2px',
-      top: '3px',
+    },
+    span: {
+      display: 'inline',
+      position: 'relative',
+      bottom: '3px',
+      left: '1px',
     },
   },
 });
