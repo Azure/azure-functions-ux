@@ -54,7 +54,6 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
 
-  const [showFilter, setShowFilter] = useState(false);
   const [filterValue, setFilterValue] = useState('');
   const [showDelayMessage, setShowDelayMessage] = useState(false);
 
@@ -72,12 +71,6 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         iconProps: { iconName: 'Refresh' },
         name: t('refresh'),
       },
-      {
-        key: 'invocations-show-filter',
-        onClick: toggleFilter,
-        iconProps: { iconName: 'Filter' },
-        name: t('filter'),
-      },
     ];
   };
 
@@ -94,11 +87,6 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
       },
       'function-monitor'
     );
-  };
-
-  const toggleFilter = () => {
-    setFilterValue('');
-    setShowFilter(!showFilter);
   };
 
   const getColumns = (): IColumn[] => {
@@ -218,17 +206,15 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
           emptyMessage={t('noResults')}>
-          {showFilter && (
-            <SearchBox
-              id="invocations-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterBoxStyle}
-              placeholder={t('filterInvocations')}
-              onChange={newValue => setFilterValue(newValue)}
-            />
-          )}
+          <SearchBox
+            id="invocations-search"
+            className="ms-slideDownIn20"
+            autoFocus
+            iconProps={{ iconName: 'Filter' }}
+            styles={filterBoxStyle}
+            placeholder={t('filterInvocations')}
+            onChange={newValue => setFilterValue(newValue)}
+          />
         </DisplayTableWithCommandBar>
       ) : (
         <LoadingComponent />
