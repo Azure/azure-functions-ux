@@ -350,8 +350,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       const configError = getErrorMessage(configResult!.metadata.error);
       const slotConfigError = getErrorMessage(slotConfigNamesResult && slotConfigNamesResult.metadata.error);
       const storageMountsError = getErrorMessage(storageMountsResult && storageMountsResult.metadata.error);
-      const errMessage = siteError || configError || slotConfigError || storageMountsError || t('configUpdateFailure');
-      portalContext.stopNotification(notificationId, false, errMessage);
+      const errorMessage = siteError || configError || slotConfigError || storageMountsError;
+      const message = errorMessage ? t('configUpdateFailureExt').format(errorMessage) : t('configUpdateFailure');
+      portalContext.stopNotification(notificationId, false, message);
     }
     setSaving(false);
   };
