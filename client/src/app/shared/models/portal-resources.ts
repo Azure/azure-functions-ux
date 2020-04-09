@@ -1910,5 +1910,12 @@ export class PortalResources {
   public static deploymentCenterPublishProfileCommandAriaLabel = 'deploymentCenterPublishProfileCommandAriaLabel';
   public static deploymentCenterRefreshCommandAriaLabel = 'deploymentCenterRefreshCommandAriaLabel';
   public static managePublishProfile = 'managePublishProfile';
+  public static ibizafication_readOnlyPython = 'ibizafication_readOnlyPython';
+  public static ibizafication_readOnlyJava = 'ibizafication_readOnlyJava';
+  public static ibizafication_readOnlyLocalCache = 'ibizafication_readOnlyLocalCache';
+  public static ibizafication_readOnlySourceControlled = 'ibizafication_readOnlySourceControlled';
+  public static ibizafication_readOnlySlots = 'ibizafication_readOnlySlots';
+  public static ibizafication_readOnlyVSGenerated = 'ibizafication_readOnlyVSGenerated';
+  public static ibizafication_readOnly = 'ibizafication_readOnly';
   public static connected = 'connected';
 }

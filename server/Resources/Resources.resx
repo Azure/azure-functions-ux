@@ -5904,6 +5904,27 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
     </data>
+    <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>Use your local dev environment to edit this function. Editing Python function apps isn't supported in the Azure portal.</value>
+    </data>
+    <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>Use your local dev environment to edit this function. Editing Java function apps isn't supported in the Azure portal.</value>
+    </data>
+    <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>Use your local dev environment to edit this function. This function uses Local Cache and can't be edited here.</value>
+    </data>
+    <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>Your app is currently in read only mode because you have source control integration enabled.</value>
+    </data>
+    <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>Your app is currently in read only mode because you have configured deployment slots.</value>
+    </data>
+    <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>Use your local dev environment to edit this function. This function was created in a local environment and can't be edited here.</value>
+    </data>
+    <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>Your app is currently in read only mode because it has been manually set to read only.</value>
+    </data>
     <data name="connected" xml:space="preserve">
         <value>Connected!</value>
     </data>
