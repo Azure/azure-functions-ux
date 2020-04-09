@@ -4,6 +4,7 @@ import { ArmObj } from '../models/arm-obj';
 import { Site } from '../models/site/site';
 import { SiteConfig } from '../models/site/config';
 import { isPremiumV2 } from './arm-utils';
+import { Links } from './FwLinks';
 
 export default class SiteHelper {
   public static isFunctionAppReadOnly(editMode: FunctionAppEditMode): boolean {
@@ -27,19 +28,19 @@ export default class SiteHelper {
   public static getFunctionAppEditModeString(mode: FunctionAppEditMode, t: i18n.TFunction): string {
     switch (mode) {
       case FunctionAppEditMode.ReadOnlySourceControlled: {
-        return t('readOnlySourceControlled');
+        return t('readOnlySourceControlledV2');
       }
       case FunctionAppEditMode.ReadOnlySlots: {
-        return t('readOnlySlots');
+        return t('readOnlySlotsV2');
       }
       case FunctionAppEditMode.ReadOnlyVSGenerated: {
-        return t('readOnlyVSGenerated');
+        return t('readOnlyVSGeneratedV2');
       }
       case FunctionAppEditMode.ReadOnlyRunFromPackage: {
         return t('readOnlyRunFromZip');
       }
       case FunctionAppEditMode.ReadOnlyLocalCache: {
-        return t('readOnlyLocalCache');
+        return t('readOnlyLocalCacheV2');
       }
       case FunctionAppEditMode.ReadOnlyLinuxDynamic: {
         return t('readOnlyLinuxDynamic');
@@ -48,10 +49,10 @@ export default class SiteHelper {
         return t('readOnlyBYOC');
       }
       case FunctionAppEditMode.ReadOnlyPython: {
-        return t('readOnlyPython');
+        return t('readOnlyPythonV2');
       }
       case FunctionAppEditMode.ReadOnlyJava: {
-        return t('readOnlyJava');
+        return t('readOnlyJavaV2');
       }
       case FunctionAppEditMode.ReadOnlyLock: {
         return t('featureDisabledReadOnlyLockOnApp');
@@ -60,7 +61,19 @@ export default class SiteHelper {
         return t('readOnlyRbac');
       }
     }
-    return t('readOnly');
+    return t('readOnlyV2');
+  }
+
+  public static getLearnMoreLinkForFunctionAppEditMode(mode: FunctionAppEditMode): string | undefined {
+    switch (mode) {
+      case FunctionAppEditMode.ReadOnlyPython: {
+        return Links.readOnlyPythonAppLearnMore;
+      }
+      case FunctionAppEditMode.ReadOnlyVSGenerated: {
+        return Links.readOnlyVSGeneratedFunctionLearnMore;
+      }
+    }
+    return undefined;
   }
 
   public static isFlexStamp(site: ArmObj<Site>) {

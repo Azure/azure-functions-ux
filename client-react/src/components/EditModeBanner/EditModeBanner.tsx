@@ -20,7 +20,11 @@ const EditModeBanner: React.FC<EditModeBannerProps> = props => {
   if (SiteHelper.isFunctionAppReadOnly(editState)) {
     return (
       <div ref={ref => !!setBanner && setBanner(ref)}>
-        <CustomBanner message={SiteHelper.getFunctionAppEditModeString(editState, t)} type={MessageBarType.info} />
+        <CustomBanner
+          message={SiteHelper.getFunctionAppEditModeString(editState, t)}
+          type={MessageBarType.info}
+          learnMoreLink={SiteHelper.getLearnMoreLinkForFunctionAppEditMode(editState)}
+        />
       </div>
     );
   }

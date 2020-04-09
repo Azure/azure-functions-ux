@@ -1908,4 +1908,11 @@ export class PortalResources {
   public static deploymentCenterPublishProfileCommandAriaLabel = 'deploymentCenterPublishProfileCommandAriaLabel';
   public static deploymentCenterRefreshCommandAriaLabel = 'deploymentCenterRefreshCommandAriaLabel';
   public static managePublishProfile = 'managePublishProfile';
+  public static readOnlyPythonV2 = 'readOnlyPythonV2';
+  public static readOnlyJavaV2 = 'readOnlyJavaV2';
+  public static readOnlyLocalCacheV2 = 'readOnlyLocalCacheV2';
+  public static readOnlySourceControlledV2 = 'readOnlySourceControlledV2';
+  public static readOnlySlotsV2 = 'readOnlySlotsV2';
+  public static readOnlyVSGeneratedV2 = 'readOnlyVSGeneratedV2';
+  public static readOnlyV2 = 'readOnlyV2';
 }

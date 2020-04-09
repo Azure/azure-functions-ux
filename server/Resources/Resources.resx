@@ -5898,4 +5898,25 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
     </data>
+    <data name="readOnlyPythonV2" xml:space="preserve">
+        <value>Use your local dev environment to edit this function. Editing Python function apps isn't supported in the Azure portal.</value>
+    </data>
+    <data name="readOnlyJavaV2" xml:space="preserve">
+        <value>Use your local dev environment to edit this function. Editing Java function apps isn't supported in the Azure portal.</value>
+    </data>
+    <data name="readOnlyLocalCacheV2" xml:space="preserve">
+        <value>Use your local dev environment to edit this function. This function uses Local Cache and can't be edited here.</value>
+    </data>
+    <data name="readOnlySourceControlledV2" xml:space="preserve">
+        <value>Your app is currently in read only mode because you have source control integration enabled.</value>
+    </data>
+    <data name="readOnlySlotsV2" xml:space="preserve">
+        <value>Your app is currently in read only mode because you have configured deployment slots.</value>
+    </data>
+    <data name="readOnlyVSGeneratedV2" xml:space="preserve">
+        <value>Use your local dev environment to edit this function. This function was created in a local environment and can't be edited here.</value>
+    </data>
+    <data name="readOnlyV2" xml:space="preserve">
+        <value>Your app is currently in read only mode because it has been manually set to read only.</value>
+    </data>
 </root>
