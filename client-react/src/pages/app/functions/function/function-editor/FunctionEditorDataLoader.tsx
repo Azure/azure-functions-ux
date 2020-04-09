@@ -26,6 +26,7 @@ import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { ValidationRegex } from '../../../../../utils/constants/ValidationRegex';
 import { KeyValue } from '../../../../../models/portal-models';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { HttpResponseObject } from '../../../../../ArmHelper.types';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -324,7 +325,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       setFunctionInfo(updatedFunctionInfo.data);
     }
 
-    let runResponse;
+    let runResponse: HttpResponseObject<any> | undefined;
     if (isHttpOrWebHookFunction) {
       runResponse = await runHttpFunction(newFunctionInfo, xFunctionKey);
     } else {
