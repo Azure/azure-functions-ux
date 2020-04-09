@@ -314,7 +314,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isEditorDisabled = () => {
-    return isDisabled() || !isFileContentAvailable || !isRuntimeReachable();
+    return isDisabled() || isSelectedFileBlacklisted() || !isFileContentAvailable || !isRuntimeReachable();
   };
 
   const discard = () => {
@@ -450,7 +450,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             language={editorLanguage}
             onChange={onChange}
             height={monacoHeight}
-            disabled={isSelectedFileBlacklisted() || isEditorDisabled()}
+            disabled={isEditorDisabled()}
             options={{
               minimap: { enabled: false },
               scrollBeyondLastLine: false,
