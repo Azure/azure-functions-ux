@@ -308,7 +308,9 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const runFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     if (!!site) {
-      // TODO (krmitta): Add logic to run for non-http functions
+      const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
+      const headers = getHeaders([], xFunctionKey);
+      return FunctionsService.runFunction(url, 'POST', headers, { input: newFunctionInfo.properties.test_data || '' });
     }
     return undefined;
   };
@@ -328,7 +330,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     }
 
     if (!!runResponse) {
-      const resData = runResponse.metadata.success ? runResponse.data : runResponse.metadata.error;
+      let resData = '';
+      if (runResponse.metadata.success) {
+        resData = runResponse.data;
+      } else {
+        // TODO (krmitta): Handle error thrown and show the output accordingly
+      }
+
       let responseText = '';
       // Stringify the response if it is JSON, otherwise use it as such
       try {

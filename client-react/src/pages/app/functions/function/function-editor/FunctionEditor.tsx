@@ -30,7 +30,6 @@ import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
-import { BindingManager } from '../../../../../utils/BindingManager';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { PortalTheme } from '../../../../../models/portal-models';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
@@ -318,9 +317,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isTestDisabled = () => {
-    const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
-    const webHookTypeInfo = BindingManager.getWebHookTypeInfo(functionInfo.properties);
-    return (!httpTriggerTypeInfo && !webHookTypeInfo) || !isRuntimeReachable();
+    return !isRuntimeReachable();
   };
 
   const isEditorDisabled = () => {
