@@ -9,4 +9,6 @@ export const Links = {
   mountedStorageLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2088516',
   runtimeScaleMonitoringLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2104710',
   remoteDebuggingLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2116583',
+  readOnlyPythonAppLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2074230',
+  readOnlyVSGeneratedFunctionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=856288',
 };
