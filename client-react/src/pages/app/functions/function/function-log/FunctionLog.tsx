@@ -12,6 +12,7 @@ import { TextUtilitiesService } from '../../../../../utils/textUtilities';
 import FunctionLogCommandBar from './FunctionLogCommandBar';
 import { Resizable } from 're-resizable';
 import { LogLevel, LogEntry } from './FunctionLog.types';
+import { useTranslation } from 'react-i18next';
 
 interface FunctionLogProps {
   isExpanded: boolean;
@@ -62,6 +63,8 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
   const [scrollHeight, setScrollHeight] = useState(0);
   const [visibleLogEntries, setVisibleLogEntries] = useState<LogEntry[]>([]);
   const [logLevel, setLogLevel] = useState<LogLevel>(LogLevel.Information);
+
+  const { t } = useTranslation();
 
   const onExpandClick = () => {
     if (toggleExpand) {
@@ -190,7 +193,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
           {errorMessage && <div className={logErrorDivStyle}>{errorMessage}</div>}
 
           {/*Loading Message*/}
-          {!errorMessage && started && loadingMessage && <div className={logConnectingDivStyle}>{loadingMessage}</div>}
+          {!errorMessage && started && <div className={logConnectingDivStyle}>{loadingMessage ? loadingMessage : t('connected')}</div>}
 
           {/*Log Entries*/}
           {visibleLogEntries.map((logEntry: LogEntry, logIndex: number) => {

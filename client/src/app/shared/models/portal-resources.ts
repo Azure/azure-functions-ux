@@ -1908,4 +1908,5 @@ export class PortalResources {
   public static deploymentCenterPublishProfileCommandAriaLabel = 'deploymentCenterPublishProfileCommandAriaLabel';
   public static deploymentCenterRefreshCommandAriaLabel = 'deploymentCenterRefreshCommandAriaLabel';
   public static managePublishProfile = 'managePublishProfile';
+  public static connected = 'connected';
 }
