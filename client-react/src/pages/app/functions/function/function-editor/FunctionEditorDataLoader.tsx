@@ -259,6 +259,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return headers;
   };
 
+  // Used to run both http and webHook functions
   const runHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     if (!!site) {
       let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
@@ -306,9 +307,12 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return undefined;
   };
 
-  const runFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+  // Used to run non-http and non-webHook functions
+  const runNonHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     if (!!site) {
-      // TODO (krmitta): Add logic to run for non-http functions
+      const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
+      const headers = getHeaders([], xFunctionKey);
+      return FunctionsService.runFunction(url, 'POST', headers, { input: newFunctionInfo.properties.test_data || '' });
     }
     return undefined;
   };
@@ -324,11 +328,17 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     if (isHttpOrWebHookFunction) {
       runResponse = await runHttpFunction(newFunctionInfo, xFunctionKey);
     } else {
-      runResponse = await runFunction(newFunctionInfo, xFunctionKey);
+      runResponse = await runNonHttpFunction(newFunctionInfo, xFunctionKey);
     }
 
     if (!!runResponse) {
-      const resData = runResponse.metadata.success ? runResponse.data : runResponse.metadata.error;
+      let resData = '';
+      if (runResponse.metadata.success) {
+        resData = runResponse.data;
+      } else {
+        // TODO (krmitta): Handle error thrown and show the output accordingly
+      }
+
       let responseText = '';
       // Stringify the response if it is JSON, otherwise use it as such
       try {
