@@ -14,6 +14,7 @@ import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import { MessageBarType } from 'office-ui-fabric-react';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
+import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 
 interface AppFilesDataLoaderProps {
   resourceId: string;
@@ -51,7 +52,11 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
       if (fileListResponse.metadata.success) {
         setFileList(fileListResponse.data as VfsObject[]);
       } else {
-        LogService.error(LogCategories.appFiles, 'getFileList', `Failed to get file list: ${fileListResponse.metadata.error}`);
+        LogService.error(
+          LogCategories.appFiles,
+          'getFileList',
+          `Failed to get file list: ${getErrorMessageOrStringify(fileListResponse.metadata.error)}`
+        );
       }
     }
 

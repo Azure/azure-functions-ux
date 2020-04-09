@@ -1,7 +1,7 @@
 import { sendHttpRequest } from './HttpClient';
 import { CommonConstants } from './../utils/CommonConstants';
 import { ResourceGraph, ArmObj } from './../models/arm-obj';
-import MakeArmCall from './ArmHelper';
+import MakeArmCall, { getErrorMessageOrStringify } from './ArmHelper';
 import { ISubscription } from '../models/subscription';
 import {
   AppInsightsComponent,
@@ -54,7 +54,11 @@ export default class AppInsightsService {
       if (response.metadata.success && response.data) {
         result = AppInsightsService._extractSummaryFromQueryResult(response.data);
       } else {
-        LogService.trackEvent(LogCategories.applicationInsightsQuery, 'getSummary', `Failed to query summary: ${response.metadata.error}`);
+        LogService.trackEvent(
+          LogCategories.applicationInsightsQuery,
+          'getSummary',
+          `Failed to query summary: ${getErrorMessageOrStringify(response.metadata.error)}`
+        );
       }
       return result;
     });
@@ -79,7 +83,7 @@ export default class AppInsightsService {
         LogService.trackEvent(
           LogCategories.applicationInsightsQuery,
           'getInvocationTraces',
-          `Failed to query invocationTraces: ${response.metadata.error}`
+          `Failed to query invocationTraces: ${getErrorMessageOrStringify(response.metadata.error)}`
         );
       }
       return traces;
@@ -114,7 +118,7 @@ export default class AppInsightsService {
         LogService.trackEvent(
           LogCategories.applicationInsightsQuery,
           'getInvocationTraceDetails',
-          `Failed to query invocationTraceDetails: ${response.metadata.error}`
+          `Failed to query invocationTraceDetails: ${getErrorMessageOrStringify(response.metadata.error)}`
         );
       }
       return details;

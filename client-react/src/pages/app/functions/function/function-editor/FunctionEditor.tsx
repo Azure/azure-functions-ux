@@ -41,6 +41,7 @@ import FunctionLogAppInsightsDataLoader from '../function-log/FunctionLogAppInsi
 import FunctionLogFileStreamDataLoader from '../function-log/FunctionLogFileStreamDataLoader';
 import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -207,7 +208,11 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     } else {
       setFileContent({ default: '', latest: '' });
       setIsFileContentAvailable(false);
-      LogService.error(LogCategories.FunctionEdit, 'getFileContent', `Failed to get file content: ${fileResponse.metadata.error}`);
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'getFileContent',
+        `Failed to get file content: ${getErrorMessageOrStringify(fileResponse.metadata.error)}`
+      );
     }
   };
 

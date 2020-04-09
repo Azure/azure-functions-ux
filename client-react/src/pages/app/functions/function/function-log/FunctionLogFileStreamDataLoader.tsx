@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import FunctionLog from './FunctionLog';
 import Url from '../../../../../utils/url';
 import { processLogs } from './FunctionLogFileStreamData';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 interface FunctionLogFileStreamDataLoaderProps {
   resourceId: string;
   isExpanded: boolean;
@@ -54,7 +55,11 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       setXhReq(newXhReq);
     } else {
       setErrorMessage(t('feature_logStreamingConnectionError'));
-      LogService.error(LogCategories.functionLog, 'fetchSite', `Failed to fetch site: ${siteResponse.metadata.error}`);
+      LogService.error(
+        LogCategories.functionLog,
+        'fetchSite',
+        `Failed to fetch site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
+      );
     }
   };
 

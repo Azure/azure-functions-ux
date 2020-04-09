@@ -1468,6 +1468,9 @@
     <data name="configUpdateFailure" xml:space="preserve">
         <value>Failed to update web app settings</value>
     </data>
+    <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>Failed to update web app settings: {0}</value>
+    </data>
     <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Save Error: Invlid input provided.</value>
     </data>
@@ -2280,6 +2283,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>Failed to create slot '{0}' </value>
+    </data>
+    <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>Failed to create slot '{0}': {1}</value>
     </data>
     <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>Unable to retrieve the list of slots: {{errorMessage}}</value>

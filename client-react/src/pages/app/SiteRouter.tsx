@@ -19,6 +19,7 @@ import RbacConstants from '../../utils/rbac-constants';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import SiteHelper from '../../utils/SiteHelper';
 import { SiteRouterData } from './SiteRouter.data';
+import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -156,12 +157,16 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
               LogService.error(
                 LogCategories.siteDashboard,
                 'fetchAppSetting',
-                `Failed to fetch app settings: ${appSettingsResponse.metadata.error}`
+                `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
               );
             }
           }
         } else if (!site.metadata.success) {
-          LogService.error(LogCategories.siteDashboard, 'get site', `Failed to get site: ${site.metadata.error}`);
+          LogService.error(
+            LogCategories.siteDashboard,
+            'get site',
+            `Failed to get site: ${getErrorMessageOrStringify(site.metadata.error)}`
+          );
         }
 
         if (!functionAppEditMode) {
@@ -172,7 +177,11 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
           );
 
           if (!configResponse.metadata.success) {
-            LogService.error(LogCategories.siteDashboard, 'fetchWebConfig', `Failed to fetch web config: ${configResponse.metadata.error}`);
+            LogService.error(
+              LogCategories.siteDashboard,
+              'fetchWebConfig',
+              `Failed to fetch web config: ${getErrorMessageOrStringify(configResponse.metadata.error)}`
+            );
           }
         }
       }

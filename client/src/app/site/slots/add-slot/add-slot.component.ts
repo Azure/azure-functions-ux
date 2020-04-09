@@ -313,7 +313,10 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
           this.progressMessage = this._translateService.instant(PortalResources.slotNew_startCreateSuccessNotifyTitle).format(newSlotName);
           this.progressMessageClass = 'success';
         } else {
-          this.progressMessage = this._translateService.instant(PortalResources.slotNew_startCreateFailureNotifyTitle).format(newSlotName);
+          const errorMessage = r.error && r.error.message;
+          this.progressMessage = errorMessage
+            ? this._translateService.instant(PortalResources.slotNew_startCreateFailureNotifyTitleExt).format(newSlotName, errorMessage)
+            : this._translateService.instant(PortalResources.slotNew_startCreateFailureNotifyTitle).format(newSlotName);
           this.progressMessageClass = 'error';
           this._aiService.trackEvent(errorIds.failedToCreateSlot, { error: r.error.errorId, id: siteId });
           this._logService.error(LogCategories.addSlot, '/add-slot', r.error);
