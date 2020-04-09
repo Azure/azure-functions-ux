@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root" 
-        xmlns="" 
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    <xsd:schema id="root"
+        xmlns=""
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
@@ -1468,6 +1468,9 @@
     <data name="configUpdateFailure" xml:space="preserve">
         <value>Failed to update web app settings</value>
     </data>
+    <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>Failed to update web app settings: {0}</value>
+    </data>
     <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Save Error: Invlid input provided.</value>
     </data>
@@ -2280,6 +2283,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>Failed to create slot '{0}' </value>
+    </data>
+    <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>Failed to create slot '{0}': {1}</value>
     </data>
     <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>Unable to retrieve the list of slots: {{errorMessage}}</value>
@@ -5898,25 +5904,28 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
     </data>
-    <data name="readOnlyPythonV2" xml:space="preserve">
+    <data name="ibizafication_readOnlyPython" xml:space="preserve">
         <value>Use your local dev environment to edit this function. Editing Python function apps isn't supported in the Azure portal.</value>
     </data>
-    <data name="readOnlyJavaV2" xml:space="preserve">
+    <data name="ibizafication_readOnlyJava" xml:space="preserve">
         <value>Use your local dev environment to edit this function. Editing Java function apps isn't supported in the Azure portal.</value>
     </data>
-    <data name="readOnlyLocalCacheV2" xml:space="preserve">
+    <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
         <value>Use your local dev environment to edit this function. This function uses Local Cache and can't be edited here.</value>
     </data>
-    <data name="readOnlySourceControlledV2" xml:space="preserve">
+    <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
         <value>Your app is currently in read only mode because you have source control integration enabled.</value>
     </data>
-    <data name="readOnlySlotsV2" xml:space="preserve">
+    <data name="ibizafication_readOnlySlots" xml:space="preserve">
         <value>Your app is currently in read only mode because you have configured deployment slots.</value>
     </data>
-    <data name="readOnlyVSGeneratedV2" xml:space="preserve">
+    <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
         <value>Use your local dev environment to edit this function. This function was created in a local environment and can't be edited here.</value>
     </data>
-    <data name="readOnlyV2" xml:space="preserve">
+    <data name="ibizafication_readOnly" xml:space="preserve">
         <value>Your app is currently in read only mode because it has been manually set to read only.</value>
+    </div>
+    <data name="connected" xml:space="preserve">
+        <value>Connected!</value>
     </data>
 </root>

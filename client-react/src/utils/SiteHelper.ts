@@ -28,19 +28,19 @@ export default class SiteHelper {
   public static getFunctionAppEditModeString(mode: FunctionAppEditMode, t: i18n.TFunction): string {
     switch (mode) {
       case FunctionAppEditMode.ReadOnlySourceControlled: {
-        return t('readOnlySourceControlledV2');
+        return t('ibizafication_readOnlySourceControlled');
       }
       case FunctionAppEditMode.ReadOnlySlots: {
-        return t('readOnlySlotsV2');
+        return t('ibizafication_readOnlySlots');
       }
       case FunctionAppEditMode.ReadOnlyVSGenerated: {
-        return t('readOnlyVSGeneratedV2');
+        return t('ibizafication_readOnlyVSGenerated');
       }
       case FunctionAppEditMode.ReadOnlyRunFromPackage: {
         return t('readOnlyRunFromZip');
       }
       case FunctionAppEditMode.ReadOnlyLocalCache: {
-        return t('readOnlyLocalCacheV2');
+        return t('ibizafication_readOnlyLocalCache');
       }
       case FunctionAppEditMode.ReadOnlyLinuxDynamic: {
         return t('readOnlyLinuxDynamic');
@@ -49,10 +49,10 @@ export default class SiteHelper {
         return t('readOnlyBYOC');
       }
       case FunctionAppEditMode.ReadOnlyPython: {
-        return t('readOnlyPythonV2');
+        return t('ibizafication_readOnlyPython');
       }
       case FunctionAppEditMode.ReadOnlyJava: {
-        return t('readOnlyJavaV2');
+        return t('ibizafication_readOnlyJava');
       }
       case FunctionAppEditMode.ReadOnlyLock: {
         return t('featureDisabledReadOnlyLockOnApp');
@@ -61,7 +61,7 @@ export default class SiteHelper {
         return t('readOnlyRbac');
       }
     }
-    return t('readOnlyV2');
+    return t('ibizafication_readOnly');
   }
 
   public static getLearnMoreLinkForFunctionAppEditMode(mode: FunctionAppEditMode): string | undefined {

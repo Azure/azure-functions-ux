@@ -43,7 +43,7 @@ export class LogService {
     this._aiService.trackEvent(`/trace/${category}/${id}`, properties);
 
     if (this._shouldLog(category, LogLevel.trace)) {
-      console.error(`[${category}] - ${data}`);
+      console.error(`[${category}] - ${this._getDataString(data)}`);
     }
   }
 
@@ -59,7 +59,7 @@ export class LogService {
     this._aiService.trackEvent(errorId, properties);
 
     if (this._shouldLog(category, LogLevel.error)) {
-      console.error(`[${category}] - ${data}`);
+      console.error(`[${category}] - ${this._getDataString(data)}`);
     }
   }
 
@@ -75,7 +75,7 @@ export class LogService {
     this._aiService.trackEvent(warningId, properties);
 
     if (this._shouldLog(category, LogLevel.warning)) {
-      console.log(`%c[${category}] - ${data}`, 'color: #ff8c00');
+      console.log(`%c[${category}] - ${this._getDataString(data)}`, 'color: #ff8c00');
     }
   }
 
@@ -85,7 +85,7 @@ export class LogService {
     }
 
     if (this._shouldLog(category, LogLevel.debug)) {
-      console.log(`${this._getTime()} %c[${category}] - ${data}`, 'color: #0058ad');
+      console.log(`${this._getTime()} %c[${category}] - ${this._getDataString(data)}`, 'color: #0058ad');
     }
   }
 
@@ -95,7 +95,7 @@ export class LogService {
     }
 
     if (this._shouldLog(category, LogLevel.verbose)) {
-      console.log(`${this._getTime()} [${category}] - ${data}`);
+      console.log(`${this._getTime()} [${category}] - ${this._getDataString(data)}`);
     }
   }
 
@@ -129,6 +129,10 @@ export class LogService {
     }
 
     return false;
+  }
+
+  private _getDataString(data: any): string {
+    return typeof data === 'string' ? data : JSON.stringify(data);
   }
 
   private _getTime() {

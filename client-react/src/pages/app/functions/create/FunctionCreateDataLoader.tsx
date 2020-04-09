@@ -9,6 +9,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { Binding } from '../../../../models/functions/binding';
 import FunctionCreateData from './FunctionCreate.data';
 import { HostStatus } from '../../../../models/functions/host-status';
+import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 
 const functionCreateData = new FunctionCreateData();
 export const FunctionCreateContext = React.createContext(functionCreateData);
@@ -74,7 +75,11 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
           functionTemplates: r.data.properties,
         });
       } else {
-        LogService.trackEvent(LogCategories.functionCreate, 'getTemplates', `Failed to get templates: ${r.metadata.error}`);
+        LogService.trackEvent(
+          LogCategories.functionCreate,
+          'getTemplates',
+          `Failed to get templates: ${getErrorMessageOrStringify(r.metadata.error)}`
+        );
       }
     });
   }
@@ -89,7 +94,11 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
           functionsInfo: r.data.value,
         });
       } else {
-        LogService.trackEvent(LogCategories.functionCreate, 'getFunctions', `Failed to get functions: ${r.metadata.error}`);
+        LogService.trackEvent(
+          LogCategories.functionCreate,
+          'getFunctions',
+          `Failed to get functions: ${getErrorMessageOrStringify(r.metadata.error)}`
+        );
       }
     });
   }
@@ -104,7 +113,11 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
         if (r.metadata.success) {
           allBindings.push(r.data.properties[0]);
         } else {
-          LogService.trackEvent(LogCategories.functionCreate, 'getBindings', `Failed to get bindings: ${r.metadata.error}`);
+          LogService.trackEvent(
+            LogCategories.functionCreate,
+            'getBindings',
+            `Failed to get bindings: ${getErrorMessageOrStringify(r.metadata.error)}`
+          );
         }
       });
       promises.push(bindingPromise);
@@ -128,7 +141,11 @@ class FunctionCreateDataLoader extends React.Component<FunctionCreateDataLoaderP
           hostStatus: r.data.properties,
         });
       } else {
-        LogService.trackEvent(LogCategories.functionCreate, 'getHostStatus', `Failed to get hostStatus: ${r.metadata.error}`);
+        LogService.trackEvent(
+          LogCategories.functionCreate,
+          'getHostStatus',
+          `Failed to get hostStatus: ${getErrorMessageOrStringify(r.metadata.error)}`
+        );
       }
     });
   }

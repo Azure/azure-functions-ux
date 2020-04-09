@@ -39,6 +39,7 @@ import { isFunctionApp } from '../../../utils/arm-utils';
 import { StartupInfoContext } from '../../../StartupInfoContext';
 import { LogCategories } from '../../../utils/LogCategories';
 import { KeyValue } from '../../../models/portal-models';
+import { getErrorMessage, getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -150,7 +151,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (isFunctionApp(site.data)) {
         SiteService.fireSyncTrigger(site.data, startUpInfoContext.token || '').then(r => {
           if (!r.metadata.success) {
-            LogService.error(LogCategories.appSettings, 'fireSyncTrigger', `Failed to fire syncTrigger: ${r.metadata.error}`);
+            LogService.error(
+              LogCategories.appSettings,
+              'fireSyncTrigger',
+              `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
+            );
           }
           fetchAsyncData();
         });
@@ -338,19 +343,24 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (isFunctionApp(site)) {
         SiteService.fireSyncTrigger(site, startUpInfoContext.token || '').then(r => {
           if (!r.metadata.success) {
-            LogService.error(LogCategories.appSettings, 'fireSyncTrigger', `Failed to fire syncTrigger: ${r.metadata.error}`);
+            LogService.error(
+              LogCategories.appSettings,
+              'fireSyncTrigger',
+              `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
+            );
           }
           fetchAsyncData();
         });
       }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
-      const siteError = siteResult!.metadata.error && siteResult!.metadata.error.Message;
-      const configError = configResult!.metadata.error && configResult!.metadata.error.Message;
-      const slotConfigError = slotConfigNamesResult && slotConfigNamesResult.metadata.error && slotConfigNamesResult.metadata.error.Message;
-      const storageMountsError = storageMountsResult && storageMountsResult.metadata.error && storageMountsResult.metadata.error.Message;
-      const errMessage = siteError || configError || slotConfigError || storageMountsError || t('configUpdateFailure');
-      portalContext.stopNotification(notificationId, false, errMessage);
+      const siteError = getErrorMessage(siteResult!.metadata.error);
+      const configError = getErrorMessage(configResult!.metadata.error);
+      const slotConfigError = getErrorMessage(slotConfigNamesResult && slotConfigNamesResult.metadata.error);
+      const storageMountsError = getErrorMessage(storageMountsResult && storageMountsResult.metadata.error);
+      const errorMessage = siteError || configError || slotConfigError || storageMountsError;
+      const message = errorMessage ? t('configUpdateFailureExt').format(errorMessage) : t('configUpdateFailure');
+      portalContext.stopNotification(notificationId, false, message);
     }
     setSaving(false);
   };

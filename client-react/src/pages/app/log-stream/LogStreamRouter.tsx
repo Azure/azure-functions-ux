@@ -10,6 +10,7 @@ import { ScenarioService } from '../../../utils/scenario-checker/scenario.servic
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import FunctionAppDataLoader from '../functions/log-stream/LogStreamDataLoader';
 import WebAppDataLoader from './LogStreamDataLoader';
+import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 
 export interface LogStreamRouterProps {
   resourceId: string;
@@ -25,7 +26,11 @@ const LogStreamRouter: React.FC<LogStreamRouterProps> = props => {
     if (siteResponse.metadata.success) {
       setSite(siteResponse.data);
     } else {
-      LogService.error(LogCategories.logStreamLoad, 'fetchSite', `Failed to fetch site: ${siteResponse.metadata.error}`);
+      LogService.error(
+        LogCategories.logStreamLoad,
+        'fetchSite',
+        `Failed to fetch site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
+      );
     }
   };
 

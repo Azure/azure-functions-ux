@@ -12,6 +12,7 @@ import SiteService from '../../../../../ApiHelpers/SiteService';
 import { Site } from '../../../../../models/site/site';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 
 const functionIntegrateData = new FunctionIntegrateData();
 export const FunctionIntegrateContext = React.createContext(functionIntegrateData);
@@ -89,7 +90,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
         this._setRefreshState(false);
 
         if (!r.metadata.success) {
-          LogService.error(LogCategories.functionIntegrate, 'fireSyncTrigger', `Failed to fire syncTrigger: ${r.metadata.error}`);
+          LogService.error(
+            LogCategories.functionIntegrate,
+            'fireSyncTrigger',
+            `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
+          );
         }
       });
     }
@@ -107,7 +112,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
           site: r.data,
         });
       } else {
-        LogService.error(LogCategories.functionIntegrate, 'fetchSite', `Failed to fetch site: ${r.metadata.error}`);
+        LogService.error(
+          LogCategories.functionIntegrate,
+          'fetchSite',
+          `Failed to fetch site: ${getErrorMessageOrStringify(r.metadata.error)}`
+        );
       }
     });
   }
@@ -126,7 +135,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
           functionInfo: r.data,
         });
       } else {
-        LogService.error(LogCategories.functionIntegrate, 'getFunction', `Failed to get function: ${r.metadata.error}`);
+        LogService.error(
+          LogCategories.functionIntegrate,
+          'getFunction',
+          `Failed to get function: ${getErrorMessageOrStringify(r.metadata.error)}`
+        );
       }
     });
   }
@@ -141,7 +154,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
             bindings: r.data.properties,
           });
         } else {
-          LogService.error(LogCategories.functionIntegrate, 'getBindings', `Failed to get bindings: ${r.metadata.error}`);
+          LogService.error(
+            LogCategories.functionIntegrate,
+            'getBindings',
+            `Failed to get bindings: ${getErrorMessageOrStringify(r.metadata.error)}`
+          );
         }
       })
       .then(() => {
@@ -164,7 +181,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
           bindings,
         });
       } else {
-        LogService.error(LogCategories.functionIntegrate, 'getBinding', `Failed to get binding: ${r.metadata.error}`);
+        LogService.error(
+          LogCategories.functionIntegrate,
+          'getBinding',
+          `Failed to get binding: ${getErrorMessageOrStringify(r.metadata.error)}`
+        );
         this.setState({ ...this.state, bindingsError: true });
       }
     });
@@ -182,7 +203,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
           hostStatus: r.data.properties,
         });
       } else {
-        LogService.trackEvent(LogCategories.functionIntegrate, 'getHostStatus', `Failed to get hostStatus: ${r.metadata.error}`);
+        LogService.trackEvent(
+          LogCategories.functionIntegrate,
+          'getHostStatus',
+          `Failed to get hostStatus: ${getErrorMessageOrStringify(r.metadata.error)}`
+        );
       }
     });
   }

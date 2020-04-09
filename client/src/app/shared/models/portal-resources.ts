@@ -451,6 +451,7 @@ export class PortalResources {
   public static configUpdating = 'configUpdating';
   public static configUpdateSuccess = 'configUpdateSuccess';
   public static configUpdateFailure = 'configUpdateFailure';
+  public static configUpdateFailureExt = 'configUpdateFailureExt';
   public static configUpdateFailureInvalidInput = 'configUpdateFailureInvalidInput';
   public static netFrameWorkVersionLabel = 'netFrameWorkVersionLabel';
   public static netFrameWorkVersionLabelHelp = 'netFrameWorkVersionLabelHelp';
@@ -722,6 +723,7 @@ export class PortalResources {
   public static slotNew_startCreateNotifyTitle = 'slotNew_startCreateNotifyTitle';
   public static slotNew_startCreateSuccessNotifyTitle = 'slotNew_startCreateSuccessNotifyTitle';
   public static slotNew_startCreateFailureNotifyTitle = 'slotNew_startCreateFailureNotifyTitle';
+  public static slotNew_startCreateFailureNotifyTitleExt = 'slotNew_startCreateFailureNotifyTitleExt';
   public static error_unableToLoadSlotsList = 'error_unableToLoadSlotsList';
   public static error_unableToLoadTipConfig = 'error_unableToLoadTipConfig';
   public static error_unableToLoadConfig = 'error_unableToLoadConfig';
@@ -1908,11 +1910,12 @@ export class PortalResources {
   public static deploymentCenterPublishProfileCommandAriaLabel = 'deploymentCenterPublishProfileCommandAriaLabel';
   public static deploymentCenterRefreshCommandAriaLabel = 'deploymentCenterRefreshCommandAriaLabel';
   public static managePublishProfile = 'managePublishProfile';
-  public static readOnlyPythonV2 = 'readOnlyPythonV2';
-  public static readOnlyJavaV2 = 'readOnlyJavaV2';
-  public static readOnlyLocalCacheV2 = 'readOnlyLocalCacheV2';
-  public static readOnlySourceControlledV2 = 'readOnlySourceControlledV2';
-  public static readOnlySlotsV2 = 'readOnlySlotsV2';
-  public static readOnlyVSGeneratedV2 = 'readOnlyVSGeneratedV2';
-  public static readOnlyV2 = 'readOnlyV2';
+  public static ibizafication_readOnlyPython = 'ibizafication_readOnlyPython';
+  public static ibizafication_readOnlyJava = 'ibizafication_readOnlyJava';
+  public static ibizafication_readOnlyLocalCache = 'ibizafication_readOnlyLocalCache';
+  public static ibizafication_readOnlySourceControlled = 'ibizafication_readOnlySourceControlled';
+  public static ibizafication_readOnlySlots = 'ibizafication_readOnlySlots';
+  public static ibizafication_readOnlyVSGenerated = 'ibizafication_readOnlyVSGenerated';
+  public static readOnlyV2 = 'ibizafication_readOnly';
+  public static connected = 'connected';
 }
