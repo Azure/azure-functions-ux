@@ -451,6 +451,7 @@ export class PortalResources {
   public static configUpdating = 'configUpdating';
   public static configUpdateSuccess = 'configUpdateSuccess';
   public static configUpdateFailure = 'configUpdateFailure';
+  public static configUpdateFailureExt = 'configUpdateFailureExt';
   public static configUpdateFailureInvalidInput = 'configUpdateFailureInvalidInput';
   public static netFrameWorkVersionLabel = 'netFrameWorkVersionLabel';
   public static netFrameWorkVersionLabelHelp = 'netFrameWorkVersionLabelHelp';
