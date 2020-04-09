@@ -330,7 +330,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isSelectedFileBlacklisted = () => {
-    return functionEditorContext.isBlacklistedFile(!!selectedFile ? (selectedFile.key as string).toLocaleLowerCase() : '');
+    return functionEditorContext.isBlacklistedFile(!!selectedFile ? (selectedFile.key as string) : '');
   };
 
   useEffect(() => {

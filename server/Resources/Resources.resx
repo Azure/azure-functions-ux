@@ -5905,10 +5905,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Manage publish profile</value>
     </data>
     <data name="ibizafication_readOnlyPython" xml:space="preserve">
-        <value>Use your local development environment to edit this function. Editing Python function apps is not supported in the Azure portal.</value>
+        <value>Editing Python Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
     <data name="ibizafication_readOnlyJava" xml:space="preserve">
-        <value>Use your local development environment to edit this function. Editing Java function apps is not supported in the Azure portal.</value>
+        <value>Editing Java Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
     <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
         <value>Use your local development environment to edit this function. This function uses Local Cache and cannot be edited here.</value>

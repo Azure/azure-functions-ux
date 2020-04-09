@@ -47,7 +47,7 @@ export default class FunctionEditorData {
 
   public isBlacklistedFile(filename: string) {
     for (let i = 0; i < this.blacklistedFileTypes.length; ++i) {
-      if (filename.endsWith(`.${this.blacklistedFileTypes[i]}`)) {
+      if (filename.toLocaleLowerCase().endsWith(`.${this.blacklistedFileTypes[i]}`)) {
         return true;
       }
     }
