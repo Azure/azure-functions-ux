@@ -5,7 +5,7 @@ import { NameValuePair, HttpMethods } from './FunctionEditor.types';
 
 export default class FunctionEditorData {
   public FUNCTION_JSON_FILE = 'function.json';
-  private blacklistedFileTypes = ['java', 'jar', 'zip'];
+  private blacklistedFileTypes = ['java', 'jar', 'zip', 'csproj'];
 
   public getFunctionInfo(resourceId: string) {
     return FunctionsService.getFunction(resourceId);
