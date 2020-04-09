@@ -259,6 +259,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return headers;
   };
 
+  // Used to run both http and webHook functions
   const runHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     if (!!site) {
       let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
@@ -306,7 +307,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return undefined;
   };
 
-  const runFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+  // Used to run non-http and non-webHook functions
+  const runNonHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     if (!!site) {
       const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
       const headers = getHeaders([], xFunctionKey);
@@ -326,7 +328,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     if (isHttpOrWebHookFunction) {
       runResponse = await runHttpFunction(newFunctionInfo, xFunctionKey);
     } else {
-      runResponse = await runFunction(newFunctionInfo, xFunctionKey);
+      runResponse = await runNonHttpFunction(newFunctionInfo, xFunctionKey);
     }
 
     if (!!runResponse) {
