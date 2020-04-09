@@ -451,6 +451,7 @@ export class PortalResources {
   public static configUpdating = 'configUpdating';
   public static configUpdateSuccess = 'configUpdateSuccess';
   public static configUpdateFailure = 'configUpdateFailure';
+  public static configUpdateFailureExt = 'configUpdateFailureExt';
   public static configUpdateFailureInvalidInput = 'configUpdateFailureInvalidInput';
   public static netFrameWorkVersionLabel = 'netFrameWorkVersionLabel';
   public static netFrameWorkVersionLabelHelp = 'netFrameWorkVersionLabelHelp';
@@ -722,6 +723,7 @@ export class PortalResources {
   public static slotNew_startCreateNotifyTitle = 'slotNew_startCreateNotifyTitle';
   public static slotNew_startCreateSuccessNotifyTitle = 'slotNew_startCreateSuccessNotifyTitle';
   public static slotNew_startCreateFailureNotifyTitle = 'slotNew_startCreateFailureNotifyTitle';
+  public static slotNew_startCreateFailureNotifyTitleExt = 'slotNew_startCreateFailureNotifyTitleExt';
   public static error_unableToLoadSlotsList = 'error_unableToLoadSlotsList';
   public static error_unableToLoadTipConfig = 'error_unableToLoadTipConfig';
   public static error_unableToLoadConfig = 'error_unableToLoadConfig';

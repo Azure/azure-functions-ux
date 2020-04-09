@@ -28,6 +28,7 @@ import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import { PortalContext } from '../../../../../PortalContext';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 
 interface FunctionKeysProps {
   resourceId: string;
@@ -181,7 +182,11 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         refreshData();
       } else {
         portalCommunicator.stopNotification(notificationId, false, t('deleteFunctionKeyNotificationFailed').format(deletingKey));
-        LogService.error(LogCategories.functionKeys, 'delete keys', `Failed to delete keys: ${response.metadata.error}`);
+        LogService.error(
+          LogCategories.functionKeys,
+          'delete keys',
+          `Failed to delete keys: ${getErrorMessageOrStringify(response.metadata.error)}`
+        );
       }
       setRefreshLoading(false);
     }

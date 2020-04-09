@@ -29,6 +29,7 @@ import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-e
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { CommonConstants } from '../../../utils/CommonConstants';
+import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 
 export const leftCol = style({
   marginRight: '20px',
@@ -424,8 +425,7 @@ const changeSiteToExistingPlan = async (
 
     success = true;
   } else {
-    const updateSiteError =
-      siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
+    const updateSiteError = getErrorMessage(siteResponse.metadata.error) || planDescriptor.name;
     portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
     LogService.trackEvent(
       LogCategories.changeAppPlan,
@@ -455,7 +455,7 @@ const changeSiteToNewPlan = async (
     );
 
     if (!rgResponse.metadata.success) {
-      const createRgError = rgResponse.metadata.error && rgResponse.metadata.error.Message ? rgResponse.metadata.error.Message : rgName;
+      const createRgError = getErrorMessage(rgResponse.metadata.error) || rgName;
       portalCommunicator.stopNotification(notificationId, false, t('changePlanRgCreateFailureNotificationFormat').format(createRgError));
       LogService.trackEvent(
         LogCategories.changeAppPlan,
@@ -506,10 +506,7 @@ const changeSiteToNewPlan = async (
   const serverFarmResponse = await ServerFarmService.updateServerFarm(newServerFarmId, newServerFarm as ArmObj<ServerFarm>);
 
   if (!serverFarmResponse.metadata.success) {
-    const createPlanError =
-      serverFarmResponse.metadata.error && serverFarmResponse.metadata.error.Message
-        ? serverFarmResponse.metadata.error.Message
-        : planDescriptor.name;
+    const createPlanError = getErrorMessage(serverFarmResponse.metadata.error) || planDescriptor.name;
     portalCommunicator.stopNotification(notificationId, false, t('changePlanPlanCreateFailureNotificationFormat').format(createPlanError));
 
     LogService.trackEvent(
@@ -531,8 +528,7 @@ const changeSiteToNewPlan = async (
 
   const siteResponse = await SiteService.updateSite(site.id, site);
   if (!siteResponse.metadata.success) {
-    const updateSiteError =
-      siteResponse.metadata.error && siteResponse.metadata.error.Message ? siteResponse.metadata.error.Message : planDescriptor.name;
+    const updateSiteError = getErrorMessage(siteResponse.metadata.error) || planDescriptor.name;
     portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
 
     LogService.trackEvent(

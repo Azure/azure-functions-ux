@@ -19,6 +19,7 @@ import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCal
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
 import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
+import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 
 export interface ResourceDropdownProps {
   setting: BindingSetting;
@@ -39,7 +40,11 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   useEffect(() => {
     SiteService.fetchApplicationSettings(resourceId).then(r => {
       if (!r.metadata.success) {
-        LogService.error(LogCategories.bindingResource, 'getAppSettings', `Failed to get appSettings: ${r.metadata.error.error.message}`);
+        LogService.error(
+          LogCategories.bindingResource,
+          'getAppSettings',
+          `Failed to get appSettings: ${getErrorMessageOrStringify(r.metadata.error)}`
+        );
         return;
       }
       setAppSettings(r.data);
