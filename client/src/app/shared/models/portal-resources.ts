@@ -1916,6 +1916,6 @@ export class PortalResources {
   public static ibizafication_readOnlySourceControlled = 'ibizafication_readOnlySourceControlled';
   public static ibizafication_readOnlySlots = 'ibizafication_readOnlySlots';
   public static ibizafication_readOnlyVSGenerated = 'ibizafication_readOnlyVSGenerated';
-  public static readOnlyV2 = 'ibizafication_readOnly';
+  public static ibizafication_readOnly = 'ibizafication_readOnly';
   public static connected = 'connected';
 }

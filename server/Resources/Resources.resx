@@ -5924,7 +5924,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="ibizafication_readOnly" xml:space="preserve">
         <value>Your app is currently in read only mode because it has been manually set to read only.</value>
-    </div>
+    </data>
     <data name="connected" xml:space="preserve">
         <value>Connected!</value>
     </data>
