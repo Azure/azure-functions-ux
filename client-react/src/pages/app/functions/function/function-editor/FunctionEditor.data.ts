@@ -2,6 +2,7 @@ import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { NameValuePair, HttpMethods } from './FunctionEditor.types';
+import { BindingManager } from '../../../../../utils/BindingManager';
 
 export default class FunctionEditorData {
   public FUNCTION_JSON_FILE = 'function.json';
@@ -53,5 +54,9 @@ export default class FunctionEditorData {
     }
 
     return false;
+  }
+
+  public isHttpOrWebHookFunction(functionInfo: ArmObj<FunctionInfo>) {
+    return BindingManager.getHttpTriggerTypeInfo(functionInfo.properties) || BindingManager.getWebHookTypeInfo(functionInfo.properties);
   }
 }
