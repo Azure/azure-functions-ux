@@ -87,6 +87,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
         isResizable={false}
         hideChevron={true}
         isScopeFunctionApp={true}
+        leftAlignToolbarItems={true}
       />
     </div>
   );

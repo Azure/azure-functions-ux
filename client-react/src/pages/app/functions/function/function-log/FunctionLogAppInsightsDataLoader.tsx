@@ -31,6 +31,7 @@ interface FunctionLogAppInsightsDataLoaderProps {
   logPanelHeight?: number;
   setLogPanelHeight?: (height: number) => void;
   isScopeFunctionApp?: boolean;
+  leftAlignToolbarItems?: boolean;
 }
 
 const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoaderProps> = props => {
