@@ -26,6 +26,7 @@ import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { ValidationRegex } from '../../../../../utils/constants/ValidationRegex';
 import { KeyValue } from '../../../../../models/portal-models';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { HttpResponseObject } from '../../../../../ArmHelper.types';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -54,6 +55,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
+
+  const isHttpOrWebHookFunction = !!functionInfo && functionEditorData.isHttpOrWebHookFunction(functionInfo);
 
   const fetchData = async () => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
@@ -257,20 +260,15 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return headers;
   };
 
-  const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
-    setFunctionRunning(true);
-    const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
-    if (updatedFunctionInfo.metadata.success) {
-      setFunctionInfo(updatedFunctionInfo.data);
-    }
-
+  // Used to run both http and webHook functions
+  const runHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     if (!!site) {
       let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
       let parsedTestData = {};
       try {
         parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
       } catch (err) {
-        // TODO (krmitta): Log an error if parsing the data throws an error
+        parsedTestData = { body: newFunctionInfo.properties.test_data };
       }
       const testDataObject = functionEditorData.getProcessedFunctionTestData(parsedTestData);
       const queries = testDataObject.queries;
@@ -304,23 +302,55 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       }
 
       const headers = getHeaders(testDataObject.headers, xFunctionKey);
-      try {
-        const res = await FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body);
-        const resData = res.metadata.success ? res.data : res.metadata.error;
-        let responseText = '';
-        // Stringify the response if it is JSON, otherwise use it as such
-        try {
-          responseText = JSON.stringify(resData);
-        } catch (e) {
-          responseText = resData;
-        }
-        setResponseContent({
-          code: res.metadata.status,
-          text: responseText,
-        });
-      } catch (err) {
-        // TODO (krmitta): Show an error if the call to run the function fails
+
+      return FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body);
+    }
+    return undefined;
+  };
+
+  // Used to run non-http and non-webHook functions
+  const runNonHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+    if (!!site) {
+      const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
+      const headers = getHeaders([], xFunctionKey);
+      return FunctionsService.runFunction(url, 'POST', headers, { input: newFunctionInfo.properties.test_data || '' });
+    }
+    return undefined;
+  };
+
+  const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+    setFunctionRunning(true);
+    const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
+    if (updatedFunctionInfo.metadata.success) {
+      setFunctionInfo(updatedFunctionInfo.data);
+    }
+
+    let runResponse: HttpResponseObject<any> | undefined;
+    if (isHttpOrWebHookFunction) {
+      runResponse = await runHttpFunction(newFunctionInfo, xFunctionKey);
+    } else {
+      runResponse = await runNonHttpFunction(newFunctionInfo, xFunctionKey);
+    }
+
+    if (!!runResponse) {
+      let resData = '';
+      if (runResponse.metadata.success) {
+        resData = runResponse.data;
+      } else {
+        // TODO (krmitta): Handle error thrown and show the output accordingly
       }
+
+      let responseText = '';
+      // Stringify the response if it is JSON, otherwise use it as such
+      try {
+        responseText = JSON.stringify(resData);
+      } catch (e) {
+        responseText = resData;
+      }
+      setResponseContent({
+        code: runResponse.metadata.status,
+        text: responseText,
+      });
     }
     setFunctionRunning(false);
   };

@@ -30,7 +30,6 @@ import { FormikActions } from 'formik';
 import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
-import { BindingManager } from '../../../../../utils/BindingManager';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { PortalTheme } from '../../../../../models/portal-models';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
@@ -108,6 +107,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.getSiteAppEditState());
 
+  const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
+
   const save = async () => {
     if (!selectedFile) {
       return;
@@ -163,14 +164,22 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
-    const data = JSON.stringify({
-      method: values.method,
-      queryStringParams: values.queries,
-      headers: values.headers,
-      body: reqBody,
-    });
+    let data;
+    if (isHttpOrWebHookFunction) {
+      data = {
+        method: values.method,
+        queryStringParams: values.queries,
+        headers: values.headers,
+        body: reqBody,
+      };
+    } else {
+      data = {
+        body: reqBody,
+      };
+    }
+    const updatedData = JSON.stringify(data);
     const tempFunctionInfo = functionInfo;
-    tempFunctionInfo.properties.test_data = data;
+    tempFunctionInfo.properties.test_data = updatedData;
     props.run(tempFunctionInfo, values.xFunctionKey);
   };
 
@@ -308,9 +317,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const isTestDisabled = () => {
-    const httpTriggerTypeInfo = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
-    const webHookTypeInfo = BindingManager.getWebHookTypeInfo(functionInfo.properties);
-    return (!httpTriggerTypeInfo && !webHookTypeInfo) || !isRuntimeReachable();
+    return !isRuntimeReachable();
   };
 
   const isEditorDisabled = () => {
