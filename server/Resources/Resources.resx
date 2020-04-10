@@ -5934,9 +5934,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
         <value>No environment variables to display</value>
     </data>
-    <data name="addNewEnvironmentVariable" xml:space="preserve">
-        <value>Add new environment variable</value>
-    </data>
     <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
         <value>Add new environment variable</value>
     </data>
