@@ -5944,7 +5944,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Environment Variables applicable to your functions are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below.</value>
     </data>
     <data name="staticSite_environment" xml:space="preserve">
-        Environment
+        <value>Environment</value>
     </data>
     <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>Select the environment for the site</value>
