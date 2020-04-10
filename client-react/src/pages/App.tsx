@@ -37,7 +37,7 @@ export const App: React.FC = () => {
                     <SiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
                     <SiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/functions/:functionName/*" />
                     <SiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/functions/:functionName/*" />
-                    <StaticSiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/staticSites/:staticSiteName/*" />
+                    <StaticSiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/staticsites/:staticSiteName/*" />
                     <LandingPage path="/*" />
                   </Router>
                 </ErrorLogger>
