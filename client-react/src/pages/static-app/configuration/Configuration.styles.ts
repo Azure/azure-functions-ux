@@ -11,9 +11,13 @@ export const commandBarSticky = style({
   zIndex: 1,
 });
 
-export const fileSelectorStackStyle = (theme: ThemeExtended) =>
+export const environmentSelectorStackStyle = (theme: ThemeExtended) =>
   style({
     padding: '8px 15px 8px 25px',
     borderBottom: `1px solid ${theme.palette.neutralTertiaryAlt}`,
     background: theme.semanticColors.background,
   });
+
+export const environmentSelectorLabelStyle = style({
+  paddingRight: '10px',
+});

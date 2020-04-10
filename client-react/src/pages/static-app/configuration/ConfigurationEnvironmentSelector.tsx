@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from '../../../ThemeContext';
-import { fileSelectorStackStyle } from './Configuration.styles';
+import { environmentSelectorStackStyle, environmentSelectorLabelStyle } from './Configuration.styles';
 import { useTranslation } from 'react-i18next';
 import { Dropdown as OfficeDropdown, Stack, Label } from 'office-ui-fabric-react';
 import { fileSelectorDropdownStyle } from '../../app/functions/function/function-editor/FunctionEditor.styles';
@@ -12,8 +12,8 @@ const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelecto
   const { t } = useTranslation();
 
   return (
-    <Stack horizontal className={fileSelectorStackStyle(theme)}>
-      <Label>{t('staticSite_environment')}</Label>
+    <Stack horizontal className={environmentSelectorStackStyle(theme)}>
+      <Label className={environmentSelectorLabelStyle}>{t('staticSite_environment')}</Label>
       <OfficeDropdown
         id="configuration-environment-selector"
         defaultSelectedKey={''}
