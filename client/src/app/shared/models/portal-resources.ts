@@ -1919,4 +1919,10 @@ export class PortalResources {
   public static ibizafication_readOnly = 'ibizafication_readOnly';
   public static connected = 'connected';
   public static blaclistFile_message = 'blaclistFile_message';
+  public static staticSite_emptyEnvironmentVariableList = 'staticSite_emptyEnvironmentVariableList';
+  public static staticSite_addNewEnvironmentVariable = 'staticSite_addNewEnvironmentVariable';
+  public static staticSite_environmentVariables = 'staticSite_environmentVariables';
+  public static staticSite_environmentVariablesInfoMessage = 'staticSite_environmentVariablesInfoMessage';
+  public static staticSite_environment = 'staticSite_environment';
+  public static staticSite_environmentDropdownAriaLabel = 'staticSite_environmentDropdownAriaLabel';
 }
