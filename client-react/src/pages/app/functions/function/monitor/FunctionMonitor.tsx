@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pivot, PivotItem } from 'office-ui-fabric-react';
-import { paddingStyle } from './FunctionMonitor.styles';
+import { paddingStyle, logStyle } from './FunctionMonitor.styles';
 import { PivotState } from './FunctionMonitor.types';
 import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
 import FunctionInvocationsDataLoader from '../invocations/FunctionInvocationsDataLoader';
@@ -65,7 +65,15 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
           />
         </PivotItem>
         <PivotItem itemKey={PivotState.logs} headerText={t('functionMonitor_logs')}>
-          <FunctionLogAppInsightsDataLoader resourceId={resourceId} isExpanded={true} forceMaximized={true} hideChevron={true} />
+          <div style={logStyle}>
+            <FunctionLogAppInsightsDataLoader
+              resourceId={resourceId}
+              isExpanded={true}
+              forceMaximized={true}
+              hideChevron={true}
+              leftAlignMainToolbarItems={true}
+            />
+          </div>
         </PivotItem>
       </Pivot>
     </div>

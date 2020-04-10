@@ -5,3 +5,7 @@ export const paddingStyle = {
 export const bottomButtonStyle = {
   marginTop: '25px',
 };
+
+export const logStyle = {
+  paddingTop: '12px',
+};

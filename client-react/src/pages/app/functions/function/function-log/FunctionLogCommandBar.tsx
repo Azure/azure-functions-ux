@@ -21,6 +21,7 @@ interface FunctionLogCommandBarProps {
   hideLiveMetrics: boolean;
   setLogLevel: (level: LogLevel) => void;
   appInsightsResourceId?: string;
+  leftAlignMainToolbarItems?: boolean;
 }
 
 const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
@@ -38,30 +39,42 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     hideLiveMetrics,
     appInsightsResourceId,
     setLogLevel,
+    leftAlignMainToolbarItems,
   } = props;
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
 
-  const getItems = (): ICommandBarItemProps[] => {
-    const items: ICommandBarItemProps[] = [];
+  const getLeftItems = (): ICommandBarItemProps[] => {
+    let items: ICommandBarItemProps[] = [];
     if (!hideChevron) {
       items.push(getChevronItem());
+    }
+    if (leftAlignMainToolbarItems) {
+      items = items.concat(getMainItems());
     }
     return items;
   };
 
-  const getFarItems = (): ICommandBarItemProps[] => {
-    const farItems: ICommandBarItemProps[] = [];
-    if (isPanelVisible) {
-      farItems.push(getFilterItem(), getStartItem(), getCopyItem(), getClearItem());
-      if (!hideLiveMetrics) {
-        farItems.push(getLiveMetricsItem());
-      }
-      if (showMaximize) {
-        farItems.push(getMaximizeItem());
-      }
+  const getRightItems = (): ICommandBarItemProps[] => {
+    let farItems: ICommandBarItemProps[] = [];
+    if (!leftAlignMainToolbarItems) {
+      farItems = farItems.concat(getMainItems());
     }
     return farItems;
+  };
+
+  const getMainItems = (): ICommandBarItemProps[] => {
+    const mainItems: ICommandBarItemProps[] = [];
+    if (isPanelVisible) {
+      mainItems.push(getFilterItem(), getStartItem(), getCopyItem(), getClearItem());
+      if (!hideLiveMetrics) {
+        mainItems.push(getLiveMetricsItem());
+      }
+      if (showMaximize) {
+        mainItems.push(getMaximizeItem());
+      }
+    }
+    return mainItems;
   };
 
   const getChevronItem = (): ICommandBarItemProps => {
@@ -185,9 +198,9 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
 
   return (
     <CommandBar
-      items={getItems()}
-      farItems={getFarItems()}
-      styles={styleProps => getCommandBarStyle(styleProps)}
+      items={getLeftItems()}
+      farItems={getRightItems()}
+      styles={styleProps => getCommandBarStyle(styleProps, leftAlignMainToolbarItems)}
       ariaLabel={t('logStreaming_logs')}
       buttonAs={CustomCommandBarButton}
       className={logCommandBarStyle}
