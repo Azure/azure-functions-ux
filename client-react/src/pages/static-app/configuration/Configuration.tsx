@@ -1,11 +1,12 @@
 import React from 'react';
 import ConfigurationCommandBar from './ConfigurationCommandBar';
 import DisplayTableWithCommandBar from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { ICommandBarItemProps, IColumn, SelectionMode, DetailsListLayoutMode } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, IColumn, SelectionMode, DetailsListLayoutMode, Link } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { formStyle } from './Configuration.styles';
+import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 
 interface ConfigurationProps {}
 
@@ -119,6 +120,17 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       <ConfigurationCommandBar />
       <div className={formStyle}>
         <h3>{t('staticSite_environmentVariables')}</h3>
+        <p>
+          <span id="environment-variable-info-message">{t('staticSite_environmentVariablesInfoMessage')}</span>
+          <Link
+            id="environment-variable-info-learnMore"
+            href={`azure.microsoft.com`}
+            target="_blank"
+            className={learnMoreLinkStyle}
+            aria-labelledby="environment-variable-info-message">
+            {` ${t('learnMore')}`}
+          </Link>
+        </p>
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
           columns={getColumns()}
