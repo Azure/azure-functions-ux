@@ -58,11 +58,11 @@ export const logConnectingDivStyle = style({
   color: 'white',
 });
 
-export const getCommandBarStyle = (styleProps, leftAlignToolbarItems) => {
+export const getCommandBarStyle = (styleProps, leftAlignMainToolbarItems) => {
   const newCommandBarStyles = CommandBarStyles(styleProps);
   if (newCommandBarStyles.root && newCommandBarStyles.root[0]) {
     newCommandBarStyles.root[0] = { ...newCommandBarStyles.root[0], borderBottom: undefined };
-    if (leftAlignToolbarItems) {
+    if (leftAlignMainToolbarItems) {
       newCommandBarStyles.root[0] = { ...newCommandBarStyles.root[0], paddingLeft: '0px' };
     }
   }

@@ -34,7 +34,7 @@ interface FunctionLogProps {
   isResizable?: boolean;
   logPanelHeight?: number;
   setLogPanelHeight?: (height: number) => void;
-  leftAlignToolbarItems?: boolean;
+  leftAlignMainToolbarItems?: boolean;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
@@ -58,7 +58,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     stopLogs,
     clearLogs,
     allLogEntries,
-    leftAlignToolbarItems,
+    leftAlignMainToolbarItems,
   } = props;
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
@@ -181,7 +181,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         hideLiveMetrics={!!hideLiveMetrics}
         appInsightsResourceId={appInsightsResourceId}
         setLogLevel={setLogLevel}
-        leftAlignToolbarItems={leftAlignToolbarItems}
+        leftAlignMainToolbarItems={leftAlignMainToolbarItems}
       />
       {isExpanded && (
         <div

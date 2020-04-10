@@ -71,7 +71,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
               isExpanded={true}
               forceMaximized={true}
               hideChevron={true}
-              leftAlignToolbarItems={true}
+              leftAlignMainToolbarItems={true}
             />
           </div>
         </PivotItem>
