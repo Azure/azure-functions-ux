@@ -5,6 +5,7 @@ import { ICommandBarItemProps, IColumn, SelectionMode, DetailsListLayoutMode } f
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { formStyle } from './Configuration.styles';
 
 interface ConfigurationProps {}
 
@@ -116,17 +117,19 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   return (
     <>
       <ConfigurationCommandBar />
-      <h3>{t('staticSite_environmentVariables')}</h3>
-      <DisplayTableWithCommandBar
-        commandBarItems={getCommandBarItems()}
-        columns={getColumns()}
-        items={[]}
-        isHeaderVisible={true}
-        layoutMode={DetailsListLayoutMode.justified}
-        selectionMode={SelectionMode.none}
-        selectionPreservedOnEmptyClick={true}
-        emptyMessage={t('staticSite_emptyEnvironmentVariableList')}
-      />
+      <div className={formStyle}>
+        <h3>{t('staticSite_environmentVariables')}</h3>
+        <DisplayTableWithCommandBar
+          commandBarItems={getCommandBarItems()}
+          columns={getColumns()}
+          items={[]}
+          isHeaderVisible={true}
+          layoutMode={DetailsListLayoutMode.justified}
+          selectionMode={SelectionMode.none}
+          selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('staticSite_emptyEnvironmentVariableList')}
+        />
+      </div>
     </>
   );
 };
