@@ -5,8 +5,9 @@ import { ICommandBarItemProps, IColumn, SelectionMode, DetailsListLayoutMode, Li
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { formStyle } from './Configuration.styles';
+import { formStyle, commandBarSticky } from './Configuration.styles';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
+import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
 
 interface ConfigurationProps {}
 
@@ -117,7 +118,10 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   return (
     <>
-      <ConfigurationCommandBar />
+      <div className={commandBarSticky}>
+        <ConfigurationCommandBar />
+        <ConfigurationEnvironmentSelector />
+      </div>
       <div className={formStyle}>
         <h3>{t('staticSite_environmentVariables')}</h3>
         <p>
