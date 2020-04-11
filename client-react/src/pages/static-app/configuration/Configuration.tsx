@@ -8,10 +8,18 @@ import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessa
 import { formStyle, commandBarSticky } from './Configuration.styles';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
+import { ArmObj } from '../../../models/arm-obj';
+import { StaticSite } from '../../../models/static-site/static-site';
+import { Environment } from '../../../models/static-site/environment';
 
-interface ConfigurationProps {}
+interface ConfigurationProps {
+  staticSite: ArmObj<StaticSite>;
+  environments: ArmObj<Environment>[];
+}
 
 const Configuration: React.FC<ConfigurationProps> = props => {
+  const { environments } = props;
+
   const { t } = useTranslation();
 
   const addNewEnvironmentVariable = () => {
@@ -116,11 +124,15 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     ];
   };
 
+  const onDropdownChange = (environment: ArmObj<Environment>) => {
+    // Add on change logic here
+  };
+
   return (
     <>
       <div className={commandBarSticky}>
         <ConfigurationCommandBar />
-        <ConfigurationEnvironmentSelector />
+        <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} />
       </div>
       <div className={formStyle}>
         <h3>{t('staticSite_environmentVariables')}</h3>

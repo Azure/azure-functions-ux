@@ -50,6 +50,7 @@ export class CommonConstants {
     documentDBApiVersion20150408: '2015-04-08',
     appInsightsTokenApiVersion20150501: '2015-05-01',
     appInsightsQueryApiVersion20180420: '2018-04-20',
+    staticSitePreviewApiVersion20191201: '2019-12-01-preview',
   };
 
   public static readonly StackApiVersions = {
