@@ -48,7 +48,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
       LogService.error(
         LogCategories.staticSiteConfiguration,
         'getEnvironments',
-        `Failed to get environments: ${getErrorMessageOrStringify(staticSiteResponse.metadata.error)}`
+        `Failed to get environments: ${getErrorMessageOrStringify(environmentResponse.metadata.error)}`
       );
     }
 
