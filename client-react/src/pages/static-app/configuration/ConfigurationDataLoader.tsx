@@ -5,7 +5,7 @@ import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService
 import LogService from '../../../utils/LogService';
 import { LogCategories } from '../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
-import ConfigurationService from '../../../ApiHelpers/static-site/ConfigurationService';
+import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
 import { ArmObj } from '../../../models/arm-obj';
 import { StaticSite } from '../../../models/static-site/static-site';
 import { Environment } from '../../../models/static-site/environment';
@@ -29,7 +29,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     setInitialLoading(true);
     const [staticSiteResponse, environmentResponse] = await Promise.all([
       StaticSiteService.getStaticSite(resourceId),
-      ConfigurationService.getEnvironments(resourceId),
+      EnvironmentService.getEnvironments(resourceId),
     ]);
 
     if (staticSiteResponse.metadata.success) {

@@ -2,7 +2,7 @@ import MakeArmCall from '../ArmHelper';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { Environments } from '../../models/static-site/environment';
 
-export default class ConfigurationService {
+export default class EnvironmentService {
   // Environment is called build in the backend
   public static getEnvironments = (resourceId: string) => {
     return MakeArmCall<Environments>({
