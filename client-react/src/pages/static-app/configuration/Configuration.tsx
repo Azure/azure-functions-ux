@@ -8,10 +8,22 @@ import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessa
 import { formStyle, commandBarSticky } from './Configuration.styles';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
+import { ArmObj } from '../../../models/arm-obj';
+import { StaticSite } from '../../../models/static-site/static-site';
+import { Environment } from '../../../models/static-site/environment';
+import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
+import LogService from '../../../utils/LogService';
+import { LogCategories } from '../../../utils/LogCategories';
+import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 
-interface ConfigurationProps {}
+interface ConfigurationProps {
+  staticSite: ArmObj<StaticSite>;
+  environments: ArmObj<Environment>[];
+}
 
 const Configuration: React.FC<ConfigurationProps> = props => {
+  const { environments } = props;
+
   const { t } = useTranslation();
 
   const addNewEnvironmentVariable = () => {
@@ -116,11 +128,24 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     ];
   };
 
+  const onDropdownChange = async (environment: ArmObj<Environment>) => {
+    const environmentSettingsResponse = await EnvironmentService.fetchEnvironmentSettings(environment.id);
+    if (environmentSettingsResponse.metadata.success) {
+      console.log(environmentSettingsResponse.data);
+    } else {
+      LogService.error(
+        LogCategories.staticSiteConfiguration,
+        'fetchEnvironmentSettings',
+        `Failed to fetch environment settings: ${getErrorMessageOrStringify(environmentSettingsResponse.metadata.error)}`
+      );
+    }
+  };
+
   return (
     <>
       <div className={commandBarSticky}>
         <ConfigurationCommandBar />
-        <ConfigurationEnvironmentSelector />
+        <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} />
       </div>
       <div className={formStyle}>
         <h3>{t('staticSite_environmentVariables')}</h3>

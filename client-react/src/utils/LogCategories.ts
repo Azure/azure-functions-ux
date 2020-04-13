@@ -55,4 +55,5 @@ export class LogCategories {
   public static readonly localStorage = 'LocalStorage';
   public static readonly deploymentCenter = 'DeploymentCenter';
   public static readonly functionAppLog = 'FunctionAppLog';
+  public static readonly staticSiteConfiguration = 'StaticSiteConfiguration';
 }
