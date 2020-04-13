@@ -11,6 +11,10 @@ import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector
 import { ArmObj } from '../../../models/arm-obj';
 import { StaticSite } from '../../../models/static-site/static-site';
 import { Environment } from '../../../models/static-site/environment';
+import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
+import LogService from '../../../utils/LogService';
+import { LogCategories } from '../../../utils/LogCategories';
+import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
@@ -124,8 +128,17 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     ];
   };
 
-  const onDropdownChange = (environment: ArmObj<Environment>) => {
-    // Add on change logic here
+  const onDropdownChange = async (environment: ArmObj<Environment>) => {
+    const environmentSettingsResponse = await EnvironmentService.fetchEnvironmentSettings(environment.id);
+    if (environmentSettingsResponse.metadata.success) {
+      console.log(environmentSettingsResponse.data);
+    } else {
+      LogService.error(
+        LogCategories.staticSiteConfiguration,
+        'fetchEnvironmentSettings',
+        `Failed to fetch environment settings: ${getErrorMessageOrStringify(environmentSettingsResponse.metadata.error)}`
+      );
+    }
   };
 
   return (

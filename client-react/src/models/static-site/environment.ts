@@ -1,5 +1,3 @@
-import { ArmObj } from '../arm-obj';
-
 export interface Environment {
   buildId: string;
   sourceBranch: string;
@@ -8,10 +6,4 @@ export interface Environment {
   lastUpdatedOn?: string;
   hostname?: string;
   pullRequestTitle?: string;
-}
-
-export interface Environments {
-  value: ArmObj<Environment>[];
-  id?: string;
-  nextLink?: string;
 }

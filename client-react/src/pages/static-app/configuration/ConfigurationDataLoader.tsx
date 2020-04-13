@@ -43,6 +43,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     }
 
     if (environmentResponse.metadata.success) {
+      // TODO(krmitta): Handle nextlinks
       setEnvironments(environmentResponse.data.value);
     } else {
       LogService.error(
