@@ -5955,4 +5955,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
         <value>Add/Edit environment variable</value>
     </data>
+    <data name="staticSite_discardChangesMesssage" xml:space="preserve">
+        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+    </data>
 </root>
