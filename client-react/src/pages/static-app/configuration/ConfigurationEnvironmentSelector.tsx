@@ -9,7 +9,7 @@ import { Environment } from '../../../models/static-site/environment';
 
 interface ConfigurationEnvironmentSelectorProps {
   environments: ArmObj<Environment>[];
-  onDropdownChange: (environment: ArmObj<Environment>) => void;
+  onDropdownChange: (environment: ArmObj<Environment>, defaultChange?: boolean) => void;
 }
 
 const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelectorProps> = props => {
@@ -35,7 +35,7 @@ const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelecto
 
   useEffect(() => {
     if (!!defaultDropdownOption) {
-      onDropdownChange(defaultDropdownOption.data as ArmObj<Environment>);
+      onDropdownChange(defaultDropdownOption.data as ArmObj<Environment>, true);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

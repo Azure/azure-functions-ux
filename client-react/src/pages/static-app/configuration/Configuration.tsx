@@ -256,9 +256,13 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     ];
   };
 
-  const onDropdownChange = async (environment: ArmObj<Environment>) => {
-    setOnChangeEnvironment(environment);
-    setIsOnChangeConfirmDialogVisible(true);
+  const onDropdownChange = (environment: ArmObj<Environment>, defaultChange?: boolean) => {
+    if (defaultChange) {
+      onEnvironmentChange(environment);
+    } else {
+      setOnChangeEnvironment(environment);
+      setIsOnChangeConfirmDialogVisible(true);
+    }
   };
 
   const isEnvironmentVariableDirty = (index: number): boolean => {
@@ -345,10 +349,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     setOnChangeEnvironment(undefined);
   };
 
-  const onEnvironmentChange = () => {
-    if (!!onChangeEnvironment) {
-      fetchEnvironmentVariables(onChangeEnvironment.id);
-      setSelectedEnvironment(onChangeEnvironment);
+  const onEnvironmentChange = (environment?: ArmObj<Environment>) => {
+    const env: ArmObj<Environment> | undefined = onChangeEnvironment || environment;
+    if (!!env) {
+      fetchEnvironmentVariables(env.id);
+      setSelectedEnvironment(env);
     }
     hideOnChangeConfirmDialog();
   };
