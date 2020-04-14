@@ -35,12 +35,12 @@ interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
   environments: ArmObj<Environment>[];
   fetchEnvironmentVariables: (resourceId: string) => {};
-  saveEnvironmentVariables: (environmentVariables: EnvironmentVariable[]) => void;
-  selectedEnvironment?: ArmObj<KeyValue<string>>;
+  saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
+  selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
 }
 
 const Configuration: React.FC<ConfigurationProps> = props => {
-  const { environments, fetchEnvironmentVariables, selectedEnvironment, saveEnvironmentVariables } = props;
+  const { environments, fetchEnvironmentVariables, selectedEnvironmentVariableResponse, saveEnvironmentVariables } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [showAllValues, setShowAllValues] = useState(false);
@@ -52,6 +52,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [currentEnvironmentVariableIndex, setCurrentEnvironmentVariableIndex] = useState<number | undefined>(undefined);
   const [isDirty, setIsDirty] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
+  const [selectedEnvironment, setSelectedEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -255,6 +256,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const onDropdownChange = async (environment: ArmObj<Environment>) => {
     fetchEnvironmentVariables(environment.id);
+    setSelectedEnvironment(environment);
   };
 
   const isEnvironmentVariableDirty = (index: number): boolean => {
@@ -296,12 +298,14 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const save = () => {
-    saveEnvironmentVariables(environmentVariables);
+    if (!!selectedEnvironment) {
+      saveEnvironmentVariables(selectedEnvironment.id, environmentVariables);
+    }
   };
 
   const getInitialEnvironmentVariables = () => {
-    if (!!selectedEnvironment) {
-      return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironment.properties));
+    if (!!selectedEnvironmentVariableResponse) {
+      return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironmentVariableResponse.properties));
     } else {
       return [];
     }
@@ -338,7 +342,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     initEnvironmentVariables();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedEnvironment]);
+  }, [selectedEnvironmentVariableResponse]);
   return (
     <>
       <div className={commandBarSticky}>
