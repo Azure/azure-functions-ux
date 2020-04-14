@@ -10,6 +10,7 @@ import { ArmObj } from '../../../models/arm-obj';
 import { StaticSite } from '../../../models/static-site/static-site';
 import { Environment } from '../../../models/static-site/environment';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
+import { EnvironmentVariable } from './Configuration.types';
 
 const configurationData = new ConfigurationData();
 export const ConfigurationContext = React.createContext(configurationData);
@@ -24,6 +25,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   const [initialLoading, setInitialLoading] = useState(false);
   const [staticSite, setStaticSite] = useState<ArmObj<StaticSite> | undefined>(undefined);
   const [environments, setEnvironments] = useState<ArmObj<Environment>[]>([]);
+  const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariable[]>([]);
 
   const fetchData = async () => {
     setInitialLoading(true);
@@ -56,6 +58,20 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     setInitialLoading(false);
   };
 
+  const fetchEnvironmentVariables = async (environmentResourceId: string) => {
+    setEnvironmentVariables([]);
+    const environmentSettingsResponse = await EnvironmentService.fetchEnvironmentSettings(environmentResourceId);
+    if (environmentSettingsResponse.metadata.success) {
+      setEnvironmentVariables(ConfigurationData.convertEnvironmentVariablesObjectToArray(environmentSettingsResponse.data.properties));
+    } else {
+      LogService.error(
+        LogCategories.staticSiteConfiguration,
+        'fetchEnvironmentSettings',
+        `Failed to fetch environment settings: ${getErrorMessageOrStringify(environmentSettingsResponse.metadata.error)}`
+      );
+    }
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -68,7 +84,12 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
 
   return (
     <ConfigurationContext.Provider value={configurationData}>
-      <Configuration staticSite={staticSite} environments={environments} />
+      <Configuration
+        staticSite={staticSite}
+        environments={environments}
+        fetchEnvironmentVariables={fetchEnvironmentVariables}
+        environmentVariables={environmentVariables}
+      />
     </ConfigurationContext.Provider>
   );
 };
