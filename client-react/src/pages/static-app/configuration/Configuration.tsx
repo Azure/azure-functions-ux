@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ConfigurationCommandBar from './ConfigurationCommandBar';
 import DisplayTableWithCommandBar from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { ICommandBarItemProps, IColumn, SelectionMode, DetailsListLayoutMode, Link } from 'office-ui-fabric-react';
+import {
+  ICommandBarItemProps,
+  IColumn,
+  SelectionMode,
+  DetailsListLayoutMode,
+  Link,
+  TooltipHost,
+  ActionButton,
+} from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
@@ -11,27 +19,39 @@ import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector
 import { ArmObj } from '../../../models/arm-obj';
 import { StaticSite } from '../../../models/static-site/static-site';
 import { Environment } from '../../../models/static-site/environment';
-import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
-import LogService from '../../../utils/LogService';
-import { LogCategories } from '../../../utils/LogCategories';
-import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
+import IconButton from '../../../components/IconButton/IconButton';
+import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
+import { ThemeContext } from '../../../ThemeContext';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
   environments: ArmObj<Environment>[];
+  environmentVariables: EnvironmentVariable[];
+  fetchEnvironmentVariables: (resourceId: string) => {};
 }
 
 const Configuration: React.FC<ConfigurationProps> = props => {
-  const { environments } = props;
+  const { environments, fetchEnvironmentVariables } = props;
+
+  const [shownValues, setShownValues] = useState<string[]>([]);
+  const [showAllValues, setShowAllValues] = useState(false);
+  const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariable[]>([]);
 
   const { t } = useTranslation();
+
+  const theme = useContext(ThemeContext);
 
   const addNewEnvironmentVariable = () => {
     // TODO (krmitta): Add logic here
   };
 
   const toggleHideButton = () => {
-    // TODO (krmitta): Add logic here
+    let newShownValues: string[] = [];
+    if (!showAllValues) {
+      newShownValues = environmentVariables.map(x => x.name);
+    }
+    setShownValues(newShownValues);
+    setShowAllValues(!showAllValues);
   };
 
   const openBulkEdit = () => {
@@ -43,6 +63,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
+    const allShown = showAllValues || (environmentVariables.length > 0 && shownValues.length === environmentVariables.length);
+
     return [
       {
         key: 'add-new-environment-variable',
@@ -55,8 +77,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       {
         key: 'environment-variable-show-hide',
         onClick: toggleHideButton,
-        iconProps: { iconName: 'RedEye' },
-        name: t('showValues'),
+        iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
+        name: !allShown ? t('showValues') : t('hideValues'),
       },
       {
         key: 'environment-variable-bulk-edit',
@@ -75,6 +97,85 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const onRenderColumnItem = (item: EnvironmentVariable, index: number, column: IColumn) => {
+    const itemKey = item.name;
+    const hidden = !shownValues.includes(itemKey) && !showAllValues;
+    if (!column || !item) {
+      return null;
+    }
+    if (column.key === 'delete') {
+      return (
+        <TooltipHost
+          content={t('delete')}
+          id={`environment-variable-delete-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={false}
+            id={`environment-variable-delete-${index}`}
+            iconProps={{ iconName: 'Delete' }}
+            ariaLabel={t('delete')}
+            onClick={() => {
+              // TODO (krmitta): Add delete function
+            }}
+          />
+        </TooltipHost>
+      );
+    }
+    if (column.key === 'edit') {
+      return (
+        <TooltipHost content={t('edit')} id={`environment-variable-edit-tooltip-${index}`} calloutProps={{ gapSpace: 0 }} closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={false}
+            id={`environment-variable-edit-${index}`}
+            iconProps={{ iconName: 'Edit' }}
+            ariaLabel={t('edit')}
+            onClick={() => {
+              // TODO (krmitta): Add edit function
+            }}
+          />
+        </TooltipHost>
+      );
+    }
+    if (column.key === 'value') {
+      return (
+        <>
+          <ActionButton
+            id={`environment-variable-show-hide-${index}`}
+            className={defaultCellStyle}
+            onClick={() => onShowHideButtonClick(itemKey)}
+            iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
+            {hidden ? (
+              <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
+            ) : (
+              <div className={defaultCellStyle} id={`app-settings-application-settings-value-${index}`}>
+                {item[column.fieldName!]}
+              </div>
+            )}
+          </ActionButton>
+        </>
+      );
+    }
+    if (column.key === 'name') {
+      column.className = '';
+      if (isEnvironmentVariableDirty(index)) {
+        column.className = dirtyElementStyle(theme);
+      }
+      return (
+        <ActionButton
+          className={defaultCellStyle}
+          disabled={false}
+          id={`environment-variable-name-${index}`}
+          onClick={() => {
+            // TODO (krmitta): Add edit function
+          }}>
+          <span aria-live="assertive" role="region">
+            {item[column.fieldName!]}
+          </span>
+        </ActionButton>
+      );
+    }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
@@ -129,18 +230,35 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const onDropdownChange = async (environment: ArmObj<Environment>) => {
-    const environmentSettingsResponse = await EnvironmentService.fetchEnvironmentSettings(environment.id);
-    if (environmentSettingsResponse.metadata.success) {
-      console.log(environmentSettingsResponse.data);
-    } else {
-      LogService.error(
-        LogCategories.staticSiteConfiguration,
-        'fetchEnvironmentSettings',
-        `Failed to fetch environment settings: ${getErrorMessageOrStringify(environmentSettingsResponse.metadata.error)}`
-      );
-    }
+    fetchEnvironmentVariables(environment.id);
   };
 
+  const isEnvironmentVariableDirty = (index: number): boolean => {
+    const initialEnvironmentVariables = props.environmentVariables;
+    const currentRow = environmentVariables[index];
+    const currentEnvironmentVariableIndex = initialEnvironmentVariables.findIndex(x => {
+      return x.name.toLowerCase() === currentRow.name.toLowerCase() && x.value.toLowerCase() === currentRow.value.toLowerCase();
+    });
+    return currentEnvironmentVariableIndex < 0;
+  };
+
+  const onShowHideButtonClick = (itemKey: string) => {
+    const hidden = !shownValues.includes(itemKey) && !showAllValues;
+    const newShownValues = new Set(shownValues);
+    if (hidden) {
+      newShownValues.add(itemKey);
+    } else {
+      newShownValues.delete(itemKey);
+    }
+    setShowAllValues(newShownValues.size === environmentVariables.length);
+    setShownValues([...newShownValues]);
+  };
+
+  useEffect(() => {
+    setEnvironmentVariables(props.environmentVariables);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.environmentVariables]);
   return (
     <>
       <div className={commandBarSticky}>
@@ -163,7 +281,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
           columns={getColumns()}
-          items={[]}
+          items={environmentVariables}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}

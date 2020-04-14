@@ -2,6 +2,7 @@ import MakeArmCall from '../ArmHelper';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { Environment } from '../../models/static-site/environment';
 import { ArmObj, ArmArray } from '../../models/arm-obj';
+import { KeyValue } from '../../models/portal-models';
 
 export default class EnvironmentService {
   // Environment is called build in the backend
@@ -14,7 +15,7 @@ export default class EnvironmentService {
   };
 
   public static fetchEnvironmentSettings = (resourceId: string) => {
-    return MakeArmCall<ArmObj<any>>({
+    return MakeArmCall<ArmObj<KeyValue<string>>>({
       resourceId: `${resourceId}/listFunctionAppSettings`,
       commandName: 'fetchEnvironmentSettings',
       method: 'POST',
