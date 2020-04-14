@@ -29,6 +29,7 @@ import ConfigurationAddEdit from './ConfigurationAddEdit';
 import { sortBy } from 'lodash-es';
 import { KeyValue } from '../../../models/portal-models';
 import ConfigurationData from './Configuration.data';
+import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
@@ -50,6 +51,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [panelType, setPanelType] = useState<PanelType | undefined>(undefined);
   const [currentEnvironmentVariableIndex, setCurrentEnvironmentVariableIndex] = useState<number | undefined>(undefined);
   const [selectedEnvironment, setSelectedEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
+  const [isDirty, setIsDirty] = useState(false);
+  const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
 
   const { t } = useTranslation();
 
@@ -284,7 +287,10 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const updateEnvironmentVariable = (updatedEnvironmentVariables: EnvironmentVariable[]) => {
-    setEnvironmentVariables([...sort(updatedEnvironmentVariables)]);
+    const sortedUpdatedEnvironmentVariables = sort(updatedEnvironmentVariables);
+    const dirtyState = getDirtyState(sortedUpdatedEnvironmentVariables);
+    setIsDirty(dirtyState);
+    setEnvironmentVariables([...sortedUpdatedEnvironmentVariables]);
   };
 
   const sort = (environmentVariables: EnvironmentVariable[]) => {
@@ -305,17 +311,60 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     }
   };
 
-  useEffect(() => {
+  const getDirtyState = (newEnvironmentVariables: EnvironmentVariable[]) => {
+    const initialEnvironmentVariables = getInitialEnvironmentVariables();
+    return (
+      newEnvironmentVariables.length !== initialEnvironmentVariables.length ||
+      newEnvironmentVariables.filter((environmentVariable, index) => {
+        return (
+          environmentVariable.name.toLocaleLowerCase() !== initialEnvironmentVariables[index].name.toLocaleLowerCase() ||
+          environmentVariable.value.toLocaleLowerCase() !== initialEnvironmentVariables[index].value.toLocaleLowerCase()
+        );
+      }).length > 0
+    );
+  };
+
+  const initEnvironmentVariables = () => {
     setEnvironmentVariables(getInitialEnvironmentVariables());
+    setIsDirty(false);
+  };
+
+  const discard = () => {
+    initEnvironmentVariables();
+    hideDiscardConfirmDialog();
+  };
+
+  const hideDiscardConfirmDialog = () => {
+    setIsDiscardConfirmDialogVisible(false);
+  };
+
+  useEffect(() => {
+    initEnvironmentVariables();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEnvironmentVariableResponse]);
   return (
     <>
       <div className={commandBarSticky}>
-        <ConfigurationCommandBar save={save} />
+        <ConfigurationCommandBar save={save} disabled={!isDirty} showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)} />
         <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} />
       </div>
+      <>
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('ok'),
+            onClick: discard,
+          }}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: hideDiscardConfirmDialog,
+          }}
+          title={t('discardChangesTitle')}
+          content={t('staticSite_discardChangesMesssage').format(!!selectedEnvironment ? selectedEnvironment.name : '')}
+          hidden={!isDiscardConfirmDialogVisible}
+          onDismiss={hideDiscardConfirmDialog}
+        />
+      </>
       <div className={formStyle}>
         <h3>{t('staticSite_environmentVariables')}</h3>
         <p>
