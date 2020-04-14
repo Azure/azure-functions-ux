@@ -35,12 +35,12 @@ interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
   environments: ArmObj<Environment>[];
   fetchEnvironmentVariables: (resourceId: string) => {};
-  saveEnvironmentVariables: (environmentVariables: EnvironmentVariable[]) => void;
-  selectedEnvironment?: ArmObj<KeyValue<string>>;
+  saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
+  selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
 }
 
 const Configuration: React.FC<ConfigurationProps> = props => {
-  const { environments, fetchEnvironmentVariables, selectedEnvironment, saveEnvironmentVariables } = props;
+  const { environments, fetchEnvironmentVariables, selectedEnvironmentVariableResponse, saveEnvironmentVariables } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [showAllValues, setShowAllValues] = useState(false);
@@ -53,6 +53,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [isDirty, setIsDirty] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
   const [isOnChangeConfirmDialogVisible, setIsOnChangeConfirmDialogVisible] = useState(false);
+  const [selectedEnvironment, setSelectedEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
+  const [onChangeEnvironment, setOnChangeEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -255,7 +257,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const onDropdownChange = async (environment: ArmObj<Environment>) => {
-    fetchEnvironmentVariables(environment.id);
+    setOnChangeEnvironment(environment);
+    setIsOnChangeConfirmDialogVisible(true);
   };
 
   const isEnvironmentVariableDirty = (index: number): boolean => {
@@ -297,12 +300,14 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const save = () => {
-    saveEnvironmentVariables(environmentVariables);
+    if (!!selectedEnvironment) {
+      saveEnvironmentVariables(selectedEnvironment.id, environmentVariables);
+    }
   };
 
   const getInitialEnvironmentVariables = () => {
-    if (!!selectedEnvironment) {
-      return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironment.properties));
+    if (!!selectedEnvironmentVariableResponse) {
+      return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironmentVariableResponse.properties));
     } else {
       return [];
     }
@@ -337,15 +342,22 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const hideOnChangeConfirmDialog = () => {
     setIsOnChangeConfirmDialogVisible(false);
+    setOnChangeEnvironment(undefined);
   };
 
-  const onEnvironmentChange = () => {};
+  const onEnvironmentChange = () => {
+    if (!!onChangeEnvironment) {
+      fetchEnvironmentVariables(onChangeEnvironment.id);
+      setSelectedEnvironment(onChangeEnvironment);
+    }
+    hideOnChangeConfirmDialog();
+  };
 
   useEffect(() => {
     initEnvironmentVariables();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedEnvironment]);
+  }, [selectedEnvironmentVariableResponse]);
   return (
     <>
       <div className={commandBarSticky}>
@@ -376,8 +388,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             title: t('cancel'),
             onClick: hideOnChangeConfirmDialog,
           }}
-          title={t('discardChangesTitle')}
-          content={t('discardChangesMesssage').format(!!selectedEnvironment ? selectedEnvironment.name : '')}
+          title={t('staticSite_changeEnvironmentTitle')}
+          content={t('staticSite_changeEnvironmentMessage')}
           hidden={!isOnChangeConfirmDialogVisible}
           onDismiss={hideOnChangeConfirmDialog}
         />
