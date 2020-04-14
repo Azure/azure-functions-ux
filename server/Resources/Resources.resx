@@ -5952,4 +5952,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
         <value>Filter environment variable</value>
     </data>
+    <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
+        <value>Add/Edit environment variable</value>
+    </data>
 </root>

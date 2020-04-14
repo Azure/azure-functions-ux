@@ -22,4 +22,14 @@ export default class EnvironmentService {
       apiVersion: CommonConstants.ApiVersions.staticSitePreviewApiVersion20191201,
     });
   };
+
+  public static saveEnvironmentVariables = (resourceId: string, body: ArmObj<KeyValue<string>>) => {
+    return MakeArmCall<ArmObj<KeyValue<string>>>({
+      body,
+      resourceId: `${resourceId}/config/functionappsettings`,
+      commandName: 'saveEnvironmentSettings',
+      method: 'PUT',
+      apiVersion: CommonConstants.ApiVersions.staticSitePreviewApiVersion20191201,
+    });
+  };
 }
