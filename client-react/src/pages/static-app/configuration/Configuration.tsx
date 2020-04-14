@@ -53,6 +53,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [selectedEnvironment, setSelectedEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
   const [isDirty, setIsDirty] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
+  const [isOnChangeConfirmDialogVisible, setIsOnChangeConfirmDialogVisible] = useState(false);
 
   const { t } = useTranslation();
 
@@ -338,6 +339,12 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     setIsDiscardConfirmDialogVisible(false);
   };
 
+  const hideOnChangeConfirmDialog = () => {
+    setIsOnChangeConfirmDialogVisible(false);
+  };
+
+  const onEnvironmentChange = () => {};
+
   useEffect(() => {
     initEnvironmentVariables();
 
@@ -363,6 +370,20 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           content={t('staticSite_discardChangesMesssage').format(!!selectedEnvironment ? selectedEnvironment.name : '')}
           hidden={!isDiscardConfirmDialogVisible}
           onDismiss={hideDiscardConfirmDialog}
+        />
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('ok'),
+            onClick: onEnvironmentChange,
+          }}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: hideOnChangeConfirmDialog,
+          }}
+          title={t('discardChangesTitle')}
+          content={t('discardChangesMesssage').format(!!selectedEnvironment ? selectedEnvironment.name : '')}
+          hidden={!isOnChangeConfirmDialogVisible}
+          onDismiss={hideOnChangeConfirmDialog}
         />
       </>
       <div className={formStyle}>
