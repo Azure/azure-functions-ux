@@ -1925,4 +1925,5 @@ export class PortalResources {
   public static staticSite_environmentVariablesInfoMessage = 'staticSite_environmentVariablesInfoMessage';
   public static staticSite_environment = 'staticSite_environment';
   public static staticSite_environmentDropdownAriaLabel = 'staticSite_environmentDropdownAriaLabel';
+  public static staticSite_filterEnvironmentVariable = 'staticSite_filterEnvironmentVariable';
 }
