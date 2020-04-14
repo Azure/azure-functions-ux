@@ -19,6 +19,9 @@ export class LoggingService extends Logger implements LoggerService {
         .start();
       setInterval(this.trackAppServicePerformance, 30 * 1000);
       this.client = appInsights.defaultClient;
+      this.client.commonProperties['hostName'] = process.env.WEBSITE_HOSTNAME;
+      this.client.commonProperties['appName'] = process.env.WEBSITE_SITE_NAME;
+      this.client.commonProperties['version'] = process.env.VERSION;
     }
   }
 
