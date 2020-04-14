@@ -54,6 +54,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [isDirty, setIsDirty] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
   const [isOnChangeConfirmDialogVisible, setIsOnChangeConfirmDialogVisible] = useState(false);
+  const [onChangeEnvironment, setOnChangeEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -255,9 +256,13 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     ];
   };
 
-  const onDropdownChange = async (environment: ArmObj<Environment>) => {
-    fetchEnvironmentVariables(environment.id);
-    setSelectedEnvironment(environment);
+  const onDropdownChange = (environment: ArmObj<Environment>, defaultChange?: boolean) => {
+    if (defaultChange) {
+      onEnvironmentChange(environment);
+    } else {
+      setOnChangeEnvironment(environment);
+      setIsOnChangeConfirmDialogVisible(true);
+    }
   };
 
   const isEnvironmentVariableDirty = (index: number): boolean => {
@@ -341,9 +346,17 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const hideOnChangeConfirmDialog = () => {
     setIsOnChangeConfirmDialogVisible(false);
+    setOnChangeEnvironment(undefined);
   };
 
-  const onEnvironmentChange = () => {};
+  const onEnvironmentChange = (environment?: ArmObj<Environment>) => {
+    const env: ArmObj<Environment> | undefined = onChangeEnvironment || environment;
+    if (!!env) {
+      fetchEnvironmentVariables(env.id);
+      setSelectedEnvironment(env);
+    }
+    hideOnChangeConfirmDialog();
+  };
 
   useEffect(() => {
     initEnvironmentVariables();
@@ -380,8 +393,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             title: t('cancel'),
             onClick: hideOnChangeConfirmDialog,
           }}
-          title={t('discardChangesTitle')}
-          content={t('discardChangesMesssage').format(!!selectedEnvironment ? selectedEnvironment.name : '')}
+          title={t('staticSite_changeEnvironmentTitle')}
+          content={t('staticSite_changeEnvironmentMessage')}
           hidden={!isOnChangeConfirmDialogVisible}
           onDismiss={hideOnChangeConfirmDialog}
         />
