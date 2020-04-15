@@ -5,6 +5,8 @@ import ActionBar from '../../../components/ActionBar';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../components/monaco-editor/monaco-editor';
 import { PortalTheme } from '../../../models/portal-models';
 import { StartupInfoContext } from '../../../StartupInfoContext';
+import { MessageBarType } from 'office-ui-fabric-react';
+import { ConfigurationUtils } from './Configuration.utils';
 
 interface ConfigurationAdvancedAddEditProps {
   cancel: () => void;
@@ -16,6 +18,7 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
   const { environmentVariables, updateEnvironmentVariable, cancel } = props;
 
   const [environmentVariablesJSON, setEnvironmentVariablesJSON] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const { t } = useTranslation();
 
@@ -29,7 +32,7 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
 
   const onChange = (newValue: string, event: any) => {
     setEnvironmentVariablesJSON(newValue);
-    // TODO (krmitta): Add validations
+    validate(newValue);
   };
 
   const actionBarPrimaryButtonProps = {
@@ -44,6 +47,15 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
     title: t('cancel'),
     onClick: cancel,
     disable: false,
+  };
+
+  const validate = newValue => {
+    const err = ConfigurationUtils.getErrorMessage(newValue, t);
+    setErrorMessage(err);
+  };
+
+  const getStatusMessage = () => {
+    return errorMessage ? { message: errorMessage, level: MessageBarType.error } : undefined;
   };
 
   useEffect(() => {
@@ -71,6 +83,7 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
           id="environment-variable-edit-footer"
           primaryButton={actionBarPrimaryButtonProps}
           secondaryButton={actionBarSecondaryButtonProps}
+          statusMessage={getStatusMessage()}
         />
       </form>
     </>

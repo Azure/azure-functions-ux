@@ -1932,4 +1932,7 @@ export class PortalResources {
   public static staticSite_changeEnvironmentMessage = 'staticSite_changeEnvironmentMessage';
   public static staticSite_environmentVariablePropIsRequired = 'staticSite_environmentVariablePropIsRequired';
   public static staticSite_environmentVariableNamesUnique = 'staticSite_environmentVariableNamesUnique';
+  public static staticSite_environmentVariableValuesMustBeAnArray = 'staticSite_environmentVariableValuesMustBeAnArray';
+  public static staticSite_environmentVariableInvalidProperty = 'staticSite_environmentVariableInvalidProperty';
+  public static staticSite_environmentVariableValueMustBeAString = 'staticSite_environmentVariableValueMustBeAString';
 }
