@@ -30,6 +30,7 @@ import { sortBy } from 'lodash-es';
 import { KeyValue } from '../../../models/portal-models';
 import ConfigurationData from './Configuration.data';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
+import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
@@ -81,7 +82,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const openBulkEdit = () => {
-    // TODO (krmitta): Add logic here
+    setShowPanel(true);
+    setPanelType(PanelType.bulk);
   };
 
   const toggleFilter = () => {
@@ -143,7 +145,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
             onClick={() => {
-              // TODO (krmitta): Add delete function
+              deleteEnvironmentVariable(index);
             }}
           />
         </TooltipHost>
@@ -294,8 +296,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const updateEnvironmentVariable = (updatedEnvironmentVariables: EnvironmentVariable[]) => {
     const sortedUpdatedEnvironmentVariables = sort(updatedEnvironmentVariables);
-    const dirtyState = getDirtyState(sortedUpdatedEnvironmentVariables);
-    setIsDirty(dirtyState);
     setEnvironmentVariables([...sortedUpdatedEnvironmentVariables]);
   };
 
@@ -332,7 +332,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const initEnvironmentVariables = () => {
     setEnvironmentVariables(getInitialEnvironmentVariables());
-    setIsDirty(false);
   };
 
   const discard = () => {
@@ -358,6 +357,19 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     hideOnChangeConfirmDialog();
   };
 
+  const deleteEnvironmentVariable = (index: number) => {
+    if (index < environmentVariables.length) {
+      const deleteItem = environmentVariables[index];
+      setEnvironmentVariables([...environmentVariables.filter(environmentVariable => environmentVariable !== deleteItem)]);
+    }
+  };
+
+  useEffect(() => {
+    const dirtyState = getDirtyState(environmentVariables);
+    setIsDirty(dirtyState);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [environmentVariables]);
   useEffect(() => {
     initEnvironmentVariables();
 
@@ -444,6 +456,13 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           headerText={t('staticSite_addEditEnvironmentVariable')}>
           <ConfigurationAddEdit
             currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
+            environmentVariables={environmentVariables}
+            cancel={onCancel}
+            updateEnvironmentVariable={updateEnvironmentVariable}
+          />
+        </Panel>
+        <Panel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
+          <ConfigurationAdvancedAddEdit
             environmentVariables={environmentVariables}
             cancel={onCancel}
             updateEnvironmentVariable={updateEnvironmentVariable}
