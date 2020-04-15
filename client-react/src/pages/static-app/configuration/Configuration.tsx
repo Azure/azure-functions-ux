@@ -397,7 +397,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             onClick: hideDiscardConfirmDialog,
           }}
           title={t('discardChangesTitle')}
-          content={t('staticSite_discardChangesMesssage').format(!!selectedEnvironment ? selectedEnvironment.name : '')}
+          content={t('staticSite_discardChangesMessage').format(!!selectedEnvironment ? selectedEnvironment.properties.sourceBranch : '')}
           hidden={!isDiscardConfirmDialogVisible}
           onDismiss={hideDiscardConfirmDialog}
         />
