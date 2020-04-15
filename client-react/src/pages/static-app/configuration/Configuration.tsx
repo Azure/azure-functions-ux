@@ -395,7 +395,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       <div className={commandBarSticky}>
         <ConfigurationCommandBar
           save={save}
-          disabled={!isDirty}
+          dirty={isDirty}
+          isRefreshing={isRefreshing}
           showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)}
           refresh={refresh}
         />
