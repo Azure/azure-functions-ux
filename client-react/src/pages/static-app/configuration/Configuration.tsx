@@ -12,7 +12,7 @@ import {
   SearchBox,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { EnvironmentVariable } from './Configuration.types';
+import { EnvironmentVariable, PanelType } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { formStyle, commandBarSticky } from './Configuration.styles';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
@@ -24,29 +24,52 @@ import IconButton from '../../../components/IconButton/IconButton';
 import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
 import { ThemeContext } from '../../../ThemeContext';
 import { filterBoxStyle } from '../../app/functions/app-keys/AppKeys.styles';
+import Panel from '../../../components/Panel/Panel';
+import ConfigurationAddEdit from './ConfigurationAddEdit';
+import { sortBy } from 'lodash-es';
+import { KeyValue } from '../../../models/portal-models';
+import ConfigurationData from './Configuration.data';
+import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
+import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
   environments: ArmObj<Environment>[];
-  environmentVariables: EnvironmentVariable[];
   fetchEnvironmentVariables: (resourceId: string) => {};
+  saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
+  selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
 }
 
 const Configuration: React.FC<ConfigurationProps> = props => {
-  const { environments, fetchEnvironmentVariables } = props;
+  const { environments, fetchEnvironmentVariables, selectedEnvironmentVariableResponse, saveEnvironmentVariables } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [showAllValues, setShowAllValues] = useState(false);
   const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariable[]>([]);
   const [showFilter, setShowFilter] = useState(false);
   const [filter, setFilter] = useState('');
+  const [showPanel, setShowPanel] = useState(false);
+  const [panelType, setPanelType] = useState<PanelType | undefined>(undefined);
+  const [currentEnvironmentVariableIndex, setCurrentEnvironmentVariableIndex] = useState<number | undefined>(undefined);
+  const [isDirty, setIsDirty] = useState(false);
+  const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
+  const [isOnChangeConfirmDialogVisible, setIsOnChangeConfirmDialogVisible] = useState(false);
+  const [selectedEnvironment, setSelectedEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
+  const [onChangeEnvironment, setOnChangeEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
 
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
 
-  const addNewEnvironmentVariable = () => {
-    // TODO (krmitta): Add logic here
+  const openAddNewEnvironmentVariablePanel = () => {
+    setShowPanel(true);
+    setPanelType(PanelType.edit);
+  };
+
+  const openEditEnvironmentVariablePanel = (index: number) => {
+    setCurrentEnvironmentVariableIndex(index);
+    setShowPanel(true);
+    setPanelType(PanelType.edit);
   };
 
   const toggleHideButton = () => {
@@ -59,7 +82,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const openBulkEdit = () => {
-    // TODO (krmitta): Add logic here
+    setShowPanel(true);
+    setPanelType(PanelType.bulk);
   };
 
   const toggleFilter = () => {
@@ -73,7 +97,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     return [
       {
         key: 'add-new-environment-variable',
-        onClick: addNewEnvironmentVariable,
+        onClick: openAddNewEnvironmentVariablePanel,
         disabled: false,
         iconProps: { iconName: 'Add' },
         name: t('staticSite_addNewEnvironmentVariable'),
@@ -121,7 +145,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
             onClick={() => {
-              // TODO (krmitta): Add delete function
+              deleteEnvironmentVariable(index);
             }}
           />
         </TooltipHost>
@@ -137,7 +161,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}
             onClick={() => {
-              // TODO (krmitta): Add edit function
+              openEditEnvironmentVariablePanel(index);
             }}
           />
         </TooltipHost>
@@ -173,7 +197,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           disabled={false}
           id={`environment-variable-name-${index}`}
           onClick={() => {
-            // TODO (krmitta): Add edit function
+            openEditEnvironmentVariablePanel(index);
           }}>
           <span aria-live="assertive" role="region">
             {item[column.fieldName!]}
@@ -234,12 +258,17 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     ];
   };
 
-  const onDropdownChange = async (environment: ArmObj<Environment>) => {
-    fetchEnvironmentVariables(environment.id);
+  const onDropdownChange = (environment: ArmObj<Environment>, defaultChange?: boolean) => {
+    if (defaultChange) {
+      onEnvironmentChange(environment);
+    } else {
+      setOnChangeEnvironment(environment);
+      setIsOnChangeConfirmDialogVisible(true);
+    }
   };
 
   const isEnvironmentVariableDirty = (index: number): boolean => {
-    const initialEnvironmentVariables = props.environmentVariables;
+    const initialEnvironmentVariables = getInitialEnvironmentVariables();
     const currentRow = environmentVariables[index];
     const currentEnvironmentVariableIndex = initialEnvironmentVariables.findIndex(x => {
       return x.name.toLowerCase() === currentRow.name.toLowerCase() && x.value.toLowerCase() === currentRow.value.toLowerCase();
@@ -259,17 +288,129 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     setShownValues([...newShownValues]);
   };
 
+  const onCancel = () => {
+    setShowPanel(false);
+    setPanelType(undefined);
+    setCurrentEnvironmentVariableIndex(undefined);
+  };
+
+  const updateEnvironmentVariable = (updatedEnvironmentVariables: EnvironmentVariable[]) => {
+    const sortedUpdatedEnvironmentVariables = sort(updatedEnvironmentVariables);
+    setEnvironmentVariables([...sortedUpdatedEnvironmentVariables]);
+  };
+
+  const sort = (environmentVariables: EnvironmentVariable[]) => {
+    return sortBy(environmentVariables, e => e.name.toLocaleLowerCase());
+  };
+
+  const save = () => {
+    if (!!selectedEnvironment) {
+      saveEnvironmentVariables(selectedEnvironment.id, environmentVariables);
+    }
+  };
+
+  const getInitialEnvironmentVariables = () => {
+    if (!!selectedEnvironmentVariableResponse) {
+      return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironmentVariableResponse.properties));
+    } else {
+      return [];
+    }
+  };
+
+  const getDirtyState = (newEnvironmentVariables: EnvironmentVariable[]) => {
+    const initialEnvironmentVariables = getInitialEnvironmentVariables();
+    return (
+      newEnvironmentVariables.length !== initialEnvironmentVariables.length ||
+      newEnvironmentVariables.filter((environmentVariable, index) => {
+        return (
+          environmentVariable.name.toLocaleLowerCase() !== initialEnvironmentVariables[index].name.toLocaleLowerCase() ||
+          environmentVariable.value.toLocaleLowerCase() !== initialEnvironmentVariables[index].value.toLocaleLowerCase()
+        );
+      }).length > 0
+    );
+  };
+
+  const initEnvironmentVariables = () => {
+    setEnvironmentVariables(getInitialEnvironmentVariables());
+  };
+
+  const discard = () => {
+    initEnvironmentVariables();
+    hideDiscardConfirmDialog();
+  };
+
+  const hideDiscardConfirmDialog = () => {
+    setIsDiscardConfirmDialogVisible(false);
+  };
+
+  const hideOnChangeConfirmDialog = () => {
+    setIsOnChangeConfirmDialogVisible(false);
+    setOnChangeEnvironment(undefined);
+  };
+
+  const onEnvironmentChange = (environment?: ArmObj<Environment>) => {
+    const env: ArmObj<Environment> | undefined = onChangeEnvironment || environment;
+    if (!!env) {
+      fetchEnvironmentVariables(env.id);
+      setSelectedEnvironment(env);
+    }
+    hideOnChangeConfirmDialog();
+  };
+
+  const deleteEnvironmentVariable = (index: number) => {
+    if (index < environmentVariables.length) {
+      const deleteItem = environmentVariables[index];
+      setEnvironmentVariables([...environmentVariables.filter(environmentVariable => environmentVariable !== deleteItem)]);
+    }
+  };
+
   useEffect(() => {
-    setEnvironmentVariables(props.environmentVariables);
+    const dirtyState = getDirtyState(environmentVariables);
+    setIsDirty(dirtyState);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.environmentVariables]);
+  }, [environmentVariables]);
+  useEffect(() => {
+    initEnvironmentVariables();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedEnvironmentVariableResponse]);
   return (
     <>
       <div className={commandBarSticky}>
-        <ConfigurationCommandBar />
+        <ConfigurationCommandBar save={save} disabled={!isDirty} showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)} />
         <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} />
       </div>
+      <>
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('ok'),
+            onClick: discard,
+          }}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: hideDiscardConfirmDialog,
+          }}
+          title={t('discardChangesTitle')}
+          content={t('staticSite_discardChangesMesssage').format(!!selectedEnvironment ? selectedEnvironment.name : '')}
+          hidden={!isDiscardConfirmDialogVisible}
+          onDismiss={hideDiscardConfirmDialog}
+        />
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('ok'),
+            onClick: onEnvironmentChange,
+          }}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: hideOnChangeConfirmDialog,
+          }}
+          title={t('staticSite_changeEnvironmentTitle')}
+          content={t('staticSite_changeEnvironmentMessage')}
+          hidden={!isOnChangeConfirmDialogVisible}
+          onDismiss={hideOnChangeConfirmDialog}
+        />
+      </>
       <div className={formStyle}>
         <h3>{t('staticSite_environmentVariables')}</h3>
         <p>
@@ -309,6 +450,24 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             />
           )}
         </DisplayTableWithCommandBar>
+        <Panel
+          isOpen={showPanel && panelType === PanelType.edit}
+          onDismiss={onCancel}
+          headerText={t('staticSite_addEditEnvironmentVariable')}>
+          <ConfigurationAddEdit
+            currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
+            environmentVariables={environmentVariables}
+            cancel={onCancel}
+            updateEnvironmentVariable={updateEnvironmentVariable}
+          />
+        </Panel>
+        <Panel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
+          <ConfigurationAdvancedAddEdit
+            environmentVariables={environmentVariables}
+            cancel={onCancel}
+            updateEnvironmentVariable={updateEnvironmentVariable}
+          />
+        </Panel>
       </div>
     </>
   );

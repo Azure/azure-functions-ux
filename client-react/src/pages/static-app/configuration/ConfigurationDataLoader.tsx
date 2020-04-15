@@ -11,6 +11,7 @@ import { StaticSite } from '../../../models/static-site/static-site';
 import { Environment } from '../../../models/static-site/environment';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import { EnvironmentVariable } from './Configuration.types';
+import { KeyValue } from '../../../models/portal-models';
 
 const configurationData = new ConfigurationData();
 export const ConfigurationContext = React.createContext(configurationData);
@@ -25,7 +26,9 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   const [initialLoading, setInitialLoading] = useState(false);
   const [staticSite, setStaticSite] = useState<ArmObj<StaticSite> | undefined>(undefined);
   const [environments, setEnvironments] = useState<ArmObj<Environment>[]>([]);
-  const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariable[]>([]);
+  const [selectedEnvironmentVariableResponse, setSelectedEnvironmentVariableResponse] = useState<ArmObj<KeyValue<string>> | undefined>(
+    undefined
+  );
 
   const fetchData = async () => {
     setInitialLoading(true);
@@ -59,16 +62,36 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   };
 
   const fetchEnvironmentVariables = async (environmentResourceId: string) => {
-    setEnvironmentVariables([]);
     const environmentSettingsResponse = await EnvironmentService.fetchEnvironmentSettings(environmentResourceId);
     if (environmentSettingsResponse.metadata.success) {
-      setEnvironmentVariables(ConfigurationData.convertEnvironmentVariablesObjectToArray(environmentSettingsResponse.data.properties));
+      setSelectedEnvironmentVariableResponse(environmentSettingsResponse.data);
     } else {
       LogService.error(
         LogCategories.staticSiteConfiguration,
         'fetchEnvironmentSettings',
         `Failed to fetch environment settings: ${getErrorMessageOrStringify(environmentSettingsResponse.metadata.error)}`
       );
+    }
+  };
+
+  const saveEnvironmentVariables = async (environmentResourceId: string, environmentVariables: EnvironmentVariable[]) => {
+    if (!!selectedEnvironmentVariableResponse) {
+      const updatedEnvironmentVariablesObject = ConfigurationData.convertEnvironmentVariablesArrayToObject(environmentVariables);
+      const updatedEnvironmentVariableRequest = selectedEnvironmentVariableResponse;
+      updatedEnvironmentVariableRequest.properties = updatedEnvironmentVariablesObject;
+      const environmentSettingsResponse = await EnvironmentService.saveEnvironmentVariables(
+        environmentResourceId,
+        updatedEnvironmentVariableRequest
+      );
+      if (environmentSettingsResponse.metadata.success) {
+        setSelectedEnvironmentVariableResponse(environmentSettingsResponse.data);
+      } else {
+        LogService.error(
+          LogCategories.staticSiteConfiguration,
+          'saveEnvironmentSettings',
+          `Failed to save environment settings: ${getErrorMessageOrStringify(environmentSettingsResponse.metadata.error)}`
+        );
+      }
     }
   };
 
@@ -88,7 +111,8 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         staticSite={staticSite}
         environments={environments}
         fetchEnvironmentVariables={fetchEnvironmentVariables}
-        environmentVariables={environmentVariables}
+        selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}
+        saveEnvironmentVariables={saveEnvironmentVariables}
       />
     </ConfigurationContext.Provider>
   );
