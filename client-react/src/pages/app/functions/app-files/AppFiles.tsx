@@ -21,6 +21,7 @@ import { PortalTheme } from '../../../../models/portal-models';
 import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 
 interface AppFilesProps {
   site: ArmObj<Site>;
@@ -123,7 +124,11 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     } else {
       setFileContent({ default: '', latest: '' });
       setIsFileContentAvailable(false);
-      LogService.error(LogCategories.appFiles, 'getFileContent', `Failed to get file content: ${fileResponse.metadata.error}`);
+      LogService.error(
+        LogCategories.appFiles,
+        'getFileContent',
+        `Failed to get file content: ${getErrorMessageOrStringify(fileResponse.metadata.error)}`
+      );
     }
   };
 

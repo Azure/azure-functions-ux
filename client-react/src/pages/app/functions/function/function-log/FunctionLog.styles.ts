@@ -1,5 +1,6 @@
 import { style } from 'typestyle';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 
 export const getMaximizedLogPanelHeight = (readOnlyBannerHeight?: number) => {
   return window.innerHeight - (164 + (readOnlyBannerHeight || 0));
@@ -56,3 +57,14 @@ export const logConnectingDivStyle = style({
   paddingBottom: '5px',
   color: 'white',
 });
+
+export const getCommandBarStyle = (styleProps, leftAlignMainToolbarItems) => {
+  const newCommandBarStyles = CommandBarStyles(styleProps);
+  if (newCommandBarStyles.root && newCommandBarStyles.root[0]) {
+    newCommandBarStyles.root[0] = { ...newCommandBarStyles.root[0], borderBottom: undefined };
+    if (leftAlignMainToolbarItems) {
+      newCommandBarStyles.root[0] = { ...newCommandBarStyles.root[0], paddingLeft: '0px' };
+    }
+  }
+  return newCommandBarStyles;
+};

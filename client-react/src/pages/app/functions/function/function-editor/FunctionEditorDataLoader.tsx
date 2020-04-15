@@ -25,6 +25,8 @@ import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { ValidationRegex } from '../../../../../utils/constants/ValidationRegex';
 import { KeyValue } from '../../../../../models/portal-models';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { HttpResponseObject } from '../../../../../ArmHelper.types';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -54,6 +56,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const siteContext = useContext(SiteRouterContext);
   const startupInfoContext = useContext(StartupInfoContext);
 
+  const isHttpOrWebHookFunction = !!functionInfo && functionEditorData.isHttpOrWebHookFunction(functionInfo);
+
   const fetchData = async () => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
     const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
@@ -68,13 +72,21 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     if (siteResponse.metadata.success) {
       setSite(siteResponse.data);
     } else {
-      LogService.error(LogCategories.FunctionEdit, 'fetchSite', `Failed to fetch site: ${siteResponse.metadata.error}`);
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'fetchSite',
+        `Failed to fetch site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
+      );
     }
 
     if (functionInfoResponse.metadata.success) {
       setFunctionInfo(functionInfoResponse.data);
     } else {
-      LogService.error(LogCategories.FunctionEdit, 'getFunction', `Failed to get function info: ${functionInfoResponse.metadata.error}`);
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'getFunction',
+        `Failed to get function info: ${getErrorMessageOrStringify(functionInfoResponse.metadata.error)}`
+      );
     }
 
     if (hostStatusResponse.metadata.success) {
@@ -88,20 +100,32 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       if (hostJsonResponse && hostJsonResponse.metadata.success) {
         setHostJsonContent(hostJsonResponse.data);
       } else {
-        LogService.error(LogCategories.FunctionEdit, 'getHostJson', `Failed to get host json file: ${hostJsonResponse.metadata.error}`);
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'getHostJson',
+          `Failed to get host json file: ${getErrorMessageOrStringify(hostJsonResponse.metadata.error)}`
+        );
       }
 
       if (fileListResponse && fileListResponse.metadata.success) {
         setFileList(fileListResponse.data as VfsObject[]);
       } else {
-        LogService.error(LogCategories.FunctionEdit, 'getFileContent', `Failed to get file content: ${fileListResponse.metadata.error}`);
+        LogService.error(
+          LogCategories.FunctionEdit,
+          'getFileContent',
+          `Failed to get file content: ${getErrorMessageOrStringify(fileListResponse.metadata.error)}`
+        );
       }
     }
 
     if (appKeysResponse.metadata.success) {
       setHostKeys(appKeysResponse.data);
     } else {
-      LogService.error(LogCategories.FunctionEdit, 'fetchAppKeys', `Failed to fetch app keys: ${appKeysResponse.metadata.error}`);
+      LogService.error(
+        LogCategories.FunctionEdit,
+        'fetchAppKeys',
+        `Failed to fetch app keys: ${getErrorMessageOrStringify(appKeysResponse.metadata.error)}`
+      );
     }
 
     if (functionKeysResponse.metadata.success) {
@@ -110,7 +134,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       LogService.error(
         LogCategories.FunctionEdit,
         'fetchFunctionKeys',
-        `Failed to fetch function keys: ${functionKeysResponse.metadata.error}`
+        `Failed to fetch function keys: ${getErrorMessageOrStringify(functionKeysResponse.metadata.error)}`
       );
     }
 
@@ -236,70 +260,97 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     return headers;
   };
 
+  // Used to run both http and webHook functions
+  const runHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+    if (!!site) {
+      let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
+      let parsedTestData = {};
+      try {
+        parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
+      } catch (err) {
+        parsedTestData = { body: newFunctionInfo.properties.test_data };
+      }
+      const testDataObject = functionEditorData.getProcessedFunctionTestData(parsedTestData);
+      const queries = testDataObject.queries;
+
+      const matchesPathParams = url.match(urlParameterRegExp);
+      const processedParams: string[] = [];
+      if (matchesPathParams) {
+        matchesPathParams.forEach(m => {
+          const name = m
+            .split(':')[0]
+            .replace('{', '')
+            .replace('}', '')
+            .toLowerCase();
+          processedParams.push(name);
+          const param = queries.find(p => {
+            return p.name.toLowerCase() === name;
+          });
+
+          if (param) {
+            url = url.replace(m, param.value);
+          }
+        });
+      }
+
+      const filteredQueryParams = queries.filter(query => {
+        return !processedParams.find(p => p === query.name);
+      });
+      const queryString = getQueryString(filteredQueryParams);
+      if (!!queryString) {
+        url = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
+      }
+
+      const headers = getHeaders(testDataObject.headers, xFunctionKey);
+
+      return FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body);
+    }
+    return undefined;
+  };
+
+  // Used to run non-http and non-webHook functions
+  const runNonHttpFunction = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
+    if (!!site) {
+      const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
+      const headers = getHeaders([], xFunctionKey);
+      return FunctionsService.runFunction(url, 'POST', headers, { input: newFunctionInfo.properties.test_data || '' });
+    }
+    return undefined;
+  };
+
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => {
     setFunctionRunning(true);
     const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
     if (updatedFunctionInfo.metadata.success) {
-      const data = updatedFunctionInfo.data;
-      setFunctionInfo(data);
-      if (!!site) {
-        let url = `${Url.getMainUrl(site)}${createAndGetFunctionInvokeUrlPath()}`;
-        let parsedTestData = {};
-        try {
-          parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
-        } catch (err) {
-          // TODO (krmitta): Log an error if parsing the data throws an error
-        }
-        const testDataObject = functionEditorData.getProcessedFunctionTestData(parsedTestData);
-        const queries = testDataObject.queries;
+      setFunctionInfo(updatedFunctionInfo.data);
+    }
 
-        const matchesPathParams = url.match(urlParameterRegExp);
-        const processedParams: string[] = [];
-        if (matchesPathParams) {
-          matchesPathParams.forEach(m => {
-            const name = m
-              .split(':')[0]
-              .replace('{', '')
-              .replace('}', '')
-              .toLowerCase();
-            processedParams.push(name);
-            const param = queries.find(p => {
-              return p.name.toLowerCase() === name;
-            });
+    let runResponse: HttpResponseObject<any> | undefined;
+    if (isHttpOrWebHookFunction) {
+      runResponse = await runHttpFunction(newFunctionInfo, xFunctionKey);
+    } else {
+      runResponse = await runNonHttpFunction(newFunctionInfo, xFunctionKey);
+    }
 
-            if (param) {
-              url = url.replace(m, param.value);
-            }
-          });
-        }
-
-        const filteredQueryParams = queries.filter(query => {
-          return !processedParams.find(p => p === query.name);
-        });
-        const queryString = getQueryString(filteredQueryParams);
-        if (!!queryString) {
-          url = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
-        }
-
-        const headers = getHeaders(testDataObject.headers, xFunctionKey);
-        try {
-          const res = await FunctionsService.runFunction(url, testDataObject.method as Method, headers, testDataObject.body);
-          const resData = res.metadata.success ? res.data : res.metadata.error;
-          let responseText = '';
-          // Stringify the response if it is JSON, otherwise use it as such
-          try {
-            responseText = JSON.stringify(resData);
-          } catch (e) {
-            responseText = resData;
-          }
-          setResponseContent({
-            code: res.metadata.status,
-            text: responseText,
-          });
-        } catch (err) {
-          // TODO (krmitta): Show an error if the call to run the function fails
-        }
+    if (!!runResponse) {
+      let resData = '';
+      if (runResponse.metadata.success) {
+        resData = runResponse.data;
+      } else {
+        // TODO (krmitta): Handle error thrown and show the output accordingly
       }
+
+      let responseText = '';
+      // Stringify the response if it is JSON, otherwise use it as such
+      try {
+        responseText = JSON.stringify(resData);
+      } catch (e) {
+        responseText = resData;
+      }
+      setResponseContent({
+        code: runResponse.metadata.status,
+        text: responseText,
+      });
     }
     setFunctionRunning(false);
   };
@@ -365,7 +416,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       SiteService.fireSyncTrigger(site, startupInfoContext.token).then(r => {
         fetchData();
         if (!r.metadata.success) {
-          LogService.error(LogCategories.FunctionEdit, 'fireSyncTrigger', `Failed to fire syncTrigger: ${r.metadata.error}`);
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'fireSyncTrigger',
+            `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
+          );
         }
       });
     }

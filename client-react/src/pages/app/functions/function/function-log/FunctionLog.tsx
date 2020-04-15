@@ -12,6 +12,7 @@ import { TextUtilitiesService } from '../../../../../utils/textUtilities';
 import FunctionLogCommandBar from './FunctionLogCommandBar';
 import { Resizable } from 're-resizable';
 import { LogLevel, LogEntry } from './FunctionLog.types';
+import { useTranslation } from 'react-i18next';
 
 interface FunctionLogProps {
   isExpanded: boolean;
@@ -33,6 +34,7 @@ interface FunctionLogProps {
   isResizable?: boolean;
   logPanelHeight?: number;
   setLogPanelHeight?: (height: number) => void;
+  leftAlignMainToolbarItems?: boolean;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
@@ -56,12 +58,15 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     stopLogs,
     clearLogs,
     allLogEntries,
+    leftAlignMainToolbarItems,
   } = props;
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [visibleLogEntries, setVisibleLogEntries] = useState<LogEntry[]>([]);
   const [logLevel, setLogLevel] = useState<LogLevel>(LogLevel.Information);
+
+  const { t } = useTranslation();
 
   const onExpandClick = () => {
     if (toggleExpand) {
@@ -176,6 +181,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         hideLiveMetrics={!!hideLiveMetrics}
         appInsightsResourceId={appInsightsResourceId}
         setLogLevel={setLogLevel}
+        leftAlignMainToolbarItems={leftAlignMainToolbarItems}
       />
       {isExpanded && (
         <div
@@ -190,7 +196,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
           {errorMessage && <div className={logErrorDivStyle}>{errorMessage}</div>}
 
           {/*Loading Message*/}
-          {!errorMessage && started && loadingMessage && <div className={logConnectingDivStyle}>{loadingMessage}</div>}
+          {!errorMessage && started && <div className={logConnectingDivStyle}>{loadingMessage ? loadingMessage : t('connected')}</div>}
 
           {/*Log Entries*/}
           {visibleLogEntries.map((logEntry: LogEntry, logIndex: number) => {

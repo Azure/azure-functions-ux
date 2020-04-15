@@ -29,6 +29,7 @@ import { BindingType } from '../../../../../../models/functions/function-binding
 import { PortalTheme } from '../../../../../../models/portal-models';
 import { StartupInfoContext } from '../../../../../../StartupInfoContext';
 import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
+import { FunctionEditorContext } from '../FunctionEditorDataLoader';
 
 export interface FunctionTestInputProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -112,8 +113,11 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
   const { t } = useTranslation();
 
   const startUpInfoContext = useContext(StartupInfoContext);
+  const functionEditorContext = useContext(FunctionEditorContext);
 
   const { values, functionInfo, body, onRequestBodyChange, urlObjs } = props;
+
+  const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
 
   const getDropdownOptions = (): IDropdownOption[] => {
     const httpTrigger = functionInfo.properties.config.bindings.find(b => {
@@ -147,28 +151,34 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
   return (
     <div className={pivotItemWrapper}>
       {t('functionTestInputDescription')}
-      <div className={functionTestGroupStyle}>
-        <FormControlWrapper
-          label={t('httpRun_httpMethod')}
-          layout={Layout.vertical}
-          tooltip={t('httpMethod_tooltip')}
-          defaultLabelClassName={testFormLabelStyle}>
-          <Field id="method" name="method" component={Dropdown} options={getDropdownOptions()} />
-        </FormControlWrapper>
-      </div>
+      {isHttpOrWebHookFunction && (
+        <div className={functionTestGroupStyle}>
+          <FormControlWrapper
+            label={t('httpRun_httpMethod')}
+            layout={Layout.vertical}
+            tooltip={t('httpMethod_tooltip')}
+            defaultLabelClassName={testFormLabelStyle}>
+            <Field id="method" name="method" component={Dropdown} options={getDropdownOptions()} />
+          </FormControlWrapper>
+        </div>
+      )}
       <div className={functionTestGroupStyle}>
         <FormControlWrapper label={t('keysDialog_key')} layout={Layout.vertical} defaultLabelClassName={testFormLabelStyle}>
           <Field id="xFunctionKey" name="xFunctionKey" component={Dropdown} options={getFunctionKeyDropdown()} />
         </FormControlWrapper>
       </div>
-      <div className={functionTestGroupStyle}>
-        <Label className={testFormLabelStyle}>{t('httpRun_query')}</Label>
-        <KeyValueFieldArrayComponent itemName="queries" items={values.queries} addItemText={t('httpRun_addParameter')} />
-      </div>
-      <div className={functionTestGroupStyle}>
-        <Label className={testFormLabelStyle}>{t('httpRun_headers')}</Label>
-        <KeyValueFieldArrayComponent itemName="headers" items={values.headers} addItemText={t('httpRun_addHeader')} />
-      </div>
+      {isHttpOrWebHookFunction && (
+        <div className={functionTestGroupStyle}>
+          <Label className={testFormLabelStyle}>{t('httpRun_query')}</Label>
+          <KeyValueFieldArrayComponent itemName="queries" items={values.queries} addItemText={t('httpRun_addParameter')} />
+        </div>
+      )}
+      {isHttpOrWebHookFunction && (
+        <div className={functionTestGroupStyle}>
+          <Label className={testFormLabelStyle}>{t('httpRun_headers')}</Label>
+          <KeyValueFieldArrayComponent itemName="headers" items={values.headers} addItemText={t('httpRun_addHeader')} />
+        </div>
+      )}
       <div className={functionTestGroupStyle}>
         <Label className={testFormLabelStyle}>{t('rrOverride_boby')}</Label>
         <div className={bodyEditorStyle}>

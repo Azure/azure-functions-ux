@@ -15,6 +15,7 @@ import FunctionLog from './FunctionLog';
 import { getLogTextColor } from './FunctionLog.styles';
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 
 interface FunctionLogAppInsightsDataLoaderProps {
   resourceId: string;
@@ -30,6 +31,7 @@ interface FunctionLogAppInsightsDataLoaderProps {
   logPanelHeight?: number;
   setLogPanelHeight?: (height: number) => void;
   isScopeFunctionApp?: boolean;
+  leftAlignMainToolbarItems?: boolean;
 }
 
 const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoaderProps> = props => {
@@ -70,7 +72,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
           LogService.error(
             LogCategories.functionLog,
             'getAppInsights',
-            `Failed to get app insights: ${appInsightsResponse.metadata.error}`
+            `Failed to get app insights: ${getErrorMessageOrStringify(appInsightsResponse.metadata.error)}`
           );
         }
       }
@@ -79,7 +81,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       LogService.error(
         LogCategories.functionLog,
         'getAppInsightsResourceId',
-        `Failed to get app insights resource Id: ${appInsightsResourceIdResponse.metadata.error}`
+        `Failed to get app insights resource Id: ${getErrorMessageOrStringify(appInsightsResourceIdResponse.metadata.error)}`
       );
     }
   };
@@ -120,11 +122,12 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
         }
       })
       .catch(error => {
+        const errorString = typeof error === 'string' ? error : JSON.stringify(error);
         resetAppInsightsToken();
         LogService.error(
           LogCategories.functionLog,
           'getAppInsightsComponentToken',
-          `Error when attempting to Query Application Insights: ${error}`
+          `Error when attempting to Query Application Insights: ${errorString}`
         );
       })
       .finally(() => {

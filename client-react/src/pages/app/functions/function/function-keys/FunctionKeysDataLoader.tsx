@@ -11,6 +11,7 @@ import { LogCategories } from '../../../../../utils/LogCategories';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Site } from '../../../../../models/site/site';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 
 const functionKeysData = new FunctionKeysData();
 export const FunctionKeysContext = React.createContext(functionKeysData);
@@ -36,7 +37,11 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
       SiteService.fireSyncTrigger(site, startupInfoContext.token).then(r => {
         fetchData();
         if (!r.metadata.success) {
-          LogService.error(LogCategories.functionKeys, 'fireSyncTrigger', `Failed to fire syncTrigger: ${r.metadata.error}`);
+          LogService.error(
+            LogCategories.functionKeys,
+            'fireSyncTrigger',
+            `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
+          );
         }
       });
     }
@@ -51,7 +56,11 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
     if (siteResponse.metadata.success) {
       setSite(siteResponse.data);
     } else {
-      LogService.error(LogCategories.functionKeys, 'fetchSite', `Failed to fetch site: ${siteResponse.metadata.error}`);
+      LogService.error(
+        LogCategories.functionKeys,
+        'fetchSite',
+        `Failed to fetch site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
+      );
     }
 
     if (functionKeys.metadata.status === 409 || functionKeys.metadata.status === 403) {

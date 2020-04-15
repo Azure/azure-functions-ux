@@ -10,6 +10,7 @@ import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import AppInsightsSetup from '../../functions/function/monitor/AppInsightsSetup';
 import FunctionLogAppInsightsDataLoader from '../../functions/function/function-log/FunctionLogAppInsightsDataLoader';
 import { paddingStyle } from './LogStream.styles';
+import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;
@@ -37,7 +38,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
           LogService.error(
             LogCategories.functionAppLog,
             'getAppInsights',
-            `Failed to get app insights: ${appInsightsResponse.metadata.error}`
+            `Failed to get app insights: ${getErrorMessageOrStringify(appInsightsResponse.metadata.error)}`
           );
         }
       }
@@ -46,7 +47,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
       LogService.error(
         LogCategories.functionAppLog,
         'getAppInsightsResourceId',
-        `Failed to get app insights resource Id: ${appInsightsResourceIdResponse.metadata.error}`
+        `Failed to get app insights resource Id: ${getErrorMessageOrStringify(appInsightsResourceIdResponse.metadata.error)}`
       );
     }
   };
@@ -86,6 +87,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
         isResizable={false}
         hideChevron={true}
         isScopeFunctionApp={true}
+        leftAlignMainToolbarItems={true}
       />
     </div>
   );

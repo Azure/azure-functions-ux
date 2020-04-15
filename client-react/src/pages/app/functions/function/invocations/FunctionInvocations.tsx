@@ -10,7 +10,6 @@ import {
   IColumn,
   SearchBox,
   ICommandBarItemProps,
-  ActionButton,
   PanelType,
   MessageBarType,
   Label,
@@ -23,7 +22,6 @@ import { ReactComponent as SuccessSvg } from '../../../../../images/Common/Succe
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { PortalContext } from '../../../../../PortalContext';
 import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
-import { defaultCellStyle } from '../../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import FunctionInvocationDetails from './FunctionInvocationDetails';
 import Panel from '../../../../../components/Panel/Panel';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
@@ -56,7 +54,6 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
 
-  const [showFilter, setShowFilter] = useState(false);
   const [filterValue, setFilterValue] = useState('');
   const [showDelayMessage, setShowDelayMessage] = useState(false);
 
@@ -73,12 +70,6 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         onClick: refreshInvocations,
         iconProps: { iconName: 'Refresh' },
         name: t('refresh'),
-      },
-      {
-        key: 'invocations-show-filter',
-        onClick: toggleFilter,
-        iconProps: { iconName: 'Filter' },
-        name: t('filter'),
       },
     ];
   };
@@ -98,11 +89,6 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
     );
   };
 
-  const toggleFilter = () => {
-    setFilterValue('');
-    setShowFilter(!showFilter);
-  };
-
   const getColumns = (): IColumn[] => {
     return [
       {
@@ -111,8 +97,6 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         fieldName: 'timestampFriendly',
         minWidth: 210,
         maxWidth: 260,
-        isRowHeader: true,
-        isPadded: true,
         isResizable: true,
         onRender: onRenderDateColumn,
       },
@@ -122,8 +106,6 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         fieldName: 'success',
         minWidth: 100,
         maxWidth: 150,
-        isRowHeader: false,
-        isPadded: true,
         isResizable: true,
         onRender: onRenderSuccessColumn,
       },
@@ -133,8 +115,6 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         fieldName: 'resultCode',
         minWidth: 100,
         maxWidth: 150,
-        isRowHeader: false,
-        isPadded: true,
         isResizable: true,
       },
       {
@@ -143,7 +123,6 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         fieldName: 'duration',
         minWidth: 210,
         maxWidth: 260,
-        isRowHeader: false,
         isResizable: true,
       },
       {
@@ -151,8 +130,6 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         name: t('operationId'),
         fieldName: 'operationId',
         minWidth: 250,
-        isRowHeader: true,
-        isPadded: true,
         isResizable: true,
       },
     ];
@@ -160,18 +137,16 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
 
   const onRenderDateColumn = (trace: AppInsightsInvocationTrace, index: number, column: IColumn) => {
     return (
-      <ActionButton className={defaultCellStyle} id={`invocations-${index}`} onClick={() => setCurrentTrace(trace)}>
-        <span aria-live="assertive" role="region">
-          {trace[column.fieldName!]}
-        </span>
-      </ActionButton>
+      <span id={`invocations-${index}`} onClick={() => setCurrentTrace(trace)} role="button">
+        {trace[column.fieldName!]}
+      </span>
     );
   };
 
   const onRenderSuccessColumn = (trace: AppInsightsInvocationTrace) => {
     return (
       <span className={successElement}>
-        {trace.success ? <SuccessSvg /> : <ErrorSvg />} {trace.success ? t('success') : t('error')}
+        {trace.success ? <SuccessSvg /> : <ErrorSvg />} <span>{trace.success ? t('success') : t('error')}</span>
       </span>
     );
   };
@@ -231,17 +206,15 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
           emptyMessage={t('noResults')}>
-          {showFilter && (
-            <SearchBox
-              id="invocations-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterBoxStyle}
-              placeholder={t('filterInvocations')}
-              onChange={newValue => setFilterValue(newValue)}
-            />
-          )}
+          <SearchBox
+            id="invocations-search"
+            className="ms-slideDownIn20"
+            autoFocus
+            iconProps={{ iconName: 'Filter' }}
+            styles={filterBoxStyle}
+            placeholder={t('filterInvocations')}
+            onChange={newValue => setFilterValue(newValue)}
+          />
         </DisplayTableWithCommandBar>
       ) : (
         <LoadingComponent />

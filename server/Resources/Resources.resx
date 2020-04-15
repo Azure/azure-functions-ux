@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root" 
-        xmlns="" 
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    <xsd:schema id="root"
+        xmlns=""
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
@@ -1468,6 +1468,9 @@
     <data name="configUpdateFailure" xml:space="preserve">
         <value>Failed to update web app settings</value>
     </data>
+    <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>Failed to update web app settings: {0}</value>
+    </data>
     <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Save Error: Invlid input provided.</value>
     </data>
@@ -2280,6 +2283,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>Failed to create slot '{0}' </value>
+    </data>
+    <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>Failed to create slot '{0}': {1}</value>
     </data>
     <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>Unable to retrieve the list of slots: {{errorMessage}}</value>
@@ -5903,5 +5909,65 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
+    </data>
+    <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>Editing Python Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+    </data>
+    <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>Editing Java Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+    </data>
+    <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>Use your local development environment to edit this function. This function uses Local Cache and cannot be edited here.</value>
+    </data>
+    <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>Your app is currently in read only mode because you have source control integration enabled.</value>
+    </data>
+    <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>Your app is currently in read only mode because you have configured deployment slots.</value>
+    </data>
+    <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>Use your local development environment to edit this function. This function was created in a local environment and cannot be edited here.</value>
+    </data>
+    <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>Your app is currently in read only mode because it has been manually set to read only.</value>
+    </data>
+    <data name="connected" xml:space="preserve">
+        <value>Connected!</value>
+    </data>
+    <data name="blaclistFile_message" xml:space="preserve">
+        <value>Editing this file type is not supported in the portal editor.</value>
+    </data>
+    <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
+        <value>No environment variables to display</value>
+    </data>
+    <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Add new environment variable</value>
+    </data>
+    <data name="staticSite_environmentVariables" xml:space="preserve">
+        <value>Environment variables</value>
+    </data>
+    <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
+        <value>Environment variables applicable to your site are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below.</value>
+    </data>
+    <data name="staticSite_environment" xml:space="preserve">
+        <value>Environment</value>
+    </data>
+    <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
+        <value>Select the environment for the site</value>
+    </data>
+    <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
+        <value>Filter environment variable</value>
+    </data>
+    <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
+        <value>Add/Edit environment variable</value>
+    </data>
+    <data name="staticSite_discardChangesMessage" xml:space="preserve">
+        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+    </data>
+    <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
+        <value>Your unsaved changes will be discarded.</value>
+    </data>
+    <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
+        <value>Are you sure you would like to change files?</value>
     </data>
 </root>
