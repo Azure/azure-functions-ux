@@ -17,7 +17,7 @@ export class LoggingService extends Logger implements LoggerService {
         .setAutoCollectConsole(true)
         .setUseDiskRetryCaching(true)
         .start();
-      setInterval(this.trackAppServicePerformance, 30 * 1000);
+      setInterval(this._trackAppServicePerformance, 30 * 1000);
       this.client = appInsights.defaultClient;
     }
   }
@@ -54,10 +54,10 @@ export class LoggingService extends Logger implements LoggerService {
       name,
       properties,
       measurements,
+      contextObjects: this._getContextObject(),
     });
   }
-
-  private trackAppServicePerformance() {
+  private _trackAppServicePerformance() {
     // this is a special environment variable on AppService
     // It contains a JSON with the structure defined in AppServicePerformanceCounters
     // We track these as perf metrics into app insights
@@ -67,9 +67,17 @@ export class LoggingService extends Logger implements LoggerService {
       const counters = JSON.parse(value) as AppServicePerformanceCounters;
       for (const counterName in counters) {
         if (counters.hasOwnProperty(counterName)) {
-          client.trackMetric({ name: counterName, value: counters[counterName] });
+          client.trackMetric({ name: counterName, value: counters[counterName], contextObjects: this._getContextObject() });
         }
       }
     }
+  }
+
+  private _getContextObject(): { [name: string]: string } {
+    return {
+      hostName: process.env.WEBSITE_HOSTNAME,
+      appName: process.env.WEBSITE_SITE_NAME,
+      version: process.env.VERSION,
+    };
   }
 }
