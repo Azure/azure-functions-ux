@@ -58,6 +58,7 @@ const ConfigurationAddEdit: React.FC<ConfigurationAddEditProps> = props => {
     if (!value) {
       return t('staticSite_environmentVariablePropIsRequired').format('name');
     }
+
     return environmentVariables.filter(v => v.name.toLowerCase() === value.toLowerCase()).length >= 1
       ? t('staticSite_environmentVariableNamesUnique')
       : '';

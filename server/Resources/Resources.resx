@@ -5965,7 +5965,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Are you sure you would like to change files?</value>
     </data>
     <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} is a required property on all environment variables.</value>
+        <value>{0} is a required property on all environment variables</value>
     </data>
     <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
         <value>Environment variable name must be unique</value>
