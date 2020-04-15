@@ -47,6 +47,8 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
   };
 
   useEffect(() => {
+    // third parameter refers to the number of white spaces.
+    // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
     setEnvironmentVariablesJSON(JSON.stringify(environmentVariables, null, 2));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -126,8 +126,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const onRenderColumnItem = (item: EnvironmentVariable, index: number, column: IColumn) => {
-    const itemKey = item.name;
-    const hidden = !shownValues.includes(itemKey) && !showAllValues;
     if (!column || !item) {
       return null;
     }
@@ -151,6 +149,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         </TooltipHost>
       );
     }
+
     if (column.key === 'edit') {
       return (
         <TooltipHost content={t('edit')} id={`environment-variable-edit-tooltip-${index}`} calloutProps={{ gapSpace: 0 }} closeDelay={500}>
@@ -167,7 +166,10 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         </TooltipHost>
       );
     }
+
     if (column.key === 'value') {
+      const itemKey = item.name;
+      const hidden = !shownValues.includes(itemKey) && !showAllValues;
       return (
         <>
           <ActionButton
@@ -186,11 +188,13 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         </>
       );
     }
+
     if (column.key === 'name') {
       column.className = '';
       if (isEnvironmentVariableDirty(index)) {
         column.className = dirtyElementStyle(theme);
       }
+
       return (
         <ActionButton
           className={defaultCellStyle}
@@ -205,6 +209,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         </ActionButton>
       );
     }
+
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
@@ -427,11 +432,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
           columns={getColumns()}
-          items={environmentVariables.filter(x => {
+          items={environmentVariables.filter(environmentVariable => {
             if (!filter) {
               return true;
             }
-            return x.name.toLowerCase().includes(filter.toLowerCase());
+            return environmentVariable.name.toLowerCase().includes(filter.toLowerCase());
           })}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
