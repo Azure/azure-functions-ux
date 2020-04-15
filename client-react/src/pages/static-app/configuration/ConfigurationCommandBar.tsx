@@ -7,11 +7,12 @@ import { useTranslation } from 'react-i18next';
 interface ConfigurationCommandBarProps {
   save: () => void;
   showDiscardConfirmDialog: () => void;
+  refresh: () => void;
   disabled: boolean;
 }
 
 const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props => {
-  const { save, disabled, showDiscardConfirmDialog } = props;
+  const { save, disabled, showDiscardConfirmDialog, refresh } = props;
 
   const { t } = useTranslation();
 
@@ -42,7 +43,7 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
           iconName: 'Refresh',
         },
         disabled: false,
-        onClick: () => {},
+        onClick: refresh,
       },
     ];
   };

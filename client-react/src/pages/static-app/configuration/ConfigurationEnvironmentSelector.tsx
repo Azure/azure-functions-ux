@@ -9,11 +9,12 @@ import { Environment } from '../../../models/static-site/environment';
 
 interface ConfigurationEnvironmentSelectorProps {
   environments: ArmObj<Environment>[];
+  disabled: boolean;
   onDropdownChange: (environment: ArmObj<Environment>, defaultChange?: boolean) => void;
 }
 
 const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelectorProps> = props => {
-  const { environments, onDropdownChange } = props;
+  const { environments, onDropdownChange, disabled } = props;
 
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
@@ -49,7 +50,7 @@ const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelecto
         options={dropdownOptions}
         onChange={onChange}
         ariaLabel={t('staticSite_environmentDropdownAriaLabel')}
-        disabled={false}
+        disabled={disabled}
         styles={fileSelectorDropdownStyle()}
       />
     </Stack>

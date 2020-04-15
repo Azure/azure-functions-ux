@@ -31,17 +31,27 @@ import { KeyValue } from '../../../models/portal-models';
 import ConfigurationData from './Configuration.data';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
+import LoadingComponent from '../../../components/Loading/LoadingComponent';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
   environments: ArmObj<Environment>[];
+  isRefreshing: boolean;
   fetchEnvironmentVariables: (resourceId: string) => {};
   saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
+  refresh: () => void;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
 }
 
 const Configuration: React.FC<ConfigurationProps> = props => {
-  const { environments, fetchEnvironmentVariables, selectedEnvironmentVariableResponse, saveEnvironmentVariables } = props;
+  const {
+    environments,
+    fetchEnvironmentVariables,
+    selectedEnvironmentVariableResponse,
+    saveEnvironmentVariables,
+    refresh,
+    isRefreshing,
+  } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [showAllValues, setShowAllValues] = useState(false);
@@ -383,8 +393,13 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   return (
     <>
       <div className={commandBarSticky}>
-        <ConfigurationCommandBar save={save} disabled={!isDirty} showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)} />
-        <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} />
+        <ConfigurationCommandBar
+          save={save}
+          disabled={!isDirty}
+          showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)}
+          refresh={refresh}
+        />
+        <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} disabled={isRefreshing} />
       </div>
       <>
         <ConfirmDialog
@@ -474,6 +489,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           />
         </Panel>
       </div>
+      {isRefreshing && <LoadingComponent overlay={true} />}
     </>
   );
 };
