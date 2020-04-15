@@ -2,6 +2,10 @@ import { Logger, LoggerService } from '@nestjs/common';
 import { AppServicePerformanceCounters } from '../../types/app-service-performance-counters';
 import * as appInsights from 'applicationinsights';
 
+interface ContextObject {
+  [name: string]: string;
+}
+
 export class LoggingService extends Logger implements LoggerService {
   private client: appInsights.TelemetryClient;
   constructor() {
@@ -73,7 +77,7 @@ export class LoggingService extends Logger implements LoggerService {
     }
   }
 
-  private _getContextObject(): { [name: string]: string } {
+  private _getContextObject(): ContextObject {
     return {
       hostName: process.env.WEBSITE_HOSTNAME,
       appName: process.env.WEBSITE_SITE_NAME,
