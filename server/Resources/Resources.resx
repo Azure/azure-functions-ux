@@ -5133,6 +5133,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
         <value>{0} details</value>
     </data>
+    <data name="integratePageTitle" xml:space="preserve">
+        <value>Integration</value>
+    </data>
+    <data name="integratePageDescription" xml:space="preserve">
+        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
+    </data>
     <data name="_function" xml:space="preserve">
         <value>Function</value>
     </data>

@@ -189,6 +189,10 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       <BindingEditorContext.Provider value={editorContext}>
         <FunctionIntegrateCommandBar refreshIntegrate={refreshIntegrate} isRefreshing={isRefreshing} />
         {banner}
+        <div className={smallPageStyle}>
+          <h3>{t('integratePageTitle')}</h3>
+          <div>{t('integratePageDescription')}</div>
+        </div>
         <BindingPanel
           functionAppId={functionAppId}
           functionInfo={functionInfo}
