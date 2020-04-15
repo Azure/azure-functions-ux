@@ -30,6 +30,7 @@ import { sortBy } from 'lodash-es';
 import { KeyValue } from '../../../models/portal-models';
 import ConfigurationData from './Configuration.data';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
+import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
@@ -52,7 +53,9 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [currentEnvironmentVariableIndex, setCurrentEnvironmentVariableIndex] = useState<number | undefined>(undefined);
   const [isDirty, setIsDirty] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
+  const [isOnChangeConfirmDialogVisible, setIsOnChangeConfirmDialogVisible] = useState(false);
   const [selectedEnvironment, setSelectedEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
+  const [onChangeEnvironment, setOnChangeEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -79,7 +82,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const openBulkEdit = () => {
-    // TODO (krmitta): Add logic here
+    setShowPanel(true);
+    setPanelType(PanelType.bulk);
   };
 
   const toggleFilter = () => {
@@ -141,7 +145,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
             onClick={() => {
-              // TODO (krmitta): Add delete function
+              deleteEnvironmentVariable(index);
             }}
           />
         </TooltipHost>
@@ -254,9 +258,13 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     ];
   };
 
-  const onDropdownChange = async (environment: ArmObj<Environment>) => {
-    fetchEnvironmentVariables(environment.id);
-    setSelectedEnvironment(environment);
+  const onDropdownChange = (environment: ArmObj<Environment>, defaultChange?: boolean) => {
+    if (defaultChange) {
+      onEnvironmentChange(environment);
+    } else {
+      setOnChangeEnvironment(environment);
+      setIsOnChangeConfirmDialogVisible(true);
+    }
   };
 
   const isEnvironmentVariableDirty = (index: number): boolean => {
@@ -288,8 +296,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const updateEnvironmentVariable = (updatedEnvironmentVariables: EnvironmentVariable[]) => {
     const sortedUpdatedEnvironmentVariables = sort(updatedEnvironmentVariables);
-    const dirtyState = getDirtyState(sortedUpdatedEnvironmentVariables);
-    setIsDirty(dirtyState);
     setEnvironmentVariables([...sortedUpdatedEnvironmentVariables]);
   };
 
@@ -326,7 +332,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const initEnvironmentVariables = () => {
     setEnvironmentVariables(getInitialEnvironmentVariables());
-    setIsDirty(false);
   };
 
   const discard = () => {
@@ -338,6 +343,33 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     setIsDiscardConfirmDialogVisible(false);
   };
 
+  const hideOnChangeConfirmDialog = () => {
+    setIsOnChangeConfirmDialogVisible(false);
+    setOnChangeEnvironment(undefined);
+  };
+
+  const onEnvironmentChange = (environment?: ArmObj<Environment>) => {
+    const env: ArmObj<Environment> | undefined = onChangeEnvironment || environment;
+    if (!!env) {
+      fetchEnvironmentVariables(env.id);
+      setSelectedEnvironment(env);
+    }
+    hideOnChangeConfirmDialog();
+  };
+
+  const deleteEnvironmentVariable = (index: number) => {
+    if (index < environmentVariables.length) {
+      const deleteItem = environmentVariables[index];
+      setEnvironmentVariables([...environmentVariables.filter(environmentVariable => environmentVariable !== deleteItem)]);
+    }
+  };
+
+  useEffect(() => {
+    const dirtyState = getDirtyState(environmentVariables);
+    setIsDirty(dirtyState);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [environmentVariables]);
   useEffect(() => {
     initEnvironmentVariables();
 
@@ -363,6 +395,20 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           content={t('staticSite_discardChangesMesssage').format(!!selectedEnvironment ? selectedEnvironment.name : '')}
           hidden={!isDiscardConfirmDialogVisible}
           onDismiss={hideDiscardConfirmDialog}
+        />
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('ok'),
+            onClick: onEnvironmentChange,
+          }}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: hideOnChangeConfirmDialog,
+          }}
+          title={t('staticSite_changeEnvironmentTitle')}
+          content={t('staticSite_changeEnvironmentMessage')}
+          hidden={!isOnChangeConfirmDialogVisible}
+          onDismiss={hideOnChangeConfirmDialog}
         />
       </>
       <div className={formStyle}>
@@ -410,6 +456,13 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           headerText={t('staticSite_addEditEnvironmentVariable')}>
           <ConfigurationAddEdit
             currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
+            environmentVariables={environmentVariables}
+            cancel={onCancel}
+            updateEnvironmentVariable={updateEnvironmentVariable}
+          />
+        </Panel>
+        <Panel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
+          <ConfigurationAdvancedAddEdit
             environmentVariables={environmentVariables}
             cancel={onCancel}
             updateEnvironmentVariable={updateEnvironmentVariable}
