@@ -15,10 +15,13 @@ interface ConfigurationAddEditProps {
 const ConfigurationAddEdit: React.FC<ConfigurationAddEditProps> = props => {
   const { environmentVariables, currentEnvironmentVariableIndex, updateEnvironmentVariable, cancel } = props;
   const [currentEnvironmentVariable, setCurrentEnvironmentVariable] = useState<EnvironmentVariable>({ name: '', value: '' });
+  const [nameError, setNameError] = useState('');
 
   const { t } = useTranslation();
 
   const onNameChange = (e: any, name: string) => {
+    const error = validateEnvironmentVariableName(name);
+    setNameError(error);
     setCurrentEnvironmentVariable({ ...currentEnvironmentVariable, name });
   };
 
@@ -41,7 +44,7 @@ const ConfigurationAddEdit: React.FC<ConfigurationAddEditProps> = props => {
     id: 'save',
     title: t('ok'),
     onClick: save,
-    disable: !currentEnvironmentVariable.name || !currentEnvironmentVariable.value,
+    disable: !!nameError || !currentEnvironmentVariable.name,
   };
 
   const actionBarSecondaryButtonProps = {
@@ -49,6 +52,15 @@ const ConfigurationAddEdit: React.FC<ConfigurationAddEditProps> = props => {
     title: t('cancel'),
     onClick: cancel,
     disable: false,
+  };
+
+  const validateEnvironmentVariableName = (value: string) => {
+    if (!value) {
+      return t('staticSite_environmentVariablePropIsRequired').format('name');
+    }
+    return environmentVariables.filter(v => v.name.toLowerCase() === value.toLowerCase()).length >= 1
+      ? t('staticSite_environmentVariableNamesUnique')
+      : '';
   };
 
   useEffect(() => {
@@ -68,6 +80,7 @@ const ConfigurationAddEdit: React.FC<ConfigurationAddEditProps> = props => {
           value={currentEnvironmentVariable.name}
           onChange={onNameChange}
           copyButton={true}
+          errorMessage={nameError}
           autoFocus
         />
         <TextFieldNoFormik

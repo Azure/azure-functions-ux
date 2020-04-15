@@ -1930,4 +1930,6 @@ export class PortalResources {
   public static staticSite_discardChangesMessage = 'staticSite_discardChangesMessage';
   public static staticSite_changeEnvironmentTitle = 'staticSite_changeEnvironmentTitle';
   public static staticSite_changeEnvironmentMessage = 'staticSite_changeEnvironmentMessage';
+  public static staticSite_environmentVariablePropIsRequired = 'staticSite_environmentVariablePropIsRequired';
+  public static staticSite_environmentVariableNamesUnique = 'staticSite_environmentVariableNamesUnique';
 }
