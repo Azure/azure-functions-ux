@@ -10,6 +10,8 @@ import { ArmObj } from '../../../models/arm-obj';
 import { StaticSite } from '../../../models/static-site/static-site';
 import { Environment } from '../../../models/static-site/environment';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
+import { EnvironmentVariable } from './Configuration.types';
+import { KeyValue } from '../../../models/portal-models';
 
 const configurationData = new ConfigurationData();
 export const ConfigurationContext = React.createContext(configurationData);
@@ -24,6 +26,9 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   const [initialLoading, setInitialLoading] = useState(false);
   const [staticSite, setStaticSite] = useState<ArmObj<StaticSite> | undefined>(undefined);
   const [environments, setEnvironments] = useState<ArmObj<Environment>[]>([]);
+  const [selectedEnvironmentVariableResponse, setSelectedEnvironmentVariableResponse] = useState<ArmObj<KeyValue<string>> | undefined>(
+    undefined
+  );
 
   const fetchData = async () => {
     setInitialLoading(true);
@@ -56,6 +61,40 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     setInitialLoading(false);
   };
 
+  const fetchEnvironmentVariables = async (environmentResourceId: string) => {
+    const environmentSettingsResponse = await EnvironmentService.fetchEnvironmentSettings(environmentResourceId);
+    if (environmentSettingsResponse.metadata.success) {
+      setSelectedEnvironmentVariableResponse(environmentSettingsResponse.data);
+    } else {
+      LogService.error(
+        LogCategories.staticSiteConfiguration,
+        'fetchEnvironmentSettings',
+        `Failed to fetch environment settings: ${getErrorMessageOrStringify(environmentSettingsResponse.metadata.error)}`
+      );
+    }
+  };
+
+  const saveEnvironmentVariables = async (environmentResourceId: string, environmentVariables: EnvironmentVariable[]) => {
+    if (!!selectedEnvironmentVariableResponse) {
+      const updatedEnvironmentVariablesObject = ConfigurationData.convertEnvironmentVariablesArrayToObject(environmentVariables);
+      const updatedEnvironmentVariableRequest = selectedEnvironmentVariableResponse;
+      updatedEnvironmentVariableRequest.properties = updatedEnvironmentVariablesObject;
+      const environmentSettingsResponse = await EnvironmentService.saveEnvironmentVariables(
+        environmentResourceId,
+        updatedEnvironmentVariableRequest
+      );
+      if (environmentSettingsResponse.metadata.success) {
+        setSelectedEnvironmentVariableResponse(environmentSettingsResponse.data);
+      } else {
+        LogService.error(
+          LogCategories.staticSiteConfiguration,
+          'saveEnvironmentSettings',
+          `Failed to save environment settings: ${getErrorMessageOrStringify(environmentSettingsResponse.metadata.error)}`
+        );
+      }
+    }
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -68,7 +107,13 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
 
   return (
     <ConfigurationContext.Provider value={configurationData}>
-      <Configuration staticSite={staticSite} environments={environments} />
+      <Configuration
+        staticSite={staticSite}
+        environments={environments}
+        fetchEnvironmentVariables={fetchEnvironmentVariables}
+        selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}
+        saveEnvironmentVariables={saveEnvironmentVariables}
+      />
     </ConfigurationContext.Provider>
   );
 };
