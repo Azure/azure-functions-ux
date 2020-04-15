@@ -340,7 +340,7 @@ export default class AppInsightsService {
             name: row[2],
             success: row[3] === 'True',
             resultCode: row[4],
-            duration: Number.parseFloat(row[5]),
+            duration: Math.round(Number.parseFloat(row[5])),
             operationId: row[6],
             invocationId: row[8],
           });
