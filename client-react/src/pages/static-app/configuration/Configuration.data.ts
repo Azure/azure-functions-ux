@@ -3,14 +3,10 @@ import { EnvironmentVariable } from './Configuration.types';
 
 export default class ConfigurationData {
   public static convertEnvironmentVariablesObjectToArray(environmentVariableObject: KeyValue<string>) {
-    const environmentVariableArray: EnvironmentVariable[] = [];
-    Object.keys(environmentVariableObject).map((key, i) =>
-      environmentVariableArray.push({
-        name: key,
-        value: environmentVariableObject[key],
-      })
-    );
-    return environmentVariableArray;
+    return Object.keys(environmentVariableObject).map(key => ({
+      name: key,
+      value: environmentVariableObject[key],
+    }));
   }
 
   public static convertEnvironmentVariablesArrayToObject(environmentVariableArray: EnvironmentVariable[]) {
