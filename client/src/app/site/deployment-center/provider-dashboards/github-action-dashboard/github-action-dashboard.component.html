@@ -147,6 +147,12 @@
                 </ngx-datatable-column>
                 <ngx-datatable-column name="{{'checkinMessage' | translate}}" prop="checkinMessage" [resizeable]="true" [flexGrow]="5">
                 </ngx-datatable-column>
+                <ngx-datatable-column name="{{'logs' | translate}}" prop="" editable="false"  [resizeable]="true" [flexGrow]="1">
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                      let-group="group">
+                          <span [load-image]="'image/logs.svg'" class="command-icon" (click)="details(row)" role="button" (keyup)="onLogsKeyUp($event.target.value, row)"></span>
+                    </ng-template>
+                  </ngx-datatable-column>
           </ngx-datatable>
         </div>
 
@@ -166,6 +172,7 @@
         [animate]="true"
         [showBackdrop]="true">
 
+        <github-deployment-detail [hidden]="hideCreds" [deploymentObject]="rightPaneItem" (closePanel)="sidebar.close()"></github-deployment-detail>
         <app-deployment-credentials [hidden]="!hideCreds" [resourceId]="resourceId"></app-deployment-credentials>
 
     </ng-sidebar>

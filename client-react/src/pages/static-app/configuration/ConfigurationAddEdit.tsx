@@ -27,7 +27,6 @@ const ConfigurationAddEdit: React.FC<ConfigurationAddEditProps> = props => {
   };
 
   const save = () => {
-    // Check and resolve the edit scenario first
     if (currentEnvironmentVariableIndex !== undefined && environmentVariables.length > currentEnvironmentVariableIndex) {
       environmentVariables[currentEnvironmentVariableIndex] = currentEnvironmentVariable;
     } else {
@@ -57,7 +56,6 @@ const ConfigurationAddEdit: React.FC<ConfigurationAddEditProps> = props => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <>
       <form className={addEditFormStyle}>

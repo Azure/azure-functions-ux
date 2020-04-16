@@ -9,15 +9,15 @@ interface ConfigurationCommandBarProps {
   showDiscardConfirmDialog: () => void;
   refresh: () => void;
   dirty: boolean;
-  isRefreshing: boolean;
+  isLoading: boolean;
 }
 
 const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props => {
-  const { save, dirty, showDiscardConfirmDialog, refresh, isRefreshing } = props;
+  const { save, dirty, showDiscardConfirmDialog, refresh, isLoading } = props;
 
   const { t } = useTranslation();
 
-  const isDisabled = !dirty || isRefreshing;
+  const isDisabled = !dirty || isLoading;
 
   const getItems = (): ICommandBarItemProps[] => {
     return [
@@ -45,7 +45,7 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
         iconProps: {
           iconName: 'Refresh',
         },
-        disabled: isRefreshing,
+        disabled: isLoading,
         onClick: refresh,
       },
     ];
