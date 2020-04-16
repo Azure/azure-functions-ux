@@ -1656,6 +1656,8 @@ export class PortalResources {
   public static integrateCreateTriggerBindingInstructions = 'integrateCreateTriggerBindingInstructions';
   public static integrateBindingType = 'integrateBindingType';
   public static integrateCreateBindingTypeDetails = 'integrateCreateBindingTypeDetails';
+  public static integratePageTitle = 'integratePageTitle';
+  public static integratePageDescription = 'integratePageDescription';
   public static _function = '_function';
   public static fetchingDeploymentData = 'fetchingDeploymentData';
   public static noDeploymentDataAvailable = 'noDeploymentDataAvailable';
