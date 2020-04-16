@@ -4,9 +4,13 @@ import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { useTranslation } from 'react-i18next';
 
-interface ConfigurationCommandBarProps {}
+interface ConfigurationCommandBarProps {
+  save: () => void;
+}
 
 const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props => {
+  const { save } = props;
+
   const { t } = useTranslation();
 
   const getItems = (): ICommandBarItemProps[] => {
@@ -18,7 +22,7 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
           iconName: 'Save',
         },
         disabled: false,
-        onClick: () => {},
+        onClick: save,
       },
       {
         key: 'discard',

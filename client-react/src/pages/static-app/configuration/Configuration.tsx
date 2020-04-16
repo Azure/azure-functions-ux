@@ -12,7 +12,7 @@ import {
   SearchBox,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { EnvironmentVariable } from './Configuration.types';
+import { EnvironmentVariable, PanelType } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { formStyle, commandBarSticky } from './Configuration.styles';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
@@ -24,29 +24,46 @@ import IconButton from '../../../components/IconButton/IconButton';
 import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
 import { ThemeContext } from '../../../ThemeContext';
 import { filterBoxStyle } from '../../app/functions/app-keys/AppKeys.styles';
+import Panel from '../../../components/Panel/Panel';
+import ConfigurationAddEdit from './ConfigurationAddEdit';
+import { sortBy } from 'lodash-es';
+import { KeyValue } from '../../../models/portal-models';
+import ConfigurationData from './Configuration.data';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
   environments: ArmObj<Environment>[];
-  environmentVariables: EnvironmentVariable[];
   fetchEnvironmentVariables: (resourceId: string) => {};
+  saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
+  selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
 }
 
 const Configuration: React.FC<ConfigurationProps> = props => {
-  const { environments, fetchEnvironmentVariables } = props;
+  const { environments, fetchEnvironmentVariables, selectedEnvironmentVariableResponse, saveEnvironmentVariables } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [showAllValues, setShowAllValues] = useState(false);
   const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariable[]>([]);
   const [showFilter, setShowFilter] = useState(false);
   const [filter, setFilter] = useState('');
+  const [showPanel, setShowPanel] = useState(false);
+  const [panelType, setPanelType] = useState<PanelType | undefined>(undefined);
+  const [currentEnvironmentVariableIndex, setCurrentEnvironmentVariableIndex] = useState<number | undefined>(undefined);
+  const [selectedEnvironment, setSelectedEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
 
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
 
-  const addNewEnvironmentVariable = () => {
-    // TODO (krmitta): Add logic here
+  const openAddNewEnvironmentVariablePanel = () => {
+    setShowPanel(true);
+    setPanelType(PanelType.edit);
+  };
+
+  const openEditEnvironmentVariablePanel = (index: number) => {
+    setCurrentEnvironmentVariableIndex(index);
+    setShowPanel(true);
+    setPanelType(PanelType.edit);
   };
 
   const toggleHideButton = () => {
@@ -73,7 +90,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     return [
       {
         key: 'add-new-environment-variable',
-        onClick: addNewEnvironmentVariable,
+        onClick: openAddNewEnvironmentVariablePanel,
         disabled: false,
         iconProps: { iconName: 'Add' },
         name: t('staticSite_addNewEnvironmentVariable'),
@@ -137,7 +154,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             iconProps={{ iconName: 'Edit' }}
             ariaLabel={t('edit')}
             onClick={() => {
-              // TODO (krmitta): Add edit function
+              openEditEnvironmentVariablePanel(index);
             }}
           />
         </TooltipHost>
@@ -173,7 +190,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           disabled={false}
           id={`environment-variable-name-${index}`}
           onClick={() => {
-            // TODO (krmitta): Add edit function
+            openEditEnvironmentVariablePanel(index);
           }}>
           <span aria-live="assertive" role="region">
             {item[column.fieldName!]}
@@ -236,10 +253,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const onDropdownChange = async (environment: ArmObj<Environment>) => {
     fetchEnvironmentVariables(environment.id);
+    setSelectedEnvironment(environment);
   };
 
   const isEnvironmentVariableDirty = (index: number): boolean => {
-    const initialEnvironmentVariables = props.environmentVariables;
+    const initialEnvironmentVariables = getInitialEnvironmentVariables();
     const currentRow = environmentVariables[index];
     const currentEnvironmentVariableIndex = initialEnvironmentVariables.findIndex(x => {
       return x.name.toLowerCase() === currentRow.name.toLowerCase() && x.value.toLowerCase() === currentRow.value.toLowerCase();
@@ -259,15 +277,43 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     setShownValues([...newShownValues]);
   };
 
+  const onCancel = () => {
+    setShowPanel(false);
+    setPanelType(undefined);
+    setCurrentEnvironmentVariableIndex(undefined);
+  };
+
+  const updateEnvironmentVariable = (updatedEnvironmentVariables: EnvironmentVariable[]) => {
+    setEnvironmentVariables([...sort(updatedEnvironmentVariables)]);
+  };
+
+  const sort = (environmentVariables: EnvironmentVariable[]) => {
+    return sortBy(environmentVariables, e => e.name.toLocaleLowerCase());
+  };
+
+  const save = () => {
+    if (!!selectedEnvironment) {
+      saveEnvironmentVariables(selectedEnvironment.id, environmentVariables);
+    }
+  };
+
+  const getInitialEnvironmentVariables = () => {
+    if (!!selectedEnvironmentVariableResponse) {
+      return sort(ConfigurationData.convertEnvironmentVariablesObjectToArray(selectedEnvironmentVariableResponse.properties));
+    } else {
+      return [];
+    }
+  };
+
   useEffect(() => {
-    setEnvironmentVariables(props.environmentVariables);
+    setEnvironmentVariables(getInitialEnvironmentVariables());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.environmentVariables]);
+  }, [selectedEnvironmentVariableResponse]);
   return (
     <>
       <div className={commandBarSticky}>
-        <ConfigurationCommandBar />
+        <ConfigurationCommandBar save={save} />
         <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} />
       </div>
       <div className={formStyle}>
@@ -309,6 +355,17 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             />
           )}
         </DisplayTableWithCommandBar>
+        <Panel
+          isOpen={showPanel && panelType === PanelType.edit}
+          onDismiss={onCancel}
+          headerText={t('staticSite_addEditEnvironmentVariable')}>
+          <ConfigurationAddEdit
+            currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
+            environmentVariables={environmentVariables}
+            cancel={onCancel}
+            updateEnvironmentVariable={updateEnvironmentVariable}
+          />
+        </Panel>
       </div>
     </>
   );
