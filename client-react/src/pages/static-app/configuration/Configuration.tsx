@@ -143,7 +143,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
             onClick={() => {
-              // TODO (krmitta): Add delete function
+              deleteEnvironmentVariable(index);
             }}
           />
         </TooltipHost>
@@ -294,8 +294,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const updateEnvironmentVariable = (updatedEnvironmentVariables: EnvironmentVariable[]) => {
     const sortedUpdatedEnvironmentVariables = sort(updatedEnvironmentVariables);
-    const dirtyState = getDirtyState(sortedUpdatedEnvironmentVariables);
-    setIsDirty(dirtyState);
     setEnvironmentVariables([...sortedUpdatedEnvironmentVariables]);
   };
 
@@ -332,7 +330,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const initEnvironmentVariables = () => {
     setEnvironmentVariables(getInitialEnvironmentVariables());
-    setIsDirty(false);
   };
 
   const discard = () => {
@@ -358,6 +355,19 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     hideOnChangeConfirmDialog();
   };
 
+  const deleteEnvironmentVariable = (index: number) => {
+    if (index < environmentVariables.length) {
+      const deleteItem = environmentVariables[index];
+      setEnvironmentVariables([...environmentVariables.filter(environmentVariable => environmentVariable !== deleteItem)]);
+    }
+  };
+
+  useEffect(() => {
+    const dirtyState = getDirtyState(environmentVariables);
+    setIsDirty(dirtyState);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [environmentVariables]);
   useEffect(() => {
     initEnvironmentVariables();
 
