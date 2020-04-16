@@ -5949,19 +5949,4 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>Select the environment for the site</value>
     </data>
-    <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filter environment variable</value>
-    </data>
-    <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
-        <value>Add/Edit environment variable</value>
-    </data>
-    <data name="staticSite_discardChangesMessage" xml:space="preserve">
-        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
-    </data>
-    <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
-        <value>Your unsaved changes will be discarded.</value>
-    </data>
-    <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
-        <value>Are you sure you would like to change files?</value>
-    </data>
 </root>
