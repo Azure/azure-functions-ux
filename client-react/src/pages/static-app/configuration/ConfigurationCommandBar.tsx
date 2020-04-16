@@ -4,9 +4,15 @@ import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { useTranslation } from 'react-i18next';
 
-interface ConfigurationCommandBarProps {}
+interface ConfigurationCommandBarProps {
+  save: () => void;
+  showDiscardConfirmDialog: () => void;
+  disabled: boolean;
+}
 
 const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props => {
+  const { save, disabled, showDiscardConfirmDialog } = props;
+
   const { t } = useTranslation();
 
   const getItems = (): ICommandBarItemProps[] => {
@@ -17,8 +23,8 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
         iconProps: {
           iconName: 'Save',
         },
-        disabled: false,
-        onClick: () => {},
+        disabled: disabled,
+        onClick: save,
       },
       {
         key: 'discard',
@@ -26,8 +32,8 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
         iconProps: {
           iconName: 'ChromeClose',
         },
-        disabled: false,
-        onClick: () => {},
+        disabled: disabled,
+        onClick: showDiscardConfirmDialog,
       },
       {
         key: 'refresh',

@@ -1656,6 +1656,8 @@ export class PortalResources {
   public static integrateCreateTriggerBindingInstructions = 'integrateCreateTriggerBindingInstructions';
   public static integrateBindingType = 'integrateBindingType';
   public static integrateCreateBindingTypeDetails = 'integrateCreateBindingTypeDetails';
+  public static integratePageTitle = 'integratePageTitle';
+  public static integratePageDescription = 'integratePageDescription';
   public static _function = '_function';
   public static fetchingDeploymentData = 'fetchingDeploymentData';
   public static noDeploymentDataAvailable = 'noDeploymentDataAvailable';
@@ -1925,4 +1927,7 @@ export class PortalResources {
   public static staticSite_environmentVariablesInfoMessage = 'staticSite_environmentVariablesInfoMessage';
   public static staticSite_environment = 'staticSite_environment';
   public static staticSite_environmentDropdownAriaLabel = 'staticSite_environmentDropdownAriaLabel';
+  public static staticSite_filterEnvironmentVariable = 'staticSite_filterEnvironmentVariable';
+  public static staticSite_addEditEnvironmentVariable = 'staticSite_addEditEnvironmentVariable';
+  public static staticSite_discardChangesMesssage = 'staticSite_discardChangesMesssage';
 }
