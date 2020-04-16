@@ -6,10 +6,12 @@ import { useTranslation } from 'react-i18next';
 
 interface ConfigurationCommandBarProps {
   save: () => void;
+  showDiscardConfirmDialog: () => void;
+  disabled: boolean;
 }
 
 const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props => {
-  const { save } = props;
+  const { save, disabled, showDiscardConfirmDialog } = props;
 
   const { t } = useTranslation();
 
@@ -21,7 +23,7 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
         iconProps: {
           iconName: 'Save',
         },
-        disabled: false,
+        disabled: disabled,
         onClick: save,
       },
       {
@@ -30,8 +32,8 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
         iconProps: {
           iconName: 'ChromeClose',
         },
-        disabled: false,
-        onClick: () => {},
+        disabled: disabled,
+        onClick: showDiscardConfirmDialog,
       },
       {
         key: 'refresh',
