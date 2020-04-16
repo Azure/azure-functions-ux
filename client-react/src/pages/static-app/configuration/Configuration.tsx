@@ -9,6 +9,7 @@ import {
   Link,
   TooltipHost,
   ActionButton,
+  SearchBox,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable } from './Configuration.types';
@@ -22,6 +23,7 @@ import { Environment } from '../../../models/static-site/environment';
 import IconButton from '../../../components/IconButton/IconButton';
 import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
 import { ThemeContext } from '../../../ThemeContext';
+import { filterBoxStyle } from '../../app/functions/app-keys/AppKeys.styles';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
@@ -36,6 +38,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [showAllValues, setShowAllValues] = useState(false);
   const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariable[]>([]);
+  const [showFilter, setShowFilter] = useState(false);
+  const [filter, setFilter] = useState('');
 
   const { t } = useTranslation();
 
@@ -59,7 +63,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const toggleFilter = () => {
-    // TODO (krmitta): Add logic here
+    setShowFilter(!showFilter);
+    setFilter('');
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
@@ -281,13 +286,29 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
           columns={getColumns()}
-          items={environmentVariables}
+          items={environmentVariables.filter(environmentVariable => {
+            if (!filter) {
+              return true;
+            }
+            return environmentVariable.name.toLowerCase().includes(filter.toLowerCase());
+          })}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('staticSite_emptyEnvironmentVariableList')}
-        />
+          emptyMessage={t('staticSite_emptyEnvironmentVariableList')}>
+          {showFilter && (
+            <SearchBox
+              id="environment-variable-search"
+              className="ms-slideDownIn20"
+              autoFocus
+              iconProps={{ iconName: 'Filter' }}
+              styles={filterBoxStyle}
+              placeholder={t('staticSite_filterEnvironmentVariable')}
+              onChange={newValue => setFilter(newValue)}
+            />
+          )}
+        </DisplayTableWithCommandBar>
       </div>
     </>
   );
