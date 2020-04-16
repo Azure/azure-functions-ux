@@ -72,6 +72,7 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   public showDisconnectModal = false;
   public githubActionDisconnectDeleteWorkflowText = '';
   public errorMessage = '';
+  public rightPaneItem: ArmObj<Deployment>;
 
   private _viewInfoStream$ = new Subject<string>();
   private _repositoryStatusStream$ = new Subject<boolean>();
@@ -181,6 +182,12 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
 
   public _hideDisconnectPrompt() {
     this.showDisconnectModal = false;
+  }
+
+  public details(item: GithubActionTableItem) {
+    this.hideCreds = false;
+    this.rightPaneItem = item.deploymentObj;
+    this.sidePanelOpened = true;
   }
 
   private _disconnectDeployment() {
