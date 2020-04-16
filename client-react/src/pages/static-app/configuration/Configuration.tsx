@@ -286,11 +286,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
           columns={getColumns()}
-          items={environmentVariables.filter(x => {
+          items={environmentVariables.filter(environmentVariable => {
             if (!filter) {
               return true;
             }
-            return x.name.toLowerCase().includes(filter.toLowerCase());
+            return environmentVariable.name.toLowerCase().includes(filter.toLowerCase());
           })}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
@@ -304,7 +304,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
               autoFocus
               iconProps={{ iconName: 'Filter' }}
               styles={filterBoxStyle}
-              placeholder={t('filterAppSettings')}
+              placeholder={t('staticSite_filterEnvironmentVariable')}
               onChange={newValue => setFilter(newValue)}
             />
           )}
