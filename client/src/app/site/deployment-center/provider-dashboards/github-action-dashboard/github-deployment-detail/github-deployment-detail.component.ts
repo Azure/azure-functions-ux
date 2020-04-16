@@ -71,10 +71,10 @@ export class GitHubDeploymentDetailComponent implements OnChanges {
         this._tableItems = [];
         logs.value.forEach(val => {
           const date: Date = new Date(val.properties.log_time);
-          const t = moment(date);
+          const time = moment(date);
           this._tableItems.push({
             type: 'row',
-            time: t.format('h:mm:ss A'),
+            time: time.format('h:mm:ss A'),
             activity: val.properties.message,
             log: val.properties.details_url,
             id: val.id,
