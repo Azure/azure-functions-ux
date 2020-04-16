@@ -384,7 +384,10 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     <>
       <div className={commandBarSticky}>
         <ConfigurationCommandBar save={save} disabled={!isDirty} showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)} />
-        <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} />
+        <ConfigurationEnvironmentSelector
+          environments={environments}
+          onDropdownChange={(environment: ArmObj<Environment>, defaultChange?: boolean) => onDropdownChange(environment, defaultChange)}
+        />
       </div>
       <>
         <ConfirmDialog
