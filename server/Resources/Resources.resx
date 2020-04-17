@@ -5985,4 +5985,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
         <value>All environment variable value and name properties must be of type string</value>
     </data>
+    <data name="staticSite_readOnlyRbac" xml:space="preserve">
+        <value>Your site is currently in read only mode because your RBAC assigned access is set to: Reader</value>
+    </data>
 </root>

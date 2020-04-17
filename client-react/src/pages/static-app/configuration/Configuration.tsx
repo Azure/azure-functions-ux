@@ -10,6 +10,7 @@ import {
   TooltipHost,
   ActionButton,
   SearchBox,
+  MessageBarType,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable, PanelType } from './Configuration.types';
@@ -31,11 +32,13 @@ import { KeyValue } from '../../../models/portal-models';
 import ConfigurationData from './Configuration.data';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
   environments: ArmObj<Environment>[];
   isLoading: boolean;
+  hasWritePermissions: boolean;
   fetchEnvironmentVariables: (resourceId: string) => {};
   saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
   refresh: () => void;
@@ -50,6 +53,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     saveEnvironmentVariables,
     refresh,
     isLoading,
+    hasWritePermissions,
   } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
@@ -101,7 +105,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const isTableCommandBarDisabled = () => {
-    return isLoading;
+    return isLoading || !hasWritePermissions;
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
@@ -400,8 +404,13 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)}
           refresh={refresh}
         />
-        <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} disabled={isLoading} />
+        <ConfigurationEnvironmentSelector
+          environments={environments}
+          onDropdownChange={onDropdownChange}
+          disabled={isLoading || !hasWritePermissions}
+        />
       </div>
+      {!hasWritePermissions && <CustomBanner message={t('staticSite_readOnlyRbac')} type={MessageBarType.info} />}
       <>
         <ConfirmDialog
           primaryActionButton={{
