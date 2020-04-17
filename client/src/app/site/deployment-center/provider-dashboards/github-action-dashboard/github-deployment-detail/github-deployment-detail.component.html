@@ -1,0 +1,32 @@
+<span class="close-button" (click)="close()">
+    <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+</span>
+<div class="browse-container">
+    <busy-state name="deployment-detail"></busy-state>
+    <tbl [items]="TableItems" #table="tbl" id="github-action-deployment-log" groupColName="time">
+        <tr>
+        <th>
+            {{'time' | translate}}
+        </th>
+        <th>
+            {{'activity' | translate}}
+        </th>
+        <th>
+            {{'log' | translate}}
+        </th>
+        </tr>
+
+        <tr *ngFor="let item of table.items">
+        <td>{{item.time}}</td>
+        <td>{{item.activity}}</td>
+        <td>
+            <div *ngIf="item.log">
+            <a class="link" (click)="showLogs(item)">{{'showLogs' | translate}}</a>
+            </div>
+        </td>
+        </tr>
+    </tbl>
+    <div class="logDetails">
+        <pre *ngIf="logsToShow" style="white-space: pre-wrap;min-height:100px;">{{logsToShow}}</pre>
+    </div>
+</div>

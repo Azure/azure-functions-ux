@@ -40,7 +40,7 @@ const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelecto
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [environments]);
   return (
     <Stack horizontal className={environmentSelectorStackStyle(theme)}>
       <Label className={environmentSelectorLabelStyle}>{t('staticSite_environment')}</Label>

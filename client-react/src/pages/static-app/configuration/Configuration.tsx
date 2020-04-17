@@ -31,12 +31,11 @@ import { KeyValue } from '../../../models/portal-models';
 import ConfigurationData from './Configuration.data';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
-import LoadingComponent from '../../../components/Loading/LoadingComponent';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
   environments: ArmObj<Environment>[];
-  isRefreshing: boolean;
+  isLoading: boolean;
   fetchEnvironmentVariables: (resourceId: string) => {};
   saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
   refresh: () => void;
@@ -50,7 +49,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     selectedEnvironmentVariableResponse,
     saveEnvironmentVariables,
     refresh,
-    isRefreshing,
+    isLoading,
   } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
@@ -61,10 +60,10 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [showPanel, setShowPanel] = useState(false);
   const [panelType, setPanelType] = useState<PanelType | undefined>(undefined);
   const [currentEnvironmentVariableIndex, setCurrentEnvironmentVariableIndex] = useState<number | undefined>(undefined);
+  const [selectedEnvironment, setSelectedEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
   const [isDirty, setIsDirty] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
   const [isOnChangeConfirmDialogVisible, setIsOnChangeConfirmDialogVisible] = useState(false);
-  const [selectedEnvironment, setSelectedEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
   const [onChangeEnvironment, setOnChangeEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
 
   const { t } = useTranslation();
@@ -101,6 +100,10 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     setFilter('');
   };
 
+  const isTableCommandBarDisabled = () => {
+    return isLoading;
+  };
+
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     const allShown = showAllValues || (environmentVariables.length > 0 && shownValues.length === environmentVariables.length);
 
@@ -108,7 +111,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       {
         key: 'add-new-environment-variable',
         onClick: openAddNewEnvironmentVariablePanel,
-        disabled: false,
+        disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Add' },
         name: t('staticSite_addNewEnvironmentVariable'),
         ariaLabel: t('staticSite_addNewEnvironmentVariable'),
@@ -116,19 +119,21 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       {
         key: 'environment-variable-show-hide',
         onClick: toggleHideButton,
+        disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
         name: !allShown ? t('showValues') : t('hideValues'),
       },
       {
         key: 'environment-variable-bulk-edit',
         onClick: openBulkEdit,
-        disabled: false,
+        disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
       },
       {
         key: 'environment-variable-show-filter',
         onClick: toggleFilter,
+        disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Filter' },
         name: t('filter'),
       },
@@ -136,6 +141,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const onRenderColumnItem = (item: EnvironmentVariable, index: number, column: IColumn) => {
+    const itemKey = item.name;
+    const hidden = !shownValues.includes(itemKey) && !showAllValues;
     if (!column || !item) {
       return null;
     }
@@ -159,7 +166,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         </TooltipHost>
       );
     }
-
     if (column.key === 'edit') {
       return (
         <TooltipHost content={t('edit')} id={`environment-variable-edit-tooltip-${index}`} calloutProps={{ gapSpace: 0 }} closeDelay={500}>
@@ -176,10 +182,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         </TooltipHost>
       );
     }
-
     if (column.key === 'value') {
-      const itemKey = item.name;
-      const hidden = !shownValues.includes(itemKey) && !showAllValues;
       return (
         <>
           <ActionButton
@@ -198,13 +201,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         </>
       );
     }
-
     if (column.key === 'name') {
       column.className = '';
       if (isEnvironmentVariableDirty(index)) {
         column.className = dirtyElementStyle(theme);
       }
-
       return (
         <ActionButton
           className={defaultCellStyle}
@@ -219,7 +220,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         </ActionButton>
       );
     }
-
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
@@ -395,11 +395,12 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       <div className={commandBarSticky}>
         <ConfigurationCommandBar
           save={save}
-          disabled={!isDirty}
+          dirty={isDirty}
+          isLoading={isLoading}
           showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)}
           refresh={refresh}
         />
-        <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} disabled={isRefreshing} />
+        <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} disabled={isLoading} />
       </div>
       <>
         <ConfirmDialog
@@ -412,7 +413,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             onClick: hideDiscardConfirmDialog,
           }}
           title={t('discardChangesTitle')}
-          content={t('staticSite_discardChangesMessage').format(!!selectedEnvironment ? selectedEnvironment.properties.sourceBranch : '')}
+          content={t('staticSite_discardChangesMesssage').format(!!selectedEnvironment ? selectedEnvironment.name : '')}
           hidden={!isDiscardConfirmDialogVisible}
           onDismiss={hideDiscardConfirmDialog}
         />
@@ -457,7 +458,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('staticSite_emptyEnvironmentVariableList')}>
+          emptyMessage={t('staticSite_emptyEnvironmentVariableList')}
+          shimmer={{ lines: 2, show: isLoading }}>
           {showFilter && (
             <SearchBox
               id="environment-variable-search"
@@ -465,7 +467,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
               autoFocus
               iconProps={{ iconName: 'Filter' }}
               styles={filterBoxStyle}
-              placeholder={t('filterAppSettings')}
+              placeholder={t('staticSite_filterEnvironmentVariable')}
               onChange={newValue => setFilter(newValue)}
             />
           )}
@@ -481,7 +483,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             updateEnvironmentVariable={updateEnvironmentVariable}
           />
         </Panel>
-        <Panel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
+        <Panel isOpen={panelType === PanelType.bulk} onDismiss={onCancel}>
           <ConfigurationAdvancedAddEdit
             environmentVariables={environmentVariables}
             cancel={onCancel}
@@ -489,7 +491,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           />
         </Panel>
       </div>
-      {isRefreshing && <LoadingComponent overlay={true} />}
     </>
   );
 };

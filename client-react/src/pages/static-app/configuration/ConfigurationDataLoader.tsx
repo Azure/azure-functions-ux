@@ -108,7 +108,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!staticSite || initialLoading) {
+  if (!staticSite) {
     return <LoadingComponent />;
   }
 
@@ -121,7 +121,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}
         saveEnvironmentVariables={saveEnvironmentVariables}
         refresh={refresh}
-        isRefreshing={isRefreshing}
+        isLoading={initialLoading || isRefreshing}
       />
     </ConfigurationContext.Provider>
   );
