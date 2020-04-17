@@ -30,6 +30,7 @@ import { sortBy } from 'lodash-es';
 import { KeyValue } from '../../../models/portal-models';
 import ConfigurationData from './Configuration.data';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
+import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
@@ -90,7 +91,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const openBulkEdit = () => {
-    // TODO (krmitta): Add logic here
+    setShowPanel(true);
+    setPanelType(PanelType.bulk);
   };
 
   const toggleFilter = () => {
@@ -476,6 +478,13 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           headerText={t('staticSite_addEditEnvironmentVariable')}>
           <ConfigurationAddEdit
             currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
+            environmentVariables={environmentVariables}
+            cancel={onCancel}
+            updateEnvironmentVariable={updateEnvironmentVariable}
+          />
+        </Panel>
+        <Panel isOpen={panelType === PanelType.bulk} onDismiss={onCancel}>
+          <ConfigurationAdvancedAddEdit
             environmentVariables={environmentVariables}
             cancel={onCancel}
             updateEnvironmentVariable={updateEnvironmentVariable}
