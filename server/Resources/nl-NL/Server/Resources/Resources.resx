@@ -833,7 +833,7 @@
         <value>Minder dan 1 minuut</value>
     </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-        <value>Als u zich aanmeldt voor een gratis Azure-account, zijn alle functiemogelijkheden voor u beschikbaar zonder dat u zich druk hoeft te maken over tijdsbeperkingen.</value>
+        <value>Als u zich aanmeldt voor een gratis Azure-account, kunt u alle mogelijkheden van Azure Functions gebruiken zonder dat u zich zorgen hoeft te maken over tijdsbeperkingen.</value>
     </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
         <value>CORS is niet geconfigureerd voor deze functie-app. Voeg {{origin}} toe aan de CORS-lijst.</value>
@@ -977,7 +977,7 @@
         <value>Quotum instellen</value>
     </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-        <value>Wanneer het quotum voor het dagelijkse gebruik wordt bereikt, wordt de functie-app gestopt tot de volgende dag om 00:00 UTC.</value>
+        <value>Wanneer het quotum voor het dagelijkse gebruik is bereikt, wordt de functie-app gestopt tot de volgende dag om 00:00 uur UTC.</value>
     </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
         <value>Weet u zeker dat u de sleutel {{name}} wilt intrekken?</value>
@@ -986,7 +986,7 @@
         <value>Sleutels</value>
     </data>
   <data name="functionNew_nameError" xml:space="preserve">
-        <value>De naam moet uniek zijn binnen een functie-app. De naam moet beginnen met een letter en mag alleen letters, cijfers (0-9), streepjes (-) en onderstrepingstekens (_) bevatten.</value>
+        <value>De naam moet uniek zijn binnen een functie-app. De naam moet beginnen met een letter en mag alleen letters, cijfers (0 - 9), streepjes (-) en onderstrepingstekens (_) bevatten.</value>
     </data>
   <data name="functionDev_loading" xml:space="preserve">
         <value>Laden...</value>
@@ -1464,6 +1464,9 @@
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
         <value>Kan web-appinstellingen niet bijwerken</value>
+    </data>
+  <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>Kan web-appinstellingen niet bijwerken: {0}</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>Kan {{configGroupName}} niet opslaan: ongeldige invoer opgegeven.</value>
@@ -2091,7 +2094,7 @@
 Geef de &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;bewerkingsobjecten&lt;/a&gt; en andere informatie over uw API voorafgaand aan gebruik op.</value>
     </data>
   <data name="swaggerDefinition_keyHelp" xml:space="preserve">
-        <value>Met deze sleutel beveiligt u de API-definitie tegen toegang door personen zonder sleutel.
+        <value>Met deze sleutel beveiligt u de API-definitie tegen toegang door gebruikers zonder sleutel.
 Hiermee wordt de onderliggende API niet beveiligd. Controleer de afzonderlijke functies voor informatie over de bijhorende sleutelbeveiliging.</value>
     </data>
   <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
@@ -2181,6 +2184,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>Uw app bevindt zich momenteel in de modus lezen/schrijven omdat u de bewerkingsmodus hebt ingesteld op lezen/schrijven ondanks dat .json-functie is gegenereerd. Wijzigingen die u hebt aangebracht in de .json-functie, worden niet gehonoreerd door de runtime van de functies.</value>
+    </data>
+  <data name="readOnlyRbac" xml:space="preserve">
+        <value>De functie bevindt zich momenteel in de modus Alleen-lezen omdat uw met RBAC toegewezen toegang is ingesteld op Lezer</value>
     </data>
   <data name="copypre_copy" xml:space="preserve">
         <value>Kopiëren</value>
@@ -2274,6 +2280,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>Kan de site {0} niet maken </value>
+    </data>
+  <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>Kan de site {0} niet maken: {1}</value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>Kan de lijst met sites niet ophalen: {{errorMessage}}</value>
@@ -2396,7 +2405,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Kan het proxies.json-schema niet valideren. Fout: {0}.</value>
     </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-        <value>Met een verbruiksabonnement kunt u platformgebruik beperken door een quotum voor het dagelijkse gebruik in te stellen, in gigabytes per seconde. Wanneer het quotum voor het dagelijkse gebruik wordt bereikt, wordt de functie-app gestopt tot de volgende dag om 00:00 UTC.</value>
+        <value>Met een verbruiksabonnement kunt u platformgebruik beperken door een quotum voor het dagelijkse gebruik in te stellen, in gigabytes per seconde. Wanneer het quotum voor het dagelijkse gebruik is bereikt, wordt de functie-app gestopt tot de volgende dag om 00:00 uur UTC.</value>
     </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
         <value>(hub-beleid)</value>
@@ -2826,7 +2835,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>waarde verbergen</value>
     </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-        <value>De App Insights-instrumentatiesleutel wordt weergegeven in de app-instellingen, maar App Insights is niet gevonden in het abonnement van de functie-app. Controleer of App Insights zich bevindt in hetzelfde abonnement als de functie-app.</value>
+        <value>De App Insights-instrumentatiesleutel is aanwezig in de app-instellingen, maar App Insights is niet aangetroffen in het abonnement van de functie-app. Controleer of App Insights zich in hetzelfde abonnement bevindt als de functie-app.</value>
     </data>
   <data name="table_startOfRow" xml:space="preserve">
         <value>Begin van rij</value>
@@ -3327,7 +3336,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>High Density</value>
     </data>
   <data name="pricing_highDensityDesc" xml:space="preserve">
-        <value>Een App Service-plan efficiënt delen in meerdere functie-apps.</value>
+        <value>Deel een App Service-plan efficiënt voor meerdere functie-apps.</value>
     </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
         <value>Faseringssleuven</value>
@@ -4366,7 +4375,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Persoonlijk</value>
     </data>
   <data name="swaggerDefinitionReadOnly" xml:space="preserve">
-        <value>De API-definitie (Swagger) is niet beschikbaar voor functie-apps in de modus Alleen-lezen.</value>
+        <value>De API-definitie (Swagger) is niet beschikbaar voor functie-apps in alleen-lezenmodus.</value>
     </data>
   <data name="troubleshootYourApp" xml:space="preserve">
         <value>Problemen met uw app oplossen</value>
@@ -4762,7 +4771,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Implementatiesite-instelling ingeschakeld</value>
     </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>Verborgen waarde. Klik op de bovenstaande knop Waarden weergeven om de waarde weer te geven</value>
+        <value>Verborgen waarde. Klik om de waarde weer te geven</value>
     </data>
   <data name="fieldMustBeUnique" xml:space="preserve">
         <value>Het veld moet uniek zijn.</value>
@@ -4792,7 +4801,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Tabblad Logische apps wordt in de komende maanden verwijderd. U kunt doorgaan met het bladeren in uw logische apps met de browsefunctie in Azure Portal.</value>
     </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-        <value>Deze functie is alleen beschikbaar voor de functie-apps die worden uitgevoerd in een Linux App Service-abonnement. Gebruik Application Insights voor runtime logboekregistratie.</value>
+        <value>Deze functie is alleen beschikbaar voor de functie-apps die worden uitgevoerd in een App Service-plan voor Linux. Gebruik Application Insights voor logboekregistratie van de runtime.</value>
     </data>
   <data name="scaleOut" xml:space="preserve">
         <value>Uitschalen</value>
@@ -4855,7 +4864,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
     </data>
   <data name="readOnlyPython" xml:space="preserve">
-        <value>Functies bewerken in de portal wordt niet ondersteund door Python-functie-apps. Gebruik CLI of VS Code voor de ontwikkeling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Meer informatie&lt;/a&gt;</value>
+        <value>Functies bewerken in de portal wordt niet ondersteund voor Python-functie-apps. Gebruik CLI of VS Code voor de ontwikkeling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Meer informatie&lt;/a&gt;</value>
     </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
         <value>Azure-opslagkoppeling bevat geheimen. Lees-/schrijf-machtigingen zijn vereist om deze sectie te bekijken/bewerken.</value>
@@ -5003,7 +5012,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Verbindingsreeksen filteren</value>
     </data>
   <data name="readOnlyJava" xml:space="preserve">
-        <value>Functies bewerken in de portal wordt niet ondersteund door Java-functie-apps. Gebruik Maven of VS Code voor de ontwikkeling.</value>
+        <value>Functies bewerken in de portal wordt niet ondersteund voor Java-functie-apps. Gebruik Maven of VS Code voor de ontwikkeling.</value>
     </data>
   <data name="validate_workingDirectory" xml:space="preserve">
         <value>Onder Windows moet het pad naar de werkmap relatief zijn ten opzichte van de hoofdmap van de opslagplaats en mag niet beginnen met/, \ of stationsnamen (C:/). Als de werkmap zich in de map src van de opslagplaats bevindt, moet het pad src/ zijn</value>
@@ -5128,6 +5137,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
         <value>Details van {0}</value>
     </data>
+  <data name="integratePageTitle" xml:space="preserve">
+        <value>Integration</value>
+    </data>
+  <data name="integratePageDescription" xml:space="preserve">
+        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
+    </data>
   <data name="_function" xml:space="preserve">
         <value>Functie</value>
     </data>
@@ -5171,7 +5186,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Nieuwe functie</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Maak een nieuwe functie in deze functie-app. Selecteer om te beginnen een van de onderstaande sjablonen.</value>
+        <value>Maak een nieuwe functie in deze functie-app. Selecteer een van de onderstaande sjablonen om te beginnen.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Sjablonen</value>
@@ -5660,7 +5675,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Als u wijzigingen in toepassingsinstellingen en verbindingsreeksen aanbrengt, wordt de toepassing opnieuw opgestart. Weet u zeker dat u wilt doorgaan?</value>
     </data>
   <data name="azureFunctionsV1Linux" xml:space="preserve">
-        <value>Runtime van versie 1 wordt niet ondersteund voor Linux Azure Function-apps</value>
+        <value>Versie 1 van de runtime wordt niet ondersteund in Azure Functions voor Linux</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
         <value>De app {{appName}} is ingesteld voor de stack {{stack}} die momenteel niet wordt ondersteund in Deployment Center via GitHub Actions.</value>
@@ -5684,7 +5699,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Werkstroomoptie</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Add or overwrite workflow definition</value>
+        <value>Werkstroomdefinitie toevoegen of overschrijven</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Configureren met de bestaande werkstroomdefinitie</value>
@@ -5696,7 +5711,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>De bestaande werkstroomconfiguratie in GitHub wordt overschreven met de onderstaande configuratie.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(geen functiesleutels om weer te geven)</value>
+        <value>Er zijn geen functiesleutels om weer te geven</value>
     </data>
   <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>Deze functie wordt niet ondersteund voor apps in een Premium-abonnement</value>
@@ -5726,57 +5741,246 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Bestandsnaam van GitHub Action-werkstroom</value>
     </data>
   <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
-        <value>U kunt geen app-bestanden weergeven zolang uw functie-app is gestopt</value>
+        <value>U kunt geen app-bestanden weergeven wanneer uw functie-app is gestopt</value>
     </data>
   <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
-        <value>U kunt geen app-sleutels weergeven zolang uw functie-app is gestopt</value>
+        <value>U kunt geen app-sleutels weergeven wanneer uw functie-app is gestopt</value>
     </data>
   <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
         <value>Alle bindingen voor uw functies vernieuwen</value>
     </data>
   <data name="gitHubProtectedBranchSelected" xml:space="preserve">
-        <value>Selected branch has protection rules enabled.</value>
+        <value>Voor de geselecteerde vertakking zijn beveiligingsregels ingeschakeld.</value>
     </data>
   <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
-        <value>U kunt de runtimeversie niet weergeven of wijzigen zolang uw functie-app is gestopt.</value>
+        <value>U kunt de runtime-versie niet weergeven of wanneer uw functie-app is gestopt.</value>
     </data>
   <data name="githubActionWorkflowsExist" xml:space="preserve">
-        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+        <value>Er bestaan al werkstroomconfiguraties voor GitHub Actions al in de vertakking {{branchName}}. Kies een van de onderstaande opties om een nieuwe werkstroomconfiguratie toe te voegen of door te gaan met de bestaande werkstroomconfiguraties.</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+        <value>De bestaande werkstroomconfiguratie in GitHub wordt gebruikt voor de build en implementatie.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
-        <value>Refresh app files</value>
+        <value>App-bestanden vernieuwen</value>
     </data>
   <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
-        <value>Refresh code editor</value>
+        <value>Code-editor vernieuwen</value>
     </data>
   <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
         <value>Trigger verwijderen</value>
     </data>
   <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the trigger?</value>
+        <value>Weet u zeker dat u de trigger wilt verwijderen?</value>
     </data>
   <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
-        <value>Delete Output</value>
+        <value>Uitvoer verwijderen</value>
     </data>
   <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
         <value>Weet u zeker dat u de uitvoer wilt verwijderen?</value>
     </data>
   <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
-        <value>Delete Input</value>
+        <value>Invoer verwijderen</value>
     </data>
   <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>Weet u zeker dat u de invoer wilt verwijderen?</value>
     </data>
+  <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>Kan een of meer bindingen niet laden, vernieuw de pagina.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
-        <value>Delete Function Key</value>
+        <value>Functiesleutel verwijderen</value>
     </data>
   <data name="deleteFunctionKeyMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the key {0}?</value>
+        <value>Weet u zeker dat u de sleutel {0} wilt verwijderen?</value>
     </data>
   <data name="fetchFileContentFailureMessage" xml:space="preserve">
-        <value>Failed to fetch the file content</value>
+        <value>Kan de bestandsinhoud niet ophalen</value>
+    </data>
+  <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>De geselecteerde verbinding ontbreekt in de app-instellingen</value>
+    </data>
+  <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
+        <value>Geen bestaande verbindingen beschikbaar</value>
+    </data>
+  <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>De vereiste eigenschap direction ontbreekt in de volgende bindingen en is mogelijk onjuist geplaatst: {0}. Werk de bindingen bij in uw functies.json-bestand.</value>
+    </data>
+  <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>Aanroepen</value>
+    </data>
+  <data name="functionMonitor_logs" xml:space="preserve">
+        <value>Logboeken</value>
+    </data>
+  <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>Openen in Live Metrics</value>
+    </data>
+  <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>Uw HTTP-trigger bewerken om aanvullende HTTP-methoden in te schakelen</value>
+    </data>
+  <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>U kunt x-functions-key niet als aangepaste header definiëren</value>
+    </data>
+  <data name="filterInvocations" xml:space="preserve">
+        <value>Aanroepen filteren</value>
+    </data>
+  <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>Query uitvoeren in Application Insights</value>
+    </data>
+  <data name="timestamp" xml:space="preserve">
+        <value>Tijdstempel</value>
+    </data>
+  <data name="message" xml:space="preserve">
+        <value>Bericht</value>
+    </data>
+  <data name="successCount" xml:space="preserve">
+        <value>Aantal geslaagde pogingen</value>
+    </data>
+  <data name="errorCount" xml:space="preserve">
+        <value>Aantal fouten</value>
+    </data>
+  <data name="last30Days" xml:space="preserve">
+        <value>Afgelopen 30 dagen</value>
+    </data>
+  <data name="discardChangesTitle" xml:space="preserve">
+        <value>Wijzigingen negeren</value>
+    </data>
+  <data name="discardChangesMesssage" xml:space="preserve">
+        <value>Weet u zeker dat u de wijzigingen voor het bestand {0} wilt negeren?</value>
+    </data>
+  <data name="information" xml:space="preserve">
+        <value>Informatie</value>
+    </data>
+  <data name="verbose" xml:space="preserve">
+        <value>Uitgebreid</value>
+    </data>
+  <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>Weet u zeker dat u de verbinding met de CICD-pijplijn van de GitHub-actie wilt verbreken?</value>
+    </data>
+  <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>Verwijder het werkstroombestand {0} uit de vertakking {1} in de opslagplaats {2}. Als u dit bestand niet verwijdert, worden de doorvoeringen naar deze vertakking voortgezet om implementaties naar uw app te activeren.</value>
+    </data>
+  <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>Verbinding verbreken</value>
+    </data>
+  <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>Annuleren</value>
+    </data>
+  <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>Verwijder de configuratie van de App Service-implementatiewerkstroom uit Azure Portal.</value>
+    </data>
+  <data name="githubActionDashboardRepositoryMissingError" xml:space="preserve">
+        <value>Kan de opslagplaats {0} niet vinden. Ga naar uw GitHub-account om dit verder te onderzoeken.</value>
+    </data>
+  <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
+        <value>Kan de vertakking {0} in de opslagplaats {1} niet vinden. Navigeer naar uw opslagplaats om dit verder te onderzoeken.</value>
+    </data>
+  <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
+        <value>GitHub-actie voor verbreken van de verbinding bevestigen</value>
+    </data>
+  <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
+        <value>Kan het werkstroombestand {0} niet verwijderen uit de vertakking {1} in de opslagplaats {2}. Dit wordt mogelijk veroorzaakt doordat de naam van het bestand is gewijzigd of doordat het bestand al is verwijderd.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
+        <value>Kan de verbinding met uw implementatie niet verbreken, maar het werkstroombestand is verwijderd. Probeer de verbinding opnieuw te verbreken.</value>
+    </data>
+  <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
+        <value>Kan geen koppeling tot stand brengen met Application Insights. Controleer of u schrijfmachtigingen hebt voor uw functie-app</value>
+    </data>
+  <data name="deploymentCenterCommandBarAriaLabel" xml:space="preserve">
+        <value>Opdrachten voor Implementatiecentrum</value>
+    </data>
+  <data name="deploymentCenterSaveCommandAriaLabel" xml:space="preserve">
+        <value>Opdracht voor opslaan in Implementatiecentrum</value>
+    </data>
+  <data name="deploymentCenterDiscardCommandAriaLabel" xml:space="preserve">
+        <value>Verwijderopdracht voor Implementatiecentrum</value>
+    </data>
+  <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
+        <value>Bladeropdracht voor Implementatiecentrum</value>
+    </data>
+  <data name="deploymentCenterPublishProfileCommandAriaLabel" xml:space="preserve">
+        <value>Opdracht Publicatieprofiel beheren voor Implementatiecentrum</value>
+    </data>
+  <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
+        <value>Opdracht voor vernieuwen voor Implementatiecentrum</value>
+    </data>
+  <data name="managePublishProfile" xml:space="preserve">
+        <value>Publicatieprofiel beheren</value>
+    </data>
+  <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>Het bewerken van Python-functie-apps wordt niet ondersteund in Azure Portal. Gebruik uw lokale ontwikkelomgeving om deze functie te bewerken.</value>
+    </data>
+  <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>Het bewerken van Java-functie-apps wordt niet ondersteund in Azure Portal. Gebruik uw lokale ontwikkelomgeving om deze functie te bewerken.</value>
+    </data>
+  <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>Gebruik uw lokale ontwikkelomgeving om deze functie te bewerken. Deze functie maakt gebruik van de lokale cache en kan hier niet worden bewerkt.</value>
+    </data>
+  <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>Uw app bevindt zich momenteel in de alleen-lezenmodus omdat de broncodebeheerintegratie is ingeschakeld.</value>
+    </data>
+  <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>Uw app bevindt zich momenteel in de alleen-lezenmodus omdat u implementatiesites hebt geconfigureerd.</value>
+    </data>
+  <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>Gebruik uw lokale ontwikkelomgeving om deze functie te bewerken. Deze functie is gemaakt in een lokale omgeving en kan hier niet worden bewerkt.</value>
+    </data>
+  <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>Uw app bevindt zich momenteel in de alleen-lezenmodus omdat deze handmatig is ingesteld op alleen-lezen.</value>
+    </data>
+  <data name="connected" xml:space="preserve">
+        <value>Verbonden.</value>
+    </data>
+  <data name="blaclistFile_message" xml:space="preserve">
+        <value>Het bewerken van dit bestandstype wordt niet ondersteund in de portaleditor.</value>
+    </data>
+  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
+        <value>Er zijn geen omgevingsvariabelen om weer te geven</value>
+    </data>
+  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Een nieuwe omgevingsvariabele toevoegen</value>
+    </data>
+  <data name="staticSite_environmentVariables" xml:space="preserve">
+        <value>Omgevingsvariabelen</value>
+    </data>
+  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
+        <value>De omgevingsvariabelen die van toepassing zijn op uw site zijn in rust versleuteld en worden verzonden via een versleuteld kanaal. U kunt ervoor kiezen deze als tekst zonder opmaak in uw browser weer te geven door de onderstaande besturingselementen te gebruiken.</value>
+    </data>
+  <data name="staticSite_environment" xml:space="preserve">
+        <value>Omgeving</value>
+    </data>
+  <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
+        <value>Selecteer de omgeving voor de site</value>
+    </data>
+  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
+        <value>Filter environment variable</value>
+    </data>
+  <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
+        <value>Add/Edit environment variable</value>
+    </data>
+  <data name="staticSite_discardChangesMesssage" xml:space="preserve">
+        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+    </data>
+  <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
+        <value>Your unsaved changes will be discarded.</value>
+    </data>
+  <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
+        <value>Are you sure you would like to change environment?</value>
+    </data>
+  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
+        <value>{0} is a required property on all environment variables</value>
+    </data>
+  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
+        <value>Environment variable name must be unique</value>
+    </data>
+  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
+        <value>Environment variable values must be an array</value>
+    </data>
+  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
+        <value>{0} is an invalid environment variable property</value>
+    </data>
+  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
+        <value>All environment variable value and name properties must be of type string</value>
     </data>
 </root>
