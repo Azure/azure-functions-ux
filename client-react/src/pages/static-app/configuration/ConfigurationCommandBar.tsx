@@ -7,13 +7,17 @@ import { useTranslation } from 'react-i18next';
 interface ConfigurationCommandBarProps {
   save: () => void;
   showDiscardConfirmDialog: () => void;
-  disabled: boolean;
+  refresh: () => void;
+  dirty: boolean;
+  isLoading: boolean;
 }
 
 const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props => {
-  const { save, disabled, showDiscardConfirmDialog } = props;
+  const { save, dirty, showDiscardConfirmDialog, refresh, isLoading } = props;
 
   const { t } = useTranslation();
+
+  const isDisabled = !dirty || isLoading;
 
   const getItems = (): ICommandBarItemProps[] => {
     return [
@@ -23,7 +27,7 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
         iconProps: {
           iconName: 'Save',
         },
-        disabled: disabled,
+        disabled: isDisabled,
         onClick: save,
       },
       {
@@ -32,7 +36,7 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
         iconProps: {
           iconName: 'ChromeClose',
         },
-        disabled: disabled,
+        disabled: isDisabled,
         onClick: showDiscardConfirmDialog,
       },
       {
@@ -41,8 +45,8 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
         iconProps: {
           iconName: 'Refresh',
         },
-        disabled: false,
-        onClick: () => {},
+        disabled: isLoading,
+        onClick: refresh,
       },
     ];
   };

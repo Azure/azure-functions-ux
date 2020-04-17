@@ -34,13 +34,22 @@ import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
   environments: ArmObj<Environment>[];
+  isLoading: boolean;
   fetchEnvironmentVariables: (resourceId: string) => {};
   saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
+  refresh: () => void;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
 }
 
 const Configuration: React.FC<ConfigurationProps> = props => {
-  const { environments, fetchEnvironmentVariables, selectedEnvironmentVariableResponse, saveEnvironmentVariables } = props;
+  const {
+    environments,
+    fetchEnvironmentVariables,
+    selectedEnvironmentVariableResponse,
+    saveEnvironmentVariables,
+    refresh,
+    isLoading,
+  } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [showAllValues, setShowAllValues] = useState(false);
@@ -89,6 +98,10 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     setFilter('');
   };
 
+  const isTableCommandBarDisabled = () => {
+    return isLoading;
+  };
+
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     const allShown = showAllValues || (environmentVariables.length > 0 && shownValues.length === environmentVariables.length);
 
@@ -96,7 +109,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       {
         key: 'add-new-environment-variable',
         onClick: openAddNewEnvironmentVariablePanel,
-        disabled: false,
+        disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Add' },
         name: t('staticSite_addNewEnvironmentVariable'),
         ariaLabel: t('staticSite_addNewEnvironmentVariable'),
@@ -104,19 +117,21 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       {
         key: 'environment-variable-show-hide',
         onClick: toggleHideButton,
+        disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
         name: !allShown ? t('showValues') : t('hideValues'),
       },
       {
         key: 'environment-variable-bulk-edit',
         onClick: openBulkEdit,
-        disabled: false,
+        disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
       },
       {
         key: 'environment-variable-show-filter',
         onClick: toggleFilter,
+        disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Filter' },
         name: t('filter'),
       },
@@ -376,8 +391,14 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   return (
     <>
       <div className={commandBarSticky}>
-        <ConfigurationCommandBar save={save} disabled={!isDirty} showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)} />
-        <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} />
+        <ConfigurationCommandBar
+          save={save}
+          dirty={isDirty}
+          isLoading={isLoading}
+          showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)}
+          refresh={refresh}
+        />
+        <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} disabled={isLoading} />
       </div>
       <>
         <ConfirmDialog
@@ -435,7 +456,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('staticSite_emptyEnvironmentVariableList')}>
+          emptyMessage={t('staticSite_emptyEnvironmentVariableList')}
+          shimmer={{ lines: 2, show: isLoading }}>
           {showFilter && (
             <SearchBox
               id="environment-variable-search"

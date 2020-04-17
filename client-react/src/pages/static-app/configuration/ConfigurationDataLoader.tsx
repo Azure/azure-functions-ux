@@ -29,9 +29,11 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   const [selectedEnvironmentVariableResponse, setSelectedEnvironmentVariableResponse] = useState<ArmObj<KeyValue<string>> | undefined>(
     undefined
   );
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchData = async () => {
     setInitialLoading(true);
+    setIsRefreshing(true);
     const [staticSiteResponse, environmentResponse] = await Promise.all([
       StaticSiteService.getStaticSite(resourceId),
       EnvironmentService.getEnvironments(resourceId),
@@ -72,6 +74,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         `Failed to fetch environment settings: ${getErrorMessageOrStringify(environmentSettingsResponse.metadata.error)}`
       );
     }
+    setIsRefreshing(false);
   };
 
   const saveEnvironmentVariables = async (environmentResourceId: string, environmentVariables: EnvironmentVariable[]) => {
@@ -95,13 +98,17 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     }
   };
 
+  const refresh = () => {
+    fetchData();
+  };
+
   useEffect(() => {
     fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!staticSite || initialLoading) {
+  if (!staticSite) {
     return <LoadingComponent />;
   }
 
@@ -113,6 +120,8 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         fetchEnvironmentVariables={fetchEnvironmentVariables}
         selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}
         saveEnvironmentVariables={saveEnvironmentVariables}
+        refresh={refresh}
+        isLoading={initialLoading || isRefreshing}
       />
     </ConfigurationContext.Provider>
   );
