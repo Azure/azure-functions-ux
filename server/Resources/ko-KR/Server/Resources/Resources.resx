@@ -268,7 +268,7 @@
         <value>구독</value>
     </data>
   <data name="createApp_description" xml:space="preserve">
-        <value>함수 앱을 만들면 코드를 호스트하고 실행할 수 있는 새 컨테이너가 자동으로 프로비전됩니다.</value>
+        <value>함수 앱을 만들면 코드를 호스트하고 실행할 수 있는 새 컨테이너가 자동으로 프로비저닝됩니다.</value>
     </data>
   <data name="createApp_fail" xml:space="preserve">
         <value>앱 만들기 실패</value>
@@ -833,7 +833,7 @@
         <value>1분 미만</value>
     </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-        <value>무료 Azure 계정을 등록하면 시간 제한 없이 모든 기능을 활용할 수 있습니다.</value>
+        <value>Azure 체험 계정에 등록하면 시간 제한에 신경 쓰지 않고 모든 Azure Functions 기능을 사용할 수 있습니다.</value>
     </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
         <value>이 함수 앱에 대해 CORS가 구성되지 않았습니다. {{origin}}을(를) CORS 목록에 추가하세요.</value>
@@ -842,7 +842,7 @@
         <value>함수 앱에 연결할 수 없습니다. 앱에 일시적인 문제가 있거나 앱이 시작되지 않을 수 있습니다. 로그를 확인하거나 몇 분 후에 다시 시도하세요.</value>
     </data>
   <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
-        <value>함수 앱을 검색할 수 없음({{functionApp}})</value>
+        <value>함수 앱({{functionApp}})을 검색할 수 없음</value>
     </data>
   <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
         <value>함수 앱에 연결할 수 없습니다({{statusText}}). 나중에 다시 시도하세요.</value>
@@ -968,7 +968,7 @@
         <value>일일 사용 할당량(GB-초)</value>
     </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-        <value>함수 앱이 일일 사용 할당량에 도달하여 다음 24시간까지 중지되었습니다.</value>
+        <value>함수 앱이 일일 사용 할당량에 도달하여 다음 24시간 시간 프레임 동안 중지되었습니다.</value>
     </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
         <value>할당량 제거</value>
@@ -977,7 +977,7 @@
         <value>할당량 설정</value>
     </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-        <value>일일 사용 할당량에 도달하면 함수 앱이 다음 날 0:00 AM UTC까지 중지됩니다.</value>
+        <value>일일 사용 할당량에 도달하면 함수 앱이 다음 날 오전 0:00(UTC)까지 중지됩니다.</value>
     </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
         <value>{{name}} 키를 취소하시겠습니까?</value>
@@ -1464,6 +1464,9 @@
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
         <value>웹 앱 설정을 업데이트하지 못함</value>
+    </data>
+  <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>웹앱 설정 업데이트 실패: {0}</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} 저장 오류: 잘못된 입력이 제공되었습니다.</value>
@@ -2182,6 +2185,9 @@
   <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>생성한 function.json이 있음에도 불구하고 편집 모드를 읽기/쓰기로 설정했으므로 앱이 현재 읽기/쓰기 모드입니다. function.json에 대한 변경 내용은 Functions 런타임에 적용되지 않습니다.</value>
     </data>
+  <data name="readOnlyRbac" xml:space="preserve">
+        <value>RBAC 할당된 액세스가 reader로 설정되어 있어 함수가 현재 읽기 전용 모드에 있습니다.</value>
+    </data>
   <data name="copypre_copy" xml:space="preserve">
         <value>복사</value>
     </data>
@@ -2274,6 +2280,9 @@
     </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>'{0}' 슬롯 만들기 실패 </value>
+    </data>
+  <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>'{0}' 슬롯 만들기 실패: {1}</value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>슬롯 목록을 가져올 수 없습니다. {{errorMessage}}</value>
@@ -2396,7 +2405,7 @@
         <value>proxies.json 스키마 유효성 검사에 실패했습니다. 오류: '{0}'.</value>
     </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-        <value>사용량 요금제에서 일일 사용 할당량(기가바이트-초)을 설정하여 플랫폼 사용을 제한할 수 있습니다. 일일 사용 할당량에 도달하면 함수 앱이 다음 날 0:00 AM UTC까지 중지됩니다.</value>
+        <value>사용량 플랜에서 일일 사용 할당량(기가바이트-초)을 설정하여 플랫폼 사용을 제한할 수 있습니다. 일일 사용 할당량에 도달하면 함수 앱이 다음 날 오전 0:00(UTC)까지 중지됩니다.</value>
     </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
         <value>(허브 정책)</value>
@@ -2825,7 +2834,7 @@
         <value>값 숨기기</value>
     </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-        <value>App Insights 계측 키가 앱 설정에 있지만, 함수 앱의 구독에 App Insights가 없습니다. App Insights가 함수 앱과 같은 구독에 있는지 확인하세요.</value>
+        <value>앱 설정에 App Insights 계측 키가 있지만 함수 앱의 구독에서 App Insights를 찾을 수 없습니다. App Insights가 함수 앱과 같은 구독에 있는지 확인하세요.</value>
     </data>
   <data name="table_startOfRow" xml:space="preserve">
         <value>행의 시작</value>
@@ -3326,7 +3335,7 @@
         <value>고밀도</value>
     </data>
   <data name="pricing_highDensityDesc" xml:space="preserve">
-        <value>여러 함수 앱 간에 효율적으로 App Service 계획을 공유합니다.</value>
+        <value>여러 함수 앱 간에 효율적으로 App Service 플랜을 공유합니다.</value>
     </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
         <value>스테이징 슬롯</value>
@@ -4068,7 +4077,7 @@
         <value>지금 새로 만들기</value>
     </data>
   <data name="topBar_updateExtensions" xml:space="preserve">
-        <value>기능 확장을 업데이트해야 합니다.</value>
+        <value>함수 확장을 업데이트해야 합니다.</value>
     </data>
   <data name="cloneConfigLoadFailure" xml:space="preserve">
         <value>소스 구성을 검색하지 못했습니다.</value>
@@ -4365,7 +4374,7 @@
         <value>개인</value>
     </data>
   <data name="swaggerDefinitionReadOnly" xml:space="preserve">
-        <value>읽기 전용 모드의 함수 앱에 API 정의(Swagger)를 사용할 수 없습니다.</value>
+        <value>읽기 전용 모드의 함수 앱에서는 API 정의(Swagger)를 사용할 수 없습니다.</value>
     </data>
   <data name="troubleshootYourApp" xml:space="preserve">
         <value>앱 문제 해결</value>
@@ -4761,7 +4770,7 @@
         <value>배포 슬롯 설정을 사용하도록 설정함</value>
     </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>숨겨진 값입니다. 보려면 위에서 값 표시 단추를 클릭하세요.</value>
+        <value>숨겨진 값입니다. 값을 표시하려면 클릭하세요.</value>
     </data>
   <data name="fieldMustBeUnique" xml:space="preserve">
         <value>필드는 고유해야 합니다.</value>
@@ -4791,7 +4800,7 @@
         <value>'논리 앱'이 햔후 몇 개월 내에 제거됩니다. Azure Portal 찾아보기를 사용하여 논리 앱을 계속 찾아볼 수 있습니다.</value>
     </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-        <value>이 기능은 Linux App Service 계획에서 실행하는 함수 앱에서만 사용할 수 있습니다. 실시간 로깅을 위해 Application Insights를 사용하세요.</value>
+        <value>이 기능은 Linux App Service 플랜에서 실행되는 함수 앱에서만 사용할 수 있습니다. 런타임 로깅을 위해서는 Application Insights를 사용하세요.</value>
     </data>
   <data name="scaleOut" xml:space="preserve">
         <value>스케일 아웃</value>
@@ -4854,7 +4863,7 @@
         <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
     </data>
   <data name="readOnlyPython" xml:space="preserve">
-        <value>포털에서 함수를 편집하는 기능이 Python 함수 앱에서 지원되지 않습니다. 개발용 CLI 또는 VS 코드를 사용하세요. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;자세한 정보&lt;/a&gt;</value>
+        <value>포털에서 함수를 편집하는 기능은 Python 함수 앱에서 지원되지 않습니다. 개발용으로 CLI 또는 VS 코드를 사용하세요. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;자세한 정보&lt;/a&gt;</value>
     </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
         <value>Azure 스토리지 마운트에 기밀 정보가 있습니다. 이 섹션을 보거나 편집하려면 읽기/쓰기 권한이 필요합니다.</value>
@@ -5002,7 +5011,7 @@
         <value>연결 문자열 필터링</value>
     </data>
   <data name="readOnlyJava" xml:space="preserve">
-        <value>포털에서 함수를 편집하는 기능이 Java 함수 앱에서 지원되지 않습니다. 개발용 Maven 또는 VS 코드를 사용하세요.</value>
+        <value>포털에서 함수를 편집하는 기능은 Java 함수 앱에서 지원되지 않습니다. 개발용으로 Maven 또는 VS 코드를 사용하세요.</value>
     </data>
   <data name="validate_workingDirectory" xml:space="preserve">
         <value>작업 디렉터리 경로는 리포지토리의 루트에 상대적이어야 하며 /, \ 또는 드라이브 이름(Windows의 경우 C:/)으로 시작할 수 없습니다. 작업 디렉터리가 리포지토리의 src 폴더에 있는 경우 경로는 src/여야 합니다.</value>
@@ -5126,6 +5135,12 @@
     </data>
   <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
         <value>{0} 정보</value>
+    </data>
+  <data name="integratePageTitle" xml:space="preserve">
+        <value>Integration</value>
+    </data>
+  <data name="integratePageDescription" xml:space="preserve">
+        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>함수</value>
@@ -5659,7 +5674,7 @@
         <value>애플리케이션 설정 및 연결 문자열을 변경하면 애플리케이션이 다시 시작됩니다. 계속하시겠습니까?</value>
     </data>
   <data name="azureFunctionsV1Linux" xml:space="preserve">
-        <value>Linux Azure 함수 앱에서는 버전 1 런타임이 지원되지 않습니다.</value>
+        <value>Linux Azure Functions에서는 버전 1 런타임이 지원되지 않습니다.</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
         <value>'{{appName}}' 앱이 현재 GitHub Actions를 통해 배포 센터에서 지원되지 않는 '{{stack}}' 스택을 사용하여 설치되었습니다.</value>
@@ -5683,7 +5698,7 @@
         <value>워크플로 옵션</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Add or overwrite workflow definition</value>
+        <value>워크플로 정의 추가 또는 덮어쓰기</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>기존 워크플로 정의를 사용하여 구성</value>
@@ -5695,7 +5710,7 @@
         <value>GitHub의 기존 워크플로 구성을 아래의 구성으로 덮어씁니다.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(표시할 함수 키 없음)</value>
+        <value>표시할 함수 키 없음</value>
     </data>
   <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>프리미엄 플랜의 앱에서는 이 기능이 지원되지 않습니다.</value>
@@ -5734,48 +5749,237 @@
         <value>함수의 모든 바인딩 새로 고침</value>
     </data>
   <data name="gitHubProtectedBranchSelected" xml:space="preserve">
-        <value>Selected branch has protection rules enabled.</value>
+        <value>선택한 분기에 보호 규칙이 사용하도록 설정되어 있습니다.</value>
     </data>
   <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+        <value>함수 앱이 중지된 동안에는 런타임 버전을 보거나 수정할 수 없습니다.</value>
     </data>
   <data name="githubActionWorkflowsExist" xml:space="preserve">
-        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+        <value>GitHub 작업 워크플로 구성이 '{{branchName}}' 분기에 이미 있습니다. 새 워크플로 구성을 추가하거나 기존 워크플로 구성을 계속 사용하려면 아래 옵션을 선택하세요.</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+        <value>GitHub의 기존 워크플로 구성이 빌드 및 배포에 사용됩니다.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
-        <value>Refresh app files</value>
+        <value>앱 파일 새로 고침</value>
     </data>
   <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
-        <value>Refresh code editor</value>
+        <value>코드 편집기 새로 고침</value>
     </data>
   <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
         <value>트리거 삭제</value>
     </data>
   <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the trigger?</value>
+        <value>트리거를 삭제하시겠습니까?</value>
     </data>
   <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
-        <value>Delete Output</value>
+        <value>출력 삭제</value>
     </data>
   <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
         <value>출력을 삭제할까요?</value>
     </data>
   <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
-        <value>Delete Input</value>
+        <value>입력 삭제</value>
     </data>
   <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>입력을 삭제할까요?</value>
     </data>
+  <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>하나 이상의 바인딩을 로드하지 못했습니다. 페이지를 새로 고치세요.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
-        <value>Delete Function Key</value>
+        <value>함수 키 삭제</value>
     </data>
   <data name="deleteFunctionKeyMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the key {0}?</value>
+        <value>키 {0}을(를) 삭제하시겠습니까?</value>
     </data>
   <data name="fetchFileContentFailureMessage" xml:space="preserve">
-        <value>Failed to fetch the file content</value>
+        <value>파일 콘텐츠를 페치하지 못했습니다.</value>
+    </data>
+  <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>앱 설정에 선택한 연결이 없습니다.</value>
+    </data>
+  <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
+        <value>사용할 수 있는 기존 연결이 없습니다.</value>
+    </data>
+  <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>다음 바인딩에는 필요한 방향 속성이 없으며 잘못 배치되었을 수 있습니다({0}). functions.json 파일에서 바인딩을 업데이트하세요.</value>
+    </data>
+  <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>호출</value>
+    </data>
+  <data name="functionMonitor_logs" xml:space="preserve">
+        <value>로그</value>
+    </data>
+  <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>라이브 메트릭에서 열기</value>
+    </data>
+  <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>HTTP 트리거를 편집하여 추가 HTTP 메서드를 사용하도록 설정합니다.</value>
+    </data>
+  <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>x-functions-key를 사용자 지정 헤더로 정의할 수 없습니다.</value>
+    </data>
+  <data name="filterInvocations" xml:space="preserve">
+        <value>필터 호출</value>
+    </data>
+  <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>Application Insights에서 쿼리 실행</value>
+    </data>
+  <data name="timestamp" xml:space="preserve">
+        <value>타임스탬프</value>
+    </data>
+  <data name="message" xml:space="preserve">
+        <value>메시지</value>
+    </data>
+  <data name="successCount" xml:space="preserve">
+        <value>성공 횟수</value>
+    </data>
+  <data name="errorCount" xml:space="preserve">
+        <value>오류 수</value>
+    </data>
+  <data name="last30Days" xml:space="preserve">
+        <value>지난 30일</value>
+    </data>
+  <data name="discardChangesTitle" xml:space="preserve">
+        <value>변경 내용 취소</value>
+    </data>
+  <data name="discardChangesMesssage" xml:space="preserve">
+        <value>파일 '{0}'에 대한 변경 내용을 취소하시겠습니까?</value>
+    </data>
+  <data name="information" xml:space="preserve">
+        <value>정보</value>
+    </data>
+  <data name="verbose" xml:space="preserve">
+        <value>자세한 정보 표시</value>
+    </data>
+  <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>GitHub 동작 CICD 파이프라인의 연결을 해제하시겠습니까?</value>
+    </data>
+  <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>리포지토리 '{2}'의 분기 '{1}'에서 '{0}' 워크플로 파일을 제거하세요. 이 파일을 제거하지 않을 경우 이 분기에 대한 커밋이 계속해서 앱으로의 배포를 트리거하게 됩니다.</value>
+    </data>
+  <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>연결 끊기</value>
+    </data>
+  <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>취소</value>
+    </data>
+  <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>Azure Portal에서 App Service 배포 워크플로 구성을 제거합니다.</value>
+    </data>
+  <data name="githubActionDashboardRepositoryMissingError" xml:space="preserve">
+        <value>리포지토리 '{0}'을(를) 찾을 수 없습니다. 더 조사하려면 GitHub 계정으로 이동하세요.</value>
+    </data>
+  <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
+        <value>리포지토리 '{1}'에서 분기 '{0}'을(를) 찾을 수 없습니다. 더 조사하려면 리포지토리로 이동하세요.</value>
+    </data>
+  <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
+        <value>GitHub 작업 연결 끊기 확인</value>
+    </data>
+  <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
+        <value>리포지토리 '{2}'의 분기 '{1}'에서 '{0}' 워크플로 파일을 삭제하지 못했습니다. 파일의 이름이 바뀌었거나 이미 삭제되었을 수 있습니다.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
+        <value>배포의 연결을 끊지 못했습니다. 그러나 워크플로 파일은 삭제되었습니다. 연결 끊기를 다시 시도하세요.</value>
+    </data>
+  <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
+        <value>Application Insights에 대한 연결을 설정할 수 없습니다. 함수 앱에 대한 쓰기 권한이 있는지 확인하세요.</value>
+    </data>
+  <data name="deploymentCenterCommandBarAriaLabel" xml:space="preserve">
+        <value>배포 센터 명령</value>
+    </data>
+  <data name="deploymentCenterSaveCommandAriaLabel" xml:space="preserve">
+        <value>배포 센터 저장 명령</value>
+    </data>
+  <data name="deploymentCenterDiscardCommandAriaLabel" xml:space="preserve">
+        <value>배포 센터 취소 명령</value>
+    </data>
+  <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
+        <value>배포 센터 찾아보기 명령</value>
+    </data>
+  <data name="deploymentCenterPublishProfileCommandAriaLabel" xml:space="preserve">
+        <value>배포 센터 게시 프로필 관리 명령</value>
+    </data>
+  <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
+        <value>배포 센터 새로 고침 명령</value>
+    </data>
+  <data name="managePublishProfile" xml:space="preserve">
+        <value>게시 프로필 관리</value>
+    </data>
+  <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>Azure Portal에서는 Python 함수 앱 편집이 지원되지 않습니다. 로컬 개발 환경을 사용하여 이 함수를 편집하세요.</value>
+    </data>
+  <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>Azure Portal에서는 Java 함수 앱 편집이 지원되지 않습니다. 로컬 개발 환경을 사용하여 이 함수를 편집하세요.</value>
+    </data>
+  <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>로컬 개발 환경을 사용하여 이 함수를 편집하세요. 이 함수는 로컬 캐시를 사용하며 여기에서 편집할 수 없습니다.</value>
+    </data>
+  <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>소스 제어 통합을 사용하도록 설정했으므로 앱이 현재 읽기 전용 모드입니다.</value>
+    </data>
+  <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>구성된 배포 슬롯이 있으므로 앱이 현재 읽기 전용 모드입니다.</value>
+    </data>
+  <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>로컬 개발 환경을 사용하여 이 함수를 편집하세요. 이 함수는 로컬 환경에서 생성되었으며 여기에서 편집할 수 없습니다.</value>
+    </data>
+  <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>앱을 수동으로 읽기 전용으로 설정했으므로 현재 읽기 전용 모드입니다.</value>
+    </data>
+  <data name="connected" xml:space="preserve">
+        <value>연결되었습니다.</value>
+    </data>
+  <data name="blaclistFile_message" xml:space="preserve">
+        <value>이 파일 형식은 포털 편집기에서 편집할 수 없습니다.</value>
+    </data>
+  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
+        <value>표시할 환경 변수 없음</value>
+    </data>
+  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>새 환경 변수 추가</value>
+    </data>
+  <data name="staticSite_environmentVariables" xml:space="preserve">
+        <value>환경 변수</value>
+    </data>
+  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
+        <value>사이트에 적용되는 환경 변수는 미사용 시 암호화되고 암호화된 채널을 통해 전송됩니다. 아래 컨트롤을 사용하여 브라우저에서 환경 변수를 일반 텍스트로 표시하도록 선택할 수 있습니다.</value>
+    </data>
+  <data name="staticSite_environment" xml:space="preserve">
+        <value>환경</value>
+    </data>
+  <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
+        <value>사이트의 환경 선택</value>
+    </data>
+  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
+        <value>Filter environment variable</value>
+    </data>
+  <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
+        <value>Add/Edit environment variable</value>
+    </data>
+  <data name="staticSite_discardChangesMesssage" xml:space="preserve">
+        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+    </data>
+  <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
+        <value>Your unsaved changes will be discarded.</value>
+    </data>
+  <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
+        <value>Are you sure you would like to change environment?</value>
+    </data>
+  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
+        <value>{0} is a required property on all environment variables</value>
+    </data>
+  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
+        <value>Environment variable name must be unique</value>
+    </data>
+  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
+        <value>Environment variable values must be an array</value>
+    </data>
+  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
+        <value>{0} is an invalid environment variable property</value>
+    </data>
+  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
+        <value>All environment variable value and name properties must be of type string</value>
     </data>
 </root>
