@@ -461,7 +461,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             updateEnvironmentVariable={updateEnvironmentVariable}
           />
         </Panel>
-        <Panel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
+        <Panel isOpen={panelType === PanelType.bulk} onDismiss={onCancel}>
           <ConfigurationAdvancedAddEdit
             environmentVariables={environmentVariables}
             cancel={onCancel}
