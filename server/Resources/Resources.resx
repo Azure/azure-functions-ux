@@ -5970,4 +5970,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
         <value>Are you sure you would like to change environment?</value>
     </data>
+    <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
+        <value>{0} is a required property on all environment variables</value>
+    </data>
+    <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
+        <value>Environment variable name must be unique</value>
+    </data>
+    <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
+        <value>Environment variable values must be an array</value>
+    </data>
+    <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
+        <value>{0} is an invalid environment variable property</value>
+    </data>
+    <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
+        <value>All environment variable value and name properties must be of type string</value>
+    </data>
 </root>
