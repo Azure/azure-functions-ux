@@ -1,10 +1,7 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable } from './Configuration.types';
 import ActionBar from '../../../components/ActionBar';
-import MonacoEditor, { getMonacoEditorTheme } from '../../../components/monaco-editor/monaco-editor';
-import { PortalTheme } from '../../../models/portal-models';
-import { StartupInfoContext } from '../../../StartupInfoContext';
 
 interface ConfigurationAdvancedAddEditProps {
   cancel: () => void;
@@ -19,17 +16,10 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
 
   const { t } = useTranslation();
 
-  const startUpInfoContext = useContext(StartupInfoContext);
-
   const save = () => {
     const environmentVariablesArray = JSON.parse(environmentVariablesJSON);
     updateEnvironmentVariable(environmentVariablesArray);
     cancel();
-  };
-
-  const onChange = (newValue: string, event: any) => {
-    setEnvironmentVariablesJSON(newValue);
-    // TODO (krmitta): Add validations
   };
 
   const actionBarPrimaryButtonProps = {
@@ -54,17 +44,6 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
   return (
     <>
       <form>
-        <MonacoEditor
-          value={environmentVariablesJSON}
-          language="json"
-          onChange={onChange}
-          options={{
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-          }}
-          height="calc(100vh - 140px)"
-          theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
-        />
         <ActionBar
           id="environment-variable-edit-footer"
           primaryButton={actionBarPrimaryButtonProps}
