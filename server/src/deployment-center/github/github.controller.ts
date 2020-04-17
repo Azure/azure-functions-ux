@@ -1,17 +1,33 @@
-import { Controller, Post, Body, HttpException, Response, Get, Session, HttpCode, Res, Put } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, Response, Get, Session, HttpCode, Res, Put, Query, Headers, Param } from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
-import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey } from './github';
+import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
 import { TokenData } from '../deployment-center';
+
+enum Environments {
+  Prod = 'PROD',
+  Stage = 'STAGE',
+  Release = 'RELEASE',
+  Next = 'NEXT',
+  Dev = 'DEV',
+}
 
 @Controller()
 export class GithubController {
   private readonly provider = 'github';
   private readonly githubApiUrl = 'https://api.github.com';
+
+  private readonly environmentUrlsMap: { [id in Environments]: string } = {
+    PROD: 'https://functions.azure.com',
+    STAGE: 'https://functions-staging.azure.com',
+    RELEASE: 'https://functions-release.azure.com',
+    NEXT: 'https://functions-next.azure.com',
+    DEV: 'https://localhost:44300',
+  };
 
   constructor(
     private dcService: DeploymentCenterService,
@@ -68,8 +84,36 @@ export class GithubController {
     await this._commitFile(tokenData, content);
   }
 
+  @Post('api/github/deleteActionWorkflow')
+  @HttpCode(200)
+  async deleteActionWorkflow(@Body('authToken') authToken: string, @Body('deleteCommit') deleteCommit: GitHubCommit) {
+    const tokenData = await this.dcService.getSourceControlToken(authToken, this.provider);
+
+    const url = `${this.githubApiUrl}/repos/${deleteCommit.repoName}/contents/${deleteCommit.filePath}`;
+
+    try {
+      await this.httpService.delete(url, {
+        headers: {
+          Authorization: `Bearer ${tokenData.token}`,
+        },
+        data: deleteCommit,
+      });
+    } catch (err) {
+      this.loggingService.error(
+        `Failed to delete action workflow '${deleteCommit.filePath}' on branch '${deleteCommit.branchName}' in repo '${
+          deleteCommit.repoName
+        }'.`
+      );
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
   @Get('auth/github/authorize')
-  async authorize(@Session() session, @Response() res) {
+  async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';
     if (session) {
       stateKey = session[Constants.oauthApis.github_state_key] = GUID.newGuid();
@@ -82,10 +126,17 @@ export class GithubController {
     res.redirect(
       `${Constants.oauthApis.githubApiUri}/authorize?client_id=${this.configService.get(
         'GITHUB_CLIENT_ID'
-      )}&redirect_uri=${this.configService.get(
-        'GITHUB_REDIRECT_URL'
+      )}&redirect_uri=${this._getRedirectUri(
+        host
       )}&scope=admin:repo_hook+repo+workflow&response_type=code&state=${this.dcService.hashStateGuid(stateKey)}`
     );
+  }
+
+  @Get('auth/github/callback/env/:env')
+  async callbackRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('env') env) {
+    const envToUpper = (env && (env as string).toUpperCase()) || '';
+    const envUri = this.environmentUrlsMap[envToUpper] || this.environmentUrlsMap[Environments.Prod];
+    res.redirect(`${envUri}/auth/github/callback?code=${code}&state=${state}`);
   }
 
   @Get('auth/github/callback')
@@ -216,5 +267,43 @@ export class GithubController {
       }
       throw new HttpException(err, 500);
     }
+  }
+
+  private _getEnvironment(hostUrl: string): Environments {
+    const hostUrlToLower = (hostUrl || '').toLocaleLowerCase();
+    for (const env in this.environmentUrlsMap) {
+      if (!!this.environmentUrlsMap[env]) {
+        const envUrlToLower = (this.environmentUrlsMap[env] as string).toLocaleLowerCase();
+        if (hostUrlToLower.startsWith(envUrlToLower)) {
+          return env as Environments;
+        }
+      }
+    }
+    return null;
+  }
+
+  private _getRedirectUri(host: string): string {
+    const redirectUri =
+      this.configService.get('GITHUB_REDIRECT_URL') || `${this.environmentUrlsMap[Environments.Prod]}/auth/github/callback`;
+
+    const redirectUriToLower = redirectUri.toLocaleLowerCase();
+    const hostUrlToLower = `https://${host}`.toLocaleLowerCase();
+    if (!redirectUriToLower.startsWith(hostUrlToLower)) {
+      // Once GitHub authentication is complete, the browser needs to be redirected to the same host as the parent window that
+      // originally launched it. Otherwise, the parent window won't be able to extract the token due to origin mis-match.
+
+      // However, the redirect URL that we pass to GitHub needs to be an exact match or subdirectory of a pre-configured callback URL.
+      // - If the host of the parent window matches the host of the pre-configure callback, then we can just use the pre-configured
+      //   callback as the redirect URL.
+      // - If the host of the parent window doesn't match the host of the pre-configured callback, then we append '/env/<ENV>' to the
+      //   pre-configured callback and use this as the redirect URL. When the browser gets redirected to this URL from GitHub, it will
+      //   result in an additional redirect to the correct environment where the host will match the parent window's host.
+      const env = this._getEnvironment(hostUrlToLower);
+      if (!!env) {
+        return `${redirectUri}/env/${env}`;
+      }
+    }
+
+    return redirectUri;
   }
 }

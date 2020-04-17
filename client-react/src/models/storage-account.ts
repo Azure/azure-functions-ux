@@ -1,5 +1,7 @@
+import { KeyValue } from './portal-models';
+
 export interface StorageAccount {
-  primaryEndpoints: { [key: string]: string };
+  primaryEndpoints: KeyValue<string>;
   primaryLocation: string;
   provisioningState: string;
   secondaryLocation: string;

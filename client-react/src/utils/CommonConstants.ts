@@ -22,6 +22,7 @@ export class CommonConstants {
     extensionBundlesRequiredLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2116575',
     cronLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2117147&clcid=0x409',
     quickstartViewDocumentation: 'https://go.microsoft.com/fwlink/?linkid=2119201',
+    bindingDirectionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2121806&clcid=0x409',
   };
 
   public static readonly Kinds = {
@@ -47,7 +48,9 @@ export class CommonConstants {
     iotHubApiVersion20170119: '2017-01-19',
     serviceBusApiVersion20150801: '2015-08-01',
     documentDBApiVersion20150408: '2015-04-08',
-    appInsightsApiVersion20150501: '2015-05-01',
+    appInsightsTokenApiVersion20150501: '2015-05-01',
+    appInsightsQueryApiVersion20180420: '2018-04-20',
+    staticSitePreviewApiVersion20191201: '2019-12-01-preview',
   };
 
   public static readonly StackApiVersions = {
@@ -128,6 +131,12 @@ export class CommonConstants {
     mooncake: 'https://live.applicationinsights.azure.cn/QuickPulseService.svc',
   };
 
+  public static readonly AppInsightsEndpoints = {
+    public: 'https://api.applicationinsights.io/v1/apps',
+    fairfax: 'https://api.applicationinsights.us/v1/apps',
+    mooncake: 'https://api.applicationsinisights.azure.cn/v1/apps',
+  };
+
   public static readonly LogLevels = {
     error: 'error',
     information: 'information',
@@ -141,4 +150,6 @@ export class CommonConstants {
     dark: 'vs-dark',
     light: 'vs-light',
   };
+
+  public static readonly newLine = '\n';
 }

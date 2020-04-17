@@ -9,10 +9,11 @@ nav {
 
 .group-tab-width-3-tabs {
   width: calc(100% / 3);
+  max-width: 400px;
 }
 
 .group-tab {
-  background-color: $border-color;
+  background-color: #8a8886;
   text-align: center;
   height: 83px;
   padding-top: 7px;
@@ -22,12 +23,14 @@ nav {
     margin-top: 2px;
     font-size: 15px;
     font-weight: bold;
+    color: #161514;
   }
 
   h2 {
     font-size: 12px;
     line-height: 0px;
     white-space: nowrap;
+    color: #161514;
   }
 
   &.selected-container {

@@ -328,6 +328,7 @@ export class ScenarioIds {
   public static readonly containerSettings = 'containerSettings';
   public static readonly isPublishProfileBasedDeploymentEnabled = 'isPublishProfileBasedDeploymentEnabled';
   public static readonly enableGitHubAction = 'enableGitHubAction';
+  public static readonly tipSupported = 'tipSupported';
   public static readonly showFunctionsPreview = 'showFunctionsPreview';
 }
 
@@ -550,6 +551,7 @@ export class ComponentNames {
   public static tableFunctionMonitor = 'table-function-monitor';
   public static monitorDetails = 'monitor-details';
   public static monitorConfigure = 'monitor-configure';
+  public static newProxy = 'new-proxy';
 }
 
 export class WorkerRuntimeLanguages {

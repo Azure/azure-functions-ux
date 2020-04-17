@@ -56,7 +56,7 @@ export class StacksFunctionAppConfigService {
         sortOrder: 1,
         displayText: '12',
         value: '12',
-        isDefault: false,
+        isDefault: true,
         supportedPlatforms: [
           {
             sortOrder: 0,
@@ -219,7 +219,7 @@ export class StacksFunctionAppConfigService {
       {
         sortOrder: 0,
         displayText: '8',
-        value: '8',
+        value: '1.8',
         isDefault: true,
         supportedPlatforms: [
           {

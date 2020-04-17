@@ -45,7 +45,7 @@
     "ngx-datatable-accessable": "^13.1.0",
     "ngx-markdown": "^1.5.2",
     "ngx-uploader": "^4.2.4",
-    "node-sass": "^4.7.2",
+    "node-sass": "^4.13.1",
     "prismjs": "^1.13.0",
     "rxjs": "^5.5.2",
     "swagger-editor": "git+https://github.com/azure/swagger-editor.git#5c7736ff93ffe36569e1f21efd72a91c9c1f9f77",

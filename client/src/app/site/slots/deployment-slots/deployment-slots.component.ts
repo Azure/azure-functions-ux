@@ -23,6 +23,7 @@ import { ScenarioService } from '../../../shared/services/scenario/scenario.serv
 import { DecimalRangeValidator } from '../../../shared/validators/decimalRangeValidator';
 import { RoutingSumValidator } from '../../../shared/validators/routingSumValidator';
 import { TreeViewInfo, SiteData } from '../../../tree-view/models/tree-view-info';
+import { ScenarioCheckResult } from 'app/shared/services/scenario/scenario.models';
 
 @Component({
   selector: 'deployment-slots',
@@ -35,6 +36,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   public viewInfo: TreeViewInfo<SiteData>;
   public resourceId: ResourceId;
   public isSlot: boolean;
+  public tipSupported: boolean;
 
   public addSlotCommandDisabled = true;
   public swapSlotsCommandDisabled = true;
@@ -170,6 +172,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.deploymentSlotsArm = null;
         this.saving = false;
 
+        this.tipSupported = false;
+
         this._updateDisabledState();
 
         const siteDescriptor = new ArmSiteDescriptor(this.viewInfo.resourceId);
@@ -203,6 +207,10 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
         const scenarioInput = this._getScenarioCheckInput();
 
+        const slotLimitsPromise = !!scenarioInput
+          ? this._scenarioService.checkScenarioAsync(ScenarioIds.getSiteSlotLimits, scenarioInput)
+          : Observable.of(null as ScenarioCheckResult);
+
         return Observable.zip(
           this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
           this._authZService.hasPermission(this.resourceId, [
@@ -211,16 +219,21 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             AuthzService.resetSlotConfigScope,
           ]),
           this._authZService.hasReadOnlyLock(this.resourceId),
-          !!scenarioInput ? this._scenarioService.checkScenarioAsync(ScenarioIds.getSiteSlotLimits, scenarioInput) : Observable.of(null)
+          slotLimitsPromise
         );
       })
       .do(r => {
         const [hasWritePermission, hasSwapPermission, hasReadOnlyLock, slotsQuotaCheck] = r;
+
         const slotsQuota = !!slotsQuotaCheck ? slotsQuotaCheck.data : 0;
 
         const scenarioInput = this._getScenarioCheckInput();
-        this.canScaleUp =
-          !!scenarioInput && this._scenarioService.checkScenario(ScenarioIds.canScaleForSlots, scenarioInput).status !== 'disabled';
+
+        const tipSupportedCheck = !!scenarioInput && this._scenarioService.checkScenario(ScenarioIds.tipSupported, scenarioInput);
+        this.tipSupported = !tipSupportedCheck || tipSupportedCheck.status !== 'disabled';
+
+        const canScaleForSlotsCheck = !!scenarioInput && this._scenarioService.checkScenario(ScenarioIds.canScaleForSlots, scenarioInput);
+        this.canScaleUp = !canScaleForSlotsCheck || canScaleForSlotsCheck.status !== 'disabled';
 
         this.hasWriteAccess = hasWritePermission && !hasReadOnlyLock;
 
@@ -279,7 +292,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       this.prodSiteConfigArm = siteConfigResult.result;
     } else {
       this._logService.error(LogCategories.deploymentSlots, '/get-tip-rules', siteConfigResult.error.result);
-      if (!this.isSlot) {
+      if (!this.isSlot && this.tipSupported) {
         this.loadingConfigFailureMessage = this._translateService.instant(PortalResources.error_unableToLoadTipConfig, {
           errorMessage: (slotsResult.error && slotsResult.error.message) || '',
         });
@@ -382,7 +395,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
       setTimeout(_ => {
         remainderControl.disable();
-        if (this.isSlot) {
+        if (this.isSlot || !this.tipSupported) {
           rulesGroup.disable();
         }
       });
@@ -398,7 +411,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     this.saveAndDiscardCommandsDisabled = this.refreshCommandDisabled || !this.hasWriteAccess || !this.prodSiteConfigArm;
     if (this.mainForm && this.mainForm.controls['rulesGroup']) {
-      if (this.saveAndDiscardCommandsDisabled || this.isSlot) {
+      if (this.saveAndDiscardCommandsDisabled || this.isSlot || !this.tipSupported) {
         this.mainForm.controls['rulesGroup'].disable();
       } else {
         this.mainForm.controls['rulesGroup'].enable();

@@ -24,7 +24,7 @@ $chrome-color-dark: $body-bg-color-dark;
 
 $back-bar-color: #e8ebed;
 
-$border-selection-color: #419bf3;
+$border-selection-color: #0078d4;
 $border-focus-color: #00bcf2;
 $border-focus: $border-focus-color dashed 1px;
 
@@ -96,7 +96,7 @@ $command-color-hover: rgba(85, 179, 255, 0.1);
 $command-color-hover-dark: rgba(128, 128, 128, 0.3);
 $heading-text-color: #252525;
 
-$info-box-color: #d1e7f8;
+$info-box-color: #d1e4ff;
 $info-box-color-hover: darken($info-box-color, 5%);
 
 $card-color-dark: #333333;
@@ -168,6 +168,8 @@ $log-console-connector: #898787;
 $source-slot-bullet-color: #00c5c5;
 $source-slot-bullet-color-dark: aqua;
 $target-slot-bullet-color: #f77088;
+$pill-background-color: rgb(16, 124, 16);
+$pill-background-color-dark: rgb(146, 195, 83);
 
 // Card styles:
 

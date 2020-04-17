@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { DeploymentData, Deployment } from '../../Models/deployment-data';
 import { Component, Input, OnChanges } from '@angular/core';
-import { LogCategories, SiteTabIds } from '../../../../shared/models/constants';
+import { LogCategories, SiteTabIds, DeploymentCenterConstants } from '../../../../shared/models/constants';
 import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-manager';
 import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { DeploymentDashboard } from '../deploymentDashboard';
@@ -16,6 +16,10 @@ import * as moment from 'moment-mini-ts';
 import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
 import { TableItem, GetTableHash } from 'app/controls/tbl/tbl.component';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
+import { GithubService } from '../../deployment-center-setup/wizard-logic/github.service';
+import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
+import { UserService } from '../../../../shared/services/user.service';
+import { GitHubCommit, FileContent } from '../../Models/github';
 
 enum DeployStatus {
   Pending,
@@ -23,6 +27,18 @@ enum DeployStatus {
   Deploying,
   Failed,
   Success,
+}
+
+enum DeployDisconnectStep {
+  DeleteWorkflowFile = 'DeleteWorkflowFile',
+  ClearSCMSettings = 'ClearSCMSettings',
+}
+
+interface DeploymentDisconnectStatus {
+  step: DeployDisconnectStep;
+  isSuccessful: boolean;
+  errorMessage?: string;
+  error?: any;
 }
 
 class GithubActionTableItem implements TableItem {
@@ -41,6 +57,7 @@ class GithubActionTableItem implements TableItem {
   selector: 'app-github-action-dashboard',
   templateUrl: './github-action-dashboard.component.html',
   styleUrls: ['./github-action-dashboard.component.scss'],
+  providers: [GithubService],
 })
 export class GithubActionDashboardComponent extends DeploymentDashboard implements OnChanges, OnDestroy {
   @Input()
@@ -52,23 +69,40 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
   public githubActionLink: string;
   public sidePanelOpened = false;
   public hideCreds = false;
+  public showDisconnectModal = false;
+  public githubActionDisconnectDeleteWorkflowText = '';
+  public errorMessage = '';
+  public rightPaneItem: ArmObj<Deployment>;
 
   private _viewInfoStream$ = new Subject<string>();
+  private _repositoryStatusStream$ = new Subject<boolean>();
   private _ngUnsubscribe$ = new Subject();
   private _busyManager: BusyStateScopeManager;
   private _forceLoad = false;
   private _oldTableHash = 0;
   private _tableItems: GithubActionTableItem[];
+  private _deleteWorkflowDuringDisconnect = false;
+  private _actionWorkflowFileName = '';
+  private _token = '';
+  private _repoName = '';
 
   constructor(
     private _portalService: PortalService,
     private _logService: LogService,
     private _siteService: SiteService,
     private _broadcastService: BroadcastService,
+    private _githubService: GithubService,
+    userService: UserService,
     translateService: TranslateService
   ) {
     super(translateService);
+
+    userService.getStartupInfo().subscribe(info => {
+      this._token = `Bearer ${info.token}`;
+    });
+
     this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
+    this._setupRepositoryStatusStream();
     this._setupViewInfoStream();
   }
 
@@ -97,11 +131,8 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     this._viewInfoStream$.next(this.resourceId);
   }
 
-  disconnect() {
-    const confirmResult = confirm(this._translateService.instant(PortalResources.disconnectConfirm));
-    if (confirmResult) {
-      this._disconnectDeployment();
-    }
+  public disconnect() {
+    this._disconnectDeployment();
   }
 
   public githubActionOnClick() {
@@ -128,12 +159,35 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
     }
   }
 
+  public showDisconnectPrompt() {
+    this.showDisconnectModal = true;
+  }
+
+  public cancelDisconnectPrompt() {
+    this._deleteWorkflowDuringDisconnect = false;
+    this._hideDisconnectPrompt();
+  }
+
+  public toggleDeleteWorkflowState() {
+    this._deleteWorkflowDuringDisconnect = !this._deleteWorkflowDuringDisconnect;
+  }
+
   get tableItems() {
     if (this._deploymentFetchTries > 10) {
       this.tableMessages.emptyMessage = this._translateService.instant(PortalResources.noDeploymentDataAvailable);
     }
 
     return this._tableItems || [];
+  }
+
+  public _hideDisconnectPrompt() {
+    this.showDisconnectModal = false;
+  }
+
+  public details(item: GithubActionTableItem) {
+    this.hideCreds = false;
+    this.rightPaneItem = item.deploymentObj;
+    this.sidePanelOpened = true;
   }
 
   private _disconnectDeployment() {
@@ -148,10 +202,33 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       .do(notification => {
         notificationId = notification.id;
       })
-      .concatMap(() => this._siteService.deleteSiteSourceControlConfig(this.resourceId))
+      // NOTE (michinoy): First try to delete the workflow file.
+      .switchMap(() => this._deleteWorkflowFileIfNeeded())
+      // NOTE (michinoy): Next try to clear the SCM settings.
+      .switchMap(result => this._clearSCMSettings(result))
+      .switchMap(r => {
+        if (!r.isSuccessful) {
+          return this._deleteWorkflowDuringDisconnect
+            ? Observable.throw({
+                step: DeployDisconnectStep.ClearSCMSettings,
+                isSuccessful: false,
+                errorMessage: this._translateService.instant(PortalResources.disconnectingDeploymentFailWorkflowFileDeleteSucceeded),
+                error: r.error,
+              })
+            : Observable.throw({
+                step: DeployDisconnectStep.ClearSCMSettings,
+                isSuccessful: false,
+                errorMessage: this._translateService.instant(PortalResources.disconnectingDeploymentFail),
+                error: r.error,
+              });
+        } else {
+          return Observable.of(r);
+        }
+      })
       .subscribe(
         r => {
           this._busyManager.clearBusy();
+          this._deleteWorkflowDuringDisconnect = false;
           this._portalService.stopNotification(
             notificationId,
             true,
@@ -160,20 +237,91 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
           this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
         },
         err => {
-          this._portalService.stopNotification(
-            notificationId,
-            false,
-            this._translateService.instant(PortalResources.disconnectingDeploymentFail)
-          );
-          this._logService.error(LogCategories.cicd, '/disconnect-github-action-dashboard', err);
+          this._deleteWorkflowDuringDisconnect = false;
+          this._portalService.stopNotification(notificationId, false, err.errorMessage);
+          this._logService.error(LogCategories.cicd, '/github-action-dashboard-disconnect', { resourceId: this.resourceId, error: err });
         }
       );
+  }
+
+  private _clearSCMSettings(deploymentDisconnectStatus: DeploymentDisconnectStatus) {
+    if (deploymentDisconnectStatus.isSuccessful) {
+      this._logService.trace(LogCategories.cicd, '/github-action-dashboard-disconnect-scm', { resourceId: this.resourceId });
+
+      return this._siteService.deleteSiteSourceControlConfig(this.resourceId);
+    } else {
+      return Observable.throw(deploymentDisconnectStatus);
+    }
+  }
+
+  private _deleteWorkflowFileIfNeeded(): Observable<DeploymentDisconnectStatus> {
+    this._hideDisconnectPrompt();
+    const errorMessage = this._translateService
+      .instant(PortalResources.githubActionDisconnectWorkflowDeleteFailed)
+      .format(this._actionWorkflowFileName, this.branchText, this.repositoryText);
+
+    const successStatus: DeploymentDisconnectStatus = {
+      step: DeployDisconnectStep.DeleteWorkflowFile,
+      isSuccessful: true,
+      errorMessage: null,
+    };
+
+    const failedStatus: DeploymentDisconnectStatus = {
+      step: DeployDisconnectStep.DeleteWorkflowFile,
+      isSuccessful: false,
+      errorMessage: errorMessage,
+    };
+
+    if (!this._deleteWorkflowDuringDisconnect) {
+      // NOTE(michinoy): In this case, the user has opted not to delete the file, it should not block any dependent actions.
+      return Observable.of(successStatus);
+    } else {
+      this._logService.trace(LogCategories.cicd, '/github-action-dashboard-disconnect-workflow', { resourceId: this.resourceId });
+      const workflowFilePath = `.github/workflows/${this._actionWorkflowFileName}`;
+
+      return this._githubService
+        .fetchWorkflowConfiguration(this._token, this.repositoryText, this._repoName, this.branchText, workflowFilePath)
+        .switchMap(result => this._deleteWorkflowFile(workflowFilePath, result))
+        .do(_ => successStatus)
+        .catch(err => {
+          // Something failed on the fetch action
+          failedStatus.error = err;
+          return Observable.of(failedStatus);
+        });
+    }
+  }
+
+  private _deleteWorkflowFile(workflowFilePath: string, fileContent: FileContent) {
+    if (fileContent) {
+      const deleteCommitInfo: GitHubCommit = {
+        repoName: this._repoName,
+        branchName: this.branchText,
+        filePath: workflowFilePath,
+        message: this._translateService.instant(PortalResources.githubActionWorkflowDeleteCommitMessage),
+        committer: {
+          name: 'Azure App Service',
+          email: 'donotreply@microsoft.com',
+        },
+        sha: fileContent.sha,
+      };
+
+      return this._githubService.deleteActionWorkflow(this._token, deleteCommitInfo);
+    } else {
+      // NOTE (michinoy): fetchWorkflowConfiguration return null if the file is not found.
+      return Observable.throw({
+        errorMessage: `Workflow file '${workflowFilePath}' not found in branch '${this.branchText}' from repo '${this._repoName}'`,
+      });
+    }
   }
 
   private _setupViewInfoStream() {
     this._viewInfoStream$
       .takeUntil(this._ngUnsubscribe$)
       .switchMap(resourceId => {
+        if (resourceId !== this.resourceId) {
+          this._logService.trace(LogCategories.cicd, '/github-action-dashboard', { resourceId });
+        }
+
         return Observable.zip(
           this._siteService.getSite(resourceId, this._forceLoad),
           this._siteService.getSiteConfig(resourceId, this._forceLoad),
@@ -205,18 +353,39 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
           };
 
           if (this.deploymentObject.sourceControls && this.deploymentObject.sourceControls.properties) {
-            this.repositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
-            this.githubActionLink = `${this.deploymentObject.sourceControls.properties.repoUrl}/actions`;
-            this.branchText = this.deploymentObject.sourceControls.properties.branch;
+            if (
+              this.repositoryText !== this.deploymentObject.sourceControls.properties.repoUrl ||
+              this.branchText !== this.deploymentObject.sourceControls.properties.branch
+            ) {
+              this.errorMessage = '';
+              this.repositoryText = this.deploymentObject.sourceControls.properties.repoUrl;
+              this._repoName = this.repositoryText.toLocaleLowerCase().replace(`${DeploymentCenterConstants.githubUri}/`, '');
+              this.branchText = this.deploymentObject.sourceControls.properties.branch;
+              this.githubActionLink = `${this.repositoryText}/actions?query=event%3Apush+branch%3A${this.branchText}`;
+              this._repositoryStatusStream$.next(true);
+            }
+
+            const siteDescriptor = <ArmSiteDescriptor>ArmSiteDescriptor.getSiteDescriptor(this.deploymentObject.site.id);
+            this._actionWorkflowFileName = this._githubService.getWorkflowFileName(
+              this.branchText,
+              siteDescriptor.site,
+              siteDescriptor.slot
+            );
+
+            this.githubActionDisconnectDeleteWorkflowText = this._translateService
+              .instant(PortalResources.githubActionDisconnectDeleteWorkflow)
+              .format(this._actionWorkflowFileName, this.branchText, this.repositoryText);
           }
 
-          this._populateTable();
+          if (this.deploymentObject.deployments) {
+            this._populateTable();
+          }
         },
         err => {
           this._busyManager.clearBusy();
           this._forceLoad = false;
           this.deploymentObject = null;
-          this._logService.error(LogCategories.cicd, '/github-action-dashboard-initial-load', err);
+          this._logService.error(LogCategories.cicd, '/github-action-dashboard', { resourceId: this.resourceId, error: err });
         }
       );
 
@@ -226,6 +395,31 @@ export class GithubActionDashboardComponent extends DeploymentDashboard implemen
       .subscribe(() => {
         this._deploymentFetchTries++;
         this._viewInfoStream$.next(this.resourceId);
+      });
+  }
+
+  private _setupRepositoryStatusStream() {
+    this._repositoryStatusStream$
+      .takeUntil(this._ngUnsubscribe$)
+      .switchMap(_ =>
+        Observable.zip(
+          this._githubService.fetchRepo(this._token, this.repositoryText, this._repoName).catch(r => Observable.of(r)),
+          this._githubService.fetchBranch(this._token, this.repositoryText, this._repoName, this.branchText).catch(r => Observable.of(r))
+        )
+      )
+      .subscribe(responses => {
+        const [repoResponse, branchResponse] = responses;
+        if (repoResponse && repoResponse.status === 404) {
+          this.errorMessage = this._translateService
+            .instant(PortalResources.githubActionDashboardRepositoryMissingError)
+            .format(this.repositoryText);
+        } else if (branchResponse && branchResponse.status === 404) {
+          this.errorMessage = this._translateService
+            .instant(PortalResources.githubActionDashboardBranchMissingError)
+            .format(this.branchText, this.repositoryText);
+        } else {
+          this.errorMessage = '';
+        }
       });
   }
 

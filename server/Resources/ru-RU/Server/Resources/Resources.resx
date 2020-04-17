@@ -256,7 +256,7 @@
         <value>Имя может содержать буквы, цифры и дефисы (первый и последний символы должны быть цифрами или буквами)</value>
     </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-        <value>имя приложения-функции {{funcName}} недоступно</value>
+        <value>Имя приложения-функции {{funcName}} недоступно.</value>
     </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
         <value>Для использования этой службы требуется подписка Azure. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Щелкните здесь&lt;/a&gt;, чтобы создать бесплатную пробную подписку.</value>
@@ -268,7 +268,7 @@
         <value>Ваша подписка</value>
     </data>
   <data name="createApp_description" xml:space="preserve">
-        <value>При создании приложения-функции будет автоматически подготовлен новый контейнер, поддерживающий размещение и запуск вашего кода.</value>
+        <value>Создание приложения-функции автоматически подготовит новый контейнер для размещения и запуска вашего кода.</value>
     </data>
   <data name="createApp_fail" xml:space="preserve">
         <value>Не удалось создать приложение</value>
@@ -440,7 +440,7 @@
         <value>Функции поиска</value>
     </data>
   <data name="searchFunctionApps" xml:space="preserve">
-        <value>Поиск среди приложений-функций</value>
+        <value>Поиск по приложениям-функциям</value>
     </data>
   <data name="subscription" xml:space="preserve">
         <value>Идентификатор подписки</value>
@@ -569,7 +569,7 @@
         <value>Удалить функцию {{name}}</value>
     </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-        <value>Вы действительно хотите удалить функцию {{name}}?</value>
+        <value>Удалить функцию {{name}}?</value>
     </data>
   <data name="functionMonitor_loading" xml:space="preserve">
         <value>Идет загрузка...</value>
@@ -749,7 +749,7 @@
         <value>Ожидается ресурс</value>
     </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-        <value>Нам очень понравилось размещать ваши функции.</value>
+        <value>Мы были рады размещать ваши функции!</value>
     </data>
   <data name="trialExpired_signupForAzure" xml:space="preserve">
         <value>Срок действия вашей пробной версии истек, однако вы можете получить расширенную пробную версию, включающую в себя все остальные функции Azure.</value>
@@ -833,7 +833,7 @@
         <value>Менее минуты</value>
     </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-        <value>Регистрация бесплатной учетной записи Azure делает доступными все возможности функций без ограничения по времени.</value>
+        <value>При регистрации бесплатной учетной записи Azure вы сможете использовать все возможности Функций Azure без каких-либо временных ограничений!</value>
     </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
         <value>CORS не настроен для этого приложения-функции. Добавьте {{origin}} в список CORS.</value>
@@ -842,7 +842,7 @@
         <value>Не удалось подключиться к приложению-функции. В приложении могла возникнуть временная проблема, или же оно может испытывать проблемы с запуском. Можно проверить журналы или повторить попытку через пару минут.</value>
     </data>
   <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
-        <value>Не удалось получить приложение-функцию ({{functionApp}})</value>
+        <value>Невозможно получить приложение-функцию ({{functionApp}}).</value>
     </data>
   <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
         <value>Не удалось подключиться к приложению-функции ({{statusText}}). Повторите попытку позже.</value>
@@ -968,7 +968,7 @@
         <value>Квота на дневное использование (ГБ/с)</value>
     </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-        <value>Приложение-функция достигло квоты на дневное использование и было остановлено. Его работа будет возобновлена при наступлении следующего 24-часового интервала времени.</value>
+        <value>Приложение-функция достигло ежедневной квоты использования и было остановлено до следующего 24-часового интервала.</value>
     </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
         <value>Удалить квоту</value>
@@ -977,7 +977,7 @@
         <value>Задать квоту</value>
     </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-        <value>При превышении ежедневной квоты использования приложение-функция будет остановлено до 0:00 UTC следующего дня.</value>
+        <value>При превышении ежедневной квоты использования работа приложения-функции останавливается до 0:00 следующего дня (время в формате UTC).</value>
     </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
         <value>Вы действительно хотите отозвать ключ {{name}}?</value>
@@ -986,7 +986,7 @@
         <value>Ключи</value>
     </data>
   <data name="functionNew_nameError" xml:space="preserve">
-        <value>Имя должно быть уникальным в приложении-функции. Оно должно начинаться с буквы и может содержать буквы, числа (0–9), дефисы ("-") и знаки подчеркивания ("_").</value>
+        <value>Имя в приложении-функции должно быть уникальным. Оно должно начинаться с буквы и может включать буквы, цифры (0–9), дефисы ("-") и символы подчеркивания ("_").</value>
     </data>
   <data name="functionDev_loading" xml:space="preserve">
         <value>Загрузка…</value>
@@ -1465,6 +1465,9 @@
   <data name="configUpdateFailure" xml:space="preserve">
         <value>Не удалось обновить параметры веб-приложения</value>
     </data>
+  <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>Не удалось обновить параметры веб-приложения: {0}.</value>
+    </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Ошибка сохранения: недопустимые входные данные.</value>
     </data>
@@ -1817,7 +1820,7 @@
         <value>Параметры приложения</value>
     </data>
   <data name="try_appDisabled" xml:space="preserve">
-        <value>Управление приложением-функцией недоступно в этой пробной версии.</value>
+        <value>Управление приложением-функцией в этой пробной версии недоступно.</value>
     </data>
   <data name="template" xml:space="preserve">
         <value>Шаблон</value>
@@ -2091,8 +2094,8 @@
 Укажите &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;объекты операций&lt;/a&gt; и другие сведения об API перед использованием.</value>
     </data>
   <data name="swaggerDefinition_keyHelp" xml:space="preserve">
-        <value>Этот ключ запрещает доступ к определению API для всех пользователей без ключа.
-Он не защищает базовый API. Ознакомьтесь с каждой функцией, чтобы проверить безопасность ключа.</value>
+        <value>Этот ключ запрещает доступ к определению API для всех, у кого нет ключа.
+Используемые API он не защищает. Применение ключей безопасности см. в сведениях каждой функции.</value>
     </data>
   <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
         <value>Выберите пункт "Функция", чтобы разрешить создание размещенных определений API и шаблонов.
@@ -2181,6 +2184,9 @@
     </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>Приложение сейчас находится в режиме чтения и записи, так как вы задали этот режим для правки, несмотря на созданный function.json. Изменения, внесенные в function.json, не будут учитываться в среде выполнения функций.</value>
+    </data>
+  <data name="readOnlyRbac" xml:space="preserve">
+        <value>Ваша функция сейчас находится в режиме только для чтения, так как назначена роль доступа RBAC "Читатель".</value>
     </data>
   <data name="copypre_copy" xml:space="preserve">
         <value>Копировать</value>
@@ -2274,6 +2280,9 @@
     </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>Не удалось создать слот "{0}" </value>
+    </data>
+  <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>Не удалось создать слот "{0}": {1}</value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>Невозможно получить список слотов. {{errorMessage}}</value>
@@ -2396,7 +2405,7 @@
         <value>Проверка схемы proxies.json не пройдена. Ошибка: "{0}".</value>
     </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-        <value>В плане потребления вы можете ограничить использование платформы, задав ежедневную квоту использования (в ГБ/с). По ее достижении приложение-функция будет остановлено до 0:00 UTC следующего дня.</value>
+        <value>План потребления позволяет ограничивать использование платформы, задавая ежедневную квоту в ГБ/с. При ее достижении работа приложения-функции останавливается до 0:00 следующего дня (время в формате UTC).</value>
     </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
         <value>(политика концентратора)</value>
@@ -2825,7 +2834,7 @@
         <value>Скрыть значение</value>
     </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-        <value>Ключ инструментирования App Insights указан в параметрах приложения, но найти App Insights в подписке приложения-функции не удалось. Убедитесь, что App Insights относится к той же подписке, что и приложение-функция.</value>
+        <value>В параметрах приложения указан ключ инструментирования App Insights, но найти App Insights в подписке приложения-функции не удалось. App Insights и приложение-функция должны быть в одной подписке.</value>
     </data>
   <data name="table_startOfRow" xml:space="preserve">
         <value>Начало строки</value>
@@ -3326,7 +3335,7 @@
         <value>Высокая плотность</value>
     </data>
   <data name="pricing_highDensityDesc" xml:space="preserve">
-        <value>Эффективное совместное использование плана службы приложений в нескольких приложениях-функциях.</value>
+        <value>Эффективное совместное использование плана Службы приложений в нескольких приложениях-функциях.</value>
     </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
         <value>Промежуточные слоты</value>
@@ -4068,7 +4077,7 @@
         <value>Создать новый</value>
     </data>
   <data name="topBar_updateExtensions" xml:space="preserve">
-        <value>Требуется обновление расширений функции.</value>
+        <value>Необходимо обновить расширения функции.</value>
     </data>
   <data name="cloneConfigLoadFailure" xml:space="preserve">
         <value>Не удалось получить исходную конфигурацию.</value>
@@ -4761,7 +4770,7 @@
         <value>Параметры слота развертывания включены.</value>
     </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>Скрытое значение. Для просмотра нажмите кнопку "Показать значения" выше.</value>
+        <value>Скрытое значение. Щелкните, чтобы показать его.</value>
     </data>
   <data name="fieldMustBeUnique" xml:space="preserve">
         <value>Значение поля должно быть уникальным.</value>
@@ -4791,7 +4800,7 @@
         <value>Вкладка "Приложения логики" будет удалена через несколько месяцев. Вы можете продолжить просматривать свои приложения логики с помощью функции обзора на портале Azure.</value>
     </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-        <value>Эта функция доступна только для приложений-функций, выполняющихся в плане службы приложений Linux. Для ведения журналов среды выполнения используйте Application Insights.</value>
+        <value>Эта возможность доступна только для приложений-функций, используемых в плане Службы приложений для Linux. Для ведения журналов среды выполнения используйте Application Insights.</value>
     </data>
   <data name="scaleOut" xml:space="preserve">
         <value>Горизонтальное увеличение масштаба</value>
@@ -4854,7 +4863,7 @@
         <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
     </data>
   <data name="readOnlyPython" xml:space="preserve">
-        <value>Редактирование функций на портале не поддерживается для приложений-функций Python. Для разработки используйте интерфейс командной строки или VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Дополнительные сведения.&lt;/a&gt;</value>
+        <value>Редактирование функций на портале не поддерживается для приложений-функций Python. Для разработки используйте CLI или VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Дополнительные сведения.&lt;/a&gt;</value>
     </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
         <value>Подключенные ресурсы хранилища Azure содержат секреты. Для просмотра и изменения этого раздела требуются разрешения на чтение и запись.</value>
@@ -5002,7 +5011,7 @@
         <value>Фильтр строк подключения</value>
     </data>
   <data name="readOnlyJava" xml:space="preserve">
-        <value>Функции редактирования на портале не поддерживаются для приложений-функций Java. Используйте для разработки Maven или VS Code.</value>
+        <value>Редактирование функций на портале не поддерживается для приложений-функций Java. Для разработки используйте Maven или VS Code.</value>
     </data>
   <data name="validate_workingDirectory" xml:space="preserve">
         <value>Путь к рабочему каталогу должен указываться относительно корня репозитория и не может начинаться с "/", "\" или с букв дисков ("C:/") в Windows. Если рабочий каталог находится в папке "src" репозитория, путь должен начинаться с "src/".</value>
@@ -5127,6 +5136,12 @@
   <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
         <value>{0} - сведения</value>
     </data>
+  <data name="integratePageTitle" xml:space="preserve">
+        <value>Integration</value>
+    </data>
+  <data name="integratePageDescription" xml:space="preserve">
+        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
+    </data>
   <data name="_function" xml:space="preserve">
         <value>Функция</value>
     </data>
@@ -5170,7 +5185,7 @@
         <value>Новая функция</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Создайте в этом приложении-функции новую функцию. Для начала выберите шаблон ниже.</value>
+        <value>Создайте новую функцию в этом приложении-функции. Начните, выбрав шаблон ниже.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Шаблоны</value>
@@ -5518,7 +5533,7 @@
         <value>Удаление {0} ({1}) успешно выполнено</value>
     </data>
   <data name="createFunctionNotication" xml:space="preserve">
-        <value>Создается функция.</value>
+        <value>Создание функции</value>
     </data>
   <data name="createFunctionNotificationDetails" xml:space="preserve">
         <value>Создание {0}</value>
@@ -5659,7 +5674,7 @@
         <value>При любом изменении параметров приложения и строк подключений приложение будет перезапущено. Продолжить?</value>
     </data>
   <data name="azureFunctionsV1Linux" xml:space="preserve">
-        <value>Среда выполнения версии 1 не поддерживается в приложениях-функциях Azure для Linux.</value>
+        <value>Среда выполнения версии 1 не поддерживается в Функциях Azure для Linux.</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
         <value>Для приложения "{{appName}}" настроен стек "{{stack}}", который сейчас не поддерживается в Центре развертывания с использованием GitHub Actions.</value>
@@ -5683,7 +5698,7 @@
         <value>Настройка рабочего процесса</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Add or overwrite workflow definition</value>
+        <value>Добавить или перезаписать определение рабочего процесса</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Настроить с использованием существующего определения рабочего процесса</value>
@@ -5695,7 +5710,7 @@
         <value>Существующая конфигурация рабочего процесса в GitHub будет перезаписана конфигурацией ниже.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(нет ключей функции для отображения)</value>
+        <value>Нет ключей функции для отображения</value>
     </data>
   <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>Эта функция не поддерживается для приложений в плане Premium.</value>
@@ -5734,48 +5749,237 @@
         <value>Обновить все привязки для функции</value>
     </data>
   <data name="gitHubProtectedBranchSelected" xml:space="preserve">
-        <value>Selected branch has protection rules enabled.</value>
+        <value>Для выбранной ветви включены правила защиты.</value>
     </data>
   <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+        <value>Вы не можете просматривать или изменять версию среды выполнения, пока приложение-функция остановлено.</value>
     </data>
   <data name="githubActionWorkflowsExist" xml:space="preserve">
-        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+        <value>Конфигурации рабочего процесса для действия GitHub уже существуют в ветви "{{branchName}}". Выберите один из вариантов ниже, чтобы добавить новую конфигурацию рабочего процесса или продолжить использовать существующие конфигурации рабочего процесса.</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+        <value>Для сборки и развертывания будет использована существующая конфигурация рабочего процесса в GitHub.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
-        <value>Refresh app files</value>
+        <value>Обновление файлов приложения</value>
     </data>
   <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
-        <value>Refresh code editor</value>
+        <value>Обновление редактора кода</value>
     </data>
   <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
         <value>Удаление триггера</value>
     </data>
   <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the trigger?</value>
+        <value>Вы действительно хотите удалить триггер?</value>
     </data>
   <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
-        <value>Delete Output</value>
+        <value>Удаление выходных данных</value>
     </data>
   <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
         <value>Вы действительно хотите удалить выходные данные?</value>
     </data>
   <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
-        <value>Delete Input</value>
+        <value>Удаление входных данных</value>
     </data>
   <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>Вы действительно хотите удалить входные данные?</value>
     </data>
+  <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>Не удалось загрузить одну или несколько привязок. Обновите страницу.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
-        <value>Delete Function Key</value>
+        <value>Удаление функциональной клавиши</value>
     </data>
   <data name="deleteFunctionKeyMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the key {0}?</value>
+        <value>Вы действительно хотите удалить клавишу {0}?</value>
     </data>
   <data name="fetchFileContentFailureMessage" xml:space="preserve">
-        <value>Failed to fetch the file content</value>
+        <value>Не удалось получить содержимое файла.</value>
+    </data>
+  <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>Выбранное подключение отсутствует в параметрах приложения.</value>
+    </data>
+  <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
+        <value>Нет существующих подключений.</value>
+    </data>
+  <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>Следующие привязки не имеют обязательного свойства direction и, возможно, размещены неверно: {0}. Обновите привязки в файле functions.json.</value>
+    </data>
+  <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>Вызовы</value>
+    </data>
+  <data name="functionMonitor_logs" xml:space="preserve">
+        <value>Журналы</value>
+    </data>
+  <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>Открыть в Live Metrics</value>
+    </data>
+  <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>Измените триггер HTTP, чтобы включить дополнительные методы HTTP</value>
+    </data>
+  <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>Невозможно определить x-functions-key как настраиваемый заголовок.</value>
+    </data>
+  <data name="filterInvocations" xml:space="preserve">
+        <value>Фильтровать вызовы</value>
+    </data>
+  <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>Выполнить запрос в Application Insights</value>
+    </data>
+  <data name="timestamp" xml:space="preserve">
+        <value>Отметка времени</value>
+    </data>
+  <data name="message" xml:space="preserve">
+        <value>Сообщение</value>
+    </data>
+  <data name="successCount" xml:space="preserve">
+        <value>Число успешных попыток</value>
+    </data>
+  <data name="errorCount" xml:space="preserve">
+        <value>Количество ошибок</value>
+    </data>
+  <data name="last30Days" xml:space="preserve">
+        <value>За последние 30 дней</value>
+    </data>
+  <data name="discardChangesTitle" xml:space="preserve">
+        <value>Отменить изменения</value>
+    </data>
+  <data name="discardChangesMesssage" xml:space="preserve">
+        <value>Вы действительно хотите отменить изменения, внесенные в файл "{0}"?</value>
+    </data>
+  <data name="information" xml:space="preserve">
+        <value>Информация</value>
+    </data>
+  <data name="verbose" xml:space="preserve">
+        <value>Подробно</value>
+    </data>
+  <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>Отключить конвейер CI/CD для GitHub Actions?</value>
+    </data>
+  <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>Удалите файл рабочего процесса "{0}" из ветви "{1}" в репозитории "{2}". Если не удалить его, фиксации в этой ветви по-прежнему будут развертываться для вашего приложения.</value>
+    </data>
+  <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>Отключить</value>
+    </data>
+  <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>Отмена</value>
+    </data>
+  <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>Удалите конфигурацию рабочего процесса развертывания Службы приложений с портала Azure.</value>
+    </data>
+  <data name="githubActionDashboardRepositoryMissingError" xml:space="preserve">
+        <value>Не удается найти репозиторий "{0}". Перейдите в свою учетную запись GitHub для дальнейшего анализа.</value>
+    </data>
+  <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
+        <value>Не удается найти ветвь "{0}" в репозитории "{1}". Перейдите в свой репозиторий для дальнейшего анализа.</value>
+    </data>
+  <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Подтверждение отключения действия GitHub</value>
+    </data>
+  <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
+        <value>Не удалось удалить файл рабочего процесса "{0}" из ветви "{1}" в репозитории "{2}". Возможно, файл переименован или уже удален.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
+        <value>Отключить ваше развертывание не удалось, но файл рабочего процесса был удален. Повторите попытку отключения.</value>
+    </data>
+  <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
+        <value>Не удается установить связь с Application Insights. Необходимо иметь для приложения-функции разрешения на запись.</value>
+    </data>
+  <data name="deploymentCenterCommandBarAriaLabel" xml:space="preserve">
+        <value>Команды Центра развертывания</value>
+    </data>
+  <data name="deploymentCenterSaveCommandAriaLabel" xml:space="preserve">
+        <value>Команда сохранения в Центре развертывания</value>
+    </data>
+  <data name="deploymentCenterDiscardCommandAriaLabel" xml:space="preserve">
+        <value>Команда отмены в Центре развертывания</value>
+    </data>
+  <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
+        <value>Команда обзора в Центре развертывания</value>
+    </data>
+  <data name="deploymentCenterPublishProfileCommandAriaLabel" xml:space="preserve">
+        <value>Команда управления профилем публикации в Центре развертывания</value>
+    </data>
+  <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
+        <value>Команда обновления в Центре развертывания</value>
+    </data>
+  <data name="managePublishProfile" xml:space="preserve">
+        <value>Управление профилем публикации</value>
+    </data>
+  <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>Редактирование приложений-функций Python не поддерживается на портале Azure. Для редактирования этой функции используйте локальную среду разработки.</value>
+    </data>
+  <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>Редактирование приложений-функций Java не поддерживается на портале Azure. Для редактирования этой функции используйте локальную среду разработки.</value>
+    </data>
+  <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>Для редактирования этой функции используйте локальную среду разработки. Эта функция использует локальный кэш, и изменить ее здесь невозможно.</value>
+    </data>
+  <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>Ваше приложение сейчас находится в режиме только для чтения, так как включена интеграция системы управления версиями.</value>
+    </data>
+  <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>Ваше приложение сейчас находится в режиме только для чтения, так как у вас настроены слоты развертывания.</value>
+    </data>
+  <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>Для редактирования этой функции используйте локальную среду разработки. Эта функция была создана в локальной среде, и изменить ее здесь невозможно.</value>
+    </data>
+  <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>Ваше приложение сейчас находится в режиме только для чтения, который был задан вручную.</value>
+    </data>
+  <data name="connected" xml:space="preserve">
+        <value>Подключено!</value>
+    </data>
+  <data name="blaclistFile_message" xml:space="preserve">
+        <value>Изменение этого типа файлов не поддерживается в редакторе портала.</value>
+    </data>
+  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
+        <value>Нет переменных среды для отображения.</value>
+    </data>
+  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Добавить новую переменную среды</value>
+    </data>
+  <data name="staticSite_environmentVariables" xml:space="preserve">
+        <value>Переменные среды</value>
+    </data>
+  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
+        <value>Применимые к сайту переменные среды шифруются при хранении и передаются по шифруемому каналу. Вы можете отобразить их в виде простого текста в браузере, используя элементы управления ниже.</value>
+    </data>
+  <data name="staticSite_environment" xml:space="preserve">
+        <value>Среда</value>
+    </data>
+  <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
+        <value>Выберите среду для сайта</value>
+    </data>
+  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
+        <value>Filter environment variable</value>
+    </data>
+  <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
+        <value>Add/Edit environment variable</value>
+    </data>
+  <data name="staticSite_discardChangesMesssage" xml:space="preserve">
+        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+    </data>
+  <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
+        <value>Your unsaved changes will be discarded.</value>
+    </data>
+  <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
+        <value>Are you sure you would like to change environment?</value>
+    </data>
+  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
+        <value>{0} is a required property on all environment variables</value>
+    </data>
+  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
+        <value>Environment variable name must be unique</value>
+    </data>
+  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
+        <value>Environment variable values must be an array</value>
+    </data>
+  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
+        <value>{0} is an invalid environment variable property</value>
+    </data>
+  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
+        <value>All environment variable value and name properties must be of type string</value>
     </data>
 </root>

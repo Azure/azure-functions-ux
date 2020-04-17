@@ -64,6 +64,7 @@ export class StepCompleteComponent {
   }
 
   Save() {
+    this._traceStepComplete();
     this._saveDeploymentConfig$.next(true);
   }
 
@@ -114,7 +115,7 @@ export class StepCompleteComponent {
               false,
               this._translateService.instant(PortalResources.settingupDeploymentFailWithStatusMessage).format(r.statusMessage)
             );
-            this._logService.error(LogCategories.cicd, '/save-cicd', r.statusMessage);
+            this._logService.error(LogCategories.cicd, '/step-complete', { resourceId: this.wizard.siteArm.id, status: r.status });
             this._portalService.logAction('deploymentcenter', 'save', {
               id: saveGuid,
               succeeded: 'false',
@@ -133,7 +134,7 @@ export class StepCompleteComponent {
               : this._translateService.instant(PortalResources.settingupDeploymentFail);
 
           this._portalService.stopNotification(notificationId, false, errorMessage);
-          this._logService.error(LogCategories.cicd, '/save-cicd', err);
+          this._logService.error(LogCategories.cicd, '/step-complete', { resourceId: this.wizard.siteArm.id, error: err });
           this._portalService.logAction('deploymentcenter', 'save', {
             id: saveGuid,
             succeeded: 'false',
@@ -174,7 +175,10 @@ export class StepCompleteComponent {
               false,
               this._translateService.instant(PortalResources.settingupDeploymentFailWithStatusMessage).format(r.statusMessage)
             );
-            this._logService.error(LogCategories.cicd, '/save-cicd', r.statusMessage);
+            this._logService.error(LogCategories.cicd, '/step-complete', {
+              resourceId: this.wizard.siteArm.id,
+              error: { message: r.statusMessage },
+            });
             this._portalService.logAction('deploymentcenter', 'save', {
               id: saveGuid,
               succeeded: 'false',
@@ -191,7 +195,7 @@ export class StepCompleteComponent {
               : this._translateService.instant(PortalResources.settingupDeploymentFail);
 
           this._portalService.stopNotification(notificationId, false, errorMessage);
-          this._logService.error(LogCategories.cicd, '/save-cicd', err);
+          this._logService.error(LogCategories.cicd, '/step-complete', { resourceId: this.wizard.siteArm.id, error: err });
           this._portalService.logAction('deploymentcenter', 'save', {
             id: saveGuid,
             succeeded: 'false',
@@ -456,5 +460,17 @@ export class StepCompleteComponent {
       label: this._translateService.instant(PortalResources.sourceControl),
       items: returnSummaryItems,
     };
+  }
+
+  private _traceStepComplete() {
+    const data = {
+      resourceId: this.wizard.siteArm.id,
+      sourceProvider: this.wizard.wizardValues.sourceProvider,
+      sourceSettings: this.wizard.wizardValues.sourceSettings,
+      buildProvider: this.wizard.wizardValues.buildProvider,
+      buildSettings: this.wizard.wizardValues.buildSettings,
+    };
+
+    this._logService.trace(LogCategories.cicd, '/step-complete', data);
   }
 }

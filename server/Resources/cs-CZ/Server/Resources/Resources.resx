@@ -833,7 +833,7 @@
         <value>Méně než 1 minuta</value>
     </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-        <value>Když si zaregistrujete bezplatný účet Azure, odemknou se všechny možnosti funkcí a nejste omezení časem!</value>
+        <value>Když si zaregistrujete bezplatný účet Azure, odemknou se všechny možnosti Azure Functions a nejste omezení časem!</value>
     </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
         <value>CORS není pro tuto aplikaci funkcí nakonfigurovaný. Přidejte si prosím do seznamu CORS {{origin}}.</value>
@@ -1464,6 +1464,9 @@
     </data>
   <data name="configUpdateFailure" xml:space="preserve">
         <value>Nastavení webové aplikace se nepovedlo aktualizovat</value>
+    </data>
+  <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>Nepovedlo se aktualizovat nastavení webové aplikace: {0}</value>
     </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>Chyba při ukládání {{configGroupName}}: Byl zadán neplatný vstup.</value>
@@ -2182,6 +2185,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>Vaše aplikace je v tuto chvíli v režimu čtení a zápisu, protože jste tak nastavili režim úprav, přestože se vygeneroval soubor function.json. Modul runtime služby Functions nebude respektovat změny, které se provedou v souboru function.json.</value>
     </data>
+  <data name="readOnlyRbac" xml:space="preserve">
+        <value>Vaše funkce je v tuto chvíli v režimu jen pro čtení, protože přístup přiřazený přes RBAC je nastavený na hodnotu Čtenář.</value>
+    </data>
   <data name="copypre_copy" xml:space="preserve">
         <value>Kopírovat</value>
     </data>
@@ -2274,6 +2280,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>Nepovedlo se vytvořit slot {0} </value>
+    </data>
+  <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>Nepovedlo se vytvořit slot {0}: {1}</value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>Nejde načíst seznam slotů: {{errorMessage}}</value>
@@ -2825,7 +2834,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>skrýt hodnotu</value>
     </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-        <value>V nastavení aplikace je instrumentační klíč služby App Insights, ale v předplatném aplikace funkcí se služba App Insights nenašla. Ujistěte se prosím, že vaše služba App Insights je umístěná ve stejném předplatném jako aplikace funkcí.</value>
+        <value>V nastavení aplikace se nachází instrumentační klíč služby App Insights, ale v předplatném aplikace funkcí se služba App Insights nenašla. Ujistěte se prosím, že vaše služba App Insights je umístěná ve stejném předplatném jako aplikace funkcí.</value>
     </data>
   <data name="table_startOfRow" xml:space="preserve">
         <value>Začátek řádku</value>
@@ -4761,7 +4770,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nastavení slotu nasazení se povolila.</value>
     </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>Skrytá hodnota. Pokud si ji chcete zobrazit, klikněte výše na tlačítko Zobrazit hodnoty.</value>
+        <value>Skrytá hodnota. Kliknutím ji zobrazíte.</value>
     </data>
   <data name="fieldMustBeUnique" xml:space="preserve">
         <value>Pole musí být jedinečné.</value>
@@ -5126,6 +5135,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
         <value>{0} podrobnosti</value>
+    </data>
+  <data name="integratePageTitle" xml:space="preserve">
+        <value>Integration</value>
+    </data>
+  <data name="integratePageDescription" xml:space="preserve">
+        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>Funkce</value>
@@ -5683,7 +5698,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Možnost pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Add or overwrite workflow definition</value>
+        <value>Přidat nebo přepsat definici pracovního postupu</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Nakonfigurovat pomocí stávající definice pracovního postupu</value>
@@ -5695,7 +5710,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Stávající konfigurace pracovního postupu v GitHubu se přepíše konfigurací uvedenou níže.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(Nejsou k dispozici žádné klíče funkcí, které by se daly zobrazit.)</value>
+        <value>Nejsou k dispozici žádné funkční klávesy, které by se daly zobrazit.</value>
     </data>
   <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>Pro aplikace v plánu Premium se tato funkce nepodporuje.</value>
@@ -5734,48 +5749,237 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Aktualizovat všechny vazby pro funkci</value>
     </data>
   <data name="gitHubProtectedBranchSelected" xml:space="preserve">
-        <value>Selected branch has protection rules enabled.</value>
+        <value>Vybraná větev má povolená pravidla ochrany.</value>
     </data>
   <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+        <value>Dokud je aplikace funkcí pozastavená, není možné si zobrazit ani upravit verzi modulu runtime.</value>
     </data>
   <data name="githubActionWorkflowsExist" xml:space="preserve">
-        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+        <value>Konfigurace pracovních postupů akcí GitHubu už ve větvi {{branchName}} existují. Zvolte níže nějakou možnost, aby se buď přidala nová konfigurace pracovního postupu, nebo se i nadále používaly stávající konfigurace.</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+        <value>K sestavování a nasazování se použije stávající konfigurace pracovního postupu v GitHubu.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
-        <value>Refresh app files</value>
+        <value>Aktualizovat soubory aplikace</value>
     </data>
   <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
-        <value>Refresh code editor</value>
+        <value>Aktualizovat editor kódu</value>
     </data>
   <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
         <value>Odstranit trigger</value>
     </data>
   <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the trigger?</value>
+        <value>Opravdu chcete odstranit daný trigger?</value>
     </data>
   <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
-        <value>Delete Output</value>
+        <value>Odstranit výstup</value>
     </data>
   <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
         <value>Určitě chcete odstranit tento výstup?</value>
     </data>
   <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
-        <value>Delete Input</value>
+        <value>Odstranit vstup</value>
     </data>
   <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>Určitě chcete odstranit tento vstup?</value>
     </data>
+  <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>Nejméně jednu vazbu se nepovedlo načíst, aktualizujte prosím stránku.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
-        <value>Delete Function Key</value>
+        <value>Odstranit funkční klávesu</value>
     </data>
   <data name="deleteFunctionKeyMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the key {0}?</value>
+        <value>Opravdu chcete odstranit klávesu {0}?</value>
     </data>
   <data name="fetchFileContentFailureMessage" xml:space="preserve">
-        <value>Failed to fetch the file content</value>
+        <value>Nepovedlo se načíst obsah souboru.</value>
+    </data>
+  <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>Vybrané připojení chybí v nastavení aplikace.</value>
+    </data>
+  <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
+        <value>Nejsou k dispozici žádná existující připojení.</value>
+    </data>
+  <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>V následujících vazbách chybí požadovaná vlastnost směru a je možné, že se umístily nesprávně: {0}. Aktualizujte prosím vazby v souboru functions.json.</value>
+    </data>
+  <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>Volání</value>
+    </data>
+  <data name="functionMonitor_logs" xml:space="preserve">
+        <value>Protokoly</value>
+    </data>
+  <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>Otevřít v Živých metrikách</value>
+    </data>
+  <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>Pokud chcete povolit další metody HTTP, povolte trigger HTTP.</value>
+    </data>
+  <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>x-functions-key není možné definovat jako vlastní hlavičku.</value>
+    </data>
+  <data name="filterInvocations" xml:space="preserve">
+        <value>Filtrovat volání</value>
+    </data>
+  <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>Spustit dotaz v Application Insights</value>
+    </data>
+  <data name="timestamp" xml:space="preserve">
+        <value>Časové razítko</value>
+    </data>
+  <data name="message" xml:space="preserve">
+        <value>Zpráva</value>
+    </data>
+  <data name="successCount" xml:space="preserve">
+        <value>Počet úspěchů</value>
+    </data>
+  <data name="errorCount" xml:space="preserve">
+        <value>Počet chyb</value>
+    </data>
+  <data name="last30Days" xml:space="preserve">
+        <value>Posledních 30 dní</value>
+    </data>
+  <data name="discardChangesTitle" xml:space="preserve">
+        <value>Zahodit změny</value>
+    </data>
+  <data name="discardChangesMesssage" xml:space="preserve">
+        <value>Opravdu chcete zahodit změny souboru {0}?</value>
+    </data>
+  <data name="information" xml:space="preserve">
+        <value>Informace</value>
+    </data>
+  <data name="verbose" xml:space="preserve">
+        <value>Podrobnosti</value>
+    </data>
+  <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>Opravdu chcete odpojit kanál CICD akce GitHubu?</value>
+    </data>
+  <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>Odeberte soubor pracovního postupu {0} z větve {1} v úložišti {2}. Pokud tento soubor neodeberete, potvrzení do této větve budou i nadále aktivovat nasazení do vaší aplikace.</value>
+    </data>
+  <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>Odpojit</value>
+    </data>
+  <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>Zrušit</value>
+    </data>
+  <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>Odeberte konfiguraci pracovního postupu nasazení služby App Service přes portál Azure Portal.</value>
+    </data>
+  <data name="githubActionDashboardRepositoryMissingError" xml:space="preserve">
+        <value>Nepovedlo se najít úložiště {0}. Pokud to chcete prověřit důkladněji, přejděte prosím na svůj účet GitHub.</value>
+    </data>
+  <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
+        <value>V úložišti {1} se nepovedlo najít větev {0}. Pokud to chcete prověřit důkladněji, přejděte prosím na úložiště.</value>
+    </data>
+  <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Potvrdit odpojení akce GitHubu</value>
+    </data>
+  <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
+        <value>Nepovedlo se odstranit soubor pracovního postupu {0} z větve {1} v úložišti {2}. Příčinou může být buď změna názvu souboru, nebo jeho odstranění.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
+        <value>Vaše nasazení se nepovedlo odpojit, ale soubor pracovního postupu se úspěšně odstranil. Zkuste nasazení odpojit znovu.</value>
+    </data>
+  <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
+        <value>Nepovedlo se vytvořit propojení s Application Insights. Ujistěte se prosím, že v aplikaci funkcí máte oprávnění k zápisu.</value>
+    </data>
+  <data name="deploymentCenterCommandBarAriaLabel" xml:space="preserve">
+        <value>Příkazy centra Deployment Center</value>
+    </data>
+  <data name="deploymentCenterSaveCommandAriaLabel" xml:space="preserve">
+        <value>Příkaz pro uložení v centru Deployment Center</value>
+    </data>
+  <data name="deploymentCenterDiscardCommandAriaLabel" xml:space="preserve">
+        <value>Příkaz pro zahození v centru Deployment Center</value>
+    </data>
+  <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
+        <value>Příkaz pro procházení v centru Deployment Center</value>
+    </data>
+  <data name="deploymentCenterPublishProfileCommandAriaLabel" xml:space="preserve">
+        <value>Příkaz pro správu profilu publikování v centru Deployment Center</value>
+    </data>
+  <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
+        <value>Příkaz pro aktualizaci v centru Deployment Center</value>
+    </data>
+  <data name="managePublishProfile" xml:space="preserve">
+        <value>Spravovat profil publikování</value>
+    </data>
+  <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>Na portálu Azure Portal se úpravy aplikací funkcí vytvořené v jazyce Python nepodporují. K úpravě této funkce použijte místní vývojové prostředí.</value>
+    </data>
+  <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>Na portálu Azure Portal se úpravy aplikací funkcí vytvořené v jazyce Java nepodporují. K úpravě této funkce použijte místní vývojové prostředí.</value>
+    </data>
+  <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>Tuto funkci upravte pomocí místního vývojového prostředí. Funkce používá místní mezipaměť a nedá se tady upravit.</value>
+    </data>
+  <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>Vaše aplikace se v tuto chvíli nachází v režimu jen pro čtení, protože máte aktivovanou integraci správy zdrojového kódu.</value>
+    </data>
+  <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>Vaše aplikace se v tuto chvíli nachází v režimu jen pro čtení, protože máte nakonfigurované sloty nasazení.</value>
+    </data>
+  <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>Tuto funkci upravte pomocí místního vývojového prostředí. Funkce se vytvořila v místním prostředí a nedá se tady upravit.</value>
+    </data>
+  <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>Vaše aplikace se v tuto chvíli nachází v režimu jen pro čtení, protože se tak ručně nastavila.</value>
+    </data>
+  <data name="connected" xml:space="preserve">
+        <value>Připojeno!</value>
+    </data>
+  <data name="blaclistFile_message" xml:space="preserve">
+        <value>Úpravy tohoto typu souboru se v editoru na portálu nepodporují.</value>
+    </data>
+  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
+        <value>Nejsou k dispozici žádné proměnné prostředí, které by se daly zobrazit.</value>
+    </data>
+  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Přidat novou proměnnou prostředí</value>
+    </data>
+  <data name="staticSite_environmentVariables" xml:space="preserve">
+        <value>Proměnné prostředí</value>
+    </data>
+  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
+        <value>Proměnné prostředí, které se dají použít na vašem webu, se šifrují při nečinnosti a odesílají přes šifrovaný kanál. Pomocí ovládacích prvků níže si je můžete zobrazit jako prostý text v prohlížeči.</value>
+    </data>
+  <data name="staticSite_environment" xml:space="preserve">
+        <value>Prostředí</value>
+    </data>
+  <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
+        <value>Vyberte prostředí pro daný web.</value>
+    </data>
+  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
+        <value>Filter environment variable</value>
+    </data>
+  <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
+        <value>Add/Edit environment variable</value>
+    </data>
+  <data name="staticSite_discardChangesMesssage" xml:space="preserve">
+        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+    </data>
+  <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
+        <value>Your unsaved changes will be discarded.</value>
+    </data>
+  <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
+        <value>Are you sure you would like to change environment?</value>
+    </data>
+  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
+        <value>{0} is a required property on all environment variables</value>
+    </data>
+  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
+        <value>Environment variable name must be unique</value>
+    </data>
+  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
+        <value>Environment variable values must be an array</value>
+    </data>
+  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
+        <value>{0} is an invalid environment variable property</value>
+    </data>
+  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
+        <value>All environment variable value and name properties must be of type string</value>
     </data>
 </root>

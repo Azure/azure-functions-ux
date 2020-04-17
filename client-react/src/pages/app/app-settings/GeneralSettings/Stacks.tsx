@@ -26,6 +26,8 @@ const Stacks: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
     );
   } else if (scenarioService.checkScenario(ScenarioIds.functionAppRuntimeStack, { site }).status === 'disabled') {
     return null;
+  } else if (scenarioService.checkScenario(ScenarioIds.xenonAppRuntimeStack, { site }).status === 'disabled') {
+    return null;
   } else {
     // NOTE(michinoy): Always default to the windows based runtime stack.
 

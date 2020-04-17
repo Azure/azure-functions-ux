@@ -27,6 +27,7 @@ const AzurePortalColors = {
   disabledText: 'rgba(128, 128, 128, 0.7)',
   disabledControlBackground: 'rgba(128, 128, 128, 0.1)',
   hyperlinkText: '#4894fe',
+  hyperlinkHoverText: '#6dbaf5',
   inlineSuccessText: '#5db300',
   inlineErrorText: '#f63747',
   buttonRest: '#4894fe',
@@ -42,6 +43,7 @@ const AzurePortalColors = {
   controlErrorStateOutline: '#f63747',
   controlDirtyOutline: '#c87fdc',
   cardBorderColor: '#b2b2b2',
+  cardBackgroundColor: '#2b2b2b',
 };
 
 const themePalette: IPalette = {

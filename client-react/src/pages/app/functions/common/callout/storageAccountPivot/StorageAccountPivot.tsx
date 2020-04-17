@@ -1,5 +1,5 @@
 import { FieldProps, Formik, FormikProps } from 'formik';
-import { DefaultButton, IDropdownOption, IDropdownProps } from 'office-ui-fabric-react';
+import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
@@ -12,6 +12,7 @@ import LogService from '../../../../../../utils/LogService';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingTopStyle } from '../Callout.styles';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
+import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 
 interface StorageAccountPivotFormValues {
   storageAccount: ArmObj<StorageAccount> | undefined;
@@ -32,7 +33,7 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
           LogService.trackEvent(
             LogCategories.bindingResource,
             'fetchAzureStorageAccounts',
-            `Failed to get Storage Accounts: ${r.metadata.error}`
+            `Failed to get Storage Accounts: ${getErrorMessageOrStringify(r.metadata.error)}`
           );
           return;
         }
@@ -44,7 +45,7 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
           LogService.trackEvent(
             LogCategories.bindingResource,
             'fetchStorageAccountKeys',
-            `Failed to get storage account keys: ${response.metadata.error}`
+            `Failed to get storage account keys: ${getErrorMessageOrStringify(response.metadata.error)}`
           );
           return;
         }
@@ -98,9 +99,9 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
               </FormControlWrapper>
             )}
             <footer style={paddingTopStyle}>
-              <DefaultButton disabled={!formValues.storageAccount} onClick={formProps.submitForm}>
+              <PrimaryButton disabled={!formValues.storageAccount} onClick={formProps.submitForm}>
                 {t('ok')}
-              </DefaultButton>
+              </PrimaryButton>
             </footer>
           </form>
         );

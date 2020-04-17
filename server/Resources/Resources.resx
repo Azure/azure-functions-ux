@@ -259,7 +259,7 @@
         <value>The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)</value>
     </data>
     <data name="gettingStarted_validateContainer4" xml:space="preserve">
-        <value>function app name {{funcName}} isn't available</value>
+        <value>Function app name {{funcName}} isn't available</value>
     </data>
     <data name="gettingStarted_youNeed" xml:space="preserve">
         <value>You need an Azure subscription in order to use this service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Click here&lt;/a&gt; to create a free trial subscription</value>
@@ -271,7 +271,7 @@
         <value>Your subscription</value>
     </data>
     <data name="createApp_description" xml:space="preserve">
-        <value>Creating a Function App will automatically provision a new container capable of hosting and running your code.</value>
+        <value>Creating a function app will automatically provision a new container capable of hosting and running your code.</value>
     </data>
     <data name="createApp_fail" xml:space="preserve">
         <value>Failed to create app</value>
@@ -443,7 +443,7 @@
         <value>Search features</value>
     </data>
     <data name="searchFunctionApps" xml:space="preserve">
-        <value>Search Function apps</value>
+        <value>Search function apps</value>
     </data>
     <data name="subscription" xml:space="preserve">
         <value>Subscription ID</value>
@@ -572,7 +572,7 @@
         <value>Delete Function {{name}}</value>
     </data>
     <data name="functionManage_areYouSure" xml:space="preserve">
-        <value>Are you sure you want to delete Function {{name}}?</value>
+        <value>Are you sure you want to delete function {{name}}?</value>
     </data>
     <data name="functionMonitor_loading" xml:space="preserve">
         <value>Loading ...</value>
@@ -752,7 +752,7 @@
         <value>Waiting for the resource</value>
     </data>
     <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-        <value>We've enjoyed hosting your functions !</value>
+        <value>We've enjoyed hosting your functions!</value>
     </data>
     <data name="trialExpired_signupForAzure" xml:space="preserve">
         <value>Your trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well.</value>
@@ -836,7 +836,7 @@
         <value>Less than 1 minute</value>
     </data>
     <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-        <value>Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!</value>
+        <value>Signing up for a free Azure account unlocks all Azure Functions capabilities without worrying about time limits!</value>
     </data>
     <data name="error_CORSNotConfigured" xml:space="preserve">
         <value>CORS is not configured for this function app. Please add {{origin}} to your CORS list.</value>
@@ -845,7 +845,7 @@
         <value>We are unable to reach your function app. Your app could be having a temporary issue or may be failing to start. You can check logs or try again in a couple of minutes.</value>
     </data>
     <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
-        <value>Unable to retrieve Function App ({{functionApp}})</value>
+        <value>Unable to retrieve function app ({{functionApp}})</value>
     </data>
     <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
         <value>We are unable to reach your function app ({{statusText}}). Please try again later.</value>
@@ -971,7 +971,7 @@
         <value>Daily Usage Quota (GB-Sec)</value>
     </data>
     <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-        <value>The Function App has reached daily usage quota and has been stopped until the next 24 hours time frame.</value>
+        <value>The function app has reached daily usage quota and has been stopped until the next 24 hours time frame.</value>
     </data>
     <data name="functionAppSettings_removeQuota" xml:space="preserve">
         <value>Remove quota</value>
@@ -980,7 +980,7 @@
         <value>Set quota</value>
     </data>
     <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-        <value>When the daily usage quota is exceeded, the Function App is stopped until the next day at 0:00 AM UTC.</value>
+        <value>When the daily usage quota is exceeded, the function app is stopped until the next day at 0:00 AM UTC.</value>
     </data>
     <data name="functionKeys_revokeConfirmation" xml:space="preserve">
         <value>Are you sure you want to revoke {{name}} key?</value>
@@ -989,7 +989,7 @@
         <value>Keys</value>
     </data>
     <data name="functionNew_nameError" xml:space="preserve">
-        <value>The name must be unique within a Function App. It must start with a letter and can contain letters, numbers (0-9), dashes ("-"), and underscores ("_").</value>
+        <value>The name must be unique within a function app. It must start with a letter and can contain letters, numbers (0-9), dashes ("-"), and underscores ("_").</value>
     </data>
     <data name="functionDev_loading" xml:space="preserve">
         <value>Loading..</value>
@@ -1468,6 +1468,9 @@
     <data name="configUpdateFailure" xml:space="preserve">
         <value>Failed to update web app settings</value>
     </data>
+    <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>Failed to update web app settings: {0}</value>
+    </data>
     <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Save Error: Invlid input provided.</value>
     </data>
@@ -1820,7 +1823,7 @@
         <value>Application settings</value>
     </data>
     <data name="try_appDisabled" xml:space="preserve">
-        <value>Managing your Function app is not available for this trial.</value>
+        <value>Managing your function app is not available for this trial.</value>
     </data>
     <data name="template" xml:space="preserve">
         <value>Template</value>
@@ -2095,7 +2098,7 @@ Fill in the &lt;a href="http://swagger.io/specification/#operationObject" target
     </data>
     <data name="swaggerDefinition_keyHelp" xml:space="preserve">
         <value>This key secures your API Definition from access to anyone without the key.
-It does not secure the underlying API. See each Function to see their key security.</value>
+It does not secure the underlying API. See each function to see their key security.</value>
     </data>
     <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
         <value>Set to "Function" to enable a hosted API definition and template definition generation.
@@ -2184,6 +2187,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
+    </data>
+    <data name="readOnlyRbac" xml:space="preserve">
+        <value>Your function is currently in read only mode because your RBAC assigned access is set to: Reader</value>
     </data>
     <data name="copypre_copy" xml:space="preserve">
         <value>Copy</value>
@@ -2277,6 +2283,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>Failed to create slot '{0}' </value>
+    </data>
+    <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>Failed to create slot '{0}': {1}</value>
     </data>
     <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>Unable to retrieve the list of slots: {{errorMessage}}</value>
@@ -2399,7 +2408,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The proxies.json schema validation failed. Error: '{0}'.</value>
     </data>
     <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-        <value>On a Consumption plan, you can limit platform usage by setting a daily usage quota, in gigabytes-seconds. Once the daily usage quota is reached, the Function App is stopped until the next day at 0:00 AM UTC.</value>
+        <value>On a Consumption plan, you can limit platform usage by setting a daily usage quota, in gigabytes-seconds. Once the daily usage quota is reached, the function app is stopped until the next day at 0:00 AM UTC.</value>
     </data>
     <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
         <value>(hub policy)</value>
@@ -2828,7 +2837,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>hide value</value>
     </data>
     <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-        <value>App Insights instrumentation key is presented in app settings but App Insights is not found in Function App's subscription. Please make sure your App Insights is located in the same subscription as Function App.</value>
+        <value>App Insights instrumentation key is present in app settings but App Insights is not found in the function app's subscription. Please make sure your App Insights is located in the same subscription as function app.</value>
     </data>
     <data name="table_startOfRow" xml:space="preserve">
         <value>Start of row</value>
@@ -3329,7 +3338,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>High Density</value>
     </data>
     <data name="pricing_highDensityDesc" xml:space="preserve">
-        <value>Efficiently share an App Service plan across multiple Function Apps.</value>
+        <value>Efficiently share an App Service plan across multiple function apps.</value>
     </data>
     <data name="pricing_stagingSlots" xml:space="preserve">
         <value>Staging slots</value>
@@ -4071,7 +4080,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Create one now</value>
     </data>
     <data name="topBar_updateExtensions" xml:space="preserve">
-        <value>Your Function extensions need to be updated.</value>
+        <value>Your function extensions need to be updated.</value>
     </data>
     <data name="cloneConfigLoadFailure" xml:space="preserve">
         <value>Failed to retrieve source configuration</value>
@@ -4368,7 +4377,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Personal</value>
     </data>
     <data name="swaggerDefinitionReadOnly" xml:space="preserve">
-        <value>API definition (Swagger) is not available for Function Apps in readonly mode.</value>
+        <value>API definition (Swagger) is not available for function apps in readonly mode.</value>
     </data>
     <data name="troubleshootYourApp" xml:space="preserve">
         <value>Troubleshoot your app</value>
@@ -4764,7 +4773,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Deployment Slot Setting Enabled</value>
     </data>
     <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>Hidden value. Click show values button above to view</value>
+        <value>Hidden value. Click to show value</value>
     </data>
     <data name="fieldMustBeUnique" xml:space="preserve">
         <value>Field must be unique.</value>
@@ -4794,7 +4803,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
     </data>
     <data name="diagnosticLogsDisabled" xml:space="preserve">
-        <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+        <value>This feature is only available for function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
     </data>
     <data name="scaleOut" xml:space="preserve">
         <value>Scale out</value>
@@ -4857,7 +4866,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
     </data>
     <data name="readOnlyPython" xml:space="preserve">
-        <value>Editing functions in the portal is not supported for Python Function Apps. Please use the CLI or VS Code for development. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Learn more&lt;/a&gt;</value>
+        <value>Editing functions in the portal is not supported for Python function apps. Please use the CLI or VS Code for development. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Learn more&lt;/a&gt;</value>
     </data>
     <data name="storageMountsNoPermissions" xml:space="preserve">
         <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
@@ -5005,7 +5014,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Filter connection strings</value>
     </data>
     <data name="readOnlyJava" xml:space="preserve">
-        <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
+        <value>Editing functions in the portal is not supported for Java function apps. Please use Maven or VS Code for development.</value>
     </data>
     <data name="validate_workingDirectory" xml:space="preserve">
         <value>Working directory path should be relative to root of the repository, and cannot start with /, \ or drive names(C:/) in case of Windows. If working directory is in src folder of repository, path should be src/</value>
@@ -5130,6 +5139,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
         <value>{0} details</value>
     </data>
+    <data name="integratePageTitle" xml:space="preserve">
+        <value>Integration</value>
+    </data>
+    <data name="integratePageDescription" xml:space="preserve">
+        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
+    </data>
     <data name="_function" xml:space="preserve">
         <value>Function</value>
     </data>
@@ -5173,7 +5188,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>New Function</value>
     </data>
     <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Create a new function in this Function App. Start by selecting a template below.</value>
+        <value>Create a new function in this function app. Start by selecting a template below.</value>
     </data>
     <data name="functionCreate_templates" xml:space="preserve">
         <value>Templates</value>
@@ -5521,7 +5536,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Succeeded in deleting {0} ({1})</value>
     </data>
     <data name="createFunctionNotication" xml:space="preserve">
-        <value>Creating Function</value>
+        <value>Creating function</value>
     </data>
     <data name="createFunctionNotificationDetails" xml:space="preserve">
         <value>Creating {0}</value>
@@ -5662,7 +5677,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?</value>
     </data>
     <data name="azureFunctionsV1Linux" xml:space="preserve">
-        <value>Version 1 Runtime is not supported on Linux Azure Function Apps</value>
+        <value>Version 1 Runtime is not supported on Linux Azure Functions</value>
     </data>
     <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
         <value>The app '{{appName}}' is setup with stack '{{stack}}' which is currently not supported in Deployment Center via GitHub Actions.</value>
@@ -5698,7 +5713,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Existing workflow configuration in GitHub will be overwritten with the configuration below.</value>
     </data>
     <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(no function keys to display)</value>
+        <value>No function keys to display</value>
     </data>
     <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>This feature is not supported for apps on a Premium plan</value>
@@ -5728,10 +5743,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>GitHub Action Workflow Filename</value>
     </data>
     <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view app files while your Function App is stopped</value>
+        <value>You are not able to view app files while your function app is stopped</value>
     </data>
     <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view app keys while your Function App is stopped</value>
+        <value>You are not able to view app keys while your function app is stopped</value>
     </data>
     <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
         <value>Refresh all bindings for your function</value>
@@ -5740,7 +5755,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Selected branch has protection rules enabled.</value>
     </data>
     <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+        <value>You are not able to view or modify the runtime version while your function app is stopped.</value>
     </data>
     <data name="githubActionWorkflowsExist" xml:space="preserve">
         <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
@@ -5772,6 +5787,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>Are you sure you want to delete the input?</value>
     </data>
+    <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>One or more bindings failed to load, please refresh the page.</value>
+    </data>
     <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Delete Function Key</value>
     </data>
@@ -5780,5 +5798,191 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="fetchFileContentFailureMessage" xml:space="preserve">
         <value>Failed to fetch the file content</value>
+    </data>
+    <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>Selected connection is missing from app settings</value>
+    </data>
+    <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
+        <value>No existing connections available</value>
+    </data>
+    <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>The following bindings are missing the required direction property and may have been placed incorrectly: {0}. Please update the bindings in your functions.json file.</value>
+    </data>
+    <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>Invocations</value>
+    </data>
+    <data name="functionMonitor_logs" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+    <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>Open in Live Metrics</value>
+    </data>
+    <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>Edit your HTTP trigger to enable additional HTTP methods</value>
+    </data>
+    <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>You cannot define x-functions-key as a custom header</value>
+    </data>
+    <data name="filterInvocations" xml:space="preserve">
+        <value>Filter invocations</value>
+    </data>
+    <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>Run query in Application Insights</value>
+    </data>
+    <data name="timestamp" xml:space="preserve">
+        <value>Timestamp</value>
+    </data>
+    <data name="message" xml:space="preserve">
+        <value>Message</value>
+    </data>
+    <data name="successCount" xml:space="preserve">
+        <value>Success Count</value>
+    </data>
+    <data name="errorCount" xml:space="preserve">
+        <value>Error Count</value>
+    </data>
+    <data name="last30Days" xml:space="preserve">
+        <value>Last 30 Days</value>
+    </data>
+    <data name="discardChangesTitle" xml:space="preserve">
+        <value>Discard changes</value>
+    </data>
+    <data name="discardChangesMesssage" xml:space="preserve">
+        <value>Are you sure you want to discard the changes to the file {0}?</value>
+    </data>
+    <data name="information" xml:space="preserve">
+        <value>Information</value>
+    </data>
+    <data name="verbose" xml:space="preserve">
+        <value>Verbose</value>
+    </data>
+    <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>Are you sure you would like to disconnect the GitHub Action CICD pipeline?</value>
+    </data>
+    <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>Remove '{0}' workflow file from branch '{1}' in repository '{2}'. If you do not remove this file, commits to this branch will continue to trigger deployments to your app.</value>
+    </data>
+    <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>Disconnect</value>
+    </data>
+    <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
+    <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>Remove the App Service deployment workflow configuration from Azure Portal.</value>
+    </data>
+    <data name="githubActionDashboardRepositoryMissingError" xml:space="preserve">
+        <value>Can not find repository '{0}'. Please navigate to your GitHub account to investigate further.</value>
+    </data>
+    <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
+        <value>Can not find branch '{0}' in repository '{1}'. Please navigate to your repository to investigate further.</value>
+    </data>
+    <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Confirm GitHub Action Disconnect</value>
+    </data>
+    <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
+        <value>Failed to delete '{0}' workflow file from branch '{1}' in repository '{2}'. This could be caused by either the file being renamed or already deleted.</value>
+    </data>
+    <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
+        <value>Failed to disconnect your deployment, but the workflow file was successfully deleted. Try to disconnect again.</value>
+    </data>
+    <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
+        <value>Unable to establish a link to Application Insights. Please ensure that you have write permissions on your Function app</value>
+    </data>
+    <data name="deploymentCenterCommandBarAriaLabel" xml:space="preserve">
+        <value>Deployment center commands</value>
+    </data>
+    <data name="deploymentCenterSaveCommandAriaLabel" xml:space="preserve">
+        <value>Deployment center save command</value>
+    </data>
+    <data name="deploymentCenterDiscardCommandAriaLabel" xml:space="preserve">
+        <value>Deployment center discard command</value>
+    </data>
+    <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
+        <value>Deployment center browse command</value>
+    </data>
+    <data name="deploymentCenterPublishProfileCommandAriaLabel" xml:space="preserve">
+        <value>Deployment center manage publish profile command</value>
+    </data>
+    <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
+        <value>Deployment center refresh command</value>
+    </data>
+    <data name="managePublishProfile" xml:space="preserve">
+        <value>Manage publish profile</value>
+    </data>
+    <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>Editing Python Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+    </data>
+    <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>Editing Java Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+    </data>
+    <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>Use your local development environment to edit this function. This function uses Local Cache and cannot be edited here.</value>
+    </data>
+    <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>Your app is currently in read only mode because you have source control integration enabled.</value>
+    </data>
+    <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>Your app is currently in read only mode because you have configured deployment slots.</value>
+    </data>
+    <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>Use your local development environment to edit this function. This function was created in a local environment and cannot be edited here.</value>
+    </data>
+    <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>Your app is currently in read only mode because it has been manually set to read only.</value>
+    </data>
+    <data name="connected" xml:space="preserve">
+        <value>Connected!</value>
+    </data>
+    <data name="blaclistFile_message" xml:space="preserve">
+        <value>Editing this file type is not supported in the portal editor.</value>
+    </data>
+    <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
+        <value>No environment variables to display</value>
+    </data>
+    <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Add new environment variable</value>
+    </data>
+    <data name="staticSite_environmentVariables" xml:space="preserve">
+        <value>Environment variables</value>
+    </data>
+    <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
+        <value>Environment variables applicable to your site are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below.</value>
+    </data>
+    <data name="staticSite_environment" xml:space="preserve">
+        <value>Environment</value>
+    </data>
+    <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
+        <value>Select the environment for the site</value>
+    </data>
+    <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
+        <value>Filter environment variable</value>
+    </data>
+    <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
+        <value>Add/Edit environment variable</value>
+    </data>
+    <data name="staticSite_discardChangesMesssage" xml:space="preserve">
+        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+    </data>
+    <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
+        <value>Your unsaved changes will be discarded.</value>
+    </data>
+    <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
+        <value>Are you sure you would like to change environment?</value>
+    </data>
+    <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
+        <value>{0} is a required property on all environment variables</value>
+    </data>
+    <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
+        <value>Environment variable name must be unique</value>
+    </data>
+    <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
+        <value>Environment variable values must be an array</value>
+    </data>
+    <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
+        <value>{0} is an invalid environment variable property</value>
+    </data>
+    <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
+        <value>All environment variable value and name properties must be of type string</value>
     </data>
 </root>

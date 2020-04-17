@@ -1,5 +1,6 @@
 import { ArmObj } from '../models/arm-obj';
 import { Site, HostType } from '../models/site/site';
+import { KeyValue } from '../models/portal-models';
 
 export default class Url {
   public static serviceHost =
@@ -113,5 +114,5 @@ export default class Url {
     return `${this.getScmUrl(site)}/api/functions/synctriggers`;
   }
 
-  private static queryStrings: { [key: string]: string };
+  private static queryStrings: KeyValue<string>;
 }

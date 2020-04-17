@@ -28,6 +28,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
   private _xhReq: XMLHttpRequest;
   private _logStreamIndex = 0;
   private _logType = LogType.Application;
+  private _timeStart = 0;
 
   constructor(props) {
     super(props);
@@ -130,6 +131,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
     if (this._xhReq) {
       this._xhReq.abort();
       this._logStreamIndex = 0;
+      this._timeStart = 0;
     }
   };
 
@@ -144,6 +146,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
     this._xhReq.setRequestHeader('Authorization', `Bearer ${token}`);
     this._xhReq.setRequestHeader('FunctionsPortal', '1');
     this._xhReq.send(null);
+    this._timeStart = new Date().getMinutes();
   };
 
   private _listenForErrors = () => {
@@ -152,6 +155,12 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
         this.setState({
           connectionError: true,
         });
+        // Automatically attempt to reconnect the connection
+        // if connection has been open for less than 15 minutes
+        const errorTime = new Date().getMinutes();
+        if (Math.abs(this._timeStart - errorTime) < 15) {
+          this._reconnectFunction();
+        }
       };
     }
   };

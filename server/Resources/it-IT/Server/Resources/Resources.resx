@@ -1465,6 +1465,9 @@
   <data name="configUpdateFailure" xml:space="preserve">
         <value>Non è stato possibile aggiornare le impostazioni per l'app Web</value>
     </data>
+  <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>Non è stato possibile aggiornare le impostazioni dell'app Web: {0}</value>
+    </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>Errore di salvataggio per {{configGroupName}}: è stato specificato un input non valido.</value>
     </data>
@@ -2182,6 +2185,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>L'app è attualmente in modalità di lettura/scrittura perché la modalità di modifica è stata impostata su lettura/scrittura nonostante sia stato generato un file function.json. Le modifiche apportate al file function.json non saranno considerate dal runtime di Funzioni di Azure.</value>
     </data>
+  <data name="readOnlyRbac" xml:space="preserve">
+        <value>La funzione è attualmente in modalità di sola lettura perché l'accesso assegnato al controllo degli accessi in base al ruolo è impostato su: Lettore</value>
+    </data>
   <data name="copypre_copy" xml:space="preserve">
         <value>Copia</value>
     </data>
@@ -2274,6 +2280,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>Non è stato possibile creare lo slot '{0}' </value>
+    </data>
+  <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>Non è stato possibile creare lo slot '{0}': {1}</value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>Non è possibile recuperare l'elenco di slot: {{errorMessage}}</value>
@@ -2396,7 +2405,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>La convalida dello schema proxies.json non è riuscita. Errore: '{0}'.</value>
     </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-        <value>In un piano a consumo, è possibile limitare l'utilizzo della piattaforma impostando una quota di utilizzo giornaliera, in gigabyte-secondi. Non appena viene raggiunta la quota di utilizzo giornaliera, l'app per le funzioni viene arrestata fino alle ore 0:00 UTC del giorno successivo.</value>
+        <value>In un piano a consumo è possibile limitare l'utilizzo della piattaforma impostando una quota di utilizzo giornaliera, in gigabyte-secondi. Non appena viene raggiunta la quota di utilizzo giornaliera, l'app per le funzioni viene arrestata fino alle ore 0:00 UTC del giorno successivo.</value>
     </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
         <value>(criteri hub)</value>
@@ -4761,7 +4770,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Impostazione slot di distribuzione abilitata</value>
     </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>Valore nascosto. Per visualizzarlo, fare clic sul pulsante Mostra valori sopra</value>
+        <value>Valore nascosto. Fare clic per visualizzarlo</value>
     </data>
   <data name="fieldMustBeUnique" xml:space="preserve">
         <value>Il campo deve essere univoco.</value>
@@ -5126,6 +5135,12 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
         <value>{0} dettagli</value>
+    </data>
+  <data name="integratePageTitle" xml:space="preserve">
+        <value>Integration</value>
+    </data>
+  <data name="integratePageDescription" xml:space="preserve">
+        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>Funzione</value>
@@ -5659,7 +5674,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Qualsiasi modifica alle impostazioni dell'applicazione e alle stringhe di connessione comporta il riavvio dell'applicazione. Continuare?</value>
     </data>
   <data name="azureFunctionsV1Linux" xml:space="preserve">
-        <value>La versione 1 del runtime non è supportata nelle app per le funzioni di Azure Linux</value>
+        <value>La versione 1 del runtime non è supportata nelle funzioni di Azure per Linux</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
         <value>L'app '{{appName}}' è configurata con lo stack '{{stack}}' che non è attualmente supportato nel Centro distribuzione tramite GitHub Actions.</value>
@@ -5683,7 +5698,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Opzioni flusso di lavoro</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Add or overwrite workflow definition</value>
+        <value>Aggiungi o sovrascrivi definizione flusso di lavoro</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Configura usando la definizione flusso di lavoro esistente</value>
@@ -5695,7 +5710,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>La configurazione del flusso di lavoro esistente in GitHub verrà sovrascritta con la configurazione seguente.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(nessuna chiave di funzione da visualizzare)</value>
+        <value>Nessuna chiave di funzione da visualizzare</value>
     </data>
   <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>Questa funzionalità non è supportata per le app con un piano Premium</value>
@@ -5734,48 +5749,237 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Aggiorna tutte le associazioni per la funzione</value>
     </data>
   <data name="gitHubProtectedBranchSelected" xml:space="preserve">
-        <value>Selected branch has protection rules enabled.</value>
+        <value>Nel ramo selezionato sono abilitate regole di protezione.</value>
     </data>
   <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
-        <value>Non è possibile visualizzare o modificare la versione run-time mentre l'app per le funzioni è arrestata.</value>
+        <value>Non è possibile visualizzare o modificare la versione di runtime mentre l'app per le funzioni è arrestata.</value>
     </data>
   <data name="githubActionWorkflowsExist" xml:space="preserve">
-        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+        <value>Le configurazioni del flusso di lavoro di GitHub Actions esistono già nel ramo '{{branchName}}'. Scegliere una delle opzioni seguenti per aggiungere una nuova configurazione del flusso di lavoro o continuare a usare le configurazioni del flusso di lavoro esistenti.</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+        <value>La configurazione del flusso di lavoro esistente in GitHub verrà usata per la compilazione e la distribuzione.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
-        <value>Refresh app files</value>
+        <value>Aggiorna file dell'app</value>
     </data>
   <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
-        <value>Refresh code editor</value>
+        <value>Aggiorna editor di codice</value>
     </data>
   <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
         <value>Elimina trigger</value>
     </data>
   <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the trigger?</value>
+        <value>Eliminare il trigger?</value>
     </data>
   <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
-        <value>Delete Output</value>
+        <value>Elimina output</value>
     </data>
   <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
         <value>Eliminare l'output?</value>
     </data>
   <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
-        <value>Delete Input</value>
+        <value>Elimina input</value>
     </data>
   <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>Eliminare l'input?</value>
     </data>
+  <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>Il caricamento di una o più associazioni non è riuscito. Aggiornare la pagina.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
-        <value>Delete Function Key</value>
+        <value>Elimina chiave di funzione</value>
     </data>
   <data name="deleteFunctionKeyMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the key {0}?</value>
+        <value>Eliminare la chiave {0}?</value>
     </data>
   <data name="fetchFileContentFailureMessage" xml:space="preserve">
-        <value>Failed to fetch the file content</value>
+        <value>Non è stato possibile recuperare il contenuto del file</value>
+    </data>
+  <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>Manca la connessione selezionata nelle impostazioni dell'app</value>
+    </data>
+  <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
+        <value>Nessuna connessione esistente disponibile</value>
+    </data>
+  <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>Nelle associazioni seguenti manca la proprietà di direzione obbligatoria e potrebbero essere state posizionate in modo non corretto: {0}. Aggiornare le associazioni nel file functions.json.</value>
+    </data>
+  <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>Chiamate</value>
+    </data>
+  <data name="functionMonitor_logs" xml:space="preserve">
+        <value>Log</value>
+    </data>
+  <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>Apri in Metriche attive</value>
+    </data>
+  <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>Modificare il trigger HTTP per abilitare metodi HTTP aggiuntivi</value>
+    </data>
+  <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>Non è possibile definire x-functions-key come intestazione personalizzata</value>
+    </data>
+  <data name="filterInvocations" xml:space="preserve">
+        <value>Chiamate al filtro</value>
+    </data>
+  <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>Esegui query in Application Insights</value>
+    </data>
+  <data name="timestamp" xml:space="preserve">
+        <value>Timestamp</value>
+    </data>
+  <data name="message" xml:space="preserve">
+        <value>Messaggio</value>
+    </data>
+  <data name="successCount" xml:space="preserve">
+        <value>Numero operazioni riuscite</value>
+    </data>
+  <data name="errorCount" xml:space="preserve">
+        <value>Conteggio errori</value>
+    </data>
+  <data name="last30Days" xml:space="preserve">
+        <value>Ultimi 30 giorni</value>
+    </data>
+  <data name="discardChangesTitle" xml:space="preserve">
+        <value>Rimuovi modifiche</value>
+    </data>
+  <data name="discardChangesMesssage" xml:space="preserve">
+        <value>Rimuovere le modifiche al file {0}?</value>
+    </data>
+  <data name="information" xml:space="preserve">
+        <value>Informazioni</value>
+    </data>
+  <data name="verbose" xml:space="preserve">
+        <value>Informazioni dettagliate</value>
+    </data>
+  <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>Disconnettere la pipeline CI/CD di GitHub Actions?</value>
+    </data>
+  <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>Rimuovere il file del flusso di lavoro '{0}' dal ramo '{1}' nel repository '{2}'. Se non si rimuove questo file, i commit su questo ramo continueranno ad attivare le distribuzioni nell'app.</value>
+    </data>
+  <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>Disconnetti</value>
+    </data>
+  <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>Annulla</value>
+    </data>
+  <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>Rimuove la configurazione del flusso di lavoro di distribuzione del Servizio app dal portale di Azure.</value>
+    </data>
+  <data name="githubActionDashboardRepositoryMissingError" xml:space="preserve">
+        <value>Il repository '{0}' non è stato trovato. Per ulteriori indagini, passare all'account GitHub.</value>
+    </data>
+  <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
+        <value>Il ramo '{0}' non è stato trovato nel repository '{1}'. Per ulteriori indagini, passare al repository.</value>
+    </data>
+  <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Conferma disconnessione di GitHub Actions</value>
+    </data>
+  <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
+        <value>Non è stato possibile eliminare il file del flusso di lavoro '{0}' dal ramo '{1}' nel repository '{2}'. È possibile che il file sia stato rinominato o già eliminato.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
+        <value>Non è stato possibile disconnettere la distribuzione, ma il file del flusso di lavoro è stato eliminato. Provare a disconnettersi di nuovo.</value>
+    </data>
+  <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
+        <value>Non è possibile stabilire un collegamento ad Application Insights. Assicurarsi di disporre delle autorizzazioni di scrittura per l'app per le funzioni</value>
+    </data>
+  <data name="deploymentCenterCommandBarAriaLabel" xml:space="preserve">
+        <value>Comandi del Centro di distribuzione</value>
+    </data>
+  <data name="deploymentCenterSaveCommandAriaLabel" xml:space="preserve">
+        <value>Comando Salva del Centro distribuzione</value>
+    </data>
+  <data name="deploymentCenterDiscardCommandAriaLabel" xml:space="preserve">
+        <value>Comando Rimuovi del Centro distribuzione</value>
+    </data>
+  <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
+        <value>Comando Esplora del Centro di distribuzione</value>
+    </data>
+  <data name="deploymentCenterPublishProfileCommandAriaLabel" xml:space="preserve">
+        <value>Comando Gestisci profilo di pubblicazione del Centro distribuzione</value>
+    </data>
+  <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
+        <value>Comando Aggiorna del Centro distribuzione</value>
+    </data>
+  <data name="managePublishProfile" xml:space="preserve">
+        <value>Gestisci profilo di pubblicazione</value>
+    </data>
+  <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>La modifica di app per le funzioni Python non è supportata nel portale di Azure. Usare l'ambiente di sviluppo locale per modificare questa funzione.</value>
+    </data>
+  <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>La modifica di app per le funzioni Java non è supportata nel portale di Azure. Usare l'ambiente di sviluppo locale per modificare questa funzione.</value>
+    </data>
+  <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>Usare l'ambiente di sviluppo locale per modificare questa funzione. Questa funzione usa la cache locale e non può essere modificata qui.</value>
+    </data>
+  <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>L'app è attualmente in modalità di sola lettura perché è abilitata l'integrazione del controllo del codice sorgente.</value>
+    </data>
+  <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>L'app è attualmente in modalità di sola lettura perché sono stati configurati slot di distribuzione.</value>
+    </data>
+  <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>Usare l'ambiente di sviluppo locale per modificare questa funzione. Questa funzione è stata creata in un ambiente locale e non può essere modificata qui.</value>
+    </data>
+  <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>L'app è attualmente in modalità di sola lettura perché è stata impostata manualmente su sola lettura.</value>
+    </data>
+  <data name="connected" xml:space="preserve">
+        <value>Connessione attiva.</value>
+    </data>
+  <data name="blaclistFile_message" xml:space="preserve">
+        <value>La modifica di questo tipo di file non è attualmente supportata nell'editor del portale.</value>
+    </data>
+  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
+        <value>Nessuna variabile di ambiente da visualizzare</value>
+    </data>
+  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Aggiungi nuova variabile di ambiente</value>
+    </data>
+  <data name="staticSite_environmentVariables" xml:space="preserve">
+        <value>Variabili di ambiente</value>
+    </data>
+  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
+        <value>Le variabili di ambiente applicabili al sito sono crittografate mentre sono inattive e trasmesse tramite un canale crittografato. È possibile scegliere di visualizzarle in testo normale nel browser usando i controlli seguenti.</value>
+    </data>
+  <data name="staticSite_environment" xml:space="preserve">
+        <value>Ambiente</value>
+    </data>
+  <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
+        <value>Selezionare l'ambiente per il sito</value>
+    </data>
+  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
+        <value>Filter environment variable</value>
+    </data>
+  <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
+        <value>Add/Edit environment variable</value>
+    </data>
+  <data name="staticSite_discardChangesMesssage" xml:space="preserve">
+        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+    </data>
+  <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
+        <value>Your unsaved changes will be discarded.</value>
+    </data>
+  <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
+        <value>Are you sure you would like to change environment?</value>
+    </data>
+  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
+        <value>{0} is a required property on all environment variables</value>
+    </data>
+  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
+        <value>Environment variable name must be unique</value>
+    </data>
+  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
+        <value>Environment variable values must be an array</value>
+    </data>
+  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
+        <value>{0} is an invalid environment variable property</value>
+    </data>
+  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
+        <value>All environment variable value and name properties must be of type string</value>
     </data>
 </root>

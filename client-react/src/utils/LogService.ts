@@ -34,7 +34,7 @@ export default class LogService {
       LogService._trackEvent(errorId, data);
     }
     if (LogService._logToConsole) {
-      console.error(`[${category}] - ${data}`);
+      console.error(`[${category}] - ${LogService._getDataString(data)}`);
     }
   }
 
@@ -49,7 +49,7 @@ export default class LogService {
       LogService._trackEvent(warningId, data);
     }
     if (LogService._logToConsole) {
-      console.warn(`[${category}] - ${data}`);
+      console.warn(`[${category}] - ${LogService._getDataString(data)}`);
     }
   }
 
@@ -64,7 +64,7 @@ export default class LogService {
       LogService._trackEvent(eventId, data);
     }
     if (LogService._logToConsole) {
-      console.log(`%c[${category}] - ${data}`, 'color: #ff8c00');
+      console.log(`%c[${category}] - ${LogService._getDataString(data)}`, 'color: #ff8c00');
     }
   }
 
@@ -111,10 +111,14 @@ export default class LogService {
     LogService._validateData(data);
 
     if (LogService._logToConsole) {
-      console.debug(`${LogService._getTime()} %c[${category}] - ${data}`);
+      console.debug(`${LogService._getTime()} %c[${category}] - ${LogService._getDataString(data)}`);
     }
   }
   private static _logToConsole = process.env.NODE_ENV !== 'production';
+
+  private static _getDataString(data: any): string {
+    return typeof data === 'string' ? data : JSON.stringify(data);
+  }
 
   private static _getTime() {
     const now = new Date();
