@@ -46,6 +46,7 @@ const MonacoEditor: React.FC<MonacoEditorProps> = props => {
           onChange(value, e);
         }
       });
+
       setUpdatedEditor(editor);
     }
   };

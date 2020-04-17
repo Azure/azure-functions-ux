@@ -4,6 +4,8 @@ import { EnvironmentVariable } from './Configuration.types';
 import ActionBar from '../../../components/ActionBar';
 import { ConfigurationUtils } from './Configuration.utils';
 import { MessageBarType } from 'office-ui-fabric-react';
+import MonacoEditor from '../../../components/monaco-editor/MonacoEditor';
+import { MonacoLanguage } from '../../../components/monaco-editor/MonacoEditor.types';
 
 interface ConfigurationAdvancedAddEditProps {
   cancel: () => void;
@@ -20,7 +22,6 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
   const { t } = useTranslation();
 
   const save = () => {
-    validate(environmentVariablesJSON);
     const environmentVariablesArray = JSON.parse(environmentVariablesJSON);
     updateEnvironmentVariable(environmentVariablesArray);
     cancel();
@@ -49,6 +50,11 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
     return errorMessage ? { message: errorMessage, level: MessageBarType.error } : undefined;
   };
 
+  const onChange = (newValue, e) => {
+    setEnvironmentVariablesJSON(environmentVariablesJSON);
+    validate(environmentVariablesJSON);
+  };
+
   useEffect(() => {
     setEnvironmentVariablesJSON(JSON.stringify(environmentVariables, null, 2));
 
@@ -57,6 +63,16 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
   return (
     <>
       <form>
+        <MonacoEditor
+          value={environmentVariablesJSON}
+          language={MonacoLanguage.json}
+          onChange={onChange}
+          options={{
+            minimap: { enabled: false },
+            scrollBeyondLastLine: false,
+          }}
+          height="calc(100vh - 140px)"
+        />
         <ActionBar
           id="environment-variable-edit-footer"
           primaryButton={actionBarPrimaryButtonProps}
