@@ -1937,4 +1937,5 @@ export class PortalResources {
   public static staticSite_environmentVariableValuesMustBeAnArray = 'staticSite_environmentVariableValuesMustBeAnArray';
   public static staticSite_environmentVariableInvalidProperty = 'staticSite_environmentVariableInvalidProperty';
   public static staticSite_environmentVariableValueMustBeAString = 'staticSite_environmentVariableValueMustBeAString';
+  public static staticSite_readOnlyRbac = 'staticSite_readOnlyRbac';
 }

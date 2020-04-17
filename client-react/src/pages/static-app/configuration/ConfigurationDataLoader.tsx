@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import ConfigurationData from './Configuration.data';
 import Configuration from './Configuration';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
@@ -12,6 +12,8 @@ import { Environment } from '../../../models/static-site/environment';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import { EnvironmentVariable } from './Configuration.types';
 import { KeyValue } from '../../../models/portal-models';
+import { PortalContext } from '../../../PortalContext';
+import RbacConstants from '../../../utils/rbac-constants';
 
 const configurationData = new ConfigurationData();
 export const ConfigurationContext = React.createContext(configurationData);
@@ -30,10 +32,17 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     undefined
   );
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [hasWritePermissions, setHasWritePermissions] = useState(true);
+
+  const portalContext = useContext(PortalContext);
 
   const fetchData = async () => {
     setInitialLoading(true);
     setIsRefreshing(true);
+
+    const appPermission = await portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
+    setHasWritePermissions(appPermission);
+
     const [staticSiteResponse, environmentResponse] = await Promise.all([
       StaticSiteService.getStaticSite(resourceId),
       EnvironmentService.getEnvironments(resourceId),
@@ -122,6 +131,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         saveEnvironmentVariables={saveEnvironmentVariables}
         refresh={refresh}
         isLoading={initialLoading || isRefreshing}
+        hasWritePermissions={hasWritePermissions}
       />
     </ConfigurationContext.Provider>
   );
