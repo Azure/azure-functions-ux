@@ -1,6 +1,7 @@
 import React from 'react';
-import { commandBarSticky } from './DeploymentCenter.styles';
+import { commandBarSticky, pivotContent } from './DeploymentCenter.styles';
 import DeploymentCenterCommandBar from './DeploymentCenterCommandBar';
+import DeploymentCenterPivot from './DeploymentCenterPivot';
 
 interface DeploymentCenterProps {
   resourceId: string;
@@ -30,7 +31,7 @@ const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
   };
 
   return (
-    <div>
+    <>
       <div id="deployment-center-command-bar" className={commandBarSticky}>
         <DeploymentCenterCommandBar
           saveFunction={saveFunction}
@@ -41,10 +42,10 @@ const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
         />
       </div>
 
-      <div>
-        <h2>Deployment Center Preview for {resourceId}</h2>
+      <div className={pivotContent}>
+        <DeploymentCenterPivot resourceId={resourceId} />
       </div>
-    </div>
+    </>
   );
 };
 
