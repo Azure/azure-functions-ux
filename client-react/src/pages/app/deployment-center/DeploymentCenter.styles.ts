@@ -6,6 +6,6 @@ export const commandBarSticky = style({
   zIndex: 1,
 });
 
-export const content = style({
+export const pivotContent = style({
   padding: '5px 20px',
 });

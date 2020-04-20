@@ -1,8 +1,8 @@
 import React from 'react';
 import { Pivot, PivotItem } from 'office-ui-fabric-react';
-import DeploymentCenterPivotItemContainerLogs from './DeploymentCenterPivotItemContainerLogs';
-import DeploymentCenterPivotItemContainerSettings from './DeploymentCenterPivotItemContainerSettings';
-import DeploymentCenterPivotItemFtps from './DeploymentCenterPivotItemFtps';
+import DeploymentCenterContainerLogs from './DeploymentCenterContainerLogs';
+import DeploymentCenterContainerSettings from './DeploymentCenterContainerSettings';
+import DeploymentCenterFtps from './DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
 
 interface DeploymentCenterPivotProps {
@@ -18,17 +18,17 @@ const DeploymentCenterPivot: React.FC<DeploymentCenterPivotProps> = props => {
       <PivotItem
         headerText={t('deploymentCenterPivotItemContainerLogsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemContainerLogsAriaLabel')}>
-        <DeploymentCenterPivotItemContainerLogs resourceId={resourceId} />
+        <DeploymentCenterContainerLogs resourceId={resourceId} />
       </PivotItem>
 
       <PivotItem
         headerText={t('deploymentCenterPivotItemContainerSettingsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemContainerSettingsAriaLabel')}>
-        <DeploymentCenterPivotItemContainerSettings resourceId={resourceId} />
+        <DeploymentCenterContainerSettings resourceId={resourceId} />
       </PivotItem>
 
       <PivotItem headerText={t('deploymentCenterPivotItemFtpsHeaderText')} ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}>
-        <DeploymentCenterPivotItemFtps resourceId={resourceId} />
+        <DeploymentCenterFtps resourceId={resourceId} />
       </PivotItem>
     </Pivot>
   );

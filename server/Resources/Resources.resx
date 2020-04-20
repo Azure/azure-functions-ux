@@ -6001,9 +6001,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Container settings</value>
     </data>
     <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
-        <value>FTP/FTPs Credentials</value>
+        <value>FTP/FTPs credentials</value>
     </data>
     <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
-        <value>FTP or FTPs Credentials</value>
+        <value>FTP or FTPs credentials</value>
     </data>
 </root>

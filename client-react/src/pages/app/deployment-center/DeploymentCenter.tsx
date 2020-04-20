@@ -1,5 +1,5 @@
 import React from 'react';
-import { commandBarSticky, content } from './DeploymentCenter.styles';
+import { commandBarSticky, pivotContent } from './DeploymentCenter.styles';
 import DeploymentCenterCommandBar from './DeploymentCenterCommandBar';
 import DeploymentCenterPivot from './DeploymentCenterPivot';
 
@@ -42,7 +42,7 @@ const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
         />
       </div>
 
-      <div className={content}>
+      <div className={pivotContent}>
         <DeploymentCenterPivot resourceId={resourceId} />
       </div>
     </>
