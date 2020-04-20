@@ -332,4 +332,10 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
   footer {
     background-color: $body-bg-color-dark;
   }
+
+  .spec-expander {
+    span:focus {
+      outline: #155f99 dashed 1px;
+    }
+  }
 }
