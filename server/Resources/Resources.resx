@@ -5988,4 +5988,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>Your site is currently in read only mode because your RBAC assigned access is set to: Reader</value>
     </data>
+    <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+    <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>Container logs</value>
+    </data>
+    <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
+        <value>Container settings</value>
+    </data>
+    <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
+        <value>FTP/FTPs Credentials</value>
+    </data>
+    <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
+        <value>FTP or FTPs Credentials</value>
+    </data>
 </root>

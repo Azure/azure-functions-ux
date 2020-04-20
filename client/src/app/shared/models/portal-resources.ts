@@ -1938,4 +1938,10 @@ export class PortalResources {
   public static staticSite_environmentVariableInvalidProperty = 'staticSite_environmentVariableInvalidProperty';
   public static staticSite_environmentVariableValueMustBeAString = 'staticSite_environmentVariableValueMustBeAString';
   public static staticSite_readOnlyRbac = 'staticSite_readOnlyRbac';
+  public static deploymentCenterPivotItemContainerLogsHeaderText = 'deploymentCenterPivotItemContainerLogsHeaderText';
+  public static deploymentCenterPivotItemContainerLogsAriaLabel = 'deploymentCenterPivotItemContainerLogsAriaLabel';
+  public static deploymentCenterPivotItemContainerSettingsHeaderText = 'deploymentCenterPivotItemContainerSettingsHeaderText';
+  public static deploymentCenterPivotItemContainerSettingsAriaLabel = 'deploymentCenterPivotItemContainerSettingsAriaLabel';
+  public static deploymentCenterPivotItemFtpsHeaderText = 'deploymentCenterPivotItemFtpsHeaderText';
+  public static deploymentCenterPivotItemFtpsAriaLabel = 'deploymentCenterPivotItemFtpsAriaLabel';
 }
