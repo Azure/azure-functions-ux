@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { ThemeContext } from '../../../ThemeContext';
 import { environmentSelectorStackStyle, environmentSelectorLabelStyle } from './Configuration.styles';
 import { useTranslation } from 'react-i18next';
@@ -10,11 +10,12 @@ import { Environment } from '../../../models/static-site/environment';
 interface ConfigurationEnvironmentSelectorProps {
   environments: ArmObj<Environment>[];
   disabled: boolean;
-  onDropdownChange: (environment: ArmObj<Environment>, defaultChange?: boolean) => void;
+  onDropdownChange: (environment: ArmObj<Environment>) => void;
+  selectedEnvironment?: ArmObj<Environment>;
 }
 
 const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelectorProps> = props => {
-  const { environments, onDropdownChange, disabled } = props;
+  const { environments, onDropdownChange, disabled, selectedEnvironment } = props;
 
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
@@ -28,25 +29,16 @@ const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelecto
     };
   });
 
-  const defaultDropdownOption: IDropdownOption | undefined = dropdownOptions.length > 0 ? dropdownOptions[0] : undefined;
-
   const onChange = (e: unknown, option: IDropdownOption) => {
     onDropdownChange(option.data as ArmObj<Environment>);
   };
 
-  useEffect(() => {
-    if (!!defaultDropdownOption) {
-      onDropdownChange(defaultDropdownOption.data as ArmObj<Environment>, true);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [environments]);
   return (
     <Stack horizontal className={environmentSelectorStackStyle(theme)}>
       <Label className={environmentSelectorLabelStyle}>{t('staticSite_environment')}</Label>
       <OfficeDropdown
         id="configuration-environment-selector"
-        defaultSelectedKey={(!!defaultDropdownOption && defaultDropdownOption.key) || ''}
+        selectedKey={!!selectedEnvironment ? selectedEnvironment.properties.buildId : ''}
         options={dropdownOptions}
         onChange={onChange}
         ariaLabel={t('staticSite_environmentDropdownAriaLabel')}

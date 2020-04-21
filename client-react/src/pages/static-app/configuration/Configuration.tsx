@@ -265,13 +265,9 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     ];
   };
 
-  const onDropdownChange = (environment: ArmObj<Environment>, defaultChange?: boolean) => {
-    if (defaultChange) {
-      onEnvironmentChange(environment);
-    } else {
-      setOnChangeEnvironment(environment);
-      setIsOnChangeConfirmDialogVisible(true);
-    }
+  const onDropdownChange = (environment: ArmObj<Environment>) => {
+    setOnChangeEnvironment(environment);
+    setIsOnChangeConfirmDialogVisible(true);
   };
 
   const isEnvironmentVariableDirty = (index: number): boolean => {
@@ -371,6 +367,17 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     }
   };
 
+  const setDefaultSelectedEnvironment = () => {
+    if (environments.length > 0 && !selectedEnvironment) {
+      onEnvironmentChange(environments[0]);
+    }
+  };
+
+  useEffect(() => {
+    setDefaultSelectedEnvironment();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [environments]);
   useEffect(() => {
     const dirtyState = getDirtyState(environmentVariables);
     setIsDirty(dirtyState);
@@ -396,6 +403,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           environments={environments}
           onDropdownChange={onDropdownChange}
           disabled={isLoading || !hasWritePermissions}
+          selectedEnvironment={selectedEnvironment}
         />
       </div>
       {!hasWritePermissions && <CustomBanner message={t('staticSite_readOnlyRbac')} type={MessageBarType.info} />}
