@@ -215,7 +215,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
             scrollBeyondLastLine: false,
             cursorBlinking: true,
             renderWhitespace: 'all',
-            readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState()),
+            readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState),
           }}
           theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
         />
