@@ -6,6 +6,7 @@ import { Dropdown as OfficeDropdown, Stack, Label, IDropdownOption } from 'offic
 import { fileSelectorDropdownStyle } from '../../app/functions/function/function-editor/FunctionEditor.styles';
 import { ArmObj } from '../../../models/arm-obj';
 import { Environment } from '../../../models/static-site/environment';
+import ConfigurationData from './Configuration.data';
 
 interface ConfigurationEnvironmentSelectorProps {
   environments: ArmObj<Environment>[];
@@ -22,7 +23,7 @@ const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelecto
   const dropdownOptions: IDropdownOption[] = environments.map(environment => {
     return {
       key: environment.properties.buildId,
-      text: environment.properties.sourceBranch,
+      text: ConfigurationData.getEnvironmentName(environment),
       isSelected: false,
       data: environment,
     };
