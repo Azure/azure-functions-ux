@@ -18,10 +18,6 @@ const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
     throw Error('Not implemented');
   };
 
-  const browseFunction = () => {
-    throw Error('Not implemented');
-  };
-
   const managePublishProfileFunction = () => {
     throw Error('Not implemented');
   };
@@ -36,7 +32,6 @@ const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
         <DeploymentCenterCommandBar
           saveFunction={saveFunction}
           discardFunction={discardFunction}
-          browseFunction={browseFunction}
           managePublishProfileFunction={managePublishProfileFunction}
           refreshFunction={refreshFunction}
         />
