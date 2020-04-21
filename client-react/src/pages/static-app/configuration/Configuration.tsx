@@ -11,11 +11,12 @@ import {
   ActionButton,
   SearchBox,
   MessageBarType,
+  Icon,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable, PanelType } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { formStyle, commandBarSticky } from './Configuration.styles';
+import { formStyle, commandBarSticky, copyButtonIconStyle } from './Configuration.styles';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
 import { ArmObj } from '../../../models/arm-obj';
@@ -33,6 +34,7 @@ import ConfigurationData from './Configuration.data';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import { TextUtilitiesService } from '../../../utils/textUtilities';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
@@ -212,6 +214,19 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         </ActionButton>
       );
     }
+    if (column.key === 'copy') {
+      return (
+        <ActionButton
+          className={defaultCellStyle}
+          id={`environment-variable-copy-button-${index}`}
+          onClick={() => {
+            copyEnvironmentVariableValue(index);
+          }}>
+          <span>Copy</span>
+          <Icon className={copyButtonIconStyle} iconName={'Copy'} />
+        </ActionButton>
+      );
+    }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
@@ -241,6 +256,17 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         onRender: onRenderColumnItem,
       },
       {
+        key: 'copy',
+        name: '',
+        fieldName: 'copy',
+        minWidth: 100,
+        isRowHeader: false,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+        onRender: onRenderColumnItem,
+      },
+      {
         key: 'delete',
         name: t('delete'),
         fieldName: 'delete',
@@ -263,6 +289,12 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         onRender: onRenderColumnItem,
       },
     ];
+  };
+
+  const copyEnvironmentVariableValue = (index: number) => {
+    if (index < environmentVariables.length) {
+      TextUtilitiesService.copyContentToClipboard(environmentVariables[index].value || '');
+    }
   };
 
   const onDropdownChange = (environment: ArmObj<Environment>) => {
