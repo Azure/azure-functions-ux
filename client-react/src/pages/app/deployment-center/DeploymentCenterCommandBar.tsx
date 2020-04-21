@@ -1,20 +1,34 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ICommandBarItemProps, CommandBar } from 'office-ui-fabric-react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
+import { SiteStateContext } from '../../../SiteState';
 
 interface DeploymentCenterCommandBarProps {
   saveFunction: () => void;
   discardFunction: () => void;
-  browseFunction: () => void;
   managePublishProfileFunction: () => void;
   refreshFunction: () => void;
 }
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, browseFunction, managePublishProfileFunction, refreshFunction } = props;
+  const { saveFunction, discardFunction, managePublishProfileFunction, refreshFunction } = props;
   const { t } = useTranslation();
+  const siteStateContext = useContext(SiteStateContext);
+
+  const siteLoaded = () => {
+    return siteStateContext.site && siteStateContext.site.properties;
+  };
+
+  const browseEnabled = () => {
+    return siteStateContext.site && siteStateContext.site.properties.hostNames.length > 0 && !siteStateContext.stopped;
+  };
+
+  const browseOnClick = () => {
+    const hostName = siteStateContext.site && siteStateContext.site.properties.hostNames[0];
+    window.open(`https://${hostName}`);
+  };
 
   const commandBarItems: ICommandBarItemProps[] = [
     {
@@ -24,6 +38,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Save',
       },
       ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
+      disabled: !siteLoaded(),
       onClick: saveFunction,
     },
     {
@@ -33,16 +48,18 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Cancel',
       },
       ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
+      disabled: !siteLoaded(),
       onClick: discardFunction,
     },
     {
-      key: 'browseFunction',
+      key: 'browse',
       name: t('browse'),
       iconProps: {
         iconName: 'OpenInNewTab',
       },
       ariaLabel: t('deploymentCenterBrowseCommandAriaLabel'),
-      onClick: browseFunction,
+      disabled: !siteLoaded() || !browseEnabled(),
+      onClick: browseOnClick,
     },
     {
       key: 'managePublishProfile',
@@ -51,6 +68,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'FileCode',
       },
       ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
+      disabled: !siteLoaded(),
       onClick: managePublishProfileFunction,
     },
     {
@@ -60,6 +78,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Refresh',
       },
       ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
+      disabled: !siteLoaded(),
       onClick: refreshFunction,
     },
   ];
