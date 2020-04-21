@@ -180,6 +180,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const updatedData = JSON.stringify(data);
     const tempFunctionInfo = functionInfo;
     tempFunctionInfo.properties.test_data = updatedData;
+    setLogPanelExpanded(true);
     props.run(tempFunctionInfo, values.xFunctionKey);
   };
 
