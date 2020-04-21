@@ -10,12 +10,103 @@ import MakeArmCall from '../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import PortalCommunicator from '../../../portal-communicator';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
-import { AvailableStack } from '../../../models/available-stacks';
+import { AvailableStack, MinorVersion, MinorVersion2 } from '../../../models/available-stacks';
 import { markEndOfLifeStacksInPlace } from '../../../utils/stacks-utils';
 import { sortBy } from 'lodash-es';
 import Url from '../../../utils/url';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
+
+const insertMajorVersionAsChildForWindowsJavaInPlace = (windowsStacks: HttpResponseObject<ArmArray<AvailableStack>>) => {
+  const builtInStacks = (windowsStacks && windowsStacks.metadata.success && windowsStacks.data && windowsStacks.data.value) || [];
+
+  const javaStacks = builtInStacks.find(stack => {
+    const isWindows = !!stack.type && stack.type.toLowerCase() === 'Microsoft.Web/availableStacks?osTypeSelected=Windows'.toLowerCase();
+    const isJava = (stack.name || '').toLowerCase() === 'java';
+    return isWindows && isJava;
+  });
+
+  if (javaStacks) {
+    const majorVersions = javaStacks.properties.majorVersions || [];
+    majorVersions.forEach(majorVersion => {
+      const versionToInsert: MinorVersion = {
+        displayVersion: majorVersion.displayVersion,
+        runtimeVersion: majorVersion.runtimeVersion,
+        isDefault: false,
+        isRemoteDebuggingEnabled: false,
+        isAutoUpdate: true,
+      };
+
+      if (!majorVersion.minorVersions) {
+        majorVersion.minorVersions = [versionToInsert];
+      } else if (!runtimeVersionIsPresent(majorVersion.runtimeVersion, majorVersion.minorVersions)) {
+        majorVersion.minorVersions.unshift(versionToInsert);
+      }
+    });
+  }
+
+  const javaContainers = builtInStacks.find(stack => {
+    const isWindows = !!stack.type && stack.type.toLowerCase() === 'Microsoft.Web/availableStacks?osTypeSelected=Windows'.toLowerCase();
+    const isJavaContainers = (stack.name || '').toLowerCase() === 'javacontainers';
+    return isWindows && isJavaContainers;
+  });
+
+  const frameworks = (javaContainers && javaContainers.properties.frameworks) || [];
+  if (frameworks) {
+    frameworks.forEach(framework => {
+      const majorVersions = framework.majorVersions || [];
+      majorVersions.forEach(majorVersion => {
+        const versionToInsert: MinorVersion2 = {
+          displayVersion: majorVersion.displayVersion,
+          runtimeVersion: majorVersion.runtimeVersion,
+          isDefault: false,
+          isAutoUpdate: true,
+        };
+
+        if (!majorVersion.minorVersions) {
+          majorVersion.minorVersions = [versionToInsert];
+        } else if (!runtimeVersionIsPresent(majorVersion.runtimeVersion, majorVersion.minorVersions)) {
+          majorVersion.minorVersions.unshift(versionToInsert);
+        }
+      });
+    });
+  }
+};
+
+const insertMajorVersionAsChildForLinuxInPlace = (linuxStacks: HttpResponseObject<ArmArray<AvailableStack>>) => {
+  const builtInStacks = (linuxStacks && linuxStacks.metadata.success && linuxStacks.data && linuxStacks.data.value) || [];
+
+  builtInStacks.forEach(stack => {
+    const majorVersions = stack.properties.majorVersions || [];
+
+    majorVersions.forEach(majorVersion => {
+      const versionToInsert: MinorVersion = {
+        displayVersion: majorVersion.displayVersion,
+        runtimeVersion: majorVersion.runtimeVersion,
+        isDefault: false,
+        isRemoteDebuggingEnabled: false,
+      };
+
+      if (!majorVersion.minorVersions) {
+        majorVersion.minorVersions = [versionToInsert];
+      } else if (!runtimeVersionIsPresent(majorVersion.runtimeVersion, majorVersion.minorVersions)) {
+        majorVersion.minorVersions.unshift(versionToInsert);
+      }
+    });
+  });
+};
+
+const runtimeVersionIsPresent = (runtimeVersion: string, versionArray: MinorVersion[] | MinorVersion2[]) => {
+  if (!runtimeVersion || !versionArray) {
+    return false;
+  }
+
+  const match = versionArray.find(
+    version => !!version.runtimeVersion && version.runtimeVersion.toLocaleLowerCase() === runtimeVersion.toLocaleLowerCase()
+  );
+
+  return !!match;
+};
 
 const insertDotNetCore31ForLinuxInPlace = (linuxStacks: HttpResponseObject<ArmArray<AvailableStack>>) => {
   const dotNetCore31Static = {
@@ -80,6 +171,9 @@ export const fetchApplicationSettingValues = async (resourceId: string) => {
     windowsStacksPromise,
     linuxStacksPromise,
   ]);
+
+  insertMajorVersionAsChildForWindowsJavaInPlace(windowsStacks);
+  insertMajorVersionAsChildForLinuxInPlace(linuxStacks);
 
   // TODO (andimarc): Remove this once the availableStacks API has been updated to include .NET Core 3.1. TASK: 5854457
   // This is a temporary fix because the response from the availableStacks API doesn't include .NET Core 3.1.

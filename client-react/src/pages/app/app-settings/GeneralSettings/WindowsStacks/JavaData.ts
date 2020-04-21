@@ -37,26 +37,25 @@ export const getJavaMinorVersionOptions = (
   newestLabel: string,
   autoUpdateLabel: string
 ) => {
-  const currentJavaMajorVersionOnject = getJavaMajorVersionObject(javaStack, currentJavaMajorVersion);
-  let javaMinorVersionOptions: IDropdownOption[] = [];
-  if (currentJavaMajorVersionOnject) {
-    const version = [
-      {
-        key: currentJavaMajorVersionOnject.runtimeVersion,
-        text: `${currentJavaMajorVersionOnject.displayVersion} (${autoUpdateLabel})`,
-      },
-    ];
-    javaMinorVersionOptions = version.concat(
-      currentJavaMajorVersionOnject.minorVersions.map(val => {
-        const newest = val.isDefault ? ` (${newestLabel})` : '';
-        return {
-          key: val.runtimeVersion,
-          text: `${val.displayVersion}${newest}`,
-        };
-      })
-    );
-  }
-  return javaMinorVersionOptions;
+  const options: IDropdownOption[] = [];
+  const currentJavaMajorVersionObject = getJavaMajorVersionObject(javaStack, currentJavaMajorVersion);
+
+  const minorVersions = (currentJavaMajorVersionObject && currentJavaMajorVersionObject.minorVersions) || [];
+  minorVersions.forEach(minorVersion => {
+    let text = minorVersion.displayVersion;
+    if (minorVersion.isDefault) {
+      text = `${minorVersion.displayVersion} (${newestLabel})`;
+    } else if (minorVersion.isAutoUpdate) {
+      text = `${minorVersion.displayVersion} (${autoUpdateLabel})`;
+    }
+
+    options.push({
+      text,
+      key: minorVersion.runtimeVersion,
+    });
+  });
+
+  return options;
 };
 
 export const getJavaContainersOptions = (javaContainers: ArmObj<AvailableStack>) =>
@@ -68,30 +67,22 @@ export const getJavaContainersOptions = (javaContainers: ArmObj<AvailableStack>)
   });
 
 export const getFrameworkVersionOptions = (javaContainers: ArmObj<AvailableStack>, config: ArmObj<SiteConfig>, autoUpdateLabel: string) => {
+  const options: IDropdownOption[] = [];
   const currentFramework =
     config.properties.javaContainer &&
     javaContainers.properties.frameworks.find(x => x.name.toLowerCase() === config.properties.javaContainer.toLowerCase());
-  let javaFrameworkVersionOptions: IDropdownOption[] = [];
-  if (currentFramework) {
-    const majorVersions = currentFramework.majorVersions.map(val => {
-      const version = [
-        {
-          key: val.runtimeVersion,
-          text: `${val.displayVersion} (${autoUpdateLabel})`,
-        },
-      ];
-      return version.concat(
-        val.minorVersions.map(inner => {
-          return {
-            key: inner.runtimeVersion,
-            text: inner.displayVersion,
-          };
-        })
-      );
+
+  const majorVersions = (currentFramework && currentFramework.majorVersions) || [];
+  majorVersions.forEach(majorVersion => {
+    const minorVersions = majorVersion.minorVersions || [];
+    minorVersions.forEach(minorVersion => {
+      const text = minorVersion.isAutoUpdate ? `${minorVersion.displayVersion} (${autoUpdateLabel})` : minorVersion.displayVersion;
+      options.push({
+        text,
+        key: minorVersion.runtimeVersion,
+      });
     });
-    majorVersions.forEach(x => {
-      javaFrameworkVersionOptions = javaFrameworkVersionOptions.concat(x);
-    });
-  }
-  return javaFrameworkVersionOptions;
+  });
+
+  return options;
 };

@@ -87,16 +87,6 @@ const getMinorVersions = (builtInStacks: ArmObj<AvailableStack>[], stack: string
     }
   });
 
-  const currentRuntime = currentVersion.runtimeVersion || '';
-  const currentRuntimeToLower = currentRuntime.toLowerCase();
-  if (!includedAlready.has(currentRuntimeToLower)) {
-    linuxFxVersionOptions.unshift({
-      text: currentVersion.isEndOfLife ? t('endOfLifeTagTemplate').format(currentVersion.displayVersion) : currentVersion.displayVersion,
-      key: currentRuntime,
-    });
-    includedAlready.add(currentRuntimeToLower);
-  }
-
   return linuxFxVersionOptions;
 };
 
