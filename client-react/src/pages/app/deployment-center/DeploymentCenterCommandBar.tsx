@@ -17,15 +17,15 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
 
-  const siteLoaded = () => {
+  const isSiteLoaded = () => {
     return siteStateContext.site && siteStateContext.site.properties;
   };
 
-  const browseEnabled = () => {
+  const isBrowseEnabled = () => {
     return siteStateContext.site && siteStateContext.site.properties.hostNames.length > 0 && !siteStateContext.stopped;
   };
 
-  const browseOnClick = () => {
+  const onBrowseClick = () => {
     const hostName = siteStateContext.site && siteStateContext.site.properties.hostNames[0];
     window.open(`https://${hostName}`);
   };
@@ -38,7 +38,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Save',
       },
       ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
-      disabled: !siteLoaded(),
+      disabled: !isSiteLoaded(),
       onClick: saveFunction,
     },
     {
@@ -48,7 +48,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Cancel',
       },
       ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
-      disabled: !siteLoaded(),
+      disabled: !isSiteLoaded(),
       onClick: discardFunction,
     },
     {
@@ -58,8 +58,8 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'OpenInNewTab',
       },
       ariaLabel: t('deploymentCenterBrowseCommandAriaLabel'),
-      disabled: !siteLoaded() || !browseEnabled(),
-      onClick: browseOnClick,
+      disabled: !isSiteLoaded() || !isBrowseEnabled(),
+      onClick: onBrowseClick,
     },
     {
       key: 'managePublishProfile',
@@ -68,7 +68,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'FileCode',
       },
       ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
-      disabled: !siteLoaded(),
+      disabled: !isSiteLoaded(),
       onClick: managePublishProfileFunction,
     },
     {
@@ -78,7 +78,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Refresh',
       },
       ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
-      disabled: !siteLoaded(),
+      disabled: !isSiteLoaded(),
       onClick: refreshFunction,
     },
   ];
