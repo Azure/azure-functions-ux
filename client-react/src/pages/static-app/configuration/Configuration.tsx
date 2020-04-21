@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable, PanelType } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { formStyle, commandBarSticky, copyButtonIconStyle } from './Configuration.styles';
-import { learnMoreLinkStyle, tableCopyButtonStyle } from '../../../components/form-controls/formControl.override.styles';
+import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
 import { ArmObj } from '../../../models/arm-obj';
 import { StaticSite } from '../../../models/static-site/static-site';
