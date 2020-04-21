@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ICommandBarItemProps, CommandBar } from 'office-ui-fabric-react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
@@ -14,10 +14,9 @@ interface ConfigurationCommandBarProps {
 
 const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props => {
   const { save, dirty, showDiscardConfirmDialog, refresh, isLoading } = props;
+  const [disabled, setDisabled] = useState(false);
 
   const { t } = useTranslation();
-
-  const isDisabled = !dirty || isLoading;
 
   const getItems = (): ICommandBarItemProps[] => {
     return [
@@ -27,7 +26,7 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
         iconProps: {
           iconName: 'Save',
         },
-        disabled: isDisabled,
+        disabled: disabled,
         onClick: save,
       },
       {
@@ -36,7 +35,7 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
         iconProps: {
           iconName: 'ChromeClose',
         },
-        disabled: isDisabled,
+        disabled: disabled,
         onClick: showDiscardConfirmDialog,
       },
       {
@@ -50,6 +49,12 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
       },
     ];
   };
+
+  useEffect(() => {
+    setDisabled(!dirty || isLoading);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dirty, isLoading]);
   return <CommandBar items={getItems()} role="nav" styles={CommandBarStyles} buttonAs={CustomCommandBarButton} />;
 };
 
