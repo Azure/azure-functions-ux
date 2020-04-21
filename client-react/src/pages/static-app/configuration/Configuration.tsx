@@ -94,11 +94,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     setShowAllValues(!showAllValues);
   };
 
-  const openBulkEdit = () => {
-    setShowPanel(true);
-    setPanelType(PanelType.bulk);
-  };
-
   const toggleFilter = () => {
     setShowFilter(!showFilter);
     setFilter('');
@@ -126,13 +121,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
         name: !allShown ? t('showValues') : t('hideValues'),
-      },
-      {
-        key: 'environment-variable-bulk-edit',
-        onClick: openBulkEdit,
-        disabled: isTableCommandBarDisabled(),
-        iconProps: { iconName: 'Edit' },
-        name: t('advancedEdit'),
       },
       {
         key: 'environment-variable-show-filter',
