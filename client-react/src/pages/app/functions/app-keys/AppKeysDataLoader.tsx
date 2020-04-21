@@ -63,7 +63,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
 
   return (
     <AppKeysContext.Provider value={appKeysData}>
-      {siteStateContext.isSiteStopped() && <CustomBanner message={t('noAppKeysWhileFunctionAppStopped')} type={MessageBarType.warning} />}
+      {siteStateContext.stopped && <CustomBanner message={t('noAppKeysWhileFunctionAppStopped')} type={MessageBarType.warning} />}
       {refreshLoading && (
         <div>
           <LoadingComponent />
@@ -75,7 +75,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
         resourceId={resourceId}
         initialValues={initialValues}
         refreshData={refreshData}
-        appPermission={appPermission || !siteStateContext.isSiteStopped()}
+        appPermission={appPermission || !siteStateContext.stopped}
       />
     </AppKeysContext.Provider>
   );

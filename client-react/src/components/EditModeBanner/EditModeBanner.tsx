@@ -15,7 +15,7 @@ const EditModeBanner: React.FC<EditModeBannerProps> = props => {
 
   const { setBanner } = props;
 
-  const editState = siteStateContext.getSiteAppEditState();
+  const editState = siteStateContext.siteAppEditState;
 
   if (SiteHelper.isFunctionAppReadOnly(editState)) {
     return (
