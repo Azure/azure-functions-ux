@@ -21,8 +21,3 @@ export const environmentSelectorStackStyle = (theme: ThemeExtended) =>
 export const environmentSelectorLabelStyle = style({
   paddingRight: '10px',
 });
-
-export const copyButtonIconStyle = style({
-  paddingLeft: '5px',
-  paddingTop: '2px',
-});
