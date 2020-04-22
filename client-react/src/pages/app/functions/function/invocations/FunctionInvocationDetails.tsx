@@ -88,23 +88,18 @@ const FunctionInvocationDetails: React.FC<FunctionInvocationDetailsProps> = prop
   };
 
   return (
-    <div>
-      {!!invocationDetails ? (
-        <div id="invocation-details" className={invocationsTabStyle}>
-          <DisplayTableWithCommandBar
-            commandBarItems={getCommandBarItems()}
-            columns={getColumns()}
-            items={getItems()}
-            isHeaderVisible={true}
-            layoutMode={DetailsListLayoutMode.justified}
-            selectionMode={SelectionMode.none}
-            selectionPreservedOnEmptyClick={true}
-            emptyMessage={t('noResults')}
-          />
-        </div>
-      ) : (
-        <LoadingComponent />
-      )}
+    <div id="invocation-details" className={invocationsTabStyle}>
+      <DisplayTableWithCommandBar
+        commandBarItems={getCommandBarItems()}
+        columns={getColumns()}
+        items={getItems()}
+        isHeaderVisible={true}
+        layoutMode={DetailsListLayoutMode.justified}
+        selectionMode={SelectionMode.none}
+        selectionPreservedOnEmptyClick={true}
+        emptyMessage={t('noResults')}
+        shimmer={{ lines: 2, show: !invocationDetails }}
+      />
     </div>
   );
 };
