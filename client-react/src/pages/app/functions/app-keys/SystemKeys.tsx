@@ -233,14 +233,6 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     return [
       {
-        key: 'app-keys-system-keys-add',
-        onClick: () => showAddEditPanel(),
-        disabled: readOnlyPermission || initialLoading,
-        iconProps: { iconName: 'Add' },
-        name: t('newSystemKey'),
-        ariaLabel: t('addSystemKey'),
-      },
-      {
         key: 'app-keys-system-keys-show-hide',
         onClick: flipHideSwitch,
         disabled: initialLoading,
