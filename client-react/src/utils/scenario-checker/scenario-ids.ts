@@ -109,5 +109,4 @@ export class ScenarioIds {
   public static readonly runtimeScaleMonitoringSupported = 'runtimeScaleMonitoringSupported';
   public static readonly xenonAppRuntimeStack = 'xenonAppRuntimeStack';
   public static readonly showAppInsightsLogs = 'showAppInsightsLogs';
-  public static readonly showFunctionAppLogs = 'showFunctionAppLogs';
 }

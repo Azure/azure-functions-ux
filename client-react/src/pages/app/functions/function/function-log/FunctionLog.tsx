@@ -35,6 +35,7 @@ interface FunctionLogProps {
   logPanelHeight?: number;
   setLogPanelHeight?: (height: number) => void;
   leftAlignMainToolbarItems?: boolean;
+  customHeight?: number;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
@@ -59,6 +60,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     clearLogs,
     allLogEntries,
     leftAlignMainToolbarItems,
+    customHeight,
   } = props;
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
@@ -185,7 +187,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
       />
       {isExpanded && (
         <div
-          className={logStreamStyle(maximized, logPanelHeight || minimumLogPanelHeight, readOnlyBannerHeight || 0)}
+          className={logStreamStyle(maximized, logPanelHeight || minimumLogPanelHeight, readOnlyBannerHeight || 0, customHeight)}
           ref={container => {
             if (!!container) {
               setLogsContainer(container);
