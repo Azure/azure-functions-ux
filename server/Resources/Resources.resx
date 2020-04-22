@@ -6010,7 +6010,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Loading container logs</value>
     </data>
     <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
-        <value>Loading container logs ...</value>
+        <value>Loading container logs...</value>
     </data>
     <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
         <value>Failed to load container logs</value>

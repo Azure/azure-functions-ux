@@ -22,7 +22,7 @@ const DeploymentCenterContainerLogsDataLoader: React.FC<DeploymentCenterContaine
     const logsResponse = await deploymentCenterData.fetchContainerLogs(resourceId);
     setIsLoading(false);
 
-    if (logsResponse.metadata.status === 200) {
+    if (logsResponse.metadata.success) {
       setLogs(logsResponse.data);
     } else {
       const errorMessage = getErrorMessage(logsResponse.metadata.error);
