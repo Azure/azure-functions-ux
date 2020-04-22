@@ -17,7 +17,7 @@ describe('Arm Helper', () => {
   it('returns data from fetch in non buffer path', async () => {
     const mockData = { val: 'test' };
     mock.onGet().reply(200, mockData);
-    const t = await MockCall<any>({ resourceId: 'test', commandName: 'test', skipBuffer: true });
+    const t = await MockCall<any>({ resourceId: 'test', commandName: 'test', skipBatching: true });
     expect(t.data.val).toBe('test');
   });
 

@@ -127,7 +127,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
 };
 
 const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpResponseObject<T>> => {
-  const { skipBuffer, method, resourceId, body, apiVersion, commandName, queryString, headers } = requestObject;
+  const { skipBatching, method, resourceId, body, apiVersion, commandName, queryString, headers } = requestObject;
 
   const id = Guid.newGuid();
   const armBatchObject: InternalArmRequest = {
@@ -141,7 +141,7 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
     apiVersion: apiVersion !== null ? apiVersion || CommonConstants.ApiVersions.antaresApiVersion20181101 : null,
   };
 
-  if (!skipBuffer && !alwaysSkipBatch) {
+  if (!skipBatching && !alwaysSkipBatch) {
     const fetchFromBatch = new Promise<ArmBatchObject>((resolve, reject) => {
       armObs$
         .pipe(

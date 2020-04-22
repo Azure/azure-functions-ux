@@ -70,7 +70,7 @@ export default class SiteService {
       resourceId: id,
       commandName: 'fetchApplicationSettings',
       method: 'POST',
-      skipBuffer: force,
+      skipBatching: force,
     });
     LogService.trackEvent('site-service', 'appSettingsLoaded', {
       success: result.metadata.success,
@@ -151,7 +151,7 @@ export default class SiteService {
 
   public static fetchFunctionsHostStatus = async (resourceId: string, force?: boolean) => {
     const id = `${resourceId}/host/default/properties/status`;
-    return MakeArmCall<ArmObj<HostStatus>>({ resourceId: id, commandName: 'getHostStatus', skipBuffer: force });
+    return MakeArmCall<ArmObj<HostStatus>>({ resourceId: id, commandName: 'getHostStatus', skipBatching: force });
   };
 
   public static fireSyncTrigger = (site: ArmObj<Site>, token: string) => {
