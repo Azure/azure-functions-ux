@@ -5,7 +5,6 @@ import { AppInsightsInvocationTraceDetail, AppInsightsInvocationTrace } from '..
 import { invocationsTabStyle } from './FunctionInvocations.style';
 import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 
 export interface FunctionInvocationDetailsProps {
