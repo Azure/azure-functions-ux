@@ -4523,6 +4523,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="javaContainerVersion" xml:space="preserve">
         <value>Java container version</value>
     </data>
+    <data name="javaWebServer" xml:space="preserve">
+        <value>Java web server</value>
+    </data>
+    <data name="javaWebServerVersion" xml:space="preserve">
+        <value>Java web server version</value>
+    </data>
     <data name="newDocument" xml:space="preserve">
         <value>New document</value>
     </data>

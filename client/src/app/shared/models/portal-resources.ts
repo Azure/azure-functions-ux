@@ -1459,6 +1459,8 @@ export class PortalResources {
   public static javaMinorVersion = 'javaMinorVersion';
   public static javaContainer = 'javaContainer';
   public static javaContainerVersion = 'javaContainerVersion';
+  public static javaWebServer = 'javaWebServer';
+  public static javaWebServerVersion = 'javaWebServerVersion';
   public static newDocument = 'newDocument';
   public static nameRes = 'nameRes';
   public static value = 'value';
