@@ -9,3 +9,12 @@ export const commandBarSticky = style({
 export const pivotContent = style({
   padding: '5px 20px',
 });
+
+export const deploymentCenterContent = style({
+  marginTop: '20px',
+});
+
+export const containerLogs = style({
+  whiteSpace: 'normal',
+  margin: 0,
+});

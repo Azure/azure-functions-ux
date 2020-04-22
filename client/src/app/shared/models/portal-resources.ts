@@ -1944,4 +1944,8 @@ export class PortalResources {
   public static deploymentCenterPivotItemContainerSettingsAriaLabel = 'deploymentCenterPivotItemContainerSettingsAriaLabel';
   public static deploymentCenterPivotItemFtpsHeaderText = 'deploymentCenterPivotItemFtpsHeaderText';
   public static deploymentCenterPivotItemFtpsAriaLabel = 'deploymentCenterPivotItemFtpsAriaLabel';
+  public static deploymentCenterContainerLogsLoadingAriaValue = 'deploymentCenterContainerLogsLoadingAriaValue';
+  public static deploymentCenterContainerLogsLoading = 'deploymentCenterContainerLogsLoading';
+  public static deploymentCenterContainerLogsFailed = 'deploymentCenterContainerLogsFailed';
+  public static deploymentCenterContainerLogsFailedWithError = 'deploymentCenterContainerLogsFailedWithError';
 }
