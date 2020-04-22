@@ -8,9 +8,10 @@ import { LogCategories } from '../../../utils/LogCategories';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
-import FunctionAppDataLoader from '../functions/log-stream/LogStreamDataLoader';
-import WebAppDataLoader from './LogStreamDataLoader';
+import AppInsightsFunctionAppDataLoader from '../functions/log-stream/LogStreamDataLoader';
+import FileBasedLogStreamingDataLoader from './LogStreamDataLoader';
 import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
+import { isFunctionApp } from '../../../utils/arm-utils';
 
 export interface LogStreamRouterProps {
   resourceId: string;
@@ -44,9 +45,18 @@ const LogStreamRouter: React.FC<LogStreamRouterProps> = props => {
   }
 
   const scenarioChecker = new ScenarioService(t);
-  const showFunctionAppLogs = scenarioChecker.checkScenario(ScenarioIds.showFunctionAppLogs, { site }).status === 'enabled';
+  const showAppInsightsFunctionAppLogs =
+    isFunctionApp(site) && scenarioChecker.checkScenario(ScenarioIds.showAppInsightsLogs, { site }).status !== 'disabled';
 
-  return showFunctionAppLogs ? <FunctionAppDataLoader resourceId={resourceId} /> : <WebAppDataLoader resourceId={resourceId} />;
+  // If site is Function App AND in an Environment that supports App Insights
+  // we will load App Insights Logs for the entire Function App
+  // Else we will load file based log streaming
+
+  return showAppInsightsFunctionAppLogs ? (
+    <AppInsightsFunctionAppDataLoader resourceId={resourceId} />
+  ) : (
+    <FileBasedLogStreamingDataLoader resourceId={resourceId} />
+  );
 };
 
 export default LogStreamRouter;
