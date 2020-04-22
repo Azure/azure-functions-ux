@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import FunctionInvocationsData from './FunctionInvocations.data';
 import FunctionInvocations from './FunctionInvocations';
 import {
@@ -88,9 +87,6 @@ const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTrace]);
 
-  if (!appInsightsToken || !monthlySummary) {
-    return <LoadingComponent />;
-  }
   return (
     <FunctionInvocationsContext.Provider value={invocationsData}>
       <FunctionInvocations
