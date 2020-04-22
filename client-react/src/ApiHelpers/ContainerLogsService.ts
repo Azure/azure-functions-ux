@@ -8,7 +8,7 @@ export default class ContainerLogsService {
       resourceId: id,
       commandName: 'fetchContainerLogs',
       method: 'POST',
-      skipBuffer: true,
+      skipBatching: true,
     });
   };
 }
