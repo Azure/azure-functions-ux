@@ -40,8 +40,9 @@ const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
       <div>
         <h2>Deployment Center Preview for {resourceId}</h2>
         <MonacoEditor value={''} language={'json'} />
-      <div className={pivotContent}>
-        <DeploymentCenterPivot resourceId={resourceId} />
+        <div className={pivotContent}>
+          <DeploymentCenterPivot resourceId={resourceId} />
+        </div>
       </div>
     </>
   );
