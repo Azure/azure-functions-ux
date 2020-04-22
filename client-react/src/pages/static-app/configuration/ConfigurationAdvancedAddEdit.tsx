@@ -66,27 +66,25 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [environmentVariables]);
   return (
-    <>
-      <form>
-        <MonacoEditor
-          value={environmentVariablesJSON}
-          language={EditorLanguage.json}
-          onChange={onChange}
-          options={{
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-          }}
-          height="calc(100vh - 140px)"
-          theme={getMonacoEditorTheme(startUpContext.theme as PortalTheme)}
-        />
-        <ActionBar
-          id="environment-variable-edit-footer"
-          primaryButton={actionBarPrimaryButtonProps}
-          secondaryButton={actionBarSecondaryButtonProps}
-          statusMessage={getStatusMessage()}
-        />
-      </form>
-    </>
+    <form>
+      <MonacoEditor
+        value={environmentVariablesJSON}
+        language={EditorLanguage.json}
+        onChange={onChange}
+        options={{
+          minimap: { enabled: false },
+          scrollBeyondLastLine: false,
+        }}
+        height="calc(100vh - 140px)"
+        theme={getMonacoEditorTheme(startUpContext.theme as PortalTheme)}
+      />
+      <ActionBar
+        id="environment-variable-edit-footer"
+        primaryButton={actionBarPrimaryButtonProps}
+        secondaryButton={actionBarSecondaryButtonProps}
+        statusMessage={getStatusMessage()}
+      />
+    </form>
   );
 };
 
