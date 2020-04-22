@@ -16,41 +16,8 @@ steps:
 
   - script: |
       cd client-react
-      npm run test --coverage --reporters="jest-junit"
-      cd ..
-      npm ci
-      ./node_modules/.bin/gulp inline-react-code-coverage # fix ADO rendering
-    displayName: 'run unit tests'
-    env:
-      CI: true
-
-  - script: |
-      cd client-react
       npm run build
     displayName: 'create production build'
-
-  # - script: |
-  #     cd tests
-  #     npm ci
-  #     npm run cy:verify
-  #   displayName: 'Cypress verify'
-
-  # - script: |
-  #     cd tests
-  #     npm run test:ci:record
-  #   displayName: 'Run Cypress tests'
-  #   env:
-  #     CYPRESS_RECORD_KEY: $(cypresskey)
-  #     CYPRESS_AD_DIRECTORY_ID: $(directoryId)
-  #     CYPRESS_AD_APPLICATION_ID: $(applicationId)
-  #     CYPRESS_AD_APPLICATION_SECRET: $(applicationSecret)
-  #     CYPRESS_RETRIES: 3
-
-  # - task: PublishTestResults@2
-  #   inputs:
-  #     testResultsFormat: 'JUnit'
-  #     testResultsFiles: 'tests/cypress/results/results-*.xml'
-  #     testRunTitle: 'E2E Tests'
 
   - task: PublishTestResults@2
     inputs:
