@@ -1,7 +1,8 @@
 import React from 'react';
-import { commandBarSticky } from './DeploymentCenter.styles';
+import { commandBarSticky, pivotContent } from './DeploymentCenter.styles';
 import DeploymentCenterCommandBar from './DeploymentCenterCommandBar';
 import MonacoEditor from '../../../components/monaco-editor/monaco-editor';
+import DeploymentCenterPivot from './DeploymentCenterPivot';
 
 interface DeploymentCenterProps {
   resourceId: string;
@@ -18,10 +19,6 @@ const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
     throw Error('Not implemented');
   };
 
-  const browseFunction = () => {
-    throw Error('Not implemented');
-  };
-
   const managePublishProfileFunction = () => {
     throw Error('Not implemented');
   };
@@ -31,22 +28,22 @@ const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
   };
 
   return (
-    <div>
+    <>
       <div id="deployment-center-command-bar" className={commandBarSticky}>
         <DeploymentCenterCommandBar
           saveFunction={saveFunction}
           discardFunction={discardFunction}
-          browseFunction={browseFunction}
           managePublishProfileFunction={managePublishProfileFunction}
           refreshFunction={refreshFunction}
         />
       </div>
-
       <div>
         <h2>Deployment Center Preview for {resourceId}</h2>
         <MonacoEditor value={''} language={'json'} />
+      <div className={pivotContent}>
+        <DeploymentCenterPivot resourceId={resourceId} />
       </div>
-    </div>
+    </>
   );
 };
 

@@ -42,7 +42,7 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
         </MessageBar>
       )}
 
-      {siteStateContext.isSiteStopped() ? (
+      {siteStateContext.stopped ? (
         <MessageBar
           isMultiline={true}
           className={messageBannerStyle(theme, MessageBarType.warning)}

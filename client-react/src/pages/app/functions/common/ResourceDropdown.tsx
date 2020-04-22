@@ -52,7 +52,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
   }, [resourceId]);
 
   // If we are readonly, don't rely on app settings, assume that the saved value is correct
-  if (SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState())) {
+  if (SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
     return <Dropdown options={[{ text: field.value, key: field.value }]} selectedKey={field.value} {...props} />;
   }
 

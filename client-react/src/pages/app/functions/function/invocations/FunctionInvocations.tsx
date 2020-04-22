@@ -197,25 +197,29 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
 
       {/*Invocation Traces Table*/}
       {!!invocationTraces ? (
-        <DisplayTableWithCommandBar
-          commandBarItems={getCommandBarItems()}
-          columns={getColumns()}
-          items={filterValues()}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('noResults')}>
-          <SearchBox
-            id="invocations-search"
-            className="ms-slideDownIn20"
-            autoFocus
-            iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
-            placeholder={t('filterInvocations')}
-            onChange={newValue => setFilterValue(newValue)}
-          />
-        </DisplayTableWithCommandBar>
+        <div>
+          <h3>{t('invocationTracesTableTitle')}</h3>
+          <div>{t('invocationTracesTableDescription')}</div>
+          <DisplayTableWithCommandBar
+            commandBarItems={getCommandBarItems()}
+            columns={getColumns()}
+            items={filterValues()}
+            isHeaderVisible={true}
+            layoutMode={DetailsListLayoutMode.justified}
+            selectionMode={SelectionMode.none}
+            selectionPreservedOnEmptyClick={true}
+            emptyMessage={t('noResults')}>
+            <SearchBox
+              id="invocations-search"
+              className="ms-slideDownIn20"
+              autoFocus
+              iconProps={{ iconName: 'Filter' }}
+              styles={filterBoxStyle}
+              placeholder={t('filterInvocations')}
+              onChange={newValue => setFilterValue(newValue)}
+            />
+          </DisplayTableWithCommandBar>
+        </div>
       ) : (
         <LoadingComponent />
       )}

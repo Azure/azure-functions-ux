@@ -6,7 +6,7 @@ import { FunctionAppEditMode, KeyValue, SiteReadWriteState } from '../../models/
 import { SiteConfig } from '../../models/site/config';
 import { Site } from '../../models/site/site';
 import { PortalContext } from '../../PortalContext';
-import { SiteState, SiteStateContext } from '../../SiteState';
+import { SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
@@ -69,8 +69,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
-
-  const siteState = new SiteState();
+  const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
+  const [stopped, setStopped] = useState(false);
+  const [siteAppEditState, setSiteAppEditState] = useState<FunctionAppEditMode>(FunctionAppEditMode.ReadWrite);
 
   const getSiteStateFromSiteData = (site: ArmObj<Site>): FunctionAppEditMode | undefined => {
     if (isLinuxDynamic(site)) {
@@ -187,10 +188,10 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
       }
 
       if (site.metadata.success) {
-        siteState.setSite(site.data);
-        siteState.setSiteStopped(site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
+        setSite(site.data);
+        setStopped(site.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
       }
-      siteState.setSiteAppEditState(functionAppEditMode);
+      setSiteAppEditState(functionAppEditMode);
     }
   };
 
@@ -207,7 +208,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token && (
-                <SiteStateContext.Provider value={siteState}>
+                <SiteStateContext.Provider value={{ site, siteAppEditState, stopped }}>
                   <Router>
                     {/* NOTE(michinoy): The paths should be always all lowercase. */}
 

@@ -5667,8 +5667,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Remote debugging is not available for your application. </value>
     </data>
-    <data name="tryFunctionsPreview" xml:space="preserve">
-        <value>Preview the new Azure Functions management experience</value>
+    <data name="tryFunctionsNewExperience" xml:space="preserve">
+        <value>Try the new Azure Functions management experience</value>
     </data>
     <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Save changes</value>
@@ -5984,5 +5984,32 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
         <value>All environment variable value and name properties must be of type string</value>
+    </data>
+    <data name="staticSite_readOnlyRbac" xml:space="preserve">
+        <value>Your site is currently in read only mode because your RBAC assigned access is set to: Reader</value>
+    </data>
+    <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+    <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>Container logs</value>
+    </data>
+    <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
+        <value>Container settings</value>
+    </data>
+    <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
+        <value>FTP/FTPs credentials</value>
+    </data>
+    <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
+        <value>FTP or FTPs credentials</value>
+    </data>
+    <data name="invocationTracesTableTitle" xml:space="preserve">
+        <value>Invocation Traces</value>
+    </data>
+    <data name="invocationTracesTableDescription" xml:space="preserve">
+        <value>The twenty most recent function invocation traces. For more advanced analysis, run the query in Application Insights.</value>
     </data>
 </root>

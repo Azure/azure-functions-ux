@@ -1831,7 +1831,7 @@ export class PortalResources {
   public static runtimeStackVersion = 'runtimeStackVersion';
   public static functionCreate_extensionBundlesRequired = 'functionCreate_extensionBundlesRequired';
   public static remoteDebuggingNotAvailableOnFlexStamp = 'remoteDebuggingNotAvailableOnFlexStamp';
-  public static tryFunctionsPreview = 'tryFunctionsPreview';
+  public static tryFunctionsNewExperience = 'tryFunctionsNewExperience';
   public static saveAppSettingsTitle = 'saveAppSettingsTitle';
   public static saveAppSettingsMessage = 'saveAppSettingsMessage';
   public static azureFunctionsV1Linux = 'azureFunctionsV1Linux';
@@ -1937,4 +1937,13 @@ export class PortalResources {
   public static staticSite_environmentVariableValuesMustBeAnArray = 'staticSite_environmentVariableValuesMustBeAnArray';
   public static staticSite_environmentVariableInvalidProperty = 'staticSite_environmentVariableInvalidProperty';
   public static staticSite_environmentVariableValueMustBeAString = 'staticSite_environmentVariableValueMustBeAString';
+  public static staticSite_readOnlyRbac = 'staticSite_readOnlyRbac';
+  public static deploymentCenterPivotItemContainerLogsHeaderText = 'deploymentCenterPivotItemContainerLogsHeaderText';
+  public static deploymentCenterPivotItemContainerLogsAriaLabel = 'deploymentCenterPivotItemContainerLogsAriaLabel';
+  public static deploymentCenterPivotItemContainerSettingsHeaderText = 'deploymentCenterPivotItemContainerSettingsHeaderText';
+  public static deploymentCenterPivotItemContainerSettingsAriaLabel = 'deploymentCenterPivotItemContainerSettingsAriaLabel';
+  public static deploymentCenterPivotItemFtpsHeaderText = 'deploymentCenterPivotItemFtpsHeaderText';
+  public static deploymentCenterPivotItemFtpsAriaLabel = 'deploymentCenterPivotItemFtpsAriaLabel';
+  public static invocationTracesTableTitle = 'invocationTracesTableTitle';
+  public static invocationTracesTableDescription = 'invocationTracesTableDescription';
 }

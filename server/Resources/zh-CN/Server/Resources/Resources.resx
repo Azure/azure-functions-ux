@@ -268,7 +268,7 @@
         <value>你的订阅</value>
     </data>
   <data name="createApp_description" xml:space="preserve">
-        <value>创建函数应用将自动预配一个新的容器以在其中托管并运行你的代码。</value>
+        <value>创建函数应用会自动预配能够托管并运行代码的新容器。</value>
     </data>
   <data name="createApp_fail" xml:space="preserve">
         <value>未能创建应用</value>
@@ -569,7 +569,7 @@
         <value>删除函数 {{name}}</value>
     </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-        <value>是否确实要删除函数 {{name}}?</value>
+        <value>是否确定要删除函数 {{name}}?</value>
     </data>
   <data name="functionMonitor_loading" xml:space="preserve">
         <value>正在加载...</value>
@@ -833,7 +833,7 @@
         <value>不超过 1 分钟</value>
     </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-        <value>注册一个免费的 Azure 帐户可解锁所有 Functions 功能而无需担心时间限制!</value>
+        <value>注册免费的 Azure 帐户即可解锁所有 Azure Functions 功能，而无需担心时间限制!</value>
     </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
         <value>未对此函数应用配置 CORS。请将 {{origin}} 添加到 CORS 列表。</value>
@@ -968,7 +968,7 @@
         <value>每日使用配额(GB-秒)</value>
     </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-        <value>函数应用已达到使用配额并将停止使用 24 小时。</value>
+        <value>此函数应用已达到每日使用量配额，并将停止运行 24 小时。</value>
     </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
         <value>删除配额</value>
@@ -977,7 +977,7 @@
         <value>设置配额</value>
     </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-        <value>超过每日使用量配额时，函数应用停止，直到第二天凌晨 0:00 UTC。</value>
+        <value>如果超过每日使用量配额，此函数应用就会停止，直到次日凌晨 0:00 (UTC)。</value>
     </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
         <value>是否确实要撤销 {{name}} 关键值?</value>
@@ -986,7 +986,7 @@
         <value>键</value>
     </data>
   <data name="functionNew_nameError" xml:space="preserve">
-        <value>该名称在函数应用内必须是唯一的。它必须以字母开头，可包含字母、数字(0-9)、短划线("-")和下划线("_")。</value>
+        <value>此名称在函数应用内必须是唯一的。它必须以字母开头，可包含字母、数字(0-9)、短破折号("-")和下划线字符("_")。</value>
     </data>
   <data name="functionDev_loading" xml:space="preserve">
         <value>正在加载..</value>
@@ -1465,6 +1465,9 @@
   <data name="configUpdateFailure" xml:space="preserve">
         <value>未能更新 Web 应用设置</value>
     </data>
+  <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>无法更新 Web 应用设置: {0}</value>
+    </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} 保存错误: 提供了无效的输入。</value>
     </data>
@@ -1817,7 +1820,7 @@
         <value>应用程序设置</value>
     </data>
   <data name="try_appDisabled" xml:space="preserve">
-        <value>此试用版不支持管理函数应用。</value>
+        <value>此试用版已禁用管理函数应用。</value>
     </data>
   <data name="template" xml:space="preserve">
         <value>模板</value>
@@ -2091,8 +2094,8 @@
 使用之前，请填充&lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;操作对象&lt;/a&gt;和有关 API 的其他信息。</value>
     </data>
   <data name="swaggerDefinition_keyHelp" xml:space="preserve">
-        <value>此密钥可保护 API 定义，阻止没有此密钥的任何人访问。
-它不能保护基础 API。请查看每个函数以了解其密钥安全性。</value>
+        <value>此密钥可保护 API 定义不被任何没有密钥的人访问。
+它不保护基础 API。请查看每个函数，以了解它们的密钥安全性。</value>
     </data>
   <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
         <value>设置为“函数”以允许生成托管 API 定义和模板定义。
@@ -2181,6 +2184,9 @@
     </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>尽管具有一个生成的 function.json，但由于已将编辑模式设置为读/写，因此应用当前处于读/写模式。对 function.json 进行的更改将不会被 Functions 运行时所采用。</value>
+    </data>
+  <data name="readOnlyRbac" xml:space="preserve">
+        <value>你的函数目前处于只读模式，因为 RBAC 分配访问权限设置为“读者”</value>
     </data>
   <data name="copypre_copy" xml:space="preserve">
         <value>复制</value>
@@ -2274,6 +2280,9 @@
     </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>未能创建槽“{0}”</value>
+    </data>
+  <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>无法创建槽位“{0}”: {1}</value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>无法检索槽位列表: {{errorMessage}}</value>
@@ -2396,7 +2405,7 @@
         <value>Proxies.json 架构验证失败。错误:“{0}”。</value>
     </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-        <value>在“使用”计划中，可通过设置每日使用量配额(以 GB/秒计)，限制平台使用量。一旦达到每日使用量配额，函数应用停止，直到第二天的凌晨 0:00 UTC。</value>
+        <value>在消耗计划中，可以通过设置每日使用量配额(以 GB/秒为单位)来限制平台使用量。一旦达到每日使用量配额，此函数应用就会停止，直到次日凌晨 0:00 (UTC)。</value>
     </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
         <value>(中心策略)</value>
@@ -2825,7 +2834,7 @@
         <value>隐藏值</value>
     </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-        <value>应用设置中显示了 App Insights 检测密钥，但函数应用的订阅中未找到 App Insights。请确保 App Insights 与函数应用在同一订阅中。</value>
+        <value>App Insights 检测密钥显示在应用设置中，但函数应用的订阅中找不到 App Insights。请确保 App Insights 与函数应用位于同一订阅中。</value>
     </data>
   <data name="table_startOfRow" xml:space="preserve">
         <value>行首</value>
@@ -3326,7 +3335,7 @@
         <value>高密度</value>
     </data>
   <data name="pricing_highDensityDesc" xml:space="preserve">
-        <value>有效地跨多个函数应用共享应用服务计划。</value>
+        <value>高效地跨多个函数应用共享应用服务计划。</value>
     </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
         <value>过渡槽</value>
@@ -4068,7 +4077,7 @@
         <value>立即创建</value>
     </data>
   <data name="topBar_updateExtensions" xml:space="preserve">
-        <value>需要更新函数扩展。</value>
+        <value>需要更新你的函数扩展。</value>
     </data>
   <data name="cloneConfigLoadFailure" xml:space="preserve">
         <value>未能检索源配置</value>
@@ -4365,7 +4374,7 @@
         <value>个人</value>
     </data>
   <data name="swaggerDefinitionReadOnly" xml:space="preserve">
-        <value>API 定义(Swagger)不适用于只读模式下的函数应用。</value>
+        <value>API 定义(Swagger)不适用于处于只读模式下的函数应用。</value>
     </data>
   <data name="troubleshootYourApp" xml:space="preserve">
         <value>排查应用故障</value>
@@ -4761,7 +4770,7 @@
         <value>部署槽位设置已启用</value>
     </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>隐藏值。单击上方的“显示值”按钮查看</value>
+        <value>隐藏值。单击可显示值</value>
     </data>
   <data name="fieldMustBeUnique" xml:space="preserve">
         <value>字段必须是唯一的。</value>
@@ -4791,7 +4800,7 @@
         <value>将在接下来的几个月内删除“逻辑应用”选项卡。你可继续使用 Azure 门户浏览功能来浏览逻辑应用。</value>
     </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-        <value>此功能仅适用于在 Linux 应用服务计划上运行的函数应用。有关运行时记录，请使用 Application Insights。</value>
+        <value>此功能只适用于在 Linux 应用服务计划上运行的函数应用。有关运行时日志记录，请使用 Application Insights。</value>
     </data>
   <data name="scaleOut" xml:space="preserve">
         <value>扩大</value>
@@ -5127,6 +5136,12 @@
   <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
         <value>{0} 详细信息</value>
     </data>
+  <data name="integratePageTitle" xml:space="preserve">
+        <value>Integration</value>
+    </data>
+  <data name="integratePageDescription" xml:space="preserve">
+        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
+    </data>
   <data name="_function" xml:space="preserve">
         <value>函数</value>
     </data>
@@ -5170,7 +5185,7 @@
         <value>新建函数</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>在此函数应用中创建一个新函数。选择下面的一个模板开始操作。</value>
+        <value>在此函数应用中新建函数。首先，请选择下面的模板。</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>模板</value>
@@ -5659,7 +5674,7 @@
         <value>对应用设置和连接字符串所做的任何更改都会重启应用。确定要继续操作吗?</value>
     </data>
   <data name="azureFunctionsV1Linux" xml:space="preserve">
-        <value>Linux Azure Function Apps 不支持版本 1 运行时</value>
+        <value>Linux Azure Functions 不支持版本 1 运行时</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
         <value>应用“{{appName}}”已设置堆栈“{{stack}}”，暂不支持在部署中心内通过 GitHub Actions 这样做。</value>
@@ -5683,7 +5698,7 @@
         <value>工作流选项</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Add or overwrite workflow definition</value>
+        <value>添加或覆盖工作流定义</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>使用现有工作流定义进行配置</value>
@@ -5695,7 +5710,7 @@
         <value>GitHub 中的现有工作流配置将被下面的配置覆盖。</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(没有功能键可显示)</value>
+        <value>没有功能键可显示</value>
     </data>
   <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>高级计划中的应用不支持此功能</value>
@@ -5734,48 +5749,237 @@
         <value>刷新函数的所有绑定</value>
     </data>
   <data name="gitHubProtectedBranchSelected" xml:space="preserve">
-        <value>Selected branch has protection rules enabled.</value>
+        <value>选定分支已启用保护规则。</value>
     </data>
   <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+        <value>无法在函数应用停止时查看或修改运行时版本。</value>
     </data>
   <data name="githubActionWorkflowsExist" xml:space="preserve">
-        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+        <value>“{{branchName}}”分支中已有 GitHub 操作工作流配置。请在下面选择是添加新工作流配置，还是继续使用现有工作流配置。</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+        <value>GitHub 中的现有工作流配置将用于生成和部署。</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
-        <value>Refresh app files</value>
+        <value>刷新应用文件</value>
     </data>
   <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
-        <value>Refresh code editor</value>
+        <value>刷新代码编辑器</value>
     </data>
   <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
         <value>删除触发器</value>
     </data>
   <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the trigger?</value>
+        <value>是否确定要删除触发器?</value>
     </data>
   <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
-        <value>Delete Output</value>
+        <value>删除输出</value>
     </data>
   <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
         <value>是否确实要删除此输出?</value>
     </data>
   <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
-        <value>Delete Input</value>
+        <value>删除输入</value>
     </data>
   <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>是否确实要删除此输入?</value>
     </data>
+  <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>未能加载一个或多个绑定，请刷新页面。</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
-        <value>Delete Function Key</value>
+        <value>删除功能键</value>
     </data>
   <data name="deleteFunctionKeyMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the key {0}?</value>
+        <value>是否确定要删除功能键 {0}?</value>
     </data>
   <data name="fetchFileContentFailureMessage" xml:space="preserve">
-        <value>Failed to fetch the file content</value>
+        <value>无法提取文件内容</value>
+    </data>
+  <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>应用设置中缺少选定连接</value>
+    </data>
+  <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
+        <value>没有可用的现有连接</value>
+    </data>
+  <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>以下绑定缺少所需的方向属性，可能放置不正确: {0}。请在 functions.json 文件中更新绑定。</value>
+    </data>
+  <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>调用</value>
+    </data>
+  <data name="functionMonitor_logs" xml:space="preserve">
+        <value>日志</value>
+    </data>
+  <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>在“实时指标”中打开</value>
+    </data>
+  <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>将 HTTP 触发器编辑为启用其他 HTTP 方法</value>
+    </data>
+  <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>不能将 x-functions-key 定义为自定义标头</value>
+    </data>
+  <data name="filterInvocations" xml:space="preserve">
+        <value>筛选器调用</value>
+    </data>
+  <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>在 Application Insights 中运行查询</value>
+    </data>
+  <data name="timestamp" xml:space="preserve">
+        <value>时间戳</value>
+    </data>
+  <data name="message" xml:space="preserve">
+        <value>消息</value>
+    </data>
+  <data name="successCount" xml:space="preserve">
+        <value>成功次数</value>
+    </data>
+  <data name="errorCount" xml:space="preserve">
+        <value>错误计数</value>
+    </data>
+  <data name="last30Days" xml:space="preserve">
+        <value>最近 30 天</value>
+    </data>
+  <data name="discardChangesTitle" xml:space="preserve">
+        <value>放弃更改</value>
+    </data>
+  <data name="discardChangesMesssage" xml:space="preserve">
+        <value>是否确定要放弃对文件 {0} 的更改?</value>
+    </data>
+  <data name="information" xml:space="preserve">
+        <value>信息</value>
+    </data>
+  <data name="verbose" xml:space="preserve">
+        <value>详细</value>
+    </data>
+  <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>是否确定要断开 GitHub Actions CICD 管道连接?</value>
+    </data>
+  <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>从存储库“{2}”的分支“{1}”中删除“{0}”工作流文件。如果不删除此文件，提交到此分支将会继续触发部署到应用。</value>
+    </data>
+  <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>断开连接</value>
+    </data>
+  <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>取消</value>
+    </data>
+  <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>从 Azure 门户中删除应用服务部署工作流配置。</value>
+    </data>
+  <data name="githubActionDashboardRepositoryMissingError" xml:space="preserve">
+        <value>找不到存储库“{0}”。若要进一步调查，请转到 GitHub 帐户。</value>
+    </data>
+  <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
+        <value>在存储库“{1}”中找不到分支“{0}”。若要进一步调查，请转到存储库。</value>
+    </data>
+  <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
+        <value>确认 GitHub 操作“断开连接”</value>
+    </data>
+  <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
+        <value>无法从存储库“{2}”的分支“{1}”中删除“{0}”工作流文件。这可能是由于文件正在重命名或已删除所致。</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
+        <value>无法断开部署连接，但工作流文件已成功删除。请尝试重新断开连接。</value>
+    </data>
+  <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
+        <value>无法建立与 Application Insights 的链接。请确保你拥有对函数应用的写入权限</value>
+    </data>
+  <data name="deploymentCenterCommandBarAriaLabel" xml:space="preserve">
+        <value>部署中心命令</value>
+    </data>
+  <data name="deploymentCenterSaveCommandAriaLabel" xml:space="preserve">
+        <value>部署中心保存命令</value>
+    </data>
+  <data name="deploymentCenterDiscardCommandAriaLabel" xml:space="preserve">
+        <value>部署中心放弃命令</value>
+    </data>
+  <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
+        <value>部署中心浏览命令</value>
+    </data>
+  <data name="deploymentCenterPublishProfileCommandAriaLabel" xml:space="preserve">
+        <value>部署中心管理发布配置文件命令</value>
+    </data>
+  <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
+        <value>部署中心刷新命令</value>
+    </data>
+  <data name="managePublishProfile" xml:space="preserve">
+        <value>管理发布配置文件</value>
+    </data>
+  <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>Azure 门户不支持编辑 Python 函数应用。请使用本地开发环境来编辑此函数。</value>
+    </data>
+  <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>Azure 门户不支持编辑 Java 函数应用。请使用本地开发环境来编辑此函数。</value>
+    </data>
+  <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>请使用本地开发环境来编辑此函数。此函数使用本地缓存，无法在此处进行编辑。</value>
+    </data>
+  <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>你的应用当前处于只读模式，因为你启用了源代码管理集成。</value>
+    </data>
+  <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>你的应用目前处于只读模式，因为你已配置部署槽位。</value>
+    </data>
+  <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>请使用本地开发环境来编辑此函数。此函数是在本地环境中创建的，无法在此处进行编辑。</value>
+    </data>
+  <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>你的应用目前处于只读模式，因为它已被手动设置为只读。</value>
+    </data>
+  <data name="connected" xml:space="preserve">
+        <value>已连接!</value>
+    </data>
+  <data name="blaclistFile_message" xml:space="preserve">
+        <value>门户编辑器不支持编辑此文件类型。</value>
+    </data>
+  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
+        <value>没有环境变量可显示</value>
+    </data>
+  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>添加新环境变量</value>
+    </data>
+  <data name="staticSite_environmentVariables" xml:space="preserve">
+        <value>环境变量</value>
+    </data>
+  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
+        <value>适用于你站点的环境变量已静态加密，并通过加密通道进行传输。你可以选择使用以下控件在浏览器中以纯文本形式显示它们。</value>
+    </data>
+  <data name="staticSite_environment" xml:space="preserve">
+        <value>环境</value>
+    </data>
+  <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
+        <value>为站点选择环境</value>
+    </data>
+  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
+        <value>Filter environment variable</value>
+    </data>
+  <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
+        <value>Add/Edit environment variable</value>
+    </data>
+  <data name="staticSite_discardChangesMesssage" xml:space="preserve">
+        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+    </data>
+  <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
+        <value>Your unsaved changes will be discarded.</value>
+    </data>
+  <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
+        <value>Are you sure you would like to change environment?</value>
+    </data>
+  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
+        <value>{0} is a required property on all environment variables</value>
+    </data>
+  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
+        <value>Environment variable name must be unique</value>
+    </data>
+  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
+        <value>Environment variable values must be an array</value>
+    </data>
+  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
+        <value>{0} is an invalid environment variable property</value>
+    </data>
+  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
+        <value>All environment variable value and name properties must be of type string</value>
     </data>
 </root>
