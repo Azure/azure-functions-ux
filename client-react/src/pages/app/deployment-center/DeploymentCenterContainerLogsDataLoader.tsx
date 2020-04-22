@@ -12,15 +12,15 @@ const DeploymentCenterContainerLogsDataLoader: React.FC<DeploymentCenterContaine
   const { resourceId } = props;
   const { t } = useTranslation();
   const deploymentCenterData = new DeploymentCenterData();
-  const [logsLoading, setLogsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [logs, setLogs] = useState(t('deploymentCenterContainerLogsLoading') as string);
 
   const fetchData = async () => {
-    setLogsLoading(true);
+    setIsLoading(true);
     setLogs(t('deploymentCenterContainerLogsLoading'));
 
     const logsResponse = await deploymentCenterData.fetchContainerLogs(resourceId);
-    setLogsLoading(false);
+    setIsLoading(false);
 
     if (logsResponse.metadata.status === 200) {
       setLogs(logsResponse.data);
@@ -38,7 +38,7 @@ const DeploymentCenterContainerLogsDataLoader: React.FC<DeploymentCenterContaine
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <DeploymentCenterContainerLogs logsLoading={logsLoading} logs={logs} />;
+  return <DeploymentCenterContainerLogs isLoading={isLoading} logs={logs} />;
 };
 
 export default DeploymentCenterContainerLogsDataLoader;
