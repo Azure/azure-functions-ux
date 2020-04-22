@@ -15,6 +15,6 @@ export const deploymentCenterContent = style({
 });
 
 export const containerLogs = style({
-  whiteSpace: 'normal',
+  whiteSpace: 'pre-line',
   margin: 0,
 });
