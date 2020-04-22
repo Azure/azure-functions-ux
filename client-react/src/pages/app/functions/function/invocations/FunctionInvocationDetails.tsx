@@ -5,7 +5,6 @@ import { AppInsightsInvocationTraceDetail, AppInsightsInvocationTrace } from '..
 import { invocationsTabStyle } from './FunctionInvocations.style';
 import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 
 export interface FunctionInvocationDetailsProps {
@@ -88,23 +87,18 @@ const FunctionInvocationDetails: React.FC<FunctionInvocationDetailsProps> = prop
   };
 
   return (
-    <div>
-      {!!invocationDetails ? (
-        <div id="invocation-details" className={invocationsTabStyle}>
-          <DisplayTableWithCommandBar
-            commandBarItems={getCommandBarItems()}
-            columns={getColumns()}
-            items={getItems()}
-            isHeaderVisible={true}
-            layoutMode={DetailsListLayoutMode.justified}
-            selectionMode={SelectionMode.none}
-            selectionPreservedOnEmptyClick={true}
-            emptyMessage={t('noResults')}
-          />
-        </div>
-      ) : (
-        <LoadingComponent />
-      )}
+    <div id="invocation-details" className={invocationsTabStyle}>
+      <DisplayTableWithCommandBar
+        commandBarItems={getCommandBarItems()}
+        columns={getColumns()}
+        items={getItems()}
+        isHeaderVisible={true}
+        layoutMode={DetailsListLayoutMode.justified}
+        selectionMode={SelectionMode.none}
+        selectionPreservedOnEmptyClick={true}
+        emptyMessage={t('noResults')}
+        shimmer={{ lines: 2, show: !invocationDetails }}
+      />
     </div>
   );
 };

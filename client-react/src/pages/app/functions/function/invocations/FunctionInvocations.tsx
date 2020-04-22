@@ -30,9 +30,9 @@ interface FunctionInvocationsProps {
   functionAppName: string;
   functionName: string;
   appInsightsResourceId: string;
-  monthlySummary: AppInsightsMonthlySummary;
   refreshInvocations: () => void;
   setCurrentTrace: (trace: AppInsightsInvocationTrace | undefined) => void;
+  monthlySummary?: AppInsightsMonthlySummary;
   invocationTraces?: AppInsightsInvocationTrace[];
   currentTrace?: AppInsightsInvocationTrace;
   invocationDetails?: AppInsightsInvocationTraceDetail[];
@@ -183,46 +183,49 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
 
       {/*Summary Items*/}
       <div id="summary-container" className={invocationsSummary}>
-        <div id="summary-success" className={summaryItem}>
-          <h4>{t('successCount')}</h4>
-          <SuccessSvg /> {monthlySummary.successCount}
-          <Label>{t('last30Days')}</Label>
-        </div>
-        <div id="summary-error" className={summaryItem}>
-          <h4>{t('errorCount')}</h4>
-          <ErrorSvg /> {monthlySummary.failedCount}
-          <Label>{t('last30Days')}</Label>
-        </div>
+        {!!monthlySummary ? (
+          <div>
+            <div id="summary-success" className={summaryItem}>
+              <h4>{t('successCount')}</h4>
+              <SuccessSvg /> {monthlySummary.successCount}
+              <Label>{t('last30Days')}</Label>
+            </div>
+            <div id="summary-error" className={summaryItem}>
+              <h4>{t('errorCount')}</h4>
+              <ErrorSvg /> {monthlySummary.failedCount}
+              <Label>{t('last30Days')}</Label>
+            </div>
+          </div>
+        ) : (
+          <LoadingComponent />
+        )}
       </div>
 
       {/*Invocation Traces Table*/}
-      {!!invocationTraces ? (
-        <div>
-          <h3>{t('invocationTracesTableTitle')}</h3>
-          <div>{t('invocationTracesTableDescription')}</div>
-          <DisplayTableWithCommandBar
-            commandBarItems={getCommandBarItems()}
-            columns={getColumns()}
-            items={filterValues()}
-            isHeaderVisible={true}
-            layoutMode={DetailsListLayoutMode.justified}
-            selectionMode={SelectionMode.none}
-            selectionPreservedOnEmptyClick={true}
-            emptyMessage={t('noResults')}>
-            <SearchBox
-              id="invocations-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterBoxStyle}
-              placeholder={t('filterInvocations')}
-              onChange={newValue => setFilterValue(newValue)}
-            />
-          </DisplayTableWithCommandBar>
-        </div>
-      ) : (
-        <LoadingComponent />
-      )}
+      <div>
+        <h3>{t('invocationTracesTableTitle')}</h3>
+        <div>{t('invocationTracesTableDescription')}</div>
+        <DisplayTableWithCommandBar
+          commandBarItems={getCommandBarItems()}
+          columns={getColumns()}
+          items={filterValues()}
+          isHeaderVisible={true}
+          layoutMode={DetailsListLayoutMode.justified}
+          selectionMode={SelectionMode.none}
+          selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('noResults')}
+          shimmer={{ lines: 2, show: !invocationTraces }}>
+          <SearchBox
+            id="invocations-search"
+            className="ms-slideDownIn20"
+            autoFocus
+            iconProps={{ iconName: 'Filter' }}
+            styles={filterBoxStyle}
+            placeholder={t('filterInvocations')}
+            onChange={newValue => setFilterValue(newValue)}
+          />
+        </DisplayTableWithCommandBar>
+      </div>
 
       {/*Invocation Details Panel*/}
       <Panel isOpen={!!currentTrace} onDismiss={() => setCurrentTrace(undefined)} headerText={'Invocation Details'} type={PanelType.medium}>
