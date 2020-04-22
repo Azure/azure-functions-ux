@@ -23,7 +23,7 @@ export default class FunctionsService {
   public static getFunctions = (resourceId: string, force?: boolean) => {
     const id = `${resourceId}/functions`;
 
-    return MakeArmCall<ArmArray<FunctionInfo>>({ resourceId: id, commandName: 'fetchFunctions', skipBuffer: force });
+    return MakeArmCall<ArmArray<FunctionInfo>>({ resourceId: id, commandName: 'fetchFunctions', skipBatching: force });
   };
 
   public static getFunction = (resourceId: string) => {
@@ -159,7 +159,7 @@ export default class FunctionsService {
       resourceId: `${resourceId}${FunctionsService._getVfsApiForRuntimeVersion(endpoint, runtimeVersion)}`,
       commandName: 'getFileContent',
       method: 'GET',
-      skipBuffer: !!fileName,
+      skipBatching: !!fileName,
     });
   }
 
@@ -178,7 +178,7 @@ export default class FunctionsService {
       commandName: 'saveFileContent',
       method: 'PUT',
       body: newFileContent,
-      skipBuffer: !!fileName,
+      skipBatching: !!fileName,
     });
   }
 
