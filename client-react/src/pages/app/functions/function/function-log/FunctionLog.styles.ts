@@ -14,9 +14,13 @@ export const logCommandBarStyle = style({
   height: `${logCommandBarHeight}px`,
 });
 
-export const logStreamStyle = (maximized: boolean, logPanelHeight: number, readOnlyBannerHeight: number) =>
+export const logStreamStyle = (maximized: boolean, logPanelHeight: number, readOnlyBannerHeight: number, customHeight?: number) =>
   style({
-    height: maximized ? `${getMaximizedLogPanelHeight(readOnlyBannerHeight)}px` : `${logPanelHeight}px`,
+    height: customHeight
+      ? `${customHeight}px`
+      : maximized
+      ? `${getMaximizedLogPanelHeight(readOnlyBannerHeight)}px`
+      : `${logPanelHeight}px`,
     backgroundColor: '#000000',
     overflow: 'auto',
     padding: '20px',
