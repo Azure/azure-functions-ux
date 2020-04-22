@@ -14,15 +14,15 @@ steps:
       npm ci
     displayName: 'npm install'
 
-  - script: |
-      cd client-react
-      npm run test --coverage --reporters="jest-junit"
-      cd ..
-      npm ci
-      ./node_modules/.bin/gulp inline-react-code-coverage # fix ADO rendering
-    displayName: 'run unit tests'
-    env:
-      CI: true
+  # - script: |
+  #     cd client-react
+  #     npm run test --coverage --reporters="jest-junit"
+  #     cd ..
+  #     npm ci
+  #     ./node_modules/.bin/gulp inline-react-code-coverage # fix ADO rendering
+  #   displayName: 'run unit tests'
+  #   env:
+  #     CI: true
 
   - script: |
       cd client-react
