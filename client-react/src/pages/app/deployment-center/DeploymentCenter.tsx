@@ -1,6 +1,7 @@
 import React from 'react';
 import { commandBarSticky } from './DeploymentCenter.styles';
 import DeploymentCenterCommandBar from './DeploymentCenterCommandBar';
+import MonacoEditor from '../../../components/monaco-editor/monaco-editor';
 
 interface DeploymentCenterProps {
   resourceId: string;
@@ -43,6 +44,7 @@ const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
 
       <div>
         <h2>Deployment Center Preview for {resourceId}</h2>
+        <MonacoEditor value={''} language={'json'} />
       </div>
     </div>
   );
