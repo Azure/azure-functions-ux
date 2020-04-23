@@ -138,9 +138,9 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
 
   const onRenderDateColumn = (trace: AppInsightsInvocationTrace, index: number, column: IColumn) => {
     return (
-      <span id={`invocations-${index}`} onClick={() => setCurrentTrace(trace)} role="button">
-        <Link>{trace[column.fieldName!]}</Link>
-      </span>
+      <Link id={`invocations-${index}`} onClick={() => setCurrentTrace(trace)} role="button">
+        {trace[column.fieldName!]}
+      </Link>
     );
   };
 
