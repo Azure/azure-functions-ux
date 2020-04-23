@@ -13,6 +13,7 @@ import {
   PanelType,
   MessageBarType,
   Label,
+  Link,
 } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { invocationsTabStyle, filterBoxStyle, invocationsSummary, summaryItem, successElement } from './FunctionInvocations.style';
@@ -138,7 +139,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
   const onRenderDateColumn = (trace: AppInsightsInvocationTrace, index: number, column: IColumn) => {
     return (
       <span id={`invocations-${index}`} onClick={() => setCurrentTrace(trace)} role="button">
-        {trace[column.fieldName!]}
+        <Link>{trace[column.fieldName!]}</Link>
       </span>
     );
   };
