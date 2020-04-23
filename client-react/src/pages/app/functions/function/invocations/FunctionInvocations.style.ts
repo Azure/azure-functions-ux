@@ -48,3 +48,8 @@ export const successElement = style({
     },
   },
 });
+
+export const invocationsTable = style({
+  overflowY: 'auto',
+  height: 'calc(100vh - 260px)',
+});
