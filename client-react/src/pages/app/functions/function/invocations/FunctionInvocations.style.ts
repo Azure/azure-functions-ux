@@ -2,7 +2,6 @@ import { style } from 'typestyle';
 
 export const invocationsTabStyle = style({
   padding: '5px 8px',
-  overflow: 'auto',
 });
 
 export const filterBoxStyle = { root: { marginTop: '5px', height: '25px', width: '100%' } };
