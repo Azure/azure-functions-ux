@@ -53,7 +53,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     fetchEnvironmentVariables,
     selectedEnvironmentVariableResponse,
     saveEnvironmentVariables,
-    refresh,
     isLoading,
     hasWritePermissions,
   } = props;
@@ -310,8 +309,12 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const onDropdownChange = (environment: ArmObj<Environment>) => {
-    setOnChangeEnvironment(environment);
-    setIsOnChangeConfirmDialogVisible(true);
+    if (isDirty) {
+      setOnChangeEnvironment(environment);
+      setIsOnChangeConfirmDialogVisible(true);
+    } else {
+      onEnvironmentChange(environment);
+    }
   };
 
   const isEnvironmentVariableDirty = (index: number): boolean => {
@@ -415,6 +418,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     if (environments.length > 0 && !selectedEnvironment) {
       onEnvironmentChange(environments[0]);
     }
+  };
+
+  const refresh = () => {
+    setSelectedEnvironment(undefined);
+    props.refresh();
   };
 
   useEffect(() => {

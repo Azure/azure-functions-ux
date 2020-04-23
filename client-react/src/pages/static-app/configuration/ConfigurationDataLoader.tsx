@@ -73,6 +73,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   };
 
   const fetchEnvironmentVariables = async (environmentResourceId: string) => {
+    setIsRefreshing(true);
     const environmentSettingsResponse = await EnvironmentService.fetchEnvironmentSettings(environmentResourceId);
     if (environmentSettingsResponse.metadata.success) {
       setSelectedEnvironmentVariableResponse(environmentSettingsResponse.data);
