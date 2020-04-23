@@ -2,6 +2,7 @@ import { style } from 'typestyle';
 
 export const invocationsTabStyle = style({
   padding: '5px 8px',
+  overflow: 'auto',
 });
 
 export const filterBoxStyle = { root: { marginTop: '5px', height: '25px', width: '100%' } };
@@ -47,4 +48,10 @@ export const successElement = style({
       left: '1px',
     },
   },
+});
+
+export const invocationsTable = style({
+  overflowX: 'hidden',
+  overflowY: 'auto',
+  height: 'calc(100vh - 260px)',
 });

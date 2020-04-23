@@ -16,7 +16,14 @@ import {
   Link,
 } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { invocationsTabStyle, filterBoxStyle, invocationsSummary, summaryItem, successElement } from './FunctionInvocations.style';
+import {
+  invocationsTabStyle,
+  filterBoxStyle,
+  invocationsSummary,
+  summaryItem,
+  successElement,
+  invocationsTable,
+} from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../../../../images/Common/Error.svg';
 import { ReactComponent as SuccessSvg } from '../../../../../images/Common/Success.svg';
@@ -206,26 +213,28 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
       <div>
         <h3>{t('invocationTracesTableTitle')}</h3>
         <div>{t('invocationTracesTableDescription')}</div>
-        <DisplayTableWithCommandBar
-          commandBarItems={getCommandBarItems()}
-          columns={getColumns()}
-          items={filterValues()}
-          isHeaderVisible={true}
-          layoutMode={DetailsListLayoutMode.justified}
-          selectionMode={SelectionMode.none}
-          selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('noResults')}
-          shimmer={{ lines: 2, show: !invocationTraces }}>
-          <SearchBox
-            id="invocations-search"
-            className="ms-slideDownIn20"
-            autoFocus
-            iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
-            placeholder={t('filterInvocations')}
-            onChange={newValue => setFilterValue(newValue)}
-          />
-        </DisplayTableWithCommandBar>
+        <div className={invocationsTable}>
+          <DisplayTableWithCommandBar
+            commandBarItems={getCommandBarItems()}
+            columns={getColumns()}
+            items={filterValues()}
+            isHeaderVisible={true}
+            layoutMode={DetailsListLayoutMode.justified}
+            selectionMode={SelectionMode.none}
+            selectionPreservedOnEmptyClick={true}
+            emptyMessage={t('noResults')}
+            shimmer={{ lines: 2, show: !invocationTraces }}>
+            <SearchBox
+              id="invocations-search"
+              className="ms-slideDownIn20"
+              autoFocus
+              iconProps={{ iconName: 'Filter' }}
+              styles={filterBoxStyle}
+              placeholder={t('filterInvocations')}
+              onChange={newValue => setFilterValue(newValue)}
+            />
+          </DisplayTableWithCommandBar>
+        </div>
       </div>
 
       {/*Invocation Details Panel*/}
