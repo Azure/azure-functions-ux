@@ -238,7 +238,8 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           className={defaultCellStyle}
           disabled={disableAllControls}
           id={`app-settings-application-settings-name-${index}`}
-          onClick={() => onShowPanel(item)}>
+          onClick={() => onShowPanel(item)}
+          ariaLabel={item[column.fieldName!]}>
           <span aria-live="assertive" role="region">
             {item[column.fieldName!]}
           </span>
