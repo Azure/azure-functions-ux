@@ -50,7 +50,6 @@ export const successElement = style({
 });
 
 export const invocationsTable = style({
-  overflowX: 'hidden',
   overflowY: 'auto',
   height: 'calc(100vh - 260px)',
 });
