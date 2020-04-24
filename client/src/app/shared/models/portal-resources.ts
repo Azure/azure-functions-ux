@@ -1804,6 +1804,8 @@ export class PortalResources {
   public static functionsRuntimeVersionInvalidWarning = 'functionsRuntimeVersionInvalidWarning';
   public static functionsRuntimeVersionCustomInfo = 'functionsRuntimeVersionCustomInfo';
   public static functionsRuntimeVersionExistingFunctionsWarning = 'functionsRuntimeVersionExistingFunctionsWarning';
+  public static functionsRuntimeVersionExistingFunctionsConfirmationTitle = 'functionsRuntimeVersionExistingFunctionsConfirmationTitle';
+  public static functionsRuntimeVersionExistingFunctionsConfirmationMessage = 'functionsRuntimeVersionExistingFunctionsConfirmationMessage';
   public static githubActionWorkflowScopeMissing = 'githubActionWorkflowScopeMissing';
   public static githubActionWorkflowFileExists = 'githubActionWorkflowFileExists';
   public static remoteDebuggingVS2015NotSupported = 'remoteDebuggingVS2015NotSupported';

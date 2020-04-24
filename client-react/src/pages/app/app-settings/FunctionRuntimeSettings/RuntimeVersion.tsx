@@ -5,13 +5,31 @@ import { PermissionsContext } from '../Contexts';
 import { addOrUpdateFormAppSetting, findFormAppSettingValue, removeFormAppSetting } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
-import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
+import { IDropdownOption } from 'office-ui-fabric-react';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
 import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import { HostStates } from '../../../../models/functions/host-status';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+
+const isBreakingChange = (oldVersion: RuntimeExtensionMajorVersions | null, newVersion: RuntimeExtensionMajorVersions) => {
+  if (oldVersion === RuntimeExtensionMajorVersions.custom || newVersion === RuntimeExtensionMajorVersions.custom) {
+    // If the user is setting a customer version, we assume they know what they're doing.
+    return false;
+  }
+
+  switch (oldVersion) {
+    case RuntimeExtensionMajorVersions.v1:
+      // For V1, changing major versions is not supported.
+      return newVersion !== RuntimeExtensionMajorVersions.v1;
+    case RuntimeExtensionMajorVersions.v2:
+    case RuntimeExtensionMajorVersions.v3:
+      // For V2 and V3, switching between V2 and V3 is supported.
+      return newVersion !== RuntimeExtensionMajorVersions.v2 && newVersion !== RuntimeExtensionMajorVersions.v3;
+    default:
+      return true;
+  }
+};
 
 const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props => {
   const [pendingVersion, setPendingVersion] = useState<RuntimeExtensionMajorVersions | null>(null);
@@ -87,27 +105,19 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
       ];
     }
 
-    const runtimeVersionInUse = getRuntimeVersionInUse();
-    const disableV1 =
-      hasFunctions &&
-      (runtimeVersionInUse === RuntimeExtensionMajorVersions.v2 || runtimeVersionInUse === RuntimeExtensionMajorVersions.v3);
-    const disableV2AndV3 = hasFunctions && runtimeVersionInUse === RuntimeExtensionMajorVersions.v1;
-
     return [
       {
         key: RuntimeExtensionMajorVersions.v1,
         text: RuntimeExtensionMajorVersions.v1,
-        disabled: isLinuxApp(values.site) || disableV1,
+        disabled: isLinuxApp(values.site),
       },
       {
         key: RuntimeExtensionMajorVersions.v2,
         text: RuntimeExtensionMajorVersions.v2,
-        disabled: disableV2AndV3,
       },
       {
         key: RuntimeExtensionMajorVersions.v3,
         text: RuntimeExtensionMajorVersions.v3,
-        disabled: disableV2AndV3,
       },
     ];
   };
@@ -126,14 +136,14 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   };
 
   const onDropDownChange = (newVersion: RuntimeExtensionMajorVersions) => {
-    //   if (!confirm('Are you sure?')) {
-    //     return;
-    //   }
-
-    setPendingVersion(newVersion);
+    if (hasFunctions && isBreakingChange(getRuntimeVersionInUse(), newVersion)) {
+      setPendingVersion(newVersion);
+    } else {
+      updateDropDownValue(newVersion);
+    }
   };
 
-  const onDropDownChange2 = (newVersion: RuntimeExtensionMajorVersions) => {
+  const updateDropDownValue = (newVersion: RuntimeExtensionMajorVersions) => {
     let appSettings: FormAppSetting[] = [...values.appSettings];
 
     // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
@@ -167,6 +177,18 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
     setFieldValue('appSettings', appSettings);
   };
 
+  const getInfoBubbleMessage = () => {
+    if (runtimeMajorVersion === RuntimeExtensionMajorVersions.custom) {
+      return t('functionsRuntimeVersionCustomInfo');
+    }
+
+    if (hasFunctions && isBreakingChange(getRuntimeVersionInUse(), runtimeMajorVersion)) {
+      return t('functionsRuntimeVersionExistingFunctionsWarning').format(getRuntimeVersionInUse(), runtimeMajorVersion);
+    }
+
+    return undefined;
+  };
+
   return (
     <>
       {app_write && editable && (
@@ -176,7 +198,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
               primaryActionButton={{
                 title: t('continue'),
                 onClick: () => {
-                  onDropDownChange2(pendingVersion);
+                  updateDropDownValue(pendingVersion);
                   setPendingVersion(null);
                 },
               }}
@@ -184,19 +206,10 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
                 title: t('cancel'),
                 onClick: () => setPendingVersion(null),
               }}
-              title={'Are you sure?'}
-              content={
-                'Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? Are you really sure? '
-              }
+              title={t('functionsRuntimeVersionExistingFunctionsConfirmationTitle')}
+              content={t('functionsRuntimeVersionExistingFunctionsConfirmationMessage').format(getRuntimeVersionInUse(), pendingVersion)}
               hidden={!pendingVersion}
               onDismiss={() => setPendingVersion(null)}
-            />
-          )}
-          {(hasFunctions || !hasFunctions) && (
-            <CustomBanner
-              id="function-app-settings-runtime-version-message"
-              message={t('functionsRuntimeVersionExistingFunctionsWarning')}
-              type={MessageBarType.warning}
             />
           )}
           <DropdownNoFormik
@@ -208,9 +221,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
             disabled={disableAllControls || dropDownDisabled()}
             label={t('runtimeVersion')}
             id="function-app-settings-runtime-version"
-            infoBubbleMessage={
-              runtimeMajorVersion === RuntimeExtensionMajorVersions.custom ? t('functionsRuntimeVersionCustomInfo') : undefined
-            }
+            infoBubbleMessage={getInfoBubbleMessage()}
           />
         </>
       )}
