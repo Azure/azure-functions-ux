@@ -117,7 +117,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Add' },
         name: t('staticSite_addNewEnvironmentVariable'),
-        ariaLabel: t('staticSite_addNewEnvironmentVariable'),
+        ariaLabel: t('staticSite_ariaLabel_addNewEnvironmentVariable'),
       },
       {
         key: 'environment-variable-show-hide',
