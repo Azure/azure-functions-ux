@@ -2,10 +2,6 @@ import { Logger, LoggerService } from '@nestjs/common';
 import { AppServicePerformanceCounters } from '../../types/app-service-performance-counters';
 import * as appInsights from 'applicationinsights';
 
-interface ContextObject {
-  [name: string]: string;
-}
-
 export class LoggingService extends Logger implements LoggerService {
   private client: appInsights.TelemetryClient;
   constructor() {
@@ -21,7 +17,7 @@ export class LoggingService extends Logger implements LoggerService {
         .setAutoCollectConsole(true)
         .setUseDiskRetryCaching(true)
         .start();
-      setInterval(this._trackAppServicePerformance, 30 * 1000);
+      setInterval(this.trackAppServicePerformance, 30 * 1000);
       this.client = appInsights.defaultClient;
     }
   }
@@ -58,10 +54,10 @@ export class LoggingService extends Logger implements LoggerService {
       name,
       properties,
       measurements,
-      contextObjects: this._getContextObject(),
     });
   }
-  private _trackAppServicePerformance() {
+
+  private trackAppServicePerformance() {
     // this is a special environment variable on AppService
     // It contains a JSON with the structure defined in AppServicePerformanceCounters
     // We track these as perf metrics into app insights
@@ -71,17 +67,9 @@ export class LoggingService extends Logger implements LoggerService {
       const counters = JSON.parse(value) as AppServicePerformanceCounters;
       for (const counterName in counters) {
         if (counters.hasOwnProperty(counterName)) {
-          client.trackMetric({ name: counterName, value: counters[counterName], contextObjects: this._getContextObject() });
+          client.trackMetric({ name: counterName, value: counters[counterName] });
         }
       }
     }
-  }
-
-  private _getContextObject(): ContextObject {
-    return {
-      hostName: process.env.WEBSITE_HOSTNAME,
-      appName: process.env.WEBSITE_SITE_NAME,
-      version: process.env.VERSION,
-    };
   }
 }
