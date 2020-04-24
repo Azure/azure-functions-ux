@@ -55,8 +55,6 @@ const FunctionInvocationDetails: React.FC<FunctionInvocationDetailsProps> = prop
         fieldName: 'timestampFriendly',
         minWidth: 100,
         maxWidth: 170,
-        isRowHeader: true,
-        isPadded: true,
         isResizable: true,
       },
       {
@@ -65,9 +63,8 @@ const FunctionInvocationDetails: React.FC<FunctionInvocationDetailsProps> = prop
         fieldName: 'message',
         minWidth: 100,
         maxWidth: 260,
-        isRowHeader: false,
-        isPadded: true,
         isResizable: true,
+        isMultiline: true,
       },
       {
         key: 'type',
@@ -75,8 +72,6 @@ const FunctionInvocationDetails: React.FC<FunctionInvocationDetailsProps> = prop
         fieldName: 'logLevel',
         minWidth: 100,
         maxWidth: 100,
-        isRowHeader: false,
-        isPadded: true,
         isResizable: true,
       },
     ];
