@@ -6024,4 +6024,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="invocationTracesTableDescription" xml:space="preserve">
         <value>The twenty most recent function invocation traces. For more advanced analysis, run the query in Application Insights.</value>
     </data>
+    <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
+        <value>Refresh environment variables</value>
+    </data>
+    <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
+        <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
+    </data>
 </root>

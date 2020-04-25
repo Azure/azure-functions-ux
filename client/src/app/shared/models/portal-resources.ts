@@ -1950,4 +1950,6 @@ export class PortalResources {
   public static deploymentCenterContainerLogsFailedWithError = 'deploymentCenterContainerLogsFailedWithError';
   public static invocationTracesTableTitle = 'invocationTracesTableTitle';
   public static invocationTracesTableDescription = 'invocationTracesTableDescription';
+  public static staticSite_refreshConfirmTitle = 'staticSite_refreshConfirmTitle';
+  public static staticSite_refreshConfirmMessage = 'staticSite_refreshConfirmMessage';
 }
