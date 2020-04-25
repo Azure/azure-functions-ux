@@ -59,7 +59,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
       {copyButton && (
         <TooltipHost content={getCopiedLabel()} calloutProps={{ gapSpace: 0 }} onTooltipToggle={isVisible => changeCopiedLabel(isVisible)}>
           <IconButton
-            className={copyButtonStyle(theme, fullpage)}
+            className={copyButtonStyle(theme, fullpage, !!errorMessage)}
             id={`${id}-copy-button`}
             iconProps={{ iconName: 'Copy' }}
             onClick={copyToClipboard}
