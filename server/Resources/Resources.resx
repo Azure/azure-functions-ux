@@ -5958,9 +5958,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
         <value>Filter environment variable</value>
     </data>
-    <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
-        <value>Add/Edit environment variable</value>
-    </data>
     <data name="staticSite_discardChangesMesssage" xml:space="preserve">
         <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
     </data>
@@ -6023,5 +6020,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="invocationTracesTableDescription" xml:space="preserve">
         <value>The twenty most recent function invocation traces. For more advanced analysis, run the query in Application Insights.</value>
+    </data>
+    <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
+        <value>Add environment variable</value>
+    </data>
+    <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
+        <value>Edit environment variable</value>
     </data>
 </root>
