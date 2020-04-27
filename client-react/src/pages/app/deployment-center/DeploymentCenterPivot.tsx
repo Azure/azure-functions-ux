@@ -4,13 +4,16 @@ import DeploymentCenterContainerSettings from './DeploymentCenterContainerSettin
 import DeploymentCenterFtps from './DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterContainerLogsDataLoader from './DeploymentCenterContainerLogsDataLoader';
+import { FormikProps } from 'formik';
+import { DeploymentCenterFormValues } from './DeploymentCenter.types';
 
 interface DeploymentCenterPivotProps {
   resourceId: string;
+  formValues: FormikProps<DeploymentCenterFormValues>;
 }
 
 const DeploymentCenterPivot: React.FC<DeploymentCenterPivotProps> = props => {
-  const { resourceId } = props;
+  const { resourceId, formValues } = props;
   const { t } = useTranslation();
 
   return (
@@ -24,11 +27,11 @@ const DeploymentCenterPivot: React.FC<DeploymentCenterPivotProps> = props => {
       <PivotItem
         headerText={t('deploymentCenterPivotItemContainerSettingsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemContainerSettingsAriaLabel')}>
-        <DeploymentCenterContainerSettings resourceId={resourceId} />
+        <DeploymentCenterContainerSettings resourceId={resourceId} formValues={formValues} />
       </PivotItem>
 
       <PivotItem headerText={t('deploymentCenterPivotItemFtpsHeaderText')} ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}>
-        <DeploymentCenterFtps resourceId={resourceId} />
+        <DeploymentCenterFtps {...formValues} />
       </PivotItem>
     </Pivot>
   );

@@ -2,27 +2,24 @@ import React from 'react';
 import { commandBarSticky, pivotContent } from './DeploymentCenter.styles';
 import DeploymentCenterCommandBar from './DeploymentCenterCommandBar';
 import DeploymentCenterPivot from './DeploymentCenterPivot';
+import { FormikProps } from 'formik';
+import { DeploymentCenterFormValues } from './DeploymentCenter.types';
 
 interface DeploymentCenterProps {
   resourceId: string;
+  formValues: FormikProps<DeploymentCenterFormValues>;
+  saveFunction: () => void;
+  refreshFunction: () => void;
 }
 
 const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
-  const { resourceId } = props;
-
-  const saveFunction = () => {
-    throw Error('Not implemented');
-  };
+  const { resourceId, formValues, saveFunction, refreshFunction } = props;
 
   const discardFunction = () => {
     throw Error('Not implemented');
   };
 
   const managePublishProfileFunction = () => {
-    throw Error('Not implemented');
-  };
-
-  const refreshFunction = () => {
     throw Error('Not implemented');
   };
 
@@ -38,7 +35,7 @@ const DeploymentCenter: React.FC<DeploymentCenterProps> = props => {
       </div>
 
       <div className={pivotContent}>
-        <DeploymentCenterPivot resourceId={resourceId} />
+        <DeploymentCenterPivot resourceId={resourceId} formValues={formValues} />
       </div>
     </>
   );

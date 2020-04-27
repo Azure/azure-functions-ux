@@ -1923,6 +1923,7 @@ export class PortalResources {
   public static blaclistFile_message = 'blaclistFile_message';
   public static staticSite_emptyEnvironmentVariableList = 'staticSite_emptyEnvironmentVariableList';
   public static staticSite_addNewEnvironmentVariable = 'staticSite_addNewEnvironmentVariable';
+  public static staticSite_ariaLabel_addNewEnvironmentVariable = 'staticSite_ariaLabel_addNewEnvironmentVariable';
   public static staticSite_environmentVariables = 'staticSite_environmentVariables';
   public static staticSite_environmentVariablesInfoMessage = 'staticSite_environmentVariablesInfoMessage';
   public static staticSite_environment = 'staticSite_environment';
@@ -1949,9 +1950,19 @@ export class PortalResources {
   public static deploymentCenterContainerLogsFailedWithError = 'deploymentCenterContainerLogsFailedWithError';
   public static invocationTracesTableTitle = 'invocationTracesTableTitle';
   public static invocationTracesTableDescription = 'invocationTracesTableDescription';
-  public static staticSite_addEnvironmentVariableHeader = 'staticSite_addEnvironmentVariableHeader';
-  public static staticSite_editEnvironmentVariableHeader = 'staticSite_editEnvironmentVariableHeader';
-  public static staticSite_ariaLabel_addNewEnvironmentVariable = 'staticSite_ariaLabel_addNewEnvironmentVariable';
   public static staticSite_refreshConfirmTitle = 'staticSite_refreshConfirmTitle';
   public static staticSite_refreshConfirmMessage = 'staticSite_refreshConfirmMessage';
+  public static staticSite_addEnvironmentVariableHeader = 'staticSite_addEnvironmentVariableHeader';
+  public static staticSite_editEnvironmentVariableHeader = 'staticSite_editEnvironmentVariableHeader';
+  public static deploymentCenterFtpsDescription = 'deploymentCenterFtpsDescription';
+  public static deploymentCenterFtpsEndpointLabel = 'deploymentCenterFtpsEndpointLabel';
+  public static deploymentCenterFtpsApplicationScopeTitle = 'deploymentCenterFtpsApplicationScopeTitle';
+  public static deploymentCenterFtpsApplicationScopeDescription = 'deploymentCenterFtpsApplicationScopeDescription';
+  public static deploymentCenterFtpsUserScopeTitle = 'deploymentCenterFtpsUserScopeTitle';
+  public static deploymentCenterFtpsUserScopeDescription = 'deploymentCenterFtpsUserScopeDescription';
+  public static deploymentCenterFtpsUserScopeSampleUsername = 'deploymentCenterFtpsUserScopeSampleUsername';
+  public static deploymentCenterFtpsUsernameLabel = 'deploymentCenterFtpsUsernameLabel';
+  public static deploymentCenterFtpsPasswordLabel = 'deploymentCenterFtpsPasswordLabel';
+  public static deploymentCenterFtpsConfirmPasswordLabel = 'deploymentCenterFtpsConfirmPasswordLabel';
+  public static deploymentCenterFtpsWritePermissionRequired = 'deploymentCenterFtpsWritePermissionRequired';
 }

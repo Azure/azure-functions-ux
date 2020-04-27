@@ -12,9 +12,14 @@ export const pivotContent = style({
 
 export const deploymentCenterContent = style({
   marginTop: '20px',
+  maxWidth: '800px',
 });
 
 export const containerLogs = style({
   whiteSpace: 'pre-line',
   margin: 0,
+});
+
+export const FtpsFields = style({
+  marginTop: '20px',
 });
