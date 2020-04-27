@@ -68,6 +68,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
   const [isOnChangeConfirmDialogVisible, setIsOnChangeConfirmDialogVisible] = useState(false);
   const [onChangeEnvironment, setOnChangeEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
+  const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
 
   const { t } = useTranslation();
 
@@ -389,8 +390,13 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const refresh = () => {
+    setIsRefreshConfirmDialogVisible(false);
     setSelectedEnvironment(undefined);
     props.refresh();
+  };
+
+  const hideRefreshConfirmDialog = () => {
+    setIsRefreshConfirmDialogVisible(false);
   };
 
   useEffect(() => {
@@ -417,7 +423,13 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           dirty={isDirty}
           isLoading={isLoading}
           showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)}
-          refresh={refresh}
+          refresh={() => {
+            if (isDirty) {
+              setIsRefreshConfirmDialogVisible(true);
+            } else {
+              refresh();
+            }
+          }}
         />
       </div>
       {!hasWritePermissions && <CustomBanner message={t('staticSite_readOnlyRbac')} type={MessageBarType.info} />}
@@ -451,6 +463,20 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           content={t('staticSite_changeEnvironmentMessage')}
           hidden={!isOnChangeConfirmDialogVisible}
           onDismiss={hideOnChangeConfirmDialog}
+        />
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('ok'),
+            onClick: refresh,
+          }}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: hideRefreshConfirmDialog,
+          }}
+          title={t('staticSite_refreshConfirmTitle')}
+          content={t('staticSite_refreshConfirmMessage')}
+          hidden={!isRefreshConfirmDialogVisible}
+          onDismiss={hideRefreshConfirmDialog}
         />
       </>
       <div className={formStyle}>
