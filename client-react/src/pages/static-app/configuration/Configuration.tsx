@@ -33,6 +33,7 @@ import ConfigurationData from './Configuration.data';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import { Links } from '../../../utils/FwLinks';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
@@ -489,7 +490,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             target="_blank"
             className={learnMoreLinkStyle}
             aria-labelledby="environment-variable-info-message">
-            {` ${t('learnMore')}`}
+            {Links.staticSiteEnvironmentVariablesLearnMore}
           </Link>
         </p>
         <ConfigurationEnvironmentSelector
