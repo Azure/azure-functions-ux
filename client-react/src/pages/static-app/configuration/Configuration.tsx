@@ -502,7 +502,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         <Panel
           isOpen={showPanel && panelType === PanelType.edit}
           onDismiss={onCancel}
-          headerText={t('staticSite_addEditEnvironmentVariable')}>
+          headerText={
+            currentEnvironmentVariableIndex === undefined
+              ? t('staticSite_addEnvironmentVariableHeader')
+              : t('staticSite_editEnvironmentVariableHeader')
+          }>
           <ConfigurationAddEdit
             currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
             environmentVariables={environmentVariables}
