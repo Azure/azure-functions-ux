@@ -76,7 +76,7 @@ export const infoIconStyle = (theme: ThemeExtended) =>
     paddingRight: '5px',
   });
 
-export const copyButtonStyle = (theme: ThemeExtended, fullpage: boolean = true) =>
+export const copyButtonStyle = (theme: ThemeExtended, fullpage: boolean = true, textFieldErrorVisible: boolean = false) =>
   style({
     marginLeft: fullpage ? '5px' : 0,
     width: '25px',
@@ -88,6 +88,7 @@ export const copyButtonStyle = (theme: ThemeExtended, fullpage: boolean = true) 
         color: theme.semanticColors.buttonTextChecked,
       },
     },
+    marginBottom: textFieldErrorVisible ? '21px' : '',
   });
 
 export const learnMoreLinkStyle = style({ minWidth: '70px' });

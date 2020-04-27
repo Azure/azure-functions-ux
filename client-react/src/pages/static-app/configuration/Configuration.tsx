@@ -118,7 +118,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Add' },
         name: t('staticSite_addNewEnvironmentVariable'),
-        ariaLabel: t('staticSite_addNewEnvironmentVariable'),
+        ariaLabel: t('staticSite_ariaLabel_addNewEnvironmentVariable'),
       },
       {
         key: 'environment-variable-show-hide',
@@ -431,12 +431,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             }
           }}
         />
-        <ConfigurationEnvironmentSelector
-          environments={environments}
-          onDropdownChange={onDropdownChange}
-          disabled={isLoading || !hasWritePermissions}
-          selectedEnvironment={selectedEnvironment}
-        />
       </div>
       {!hasWritePermissions && <CustomBanner message={t('staticSite_readOnlyRbac')} type={MessageBarType.info} />}
       <>
@@ -498,6 +492,12 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             {` ${t('learnMore')}`}
           </Link>
         </p>
+        <ConfigurationEnvironmentSelector
+          environments={environments}
+          onDropdownChange={onDropdownChange}
+          disabled={isLoading || !hasWritePermissions}
+          selectedEnvironment={selectedEnvironment}
+        />
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
           columns={getColumns()}
@@ -528,7 +528,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         <Panel
           isOpen={showPanel && panelType === PanelType.edit}
           onDismiss={onCancel}
-          headerText={t('staticSite_addEditEnvironmentVariable')}>
+          headerText={
+            currentEnvironmentVariableIndex === undefined
+              ? t('staticSite_addEnvironmentVariableHeader')
+              : t('staticSite_editEnvironmentVariableHeader')
+          }>
           <ConfigurationAddEdit
             currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
             environmentVariables={environmentVariables}
