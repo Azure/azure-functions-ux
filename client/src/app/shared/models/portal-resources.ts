@@ -1951,4 +1951,5 @@ export class PortalResources {
   public static invocationTracesTableDescription = 'invocationTracesTableDescription';
   public static staticSite_addEnvironmentVariableHeader = 'staticSite_addEnvironmentVariableHeader';
   public static staticSite_editEnvironmentVariableHeader = 'staticSite_editEnvironmentVariableHeader';
+  public static staticSite_ariaLabel_addNewEnvironmentVariable = 'staticSite_ariaLabel_addNewEnvironmentVariable';
 }

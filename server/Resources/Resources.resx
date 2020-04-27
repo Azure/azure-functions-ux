@@ -5941,6 +5941,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>No environment variables to display</value>
     </data>
     <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Add</value>
+    </data>
+    <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
         <value>Add new environment variable</value>
     </data>
     <data name="staticSite_environmentVariables" xml:space="preserve">
