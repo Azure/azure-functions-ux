@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { ThemeContext } from '../../../ThemeContext';
+import React from 'react';
 import { environmentSelectorStackStyle, environmentSelectorLabelStyle } from './Configuration.styles';
 import { useTranslation } from 'react-i18next';
 import { Dropdown as OfficeDropdown, Stack, Label, IDropdownOption } from 'office-ui-fabric-react';
@@ -18,7 +17,6 @@ interface ConfigurationEnvironmentSelectorProps {
 const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelectorProps> = props => {
   const { environments, onDropdownChange, disabled, selectedEnvironment } = props;
 
-  const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
   const dropdownOptions: IDropdownOption[] = environments.map(environment => {
@@ -35,7 +33,7 @@ const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelecto
   };
 
   return (
-    <Stack horizontal className={environmentSelectorStackStyle(theme)}>
+    <Stack horizontal className={environmentSelectorStackStyle()}>
       <Label className={environmentSelectorLabelStyle}>{t('staticSite_environment')}</Label>
       <OfficeDropdown
         id="configuration-environment-selector"
