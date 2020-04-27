@@ -419,12 +419,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)}
           refresh={refresh}
         />
-        <ConfigurationEnvironmentSelector
-          environments={environments}
-          onDropdownChange={onDropdownChange}
-          disabled={isLoading || !hasWritePermissions}
-          selectedEnvironment={selectedEnvironment}
-        />
       </div>
       {!hasWritePermissions && <CustomBanner message={t('staticSite_readOnlyRbac')} type={MessageBarType.info} />}
       <>
@@ -472,6 +466,12 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             {` ${t('learnMore')}`}
           </Link>
         </p>
+        <ConfigurationEnvironmentSelector
+          environments={environments}
+          onDropdownChange={onDropdownChange}
+          disabled={isLoading || !hasWritePermissions}
+          selectedEnvironment={selectedEnvironment}
+        />
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
           columns={getColumns()}
