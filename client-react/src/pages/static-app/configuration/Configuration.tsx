@@ -33,6 +33,7 @@ import ConfigurationData from './Configuration.data';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import { Links } from '../../../utils/FwLinks';
 
 interface ConfigurationProps {
   staticSite: ArmObj<StaticSite>;
@@ -485,7 +486,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           <span id="environment-variable-info-message">{t('staticSite_environmentVariablesInfoMessage')}</span>
           <Link
             id="environment-variable-info-learnMore"
-            href={`azure.microsoft.com`}
+            href={Links.staticSiteEnvironmentVariablesLearnMore}
             target="_blank"
             className={learnMoreLinkStyle}
             aria-labelledby="environment-variable-info-message">
