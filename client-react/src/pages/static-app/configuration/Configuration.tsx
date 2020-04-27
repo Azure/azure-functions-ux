@@ -486,11 +486,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           <span id="environment-variable-info-message">{t('staticSite_environmentVariablesInfoMessage')}</span>
           <Link
             id="environment-variable-info-learnMore"
-            href={`azure.microsoft.com`}
+            href={Links.staticSiteEnvironmentVariablesLearnMore}
             target="_blank"
             className={learnMoreLinkStyle}
             aria-labelledby="environment-variable-info-message">
-            {Links.staticSiteEnvironmentVariablesLearnMore}
+            {` ${t('learnMore')}`}
           </Link>
         </p>
         <ConfigurationEnvironmentSelector
