@@ -11,7 +11,6 @@ import { parsePublishProfileXml, PublishMethod } from '../../../models/site/publ
 import DeploymentCenterForm from './DeploymentCenterForm';
 
 export interface DeploymentCenterDataLoaderProps {
-  children: (props: DeploymentCenterFormProps) => JSX.Element;
   resourceId: string;
 }
 
