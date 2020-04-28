@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import ConfigurationData from './Configuration.data';
 import Configuration from './Configuration';
-import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import LogService from '../../../utils/LogService';
 import { LogCategories } from '../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
 import { ArmObj } from '../../../models/arm-obj';
-import { StaticSite } from '../../../models/static-site/static-site';
 import { Environment } from '../../../models/static-site/environment';
-import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import { EnvironmentVariable } from './Configuration.types';
 import { KeyValue } from '../../../models/portal-models';
 import { PortalContext } from '../../../PortalContext';
@@ -26,13 +23,13 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   const { resourceId } = props;
 
   const [initialLoading, setInitialLoading] = useState(false);
-  const [staticSite, setStaticSite] = useState<ArmObj<StaticSite> | undefined>(undefined);
   const [environments, setEnvironments] = useState<ArmObj<Environment>[]>([]);
   const [selectedEnvironmentVariableResponse, setSelectedEnvironmentVariableResponse] = useState<ArmObj<KeyValue<string>> | undefined>(
     undefined
   );
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [hasWritePermissions, setHasWritePermissions] = useState(true);
+  const [apiFailure, setApiFailure] = useState(false);
 
   const portalContext = useContext(PortalContext);
 
@@ -43,25 +40,13 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     const appPermission = await portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     setHasWritePermissions(appPermission);
 
-    const [staticSiteResponse, environmentResponse] = await Promise.all([
-      StaticSiteService.getStaticSite(resourceId),
-      EnvironmentService.getEnvironments(resourceId),
-    ]);
-
-    if (staticSiteResponse.metadata.success) {
-      setStaticSite(staticSiteResponse.data);
-    } else {
-      LogService.error(
-        LogCategories.staticSiteConfiguration,
-        'getStaticSite',
-        `Failed to get static site: ${getErrorMessageOrStringify(staticSiteResponse.metadata.error)}`
-      );
-    }
+    const environmentResponse = await EnvironmentService.getEnvironments(resourceId);
 
     if (environmentResponse.metadata.success) {
       // TODO(krmitta): Handle nextlinks
       setEnvironments(environmentResponse.data.value);
     } else {
+      setApiFailure(true);
       LogService.error(
         LogCategories.staticSiteConfiguration,
         'getEnvironments',
@@ -78,6 +63,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     if (environmentSettingsResponse.metadata.success) {
       setSelectedEnvironmentVariableResponse(environmentSettingsResponse.data);
     } else {
+      setApiFailure(true);
       LogService.error(
         LogCategories.staticSiteConfiguration,
         'fetchEnvironmentSettings',
@@ -118,14 +104,9 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!staticSite) {
-    return <LoadingComponent />;
-  }
-
   return (
     <ConfigurationContext.Provider value={configurationData}>
       <Configuration
-        staticSite={staticSite}
         environments={environments}
         fetchEnvironmentVariables={fetchEnvironmentVariables}
         selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}
@@ -133,6 +114,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
         refresh={refresh}
         isLoading={initialLoading || isRefreshing}
         hasWritePermissions={hasWritePermissions}
+        apiFailure={apiFailure}
       />
     </ConfigurationContext.Provider>
   );
