@@ -1956,4 +1956,7 @@ export class PortalResources {
   public static staticSite_ariaLabel_addNewEnvironmentVariable = 'staticSite_ariaLabel_addNewEnvironmentVariable';
   public static staticSite_refreshConfirmTitle = 'staticSite_refreshConfirmTitle';
   public static staticSite_refreshConfirmMessage = 'staticSite_refreshConfirmMessage';
+  public static appKeys_hostKeys_description = 'appKeys_hostKeys_description';
+  public static appKeys_systemKeys_description = 'appKeys_systemKeys_description';
+  public static functionKeys_description = 'functionKeys_description';
 }
