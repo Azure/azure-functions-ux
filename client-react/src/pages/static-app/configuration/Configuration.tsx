@@ -19,7 +19,6 @@ import { formStyle, commandBarSticky } from './Configuration.styles';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
 import { ArmObj } from '../../../models/arm-obj';
-import { StaticSite } from '../../../models/static-site/static-site';
 import { Environment } from '../../../models/static-site/environment';
 import IconButton from '../../../components/IconButton/IconButton';
 import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
@@ -36,10 +35,10 @@ import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../utils/FwLinks';
 
 interface ConfigurationProps {
-  staticSite: ArmObj<StaticSite>;
   environments: ArmObj<Environment>[];
   isLoading: boolean;
   hasWritePermissions: boolean;
+  apiFailure: boolean;
   fetchEnvironmentVariables: (resourceId: string) => {};
   saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
   refresh: () => void;
@@ -54,6 +53,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     saveEnvironmentVariables,
     isLoading,
     hasWritePermissions,
+    apiFailure,
   } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
@@ -106,7 +106,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const isTableCommandBarDisabled = () => {
-    return isLoading || !hasWritePermissions;
+    return isLoading || !hasWritePermissions || apiFailure;
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
