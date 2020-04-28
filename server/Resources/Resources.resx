@@ -6042,4 +6042,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
         <value>Edit environment variable</value>
     </data>
+    <data name="appKeys_hostKeys_description" xml:space="preserve">
+        <value>Use Host Keys with your clients to access your all http functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+    </data>
+    <data name="appKeys_systemKeys_description" xml:space="preserve">
+        <value>System keys are automatically managed by the Function runtime.System Keys provide granular access to functions runtime features.</value>
+    </data>
+    <data name="functionKeys_description" xml:space="preserve">
+        <value>Function Keys are scoped to this function and can be used to access this http trigger function.</value>
+    </data>
 </root>

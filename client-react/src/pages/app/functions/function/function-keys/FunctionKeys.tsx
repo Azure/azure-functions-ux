@@ -312,6 +312,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         </div>
         <div id="function-keys-data" className={formStyle}>
           <h3>{t('functionKeys_title')}</h3>
+          <p>{t('functionKeys_description')}</p>
           <DisplayTableWithCommandBar
             commandBarItems={getCommandBarItems()}
             columns={getColumns()}

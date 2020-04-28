@@ -24,6 +24,7 @@ const AppKeysPivot: React.FC<AppKeysPivotProps> = props => {
   return (
     <>
       <h3>{t('appKeysHost')}</h3>
+      <p>{t('appKeys_hostKeys_description')}</p>
       <div id="app-keys-host-keys">
         <HostKeys
           initialLoading={initialLoading}
@@ -34,6 +35,7 @@ const AppKeysPivot: React.FC<AppKeysPivotProps> = props => {
         />
       </div>
       <h3>{t('appKeysSystem')}</h3>
+      <p>{t('appKeys_systemKeys_description')}</p>
       <div id="app-keys-system-keys">
         <SystemKeys
           initialLoading={initialLoading}
