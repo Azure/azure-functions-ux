@@ -1,7 +1,7 @@
 export interface PublishingUser {
-  name?: string;
   publishingUserName: string;
   publishingPassword: string;
+  name?: string;
   publishingPasswordHash?: string;
   publishingPasswordHashSalt?: string;
   metadata?: any;
@@ -16,6 +16,11 @@ export interface PublishingCredentials {
   scmUri: string;
 }
 
+export enum PublishMethod {
+  MSDeploy = 'MSDeploy',
+  FTP = 'FTP',
+}
+
 // NOTE(michinoy): The publishing profile interface and helper has been copied over from the angular codebase.
 // Am not fully sure regarding the details on implementation. Would like to keep it similar as I port over the
 // functionality. I can optimize later as needed.
@@ -23,7 +28,7 @@ export interface PublishingCredentials {
 export interface PublishingProfile {
   msdeploySite: string;
   profileName: string;
-  publishMethod: 'MSDeploy' | 'FTP';
+  publishMethod: PublishMethod.MSDeploy | PublishMethod.FTP;
   publishUrl: string;
   userName: string;
   userPWD: string;
@@ -34,7 +39,7 @@ export function parsePublishProfileXml(profileXmlString: string): PublishingProf
   const oDOM = oParser.parseFromString(profileXmlString, 'text/xml');
   const publishProfileElements = oDOM.getElementsByTagName('publishProfile');
   const itemCount = publishProfileElements.length;
-  const PublishProfileItems: any = [];
+  const publishProfileItems: any = [];
   for (let i = 0; i < itemCount; i = i + 1) {
     const item = publishProfileElements.item(i);
     const attributes = item ? item.attributes : new NamedNodeMap();
@@ -45,7 +50,7 @@ export function parsePublishProfileXml(profileXmlString: string): PublishingProf
         attributeItem[attr.name] = attr.value;
       }
     }
-    PublishProfileItems.push(attributeItem);
+    publishProfileItems.push(attributeItem);
   }
-  return PublishProfileItems;
+  return publishProfileItems;
 }

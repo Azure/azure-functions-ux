@@ -7,7 +7,7 @@ import RbacConstants from '../../../utils/rbac-constants';
 import LogService from '../../../utils/LogService';
 import { LogCategories } from '../../../utils/LogCategories';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
-import { parsePublishProfileXml } from '../../../models/site/publish';
+import { parsePublishProfileXml, PublishMethod } from '../../../models/site/publish';
 import DeploymentCenterForm from './DeploymentCenterForm';
 
 export interface DeploymentCenterDataLoaderProps {
@@ -19,7 +19,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const { resourceId } = props;
   const deploymentCenterData = new DeploymentCenterData();
   const portalContext = useContext(PortalContext);
-  const [initialValues, setInitialValues] = useState<DeploymentCenterFormValues | null>(null);
+  const [initialValues, setInitialValues] = useState<DeploymentCenterFormValues | undefined>(undefined);
 
   const fetchData = async () => {
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
@@ -64,9 +64,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       if (publishProfileResponse.metadata.success) {
         const publishingProfiles = parsePublishProfileXml(publishProfileResponse.data);
 
-        initialDataValues.ftpPublishingProfile = publishingProfiles.filter(
-          profile => profile.publishMethod.toLocaleLowerCase() === 'ftp'
-        )[0];
+        initialDataValues.ftpPublishingProfile = publishingProfiles.filter(profile => profile.publishMethod === PublishMethod.FTP)[0];
       } else {
         LogService.error(
           LogCategories.deploymentCenter,

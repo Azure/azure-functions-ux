@@ -4,14 +4,14 @@ import { FormikActions } from 'formik';
 
 export interface DeploymentCenterFormValues {
   hasWritePermission: boolean;
-  publishingCredentials: ArmObj<PublishingCredentials> | undefined;
-  publishingUser: ArmObj<PublishingUser> | undefined;
-  ftpPublishingProfile: PublishingProfile | undefined;
+  publishingCredentials?: ArmObj<PublishingCredentials>;
+  publishingUser?: ArmObj<PublishingUser>;
+  ftpPublishingProfile?: PublishingProfile;
 }
 
 export interface DeploymentCenterFormProps {
   resourceId: string;
-  initialValues: DeploymentCenterFormValues | null;
+  initialValues?: DeploymentCenterFormValues;
   refreshSettings: () => void;
   onSubmit: (values: DeploymentCenterFormValues, actions: FormikActions<DeploymentCenterFormValues>) => void;
 }

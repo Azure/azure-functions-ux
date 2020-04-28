@@ -8,6 +8,7 @@ import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoForm
 import { SiteStateContext } from '../../../SiteState';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import TextField from '../../../components/form-controls/TextField';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 
 export type DeploymentCenterFtpsPropType = FormikProps<DeploymentCenterFormValues>;
 
@@ -33,10 +34,8 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsPropType> = props => {
 
   return (
     <div className={deploymentCenterContent}>
-      {props && !props.initialValues.hasWritePermission && (
-        <MessageBar messageBarType={MessageBarType.blocked} isMultiline={false}>
-          {t('deploymentCenterFtpsWritePermissionRequired')}
-        </MessageBar>
+      {props && props.initialValues && !props.initialValues.hasWritePermission && (
+        <CustomBanner message={t('deploymentCenterFtpsWritePermissionRequired')} type={MessageBarType.blocked} />
       )}
 
       <p>{t('deploymentCenterFtpsDescription')}</p>
@@ -56,7 +55,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsPropType> = props => {
         name="ftpPublishingProfile.userName"
         component={TextField}
         label={t('deploymentCenterFtpsUsernameLabel')}
-        id="deployment-center-ftps-application-password"
+        id="deployment-center-ftps-application-username"
       />
 
       <Field
@@ -84,7 +83,6 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsPropType> = props => {
       />
 
       <Field
-        name="publishingUser.properties.publishingPassword"
         component={TextField}
         label={t('deploymentCenterFtpsConfirmPasswordLabel')}
         id="deployment-center-ftps-provider-confirm-password"

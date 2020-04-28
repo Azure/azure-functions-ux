@@ -6064,7 +6064,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Password</value>
     </data>
     <data name="deploymentCenterFtpsConfirmPasswordLabel" xml:space="preserve">
-        <value>Confirmed Password</value>
+        <value>Confirm Password</value>
     </data>
     <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
         <value>Write permission on the site or the slot is required to view credentials.</value>
