@@ -1,6 +1,7 @@
 import MakeArmCall from '../ArmHelper';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { Environment } from '../../models/static-site/environment';
+import { Function } from '../../models/static-site/function';
 import { ArmObj, ArmArray } from '../../models/arm-obj';
 import { KeyValue } from '../../models/portal-models';
 
@@ -29,6 +30,15 @@ export default class EnvironmentService {
       resourceId: `${resourceId}/config/functionappsettings`,
       commandName: 'saveEnvironmentSettings',
       method: 'PUT',
+      apiVersion: CommonConstants.ApiVersions.staticSitePreviewApiVersion20191201,
+    });
+  };
+
+  public static fetchFunctions = (resourceId: string) => {
+    return MakeArmCall<ArmArray<Function>>({
+      resourceId: `${resourceId}/functions`,
+      commandName: 'fetchFunctions',
+      method: 'GET',
       apiVersion: CommonConstants.ApiVersions.staticSitePreviewApiVersion20191201,
     });
   };
