@@ -51,7 +51,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
         label={t('deploymentCenterFtpsUsernameLabel')}
         widthOverride="100%"
         id="deployment-center-ftps-application-username"
-        value={props && props.publishingProfile && props.publishingProfile.userName}
+        value={publishingProfile && publishingProfile.userName}
         copyButton={true}
         disabled={true}
       />
@@ -60,7 +60,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
         label={t('deploymentCenterFtpsPasswordLabel')}
         widthOverride="100%"
         id="deployment-center-ftps-application-password"
-        value={props && props.publishingProfile && props.publishingProfile.userPWD}
+        value={publishingProfile && publishingProfile.userPWD}
         copyButton={true}
         disabled={true}
       />
