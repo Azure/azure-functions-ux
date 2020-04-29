@@ -1956,6 +1956,17 @@ export class PortalResources {
   public static staticSite_refreshConfirmMessage = 'staticSite_refreshConfirmMessage';
   public static staticSite_addEnvironmentVariableHeader = 'staticSite_addEnvironmentVariableHeader';
   public static staticSite_editEnvironmentVariableHeader = 'staticSite_editEnvironmentVariableHeader';
+  public static deploymentCenterFtpsDescription = 'deploymentCenterFtpsDescription';
+  public static deploymentCenterFtpsEndpointLabel = 'deploymentCenterFtpsEndpointLabel';
+  public static deploymentCenterFtpsApplicationScopeTitle = 'deploymentCenterFtpsApplicationScopeTitle';
+  public static deploymentCenterFtpsApplicationScopeDescription = 'deploymentCenterFtpsApplicationScopeDescription';
+  public static deploymentCenterFtpsUserScopeTitle = 'deploymentCenterFtpsUserScopeTitle';
+  public static deploymentCenterFtpsUserScopeDescription = 'deploymentCenterFtpsUserScopeDescription';
+  public static deploymentCenterFtpsUserScopeSampleUsername = 'deploymentCenterFtpsUserScopeSampleUsername';
+  public static deploymentCenterFtpsUsernameLabel = 'deploymentCenterFtpsUsernameLabel';
+  public static deploymentCenterFtpsPasswordLabel = 'deploymentCenterFtpsPasswordLabel';
+  public static deploymentCenterFtpsConfirmPasswordLabel = 'deploymentCenterFtpsConfirmPasswordLabel';
+  public static deploymentCenterFtpsWritePermissionRequired = 'deploymentCenterFtpsWritePermissionRequired';
   public static appKeys_hostKeys_description = 'appKeys_hostKeys_description';
   public static appKeys_systemKeys_description = 'appKeys_systemKeys_description';
   public static functionKeys_description = 'functionKeys_description';

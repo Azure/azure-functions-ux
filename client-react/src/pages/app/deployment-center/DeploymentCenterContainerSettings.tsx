@@ -1,13 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { DeploymentCenterContext } from './DeploymentCenterContext';
 
-interface DeploymentCenterContainerSettingsProps {
-  resourceId: string;
-}
+const DeploymentCenterContainerSettings: React.FC<{}> = props => {
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-const DeploymentCenterContainerSettings: React.FC<DeploymentCenterContainerSettingsProps> = props => {
-  const { resourceId } = props;
-
-  return <h2>Settings for {resourceId}</h2>;
+  return <h2>Settings for {deploymentCenterContext && deploymentCenterContext.resourceId}</h2>;
 };
 
 export default DeploymentCenterContainerSettings;
