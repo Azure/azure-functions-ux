@@ -201,7 +201,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
 
   return (
     <>
-      {app_write && editable && (
+      {app_write && editable ? (
         <>
           <ConfirmDialog
             primaryActionButton={{
@@ -237,6 +237,14 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
             infoBubbleMessage={customVersionMessage}
           />
         </>
+      ) : (
+        <DropdownNoFormik
+          onChange={() => null}
+          options={[]}
+          disabled={true}
+          label={t('runtimeVersion')}
+          id="function-app-settings-runtime-version"
+        />
       )}
     </>
   );
