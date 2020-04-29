@@ -39,7 +39,8 @@ interface ConfigurationProps {
   isLoading: boolean;
   hasWritePermissions: boolean;
   apiFailure: boolean;
-  fetchEnvironmentVariables: (resourceId: string) => {};
+  environmentHasFunctions: boolean;
+  fetchDataOnEnvironmentChange: (resourceId: string) => {};
   saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
   refresh: () => void;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
@@ -48,12 +49,13 @@ interface ConfigurationProps {
 const Configuration: React.FC<ConfigurationProps> = props => {
   const {
     environments,
-    fetchEnvironmentVariables,
     selectedEnvironmentVariableResponse,
     saveEnvironmentVariables,
     isLoading,
     hasWritePermissions,
     apiFailure,
+    fetchDataOnEnvironmentChange,
+    environmentHasFunctions,
   } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
@@ -371,7 +373,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const onEnvironmentChange = (environment?: ArmObj<Environment>) => {
     const env: ArmObj<Environment> | undefined = onChangeEnvironment || environment;
     if (!!env) {
-      fetchEnvironmentVariables(env.id);
+      fetchDataOnEnvironmentChange(env.id);
       setSelectedEnvironment(env);
     }
     hideOnChangeConfirmDialog();
@@ -433,6 +435,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           }}
         />
       </div>
+
+      {!environmentHasFunctions && <CustomBanner message={t('')} type={MessageBarType.info} />}
       {!hasWritePermissions && <CustomBanner message={t('staticSite_readOnlyRbac')} type={MessageBarType.info} />}
       <>
         <ConfirmDialog

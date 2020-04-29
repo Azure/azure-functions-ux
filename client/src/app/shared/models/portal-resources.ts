@@ -1925,6 +1925,7 @@ export class PortalResources {
   public static blaclistFile_message = 'blaclistFile_message';
   public static staticSite_emptyEnvironmentVariableList = 'staticSite_emptyEnvironmentVariableList';
   public static staticSite_addNewEnvironmentVariable = 'staticSite_addNewEnvironmentVariable';
+  public static staticSite_ariaLabel_addNewEnvironmentVariable = 'staticSite_ariaLabel_addNewEnvironmentVariable';
   public static staticSite_environmentVariables = 'staticSite_environmentVariables';
   public static staticSite_environmentVariablesInfoMessage = 'staticSite_environmentVariablesInfoMessage';
   public static staticSite_environment = 'staticSite_environment';
@@ -1951,12 +1952,12 @@ export class PortalResources {
   public static deploymentCenterContainerLogsFailedWithError = 'deploymentCenterContainerLogsFailedWithError';
   public static invocationTracesTableTitle = 'invocationTracesTableTitle';
   public static invocationTracesTableDescription = 'invocationTracesTableDescription';
-  public static staticSite_addEnvironmentVariableHeader = 'staticSite_addEnvironmentVariableHeader';
-  public static staticSite_editEnvironmentVariableHeader = 'staticSite_editEnvironmentVariableHeader';
-  public static staticSite_ariaLabel_addNewEnvironmentVariable = 'staticSite_ariaLabel_addNewEnvironmentVariable';
   public static staticSite_refreshConfirmTitle = 'staticSite_refreshConfirmTitle';
   public static staticSite_refreshConfirmMessage = 'staticSite_refreshConfirmMessage';
+  public static staticSite_addEnvironmentVariableHeader = 'staticSite_addEnvironmentVariableHeader';
+  public static staticSite_editEnvironmentVariableHeader = 'staticSite_editEnvironmentVariableHeader';
   public static appKeys_hostKeys_description = 'appKeys_hostKeys_description';
   public static appKeys_systemKeys_description = 'appKeys_systemKeys_description';
   public static functionKeys_description = 'functionKeys_description';
+  public static staticSite_noFunctionMessage = 'staticSite_noFunctionMessage';
 }

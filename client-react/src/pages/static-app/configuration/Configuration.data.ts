@@ -20,8 +20,10 @@ export default class ConfigurationData {
   }
 
   public static getEnvironmentName(environment: ArmObj<Environment>) {
-    return environment.name.toLocaleLowerCase() === 'default'
-      ? 'Production'
-      : `#${environment.name} - ${environment.properties.pullRequestTitle}`;
+    return this.isEnvironmentProduction(environment) ? 'Production' : `#${environment.name} - ${environment.properties.pullRequestTitle}`;
+  }
+
+  public static isEnvironmentProduction(environment: ArmObj<Environment>) {
+    return environment.name.toLocaleLowerCase() === 'default';
   }
 }
