@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { AppSettingsFormProps, LoadingStates } from '../AppSettings.types';
 import { findFormAppSettingValue } from '../AppSettingsFormData';
@@ -6,6 +6,7 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { MessageBarType } from 'office-ui-fabric-react';
 import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../../../../models/functions/runtime-extension';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { PermissionsContext } from '../Contexts';
 
 interface MessageBarInfo {
   messageText: string;
@@ -20,6 +21,11 @@ enum ComparisonResult {
 
 const RuntimeVersionBanner: React.FC<AppSettingsFormProps & WithTranslation> = props => {
   const { t, initialValues, asyncData } = props;
+  const { app_write, editable } = useContext(PermissionsContext);
+
+  if (!app_write || !editable) {
+    return null;
+  }
 
   // Returns a warning/error message to be shown if one of the the following scenarios is true:
   //  -FUNCTIONS_EXTENSION_VERSION is missing or set to empty.
