@@ -436,7 +436,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         />
       </div>
 
-      {!environmentHasFunctions && <CustomBanner message={t('')} type={MessageBarType.info} />}
+      {!environmentHasFunctions && <CustomBanner message={t('staticSite_noFunctionMessage')} type={MessageBarType.info} />}
       {!hasWritePermissions && <CustomBanner message={t('staticSite_readOnlyRbac')} type={MessageBarType.info} />}
       <>
         <ConfirmDialog
