@@ -43,6 +43,21 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     }
   };
 
+  const onRenderSuffix = () => {
+    return copyButton ? (
+      <TooltipHost content={getCopiedLabel()} calloutProps={{ gapSpace: 0 }} onTooltipToggle={isVisible => changeCopiedLabel(isVisible)}>
+        <IconButton
+          id={`${id}-copy-button`}
+          iconProps={{ iconName: 'Copy', styles: copyButtonStyle }}
+          onClick={copyToClipboard}
+          ariaLabel={getCopiedLabel()}
+        />
+      </TooltipHost>
+    ) : (
+      <></>
+    );
+  };
+
   return (
     <ReactiveFormControl {...props}>
       <OfficeTextField
@@ -54,19 +69,9 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
         onBlur={onBlur}
         errorMessage={errorMessage}
         styles={textFieldStyleOverrides(theme, fullpage, widthOverride)}
+        onRenderSuffix={onRenderSuffix}
         {...rest}
       />
-      {copyButton && (
-        <TooltipHost content={getCopiedLabel()} calloutProps={{ gapSpace: 0 }} onTooltipToggle={isVisible => changeCopiedLabel(isVisible)}>
-          <IconButton
-            className={copyButtonStyle(theme, fullpage, !!errorMessage)}
-            id={`${id}-copy-button`}
-            iconProps={{ iconName: 'Copy' }}
-            onClick={copyToClipboard}
-            ariaLabel={getCopiedLabel()}
-          />
-        </TooltipHost>
-      )}
     </ReactiveFormControl>
   );
 };
