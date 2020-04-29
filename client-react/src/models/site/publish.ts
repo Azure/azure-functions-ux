@@ -28,7 +28,7 @@ export enum PublishMethod {
 export interface PublishingProfile {
   msdeploySite: string;
   profileName: string;
-  publishMethod: PublishMethod.MSDeploy | PublishMethod.FTP;
+  publishMethod: PublishMethod;
   publishUrl: string;
   userName: string;
   userPWD: string;

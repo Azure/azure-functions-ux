@@ -1,17 +1,32 @@
 import { ArmObj } from '../../../models/arm-obj';
 import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../../models/site/publish';
-import { FormikActions } from 'formik';
 
-export interface DeploymentCenterFormValues {
+export interface DeploymentCenterFormData {
+  publishingUsername: string;
+  publishingPassword: string;
+  publishingConfirmPassword: string;
+}
+
+export interface DeploymentCenterContainerLogsProps {
+  logs?: string;
+}
+
+export interface DeploymentCenterContainerSettingsProps {
+  hasWritePermission: boolean;
+  resourceId: string;
+}
+
+export interface DeploymentCenterFtpsProps {
   hasWritePermission: boolean;
   publishingCredentials?: ArmObj<PublishingCredentials>;
   publishingUser?: ArmObj<PublishingUser>;
-  ftpPublishingProfile?: PublishingProfile;
+  publishingProfile?: PublishingProfile;
 }
 
-export interface DeploymentCenterFormProps {
-  resourceId: string;
-  initialValues?: DeploymentCenterFormValues;
-  refreshSettings: () => void;
-  onSubmit: (values: DeploymentCenterFormValues, actions: FormikActions<DeploymentCenterFormValues>) => void;
+export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
+  DeploymentCenterContainerSettingsProps &
+  DeploymentCenterFtpsProps;
+
+export interface DeploymentCenterContainerFormProps extends DeploymentCenterContainerProps {
+  formData?: DeploymentCenterFormData;
 }

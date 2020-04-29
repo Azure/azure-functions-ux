@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { FormikProps, Field } from 'formik';
-import { DeploymentCenterFormValues } from './DeploymentCenter.types';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { Field } from 'formik';
+import { DeploymentCenterFtpsProps } from './DeploymentCenter.types';
+import { MessageBarType } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterContent } from './DeploymentCenter.styles';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
@@ -10,13 +10,11 @@ import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import TextField from '../../../components/form-controls/TextField';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 
-export type DeploymentCenterFtpsPropType = FormikProps<DeploymentCenterFormValues>;
-
-const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsPropType> = props => {
+const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
   const { t } = useTranslation();
-  const ftpsPublishingProfile = props && props.initialValues && props.initialValues.ftpPublishingProfile;
+  const ftpsPublishingProfile = props && props.publishingProfile;
   const ftpsEndpoint = ftpsPublishingProfile && ftpsPublishingProfile.publishUrl.toLocaleLowerCase().replace('ftp:/', 'ftps:/');
-  const publishingUser = props && props.initialValues && props.initialValues.publishingUser;
+  const publishingUser = props && props.publishingUser;
   const webProviderUsername = publishingUser && publishingUser.properties.publishingUserName;
 
   const { site } = useContext(SiteStateContext);
@@ -34,7 +32,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsPropType> = props => {
 
   return (
     <div className={deploymentCenterContent}>
-      {props && props.initialValues && !props.initialValues.hasWritePermission && (
+      {props && !props.hasWritePermission && (
         <CustomBanner message={t('deploymentCenterFtpsWritePermissionRequired')} type={MessageBarType.blocked} />
       )}
 
@@ -51,39 +49,47 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsPropType> = props => {
       <h3>{t('deploymentCenterFtpsApplicationScopeTitle')}</h3>
       <p>{t('deploymentCenterFtpsApplicationScopeDescription')}</p>
 
-      <Field
-        name="ftpPublishingProfile.userName"
-        component={TextField}
+      <TextFieldNoFormik
         label={t('deploymentCenterFtpsUsernameLabel')}
+        widthOverride="100%"
         id="deployment-center-ftps-application-username"
+        value={props && props.publishingProfile && props.publishingProfile.userName}
+        copyButton={true}
+        disabled={true}
       />
 
-      <Field
-        name="ftpPublishingProfile.userPWD"
-        component={TextField}
+      <TextFieldNoFormik
         label={t('deploymentCenterFtpsPasswordLabel')}
+        widthOverride="100%"
         id="deployment-center-ftps-application-password"
+        value={props && props.publishingProfile && props.publishingProfile.userPWD}
+        copyButton={true}
+        disabled={true}
       />
 
       <h3>{t('deploymentCenterFtpsUserScopeTitle')}</h3>
       <p>{t('deploymentCenterFtpsUserScopeDescription').format(sampleWebProviderDomainUsername)}</p>
 
       <Field
-        name="publishingUser.properties.publishingUserName"
+        name="publishingUsername"
         component={TextField}
+        widthOverride="60%"
         label={t('deploymentCenterFtpsUsernameLabel')}
         id="deployment-center-ftps-provider-username"
       />
 
       <Field
-        name="publishingUser.properties.publishingPassword"
+        name="publishingPassword"
         component={TextField}
+        widthOverride="60%"
         label={t('deploymentCenterFtpsPasswordLabel')}
         id="deployment-center-ftps-provider-password"
       />
 
       <Field
+        name="publishingConfirmPassword"
         component={TextField}
+        widthOverride="60%"
         label={t('deploymentCenterFtpsConfirmPasswordLabel')}
         id="deployment-center-ftps-provider-confirm-password"
       />

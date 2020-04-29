@@ -1,20 +1,10 @@
 import React from 'react';
-import { FormikProps } from 'formik';
-import { DeploymentCenterFormValues } from './DeploymentCenter.types';
-
-interface DeploymentCenterContainerSettingsProps {
-  resourceId: string;
-  formValues: FormikProps<DeploymentCenterFormValues>;
-}
+import { DeploymentCenterContainerSettingsProps } from './DeploymentCenter.types';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterContainerSettingsProps> = props => {
-  const { resourceId, formValues } = props;
+  const { resourceId } = props;
 
-  return (
-    <h2>
-      Settings for {resourceId}, form values received {formValues ? 'yes' : 'no'}
-    </h2>
-  );
+  return <h2>Settings for {resourceId}</h2>;
 };
 
 export default DeploymentCenterContainerSettings;

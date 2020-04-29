@@ -1,14 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { FormikActions } from 'formik';
-import { DeploymentCenterFormValues, DeploymentCenterFormProps } from './DeploymentCenter.types';
+import { DeploymentCenterFormData } from './DeploymentCenter.types';
 import DeploymentCenterData from './DeploymentCenter.data';
 import { PortalContext } from '../../../PortalContext';
 import RbacConstants from '../../../utils/rbac-constants';
 import LogService from '../../../utils/LogService';
 import { LogCategories } from '../../../utils/LogCategories';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
-import { parsePublishProfileXml, PublishMethod } from '../../../models/site/publish';
-import DeploymentCenterForm from './DeploymentCenterForm';
+import {
+  parsePublishProfileXml,
+  PublishMethod,
+  PublishingUser,
+  PublishingCredentials,
+  PublishingProfile,
+} from '../../../models/site/publish';
+import { useTranslation } from 'react-i18next';
+import { ArmObj } from '../../../models/arm-obj';
+import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -16,24 +23,44 @@ export interface DeploymentCenterDataLoaderProps {
 
 const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
   const { resourceId } = props;
+  const { t } = useTranslation();
   const deploymentCenterData = new DeploymentCenterData();
   const portalContext = useContext(PortalContext);
-  const [initialValues, setInitialValues] = useState<DeploymentCenterFormValues | undefined>(undefined);
+  const [hasWritePermission, setHasWritePermission] = useState(false);
+  const [logs, setLogs] = useState<string | undefined>(undefined);
+  const [publishingUser, setPublishingUser] = useState<ArmObj<PublishingUser> | undefined>(undefined);
+  const [publishingCredentials, setPublishingCredentials] = useState<ArmObj<PublishingCredentials> | undefined>(undefined);
+  const [publishingProfile, setPublishingProfile] = useState<PublishingProfile | undefined>(undefined);
+  const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
 
   const fetchData = async () => {
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
-    const [hasWritePermission, publishingUserResponse] = await Promise.all([writePermissionRequest, getPublishingUserRequest]);
+    const getContainerLogsRequest = deploymentCenterData.fetchContainerLogs(resourceId);
+    const [writePermissionResponse, publishingUserResponse, containerLogsResponse] = await Promise.all([
+      writePermissionRequest,
+      getPublishingUserRequest,
+      getContainerLogsRequest,
+    ]);
 
-    const initialDataValues: DeploymentCenterFormValues = {
-      hasWritePermission,
-      publishingCredentials: undefined,
-      publishingUser: undefined,
-      ftpPublishingProfile: undefined,
-    };
+    setHasWritePermission(writePermissionResponse);
+
+    if (containerLogsResponse.metadata.success) {
+      setLogs(containerLogsResponse.data);
+    } else {
+      const errorMessage = getErrorMessage(containerLogsResponse.metadata.error);
+      setLogs(
+        errorMessage ? t('deploymentCenterContainerLogsFailedWithError').format(errorMessage) : t('deploymentCenterContainerLogsFailed')
+      );
+    }
 
     if (publishingUserResponse.metadata.success) {
-      initialDataValues.publishingUser = publishingUserResponse.data;
+      setPublishingUser(publishingUserResponse.data);
+      setFormData({
+        publishingUsername: publishingUserResponse.data.properties.publishingUserName,
+        publishingPassword: '',
+        publishingConfirmPassword: '',
+      });
     } else {
       LogService.error(
         LogCategories.deploymentCenter,
@@ -42,7 +69,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       );
     }
 
-    if (hasWritePermission) {
+    if (writePermissionResponse) {
       const getPublishingCredentialsRequest = deploymentCenterData.getPublishingCredentials(resourceId);
       const getPublishProfileRequest = deploymentCenterData.getPublishProfile(resourceId);
       const [publishingCredentialsResponse, publishProfileResponse] = await Promise.all([
@@ -51,7 +78,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       ]);
 
       if (publishingCredentialsResponse.metadata.success) {
-        initialDataValues.publishingCredentials = publishingCredentialsResponse.data;
+        setPublishingCredentials(publishingCredentialsResponse.data);
       } else {
         LogService.error(
           LogCategories.deploymentCenter,
@@ -62,8 +89,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
       if (publishProfileResponse.metadata.success) {
         const publishingProfiles = parsePublishProfileXml(publishProfileResponse.data);
-
-        initialDataValues.ftpPublishingProfile = publishingProfiles.filter(profile => profile.publishMethod === PublishMethod.FTP)[0];
+        setPublishingProfile(publishingProfiles.filter(profile => profile.publishMethod === PublishMethod.FTP)[0]);
       } else {
         LogService.error(
           LogCategories.deploymentCenter,
@@ -72,8 +98,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         );
       }
     }
-
-    setInitialValues(initialDataValues);
   };
 
   useEffect(() => {
@@ -82,16 +106,16 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const refreshSettings = () => {
-    fetchData();
-  };
-
-  const onSubmit = (values: DeploymentCenterFormValues, action: FormikActions<DeploymentCenterFormValues>) => {
-    throw Error('not implemented');
-  };
-
   return (
-    <DeploymentCenterForm resourceId={resourceId} initialValues={initialValues} refreshSettings={refreshSettings} onSubmit={onSubmit} />
+    <DeploymentCenterContainerForm
+      resourceId={resourceId}
+      hasWritePermission={hasWritePermission}
+      logs={logs}
+      publishingUser={publishingUser}
+      publishingProfile={publishingProfile}
+      publishingCredentials={publishingCredentials}
+      formData={formData}
+    />
   );
 };
 
