@@ -1808,6 +1808,8 @@ export class PortalResources {
   public static functionsRuntimeVersionInvalidWarning = 'functionsRuntimeVersionInvalidWarning';
   public static functionsRuntimeVersionCustomInfo = 'functionsRuntimeVersionCustomInfo';
   public static functionsRuntimeVersionExistingFunctionsWarning = 'functionsRuntimeVersionExistingFunctionsWarning';
+  public static functionsRuntimeVersionExistingFunctionsConfirmationTitle = 'functionsRuntimeVersionExistingFunctionsConfirmationTitle';
+  public static functionsRuntimeVersionExistingFunctionsConfirmationMessage = 'functionsRuntimeVersionExistingFunctionsConfirmationMessage';
   public static githubActionWorkflowScopeMissing = 'githubActionWorkflowScopeMissing';
   public static githubActionWorkflowFileExists = 'githubActionWorkflowFileExists';
   public static remoteDebuggingVS2015NotSupported = 'remoteDebuggingVS2015NotSupported';
@@ -1965,4 +1967,7 @@ export class PortalResources {
   public static deploymentCenterFtpsPasswordLabel = 'deploymentCenterFtpsPasswordLabel';
   public static deploymentCenterFtpsConfirmPasswordLabel = 'deploymentCenterFtpsConfirmPasswordLabel';
   public static deploymentCenterFtpsWritePermissionRequired = 'deploymentCenterFtpsWritePermissionRequired';
+  public static appKeys_hostKeys_description = 'appKeys_hostKeys_description';
+  public static appKeys_systemKeys_description = 'appKeys_systemKeys_description';
+  public static functionKeys_description = 'functionKeys_description';
 }
