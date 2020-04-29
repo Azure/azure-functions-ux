@@ -6085,6 +6085,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
     </data>
     <data name="staticSite_noFunctionMessage" xml:space="preserve">
-        <value>Environment variables are only applicable to Static apps with functions. Add a function to your app to enable Configuration.</value>
+        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
     </data>
 </root>
