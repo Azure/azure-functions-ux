@@ -3,14 +3,11 @@ import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import DeploymentCenterContainerSettings from './DeploymentCenterContainerSettings';
 import DeploymentCenterFtps from './DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
-import DeploymentCenterContainerLogsDataLoader from './DeploymentCenterContainerLogsDataLoader';
+import { DeploymentCenterContainerProps } from './DeploymentCenter.types';
+import DeploymentCenterContainerLogs from './DeploymentCenterContainerLogs';
 
-interface DeploymentCenterPivotProps {
-  resourceId: string;
-}
-
-const DeploymentCenterPivot: React.FC<DeploymentCenterPivotProps> = props => {
-  const { resourceId } = props;
+const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerProps> = props => {
+  const { logs, publishingCredentials, publishingProfile, publishingUser, formProps } = props;
   const { t } = useTranslation();
 
   return (
@@ -18,20 +15,25 @@ const DeploymentCenterPivot: React.FC<DeploymentCenterPivotProps> = props => {
       <PivotItem
         headerText={t('deploymentCenterPivotItemContainerLogsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemContainerLogsAriaLabel')}>
-        <DeploymentCenterContainerLogsDataLoader resourceId={resourceId} />
+        <DeploymentCenterContainerLogs logs={logs} />
       </PivotItem>
 
       <PivotItem
         headerText={t('deploymentCenterPivotItemContainerSettingsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemContainerSettingsAriaLabel')}>
-        <DeploymentCenterContainerSettings resourceId={resourceId} />
+        <DeploymentCenterContainerSettings />
       </PivotItem>
 
       <PivotItem headerText={t('deploymentCenterPivotItemFtpsHeaderText')} ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}>
-        <DeploymentCenterFtps resourceId={resourceId} />
+        <DeploymentCenterFtps
+          formProps={formProps}
+          publishingCredentials={publishingCredentials}
+          publishingProfile={publishingProfile}
+          publishingUser={publishingUser}
+        />
       </PivotItem>
     </Pivot>
   );
 };
 
-export default DeploymentCenterPivot;
+export default DeploymentCenterContainerPivot;

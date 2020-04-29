@@ -12,6 +12,7 @@ import { isLinuxDynamic } from '../utils/arm-utils';
 import Url from '../utils/url';
 import { sendHttpRequest } from './HttpClient';
 import { KeyValue } from '../models/portal-models';
+import { PublishingCredentials } from '../models/site/publish';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -160,5 +161,22 @@ export default class SiteService {
     } else {
       return sendHttpRequest({ url: Url.getSyncTriggerUrl(site), method: 'POST', headers: { Authorization: `Bearer ${token}` } });
     }
+  };
+
+  public static getPublishProfile = (resourceId: string) => {
+    const id = `${resourceId}/publishxml`;
+
+    // NOTE(michinoy): Do not batch this call as it does not return application/json response.
+    return MakeArmCall<string>({ method: 'POST', resourceId: id, commandName: 'getPublishProfile', skipBatching: true });
+  };
+
+  public static resetPublishProfile = (resourceId: string) => {
+    const id = `${resourceId}/newpassword`;
+    return MakeArmCall<void>({ method: 'POST', resourceId: id, commandName: 'resetPublishProfile' });
+  };
+
+  public static getPublishingCredentials = (resourceId: string) => {
+    const id = `${resourceId}/config/publishingcredentials/list`;
+    return MakeArmCall<ArmObj<PublishingCredentials>>({ method: 'POST', resourceId: id, commandName: 'getPublishingCredentials' });
   };
 }
