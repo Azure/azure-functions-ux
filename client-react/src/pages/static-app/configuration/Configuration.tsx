@@ -402,6 +402,16 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     setIsRefreshConfirmDialogVisible(false);
   };
 
+  const getBanner = () => {
+    const bannerInfo = { message: '', type: MessageBarType.info };
+    if (!hasWritePermissions) {
+      bannerInfo.message = t('staticSite_readOnlyRbac');
+    } else if (!environmentHasFunctions) {
+      bannerInfo.message = t('staticSite_noFunctionMessage');
+    }
+    return !!bannerInfo.message ? <CustomBanner message={bannerInfo.message} type={bannerInfo.type} /> : <></>;
+  };
+
   useEffect(() => {
     setDefaultSelectedEnvironment();
 
@@ -435,9 +445,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           }}
         />
       </div>
-
-      {!environmentHasFunctions && <CustomBanner message={t('staticSite_noFunctionMessage')} type={MessageBarType.info} />}
-      {!hasWritePermissions && <CustomBanner message={t('staticSite_readOnlyRbac')} type={MessageBarType.info} />}
+      {getBanner()}
       <>
         <ConfirmDialog
           primaryActionButton={{
