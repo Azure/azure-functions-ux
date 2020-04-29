@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, FormikProps } from 'formik';
-import { DeploymentCenterContainerFormProps, DeploymentCenterFormData } from './DeploymentCenter.types';
+import { DeploymentCenterFormData, DeploymentCenterContainerFormProps } from './DeploymentCenter.types';
 import { KeyCodes } from 'office-ui-fabric-react';
 import DeploymentCenterCommandBar from './DeploymentCenterCommandBar';
 import { commandBarSticky, pivotContent } from './DeploymentCenter.styles';
@@ -47,7 +47,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
           </div>
 
           <div className={pivotContent}>
-            <DeploymentCenterContainerPivot {...props} />
+            <DeploymentCenterContainerPivot formProps={formProps} {...props} />
           </div>
         </form>
       )}

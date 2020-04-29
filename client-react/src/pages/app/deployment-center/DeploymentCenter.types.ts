@@ -1,5 +1,6 @@
 import { ArmObj } from '../../../models/arm-obj';
 import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../../models/site/publish';
+import { FormikProps } from 'formik';
 
 export interface DeploymentCenterFormData {
   publishingUsername: string;
@@ -12,6 +13,7 @@ export interface DeploymentCenterContainerLogsProps {
 }
 
 export interface DeploymentCenterFtpsProps {
+  formProps?: FormikProps<DeploymentCenterFormData>;
   publishingCredentials?: ArmObj<PublishingCredentials>;
   publishingUser?: ArmObj<PublishingUser>;
   publishingProfile?: PublishingProfile;
