@@ -56,6 +56,9 @@ export const textFieldStyleOverrides = (theme: ThemeExtended, fullpage: boolean,
     field: {
       width: widthOverride || formDefaultWidth,
     },
+    suffix: {
+      paddingRight: '0px',
+    },
   } as ITextFieldStyles;
 };
 
@@ -76,20 +79,11 @@ export const infoIconStyle = (theme: ThemeExtended) =>
     paddingRight: '5px',
   });
 
-export const copyButtonStyle = (theme: ThemeExtended, fullpage: boolean = true, textFieldErrorVisible: boolean = false) =>
-  style({
-    marginLeft: fullpage ? '5px' : 0,
-    width: '25px',
-    height: '25px',
-    backgroundColor: theme.semanticColors.accentButtonBackground,
-    color: theme.semanticColors.buttonTextChecked,
-    $nest: {
-      '&:hover': {
-        color: theme.semanticColors.buttonTextChecked,
-      },
-    },
-    marginBottom: textFieldErrorVisible ? '21px' : '',
-  });
+export const copyButtonStyle = {
+  root: {
+    fontSize: '15px',
+  },
+};
 
 export const learnMoreLinkStyle = style({ minWidth: '70px' });
 
