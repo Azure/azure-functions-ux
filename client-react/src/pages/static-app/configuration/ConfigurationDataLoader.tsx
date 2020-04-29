@@ -99,7 +99,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     setEnvironmentHasFunctions(false);
     const functionsResponse = await EnvironmentService.fetchFunctions(environmentResourceId);
     if (functionsResponse.metadata.success) {
-      setEnvironmentHasFunctions(functionsResponse.data.value.length === 0);
+      setEnvironmentHasFunctions(functionsResponse.data.value.length > 0);
     } else {
       setApiFailure(true);
       LogService.error(
