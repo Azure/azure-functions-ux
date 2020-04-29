@@ -10,13 +10,14 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
 
   return (
     <div className={deploymentCenterContent}>
-      {!logs && (
+      {logs ? (
+        <pre className={containerLogs}>{logs}</pre>
+      ) : (
         <ProgressIndicator
           description={t('deploymentCenterContainerLogsLoading')}
           ariaValueText={t('deploymentCenterContainerLogsLoadingAriaValue')}
         />
       )}
-      {logs && <pre className={containerLogs}>{logs}</pre>}
     </div>
   );
 };

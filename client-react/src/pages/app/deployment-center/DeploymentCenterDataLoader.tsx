@@ -16,6 +16,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { ArmObj } from '../../../models/arm-obj';
 import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
+import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
+import { DeploymentCenterContext } from './DeploymentCenterContext';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -32,6 +34,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [publishingCredentials, setPublishingCredentials] = useState<ArmObj<PublishingCredentials> | undefined>(undefined);
   const [publishingProfile, setPublishingProfile] = useState<PublishingProfile | undefined>(undefined);
   const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
+  const [siteDescriptor, setSiteDescriptor] = useState<ArmSiteDescriptor | undefined>(undefined);
 
   const fetchData = async () => {
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
@@ -43,6 +46,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       getContainerLogsRequest,
     ]);
 
+    setSiteDescriptor(new ArmSiteDescriptor(resourceId));
     setHasWritePermission(writePermissionResponse);
 
     if (containerLogsResponse.metadata.success) {
@@ -107,15 +111,15 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   }, []);
 
   return (
-    <DeploymentCenterContainerForm
-      resourceId={resourceId}
-      hasWritePermission={hasWritePermission}
-      logs={logs}
-      publishingUser={publishingUser}
-      publishingProfile={publishingProfile}
-      publishingCredentials={publishingCredentials}
-      formData={formData}
-    />
+    <DeploymentCenterContext.Provider value={{ resourceId, hasWritePermission, siteDescriptor }}>
+      <DeploymentCenterContainerForm
+        logs={logs}
+        publishingUser={publishingUser}
+        publishingProfile={publishingProfile}
+        publishingCredentials={publishingCredentials}
+        formData={formData}
+      />
+    </DeploymentCenterContext.Provider>
   );
 };
 

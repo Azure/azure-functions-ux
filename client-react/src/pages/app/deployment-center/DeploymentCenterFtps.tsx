@@ -5,25 +5,23 @@ import { MessageBarType } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterContent } from './DeploymentCenter.styles';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
-import { SiteStateContext } from '../../../SiteState';
-import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import TextField from '../../../components/form-controls/TextField';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import { DeploymentCenterContext } from './DeploymentCenterContext';
 
 const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
   const { t } = useTranslation();
-  const ftpsPublishingProfile = props && props.publishingProfile;
-  const ftpsEndpoint = ftpsPublishingProfile && ftpsPublishingProfile.publishUrl.toLocaleLowerCase().replace('ftp:/', 'ftps:/');
-  const publishingUser = props && props.publishingUser;
+  const { publishingProfile, publishingUser } = props;
+  const ftpsEndpoint = publishingProfile && publishingProfile.publishUrl.toLocaleLowerCase().replace('ftp:/', 'ftps:/');
   const webProviderUsername = publishingUser && publishingUser.properties.publishingUserName;
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-  const { site } = useContext(SiteStateContext);
-  const webAppArmDescriptor = site && new ArmSiteDescriptor(site.id);
+  const siteDescriptor = deploymentCenterContext && deploymentCenterContext.siteDescriptor;
   const sampleAppNameDomain =
-    webAppArmDescriptor && webAppArmDescriptor.slot
-      ? `${webAppArmDescriptor.site}-${webAppArmDescriptor.slot}`
-      : webAppArmDescriptor && webAppArmDescriptor.site
-      ? webAppArmDescriptor.site
+    siteDescriptor && siteDescriptor.slot
+      ? `${siteDescriptor.site}-${siteDescriptor.slot}`
+      : siteDescriptor && siteDescriptor.site
+      ? siteDescriptor.site
       : '';
 
   const sampleWebProviderDomainUsername = webProviderUsername
@@ -32,7 +30,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
 
   return (
     <div className={deploymentCenterContent}>
-      {props && !props.hasWritePermission && (
+      {deploymentCenterContext && !deploymentCenterContext.hasWritePermission && (
         <CustomBanner message={t('deploymentCenterFtpsWritePermissionRequired')} type={MessageBarType.blocked} />
       )}
 
