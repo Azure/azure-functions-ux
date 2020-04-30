@@ -26,7 +26,7 @@
   <ng-container *ngIf="containerImageSourceInfo.container.id === 'single'">
     <div class="container-setting-property">
       <label>{{ 'containerImageAndTag' | translate }}</label>
-      <textbox [control]="dockerHubForm?.controls?.image" [disablePopOverError]="true"></textbox>
+      <textbox [control]="dockerHubForm?.controls?.image" [disablePopOverError]="true" [placeholder]="'containerImageAndTagPlaceholder' | translate"></textbox>
       <div invalidmessage="image" id="containersettings-dh-image-error-private" role="alert"></div>
     </div>
 
@@ -56,7 +56,7 @@
   <ng-container *ngIf="containerImageSourceInfo.container.id === 'single'">
     <div class="container-setting-property">
       <label>{{ 'containerImageAndTag' | translate }}</label>
-      <textbox [control]="dockerHubForm?.controls?.image" [disablePopOverError]="true"></textbox>
+      <textbox [control]="dockerHubForm?.controls?.image" [disablePopOverError]="true" [placeholder]="'containerImageAndTagPlaceholder' | translate"></textbox>
       <div invalidmessage="image" id="containersettings-dh-image-error-public" role="alert"></div>
     </div>
 
