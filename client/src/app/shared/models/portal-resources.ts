@@ -1971,4 +1971,12 @@ export class PortalResources {
   public static appKeys_systemKeys_description = 'appKeys_systemKeys_description';
   public static functionKeys_description = 'functionKeys_description';
   public static staticSite_noFunctionMessage = 'staticSite_noFunctionMessage';
+  public static reset = 'reset';
+  public static resetPublishProfileAriaLabel = 'resetPublishProfileAriaLabel';
+  public static showApplicationPasswordAriaLabel = 'showApplicationPasswordAriaLabel';
+  public static hideApplicationPasswordAriaLabel = 'hideApplicationPasswordAriaLabel';
+  public static showProviderPasswordAriaLabel = 'showProviderPasswordAriaLabel';
+  public static hideProviderPasswordAriaLabel = 'hideProviderPasswordAriaLabel';
+  public static showProviderConfirmPasswordAriaLabel = 'showProviderConfirmPasswordAriaLabel';
+  public static hideProviderConfirmPasswordAriaLabel = 'hideProviderConfirmPasswordAriaLabel';
 }

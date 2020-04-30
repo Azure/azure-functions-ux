@@ -21,6 +21,7 @@ interface CustomTextFieldProps {
   learnMoreLink?: string;
   dirty?: boolean;
   widthOverride?: string;
+  additionalControls?: JSX.Element[];
 }
 
 class TextField extends React.Component<FieldProps & ITextFieldProps & CustomTextFieldProps, any> {
