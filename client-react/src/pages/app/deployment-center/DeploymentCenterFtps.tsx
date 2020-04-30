@@ -125,7 +125,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
           <ActionButton
             className={additionalTextFieldControl}
             id="deployment-center-ftps-provider-password-visibility-toggle"
-            ariaLabel={applicationPasswordType === 'password' ? t('showProviderPasswordAriaLabel') : t('hideProviderPasswordAriaLabel')}
+            ariaLabel={providerPasswordType === 'password' ? t('showProviderPasswordAriaLabel') : t('hideProviderPasswordAriaLabel')}
             onClick={toggleShowProviderPassword}
             iconProps={{ iconName: providerPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
             {providerPasswordType === 'password' ? t('show') : t('hide')}
@@ -145,7 +145,9 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
             className={additionalTextFieldControl}
             id="deployment-center-ftps-provider-confirm-password-visibility-toggle"
             ariaLabel={
-              applicationPasswordType === 'password' ? t('showProviderConfirmPasswordAriaLabel') : t('hideProviderConfirmPasswordAriaLabel')
+              providerConfirmPasswordType === 'password'
+                ? t('showProviderConfirmPasswordAriaLabel')
+                : t('hideProviderConfirmPasswordAriaLabel')
             }
             onClick={toggleShowProviderConfirmPassword}
             iconProps={{ iconName: providerConfirmPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
