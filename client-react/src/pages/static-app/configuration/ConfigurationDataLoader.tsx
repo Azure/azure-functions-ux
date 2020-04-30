@@ -30,6 +30,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [hasWritePermissions, setHasWritePermissions] = useState(true);
   const [apiFailure, setApiFailure] = useState(false);
+  const [environmentHasFunctions, setEnvironmentHasFunctions] = useState(false);
 
   const portalContext = useContext(PortalContext);
 
@@ -94,6 +95,26 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     }
   };
 
+  const fetchFunctionsForEnvironment = async (environmentResourceId: string) => {
+    setEnvironmentHasFunctions(false);
+    const functionsResponse = await EnvironmentService.fetchFunctions(environmentResourceId);
+    if (functionsResponse.metadata.success) {
+      setEnvironmentHasFunctions(functionsResponse.data.value.length > 0);
+    } else {
+      setApiFailure(true);
+      LogService.error(
+        LogCategories.staticSiteConfiguration,
+        'fetchFunctions',
+        `Failed to fetch functions: ${getErrorMessageOrStringify(functionsResponse.metadata.error)}`
+      );
+    }
+  };
+
+  const fetchDataOnEnvironmentChange = async (environmentResourceId: string) => {
+    fetchEnvironmentVariables(environmentResourceId);
+    fetchFunctionsForEnvironment(environmentResourceId);
+  };
+
   const refresh = () => {
     fetchData();
   };
@@ -108,13 +129,14 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     <ConfigurationContext.Provider value={configurationData}>
       <Configuration
         environments={environments}
-        fetchEnvironmentVariables={fetchEnvironmentVariables}
+        fetchDataOnEnvironmentChange={fetchDataOnEnvironmentChange}
         selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}
         saveEnvironmentVariables={saveEnvironmentVariables}
         refresh={refresh}
         isLoading={initialLoading || isRefreshing}
         hasWritePermissions={hasWritePermissions}
         apiFailure={apiFailure}
+        environmentHasFunctions={environmentHasFunctions}
       />
     </ConfigurationContext.Provider>
   );
