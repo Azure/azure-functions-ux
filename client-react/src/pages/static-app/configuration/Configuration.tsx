@@ -209,7 +209,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             </ActionButton>
           ) : (
             <div className={`${tableValueComponentStyle} ${defaultCellStyle}`} onClick={() => onShowHideButtonClick(itemKey)}>
-              <ActionButton
+              <IconButton
                 id={`environment-variable-hide-${index}`}
                 className={tableValueIconStyle(theme)}
                 iconProps={{ iconName: 'Hide' }}
