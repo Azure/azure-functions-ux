@@ -85,6 +85,9 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
           <ActionButton
             className={additionalTextFieldControl}
             id="deployment-center-ftps-application-password-visibility-toggle"
+            ariaLabel={
+              applicationPasswordType === 'password' ? t('showApplicationPasswordAriaLabel') : t('hideApplicationPasswordAriaLabel')
+            }
             onClick={toggleShowApplicationPassword}
             iconProps={{ iconName: applicationPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
             {applicationPasswordType === 'password' ? t('show') : t('hide')}
@@ -92,6 +95,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
           <ActionButton
             className={additionalTextFieldControl}
             id="deployment-center-ftps-application-password-reset"
+            ariaLabel={t('resetPublishProfileAriaLabel')}
             onClick={resetApplicationPassword}
             iconProps={{ iconName: 'refresh' }}>
             {t('reset')}
@@ -121,6 +125,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
           <ActionButton
             className={additionalTextFieldControl}
             id="deployment-center-ftps-provider-password-visibility-toggle"
+            ariaLabel={applicationPasswordType === 'password' ? t('showProviderPasswordAriaLabel') : t('hideProviderPasswordAriaLabel')}
             onClick={toggleShowProviderPassword}
             iconProps={{ iconName: providerPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
             {providerPasswordType === 'password' ? t('show') : t('hide')}
@@ -139,6 +144,9 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
           <ActionButton
             className={additionalTextFieldControl}
             id="deployment-center-ftps-provider-confirm-password-visibility-toggle"
+            ariaLabel={
+              applicationPasswordType === 'password' ? t('showProviderConfirmPasswordAriaLabel') : t('hideProviderConfirmPasswordAriaLabel')
+            }
             onClick={toggleShowProviderConfirmPassword}
             iconProps={{ iconName: providerConfirmPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
             {providerConfirmPasswordType === 'password' ? t('show') : t('hide')}
