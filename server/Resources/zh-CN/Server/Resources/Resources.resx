@@ -3924,7 +3924,10 @@
         <value>映像源</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>映像和可选标记(例如“映像: 标记”)</value>
+        <value>Full Image Name and Tag</value>
+    </data>
+  <data name="containerImageAndTagPlaceholder" xml:space="preserve">
+        <value>E.g. nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>要开始使用，首先创建 Azure 容器注册表并添加图像。</value>
@@ -3940,6 +3943,9 @@
     </data>
   <data name="containerServerURL" xml:space="preserve">
         <value>服务器 URL</value>
+    </data>
+  <data name="containerServerURLPlaceholder" xml:space="preserve">
+        <value>E.g. https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>登录</value>
@@ -5137,10 +5143,10 @@
         <value>{0} 详细信息</value>
     </data>
   <data name="integratePageTitle" xml:space="preserve">
-        <value>Integration</value>
+        <value>集成</value>
     </data>
   <data name="integratePageDescription" xml:space="preserve">
-        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
+        <value>编辑触发器，并从函数的一系列输入和输出(包括 Azure Blob 存储、Cosmos DB 和其他内容)中进行选择。</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>函数</value>
@@ -5413,13 +5419,13 @@
         <value>范围</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>虚拟网络触发器支持</value>
+        <value>Runtime Scale Monitoring</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>此设置允许虚拟网络中的资源触发你的应用。它还需要 1 个预加热实例处于活动状态以及运行时 V2 或更高版本。&lt;a href="{0}" target="_blank"&gt;了解详细信息&lt;/a&gt;。</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>此设置允许虚拟网络中的资源触发你的应用。它还需要 1 个预加热实例处于活动状态以及运行时 V2 或更高版本。</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>刷新应用设置</value>
@@ -5593,7 +5599,13 @@
         <value>通过在“应用程序”设置中配置 FUNCTIONS_EXTENSION_VERSION 的值，你已选择使用自定义运行时版本。</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>无法使用现有函数升级: 主版本升级可以引入对语言和绑定的重大更改。升级运行时的主版本时，请考虑创建新的函数应用并将函数迁移到此新应用。</value>
+        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
+        <value>Update Runtime Version</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
+        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>GitHub 令牌中缺少“工作流”范围。请返回到“源代码管理”步骤，以重新授权 GitHub。</value>
@@ -5664,8 +5676,8 @@
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>远程调试不适用于你的应用。</value>
     </data>
-  <data name="tryFunctionsPreview" xml:space="preserve">
-        <value>预览新的 Azure Functions 管理体验</value>
+  <data name="tryFunctionsNewExperience" xml:space="preserve">
+        <value>试用新的 Azure Functions 管理体验</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>保存更改</value>
@@ -5938,6 +5950,9 @@
         <value>没有环境变量可显示</value>
     </data>
   <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>添加</value>
+    </data>
+  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
         <value>添加新环境变量</value>
     </data>
   <data name="staticSite_environmentVariables" xml:space="preserve">
@@ -5953,33 +5968,150 @@
         <value>为站点选择环境</value>
     </data>
   <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filter environment variable</value>
-    </data>
-  <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
-        <value>Add/Edit environment variable</value>
+        <value>筛选环境变量</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+        <value>是否确定要放弃对环境 {0} 的环境变量的更改?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
-        <value>Your unsaved changes will be discarded.</value>
+        <value>将丢弃未保存的更改。</value>
     </data>
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
-        <value>Are you sure you would like to change environment?</value>
+        <value>是否确定要更改环境?</value>
     </data>
   <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} is a required property on all environment variables</value>
+        <value>{0} 是所有环境变量的必需属性</value>
     </data>
   <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Environment variable name must be unique</value>
+        <value>环境变量名称必须是唯一的</value>
     </data>
   <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Environment variable values must be an array</value>
+        <value>环境变量值必须是数组</value>
     </data>
   <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} is an invalid environment variable property</value>
+        <value>{0} 是无效的环境变量属性</value>
     </data>
   <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>All environment variable value and name properties must be of type string</value>
+        <value>所有环境变量值和名称属性都必须是字符串类型</value>
+    </data>
+  <data name="staticSite_readOnlyRbac" xml:space="preserve">
+        <value>你的站点目前处于只读模式，因为 RBAC 分配的访问权限设置为“读取者”</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>日志</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>容器日志</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+        <value>设置</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
+        <value>容器设置</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
+        <value>FTP/FTPS 凭据</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
+        <value>FTP 或 FTPS 凭据</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
+        <value>正在加载容器日志</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
+        <value>正在加载容器日志...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
+        <value>无法加载容器日志</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailedWithError" xml:space="preserve">
+        <value>无法加载容器日志: {0}</value>
+    </data>
+  <data name="invocationTracesTableTitle" xml:space="preserve">
+        <value>调用跟踪</value>
+    </data>
+  <data name="invocationTracesTableDescription" xml:space="preserve">
+        <value>二十个最近的函数调用跟踪。若要进行更高级的分析，请在 Application Insights 中运行查询。</value>
+    </data>
+  <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
+        <value>刷新环境变量</value>
+    </data>
+  <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
+        <value>刷新时，所有未保存的更改都将丢失。是否确实要继续?</value>
+    </data>
+  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
+        <value>添加环境变量</value>
+    </data>
+  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
+        <value>编辑环境变量</value>
+    </data>
+  <data name="deploymentCenterFtpsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
+        <value>FTPS endpoint</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
+        <value>Application scope</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
+        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
+        <value>用户范围</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
+        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
+        <value>(your username)</value>
+    </data>
+  <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+        <value>用户名</value>
+    </data>
+  <data name="deploymentCenterFtpsPasswordLabel" xml:space="preserve">
+        <value>密码</value>
+    </data>
+  <data name="deploymentCenterFtpsConfirmPasswordLabel" xml:space="preserve">
+        <value>确认密码</value>
+    </data>
+  <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
+        <value>Write permission on the site or the slot is required to view credentials.</value>
+    </data>
+  <data name="appKeys_hostKeys_description" xml:space="preserve">
+        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+    </data>
+  <data name="appKeys_systemKeys_description" xml:space="preserve">
+        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+    </data>
+  <data name="functionKeys_description" xml:space="preserve">
+        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+    </data>
+  <data name="staticSite_noFunctionMessage" xml:space="preserve">
+        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+    </data>
+  <data name="reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+  <data name="resetPublishProfileAriaLabel" xml:space="preserve">
+        <value>Reset publishing profile</value>
+    </data>
+  <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Show application password</value>
+    </data>
+  <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Hide application password</value>
+    </data>
+  <data name="showProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user password</value>
+    </data>
+  <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user password</value>
+    </data>
+  <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user confirm password</value>
+    </data>
+  <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user confirm password</value>
     </data>
 </root>

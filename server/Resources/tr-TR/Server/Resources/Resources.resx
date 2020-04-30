@@ -3924,7 +3924,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Görüntü kaynağı</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Görüntü ve isteğe bağlı etiket (örn 'image:tag')</value>
+        <value>Full Image Name and Tag</value>
+    </data>
+  <data name="containerImageAndTagPlaceholder" xml:space="preserve">
+        <value>E.g. nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Başlamak için, ilk olarak bir Azure Kapsayıcı Kayıt Defteri oluşturun ve bir resim ekleyin.</value>
@@ -3940,6 +3943,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="containerServerURL" xml:space="preserve">
         <value>Sunucu URL'si</value>
+    </data>
+  <data name="containerServerURLPlaceholder" xml:space="preserve">
+        <value>E.g. https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Oturum Aç</value>
@@ -5023,7 +5029,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>App Service planını değiştir</value>
     </data>
   <data name="changePlanDescription" xml:space="preserve">
-        <value>Uygulamanızın barındırıldığı planı değiştirmek, uygulamalarınızı makine kaynaklarını paylaşabilecekleri tek bir plan olarak birleştirmenize veya gelişmiş performans için ayrı ayrı ölçeklenebilecekleri ayrı planlara yaymaya olanak sağlar.</value>
+        <value>Uygulamanızın barındırıldığı planı değiştirmek, uygulamalarınızı makine kaynaklarını paylaşabilecekleri tek bir plan olarak birleştirmenize veya gelişmiş performans için ayrı ayrı ölçeklendirilebilecekleri ayrı planlara yaymaya olanak sağlar.</value>
     </data>
   <data name="changePlanLocationTooltip" xml:space="preserve">
         <value>Uygulamanızın şu anda bulunduğu bölge, yeni veya mevcut planlar için değiştirilemez.</value>
@@ -5137,10 +5143,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>{0} ayrıntı</value>
     </data>
   <data name="integratePageTitle" xml:space="preserve">
-        <value>Integration</value>
+        <value>Tümleştirme</value>
     </data>
   <data name="integratePageDescription" xml:space="preserve">
-        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
+        <value>Tetikleyiciyi düzenleyin ve işleviniz için Azure Blob Depolama, Cosmos DB ve diğerleri dahil olmak üzere giriş ve çıkış seçenekleri arasından seçim yapın.</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>İşlev</value>
@@ -5413,13 +5419,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Kapsam</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Sanal ağ tetikleyici desteği</value>
+        <value>Runtime Scale Monitoring</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Bu ayar, uygulamanızın bir sanal ağ içindeki kaynaklar tarafından tetiklenmesini sağlar. Ayrıca 1 önceden hazırlanmış örneğin etkin olmasını ve çalışma zamanı V2 veya üzerini çalıştırmasını gerektirir. &lt;a href="{0}" target="_blank"&gt;Daha fazla bilgi edinin&lt;/a&gt;.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Bu ayar, uygulamanızın sanal ağ içindeki kaynaklar tarafından tetiklenmesini sağlar. Ayrıca 1 önceden hazırlanmış örneğin etkin olmasını ve çalışma zamanı V2 veya üzerini çalıştırmasını gerektirir.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Uygulama Ayarlarını Yenile</value>
@@ -5593,7 +5599,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Uygulama ayarındaki FUNCTIONS_EXTENSION_VERSION değerini yapılandırdığınızda özel bir çalışma zamanı sürümü kullanmayı kabul etmiş olursunuz.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>Mevcut işlevlerle yükseltme işlemi yapılamaz: Ana sürüm yükseltme, diller ve bağlamalar için bozucu değişiklikler ortaya çıkarabilir. Çalışma zamanının ana sürümünü yükseltirken, yeni bir işlev uygulaması oluşturup işlevlerinizi bu yeni uygulamaya geçirmeyi düşünün.</value>
+        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
+        <value>Update Runtime Version</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
+        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>GitHub belirtecinde 'iş akışı' kapsamı eksik. GitHub'ı yeniden yetkilendirmek için lütfen 'kaynak denetimi' adımına dönün.</value>
@@ -5664,8 +5676,8 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Uzaktan hata ayıklama uygulamanız için kullanılamıyor. </value>
     </data>
-  <data name="tryFunctionsPreview" xml:space="preserve">
-        <value>Yeni Azure İşlevleri yönetim deneyiminin önizlemesini görüntüleyin</value>
+  <data name="tryFunctionsNewExperience" xml:space="preserve">
+        <value>Yeni Azure İşlevleri yönetim deneyimini deneyin</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Değişiklikleri kaydet</value>
@@ -5938,6 +5950,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Görüntülenecek ortam değişkeni yok</value>
     </data>
   <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Ekle</value>
+    </data>
+  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
         <value>Yeni ortam değişkeni ekle</value>
     </data>
   <data name="staticSite_environmentVariables" xml:space="preserve">
@@ -5953,33 +5968,150 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Site için ortamı seçin</value>
     </data>
   <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filter environment variable</value>
-    </data>
-  <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
-        <value>Add/Edit environment variable</value>
+        <value>Ortam değişkenini filtrele</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+        <value>{0} ortamı için ortam değişkenlerinde yapılan değişiklikleri atmak istediğinizden emin misiniz?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
-        <value>Your unsaved changes will be discarded.</value>
+        <value>Kaydedilmemiş değişiklikleriniz atılacak.</value>
     </data>
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
-        <value>Are you sure you would like to change environment?</value>
+        <value>Ortamı değiştirmek istediğinizden emin misiniz?</value>
     </data>
   <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} is a required property on all environment variables</value>
+        <value>{0}, tüm ortam değişkenlerinde gerekli bir özelliktir</value>
     </data>
   <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Environment variable name must be unique</value>
+        <value>Ortam değişkeni adı benzersiz olmalıdır</value>
     </data>
   <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Environment variable values must be an array</value>
+        <value>Ortam değişkeni değerleri bir dizi olmalıdır</value>
     </data>
   <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} is an invalid environment variable property</value>
+        <value>{0}, geçersiz bir ortam değişkeni özelliğidir</value>
     </data>
   <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>All environment variable value and name properties must be of type string</value>
+        <value>Tüm ortam değişkeni değer ve ad özellikleri dize türünde olmalıdır</value>
+    </data>
+  <data name="staticSite_readOnlyRbac" xml:space="preserve">
+        <value>RBAC tarafından atanmış erişiminiz Okuyucu olarak ayarlandığından siteniz şu anda salt okunur modda</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>Günlükler</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>Kapsayıcı günlükleri</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+        <value>Ayarlar</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
+        <value>Kapsayıcı ayarları</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
+        <value>FTP/FTPs kimlik bilgileri</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
+        <value>FTP veya FTPs kimlik bilgileri</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
+        <value>Kapsayıcı günlükleri yükleniyor</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
+        <value>Kapsayıcı günlükleri yükleniyor...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
+        <value>Kapsayıcı günlükleri yüklenemedi</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailedWithError" xml:space="preserve">
+        <value>Kapsayıcı günlükleri yüklenemedi: {0}</value>
+    </data>
+  <data name="invocationTracesTableTitle" xml:space="preserve">
+        <value>Çağrı İzlemeleri</value>
+    </data>
+  <data name="invocationTracesTableDescription" xml:space="preserve">
+        <value>En son kullanılan yirmi işleve yönelik çağrı izlemeleri. Daha gelişmiş analizler için sorguyu Application Insights'ta çalıştırın.</value>
+    </data>
+  <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
+        <value>Ortam değişkenlerini yenile</value>
+    </data>
+  <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
+        <value>Yenileme sırasında kaydedilmemiş tüm değişiklikler kaybolacak. Devam etmek istediğinizden emin misiniz?</value>
+    </data>
+  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
+        <value>Ortam değişkeni ekle</value>
+    </data>
+  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
+        <value>Ortam değişkenini düzenle</value>
+    </data>
+  <data name="deploymentCenterFtpsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
+        <value>FTPS endpoint</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
+        <value>Application scope</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
+        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
+        <value>User scope</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
+        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
+        <value>(your username)</value>
+    </data>
+  <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+        <value>Kullanıcı Adı</value>
+    </data>
+  <data name="deploymentCenterFtpsPasswordLabel" xml:space="preserve">
+        <value>Parola</value>
+    </data>
+  <data name="deploymentCenterFtpsConfirmPasswordLabel" xml:space="preserve">
+        <value>Parolayı Onaylayın</value>
+    </data>
+  <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
+        <value>Write permission on the site or the slot is required to view credentials.</value>
+    </data>
+  <data name="appKeys_hostKeys_description" xml:space="preserve">
+        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+    </data>
+  <data name="appKeys_systemKeys_description" xml:space="preserve">
+        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+    </data>
+  <data name="functionKeys_description" xml:space="preserve">
+        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+    </data>
+  <data name="staticSite_noFunctionMessage" xml:space="preserve">
+        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+    </data>
+  <data name="reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+  <data name="resetPublishProfileAriaLabel" xml:space="preserve">
+        <value>Reset publishing profile</value>
+    </data>
+  <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Show application password</value>
+    </data>
+  <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Hide application password</value>
+    </data>
+  <data name="showProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user password</value>
+    </data>
+  <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user password</value>
+    </data>
+  <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user confirm password</value>
+    </data>
+  <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user confirm password</value>
     </data>
 </root>

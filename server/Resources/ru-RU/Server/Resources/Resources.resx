@@ -3924,7 +3924,10 @@
         <value>Источник образа</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Образ и дополнительный тег (например, "image:tag")</value>
+        <value>Full Image Name and Tag</value>
+    </data>
+  <data name="containerImageAndTagPlaceholder" xml:space="preserve">
+        <value>E.g. nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Чтобы начать, создайте реестр контейнеров Azure и добавьте образ.</value>
@@ -3940,6 +3943,9 @@
     </data>
   <data name="containerServerURL" xml:space="preserve">
         <value>URL-адрес сервера</value>
+    </data>
+  <data name="containerServerURLPlaceholder" xml:space="preserve">
+        <value>E.g. https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Вход в систему</value>
@@ -5137,10 +5143,10 @@
         <value>{0} - сведения</value>
     </data>
   <data name="integratePageTitle" xml:space="preserve">
-        <value>Integration</value>
+        <value>Интеграция</value>
     </data>
   <data name="integratePageDescription" xml:space="preserve">
-        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
+        <value>Измените триггер и выберите один из вариантов входных и выходных данных функции, включая хранилище BLOB-объектов Azure, Cosmos DB и другие.</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>Функция</value>
@@ -5413,13 +5419,13 @@
         <value>Область</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Поддержка триггеров виртуальной сети</value>
+        <value>Runtime Scale Monitoring</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Этот параметр позволяет ресурсам внутри виртуальной сети активировать приложение. Ему также требуется один активный предварительно подготовленный экземпляр и среда выполнения версии 2 или более поздней версии. &lt;a href="{0}" target="_blank"&gt;Дополнительные сведения&lt;/a&gt;.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Этот параметр позволяет ресурсам внутри виртуальной сети активировать приложение. Ему также требуется один активный предварительно подготовленный экземпляр и среда выполнения версии 2 или более поздней версии.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Обновление параметров приложения</value>
@@ -5593,7 +5599,13 @@
         <value>Установив значение переменной FUNCTIONS_EXTENSION_VERSION в параметре приложения, вы соглашаетесь на использование настраиваемой версии среды выполнения.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>Невозможно выполнить обновление с помощью существующих функций. Обновление основной версии может вызвать критические изменения в языках и привязках. В случае обновления основных версий среды выполнения можно создать новое приложение-функцию и перенести в него свои функции.</value>
+        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
+        <value>Update Runtime Version</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
+        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>Токен GitHub не содержит область "workflow". Вернитесь на шаг "Управление версиями" и повторите авторизацию GitHub.</value>
@@ -5664,8 +5676,8 @@
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Удаленная отладка недоступна для вашего приложения. </value>
     </data>
-  <data name="tryFunctionsPreview" xml:space="preserve">
-        <value>Попробуйте предварительную версию нового интерфейса управления для Функций Azure</value>
+  <data name="tryFunctionsNewExperience" xml:space="preserve">
+        <value>Попробуйте новый интерфейс управления для Функций Azure</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Сохранить изменения</value>
@@ -5938,6 +5950,9 @@
         <value>Нет переменных среды для отображения.</value>
     </data>
   <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Добавить</value>
+    </data>
+  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
         <value>Добавить новую переменную среды</value>
     </data>
   <data name="staticSite_environmentVariables" xml:space="preserve">
@@ -5953,33 +5968,150 @@
         <value>Выберите среду для сайта</value>
     </data>
   <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filter environment variable</value>
-    </data>
-  <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
-        <value>Add/Edit environment variable</value>
+        <value>Фильтрация переменных среды</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+        <value>Вы действительно хотите отменить изменения переменных среды для среды {0}?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
-        <value>Your unsaved changes will be discarded.</value>
+        <value>Несохраненные изменения будут потеряны.</value>
     </data>
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
-        <value>Are you sure you would like to change environment?</value>
+        <value>Вы действительно хотите изменить среду?</value>
     </data>
   <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} is a required property on all environment variables</value>
+        <value>Свойство {0} является обязательным для всех переменных среды.</value>
     </data>
   <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Environment variable name must be unique</value>
+        <value>Имена переменных среды должны быть уникальными.</value>
     </data>
   <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Environment variable values must be an array</value>
+        <value>Значения переменных среды должны быть массивом.</value>
     </data>
   <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} is an invalid environment variable property</value>
+        <value>{0} является недопустимым свойством переменной среды.</value>
     </data>
   <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>All environment variable value and name properties must be of type string</value>
+        <value>Свойства имен и значений для всех переменных среды должны иметь строковый тип.</value>
+    </data>
+  <data name="staticSite_readOnlyRbac" xml:space="preserve">
+        <value>Ваш сайт сейчас находится в режиме только для чтения, так как назначена роль доступа RBAC "Читатель".</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>Журналы</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>Журналы контейнера</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+        <value>Параметры</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
+        <value>Параметры контейнера</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
+        <value>Учетные данные FTP или FTPS</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
+        <value>Учетные данные FTP или FTPS</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
+        <value>Загрузка журналов контейнера</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
+        <value>Загрузка журналов контейнера…</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
+        <value>Не удалось загрузить журналы контейнера.</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailedWithError" xml:space="preserve">
+        <value>Не удалось загрузить журналы контейнера: {0}</value>
+    </data>
+  <data name="invocationTracesTableTitle" xml:space="preserve">
+        <value>Трассировка вызовов</value>
+    </data>
+  <data name="invocationTracesTableDescription" xml:space="preserve">
+        <value>Двадцать последних трассировок вызовов функций. Для расширенного анализа выполните запрос в Application Insights.</value>
+    </data>
+  <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
+        <value>Refresh environment variables</value>
+    </data>
+  <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
+        <value>При обновлении все несохраненные изменения будут потеряны. Вы действительно хотите продолжить?</value>
+    </data>
+  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
+        <value>Add environment variable</value>
+    </data>
+  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
+        <value>Edit environment variable</value>
+    </data>
+  <data name="deploymentCenterFtpsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
+        <value>FTPS endpoint</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
+        <value>Application scope</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
+        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
+        <value>User scope</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
+        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
+        <value>(your username)</value>
+    </data>
+  <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+        <value>Имя пользователя</value>
+    </data>
+  <data name="deploymentCenterFtpsPasswordLabel" xml:space="preserve">
+        <value>Пароль</value>
+    </data>
+  <data name="deploymentCenterFtpsConfirmPasswordLabel" xml:space="preserve">
+        <value>Подтверждение пароля</value>
+    </data>
+  <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
+        <value>Write permission on the site or the slot is required to view credentials.</value>
+    </data>
+  <data name="appKeys_hostKeys_description" xml:space="preserve">
+        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+    </data>
+  <data name="appKeys_systemKeys_description" xml:space="preserve">
+        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+    </data>
+  <data name="functionKeys_description" xml:space="preserve">
+        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+    </data>
+  <data name="staticSite_noFunctionMessage" xml:space="preserve">
+        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+    </data>
+  <data name="reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+  <data name="resetPublishProfileAriaLabel" xml:space="preserve">
+        <value>Reset publishing profile</value>
+    </data>
+  <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Show application password</value>
+    </data>
+  <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Hide application password</value>
+    </data>
+  <data name="showProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user password</value>
+    </data>
+  <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user password</value>
+    </data>
+  <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user confirm password</value>
+    </data>
+  <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user confirm password</value>
     </data>
 </root>
