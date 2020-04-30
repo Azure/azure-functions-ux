@@ -4,15 +4,15 @@ import { MessageBarType } from 'office-ui-fabric-react';
 
 export const messageBannerStyles = (isCustomIcon: boolean) => {
   const styles = {
-    root: {
-      height: '33px',
-    },
     content: {
-      height: '33px',
       paddingLeft: '15px',
     },
     text: {
       marginTop: '9px',
+      marginBottom: '8px',
+    },
+    innerText: {
+      marginLeft: isCustomIcon ? '24px' : undefined,
     },
     iconContainer: {
       display: isCustomIcon ? ('none' as 'none') : ('contents' as 'contents'),
@@ -28,19 +28,17 @@ export const messageBannerStyles = (isCustomIcon: boolean) => {
   if (!isCustomIcon) {
     styles.icon = {
       marginTop: '9px',
+      marginBottom: '8px',
     };
   }
   return styles;
 };
 
-export const messageBannerTextStyle = style({
-  marginLeft: '24px',
-});
-
 export const messageBannerIconStyle = style({
   position: 'absolute',
   height: '16px',
   width: '16px',
+  marginLeft: '-24px',
 });
 
 export const messageBannerClass = (theme: ThemeExtended, type: MessageBarType) => {
