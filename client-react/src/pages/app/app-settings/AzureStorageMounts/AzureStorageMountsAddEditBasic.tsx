@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { FormAzureStorageMounts } from '../AppSettings.types';
-import { AzureStorageMountsAddEditPropsCombined, messageBanner } from './AzureStorageMountsAddEdit';
+import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
 import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
 import axios from 'axios';
 import { formElementStyle } from '../AppSettings.styles';
@@ -11,9 +11,10 @@ import { useTranslation } from 'react-i18next';
 import { StorageAccountsContext, SiteContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { MessageBarType, MessageBar, Link } from 'office-ui-fabric-react';
+import { MessageBarType } from 'office-ui-fabric-react';
 import { StorageType } from '../../../../models/site/config';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -163,16 +164,13 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
         />
       )}
       {values.type === StorageType.azureBlob && (
-        <MessageBar
+        <CustomBanner
           id="azure-storage-mount-blob-warning"
-          className={messageBanner}
-          isMultiline={false}
-          messageBarType={MessageBarType.warning}>
-          {t('readonlyBlobStorageWarning')}
-          <Link href={CommonConstants.Links.byosBlobReadonlyLearnMore} target="_blank">
-            {t('learnMore')}
-          </Link>
-        </MessageBar>
+          message={t('readonlyBlobStorageWarning')}
+          learnMoreLink={CommonConstants.Links.byosBlobReadonlyLearnMore}
+          type={MessageBarType.warning}
+          undocked={true}
+        />
       )}
       <Field
         component={ComboBox}
