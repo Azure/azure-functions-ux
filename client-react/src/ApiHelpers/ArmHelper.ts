@@ -11,7 +11,7 @@ import { LogCategories } from '../utils/LogCategories';
 import { ArmArray, ArmObj } from '../models/arm-obj';
 import { KeyValue } from '../models/portal-models';
 
-const alwaysSkipBatch = !!Url.getParameterByName(null, 'appsvc.skipbatching');
+const alwaysSkipBatching = !!Url.getParameterByName(null, 'appsvc.skipbatching');
 const sessionId = Url.getParameterByName(null, 'sessionId');
 
 interface InternalArmRequest {
@@ -127,7 +127,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
 };
 
 const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpResponseObject<T>> => {
-  const { skipBuffer, method, resourceId, body, apiVersion, commandName, queryString, headers } = requestObject;
+  const { skipBatching, method, resourceId, body, apiVersion, commandName, queryString, headers } = requestObject;
 
   const id = Guid.newGuid();
   const armBatchObject: InternalArmRequest = {
@@ -141,7 +141,7 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
     apiVersion: apiVersion !== null ? apiVersion || CommonConstants.ApiVersions.antaresApiVersion20181101 : null,
   };
 
-  if (!skipBuffer && !alwaysSkipBatch) {
+  if (!skipBatching && !alwaysSkipBatching) {
     const fetchFromBatch = new Promise<ArmBatchObject>((resolve, reject) => {
       armObs$
         .pipe(

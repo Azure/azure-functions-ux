@@ -6,7 +6,7 @@ export interface ArmRequestObject<T> {
   commandName: string;
   method?: MethodTypes;
   body?: T;
-  skipBuffer?: boolean;
+  skipBatching?: boolean;
   apiVersion?: string | null;
   queryString?: string;
   headers?: KeyValue<string>;

@@ -21,6 +21,7 @@ export const modalContentStyles = {
     padding: '0px',
   },
   innerContent: {
+    width: 'calc(100vw - 64px)',
     paddingLeft: '28px',
     paddingRight: '36px',
     paddingBottom: '5px',
@@ -29,6 +30,7 @@ export const modalContentStyles = {
 
 export const modalFooterStyles = {
   actionsRight: {
+    width: 'calc(100vw - 25px)',
     borderTop: '1px solid rgba(204,204,204,.8)',
     paddingTop: '10px',
     paddingLeft: '28px',

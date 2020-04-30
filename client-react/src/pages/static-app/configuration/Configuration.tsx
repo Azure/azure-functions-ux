@@ -10,15 +10,21 @@ import {
   TooltipHost,
   ActionButton,
   SearchBox,
+  MessageBarType,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable, PanelType } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { formStyle, commandBarSticky } from './Configuration.styles';
+import {
+  formStyle,
+  commandBarSticky,
+  tableValueComponentStyle,
+  tableValueFormFieldStyle,
+  tableValueIconStyle,
+} from './Configuration.styles';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
 import { ArmObj } from '../../../models/arm-obj';
-import { StaticSite } from '../../../models/static-site/static-site';
 import { Environment } from '../../../models/static-site/environment';
 import IconButton from '../../../components/IconButton/IconButton';
 import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
@@ -31,25 +37,32 @@ import { KeyValue } from '../../../models/portal-models';
 import ConfigurationData from './Configuration.data';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import { Links } from '../../../utils/FwLinks';
+import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 
 interface ConfigurationProps {
-  staticSite: ArmObj<StaticSite>;
   environments: ArmObj<Environment>[];
   isLoading: boolean;
-  fetchEnvironmentVariables: (resourceId: string) => {};
+  hasWritePermissions: boolean;
+  apiFailure: boolean;
+  fetchDataOnEnvironmentChange: (resourceId: string) => {};
   saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
   refresh: () => void;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
+  environmentHasFunctions?: boolean;
 }
 
 const Configuration: React.FC<ConfigurationProps> = props => {
   const {
     environments,
-    fetchEnvironmentVariables,
     selectedEnvironmentVariableResponse,
     saveEnvironmentVariables,
-    refresh,
     isLoading,
+    hasWritePermissions,
+    apiFailure,
+    fetchDataOnEnvironmentChange,
+    environmentHasFunctions,
   } = props;
 
   const [shownValues, setShownValues] = useState<string[]>([]);
@@ -65,6 +78,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
   const [isOnChangeConfirmDialogVisible, setIsOnChangeConfirmDialogVisible] = useState(false);
   const [onChangeEnvironment, setOnChangeEnvironment] = useState<ArmObj<Environment> | undefined>(undefined);
+  const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
 
   const { t } = useTranslation();
 
@@ -101,7 +115,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const isTableCommandBarDisabled = () => {
-    return isLoading;
+    return isLoading || !hasWritePermissions || apiFailure;
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
@@ -114,7 +128,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Add' },
         name: t('staticSite_addNewEnvironmentVariable'),
-        ariaLabel: t('staticSite_addNewEnvironmentVariable'),
+        ariaLabel: t('staticSite_ariaLabel_addNewEnvironmentVariable'),
       },
       {
         key: 'environment-variable-show-hide',
@@ -185,19 +199,34 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     if (column.key === 'value') {
       return (
         <>
-          <ActionButton
-            id={`environment-variable-show-hide-${index}`}
-            className={defaultCellStyle}
-            onClick={() => onShowHideButtonClick(itemKey)}
-            iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
-            {hidden ? (
+          {hidden ? (
+            <ActionButton
+              id={`environment-variable-show-${index}`}
+              className={defaultCellStyle}
+              onClick={() => onShowHideButtonClick(itemKey)}
+              iconProps={{ iconName: 'RedEye' }}>
               <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
-            ) : (
-              <div className={defaultCellStyle} id={`app-settings-application-settings-value-${index}`}>
-                {item[column.fieldName!]}
+            </ActionButton>
+          ) : (
+            <div className={`${tableValueComponentStyle} ${defaultCellStyle}`} onClick={() => onShowHideButtonClick(itemKey)}>
+              <IconButton
+                id={`environment-variable-hide-${index}`}
+                className={tableValueIconStyle(theme)}
+                iconProps={{ iconName: 'Hide' }}
+                onClick={() => onShowHideButtonClick(itemKey)}
+              />
+              <div>
+                <TextFieldNoFormik
+                  id={`environment-variable-value-${index}`}
+                  value={item[column.fieldName!]}
+                  copyButton={true}
+                  disabled={true}
+                  formControlClassName={tableValueFormFieldStyle}
+                  className={defaultCellStyle}
+                />
               </div>
-            )}
-          </ActionButton>
+            </div>
+          )}
         </>
       );
     }
@@ -241,7 +270,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 260,
+        minWidth: 280,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
@@ -273,12 +302,12 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     ];
   };
 
-  const onDropdownChange = (environment: ArmObj<Environment>, defaultChange?: boolean) => {
-    if (defaultChange) {
-      onEnvironmentChange(environment);
-    } else {
+  const onDropdownChange = (environment: ArmObj<Environment>) => {
+    if (isDirty) {
       setOnChangeEnvironment(environment);
       setIsOnChangeConfirmDialogVisible(true);
+    } else {
+      onEnvironmentChange(environment);
     }
   };
 
@@ -366,7 +395,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const onEnvironmentChange = (environment?: ArmObj<Environment>) => {
     const env: ArmObj<Environment> | undefined = onChangeEnvironment || environment;
     if (!!env) {
-      fetchEnvironmentVariables(env.id);
+      fetchDataOnEnvironmentChange(env.id);
       setSelectedEnvironment(env);
     }
     hideOnChangeConfirmDialog();
@@ -379,6 +408,37 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     }
   };
 
+  const setDefaultSelectedEnvironment = () => {
+    if (environments.length > 0 && !selectedEnvironment) {
+      onEnvironmentChange(environments[0]);
+    }
+  };
+
+  const refresh = () => {
+    setIsRefreshConfirmDialogVisible(false);
+    setSelectedEnvironment(undefined);
+    props.refresh();
+  };
+
+  const hideRefreshConfirmDialog = () => {
+    setIsRefreshConfirmDialogVisible(false);
+  };
+
+  const getBanner = () => {
+    const bannerInfo = { message: '', type: MessageBarType.info };
+    if (!hasWritePermissions) {
+      bannerInfo.message = t('staticSite_readOnlyRbac');
+    } else if (environmentHasFunctions !== undefined && !environmentHasFunctions) {
+      bannerInfo.message = t('staticSite_noFunctionMessage');
+    }
+    return !!bannerInfo.message ? <CustomBanner message={bannerInfo.message} type={bannerInfo.type} /> : <></>;
+  };
+
+  useEffect(() => {
+    setDefaultSelectedEnvironment();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [environments]);
   useEffect(() => {
     const dirtyState = getDirtyState(environmentVariables);
     setIsDirty(dirtyState);
@@ -398,10 +458,16 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           dirty={isDirty}
           isLoading={isLoading}
           showDiscardConfirmDialog={() => setIsDiscardConfirmDialogVisible(true)}
-          refresh={refresh}
+          refresh={() => {
+            if (isDirty) {
+              setIsRefreshConfirmDialogVisible(true);
+            } else {
+              refresh();
+            }
+          }}
         />
-        <ConfigurationEnvironmentSelector environments={environments} onDropdownChange={onDropdownChange} disabled={isLoading} />
       </div>
+      {getBanner()}
       <>
         <ConfirmDialog
           primaryActionButton={{
@@ -413,7 +479,9 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             onClick: hideDiscardConfirmDialog,
           }}
           title={t('discardChangesTitle')}
-          content={t('staticSite_discardChangesMesssage').format(!!selectedEnvironment ? selectedEnvironment.name : '')}
+          content={t('staticSite_discardChangesMesssage').format(
+            !!selectedEnvironment ? ConfigurationData.getEnvironmentName(selectedEnvironment) : ''
+          )}
           hidden={!isDiscardConfirmDialogVisible}
           onDismiss={hideDiscardConfirmDialog}
         />
@@ -431,6 +499,20 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           hidden={!isOnChangeConfirmDialogVisible}
           onDismiss={hideOnChangeConfirmDialog}
         />
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('ok'),
+            onClick: refresh,
+          }}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: hideRefreshConfirmDialog,
+          }}
+          title={t('staticSite_refreshConfirmTitle')}
+          content={t('staticSite_refreshConfirmMessage')}
+          hidden={!isRefreshConfirmDialogVisible}
+          onDismiss={hideRefreshConfirmDialog}
+        />
       </>
       <div className={formStyle}>
         <h3>{t('staticSite_environmentVariables')}</h3>
@@ -438,13 +520,19 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           <span id="environment-variable-info-message">{t('staticSite_environmentVariablesInfoMessage')}</span>
           <Link
             id="environment-variable-info-learnMore"
-            href={`azure.microsoft.com`}
+            href={Links.staticSiteEnvironmentVariablesLearnMore}
             target="_blank"
             className={learnMoreLinkStyle}
             aria-labelledby="environment-variable-info-message">
             {` ${t('learnMore')}`}
           </Link>
         </p>
+        <ConfigurationEnvironmentSelector
+          environments={environments}
+          onDropdownChange={onDropdownChange}
+          disabled={isLoading || !hasWritePermissions}
+          selectedEnvironment={selectedEnvironment}
+        />
         <DisplayTableWithCommandBar
           commandBarItems={getCommandBarItems()}
           columns={getColumns()}
@@ -475,7 +563,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         <Panel
           isOpen={showPanel && panelType === PanelType.edit}
           onDismiss={onCancel}
-          headerText={t('staticSite_addEditEnvironmentVariable')}>
+          headerText={
+            currentEnvironmentVariableIndex === undefined
+              ? t('staticSite_addEnvironmentVariableHeader')
+              : t('staticSite_editEnvironmentVariableHeader')
+          }>
           <ConfigurationAddEdit
             currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
             environmentVariables={environmentVariables}
@@ -483,7 +575,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             updateEnvironmentVariable={updateEnvironmentVariable}
           />
         </Panel>
-        <Panel isOpen={panelType === PanelType.bulk} onDismiss={onCancel}>
+        <Panel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
           <ConfigurationAdvancedAddEdit
             environmentVariables={environmentVariables}
             cancel={onCancel}

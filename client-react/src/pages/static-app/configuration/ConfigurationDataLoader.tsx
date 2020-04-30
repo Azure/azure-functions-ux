@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import ConfigurationData from './Configuration.data';
 import Configuration from './Configuration';
-import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import LogService from '../../../utils/LogService';
 import { LogCategories } from '../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
 import { ArmObj } from '../../../models/arm-obj';
-import { StaticSite } from '../../../models/static-site/static-site';
 import { Environment } from '../../../models/static-site/environment';
-import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import { EnvironmentVariable } from './Configuration.types';
 import { KeyValue } from '../../../models/portal-models';
+import { PortalContext } from '../../../PortalContext';
+import RbacConstants from '../../../utils/rbac-constants';
 
 const configurationData = new ConfigurationData();
 export const ConfigurationContext = React.createContext(configurationData);
@@ -24,35 +23,31 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   const { resourceId } = props;
 
   const [initialLoading, setInitialLoading] = useState(false);
-  const [staticSite, setStaticSite] = useState<ArmObj<StaticSite> | undefined>(undefined);
   const [environments, setEnvironments] = useState<ArmObj<Environment>[]>([]);
   const [selectedEnvironmentVariableResponse, setSelectedEnvironmentVariableResponse] = useState<ArmObj<KeyValue<string>> | undefined>(
     undefined
   );
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [hasWritePermissions, setHasWritePermissions] = useState(true);
+  const [apiFailure, setApiFailure] = useState(false);
+  const [environmentHasFunctions, setEnvironmentHasFunctions] = useState<boolean | undefined>(undefined);
+
+  const portalContext = useContext(PortalContext);
 
   const fetchData = async () => {
     setInitialLoading(true);
     setIsRefreshing(true);
-    const [staticSiteResponse, environmentResponse] = await Promise.all([
-      StaticSiteService.getStaticSite(resourceId),
-      EnvironmentService.getEnvironments(resourceId),
-    ]);
 
-    if (staticSiteResponse.metadata.success) {
-      setStaticSite(staticSiteResponse.data);
-    } else {
-      LogService.error(
-        LogCategories.staticSiteConfiguration,
-        'getStaticSite',
-        `Failed to get static site: ${getErrorMessageOrStringify(staticSiteResponse.metadata.error)}`
-      );
-    }
+    const appPermission = await portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
+    setHasWritePermissions(appPermission);
+
+    const environmentResponse = await EnvironmentService.getEnvironments(resourceId);
 
     if (environmentResponse.metadata.success) {
       // TODO(krmitta): Handle nextlinks
       setEnvironments(environmentResponse.data.value);
     } else {
+      setApiFailure(true);
       LogService.error(
         LogCategories.staticSiteConfiguration,
         'getEnvironments',
@@ -64,10 +59,12 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   };
 
   const fetchEnvironmentVariables = async (environmentResourceId: string) => {
+    setIsRefreshing(true);
     const environmentSettingsResponse = await EnvironmentService.fetchEnvironmentSettings(environmentResourceId);
     if (environmentSettingsResponse.metadata.success) {
       setSelectedEnvironmentVariableResponse(environmentSettingsResponse.data);
     } else {
+      setApiFailure(true);
       LogService.error(
         LogCategories.staticSiteConfiguration,
         'fetchEnvironmentSettings',
@@ -98,6 +95,26 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     }
   };
 
+  const fetchFunctionsForEnvironment = async (environmentResourceId: string) => {
+    setEnvironmentHasFunctions(undefined);
+    const functionsResponse = await EnvironmentService.fetchFunctions(environmentResourceId);
+    if (functionsResponse.metadata.success) {
+      setEnvironmentHasFunctions(functionsResponse.data.value.length > 0);
+    } else {
+      setApiFailure(true);
+      LogService.error(
+        LogCategories.staticSiteConfiguration,
+        'fetchFunctions',
+        `Failed to fetch functions: ${getErrorMessageOrStringify(functionsResponse.metadata.error)}`
+      );
+    }
+  };
+
+  const fetchDataOnEnvironmentChange = async (environmentResourceId: string) => {
+    fetchEnvironmentVariables(environmentResourceId);
+    fetchFunctionsForEnvironment(environmentResourceId);
+  };
+
   const refresh = () => {
     fetchData();
   };
@@ -108,20 +125,18 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!staticSite) {
-    return <LoadingComponent />;
-  }
-
   return (
     <ConfigurationContext.Provider value={configurationData}>
       <Configuration
-        staticSite={staticSite}
         environments={environments}
-        fetchEnvironmentVariables={fetchEnvironmentVariables}
+        fetchDataOnEnvironmentChange={fetchDataOnEnvironmentChange}
         selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}
         saveEnvironmentVariables={saveEnvironmentVariables}
         refresh={refresh}
         isLoading={initialLoading || isRefreshing}
+        hasWritePermissions={hasWritePermissions}
+        apiFailure={apiFailure}
+        environmentHasFunctions={environmentHasFunctions}
       />
     </ConfigurationContext.Provider>
   );

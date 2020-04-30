@@ -11,6 +11,7 @@ import AppInsightsSetup from '../../functions/function/monitor/AppInsightsSetup'
 import FunctionLogAppInsightsDataLoader from '../../functions/function/function-log/FunctionLogAppInsightsDataLoader';
 import { paddingStyle } from './LogStream.styles';
 import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import { minimumLogPanelHeight, logCommandBarHeight } from '../function/function-log/FunctionLog.styles';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;
@@ -88,6 +89,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
         hideChevron={true}
         isScopeFunctionApp={true}
         leftAlignMainToolbarItems={true}
+        customHeight={window.innerHeight - minimumLogPanelHeight + logCommandBarHeight}
       />
     </div>
   );

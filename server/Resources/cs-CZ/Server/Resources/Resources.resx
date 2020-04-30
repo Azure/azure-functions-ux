@@ -3924,7 +3924,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Zdroj image</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Image a nepovinná značka (třeba image:tag)</value>
+        <value>Full Image Name and Tag</value>
+    </data>
+  <data name="containerImageAndTagPlaceholder" xml:space="preserve">
+        <value>E.g. nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Pokud chcete začít, nejdříve vytvořte registr služby Azure Container Registry a přidejte image.</value>
@@ -3940,6 +3943,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     </data>
   <data name="containerServerURL" xml:space="preserve">
         <value>Adresa URL serveru</value>
+    </data>
+  <data name="containerServerURLPlaceholder" xml:space="preserve">
+        <value>E.g. https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Přihlášení</value>
@@ -5137,10 +5143,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>{0} podrobnosti</value>
     </data>
   <data name="integratePageTitle" xml:space="preserve">
-        <value>Integration</value>
+        <value>Integrace</value>
     </data>
   <data name="integratePageDescription" xml:space="preserve">
-        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
+        <value>Upravte trigger a zvolte si z několika vstupů a výstupů pro vaši funkci, včetně služeb Azure Blob Storage, Cosmos DB a dalších.</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>Funkce</value>
@@ -5413,13 +5419,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Rozsah</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Podpora triggeru virtuální sítě</value>
+        <value>Runtime Scale Monitoring</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Tato nastavení umožňují, aby vaši aplikaci aktivovaly prostředky ve virtuální síti. Navíc vyžaduje 1 aktivní předem připravenou instanci a modul runtime V2 nebo vyšší. &lt;a href="{0}" target="_blank"&gt;Další informace&lt;/a&gt;</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Tato nastavení umožňují, aby vaši aplikaci aktivovaly prostředky ve virtuální síti. Navíc vyžaduje 1 aktivní předem připravenou instanci a modul runtime V2 nebo vyšší.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Aktualizovat nastavení aplikace</value>
@@ -5593,7 +5599,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Když se v nastavení aplikace nakonfiguruje hodnota FUNCTIONS_EXTENSION_VERSION, znamená to, že se bude používat vlastní verze modulu runtime.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>Se stávajícími funkcemi se nedá provést upgrade: Upgrady hlavní verze můžou zavést změny jazyků a vazeb, které způsobují chyby. Při upgradu hlavních verzí modulu runtime zvažte možnost vytvořit novou aplikaci funkcí a migrovat do ní své funkce.</value>
+        <value>Aktualizujete verzi modulu runtime z {0} na {1}. To může pro jazyk a vazby v existujících funkcích zavést změny způsobující chybu. Zvažte možnost vytvořit při upgradu hlavních verzí modulu runtime novou aplikaci funkcí a do ní migrovat své funkce.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
+        <value>Aktualizovat verzi modulu runtime</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
+        <value>Vaše aplikace v tuto chvíli používá verzi {0} a má existující funkce. Přepnutí na verzi {1} se nedoporučuje, protože může pro jazyky a vazby zavést změny způsobující chybu. Opravdu chcete pokračovat?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>V tokenu GitHubu chybí obor workflow. Pokud chcete GitHub znovu autorizovat, vraťte se prosím na krok source control.</value>
@@ -5664,8 +5676,8 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Vzdálené ladění není pro vaši aplikaci k dispozici. </value>
     </data>
-  <data name="tryFunctionsPreview" xml:space="preserve">
-        <value>Prohlédněte si nové prostředí pro správu Azure Functions.</value>
+  <data name="tryFunctionsNewExperience" xml:space="preserve">
+        <value>Vyzkoušejte nové prostředí pro správu Azure Functions.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Uložit změny</value>
@@ -5938,6 +5950,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Nejsou k dispozici žádné proměnné prostředí, které by se daly zobrazit.</value>
     </data>
   <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Přidat</value>
+    </data>
+  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
         <value>Přidat novou proměnnou prostředí</value>
     </data>
   <data name="staticSite_environmentVariables" xml:space="preserve">
@@ -5953,33 +5968,150 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Vyberte prostředí pro daný web.</value>
     </data>
   <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filter environment variable</value>
-    </data>
-  <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
-        <value>Add/Edit environment variable</value>
+        <value>Filtrovat proměnné prostředí</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+        <value>Opravdu chcete zahodit změny proměnných prostředí {0}?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
-        <value>Your unsaved changes will be discarded.</value>
+        <value>Vaše neuložené změny se zahodí.</value>
     </data>
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
-        <value>Are you sure you would like to change environment?</value>
+        <value>Opravdu chcete změnit prostředí?</value>
     </data>
   <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} is a required property on all environment variables</value>
+        <value>{0} je ve všech proměnných prostředí povinná vlastnost.</value>
     </data>
   <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Environment variable name must be unique</value>
+        <value>Názvy proměnných prostředí musí být jedinečné.</value>
     </data>
   <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Environment variable values must be an array</value>
+        <value>Hodnoty proměnných prostředí musí být pole.</value>
     </data>
   <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} is an invalid environment variable property</value>
+        <value>{0} není platná vlastnost proměnné prostředí.</value>
     </data>
   <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>All environment variable value and name properties must be of type string</value>
+        <value>Všechny vlastnosti hodnot a názvů proměnných prostředí musí být typu string.</value>
+    </data>
+  <data name="staticSite_readOnlyRbac" xml:space="preserve">
+        <value>Váš web je v tuto chvíli v režimu jen pro čtení, protože přístup přiřazený přes RBAC je nastavený na hodnotu Čtenář.</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>Protokoly</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>Protokoly kontejneru</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+        <value>Nastavení</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
+        <value>Nastavení kontejneru</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
+        <value>Přihlašovací údaje k FTP/FTPS</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
+        <value>Přihlašovací údaje k FTP nebo FTPS</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
+        <value>Načítají se protokoly kontejnerů</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
+        <value>Načítají se protokoly kontejnerů...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
+        <value>Nepovedlo se načíst protokoly kontejnerů.</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailedWithError" xml:space="preserve">
+        <value>Nepovedlo se načíst protokoly kontejnerů: {0}</value>
+    </data>
+  <data name="invocationTracesTableTitle" xml:space="preserve">
+        <value>Trasy volání</value>
+    </data>
+  <data name="invocationTracesTableDescription" xml:space="preserve">
+        <value>Dvacet nejnovějších tras volání funkce. Pro pokročilejší analýzu spusťte dotaz v Application Insights.</value>
+    </data>
+  <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
+        <value>Aktualizovat proměnné prostředí</value>
+    </data>
+  <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
+        <value>Při aktualizaci se ztratí všechny neuložené změny. Opravdu chcete pokračovat?</value>
+    </data>
+  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
+        <value>Přidat proměnnou prostředí</value>
+    </data>
+  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
+        <value>Upravit proměnnou prostředí</value>
+    </data>
+  <data name="deploymentCenterFtpsDescription" xml:space="preserve">
+        <value>App Service podporuje několik technologií pro přístup, publikování a úpravu obsahu aplikace. Obor přihlašovacích údajů FTP/FTPS se dá vymezit na aplikaci nebo na uživatele.</value>
+    </data>
+  <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
+        <value>Koncový bod FTPS</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
+        <value>Obor aplikace</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
+        <value>Přihlašovací údaje oboru aplikace se generují automaticky a umožňují přístup jen k této konkrétní aplikaci nebo slotu nasazení. Tyto přihlašovací údaje se dají použít pro FTP, místní Git a WebDeploy. Nedají se konfigurovat ručně, ale kdykoli je možné je resetovat.</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
+        <value>Obor uživatele</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
+        <value>Přihlašovací údaje oboru uživatelů definujete vy jakožto uživatel a dají se použít pro všechny aplikace, ke kterým máte přístup. Tyto přihlašovací údaje se dají použít pro FTP, místní Git a WebDeploy. Ověřování u koncového bodu FTP/FTPS pomocí přihlašovacích údajů na úrovni uživatele vyžaduje uživatelské jméno v tomto formátu: {0}</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
+        <value>(vaše uživatelské jméno)</value>
+    </data>
+  <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+        <value>Uživatelské jméno</value>
+    </data>
+  <data name="deploymentCenterFtpsPasswordLabel" xml:space="preserve">
+        <value>Heslo</value>
+    </data>
+  <data name="deploymentCenterFtpsConfirmPasswordLabel" xml:space="preserve">
+        <value>Potvrzení hesla</value>
+    </data>
+  <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
+        <value>K zobrazení přihlašovacích údajů se vyžadují oprávnění k zápisu na webu nebo ve slotu.</value>
+    </data>
+  <data name="appKeys_hostKeys_description" xml:space="preserve">
+        <value>Pokud chcete získat přístup ke všem funkcím HTTP v aplikaci, použijte u svých klientů klíče hostitelů. Klíč _master udělí správci přístup k rozhraním API Modulu runtime služby Functions.</value>
+    </data>
+  <data name="appKeys_systemKeys_description" xml:space="preserve">
+        <value>Systémové klíče se automaticky spravují pomocí Modulu runtime služby Functions. Poskytují podrobný přístup k funkcím Modulu runtime služby Functions.</value>
+    </data>
+  <data name="functionKeys_description" xml:space="preserve">
+        <value>Klíče služby Functions mají obor vymezený na tuto funkci a dají se použít pro přístup k této funkci triggeru HTTP.</value>
+    </data>
+  <data name="staticSite_noFunctionMessage" xml:space="preserve">
+        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+    </data>
+  <data name="reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+  <data name="resetPublishProfileAriaLabel" xml:space="preserve">
+        <value>Reset publishing profile</value>
+    </data>
+  <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Show application password</value>
+    </data>
+  <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Hide application password</value>
+    </data>
+  <data name="showProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user password</value>
+    </data>
+  <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user password</value>
+    </data>
+  <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user confirm password</value>
+    </data>
+  <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user confirm password</value>
     </data>
 </root>

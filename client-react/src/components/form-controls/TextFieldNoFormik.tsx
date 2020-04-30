@@ -19,16 +19,20 @@ interface CustomTextFieldProps {
   widthOverride?: string;
   copyButton?: boolean;
   formControlClassName?: string;
+  additionalControls?: JSX.Element[];
 }
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
-  const { value, onChange, onBlur, errorMessage, label, widthOverride, styles, id, copyButton, ...rest } = props;
+  const { value, onChange, onBlur, errorMessage, label, widthOverride, styles, id, copyButton, additionalControls, ...rest } = props;
   const { width } = useWindowSize();
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
   const fullpage = width > 1000;
   const [copied, setCopied] = useState(false);
 
-  const copyToClipboard = () => {
+  const copyToClipboard = (e: React.MouseEvent<any>) => {
+    if (!!e) {
+      e.stopPropagation();
+    }
     TextUtilitiesService.copyContentToClipboard(value || '');
     setCopied(true);
   };
@@ -43,6 +47,21 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     }
   };
 
+  const onRenderSuffix = () => {
+    return copyButton ? (
+      <TooltipHost content={getCopiedLabel()} calloutProps={{ gapSpace: 0 }} onTooltipToggle={isVisible => changeCopiedLabel(isVisible)}>
+        <IconButton
+          id={`${id}-copy-button`}
+          iconProps={{ iconName: 'Copy', styles: copyButtonStyle }}
+          onClick={copyToClipboard}
+          ariaLabel={getCopiedLabel()}
+        />
+      </TooltipHost>
+    ) : (
+      <></>
+    );
+  };
+
   return (
     <ReactiveFormControl {...props}>
       <OfficeTextField
@@ -54,19 +73,10 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
         onBlur={onBlur}
         errorMessage={errorMessage}
         styles={textFieldStyleOverrides(theme, fullpage, widthOverride)}
+        onRenderSuffix={onRenderSuffix}
         {...rest}
       />
-      {copyButton && (
-        <TooltipHost content={getCopiedLabel()} calloutProps={{ gapSpace: 0 }} onTooltipToggle={isVisible => changeCopiedLabel(isVisible)}>
-          <IconButton
-            className={copyButtonStyle(theme, fullpage)}
-            id={`${id}-copy-button`}
-            iconProps={{ iconName: 'Copy' }}
-            onClick={copyToClipboard}
-            ariaLabel={getCopiedLabel()}
-          />
-        </TooltipHost>
-      )}
+      {additionalControls}
     </ReactiveFormControl>
   );
 };

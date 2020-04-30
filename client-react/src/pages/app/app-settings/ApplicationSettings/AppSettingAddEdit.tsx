@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormAppSetting } from '../AppSettings.types';
-import { MessageBarType, MessageBar } from 'office-ui-fabric-react/lib';
+import { MessageBarType } from 'office-ui-fabric-react/lib';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import AppSettingReference from './AppSettingReference';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -15,6 +15,7 @@ import { KeyVaultReference } from '../../../../models/site/config';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
@@ -154,9 +155,12 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
         />
         {disableSlotSetting && (
           <div data-cy="app-setting-slot-setting-no-permission-message">
-            <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
-              {t('slotSettingNoProdPermission')}
-            </MessageBar>
+            <CustomBanner
+              id="app-setting-slot-setting-no-permission-message"
+              message={t('slotSettingNoProdPermission')}
+              type={MessageBarType.warning}
+              undocked={true}
+            />
           </div>
         )}
         <ActionBar

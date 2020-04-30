@@ -68,7 +68,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
 
   const siteStateContext = useContext(SiteStateContext);
 
-  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext.getSiteAppEditState()) || !appPermission;
+  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) || !appPermission;
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(keys.map(h => h.name))]);
@@ -312,6 +312,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         </div>
         <div id="function-keys-data" className={formStyle}>
           <h3>{t('functionKeys_title')}</h3>
+          <p>{t('functionKeys_description')}</p>
           <DisplayTableWithCommandBar
             commandBarItems={getCommandBarItems()}
             columns={getColumns()}

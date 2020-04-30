@@ -56,7 +56,7 @@ const RuntimeScaleMonitoring: React.FC<AppSettingsFormProps & WithTranslation> =
         {
           key: true,
           text: t('on'),
-          disabled: !values.config.properties.reservedInstanceCount || !values.config.properties.vnetName || !scaleMonitoringSupported(),
+          disabled: !values.config.properties.reservedInstanceCount || !scaleMonitoringSupported(),
         },
         {
           key: false,

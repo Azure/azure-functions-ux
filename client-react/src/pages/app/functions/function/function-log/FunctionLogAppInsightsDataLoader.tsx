@@ -32,6 +32,7 @@ interface FunctionLogAppInsightsDataLoaderProps {
   setLogPanelHeight?: (height: number) => void;
   isScopeFunctionApp?: boolean;
   leftAlignMainToolbarItems?: boolean;
+  customHeight?: number;
 }
 
 const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoaderProps> = props => {
@@ -44,7 +45,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const startupInfoContext = useContext(StartupInfoContext);
   const siteStateContext = useContext(SiteStateContext);
 
-  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.getSiteAppEditState());
+  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.siteAppEditState);
 
   const { t } = useTranslation();
 
