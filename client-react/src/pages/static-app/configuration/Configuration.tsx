@@ -11,7 +11,6 @@ import {
   ActionButton,
   SearchBox,
   MessageBarType,
-  Icon,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable, PanelType } from './Configuration.types';
@@ -202,7 +201,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         <>
           {hidden ? (
             <ActionButton
-              id={`environment-variable-show-hide-${index}`}
+              id={`environment-variable-show-${index}`}
               className={defaultCellStyle}
               onClick={() => onShowHideButtonClick(itemKey)}
               iconProps={{ iconName: 'RedEye' }}>
@@ -210,7 +209,12 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             </ActionButton>
           ) : (
             <div className={`${tableValueComponentStyle} ${defaultCellStyle}`} onClick={() => onShowHideButtonClick(itemKey)}>
-              <Icon className={tableValueIconStyle(theme)} iconName={'Hide'} onClick={() => onShowHideButtonClick(itemKey)} />
+              <ActionButton
+                id={`environment-variable-hide-${index}`}
+                className={tableValueIconStyle(theme)}
+                iconProps={{ iconName: 'Hide' }}
+                onClick={() => onShowHideButtonClick(itemKey)}
+              />
               <div>
                 <TextFieldNoFormik
                   id={`environment-variable-value-${index}`}

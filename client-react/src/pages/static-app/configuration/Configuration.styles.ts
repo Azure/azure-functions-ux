@@ -24,7 +24,6 @@ export const tableValueComponentStyle = style({
   display: 'inline-flex',
   cursor: 'pointer',
   alignItems: 'center',
-  paddingLeft: '9px',
 });
 
 export const tableValueIconStyle = (theme: ThemeExtended) =>
