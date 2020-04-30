@@ -6084,4 +6084,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionKeys_description" xml:space="preserve">
         <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
     </data>
+    <data name="reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
 </root>

@@ -36,6 +36,28 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
   const [siteDescriptor, setSiteDescriptor] = useState<ArmSiteDescriptor | undefined>(undefined);
 
+  const resetApplicationPassword = async () => {
+    const notificationId = portalContext.startNotification(
+      t('siteSummary_resetProfileNotifyTitle'),
+      t('siteSummary_resetProfileNotifyTitle')
+    );
+
+    const resetResponse = await deploymentCenterData.resetPublishProfile(resourceId);
+
+    if (resetResponse.metadata.success) {
+      const publishingProfileResponse = await deploymentCenterData.getPublishProfile(resourceId);
+
+      if (publishingProfileResponse.metadata.success) {
+        const publishingProfiles = parsePublishProfileXml(publishingProfileResponse.data);
+        setPublishingProfile(publishingProfiles.filter(profile => profile.publishMethod === PublishMethod.FTP)[0]);
+      }
+
+      portalContext.stopNotification(notificationId, true, t('siteSummary_resetProfileNotifySuccess'));
+    } else {
+      portalContext.stopNotification(notificationId, false, t('siteSummary_resetProfileNotifyFail'));
+    }
+  };
+
   const fetchData = async () => {
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
@@ -118,6 +140,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         publishingProfile={publishingProfile}
         publishingCredentials={publishingCredentials}
         formData={formData}
+        resetApplicationPassword={resetApplicationPassword}
       />
     </DeploymentCenterContext.Provider>
   );
