@@ -5,7 +5,7 @@ import { ReactComponent as ErrorSvg } from '../../images/Common/Error.svg';
 import { ReactComponent as InfoSvg } from '../../images/Common/Info.svg';
 import { ReactComponent as WarningSvg } from '../../images/Common/Warning.svg';
 import { ThemeContext } from '../../ThemeContext';
-import { messageBannerClass, messageBannerIconStyle, messageBannerStyles, messageBannerTextStyle } from './CustomBanner.styles';
+import { messageBannerClass, messageBannerIconStyle, messageBannerStyles } from './CustomBanner.styles';
 
 interface CustomBannerProps {
   message: string;
@@ -35,13 +35,13 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
     <div>
       <MessageBar
         id={`${id}-custom-banner`}
-        isMultiline={true}
+        isMultiline={false}
         messageBarType={type}
         styles={messageBannerStyles(!!icon)}
         className={className}
         onDismiss={onDismiss}>
         {!!icon ? <span className={messageBannerIconStyle}>{icon}</span> : undefined}
-        <span className={messageBannerTextStyle}>
+        <span>
           {message}
           {learnMoreLink ? (
             <Link href={learnMoreLink} target="_blank">

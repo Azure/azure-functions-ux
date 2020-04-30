@@ -7,7 +7,7 @@ import { DeploymentCenterContainerProps } from './DeploymentCenter.types';
 import DeploymentCenterContainerLogs from './DeploymentCenterContainerLogs';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerProps> = props => {
-  const { logs, publishingCredentials, publishingProfile, publishingUser, formProps } = props;
+  const { logs, publishingCredentials, publishingProfile, publishingUser, formProps, resetApplicationPassword } = props;
   const { t } = useTranslation();
 
   return (
@@ -27,6 +27,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerProps> =
       <PivotItem headerText={t('deploymentCenterPivotItemFtpsHeaderText')} ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}>
         <DeploymentCenterFtps
           formProps={formProps}
+          resetApplicationPassword={resetApplicationPassword}
           publishingCredentials={publishingCredentials}
           publishingProfile={publishingProfile}
           publishingUser={publishingUser}
