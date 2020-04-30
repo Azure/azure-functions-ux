@@ -28,7 +28,10 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   const fullpage = width > 1000;
   const [copied, setCopied] = useState(false);
 
-  const copyToClipboard = () => {
+  const copyToClipboard = (e: React.MouseEvent<any>) => {
+    if (!!e) {
+      e.stopPropagation();
+    }
     TextUtilitiesService.copyContentToClipboard(value || '');
     setCopied(true);
   };

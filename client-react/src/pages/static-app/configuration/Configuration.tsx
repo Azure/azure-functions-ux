@@ -11,11 +11,18 @@ import {
   ActionButton,
   SearchBox,
   MessageBarType,
+  Icon,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable, PanelType } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { formStyle, commandBarSticky } from './Configuration.styles';
+import {
+  formStyle,
+  commandBarSticky,
+  tableValueComponentStyle,
+  tableValueFormFieldStyle,
+  tableValueIconStyle,
+} from './Configuration.styles';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
 import { ArmObj } from '../../../models/arm-obj';
@@ -33,6 +40,7 @@ import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../utils/FwLinks';
+import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 
 interface ConfigurationProps {
   environments: ArmObj<Environment>[];
@@ -192,19 +200,29 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     if (column.key === 'value') {
       return (
         <>
-          <ActionButton
-            id={`environment-variable-show-hide-${index}`}
-            className={defaultCellStyle}
-            onClick={() => onShowHideButtonClick(itemKey)}
-            iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
-            {hidden ? (
+          {hidden ? (
+            <ActionButton
+              id={`environment-variable-show-hide-${index}`}
+              className={defaultCellStyle}
+              onClick={() => onShowHideButtonClick(itemKey)}
+              iconProps={{ iconName: 'RedEye' }}>
               <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
-            ) : (
-              <div className={defaultCellStyle} id={`app-settings-application-settings-value-${index}`}>
-                {item[column.fieldName!]}
+            </ActionButton>
+          ) : (
+            <div className={`${tableValueComponentStyle} ${defaultCellStyle}`} onClick={() => onShowHideButtonClick(itemKey)}>
+              <Icon className={tableValueIconStyle(theme)} iconName={'Hide'} />
+              <div>
+                <TextFieldNoFormik
+                  id={`environment-variable-value-${index}`}
+                  value={item[column.fieldName!]}
+                  copyButton={true}
+                  disabled={true}
+                  formControlClassName={tableValueFormFieldStyle}
+                  className={defaultCellStyle}
+                />
               </div>
-            )}
-          </ActionButton>
+            </div>
+          )}
         </>
       );
     }
