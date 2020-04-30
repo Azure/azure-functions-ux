@@ -267,7 +267,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 270,
+        minWidth: 280,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
