@@ -6087,4 +6087,28 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_noFunctionMessage" xml:space="preserve">
         <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
     </data>
+    <data name="reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+    <data name="resetPublishProfileAriaLabel" xml:space="preserve">
+        <value>Reset publishing profile</value>
+    </data>
+    <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Show application password</value>
+    </data>
+    <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Hide application password</value>
+    </data>
+    <data name="showProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user password</value>
+    </data>
+    <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user password</value>
+    </data>
+    <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user confirm password</value>
+    </data>
+    <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user confirm password</value>
+    </data>
 </root>

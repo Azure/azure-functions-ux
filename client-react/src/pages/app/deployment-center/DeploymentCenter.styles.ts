@@ -20,6 +20,6 @@ export const containerLogs = style({
   margin: 0,
 });
 
-export const ftpsFields = style({
-  marginTop: '20px',
+export const additionalTextFieldControl = style({
+  marginLeft: '5px',
 });

@@ -13,6 +13,7 @@ export interface DeploymentCenterContainerLogsProps {
 }
 
 export interface DeploymentCenterFtpsProps {
+  resetApplicationPassword: () => void;
   formProps?: FormikProps<DeploymentCenterFormData>;
   publishingCredentials?: ArmObj<PublishingCredentials>;
   publishingUser?: ArmObj<PublishingUser>;

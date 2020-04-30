@@ -18,6 +18,7 @@ import { ArmObj } from '../../../models/arm-obj';
 import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
+import { HttpResponseObject } from '../../../ArmHelper.types';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -35,6 +36,36 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [publishingProfile, setPublishingProfile] = useState<PublishingProfile | undefined>(undefined);
   const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
   const [siteDescriptor, setSiteDescriptor] = useState<ArmSiteDescriptor | undefined>(undefined);
+
+  const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
+    if (publishProfileResponse.metadata.success) {
+      const publishingProfiles = parsePublishProfileXml(publishProfileResponse.data);
+      setPublishingProfile(publishingProfiles.filter(profile => profile.publishMethod === PublishMethod.FTP)[0]);
+    } else {
+      LogService.error(
+        LogCategories.deploymentCenter,
+        'DeploymentCenterFtpsDataLoader',
+        `Failed to fetch publish profile with error: ${getErrorMessage(publishProfileResponse.metadata.error)}`
+      );
+    }
+  };
+
+  const resetApplicationPassword = async () => {
+    const notificationId = portalContext.startNotification(
+      t('siteSummary_resetProfileNotifyTitle'),
+      t('siteSummary_resetProfileNotifyTitle')
+    );
+
+    const resetResponse = await deploymentCenterData.resetPublishProfile(resourceId);
+
+    if (resetResponse.metadata.success) {
+      const publishProfileResponse = await deploymentCenterData.getPublishProfile(resourceId);
+      processPublishProfileResponse(publishProfileResponse);
+      portalContext.stopNotification(notificationId, true, t('siteSummary_resetProfileNotifySuccess'));
+    } else {
+      portalContext.stopNotification(notificationId, false, t('siteSummary_resetProfileNotifyFail'));
+    }
+  };
 
   const fetchData = async () => {
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
@@ -91,16 +122,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         );
       }
 
-      if (publishProfileResponse.metadata.success) {
-        const publishingProfiles = parsePublishProfileXml(publishProfileResponse.data);
-        setPublishingProfile(publishingProfiles.filter(profile => profile.publishMethod === PublishMethod.FTP)[0]);
-      } else {
-        LogService.error(
-          LogCategories.deploymentCenter,
-          'DeploymentCenterFtpsDataLoader',
-          `Failed to fetch publish profile with error: ${getErrorMessage(publishProfileResponse.metadata.error)}`
-        );
-      }
+      processPublishProfileResponse(publishProfileResponse);
     }
   };
 
@@ -118,6 +140,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         publishingProfile={publishingProfile}
         publishingCredentials={publishingCredentials}
         formData={formData}
+        resetApplicationPassword={resetApplicationPassword}
       />
     </DeploymentCenterContext.Provider>
   );

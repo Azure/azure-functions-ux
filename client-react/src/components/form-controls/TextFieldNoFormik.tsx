@@ -19,9 +19,10 @@ interface CustomTextFieldProps {
   widthOverride?: string;
   copyButton?: boolean;
   formControlClassName?: string;
+  additionalControls?: JSX.Element[];
 }
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
-  const { value, onChange, onBlur, errorMessage, label, widthOverride, styles, id, copyButton, ...rest } = props;
+  const { value, onChange, onBlur, errorMessage, label, widthOverride, styles, id, copyButton, additionalControls, ...rest } = props;
   const { width } = useWindowSize();
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
@@ -72,6 +73,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
         onRenderSuffix={onRenderSuffix}
         {...rest}
       />
+      {additionalControls}
     </ReactiveFormControl>
   );
 };
