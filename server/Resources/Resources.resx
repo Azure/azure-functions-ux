@@ -3927,7 +3927,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Image source</value>
     </data>
     <data name="containerImageAndTag" xml:space="preserve">
-        <value>Image and optional tag (eg 'image:tag')</value>
+        <value>Full Image Name and Tag</value>
+    </data>
+    <data name="containerImageAndTagPlaceholder" xml:space="preserve">
+        <value>E.g. nginx:latest</value>
     </data>
     <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>To get started, first create an Azure Container Registry and add an image.</value>
@@ -3943,6 +3946,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="containerServerURL" xml:space="preserve">
         <value>Server URL</value>
+    </data>
+    <data name="containerServerURLPlaceholder" xml:space="preserve">
+        <value>E.g. https://index.docker.io</value>
     </data>
     <data name="containerLogin" xml:space="preserve">
         <value>Login</value>
@@ -5416,13 +5422,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Scope</value>
     </data>
     <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Virtual network trigger support</value>
+        <value>Runtime Scale Monitoring</value>
     </data>
     <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
     <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
     </data>
     <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Refresh App Settings</value>

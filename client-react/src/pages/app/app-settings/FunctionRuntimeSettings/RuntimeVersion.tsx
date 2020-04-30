@@ -5,14 +5,13 @@ import { PermissionsContext } from '../Contexts';
 import { addOrUpdateFormAppSetting, findFormAppSettingValue, removeFormAppSetting } from '../AppSettingsFormData';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
-import { IDropdownOption, MessageBarType, MessageBar } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
-import { messageBannerStyle } from '../AppSettings.styles';
-import { ThemeContext } from '../../../../ThemeContext';
 import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import { HostStates } from '../../../../models/functions/host-status';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const isVersionChangeSafe = (newVersion: RuntimeExtensionMajorVersions, oldVersion: RuntimeExtensionMajorVersions | null) => {
   if (oldVersion === RuntimeExtensionMajorVersions.custom || newVersion === RuntimeExtensionMajorVersions.custom) {
@@ -39,7 +38,6 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
   const [pendingVersion, setPendingVersion] = useState<RuntimeExtensionMajorVersions | undefined>(undefined);
   const { t, values, initialValues, asyncData, setFieldValue } = props;
   const { app_write, editable, saving } = useContext(PermissionsContext);
-  const theme = useContext(ThemeContext);
   const disableAllControls = !app_write || !editable || saving;
 
   const initialRuntimeVersion =
@@ -203,7 +201,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
 
   return (
     <>
-      {app_write && editable && (
+      {app_write && editable ? (
         <>
           <ConfirmDialog
             primaryActionButton={{
@@ -220,13 +218,12 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
             onDismiss={onVersionChangeDismiss}
           />
           {existingFunctionsMessage && (
-            <MessageBar
+            <CustomBanner
               id="function-app-settings-runtime-version-message"
-              isMultiline={true}
-              className={messageBannerStyle(theme, MessageBarType.warning)}
-              messageBarType={MessageBarType.warning}>
-              {existingFunctionsMessage}
-            </MessageBar>
+              message={existingFunctionsMessage}
+              type={MessageBarType.warning}
+              undocked={true}
+            />
           )}
           <DropdownNoFormik
             placeHolder={getPlaceHolder()}
@@ -240,6 +237,14 @@ const RuntimeVersion: React.FC<AppSettingsFormProps & WithTranslation> = props =
             infoBubbleMessage={customVersionMessage}
           />
         </>
+      ) : (
+        <DropdownNoFormik
+          onChange={() => null}
+          options={[]}
+          disabled={true}
+          label={t('runtimeVersion')}
+          id="function-app-settings-runtime-version"
+        />
       )}
     </>
   );

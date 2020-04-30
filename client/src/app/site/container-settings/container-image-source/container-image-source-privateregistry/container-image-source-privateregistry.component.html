@@ -8,7 +8,7 @@
 <div *ngIf="imageSourceForm" [formGroup]="imageSourceForm">
   <div class="container-setting-property">
     <label>{{ 'containerServerURL' | translate }}</label>
-    <textbox [control]="imageSourceForm?.controls?.serverUrl" [disablePopOverError]="true"></textbox>
+    <textbox [control]="imageSourceForm?.controls?.serverUrl" [disablePopOverError]="true" [placeholder]="'containerServerURLPlaceholder' | translate"></textbox>
     <div invalidmessage="serverUrl" id="containersettings-pr-serverurl-error" role="alert"></div>
   </div>
 
@@ -26,7 +26,7 @@
 
   <div *ngIf="containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
     <label>{{ 'containerImageAndTag' | translate }}</label>
-    <textbox [control]="imageSourceForm?.controls?.image" [disablePopOverError]="true"></textbox>
+    <textbox [control]="imageSourceForm?.controls?.image" [disablePopOverError]="true" [placeholder]="'containerImageAndTagPlaceholder' | translate"></textbox>
     <div invalidmessage="image" id="containersettings-pr-image-error" role="alert"></div>
   </div>
 
