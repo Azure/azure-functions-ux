@@ -1,84 +1,53 @@
-import { Controller, Get, Query, HttpException, Post } from '@nestjs/common';
-import { StacksFunctionAppConfigService } from './stacks.functionapp.config.service';
-import { StacksFunctionAppCreateService } from './stacks.functionapp.create.service';
-import { StacksWebAppConfigService } from './stacks.webapp.config.service';
-import { StacksWebAppCreateService } from './stacks.webapp.create.service';
-import { StackAPIVersions, WebAppCreateStackVersionPlatform, WebAppCreateStackVersion, WebAppCreateStack } from './stacks';
+import { Controller, Query, HttpException, Post } from '@nestjs/common';
+import { WebAppCreateStackVersionPlatform, WebAppCreateStackVersion, WebAppCreateStack } from './webapp/2020-05-01/stack.model';
 import { ArrayUtil } from '../utilities/array.util';
+import { FunctionAppAPIVersions } from './functionapp/versions';
+import { WebAppAPIVersions } from './webapp/versions';
+import { FunctionAppStacksService20200501 } from './functionapp/2020-05-01/stacks.service';
+import { WebAppStacksService20200501 } from './webapp/2020-05-01/stacks.service';
 
 @Controller('stacks')
 export class StacksController {
   constructor(
-    private _stackFunctionAppConfigService: StacksFunctionAppConfigService,
-    private _stackFunctionAppCreateService: StacksFunctionAppCreateService,
-    private _stackWebAppConfigService: StacksWebAppConfigService,
-    private _stackWebAppCreateService: StacksWebAppCreateService
+    private _stackWebAppService20200501: WebAppStacksService20200501,
+    private _stackFunctionAppService20200501: FunctionAppStacksService20200501
   ) {}
 
   @Post('webAppCreateStacks')
   webAppCreateStacks(@Query('api-version') apiVersion: string) {
-    this._validateApiVersion(apiVersion);
+    this._validateApiVersion(apiVersion, [WebAppAPIVersions['2020-05-01']]);
 
-    if (apiVersion === StackAPIVersions.v1) {
-      return this._stackWebAppCreateService.getStacks();
+    if (apiVersion === WebAppAPIVersions['2020-05-01']) {
+      return this._stackWebAppService20200501.getCreateStacks();
     }
   }
 
   @Post('webAppConfigStacks')
   webAppConfigStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
-    this._validateApiVersion(apiVersion);
+    this._validateApiVersion(apiVersion, [WebAppAPIVersions['2020-05-01']]);
     this._validateOs(os);
 
-    if (apiVersion === StackAPIVersions.v1) {
-      return this._stackWebAppConfigService.getStacks(os);
+    if (apiVersion === WebAppAPIVersions['2020-05-01']) {
+      return this._stackWebAppService20200501.getConfigStacks(os);
     }
   }
 
   @Post('webAppGitHubActionStacks')
   webAppGitHubActionStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
-    this._validateApiVersion(apiVersion);
+    this._validateApiVersion(apiVersion, [WebAppAPIVersions['2020-05-01']]);
     this._validateOs(os);
 
-    if (apiVersion === StackAPIVersions.v1) {
-      const stacks = this._stackWebAppCreateService.getStacks(os);
-
-      // remove all supported platforms which are not github action supported.
-      stacks.forEach(stack =>
-        stack.versions.forEach(version =>
-          ArrayUtil.remove<WebAppCreateStackVersionPlatform>(
-            version.supportedPlatforms,
-            platform => !platform.githubActionSettings || !platform.githubActionSettings.supported
-          )
-        )
-      );
-
-      // remove all versions which do not have any platforms.
-      stacks.forEach(stack =>
-        ArrayUtil.remove<WebAppCreateStackVersion>(stack.versions, version => version.supportedPlatforms.length === 0)
-      );
-
-      // remove all stacks which do not have any versions.
-      ArrayUtil.remove<WebAppCreateStack>(stacks, stackItem => stackItem.versions.length === 0);
-
-      return stacks;
+    if (apiVersion === WebAppAPIVersions['2020-05-01']) {
+      return this._stackWebAppService20200501.getGitHubActionStacks(os);
     }
   }
 
-  @Post('functionAppCreateStacks')
-  functionAppCreateStacks(@Query('api-version') apiVersion: string) {
-    this._validateApiVersion(apiVersion);
+  @Post('functionAppStacks')
+  functionAppStacks(@Query('api-version') apiVersion: string) {
+    this._validateApiVersion(apiVersion, [FunctionAppAPIVersions['2020-05-01']]);
 
-    if (apiVersion === StackAPIVersions.v1) {
-      return this._stackFunctionAppConfigService.getStacks();
-    }
-  }
-
-  @Post('functionAppConfigStacks')
-  functionAppConfigStacks(@Query('api-version') apiVersion: string) {
-    this._validateApiVersion(apiVersion);
-
-    if (apiVersion === StackAPIVersions.v1) {
-      return this._stackFunctionAppCreateService.getStacks();
+    if (apiVersion === FunctionAppAPIVersions['2020-05-01']) {
+      return this._stackFunctionAppService20200501.getStacks();
     }
   }
 
@@ -88,13 +57,13 @@ export class StacksController {
     }
   }
 
-  private _validateApiVersion(apiVersion) {
+  private _validateApiVersion(apiVersion: string, acceptedVersions: string[]) {
     if (!apiVersion) {
-      throw new HttpException(`Missing 'api-version' query parameter. Allowed version is '${StackAPIVersions.v1}'.`, 400);
+      throw new HttpException(`Missing 'api-version' query parameter. Allowed versions are: ${acceptedVersions.join(', ')}.`, 400);
     }
 
-    if (apiVersion !== StackAPIVersions.v1) {
-      throw new HttpException(`Incorrect api-version '${apiVersion}' provided. Allowed version is '${StackAPIVersions.v1}'.`, 400);
+    if (!acceptedVersions.includes(apiVersion)) {
+      throw new HttpException(`Incorrect api-version '${apiVersion}' provided. Allowed versions are: ${acceptedVersions.join(', ')}.`, 400);
     }
   }
 }
