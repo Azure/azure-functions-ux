@@ -30,7 +30,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [hasWritePermissions, setHasWritePermissions] = useState(true);
   const [apiFailure, setApiFailure] = useState(false);
-  const [environmentHasFunctions, setEnvironmentHasFunctions] = useState(false);
+  const [environmentHasFunctions, setEnvironmentHasFunctions] = useState<boolean | undefined>(undefined);
 
   const portalContext = useContext(PortalContext);
 
@@ -96,7 +96,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   };
 
   const fetchFunctionsForEnvironment = async (environmentResourceId: string) => {
-    setEnvironmentHasFunctions(false);
+    setEnvironmentHasFunctions(undefined);
     const functionsResponse = await EnvironmentService.fetchFunctions(environmentResourceId);
     if (functionsResponse.metadata.success) {
       setEnvironmentHasFunctions(functionsResponse.data.value.length > 0);
