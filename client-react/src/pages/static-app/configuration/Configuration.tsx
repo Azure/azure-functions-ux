@@ -198,6 +198,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       );
     }
     if (column.key === 'value') {
+      console.log(column);
       return (
         <>
           {hidden ? (
@@ -209,7 +210,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
               <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
             </ActionButton>
           ) : (
-            <div className={`${tableValueComponentStyle} ${defaultCellStyle}`} onClick={() => onShowHideButtonClick(itemKey)}>
+            <div className={`${tableValueComponentStyle} ${defaultCellStyle}`} onClick={() => onShowHideButtonClick(itemKey)} role="button">
               <Icon className={tableValueIconStyle(theme)} iconName={'Hide'} />
               <div>
                 <TextFieldNoFormik
@@ -266,7 +267,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 260,
+        minWidth: 270,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
