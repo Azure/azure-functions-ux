@@ -9,7 +9,7 @@ import TextField from '../../../components/form-controls/TextField';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 
-type PasswordFieldType = 'text' | 'password';
+type PasswordFieldType = 'password' | undefined;
 
 const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
   const { t } = useTranslation();
@@ -34,15 +34,15 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
     : `${sampleAppNameDomain}\\${t('deploymentCenterFtpsUserScopeSampleUsername')}`;
 
   const toggleShowApplicationPassword = () => {
-    setApplicationPasswordType(applicationPasswordType === 'password' ? 'text' : 'password');
+    setApplicationPasswordType(!applicationPasswordType ? 'password' : undefined);
   };
 
   const toggleShowProviderPassword = () => {
-    setProviderPasswordType(providerPasswordType === 'password' ? 'text' : 'password');
+    setProviderPasswordType(!providerPasswordType ? 'password' : undefined);
   };
 
   const toggleShowProviderConfirmPassword = () => {
-    setProviderConfirmPasswordType(providerConfirmPasswordType === 'password' ? 'text' : 'password');
+    setProviderConfirmPasswordType(!providerConfirmPasswordType ? 'password' : undefined);
   };
 
   return (
