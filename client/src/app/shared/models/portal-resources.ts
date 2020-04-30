@@ -1263,11 +1263,13 @@ export class PortalResources {
   public static containerCustom = 'containerCustom';
   public static containerImageSource = 'containerImageSource';
   public static containerImageAndTag = 'containerImageAndTag';
+  public static containerImageAndTagPlaceholder = 'containerImageAndTagPlaceholder';
   public static containerACRMissingErrorMessage = 'containerACRMissingErrorMessage';
   public static containerRepositoryAccess = 'containerRepositoryAccess';
   public static containerRepositoryPublic = 'containerRepositoryPublic';
   public static containerRepositoryPrivate = 'containerRepositoryPrivate';
   public static containerServerURL = 'containerServerURL';
+  public static containerServerURLPlaceholder = 'containerServerURLPlaceholder';
   public static containerLogin = 'containerLogin';
   public static containerPassword = 'containerPassword';
   public static containerStartupFile = 'containerStartupFile';
