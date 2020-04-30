@@ -210,7 +210,11 @@ const Configuration: React.FC<ConfigurationProps> = props => {
               <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
             </ActionButton>
           ) : (
-            <div className={`${tableValueComponentStyle} ${defaultCellStyle}`} onClick={() => onShowHideButtonClick(itemKey)} role="button">
+            <div
+              className={`${tableValueComponentStyle} ${defaultCellStyle}`}
+              onClick={() => onShowHideButtonClick(itemKey)}
+              role="button"
+              tabIndex={1}>
               <Icon className={tableValueIconStyle(theme)} iconName={'Hide'} />
               <div>
                 <TextFieldNoFormik
