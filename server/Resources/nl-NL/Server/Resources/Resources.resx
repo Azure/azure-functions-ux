@@ -3925,7 +3925,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Bron van installatiekopie</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Installatiekopie en optionele tag (bijvoorbeeld installatiekopie:tag)</value>
+        <value>Full Image Name and Tag</value>
+    </data>
+  <data name="containerImageAndTagPlaceholder" xml:space="preserve">
+        <value>E.g. nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Maak eerst een Azure Container Registry en voeg een installatiekopie toe om aan de slag te gaan.</value>
@@ -3941,6 +3944,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     </data>
   <data name="containerServerURL" xml:space="preserve">
         <value>Server-URL</value>
+    </data>
+  <data name="containerServerURLPlaceholder" xml:space="preserve">
+        <value>E.g. https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Aanmelden</value>
@@ -5138,10 +5144,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Details van {0}</value>
     </data>
   <data name="integratePageTitle" xml:space="preserve">
-        <value>Integration</value>
+        <value>Integratie</value>
     </data>
   <data name="integratePageDescription" xml:space="preserve">
-        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
+        <value>Bewerk de trigger en kies een van de invoer- en uitvoerelementen voor uw functie, zoals Azure Blob Storage, Cosmos DB, enzovoort.</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>Functie</value>
@@ -5414,13 +5420,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Bereik</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Triggerondersteuning voor virtueel netwerk</value>
+        <value>Runtime Scale Monitoring</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Met deze instelling kan uw app worden geactiveerd door resources in een virtueel netwerk. Er moet ook één geïnitialiseerd exemplaar actief zijn en is runtime V2 of hoger vereist. &lt;a href="{0}" target="_blank"&gt;Meer informatie&lt;/a&gt;.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Met deze instelling kan uw app worden geactiveerd door resources in een virtueel netwerk. Er moet ook één geïnitialiseerd exemplaar actief zijn en is runtime V2 of hoger vereist.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>App-instellingen vernieuwen</value>
@@ -5594,7 +5600,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Als u de waarde van FUNCTIONS_EXTENSION_VERSION in de toepassingsinstellingen configureert, kiest u voor het gebruik van een aangepaste runtimeversie.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>Kan niet upgraden met de huidige functies: Met upgrades van de primaire versie worden mogelijk wijzigingen geïntroduceerd die fouten veroorzaken voor talen en bindingen. Bij het upgraden van de primaire versies van de runtime kunt u overwegen om een nieuwe functie-app te maken en uw functies te migreren naar deze nieuwe app.</value>
+        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
+        <value>Update Runtime Version</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
+        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>Het bereik workflow ontbreekt in het GitHub-token. Ga terug naar de stap voor broncodebeheer om GitHub opnieuw te autoriseren.</value>
@@ -5665,8 +5677,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Externe foutopsporing is niet beschikbaar voor uw toepassing. </value>
     </data>
-  <data name="tryFunctionsPreview" xml:space="preserve">
-        <value>Probeer de nieuwe Azure Functions-beheerervaring</value>
+  <data name="tryFunctionsNewExperience" xml:space="preserve">
+        <value>De nieuwe Azure Functions-beheerervaring uitproberen</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Wijzigingen opslaan</value>
@@ -5939,6 +5951,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Er zijn geen omgevingsvariabelen om weer te geven</value>
     </data>
   <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Toevoegen</value>
+    </data>
+  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
         <value>Een nieuwe omgevingsvariabele toevoegen</value>
     </data>
   <data name="staticSite_environmentVariables" xml:space="preserve">
@@ -5954,33 +5969,150 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Selecteer de omgeving voor de site</value>
     </data>
   <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filter environment variable</value>
-    </data>
-  <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
-        <value>Add/Edit environment variable</value>
+        <value>Omgevingsvariabelen filteren</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+        <value>Weet u zeker dat u de wijzigingen in de omgevingsvariabelen voor de omgeving {0} wilt negeren?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
-        <value>Your unsaved changes will be discarded.</value>
+        <value>Niet-opgeslagen wijzigingen gaan verloren.</value>
     </data>
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
-        <value>Are you sure you would like to change environment?</value>
+        <value>Weet u zeker dat u de omgeving wilt wijzigen?</value>
     </data>
   <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} is a required property on all environment variables</value>
+        <value>{0} is een vereiste eigenschap voor alle omgevingsvariabelen</value>
     </data>
   <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Environment variable name must be unique</value>
+        <value>De naam van de omgevingsvariabele moet uniek zijn</value>
     </data>
   <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Environment variable values must be an array</value>
+        <value>De waarden van omgevingsvariabelen moeten een matrix zijn</value>
     </data>
   <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} is an invalid environment variable property</value>
+        <value>{0} is een ongeldige eigenschap voor een omgevingsvariabele</value>
     </data>
   <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>All environment variable value and name properties must be of type string</value>
+        <value>Alle waarde- en naameigenschappen voor omgevingsvariabelen moeten van het type tekenreeks zijn</value>
+    </data>
+  <data name="staticSite_readOnlyRbac" xml:space="preserve">
+        <value>De site bevindt zich momenteel in de modus Alleen-lezen omdat uw met RBAC toegewezen toegang is ingesteld op Lezer</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>Logboeken</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>Logboeken voor containers</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+        <value>Instellingen</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
+        <value>Containerinstellingen</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
+        <value>FTP-/FTPs-referenties</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
+        <value>FTP- of FTPs-referenties</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
+        <value>Containerlogboeken laden</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
+        <value>Containerlogboeken laden...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
+        <value>Kan de containerlogboeken niet laden</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailedWithError" xml:space="preserve">
+        <value>Kan de containerlogboeken niet laden: {0}</value>
+    </data>
+  <data name="invocationTracesTableTitle" xml:space="preserve">
+        <value>Aanroeptraceringen</value>
+    </data>
+  <data name="invocationTracesTableDescription" xml:space="preserve">
+        <value>De twintig meest recente functieaanroeptraceringen. Voer de query uit in Application Insights voor een geavanceerde analyse.</value>
+    </data>
+  <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
+        <value>Refresh environment variables</value>
+    </data>
+  <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
+        <value>Alle niet-opgeslagen wijzigingen gaan verloren bij het vernieuwen. Weet u zeker dat u wilt doorgaan?</value>
+    </data>
+  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
+        <value>Add environment variable</value>
+    </data>
+  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
+        <value>Edit environment variable</value>
+    </data>
+  <data name="deploymentCenterFtpsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
+        <value>FTPS endpoint</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
+        <value>Application scope</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
+        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
+        <value>User scope</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
+        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
+        <value>(your username)</value>
+    </data>
+  <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+        <value>Gebruikersnaam</value>
+    </data>
+  <data name="deploymentCenterFtpsPasswordLabel" xml:space="preserve">
+        <value>Wachtwoord</value>
+    </data>
+  <data name="deploymentCenterFtpsConfirmPasswordLabel" xml:space="preserve">
+        <value>Bevestig het wachtwoord</value>
+    </data>
+  <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
+        <value>Write permission on the site or the slot is required to view credentials.</value>
+    </data>
+  <data name="appKeys_hostKeys_description" xml:space="preserve">
+        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+    </data>
+  <data name="appKeys_systemKeys_description" xml:space="preserve">
+        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+    </data>
+  <data name="functionKeys_description" xml:space="preserve">
+        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+    </data>
+  <data name="staticSite_noFunctionMessage" xml:space="preserve">
+        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+    </data>
+  <data name="reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+  <data name="resetPublishProfileAriaLabel" xml:space="preserve">
+        <value>Reset publishing profile</value>
+    </data>
+  <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Show application password</value>
+    </data>
+  <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Hide application password</value>
+    </data>
+  <data name="showProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user password</value>
+    </data>
+  <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user password</value>
+    </data>
+  <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user confirm password</value>
+    </data>
+  <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user confirm password</value>
     </data>
 </root>
