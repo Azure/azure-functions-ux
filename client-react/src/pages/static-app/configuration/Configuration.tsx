@@ -198,7 +198,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
       );
     }
     if (column.key === 'value') {
-      console.log(column);
       return (
         <>
           {hidden ? (
