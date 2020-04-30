@@ -6087,4 +6087,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="reset" xml:space="preserve">
         <value>Reset</value>
     </data>
+    <data name="staticSite_noFunctionMessage" xml:space="preserve">
+        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+    </data>
 </root>
