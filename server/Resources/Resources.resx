@@ -6117,4 +6117,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
         <value>Hide provider user confirm password</value>
     </data>
+    <data name="resetPublishProfileConfirmationTitle" xml:space="preserve">
+        <value>Reset application publish profile password?</value>
+    </data>
+    <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
+        <value>By resetting the password any external integrations via the publishing profile will sieze to operate.</value>
+    </data>
 </root>
