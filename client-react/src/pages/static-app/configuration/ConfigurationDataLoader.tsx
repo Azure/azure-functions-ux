@@ -111,6 +111,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = props =>
   };
 
   const fetchDataOnEnvironmentChange = async (environmentResourceId: string) => {
+    setApiFailure(false);
     fetchEnvironmentVariables(environmentResourceId);
     fetchFunctionsForEnvironment(environmentResourceId);
   };
