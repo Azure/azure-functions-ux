@@ -27,7 +27,7 @@ export const additionalTextFieldControl = style({
 
 export const resetCallout = mergeStyleSets({
   dialog: {
-    maxWidth: 300,
+    maxWidth: '300px',
   },
   header: {
     padding: '18px 24px 12px',
