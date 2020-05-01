@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { Field } from 'formik';
 import { DeploymentCenterFtpsProps } from './DeploymentCenter.types';
-import { MessageBarType, ActionButton, FocusTrapCallout, FocusZone, Stack, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
+import { MessageBarType, ActionButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterContent, additionalTextFieldControl, resetCallout } from './DeploymentCenter.styles';
+import { deploymentCenterContent, additionalTextFieldControl } from './DeploymentCenter.styles';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import TextField from '../../../components/form-controls/TextField';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
+import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocusTrapCallout';
 
 type PasswordFieldType = 'password' | undefined;
 
@@ -115,30 +116,18 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
         ]}
       />
 
-      <FocusTrapCallout
-        role="alertdialog"
-        className={resetCallout.dialog}
-        gapSpace={0}
+      <CustomFocusTrapCallout
         target="#deployment-center-ftps-application-password-reset"
-        onDismiss={toggleResetCalloutVisibility}
+        onDismissFunction={toggleResetCalloutVisibility}
         setInitialFocus={true}
-        hidden={isResetCalloutHidden}>
-        <div className={resetCallout.header}>
-          <p className={resetCallout.title}>{t('resetPublishProfileConfirmationTitle')}</p>
-        </div>
-        <div className={resetCallout.inner}>
-          <div>
-            <p className={resetCallout.subtext}>{t('resetPublishProfileConfirmationDescription')}</p>
-          </div>
-        </div>
-
-        <FocusZone>
-          <Stack className={resetCallout.buttons} gap={8} horizontal>
-            <PrimaryButton onClick={resetApplicationPasswordFromCallout}>{t('reset')}</PrimaryButton>
-            <DefaultButton onClick={toggleResetCalloutVisibility}>{t('cancel')}</DefaultButton>
-          </Stack>
-        </FocusZone>
-      </FocusTrapCallout>
+        hidden={isResetCalloutHidden}
+        title={t('resetPublishProfileConfirmationTitle')}
+        description={t('resetPublishProfileConfirmationDescription')}
+        primaryButtonTitle={t('reset')}
+        primaryButtonFunction={resetApplicationPasswordFromCallout}
+        defaultButtonTitle={t('cancel')}
+        defaultButtonFunction={toggleResetCalloutVisibility}
+      />
 
       <h3>{t('deploymentCenterFtpsUserScopeTitle')}</h3>
       <p>{t('deploymentCenterFtpsUserScopeDescription').format(sampleWebProviderDomainUsername)}</p>
