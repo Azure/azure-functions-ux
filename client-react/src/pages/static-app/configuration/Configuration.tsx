@@ -380,6 +380,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const discard = () => {
     initEnvironmentVariables();
+    setIsDirty(false);
     hideDiscardConfirmDialog();
   };
 
