@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { Field } from 'formik';
 import { DeploymentCenterFtpsProps } from './DeploymentCenter.types';
-import { MessageBarType, ActionButton } from 'office-ui-fabric-react';
+import { MessageBarType, ActionButton, FocusTrapCallout, FocusZone, Stack, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterContent, additionalTextFieldControl } from './DeploymentCenter.styles';
+import { deploymentCenterContent, additionalTextFieldControl, resetCallout } from './DeploymentCenter.styles';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import TextField from '../../../components/form-controls/TextField';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
@@ -14,9 +14,12 @@ type PasswordFieldType = 'password' | undefined;
 const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
   const { t } = useTranslation();
   const { publishingProfile, publishingUser, resetApplicationPassword } = props;
+
   const [applicationPasswordType, setApplicationPasswordType] = useState<PasswordFieldType>('password');
   const [providerPasswordType, setProviderPasswordType] = useState<PasswordFieldType>('password');
   const [providerConfirmPasswordType, setProviderConfirmPasswordType] = useState<PasswordFieldType>('password');
+  const [isResetCalloutHidden, setIsResetCalloutHidden] = useState<boolean>(true);
+
   const ftpsEndpoint = publishingProfile && publishingProfile.publishUrl.toLocaleLowerCase().replace('ftp:/', 'ftps:/');
   const webProviderUsername = publishingUser && publishingUser.properties.publishingUserName;
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -32,6 +35,15 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
   const sampleWebProviderDomainUsername = webProviderUsername
     ? `${sampleAppNameDomain}\\${webProviderUsername}`
     : `${sampleAppNameDomain}\\${t('deploymentCenterFtpsUserScopeSampleUsername')}`;
+
+  const toggleResetCalloutVisibility = () => {
+    setIsResetCalloutHidden(!isResetCalloutHidden);
+  };
+
+  const resetApplicationPasswordFromCallout = () => {
+    resetApplicationPassword();
+    setIsResetCalloutHidden(true);
+  };
 
   const toggleShowApplicationPassword = () => {
     setApplicationPasswordType(!applicationPasswordType ? 'password' : undefined);
@@ -96,12 +108,37 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
             className={additionalTextFieldControl}
             id="deployment-center-ftps-application-password-reset"
             ariaLabel={t('resetPublishProfileAriaLabel')}
-            onClick={resetApplicationPassword}
+            onClick={toggleResetCalloutVisibility}
             iconProps={{ iconName: 'refresh' }}>
             {t('reset')}
           </ActionButton>,
         ]}
       />
+
+      <FocusTrapCallout
+        role="alertdialog"
+        className={resetCallout.dialog}
+        gapSpace={0}
+        target="#deployment-center-ftps-application-password-reset"
+        onDismiss={toggleResetCalloutVisibility}
+        setInitialFocus={true}
+        hidden={isResetCalloutHidden}>
+        <div className={resetCallout.header}>
+          <p className={resetCallout.title}>{t('resetPublishProfileConfirmationTitle')}</p>
+        </div>
+        <div className={resetCallout.inner}>
+          <div>
+            <p className={resetCallout.subtext}>{t('resetPublishProfileConfirmationDescription')}</p>
+          </div>
+        </div>
+
+        <FocusZone>
+          <Stack className={resetCallout.buttons} gap={8} horizontal>
+            <PrimaryButton onClick={resetApplicationPasswordFromCallout}>{t('reset')}</PrimaryButton>
+            <DefaultButton onClick={toggleResetCalloutVisibility}>{t('cancel')}</DefaultButton>
+          </Stack>
+        </FocusZone>
+      </FocusTrapCallout>
 
       <h3>{t('deploymentCenterFtpsUserScopeTitle')}</h3>
       <p>{t('deploymentCenterFtpsUserScopeDescription').format(sampleWebProviderDomainUsername)}</p>
