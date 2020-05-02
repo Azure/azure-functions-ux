@@ -1981,4 +1981,7 @@ export class PortalResources {
   public static hideProviderPasswordAriaLabel = 'hideProviderPasswordAriaLabel';
   public static showProviderConfirmPasswordAriaLabel = 'showProviderConfirmPasswordAriaLabel';
   public static hideProviderConfirmPasswordAriaLabel = 'hideProviderConfirmPasswordAriaLabel';
+  public static staticSite_configUpdating = 'staticSite_configUpdating';
+  public static staticSite_configUpdateSuccess = 'staticSite_configUpdateSuccess';
+  public static staticSite_configUpdateFailure = 'staticSite_configUpdateFailure';
 }

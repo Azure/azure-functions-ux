@@ -6117,4 +6117,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
         <value>Hide provider user confirm password</value>
     </data>
+    <data name="staticSite_configUpdating" xml:space="preserve">
+        <value>Updating environment variables</value>
+    </data>
+     <data name="staticSite_configUpdateSuccess" xml:space="preserve">
+        <value>Successfully updated environment variables</value>
+    </data>
+    <data name="staticSite_configUpdateFailure" xml:space="preserve">
+        <value>Failed to update environment variables: {0}</value>
+    </data>
 </root>
