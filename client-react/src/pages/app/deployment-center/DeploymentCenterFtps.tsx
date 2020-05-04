@@ -96,8 +96,9 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
         type={applicationPasswordType}
         additionalControls={[
           <ActionButton
-            className={additionalTextFieldControl}
+            key={0}
             id="deployment-center-ftps-application-password-visibility-toggle"
+            className={additionalTextFieldControl}
             ariaLabel={
               applicationPasswordType === 'password' ? t('showApplicationPasswordAriaLabel') : t('hideApplicationPasswordAriaLabel')
             }
@@ -106,8 +107,9 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
             {applicationPasswordType === 'password' ? t('show') : t('hide')}
           </ActionButton>,
           <ActionButton
-            className={additionalTextFieldControl}
+            key={1}
             id="deployment-center-ftps-application-password-reset"
+            className={additionalTextFieldControl}
             ariaLabel={t('resetPublishProfileAriaLabel')}
             onClick={toggleResetCalloutVisibility}
             iconProps={{ iconName: 'refresh' }}>
@@ -149,8 +151,9 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
         type={providerPasswordType}
         additionalControls={[
           <ActionButton
-            className={additionalTextFieldControl}
+            key={0}
             id="deployment-center-ftps-provider-password-visibility-toggle"
+            className={additionalTextFieldControl}
             ariaLabel={providerPasswordType === 'password' ? t('showProviderPasswordAriaLabel') : t('hideProviderPasswordAriaLabel')}
             onClick={toggleShowProviderPassword}
             iconProps={{ iconName: providerPasswordType === 'password' ? 'RedEye' : 'Hide' }}>
@@ -168,8 +171,9 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
         type={providerConfirmPasswordType}
         additionalControls={[
           <ActionButton
-            className={additionalTextFieldControl}
+            key={0}
             id="deployment-center-ftps-provider-confirm-password-visibility-toggle"
+            className={additionalTextFieldControl}
             ariaLabel={
               providerConfirmPasswordType === 'password'
                 ? t('showProviderConfirmPasswordAriaLabel')
