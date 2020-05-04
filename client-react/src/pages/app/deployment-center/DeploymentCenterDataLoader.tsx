@@ -99,28 +99,34 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         publishingConfirmPassword: '',
       });
 
+      // NOTE(michinoy): The password should be at least eight characters long and must contain letters and numbers.
+      const passwordMinimumRequirementsRegex = new RegExp(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d@$!%*#?&]{8,}$/);
+      const usernameMinLength = 3;
       setFormValidationSchema(
         Yup.object().shape({
-          publishingUsername: Yup.string()
-            .required('This is needed')
-            .min(3, 'Minimum 3 chars required'),
-          publishingPassword: Yup.string()
-            .required('This is needed')
-            .test('minimumCharsIfNeeded', 'Stronger password needed', value => {
-              if (value && value.length < 3) {
+          publishingUsername: Yup.string().test(
+            'usernameMinCharsIfEntered',
+            t('usernameLengthRequirements').format(usernameMinLength),
+            value => {
+              if (value && value.length < usernameMinLength) {
                 return false;
               }
               return true;
-            }),
+            }
+          ),
+          publishingPassword: Yup.string().test('validateIfNeeded', t('userCredsError'), value => {
+            if (value) {
+              return passwordMinimumRequirementsRegex.test(value);
+            }
+            return true;
+          }),
           // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
-          publishingConfirmPassword: Yup.string()
-            .required('This is needed')
-            .test('minimumCharsIfNeeded', 'Password does not match', function(value) {
-              if (this.parent.publishingPassword && this.parent.publishingPassword !== value) {
-                return false;
-              }
-              return true;
-            }),
+          publishingConfirmPassword: Yup.string().test('validateIfNeeded', t('nomatchpassword'), function(value) {
+            if (this.parent.publishingPassword && this.parent.publishingPassword !== value) {
+              return false;
+            }
+            return true;
+          }),
         })
       );
     } else {

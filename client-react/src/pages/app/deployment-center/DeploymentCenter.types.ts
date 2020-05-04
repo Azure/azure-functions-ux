@@ -3,6 +3,10 @@ import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 
+export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps;
+
+export type DeploymentCenterYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, DeploymentCenterFormData>>;
+
 export interface DeploymentCenterFormData {
   publishingUsername: string;
   publishingPassword: string;
@@ -21,11 +25,14 @@ export interface DeploymentCenterFtpsProps {
   publishingProfile?: PublishingProfile;
 }
 
-export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps;
-
 export interface DeploymentCenterContainerFormProps extends DeploymentCenterContainerProps {
   formData?: DeploymentCenterFormData;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType;
 }
 
-export type DeploymentCenterYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, DeploymentCenterFormData>>;
+export interface DeploymentCenterCommandBarProps {
+  saveFunction: () => void;
+  discardFunction: () => void;
+  managePublishProfileFunction: () => void;
+  refreshFunction: () => void;
+}
