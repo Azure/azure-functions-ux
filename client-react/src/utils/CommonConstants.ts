@@ -51,10 +51,7 @@ export class CommonConstants {
     appInsightsTokenApiVersion20150501: '2015-05-01',
     appInsightsQueryApiVersion20180420: '2018-04-20',
     staticSitePreviewApiVersion20191201: '2019-12-01-preview',
-  };
-
-  public static readonly StackApiVersions = {
-    v1: 'v1',
+    stacksApiVersion20200501: '2020-05-01',
   };
 
   public static readonly NonThemeColors = {
