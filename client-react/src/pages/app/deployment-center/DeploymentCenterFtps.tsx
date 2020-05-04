@@ -66,9 +66,9 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
 
       <p>{t('deploymentCenterFtpsDescription')}</p>
       <TextFieldNoFormik
+        id="deployment-center-ftps-endpoint"
         label={t('deploymentCenterFtpsEndpointLabel')}
         widthOverride="100%"
-        id="deployment-center-ftps-endpoint"
         value={ftpsEndpoint}
         copyButton={true}
         disabled={true}
@@ -78,26 +78,26 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
       <p>{t('deploymentCenterFtpsApplicationScopeDescription')}</p>
 
       <TextFieldNoFormik
+        id="deployment-center-ftps-application-username"
         label={t('deploymentCenterFtpsUsernameLabel')}
         widthOverride="100%"
-        id="deployment-center-ftps-application-username"
         value={publishingProfile && publishingProfile.userName}
         copyButton={true}
         disabled={true}
       />
 
       <TextFieldNoFormik
+        id="deployment-center-ftps-application-password"
         label={t('deploymentCenterFtpsPasswordLabel')}
         widthOverride="100%"
-        id="deployment-center-ftps-application-password"
         value={publishingProfile && publishingProfile.userPWD}
         copyButton={true}
         disabled={true}
         type={applicationPasswordType}
         additionalControls={[
           <ActionButton
-            key={0}
             id="deployment-center-ftps-application-password-visibility-toggle"
+            key="deployment-center-ftps-application-password-visibility-toggle"
             className={additionalTextFieldControl}
             ariaLabel={
               applicationPasswordType === 'password' ? t('showApplicationPasswordAriaLabel') : t('hideApplicationPasswordAriaLabel')
@@ -107,8 +107,8 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
             {applicationPasswordType === 'password' ? t('show') : t('hide')}
           </ActionButton>,
           <ActionButton
-            key={1}
             id="deployment-center-ftps-application-password-reset"
+            key="deployment-center-ftps-application-password-reset"
             className={additionalTextFieldControl}
             ariaLabel={t('resetPublishProfileAriaLabel')}
             onClick={toggleResetCalloutVisibility}
@@ -135,24 +135,24 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
       <p>{t('deploymentCenterFtpsUserScopeDescription').format(sampleWebProviderDomainUsername)}</p>
 
       <Field
+        id="deployment-center-ftps-provider-username"
         name="publishingUsername"
         component={TextField}
         widthOverride="60%"
         label={t('deploymentCenterFtpsUsernameLabel')}
-        id="deployment-center-ftps-provider-username"
       />
 
       <Field
+        id="deployment-center-ftps-provider-password"
         name="publishingPassword"
         component={TextField}
         widthOverride="60%"
         label={t('deploymentCenterFtpsPasswordLabel')}
-        id="deployment-center-ftps-provider-password"
         type={providerPasswordType}
         additionalControls={[
           <ActionButton
-            key={0}
             id="deployment-center-ftps-provider-password-visibility-toggle"
+            key="deployment-center-ftps-provider-password-visibility-toggle"
             className={additionalTextFieldControl}
             ariaLabel={providerPasswordType === 'password' ? t('showProviderPasswordAriaLabel') : t('hideProviderPasswordAriaLabel')}
             onClick={toggleShowProviderPassword}
@@ -163,16 +163,16 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
       />
 
       <Field
+        id="deployment-center-ftps-provider-confirm-password"
         name="publishingConfirmPassword"
         component={TextField}
         widthOverride="60%"
         label={t('deploymentCenterFtpsConfirmPasswordLabel')}
-        id="deployment-center-ftps-provider-confirm-password"
         type={providerConfirmPasswordType}
         additionalControls={[
           <ActionButton
-            key={0}
             id="deployment-center-ftps-provider-confirm-password-visibility-toggle"
+            key="deployment-center-ftps-provider-confirm-password-visibility-toggle"
             className={additionalTextFieldControl}
             ariaLabel={
               providerConfirmPasswordType === 'password'
