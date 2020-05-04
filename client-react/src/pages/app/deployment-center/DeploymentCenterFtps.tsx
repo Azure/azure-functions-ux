@@ -14,7 +14,7 @@ type PasswordFieldType = 'password' | undefined;
 
 const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
   const { t } = useTranslation();
-  const { publishingProfile, publishingUser, resetApplicationPassword, formProps } = props;
+  const { publishingProfile, publishingUser, resetApplicationPassword } = props;
 
   const [applicationPasswordType, setApplicationPasswordType] = useState<PasswordFieldType>('password');
   const [providerPasswordType, setProviderPasswordType] = useState<PasswordFieldType>('password');
