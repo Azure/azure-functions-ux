@@ -15,7 +15,13 @@ import {
 import { useTranslation } from 'react-i18next';
 import { EnvironmentVariable, PanelType } from './Configuration.types';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { formStyle, commandBarSticky } from './Configuration.styles';
+import {
+  formStyle,
+  commandBarSticky,
+  tableValueComponentStyle,
+  tableValueFormFieldStyle,
+  tableValueIconStyle,
+} from './Configuration.styles';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
 import { ArmObj } from '../../../models/arm-obj';
@@ -33,17 +39,18 @@ import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../utils/FwLinks';
+import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 
 interface ConfigurationProps {
   environments: ArmObj<Environment>[];
   isLoading: boolean;
   hasWritePermissions: boolean;
   apiFailure: boolean;
-  environmentHasFunctions: boolean;
   fetchDataOnEnvironmentChange: (resourceId: string) => {};
   saveEnvironmentVariables: (resourceId: string, environmentVariables: EnvironmentVariable[]) => void;
   refresh: () => void;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
+  environmentHasFunctions?: boolean;
 }
 
 const Configuration: React.FC<ConfigurationProps> = props => {
@@ -192,19 +199,34 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     if (column.key === 'value') {
       return (
         <>
-          <ActionButton
-            id={`environment-variable-show-hide-${index}`}
-            className={defaultCellStyle}
-            onClick={() => onShowHideButtonClick(itemKey)}
-            iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
-            {hidden ? (
+          {hidden ? (
+            <ActionButton
+              id={`environment-variable-show-${index}`}
+              className={defaultCellStyle}
+              onClick={() => onShowHideButtonClick(itemKey)}
+              iconProps={{ iconName: 'RedEye' }}>
               <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
-            ) : (
-              <div className={defaultCellStyle} id={`app-settings-application-settings-value-${index}`}>
-                {item[column.fieldName!]}
+            </ActionButton>
+          ) : (
+            <div className={`${tableValueComponentStyle} ${defaultCellStyle}`} onClick={() => onShowHideButtonClick(itemKey)}>
+              <IconButton
+                id={`environment-variable-hide-${index}`}
+                className={tableValueIconStyle(theme)}
+                iconProps={{ iconName: 'Hide' }}
+                onClick={() => onShowHideButtonClick(itemKey)}
+              />
+              <div>
+                <TextFieldNoFormik
+                  id={`environment-variable-value-${index}`}
+                  value={item[column.fieldName!]}
+                  copyButton={true}
+                  disabled={true}
+                  formControlClassName={tableValueFormFieldStyle}
+                  className={defaultCellStyle}
+                />
               </div>
-            )}
-          </ActionButton>
+            </div>
+          )}
         </>
       );
     }
@@ -248,7 +270,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 260,
+        minWidth: 280,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
@@ -406,7 +428,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     const bannerInfo = { message: '', type: MessageBarType.info };
     if (!hasWritePermissions) {
       bannerInfo.message = t('staticSite_readOnlyRbac');
-    } else if (!environmentHasFunctions) {
+    } else if (environmentHasFunctions !== undefined && !environmentHasFunctions) {
       bannerInfo.message = t('staticSite_noFunctionMessage');
     }
     return !!bannerInfo.message ? <CustomBanner message={bannerInfo.message} type={bannerInfo.type} /> : <></>;

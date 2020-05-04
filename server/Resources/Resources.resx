@@ -3272,7 +3272,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Choose a different pricing tier to add more resources for your plan</value>
     </data>
     <data name="pricing_applyButtonLabel" xml:space="preserve">
-        <value>Update App Service plan</value>
+        <value>Apply changes</value>
     </data>
     <data name="pricing_sharedInfrastructure" xml:space="preserve">
         <value>Shared infrastructure</value>
@@ -5422,13 +5422,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Scope</value>
     </data>
     <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Virtual network trigger support</value>
+        <value>Runtime Scale Monitoring</value>
     </data>
     <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
     <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>This setting enables your app to be triggered by resources inside a virtual network. It also requires 1 pre-warmed instance to be active and runtime V2 or higher.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
     </data>
     <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Refresh App Settings</value>
@@ -6085,7 +6085,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
     </data>
     <data name="appKeys_systemKeys_description" xml:space="preserve">
-        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+        <value>System keys are automatically managed by the Function runtime. System Keys provide granular access to functions runtime features.</value>
     </data>
     <data name="functionKeys_description" xml:space="preserve">
         <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
@@ -6116,5 +6116,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
         <value>Hide provider user confirm password</value>
+    </data>
+    <data name="resetPublishProfileConfirmationTitle" xml:space="preserve">
+        <value>Reset application publish profile password?</value>
+    </data>
+    <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
+        <value>By resetting the password any external integrations via the publishing profile will seize to operate.</value>
+    </data>
+    <data name="usernameLengthRequirements" xml:space="preserve">
+        <value>The username must be at least {0} characters in length.</value>
     </data>
 </root>

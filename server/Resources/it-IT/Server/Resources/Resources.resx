@@ -3194,7 +3194,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Il piano '{0}' è stato aggiornato.</value>
     </data>
   <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
-        <value>Il processo per il ridimensionamento del piano '{0}' è stato inviato.</value>
+        <value>Il processo per il dimensionamento del piano '{0}' è stato inviato.</value>
     </data>
   <data name="pricing_planScaleInProgress" xml:space="preserve">
         <value>Un'operazione di ridimensionamento per il piano '{0}' è attualmente in corso. Attendere il completamento dell'operazione prima di procedere a un altro ridimensionamento.</value>
@@ -3924,7 +3924,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Origine immagine</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Immagine e tag facoltativo, ad esempio 'image:tag'</value>
+        <value>Full Image Name and Tag</value>
+    </data>
+  <data name="containerImageAndTagPlaceholder" xml:space="preserve">
+        <value>E.g. nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Per iniziare, creare un Registro Azure Container e aggiungere un'immagine.</value>
@@ -3940,6 +3943,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     </data>
   <data name="containerServerURL" xml:space="preserve">
         <value>URL server</value>
+    </data>
+  <data name="containerServerURLPlaceholder" xml:space="preserve">
+        <value>E.g. https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Account di accesso</value>
@@ -5023,7 +5029,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Cambia il piano di servizio app</value>
     </data>
   <data name="changePlanDescription" xml:space="preserve">
-        <value>La modifica del piano in cui è ospitata l'app consente di consolidare le app in un unico piano per condividere le risorse delle macchine virtuali o distribuirle in piani separati per ridimensionarle separatamente al fine di migliorare le prestazioni.</value>
+        <value>La modifica del piano in cui è ospitata l'app consente di consolidare le app in un unico piano per condividere le risorse delle macchine virtuali o distribuirle in piani separati per dimensionarle separatamente al fine di migliorare le prestazioni.</value>
     </data>
   <data name="changePlanLocationTooltip" xml:space="preserve">
         <value>Non è possibile modificare l'area in cui risiede attualmente l'app per piani nuovi o esistenti.</value>
@@ -5137,10 +5143,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>{0} dettagli</value>
     </data>
   <data name="integratePageTitle" xml:space="preserve">
-        <value>Integration</value>
+        <value>Integrazione</value>
     </data>
   <data name="integratePageDescription" xml:space="preserve">
-        <value>Edit the trigger and choose from a selection of inputs and outputs for your function, including Azure Blob Storage, Cosmos DB and others.</value>
+        <value>Consente di modificare il trigger e scegliere tra una selezione di input e output per la funzione, ad esempio Archiviazione BLOB di Azure, Cosmos DB e altri servizi.</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>Funzione</value>
@@ -5413,13 +5419,13 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Ambito</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Supporto trigger di rete virtuale</value>
+        <value>Runtime Scale Monitoring</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Questa impostazione consente all'app di essere attivata da risorse all'interno di una rete virtuale. Richiede anche che sia attiva 1 istanza preriscaldata e il runtime V2 o versione successiva. &lt;a href="{0}" target="_blank"&gt;Altre informazioni&lt;/a&gt;.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Questa impostazione consente all'app di essere attivata da risorse all'interno di una rete virtuale. Richiede anche che sia attiva 1 istanza preriscaldata e il runtime V2 o versione successiva.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Aggiorna impostazioni app</value>
@@ -5593,7 +5599,13 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Configurando il valore di FUNCTIONS_EXTENSION_VERSIONnell'impostazione dell'applicazione, si è scelto di usare una versione run-time personalizzata.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>Non è possibile procedere all'aggiornamento con le funzioni esistenti. Gli aggiornamenti della versione principale possono introdurre modifiche significative a linguaggi e associazioni. Per l'aggiornamento delle versioni principali del run-time, è consigliabile creare una nuova app per le funzioni ed eseguire la migrazione delle funzioni alla nuova app.</value>
+        <value>È in corso l'aggiornamento della versione del runtime da {0} a {1}. Questa operazione potrebbe introdurre modifiche che causano interruzioni al linguaggio e alle associazioni per le funzioni esistenti. Per l'aggiornamento delle versioni principali del runtime, è consigliabile creare una nuova app per le funzioni e trasferire le funzioni al suo interno.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
+        <value>Aggiorna versione runtime</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
+        <value>L'app esegue la versione {0} e contiene funzioni esistenti. Non è consigliabile passare alla versione {1} perché potrebbe introdurre modifiche che causano interruzioni a linguaggi e associazioni. Continuare?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>Manca l'ambito 'workflow' nel token di GitHub. Tornare al passaggio 'source control' per autorizzare nuovamente GitHub.</value>
@@ -5664,8 +5676,8 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Il debug remoto non è disponibile per questa applicazione.</value>
     </data>
-  <data name="tryFunctionsPreview" xml:space="preserve">
-        <value>Anteprima della nuova esperienza di gestione di Funzioni di Azure</value>
+  <data name="tryFunctionsNewExperience" xml:space="preserve">
+        <value>Prova la nuova esperienza di gestione di Funzioni di Azure</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Salva modifiche</value>
@@ -5938,6 +5950,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Nessuna variabile di ambiente da visualizzare</value>
     </data>
   <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Aggiungi</value>
+    </data>
+  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
         <value>Aggiungi nuova variabile di ambiente</value>
     </data>
   <data name="staticSite_environmentVariables" xml:space="preserve">
@@ -5953,33 +5968,150 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Selezionare l'ambiente per il sito</value>
     </data>
   <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filter environment variable</value>
-    </data>
-  <data name="staticSite_addEditEnvironmentVariable" xml:space="preserve">
-        <value>Add/Edit environment variable</value>
+        <value>Filtra variabile di ambiente</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+        <value>Rimuovere le modifiche apportate alle variabili di ambiente per l'ambiente {0}?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
-        <value>Your unsaved changes will be discarded.</value>
+        <value>Le modifiche non salvate verranno rimosse.</value>
     </data>
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
-        <value>Are you sure you would like to change environment?</value>
+        <value>Modificare l'ambiente?</value>
     </data>
   <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} is a required property on all environment variables</value>
+        <value>{0} è una proprietà obbligatoria per tutte le variabili di ambiente</value>
     </data>
   <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Environment variable name must be unique</value>
+        <value>Il nome della variabile di ambiente deve essere univoco</value>
     </data>
   <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Environment variable values must be an array</value>
+        <value>I valori delle variabili di ambiente devono essere una matrice</value>
     </data>
   <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} is an invalid environment variable property</value>
+        <value>{0} è una proprietà di variabile di ambiente non valida</value>
     </data>
   <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>All environment variable value and name properties must be of type string</value>
+        <value>Tutte le proprietà dei nomi e dei valori nelle variabili di ambiente devono essere di tipo stringa</value>
+    </data>
+  <data name="staticSite_readOnlyRbac" xml:space="preserve">
+        <value>Il sito è attualmente in modalità di sola lettura perché l'accesso assegnato al controllo degli accessi in base al ruolo è impostato su: Lettore</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>Log</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>Log contenitore</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+        <value>Impostazioni</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
+        <value>Impostazioni contenitore</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
+        <value>Credenziali FTP/FTPS</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
+        <value>Credenziali FTP o FTPS</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
+        <value>Caricamento dei log del contenitore</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
+        <value>Caricamento dei log del contenitore...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
+        <value>Non è stato possibile caricare i log del contenitore</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailedWithError" xml:space="preserve">
+        <value>Non è stato possibile caricare i log del contenitore: {0}</value>
+    </data>
+  <data name="invocationTracesTableTitle" xml:space="preserve">
+        <value>Analisi chiamata</value>
+    </data>
+  <data name="invocationTracesTableDescription" xml:space="preserve">
+        <value>Le venti analisi di chiamata di funzione più recenti. Per un'analisi più avanzata, eseguire la query in Application Insights.</value>
+    </data>
+  <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
+        <value>Aggiorna variabili di ambiente</value>
+    </data>
+  <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
+        <value>All'aggiornamento, tutte le modifiche non salvate andranno perse. Continuare?</value>
+    </data>
+  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
+        <value>Aggiungi variabile di ambiente</value>
+    </data>
+  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
+        <value>Modifica variabile di ambiente</value>
+    </data>
+  <data name="deploymentCenterFtpsDescription" xml:space="preserve">
+        <value>Il Servizio app supporta numerose tecnologie per accedere, pubblicare e modificare il contenuto dell'app. È possibile definire l'ambito delle credenziali FTP/FTPS in base all'applicazione o all'utente.</value>
+    </data>
+  <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
+        <value>Endpoint FTPS</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
+        <value>Ambito dell'applicazione</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
+        <value>Le credenziali dell'ambito dell'applicazione vengono generate automaticamente e consentono l'accesso solo a questa app o slot di distribuzione specifico. Queste credenziali possono essere usate con FTP, repository Git locale e WebDeploy. Non possono essere configurate manualmente, ma possono essere reimpostate in qualsiasi momento.</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
+        <value>Ambito utente</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
+        <value>Le credenziali dell'ambito utente sono definite dall'utente e possono essere usate con tutte le app a cui si ha accesso. Queste credenziali possono essere usate con FTP, repository Git locale e WebDeploy. L'autenticazione a un endpoint FTP/FTPS con credenziali a livello dell'utente richiede un nome utente nel formato seguente: '{0}'</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
+        <value>(nome utente)</value>
+    </data>
+  <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+        <value>Nome utente</value>
+    </data>
+  <data name="deploymentCenterFtpsPasswordLabel" xml:space="preserve">
+        <value>Password</value>
+    </data>
+  <data name="deploymentCenterFtpsConfirmPasswordLabel" xml:space="preserve">
+        <value>Conferma password</value>
+    </data>
+  <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
+        <value>Per visualizzare le credenziali è necessaria l'autorizzazione di scrittura per il sito o lo slot.</value>
+    </data>
+  <data name="appKeys_hostKeys_description" xml:space="preserve">
+        <value>Usare le chiavi host con i client per accedere a tutte le funzioni HTTP nell'app. La chiave _master concede l'accesso con privilegi di amministratore alle API del runtime di Funzioni di Azure.</value>
+    </data>
+  <data name="appKeys_systemKeys_description" xml:space="preserve">
+        <value>Le chiavi di sistema sono gestite automaticamente dal runtime della funzione. Le chiavi di sistema forniscono un accesso granulare alle funzioni del runtime delle funzioni.</value>
+    </data>
+  <data name="functionKeys_description" xml:space="preserve">
+        <value>I tasti funzione sono limitati a questa funzione e possono essere usati per accedere a questa funzione di trigger HTTP.</value>
+    </data>
+  <data name="staticSite_noFunctionMessage" xml:space="preserve">
+        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+    </data>
+  <data name="reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+  <data name="resetPublishProfileAriaLabel" xml:space="preserve">
+        <value>Reset publishing profile</value>
+    </data>
+  <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Show application password</value>
+    </data>
+  <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Hide application password</value>
+    </data>
+  <data name="showProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user password</value>
+    </data>
+  <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user password</value>
+    </data>
+  <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user confirm password</value>
+    </data>
+  <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user confirm password</value>
     </data>
 </root>
