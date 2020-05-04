@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { DeploymentCenterFormData } from './DeploymentCenter.types';
+import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType } from './DeploymentCenter.types';
 import DeploymentCenterData from './DeploymentCenter.data';
 import { PortalContext } from '../../../PortalContext';
 import RbacConstants from '../../../utils/rbac-constants';
@@ -19,6 +19,7 @@ import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { HttpResponseObject } from '../../../ArmHelper.types';
+import * as Yup from 'yup';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -34,8 +35,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [publishingUser, setPublishingUser] = useState<ArmObj<PublishingUser> | undefined>(undefined);
   const [publishingCredentials, setPublishingCredentials] = useState<ArmObj<PublishingCredentials> | undefined>(undefined);
   const [publishingProfile, setPublishingProfile] = useState<PublishingProfile | undefined>(undefined);
-  const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
   const [siteDescriptor, setSiteDescriptor] = useState<ArmSiteDescriptor | undefined>(undefined);
+  const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
+  const [formValidationSchema, setFormValidationSchema] = useState<DeploymentCenterYupValidationSchemaType | undefined>(undefined);
 
   const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
     if (publishProfileResponse.metadata.success) {
@@ -96,6 +98,30 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         publishingPassword: '',
         publishingConfirmPassword: '',
       });
+
+      setFormValidationSchema(
+        Yup.object().shape({
+          publishingUsername: Yup.string().test('minimumCharsIfNeeded', 'Minimum 3 chars needed', value => {
+            if (value && value.length < 3) {
+              return false;
+            }
+            return true;
+          }),
+          publishingPassword: Yup.string().test('minimumCharsIfNeeded', 'Stronger password needed', value => {
+            if (value && value.length < 3) {
+              return false;
+            }
+            return true;
+          }),
+          // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
+          publishingConfirmPassword: Yup.string().test('minimumCharsIfNeeded', 'Password does not match', function(value) {
+            if (this.parent.publishingPassword && this.parent.publishingPassword !== value) {
+              return false;
+            }
+            return true;
+          }),
+        })
+      );
     } else {
       LogService.error(
         LogCategories.deploymentCenter,
@@ -140,6 +166,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         publishingProfile={publishingProfile}
         publishingCredentials={publishingCredentials}
         formData={formData}
+        formValidationSchema={formValidationSchema}
         resetApplicationPassword={resetApplicationPassword}
       />
     </DeploymentCenterContext.Provider>

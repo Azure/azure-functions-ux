@@ -1,6 +1,7 @@
 import { ArmObj } from '../../../models/arm-obj';
 import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../../models/site/publish';
 import { FormikProps } from 'formik';
+import * as Yup from 'yup';
 
 export interface DeploymentCenterFormData {
   publishingUsername: string;
@@ -24,4 +25,7 @@ export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps 
 
 export interface DeploymentCenterContainerFormProps extends DeploymentCenterContainerProps {
   formData?: DeploymentCenterFormData;
+  formValidationSchema?: DeploymentCenterYupValidationSchemaType;
 }
+
+export type DeploymentCenterYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, DeploymentCenterFormData>>;
