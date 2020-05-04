@@ -34,7 +34,13 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   };
 
   return (
-    <Formik initialValues={props.formData} onSubmit={onSubmit} enableReinitialize={true} validateOnBlur={false} validateOnChange={false}>
+    <Formik
+      initialValues={props.formData}
+      onSubmit={onSubmit}
+      enableReinitialize={true}
+      validateOnBlur={false}
+      validateOnChange={true}
+      validationSchema={props.formValidationSchema}>
       {(formProps: FormikProps<DeploymentCenterFormData>) => (
         <form onKeyDown={onKeyDown}>
           <div id="deployment-center-command-bar" className={commandBarSticky}>

@@ -6123,4 +6123,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
         <value>By resetting the password any external integrations via the publishing profile will seize to operate.</value>
     </data>
+    <data name="usernameLengthRequirements" xml:space="preserve">
+        <value>The username must be at least {0} characters in length.</value>
+    </data>
 </root>

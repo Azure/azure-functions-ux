@@ -1983,4 +1983,5 @@ export class PortalResources {
   public static hideProviderConfirmPasswordAriaLabel = 'hideProviderConfirmPasswordAriaLabel';
   public static resetPublishProfileConfirmationTitle = 'resetPublishProfileConfirmationTitle';
   public static resetPublishProfileConfirmationDescription = 'resetPublishProfileConfirmationDescription';
+  public static usernameLengthRequirements = 'usernameLengthRequirements';
 }
