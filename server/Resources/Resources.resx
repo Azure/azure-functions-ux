@@ -3272,7 +3272,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Choose a different pricing tier to add more resources for your plan</value>
     </data>
     <data name="pricing_applyButtonLabel" xml:space="preserve">
-        <value>Update App Service plan</value>
+        <value>Apply changes</value>
     </data>
     <data name="pricing_sharedInfrastructure" xml:space="preserve">
         <value>Shared infrastructure</value>
