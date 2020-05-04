@@ -101,25 +101,26 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
       setFormValidationSchema(
         Yup.object().shape({
-          publishingUsername: Yup.string().test('minimumCharsIfNeeded', 'Minimum 3 chars needed', value => {
-            if (value && value.length < 3) {
-              return false;
-            }
-            return true;
-          }),
-          publishingPassword: Yup.string().test('minimumCharsIfNeeded', 'Stronger password needed', value => {
-            if (value && value.length < 3) {
-              return false;
-            }
-            return true;
-          }),
+          publishingUsername: Yup.string()
+            .required('This is needed')
+            .min(3, 'Minimum 3 chars required'),
+          publishingPassword: Yup.string()
+            .required('This is needed')
+            .test('minimumCharsIfNeeded', 'Stronger password needed', value => {
+              if (value && value.length < 3) {
+                return false;
+              }
+              return true;
+            }),
           // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
-          publishingConfirmPassword: Yup.string().test('minimumCharsIfNeeded', 'Password does not match', function(value) {
-            if (this.parent.publishingPassword && this.parent.publishingPassword !== value) {
-              return false;
-            }
-            return true;
-          }),
+          publishingConfirmPassword: Yup.string()
+            .required('This is needed')
+            .test('minimumCharsIfNeeded', 'Password does not match', function(value) {
+              if (this.parent.publishingPassword && this.parent.publishingPassword !== value) {
+                return false;
+              }
+              return true;
+            }),
         })
       );
     } else {
