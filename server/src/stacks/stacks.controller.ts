@@ -14,7 +14,7 @@ export class StacksController {
   webAppCreateStacks(@Query('api-version') apiVersion: string) {
     this._validateApiVersion(apiVersion, WebAppVersions);
 
-    if (apiVersion === Versions['2020-05-01']) {
+    if (apiVersion === Versions.version20200501) {
       return this._stackWebAppService20200501.getCreateStacks();
     }
   }
@@ -24,7 +24,7 @@ export class StacksController {
     this._validateApiVersion(apiVersion, WebAppVersions);
     this._validateOs(os);
 
-    if (apiVersion === Versions['2020-05-01']) {
+    if (apiVersion === Versions.version20200501) {
       return this._stackWebAppService20200501.getConfigStacks(os);
     }
   }
@@ -34,7 +34,7 @@ export class StacksController {
     this._validateApiVersion(apiVersion, WebAppVersions);
     this._validateOs(os);
 
-    if (apiVersion === Versions['2020-05-01']) {
+    if (apiVersion === Versions.version20200501) {
       return this._stackWebAppService20200501.getGitHubActionStacks(os);
     }
   }
@@ -43,7 +43,7 @@ export class StacksController {
   functionAppStacks(@Query('api-version') apiVersion: string) {
     this._validateApiVersion(apiVersion, FunctionAppVersions);
 
-    if (apiVersion === Versions['2020-05-01']) {
+    if (apiVersion === Versions.version20200501) {
       return this._stackFunctionAppService20200501.getStacks();
     }
   }
