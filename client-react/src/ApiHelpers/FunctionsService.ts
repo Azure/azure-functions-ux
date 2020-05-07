@@ -124,7 +124,7 @@ export default class FunctionsService {
   }
 
   public static getHostJson(resourceId: string, functionName: string, runtimeVersion?: string) {
-    const headers = FunctionsService._getVfsHeaders();
+    const headers = FunctionsService._addOrGetVfsHeaders();
 
     switch (runtimeVersion) {
       case RuntimeExtensionCustomVersions.beta:
@@ -160,7 +160,7 @@ export default class FunctionsService {
     fileName?: string
   ) {
     const endpoint = `${!!functionName ? `/${functionName}` : ''}/${!!fileName ? `${fileName}` : ''}`;
-    headers = FunctionsService._getVfsHeaders(headers);
+    headers = FunctionsService._addOrGetVfsHeaders(headers);
 
     return MakeArmCall<VfsObject[] | string>({
       headers,
@@ -224,7 +224,7 @@ export default class FunctionsService {
     }
   }
 
-  private static _getVfsHeaders(headers?: KeyValue<string>) {
+  private static _addOrGetVfsHeaders(headers?: KeyValue<string>) {
     if (!headers) {
       headers = {};
     }
