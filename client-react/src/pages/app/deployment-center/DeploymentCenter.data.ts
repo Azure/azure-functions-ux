@@ -28,4 +28,8 @@ export default class DeploymentCenterData {
   public resetPublishProfile = (resourceId: string) => {
     return SiteService.resetPublishProfile(resourceId);
   };
+
+  public getSiteConfig = (resourceId: string) => {
+    return SiteService.fetchWebConfig(resourceId);
+  };
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { IChoiceGroupProps, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
 import { FieldProps } from 'formik';
-import { ChoiceGroupStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
+import { ChoiceGroupStyles, ChoiceGroupVerticalStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
 import RadioButtonNoFormik from './RadioButtonNoFormik';
 
 interface RadioButtonProps {
@@ -14,10 +14,11 @@ interface RadioButtonProps {
     learnMoreText: string;
   };
   dirty?: boolean;
+  displayInVerticalLayout?: boolean;
 }
 
 const RadioButton: React.SFC<IChoiceGroupProps & FieldProps & RadioButtonProps> = props => {
-  const { field, form, options, theme, ...rest } = props;
+  const { field, form, options, theme, displayInVerticalLayout, ...rest } = props;
   const onChange = (e: unknown, option: IChoiceGroupOption) => {
     form.setFieldValue(field.name, option.key);
   };
@@ -28,7 +29,7 @@ const RadioButton: React.SFC<IChoiceGroupProps & FieldProps & RadioButtonProps> 
       selectedKey={field.value}
       options={options}
       onChange={onChange}
-      styles={ChoiceGroupStyles}
+      styles={displayInVerticalLayout ? ChoiceGroupVerticalStyles : ChoiceGroupStyles}
       {...rest}
     />
   );
