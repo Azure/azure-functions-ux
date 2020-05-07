@@ -20,6 +20,7 @@ import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import * as Yup from 'yup';
+import { ScmTypes } from '../../../models/site/config';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -73,10 +74,12 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
     const getContainerLogsRequest = deploymentCenterData.fetchContainerLogs(resourceId);
-    const [writePermissionResponse, publishingUserResponse, containerLogsResponse] = await Promise.all([
+    const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
+    const [writePermissionResponse, publishingUserResponse, containerLogsResponse, siteConfigResponse] = await Promise.all([
       writePermissionRequest,
       getPublishingUserRequest,
       getContainerLogsRequest,
+      getSiteConfigRequest,
     ]);
 
     setSiteDescriptor(new ArmSiteDescriptor(resourceId));
@@ -91,12 +94,21 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       );
     }
 
+    if (!siteConfigResponse.metadata.success) {
+      LogService.error(
+        LogCategories.deploymentCenter,
+        'DeploymentCenterFtpsDataLoader',
+        `Failed to get site config with error: ${getErrorMessage(siteConfigResponse.metadata.error)}`
+      );
+    }
+
     if (publishingUserResponse.metadata.success) {
       setPublishingUser(publishingUserResponse.data);
       setFormData({
         publishingUsername: publishingUserResponse.data.properties.publishingUserName,
         publishingPassword: '',
         publishingConfirmPassword: '',
+        scmType: siteConfigResponse.metadata.success ? siteConfigResponse.data.properties.scmType : ScmTypes.None,
       });
 
       // NOTE(michinoy): The password should be at least eight characters long and must contain letters and numbers.
@@ -127,6 +139,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
             }
             return true;
           }),
+          scmType: Yup.mixed().required(),
         })
       );
     } else {

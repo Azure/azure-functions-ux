@@ -6126,4 +6126,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="usernameLengthRequirements" xml:space="preserve">
         <value>The username must be at least {0} characters in length.</value>
     </data>
+    <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
+        <value>Use these settings to configure your container app deployment model and registry. We recommend GitHub Actions for greater operational efficiency.</value>
+    </data>
+    <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+        <value>Source</value>
+    </data>
+    <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
+        <value>Container Registry</value>
+    </data>
+    <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+        <value>Setup up your app to pull the container image from a registry.</value>
+    </data>
+    <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+    <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+        <value>Build, deploy, and manage your container app automatically with GitHub Actions.</value>
+    </data>
 </root>
