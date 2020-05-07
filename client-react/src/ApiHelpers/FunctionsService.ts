@@ -156,11 +156,11 @@ export default class FunctionsService {
     resourceId: string,
     functionName?: string,
     runtimeVersion?: string,
-    headers?: KeyValue<string>,
+    inputHeaders?: KeyValue<string>,
     fileName?: string
   ) {
     const endpoint = `${!!functionName ? `/${functionName}` : ''}/${!!fileName ? `${fileName}` : ''}`;
-    headers = FunctionsService._addOrGetVfsHeaders(headers);
+    const headers = FunctionsService._addOrGetVfsHeaders(inputHeaders);
 
     return MakeArmCall<VfsObject[] | string>({
       headers,
@@ -225,11 +225,12 @@ export default class FunctionsService {
   }
 
   private static _addOrGetVfsHeaders(headers?: KeyValue<string>) {
-    if (!headers) {
-      headers = {};
+    let vfsHeaders: KeyValue<string> = {};
+    if (headers) {
+      vfsHeaders = { ...headers };
     }
 
-    headers['Cache-Control'] = 'no-cache';
-    return headers;
+    vfsHeaders['Cache-Control'] = 'no-cache';
+    return vfsHeaders;
   }
 }
