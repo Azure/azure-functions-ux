@@ -124,6 +124,8 @@ export default class FunctionsService {
   }
 
   public static getHostJson(resourceId: string, functionName: string, runtimeVersion?: string) {
+    const headers = FunctionsService._addOrGetVfsHeaders();
+
     switch (runtimeVersion) {
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
@@ -133,6 +135,8 @@ export default class FunctionsService {
           commandName: 'getHostJson',
           queryString: '?relativePath=1',
           method: 'GET',
+          headers,
+          skipBatching: true, // Batch API doesn't accept no-cache headers
         });
       }
       case RuntimeExtensionMajorVersions.v1:
@@ -141,6 +145,8 @@ export default class FunctionsService {
           resourceId: `${resourceId}/extensions/api/vfs/site/wwwroot/${functionName}/function.json`,
           commandName: 'getHostJson',
           method: 'GET',
+          headers,
+          skipBatching: true, // Batch API doesn't accept no-cache headers
         });
       }
     }
@@ -150,16 +156,18 @@ export default class FunctionsService {
     resourceId: string,
     functionName?: string,
     runtimeVersion?: string,
-    headers?: KeyValue<string>,
+    inputHeaders?: KeyValue<string>,
     fileName?: string
   ) {
     const endpoint = `${!!functionName ? `/${functionName}` : ''}/${!!fileName ? `${fileName}` : ''}`;
+    const headers = FunctionsService._addOrGetVfsHeaders(inputHeaders);
+
     return MakeArmCall<VfsObject[] | string>({
       headers,
       resourceId: `${resourceId}${FunctionsService._getVfsApiForRuntimeVersion(endpoint, runtimeVersion)}`,
       commandName: 'getFileContent',
       method: 'GET',
-      skipBatching: !!fileName,
+      skipBatching: true, // Batch API doesn't accept no-cache headers
     });
   }
 
@@ -214,5 +222,15 @@ export default class FunctionsService {
       default:
         return `/extensions/api/vfs/site/wwwroot/${endpoint}`;
     }
+  }
+
+  private static _addOrGetVfsHeaders(headers?: KeyValue<string>) {
+    let vfsHeaders: KeyValue<string> = {};
+    if (headers) {
+      vfsHeaders = { ...headers };
+    }
+
+    vfsHeaders['Cache-Control'] = 'no-cache';
+    return vfsHeaders;
   }
 }
