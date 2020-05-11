@@ -127,8 +127,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         onClick: openAddNewEnvironmentVariablePanel,
         disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Add' },
-        name: t('staticSite_addNewEnvironmentVariable'),
-        ariaLabel: t('staticSite_ariaLabel_addNewEnvironmentVariable'),
+        name: t('staticSite_addNewApplicationSetting'),
+        ariaLabel: t('staticSite_ariaLabel_addNewApplicationSetting'),
       },
       {
         key: 'environment-variable-show-hide',
@@ -516,9 +516,9 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         />
       </>
       <div className={formStyle}>
-        <h3>{t('staticSite_environmentVariables')}</h3>
+        <h3>{t('staticSite_applicationSettings')}</h3>
         <p>
-          <span id="environment-variable-info-message">{t('staticSite_environmentVariablesInfoMessage')}</span>
+          <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
           <Link
             id="environment-variable-info-learnMore"
             href={Links.staticSiteEnvironmentVariablesLearnMore}
@@ -547,7 +547,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('staticSite_emptyEnvironmentVariableList')}
+          emptyMessage={t('staticSite_emptyApplicationSettingList')}
           shimmer={{ lines: 2, show: isLoading }}>
           {showFilter && (
             <SearchBox
@@ -566,8 +566,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           onDismiss={onCancel}
           headerText={
             currentEnvironmentVariableIndex === undefined
-              ? t('staticSite_addEnvironmentVariableHeader')
-              : t('staticSite_editEnvironmentVariableHeader')
+              ? t('staticSite_addApplicationSettingHeader')
+              : t('staticSite_editApplicationSettingHeader')
           }>
           <ConfigurationAddEdit
             currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
