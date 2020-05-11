@@ -92,6 +92,7 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
                   selectedKey={formValues.storageAccount && formValues.storageAccount.id}
                   onChange={(o, e) => {
                     setFormValues({ storageAccount: e && e.data });
+                    setKeyList(undefined);
                   }}
                   errorMessage={undefined}
                   {...props}
