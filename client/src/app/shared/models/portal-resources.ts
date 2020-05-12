@@ -1993,4 +1993,5 @@ export class PortalResources {
   public static deploymentCenterContainerSettingsSourceOptionGitHubActions = 'deploymentCenterContainerSettingsSourceOptionGitHubActions';
   public static deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription =
     'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription';
+  public static functionEditor_privateLinkRunMessage = 'functionEditor_privateLinkRunMessage';
 }

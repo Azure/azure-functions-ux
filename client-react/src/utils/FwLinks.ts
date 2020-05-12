@@ -12,4 +12,6 @@ export const Links = {
   readOnlyPythonAppLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2074230',
   readOnlyVSGeneratedFunctionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=856288',
   staticSiteEnvironmentVariablesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2128074',
+  // TODO (krmitta): Update the learn more link with the correct fwlink
+  functionsPrivateLinkLearnMore: 'https://docs.microsoft.com/en-us/azure/azure-functions/functions-networking-options',
 };
