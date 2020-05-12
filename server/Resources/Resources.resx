@@ -6145,6 +6145,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Build, deploy, and manage your container app automatically with GitHub Actions.</value>
     </data>
     <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
-        <value>You must have direct network access in order to run your app. Your app may be restricted with Private Endpoints, Access Restrictions or Service Endpoints.</value>
+        <value>You must have direct network access in order to run your function. Your app may be restricted with Private Endpoints, Access Restrictions or Service Endpoints.</value>
     </data>
 </root>
