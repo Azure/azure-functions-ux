@@ -4,13 +4,7 @@ import { ICommandBarItemProps, CommandBar } from 'office-ui-fabric-react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { SiteStateContext } from '../../../SiteState';
-
-interface DeploymentCenterCommandBarProps {
-  saveFunction: () => void;
-  discardFunction: () => void;
-  managePublishProfileFunction: () => void;
-  refreshFunction: () => void;
-}
+import { DeploymentCenterCommandBarProps } from './DeploymentCenter.types';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
   const { saveFunction, discardFunction, managePublishProfileFunction, refreshFunction } = props;

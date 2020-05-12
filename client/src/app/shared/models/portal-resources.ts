@@ -1981,4 +1981,16 @@ export class PortalResources {
   public static hideProviderPasswordAriaLabel = 'hideProviderPasswordAriaLabel';
   public static showProviderConfirmPasswordAriaLabel = 'showProviderConfirmPasswordAriaLabel';
   public static hideProviderConfirmPasswordAriaLabel = 'hideProviderConfirmPasswordAriaLabel';
+  public static resetPublishProfileConfirmationTitle = 'resetPublishProfileConfirmationTitle';
+  public static resetPublishProfileConfirmationDescription = 'resetPublishProfileConfirmationDescription';
+  public static usernameLengthRequirements = 'usernameLengthRequirements';
+  public static deploymentCenterContainerSettingsDescription = 'deploymentCenterContainerSettingsDescription';
+  public static deploymentCenterContainerSettingsSourceLabel = 'deploymentCenterContainerSettingsSourceLabel';
+  public static deploymentCenterContainerSettingsSourceOptionContainerRegistry =
+    'deploymentCenterContainerSettingsSourceOptionContainerRegistry';
+  public static deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription =
+    'deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription';
+  public static deploymentCenterContainerSettingsSourceOptionGitHubActions = 'deploymentCenterContainerSettingsSourceOptionGitHubActions';
+  public static deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription =
+    'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription';
 }

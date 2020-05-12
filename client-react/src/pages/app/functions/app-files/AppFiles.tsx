@@ -22,6 +22,7 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 
 interface AppFilesProps {
   site: ArmObj<Site>;
@@ -42,6 +43,8 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
   const [savingFile, setSavingFile] = useState(false);
   const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean | undefined>(undefined);
+  const [monacoHeight, setMonacoHeight] = useState('calc(100vh - 100px)');
+  const [readOnlyBanner, setReadOnlyBanner] = useState<HTMLDivElement | null>(null);
 
   const { t } = useTranslation();
 
@@ -169,6 +172,11 @@ const AppFiles: React.FC<AppFilesProps> = props => {
   const isRuntimeReachable = () => !!fileList;
 
   useEffect(() => {
+    setMonacoHeight(`calc(100vh - ${100 + (!!readOnlyBanner ? readOnlyBanner.offsetHeight : 0)}px)`);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [readOnlyBanner]);
+  useEffect(() => {
     getAndSetFile();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -198,17 +206,20 @@ const AppFiles: React.FC<AppFilesProps> = props => {
         onChangeDropdown={onFileSelectorChange}
       />
       {(isLoading() || savingFile) && <LoadingComponent />}
-      {(!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
+      {!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable) ? (
         <CustomBanner
           message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
           type={MessageBarType.error}
         />
+      ) : (
+        <EditModeBanner setBanner={setReadOnlyBanner} />
       )}
       <div className={editorStyle}>
         <MonacoEditor
           value={fileContent.latest}
           language={editorLanguage}
           onChange={onChange}
+          height={monacoHeight}
           disabled={initialLoading || !isFileContentAvailable || !isRuntimeReachable()}
           options={{
             minimap: { enabled: false },

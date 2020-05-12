@@ -202,7 +202,7 @@ export class GithubService implements OnDestroy {
   }
 
   private _isJavaWarBuild(buildSettings: BuildSettings) {
-    return buildSettings.runtimeStackVersion.toLocaleLowerCase().indexOf(JavaContainers.Tomcat) > 0;
+    return buildSettings.runtimeStackVersion.toLocaleLowerCase().indexOf(JavaContainers.Tomcat) > -1;
   }
 
   // TODO(michinoy): Need to implement templated github action workflow generation.
