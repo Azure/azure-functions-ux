@@ -75,14 +75,13 @@
                     <div>
                         <textbox
                             [ariaLabel]="'slotNew_nameLabel' | translate"
-                            ariaErrorId="name-validation"
                             class="name-textbox"
                             [placeholder]="'enterName' | translate"
                             [disablePopOverError]="true"
                             [control]="addForm ? addForm.controls['name'] : null">
                         </textbox>
                     </div>
-                    <div invalidmessage="name" id="name-validation"></div>
+                    <div invalidmessage="name"></div>
                 </div>
             </div>
 
@@ -92,14 +91,16 @@
                         {{ 'slotNew_cloneConfigLabel' | translate }}
                     </div>
                     <div>
-                        <drop-down
-                            [ariaLabel]="'slotNew_cloneConfigLabel' | translate"
-                            ariaErrorId="clone-src-validation"
-                            [control]="addForm ? addForm.controls['cloneSrcId'] : null"
-                            [options]="cloneSrcIdDropDownOptions"
-                            [highlightDirty]="false">
-                        </drop-down>
-                        <div invalidmessage="cloneSrcId" id="clone-src-validation"></div>
+                        <ng-select
+                            [loading]="false"
+                            [clearable]="false"
+                            [items]="cloneSrcIdDropDownOptions"
+                            bindLabel="displayLabel"
+                            bindValue="value"
+                            class="custom-select"
+                            formControlName="cloneSrcId">
+                        </ng-select>
+                        <div invalidmessage="cloneSrcId"></div>
                     </div>
                 </div>
             </div>
