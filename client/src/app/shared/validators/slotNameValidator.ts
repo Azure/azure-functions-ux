@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Validator } from '@angular/forms/src/forms';
 import { FormControl } from '@angular/forms/src/model';
 import { Site } from 'app/shared/models/arm/site';
+import { ArmSiteDescriptor } from '../resourceDescriptors';
 
 export class SlotNameValidator implements Validator {
   private _ts: TranslateService;
@@ -21,11 +22,12 @@ export class SlotNameValidator implements Validator {
     if (!control.value) {
       return Promise.resolve(null);
     }
+    const siteNamePlusHypenLength = this._getSiteNameLength() + 1;
 
     if (control.value.length < Validations.websiteNameMinLength) {
       return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_siteNameMinChars) });
-    } else if (control.value.length > Validations.websiteNameMaxLength) {
-      return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_siteNameMaxChars) });
+    } else if (control.value.length + siteNamePlusHypenLength > Validations.websiteNameMaxLength) {
+      return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_slotNameMaxChars) });
     }
 
     if (control.value.toLowerCase() === 'production') {
@@ -65,5 +67,14 @@ export class SlotNameValidator implements Validator {
         }
       });
     });
+  }
+
+  private _getSiteNameLength(): number {
+    try {
+      const siteDescriptor = new ArmSiteDescriptor(this._siteId);
+      return !!siteDescriptor.site ? siteDescriptor.site.length : 0;
+    } catch (e) {
+      return 0;
+    }
   }
 }

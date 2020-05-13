@@ -15,12 +15,11 @@ import {
 } from '../../../models/site/publish';
 import { useTranslation } from 'react-i18next';
 import { ArmObj } from '../../../models/arm-obj';
-import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
+import DeploymentCenterContainerForm from './container/DeploymentCenterContainerForm';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { HttpResponseObject } from '../../../ArmHelper.types';
-import * as Yup from 'yup';
-import { ScmTypes } from '../../../models/site/config';
+import { DeploymentCenterContainerFormBuilder } from './container/DeploymentCenterContainerFormBuilder';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -39,6 +38,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [siteDescriptor, setSiteDescriptor] = useState<ArmSiteDescriptor | undefined>(undefined);
   const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
   const [formValidationSchema, setFormValidationSchema] = useState<DeploymentCenterYupValidationSchemaType | undefined>(undefined);
+
+  const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
 
   const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
     if (publishProfileResponse.metadata.success) {
@@ -75,6 +76,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
     const getContainerLogsRequest = deploymentCenterData.fetchContainerLogs(resourceId);
     const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
+
     const [writePermissionResponse, publishingUserResponse, containerLogsResponse, siteConfigResponse] = await Promise.all([
       writePermissionRequest,
       getPublishingUserRequest,
@@ -94,7 +96,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       );
     }
 
-    if (!siteConfigResponse.metadata.success) {
+    if (siteConfigResponse.metadata.success) {
+      deploymentCenterContainerFormBuilder.setSiteConfig(siteConfigResponse.data);
+    } else {
       LogService.error(
         LogCategories.deploymentCenter,
         'DeploymentCenterFtpsDataLoader',
@@ -104,44 +108,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
     if (publishingUserResponse.metadata.success) {
       setPublishingUser(publishingUserResponse.data);
-      setFormData({
-        publishingUsername: publishingUserResponse.data.properties.publishingUserName,
-        publishingPassword: '',
-        publishingConfirmPassword: '',
-        scmType: siteConfigResponse.metadata.success ? siteConfigResponse.data.properties.scmType : ScmTypes.None,
-      });
-
-      // NOTE(michinoy): The password should be at least eight characters long and must contain letters and numbers.
-      const passwordMinimumRequirementsRegex = new RegExp(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d@$!%*#?&]{8,}$/);
-      const usernameMinLength = 3;
-      setFormValidationSchema(
-        Yup.object().shape({
-          publishingUsername: Yup.string().test(
-            'usernameMinCharsIfEntered',
-            t('usernameLengthRequirements').format(usernameMinLength),
-            value => {
-              if (value && value.length < usernameMinLength) {
-                return false;
-              }
-              return true;
-            }
-          ),
-          publishingPassword: Yup.string().test('validateIfNeeded', t('userCredsError'), value => {
-            if (value) {
-              return passwordMinimumRequirementsRegex.test(value);
-            }
-            return true;
-          }),
-          // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
-          publishingConfirmPassword: Yup.string().test('validateIfNeeded', t('nomatchpassword'), function(value) {
-            if (this.parent.publishingPassword && this.parent.publishingPassword !== value) {
-              return false;
-            }
-            return true;
-          }),
-          scmType: Yup.mixed().required(),
-        })
-      );
+      deploymentCenterContainerFormBuilder.setPublishingUser(publishingUserResponse.data);
     } else {
       LogService.error(
         LogCategories.deploymentCenter,
@@ -153,10 +120,22 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     if (writePermissionResponse) {
       const getPublishingCredentialsRequest = deploymentCenterData.getPublishingCredentials(resourceId);
       const getPublishProfileRequest = deploymentCenterData.getPublishProfile(resourceId);
-      const [publishingCredentialsResponse, publishProfileResponse] = await Promise.all([
+      const fetchApplicationSettingsRequest = deploymentCenterData.fetchApplicationSettings(resourceId);
+      const [publishingCredentialsResponse, publishProfileResponse, fetchApplicationSettingsResponse] = await Promise.all([
         getPublishingCredentialsRequest,
         getPublishProfileRequest,
+        fetchApplicationSettingsRequest,
       ]);
+
+      if (fetchApplicationSettingsResponse.metadata.success) {
+        deploymentCenterContainerFormBuilder.setApplicationSettings(fetchApplicationSettingsResponse.data);
+      } else {
+        LogService.error(
+          LogCategories.deploymentCenter,
+          'DeploymentCenterFtpsDataLoader',
+          `Failed to get site application settings with error: ${getErrorMessage(fetchApplicationSettingsResponse.metadata.error)}`
+        );
+      }
 
       if (publishingCredentialsResponse.metadata.success) {
         setPublishingCredentials(publishingCredentialsResponse.data);
@@ -170,6 +149,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
       processPublishProfileResponse(publishProfileResponse);
     }
+
+    setFormData(deploymentCenterContainerFormBuilder.generateFormData());
+    setFormValidationSchema(deploymentCenterContainerFormBuilder.generateYupValidationSchema());
   };
 
   useEffect(() => {

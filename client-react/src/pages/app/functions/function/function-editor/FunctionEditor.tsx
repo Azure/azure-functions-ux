@@ -184,10 +184,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     props.run(tempFunctionInfo, values.xFunctionKey);
   };
 
-  const inputBinding =
-    functionInfo.properties.config && functionInfo.properties.config.bindings
-      ? functionInfo.properties.config.bindings.find(e => e.type === BindingType.httpTrigger)
-      : null;
+  const isGetFunctionUrlVisible = () => {
+    return (
+      functionInfo.properties.config &&
+      functionInfo.properties.config.bindings &&
+      !!functionInfo.properties.config.bindings.find(e => e.type === BindingType.httpTrigger || e.type === BindingType.eventGridTrigger)
+    );
+  };
 
   const getDropdownOptions = (): IDropdownOption[] => {
     return !!fileList
@@ -375,11 +378,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           resetFunction={() => setShowDiscardConfirmDialog(true)}
           testFunction={test}
           refreshFunction={refresh}
-          showGetFunctionUrlCommand={!!inputBinding}
+          isGetFunctionUrlVisible={isGetFunctionUrlVisible()}
           dirty={isDirty()}
           disabled={isDisabled() || appReadOnlyPermission}
           urlObjs={urlObjs}
           testDisabled={isTestDisabled()}
+          functionInfo={functionInfo}
+          runtimeVersion={runtimeVersion}
         />
         <ConfirmDialog
           primaryActionButton={{

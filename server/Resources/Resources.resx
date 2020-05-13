@@ -2149,6 +2149,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="validation_siteNameMaxChars" xml:space="preserve">
         <value>The name must be fewer than 60 characters</value>
     </data>
+    <data name="validation_slotNameMaxChars" xml:space="preserve">
+        <value>The combined site name and slot name must be fewer than 59 characters</value>
+    </data>
     <data name="validation_siteNameInvalidChar" xml:space="preserve">
         <value>'{0}' is an invalid character</value>
     </data>
@@ -6143,5 +6146,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>Build, deploy, and manage your container app automatically with GitHub Actions.</value>
+    </data>
+    <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
+        <value>You must have direct network access in order to run your function. Your app may be restricted with Private Endpoints, Access Restrictions or Service Endpoints.</value>
+    </data>
+    <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+    <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
+        <value>Registry settings</value>
+    </data>
+    <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
+        <value>Options</value>
+    </data>
+    <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
+        <value>Registry source</value>
     </data>
 </root>
