@@ -1,9 +1,9 @@
 import React from 'react';
 import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import DeploymentCenterContainerSettings from './DeploymentCenterContainerSettings';
-import DeploymentCenterFtps from './DeploymentCenterFtps';
+import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterContainerProps } from './DeploymentCenter.types';
+import { DeploymentCenterContainerProps } from '../DeploymentCenter.types';
 import DeploymentCenterContainerLogs from './DeploymentCenterContainerLogs';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerProps> = props => {
@@ -21,7 +21,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerProps> =
       <PivotItem
         headerText={t('deploymentCenterPivotItemContainerSettingsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemContainerSettingsAriaLabel')}>
-        <DeploymentCenterContainerSettings />
+        <DeploymentCenterContainerSettings formProps={formProps} />
       </PivotItem>
 
       <PivotItem headerText={t('deploymentCenterPivotItemFtpsHeaderText')} ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}>
