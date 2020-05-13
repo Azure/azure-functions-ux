@@ -6147,4 +6147,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>Build, deploy, and manage your container app automatically with GitHub Actions.</value>
     </data>
+    <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+    <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
+        <value>Registry settings</value>
+    </data>
+    <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
+        <value>Options</value>
+    </data>
+    <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
+        <value>Registry source</value>
+    </data>
+</root>
 </root>

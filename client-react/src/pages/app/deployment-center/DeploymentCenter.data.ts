@@ -32,4 +32,8 @@ export default class DeploymentCenterData {
   public getSiteConfig = (resourceId: string) => {
     return SiteService.fetchWebConfig(resourceId);
   };
+
+  public fetchApplicationSettings = (resourceId: string) => {
+    return SiteService.fetchApplicationSettings(resourceId);
+  };
 }
