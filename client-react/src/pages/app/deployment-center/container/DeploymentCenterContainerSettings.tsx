@@ -1,8 +1,8 @@
 import React from 'react';
 import DeploymentCenterContainerSource from './DeploymentCenterContainerSource';
-import { DeploymentCenterFieldProps, ContainerRegistrySources } from './DeploymentCenter.types';
-import { ScmTypes } from '../../../models/site/config';
-import DeploymentCenterGitHubProvider from './DeploymentCenterGitHubProvider';
+import { DeploymentCenterFieldProps, ContainerRegistrySources } from '../DeploymentCenter.types';
+import { ScmTypes } from '../../../../models/site/config';
+import DeploymentCenterGitHubProvider from '../DeploymentCenterGitHubProvider';
 import DeploymentCenterContainerRegistrySettings from './DeploymentCenterContainerRegistrySettings';
 import DeploymentCenterContainerAcrSettings from './DeploymentCenterContainerAcrSettings';
 import DeploymentCenterContainerDockerHubSettings from './DeploymentCenterContainerDockeHubSettings';
