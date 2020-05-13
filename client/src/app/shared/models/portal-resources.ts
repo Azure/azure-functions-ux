@@ -1932,7 +1932,7 @@ export class PortalResources {
   public static staticSite_applicationSettingsInfoMessage = 'staticSite_applicationSettingsInfoMessage';
   public static staticSite_environment = 'staticSite_environment';
   public static staticSite_environmentDropdownAriaLabel = 'staticSite_environmentDropdownAriaLabel';
-  public static staticSite_filterEnvironmentVariable = 'staticSite_filterEnvironmentVariable';
+  public static staticSite_filterApplicationSetting = 'staticSite_filterApplicationSetting';
   public static staticSite_discardChangesMesssage = 'staticSite_discardChangesMesssage';
   public static staticSite_changeEnvironmentTitle = 'staticSite_changeEnvironmentTitle';
   public static staticSite_changeEnvironmentMessage = 'staticSite_changeEnvironmentMessage';

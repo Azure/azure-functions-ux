@@ -68,7 +68,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [showAllValues, setShowAllValues] = useState(false);
   const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariable[]>([]);
-  const [showFilter, setShowFilter] = useState(false);
   const [filter, setFilter] = useState('');
   const [showPanel, setShowPanel] = useState(false);
   const [panelType, setPanelType] = useState<PanelType | undefined>(undefined);
@@ -109,11 +108,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     setPanelType(PanelType.bulk);
   };
 
-  const toggleFilter = () => {
-    setShowFilter(!showFilter);
-    setFilter('');
-  };
-
   const isTableCommandBarDisabled = () => {
     return isLoading || !hasWritePermissions || apiFailure;
   };
@@ -143,13 +137,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
-      },
-      {
-        key: 'environment-variable-show-filter',
-        onClick: toggleFilter,
-        disabled: isTableCommandBarDisabled(),
-        iconProps: { iconName: 'Filter' },
-        name: t('filter'),
       },
     ];
   };
@@ -418,6 +405,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const refresh = () => {
     setIsRefreshConfirmDialogVisible(false);
     setSelectedEnvironment(undefined);
+    setFilter('');
     props.refresh();
   };
 
@@ -549,17 +537,17 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           selectionPreservedOnEmptyClick={true}
           emptyMessage={t('staticSite_emptyApplicationSettingList')}
           shimmer={{ lines: 2, show: isLoading }}>
-          {showFilter && (
-            <SearchBox
-              id="environment-variable-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterBoxStyle}
-              placeholder={t('staticSite_filterEnvironmentVariable')}
-              onChange={newValue => setFilter(newValue)}
-            />
-          )}
+          <SearchBox
+            id="environment-variable-search"
+            className="ms-slideDownIn20"
+            autoFocus
+            iconProps={{ iconName: 'Filter' }}
+            styles={filterBoxStyle}
+            placeholder={t('staticSite_filterApplicationSetting')}
+            onChange={newValue => setFilter(newValue)}
+            value={filter}
+            disabled={isTableCommandBarDisabled()}
+          />
         </DisplayTableWithCommandBar>
         <Panel
           isOpen={showPanel && panelType === PanelType.edit}
