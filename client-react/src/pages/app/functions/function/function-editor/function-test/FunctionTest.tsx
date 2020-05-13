@@ -13,6 +13,8 @@ import { LogCategories } from '../../../../../../utils/LogCategories';
 import { functionTestBodyStyle } from './FunctionTest.styles';
 import { MessageBarType } from 'office-ui-fabric-react';
 import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
+import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
+import { Links } from '../../../../../../utils/FwLinks';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -174,6 +176,14 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
 
         return (
           <Form className={addEditFormStyle}>
+            {!!responseContent && responseContent.code === 403 && (
+              <CustomBanner
+                message={t('functionEditor_privateLinkRunMessage')}
+                type={MessageBarType.warning}
+                undocked={true}
+                learnMoreLink={Links.functionsPrivateLinkLearnMore}
+              />
+            )}
             <div className={functionTestBodyStyle}>
               {selectedPivotTab === PivotType.input && (
                 <FunctionTestInput
