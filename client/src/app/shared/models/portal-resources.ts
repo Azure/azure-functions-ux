@@ -678,6 +678,7 @@ export class PortalResources {
   public static validation_routingTotalPercentError = 'validation_routingTotalPercentError';
   public static validation_siteNameMinChars = 'validation_siteNameMinChars';
   public static validation_siteNameMaxChars = 'validation_siteNameMaxChars';
+  public static validation_slotNameMaxChars = 'validation_slotNameMaxChars';
   public static validation_siteNameInvalidChar = 'validation_siteNameInvalidChar';
   public static validation_siteNameNotAvailable = 'validation_siteNameNotAvailable';
   public static validation_slotNameNotAvailable = 'validation_slotNameNotAvailable';
