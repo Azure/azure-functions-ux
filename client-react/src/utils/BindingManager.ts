@@ -15,4 +15,10 @@ export class BindingManager {
   public static getAuthLevelInfo = (functionInfo: FunctionInfo): BindingInfo | undefined => {
     return functionInfo.config && functionInfo.config.bindings ? functionInfo.config.bindings.find(e => !!e.authLevel) : undefined;
   };
+
+  public static getEventGridTriggerInfo = (functionInfo: FunctionInfo): BindingInfo | undefined => {
+    return functionInfo.config && functionInfo.config.bindings
+      ? functionInfo.config.bindings.find(e => e.type === BindingType.eventGridTrigger)
+      : undefined;
+  };
 }
