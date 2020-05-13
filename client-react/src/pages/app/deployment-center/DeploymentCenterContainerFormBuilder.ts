@@ -64,10 +64,7 @@ export class DeploymentCenterContainerFormBuilder {
         'usernameMinCharsIfEntered',
         this._t('usernameLengthRequirements').format(usernameMinLength),
         value => {
-          if (value && value.length < usernameMinLength) {
-            return false;
-          }
-          return true;
+          return !value || value.length >= usernameMinLength;
         }
       ),
       publishingPassword: Yup.string().test('validateIfNeeded', this._t('userCredsError'), value => {

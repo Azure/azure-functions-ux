@@ -9,7 +9,7 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
   const { formProps } = props;
   const { t } = useTranslation();
 
-  const getContainerOptions = () => {
+  const getContainerOptions = (): IChoiceGroupOptionProps[] => {
     const options: IChoiceGroupOptionProps[] = [
       {
         key: ContainerOptions.docker,
@@ -28,6 +28,8 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
         text: t('kubernetesContainerTitle'),
       });
     }
+
+    return options;
   };
 
   const sourceTypes: IChoiceGroupOptionProps[] = [
