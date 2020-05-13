@@ -6,8 +6,15 @@ import { PortalContext } from '../../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
 import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
 import { IContextualMenuRenderItem, TooltipHost } from 'office-ui-fabric-react';
-import { UrlObj } from './FunctionEditor.types';
+import { UrlObj, UrlType } from './FunctionEditor.types';
 import { toolTipStyle } from './FunctionEditor.styles';
+import { FunctionEditorContext } from './FunctionEditorDataLoader';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import { RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { SiteStateContext } from '../../../../../SiteState';
+import Url from '../../../../../utils/url';
 
 // Data for CommandBar
 interface FunctionEditorCommandBarProps {
@@ -15,11 +22,13 @@ interface FunctionEditorCommandBarProps {
   resetFunction: () => void;
   testFunction: () => void;
   refreshFunction: () => void;
-  showGetFunctionUrlCommand: boolean;
+  isGetFunctionUrlVisible: boolean;
   dirty: boolean;
   disabled: boolean;
   urlObjs: UrlObj[];
   testDisabled: boolean;
+  functionInfo: ArmObj<FunctionInfo>;
+  runtimeVersion?: string;
 }
 
 const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props => {
@@ -27,15 +36,20 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     saveFunction,
     resetFunction,
     testFunction,
-    showGetFunctionUrlCommand,
+    isGetFunctionUrlVisible,
     dirty,
     disabled,
     urlObjs,
     testDisabled,
     refreshFunction,
+    functionInfo,
+    runtimeVersion,
   } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
+  const functionEditorContext = useContext(FunctionEditorContext);
+  const siteStateContext = useContext(SiteStateContext);
+
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const onClickGetFunctionUrlCommand = () => {
     setIsDialogVisible(true);
@@ -106,7 +120,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       },
     ];
 
-    if (showGetFunctionUrlCommand) {
+    if (isGetFunctionUrlVisible) {
       items.push({
         key: 'getFunctionUrl',
         text: t('keysDialog_getFunctionUrl'),
@@ -121,6 +135,48 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     }
 
     return items;
+  };
+
+  const getEventGridSubscriptionUrl = (code: string) => {
+    const eventGridSubscriptionUrlEndPoint =
+      !!runtimeVersion && runtimeVersion === RuntimeExtensionMajorVersions.v1
+        ? CommonConstants.EventGridSubscriptionEndpoints.v1
+        : CommonConstants.EventGridSubscriptionEndpoints.v2;
+    return !!siteStateContext.site
+      ? `${Url.getMainUrl(siteStateContext.site)}/${eventGridSubscriptionUrlEndPoint}?functionName=${
+          functionInfo.properties.name
+        }&code=${code}`
+      : '';
+  };
+
+  const getUrlObjsForEventGridTriggerFunction = () => {
+    const eventGridKeyName =
+      !!runtimeVersion && runtimeVersion === RuntimeExtensionMajorVersions.v1
+        ? CommonConstants.AppKeys.eventGridV1
+        : CommonConstants.AppKeys.eventGridV2;
+
+    return urlObjs
+      .filter(urlObj => {
+        return (
+          (urlObj.type === UrlType.Host && urlObj.text === CommonConstants.AppKeys.master) ||
+          (urlObj.type === UrlType.System && urlObj.text === eventGridKeyName)
+        );
+      })
+      .map(urlObj => {
+        return {
+          ...urlObj,
+          url: getEventGridSubscriptionUrl(urlObj.data),
+        };
+      })
+      .sort((urlObj1, urlObj2) => urlObj1.text.localeCompare(urlObj2.text));
+  };
+
+  const getFilteredUrlObj = (): UrlObj[] => {
+    if (functionEditorContext.isEventGridTriggerFunction(functionInfo)) {
+      return getUrlObjsForEventGridTriggerFunction();
+    } else {
+      return urlObjs;
+    }
   };
 
   useEffect(() => {
@@ -138,7 +194,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       />
       {isDialogVisible && (
         <FunctionEditorGetFunctionUrlCallout
-          urlObjs={urlObjs}
+          urlObjs={getFilteredUrlObj()}
           setIsDialogVisible={setIsDialogVisible}
           dialogTarget={getFunctionUrlButtonRef.current}
         />

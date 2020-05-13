@@ -168,4 +168,15 @@ export class CommonConstants {
     dockerComposeQSLink: 'https://go.microsoft.com/fwlink/?linkid=873149',
     kubeQSLink: 'https://go.microsoft.com/fwlink/?linkid=873150',
   };
+
+  public static AppKeys = {
+    master: 'master',
+    eventGridV1: 'eventgridextensionconfig_extension',
+    eventGridV2: 'eventgrid_extension',
+  };
+
+  public static EventGridSubscriptionEndpoints = {
+    v1: 'admin/extensions/EventGridExtensionConfig',
+    v2: 'runtime/webhooks/EventGrid',
+  };
 }
