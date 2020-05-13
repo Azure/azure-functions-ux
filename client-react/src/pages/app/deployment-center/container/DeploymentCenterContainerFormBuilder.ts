@@ -1,15 +1,15 @@
-import { ArmObj } from '../../../models/arm-obj';
-import { PublishingUser } from '../../../models/site/publish';
-import { SiteConfig, ScmTypes } from '../../../models/site/config';
+import { ArmObj } from '../../../../models/arm-obj';
+import { PublishingUser } from '../../../../models/site/publish';
+import { SiteConfig, ScmTypes } from '../../../../models/site/config';
 import {
   DeploymentCenterFormData,
   ContainerOptions,
   ContainerRegistrySources,
   ContainerDockerAccessTypes,
   DeploymentCenterYupValidationSchemaType,
-} from './DeploymentCenter.types';
-import { KeyValue } from '../../../models/portal-models';
-import { CommonConstants } from '../../../utils/CommonConstants';
+} from '../DeploymentCenter.types';
+import { KeyValue } from '../../../../models/portal-models';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 import i18next from 'i18next';
 import * as Yup from 'yup';
 
@@ -68,7 +68,7 @@ export class DeploymentCenterContainerFormBuilder {
         }
       ),
       publishingPassword: Yup.string().test('validateIfNeeded', this._t('userCredsError'), value => {
-        return value && passwordMinimumRequirementsRegex.test(value);
+        return !value || passwordMinimumRequirementsRegex.test(value);
       }),
       // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
       publishingConfirmPassword: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {

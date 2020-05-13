@@ -15,11 +15,11 @@ import {
 } from '../../../models/site/publish';
 import { useTranslation } from 'react-i18next';
 import { ArmObj } from '../../../models/arm-obj';
-import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
+import DeploymentCenterContainerForm from './container/DeploymentCenterContainerForm';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { HttpResponseObject } from '../../../ArmHelper.types';
-import { DeploymentCenterContainerFormBuilder } from './DeploymentCenterContainerFormBuilder';
+import { DeploymentCenterContainerFormBuilder } from './container/DeploymentCenterContainerFormBuilder';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;

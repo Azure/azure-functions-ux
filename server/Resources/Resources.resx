@@ -2149,6 +2149,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="validation_siteNameMaxChars" xml:space="preserve">
         <value>The name must be fewer than 60 characters</value>
     </data>
+    <data name="validation_slotNameMaxChars" xml:space="preserve">
+        <value>The combined site name and slot name must be fewer than 59 characters</value>
+    </data>
     <data name="validation_siteNameInvalidChar" xml:space="preserve">
         <value>'{0}' is an invalid character</value>
     </data>
