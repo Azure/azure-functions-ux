@@ -6147,6 +6147,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
         <value>Build, deploy, and manage your container app automatically with GitHub Actions.</value>
     </data>
+    <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
+        <value>You must have direct network access in order to run your function. Your app may be restricted with Private Endpoints, Access Restrictions or Service Endpoints.</value>
+    </data>
     <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
         <value>GitHub Actions</value>
     </data>
@@ -6159,5 +6162,4 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
         <value>Registry source</value>
     </data>
-</root>
 </root>

@@ -162,8 +162,8 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               <AppSettingsForm asyncData={asyncData} {...formProps} />
                             </div>
                           ) : (
-                              <CustomBanner message={t('configLoadFailure')} type={MessageBarType.error} />
-                            )}
+                            <CustomBanner message={t('configLoadFailure')} type={MessageBarType.error} />
+                          )}
                         </form>
                       )}
                     </Formik>
