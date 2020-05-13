@@ -53,15 +53,17 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
       width: '600px',
     });
 
+  const getDropdownOptionsForUrlType = (type: UrlType): IDropdownOption[] => {
+    const filteredUrlObjs = urlObjs.filter(urlObj => urlObj.type === type);
+    return filteredUrlObjs.length > 0 ? getDropdownOptionsFromUrlObjs(filteredUrlObjs, type) : [];
+  };
+
   useEffect(() => {
     const options: IDropdownOption[] = [];
-    const hostUrlObjs = urlObjs.filter(urlObj => urlObj.type === UrlType.Host);
-    if (hostUrlObjs.length > 0) {
-      options.push(...getDropdownOptionsFromUrlObjs(hostUrlObjs, UrlType.Host));
-    }
-    const functionUrlObjs = urlObjs.filter(urlObj => urlObj.type === UrlType.Function);
-    if (functionUrlObjs.length > 0) {
-      options.push(...getDropdownOptionsFromUrlObjs(functionUrlObjs, UrlType.Function));
+    for (const type in UrlType) {
+      if (type in UrlType) {
+        options.push(...getDropdownOptionsForUrlType(type as UrlType));
+      }
     }
     setDropdownOptions(options);
     setSelectedUrlObj(urlObjs.length > 0 ? urlObjs[0] : undefined);
