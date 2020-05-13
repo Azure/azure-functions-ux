@@ -4,15 +4,47 @@ import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { ScmTypes } from '../../../models/site/config';
 
+export enum ContainerOptions {
+  docker = 'docker',
+  compose = 'compose',
+  kubernetes = 'kube',
+}
+
+export enum ContainerRegistrySources {
+  acr = 'acr',
+  docker = 'docker',
+  privateRegistry = 'privateRegistry',
+}
+
+export enum ContainerDockerAccessTypes {
+  public = 'public',
+  private = 'private',
+}
+
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps;
 
 export type DeploymentCenterYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, DeploymentCenterFormData>>;
 
-export interface DeploymentCenterFormData {
+export type DeploymentCenterFormData = DeploymentCenterCommonFormData & DeploymentCenterContainerFormData;
+
+export interface DeploymentCenterCommonFormData {
   publishingUsername: string;
   publishingPassword: string;
   publishingConfirmPassword: string;
   scmType: ScmTypes;
+}
+
+export interface DeploymentCenterContainerFormData {
+  option: ContainerOptions;
+  registrySource: ContainerRegistrySources;
+  dockerAccessType: ContainerDockerAccessTypes;
+  serverUrl: string;
+  image: string;
+  tag: string;
+  username: string;
+  password: string;
+  command: string;
+  cicd: boolean;
 }
 
 export interface DeploymentCenterFieldProps {

@@ -1993,4 +1993,8 @@ export class PortalResources {
   public static deploymentCenterContainerSettingsSourceOptionGitHubActions = 'deploymentCenterContainerSettingsSourceOptionGitHubActions';
   public static deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription =
     'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription';
+  public static deploymentCenterContainerGitHubActionsTitle = 'deploymentCenterContainerGitHubActionsTitle';
+  public static deploymentCenterContainerRegistrySettingsTitle = 'deploymentCenterContainerRegistrySettingsTitle';
+  public static deploymentCenterContainerRegistryOptionsLabel = 'deploymentCenterContainerRegistryOptionsLabel';
+  public static deploymentCenterContainerRegistrySourceLabel = 'deploymentCenterContainerRegistrySourceLabel';
 }
