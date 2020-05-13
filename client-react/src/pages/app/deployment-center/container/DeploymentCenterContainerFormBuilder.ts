@@ -68,7 +68,7 @@ export class DeploymentCenterContainerFormBuilder {
         }
       ),
       publishingPassword: Yup.string().test('validateIfNeeded', this._t('userCredsError'), value => {
-        return value && passwordMinimumRequirementsRegex.test(value);
+        return !value || passwordMinimumRequirementsRegex.test(value);
       }),
       // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
       publishingConfirmPassword: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
