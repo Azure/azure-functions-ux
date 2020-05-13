@@ -169,7 +169,7 @@ export class CommonConstants {
     kubeQSLink: 'https://go.microsoft.com/fwlink/?linkid=873150',
   };
 
-  public static Keys = {
+  public static AppKeys = {
     master: 'master',
     eventGridV1: 'eventgridextensionconfig_extension',
     eventGridV2: 'eventgrid_extension',

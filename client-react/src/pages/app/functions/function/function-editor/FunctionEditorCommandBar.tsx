@@ -142,21 +142,23 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       !!runtimeVersion && runtimeVersion === RuntimeExtensionMajorVersions.v1
         ? CommonConstants.EventGridSubscriptionEndpoints.v1
         : CommonConstants.EventGridSubscriptionEndpoints.v2;
-    const site = siteStateContext.site;
-    return !!site
-      ? `${Url.getMainUrl(site)}/${eventGridSubscriptionUrlEndPoint}?functionName=${functionInfo.properties.name}&code=${code}`
+    return !!siteStateContext.site
+      ? `${Url.getMainUrl(siteStateContext.site)}/${eventGridSubscriptionUrlEndPoint}?functionName=${
+          functionInfo.properties.name
+        }&code=${code}`
       : '';
   };
 
   const getUrlObjsForEventGridTriggerFunction = () => {
     const eventGridKeyName =
       !!runtimeVersion && runtimeVersion === RuntimeExtensionMajorVersions.v1
-        ? CommonConstants.Keys.eventGridV1
-        : CommonConstants.Keys.eventGridV2;
+        ? CommonConstants.AppKeys.eventGridV1
+        : CommonConstants.AppKeys.eventGridV2;
+
     return urlObjs
       .filter(urlObj => {
         return (
-          (urlObj.type === UrlType.Host && urlObj.text === CommonConstants.Keys.master) ||
+          (urlObj.type === UrlType.Host && urlObj.text === CommonConstants.AppKeys.master) ||
           (urlObj.type === UrlType.System && urlObj.text === eventGridKeyName)
         );
       })
