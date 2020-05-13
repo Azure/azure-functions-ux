@@ -2,8 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOption } from 'office-ui-fabric-react';
 import { Field } from 'formik';
-import RadioButton from '../../../components/form-controls/RadioButton';
-import { ScmTypes } from '../../../models/site/config';
+import RadioButton from '../../../../components/form-controls/RadioButton';
+import { ScmTypes } from '../../../../models/site/config';
 
 const DeploymentCenterContainerSource: React.FC<{}> = props => {
   const { t } = useTranslation();

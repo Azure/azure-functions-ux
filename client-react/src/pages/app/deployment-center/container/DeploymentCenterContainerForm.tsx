@@ -1,9 +1,9 @@
 import React from 'react';
 import { Formik, FormikProps } from 'formik';
-import { DeploymentCenterFormData, DeploymentCenterContainerFormProps } from './DeploymentCenter.types';
+import { DeploymentCenterFormData, DeploymentCenterContainerFormProps } from '../DeploymentCenter.types';
 import { KeyCodes } from 'office-ui-fabric-react';
-import DeploymentCenterCommandBar from './DeploymentCenterCommandBar';
-import { commandBarSticky, pivotContent } from './DeploymentCenter.styles';
+import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
+import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
 
 const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps> = props => {
