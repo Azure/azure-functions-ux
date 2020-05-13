@@ -6148,7 +6148,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>GitHub Actions</value>
     </data>
     <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
-        <value>Registry Settings</value>
+        <value>Registry settings</value>
     </data>
     <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
         <value>Options</value>

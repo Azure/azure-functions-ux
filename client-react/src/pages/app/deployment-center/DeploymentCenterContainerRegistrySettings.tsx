@@ -9,16 +9,26 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
   const { formProps } = props;
   const { t } = useTranslation();
 
-  const options: IChoiceGroupOptionProps[] = [
-    {
-      key: ContainerOptions.docker,
-      text: t('singleContainerTitle'),
-    },
-    {
-      key: ContainerOptions.compose,
-      text: t('dockerComposeContainerTitle'),
-    },
-  ];
+  const getContainerOptions = () => {
+    const options: IChoiceGroupOptionProps[] = [
+      {
+        key: ContainerOptions.docker,
+        text: t('singleContainerTitle'),
+      },
+      {
+        key: ContainerOptions.compose,
+        text: t('dockerComposeContainerTitle'),
+      },
+    ];
+
+    // NOTE(michinoy): Kubernetes support is currently deprecated, so only show IF the user has a kubernetes based app
+    if (formProps && formProps.initialValues.option === ContainerOptions.kubernetes) {
+      options.push({
+        key: ContainerOptions.kubernetes,
+        text: t('kubernetesContainerTitle'),
+      });
+    }
+  };
 
   const sourceTypes: IChoiceGroupOptionProps[] = [
     {
@@ -35,14 +45,6 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
     },
   ];
 
-  // NOTE(michinoy): Kubernetes support is currently deprecated, so only show IF the user has a kubernetes based app
-  if (formProps && formProps.initialValues.option === ContainerOptions.kubernetes) {
-    options.push({
-      key: ContainerOptions.kubernetes,
-      text: t('kubernetesContainerTitle'),
-    });
-  }
-
   return (
     <>
       <h3>{t('deploymentCenterContainerRegistrySettingsTitle')}</h3>
@@ -50,7 +52,7 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
         id="deployment-center-container-registry-option"
         name="option"
         component={Dropdown}
-        options={options}
+        options={getContainerOptions()}
         label={t('deploymentCenterContainerRegistryOptionsLabel')}
       />
       <Field

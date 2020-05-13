@@ -37,7 +37,7 @@ export class DeploymentCenterContainerFormBuilder {
 
   public generateFormData(): DeploymentCenterFormData {
     return {
-      publishingUsername: this._publishingUser.properties.publishingUserName,
+      publishingUsername: this._publishingUser ? this._publishingUser.properties.publishingUserName : '',
       publishingPassword: '',
       publishingConfirmPassword: '',
       scmType: this._siteConfig ? this._siteConfig.properties.scmType : ScmTypes.None,
@@ -71,17 +71,11 @@ export class DeploymentCenterContainerFormBuilder {
         }
       ),
       publishingPassword: Yup.string().test('validateIfNeeded', this._t('userCredsError'), value => {
-        if (value) {
-          return passwordMinimumRequirementsRegex.test(value);
-        }
-        return true;
+        return value && passwordMinimumRequirementsRegex.test(value);
       }),
       // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
       publishingConfirmPassword: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
-        if (this.parent.publishingPassword && this.parent.publishingPassword !== value) {
-          return false;
-        }
-        return true;
+        return !this.parent.publishingPassword || this.parent.publishingPassword === value;
       }),
       scmType: Yup.mixed().required(),
       option: Yup.mixed().notRequired(),
