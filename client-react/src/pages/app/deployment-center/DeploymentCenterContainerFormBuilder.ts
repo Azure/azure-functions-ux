@@ -100,12 +100,12 @@ export class DeploymentCenterContainerFormBuilder {
   private _getContainerRegistrySource(): ContainerRegistrySources {
     const serverUrl = this._applicationSettings && this._applicationSettings[CommonConstants.ContainerConstants.serverUrlSetting];
 
-    return !serverUrl
-      ? ContainerRegistrySources.privateRegistry
-      : serverUrl.indexOf(CommonConstants.ContainerConstants.acrUriHost)
-      ? ContainerRegistrySources.acr
-      : serverUrl.indexOf(CommonConstants.ContainerConstants.dockerHubUrl)
-      ? ContainerRegistrySources.docker
-      : ContainerRegistrySources.privateRegistry;
+    if (serverUrl && serverUrl.indexOf(CommonConstants.ContainerConstants.acrUriHost) > -1) {
+      return ContainerRegistrySources.acr;
+    } else if (serverUrl && serverUrl.indexOf(CommonConstants.ContainerConstants.dockerHubUrl) > -1) {
+      return ContainerRegistrySources.docker;
+    } else {
+      return ContainerRegistrySources.privateRegistry;
+    }
   }
 }
