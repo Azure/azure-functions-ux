@@ -21,7 +21,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerProps> =
       <PivotItem
         headerText={t('deploymentCenterPivotItemContainerSettingsHeaderText')}
         ariaLabel={t('deploymentCenterPivotItemContainerSettingsAriaLabel')}>
-        <DeploymentCenterContainerSettings />
+        <DeploymentCenterContainerSettings formProps={formProps} />
       </PivotItem>
 
       <PivotItem headerText={t('deploymentCenterPivotItemFtpsHeaderText')} ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}>
