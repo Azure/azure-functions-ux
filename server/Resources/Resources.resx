@@ -6179,6 +6179,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
         <value>Successfully downloaded publish profile</value>
+    </data>
     <data name="staticSite_configUpdating" xml:space="preserve">
         <value>Updating application settings</value>
     </data>
