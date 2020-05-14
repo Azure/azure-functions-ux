@@ -6178,6 +6178,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Failed to download publish profile</value>
     </data>
     <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
-        <value>Publish profile downloaded successfully</value>
+        <value>Successfully downloaded publish profile</value>
     </data>
 </root>

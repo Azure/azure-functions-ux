@@ -65,13 +65,13 @@ export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
 export interface DeploymentCenterContainerFormProps extends DeploymentCenterContainerProps {
   formData?: DeploymentCenterFormData;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType;
-  managePublishProfileFunction: () => void;
+  showPublishProfilePanel: () => void;
 }
 
 export interface DeploymentCenterCommandBarProps {
   saveFunction: () => void;
   discardFunction: () => void;
-  managePublishProfileFunction: () => void;
+  showPublishProfilePanel: () => void;
   refreshFunction: () => void;
 }
 

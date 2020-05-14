@@ -43,7 +43,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
             <DeploymentCenterCommandBar
               saveFunction={saveFunction}
               discardFunction={discardFunction}
-              managePublishProfileFunction={props.managePublishProfileFunction}
+              showPublishProfilePanel={props.showPublishProfilePanel}
               refreshFunction={refreshFunction}
             />
           </div>

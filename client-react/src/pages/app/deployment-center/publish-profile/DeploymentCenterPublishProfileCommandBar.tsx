@@ -25,12 +25,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
     const getPublishProfileResponse = await deploymentCenterData.getPublishProfile(deploymentCenterContext.resourceId);
 
     if (getPublishProfileResponse.metadata.success) {
-      const blob = new Blob([getPublishProfileResponse.data], { type: 'application/octet-stream' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'profile.xml';
-      a.click();
+      triggerPublishProfileDownload(getPublishProfileResponse.data);
       portalContext.stopNotification(notificationId, true, t('downloadingPublishProfileSucceeded'));
     } else {
       portalContext.stopNotification(notificationId, false, t('downloadingPublishProfileFailed'));
@@ -42,11 +37,22 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
     }
   };
 
-  const resetProfile = () => {
+  const triggerPublishProfileDownload = (profileXml: string) => {
+    const blob = new Blob([profileXml], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'profile.xml';
+    a.click();
+  };
+
+  const isDisabled = () => !deploymentCenterContext.hasWritePermission;
+
+  const showResetCallout = () => {
     setIsResetCalloutHidden(false);
   };
 
-  const resetFromCallout = () => {
+  const resetProfile = () => {
     resetApplicationPassword();
     setIsResetCalloutHidden(true);
   };
@@ -64,7 +70,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
         iconName: 'Download',
       },
       ariaLabel: t('downloadPublishProfile'),
-      disabled: !deploymentCenterContext.hasWritePermission,
+      disabled: isDisabled(),
       onClick: downloadProfile,
     },
     {
@@ -75,8 +81,8 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
         iconName: 'Refresh',
       },
       ariaLabel: t('resetPublishProfile'),
-      disabled: !deploymentCenterContext.hasWritePermission,
-      onClick: resetProfile,
+      disabled: isDisabled(),
+      onClick: showResetCallout,
     },
   ];
 
@@ -97,7 +103,7 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
         title={t('resetPublishProfileConfirmationTitle')}
         description={t('resetPublishProfileConfirmationDescription')}
         primaryButtonTitle={t('reset')}
-        primaryButtonFunction={resetFromCallout}
+        primaryButtonFunction={resetProfile}
         defaultButtonTitle={t('cancel')}
         defaultButtonFunction={hideResetCallout}
       />

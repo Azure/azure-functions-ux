@@ -156,7 +156,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     setFormValidationSchema(deploymentCenterContainerFormBuilder.generateYupValidationSchema());
   };
 
-  const managePublishProfileFunction = () => {
+  const showPublishProfilePanel = () => {
     setIsPublishProfilePanelOpen(true);
   };
 
@@ -180,7 +180,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         formData={formData}
         formValidationSchema={formValidationSchema}
         resetApplicationPassword={resetApplicationPassword}
-        managePublishProfileFunction={managePublishProfileFunction}
+        showPublishProfilePanel={showPublishProfilePanel}
       />
       <DeploymentCenterPublishProfilePanel
         isPanelOpen={isPublishProfilePanelOpen}
