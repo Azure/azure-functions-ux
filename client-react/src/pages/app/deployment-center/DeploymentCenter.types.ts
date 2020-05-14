@@ -63,9 +63,9 @@ export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
 }
 
 export interface DeploymentCenterContainerFormProps extends DeploymentCenterContainerProps {
+  showPublishProfilePanel: () => void;
   formData?: DeploymentCenterFormData;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType;
-  showPublishProfilePanel: () => void;
 }
 
 export interface DeploymentCenterCommandBarProps {
