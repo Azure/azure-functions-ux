@@ -14,7 +14,7 @@ import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { filterBoxStyle, dirtyElementStyle, keyVaultIconStyle, sourceTextStyle } from '../AppSettings.styles';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import Panel from '../../../../components/Panel/Panel';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { ThemeContext } from '../../../../ThemeContext';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
@@ -402,7 +402,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           />
         )}
       </DisplayTableWithCommandBar>
-      <Panel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditApplicationSetting')}>
+      <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditApplicationSetting')}>
         <AppSettingAddEdit
           site={values.site}
           appSetting={currentAppSetting!}
@@ -411,8 +411,8 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
           updateAppSetting={onClosePanel}
           closeBlade={onCancel}
         />
-      </Panel>
-      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel}>
+      </CustomPanel>
+      <CustomPanel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel}>
         <Suspense fallback={<LoadingComponent />}>
           <AppSettingsBulkEdit
             isLinux={isLinuxApp(values.site)}
@@ -422,7 +422,7 @@ const ApplicationSettings: React.FC<FormikProps<AppSettingsFormValues> & WithTra
             disableSlotSetting={!production_write}
           />
         </Suspense>
-      </Panel>
+      </CustomPanel>
     </>
   );
 };

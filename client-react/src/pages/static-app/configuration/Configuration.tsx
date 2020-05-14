@@ -30,7 +30,7 @@ import IconButton from '../../../components/IconButton/IconButton';
 import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
 import { ThemeContext } from '../../../ThemeContext';
 import { filterBoxStyle } from '../../app/functions/app-keys/AppKeys.styles';
-import Panel from '../../../components/Panel/Panel';
+import CustomPanel from '../../../components/CustomPanel/CustomPanel';
 import ConfigurationAddEdit from './ConfigurationAddEdit';
 import { sortBy } from 'lodash-es';
 import { KeyValue } from '../../../models/portal-models';
@@ -560,7 +560,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             />
           )}
         </DisplayTableWithCommandBar>
-        <Panel
+        <CustomPanel
           isOpen={showPanel && panelType === PanelType.edit}
           onDismiss={onCancel}
           headerText={
@@ -574,14 +574,14 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             cancel={onCancel}
             updateEnvironmentVariable={updateEnvironmentVariable}
           />
-        </Panel>
-        <Panel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
+        </CustomPanel>
+        <CustomPanel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
           <ConfigurationAdvancedAddEdit
             environmentVariables={environmentVariables}
             cancel={onCancel}
             updateEnvironmentVariable={updateEnvironmentVariable}
           />
-        </Panel>
+        </CustomPanel>
       </div>
     </>
   );

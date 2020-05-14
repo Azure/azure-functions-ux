@@ -11,7 +11,7 @@ import EditClientExclusionPaths from './EditClientExclusionPaths';
 import { AppSettingsFormValues } from '../../AppSettings.types';
 import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
-import Panel from '../../../../../components/Panel/Panel';
+import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values, setFieldValue, initialValues } = props;
   const site = useContext(SiteContext);
@@ -66,13 +66,13 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
               label={t('certificateExlusionPaths')}
               id="incoming-client-certificate-exclusion-paths"
             />
-            <Panel isOpen={showPanel} type={PanelType.medium} onDismiss={onCancel} headerText={t('certificateExlusionPaths')}>
+            <CustomPanel isOpen={showPanel} type={PanelType.medium} onDismiss={onCancel} headerText={t('certificateExlusionPaths')}>
               <EditClientExclusionPaths
                 clientExclusionPaths={values.site.properties.clientCertExclusionPaths}
                 save={onSave}
                 cancel={onCancel}
               />
-            </Panel>
+            </CustomPanel>
             <IconButton
               iconProps={{ iconName: 'Edit' }}
               id={`edit-client-cert-exclusion-paths`}

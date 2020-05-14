@@ -17,7 +17,7 @@ import { emptyKey } from './AppKeys';
 import AppKeyAddEdit from './AppKeyAddEdit';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppKeysContext } from './AppKeysDataLoader';
-import Panel from '../../../../components/Panel/Panel';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -298,7 +298,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
           />
         )}
       </DisplayTableWithCommandBar>
-      <Panel
+      <CustomPanel
         isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
         onDismiss={onClosePanel}
         headerText={panelItem === 'edit' ? t('editHostKey') : t('addHostKey')}
@@ -313,7 +313,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
           showRenewKeyDialog={showRenewKeyDialog}
           readOnlyPermission={readOnlyPermission}
         />
-      </Panel>
+      </CustomPanel>
     </>
   );
 };

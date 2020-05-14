@@ -17,7 +17,7 @@ import { emptyKey } from './AppKeys';
 import AppKeyAddEdit from './AppKeyAddEdit';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppKeysContext } from './AppKeysDataLoader';
-import Panel from '../../../../components/Panel/Panel';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
@@ -287,7 +287,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
           />
         )}
       </DisplayTableWithCommandBar>
-      <Panel
+      <CustomPanel
         isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
         onDismiss={onClosePanel}
         headerText={panelItem === 'edit' ? t('editSystemKey') : t('addSystemKey')}
@@ -302,7 +302,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
           showRenewKeyDialog={showRenewKeyDialog}
           readOnlyPermission={readOnlyPermission}
         />
-      </Panel>
+      </CustomPanel>
     </>
   );
 };

@@ -5,7 +5,7 @@ import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { BindingType } from '../../../../../models/functions/function-binding';
 import { Site } from '../../../../../models/site/site';
-import Panel from '../../../../../components/Panel/Panel';
+import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../../../components/monaco-editor/monaco-editor';
@@ -431,7 +431,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           onChangeDropdown={onFileSelectorChange}
         />
       </div>
-      <Panel
+      <CustomPanel
         type={PanelType.medium}
         isOpen={showTestPanel}
         onDismiss={onCloseTest}
@@ -454,7 +454,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           xFunctionKey={xFunctionKey}
           getFunctionUrl={getFunctionUrl}
         />
-      </Panel>
+      </CustomPanel>
       {isLoading() && <LoadingComponent />}
       {!logPanelFullscreen && (
         <div className={editorDivStyle}>

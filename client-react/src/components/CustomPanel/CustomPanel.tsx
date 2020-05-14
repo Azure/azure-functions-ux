@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Panel as OfficePanel, IPanelProps, PanelType, Overlay } from 'office-ui-fabric-react';
 import { ReactComponent as CloseSvg } from '../../images/Common/close.svg';
 import { useTranslation } from 'react-i18next';
-import { panelStyle, panelHeaderStyle, panelBodyStyle, closeButtonStyle } from './Panel.styles';
+import { panelStyle, panelHeaderStyle, panelBodyStyle, closeButtonStyle } from './CustomPanel.styles';
 import { ThemeContext } from '../../ThemeContext';
 
 type IPanelPropsReduced = Pick<IPanelProps, Exclude<keyof IPanelProps, 'styles' | 'closeButtonAriaLabel' | 'onRenderNavigationContent'>>;
@@ -13,7 +13,7 @@ interface CustomPanelProps {
   overlay?: boolean;
 }
 
-const Panel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
+const CustomPanel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
   const { headerText, isOpen, type, customStyle, headerContent, overlay, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
@@ -48,4 +48,4 @@ const Panel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
   );
 };
 
-export default Panel;
+export default CustomPanel;

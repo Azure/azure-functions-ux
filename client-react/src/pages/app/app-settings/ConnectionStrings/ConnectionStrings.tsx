@@ -16,7 +16,7 @@ import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
 import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
 import { filterBoxStyle, dirtyElementStyle } from '../AppSettings.styles';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import Panel from '../../../../components/Panel/Panel';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { ThemeContext } from '../../../../ThemeContext';
 
 const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
@@ -371,7 +371,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
           />
         )}
       </DisplayTableWithCommandBar>
-      <Panel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>
+      <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>
         <ConnectionStringsAddEdit
           connectionString={currentConnectionString!}
           otherConnectionStrings={values.connectionStrings}
@@ -380,8 +380,8 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
           closeBlade={onCancel}
           site={values.site}
         />
-      </Panel>
-      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel}>
+      </CustomPanel>
+      <CustomPanel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel}>
         <Suspense fallback={<LoadingComponent />}>
           <ConnectionStringsBulkEdit
             updateAppSetting={saveBulkEdit}
@@ -390,7 +390,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
             disableSlotSetting={!production_write}
           />
         </Suspense>
-      </Panel>
+      </CustomPanel>
     </>
   );
 };
