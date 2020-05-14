@@ -5952,20 +5952,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="blaclistFile_message" xml:space="preserve">
         <value>Editing this file type is not supported in the portal editor.</value>
     </data>
-    <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
-        <value>No environment variables to display</value>
+    <data name="staticSite_emptyApplicationSettingList" xml:space="preserve">
+        <value>No application setting to display</value>
     </data>
-    <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+    <data name="staticSite_addNewApplicationSetting" xml:space="preserve">
         <value>Add</value>
     </data>
-    <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
-        <value>Add new environment variable</value>
+    <data name="staticSite_ariaLabel_addNewApplicationSetting" xml:space="preserve">
+        <value>Add new application setting</value>
     </data>
-    <data name="staticSite_environmentVariables" xml:space="preserve">
-        <value>Environment variables</value>
+    <data name="staticSite_applicationSettings" xml:space="preserve">
+        <value>Application settings</value>
     </data>
-    <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
-        <value>Environment variables applicable to your site are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below.</value>
+    <data name="staticSite_applicationSettingsInfoMessage" xml:space="preserve">
+        <value>Application settings applicable to your site are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below.</value>
     </data>
     <data name="staticSite_environment" xml:space="preserve">
         <value>Environment</value>
@@ -5973,11 +5973,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>Select the environment for the site</value>
     </data>
-    <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filter environment variable</value>
+    <data name="staticSite_filterApplicationSetting" xml:space="preserve">
+        <value>Filter application setting</value>
     </data>
     <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Are you sure you want to discard the changes to the environment variables for the environment {0}?</value>
+        <value>Are you sure you want to discard the changes to the application settings for the environment {0}?</value>
     </data>
     <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
         <value>Your unsaved changes will be discarded.</value>
@@ -5985,20 +5985,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
         <value>Are you sure you would like to change environment?</value>
     </data>
-    <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} is a required property on all environment variables</value>
+    <data name="staticSite_applicationSettingPropIsRequired" xml:space="preserve">
+        <value>{0} is a required property on all application settings</value>
     </data>
-    <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Environment variable name must be unique</value>
+    <data name="staticSite_applicationSettingNamesUnique" xml:space="preserve">
+        <value>Application setting name must be unique</value>
     </data>
-    <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Environment variable values must be an array</value>
+    <data name="staticSite_applicationSettingValuesMustBeAnArray" xml:space="preserve">
+        <value>Application setting values must be an array</value>
     </data>
-    <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} is an invalid environment variable property</value>
+    <data name="staticSite_applicationSettingInvalidProperty" xml:space="preserve">
+        <value>{0} is an invalid application setting property</value>
     </data>
-    <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>All environment variable value and name properties must be of type string</value>
+    <data name="staticSite_applicationSettingValueMustBeAString" xml:space="preserve">
+        <value>All application setting value and name properties must be of type string</value>
     </data>
     <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>Your site is currently in read only mode because your RBAC assigned access is set to: Reader</value>
@@ -6040,16 +6040,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The twenty most recent function invocation traces. For more advanced analysis, run the query in Application Insights.</value>
     </data>
     <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
-        <value>Refresh environment variables</value>
+        <value>Refresh application settings</value>
     </data>
     <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Any unsaved changes will be lost on refreshing. Are you sure you want to continue?</value>
     </data>
-    <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
-        <value>Add environment variable</value>
+    <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
+        <value>Add application setting</value>
     </data>
-    <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
-        <value>Edit environment variable</value>
+    <data name="staticSite_editApplicationSettingHeader" xml:space="preserve">
+        <value>Edit application setting</value>
     </data>
     <data name="deploymentCenterFtpsDescription" xml:space="preserve">
         <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
@@ -6094,7 +6094,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
     </data>
     <data name="staticSite_noFunctionMessage" xml:space="preserve">
-        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+        <value>Application settings are only applicable to Static Web Apps with at least one function. Add a function to your app to enable Configuration.</value>
     </data>
     <data name="reset" xml:space="preserve">
         <value>Reset</value>
@@ -6179,5 +6179,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
         <value>Successfully downloaded publish profile</value>
+    </data>
+    <data name="staticSite_configUpdating" xml:space="preserve">
+        <value>Updating application settings</value>
+    </data>
+    <data name="staticSite_configUpdateSuccess" xml:space="preserve">
+        <value>Successfully updated application settings</value>
+    </data>
+    <data name="staticSite_configUpdateFailure" xml:space="preserve">
+        <value>Failed to update application settings: {0}</value>
     </data>
 </root>
