@@ -1999,4 +1999,10 @@ export class PortalResources {
   public static deploymentCenterContainerRegistrySettingsTitle = 'deploymentCenterContainerRegistrySettingsTitle';
   public static deploymentCenterContainerRegistryOptionsLabel = 'deploymentCenterContainerRegistryOptionsLabel';
   public static deploymentCenterContainerRegistrySourceLabel = 'deploymentCenterContainerRegistrySourceLabel';
+  public static deploymentCenterPublishProfileDescription = 'deploymentCenterPublishProfileDescription';
+  public static downloadPublishProfile = 'downloadPublishProfile';
+  public static managePublishProfileCommandBarAriaLabel = 'managePublishProfileCommandBarAriaLabel';
+  public static downloadingPublishProfile = 'downloadingPublishProfile';
+  public static downloadingPublishProfileFailed = 'downloadingPublishProfileFailed';
+  public static downloadingPublishProfileSucceeded = 'downloadingPublishProfileSucceeded';
 }

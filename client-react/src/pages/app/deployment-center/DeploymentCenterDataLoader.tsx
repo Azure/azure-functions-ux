@@ -20,6 +20,7 @@ import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import { DeploymentCenterContainerFormBuilder } from './container/DeploymentCenterContainerFormBuilder';
+import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -38,6 +39,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [siteDescriptor, setSiteDescriptor] = useState<ArmSiteDescriptor | undefined>(undefined);
   const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
   const [formValidationSchema, setFormValidationSchema] = useState<DeploymentCenterYupValidationSchemaType | undefined>(undefined);
+  const [isPublishProfilePanelOpen, setIsPublishProfilePanelOpen] = useState<boolean>(false);
 
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
 
@@ -154,6 +156,14 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     setFormValidationSchema(deploymentCenterContainerFormBuilder.generateYupValidationSchema());
   };
 
+  const managePublishProfileFunction = () => {
+    setIsPublishProfilePanelOpen(true);
+  };
+
+  const dismissPublishProfilePanel = () => {
+    setIsPublishProfilePanelOpen(false);
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -169,6 +179,12 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         publishingCredentials={publishingCredentials}
         formData={formData}
         formValidationSchema={formValidationSchema}
+        resetApplicationPassword={resetApplicationPassword}
+        managePublishProfileFunction={managePublishProfileFunction}
+      />
+      <DeploymentCenterPublishProfilePanel
+        isPanelOpen={isPublishProfilePanelOpen}
+        dismissPanel={dismissPublishProfilePanel}
         resetApplicationPassword={resetApplicationPassword}
       />
     </DeploymentCenterContext.Provider>
