@@ -7,7 +7,7 @@ import { SiteStateContext } from '../../../SiteState';
 import { DeploymentCenterCommandBarProps } from './DeploymentCenter.types';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, managePublishProfileFunction, refreshFunction } = props;
+  const { saveFunction, discardFunction, showPublishProfilePanel, refreshFunction } = props;
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
 
@@ -63,7 +63,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
       disabled: !isSiteLoaded(),
-      onClick: managePublishProfileFunction,
+      onClick: showPublishProfilePanel,
     },
     {
       key: 'refresh',

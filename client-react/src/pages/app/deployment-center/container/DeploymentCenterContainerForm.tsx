@@ -21,10 +21,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     throw Error('not implemented');
   };
 
-  const managePublishProfileFunction = () => {
-    throw Error('not implemented');
-  };
-
   const refreshFunction = () => {
     throw Error('not implemented');
   };
@@ -47,7 +43,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
             <DeploymentCenterCommandBar
               saveFunction={saveFunction}
               discardFunction={discardFunction}
-              managePublishProfileFunction={managePublishProfileFunction}
+              showPublishProfilePanel={props.showPublishProfilePanel}
               refreshFunction={refreshFunction}
             />
           </div>

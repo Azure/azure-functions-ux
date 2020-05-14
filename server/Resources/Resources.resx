@@ -6124,7 +6124,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Reset application publish profile password?</value>
     </data>
     <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
-        <value>By resetting the password any external integrations via the publishing profile will seize to operate.</value>
+        <value>By resetting the profile password any external integrations via the publishing profile will seize to operate.</value>
     </data>
     <data name="usernameLengthRequirements" xml:space="preserve">
         <value>The username must be at least {0} characters in length.</value>
@@ -6161,5 +6161,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
         <value>Registry source</value>
+    </data>
+    <data name="deploymentCenterPublishProfileDescription" xml:space="preserve">
+        <value>Import the publish profile to Visual Studio or other clients to connect and push a deployment to your WebApp.</value>
+    </data>
+    <data name="downloadPublishProfile" xml:space="preserve">
+        <value>Download publish profile</value>
+    </data>
+    <data name="managePublishProfileCommandBarAriaLabel" xml:space="preserve">
+        <value>Manage publish profile commands</value>
+    </data>
+    <data name="downloadingPublishProfile" xml:space="preserve">
+        <value>Downloading publish profile</value>
+    </data>
+    <data name="downloadingPublishProfileFailed" xml:space="preserve">
+        <value>Failed to download publish profile</value>
+    </data>
+    <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
+        <value>Successfully downloaded publish profile</value>
     </data>
 </root>
