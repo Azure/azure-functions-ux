@@ -256,7 +256,7 @@
         <value>Ad harf, rakam ve tire içerebilir (ancak ilk ve son karakter bir harf veya rakam olmalıdır)</value>
     </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-        <value>işlev uygulaması adı {{funcName}} mevcut değil</value>
+        <value>İşlev uygulaması adı ({{funcName}}) kullanılamıyor</value>
     </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
         <value>Bu hizmeti kullanmak için bir Azure aboneliği gereklidir. Bir ücretsiz deneme aboneliği oluşturmak için &lt;a href="https://azure.microsoft.com/tr-tr/free/"&gt;buraya tıklayın&lt;/a&gt;</value>
@@ -268,7 +268,7 @@
         <value>Aboneliğiniz</value>
     </data>
   <data name="createApp_description" xml:space="preserve">
-        <value>İşlev Uygulaması oluşturduğunuzda, kodunuzu barındırma ve çalıştırma özelliğine sahip yeni bir kapsayıcı otomatik olarak sağlanır.</value>
+        <value>İşlev uygulaması oluşturduğunuzda, kodunuzu barındırma ve çalıştırma özelliğine sahip yeni bir kapsayıcı otomatik olarak sağlanır.</value>
     </data>
   <data name="createApp_fail" xml:space="preserve">
         <value>Uygulama oluşturulamadı</value>
@@ -440,7 +440,7 @@
         <value>Özelliklerde ara</value>
     </data>
   <data name="searchFunctionApps" xml:space="preserve">
-        <value>İşlevi uygulamaları ara</value>
+        <value>İşlev uygulamalarını arayın</value>
     </data>
   <data name="subscription" xml:space="preserve">
         <value>Abone Kimliği</value>
@@ -569,7 +569,7 @@
         <value>{{name}} İşlevini sil</value>
     </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-        <value>{{name}} İşlevini silmek istediğinizden emin misiniz?</value>
+        <value>{{name}} işlevini silmek istediğinizden emin misiniz?</value>
     </data>
   <data name="functionMonitor_loading" xml:space="preserve">
         <value>Yükleniyor...</value>
@@ -833,7 +833,7 @@
         <value>1 dakikadan az</value>
     </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-        <value>Ücretsiz bir Azure hesabı için kaydolarak, süre sınırları hakkında endişelenmeden tüm İşlev özelliklerinin kilidini açabilirsiniz!</value>
+        <value>Ücretsiz bir Azure hesabına kaydolarak, süre sınırları hakkında endişelenmeden tüm Azure İşlevleri özelliklerinin kilidini açabilirsiniz!</value>
     </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
         <value>CORS bu işlev uygulaması için yapılandırılmadı. Lütfen {{origin}} öğesini CORS listenize ekleyin.</value>
@@ -842,7 +842,7 @@
         <value>İşlev uygulamanıza ulaşamıyoruz. Uygulamanız geçici bir sorun yaşıyor veya başlatılamıyor olabilir. Günlükleri kontrol edebilir veya birkaç dakika sonra yeniden deneyebilirsiniz.</value>
     </data>
   <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
-        <value>İşlev Uygulaması ({{functionApp}}) alınamadı</value>
+        <value>İşlev uygulaması ({{functionApp}}) alınamadı</value>
     </data>
   <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
         <value>İşlev uygulamanıza ulaşamıyoruz ({{statusText}}). Lütfen daha sonra yeniden deneyin.</value>
@@ -968,7 +968,7 @@
         <value>Günlük Kullanım Kotası (GB-Sn)</value>
     </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-        <value>İşlev Uygulaması günlük kullanım kotasına ulaştı ve sonraki 24 saatlik zaman dilimine kadar durduruldu.</value>
+        <value>İşlev uygulaması günlük kullanım kotasına ulaştı ve sonraki 24 saatlik zaman dilimine kadar durduruldu.</value>
     </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
         <value>Kotayı kaldır</value>
@@ -977,7 +977,7 @@
         <value>Kota ayarla</value>
     </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-        <value>Günlük kullanım kotası aşıldığında, İşlev Uygulaması sonraki gün 0:00'a (UTC) kadar durdurulur.</value>
+        <value>Günlük kullanım kotası aşıldığında, işlev uygulaması sonraki gün 0:00'a (UTC) kadar durdurulur.</value>
     </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
         <value>{{name}} adlı anahtarı iptal etmek istediğinizden emin misiniz?</value>
@@ -986,7 +986,7 @@
         <value>Anahtarlar</value>
     </data>
   <data name="functionNew_nameError" xml:space="preserve">
-        <value>İşlev Uygulamasındaki ad benzersiz olmalıdır. Ad, bir harfle başlamalı ve harf, rakam (0-9), kısa çizgi ("-") ve alt çizgi ("_") içermelidir.</value>
+        <value>Ad, işlev uygulaması içinde benzersiz olmalıdır. Ad bir harfle başlamalıdır, harf, rakam (0-9), kısa çizgi ("-") ve alt çizgi ("_") içerebilir.</value>
     </data>
   <data name="functionDev_loading" xml:space="preserve">
         <value>Yükleniyor...</value>
@@ -1465,6 +1465,9 @@
   <data name="configUpdateFailure" xml:space="preserve">
         <value>Web uygulaması ayarları güncelleştirilemedi</value>
     </data>
+  <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>Web uygulaması ayarları güncelleştirilemedi: {0}</value>
+    </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Kayıt Hatası: Geçersiz değerler girildi.</value>
     </data>
@@ -1817,7 +1820,7 @@
         <value>Uygulama ayarları</value>
     </data>
   <data name="try_appDisabled" xml:space="preserve">
-        <value>Bu deneme sürümünde İşlev uygulamanızı yönetemezsiniz.</value>
+        <value>Bu deneme sürümünde işlev uygulamanızı yönetemezsiniz.</value>
     </data>
   <data name="template" xml:space="preserve">
         <value>Şablon</value>
@@ -2091,8 +2094,8 @@
 Kullanmadan önce, &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;işlem nesnelerini&lt;/a&gt; ve API'niz hakkındaki diğer bilgileri doldurun.</value>
     </data>
   <data name="swaggerDefinition_keyHelp" xml:space="preserve">
-        <value>Bu anahtar, anahtara sahip olmayanların API Tanımınıza erişmesini engeller.
-Temel API'nin güvenliğini sağlamaz. Anahtar güvenliklerini görmek için İşlevleri ayrı ayrı inceleyin.</value>
+        <value>Bu anahtar sayesinde, anahtara sahip olmayanların API Tanımınıza erişmesi engellenir.
+Temel API'nin güvenliği sağlanmaz. Anahtar güvenliklerini görmek için işlevleri ayrı ayrı inceleyin.</value>
     </data>
   <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
         <value>Barındırılan bir API tanımını ve şablon tanımı oluşturmayı etkinleştirmek için "İşlev" olarak ayarlayın.
@@ -2181,6 +2184,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>Oluşturulmuş bir function.json olduğu halde düzenleme modunu okuma\yazma olarak ayarladığınızdan uygulamanız şu anda okuma/yazma modunda. Function.json üzerinde yapılan değişiklikler, İşlevler çalışma zamanı tarafından uygulanmayacak.</value>
+    </data>
+  <data name="readOnlyRbac" xml:space="preserve">
+        <value>RBAC tarafından atanmış erişim, Okuyucu olarak ayarlandığından işleviniz şu anda salt okunur modda</value>
     </data>
   <data name="copypre_copy" xml:space="preserve">
         <value>Kopyala</value>
@@ -2274,6 +2280,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>'{0}' yuvası oluşturulamadı </value>
+    </data>
+  <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>'{0}' yuvası oluşturulamadı: {1}</value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>Yuva listesi alınamıyor: {{errorMessage}}</value>
@@ -2396,7 +2405,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Proxies.json şeması doğrulanamadı. Hata: '{0}'.</value>
     </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
-        <value>Bir Tüketim planında, günlük kullanım kotası belirleyerek platform kullanımını gigabayt-saniye cinsinden sınırlayabilirsiniz. Günlük kullanım kotasına ulaşıldıktan sonra, İşlev Uygulaması sonraki gün saat 0:00'a (UTC) kadar durdurulur.</value>
+        <value>Tüketim planında, günlük kullanım kotası belirleyerek platform kullanımını gigabayt-saniye cinsinden sınırlayabilirsiniz. Günlük kullanım kotasına ulaşıldığında, işlev uygulaması sonraki gün saat 0:00'a (UTC) kadar durdurulur.</value>
     </data>
   <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
         <value>(hub ilkesi)</value>
@@ -2825,7 +2834,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>değeri gizle</value>
     </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-        <value>App Insights izleme anahtarı, uygulama ayarlarında sunulur ancak App Insights, İşlev Uygulaması'nın aboneliğinde bulunmaz. Lütfen App Insights'ınızın İşlev Uygulaması ile aynı abonelikte bulunduğundan emin olun.</value>
+        <value>Uygulama ayarlarında App Insights izleme anahtarı var ancak işlev uygulamasının aboneliğinde App Insights bulunamadı. Lütfen App Insights hizmetinizin, işlev uygulaması ile aynı abonelikte bulunduğundan emin olun.</value>
     </data>
   <data name="table_startOfRow" xml:space="preserve">
         <value>Satır başlangıcı</value>
@@ -3326,7 +3335,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Yüksek Yoğunluk</value>
     </data>
   <data name="pricing_highDensityDesc" xml:space="preserve">
-        <value>App Service planını verimli bir şekilde birden fazla İşlev Uygulamasında paylaşın.</value>
+        <value>App Service planını verimli bir şekilde birden fazla işlev uygulamasında paylaşın.</value>
     </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
         <value>Hazırlama yuvası</value>
@@ -3915,7 +3924,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Görüntü kaynağı</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Görüntü ve isteğe bağlı etiket (örn 'image:tag')</value>
+        <value>Full Image Name and Tag</value>
+    </data>
+  <data name="containerImageAndTagPlaceholder" xml:space="preserve">
+        <value>E.g. nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Başlamak için, ilk olarak bir Azure Kapsayıcı Kayıt Defteri oluşturun ve bir resim ekleyin.</value>
@@ -3931,6 +3943,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     </data>
   <data name="containerServerURL" xml:space="preserve">
         <value>Sunucu URL'si</value>
+    </data>
+  <data name="containerServerURLPlaceholder" xml:space="preserve">
+        <value>E.g. https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Oturum Aç</value>
@@ -4365,7 +4380,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Kişisel</value>
     </data>
   <data name="swaggerDefinitionReadOnly" xml:space="preserve">
-        <value>API tanımı (Swagger), İşlev Uygulamaları'nda salt okunur modda kullanılamaz.</value>
+        <value>API tanımı (Swagger), salt okunur moddaki işlev uygulamalarında kullanılamaz.</value>
     </data>
   <data name="troubleshootYourApp" xml:space="preserve">
         <value>Uygulamanızda sorun giderme</value>
@@ -4761,7 +4776,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Dağıtım Yuvası Ayarı Etkin</value>
     </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>Gizli değer. Görüntülemek için yukarıdaki Değerleri göster düğmesine tıklayın</value>
+        <value>Gizli değer. Değeri görüntülemek için tıklayın</value>
     </data>
   <data name="fieldMustBeUnique" xml:space="preserve">
         <value>Alan benzersiz olmalıdır.</value>
@@ -4791,7 +4806,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>'Logic Apps' sekmesi birkaç ay içinde kaldırılacak. Azure Portal'daki göz atma özelliğini kullanarak mantıksal uygulamalarınıza göz atmaya devam edebilirsiniz.</value>
     </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-        <value>Bu özellik yalnızca bir Linux App Service planı üzerinde çalıştırılan İşlev uygulamaları için kullanılabilir. Çalışma zamanında günlük kaydı için lütfen Application Insights kullanın.</value>
+        <value>Bu özellik yalnızca bir Linux App Service planı üzerinde çalıştırılan işlev uygulamaları için kullanılabilir. Çalışma zamanında günlük kaydı için lütfen Application Insights kullanın.</value>
     </data>
   <data name="scaleOut" xml:space="preserve">
         <value>Ölçeği genişlet</value>
@@ -4854,7 +4869,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
     </data>
   <data name="readOnlyPython" xml:space="preserve">
-        <value>Python İşlev Uygulamaları için portalda işlev düzenleme desteklenmiyor. Geliştirmek için lütfen CLI veya VS Code kullanın. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Daha fazla bilgi&lt;/a&gt;</value>
+        <value>Portalda işlev düzenleme, Python işlev uygulamaları için desteklenmiyor. Geliştirme için lütfen CLI veya VS Code kullanın. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Daha fazla bilgi&lt;/a&gt;</value>
     </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
         <value>Azure depolama bağlamaları gizli diziler içeriyor. Bu bölümü görüntülemek/düzenlemek için okuma/yazma izinleri gereklidir.</value>
@@ -5002,7 +5017,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Bağlantı dizelerini filtrele</value>
     </data>
   <data name="readOnlyJava" xml:space="preserve">
-        <value>Portalda işlev düzenleme Java işlev uygulamaları için desteklenmemektedir. Geliştirmek için lütfen Maven veya VS Code kullanın.</value>
+        <value>Portalda işlev düzenleme, Java işlev uygulamaları için desteklenmiyor. Geliştirme için lütfen Maven veya VS Code kullanın.</value>
     </data>
   <data name="validate_workingDirectory" xml:space="preserve">
         <value>Çalışma dizini yolu, deponun köküne göreli olmalıdır ve Windows kullanılıyorsa /, \ veya sürücü adlarıyla (C:/) başlayamaz. Çalışma dizini deponun src klasöründe ise, yol src/ olmalıdır</value>
@@ -5014,7 +5029,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>App Service planını değiştir</value>
     </data>
   <data name="changePlanDescription" xml:space="preserve">
-        <value>Uygulamanızın barındırıldığı planı değiştirmek, uygulamalarınızı makine kaynaklarını paylaşabilecekleri tek bir plan olarak birleştirmenize veya gelişmiş performans için ayrı ayrı ölçeklenebilecekleri ayrı planlara yaymaya olanak sağlar.</value>
+        <value>Uygulamanızın barındırıldığı planı değiştirmek, uygulamalarınızı makine kaynaklarını paylaşabilecekleri tek bir plan olarak birleştirmenize veya gelişmiş performans için ayrı ayrı ölçeklendirilebilecekleri ayrı planlara yaymaya olanak sağlar.</value>
     </data>
   <data name="changePlanLocationTooltip" xml:space="preserve">
         <value>Uygulamanızın şu anda bulunduğu bölge, yeni veya mevcut planlar için değiştirilemez.</value>
@@ -5127,6 +5142,12 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
         <value>{0} ayrıntı</value>
     </data>
+  <data name="integratePageTitle" xml:space="preserve">
+        <value>Tümleştirme</value>
+    </data>
+  <data name="integratePageDescription" xml:space="preserve">
+        <value>Tetikleyiciyi düzenleyin ve işleviniz için Azure Blob Depolama, Cosmos DB ve diğerleri dahil olmak üzere giriş ve çıkış seçenekleri arasından seçim yapın.</value>
+    </data>
   <data name="_function" xml:space="preserve">
         <value>İşlev</value>
     </data>
@@ -5170,7 +5191,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Yeni İşlev</value>
     </data>
   <data name="functionCreate_createFunctionMessage" xml:space="preserve">
-        <value>Bu İşlev Uygulaması'nda yeni bir işlev oluşturun. Aşağıdan bir şablon seçerek başlayın.</value>
+        <value>Bu işlev uygulamasında yeni bir işlev oluşturun. Aşağıdan bir şablon seçerek başlayın.</value>
     </data>
   <data name="functionCreate_templates" xml:space="preserve">
         <value>Şablonlar</value>
@@ -5398,13 +5419,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Kapsam</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Sanal ağ tetikleyici desteği</value>
+        <value>Runtime Scale Monitoring</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Bu ayar, uygulamanızın bir sanal ağ içindeki kaynaklar tarafından tetiklenmesini sağlar. Ayrıca 1 önceden hazırlanmış örneğin etkin olmasını ve çalışma zamanı V2 veya üzerini çalıştırmasını gerektirir. &lt;a href="{0}" target="_blank"&gt;Daha fazla bilgi edinin&lt;/a&gt;.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Bu ayar, uygulamanızın sanal ağ içindeki kaynaklar tarafından tetiklenmesini sağlar. Ayrıca 1 önceden hazırlanmış örneğin etkin olmasını ve çalışma zamanı V2 veya üzerini çalıştırmasını gerektirir.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Uygulama Ayarlarını Yenile</value>
@@ -5518,7 +5539,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>{0} başarıyla silindi ({1})</value>
     </data>
   <data name="createFunctionNotication" xml:space="preserve">
-        <value>İşlev Oluşturuluyor</value>
+        <value>İşlev oluşturuluyor</value>
     </data>
   <data name="createFunctionNotificationDetails" xml:space="preserve">
         <value>{0} oluşturuluyor</value>
@@ -5578,7 +5599,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Uygulama ayarındaki FUNCTIONS_EXTENSION_VERSION değerini yapılandırdığınızda özel bir çalışma zamanı sürümü kullanmayı kabul etmiş olursunuz.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>Mevcut işlevlerle yükseltme işlemi yapılamaz: Ana sürüm yükseltme, diller ve bağlamalar için bozucu değişiklikler ortaya çıkarabilir. Çalışma zamanının ana sürümünü yükseltirken, yeni bir işlev uygulaması oluşturup işlevlerinizi bu yeni uygulamaya geçirmeyi düşünün.</value>
+        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
+        <value>Update Runtime Version</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
+        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>GitHub belirtecinde 'iş akışı' kapsamı eksik. GitHub'ı yeniden yetkilendirmek için lütfen 'kaynak denetimi' adımına dönün.</value>
@@ -5649,8 +5676,8 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Uzaktan hata ayıklama uygulamanız için kullanılamıyor. </value>
     </data>
-  <data name="tryFunctionsPreview" xml:space="preserve">
-        <value>Yeni Azure İşlevleri yönetim deneyiminin önizlemesini görüntüleyin</value>
+  <data name="tryFunctionsNewExperience" xml:space="preserve">
+        <value>Yeni Azure İşlevleri yönetim deneyimini deneyin</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Değişiklikleri kaydet</value>
@@ -5659,7 +5686,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Uygulama ayarlarında ve bağlantı dizelerinde yapılan değişiklikler uygulamanızı yeniden başlatır. Devam etmek istediğinizden emin misiniz?</value>
     </data>
   <data name="azureFunctionsV1Linux" xml:space="preserve">
-        <value>Linux Azure İşlev Uygulamalarında Sürüm 1 Çalışma Zamanı desteklenmiyor</value>
+        <value>Linux Azure İşlevleri'nde Sürüm 1 Çalışma Zamanı desteklenmiyor</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
         <value>'{{appName}}' uygulaması şu anda GitHub Actions aracılığıyla Dağıtım Merkezinde desteklenmeyen '{{stack}}' yığını ile kuruldu.</value>
@@ -5683,7 +5710,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>İş Akışı Seçeneği</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Add or overwrite workflow definition</value>
+        <value>İş akışı tanımı ekle veya bunun üzerine yaz</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Mevcut iş akışı tanımını kullanarak yapılandır</value>
@@ -5695,7 +5722,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>Aşağıdaki yapılandırmayla GitHub'daki mevcut iş akışı yapılandırmasının üzerine yazılacak.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(görüntülenecek işlev anahtarı yok)</value>
+        <value>Görüntülenecek işlev tuşu yok</value>
     </data>
   <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>Bu özellik, Premium planlarındaki uygulamalarda desteklenmez</value>
@@ -5725,57 +5752,366 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
         <value>GitHub Eylem İş Akışı Dosya Adı</value>
     </data>
   <data name="noAppFilesWhileFunctionAppStopped" xml:space="preserve">
-        <value>İşlev Uygulamanız durdurulduğunda uygulama dosyalarını görüntüleyemezsiniz</value>
+        <value>İşlev uygulamanız durdurulduğunda uygulama dosyalarını görüntüleyemezsiniz</value>
     </data>
   <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
-        <value>İşlev Uygulamanız durdurulduğunda uygulama anahtarlarını görüntüleyemezsiniz</value>
+        <value>İşlev uygulamanız durdurulduğunda uygulama anahtarlarını görüntüleyemezsiniz</value>
     </data>
   <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
         <value>İşleviniz için tüm bağlamaları yenileyin</value>
     </data>
   <data name="gitHubProtectedBranchSelected" xml:space="preserve">
-        <value>Selected branch has protection rules enabled.</value>
+        <value>Seçili dalda koruma kuralları etkin.</value>
     </data>
   <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+        <value>İşlev uygulamanız durdurulduğunda çalışma zamanı sürümünü görüntüleyemezsiniz ve değiştiremezsiniz.</value>
     </data>
   <data name="githubActionWorkflowsExist" xml:space="preserve">
-        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+        <value>GitHub Eylemi iş akışı yapılandırmaları, '{{branchName}}' dalında zaten var. Yeni bir iş akışı yapılandırması eklemek ya da mevcut iş akışı yapılandırmalarını kullanmaya devam etmek için aşağıdan bir seçenek belirleyin.</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+        <value>GitHub'daki mevcut iş akışı yapılandırması, derleme ve dağıtım için kullanılacak.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
-        <value>Refresh app files</value>
+        <value>Uygulama dosyalarını yenileyin</value>
     </data>
   <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
-        <value>Refresh code editor</value>
+        <value>Kod düzenleyicisini yenileyin</value>
     </data>
   <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
         <value>Tetikleyiciyi Sil</value>
     </data>
   <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the trigger?</value>
+        <value>Tetikleyiciyi silmek istediğinizden emin misiniz?</value>
     </data>
   <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
-        <value>Delete Output</value>
+        <value>Çıkışı Sil</value>
     </data>
   <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
         <value>Çıkışı silmek istediğinizden emin misiniz?</value>
     </data>
   <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
-        <value>Delete Input</value>
+        <value>Girişi Sil</value>
     </data>
   <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>Girişi silmek istediğinizden emin misiniz?</value>
     </data>
+  <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>En az bir bağlama yüklenemedi. Lütfen sayfayı yenileyin.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
-        <value>Delete Function Key</value>
+        <value>İşlev Anahtarını Sil</value>
     </data>
   <data name="deleteFunctionKeyMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the key {0}?</value>
+        <value>{0} anahtarını silmek istediğinizden emin misiniz?</value>
     </data>
   <data name="fetchFileContentFailureMessage" xml:space="preserve">
-        <value>Failed to fetch the file content</value>
+        <value>Dosya içeriği getirilemedi</value>
+    </data>
+  <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>Seçili bağlantı uygulama ayarlarında yok</value>
+    </data>
+  <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
+        <value>Mevcut bağlantı yok</value>
+    </data>
+  <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>Gerekli yön özelliği eksik olduğundan şu bağlamalar yanlış yerleştirilmiş olabilir: {0}. Lütfen functions.json dosyanızdaki bağlamaları güncelleştirin.</value>
+    </data>
+  <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>Çağrılar</value>
+    </data>
+  <data name="functionMonitor_logs" xml:space="preserve">
+        <value>Günlükler</value>
+    </data>
+  <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>Canlı Ölçümler'de Aç</value>
+    </data>
+  <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>Ek HTTP yöntemlerini etkinleştirmek için HTTP tetikleyicinizi düzenleyin</value>
+    </data>
+  <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>x-functions-key üst bilgisini özel üst bilgi olarak tanımlayamazsınız</value>
+    </data>
+  <data name="filterInvocations" xml:space="preserve">
+        <value>Çağrıları filtrele</value>
+    </data>
+  <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>Sorguyu Application Insights'ta çalıştır</value>
+    </data>
+  <data name="timestamp" xml:space="preserve">
+        <value>Zaman Damgası</value>
+    </data>
+  <data name="message" xml:space="preserve">
+        <value>İleti</value>
+    </data>
+  <data name="successCount" xml:space="preserve">
+        <value>Başarılı İşlem Sayısı</value>
+    </data>
+  <data name="errorCount" xml:space="preserve">
+        <value>Hata Sayımı</value>
+    </data>
+  <data name="last30Days" xml:space="preserve">
+        <value>Son 30 gün</value>
+    </data>
+  <data name="discardChangesTitle" xml:space="preserve">
+        <value>Değişiklikleri at</value>
+    </data>
+  <data name="discardChangesMesssage" xml:space="preserve">
+        <value>"{0}" dosyasında yapılan değişiklikleri atmak istediğinizden emin misiniz?</value>
+    </data>
+  <data name="information" xml:space="preserve">
+        <value>Bilgi</value>
+    </data>
+  <data name="verbose" xml:space="preserve">
+        <value>Ayrıntılı</value>
+    </data>
+  <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>GitHub Eylemi CICD işlem hattının bağlantısını kesmek istediğinizden emin misiniz?</value>
+    </data>
+  <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>'{2}' deposundaki '{1}' dalında bulunan '{0}' iş akışı dosyasını kaldırın. Bu dosyayı kaldırmazsanız bu dala yapılan commit'ler, uygulamanıza yönelik dağıtımları tetiklemeye devam eder.</value>
+    </data>
+  <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>Bağlantıyı kes</value>
+    </data>
+  <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>İptal</value>
+    </data>
+  <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>Azure Portalından App Service dağıtım iş akışı yapılandırmasını kaldırın.</value>
+    </data>
+  <data name="githubActionDashboardRepositoryMissingError" xml:space="preserve">
+        <value>'{0}' deposu bulunamıyor. Daha fazla araştırmak için lütfen GitHub hesabınıza gidin.</value>
+    </data>
+  <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
+        <value>'{1}' deposunda '{0}' dalı bulunamıyor. Daha fazla araştırmak için lütfen deponuza gidin.</value>
+    </data>
+  <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
+        <value>GitHub Eyleminin Bağlantısını Kesmeyi Onayla</value>
+    </data>
+  <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
+        <value>'{2}' deposundaki '{1}' dalında bulunan '{0}' iş akışı dosyası silinemedi. Bunun nedeni, dosyanın yeniden adlandırılıyor olması veya zaten silinmiş olması olabilir.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
+        <value>Dağıtımınızın bağlantısı kesilemedi ancak iş akışı dosyası başarıyla silindi. Bağlantıyı yeniden kesmeyi deneyin.</value>
+    </data>
+  <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
+        <value>Application Insights bağlantısı kurulamıyor. Lütfen İşlev uygulamanızda yazma izinlerine sahip olduğunuzdan emin olun</value>
+    </data>
+  <data name="deploymentCenterCommandBarAriaLabel" xml:space="preserve">
+        <value>Dağıtım merkezi komutları</value>
+    </data>
+  <data name="deploymentCenterSaveCommandAriaLabel" xml:space="preserve">
+        <value>Dağıtım merkezi kaydetme komutu</value>
+    </data>
+  <data name="deploymentCenterDiscardCommandAriaLabel" xml:space="preserve">
+        <value>Dağıtım merkezi atma komutu</value>
+    </data>
+  <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
+        <value>Dağıtım merkezi göz atma komutu</value>
+    </data>
+  <data name="deploymentCenterPublishProfileCommandAriaLabel" xml:space="preserve">
+        <value>Dağıtım merkezi yayımlama profilini yönetme komutu</value>
+    </data>
+  <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
+        <value>Dağıtım merkezi yenileme komutu</value>
+    </data>
+  <data name="managePublishProfile" xml:space="preserve">
+        <value>Yayımlama profilini yönet</value>
+    </data>
+  <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>Azure portalda Python İşlev Uygulamalarının düzenlenmesi desteklenmiyor. Bu işlevi düzenlemek için yerel geliştirme ortamınızı kullanın.</value>
+    </data>
+  <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>Azure portalda Java İşlev Uygulamalarının düzenlenmesi desteklenmiyor. Bu işlevi düzenlemek için yerel geliştirme ortamınızı kullanın.</value>
+    </data>
+  <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>Bu işlevi düzenlemek için yerel geliştirme ortamınızı kullanın. Bu işlev, Yerel Önbelleği kullandığından burada düzenlenemez.</value>
+    </data>
+  <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>Kaynak denetimi tümleştirmesini etkinleştirdiğinizden uygulamanız şu anda salt okunur modda çalışıyor.</value>
+    </data>
+  <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>Dağıtım yuvaları yapılandırdığınızdan uygulamanız şu anda salt okunur modda çalışıyor.</value>
+    </data>
+  <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>Bu işlevi düzenlemek için yerel geliştirme ortamınızı kullanın. Bu işlev, yerel bir ortamda oluşturulduğundan burada düzenlenemez.</value>
+    </data>
+  <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>El ile salt okunur olarak ayarlandığından uygulamanız şu anda salt okunur modda çalışıyor.</value>
+    </data>
+  <data name="connected" xml:space="preserve">
+        <value>Bağlandı!</value>
+    </data>
+  <data name="blaclistFile_message" xml:space="preserve">
+        <value>Portal düzenleyicisinde bu dosya türünün düzenlenmesi desteklenmiyor.</value>
+    </data>
+  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
+        <value>Görüntülenecek ortam değişkeni yok</value>
+    </data>
+  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Ekle</value>
+    </data>
+  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Yeni ortam değişkeni ekle</value>
+    </data>
+  <data name="staticSite_environmentVariables" xml:space="preserve">
+        <value>Ortam değişkenleri</value>
+    </data>
+  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
+        <value>Siteniz için geçerli olan ortam değişkenleri bekleme durumunda şifrelenir ve şifrelenmiş bir kanal üzerinden aktarılır. Aşağıdaki denetimleri kullanarak bunları tarayıcınızda düz metin olarak göstermeyi seçebilirsiniz.</value>
+    </data>
+  <data name="staticSite_environment" xml:space="preserve">
+        <value>Ortam</value>
+    </data>
+  <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
+        <value>Site için ortamı seçin</value>
+    </data>
+  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
+        <value>Ortam değişkenini filtrele</value>
+    </data>
+  <data name="staticSite_discardChangesMesssage" xml:space="preserve">
+        <value>{0} ortamı için ortam değişkenlerinde yapılan değişiklikleri atmak istediğinizden emin misiniz?</value>
+    </data>
+  <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
+        <value>Kaydedilmemiş değişiklikleriniz atılacak.</value>
+    </data>
+  <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
+        <value>Ortamı değiştirmek istediğinizden emin misiniz?</value>
+    </data>
+  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
+        <value>{0}, tüm ortam değişkenlerinde gerekli bir özelliktir</value>
+    </data>
+  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
+        <value>Ortam değişkeni adı benzersiz olmalıdır</value>
+    </data>
+  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
+        <value>Ortam değişkeni değerleri bir dizi olmalıdır</value>
+    </data>
+  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
+        <value>{0}, geçersiz bir ortam değişkeni özelliğidir</value>
+    </data>
+  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
+        <value>Tüm ortam değişkeni değer ve ad özellikleri dize türünde olmalıdır</value>
+    </data>
+  <data name="staticSite_readOnlyRbac" xml:space="preserve">
+        <value>RBAC tarafından atanmış erişiminiz Okuyucu olarak ayarlandığından siteniz şu anda salt okunur modda</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>Günlükler</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>Kapsayıcı günlükleri</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+        <value>Ayarlar</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
+        <value>Kapsayıcı ayarları</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
+        <value>FTP/FTPs kimlik bilgileri</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
+        <value>FTP veya FTPs kimlik bilgileri</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
+        <value>Kapsayıcı günlükleri yükleniyor</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
+        <value>Kapsayıcı günlükleri yükleniyor...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
+        <value>Kapsayıcı günlükleri yüklenemedi</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailedWithError" xml:space="preserve">
+        <value>Kapsayıcı günlükleri yüklenemedi: {0}</value>
+    </data>
+  <data name="invocationTracesTableTitle" xml:space="preserve">
+        <value>Çağrı İzlemeleri</value>
+    </data>
+  <data name="invocationTracesTableDescription" xml:space="preserve">
+        <value>En son kullanılan yirmi işleve yönelik çağrı izlemeleri. Daha gelişmiş analizler için sorguyu Application Insights'ta çalıştırın.</value>
+    </data>
+  <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
+        <value>Ortam değişkenlerini yenile</value>
+    </data>
+  <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
+        <value>Yenileme sırasında kaydedilmemiş tüm değişiklikler kaybolacak. Devam etmek istediğinizden emin misiniz?</value>
+    </data>
+  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
+        <value>Ortam değişkeni ekle</value>
+    </data>
+  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
+        <value>Ortam değişkenini düzenle</value>
+    </data>
+  <data name="deploymentCenterFtpsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
+        <value>FTPS endpoint</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
+        <value>Application scope</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
+        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
+        <value>User scope</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
+        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
+        <value>(your username)</value>
+    </data>
+  <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+        <value>Kullanıcı Adı</value>
+    </data>
+  <data name="deploymentCenterFtpsPasswordLabel" xml:space="preserve">
+        <value>Parola</value>
+    </data>
+  <data name="deploymentCenterFtpsConfirmPasswordLabel" xml:space="preserve">
+        <value>Parolayı Onaylayın</value>
+    </data>
+  <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
+        <value>Write permission on the site or the slot is required to view credentials.</value>
+    </data>
+  <data name="appKeys_hostKeys_description" xml:space="preserve">
+        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+    </data>
+  <data name="appKeys_systemKeys_description" xml:space="preserve">
+        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+    </data>
+  <data name="functionKeys_description" xml:space="preserve">
+        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+    </data>
+  <data name="staticSite_noFunctionMessage" xml:space="preserve">
+        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+    </data>
+  <data name="reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+  <data name="resetPublishProfileAriaLabel" xml:space="preserve">
+        <value>Reset publishing profile</value>
+    </data>
+  <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Show application password</value>
+    </data>
+  <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Hide application password</value>
+    </data>
+  <data name="showProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user password</value>
+    </data>
+  <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user password</value>
+    </data>
+  <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user confirm password</value>
+    </data>
+  <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user confirm password</value>
     </data>
 </root>

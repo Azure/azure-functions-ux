@@ -8,6 +8,8 @@ import PortalCommunicator from '../../../../portal-communicator';
 import i18next from 'i18next';
 import { ArmObj } from '../../../../models/arm-obj';
 import SiteService from '../../../../ApiHelpers/SiteService';
+import { KeyValue } from '../../../../models/portal-models';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 export default class FunctionCreateData {
   public getHostStatus(resourceId: string) {
@@ -55,7 +57,7 @@ export default class FunctionCreateData {
 
     FunctionsService.createFunction(resourceId, functionName, functionFiles, functionConfig).then(r => {
       if (!r.metadata.success) {
-        const errorMessage = r.metadata.error && r.metadata.error.error && r.metadata.error.error.message;
+        const errorMessage = getErrorMessage(r.metadata.error);
         portalCommunicator.stopNotification(
           notificationId,
           false,
@@ -76,13 +78,13 @@ export default class FunctionCreateData {
     portalCommunicator: PortalCommunicator,
     t: i18next.TFunction,
     resourceId: string,
-    appSettings: ArmObj<{ [key: string]: string }>
+    appSettings: ArmObj<KeyValue<string>>
   ) {
     const notificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
 
     SiteService.updateApplicationSettings(resourceId, appSettings).then(r => {
       if (!r.metadata.success) {
-        const errorMessage = (r.metadata.error && r.metadata.error.error && r.metadata.error.error.message) || t('configUpdateFailure');
+        const errorMessage = getErrorMessage(r.metadata.error) || t('configUpdateFailure');
         portalCommunicator.stopNotification(notificationId, false, errorMessage);
         return;
       }

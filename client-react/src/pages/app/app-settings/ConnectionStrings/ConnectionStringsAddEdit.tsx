@@ -7,7 +7,7 @@ import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormConnectionString } from '../AppSettings.types';
 import { DatabaseType, typeValueToString } from './connectionStringTypes';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib';
+import { MessageBarType } from 'office-ui-fabric-react/lib';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
@@ -15,6 +15,7 @@ import { isLinuxApp } from '../../../../utils/arm-utils';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: FormConnectionString) => any;
@@ -150,9 +151,12 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
       />
       {disableSlotSetting && (
         <div data-cy="connection-string-slot-setting-no-permission-message">
-          <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
-            {t('slotSettingNoProdPermission')}
-          </MessageBar>
+          <CustomBanner
+            id="connection-string-slot-setting-no-permission-message"
+            message={t('slotSettingNoProdPermission')}
+            type={MessageBarType.warning}
+            undocked={true}
+          />
         </div>
       )}
       <ActionBar

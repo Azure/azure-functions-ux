@@ -22,6 +22,9 @@ import { MonitorDetailsComponent } from 'app/function-monitor/monitor-details/mo
 import { MonitorConfigureComponent } from 'app/function-monitor/monitor-configure/monitor-configure.component';
 import { TableFunctionMonitorComponent } from 'app/table-function-monitor/table-function-monitor.component';
 import { TableFunctionMonitorPipe } from 'app/table-function-monitor/table-function-monitor.pipe';
+import { ApiNewComponent } from '../api/api-new/api-new.component';
+import { RequestResposeOverrideComponent } from '../api/request-respose-override/request-respose-override.component';
+import { ApiDetailsComponent } from '../api/api-details/api-details.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,9 @@ import { TableFunctionMonitorPipe } from 'app/table-function-monitor/table-funct
     MonitorConfigureComponent,
     TableFunctionMonitorComponent,
     TableFunctionMonitorPipe,
+    ApiNewComponent,
+    RequestResposeOverrideComponent,
+    ApiDetailsComponent,
   ],
   exports: [
     FunctionKeysComponent,
@@ -63,6 +69,9 @@ import { TableFunctionMonitorPipe } from 'app/table-function-monitor/table-funct
     MonitorConfigureComponent,
     TableFunctionMonitorComponent,
     TableFunctionMonitorPipe,
+    ApiNewComponent,
+    RequestResposeOverrideComponent,
+    ApiDetailsComponent,
   ],
   imports: [TranslateModule.forChild(), SharedModule, SidebarModule, FileUploadModule, PopoverModule],
 })

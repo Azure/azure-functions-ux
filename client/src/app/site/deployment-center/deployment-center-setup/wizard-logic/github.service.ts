@@ -4,7 +4,7 @@ import { Constants, DeploymentCenterConstants, RuntimeStacks, JavaContainers } f
 import { CacheService } from 'app/shared/services/cache.service';
 import { Guid } from 'app/shared/Utilities/Guid';
 import { Observable } from 'rxjs/Observable';
-import { FileContent, WorkflowInformation, GitHubActionWorkflowRequestContent } from '../../Models/github';
+import { FileContent, WorkflowInformation, GitHubActionWorkflowRequestContent, GitHubCommit } from '../../Models/github';
 import { BuildSettings, SourceSettings } from './deployment-center-setup-models';
 import { Response } from '@angular/http';
 
@@ -60,6 +60,13 @@ export class GithubService implements OnDestroy {
     });
   }
 
+  fetchRepo(authToken: string, repoUrl: string, repoName: string): Observable<Response> {
+    return this._cacheService.post(Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}&t=${Guid.newTinyGuid()}`, true, null, {
+      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}`,
+      authToken,
+    });
+  }
+
   fetchBranches(authToken: string, repoUrl: string, repoName: string, page?: number): Observable<Response> {
     const url = page
       ? `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches?per_page=100&page=${page}`
@@ -71,16 +78,21 @@ export class GithubService implements OnDestroy {
     });
   }
 
-  fetchAllWorkflowConfigurations(authToken: string, repoUrl: string, repoName: string, branchName: string): Observable<FileContent[]> {
-    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/.github/workflows?ref=${branchName}`;
+  fetchBranch(authToken: string, repoUrl: string, repoName: string, branchName: string): Observable<Response> {
+    return this._cacheService.post(Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}&t=${Guid.newTinyGuid()}`, true, null, {
+      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/branches/${branchName}`,
+      authToken,
+    });
+  }
 
+  fetchAllWorkflowConfigurations(authToken: string, repoUrl: string, repoName: string, branchName: string): Observable<FileContent[]> {
     return this._cacheService
       .post(
         Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}/contents/.github/workflows&t=${Guid.newTinyGuid()}`,
         true,
         null,
         {
-          url,
+          url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/.github/workflows?ref=${branchName}`,
           authToken,
         }
       )
@@ -95,15 +107,13 @@ export class GithubService implements OnDestroy {
     branchName: string,
     workflowYmlPath: string
   ): Observable<FileContent> {
-    const url = `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/${workflowYmlPath}?ref=${branchName}`;
-
     return this._cacheService
       .post(
         Constants.serviceHost + `api/github/passthrough?branch=${repoUrl}/contents/${workflowYmlPath}&t=${Guid.newTinyGuid()}`,
         true,
         null,
         {
-          url,
+          url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repoName}/contents/${workflowYmlPath}?ref=${branchName}`,
           authToken,
         }
       )
@@ -115,6 +125,13 @@ export class GithubService implements OnDestroy {
     return this._cacheService.put(Constants.serviceHost + `api/github/actionWorkflow`, null, {
       authToken,
       content,
+    });
+  }
+
+  deleteActionWorkflow(authToken: string, deleteCommit: GitHubCommit) {
+    return this._cacheService.post(Constants.serviceHost + `api/github/deleteActionWorkflow`, true, null, {
+      authToken,
+      deleteCommit,
     });
   }
 

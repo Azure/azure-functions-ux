@@ -6,7 +6,7 @@ import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { PortalContext } from '../../../../PortalContext';
 import { SiteRouterContext } from '../../SiteRouter';
 import { disableIFrameStyle } from './AppKeys.styles';
-import { SiteStateContext } from '../../../../SiteStateContext';
+import { SiteStateContext } from '../../../../SiteState';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from 'office-ui-fabric-react';

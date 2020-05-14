@@ -256,7 +256,7 @@
         <value>A név csak betűket, számokat és kötőjeleket tartalmazhat, emellett kizárólag betűvel vagy számmal kezdődhet és végződhet</value>
     </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-        <value>a függvényalkalmazás neve ({{funcName}}) foglalt</value>
+        <value>Függvényalkalmazás neve ({{funcName}}) foglalt</value>
     </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
         <value>A szolgáltatás használatához Azure-előfizetés szükséges; &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;ide kattintva&lt;/a&gt; létrehozhat egy ingyenes próba-előfizetést</value>
@@ -833,7 +833,7 @@
         <value>Kevesebb mint 1 perc</value>
     </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-        <value>Ha ingyenes Azure-fiókot regisztrál, időkorlát nélkül használhatja a Functions összes lehetőségét!</value>
+        <value>Ha ingyenes Azure-fiókot regisztrál, időkorlát nélkül használhatja az Azure Functions összes lehetőségét!</value>
     </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
         <value>A CORS nincs konfigurálva ehhez a függvényalkalmazáshoz. Adja hozzá a(z) {{origin}} forrást a CORS-listához.</value>
@@ -842,7 +842,7 @@
         <value>A függvényalkalmazás nem érhető el. Előfordulhat, hogy az alkalmazás átmeneti problémába ütközött, vagy lehet, hogy nem tudott elindulni. Ellenőrizheti a naplófájlokat, vagy újrapróbálkozhat néhány perc múlva.</value>
     </data>
   <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
-        <value>Nem sikerült beolvasni a(z) {{functionApp}} függvényalkalmazást</value>
+        <value>Nem sikerült beolvasni a függvényalkalmazást ({{functionApp}})</value>
     </data>
   <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
         <value>A függvényalkalmazás nem érhető el ({{statusText}}). Próbálkozzon újra később.</value>
@@ -1465,6 +1465,9 @@
   <data name="configUpdateFailure" xml:space="preserve">
         <value>A webalkalmazás-beállítások frissítése sikertelen</value>
     </data>
+  <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>Nem sikerült frissíteni a webalkalmazás-beállításokat: {0}</value>
+    </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} Mentési hiba: a megadott adat érvénytelen.</value>
     </data>
@@ -1844,7 +1847,7 @@
         <value>támogatási kérés</value>
     </data>
   <data name="scale" xml:space="preserve">
-        <value>méretezés</value>
+        <value>skálázás</value>
     </data>
   <data name="connectionStrings" xml:space="preserve">
         <value>Connection strings</value>
@@ -2182,6 +2185,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>Az alkalmazás azért van jelenleg olvasási/írási módban, mert az olvasás/írás értékre állította a szerkesztési módot annak ellenére, hogy generált function.json fájllal rendelkezik. A Functions-futtatókörnyezet nem fogja figyelembe venni a function.json módosításait.</value>
     </data>
+  <data name="readOnlyRbac" xml:space="preserve">
+        <value>A függvény jelenleg csak olvasható módban van, mert az RBAC által hozzárendelt hozzáférés a következőre van állítva: Olvasó</value>
+    </data>
   <data name="copypre_copy" xml:space="preserve">
         <value>Másolás</value>
     </data>
@@ -2274,6 +2280,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>Nem sikerült létrehozni a(z) {0} tárolóhelyet </value>
+    </data>
+  <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>Nem sikerült létrehozni a(z) {0} tárolóhelyet: {1}</value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>Nem sikerült beolvasni a tárolóhelyek listáját: {{errorMessage}}</value>
@@ -2825,7 +2834,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>érték elrejtése</value>
     </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-        <value>Az Application Insights-eszközkulcs megjelenik az alkalmazásbeállítások között, de az Application Insights nem található a függvényalkalmazás előfizetésében. Győződjön meg arról, hogy az Application Insights és a függvényalkalmazás azonos előfizetésben található.</value>
+        <value>Az Application Insights-eszközkulcs megtalálható az alkalmazásbeállítások között, de az Application Insights nem található a függvényalkalmazás előfizetésében. Győződjön meg arról, hogy az Application Insights és a függvényalkalmazás azonos előfizetésben található.</value>
     </data>
   <data name="table_startOfRow" xml:space="preserve">
         <value>Sor eleje</value>
@@ -3915,7 +3924,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Kép forrása</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Kép és nem kötelező címke (pl. kép:címke)</value>
+        <value>Full Image Name and Tag</value>
+    </data>
+  <data name="containerImageAndTagPlaceholder" xml:space="preserve">
+        <value>E.g. nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>A kezdéshez először hozzon létre egy Azure Container Registry-adatbázist, és adjon hozzá egy lemezképet.</value>
@@ -3931,6 +3943,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     </data>
   <data name="containerServerURL" xml:space="preserve">
         <value>Kiszolgáló URL-címe</value>
+    </data>
+  <data name="containerServerURLPlaceholder" xml:space="preserve">
+        <value>E.g. https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Bejelentkezés</value>
@@ -4761,7 +4776,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Üzembe helyezési pont beállítása engedélyezve</value>
     </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>Rejtett érték. A megtekintéshez kattintson a fenti értékek megjelenítése gombra</value>
+        <value>Rejtett érték. Az érték megjelenítéshez kattintson ide</value>
     </data>
   <data name="fieldMustBeUnique" xml:space="preserve">
         <value>A mezőnek egyedinek kell lennie.</value>
@@ -5127,6 +5142,12 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
         <value>{0} részletei</value>
     </data>
+  <data name="integratePageTitle" xml:space="preserve">
+        <value>Integráció</value>
+    </data>
+  <data name="integratePageDescription" xml:space="preserve">
+        <value>Szerkessze az eseményindítót, és válasszon a függvényhez rendelkezésre álló bemenetekből és kimenetekből, beleértve az Azure Blob Storage-t, a Cosmos DB-t és az egyéb lehetőségeket is.</value>
+    </data>
   <data name="_function" xml:space="preserve">
         <value>Függvény</value>
     </data>
@@ -5398,13 +5419,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Hatókör</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Virtuálishálózat-eseményindító támogatása</value>
+        <value>Runtime Scale Monitoring</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Ez a beállítás lehetővé teszi, hogy az alkalmazást egy virtuális hálózat erőforrásai aktiválhassák. Emellett egy aktív előmelegített példányra és 2-es vagy újabb verziójú futtatókörnyezetre van szükség. &lt;a href="{0}" target="_blank"&gt;További információ&lt;/a&gt;.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Ez a beállítás lehetővé teszi, hogy az alkalmazást egy virtuális hálózat erőforrásai aktiválhassák. Emellett egy aktív előmelegített példányra és 2-es vagy újabb verziójú futtatókörnyezetre van szükség.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Alkalmazás beállításainak frissítése</value>
@@ -5578,7 +5599,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A FUNCTIONS_EXTENSION_VERSION alkalmazásbeállítási értékének konfigurálásával egyéni futtatókörnyezet-verzió használatát választotta.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>A frissítés a meglévő függvények miatt nem hajtható végre: a jelentősebb verziófrissítések kompatibilitástörő változásokat eredményezhetnek a nyelvekben és a kötésekben. A futtatókörnyezet főverzióinak frissítésekor célszerű létrehozni egy új függvényalkalmazást, és migrálni a függvényeket ebbe az új alkalmazásba.</value>
+        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
+        <value>Update Runtime Version</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
+        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>A GitHub-jogkivonatból hiányzik a munkafolyamat hatóköre. A GitHub újbóli engedélyezéséhez térjen vissza a verziókövetési lépéshez.</value>
@@ -5649,8 +5676,8 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>A távoli hibakeresés nem érhető el az alkalmazáshoz. </value>
     </data>
-  <data name="tryFunctionsPreview" xml:space="preserve">
-        <value>Az új Azure Functions felügyeleti felület előzetes verziójának megtekintése</value>
+  <data name="tryFunctionsNewExperience" xml:space="preserve">
+        <value>Próbálja ki az Azure Functions új kezelési funkcióját</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Módosítások mentése</value>
@@ -5659,7 +5686,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Ha az alkalmazásbeállítások és a kapcsolati sztringek módosulnak, az alkalmazás újraindul. Biztosan folytatja?</value>
     </data>
   <data name="azureFunctionsV1Linux" xml:space="preserve">
-        <value>Az 1-es verziójú futtatókörnyezet nem támogatott a Linuxos Azure Function-alkalmazásokban</value>
+        <value>Az 1-es verziójú futtatókörnyezet nem támogatott a Linuxos Azure Functions alkalmazásban</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
         <value>A(z) {{appName}} alkalmazás a(z) {{stack}} veremmel van beállítva, ami jelenleg nem támogatott az üzembe helyezési központban a GitHub Actions szolgáltatáson keresztül.</value>
@@ -5683,7 +5710,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>Munkafolyamat-beállítás</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Add or overwrite workflow definition</value>
+        <value>Munkafolyamat-definíció hozzáadása vagy felülírása</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Konfigurálás a meglévő munkafolyamat-definíció használatával</value>
@@ -5695,7 +5722,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A GitHubban már meglévő munkafolyamat-konfiguráció felül lesz írva az alábbi konfigurációval.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(nincsenek megjeleníthető függvénykulcsok)</value>
+        <value>Nincsenek megjeleníthető funkcióbillentyűk</value>
     </data>
   <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>A prémium szintű csomag alkalmazásai nem támogatják ezt a funkciót</value>
@@ -5734,48 +5761,357 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
         <value>A függvény összes kötésének frissítése</value>
     </data>
   <data name="gitHubProtectedBranchSelected" xml:space="preserve">
-        <value>Selected branch has protection rules enabled.</value>
+        <value>A kijelölt ág védelmi szabályai engedélyezve vannak.</value>
     </data>
   <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+        <value>Nem lehet megtekinteni vagy módosítani a futtatókörnyezet verzióját, amíg a függvényalkalmazás le van állítva.</value>
     </data>
   <data name="githubActionWorkflowsExist" xml:space="preserve">
-        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+        <value>A GitHub-művelet munkafolyamat-konfigurációja már létezik a(z) {{branchName}} elágazásban. Válasszon az alábbi lehetőségek közül egy új munkafolyamat-konfiguráció hozzáadásához vagy a meglévő munkafolyamat-konfigurációk használatának folytatásához.</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+        <value>A rendszer a GitHubban már meglévő munkafolyamat-konfigurációt fogja használni a buildeléshez és az üzembe helyezéshez.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
-        <value>Refresh app files</value>
+        <value>Alkalmazás fájljainak frissítése</value>
     </data>
   <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
-        <value>Refresh code editor</value>
+        <value>Kódszerkesztő frissítése</value>
     </data>
   <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
         <value>Trigger törlése</value>
     </data>
   <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the trigger?</value>
+        <value>Biztosan törölni kívánja az eseményindítót?</value>
     </data>
   <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
-        <value>Delete Output</value>
+        <value>Kimenet törlése</value>
     </data>
   <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
         <value>Biztosan törli a kimenetet?</value>
     </data>
   <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
-        <value>Delete Input</value>
+        <value>Bemenet törlése</value>
     </data>
   <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>Biztosan törli a bemenetet?</value>
     </data>
+  <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>Nem sikerült betölteni egy vagy több kötést. Frissítse a lapot.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
-        <value>Delete Function Key</value>
+        <value>Funkcióbillentyű törlése</value>
     </data>
   <data name="deleteFunctionKeyMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the key {0}?</value>
+        <value>Biztosan törli a(z) {0} kulcsot?</value>
     </data>
   <data name="fetchFileContentFailureMessage" xml:space="preserve">
-        <value>Failed to fetch the file content</value>
+        <value>Nem sikerült beolvasni a fájl tartalmát</value>
+    </data>
+  <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>A kiválasztott kapcsolat nem található az alkalmazásbeállítások között</value>
+    </data>
+  <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
+        <value>Nincsenek meglévő kapcsolatok</value>
+    </data>
+  <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>A következő kötésekhez nem található a szükséges iránytulajdonság, és lehet, hogy helytelenül lettek elhelyezve: {0}. Frissítse a kötéseket a functions.json fájlban.</value>
+    </data>
+  <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>Meghívások</value>
+    </data>
+  <data name="functionMonitor_logs" xml:space="preserve">
+        <value>Naplók</value>
+    </data>
+  <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>Megnyitás az Élő metrikákban</value>
+    </data>
+  <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>Szerkessze a HTTP-triggert további HTTP-metódusok engedélyezéséhez</value>
+    </data>
+  <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>Az x-functions-key nem definiálható egyéni fejlécként</value>
+    </data>
+  <data name="filterInvocations" xml:space="preserve">
+        <value>Meghívások szűrése</value>
+    </data>
+  <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>Lekérdezés futtatása az Application Insightsban</value>
+    </data>
+  <data name="timestamp" xml:space="preserve">
+        <value>Időbélyeg</value>
+    </data>
+  <data name="message" xml:space="preserve">
+        <value>Üzenet</value>
+    </data>
+  <data name="successCount" xml:space="preserve">
+        <value>Sikeres műveletek száma</value>
+    </data>
+  <data name="errorCount" xml:space="preserve">
+        <value>Hibák száma</value>
+    </data>
+  <data name="last30Days" xml:space="preserve">
+        <value>Az elmúlt 30 napban</value>
+    </data>
+  <data name="discardChangesTitle" xml:space="preserve">
+        <value>Módosítások elvetése</value>
+    </data>
+  <data name="discardChangesMesssage" xml:space="preserve">
+        <value>Biztos, hogy elveti a(z) {0} fájlon végrehajtott módosításokat?</value>
+    </data>
+  <data name="information" xml:space="preserve">
+        <value>Információ</value>
+    </data>
+  <data name="verbose" xml:space="preserve">
+        <value>Részletes</value>
+    </data>
+  <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>Biztos, hogy leválasztja a GitHub Action CICD-folyamatot?</value>
+    </data>
+  <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>Távolítsa el a(z) {0} munkafolyamat-fájlt a(z) {2} adattár {1} ágából. Ha nem távolítja el ezt a fájlt, az ágra beérkező véglegesítések továbbra is előidézik az alkalmazás üzembe helyezéseit.</value>
+    </data>
+  <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>Leválasztás</value>
+    </data>
+  <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>Mégse</value>
+    </data>
+  <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>Távolítsa el az App Service üzembehelyezési munkafolyamatának konfigurációját az Azure Portalról.</value>
+    </data>
+  <data name="githubActionDashboardRepositoryMissingError" xml:space="preserve">
+        <value>A(z) {0} adattárház nem található. A további vizsgálódáshoz navigáljon a GitHub-fiókjába.</value>
+    </data>
+  <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
+        <value>A(z) {0} ág nem található a(z) {1} adattárházban. A további vizsgálódáshoz navigáljon az adattárházba.</value>
+    </data>
+  <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
+        <value>GitHub-művelet leválasztásának megerősítése</value>
+    </data>
+  <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
+        <value>Nem sikerült törölni a(z) {0} munkafolyamat-fájlt a(z) {2} adattár {1} ágából. Ennek oka lehet, hogy a fájlt átnevezték vagy már törölték.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
+        <value>Nem sikerült leválasztani az üzemelő példányt, de a munkafolyamat-fájlt sikerült törölni. Próbálkozzon újra a leválasztással.</value>
+    </data>
+  <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
+        <value>Nem sikerült létrehozni az Application Insights-hivatkozást. Győződjön meg arról, hogy rendelkezik írási engedéllyel a függvényalkalmazásban</value>
+    </data>
+  <data name="deploymentCenterCommandBarAriaLabel" xml:space="preserve">
+        <value>Üzembe helyezési központ parancsai</value>
+    </data>
+  <data name="deploymentCenterSaveCommandAriaLabel" xml:space="preserve">
+        <value>Üzembe helyezési központ mentési parancsa</value>
+    </data>
+  <data name="deploymentCenterDiscardCommandAriaLabel" xml:space="preserve">
+        <value>Üzembe helyezési központ elvetési parancsa</value>
+    </data>
+  <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
+        <value>Üzembe helyezési központ tallózási parancsa</value>
+    </data>
+  <data name="deploymentCenterPublishProfileCommandAriaLabel" xml:space="preserve">
+        <value>Üzembe helyezési központ közzétételiprofil-kezelési parancsa</value>
+    </data>
+  <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
+        <value>Üzembe helyezési központ frissítési parancsa</value>
+    </data>
+  <data name="managePublishProfile" xml:space="preserve">
+        <value>Közzétételi profil kezelése</value>
+    </data>
+  <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>A Azure Portal nem támogatja a Python-alapú függvényalkalmazások szerkesztését. A függvény szerkesztéséhez használja a helyi fejlesztői környezetet.</value>
+    </data>
+  <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>Az Azure Portal nem támogatja a Java-alapú függvényalkalmazások szerkesztését. A függvény szerkesztéséhez használja a helyi fejlesztői környezetet.</value>
+    </data>
+  <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>A függvény szerkesztéséhez használja a helyi fejlesztői környezetet. Ez a függvény a helyi gyorsítótárat használja, ezért itt nem szerkeszthető.</value>
+    </data>
+  <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>Az alkalmazás jelenleg írásvédett módban van, mivel engedélyezve van a verziókövetés integrációja.</value>
+    </data>
+  <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>Az alkalmazás jelenleg írásvédett módban van, mert konfigurált üzembe helyezési pontokkal rendelkezik.</value>
+    </data>
+  <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>A függvény szerkesztéséhez használja a helyi fejlesztői környezetet. Ez a függvény helyi környezetben lett létrehozva, ezért itt nem szerkeszthető.</value>
+    </data>
+  <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>Az alkalmazás jelenleg írásvédett módban van, mivel manuálisan írásvédettre állították.</value>
+    </data>
+  <data name="connected" xml:space="preserve">
+        <value>A kapcsolat létrejött!</value>
+    </data>
+  <data name="blaclistFile_message" xml:space="preserve">
+        <value>Ennek a fájltípusnak a szerkesztése nem támogatott a portál szerkesztőjében.</value>
+    </data>
+  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
+        <value>Nincs megjeleníthető környezeti változó</value>
+    </data>
+  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Hozzáadás</value>
+    </data>
+  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Új környezeti változó hozzáadása</value>
+    </data>
+  <data name="staticSite_environmentVariables" xml:space="preserve">
+        <value>Környezeti változók</value>
+    </data>
+  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
+        <value>A környezeti változók inaktív állapotban titkosítva vannak, és ezeket titkosított csatornán keresztül továbbítja a rendszer. A lenti vezérlők segítségével egyszerű szövegként megjelenítheti őket a böngészőben.</value>
+    </data>
+  <data name="staticSite_environment" xml:space="preserve">
+        <value>Környezet</value>
+    </data>
+  <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
+        <value>A hely környezetének kiválasztása</value>
+    </data>
+  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
+        <value>Környezeti változó szűrése</value>
+    </data>
+  <data name="staticSite_discardChangesMesssage" xml:space="preserve">
+        <value>Biztos, hogy elveti a(z) {0} környezet környezeti változóinak módosításait?</value>
+    </data>
+  <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
+        <value>A nem mentett módosítások elvesznek.</value>
+    </data>
+  <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
+        <value>Biztos, hogy módosítja a környezetet?</value>
+    </data>
+  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
+        <value>A(z) {0} tulajdonságot minden környezeti változóban kötelező megadni</value>
+    </data>
+  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
+        <value>A környezeti változó nevének egyedinek kell lennie</value>
+    </data>
+  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
+        <value>A környezeti változó értékeinek tömbnek kell lenniük</value>
+    </data>
+  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
+        <value>A(z) {0} érvénytelen környezetiváltozó-tulajdonság</value>
+    </data>
+  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
+        <value>Minden környezetiváltozó-értéknek és névtulajdonságnak sztring típusúnak kell lennie</value>
+    </data>
+  <data name="staticSite_readOnlyRbac" xml:space="preserve">
+        <value>A webhely jelenleg írásvédett üzemmódban működik, mert az RBAC által hozzárendelt hozzáférés az Olvasó értékre van állítva</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>Naplók</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>Tárolónaplók</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+        <value>Beállítások</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
+        <value>Tárolóbeállítások</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
+        <value>FTP-/FTPs-hitelesítő adatok</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
+        <value>FTP- vagy FTPs-hitelesítő adatok</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
+        <value>Tárolónaplók betöltése folyamatban</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
+        <value>Tárolónaplók betöltése folyamatban...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
+        <value>Nem sikerült betölteni a tárolónaplókat</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailedWithError" xml:space="preserve">
+        <value>Nem sikerült betölteni a tárolónaplókat: {0}</value>
+    </data>
+  <data name="invocationTracesTableTitle" xml:space="preserve">
+        <value>Hívási nyomkövetések</value>
+    </data>
+  <data name="invocationTracesTableDescription" xml:space="preserve">
+        <value>A húsz legutóbbi függvényhívás-követés. A speciális elemzéshez az Application Insights-ban futtassa a lekérdezést.</value>
+    </data>
+  <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
+        <value>Refresh environment variables</value>
+    </data>
+  <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
+        <value>Frissítéskor minden módosítás elvész. Biztosan folytatja?</value>
+    </data>
+  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
+        <value>Add environment variable</value>
+    </data>
+  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
+        <value>Edit environment variable</value>
+    </data>
+  <data name="deploymentCenterFtpsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
+        <value>FTPS endpoint</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
+        <value>Application scope</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
+        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
+        <value>User scope</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
+        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
+        <value>(your username)</value>
+    </data>
+  <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+        <value>Felhasználónév</value>
+    </data>
+  <data name="deploymentCenterFtpsPasswordLabel" xml:space="preserve">
+        <value>Jelszó</value>
+    </data>
+  <data name="deploymentCenterFtpsConfirmPasswordLabel" xml:space="preserve">
+        <value>Jelszó megerősítése</value>
+    </data>
+  <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
+        <value>Write permission on the site or the slot is required to view credentials.</value>
+    </data>
+  <data name="appKeys_hostKeys_description" xml:space="preserve">
+        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+    </data>
+  <data name="appKeys_systemKeys_description" xml:space="preserve">
+        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+    </data>
+  <data name="functionKeys_description" xml:space="preserve">
+        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+    </data>
+  <data name="staticSite_noFunctionMessage" xml:space="preserve">
+        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+    </data>
+  <data name="reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+  <data name="resetPublishProfileAriaLabel" xml:space="preserve">
+        <value>Reset publishing profile</value>
+    </data>
+  <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Show application password</value>
+    </data>
+  <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Hide application password</value>
+    </data>
+  <data name="showProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user password</value>
+    </data>
+  <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user password</value>
+    </data>
+  <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user confirm password</value>
+    </data>
+  <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user confirm password</value>
     </data>
 </root>

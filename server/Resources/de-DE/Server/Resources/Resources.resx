@@ -256,7 +256,7 @@
         <value>Der Name darf Buchstaben, Ziffern und Bindestriche enthalten (wobei das erste und letzte Zeichen ein Buchstabe oder eine Ziffer sein müssen).</value>
     </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-        <value>Der Name der Funktions-App, {{funcName}}, ist nicht verfügbar.</value>
+        <value>Der Funktions-App-Name "{{funcName}}" ist nicht verfügbar.</value>
     </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
         <value>Sie benötigen ein Azure-Abonnement, um diesen Dienst zu verwenden. &lt;a href="https://azure.microsoft.com/de-de/free/"&gt;Klicken Sie hier&lt;/a&gt;, um ein kostenloses Testabonnement zu erstellen.</value>
@@ -569,7 +569,7 @@
         <value>Funktion "{{name}}" löschen</value>
     </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-        <value>Möchten Sie die Funktion {{name}} löschen?</value>
+        <value>Möchten Sie die Funktion "{{name}}" löschen?</value>
     </data>
   <data name="functionMonitor_loading" xml:space="preserve">
         <value>Wird geladen...</value>
@@ -833,7 +833,7 @@
         <value>Weniger als 1 Minute</value>
     </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-        <value>Registrieren Sie sich für ein kostenloses Azure-Konto, um alle Funktionen zu nutzen, ohne sich über Zeitlimits Gedanken zu machen!</value>
+        <value>Registrieren Sie sich für ein kostenloses Azure-Konto, um alle Azure Functions-Funktionen zu nutzen, ohne sich über Zeitlimits Gedanken zu machen!</value>
     </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
         <value>CORS ist für diese Funktions-App nicht konfiguriert. Fügen Sie "{{origin}}" zu Ihrer CORS-Liste hinzu.</value>
@@ -1465,6 +1465,9 @@
   <data name="configUpdateFailure" xml:space="preserve">
         <value>Fehler beim Aktualisieren der Web-App-Einstellungen.</value>
     </data>
+  <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>Fehler beim Aktualisieren der Web-App-Einstellungen: {0}</value>
+    </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>Fehler beim Speichern von "{{configGroupName}}": ungültige Eingabe.</value>
     </data>
@@ -2092,7 +2095,7 @@ Füllen Sie vor der Verwendung die &lt;a href="http://swagger.io/specification/#
     </data>
   <data name="swaggerDefinition_keyHelp" xml:space="preserve">
         <value>Dieser Schlüssel schützt Ihre API-Definition vor einem Zugriff durch Personen ohne Schlüssel.
-Die zugrunde liegende API wird hierdurch nicht geschützt. Informationen zum jeweiligen Schlüsselschutz finden Sie unter jeder Funktion.</value>
+Die zugrunde liegende API wird hierdurch nicht geschützt. Informationen zur jeweiligen Schlüsselsicherheit finden Sie unter den einzelnen Funktionen.</value>
     </data>
   <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
         <value>Legen Sie diese Einstellung auf "Funktion" fest, um das Generieren einer gehosteten API-Definition und einer Vorlagendefinition zu aktivieren.
@@ -2181,6 +2184,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>Ihre App befindet sich gerade im Lese-/Schreibmodus, weil Sie den Bearbeitungsmodus auf "Lesen/Schreiben" festgelegt haben, obwohl eine generierte "function.json" vorliegt. Änderungen an "function.json" werden von der Functions-Runtime nicht berücksichtigt.</value>
+    </data>
+  <data name="readOnlyRbac" xml:space="preserve">
+        <value>Ihre Funktion befindet sich zurzeit im schreibgeschützten Modus, weil Ihr zugewiesener RBAC-Zugriff auf "Leser" festgelegt ist.</value>
     </data>
   <data name="copypre_copy" xml:space="preserve">
         <value>Kopieren</value>
@@ -2274,6 +2280,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>Fehler beim Erstellen von Slot "{0}" </value>
+    </data>
+  <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>Fehler beim Erstellen von Slot "{0}": {1}</value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>Die Liste der Slots kann nicht abgerufen werden: {{errorMessage}}</value>
@@ -2825,7 +2834,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Wert ausblenden</value>
     </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-        <value>Der App Insights-Instrumentierungsschlüssel wird in den App-Einstellungen angezeigt, aber App Insights wurde nicht im Abonnement der Funktions-App gefunden. Stellen Sie sicher, dass sich App Insights im selben Abonnement befindet wie die Funktions-App.</value>
+        <value>Der App Insights-Instrumentierungsschlüssel ist in den App-Einstellungen vorhanden, aber App Insights wurde nicht im Abonnement der Funktions-App gefunden. Stellen Sie sicher, dass sich App Insights im selben Abonnement befindet wie die Funktions-App.</value>
     </data>
   <data name="table_startOfRow" xml:space="preserve">
         <value>Zeilenbeginn</value>
@@ -3915,7 +3924,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Bildquelle</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Bild und optional ein Tag (z. B. "image:tag")</value>
+        <value>Full Image Name and Tag</value>
+    </data>
+  <data name="containerImageAndTagPlaceholder" xml:space="preserve">
+        <value>E.g. nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Erstellen Sie für den Einstieg zuerst eine Azure Container Registry-Instanz, und fügen Sie ein Image hinzu.</value>
@@ -3931,6 +3943,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     </data>
   <data name="containerServerURL" xml:space="preserve">
         <value>Server-URL</value>
+    </data>
+  <data name="containerServerURLPlaceholder" xml:space="preserve">
+        <value>E.g. https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Anmelden</value>
@@ -4761,7 +4776,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Bereitstellungssloteinstellung aktiviert</value>
     </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>Ausgeblendete Wert. Klicken Sie oben auf die Schaltfläche "Werte anzeigen", um den Wert anzuzeigen.</value>
+        <value>Ausgeblendeter Wert. Klicken Sie, um den Wert anzuzeigen.</value>
     </data>
   <data name="fieldMustBeUnique" xml:space="preserve">
         <value>Das Feld muss eindeutig sein.</value>
@@ -5127,6 +5142,12 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
         <value>{0}-Details</value>
     </data>
+  <data name="integratePageTitle" xml:space="preserve">
+        <value>Integration</value>
+    </data>
+  <data name="integratePageDescription" xml:space="preserve">
+        <value>Hiermit bearbeiten Sie den Trigger und wählen aus einer Reihe von Eingaben und Ausgaben für Ihre Funktion aus, einschließlich Azure Blob Storage, Cosmos DB und anderen.</value>
+    </data>
   <data name="_function" xml:space="preserve">
         <value>Funktion</value>
     </data>
@@ -5398,13 +5419,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Bereich</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Triggerunterstützung für virtuelle Netzwerke</value>
+        <value>Runtime Scale Monitoring</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Mit dieser Einstellung kann Ihre App von Ressourcen innerhalb eines virtuellen Netzwerks ausgelöst werden. Außerdem müssen eine vorab aufgewärmte Instanz und Runtime V2 oder höher aktiv sein. &lt;a href="{0}" target="_blank"&gt;Weitere Informationen&lt;/a&gt;.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Mit dieser Einstellung kann Ihre App von Ressourcen innerhalb eines virtuellen Netzwerks ausgelöst werden. Außerdem müssen eine vorab aufgewärmte Instanz und Runtime V2 oder höher aktiv sein.</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>App-Einstellungen aktualisieren</value>
@@ -5578,7 +5599,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Durch das Konfigurieren des Werts von FUNCTIONS_EXTENSION_VERSION in der Anwendungseinstellung haben Sie sich für die Verwendung einer benutzerdefinierten Runtimeversion entschieden.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>Ein Upgrade ist mit den vorhandenen Funktionen nicht möglich: Upgrades der Hauptversion können zu Breaking Changes bei Sprachen und Bindungen führen. Erwägen Sie beim Upgrade von Hauptversionen der Runtime die Erstellung einer neuen Funktions-App und die Migration Ihrer Funktionen zu dieser neuen App.</value>
+        <value>Ihre Runtimeversion wird von {0} auf {1} aktualisiert. Hierdurch werden für Ihre vorhandenen Funktionen möglicherweise Breaking Changes für Sprache und Bindungen eingeführt. Ziehen Sie bei Upgrades für Hauptversionen der Runtime die Option in Betracht, eine neue Funktions-App zu erstellen und Ihre Funktionen zu dieser zu migrieren.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
+        <value>Runtimeversion aktualisieren</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
+        <value>Ihre App führt zurzeit Version {0} aus und umfasst vorhandene Funktionen. Der Wechsel zu Version {1} wird nicht empfohlen, weil dadurch Breaking Changes für Sprachen und Bindungen eingeführt werden können. Möchten Sie den Vorgang fortsetzen?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>Fehlender workflow-Bereich im GitHub-Token. Kehren Sie zum Schritt "Quellcodeverwaltung" zurück, um GitHub erneut zu autorisieren.</value>
@@ -5649,8 +5676,8 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>Das Remotedebuggen ist für Ihre Anwendung nicht verfügbar. </value>
     </data>
-  <data name="tryFunctionsPreview" xml:space="preserve">
-        <value>Vorschau der neuen Azure Functions-Verwaltungsoberfläche anzeigen</value>
+  <data name="tryFunctionsNewExperience" xml:space="preserve">
+        <value>Probieren Sie die neue Azure Functions-Verwaltungsoberfläche aus.</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>Änderungen speichern</value>
@@ -5659,7 +5686,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Durch Änderungen an den Anwendungseinstellungen und Verbindungszeichenfolgen wird die Anwendung neu gestartet. Möchten Sie den Vorgang fortsetzen?</value>
     </data>
   <data name="azureFunctionsV1Linux" xml:space="preserve">
-        <value>Version 1 der Runtime wird für Linux Azure Function Apps nicht unterstützt.</value>
+        <value>Version 1 der Runtime wird für Linux Azure Functions nicht unterstützt.</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
         <value>Die App "{{appName}}" ist mit Stack "{{stack}}" konfiguriert. Dies wird im Bereitstellungscenter über GitHub Actions aktuell nicht unterstützt.</value>
@@ -5683,7 +5710,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Workflowoption</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Add or overwrite workflow definition</value>
+        <value>Workflowdefinition hinzufügen oder überschreiben</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>Mit vorhandener Workflowdefinition konfigurieren</value>
@@ -5695,7 +5722,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Die vorhandene Workflowkonfiguration in GitHub wird mit der folgenden Konfiguration überschrieben.</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(Keine Funktionstasten zur Anzeige vorhanden.)</value>
+        <value>Keine Funktionstasten zur Anzeige vorhanden.</value>
     </data>
   <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>Dieses Feature wird für Apps in einem Premium-Plan nicht unterstützt.</value>
@@ -5734,48 +5761,357 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
         <value>Alle Bindungen für Ihre Funktion aktualisieren</value>
     </data>
   <data name="gitHubProtectedBranchSelected" xml:space="preserve">
-        <value>Selected branch has protection rules enabled.</value>
+        <value>Für den ausgewählten Branch sind Schutzregeln aktiviert.</value>
     </data>
   <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
         <value>Sie können die Runtimeversion nicht anzeigen oder ändern, solange Ihre Funktions-App beendet ist.</value>
     </data>
   <data name="githubActionWorkflowsExist" xml:space="preserve">
-        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+        <value>Die GitHub Actions-Workflowkonfiguration ist im Branch "{{branchName}}" bereits vorhanden. Wählen Sie unten eine Option aus, um entweder eine neue Workflowkonfiguration hinzuzufügen oder die vorhandenen Workflowkonfigurationen weiterhin zu verwenden.</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+        <value>Die vorhandene Workflowkonfiguration in GitHub wird zur Erstellung und Bereitstellung verwendet.</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
-        <value>Refresh app files</value>
+        <value>App-Dateien aktualisieren</value>
     </data>
   <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
-        <value>Refresh code editor</value>
+        <value>Code-Editor aktualisieren</value>
     </data>
   <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
         <value>Trigger löschen</value>
     </data>
   <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the trigger?</value>
+        <value>Möchten Sie den Trigger löschen?</value>
     </data>
   <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
-        <value>Delete Output</value>
+        <value>Ausgabe löschen</value>
     </data>
   <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
         <value>Ausgabe wirklich löschen?</value>
     </data>
   <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
-        <value>Delete Input</value>
+        <value>Eingabe löschen</value>
     </data>
   <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>Eingabe wirklich löschen?</value>
     </data>
+  <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>Mindestens eine Bindung konnte nicht geladen werden, aktualisieren Sie die Seite.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
-        <value>Delete Function Key</value>
+        <value>Funktionsschlüssel löschen</value>
     </data>
   <data name="deleteFunctionKeyMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the key {0}?</value>
+        <value>Möchten Sie den Schlüssel "{0}" löschen?</value>
     </data>
   <data name="fetchFileContentFailureMessage" xml:space="preserve">
-        <value>Failed to fetch the file content</value>
+        <value>Fehler beim Abrufen des Dateiinhalts.</value>
+    </data>
+  <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>Die ausgewählte Verbindung fehlt in den App-Einstellungen.</value>
+    </data>
+  <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
+        <value>Keine vorhandenen Verbindungen verfügbar.</value>
+    </data>
+  <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>In den folgenden Bindungen fehlt die erforderliche Richtungseigenschaft, und die Bindungen wurden möglicherweise falsch platziert: {0}. Aktualisieren Sie die Bindungen in ihrer Datei "functions.json".</value>
+    </data>
+  <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>Aufrufe</value>
+    </data>
+  <data name="functionMonitor_logs" xml:space="preserve">
+        <value>Protokolle</value>
+    </data>
+  <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>In Livemetriken öffnen</value>
+    </data>
+  <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>Bearbeiten Sie Ihren HTTP-Trigger, um zusätzliche HTTP-Methoden zu aktivieren.</value>
+    </data>
+  <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>Sie können "x-functions-key" nicht als benutzerdefinierten Header definieren.</value>
+    </data>
+  <data name="filterInvocations" xml:space="preserve">
+        <value>Aufrufe filtern</value>
+    </data>
+  <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>Abfrage in Application Insights ausführen</value>
+    </data>
+  <data name="timestamp" xml:space="preserve">
+        <value>Zeitstempel</value>
+    </data>
+  <data name="message" xml:space="preserve">
+        <value>Meldung</value>
+    </data>
+  <data name="successCount" xml:space="preserve">
+        <value>Anzahl erfolgreicher Aktionen</value>
+    </data>
+  <data name="errorCount" xml:space="preserve">
+        <value>Fehleranzahl</value>
+    </data>
+  <data name="last30Days" xml:space="preserve">
+        <value>Letzte 30 Tage</value>
+    </data>
+  <data name="discardChangesTitle" xml:space="preserve">
+        <value>Änderungen verwerfen</value>
+    </data>
+  <data name="discardChangesMesssage" xml:space="preserve">
+        <value>Möchten Sie Ihre Änderungen an der Datei "{0}" verwerfen?</value>
+    </data>
+  <data name="information" xml:space="preserve">
+        <value>Informationen</value>
+    </data>
+  <data name="verbose" xml:space="preserve">
+        <value>Ausführlich</value>
+    </data>
+  <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>Möchten Sie die GitHub Action-CICD-Pipeline trennen?</value>
+    </data>
+  <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>Entfernen Sie die Workflowdatei "{0}" aus dem Branch "{1}" im Repository "{2}". Wenn Sie diese Datei nicht entfernen, werden durch Commits an diesen Branch weiterhin Bereitstellungen für Ihre App ausgelöst.</value>
+    </data>
+  <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>Verbindung trennen</value>
+    </data>
+  <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>Abbrechen</value>
+    </data>
+  <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>Entfernen Sie die Konfiguration für den App Service-Bereitstellungsworkflow aus dem Azure-Portal.</value>
+    </data>
+  <data name="githubActionDashboardRepositoryMissingError" xml:space="preserve">
+        <value>Das Repository "{0}" wurde nicht gefunden. Navigieren Sie zu Ihrem GitHub-Konto, um weitere Untersuchungen durchzuführen.</value>
+    </data>
+  <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
+        <value>Der Branch "{0}" wurde im Repository "{1}" nicht gefunden. Navigieren Sie zu Ihrem Repository, um weitere Untersuchungen durchzuführen.</value>
+    </data>
+  <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Trennen von GitHub Action bestätigen</value>
+    </data>
+  <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
+        <value>Fehler beim Löschen der Workflowdatei "{0}" aus dem Branch "{1}" im Repository "{2}". Möglicherweise wurde die Datei umbenannt oder bereits gelöscht.</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
+        <value>Fehler beim Trennen der Bereitstellung, die Workflowdatei wurde jedoch erfolgreich gelöscht. Versuchen Sie erneut, die Verbindung zu trennen.</value>
+    </data>
+  <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
+        <value>Mit Application Insights kann keine Verknüpfung eingerichtet werden. Stellen Sie sicher, dass Sie über Schreibberechtigungen für ihre Funktions-App verfügen.</value>
+    </data>
+  <data name="deploymentCenterCommandBarAriaLabel" xml:space="preserve">
+        <value>Bereitstellungscenter-Befehle</value>
+    </data>
+  <data name="deploymentCenterSaveCommandAriaLabel" xml:space="preserve">
+        <value>Bereitstellungscenter-Befehl zum Speichern</value>
+    </data>
+  <data name="deploymentCenterDiscardCommandAriaLabel" xml:space="preserve">
+        <value>Bereitstellungscenter-Befehl zum Verwerfen</value>
+    </data>
+  <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
+        <value>Bereitstellungscenter-Befehl zum Durchsuchen</value>
+    </data>
+  <data name="deploymentCenterPublishProfileCommandAriaLabel" xml:space="preserve">
+        <value>Bereitstellungscenter-Befehl zum Verwalten des Veröffentlichungsprofils</value>
+    </data>
+  <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
+        <value>Bereitstellungscenter-Befehl zum Aktualisieren</value>
+    </data>
+  <data name="managePublishProfile" xml:space="preserve">
+        <value>Veröffentlichungsprofil verwalten</value>
+    </data>
+  <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>Das Bearbeiten von Python-Funktions-Apps wird im Azure-Portal nicht unterstützt. Verwenden Sie Ihre lokale Entwicklungsumgebung, um diese Funktion zu bearbeiten.</value>
+    </data>
+  <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>Das Bearbeiten von Java-Funktions-Apps wird im Azure-Portal nicht unterstützt. Verwenden Sie Ihre lokale Entwicklungsumgebung, um diese Funktion zu bearbeiten.</value>
+    </data>
+  <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>Verwenden Sie Ihre lokale Entwicklungsumgebung, um diese Funktion zu bearbeiten. Diese Funktion verwendet den lokalen Cache und kann hier nicht bearbeitet werden.</value>
+    </data>
+  <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>Ihre App befindet sich zurzeit im schreibgeschützten Modus, weil Sie die Integration der Quellcodeverwaltung aktiviert haben.</value>
+    </data>
+  <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>Ihre App befindet sich aktuell im schreibgeschützten Modus, weil Sie Bereitstellungsslots konfiguriert haben.</value>
+    </data>
+  <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>Verwenden Sie Ihre lokale Entwicklungsumgebung, um diese Funktion zu bearbeiten. Diese Funktion wurde in einer lokalen Umgebung erstellt und kann hier nicht bearbeitet werden.</value>
+    </data>
+  <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>Ihre App befindet sich aktuell im schreibgeschützten Modus, weil sie manuell als schreibgeschützt festgelegt wurde.</value>
+    </data>
+  <data name="connected" xml:space="preserve">
+        <value>Verbunden!</value>
+    </data>
+  <data name="blaclistFile_message" xml:space="preserve">
+        <value>Das Bearbeiten dieses Dateityps wird im Portal-Editor nicht unterstützt.</value>
+    </data>
+  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
+        <value>Es sind keine Umgebungsvariablen zur Anzeige vorhanden.</value>
+    </data>
+  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Hinzufügen</value>
+    </data>
+  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
+        <value>Neue Umgebungsvariable hinzufügen</value>
+    </data>
+  <data name="staticSite_environmentVariables" xml:space="preserve">
+        <value>Umgebungsvariablen</value>
+    </data>
+  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
+        <value>Auf Ihren Standort angewendete Umgebungsvariablen werden im Ruhezustand verschlüsselt und über einen verschlüsselten Kanal übertragen. Sie können die Umgebungsvariablen in Ihrem Browser als Klartext anzeigen, indem Sie die Steuerelemente unten verwenden.</value>
+    </data>
+  <data name="staticSite_environment" xml:space="preserve">
+        <value>Umgebung</value>
+    </data>
+  <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
+        <value>Umgebung für Standort auswählen</value>
+    </data>
+  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
+        <value>Umgebungsvariable filtern</value>
+    </data>
+  <data name="staticSite_discardChangesMesssage" xml:space="preserve">
+        <value>Möchten Sie die Änderungen an den Umgebungsvariablen für die Umgebung "{0}" verwerfen?</value>
+    </data>
+  <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
+        <value>Ihre nicht gespeicherten Änderungen werden verworfen.</value>
+    </data>
+  <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
+        <value>Möchten Sie die Umgebung ändern?</value>
+    </data>
+  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
+        <value>"{0}" ist für alle Umgebungsvariablen eine erforderliche Eigenschaft.</value>
+    </data>
+  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
+        <value>Der Umgebungsvariablenname muss eindeutig sein.</value>
+    </data>
+  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
+        <value>Umgebungsvariablenwerte müssen ein Array sein.</value>
+    </data>
+  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
+        <value>"{0}" ist eine ungültige Umgebungsvariableneigenschaft.</value>
+    </data>
+  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
+        <value>Alle Wert- und Namenseigenschaften für Umgebungsvariablen müssen den Typ "string" aufweisen.</value>
+    </data>
+  <data name="staticSite_readOnlyRbac" xml:space="preserve">
+        <value>Ihre Website befindet sich zurzeit im schreibgeschützten Modus, weil Ihr zugewiesener RBAC-Zugriff auf "Leser" festgelegt ist.</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>Protokolle</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>Containerprotokolle</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+        <value>Einstellungen</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
+        <value>Containereinstellungen</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
+        <value>FTP-/FTPs-Anmeldeinformationen</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
+        <value>FTP- oder FTPs-Anmeldeinformationen</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
+        <value>Containerprotokolle werden geladen.</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
+        <value>Containerprotokolle werden geladen...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
+        <value>Fehler beim Laden von Containerprotokollen.</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailedWithError" xml:space="preserve">
+        <value>Fehler beim Laden von Containerprotokollen: {0}</value>
+    </data>
+  <data name="invocationTracesTableTitle" xml:space="preserve">
+        <value>Aufrufablaufverfolgungen</value>
+    </data>
+  <data name="invocationTracesTableDescription" xml:space="preserve">
+        <value>Die 20 letzten Ablaufverfolgungen für Funktionsaufrufe. Für eine detailliertere Analyse führen Sie die Abfrage in Application Insights aus.</value>
+    </data>
+  <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
+        <value>Umgebungsvariablen aktualisieren</value>
+    </data>
+  <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
+        <value>Beim Aktualisieren gehen sämtliche nicht gespeicherten Änderungen verloren. Möchten Sie fortfahren?</value>
+    </data>
+  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
+        <value>Umgebungsvariable hinzufügen</value>
+    </data>
+  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
+        <value>Umgebungsvariable bearbeiten</value>
+    </data>
+  <data name="deploymentCenterFtpsDescription" xml:space="preserve">
+        <value>App Service unterstützt mehrere Technologien, um auf den Inhalt Ihrer App zuzugreifen und diesen zu veröffentlichen und zu ändern. Die FTP-/FTPS-Anmeldeinformationen können auf die Anwendung oder den Benutzer eingegrenzt werden.</value>
+    </data>
+  <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
+        <value>FTPS-Endpunkt</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
+        <value>Anwendungsbereich</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
+        <value>Anmeldeinformationen für den Anwendungsbereich werden automatisch generiert und ermöglichen nur den Zugriff auf diese spezifische App oder diesen spezifischen Bereitstellungsslot. Diese Anmeldeinformationen können mit FTP, Git (lokal) und WebDeploy verwendet werden. Sie können nicht manuell konfiguriert, aber jederzeit zurückgesetzt werden.</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
+        <value>Benutzerbereich</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
+        <value>Anmeldeinformationen für den Benutzerbereich werden von Ihnen, dem Benutzer, definiert und können für alle Apps verwendet werden, auf die Sie zugreifen können. Diese Anmeldeinformationen können mit FTP, Git (lokal) und WebDeploy verwendet werden. Für die Authentifizierung bei einem FTP/FTPS-Endpunkt mithilfe von Anmeldeinformationen auf Benutzerebene ist ein Benutzername im folgenden Format erforderlich: {0}</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
+        <value>(Ihr Benutzername)</value>
+    </data>
+  <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+        <value>Benutzername</value>
+    </data>
+  <data name="deploymentCenterFtpsPasswordLabel" xml:space="preserve">
+        <value>Kennwort</value>
+    </data>
+  <data name="deploymentCenterFtpsConfirmPasswordLabel" xml:space="preserve">
+        <value>Kennwort bestätigen</value>
+    </data>
+  <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
+        <value>Zum Anzeigen von Anmeldeinformationen ist eine Schreibberechtigung für die Website oder den Slot erforderlich.</value>
+    </data>
+  <data name="appKeys_hostKeys_description" xml:space="preserve">
+        <value>Verwenden Sie Hostschlüssel für Ihre Clients, um auf alle HTTP-Funktionen in Ihrer App zuzugreifen. Der Schlüssel "_master" gewährt Administratorzugriff auf Functions-Runtime-APIs.</value>
+    </data>
+  <data name="appKeys_systemKeys_description" xml:space="preserve">
+        <value>Systemschlüssel werden automatisch von der Functions-Runtime verwaltet. Systemschlüssel bieten einen differenzierten Zugriff auf Features der Functions-Runtime.</value>
+    </data>
+  <data name="functionKeys_description" xml:space="preserve">
+        <value>Funktionsschlüssel sind auf diese Funktion begrenzt und können für den Zugriff auf diese HTTP-Triggerfunktion verwendet werden.</value>
+    </data>
+  <data name="staticSite_noFunctionMessage" xml:space="preserve">
+        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+    </data>
+  <data name="reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+  <data name="resetPublishProfileAriaLabel" xml:space="preserve">
+        <value>Reset publishing profile</value>
+    </data>
+  <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Show application password</value>
+    </data>
+  <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Hide application password</value>
+    </data>
+  <data name="showProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user password</value>
+    </data>
+  <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user password</value>
+    </data>
+  <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user confirm password</value>
+    </data>
+  <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user confirm password</value>
     </data>
 </root>

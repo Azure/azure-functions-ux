@@ -265,13 +265,16 @@ export class ArmFunctionDescriptor extends ArmSiteDescriptor implements Function
     }
   }
 
-  static generateResourceUri(subscription: string, resourceGroup: string, site: string, functionName: string, slot?: string) {
-    if (!subscription || !resourceGroup || !site || !functionName) {
+  static generateResourceUri(subscription: string, resourceGroup: string, site: string, slot?: string, functionName?: string) {
+    if (!subscription || !resourceGroup || !site) {
       return null;
     }
 
-    const siteId = `/subscriptions/${subscription}/resourceGroups/${resourceGroup}/providers/Microsoft.Web/sites/${site}`;
-    return slot ? `${siteId}/slots/${slot}/functions/${functionName}` : `${siteId}/functions/${functionName}`;
+    let resourceId = `/subscriptions/${subscription}/resourceGroups/${resourceGroup}/providers/Microsoft.Web/sites/${site}`;
+    if (slot) {
+      resourceId = `${resourceId}/slots/${slot}`;
+    }
+    return functionName ? `${resourceId}/functions/${functionName}` : resourceId;
   }
 
   constructor(resourceId: string) {

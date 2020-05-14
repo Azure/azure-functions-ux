@@ -569,7 +569,7 @@
         <value>関数 {{name}} の削除</value>
     </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-        <value>関数 {{name}} を削除してもよろしいですか?</value>
+        <value>関数 {{name}} を削除しますか?</value>
     </data>
   <data name="functionMonitor_loading" xml:space="preserve">
         <value>読み込んでいます...</value>
@@ -833,7 +833,7 @@
         <value>1 分未満</value>
     </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-        <value>無料の Azure アカウントにサインアップすると、あらゆる関数機能のロックが解除され、時間の制約を気にすることなく使用できます。</value>
+        <value>無料の Azure アカウントにサインアップすると、時間制限を気にすることなく、すべての Azure Functions 機能をご利用いただけます。</value>
     </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
         <value>この関数アプリでは CORS が構成されていません。CORS リストに {{origin}} を追加してください。</value>
@@ -968,7 +968,7 @@
         <value>日ごとの使用量クォータ (GB - 秒)</value>
     </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-        <value>関数アプリは日ごとの使用量クォータに達したため、次の 24 時間の時間枠まで停止しています。</value>
+        <value>関数アプリは 1 日あたりの使用量のクォータに達したため、次の 24 時間の時間枠まで停止しています。</value>
     </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
         <value>クォータの削除</value>
@@ -977,7 +977,7 @@
         <value>クォータの設定</value>
     </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-        <value>1 日あたりの使用量のクォータを超過すると、次の日の午前 0:00 UTC まで関数アプリが停止します。</value>
+        <value>1 日あたりの使用量のクォータを超えると、次の日の午前 0:00 UTC まで関数アプリが停止します。</value>
     </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
         <value>{{name}} キーを取り消してもよろしいですか?</value>
@@ -1465,6 +1465,9 @@
   <data name="configUpdateFailure" xml:space="preserve">
         <value>Web アプリ設定を更新できませんでした</value>
     </data>
+  <data name="configUpdateFailureExt" xml:space="preserve">
+        <value>Web アプリの設定を更新できませんでした: {0}</value>
+    </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
         <value>{{configGroupName}} 保存エラー: 入力内容が無効です。</value>
     </data>
@@ -1844,7 +1847,7 @@
         <value>サポート リクエスト</value>
     </data>
   <data name="scale" xml:space="preserve">
-        <value>スケール</value>
+        <value>スケーリング</value>
     </data>
   <data name="connectionStrings" xml:space="preserve">
         <value>Connection strings</value>
@@ -2182,6 +2185,9 @@
   <data name="readWriteGeneratedBy" xml:space="preserve">
         <value>生成された function.json があるにもかかわらず編集モードが読み取り/書き込みに設定されたため、アプリは現在、読み取り/書き込みモードです。function.json に対する変更は Functions ランタイムでは受け入れられません。</value>
     </data>
+  <data name="readOnlyRbac" xml:space="preserve">
+        <value>RBAC 割り当て済みアクセスが閲覧者に設定されているため、現在、この関数は読み取り専用モードになっています</value>
+    </data>
   <data name="copypre_copy" xml:space="preserve">
         <value>コピー</value>
     </data>
@@ -2274,6 +2280,9 @@
     </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
         <value>スロット '{0}' を作成できませんでした </value>
+    </data>
+  <data name="slotNew_startCreateFailureNotifyTitleExt" xml:space="preserve">
+        <value>スロット '{0}' を作成できませんでした: {1}</value>
     </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
         <value>スロットの一覧を取得できません: {{errorMessage}}</value>
@@ -2825,7 +2834,7 @@
         <value>値を非表示にする</value>
     </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-        <value>App Insights インストルメンテーション キーはアプリ設定に表示されていますが、App Insights は関数アプリのサブスクリプションで見つかりません。App Insights が関数アプリと同じサブスクリプションに位置していることをご確認ください。</value>
+        <value>App Insights インストルメンテーション キーはアプリ設定にありますが、App Insights は関数アプリのサブスクリプションに見つかりません。App Insights が関数アプリと同じサブスクリプションに位置していることをご確認ください。</value>
     </data>
   <data name="table_startOfRow" xml:space="preserve">
         <value>行の先頭</value>
@@ -3915,7 +3924,10 @@
         <value>イメージのソース</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>イメージとオプションのタグ (例: 'image:tag')</value>
+        <value>Full Image Name and Tag</value>
+    </data>
+  <data name="containerImageAndTagPlaceholder" xml:space="preserve">
+        <value>E.g. nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>使用を開始するには、まず Azure Container Registry を作成してイメージを追加する必要があります。</value>
@@ -3931,6 +3943,9 @@
     </data>
   <data name="containerServerURL" xml:space="preserve">
         <value>サーバーの URL</value>
+    </data>
+  <data name="containerServerURLPlaceholder" xml:space="preserve">
+        <value>E.g. https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>ログイン</value>
@@ -4761,7 +4776,7 @@
         <value>デプロイ スロットの設定が有効です</value>
     </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
-        <value>非表示の値。表示するには、上記の [値を表示する] ボタンをクリックします</value>
+        <value>非表示の値です。値を表示するには、クリックしてください</value>
     </data>
   <data name="fieldMustBeUnique" xml:space="preserve">
         <value>フィールドは一意にする必要があります。</value>
@@ -4791,7 +4806,7 @@
         <value>'Logic Apps' タブは数か月以内に削除されます。Azure portal 参照機能を使用して、ロジック アプリの参照を続行することができます。</value>
     </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-        <value>この関数は、Linux App Service プランで実行されている関数アプリでのみ使用できます。ランタイムのログ記録の場合は、Application Insights を使用してください。</value>
+        <value>この関数は、Linux App Service プランで実行されている関数アプリでのみ使用できます。ランタイムのログ記録の場合は、Application Insights をお使いください。</value>
     </data>
   <data name="scaleOut" xml:space="preserve">
         <value>スケールアウト</value>
@@ -4854,7 +4869,7 @@
         <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
     </data>
   <data name="readOnlyPython" xml:space="preserve">
-        <value>Python 関数アプリではポータルにおける関数の編集はサポートされていません。開発には CLI または VS Code を使用してください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
+        <value>Python 関数アプリではポータルにおける関数の編集はサポートされていません。開発には CLI または VS Code をお使いください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
     </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
         <value>Azure Storage のマウントに秘密が含まれています。このセクションを表示または編集するには、読み取りまたは書き込みのアクセス許可が必要です。</value>
@@ -5002,7 +5017,7 @@
         <value>接続文字列のフィルター処理</value>
     </data>
   <data name="readOnlyJava" xml:space="preserve">
-        <value>Java 関数アプリではポータルにおける関数の編集はサポートされていません。開発には Maven または VS Code を使用してください。</value>
+        <value>Java 関数アプリではポータルにおける関数の編集はサポートされていません。開発には Maven または VS Code をお使いください。</value>
     </data>
   <data name="validate_workingDirectory" xml:space="preserve">
         <value>作業ディレクトリのパスは、リポジトリのルートからの相対パスである必要があり、Windows の場合は、/、\、ドライブ名 (C:/) で開始することはできません。作業ディレクトリがリポジトリの src フォルダーにある場合、パスは src/ にする必要があります</value>
@@ -5126,6 +5141,12 @@
     </data>
   <data name="integrateCreateBindingTypeDetails" xml:space="preserve">
         <value>{0} の詳細</value>
+    </data>
+  <data name="integratePageTitle" xml:space="preserve">
+        <value>統合</value>
+    </data>
+  <data name="integratePageDescription" xml:space="preserve">
+        <value>トリガーを編集し、Azure Blob Storage、Cosmos DB など、関数の入力と出力の中から選択します。</value>
     </data>
   <data name="_function" xml:space="preserve">
         <value>関数</value>
@@ -5398,13 +5419,13 @@
         <value>スコープ</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>仮想ネットワーク トリガーのサポート</value>
+        <value>Runtime Scale Monitoring</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>この設定により、仮想ネットワーク内のリソースによってアプリをトリガーできるようになります。そのためには、事前ウォーミングされた 1 つのインスタンスがアクティブであることと、ランタイム V2 以上も必要になります。&lt;a href="{0}" target="_blank"&gt;詳細情報&lt;/a&gt;。</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>この設定により、仮想ネットワーク内のリソースによってアプリをトリガーできるようになります。そのためには、事前ウォーミングされた 1 つのインスタンスがアクティブであることと、ランタイム V2 以上も必要になります。</value>
+        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>アプリ設定の更新</value>
@@ -5578,7 +5599,13 @@
         <value>アプリケーション設定で FUNCTIONS_EXTENSION_VERSION の値を構成することにより、カスタム ランタイム バージョンを使用することを選択しました。</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>既存の関数を使用してアップグレードすることはできません: メジャー バージョンのアップグレードによって、言語とバインディングに破壊的変更が生じる可能性があります。ランタイムのメジャー バージョンをアップグレードする場合、新しい関数アプリを作成し、その新しいアプリに機能を移行することをご検討ください。</value>
+        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
+        <value>Update Runtime Version</value>
+    </data>
+  <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
+        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>GitHub トークンに 'workflow' スコープがありません。GitHub を再承認するには、[ソース管理] の手順に戻ってください。</value>
@@ -5649,8 +5676,8 @@
   <data name="remoteDebuggingNotAvailableOnFlexStamp" xml:space="preserve">
         <value>お使いのアプリケーションではリモート デバッグを利用できません。 </value>
     </data>
-  <data name="tryFunctionsPreview" xml:space="preserve">
-        <value>新しい Azure Functions 管理エクスペリエンスのプレビュー</value>
+  <data name="tryFunctionsNewExperience" xml:space="preserve">
+        <value>新しい Azure Functions 管理エクスペリエンスを試す</value>
     </data>
   <data name="saveAppSettingsTitle" xml:space="preserve">
         <value>変更の保存</value>
@@ -5659,7 +5686,7 @@
         <value>アプリケーション設定と接続文字列を変更すると、アプリケーションが再起動します。続行しますか?</value>
     </data>
   <data name="azureFunctionsV1Linux" xml:space="preserve">
-        <value>バージョン 1 のランタイムは、Linux Azure 関数アプリではサポートされていません</value>
+        <value>バージョン 1 のランタイムは、Linux Azure 関数ではサポートされていません</value>
     </data>
   <data name="githubActionStackNotSupportedMessage" xml:space="preserve">
         <value>アプリ '{{appName}}' はスタック '{{stack}}' でセットアップされていますが、これは現在、GitHub Actions を経由したデプロイ センターではサポートされていません。</value>
@@ -5683,7 +5710,7 @@
         <value>ワークフロー オプション</value>
     </data>
   <data name="githubActionWorkflowOptionOverwrite" xml:space="preserve">
-        <value>Add or overwrite workflow definition</value>
+        <value>ワークフロー定義を追加または上書きする</value>
     </data>
   <data name="githubActionWorkflowOptionUseExisting" xml:space="preserve">
         <value>既存のワークフロー定義を使用して構成する</value>
@@ -5695,7 +5722,7 @@
         <value>GitHub の既存のワークフロー構成が以下の構成で上書きされます。</value>
     </data>
   <data name="emptyFunctionKeys" xml:space="preserve">
-        <value>(表示する関数キーがありません)</value>
+        <value>表示する関数キーがありません</value>
     </data>
   <data name="featureNotSupportedForPremium" xml:space="preserve">
         <value>Premium プランのアプリでは、この機能はサポートされていません</value>
@@ -5734,48 +5761,357 @@
         <value>関数のすべてのバインドを更新します</value>
     </data>
   <data name="gitHubProtectedBranchSelected" xml:space="preserve">
-        <value>Selected branch has protection rules enabled.</value>
+        <value>選択したブランチでは、保護ルールが有効になっています。</value>
     </data>
   <data name="noRuntimeVersionWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view or modify the runtime version while your Function App is stopped.</value>
+        <value>関数アプリが停止している間は、ランタイム バージョンを表示および変更できません。</value>
     </data>
   <data name="githubActionWorkflowsExist" xml:space="preserve">
-        <value>GitHub Action workflow configurations already exists in the '{{branchName}}' branch. Choose an option below to either add a new workflow configuration or continue using the existing workflow configurations.</value>
+        <value>GitHub アクションのワークフロー構成は、'{{branchName}}' ブランチに既に存在します。次のオプションを選択して、新しいワークフロー構成を追加するか、既存のワークフロー構成を引き続き使用します。</value>
     </data>
   <data name="githubActionWorkflowOptionUseExistingMessageWithoutPreview" xml:space="preserve">
-        <value>Existing workflow configuration in GitHub will be used for build and deployment.</value>
+        <value>GitHub の既存のワークフロー構成は、ビルドとデプロイに使用されます。</value>
     </data>
   <data name="appFilesSaveAriaLabel" xml:space="preserve">
-        <value>Refresh app files</value>
+        <value>アプリ ファイルの更新</value>
     </data>
   <data name="functionEditorRefreshAriaLabel" xml:space="preserve">
-        <value>Refresh code editor</value>
+        <value>コード エディターの更新</value>
     </data>
   <data name="integrateDeleteTriggerConfirmHeader" xml:space="preserve">
         <value>トリガーの削除</value>
     </data>
   <data name="integrateDeleteTriggerConfirmMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the trigger?</value>
+        <value>トリガーを削除しますか?</value>
     </data>
   <data name="integrateDeleteOutputConfirmHeader" xml:space="preserve">
-        <value>Delete Output</value>
+        <value>出力の削除</value>
     </data>
   <data name="integrateDeleteOutputConfirmMessage" xml:space="preserve">
         <value>出力を削除しますか?</value>
     </data>
   <data name="integrateDeleteInputConfirmHeader" xml:space="preserve">
-        <value>Delete Input</value>
+        <value>入力の削除</value>
     </data>
   <data name="integrateDeleteInputConfirmMessage" xml:space="preserve">
         <value>入力を削除しますか?</value>
     </data>
+  <data name="integrate_bindingsFailedLoading" xml:space="preserve">
+        <value>1 つまたは複数のバインドを読み込めませんでした。ページを更新してください。</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
-        <value>Delete Function Key</value>
+        <value>関数キーの削除</value>
     </data>
   <data name="deleteFunctionKeyMessage" xml:space="preserve">
-        <value>Are you sure you want to delete the key {0}?</value>
+        <value>キー {0} を削除しますか?</value>
     </data>
   <data name="fetchFileContentFailureMessage" xml:space="preserve">
-        <value>Failed to fetch the file content</value>
+        <value>ファイル コンテンツをフェッチできませんでした</value>
+    </data>
+  <data name="resourceDropdown_missingAppSetting" xml:space="preserve">
+        <value>選択した接続がアプリの設定にありません</value>
+    </data>
+  <data name="resourceDropdown_noAppSettingsFound" xml:space="preserve">
+        <value>利用できる既存の接続はありません</value>
+    </data>
+  <data name="integrate_bindingsMissingDirection" xml:space="preserve">
+        <value>次のバインドには、必要な direction プロパティがないため、正しく配置されていない可能性があります: {0}。functions.json ファイルでバインドを更新してください。</value>
+    </data>
+  <data name="functionMonitor_invocations" xml:space="preserve">
+        <value>呼び出し</value>
+    </data>
+  <data name="functionMonitor_logs" xml:space="preserve">
+        <value>ログ</value>
+    </data>
+  <data name="logStreaming_openInLiveMetrics" xml:space="preserve">
+        <value>Live Metrics で開く</value>
+    </data>
+  <data name="httpMethod_tooltip" xml:space="preserve">
+        <value>HTTP トリガーを編集して追加の HTTP メソッドを有効にします</value>
+    </data>
+  <data name="xFunctionsKey_validationMessage" xml:space="preserve">
+        <value>カスタム ヘッダーとして x-functions-key を定義することはできません</value>
+    </data>
+  <data name="filterInvocations" xml:space="preserve">
+        <value>呼び出しのフィルター処理</value>
+    </data>
+  <data name="runQueryInApplicationInsights" xml:space="preserve">
+        <value>Application Insights でのクエリの実行</value>
+    </data>
+  <data name="timestamp" xml:space="preserve">
+        <value>タイムスタンプ</value>
+    </data>
+  <data name="message" xml:space="preserve">
+        <value>メッセージ</value>
+    </data>
+  <data name="successCount" xml:space="preserve">
+        <value>成功数</value>
+    </data>
+  <data name="errorCount" xml:space="preserve">
+        <value>エラー数</value>
+    </data>
+  <data name="last30Days" xml:space="preserve">
+        <value>過去 30 日間</value>
+    </data>
+  <data name="discardChangesTitle" xml:space="preserve">
+        <value>変更の破棄</value>
+    </data>
+  <data name="discardChangesMesssage" xml:space="preserve">
+        <value>ファイル '{0}' に対する変更を破棄しますか?</value>
+    </data>
+  <data name="information" xml:space="preserve">
+        <value>情報</value>
+    </data>
+  <data name="verbose" xml:space="preserve">
+        <value>詳細</value>
+    </data>
+  <data name="githubActionDisconnectConfirmation" xml:space="preserve">
+        <value>GitHub アクション CICD パイプラインを切断しますか?</value>
+    </data>
+  <data name="githubActionDisconnectDeleteWorkflow" xml:space="preserve">
+        <value>リポジトリ '{2}' のブランチ '{1}' から '{0}' ワークフロー ファイルを削除します。このファイルを削除しないと、このブランチへのコミットにより、お使いのアプリへのデプロイのトリガーが続行されます。</value>
+    </data>
+  <data name="githubActionDisconnectButton" xml:space="preserve">
+        <value>切断</value>
+    </data>
+  <data name="githubActionCancelDisconnectButton" xml:space="preserve">
+        <value>キャンセル</value>
+    </data>
+  <data name="githubActionWorkflowDeleteCommitMessage" xml:space="preserve">
+        <value>Azure portal から App Service デプロイのワークフロー構成を削除します。</value>
+    </data>
+  <data name="githubActionDashboardRepositoryMissingError" xml:space="preserve">
+        <value>リポジトリ '{0}' が見つかりません。詳しく調査するには、GitHub アカウントに移動してください。</value>
+    </data>
+  <data name="githubActionDashboardBranchMissingError" xml:space="preserve">
+        <value>リポジトリ '{1}' にブランチ '{0}' が見つかりません。詳しく調査するには、リポジトリに移動してください。</value>
+    </data>
+  <data name="githubActionDisconnectConfirmationTitle" xml:space="preserve">
+        <value>GitHub アクションの切断の確認</value>
+    </data>
+  <data name="githubActionDisconnectWorkflowDeleteFailed" xml:space="preserve">
+        <value>リポジトリ '{2}' のブランチ '{1}' から '{0}' ワークフロー ファイルを削除できませんでした。ファイルの名前が変更されたか、既に削除されている可能性があります。</value>
+    </data>
+  <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
+        <value>デプロイを切断できませんでしたが、ワークフロー ファイルは正常に削除されました。もう一度切断してみてください。</value>
+    </data>
+  <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
+        <value>Application Insights へのリンクを確立できません。関数アプリに対する書き込みアクセス許可があることをご確認ください</value>
+    </data>
+  <data name="deploymentCenterCommandBarAriaLabel" xml:space="preserve">
+        <value>デプロイ センターのコマンド</value>
+    </data>
+  <data name="deploymentCenterSaveCommandAriaLabel" xml:space="preserve">
+        <value>デプロイ センターの保存コマンド</value>
+    </data>
+  <data name="deploymentCenterDiscardCommandAriaLabel" xml:space="preserve">
+        <value>デプロイ センターの破棄コマンド</value>
+    </data>
+  <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
+        <value>デプロイ センターの参照コマンド</value>
+    </data>
+  <data name="deploymentCenterPublishProfileCommandAriaLabel" xml:space="preserve">
+        <value>デプロイ センターの発行プロファイルの管理コマンド</value>
+    </data>
+  <data name="deploymentCenterRefreshCommandAriaLabel" xml:space="preserve">
+        <value>デプロイ センターの更新コマンド</value>
+    </data>
+  <data name="managePublishProfile" xml:space="preserve">
+        <value>発行プロファイルの管理</value>
+    </data>
+  <data name="ibizafication_readOnlyPython" xml:space="preserve">
+        <value>Python 関数アプリの編集は、Azure portal ではサポートされていません。この関数を編集するには、ローカルの開発環境をお使いください。</value>
+    </data>
+  <data name="ibizafication_readOnlyJava" xml:space="preserve">
+        <value>Java 関数アプリの編集は、Azure portal ではサポートされていません。この関数を編集するには、ローカルの開発環境をお使いください。</value>
+    </data>
+  <data name="ibizafication_readOnlyLocalCache" xml:space="preserve">
+        <value>この関数を編集するには、ローカルの開発環境をお使いください。この関数はローカル キャッシュを使用しているため、ここでは編集できません。</value>
+    </data>
+  <data name="ibizafication_readOnlySourceControlled" xml:space="preserve">
+        <value>ソース管理の統合が有効になっているため、アプリは現在読み取り専用モードになっています。</value>
+    </data>
+  <data name="ibizafication_readOnlySlots" xml:space="preserve">
+        <value>デプロイ スロットが構成されたため、アプリは現在読み取り専用モードになっています。</value>
+    </data>
+  <data name="ibizafication_readOnlyVSGenerated" xml:space="preserve">
+        <value>この関数を編集するには、ローカルの開発環境をお使いください。この関数はローカル環境で作成されたため、ここでは編集できません。</value>
+    </data>
+  <data name="ibizafication_readOnly" xml:space="preserve">
+        <value>読み取り専用に手動で設定されたため、アプリは現在読み取り専用モードになっています。</value>
+    </data>
+  <data name="connected" xml:space="preserve">
+        <value>接続されました。</value>
+    </data>
+  <data name="blaclistFile_message" xml:space="preserve">
+        <value>このファイルの種類の編集は、ポータル エディターではサポートされていません。</value>
+    </data>
+  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
+        <value>表示する環境変数がありません</value>
+    </data>
+  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+        <value>追加</value>
+    </data>
+  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
+        <value>新しい環境変数の追加</value>
+    </data>
+  <data name="staticSite_environmentVariables" xml:space="preserve">
+        <value>環境変数</value>
+    </data>
+  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
+        <value>サイトに適用可能な環境変数は保存時に暗号化され、暗号化されたチャネルで送信されます。以下のコントロールを使用して、お使いのブラウザーにそれらがプレーン テキストで表示されるよう選択することができます。</value>
+    </data>
+  <data name="staticSite_environment" xml:space="preserve">
+        <value>環境</value>
+    </data>
+  <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
+        <value>サイトの環境を選択</value>
+    </data>
+  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
+        <value>環境変数のフィルター</value>
+    </data>
+  <data name="staticSite_discardChangesMesssage" xml:space="preserve">
+        <value>環境 {0} の環境変数への変更を破棄しますか?</value>
+    </data>
+  <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
+        <value>保存していない変更内容は破棄されます。</value>
+    </data>
+  <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
+        <value>環境を変更しますか?</value>
+    </data>
+  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
+        <value>{0} はすべての環境変数で必須のプロパティです</value>
+    </data>
+  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
+        <value>環境変数の名前は一意である必要があります</value>
+    </data>
+  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
+        <value>環境変数の値は配列である必要があります</value>
+    </data>
+  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
+        <value>{0} は無効な環境変数プロパティです</value>
+    </data>
+  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
+        <value>環境変数の値と名前のプロパティをすべて文字列型にする必要があります</value>
+    </data>
+  <data name="staticSite_readOnlyRbac" xml:space="preserve">
+        <value>RBAC 割り当て済みアクセスが閲覧者に設定されているため、現在、このサイトは読み取り専用モードになっています</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+        <value>ログ</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
+        <value>コンテナー ログ</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+        <value>設定</value>
+    </data>
+  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
+        <value>コンテナーの設定</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
+        <value>FTP または FTPS の資格情報</value>
+    </data>
+  <data name="deploymentCenterPivotItemFtpsAriaLabel" xml:space="preserve">
+        <value>FTP または FTPS の資格情報</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoadingAriaValue" xml:space="preserve">
+        <value>コンテナー ログを読み込んでいます</value>
+    </data>
+  <data name="deploymentCenterContainerLogsLoading" xml:space="preserve">
+        <value>コンテナー ログを読み込んでいます...</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailed" xml:space="preserve">
+        <value>コンテナー ログを読み込めませんでした</value>
+    </data>
+  <data name="deploymentCenterContainerLogsFailedWithError" xml:space="preserve">
+        <value>コンテナー ログを読み込めませんでした: {0}</value>
+    </data>
+  <data name="invocationTracesTableTitle" xml:space="preserve">
+        <value>呼び出しのトレース</value>
+    </data>
+  <data name="invocationTracesTableDescription" xml:space="preserve">
+        <value>最近 20 件の関数呼び出しトレースです。詳細な分析を行うには、Application Insights でクエリを実行します。</value>
+    </data>
+  <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
+        <value>環境変数の更新</value>
+    </data>
+  <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
+        <value>更新すると、保存されていない変更はすべて失われます。続行しますか?</value>
+    </data>
+  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
+        <value>環境変数の追加</value>
+    </data>
+  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
+        <value>環境変数の編集</value>
+    </data>
+  <data name="deploymentCenterFtpsDescription" xml:space="preserve">
+        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+    </data>
+  <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
+        <value>FTPS endpoint</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
+        <value>Application scope</value>
+    </data>
+  <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
+        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
+        <value>User scope</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
+        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+    </data>
+  <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
+        <value>(your username)</value>
+    </data>
+  <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+        <value>ユーザー名</value>
+    </data>
+  <data name="deploymentCenterFtpsPasswordLabel" xml:space="preserve">
+        <value>パスワード</value>
+    </data>
+  <data name="deploymentCenterFtpsConfirmPasswordLabel" xml:space="preserve">
+        <value>パスワードの確認</value>
+    </data>
+  <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
+        <value>Write permission on the site or the slot is required to view credentials.</value>
+    </data>
+  <data name="appKeys_hostKeys_description" xml:space="preserve">
+        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+    </data>
+  <data name="appKeys_systemKeys_description" xml:space="preserve">
+        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+    </data>
+  <data name="functionKeys_description" xml:space="preserve">
+        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+    </data>
+  <data name="staticSite_noFunctionMessage" xml:space="preserve">
+        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+    </data>
+  <data name="reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+  <data name="resetPublishProfileAriaLabel" xml:space="preserve">
+        <value>Reset publishing profile</value>
+    </data>
+  <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Show application password</value>
+    </data>
+  <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
+        <value>Hide application password</value>
+    </data>
+  <data name="showProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user password</value>
+    </data>
+  <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user password</value>
+    </data>
+  <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Show provider user confirm password</value>
+    </data>
+  <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
+        <value>Hide provider user confirm password</value>
     </data>
 </root>

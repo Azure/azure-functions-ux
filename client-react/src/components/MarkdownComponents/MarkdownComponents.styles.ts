@@ -19,3 +19,17 @@ export const markdownHighlighterText = (theme: ThemeExtended) =>
     borderColor: theme.semanticColors.inputBorder,
     width: '90%',
   });
+
+export const markdownCopyButtonStyle = (theme: ThemeExtended) =>
+  style({
+    marginLeft: '5px',
+    width: '25px',
+    height: '25px',
+    backgroundColor: theme.semanticColors.accentButtonBackground,
+    color: theme.semanticColors.buttonTextChecked,
+    $nest: {
+      '&:hover': {
+        color: theme.semanticColors.buttonTextChecked,
+      },
+    },
+  });

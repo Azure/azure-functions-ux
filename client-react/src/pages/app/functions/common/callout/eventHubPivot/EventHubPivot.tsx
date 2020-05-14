@@ -1,17 +1,18 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { IDropdownOption, DefaultButton, IDropdownProps } from 'office-ui-fabric-react';
+import { FieldProps, Formik, FormikProps } from 'formik';
+import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
-import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
-import { ArmObj } from '../../../../../../models/arm-obj';
-import { Namespace, EventHub, AuthorizationRule, KeyList } from '../../../../../../models/eventhub';
-import { NewConnectionCalloutProps } from '../Callout.properties';
-import { FormikProps, Formik, FieldProps } from 'formik';
-import { EventHubPivotContext } from './EventHubPivotDataLoader';
-import LogService from '../../../../../../utils/LogService';
-import { LogCategories } from '../../../../../../utils/LogCategories';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
+import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
+import { ArmObj } from '../../../../../../models/arm-obj';
+import { AuthorizationRule, EventHub, KeyList, Namespace } from '../../../../../../models/eventhub';
+import { LogCategories } from '../../../../../../utils/LogCategories';
+import LogService from '../../../../../../utils/LogService';
+import { NewConnectionCalloutProps } from '../Callout.properties';
+import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
+import { EventHubPivotContext } from './EventHubPivotDataLoader';
+import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 
 export interface EventHubPivotFormValues {
   namespace: ArmObj<Namespace> | undefined;
@@ -34,7 +35,11 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
     if (!namespaces) {
       provider.fetchNamespaces(resourceId).then(r => {
         if (!r.metadata.success) {
-          LogService.trackEvent(LogCategories.bindingResource, 'getNamespaces', `Failed to get Namespaces: ${r.metadata.error}`);
+          LogService.trackEvent(
+            LogCategories.bindingResource,
+            'getNamespaces',
+            `Failed to get Namespaces: ${getErrorMessageOrStringify(r.metadata.error)}`
+          );
           return;
         }
         setNamespaces(r.data.value);
@@ -43,7 +48,11 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
       if (!eventHubs) {
         provider.fetchEventHubs(formValues.namespace.id).then(r => {
           if (!r.metadata.success) {
-            LogService.trackEvent(LogCategories.bindingResource, 'getEventHubs', `Failed to get EventHubs: ${r.metadata.error}`);
+            LogService.trackEvent(
+              LogCategories.bindingResource,
+              'getEventHubs',
+              `Failed to get EventHubs: ${getErrorMessageOrStringify(r.metadata.error)}`
+            );
             return;
           }
           setEventHubs(r.data.value);
@@ -52,7 +61,11 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
       if (!namespaceAuthRules) {
         provider.fetchAuthRules(formValues.namespace.id).then(r => {
           if (!r.metadata.success) {
-            LogService.trackEvent(LogCategories.bindingResource, 'getAuthRules', `Failed to get Authorization Rules: ${r.metadata.error}`);
+            LogService.trackEvent(
+              LogCategories.bindingResource,
+              'getAuthRules',
+              `Failed to get Authorization Rules: ${getErrorMessageOrStringify(r.metadata.error)}`
+            );
             return;
           }
           setNamespaceAuthRules(r.data.value);
@@ -61,7 +74,11 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
       if (formValues.eventHub && !eventHubAuthRules) {
         provider.fetchAuthRules(formValues.eventHub.id).then(r => {
           if (!r.metadata.success) {
-            LogService.trackEvent(LogCategories.bindingResource, 'getAuthRules', `Failed to get Authorization Rules: ${r.metadata.error}`);
+            LogService.trackEvent(
+              LogCategories.bindingResource,
+              'getAuthRules',
+              `Failed to get Authorization Rules: ${getErrorMessageOrStringify(r.metadata.error)}`
+            );
             return;
           }
           setEventHubAuthRules(r.data.value);
@@ -70,7 +87,11 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
       if (formValues.policy && !keyList) {
         provider.fetchKeyList(formValues.policy.id).then(r => {
           if (!r.metadata.success) {
-            LogService.trackEvent(LogCategories.bindingResource, 'getKeyList', `Failed to get Key List: ${r.metadata.error}`);
+            LogService.trackEvent(
+              LogCategories.bindingResource,
+              'getKeyList',
+              `Failed to get Key List: ${getErrorMessageOrStringify(r.metadata.error)}`
+            );
             return;
           }
           setKeyList(r.data);
@@ -181,9 +202,9 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
               </>
             )}
             <footer style={paddingTopStyle}>
-              <DefaultButton disabled={!keyList} onClick={formProps.submitForm}>
+              <PrimaryButton disabled={!keyList} onClick={formProps.submitForm}>
                 {t('ok')}
-              </DefaultButton>
+              </PrimaryButton>
             </footer>
           </form>
         );

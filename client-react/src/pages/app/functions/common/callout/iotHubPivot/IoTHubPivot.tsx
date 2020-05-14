@@ -1,5 +1,5 @@
 import { FieldProps, Formik, FormikProps } from 'formik';
-import { DefaultButton, IDropdownOption, IDropdownProps } from 'office-ui-fabric-react';
+import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
@@ -12,6 +12,7 @@ import LogService from '../../../../../../utils/LogService';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { IoTHubPivotContext } from './IoTHubPivotDataLoader';
+import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 
 interface IoTHubPivotFormValues {
   iotHub: ArmObj<IotHub> | undefined;
@@ -31,7 +32,11 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
     if (!iotHubs) {
       provider.fetchIotHubs(resourceId).then(r => {
         if (!r.metadata.success) {
-          LogService.trackEvent(LogCategories.bindingResource, 'getIoTHubs', `Failed to get IoTHubs: ${r.metadata.error}`);
+          LogService.trackEvent(
+            LogCategories.bindingResource,
+            'getIoTHubs',
+            `Failed to get IoTHubs: ${getErrorMessageOrStringify(r.metadata.error)}`
+          );
           return;
         }
         setIoTHubs(r.data.value);
@@ -39,7 +44,11 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
     } else if (formValues.iotHub && !keyList) {
       provider.fetchKeyList(formValues.iotHub.id).then(r => {
         if (!r.metadata.success) {
-          LogService.trackEvent(LogCategories.bindingResource, 'getKeyList', `Failed to get Key List: ${r.metadata.error}`);
+          LogService.trackEvent(
+            LogCategories.bindingResource,
+            'getKeyList',
+            `Failed to get Key List: ${getErrorMessageOrStringify(r.metadata.error)}`
+          );
           return;
         }
         setKeyList(r.data);
@@ -122,9 +131,9 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
               </>
             )}
             <footer style={paddingTopStyle}>
-              <DefaultButton disabled={!formValues.endpoint} onClick={formProps.submitForm}>
+              <PrimaryButton disabled={!formValues.endpoint} onClick={formProps.submitForm}>
                 {t('ok')}
-              </DefaultButton>
+              </PrimaryButton>
             </footer>
           </form>
         );

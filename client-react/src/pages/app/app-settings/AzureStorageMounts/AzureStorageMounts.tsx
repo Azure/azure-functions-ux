@@ -6,12 +6,13 @@ import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMe
 import { AppSettingsFormValues, FormAzureStorageMounts } from '../AppSettings.types';
 import IconButton from '../../../../components/IconButton/IconButton';
 import AzureStorageMountsAddEdit from './AzureStorageMountsAddEdit';
-import { MessageBar, MessageBarType, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { MessageBarType, TooltipHost, ICommandBarItemProps, PanelType } from 'office-ui-fabric-react';
 import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import { ArmAzureStorageMount, StorageType } from '../../../../models/site/config';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import Panel from '../../../../components/Panel/Panel';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 export interface AzureStorageMountLocalState {
   showPanel: boolean;
@@ -41,11 +42,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
   public render() {
     const { values, t } = this.props;
     if (!this.context.app_write) {
-      return (
-        <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
-          {t('applicationSettingsNoPermission')}
-        </MessageBar>
-      );
+      return <CustomBanner message={t('applicationSettingsNoPermission')} type={MessageBarType.warning} />;
     }
     return (
       <>
@@ -60,6 +57,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
           emptyMessage={t('emptyAzureStorageMount')}
         />
         <Panel
+          type={PanelType.medium}
           isOpen={this.state.showPanel}
           onDismiss={this._onCancel}
           headerText={this.state.createNewItem ? t('newAzureStorageMount') : t('editAzureStorageMount')}>

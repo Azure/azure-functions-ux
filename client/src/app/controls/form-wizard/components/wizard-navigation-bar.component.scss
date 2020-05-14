@@ -16,194 +16,207 @@ $text-height: 14px;
 $bubble-diameter: 30px;
 
 :host {
-    &.NavSymbols {
-        ul.steps-indicator {
-            padding: 0px 0 10px 0;
-
-            li {
-                &:not(:last-child):before {
-                    background-color: $wz-color-default;
-                    content: '';
-                    position: absolute;
-                    height: 1px;
-                    width: calc(100% - #{$bubble-diameter});
-                    top: -$bubble-diameter/2;
-                    left: calc(50% + #{$bubble-diameter/2});
-                }
-
-                &:after {
-                    position: absolute;
-                    top: -$bubble-diameter;
-                    left: calc(50% - #{$bubble-diameter/2});
-                    width: $bubble-diameter;
-                    height: $bubble-diameter;
-                    text-align: center;
-                    vertical-align: middle;
-                    line-height: $bubble-diameter;
-                    transition: 0.25s;
-                    border-radius: 100%;
-                    background-color: $wz-color-default;
-                    color: $text-color;
-                    content: attr(step-symbol);
-                }
-            }
-
-            // default steps shouldn't change when hovered, because they aren't clickable
-            li.default a:hover {
-                color: $wz-color-current;
-            }
-
-            li.current:after, li.running:after {
-                background-color: $wz-color-current;
-                color: $text-color;
-                box-shadow: 0px 0px 0px 8px transparentize($wz-color-current, 0.5);
-            }
-
-            li.done:after {
-                background-color: $wz-color-done;
-                color: $text-color;
-                // inlining the success svg, the direct url was difficult because it ignored base href
-                // I dont want to include this in the DOM itself because since this is a third party library I prefer to touch the 
-                // component itself as much as possible with hopes the third party library will add support for css and I can just import from npm
-                content: url("data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTYgMTYiIGNsYXNzPSJtc3BvcnRhbGZ4LXN2Zy1wbGFjZWhvbGRlciIgcm9sZT0icHJlc2VudGF0aW9uIiBmb2N1c2FibGU9ImZhbHNlIiBhcmlhLWhpZGRlbj0idHJ1ZSI+DQogICAgPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCiAgICAgICAgLm1zcG9ydGFsZngtc3ZnLWMwMXsgZmlsbDogI2ZmZjsgfQ0KICAgICAgICAubXNwb3J0YWxmeC1zdmctYzE0eyBmaWxsOiAjN2ZiYTAwOyB9DQogICAgPC9zdHlsZT4NCiAgIDxnPg0KICAgICAgPGNpcmNsZSBjeD0iOCIgY3k9IjgiIHI9IjgiIGNsYXNzPSJtc3BvcnRhbGZ4LXN2Zy1jMTQiIC8+DQogICAgICA8cGF0aCBkPSJNMy45ODkgOC40NjlMMy43IDguMTU2YS4yMDcuMjA3IDAgMCAxIC4wMTItLjI5M2wuODM1LS43NzJhLjIwNC4yMDQgMCAwIDEgLjI4OS4wMTJsMi4yOTYgMi40NjIgMy45NTEtNS4wNmEuMjA0LjIwNCAwIDAgMSAuMjg5LS4wMzVsLjkwMy42OTdhLjE5OC4xOTggMCAwIDEgLjAzNS4yODVsLTUuMDc1IDYuNDk3LTMuMjQ2LTMuNDh6IiBjbGFzcz0ibXNwb3J0YWxmeC1zdmctYzAxIiAvPg0KICAgPC9nPg0KPC9zdmc+");
-            }
-
-            li.optional:after {
-                background-color: $wz-color-optional;
-                color: $text-color;
-            }
-
-            li.editing:after {
-                background-color: $wz-color-editing;
-                color: $text-color;
-                box-shadow: 0px 0px 0px 8px transparentize($wz-color-current, 0.5);
-            }
-
-            li.failed:after {
-                background-color: $wz-color-failed;
-                color: $text-color;
-                content: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjIuNSAyLjUgMTIgMTIiIGNsYXNzPSJtc3BvcnRhbGZ4LXN2Zy1wbGFjZWhvbGRlciIgcm9sZT0icHJlc2VudGF0aW9uIiBmb2N1c2FibGU9ImZhbHNlIiBhcmlhLWhpZGRlbj0idHJ1ZSI+ICAgPGc+ICAgICAgPHBhdGggZD0iTTguNSAxNEE1LjUwNiA1LjUwNiAwIDAgMSAzIDguNUMzIDUuNDY3IDUuNDY3IDMgOC41IDMgMTEuNTMyIDMgMTQgNS40NjcgMTQgOC41YzAgMy4wMzItMi40NjggNS41LTUuNSA1LjV6IiBzdHlsZT0iZmlsbDogI2U4MTEyMzsiIC8+ICAgICAgPGNpcmNsZSBjeD0iOC41IiBjeT0iMTEuMDg0IiByPSIwLjkyOSIgc3R5bGU9ImZpbGw6ICNmZmY7IiAvPiAgICAgIDxwYXRoIGQ9Ik04LjYzOSA1LjQxNWgtLjk3MmwuMjQ4IDQuMzA4aDEuMTdsLjI0OC00LjMwOHoiIHN0eWxlPSJmaWxsOiAjZmZmOyIgLz4gICA8L2c+PC9zdmc+");
-            }
-
-            li.running:after {
-                content: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjAgMCAyNCAyNCIgY2xhc3M9Im1zcG9ydGFsZngtc3ZnLXBsYWNlaG9sZGVyIiByb2xlPSJwcmVzZW50YXRpb24iIGZvY3VzYWJsZT0iZmFsc2UiIGFyaWEtaGlkZGVuPSJ0cnVlIj4gICAgPGc+ICAgICAgICA8cGF0aCBkPSJNMTIgMy45VjBDNS40IDAgMCA1LjQgMCAxMmgzLjljMC00LjQgMy43LTguMSA4LjEtOC4xeiIgc3R5bGU9ImZpbGw6ICNmZmYiLz4gICAgPC9nPjwvc3ZnPg==");
-                content: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9Ii00IC00IDI0IDI0IiBzdHlsZT0iZmlsbDogI2ZmZjsiIHJvbGU9InByZXNlbnRhdGlvbiIgZm9jdXNhYmxlPSJmYWxzZSIgYXJpYS1oaWRkZW49InRydWUiPiAgICA8Zz4gICAgICAgIDxwYXRoIGQ9Ik0xNiA4LjE3NWMwLTMuOTE2LTMuMDI3LTcuMTUyLTYuODMxLTcuNDk3djIuMjQ2YzIuNTgyLjMxNSA0LjYxOSAyLjUyNiA0LjYxOSA1LjIxM2E1LjA2NiA1LjA2NiAwIDAgMS0yLjAyMiA0LjA2M0w5LjEzNSA5LjcyNlYxNmg2LjY3M2wtMi40MDYtMi4yNjJBNy4yMzIgNy4yMzIgMCAwIDAgMTYgOC4xNzV6TTIuMjEyIDcuODY0YzAtMS42NjkuNzk0LTMuMTM3IDIuMDIzLTQuMDYzbDIuNjMxIDIuNDc0VjBILjE5MmwyLjQwNiAyLjI2MkE3LjIzMiA3LjIzMiAwIDAgMCAwIDcuODI1YzAgMy45MjggMy4wNDYgNy4xNzEgNi44NjUgNy40OTlWMTMuMDhjLTIuNTk4LS4yOTgtNC42NTMtMi41MTctNC42NTMtNS4yMTZ6Ij48L3BhdGg+ICAgIDwvZz48L3N2Zz4=");
-                -webkit-animation: spin 2s linear infinite; /* Safari */
-                animation: spin 2s linear infinite;
-            }
-
-            /* Safari */
-            @-webkit-keyframes spin{
-                0% { -webkit-transform: rotate(0deg); }
-                100% { -webkit-transform: rotate(360deg); }
-            }
-
-            @keyframes spin{
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-        }
-    }
-
+  &.NavSymbols {
     ul.steps-indicator {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
+      padding: 0px 0 10px 0;
 
-        right: 0;
-        bottom: 0;
-        left: 0;
-        margin: 60px auto 0px auto;
-        width: 50%;
-        list-style: none;
-
-        @mixin steps($number-of-components) {
-            &:before {
-                left: 100% / $number-of-components / 2;
-                right: 100% / $number-of-components / 2;
-            }
-
-            li {
-                width: 100% / $number-of-components;
-            }
+      li {
+        &:not(:last-child):before {
+          background-color: $wz-color-default;
+          content: '';
+          position: absolute;
+          height: 1px;
+          width: calc(100% - #{$bubble-diameter});
+          top: -$bubble-diameter/2;
+          left: calc(50% + #{$bubble-diameter/2});
         }
 
-        &.steps-2 {
-            @include steps(2);
+        &:after {
+          position: absolute;
+          top: -$bubble-diameter;
+          left: calc(50% - #{$bubble-diameter/2});
+          width: $bubble-diameter;
+          height: $bubble-diameter;
+          text-align: center;
+          vertical-align: middle;
+          line-height: $bubble-diameter;
+          transition: 0.25s;
+          border-radius: 100%;
+          background-color: $wz-color-default;
+          color: $text-color;
+          content: attr(step-symbol);
         }
+      }
 
-        &.steps-3 {
-            @include steps(3);
+      // default steps shouldn't change when hovered, because they aren't clickable
+      li.default a:hover {
+        color: $wz-color-current;
+      }
+
+      li.current:after,
+      li.running:after {
+        background-color: $wz-color-current;
+        color: $text-color;
+        box-shadow: 0px 0px 0px 8px transparentize($wz-color-current, 0.5);
+      }
+
+      li.done:after {
+        background-color: $wz-color-done;
+        color: $text-color;
+        // inlining the success svg, the direct url was difficult because it ignored base href
+        // I dont want to include this in the DOM itself because since this is a third party library I prefer to touch the
+        // component itself as much as possible with hopes the third party library will add support for css and I can just import from npm
+        content: url('data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTYgMTYiIGNsYXNzPSJtc3BvcnRhbGZ4LXN2Zy1wbGFjZWhvbGRlciIgcm9sZT0icHJlc2VudGF0aW9uIiBmb2N1c2FibGU9ImZhbHNlIiBhcmlhLWhpZGRlbj0idHJ1ZSI+DQogICAgPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCiAgICAgICAgLm1zcG9ydGFsZngtc3ZnLWMwMXsgZmlsbDogI2ZmZjsgfQ0KICAgICAgICAubXNwb3J0YWxmeC1zdmctYzE0eyBmaWxsOiAjN2ZiYTAwOyB9DQogICAgPC9zdHlsZT4NCiAgIDxnPg0KICAgICAgPGNpcmNsZSBjeD0iOCIgY3k9IjgiIHI9IjgiIGNsYXNzPSJtc3BvcnRhbGZ4LXN2Zy1jMTQiIC8+DQogICAgICA8cGF0aCBkPSJNMy45ODkgOC40NjlMMy43IDguMTU2YS4yMDcuMjA3IDAgMCAxIC4wMTItLjI5M2wuODM1LS43NzJhLjIwNC4yMDQgMCAwIDEgLjI4OS4wMTJsMi4yOTYgMi40NjIgMy45NTEtNS4wNmEuMjA0LjIwNCAwIDAgMSAuMjg5LS4wMzVsLjkwMy42OTdhLjE5OC4xOTggMCAwIDEgLjAzNS4yODVsLTUuMDc1IDYuNDk3LTMuMjQ2LTMuNDh6IiBjbGFzcz0ibXNwb3J0YWxmeC1zdmctYzAxIiAvPg0KICAgPC9nPg0KPC9zdmc+');
+      }
+
+      li.optional:after {
+        background-color: $wz-color-optional;
+        color: $text-color;
+      }
+
+      li.editing:after {
+        background-color: $wz-color-editing;
+        color: $text-color;
+        box-shadow: 0px 0px 0px 8px transparentize($wz-color-current, 0.5);
+      }
+
+      li.failed:after {
+        background-color: $wz-color-failed;
+        color: $text-color;
+        content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjIuNSAyLjUgMTIgMTIiIGNsYXNzPSJtc3BvcnRhbGZ4LXN2Zy1wbGFjZWhvbGRlciIgcm9sZT0icHJlc2VudGF0aW9uIiBmb2N1c2FibGU9ImZhbHNlIiBhcmlhLWhpZGRlbj0idHJ1ZSI+ICAgPGc+ICAgICAgPHBhdGggZD0iTTguNSAxNEE1LjUwNiA1LjUwNiAwIDAgMSAzIDguNUMzIDUuNDY3IDUuNDY3IDMgOC41IDMgMTEuNTMyIDMgMTQgNS40NjcgMTQgOC41YzAgMy4wMzItMi40NjggNS41LTUuNSA1LjV6IiBzdHlsZT0iZmlsbDogI2U4MTEyMzsiIC8+ICAgICAgPGNpcmNsZSBjeD0iOC41IiBjeT0iMTEuMDg0IiByPSIwLjkyOSIgc3R5bGU9ImZpbGw6ICNmZmY7IiAvPiAgICAgIDxwYXRoIGQ9Ik04LjYzOSA1LjQxNWgtLjk3MmwuMjQ4IDQuMzA4aDEuMTdsLjI0OC00LjMwOHoiIHN0eWxlPSJmaWxsOiAjZmZmOyIgLz4gICA8L2c+PC9zdmc+');
+      }
+
+      li.running:after {
+        content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjAgMCAyNCAyNCIgY2xhc3M9Im1zcG9ydGFsZngtc3ZnLXBsYWNlaG9sZGVyIiByb2xlPSJwcmVzZW50YXRpb24iIGZvY3VzYWJsZT0iZmFsc2UiIGFyaWEtaGlkZGVuPSJ0cnVlIj4gICAgPGc+ICAgICAgICA8cGF0aCBkPSJNMTIgMy45VjBDNS40IDAgMCA1LjQgMCAxMmgzLjljMC00LjQgMy43LTguMSA4LjEtOC4xeiIgc3R5bGU9ImZpbGw6ICNmZmYiLz4gICAgPC9nPjwvc3ZnPg==');
+        content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9Ii00IC00IDI0IDI0IiBzdHlsZT0iZmlsbDogI2ZmZjsiIHJvbGU9InByZXNlbnRhdGlvbiIgZm9jdXNhYmxlPSJmYWxzZSIgYXJpYS1oaWRkZW49InRydWUiPiAgICA8Zz4gICAgICAgIDxwYXRoIGQ9Ik0xNiA4LjE3NWMwLTMuOTE2LTMuMDI3LTcuMTUyLTYuODMxLTcuNDk3djIuMjQ2YzIuNTgyLjMxNSA0LjYxOSAyLjUyNiA0LjYxOSA1LjIxM2E1LjA2NiA1LjA2NiAwIDAgMS0yLjAyMiA0LjA2M0w5LjEzNSA5LjcyNlYxNmg2LjY3M2wtMi40MDYtMi4yNjJBNy4yMzIgNy4yMzIgMCAwIDAgMTYgOC4xNzV6TTIuMjEyIDcuODY0YzAtMS42NjkuNzk0LTMuMTM3IDIuMDIzLTQuMDYzbDIuNjMxIDIuNDc0VjBILjE5MmwyLjQwNiAyLjI2MkE3LjIzMiA3LjIzMiAwIDAgMCAwIDcuODI1YzAgMy45MjggMy4wNDYgNy4xNzEgNi44NjUgNy40OTlWMTMuMDhjLTIuNTk4LS4yOTgtNC42NTMtMi41MTctNC42NTMtNS4yMTZ6Ij48L3BhdGg+ICAgIDwvZz48L3N2Zz4=');
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+      }
+
+      /* Safari */
+      @-webkit-keyframes spin {
+        0% {
+          -webkit-transform: rotate(0deg);
         }
-
-        &.steps-4 {
-            @include steps(4);
+        100% {
+          -webkit-transform: rotate(360deg);
         }
+      }
 
-        &.steps-5 {
-            @include steps(5);
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
-
-        &.steps-6 {
-            @include steps(6);
+        100% {
+          transform: rotate(360deg);
         }
-
-        &.steps-7 {
-            @include steps(7);
-        }
-
-        &.steps-8 {
-            @include steps(8);
-        }
-
-        &.steps-9 {
-            @include steps(9);
-        }
-
-        &.steps-10 {
-            @include steps(10);
-        }
-
-        /* --- http://www.paulirish.com/2012/box-sizing-border-box-ftw/ ---- */
-        * {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-
-        li {
-            position: relative;
-            margin: 0;
-            padding: 10px 0 0 0;
-
-            div {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-
-                a {
-                    color: black;
-                    line-height: 1.2em;
-                    font-size: 0.9em;
-                    text-decoration: none;
-                    text-transform: uppercase;
-                    text-align: center;
-                    font-weight: bold;
-                    transition: 0.25s;
-                    cursor: pointer;
-
-                    &:hover {
-                        color: darken($primary-color, 20%);
-                    }
-                }
-            }
-        }
-
-        li.default,
-        li.current,
-        li.optional,
-        li.editing {
-            pointer-events: none;
-        }
+      }
     }
+  }
+
+  ul.steps-indicator {
+    display: flex;
+    @media (max-width: 600px) {
+      display: none;
+    }
+
+    flex-direction: row;
+    justify-content: center;
+
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 60px auto 0px auto;
+    width: 50%;
+    list-style: none;
+
+    @mixin steps($number-of-components) {
+      &:before {
+        left: 100% / $number-of-components / 2;
+        right: 100% / $number-of-components / 2;
+      }
+
+      li {
+        width: 100% / $number-of-components;
+      }
+    }
+
+    &.steps-2 {
+      @include steps(2);
+    }
+
+    &.steps-3 {
+      @include steps(3);
+    }
+
+    &.steps-4 {
+      @include steps(4);
+    }
+
+    &.steps-5 {
+      @include steps(5);
+    }
+
+    &.steps-6 {
+      @include steps(6);
+    }
+
+    &.steps-7 {
+      @include steps(7);
+    }
+
+    &.steps-8 {
+      @include steps(8);
+    }
+
+    &.steps-9 {
+      @include steps(9);
+    }
+
+    &.steps-10 {
+      @include steps(10);
+    }
+
+    /* --- http://www.paulirish.com/2012/box-sizing-border-box-ftw/ ---- */
+    * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    li {
+      position: relative;
+      margin: 0;
+      padding: 10px 0 0 0;
+
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        a {
+          color: black;
+          line-height: 1.2em;
+          font-size: 0.9em;
+          text-decoration: none;
+          text-transform: uppercase;
+          text-align: center;
+          font-weight: bold;
+          transition: 0.25s;
+          cursor: pointer;
+
+          &:hover {
+            color: darken($primary-color, 20%);
+          }
+        }
+      }
+    }
+
+    li.default,
+    li.current,
+    li.optional,
+    li.editing {
+      pointer-events: none;
+    }
+  }
 }

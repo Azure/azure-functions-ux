@@ -1,5 +1,5 @@
 import { FieldProps, Formik, FormikProps } from 'formik';
-import { DefaultButton, IDropdownOption, IDropdownProps } from 'office-ui-fabric-react';
+import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
@@ -12,6 +12,7 @@ import LogService from '../../../../../../utils/LogService';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { DocumentDBPivotContext } from './DocumentDBDataLoader';
+import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 
 interface DocumentDBPivotFormValues {
   databaseAccount: ArmObj<DatabaseAccount> | undefined;
@@ -32,7 +33,7 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps
           LogService.trackEvent(
             LogCategories.bindingResource,
             'getDatabaseAccounts',
-            `Failed to get Database Accounts: ${r.metadata.error}`
+            `Failed to get Database Accounts: ${getErrorMessageOrStringify(r.metadata.error)}`
           );
           return;
         }
@@ -41,7 +42,11 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps
     } else if (formValues.databaseAccount && !keyList) {
       provider.fetchKeyList(formValues.databaseAccount.id).then(r => {
         if (!r.metadata.success) {
-          LogService.trackEvent(LogCategories.bindingResource, 'getKeyList', `Failed to get Key List: ${r.metadata.error}`);
+          LogService.trackEvent(
+            LogCategories.bindingResource,
+            'getKeyList',
+            `Failed to get Key List: ${getErrorMessageOrStringify(r.metadata.error)}`
+          );
           return;
         }
         setKeyList(r.data);
@@ -90,9 +95,9 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps
               </>
             )}
             <footer style={paddingTopStyle}>
-              <DefaultButton disabled={!keyList} onClick={formProps.submitForm}>
+              <PrimaryButton disabled={!keyList} onClick={formProps.submitForm}>
                 {t('ok')}
-              </DefaultButton>
+              </PrimaryButton>
             </footer>
           </form>
         );

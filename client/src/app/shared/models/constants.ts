@@ -328,7 +328,7 @@ export class ScenarioIds {
   public static readonly containerSettings = 'containerSettings';
   public static readonly isPublishProfileBasedDeploymentEnabled = 'isPublishProfileBasedDeploymentEnabled';
   public static readonly enableGitHubAction = 'enableGitHubAction';
-  public static readonly showFunctionsPreview = 'showFunctionsPreview';
+  public static readonly tipSupported = 'tipSupported';
 }
 
 export class NationalCloudArmUris {
@@ -550,6 +550,7 @@ export class ComponentNames {
   public static tableFunctionMonitor = 'table-function-monitor';
   public static monitorDetails = 'monitor-details';
   public static monitorConfigure = 'monitor-configure';
+  public static newProxy = 'new-proxy';
 }
 
 export class WorkerRuntimeLanguages {
@@ -647,7 +648,6 @@ export class FeatureFlags {
   public static targetAzDevDeployment = 'targetAzDevDeployment';
   public static authTokenOverride = 'authTokenOverride';
   public static EnableAIOnNationalCloud = 'EnableAIOnNationalCloud';
-  public static FunctionsPreview = 'FunctionsPreview';
 }
 
 export class SupportedFeatures {

@@ -15,7 +15,9 @@ const isStackVersionEndOfLife = (stackName: string, runtimeVersion: string) => {
       runtimeVersion === '2.0' ||
       runtimeVersion.startsWith('2.0.') ||
       runtimeVersion === '2.2' ||
-      runtimeVersion.startsWith('2.2.')
+      runtimeVersion.startsWith('2.2.') ||
+      runtimeVersion === '3.0' ||
+      runtimeVersion.startsWith('3.0.')
     );
   }
 
@@ -46,7 +48,7 @@ const isStackVersionEndOfLife = (stackName: string, runtimeVersion: string) => {
   }
 
   if (stackName === 'ruby') {
-    return runtimeVersion === '2.3' || runtimeVersion.startsWith('2.3.');
+    return runtimeVersion === '2.3' || runtimeVersion.startsWith('2.3.') || runtimeVersion === '2.4' || runtimeVersion.startsWith('2.4.');
   }
 
   return false;

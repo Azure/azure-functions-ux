@@ -23,8 +23,8 @@ export class FunctionMonitorShellComponent implements OnDestroy {
         param['subscriptionId'],
         param['resourceGroup'],
         param['site'],
-        param['function'],
-        param['slot']
+        param['slot'],
+        param['function']
       );
 
       const viewInfo = <TreeViewInfo<any>>{

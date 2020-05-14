@@ -9,8 +9,9 @@ import { MethodTypes, ArmRequestObject, HttpResponseObject } from '../ArmHelper.
 import LogService from '../utils/LogService';
 import { LogCategories } from '../utils/LogCategories';
 import { ArmArray, ArmObj } from '../models/arm-obj';
+import { KeyValue } from '../models/portal-models';
 
-const alwaysSkipBatch = !!Url.getParameterByName(null, 'appsvc.skipbatching');
+const alwaysSkipBatching = !!Url.getParameterByName(null, 'appsvc.skipbatching');
 const sessionId = Url.getParameterByName(null, 'sessionId');
 
 interface InternalArmRequest {
@@ -21,12 +22,12 @@ interface InternalArmRequest {
   body: any;
   apiVersion: string | null;
   queryString?: string;
-  headers?: { [key: string]: string };
+  headers?: KeyValue<string>;
 }
 
 interface ArmBatchObject {
   httpStatusCode: number;
-  headers: { [key: string]: string };
+  headers: KeyValue<string>;
   contentLength: number;
   content: any;
   id?: string;
@@ -83,7 +84,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
   const { method, resourceId, body, apiVersion, queryString } = armObj;
   const armEndpoint = window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint;
   const url = Url.appendQueryString(`${armEndpoint}${resourceId}${queryString || ''}`, `api-version=${apiVersion}`);
-  const headers: { [key: string]: string } = {
+  const headers: KeyValue<string> = {
     Authorization: `Bearer ${window.appsvc && window.appsvc.env && window.appsvc.env.armToken}`,
     'x-ms-client-request-id': armObj.id,
     ...armObj.headers,
@@ -126,7 +127,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
 };
 
 const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpResponseObject<T>> => {
-  const { skipBuffer, method, resourceId, body, apiVersion, commandName, queryString, headers } = requestObject;
+  const { skipBatching, method, resourceId, body, apiVersion, commandName, queryString, headers } = requestObject;
 
   const id = Guid.newGuid();
   const armBatchObject: InternalArmRequest = {
@@ -140,7 +141,7 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
     apiVersion: apiVersion !== null ? apiVersion || CommonConstants.ApiVersions.antaresApiVersion20181101 : null,
   };
 
-  if (!skipBuffer && !alwaysSkipBatch) {
+  if (!skipBatching && !alwaysSkipBatching) {
     const fetchFromBatch = new Promise<ArmBatchObject>((resolve, reject) => {
       armObs$
         .pipe(
@@ -182,6 +183,35 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
   };
 
   return retObj;
+};
+
+export const getErrorMessage = (error: any, recursionLimit: number = 1): string => {
+  return _extractErrorMessage(error, recursionLimit);
+};
+
+export const getErrorMessageOrStringify = (error: any, recursionLimit: number = 1): string => {
+  const extractedError = _extractErrorMessage(error, recursionLimit);
+  return !!extractedError ? extractedError : JSON.stringify(error || {});
+};
+
+const _extractErrorMessage = (error: any, recursionLimit: number): string => {
+  if (!error) {
+    return '';
+  }
+
+  if (Object(error) !== error) {
+    // The error is a primative type, not an object.
+    // If it is a string, just return the value. Otherwise, return any empty string because there's nothing to extract.
+    return typeof error === 'string' ? (error as string) : '';
+  }
+
+  // Check if a "message" property is present on the error object.
+  if (error.message || error.Message) {
+    return error.message || error.Message;
+  }
+
+  // No "message" property was present, so check if there is an inner error object with a "message" property.
+  return recursionLimit ? _extractErrorMessage(error.error, recursionLimit - 1) : '';
 };
 
 export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArray<T>>): Promise<ArmObj<T>[]> => {

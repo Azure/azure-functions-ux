@@ -299,7 +299,7 @@ export enum MenuId {
   FunctionKeys = 'functionKeys',
 }
 
-export enum SiteState {
+export enum SiteReadWriteState {
   readonly = 'readonly',
   readwrite = 'readwrite',
 }
@@ -320,9 +320,14 @@ export enum FunctionAppEditMode {
   ReadOnlyJava,
   ReadOnlyLinuxCodeElastic,
   ReadOnlyLock,
+  ReadOnlyRbac,
 }
 
 export enum PortalTheme {
   dark = 'dark',
   light = 'light',
+}
+
+export interface KeyValue<T> {
+  [key: string]: T;
 }

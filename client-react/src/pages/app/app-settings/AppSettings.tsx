@@ -1,5 +1,5 @@
 import { Formik, FormikProps } from 'formik';
-import React, { useRef, useContext, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
 import AppSettingsDataLoader from './AppSettingsDataLoader';
@@ -9,13 +9,13 @@ import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import i18n from 'i18next';
 import { PermissionsContext, SiteContext } from './Contexts';
-import { commandBarSticky, messageBannerStyle, formStyle } from './AppSettings.styles';
+import { commandBarSticky, formStyle } from './AppSettings.styles';
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
-import { MessageBar, MessageBarType, KeyCodes } from 'office-ui-fabric-react';
-import { ThemeContext } from '../../../ThemeContext';
+import { MessageBarType, KeyCodes } from 'office-ui-fabric-react';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 
 const onKeyDown = keyEvent => {
   if ((keyEvent.charCode || keyEvent.keyCode) === KeyCodes.enter) {
@@ -74,7 +74,6 @@ interface AppSettingsProps {
 const AppSettings: React.FC<AppSettingsProps> = props => {
   const { resourceId } = props;
   const { t } = useTranslation();
-  const theme = useContext(ThemeContext);
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
   const [showRefreshConfirmDialog, setShowRefreshConfirmDialog] = useState(false);
@@ -154,13 +153,11 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                                 <UpsellBanner onClick={scaleUpPlan} />
                               )}
                             {!!initialFormValues && initialFormValues.references && !initialFormValues.references.appSettings && (
-                              <MessageBar
+                              <CustomBanner
                                 id="appSettings-keyvault-error"
-                                isMultiline={false}
-                                className={messageBannerStyle(theme, MessageBarType.error)}
-                                messageBarType={MessageBarType.error}>
-                                {t('appSettingKeyvaultAPIError')}
-                              </MessageBar>
+                                message={t('appSettingKeyvaultAPIError')}
+                                type={MessageBarType.error}
+                              />
                             )}
                           </div>
                           {!!initialFormValues ? (
@@ -168,12 +165,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               <AppSettingsForm asyncData={asyncData} {...formProps} />
                             </div>
                           ) : (
-                            <MessageBar
-                              isMultiline={false}
-                              className={messageBannerStyle(theme, MessageBarType.error)}
-                              messageBarType={MessageBarType.error}>
-                              {t('configLoadFailure')}
-                            </MessageBar>
+                            <CustomBanner message={t('configLoadFailure')} type={MessageBarType.error} />
                           )}
                         </form>
                       )}

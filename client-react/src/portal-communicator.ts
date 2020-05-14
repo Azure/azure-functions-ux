@@ -45,6 +45,16 @@ export default class PortalCommunicator {
   private static portalSignature = 'FxAppBlade';
   private static portalSignatureFrameBlade = 'FxFrameBlade';
   private static acceptedSignatures = [PortalCommunicator.portalSignature, PortalCommunicator.portalSignatureFrameBlade];
+  private acceptedOriginsSuffix = [
+    'portal.azure.com',
+    'portal.microsoftazure.de',
+    'portal.azure.cn',
+    'portal.azure.us',
+    'powerapps.cloudapp.net',
+    'web.powerapps.com',
+    'portal.azure.eaglex.ic.gov',
+    'portal.azure.microsoft.scloud',
+  ];
 
   private static postMessage(verb: string, data: string | null) {
     if (Url.getParameterByName(null, 'appsvc.bladetype') === 'appblade') {
@@ -403,9 +413,19 @@ export default class PortalCommunicator {
     if (!event || !event.data) {
       return;
     }
+
     if (event.data.data && event.data.data.frameId && event.data.data.frameId !== this.frameId) {
       return;
     }
+
+    if (
+      window.appsvc &&
+      window.appsvc.env.runtimeType !== 'OnPrem' &&
+      !this.acceptedOriginsSuffix.find(o => event.origin.toLowerCase().endsWith(o.toLowerCase()))
+    ) {
+      return;
+    }
+
     if (!PortalCommunicator.acceptedSignatures.find(s => event.data.signature !== s)) {
       return;
     }

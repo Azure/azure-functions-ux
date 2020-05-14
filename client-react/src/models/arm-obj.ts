@@ -1,3 +1,5 @@
+import { KeyValue } from './portal-models';
+
 export interface MsiIdentity {
   principalId: string;
   tenantId: string;
@@ -8,7 +10,7 @@ export interface ArmObj<T> {
   kind?: string;
   properties: T;
   type?: string;
-  tags?: { [key: string]: string };
+  tags?: KeyValue<string>;
   location: string;
   name: string;
   identity?: MsiIdentity;

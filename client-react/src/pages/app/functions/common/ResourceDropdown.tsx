@@ -1,13 +1,17 @@
 import { FieldProps, FormikProps } from 'formik';
 import { Callout, IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../models/arm-obj';
 import { BindingSetting, BindingSettingResource } from '../../../../models/functions/binding';
+import { KeyValue } from '../../../../models/portal-models';
+import { SiteStateContext } from '../../../../SiteState';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
+import SiteHelper from '../../../../utils/SiteHelper';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import { calloutStyle1Field, calloutStyle2Fields, calloutStyle3Fields, linkPaddingStyle } from './callout/Callout.styles';
 import NewAppSettingCallout from './callout/NewAppSettingCallout';
@@ -15,6 +19,7 @@ import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCal
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
 import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
+import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 
 export interface ResourceDropdownProps {
   setting: BindingSetting;
@@ -23,20 +28,33 @@ export interface ResourceDropdownProps {
 
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const { setting, resourceId, form: formProps, field, isDisabled } = props;
-  const [appSettings, setAppSettings] = useState<ArmObj<{ [key: string]: string }> | undefined>(undefined);
+  const siteStateContext = useContext(SiteStateContext);
+  const { t } = useTranslation();
+
+  const [appSettings, setAppSettings] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<IDropdownOption | undefined>(undefined);
   const [newAppSetting, setNewAppSetting] = useState<{ key: string; value: string } | undefined>(undefined);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+  const [shownMissingOptionError, setShownMissingOptionError] = useState<boolean>(false);
 
   useEffect(() => {
     SiteService.fetchApplicationSettings(resourceId).then(r => {
       if (!r.metadata.success) {
-        LogService.trackEvent(LogCategories.bindingResource, 'getAppSettings', `Failed to get appSettings: ${r.metadata.error}`);
+        LogService.error(
+          LogCategories.bindingResource,
+          'getAppSettings',
+          `Failed to get appSettings: ${getErrorMessageOrStringify(r.metadata.error)}`
+        );
         return;
       }
       setAppSettings(r.data);
     });
   }, [resourceId]);
+
+  // If we are readonly, don't rely on app settings, assume that the saved value is correct
+  if (SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
+    return <Dropdown options={[{ text: field.value, key: field.value }]} selectedKey={field.value} {...props} />;
+  }
 
   if (!appSettings) {
     return <LoadingComponent />;
@@ -55,9 +73,19 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
     setSelectedItem(undefined);
   }
 
+  if (field.value && !options.some(option => option.key === field.value) && !shownMissingOptionError) {
+    formProps.setFieldError(field.name, t('resourceDropdown_missingAppSetting'));
+    setShownMissingOptionError(true);
+  }
+
   return (
     <div>
-      <Dropdown options={options} onChange={(_e, option) => onChange(option, formProps, field, appSettings)} {...props} />
+      <Dropdown
+        options={options}
+        placeholder={options.length < 1 ? t('resourceDropdown_noAppSettingsFound') : undefined}
+        onChange={(_e, option) => onChange(option, formProps, field, appSettings)}
+        {...props}
+      />
       {!isDisabled ? (
         <div style={linkPaddingStyle}>
           <Link id="target" onClick={() => setIsDialogVisible(true)}>
@@ -130,7 +158,7 @@ const onChange = (
   option: IDropdownOption | undefined,
   formProps: FormikProps<BindingEditorFormValues>,
   field: { name: string; value: any },
-  appSettings: ArmObj<{ [key: string]: string }>
+  appSettings: ArmObj<KeyValue<string>>
 ) => {
   if (option) {
     // Make sure the value is saved to the form
@@ -150,7 +178,7 @@ const onChange = (
 
 const filterResourcesFromAppSetting = (
   setting: BindingSetting,
-  appSettings: { [key: string]: string },
+  appSettings: KeyValue<string>,
   newAppSettingName?: string
 ): IDropdownOption[] => {
   switch (setting.resource) {
@@ -167,7 +195,7 @@ const filterResourcesFromAppSetting = (
   return [];
 };
 
-const getStorageSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): IDropdownOption[] => {
+const getStorageSettings = (appSettings: KeyValue<string>, newAppSettingName?: string): IDropdownOption[] => {
   const result: IDropdownOption[] = newAppSettingName ? [{ text: `${newAppSettingName} (new)`, key: newAppSettingName }] : [];
 
   for (const key of Object.keys(appSettings)) {
@@ -179,7 +207,7 @@ const getStorageSettings = (appSettings: { [key: string]: string }, newAppSettin
   return result;
 };
 
-const getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): IDropdownOption[] => {
+const getEventHubAndServiceBusSettings = (appSettings: KeyValue<string>, newAppSettingName?: string): IDropdownOption[] => {
   const result: IDropdownOption[] = newAppSettingName ? [{ text: `${newAppSettingName} (new)`, key: newAppSettingName }] : [];
 
   for (const key of Object.keys(appSettings)) {
@@ -191,7 +219,7 @@ const getEventHubAndServiceBusSettings = (appSettings: { [key: string]: string }
   return result;
 };
 
-const getAppSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): IDropdownOption[] => {
+const getAppSettings = (appSettings: KeyValue<string>, newAppSettingName?: string): IDropdownOption[] => {
   const result: IDropdownOption[] = newAppSettingName ? [{ text: `${newAppSettingName} (new)`, key: newAppSettingName }] : [];
 
   for (const key of Object.keys(appSettings)) {
@@ -201,7 +229,7 @@ const getAppSettings = (appSettings: { [key: string]: string }, newAppSettingNam
   return result;
 };
 
-const getDocumentDBSettings = (appSettings: { [key: string]: string }, newAppSettingName?: string): IDropdownOption[] => {
+const getDocumentDBSettings = (appSettings: KeyValue<string>, newAppSettingName?: string): IDropdownOption[] => {
   const result: IDropdownOption[] = newAppSettingName ? [{ text: `${newAppSettingName} (new)`, key: newAppSettingName }] : [];
 
   for (const key of Object.keys(appSettings)) {

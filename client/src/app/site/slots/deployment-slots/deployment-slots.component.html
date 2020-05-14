@@ -1,7 +1,7 @@
 <div>
     <command-bar>
         <command
-            *ngIf="!isSlot"
+            *ngIf="!isSlot && tipSupported"
             [displayText]="'save' | translate"
             iconUrl="image/save.svg"
             (click)="save()"
@@ -9,7 +9,7 @@
         </command>
 
         <command
-            *ngIf="!isSlot"
+            *ngIf="!isSlot && tipSupported"
             [displayText]="'discard' | translate"
             iconUrl="image/discard.svg"
             (click)="discard()"
@@ -81,7 +81,7 @@
             <ng-container *ngIf="!fetchingPermissions">
 
                 <info-box
-                    *ngIf="!hasWriteAccess && !isSlot"
+                    *ngIf="!hasWriteAccess && !isSlot && tipSupported"
                     typeClass="warning"
                     [infoText]="'noWritePermission' | translate"
                     [dismissable]="true">
@@ -146,7 +146,7 @@
                     <th class="padded-col" table-cell>
                         {{ 'slotsList_serverfarmHeader' | translate }}
                     </th>
-                    <th *ngIf="!!mainForm" class="padded-col" table-cell>
+                    <th *ngIf="!!mainForm && tipSupported" class="padded-col" table-cell>
                         {{ 'slotsList_trafficPercentHeader' | translate }}
                     </th>
                 </tr>
@@ -168,9 +168,10 @@
                         {{ prodSiteArm ? getSegment(prodSiteArm.properties.serverFarmId, 8) : '-' }}
                     </td>
 
-                    <td *ngIf="!!mainForm" class="padded-col" table-cell>
+                    <td *ngIf="!!mainForm && tipSupported" class="padded-col" table-cell>
                         <div class="pct-wrapper">
                             <textbox
+                                [ariaLabel]="'slotsList_trafficPercentHeader' | translate"
                                 disabled="true"
                                 readonly="true"
                                 [control]="mainForm ? mainForm.controls[SumValidator.REMAINDER_CONTROL_NAME] : null">
@@ -203,9 +204,10 @@
                         {{ getSegment(deploymentSlotArm.properties.serverFarmId, 8) }}
                     </td>
 
-                    <td *ngIf="!!mainForm" class="padded-col" table-cell [editable]="!isSlot && !!prodSiteConfigArm && hasWriteAccess">
+                    <td *ngIf="!!mainForm && tipSupported" class="padded-col" table-cell [editable]="!isSlot && !!prodSiteConfigArm && hasWriteAccess">
                         <div class="pct-wrapper">
                             <textbox
+                                [ariaLabel]="'slotsList_trafficPercentHeader' | translate"
                                 [disabled]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
                                 [readonly]="isSlot || !prodSiteConfigArm || !hasWriteAccess"
                                 [control]="mainForm.controls['rulesGroup'] ? mainForm.controls['rulesGroup'].controls[deploymentSlotArm.name] : null"
@@ -221,11 +223,11 @@
                 <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
                 <tr *ngIf="!deploymentSlotsArm" table-row>
 
-                    <td *ngIf="fetchingContent" class="message-row" [attr.colspan]="!!mainForm ? 4 : 3" table-cell>
+                    <td *ngIf="fetchingContent" class="message-row" [attr.colspan]="!!mainForm && tipSupported ? 4 : 3" table-cell>
                         {{ 'loading' | translate }}
                     </td>
 
-                    <td *ngIf="!fetchingContent" class="message-row" [attr.colspan]="!!mainForm ? 4 : 3" table-cell>
+                    <td *ngIf="!fetchingContent" class="message-row" [attr.colspan]="!!mainForm && tipSupported ? 4 : 3" table-cell>
                         {{ 'error_unableToLoadSlotsList' | translate }}
                     </td>
 
