@@ -19,7 +19,7 @@ import { FunctionKeysContext } from './FunctionKeysDataLoader';
 import IconButton from '../../../../../components/IconButton/IconButton';
 import { ThemeContext } from '../../../../../ThemeContext';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import Panel from '../../../../../components/Panel/Panel';
+import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import FunctionKeyAddEdit from './FunctionKeyAddEdit';
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
 import { SiteStateContext } from '../../../../../SiteState';
@@ -365,7 +365,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
               onDismiss={closeDialog}
             />
           )}
-          <Panel
+          <CustomPanel
             isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
             onDismiss={onClosePanel}
             headerText={panelItem === 'edit' ? t('editFunctionKey') : t('addFunctionKey')}
@@ -380,7 +380,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
               showRenewKeyDialog={showRenewKeyDialog}
               readOnlyPermission={readOnlyPermission}
             />
-          </Panel>
+          </CustomPanel>
         </div>
       </div>
       {(deletingKey || refreshLoading) && (

@@ -11,7 +11,7 @@ import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import { ArmAzureStorageMount, StorageType } from '../../../../models/site/config';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import Panel from '../../../../components/Panel/Panel';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 export interface AzureStorageMountLocalState {
@@ -56,7 +56,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
           selectionPreservedOnEmptyClick={true}
           emptyMessage={t('emptyAzureStorageMount')}
         />
-        <Panel
+        <CustomPanel
           type={PanelType.medium}
           isOpen={this.state.showPanel}
           onDismiss={this._onCancel}
@@ -68,7 +68,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
             closeBlade={this._onCancel.bind(this)}
             enableValidation={!values.site.kind || !values.site.kind.includes('xenon')}
           />
-        </Panel>
+        </CustomPanel>
       </>
     );
   }
