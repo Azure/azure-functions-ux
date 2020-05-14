@@ -6085,7 +6085,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Write permission on the site or the slot is required to view credentials.</value>
     </data>
     <data name="appKeys_hostKeys_description" xml:space="preserve">
-        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+        <value>Use Host keys with your clients to access all your HTTP functions in the app. _master key grants admin access to Functions Runtime APIs.</value>
     </data>
     <data name="appKeys_systemKeys_description" xml:space="preserve">
         <value>System keys are automatically managed by the Function runtime. System Keys provide granular access to functions runtime features.</value>
