@@ -55,8 +55,8 @@ export class DeploymentCenterContainerFormBuilder {
   }
 
   public generateYupValidationSchema(): DeploymentCenterYupValidationSchemaType {
-    // NOTE(michinoy): The password should be at least eight characters long and must contain letters and numbers.
-    const passwordMinimumRequirementsRegex = new RegExp(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d@$!%*#?&]{8,}$/);
+    // NOTE(michinoy): The password should be at least eight characters long and must contain letters, numbers, and symbol.
+    const passwordMinimumRequirementsRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
     const usernameMinLength = 3;
 
     return Yup.object().shape({

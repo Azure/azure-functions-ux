@@ -284,7 +284,7 @@ export class CredentialsDashboardComponent extends FeatureComponent<CredentialsD
     const requiredValidation = new RequiredValidator(this._translateService, true);
 
     //The password should be at least eight characters long and must contain letters and numbers.
-    const passwordMinimumRequirementsRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d@$!%*#?&]{8,}$/;
+    const passwordMinimumRequirementsRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     //The specified password does not meet the minimum requirements.
     const passwordValidator = RegexValidator.create(
