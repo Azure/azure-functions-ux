@@ -179,4 +179,12 @@ export class CommonConstants {
     v1: 'admin/extensions/EventGridExtensionConfig',
     v2: 'runtime/webhooks/EventGrid',
   };
+
+  public static readonly NationalCloudArmUris = {
+    fairfax: 'https://management.usgovcloudapi.net',
+    blackforest: 'https://management.microsoftazure.de',
+    mooncake: 'https://management.chinacloudapi.cn',
+    usNat: 'https://management.azure.eaglex.ic.gov',
+    usSec: 'https://management.azure.microsoft.scloud',
+  };
 }
