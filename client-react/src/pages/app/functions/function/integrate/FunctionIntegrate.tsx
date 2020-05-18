@@ -188,20 +188,27 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     </Stack>
   );
 
+  const isCompiledFunction = functionInfo.properties.config.configurationSource === 'attributes';
   const bindingsMissingDirection = functionInfo.properties.config.bindings.filter(binding => !binding.direction);
-  const banner = bindingsError ? (
-    <CustomBanner message={t('integrate_bindingsFailedLoading')} type={MessageBarType.error} />
-  ) : bindingsMissingDirection.length > 0 ? (
-    <CustomBanner
-      message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
-      type={MessageBarType.warning}
-      learnMoreLink={CommonConstants.Links.bindingDirectionLearnMore}
-    />
-  ) : readOnly ? (
-    <EditModeBanner />
-  ) : (
-    undefined
-  );
+
+  let banner: JSX.Element | undefined;
+  if (bindingsError) {
+    banner = <CustomBanner message={t('integrate_bindingsFailedLoading')} type={MessageBarType.error} />;
+  } else if (bindingsMissingDirection.length > 0) {
+    if (isCompiledFunction) {
+      banner = <CustomBanner message="Is Compiled functions" type={MessageBarType.warning} />;
+    } else {
+      banner = (
+        <CustomBanner
+          message={t('integrate_bindingsMissingDirection').format(bindingsMissingDirection.map(binding => binding.name).join(', '))}
+          type={MessageBarType.warning}
+          learnMoreLink={CommonConstants.Links.bindingDirectionLearnMore}
+        />
+      );
+    }
+  } else if (readOnly) {
+    banner = <EditModeBanner />;
+  }
 
   return (
     <>

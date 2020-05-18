@@ -3,23 +3,24 @@ import { Link } from 'office-ui-fabric-react';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
+import ConfirmDialog from '../../../../../../components/ConfirmDialog/ConfirmDialog';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
 import { ArmObj } from '../../../../../../models/arm-obj';
-import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
-import { BindingDirection as FunctionBindingDirection, BindingInfo } from '../../../../../../models/functions/function-binding';
+import { Binding } from '../../../../../../models/functions/binding';
+import { BindingInfo } from '../../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../../models/functions/function-info';
 import PortalCommunicator from '../../../../../../portal-communicator';
 import { PortalContext } from '../../../../../../PortalContext';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import LogService from '../../../../../../utils/LogService';
-import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
-import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
-import EditBindingCommandBar from './EditBindingCommandBar';
-import ConfirmDialog from '../../../../../../components/ConfirmDialog/ConfirmDialog';
-import { dialogModelStyle } from '../FunctionIntegrate.style';
-import { DeleteDialog } from './BindingPanel';
 import { ArmFunctionDescriptor } from '../../../../../../utils/resourceDescriptors';
+import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
+import { dialogModelStyle } from '../FunctionIntegrate.style';
+import { getBindingDirection } from '../FunctionIntegrate.utils';
+import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
+import { DeleteDialog } from './BindingPanel';
+import EditBindingCommandBar from './EditBindingCommandBar';
 
 export interface BindingEditorProps {
   allBindings: Binding[];
@@ -146,20 +147,6 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
       }}
     </Formik>
   );
-};
-
-// Bindings uses 'trigger' as a direction, but functions.json does not
-// These two functions convert between the two kinds
-export const getBindingDirection = (bindingInfo: BindingInfo): BindingDirection => {
-  if (bindingInfo.direction === BindingDirection.in) {
-    return bindingInfo.type.toLowerCase().indexOf('trigger') > -1 ? BindingDirection.trigger : BindingDirection.in;
-  }
-
-  return BindingDirection.out;
-};
-
-export const getFunctionBindingDirection = (bindingDirection: BindingDirection): FunctionBindingDirection => {
-  return bindingDirection === BindingDirection.out ? FunctionBindingDirection.out : FunctionBindingDirection.in;
 };
 
 const onEventGridCreateClick = (functionResourceId: string, portalContext: PortalCommunicator) => {

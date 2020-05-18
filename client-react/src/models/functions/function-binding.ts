@@ -2,9 +2,14 @@
 // For some reason binding direction is only in/out when
 // stored in Function config.  Binding direction downloaded from templates
 // also have Trigger as a possible direction.
+// Should only be used for FunctionInfo binding direction.
+// For some reason binding direction is only in/out when
+// stored in Function config.  Binding direction downloaded from templates
+// also have Trigger as a possible direction.
 export enum BindingDirection {
   in = 'in',
   out = 'out',
+  trigger = 'trigger',
 }
 
 export enum BindingType {
