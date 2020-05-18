@@ -20,14 +20,33 @@ interface CustomTextFieldProps {
   copyButton?: boolean;
   formControlClassName?: string;
   additionalControls?: JSX.Element[];
+  hideShowButton?: {
+    onButtonClick?: (hidden: boolean) => void;
+    customValue?: string;
+  };
 }
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
-  const { value, onChange, onBlur, errorMessage, label, widthOverride, styles, id, copyButton, additionalControls, ...rest } = props;
+  const {
+    value,
+    onChange,
+    onBlur,
+    errorMessage,
+    label,
+    widthOverride,
+    styles,
+    id,
+    copyButton,
+    additionalControls,
+    hideShowButton,
+    ...rest
+  } = props;
   const { width } = useWindowSize();
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
   const fullpage = width > 1000;
+
   const [copied, setCopied] = useState(false);
+  const [hidden, setHidden] = useState(!!hideShowButton);
 
   const copyToClipboard = (e: React.MouseEvent<any>) => {
     if (!!e) {
@@ -47,18 +66,47 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     }
   };
 
+  const getHideShowButtonLabel = () => {
+    return hidden ? t('buttonTooltipHiddenValue') : t('buttonTooltipShowValue');
+  };
+
+  const onHideShowButtonClick = (e: React.MouseEvent<any>) => {
+    if (!!e) {
+      e.stopPropagation();
+    }
+    if (hideShowButton && hideShowButton.onButtonClick) {
+      hideShowButton.onButtonClick(!hidden);
+    }
+    setHidden(!hidden);
+  };
+
   const onRenderSuffix = () => {
-    return copyButton ? (
-      <TooltipHost content={getCopiedLabel()} calloutProps={{ gapSpace: 0 }} onTooltipToggle={isVisible => changeCopiedLabel(isVisible)}>
-        <IconButton
-          id={`${id}-copy-button`}
-          iconProps={{ iconName: 'Copy', styles: copyButtonStyle }}
-          onClick={copyToClipboard}
-          ariaLabel={getCopiedLabel()}
-        />
-      </TooltipHost>
-    ) : (
-      <></>
+    return (
+      <>
+        {copyButton && (
+          <TooltipHost
+            content={getCopiedLabel()}
+            calloutProps={{ gapSpace: 0 }}
+            onTooltipToggle={isVisible => changeCopiedLabel(isVisible)}>
+            <IconButton
+              id={`${id}-copy-button`}
+              iconProps={{ iconName: 'Copy', styles: copyButtonStyle }}
+              onClick={copyToClipboard}
+              ariaLabel={getCopiedLabel()}
+            />
+          </TooltipHost>
+        )}
+        {hideShowButton && (
+          <TooltipHost content={getHideShowButtonLabel()} calloutProps={{ gapSpace: 0 }}>
+            <IconButton
+              id={`${id}-hide-show-button`}
+              iconProps={{ iconName: hidden ? 'RedEye' : 'Hide', styles: copyButtonStyle }}
+              onClick={onHideShowButtonClick}
+              ariaLabel={getHideShowButtonLabel()}
+            />
+          </TooltipHost>
+        )}
+      </>
     );
   };
 
@@ -67,7 +115,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
       <OfficeTextField
         id={id}
         aria-labelledby={`${id}-label`}
-        value={value || ''}
+        value={hideShowButton && hidden ? hideShowButton.customValue || t('defaultHideTextFieldValue') : value || ''}
         tabIndex={0}
         onChange={onChange}
         onBlur={onBlur}
