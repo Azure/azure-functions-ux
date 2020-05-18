@@ -152,4 +152,12 @@ export class CommonConstants {
   };
 
   public static readonly newLine = '\n';
+
+  public static readonly NationalCloudArmUris = {
+    fairfax: 'https://management.usgovcloudapi.net',
+    blackforest: 'https://management.microsoftazure.de',
+    mooncake: 'https://management.chinacloudapi.cn',
+    usNat: 'https://management.azure.eaglex.ic.gov',
+    usSec: 'https://management.azure.microsoft.scloud',
+  };
 }

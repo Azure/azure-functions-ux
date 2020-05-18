@@ -1,22 +1,36 @@
+import { CommonConstants } from './../CommonConstants';
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { AzureEnvironment } from './azure.environment';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
   public static isNationalCloud() {
-    return this.isMooncake() || this.isFairFax() || this.isBlackforest();
+    return this.isMooncake() || this.isFairFax() || this.isBlackforest() || this.isUSNat() || this.isUSSec();
   }
 
   public static isFairFax() {
-    return process.env.REACT_APP_RUNETIME_TYPE === 'fairfax';
+    const url = (window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint) || '';
+    return url.toLowerCase() === CommonConstants.NationalCloudArmUris.fairfax.toLowerCase();
   }
 
   public static isMooncake() {
-    return process.env.REACT_APP_RUNETIME_TYPE === 'mooncake';
+    const url = (window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint) || '';
+    return url.toLowerCase() === CommonConstants.NationalCloudArmUris.mooncake.toLowerCase();
   }
 
   public static isBlackforest() {
-    return process.env.REACT_APP_RUNETIME_TYPE === 'blackforest';
+    const url = (window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint) || '';
+    return url.toLowerCase() === CommonConstants.NationalCloudArmUris.blackforest.toLowerCase();
+  }
+
+  public static isUSNat() {
+    const url = (window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint) || '';
+    return url.toLowerCase() === CommonConstants.NationalCloudArmUris.usNat.toLowerCase();
+  }
+
+  public static isUSSec() {
+    const url = (window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint) || '';
+    return url.toLowerCase() === CommonConstants.NationalCloudArmUris.usSec.toLowerCase();
   }
 
   public name = 'NationalCloud';
@@ -135,7 +149,12 @@ export class NationalCloudEnvironment extends AzureEnvironment {
     this.scenarioChecks[ScenarioIds.showAppInsightsLogs] = {
       id: ScenarioIds.showAppInsightsLogs,
       runCheck: () => {
-        return { status: NationalCloudEnvironment.isBlackforest() ? 'disabled' : 'enabled' };
+        return {
+          status:
+            NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec()
+              ? 'disabled'
+              : 'enabled',
+        };
       },
     };
   }
