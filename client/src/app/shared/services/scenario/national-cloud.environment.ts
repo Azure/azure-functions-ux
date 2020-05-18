@@ -25,6 +25,14 @@ export class NationalCloudEnvironment extends AzureEnvironment {
     return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.blackforest.toLowerCase();
   }
 
+  public static isUSNat() {
+    return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.usNat.toLowerCase();
+  }
+
+  public static isUSSec() {
+    return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.usSec.toLowerCase();
+  }
+
   constructor(injector: Injector) {
     super(injector);
 
@@ -59,7 +67,12 @@ export class NationalCloudEnvironment extends AzureEnvironment {
     this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
       id: ScenarioIds.appInsightsConfigurable,
       runCheckAsync: (input: ScenarioCheckInput) => {
-        if (NationalCloudEnvironment.isBlackforest() || !Url.getFeatureValue(FeatureFlags.EnableAIOnNationalCloud)) {
+        if (
+          NationalCloudEnvironment.isBlackforest() ||
+          NationalCloudEnvironment.isUSNat() ||
+          NationalCloudEnvironment.isUSSec() ||
+          !Url.getFeatureValue(FeatureFlags.EnableAIOnNationalCloud)
+        ) {
           return Observable.of<ScenarioResult>({
             status: 'disabled',
             data: null,

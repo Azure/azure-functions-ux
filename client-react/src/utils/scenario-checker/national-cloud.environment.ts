@@ -1,22 +1,35 @@
+import { CommonConstants } from './../CommonConstants';
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { AzureEnvironment } from './azure.environment';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
   public static isNationalCloud() {
-    return this.isMooncake() || this.isFairFax() || this.isBlackforest();
+    return this.isMooncake() || this.isFairFax() || this.isBlackforest() || this.isUSNat() || this.isUSSec();
   }
 
   public static isFairFax() {
-    return process.env.REACT_APP_RUNETIME_TYPE === 'fairfax';
+    return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.fairfax.toLowerCase();
   }
 
   public static isMooncake() {
-    return process.env.REACT_APP_RUNETIME_TYPE === 'mooncake';
+    return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.mooncake.toLowerCase();
   }
 
   public static isBlackforest() {
-    return process.env.REACT_APP_RUNETIME_TYPE === 'blackforest';
+    return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.blackforest.toLowerCase();
+  }
+
+  public static isUSNat() {
+    return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.usNat.toLowerCase();
+  }
+
+  public static isUSSec() {
+    return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.usSec.toLowerCase();
+  }
+
+  private static _getUrlForNationalCloudEnvironment() {
+    return (window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint) || '';
   }
 
   public name = 'NationalCloud';
@@ -135,7 +148,12 @@ export class NationalCloudEnvironment extends AzureEnvironment {
     this.scenarioChecks[ScenarioIds.showAppInsightsLogs] = {
       id: ScenarioIds.showAppInsightsLogs,
       runCheck: () => {
-        return { status: NationalCloudEnvironment.isBlackforest() ? 'disabled' : 'enabled' };
+        return {
+          status:
+            NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec()
+              ? 'disabled'
+              : 'enabled',
+        };
       },
     };
   }
