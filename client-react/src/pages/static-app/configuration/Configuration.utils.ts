@@ -14,19 +14,19 @@ export class ConfigurationUtils {
       const details = result.error.details[0];
       switch (details.type) {
         case 'array.base':
-          return t('staticSite_applicationSettingValuesMustBeAnArray');
+          return t('staticSite_environmentVariableValuesMustBeAnArray');
 
         case 'any.required':
-          return t('staticSite_applicationSettingPropIsRequired').format(details.context!.key);
+          return t('staticSite_environmentVariablePropIsRequired').format(details.context!.key);
 
         case 'string.base':
-          return t('staticSite_applicationSettingValueMustBeAString');
+          return t('staticSite_environmentVariableValueMustBeAString');
 
         case 'object.allowUnknown':
-          return t('staticSite_applicationSettingInvalidProperty').format(details.context!.key);
+          return t('staticSite_environmentVariableInvalidProperty').format(details.context!.key);
 
         case 'array.unique':
-          return t('staticSite_applicationSettingNamesUnique');
+          return t('staticSite_environmentVariableNamesUnique');
 
         default:
           return t('jsonInvalid');
