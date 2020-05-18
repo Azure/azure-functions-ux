@@ -9,28 +9,27 @@ export class NationalCloudEnvironment extends AzureEnvironment {
   }
 
   public static isFairFax() {
-    const url = (window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint) || '';
-    return url.toLowerCase() === CommonConstants.NationalCloudArmUris.fairfax.toLowerCase();
+    return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.fairfax.toLowerCase();
   }
 
   public static isMooncake() {
-    const url = (window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint) || '';
-    return url.toLowerCase() === CommonConstants.NationalCloudArmUris.mooncake.toLowerCase();
+    return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.mooncake.toLowerCase();
   }
 
   public static isBlackforest() {
-    const url = (window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint) || '';
-    return url.toLowerCase() === CommonConstants.NationalCloudArmUris.blackforest.toLowerCase();
+    return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.blackforest.toLowerCase();
   }
 
   public static isUSNat() {
-    const url = (window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint) || '';
-    return url.toLowerCase() === CommonConstants.NationalCloudArmUris.usNat.toLowerCase();
+    return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.usNat.toLowerCase();
   }
 
   public static isUSSec() {
-    const url = (window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint) || '';
-    return url.toLowerCase() === CommonConstants.NationalCloudArmUris.usSec.toLowerCase();
+    return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.usSec.toLowerCase();
+  }
+
+  private static _getUrlForNationalCloudEnvironment() {
+    return (window.appsvc && window.appsvc.env && window.appsvc.env.azureResourceManagerEndpoint) || '';
   }
 
   public name = 'NationalCloud';
