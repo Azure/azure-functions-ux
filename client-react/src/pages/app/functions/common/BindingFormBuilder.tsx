@@ -171,7 +171,7 @@ export class BindingFormBuilder {
           id={setting.name}
           component={TextField}
           disabled={isDisabled}
-          validate={(value: string) => this._validateText(value, setting.required, setting.validators)}
+          validate={value => this._validateText(value, setting.required, setting.validators)}
           {...formProps}
         />
       </FormControlWrapper>
@@ -198,7 +198,7 @@ export class BindingFormBuilder {
           component={Dropdown}
           options={options}
           disabled={isDisabled}
-          validate={(value: string) => this._validateText(value, setting.required, setting.validators)}
+          validate={value => this._validateText(value, setting.required, setting.validators)}
           onPanel={true}
           {...formProps}
         />
@@ -248,7 +248,7 @@ export class BindingFormBuilder {
           setting={setting}
           resourceId={resourceId}
           disabled={isDisabled}
-          validate={(value: string) => this._validateText(value, setting.required, setting.validators)}
+          validate={value => this._validateText(value, setting.required, setting.validators)}
           onPanel={true}
           {...formProps}
         />
@@ -276,7 +276,7 @@ export class BindingFormBuilder {
             component={HttpMethodMultiDropdown}
             setting={setting}
             disabled={isDisabled}
-            validate={(value: string) => this._validateText(value, setting.required, setting.validators)}
+            validate={value => this._validateText(value, setting.required, setting.validators)}
             onPanel={true}
             {...formProps}
           />
@@ -304,7 +304,7 @@ export class BindingFormBuilder {
           options={options}
           multiSelect
           disabled={isDisabled}
-          validate={(value: string) => this._validateText(value, setting.required, setting.validators)}
+          validate={value => this._validateText(value, setting.required, setting.validators)}
           onPanel={true}
           {...formProps}
         />
