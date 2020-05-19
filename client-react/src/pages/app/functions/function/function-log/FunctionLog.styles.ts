@@ -24,6 +24,7 @@ export const logStreamStyle = (maximized: boolean, logPanelHeight: number, readO
     backgroundColor: '#000000',
     overflow: 'auto',
     padding: '20px',
+    fontFamily: 'monospace, Lucida Console, Courier New, Consolas',
   });
 
 export const logCommandBarButton = style({
