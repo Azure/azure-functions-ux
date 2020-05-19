@@ -179,13 +179,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     return <LoadingComponent />;
   }
 
-  // const isContainer = () => {
-  //   if (siteStateContext.site && siteStateContext.site.kind) {
-  //     return siteStateContext.site.kind.includes('container');
-  //   }
-  //   return false;
-  // };
-
   return (
     <DeploymentCenterContext.Provider value={{ resourceId, hasWritePermission, siteDescriptor }}>
       {isContainerApp(siteStateContext.site) ? (
@@ -208,7 +201,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           formValidationSchema={formValidationSchema}
           resetApplicationPassword={resetApplicationPassword}
           showPublishProfilePanel={showPublishProfilePanel}
-          resourceId={resourceId}
         />
       )}
       <DeploymentCenterPublishProfilePanel

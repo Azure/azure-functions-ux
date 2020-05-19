@@ -6007,13 +6007,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Logs</value>
     </data>
     <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
-        <value>Container logs</value>
+        <value>Deployment center logs</value>
     </data>
     <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
         <value>Settings</value>
     </data>
     <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
-        <value>Container settings</value>
+        <value>Deployment center settings</value>
     </data>
     <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>FTP/FTPs credentials</value>
