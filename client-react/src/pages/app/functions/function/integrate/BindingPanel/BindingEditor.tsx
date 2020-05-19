@@ -133,7 +133,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
                   />
                 </FormControlWrapper>
 
-                {builder.getFields(formProps, readOnly || isDisabled, true)}
+                {builder.getFields(formProps, readOnly || isDisabled)}
               </div>
             </form>
             {currentBinding.type === FunctionIntegrateConstants.eventGridType ? (
