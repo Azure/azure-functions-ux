@@ -187,7 +187,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
 
   return (
     <DeploymentCenterContext.Provider value={{ resourceId, hasWritePermission, siteDescriptor }}>
-      {isContainer() && (
+      {isContainer() ? (
         <DeploymentCenterContainerForm
           logs={logs}
           publishingUser={publishingUser}
@@ -198,8 +198,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           resetApplicationPassword={resetApplicationPassword}
           showPublishProfilePanel={showPublishProfilePanel}
         />
-      )}
-      {!isContainer() && (
+      ) : (
         <DeploymentCenterCodeForm
           publishingUser={publishingUser}
           publishingProfile={publishingProfile}
