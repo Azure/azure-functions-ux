@@ -108,8 +108,8 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         onClick: refreshFunction,
       },
       {
-        key: 'test',
-        text: t('test'),
+        key: 'testAndRun',
+        text: t('testAndRun'),
         iconProps: {
           iconName: 'DockRight',
         },

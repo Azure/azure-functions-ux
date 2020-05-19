@@ -6189,4 +6189,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_configUpdateFailure" xml:space="preserve">
         <value>Failed to update application settings: {0}</value>
     </data>
+    <data name="testAndRun" xml:space="preserve">
+        <value>Test/Run</value>
+    </data>
 </root>
