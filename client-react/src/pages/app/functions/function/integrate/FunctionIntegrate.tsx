@@ -43,6 +43,7 @@ export interface FunctionIntegrateProps {
   hostStatus: HostStatus;
   isRefreshing: boolean;
   refreshIntegrate: () => void;
+  loadBindingSettings: (bindingId: string, force: boolean) => Promise<void>;
 }
 
 export interface BindingUpdateInfo {
@@ -62,7 +63,16 @@ export interface BindingEditorContextInfo {
 export const BindingEditorContext = React.createContext<BindingEditorContextInfo | null>(null);
 
 export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> = props => {
-  const { functionAppId, functionInfo: initialFunctionInfo, bindings, bindingsError, hostStatus, isRefreshing, refreshIntegrate } = props;
+  const {
+    functionAppId,
+    functionInfo: initialFunctionInfo,
+    bindings,
+    bindingsError,
+    hostStatus,
+    isRefreshing,
+    refreshIntegrate,
+    loadBindingSettings,
+  } = props;
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
   const theme = useContext(ThemeContext);
@@ -132,8 +142,13 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     <Stack className={diagramWrapperStyle} horizontal horizontalAlign={'center'} tokens={tokens}>
       <Stack.Item grow>
         <Stack gap={40}>
-          <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} />
-          <InputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} />
+          <TriggerBindingCard
+            functionInfo={functionInfo}
+            bindings={bindings}
+            readOnly={readOnly}
+            loadBindingSettings={loadBindingSettings}
+          />
+          <InputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} loadBindingSettings={loadBindingSettings} />
         </Stack>
       </Stack.Item>
 
@@ -153,7 +168,12 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
       <Stack.Item grow>
         <Stack verticalFill={true} className={singleCardStackStyle}>
-          <OutputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} />
+          <OutputBindingCard
+            functionInfo={functionInfo}
+            bindings={bindings}
+            readOnly={readOnly}
+            loadBindingSettings={loadBindingSettings}
+          />
         </Stack>
       </Stack.Item>
     </Stack>
@@ -161,10 +181,10 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
 
   const smallPageContent: JSX.Element = (
     <Stack className={smallPageStyle} gap={40} horizontalAlign={'start'}>
-      <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} />
-      <InputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} />
+      <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} loadBindingSettings={loadBindingSettings} />
+      <InputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} loadBindingSettings={loadBindingSettings} />
       <FunctionNameBindingCard functionInfo={functionInfo} bindings={bindings} />
-      <OutputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} />
+      <OutputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} loadBindingSettings={loadBindingSettings} />
     </Stack>
   );
 

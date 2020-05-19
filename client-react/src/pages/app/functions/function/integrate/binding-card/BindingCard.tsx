@@ -22,6 +22,7 @@ export interface BindingCardChildProps {
 
 export interface EditableBindingCardProps extends BindingCardChildProps {
   readOnly: boolean;
+  loadBindingSettings: (bindingId: string, force: boolean) => Promise<void>;
 }
 
 export interface BindingCardProps extends BindingCardChildProps {
