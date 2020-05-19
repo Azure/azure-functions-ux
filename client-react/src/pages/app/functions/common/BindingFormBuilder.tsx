@@ -60,7 +60,7 @@ export class BindingFormBuilder {
     let i = 0;
     for (const binding of this._bindingList) {
       // We don't want to use the rule for HTTP as it doesn't make sense
-      if (includeRules && !FunctionIntegrateConstants.httpType) {
+      if (includeRules && formProps.values['type'] !== FunctionIntegrateConstants.httpType) {
         this._addRules(fields, fieldsToRemove, binding, formProps, isDisabled);
       }
 
