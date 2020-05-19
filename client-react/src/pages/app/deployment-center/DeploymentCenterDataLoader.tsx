@@ -24,6 +24,7 @@ import { HttpResponseObject } from '../../../ArmHelper.types';
 import { DeploymentCenterContainerFormBuilder } from './container/DeploymentCenterContainerFormBuilder';
 import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
+import { isContainerApp } from '../../../utils/arm-utils';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -178,16 +179,16 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     return <LoadingComponent />;
   }
 
-  const isContainer = () => {
-    if (siteStateContext.site && siteStateContext.site.kind) {
-      return siteStateContext.site.kind.includes('container');
-    }
-    return false;
-  };
+  // const isContainer = () => {
+  //   if (siteStateContext.site && siteStateContext.site.kind) {
+  //     return siteStateContext.site.kind.includes('container');
+  //   }
+  //   return false;
+  // };
 
   return (
     <DeploymentCenterContext.Provider value={{ resourceId, hasWritePermission, siteDescriptor }}>
-      {isContainer() ? (
+      {isContainerApp(siteStateContext.site) ? (
         <DeploymentCenterContainerForm
           logs={logs}
           publishingUser={publishingUser}
