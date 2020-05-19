@@ -4,13 +4,14 @@ import { IDropdownOption } from 'office-ui-fabric-react';
 import React from 'react';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import TextField from '../../../../components/form-controls/TextField';
+import Toggle from '../../../../components/form-controls/Toggle';
 import { FormControlWrapper, Layout } from '../../../../components/FormControlWrapper/FormControlWrapper';
 import { Binding, BindingSetting, BindingSettingValue, BindingValidator } from '../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
+import { getFunctionBindingDirection } from '../function/integrate/BindingPanel/BindingEditor';
+import { FunctionIntegrateConstants } from '../function/integrate/FunctionIntegrateConstants';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
-import Toggle from '../../../../components/form-controls/Toggle';
-import { getFunctionBindingDirection } from '../function/integrate/BindingPanel/BindingEditor';
 
 export interface BindingEditorFormValues {
   [key: string]: any;
@@ -58,7 +59,8 @@ export class BindingFormBuilder {
 
     let i = 0;
     for (const binding of this._bindingList) {
-      if (includeRules) {
+      // We don't want to use the rule for HTTP as it doesn't make sense
+      if (includeRules && !FunctionIntegrateConstants.httpType) {
         this._addRules(fields, fieldsToRemove, binding, formProps, isDisabled);
       }
 
@@ -83,7 +85,7 @@ export class BindingFormBuilder {
   ) {
     if (binding.rules) {
       for (const rule of binding.rules) {
-        const ruleName = `rule-${rule.name}`;
+        const ruleName = `${FunctionIntegrateConstants.rulePrefix}${rule.name}`;
         let defaultValue = formProps.values[ruleName] || rule.values[0].value;
 
         // No value yet, add a default, otherwise Formik will handle it
@@ -95,11 +97,15 @@ export class BindingFormBuilder {
             }
           }
 
-          formProps.setFieldValue(ruleName, defaultValue);
+          formProps.values[ruleName] = defaultValue;
         }
 
-        const ruleInUse = rule.values.find(ruleValue => formProps.values[ruleName] === ruleValue.value)!;
-        fieldsToRemove.push(...ruleInUse.hiddenSettings);
+        const ruleInUse = rule.values.find(ruleValue => formProps.values[ruleName] === ruleValue.value);
+        const hiddenSettings = (ruleInUse && ruleInUse.hiddenSettings) || [];
+        fieldsToRemove.push(...hiddenSettings);
+        fieldsToRemove.forEach(field => {
+          delete formProps.values[field];
+        });
 
         const ruleOptions = rule.values.map(ruleValue => {
           return {

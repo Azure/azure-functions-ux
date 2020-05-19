@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import React, { useContext } from 'react';
 import { first } from 'rxjs/operators';
+import { getErrorMessage } from '../../../../../../ApiHelpers/ArmHelper';
 import FunctionsService from '../../../../../../ApiHelpers/FunctionsService';
 import SiteService from '../../../../../../ApiHelpers/SiteService';
 import { ArmObj } from '../../../../../../models/arm-obj';
@@ -12,8 +13,8 @@ import { ThemeContext } from '../../../../../../ThemeContext';
 import { ArmFunctionDescriptor } from '../../../../../../utils/resourceDescriptors';
 import { ClosedReason } from '../BindingPanel/BindingEditor';
 import { BindingEditorContextInfo } from '../FunctionIntegrate';
+import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
 import { cardStyle, headerStyle } from './BindingCard.styles';
-import { getErrorMessage } from '../../../../../../ApiHelpers/ArmHelper';
 
 export interface BindingCardChildProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -131,7 +132,13 @@ const createOrUpdateBinding = (
     });
   }
 
+  // Delete data that isn't needed in function.json
   delete newBindingInfo['newAppSettings'];
+  for (const temp in newBindingInfo) {
+    if (temp.startsWith(FunctionIntegrateConstants.rulePrefix)) {
+      delete newBindingInfo[temp];
+    }
+  }
 
   if (index > -1) {
     bindings[index] = newBindingInfo;
