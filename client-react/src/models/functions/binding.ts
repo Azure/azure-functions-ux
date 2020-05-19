@@ -36,7 +36,7 @@ export interface BindingSetting {
 }
 
 export interface BindingRule {
-  names: string;
+  name: string;
   type: string;
   label: string;
   help: string;
