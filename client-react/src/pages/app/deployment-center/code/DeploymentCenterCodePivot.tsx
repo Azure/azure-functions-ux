@@ -12,15 +12,11 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodeProps> = props => 
 
   return (
     <Pivot>
-      <PivotItem
-        headerText={t('deploymentCenterPivotItemContainerLogsHeaderText')}
-        ariaLabel={t('deploymentCenterPivotItemContainerLogsAriaLabel')}>
+      <PivotItem headerText={t('deploymentCenterPivotItemLogsHeaderText')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
         <DeploymentCenterCodeLogs resourceId={resourceId} />
       </PivotItem>
 
-      <PivotItem
-        headerText={t('deploymentCenterPivotItemContainerSettingsHeaderText')}
-        ariaLabel={t('deploymentCenterPivotItemContainerSettingsAriaLabel')}>
+      <PivotItem headerText={t('deploymentCenterPivotItemSettingsHeaderText')} ariaLabel={t('deploymentCenterPivotItemSettingsAriaLabel')}>
         <DeploymentCenterCodeSettings formProps={formProps} />
       </PivotItem>
 
