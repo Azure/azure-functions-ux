@@ -62,7 +62,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
     );
   };
 
-  if (appInsightsKeyType === AppInsightsKeyType.keyVault) {
+  if (!!appInsightsKeyType && appInsightsKeyType === AppInsightsKeyType.keyVault) {
     const appInsightsKeyVaultWarningMessage = (
       <>
         {t('appInsightsKeyVaultWarningMessage')}
