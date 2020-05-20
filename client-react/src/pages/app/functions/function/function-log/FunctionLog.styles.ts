@@ -34,7 +34,6 @@ export const logCommandBarButton = style({
 
 export const logEntryDivStyle = style({
   whiteSpace: 'pre-wrap',
-  paddingBottom: '5px',
 });
 
 export function getLogTextColor(severity: string): string {
