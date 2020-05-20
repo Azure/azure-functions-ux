@@ -219,10 +219,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchReferences = async () => {
-    if (!isSlot()) {
-      const appSettingReferences = await getAllAppSettingReferences(resourceId);
-      setReferences({ appSettings: appSettingReferences.metadata.success ? getCleanedReferences(appSettingReferences.data) : null });
-    }
+    const appSettingReferences = await getAllAppSettingReferences(resourceId);
+    setReferences({ appSettings: appSettingReferences.metadata.success ? getCleanedReferences(appSettingReferences.data) : null });
   };
 
   const fetchStorageAccounts = async () => {
@@ -273,11 +271,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     fillSlots();
     fetchReferences();
     fetchStorageAccounts();
-  };
-
-  const isSlot = () => {
-    const siteDescriptor = new ArmSiteDescriptor(resourceId);
-    return siteDescriptor.slot;
   };
 
   useEffect(() => {
