@@ -8,7 +8,7 @@ import { ThemeContext } from '../../ThemeContext';
 import { messageBannerClass, messageBannerIconStyle, messageBannerStyles } from './CustomBanner.styles';
 
 interface CustomBannerProps {
-  message: string;
+  message: string | JSX.Element;
   type: MessageBarType;
   id?: string;
   customIcon?: JSX.Element;
