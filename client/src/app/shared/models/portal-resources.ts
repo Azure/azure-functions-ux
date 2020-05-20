@@ -2008,7 +2008,7 @@ export class PortalResources {
   public static staticSite_configUpdating = 'staticSite_configUpdating';
   public static staticSite_configUpdateSuccess = 'staticSite_configUpdateSuccess';
   public static staticSite_configUpdateFailure = 'staticSite_configUpdateFailure';
-  public static buttonTooltipHiddenValue = 'buttonTooltipHiddenValue';
-  public static buttonTooltipShowValue = 'buttonTooltipShowValue';
+  public static clickToHideValue = 'clickToHideValue';
+  public static clickToShowValue = 'clickToShowValue';
   public static testAndRun = 'testAndRun';
 }

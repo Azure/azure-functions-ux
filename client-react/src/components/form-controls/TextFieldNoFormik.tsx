@@ -67,7 +67,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   };
 
   const getHideShowButtonLabel = () => {
-    return hidden ? t('buttonTooltipHiddenValue') : t('buttonTooltipShowValue');
+    return hidden ? t('clickToShowValue') : t('clickToHideValue');
   };
 
   const onHideShowButtonClick = (e: React.MouseEvent<any>) => {
