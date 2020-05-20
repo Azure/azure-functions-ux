@@ -1881,6 +1881,7 @@ export class PortalResources {
   public static integrateDeleteInputConfirmHeader = 'integrateDeleteInputConfirmHeader';
   public static integrateDeleteInputConfirmMessage = 'integrateDeleteInputConfirmMessage';
   public static integrate_bindingsFailedLoading = 'integrate_bindingsFailedLoading';
+  public static integrate_compiledDoNotShowInputOutput = 'integrate_compiledDoNotShowInputOutput';
   public static deleteFunctionKeyHeader = 'deleteFunctionKeyHeader';
   public static deleteFunctionKeyMessage = 'deleteFunctionKeyMessage';
   public static fetchFileContentFailureMessage = 'fetchFileContentFailureMessage';
@@ -2012,8 +2013,8 @@ export class PortalResources {
   public static staticSite_configUpdating = 'staticSite_configUpdating';
   public static staticSite_configUpdateSuccess = 'staticSite_configUpdateSuccess';
   public static staticSite_configUpdateFailure = 'staticSite_configUpdateFailure';
-  public static clickToHideValue = 'clickToHideValue';
   public static clickToShowValue = 'clickToShowValue';
+  public static clickToHideValue = 'clickToHideValue';
   public static testAndRun = 'testAndRun';
   public static appInsightsKeyVaultWarningMessage = 'appInsightsKeyVaultWarningMessage';
   public static clickToUpdateSettings = 'clickToUpdateSettings';
