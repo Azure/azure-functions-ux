@@ -59,3 +59,16 @@ export const messageBannerClass = (theme: ThemeExtended, type: MessageBarType) =
     backgroundColor: type === MessageBarType.info ? theme.semanticColors.infoBackground : undefined,
   });
 };
+
+export const bannerLinkStyle = (theme: ThemeExtended) =>
+  style({
+    cursor: 'pointer',
+    color: theme.semanticColors.link,
+    textDecoration: 'none',
+    $nest: {
+      '&:hover': {
+        color: theme.semanticColors.linkHovered,
+        textDecoration: 'underline',
+      },
+    },
+  });
