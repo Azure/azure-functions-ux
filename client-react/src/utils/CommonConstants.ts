@@ -187,4 +187,6 @@ export class CommonConstants {
     usNat: 'https://management.azure.eaglex.ic.gov',
     usSec: 'https://management.azure.microsoft.scloud',
   };
+
+  public static readonly DefaultHiddenValue = '******';
 }

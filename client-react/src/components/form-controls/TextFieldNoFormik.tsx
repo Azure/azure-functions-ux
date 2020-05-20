@@ -8,6 +8,7 @@ import { TooltipHost } from 'office-ui-fabric-react';
 import IconButton from '../IconButton/IconButton';
 import { useTranslation } from 'react-i18next';
 import { TextUtilitiesService } from '../../utils/textUtilities';
+import { CommonConstants } from '../../utils/CommonConstants';
 
 interface CustomTextFieldProps {
   id: string;
@@ -22,7 +23,6 @@ interface CustomTextFieldProps {
   additionalControls?: JSX.Element[];
   hideShowButton?: {
     onButtonClick?: (hidden: boolean) => void;
-    customValue?: string;
   };
 }
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
@@ -115,7 +115,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
       <OfficeTextField
         id={id}
         aria-labelledby={`${id}-label`}
-        value={hideShowButton && hidden ? hideShowButton.customValue || t('defaultHideTextFieldValue') : value || ''}
+        value={hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : value || ''}
         tabIndex={0}
         onChange={onChange}
         onBlur={onBlur}

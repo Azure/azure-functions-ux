@@ -6189,9 +6189,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_configUpdateFailure" xml:space="preserve">
         <value>Failed to update application settings: {0}</value>
     </data>
-    <data name="defaultHideTextFieldValue" xml:space="preserve">
-        <value>******</value>
-    </data>
     <data name="buttonTooltipHiddenValue" xml:space="preserve">
         <value>Click to show value</value>
     </data>
