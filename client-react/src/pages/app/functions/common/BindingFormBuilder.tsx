@@ -55,17 +55,18 @@ export class BindingFormBuilder {
 
   public getFields(formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean, includeRules: boolean) {
     const fields: JSX.Element[] = [];
-    const fieldsToRemove: string[] = [];
+    const ignoredFields: string[] = [];
 
     let i = 0;
     for (const binding of this._bindingList) {
-      // We don't want to use the rule for HTTP as it doesn't make sense
+      // We don't want to use the rule for HTTP as it doesn't offer the user anything
+      // and we can't restore the state of the rule properly on a second load
       if (includeRules && formProps.values['type'] !== FunctionIntegrateConstants.httpType) {
-        this._addRules(fields, fieldsToRemove, binding, formProps, isDisabled);
+        this._addRules(fields, ignoredFields, binding, formProps, isDisabled);
       }
 
       for (const setting of binding.settings || []) {
-        if (!fieldsToRemove.includes(setting.name)) {
+        if (!ignoredFields.includes(setting.name)) {
           this._addField(fields, setting, formProps, isDisabled, i);
         }
       }
@@ -78,13 +79,13 @@ export class BindingFormBuilder {
 
   private _addRules(
     fields: JSX.Element[],
-    fieldsToRemove: string[],
+    ignoredFields: string[],
     binding: Binding,
     formProps: FormikProps<BindingEditorFormValues>,
     isDisabled: boolean
   ) {
     if (binding.rules) {
-      for (const rule of binding.rules) {
+      binding.rules.forEach(rule => {
         const ruleName = `${FunctionIntegrateConstants.rulePrefix}${rule.name}`;
         let defaultValue = formProps.values[ruleName] || rule.values[0].value;
 
@@ -102,8 +103,8 @@ export class BindingFormBuilder {
 
         const ruleInUse = rule.values.find(ruleValue => formProps.values[ruleName] === ruleValue.value);
         const hiddenSettings = (ruleInUse && ruleInUse.hiddenSettings) || [];
-        fieldsToRemove.push(...hiddenSettings);
-        fieldsToRemove.forEach(field => {
+        ignoredFields.push(...hiddenSettings);
+        ignoredFields.forEach(field => {
           delete formProps.values[field];
         });
 
@@ -127,7 +128,7 @@ export class BindingFormBuilder {
             />
           </FormControlWrapper>
         );
-      }
+      });
     }
   }
 
