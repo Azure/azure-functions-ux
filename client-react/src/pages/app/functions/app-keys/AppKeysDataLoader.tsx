@@ -23,7 +23,6 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   const [initialValues, setInitialValues] = useState<AppKeysFormValues | null>(null);
   const [refreshLoading, setRefeshLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
-  const [appPermission, setAppPermission] = useState(true);
 
   const portalContext = useContext(PortalContext);
   const siteContext = useContext(SiteRouterContext);
@@ -39,10 +38,6 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   const fetchData = async () => {
     const site = await siteContext.fetchSite(resourceId);
     const appKeys = await appKeysData.fetchKeys(resourceId);
-
-    if (appKeys.metadata.status === 409 || appKeys.metadata.status === 403) {
-      setAppPermission(false);
-    }
 
     setInitialValues(
       appKeysData.convertStateToForm({
@@ -75,7 +70,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
         resourceId={resourceId}
         initialValues={initialValues}
         refreshData={refreshData}
-        appPermission={appPermission || !siteStateContext.stopped}
+        appPermission={!siteStateContext.stopped}
       />
     </AppKeysContext.Provider>
   );
