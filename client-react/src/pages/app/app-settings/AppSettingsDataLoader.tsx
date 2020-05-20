@@ -34,7 +34,6 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
-import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { isFunctionApp } from '../../../utils/arm-utils';
 import { StartupInfoContext } from '../../../StartupInfoContext';
 import { LogCategories } from '../../../utils/LogCategories';
