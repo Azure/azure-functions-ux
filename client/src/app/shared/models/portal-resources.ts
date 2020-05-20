@@ -2008,6 +2008,8 @@ export class PortalResources {
   public static staticSite_configUpdating = 'staticSite_configUpdating';
   public static staticSite_configUpdateSuccess = 'staticSite_configUpdateSuccess';
   public static staticSite_configUpdateFailure = 'staticSite_configUpdateFailure';
+  public static clickToHideValue = 'clickToHideValue';
+  public static clickToShowValue = 'clickToShowValue';
   public static testAndRun = 'testAndRun';
   public static appInsightsKeyVaultWarningMessage = 'appInsightsKeyVaultWarningMessage';
   public static clickToUpdateSettings = 'clickToUpdateSettings';
