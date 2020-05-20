@@ -6195,7 +6195,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
         <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
     </data>
-    <data name="clickToShowSettings" xml:space="preserve">
+    <data name="clickToUpdateSettings" xml:space="preserve">
         <value>Click here to update your settings.</value>
     </data>
 </root>

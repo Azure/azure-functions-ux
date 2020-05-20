@@ -29,12 +29,11 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   const { t } = useTranslation();
 
   const portalContext = useContext(PortalContext);
+  const theme = useContext(ThemeContext);
 
   const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.invocations);
 
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
-
-  const theme = useContext(ThemeContext);
 
   const onPivotItemClicked = (item?: PivotItem) => {
     if (!!item) {
@@ -67,7 +66,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
       <>
         {t('appInsightsKeyVaultWarningMessage')}
         <span onClick={onAppInsightsKeyVaultWarningMessageClick} className={bannerLinkStyle(theme)}>
-          {t('clickToShowSettings')}
+          {t('clickToUpdateSettings')}
         </span>
       </>
     );
