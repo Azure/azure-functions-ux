@@ -1943,10 +1943,10 @@ export class PortalResources {
   public static staticSite_applicationSettingInvalidProperty = 'staticSite_applicationSettingInvalidProperty';
   public static staticSite_applicationSettingValueMustBeAString = 'staticSite_applicationSettingValueMustBeAString';
   public static staticSite_readOnlyRbac = 'staticSite_readOnlyRbac';
-  public static deploymentCenterPivotItemContainerLogsHeaderText = 'deploymentCenterPivotItemContainerLogsHeaderText';
-  public static deploymentCenterPivotItemContainerLogsAriaLabel = 'deploymentCenterPivotItemContainerLogsAriaLabel';
-  public static deploymentCenterPivotItemContainerSettingsHeaderText = 'deploymentCenterPivotItemContainerSettingsHeaderText';
-  public static deploymentCenterPivotItemContainerSettingsAriaLabel = 'deploymentCenterPivotItemContainerSettingsAriaLabel';
+  public static deploymentCenterPivotItemLogsHeaderText = 'deploymentCenterPivotItemLogsHeaderText';
+  public static deploymentCenterPivotItemLogsAriaLabel = 'deploymentCenterPivotItemLogsAriaLabel';
+  public static deploymentCenterPivotItemSettingsHeaderText = 'deploymentCenterPivotItemSettingsHeaderText';
+  public static deploymentCenterPivotItemSettingsAriaLabel = 'deploymentCenterPivotItemSettingsAriaLabel';
   public static deploymentCenterPivotItemFtpsHeaderText = 'deploymentCenterPivotItemFtpsHeaderText';
   public static deploymentCenterPivotItemFtpsAriaLabel = 'deploymentCenterPivotItemFtpsAriaLabel';
   public static deploymentCenterContainerLogsLoadingAriaValue = 'deploymentCenterContainerLogsLoadingAriaValue';
@@ -2008,4 +2008,5 @@ export class PortalResources {
   public static staticSite_configUpdating = 'staticSite_configUpdating';
   public static staticSite_configUpdateSuccess = 'staticSite_configUpdateSuccess';
   public static staticSite_configUpdateFailure = 'staticSite_configUpdateFailure';
+  public static testAndRun = 'testAndRun';
 }

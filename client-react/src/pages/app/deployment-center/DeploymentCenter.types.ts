@@ -23,6 +23,8 @@ export enum ContainerDockerAccessTypes {
 
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps;
 
+export type DeploymentCenterCodeProps = DeploymentCenterFtpsProps;
+
 export type DeploymentCenterYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, DeploymentCenterFormData>>;
 
 export type DeploymentCenterFormData = DeploymentCenterCommonFormData & DeploymentCenterContainerFormData;
@@ -63,6 +65,12 @@ export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
 }
 
 export interface DeploymentCenterContainerFormProps extends DeploymentCenterContainerProps {
+  showPublishProfilePanel: () => void;
+  formData?: DeploymentCenterFormData;
+  formValidationSchema?: DeploymentCenterYupValidationSchemaType;
+}
+
+export interface DeploymentCenterCodeFormProps extends DeploymentCenterCodeProps {
   showPublishProfilePanel: () => void;
   formData?: DeploymentCenterFormData;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType;

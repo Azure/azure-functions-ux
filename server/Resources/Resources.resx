@@ -6003,17 +6003,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>Your site is currently in read only mode because your RBAC assigned access is set to: Reader</value>
     </data>
-    <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
+    <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
         <value>Logs</value>
     </data>
-    <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
-        <value>Container logs</value>
+    <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
+        <value>Deployment center logs</value>
     </data>
-    <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
+    <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
         <value>Settings</value>
     </data>
-    <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
-        <value>Container settings</value>
+    <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
+        <value>Deployment center settings</value>
     </data>
     <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>FTP/FTPs credentials</value>
@@ -6188,5 +6188,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSite_configUpdateFailure" xml:space="preserve">
         <value>Failed to update application settings: {0}</value>
+    </data>
+    <data name="testAndRun" xml:space="preserve">
+        <value>Test/Run</value>
     </data>
 </root>
