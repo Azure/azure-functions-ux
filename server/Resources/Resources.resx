@@ -4967,6 +4967,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="requireIncomingClientCertificates" xml:space="preserve">
         <value>Require incoming certificate</value>
     </data>
+    <data name="clientCertificateMode" xml:space="preserve">
+        <value>Client certificate mode</value>
+    </data>
+    <data name="clientCertificateModeRequire" xml:space="preserve">
+        <value>Require</value>
+    </data>
+    <data name="clientCertificateModeAllow" xml:space="preserve">
+        <value>Allow</value>
+    </data>
+    <data name="clientCertificateModeIgnore" xml:space="preserve">
+        <value>Ignore</value>
+    </data>
     <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Certificate exclusion paths</value>
     </data>
