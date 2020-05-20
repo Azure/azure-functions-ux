@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType } from './DeploymentCenter.types';
 import DeploymentCenterData from './DeploymentCenter.data';
 import { PortalContext } from '../../../PortalContext';
+import { SiteStateContext } from '../../../SiteState';
 import RbacConstants from '../../../utils/rbac-constants';
 import LogService from '../../../utils/LogService';
 import { LogCategories } from '../../../utils/LogCategories';
@@ -16,11 +17,14 @@ import {
 import { useTranslation } from 'react-i18next';
 import { ArmObj } from '../../../models/arm-obj';
 import DeploymentCenterContainerForm from './container/DeploymentCenterContainerForm';
+import DeploymentCenterCodeForm from './code/DeploymentCenterCodeForm';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import { DeploymentCenterContainerFormBuilder } from './container/DeploymentCenterContainerFormBuilder';
 import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
+import LoadingComponent from '../../../components/Loading/LoadingComponent';
+import { isContainerApp } from '../../../utils/arm-utils';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -31,6 +35,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const { t } = useTranslation();
   const deploymentCenterData = new DeploymentCenterData();
   const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
   const [hasWritePermission, setHasWritePermission] = useState(false);
   const [logs, setLogs] = useState<string | undefined>(undefined);
   const [publishingUser, setPublishingUser] = useState<ArmObj<PublishingUser> | undefined>(undefined);
@@ -170,18 +175,34 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (!siteStateContext.site) {
+    return <LoadingComponent />;
+  }
+
   return (
     <DeploymentCenterContext.Provider value={{ resourceId, hasWritePermission, siteDescriptor }}>
-      <DeploymentCenterContainerForm
-        logs={logs}
-        publishingUser={publishingUser}
-        publishingProfile={publishingProfile}
-        publishingCredentials={publishingCredentials}
-        formData={formData}
-        formValidationSchema={formValidationSchema}
-        resetApplicationPassword={resetApplicationPassword}
-        showPublishProfilePanel={showPublishProfilePanel}
-      />
+      {isContainerApp(siteStateContext.site) ? (
+        <DeploymentCenterContainerForm
+          logs={logs}
+          publishingUser={publishingUser}
+          publishingProfile={publishingProfile}
+          publishingCredentials={publishingCredentials}
+          formData={formData}
+          formValidationSchema={formValidationSchema}
+          resetApplicationPassword={resetApplicationPassword}
+          showPublishProfilePanel={showPublishProfilePanel}
+        />
+      ) : (
+        <DeploymentCenterCodeForm
+          publishingUser={publishingUser}
+          publishingProfile={publishingProfile}
+          publishingCredentials={publishingCredentials}
+          formData={formData}
+          formValidationSchema={formValidationSchema}
+          resetApplicationPassword={resetApplicationPassword}
+          showPublishProfilePanel={showPublishProfilePanel}
+        />
+      )}
       <DeploymentCenterPublishProfilePanel
         isPanelOpen={isPublishProfilePanelOpen}
         dismissPanel={dismissPublishProfilePanel}
