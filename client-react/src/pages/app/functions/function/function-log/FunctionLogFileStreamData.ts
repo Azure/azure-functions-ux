@@ -3,7 +3,7 @@ import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { LogRegex, LogLevel as FBLogLevel, maxLogEntries } from '../../../log-stream/LogStream.types';
 
 export function processLogs(logStream: string, oldLogs: LogEntry[]): LogEntry[] {
-  let updatedLogs = oldLogs;
+  let updatedLogs = [...oldLogs];
   const logMessages = logStream.split(CommonConstants.newLine);
   logMessages.forEach(logMessage => {
     const logLevel = getLogLevel(logMessage);
