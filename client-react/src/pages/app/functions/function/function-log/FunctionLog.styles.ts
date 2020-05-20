@@ -24,6 +24,7 @@ export const logStreamStyle = (maximized: boolean, logPanelHeight: number, readO
     backgroundColor: '#000000',
     overflow: 'auto',
     padding: '20px',
+    fontFamily: 'monospace, Lucida Console, Courier New, Consolas',
   });
 
 export const logCommandBarButton = style({
@@ -33,7 +34,6 @@ export const logCommandBarButton = style({
 
 export const logEntryDivStyle = style({
   whiteSpace: 'pre-wrap',
-  paddingBottom: '5px',
 });
 
 export function getLogTextColor(severity: string): string {
