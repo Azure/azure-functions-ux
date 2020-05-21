@@ -1951,6 +1951,8 @@ export class PortalResources {
   public static deploymentCenterPivotItemFtpsAriaLabel = 'deploymentCenterPivotItemFtpsAriaLabel';
   public static deploymentCenterContainerLogsLoadingAriaValue = 'deploymentCenterContainerLogsLoadingAriaValue';
   public static deploymentCenterContainerLogsLoading = 'deploymentCenterContainerLogsLoading';
+  public static deploymentCenterCodeLogsLoadingAriaValue = 'deploymentCenterCodeLogsLoadingAriaValue';
+  public static deploymentCenterCodeLogsLoading = 'deploymentCenterCodeLogsLoading';
   public static deploymentCenterContainerLogsFailed = 'deploymentCenterContainerLogsFailed';
   public static deploymentCenterContainerLogsFailedWithError = 'deploymentCenterContainerLogsFailedWithError';
   public static invocationTracesTableTitle = 'invocationTracesTableTitle';
@@ -2008,8 +2010,8 @@ export class PortalResources {
   public static staticSite_configUpdating = 'staticSite_configUpdating';
   public static staticSite_configUpdateSuccess = 'staticSite_configUpdateSuccess';
   public static staticSite_configUpdateFailure = 'staticSite_configUpdateFailure';
-  public static clickToHideValue = 'clickToHideValue';
   public static clickToShowValue = 'clickToShowValue';
+  public static clickToHideValue = 'clickToHideValue';
   public static testAndRun = 'testAndRun';
   public static appInsightsKeyVaultWarningMessage = 'appInsightsKeyVaultWarningMessage';
   public static clickToUpdateSettings = 'clickToUpdateSettings';

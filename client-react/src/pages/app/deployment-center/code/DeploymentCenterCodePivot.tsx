@@ -7,13 +7,13 @@ import DeploymentCenterCodeLogs from './DeploymentCenterCodeLogs';
 import DeploymentCenterCodeSettings from './DeploymentCenterCodeSettings';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodeProps> = props => {
-  const { publishingCredentials, publishingProfile, publishingUser, formProps, resetApplicationPassword } = props;
+  const { publishingCredentials, publishingProfile, publishingUser, formProps, resetApplicationPassword, deployments } = props;
   const { t } = useTranslation();
 
   return (
     <Pivot>
       <PivotItem headerText={t('deploymentCenterPivotItemLogsHeaderText')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-        <DeploymentCenterCodeLogs />
+        <DeploymentCenterCodeLogs deployments={deployments} />
       </PivotItem>
 
       <PivotItem headerText={t('deploymentCenterPivotItemSettingsHeaderText')} ariaLabel={t('deploymentCenterPivotItemSettingsAriaLabel')}>

@@ -1,4 +1,4 @@
-import { ArmObj } from '../../../models/arm-obj';
+import { ArmObj, ArmArray } from '../../../models/arm-obj';
 import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../../models/site/publish';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
@@ -23,7 +23,7 @@ export enum ContainerDockerAccessTypes {
 
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps;
 
-export type DeploymentCenterCodeProps = DeploymentCenterFtpsProps;
+export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps;
 
 export type DeploymentCenterYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, DeploymentCenterFormData>>;
 
@@ -57,6 +57,10 @@ export interface DeploymentCenterContainerLogsProps {
   logs?: string;
 }
 
+export interface DeploymentCenterCodeLogsProps {
+  deployments: ArmArray<DeploymentProperties>;
+}
+
 export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
   resetApplicationPassword: () => void;
   publishingCredentials?: ArmObj<PublishingCredentials>;
@@ -71,6 +75,7 @@ export interface DeploymentCenterContainerFormProps extends DeploymentCenterCont
 }
 
 export interface DeploymentCenterCodeFormProps extends DeploymentCenterCodeProps {
+  deployments: ArmArray<DeploymentProperties>;
   showPublishProfilePanel: () => void;
   formData?: DeploymentCenterFormData;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType;
@@ -91,4 +96,26 @@ export interface DeploymentCenterPublishProfilePanelProps {
 
 export interface DeploymentCenterPublishProfileCommandBarProps {
   resetApplicationPassword: () => void;
+}
+
+export interface DeploymentProperties {
+  id: string;
+  status: number;
+  status_text: string;
+  author_email: string;
+  author: string;
+  deployer: string;
+  message: string;
+  progress: string;
+  received_time: string;
+  start_time: string;
+  end_time: string;
+  last_success_end_time: string;
+  complete: string;
+  active: string;
+  is_temp: string;
+  is_readonly: string;
+  url: string;
+  log_url: string;
+  site_name: string;
 }

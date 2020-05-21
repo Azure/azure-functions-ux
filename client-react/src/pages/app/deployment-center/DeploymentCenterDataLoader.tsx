@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType } from './DeploymentCenter.types';
+import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, DeploymentProperties } from './DeploymentCenter.types';
 import DeploymentCenterData from './DeploymentCenter.data';
 import { PortalContext } from '../../../PortalContext';
 import { SiteStateContext } from '../../../SiteState';
 import RbacConstants from '../../../utils/rbac-constants';
 import LogService from '../../../utils/LogService';
 import { LogCategories } from '../../../utils/LogCategories';
-import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
+import MakeArmCall, { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import {
   parsePublishProfileXml,
   PublishMethod,
@@ -15,7 +15,7 @@ import {
   PublishingProfile,
 } from '../../../models/site/publish';
 import { useTranslation } from 'react-i18next';
-import { ArmObj } from '../../../models/arm-obj';
+import { ArmObj, ArmArray } from '../../../models/arm-obj';
 import DeploymentCenterContainerForm from './container/DeploymentCenterContainerForm';
 import DeploymentCenterCodeForm from './code/DeploymentCenterCodeForm';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
@@ -45,6 +45,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
   const [formValidationSchema, setFormValidationSchema] = useState<DeploymentCenterYupValidationSchemaType | undefined>(undefined);
   const [isPublishProfilePanelOpen, setIsPublishProfilePanelOpen] = useState<boolean>(false);
+  const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties>>({ value: [] });
 
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
 
@@ -83,12 +84,26 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
     const getContainerLogsRequest = deploymentCenterData.fetchContainerLogs(resourceId);
     const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
+    const id = `${resourceId}/deployments`;
+    const getDeploymentsResponse = MakeArmCall<ArmArray<DeploymentProperties>>({
+      resourceId: id,
+      commandName: 'fetchDeployments',
+      method: 'GET',
+      skipBatching: true,
+    });
 
-    const [writePermissionResponse, publishingUserResponse, containerLogsResponse, siteConfigResponse] = await Promise.all([
+    const [
+      writePermissionResponse,
+      publishingUserResponse,
+      containerLogsResponse,
+      siteConfigResponse,
+      deploymentsResponse,
+    ] = await Promise.all([
       writePermissionRequest,
       getPublishingUserRequest,
       getContainerLogsRequest,
       getSiteConfigRequest,
+      getDeploymentsResponse,
     ]);
 
     setSiteDescriptor(new ArmSiteDescriptor(resourceId));
@@ -101,6 +116,15 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       setLogs(
         errorMessage ? t('deploymentCenterContainerLogsFailedWithError').format(errorMessage) : t('deploymentCenterContainerLogsFailed')
       );
+    }
+
+    if (deploymentsResponse.metadata.success) {
+      setDeployments(deploymentsResponse.data);
+    } else {
+      // const errorMessage = getErrorMessage(deploymentsResponse.metadata.error);
+      // setDeployments(
+      //   errorMessage ? t('deploymentCenterContainerLogsFailedWithError').format(errorMessage) : t('deploymentCenterContainerLogsFailed')
+      // );
     }
 
     if (siteConfigResponse.metadata.success) {
@@ -194,6 +218,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         />
       ) : (
         <DeploymentCenterCodeForm
+          deployments={deployments}
           publishingUser={publishingUser}
           publishingProfile={publishingProfile}
           publishingCredentials={publishingCredentials}
