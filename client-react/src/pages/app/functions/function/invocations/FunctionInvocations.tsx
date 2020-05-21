@@ -16,14 +16,7 @@ import {
   Link,
 } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import {
-  invocationsTabStyle,
-  filterBoxStyle,
-  invocationsSummary,
-  summaryItem,
-  successElement,
-  invocationsTable,
-} from './FunctionInvocations.style';
+import { invocationsTabStyle, invocationsSummary, summaryItem, successElement, invocationsTable } from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../../../../images/Common/Error.svg';
 import { ReactComponent as SuccessSvg } from '../../../../../images/Common/Success.svg';
@@ -33,6 +26,7 @@ import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
 import FunctionInvocationDetails from './FunctionInvocationDetails';
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
+import { filterTextFieldStyle } from '../../../../../components/form-controls/formControl.override.styles';
 
 interface FunctionInvocationsProps {
   functionAppName: string;
@@ -229,7 +223,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
               className="ms-slideDownIn20"
               autoFocus
               iconProps={{ iconName: 'Filter' }}
-              styles={filterBoxStyle}
+              styles={filterTextFieldStyle}
               placeholder={t('filterInvocations')}
               onChange={newValue => setFilterValue(newValue)}
             />
