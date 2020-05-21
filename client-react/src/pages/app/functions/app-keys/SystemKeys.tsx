@@ -11,7 +11,7 @@ import {
   PanelType,
 } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { filterBoxStyle, renewTextStyle } from './AppKeys.styles';
+import { renewTextStyle } from './AppKeys.styles';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
 import AppKeyAddEdit from './AppKeyAddEdit';
@@ -21,6 +21,7 @@ import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 
 interface SystemKeysProps {
   resourceId: string;
@@ -34,7 +35,6 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
   const { systemKeys, resourceId, refreshData, initialLoading, readOnlyPermission } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
-  const [showFilter, setShowFilter] = useState(false);
   const [showRenewDialog, setShowRenewDialog] = useState(false);
   const [renewKey, setRenewKey] = useState(emptyKey);
   const [filterValue, setFilterValue] = useState('');
@@ -60,11 +60,6 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
     setShowPanel(true);
     setCurrentKey(key ? key : emptyKey);
     setPanelItem(key ? 'edit' : 'add');
-  };
-
-  const toggleFilter = () => {
-    setFilterValue('');
-    setShowFilter(!showFilter);
   };
 
   const filterValues = () => {
@@ -239,13 +234,6 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
       },
-      {
-        key: 'app-keys-system-keys-show-filter',
-        onClick: toggleFilter,
-        disabled: initialLoading,
-        iconProps: { iconName: 'Filter' },
-        name: t('filter'),
-      },
     ];
   };
 
@@ -275,17 +263,15 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         selectionPreservedOnEmptyClick={true}
         shimmer={{ lines: 2, show: initialLoading }}
         emptyMessage={t('emptySystemKeys')}>
-        {showFilter && (
-          <SearchBox
-            id="app-keys-system-keys-search"
-            className="ms-slideDownIn20"
-            autoFocus
-            iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
-            placeholder={t('filterSystemKeys')}
-            onChange={newValue => setFilterValue(newValue)}
-          />
-        )}
+        <SearchBox
+          id="app-keys-system-keys-search"
+          className="ms-slideDownIn20"
+          autoFocus
+          iconProps={{ iconName: 'Filter' }}
+          styles={filterTextFieldStyle}
+          placeholder={t('filterSystemKeys')}
+          onChange={newValue => setFilterValue(newValue)}
+        />
       </DisplayTableWithCommandBar>
       <CustomPanel
         isOpen={showPanel && (panelItem === 'add' || panelItem === 'edit')}
