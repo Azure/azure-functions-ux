@@ -69,11 +69,11 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     { key: 'checkinMessage', name: t('checkinMessage'), fieldName: 'checkinMessage', minWidth: 210 },
   ];
 
-  var groups: IGroup[] = [];
-  var previousMoment: moment.Moment;
+  const groups: IGroup[] = [];
+  let previousMoment: moment.Moment;
   items.forEach((item, index) => {
     if (index === 0 || !item.rawTime.isSame(previousMoment, 'day')) {
-      var group = { key: 'Group' + groups.length, name: item.rawTime.format('dddd, MMMM D, YYYY'), startIndex: index, count: 1 };
+      const group = { key: 'Group' + groups.length, name: item.rawTime.format('dddd, MMMM D, YYYY'), startIndex: index, count: 1 };
       previousMoment = item.rawTime;
       groups.push(group);
     } else {

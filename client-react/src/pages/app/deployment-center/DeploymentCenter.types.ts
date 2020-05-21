@@ -107,7 +107,7 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
 
 export interface DeploymentProperties {
   id: string;
-  status: number;
+  status: DeployStatus;
   status_text: string;
   author_email: string;
   author: string;
