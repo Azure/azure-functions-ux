@@ -13,6 +13,7 @@ import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingTopStyle } from '../Callout.styles';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
 import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
+import { NationalCloudEnvironment } from '../../../../../../utils/scenario-checker/national-cloud.environment';
 
 interface StorageAccountPivotFormValues {
   storageAccount: ArmObj<StorageAccount> | undefined;
@@ -123,12 +124,31 @@ const setStorageAccountConnection = (
     const appSettingName = `${formValues.storageAccount.name}_STORAGE`;
     const appSettingValue = `DefaultEndpointsProtocol=https;AccountName=${formValues.storageAccount.name};AccountKey=${
       keyList.keys[0].value
-    }`;
+    }${appendEndpoint()}`;
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
     setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
     setKeyList(undefined);
     setIsDialogVisible(false);
   }
+};
+
+const appendEndpoint = () => {
+  if (NationalCloudEnvironment.isFairFax()) {
+    return ';EndpointSuffix=core.usgovcloudapi.net';
+  }
+  if (NationalCloudEnvironment.isMooncake()) {
+    return ';EndpointSuffix=core.chinacloudapi.cn';
+  }
+  if (NationalCloudEnvironment.isBlackforest()) {
+    return ';EndpointSuffix=core.cloudapi.de';
+  }
+  if (NationalCloudEnvironment.isUSNat()) {
+    return ';EndpointSuffix=core.eaglex.ic.gov';
+  }
+  if (NationalCloudEnvironment.isUSSec()) {
+    return ';EndpointSuffix=core.microsoft.scloud';
+  }
+  return '';
 };
 
 export default StorageAccountPivot;
