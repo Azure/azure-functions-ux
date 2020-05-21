@@ -204,7 +204,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   if (bindingsError) {
     // Issue loading bindings or binding settings
     banner = <CustomBanner message={t('integrate_bindingsFailedLoading')} type={MessageBarType.error} />;
-  } else if (isCompiledFunction && functionConfig.bindings.length < 2) {
+  } else if (isCompiledFunction && bindingsMissingDirection.length === 0) {
     // It's a C# compiled function, and older versions of the SDK don't show input/out bindings.
     banner = <CustomBanner message={t('integrate_compiledDoNotShowInputOutput')} type={MessageBarType.info} />;
   } else if (bindingsMissingDirection.length > 0) {
