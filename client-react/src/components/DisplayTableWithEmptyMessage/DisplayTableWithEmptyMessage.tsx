@@ -5,6 +5,7 @@ import { style } from 'typestyle';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../ThemeContext';
 import { ShimmeredDetailsList } from 'office-ui-fabric-react';
+import { detailListHeaderStyle } from '../form-controls/formControl.override.styles';
 
 export interface ShimmerProps {
   lines: number;
@@ -36,7 +37,13 @@ export const defaultCellStyle = style({
 type Props = DisplayTableWithEmptyMessageProps & IDetailsListProps;
 const DisplayTableWithEmptyMessage: React.SFC<Props> = props => {
   const theme = useContext(ThemeContext);
-  const { emptyMessage, shimmer, ...rest } = props;
+  const { emptyMessage, shimmer, columns, ...rest } = props;
+
+  const updatedColumns = (columns || []).map(column => {
+    const allHeaderClassName = `${detailListHeaderStyle} ${column.headerClassName || ''}`;
+    column.headerClassName = allHeaderClassName;
+    return column;
+  });
 
   return (
     <>
@@ -46,10 +53,11 @@ const DisplayTableWithEmptyMessage: React.SFC<Props> = props => {
           shimmerLines={shimmer.lines}
           className={initialShimmerTableStyle(shimmer.show)}
           removeFadingOverlay={true}
+          columns={updatedColumns}
           {...rest}
         />
       ) : (
-        <DetailsList {...rest} />
+        <DetailsList columns={updatedColumns} {...rest} />
       )}
       {props.items.length === 0 && !!emptyMessage && (!shimmer || !shimmer.show) && (
         <div className={emptyTableMessageStyle(theme)}>{emptyMessage}</div>

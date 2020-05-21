@@ -1,5 +1,5 @@
 import { DropDownStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Dropdown.styles';
-import { IDropdownStyles, ITextFieldStyles } from 'office-ui-fabric-react';
+import { IDropdownStyles, ITextFieldStyles, IDetailsListStyles } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
@@ -99,3 +99,8 @@ export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean) =>
     width: upsellIcon && fullpage ? '220px' : '200px',
     paddingRight: '5px',
   });
+
+export const detailListHeaderStyle = style({
+  fontWeight: 'bolder',
+  fontSize: '13px',
+});
