@@ -21,6 +21,14 @@ export enum ContainerDockerAccessTypes {
   private = 'private',
 }
 
+export enum DeployStatus {
+  Pending,
+  Building,
+  Deploying,
+  Failed,
+  Success,
+}
+
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps;
 
 export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps;
@@ -75,7 +83,6 @@ export interface DeploymentCenterContainerFormProps extends DeploymentCenterCont
 }
 
 export interface DeploymentCenterCodeFormProps extends DeploymentCenterCodeProps {
-  deployments: ArmArray<DeploymentProperties>;
   showPublishProfilePanel: () => void;
   formData?: DeploymentCenterFormData;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType;

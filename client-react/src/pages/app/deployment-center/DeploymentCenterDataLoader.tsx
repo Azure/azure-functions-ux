@@ -84,13 +84,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
     const getContainerLogsRequest = deploymentCenterData.fetchContainerLogs(resourceId);
     const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
-    const id = `${resourceId}/deployments`;
-    const getDeploymentsResponse = MakeArmCall<ArmArray<DeploymentProperties>>({
-      resourceId: id,
-      commandName: 'fetchDeployments',
-      method: 'GET',
-      skipBatching: true,
-    });
+    const getDeploymentsRequest = deploymentCenterData.getSiteDeployments(resourceId);
 
     const [
       writePermissionResponse,
@@ -103,7 +97,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       getPublishingUserRequest,
       getContainerLogsRequest,
       getSiteConfigRequest,
-      getDeploymentsResponse,
+      getDeploymentsRequest,
     ]);
 
     setSiteDescriptor(new ArmSiteDescriptor(resourceId));
