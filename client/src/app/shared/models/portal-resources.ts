@@ -1599,6 +1599,10 @@ export class PortalResources {
   public static userCredsError = 'userCredsError';
   public static incomingClientCertificates = 'incomingClientCertificates';
   public static requireIncomingClientCertificates = 'requireIncomingClientCertificates';
+  public static clientCertificateMode = 'clientCertificateMode';
+  public static clientCertificateModeRequire = 'clientCertificateModeRequire';
+  public static clientCertificateModeAllow = 'clientCertificateModeAllow';
+  public static clientCertificateModeIgnore = 'clientCertificateModeIgnore';
   public static certificateExlusionPaths = 'certificateExlusionPaths';
   public static editCertificateExlusionPaths = 'editCertificateExlusionPaths';
   public static noExclusionRulesDefined = 'noExclusionRulesDefined';

@@ -116,6 +116,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
           if (callCount === 0) {
             newDocs = trimPreviousDocs(newDocs);
           }
+          newDocs.sort((a, b) => (a.SequenceNumber < b.SequenceNumber ? -1 : 1));
 
           const newLogEntires = mapDocsToLogEntry(newDocs);
           const updatedLogEntries = allLogEntries.concat(newLogEntires);
