@@ -6048,12 +6048,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterContainerLogsFailedWithError" xml:space="preserve">
         <value>Failed to load container logs: {0}</value>
     </data>
-    <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
-        <value>Failed to load code deployments</value>
-    </data>
-    <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
-        <value>Failed to load code deployments: {0}</value>
-    </data>
     <data name="invocationTracesTableTitle" xml:space="preserve">
         <value>Invocation Traces</value>
     </data>
@@ -6224,5 +6218,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="clickToUpdateSettings" xml:space="preserve">
         <value>Click here to update your settings.</value>
+    </data>
+    <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
+        <value>Failed to load code deployments</value>
+    </data>
+    <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
+        <value>Failed to load code deployments: {0}</value>
     </data>
 </root>
