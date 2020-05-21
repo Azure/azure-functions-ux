@@ -21,7 +21,7 @@ export enum ContainerDockerAccessTypes {
   private = 'private',
 }
 
-export enum DeployStatus {
+export enum DeploymentStatus {
   Pending,
   Building,
   Deploying,
@@ -109,7 +109,7 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
 // TODO (t-kakan): Verify all properties are guaranteed
 export interface DeploymentProperties {
   id: string;
-  status: DeployStatus;
+  status: DeploymentStatus;
   status_text: string;
   author_email: string;
   author: string;
