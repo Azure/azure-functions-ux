@@ -6189,7 +6189,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_configUpdateFailure" xml:space="preserve">
         <value>Failed to update application settings: {0}</value>
     </data>
+    <data name="clickToShowValue" xml:space="preserve">
+        <value>Click to show value</value>
+    </data>
+    <data name="clickToHideValue" xml:space="preserve">
+        <value>Click to hide value</value>
+    </data>
     <data name="testAndRun" xml:space="preserve">
         <value>Test/Run</value>
+    </data>
+    <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
+        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+    </data>
+    <data name="clickToUpdateSettings" xml:space="preserve">
+        <value>Click here to update your settings.</value>
     </data>
 </root>
