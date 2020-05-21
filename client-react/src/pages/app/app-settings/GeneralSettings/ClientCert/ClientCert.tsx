@@ -21,13 +21,6 @@ enum CompositeClientCertMode {
   Ignore = 'Ignore',
 }
 
-const getCompositeClientCertMode = (site: ArmObj<Site>): CompositeClientCertMode => {
-  if (site.properties.clientCertEnabled) {
-    return site.properties.clientCertMode === ClientCertMode.Required ? CompositeClientCertMode.Require : CompositeClientCertMode.Allow;
-  }
-  return CompositeClientCertMode.Ignore;
-};
-
 const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values, setFieldValue, initialValues } = props;
   const site = useContext(SiteContext);
@@ -49,12 +42,24 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       case CompositeClientCertMode.Ignore:
         setFieldValue('site.properties.clientCertEnabled', false);
         break;
+      default:
+        setFieldValue('site.properties.clientCertEnabled', false);
+        break;
     }
+  };
+
+  const getCompositeClientCertMode = (siteArm: ArmObj<Site>): CompositeClientCertMode => {
+    if (siteArm.properties.clientCertEnabled) {
+      return siteArm.properties.clientCertMode === ClientCertMode.Required
+        ? CompositeClientCertMode.Require
+        : CompositeClientCertMode.Allow;
+    }
+    return CompositeClientCertMode.Ignore;
   };
 
   const scenarioChecker = new ScenarioService(t);
   const clientCertEnabled = scenarioChecker.checkScenario(ScenarioIds.incomingClientCertEnabled, { site });
-  const openClientExclusionPathPane = () => {
+  const openClientExclusionPathPanel = () => {
     setShowPanel(true);
   };
   const onCancel = () => {
@@ -115,7 +120,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             ariaLabel={t('editCertificateExlusionPaths')}
             title={t('editCertificateExlusionPaths')}
             disabled={disableAllControls || !values.site.properties.clientCertEnabled}
-            onClick={openClientExclusionPathPane}
+            onClick={openClientExclusionPathPanel}
           />
         </Stack>
       </div>
