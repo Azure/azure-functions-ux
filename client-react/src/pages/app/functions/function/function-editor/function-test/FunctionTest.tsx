@@ -31,16 +31,15 @@ export interface FunctionTestProps {
   testData?: string;
 }
 
-const defaultInputFormValues: InputFormValues = {
-  method: HttpMethods.get,
-  queries: [],
-  headers: [],
-};
-
 // TODO (krmitta): Add Content for Function test panel [WI: 5536379]
 const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { t } = useTranslation();
   const [statusMessage, setStatusMessage] = useState<StatusMessage | undefined>(undefined);
+  const [defaultInputFormValues, setDefaultInputFormValues] = useState<InputFormValues>({
+    method: HttpMethods.get,
+    queries: [],
+    headers: [],
+  });
 
   const {
     run,
@@ -91,9 +90,11 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     setReqBody(newValue);
   };
 
-  useEffect(() => {
-    defaultInputFormValues.headers = [];
-    defaultInputFormValues.queries = [];
+  const setUpdatedInputFormValues = () => {
+    const updatedFormValues = { ...defaultInputFormValues };
+
+    updatedFormValues.headers = [];
+    updatedFormValues.queries = [];
     let localTestData;
     try {
       localTestData = JSON.parse(testData || functionInfo.properties.test_data || '');
@@ -108,18 +109,18 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
         setReqBody(localTestData.body);
       }
       if (!!localTestData.method) {
-        defaultInputFormValues.method = localTestData.method;
+        updatedFormValues.method = localTestData.method;
       }
       if (!!localTestData.queryStringParams) {
         const queryParameters = localTestData.queryStringParams;
         for (const parameters of queryParameters) {
-          defaultInputFormValues.queries.push({ name: parameters.name, value: parameters.value });
+          updatedFormValues.queries.push({ name: parameters.name, value: parameters.value });
         }
       }
       if (!!localTestData.headers) {
         const headers = localTestData.headers;
         for (const header of headers) {
-          defaultInputFormValues.headers.push({ name: header.name, value: header.value });
+          updatedFormValues.headers.push({ name: header.name, value: header.value });
         }
       }
     }
@@ -137,8 +138,8 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           .replace('}', '')
           .split(':');
         const name = splitResult[0];
-        if (!defaultInputFormValues.queries.find(q => q.name.toLowerCase() === name.toLowerCase())) {
-          defaultInputFormValues.queries.push({
+        if (!updatedFormValues.queries.find(q => q.name.toLowerCase() === name.toLowerCase())) {
+          updatedFormValues.queries.push({
             name,
             value: splitResult.length > 0 ? splitResult[1] : '',
           });
@@ -146,18 +147,28 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
       });
     }
 
+    setDefaultInputFormValues(updatedFormValues);
+  };
+
+  useEffect(() => {
+    setUpdatedInputFormValues();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testData]);
 
   useEffect(() => {
-    defaultInputFormValues.xFunctionKey = xFunctionKey;
+    const updatedFormValues = { ...defaultInputFormValues };
+    updatedFormValues.xFunctionKey = xFunctionKey;
+
+    setDefaultInputFormValues(updatedFormValues);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [xFunctionKey]);
   return (
     <Formik
       initialValues={defaultInputFormValues}
       onSubmit={run}
+      enableReinitialize={true}
       validate={validateForm}
       render={(formProps: FormikProps<InputFormValues>) => {
         const actionBarPrimaryButtonProps = {
