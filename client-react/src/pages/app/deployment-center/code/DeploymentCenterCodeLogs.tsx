@@ -46,7 +46,6 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     index: index,
     rawTime: moment(deployment.properties.received_time),
     displayTime: moment(deployment.properties.received_time).format('h:mm:ss A Z'),
-    // commit: deployment.properties.id.substr(0, 7),
     commit: React.createElement(
       'a',
       {
@@ -64,10 +63,10 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const items = rows.sort(dateTimeComparatorReverse);
 
   const columns = [
-    { key: 'displayTime', name: 'Time', fieldName: 'displayTime', minWidth: 150 },
-    { key: 'commit', name: 'Commit ID', fieldName: 'commit', minWidth: 150 },
-    { key: 'status', name: 'Status', fieldName: 'status', minWidth: 210 },
-    { key: 'checkinMessage', name: 'Checkin Message', fieldName: 'checkinMessage', minWidth: 210 },
+    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150 },
+    { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 150 },
+    { key: 'status', name: t('status'), fieldName: 'status', minWidth: 210 },
+    { key: 'checkinMessage', name: t('checkinMessage'), fieldName: 'checkinMessage', minWidth: 210 },
   ];
 
   var groups: IGroup[] = [];
