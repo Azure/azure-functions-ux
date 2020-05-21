@@ -4,8 +4,6 @@ export const invocationsTabStyle = style({
   padding: '5px 8px',
 });
 
-export const filterBoxStyle = { root: { marginTop: '5px', height: '25px', width: '100%' } };
-
 export const invocationsSummary = style({
   borderBottom: '1px solid rgba(204,204,204,.8)',
   padding: '12px 0px',

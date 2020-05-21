@@ -110,7 +110,6 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
     margin: 10px 5px;
     position: relative;
     cursor: pointer;
-    outline: 0 solid $border-selection-color;
 
     h2 {
       color: $body-bg-color;
