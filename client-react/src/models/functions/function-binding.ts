@@ -5,6 +5,7 @@
 export enum BindingDirection {
   in = 'in',
   out = 'out',
+  trigger = 'trigger',
 }
 
 export enum BindingType {

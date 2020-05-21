@@ -27,9 +27,17 @@ export default class StringUtils {
   }
 
   public static isEqualStringArray(items: string[] | null, otherItems: string[] | null): boolean {
-    const itmesSorted = items && items.sort();
+    const itemsSorted = items && items.sort();
     const otherItemsSorted = otherItems && otherItems.sort();
 
-    return isEqual(itmesSorted, otherItemsSorted);
+    return isEqual(itemsSorted, otherItemsSorted);
+  }
+
+  public static equalsIgnoreCase(stringA?: string, stringB?: string): boolean {
+    return !!stringA && !!stringB && stringA.toUpperCase() === stringB.toUpperCase();
+  }
+
+  public static endsWithIgnoreCase(source?: string, substring?: string): boolean {
+    return !!source && !!substring && source.toUpperCase().endsWith(substring.toUpperCase());
   }
 }

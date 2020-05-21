@@ -5817,6 +5817,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrate_bindingsFailedLoading" xml:space="preserve">
         <value>One or more bindings failed to load, please refresh the page.</value>
     </data>
+    <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
+        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+    </data>
     <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Delete Function Key</value>
     </data>
