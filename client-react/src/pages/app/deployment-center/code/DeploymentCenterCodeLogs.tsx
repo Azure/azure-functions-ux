@@ -32,11 +32,11 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
       case DeployStatus.Deploying:
         return progressString;
       case DeployStatus.Pending:
-        return 'Pending';
+        return t('pending');
       case DeployStatus.Failed:
-        return 'Failed';
+        return t('failed');
       case DeployStatus.Success:
-        return 'Success';
+        return t('success');
       default:
         return '';
     }
