@@ -4,17 +4,17 @@ import { IDropdownOption, Link, MessageBar, MessageBarType } from 'office-ui-fab
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../../../components/ActionBar';
+import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { learnMoreLinkStyle } from '../../../../../../components/form-controls/formControl.override.styles';
 import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../../../models/functions/function-binding';
+import { KeyValue } from '../../../../../../models/portal-models';
 import { CommonConstants } from '../../../../../../utils/CommonConstants';
 import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
+import { getFunctionBindingDirection } from '../FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
-import { getFunctionBindingDirection } from './BindingEditor';
-import Dropdown from '../../../../../../components/form-controls/DropDown';
-import { KeyValue } from '../../../../../../models/portal-models';
 
 export interface BindingCreatorProps {
   bindingDirection: BindingDirection;
@@ -147,7 +147,7 @@ const bindingTypeSpecificFields = (
 
   const builder = new BindingFormBuilder([formProps.values], [binding], functionAppId, t);
 
-  return builder.getFields(formProps, false);
+  return builder.getFields(formProps, false, true);
 };
 
 const getDefaultValues = (bindingType: BindingType, filteredBindings: Binding[]): KeyValue<string> => {

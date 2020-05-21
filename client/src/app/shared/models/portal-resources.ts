@@ -1881,6 +1881,7 @@ export class PortalResources {
   public static integrateDeleteInputConfirmHeader = 'integrateDeleteInputConfirmHeader';
   public static integrateDeleteInputConfirmMessage = 'integrateDeleteInputConfirmMessage';
   public static integrate_bindingsFailedLoading = 'integrate_bindingsFailedLoading';
+  public static integrate_compiledDoNotShowInputOutput = 'integrate_compiledDoNotShowInputOutput';
   public static deleteFunctionKeyHeader = 'deleteFunctionKeyHeader';
   public static deleteFunctionKeyMessage = 'deleteFunctionKeyMessage';
   public static fetchFileContentFailureMessage = 'fetchFileContentFailureMessage';
