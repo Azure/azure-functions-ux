@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { FunctionKeysFormValues, FunctionKeysModel, DialogType } from './FunctionKeys.types';
 import { useTranslation } from 'react-i18next';
-import { commandBarSticky, formStyle, renewTextStyle, filterBoxStyle, deleteButtonStyle } from './FunctionKeys.styles';
+import { commandBarSticky, formStyle, renewTextStyle, deleteButtonStyle } from './FunctionKeys.styles';
 import FunctionKeysCommandBar from './FunctionKeysCommandBar';
 import {
   ActionButton,
@@ -29,6 +29,7 @@ import LogService from '../../../../../utils/LogService';
 import { PortalContext } from '../../../../../PortalContext';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { filterTextFieldStyle } from '../../../../../components/form-controls/formControl.override.styles';
 
 interface FunctionKeysProps {
   resourceId: string;
@@ -52,7 +53,6 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   const { t } = useTranslation();
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
-  const [showFilter, setShowFilter] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [renewKey, setRenewKey] = useState(emptyKey);
   const [filterValue, setFilterValue] = useState('');
@@ -73,11 +73,6 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(keys.map(h => h.name))]);
     setShowValues(!showValues);
-  };
-
-  const toggleFilter = () => {
-    setFilterValue('');
-    setShowFilter(!showFilter);
   };
 
   const onClosePanel = () => {
@@ -289,12 +284,6 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
       },
-      {
-        key: 'function-keys-show-filter',
-        onClick: toggleFilter,
-        iconProps: { iconName: 'Filter' },
-        name: t('filter'),
-      },
     ];
   };
 
@@ -322,17 +311,15 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
             selectionMode={SelectionMode.none}
             selectionPreservedOnEmptyClick={true}
             emptyMessage={t('emptyFunctionKeys')}>
-            {showFilter && (
-              <SearchBox
-                id="function-keys-search"
-                className="ms-slideDownIn20"
-                autoFocus
-                iconProps={{ iconName: 'Filter' }}
-                styles={filterBoxStyle}
-                placeholder={t('filterFunctionKeys')}
-                onChange={newValue => setFilterValue(newValue)}
-              />
-            )}
+            <SearchBox
+              id="function-keys-search"
+              className="ms-slideDownIn20"
+              autoFocus
+              iconProps={{ iconName: 'Filter' }}
+              styles={filterTextFieldStyle}
+              placeholder={t('filterFunctionKeys')}
+              onChange={newValue => setFilterValue(newValue)}
+            />
           </DisplayTableWithCommandBar>
           {dialogType === DialogType.renew ? (
             <ConfirmDialog
