@@ -1958,6 +1958,8 @@ export class PortalResources {
   public static deploymentCenterContainerLogsLoading = 'deploymentCenterContainerLogsLoading';
   public static deploymentCenterContainerLogsFailed = 'deploymentCenterContainerLogsFailed';
   public static deploymentCenterContainerLogsFailedWithError = 'deploymentCenterContainerLogsFailedWithError';
+  public static deploymentCenterCodeDeploymentsFailed = 'deploymentCenterCodeDeploymentsFailed';
+  public static deploymentCenterCodeDeploymentsFailedWithError = 'deploymentCenterCodeDeploymentsFailedWithError';
   public static invocationTracesTableTitle = 'invocationTracesTableTitle';
   public static invocationTracesTableDescription = 'invocationTracesTableDescription';
   public static staticSite_refreshConfirmTitle = 'staticSite_refreshConfirmTitle';
