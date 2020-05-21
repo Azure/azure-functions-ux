@@ -143,7 +143,12 @@ export default class SiteService {
 
   public static updateSlotConfigNames = (resourceId: string, slotConfigNames: ArmObj<SlotConfigNames>) => {
     const id = `${SiteService.getProductionId(resourceId)}/config/slotconfignames`;
-    return MakeArmCall<ArmObj<SlotConfigNames>>({ resourceId: id, commandName: 'updateWebConfig', method: 'PUT', body: slotConfigNames });
+    return MakeArmCall<ArmObj<SlotConfigNames>>({
+      resourceId: id,
+      commandName: 'updateSlotConfigNames',
+      method: 'PUT',
+      body: slotConfigNames,
+    });
   };
 
   public static fetchAzureStorageMounts = (resourceId: string) => {
