@@ -36,7 +36,7 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
     <div>
       <MessageBar
         id={`${id}-custom-banner`}
-        isMultiline={!!undocked}
+        isMultiline={true}
         messageBarType={type}
         styles={messageBannerStyles(!!icon, !!undocked)}
         className={className}
