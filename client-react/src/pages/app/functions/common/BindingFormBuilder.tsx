@@ -7,6 +7,8 @@ import TextField from '../../../../components/form-controls/TextField';
 import { FormControlWrapper, Layout } from '../../../../components/FormControlWrapper/FormControlWrapper';
 import { Binding, BindingSetting, BindingSettingValue, BindingValidator } from '../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
+import { getFunctionBindingDirection } from '../function/integrate/FunctionIntegrate.utils';
+import { FunctionIntegrateConstants } from '../function/integrate/FunctionIntegrateConstants';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
 import Toggle from '../../../../components/form-controls/Toggle';
