@@ -10,6 +10,7 @@ import {
   AppInsightsQueryResult,
   AppInsightsInvocationTrace,
   AppInsightsInvocationTraceDetail,
+  AppInsightsKeyType,
 } from '../models/app-insights';
 import { mapResourcesTopologyToArmObjects } from '../utils/arm-utils';
 import LogService from '../utils/LogService';
@@ -153,7 +154,7 @@ export default class AppInsightsService {
       AppInsightsService._getAppInsightsResourceIdUsingAppSettings(resourceId, subscriptions);
     }
 
-    return { metadata: { success: true, error: null }, data: aiResourceId };
+    return { metadata: { success: true, error: null, appInsightsKeyType: undefined }, data: aiResourceId };
   };
 
   private static _getAppInsightsResourceIdUsingAppSettings = async (resourceId: string, subscriptions: ISubscription[]) => {
@@ -161,6 +162,7 @@ export default class AppInsightsService {
     let aiResourceId;
     let error;
     let success = false;
+    let appInsightsKeyType = AppInsightsKeyType.string;
     if (appSettingsResult.metadata.success) {
       const appSettings = appSettingsResult.data.properties;
       const appInsightsConnectionString = appSettings[CommonConstants.AppSettingNames.appInsightsConnectionString];
@@ -189,12 +191,19 @@ export default class AppInsightsService {
       if (!!aiResourceId) {
         LocalStorageService.setItem(resourceId, StorageKeys.appInsights, aiResourceId);
       }
+
+      if (
+        (appInsightsConnectionString && CommonConstants.isKeyVaultReference(appInsightsConnectionString)) ||
+        (appInsightsInstrumentationKey && CommonConstants.isKeyVaultReference(appInsightsInstrumentationKey))
+      ) {
+        appInsightsKeyType = AppInsightsKeyType.keyVault;
+      }
     } else {
       error = appSettingsResult.metadata.error;
       success = false;
     }
 
-    return { metadata: { success, error }, data: aiResourceId };
+    return { metadata: { success, error, appInsightsKeyType }, data: aiResourceId };
   };
 
   private static _getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[]) => {

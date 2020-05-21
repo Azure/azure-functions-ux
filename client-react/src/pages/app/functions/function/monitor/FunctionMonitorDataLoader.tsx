@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import FunctionMonitor from './FunctionMonitor';
-import { AppInsightsComponent } from '../../../../../models/app-insights';
+import { AppInsightsComponent, AppInsightsKeyType } from '../../../../../models/app-insights';
 import { ArmObj } from '../../../../../models/arm-obj';
 import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
 import LogService from '../../../../../utils/LogService';
@@ -17,6 +17,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
   const { resourceId } = props;
   const [appInsightsToken, setAppInsightsToken] = useState<string | undefined>(undefined);
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
+  const [appInsightsKeyType, setAppInsightsKeyType] = useState<AppInsightsKeyType | undefined>(undefined);
 
   const startupInfoContext = useContext(StartupInfoContext);
 
@@ -50,6 +51,8 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
         `Failed to get app insights resource Id: ${getErrorMessageOrStringify(appInsightsResourceIdResponse.metadata.error)}`
       );
     }
+
+    setAppInsightsKeyType(appInsightsResourceIdResponse.metadata.appInsightsKeyType);
   };
 
   const fetchToken = async (component: ArmObj<AppInsightsComponent>) => {
@@ -97,6 +100,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
       resetAppInsightsToken={resetAppInsightsToken}
       appInsightsComponent={appInsightsComponent}
       appInsightsToken={appInsightsToken}
+      appInsightsKeyType={appInsightsKeyType}
     />
   );
 };
