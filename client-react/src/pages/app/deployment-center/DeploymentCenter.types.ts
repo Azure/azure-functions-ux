@@ -106,6 +106,7 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
   resetApplicationPassword: () => void;
 }
 
+// TODO (t-kakan): Verify all properties are guaranteed
 export interface DeploymentProperties {
   id: string;
   status: DeployStatus;
