@@ -66,7 +66,7 @@ export interface DeploymentCenterContainerLogsProps {
 }
 
 export interface DeploymentCenterCodeLogsProps {
-  deployments: ArmArray<DeploymentProperties>;
+  deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
 }
 

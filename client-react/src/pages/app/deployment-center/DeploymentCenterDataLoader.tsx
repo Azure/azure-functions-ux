@@ -45,7 +45,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
   const [formValidationSchema, setFormValidationSchema] = useState<DeploymentCenterYupValidationSchemaType | undefined>(undefined);
   const [isPublishProfilePanelOpen, setIsPublishProfilePanelOpen] = useState<boolean>(false);
-  const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties>>({ value: [] });
+  const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties> | undefined>(undefined);
   const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
 
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
