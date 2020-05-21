@@ -161,21 +161,20 @@ export class BindingFormBuilder {
 
   private _getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
     return (
-      <FormControlWrapper
+      <Field
         label={setting.label}
-        layout={Layout.vertical}
-        tooltip={setting.help}
+        name={setting.name}
+        id={setting.name}
+        component={TextField}
+        disabled={isDisabled}
+        validate={value => this._validateText(value, setting.required, setting.validators)}
+        horizontal={false}
+        mouseOverToolTip={setting.help}
         required={setting.required}
-        key={setting.name}>
-        <Field
-          name={setting.name}
-          id={setting.name}
-          component={TextField}
-          disabled={isDisabled}
-          validate={value => this._validateText(value, setting.required, setting.validators)}
-          {...formProps}
-        />
-      </FormControlWrapper>
+        key={setting.name}
+        {...formProps}
+        dirty={false}
+      />
     );
   }
 
