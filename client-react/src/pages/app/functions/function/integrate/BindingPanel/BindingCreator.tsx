@@ -147,7 +147,7 @@ const bindingTypeSpecificFields = (
 
   const builder = new BindingFormBuilder([formProps.values], [binding], functionAppId, t);
 
-  return builder.getFields(formProps, false);
+  return builder.getFields(formProps, false, true);
 };
 
 const getDefaultValues = (bindingType: BindingType, filteredBindings: Binding[]): KeyValue<string> => {
