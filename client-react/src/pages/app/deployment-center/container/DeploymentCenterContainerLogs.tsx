@@ -1,7 +1,7 @@
 import React from 'react';
 import { ProgressIndicator } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterContent, containerLogs } from '../DeploymentCenter.styles';
+import { deploymentCenterContent, deploymentCenterLogs } from '../DeploymentCenter.styles';
 import { DeploymentCenterContainerLogsProps } from '../DeploymentCenter.types';
 
 const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps> = props => {
@@ -11,7 +11,7 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
   return (
     <div className={deploymentCenterContent}>
       {logs ? (
-        <pre className={containerLogs}>{logs}</pre>
+        <pre className={deploymentCenterLogs}>{logs}</pre>
       ) : (
         <ProgressIndicator
           description={t('deploymentCenterContainerLogsLoading')}

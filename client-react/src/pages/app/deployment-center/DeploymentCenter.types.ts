@@ -3,6 +3,7 @@ import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { ScmTypes } from '../../../models/site/config';
+import moment from 'moment';
 
 export enum ContainerOptions {
   docker = 'docker',
@@ -127,4 +128,8 @@ export interface DeploymentProperties {
   url: string;
   log_url: string;
   site_name: string;
+}
+
+export interface DateTimeObj {
+  rawTime: moment.Moment;
 }

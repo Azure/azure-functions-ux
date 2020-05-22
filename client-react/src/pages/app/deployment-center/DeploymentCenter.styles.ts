@@ -15,7 +15,7 @@ export const deploymentCenterContent = style({
   maxWidth: '800px',
 });
 
-export const containerLogs = style({
+export const deploymentCenterLogs = style({
   whiteSpace: 'pre-line',
   margin: 0,
 });
