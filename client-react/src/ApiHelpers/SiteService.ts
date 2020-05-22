@@ -13,6 +13,7 @@ import Url from '../utils/url';
 import { sendHttpRequest } from './HttpClient';
 import { KeyValue } from '../models/portal-models';
 import { PublishingCredentials } from '../models/site/publish';
+import { DeploymentProperties } from '../pages/app/deployment-center/DeploymentCenter.types';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -78,6 +79,15 @@ export default class SiteService {
       resultCount: result.data && Object.keys(result.data.properties).length,
     });
     return result;
+  };
+
+  public static getSiteDeployments = async (resourceId: string, force?: boolean) => {
+    return MakeArmCall<ArmArray<DeploymentProperties>>({
+      resourceId: `${resourceId}/deployments`,
+      commandName: 'fetchDeployments',
+      method: 'GET',
+      skipBatching: force,
+    });
   };
 
   public static updateApplicationSettings = async (resourceId: string, appSettings: ArmObj<KeyValue<string>>) => {

@@ -2018,4 +2018,6 @@ export class PortalResources {
   public static testAndRun = 'testAndRun';
   public static appInsightsKeyVaultWarningMessage = 'appInsightsKeyVaultWarningMessage';
   public static clickToUpdateSettings = 'clickToUpdateSettings';
+  public static deploymentCenterCodeDeploymentsFailed = 'deploymentCenterCodeDeploymentsFailed';
+  public static deploymentCenterCodeDeploymentsFailedWithError = 'deploymentCenterCodeDeploymentsFailedWithError';
 }
