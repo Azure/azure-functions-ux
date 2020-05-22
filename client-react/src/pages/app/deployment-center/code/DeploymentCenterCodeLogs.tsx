@@ -53,7 +53,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     }
   };
 
-  const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number) => {
+  const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number): CodeDeploymentsRow => {
     return {
       index: index,
       rawTime: moment(deployment.properties.received_time),
@@ -76,7 +76,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     };
   };
 
-  const getItemGroups = (items: CodeDeploymentsRow[]) => {
+  const getItemGroups = (items: CodeDeploymentsRow[]): IGroup[] => {
     const groups: IGroup[] = [];
     items.forEach((item, index) => {
       if (index === 0 || !item.rawTime.isSame(groups[groups.length - 1].data.startIndexRawTime, 'day')) {
@@ -95,8 +95,8 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     return groups;
   };
 
-  const rows = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
-  const items = rows.sort(dateTimeComparatorReverse);
+  const rows: CodeDeploymentsRow[] = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
+  const items: CodeDeploymentsRow[] = rows.sort(dateTimeComparatorReverse);
 
   const columns = [
     { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150 },
