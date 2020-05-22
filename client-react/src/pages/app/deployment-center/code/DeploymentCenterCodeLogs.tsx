@@ -16,10 +16,10 @@ import { deploymentCenterLogs } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
-  if (a.rawTime < b.rawTime) {
+  if (a.rawTime.isBefore(b.rawTime)) {
     return 1;
   }
-  if (a.rawTime > b.rawTime) {
+  if (a.rawTime.isAfter(b.rawTime)) {
     return -1;
   }
   return 0;
