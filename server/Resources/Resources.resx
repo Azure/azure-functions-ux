@@ -6219,10 +6219,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="clickToUpdateSettings" xml:space="preserve">
         <value>Click here to update your settings.</value>
     </data>
+    <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment logs</value>
+    </data>
+    <data name="deploymentCenterCodeDeploymentsLoading" xml:space="preserve">
+        <value>Loading deployment logs...</value>
+    </data>
     <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
-        <value>Failed to load code deployments</value>
+        <value>Failed to load deployment logs</value>
     </data>
     <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
-        <value>Failed to load code deployments: {0}</value>
+        <value>Failed to load deployment logs: {0}</value>
     </data>
 </root>
