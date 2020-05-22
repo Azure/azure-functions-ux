@@ -82,9 +82,8 @@ export default class SiteService {
   };
 
   public static getSiteDeployments = async (resourceId: string, force?: boolean) => {
-    const id = `${resourceId}/deployments`;
     return MakeArmCall<ArmArray<DeploymentProperties>>({
-      resourceId: id,
+      resourceId: `${resourceId}/deployments`,
       commandName: 'fetchDeployments',
       method: 'GET',
       skipBatching: force,
