@@ -20,6 +20,10 @@ export const deploymentCenterLogs = style({
   margin: 0,
 });
 
+export const deploymentCenterLogsError = style({
+  marginTop: '20px',
+});
+
 export const additionalTextFieldControl = style({
   marginLeft: '5px',
 });

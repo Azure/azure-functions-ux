@@ -12,7 +12,7 @@ import {
 import { ProgressIndicator, PanelType } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import { deploymentCenterLogs } from '../DeploymentCenter.styles';
+import { deploymentCenterLogsError } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
@@ -76,7 +76,8 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     };
   };
 
-  const createItemGroups = (items: CodeDeploymentsRow[], group: IGroup[]) => {
+  const getItemGroups = (items: CodeDeploymentsRow[]) => {
+    const groups: IGroup[] = [];
     items.forEach((item, index) => {
       if (index === 0 || !item.rawTime.isSame(groups[groups.length - 1].data.startIndexRawTime, 'day')) {
         const group = {
@@ -91,6 +92,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
         groups[groups.length - 1].count += 1;
       }
     });
+    return groups;
   };
 
   const rows = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
@@ -103,13 +105,12 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     { key: 'checkinMessage', name: t('checkinMessage'), fieldName: 'checkinMessage', minWidth: 210 },
   ];
 
-  const groups: IGroup[] = [];
-  createItemGroups(items, groups);
+  const groups: IGroup[] = getItemGroups(items);
 
   return (
     <>
       {deploymentsError ? (
-        <pre className={deploymentCenterLogs}>{deploymentsError}</pre>
+        <pre className={deploymentCenterLogsError}>{deploymentsError}</pre>
       ) : deployments ? (
         <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
       ) : (
