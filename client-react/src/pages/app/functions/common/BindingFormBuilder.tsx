@@ -4,15 +4,13 @@ import { IDropdownOption } from 'office-ui-fabric-react';
 import React from 'react';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import TextField from '../../../../components/form-controls/TextField';
+import Toggle from '../../../../components/form-controls/Toggle';
 import { FormControlWrapper, Layout } from '../../../../components/FormControlWrapper/FormControlWrapper';
 import { Binding, BindingSetting, BindingSettingValue, BindingValidator } from '../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
 import { getFunctionBindingDirection } from '../function/integrate/FunctionIntegrate.utils';
-import { FunctionIntegrateConstants } from '../function/integrate/FunctionIntegrateConstants';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
-import Toggle from '../../../../components/form-controls/Toggle';
-import { getFunctionBindingDirection } from '../function/integrate/BindingPanel/BindingEditor';
 
 export interface BindingEditorFormValues {
   [key: string]: any;
