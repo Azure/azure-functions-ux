@@ -1,6 +1,6 @@
 # Installer des dépendances
 
-Avant de commencer, vous devez [installer Visual Studio 2017](https://go.microsoft.com/fwlink/?linkid=2016389) et vous assurer que la charge de travail de développement Azure est également installée.
+Avant de commencer, vous devez [installer Visual Studio 2019](https://go.microsoft.com/fwlink/?linkid=2016389) et vous assurer que la charge de travail de développement Azure est également installée.
 
 Une fois Visual Studio installé, assurez-vous que vous disposez des [outils Azure Functions les plus récents](https://go.microsoft.com/fwlink/?linkid=2016394).
 

@@ -1,6 +1,6 @@
 # Instalowanie zależności
 
-Przed rozpoczęciem należy [zainstalować program Visual Studio 2017](https://go.microsoft.com/fwlink/?linkid=2016389) i upewnić się, że zainstalowany jest także pakiet roboczy projektowania platformy Azure.
+Przed rozpoczęciem należy [zainstalować program Visual Studio 2019](https://go.microsoft.com/fwlink/?linkid=2016389) i upewnić się, że zainstalowany jest także pakiet roboczy projektowania platformy Azure.
 
 Po zainstalowaniu programu Visual Studio upewnij się, że masz [najnowsze narzędzia usługi Azure Functions](https://go.microsoft.com/fwlink/?linkid=2016394).
 
