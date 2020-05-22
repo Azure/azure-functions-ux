@@ -4,6 +4,7 @@ import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { ScmTypes } from '../../../models/site/config';
 import moment from 'moment';
+import { Uri } from 'monaco-editor';
 
 export enum ContainerOptions {
   docker = 'docker',
@@ -119,14 +120,14 @@ export interface DeploymentProperties {
   progress: string;
   received_time: string;
   start_time: string;
-  end_time: string;
-  last_success_end_time: string;
-  complete: string;
+  end_time?: string;
+  last_success_end_time?: string;
+  complete: boolean;
   active: string;
-  is_temp: string;
-  is_readonly: string;
-  url: string;
-  log_url: string;
+  is_temp: boolean;
+  is_readonly: boolean;
+  url: Uri;
+  log_url: Uri;
   site_name: string;
 }
 
