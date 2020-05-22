@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType } from './DeploymentCenter.types';
+import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, DeploymentProperties } from './DeploymentCenter.types';
 import DeploymentCenterData from './DeploymentCenter.data';
 import { PortalContext } from '../../../PortalContext';
 import { SiteStateContext } from '../../../SiteState';
@@ -15,7 +15,7 @@ import {
   PublishingProfile,
 } from '../../../models/site/publish';
 import { useTranslation } from 'react-i18next';
-import { ArmObj } from '../../../models/arm-obj';
+import { ArmObj, ArmArray } from '../../../models/arm-obj';
 import DeploymentCenterContainerForm from './container/DeploymentCenterContainerForm';
 import DeploymentCenterCodeForm from './code/DeploymentCenterCodeForm';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
@@ -45,6 +45,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
   const [formValidationSchema, setFormValidationSchema] = useState<DeploymentCenterYupValidationSchemaType | undefined>(undefined);
   const [isPublishProfilePanelOpen, setIsPublishProfilePanelOpen] = useState<boolean>(false);
+  const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties> | undefined>(undefined);
+  const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
 
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
 
@@ -83,12 +85,20 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
     const getContainerLogsRequest = deploymentCenterData.fetchContainerLogs(resourceId);
     const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
+    const getDeploymentsRequest = deploymentCenterData.getSiteDeployments(resourceId);
 
-    const [writePermissionResponse, publishingUserResponse, containerLogsResponse, siteConfigResponse] = await Promise.all([
+    const [
+      writePermissionResponse,
+      publishingUserResponse,
+      containerLogsResponse,
+      siteConfigResponse,
+      deploymentsResponse,
+    ] = await Promise.all([
       writePermissionRequest,
       getPublishingUserRequest,
       getContainerLogsRequest,
       getSiteConfigRequest,
+      getDeploymentsRequest,
     ]);
 
     setSiteDescriptor(new ArmSiteDescriptor(resourceId));
@@ -100,6 +110,15 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       const errorMessage = getErrorMessage(containerLogsResponse.metadata.error);
       setLogs(
         errorMessage ? t('deploymentCenterContainerLogsFailedWithError').format(errorMessage) : t('deploymentCenterContainerLogsFailed')
+      );
+    }
+
+    if (deploymentsResponse.metadata.success) {
+      setDeployments(deploymentsResponse.data);
+    } else {
+      const errorMessage = getErrorMessage(deploymentsResponse.metadata.error);
+      setDeploymentsError(
+        errorMessage ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage) : t('deploymentCenterCodeDeploymentsFailed')
       );
     }
 
@@ -194,6 +213,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         />
       ) : (
         <DeploymentCenterCodeForm
+          deployments={deployments}
+          deploymentsError={deploymentsError}
           publishingUser={publishingUser}
           publishingProfile={publishingProfile}
           publishingCredentials={publishingCredentials}
