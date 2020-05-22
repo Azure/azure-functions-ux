@@ -57,7 +57,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     return {
       index: index,
       rawTime: moment(deployment.properties.received_time),
-      // NOTE (t-kakan): h:mm:ss A Z represents time format where A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
+      // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
       displayTime: moment(deployment.properties.received_time).format('h:mm:ss A Z'),
       commit: React.createElement(
         'a',
