@@ -70,8 +70,9 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
         deployment.properties.id.substr(0, 7)
       ),
       checkinMessage: deployment.properties.message,
-      status:
-        getStatusString(deployment.properties.status, deployment.properties.progress) + (deployment.properties.active ? ' (Active)' : ''),
+      status: deployment.properties.active
+        ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
+        : `${getStatusString(deployment.properties.status, deployment.properties.progress)}`,
     };
   };
 
@@ -79,7 +80,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     items.forEach((item, index) => {
       if (index === 0 || !item.rawTime.isSame(groups[groups.length - 1].data.startIndexRawTime, 'day')) {
         const group = {
-          key: 'Group' + groups.length,
+          key: `Group${groups.length}`,
           name: item.rawTime.format('dddd, MMMM D, YYYY'),
           startIndex: index,
           count: 1,
