@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 import { IGroup } from 'office-ui-fabric-react/lib/components/GroupedList/GroupedList.types';
-import { DeploymentCenterCodeLogsProps, DateTimeObj, DeploymentStatus, DeploymentProperties } from '../DeploymentCenter.types';
+import {
+  DeploymentCenterCodeLogsProps,
+  DateTimeObj,
+  DeploymentStatus,
+  DeploymentProperties,
+  CodeDeploymentsRow,
+} from '../DeploymentCenter.types';
 import { ProgressIndicator, PanelType } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
@@ -24,6 +30,13 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const { deployments, deploymentsError } = props;
   const { t } = useTranslation();
 
+  const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
+    setIsLogPanelOpen(true);
+  };
+  const dismissLogPanel = () => {
+    setIsLogPanelOpen(false);
+  };
+
   const getStatusString = (status: DeploymentStatus, progressString: string) => {
     switch (status) {
       case DeploymentStatus.Building:
@@ -40,26 +53,45 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     }
   };
 
-  const rows = deployments
-    ? deployments.value.map((deployment, index) => ({
-        index: index,
-        rawTime: moment(deployment.properties.received_time),
-        displayTime: moment(deployment.properties.received_time).format('h:mm:ss A Z'),
-        commit: React.createElement(
-          'a',
-          {
-            href: '#' + deployment.properties.id,
-            onClick: () => {
-              showLogPanel(deployment);
-            },
+  const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number) => {
+    return {
+      index: index,
+      rawTime: moment(deployment.properties.received_time),
+      displayTime: moment(deployment.properties.received_time).format('h:mm:ss A Z'),
+      commit: React.createElement(
+        'a',
+        {
+          href: '#' + deployment.properties.id,
+          onClick: () => {
+            showLogPanel(deployment);
           },
-          deployment.properties.id.substr(0, 7)
-        ),
-        checkinMessage: deployment.properties.message,
-        status:
-          getStatusString(deployment.properties.status, deployment.properties.progress) + (deployment.properties.active ? ' (Active)' : ''),
-      }))
-    : [];
+        },
+        deployment.properties.id.substr(0, 7)
+      ),
+      checkinMessage: deployment.properties.message,
+      status:
+        getStatusString(deployment.properties.status, deployment.properties.progress) + (deployment.properties.active ? ' (Active)' : ''),
+    };
+  };
+
+  const createItemGroups = (items: CodeDeploymentsRow[], group: IGroup[]) => {
+    items.forEach((item, index) => {
+      if (index === 0 || !item.rawTime.isSame(groups[groups.length - 1].data.startIndexRawTime, 'day')) {
+        const group = {
+          key: 'Group' + groups.length,
+          name: item.rawTime.format('dddd, MMMM D, YYYY'),
+          startIndex: index,
+          count: 1,
+          data: { startIndexRawTime: item.rawTime },
+        };
+        groups.push(group);
+      } else {
+        groups[groups.length - 1].count += 1;
+      }
+    });
+  };
+
+  const rows = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
   const items = rows.sort(dateTimeComparatorReverse);
 
   const columns = [
@@ -70,24 +102,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   ];
 
   const groups: IGroup[] = [];
-  let previousMoment: moment.Moment;
-  items.forEach((item, index) => {
-    if (index === 0 || !item.rawTime.isSame(previousMoment, 'day')) {
-      const group = { key: 'Group' + groups.length, name: item.rawTime.format('dddd, MMMM D, YYYY'), startIndex: index, count: 1 };
-      previousMoment = item.rawTime;
-      groups.push(group);
-    } else {
-      groups[groups.length - 1].count += 1;
-    }
-  });
-
-  const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
-    console.log(deployment);
-    setIsLogPanelOpen(true);
-  };
-  const dismissLogPanel = () => {
-    setIsLogPanelOpen(false);
-  };
+  createItemGroups(items, groups);
 
   return (
     <>

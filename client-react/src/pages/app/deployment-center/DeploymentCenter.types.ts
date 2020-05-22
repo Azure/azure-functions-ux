@@ -133,3 +133,18 @@ export interface DeploymentProperties {
 export interface DateTimeObj {
   rawTime: moment.Moment;
 }
+
+export interface CodeDeploymentsRow {
+  index: number;
+  rawTime: moment.Moment;
+  displayTime: string;
+  commit: React.DetailedReactHTMLElement<
+    {
+      href: string;
+      onClick: () => void;
+    },
+    HTMLElement
+  >;
+  checkinMessage: string;
+  status: string;
+}
