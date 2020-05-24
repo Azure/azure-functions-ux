@@ -25,14 +25,14 @@ import { filterTextFieldStyle } from '../../../../components/form-controls/formC
 
 interface SystemKeysProps {
   resourceId: string;
-  initialLoading: boolean;
+  loading: boolean;
   systemKeys: AppKeysModel[];
   refreshData: () => void;
   readOnlyPermission: boolean;
 }
 
 const SystemKeys: React.FC<SystemKeysProps> = props => {
-  const { systemKeys, resourceId, refreshData, initialLoading, readOnlyPermission } = props;
+  const { systemKeys, resourceId, refreshData, loading, readOnlyPermission } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showRenewDialog, setShowRenewDialog] = useState(false);
@@ -230,7 +230,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
       {
         key: 'app-keys-system-keys-show-hide',
         onClick: flipHideSwitch,
-        disabled: initialLoading,
+        disabled: loading,
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
       },
@@ -261,7 +261,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
-        shimmer={{ lines: 2, show: initialLoading }}
+        shimmer={{ lines: 2, show: loading }}
         emptyMessage={t('emptySystemKeys')}>
         <SearchBox
           id="app-keys-system-keys-search"
