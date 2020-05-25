@@ -25,14 +25,14 @@ import { filterTextFieldStyle } from '../../../../components/form-controls/formC
 
 interface HostKeysProps {
   resourceId: string;
-  initialLoading: boolean;
+  loading: boolean;
   hostKeys: AppKeysModel[];
   refreshData: () => void;
   readOnlyPermission: boolean;
 }
 
 const HostKeys: React.FC<HostKeysProps> = props => {
-  const { hostKeys, resourceId, refreshData, initialLoading, readOnlyPermission } = props;
+  const { hostKeys, resourceId, refreshData, loading, readOnlyPermission } = props;
   const [showValues, setShowValues] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [showRenewDialog, setShowRenewDialog] = useState(false);
@@ -210,7 +210,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       {
         key: 'app-keys-host-keys-add',
         onClick: () => showAddEditPanel(),
-        disabled: readOnlyPermission || initialLoading,
+        disabled: readOnlyPermission || loading,
         iconProps: { iconName: 'Add' },
         name: t('newHostKey'),
         ariaLabel: t('addHostKey'),
@@ -218,7 +218,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       {
         key: 'app-keys-host-keys-show-hide',
         onClick: flipHideSwitch,
-        disabled: initialLoading,
+        disabled: loading,
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
       },
@@ -272,7 +272,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
-        shimmer={{ lines: 2, show: initialLoading }}
+        shimmer={{ lines: 2, show: loading }}
         emptyMessage={t('emptyHostKeys')}>
         <SearchBox
           id="app-keys-host-keys-search"

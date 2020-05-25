@@ -26,17 +26,6 @@ export const addPanelCommandBar = (theme: ThemeExtended) =>
     marginBottom: '50px',
   });
 
-export const disableIFrameStyle = style({
-  top: '0px',
-  left: '0px',
-  bottom: '0px',
-  right: ' 0px',
-  backgroundColor: 'rgba(255, 255, 255, 0.4)',
-  opacity: 0.8,
-  zIndex: 1,
-  position: 'absolute',
-});
-
 export const renewTextStyle = (theme: ThemeExtended) =>
   style({
     color: theme.semanticColors.actionLink,
