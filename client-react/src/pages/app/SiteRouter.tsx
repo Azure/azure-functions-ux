@@ -118,13 +118,26 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
     return undefined;
   };
 
-  const resolveAndGetUndefinedSiteState = (armSiteDescriptor: ArmSiteDescriptor, config?: ArmObj<SiteConfig>) => {
+  const resolveAndGetUndefinedSiteState = async (armSiteDescriptor: ArmSiteDescriptor, config?: ArmObj<SiteConfig>) => {
     if (!!config && SiteHelper.isSourceControlEnabled(config)) {
       return FunctionAppEditMode.ReadOnlySourceControlled;
     }
 
     if (armSiteDescriptor.slot) {
       return FunctionAppEditMode.ReadOnlySlots;
+    }
+
+    const slotResponse = await SiteService.fetchSlots(armSiteDescriptor.getSiteOnlyResourceId());
+    if (slotResponse.metadata.success) {
+      if (slotResponse.data.value.length > 0) {
+        return FunctionAppEditMode.ReadOnlySlots;
+      }
+    } else {
+      LogService.error(
+        LogCategories.siteDashboard,
+        'getSlots',
+        `Failed to get slots: ${getErrorMessageOrStringify(slotResponse.metadata.error)}`
+      );
     }
 
     return FunctionAppEditMode.ReadWrite;
@@ -172,7 +185,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
 
         if (!functionAppEditMode) {
           const configResponse = await SiteService.fetchWebConfig(trimmedResourceId);
-          functionAppEditMode = resolveAndGetUndefinedSiteState(
+          functionAppEditMode = await resolveAndGetUndefinedSiteState(
             armSiteDescriptor,
             configResponse.metadata.success ? configResponse.data : undefined
           );
