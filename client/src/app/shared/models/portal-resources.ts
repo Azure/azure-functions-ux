@@ -2029,4 +2029,10 @@ export class PortalResources {
   public static deploymentCenterCodeDeploymentLogActivityLoadingAriaValue = 'deploymentCenterCodeDeploymentLogActivityLoadingAriaValue';
   public static deploymentCenterCodeDeploymentLogActivityLoading = 'deploymentCenterCodeDeploymentLogActivityLoading';
   public static logDetailsHeader = 'logDetailsHeader';
+  public static deploymentCenterOAuthFetchingUserInformation = 'deploymentCenterOAuthFetchingUserInformation';
+  public static deploymentCenterOAuthAuthorizingUser = 'deploymentCenterOAuthAuthorizingUser';
+  public static deploymentCenterOAuthAuthorizeAriaLabel = 'deploymentCenterOAuthAuthorizeAriaLabel';
+  public static deploymentCenterOAuthAuthorize = 'deploymentCenterOAuthAuthorize';
+  public static deploymentCenterOAuthChangeAccount = 'deploymentCenterOAuthChangeAccount';
+  public static deploymentCenterOAuthSingedInAs = 'deploymentCenterOAuthSingedInAs';
 }

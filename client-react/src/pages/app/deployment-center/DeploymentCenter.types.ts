@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { ScmTypes } from '../../../models/site/config';
 import moment from 'moment';
 import { Uri } from 'monaco-editor';
+import { GitHubUser } from '../../../models/github';
 
 export enum ContainerOptions {
   docker = 'docker',
@@ -112,6 +113,13 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
   resetApplicationPassword: () => void;
 }
 
+export interface DeploymentCenterGitHubProviderProps extends DeploymentCenterFieldProps {
+  authorizeGitHubAccount: () => void;
+  gitHubAccountStatusMessage?: string;
+  gitHubUser?: GitHubUser;
+}
+
+// TODO (t-kakan): Verify all properties are guaranteed
 export interface DeploymentProperties {
   id: string;
   status: DeploymentStatus;
