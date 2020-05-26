@@ -1,6 +1,6 @@
 # 依存関係のインストール
 
-作業を開始する前に、[Visual Studio 2017 をインストール](https://go.microsoft.com/fwlink/?linkid=2016389)する必要があります。また、Azure 開発ワークロードもインストールされていることを確認する必要があります。
+作業を開始する前に、[Visual Studio 2019 をインストール](https://go.microsoft.com/fwlink/?linkid=2016389)する必要があります。また、Azure 開発ワークロードもインストールされていることを確認する必要があります。
 
 Visual Studio がインストールされたら、[最新の Azure Functions ツール](https://go.microsoft.com/fwlink/?linkid=2016394)があることを確認します。
 

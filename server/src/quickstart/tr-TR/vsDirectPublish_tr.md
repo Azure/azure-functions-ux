@@ -1,6 +1,6 @@
 # Bağımlılıkları yükleme
 
-Başlamadan önce, [Visual Studio 2017’yi yüklemeniz](https://go.microsoft.com/fwlink/?linkid=2016389) ve Azure geliştirme iş yükünün de yüklenmiş olduğundan emin olmanız gerekir.
+Başlamadan önce, [Visual Studio 2019’yi yüklemeniz](https://go.microsoft.com/fwlink/?linkid=2016389) ve Azure geliştirme iş yükünün de yüklenmiş olduğundan emin olmanız gerekir.
 
 Visual Studio yüklendiğinde, [en yeni Azure İşlevleri araçlarına](https://go.microsoft.com/fwlink/?linkid=2016394) sahip olduğunuzdan emin olun.
 

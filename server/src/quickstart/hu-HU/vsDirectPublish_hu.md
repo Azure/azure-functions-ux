@@ -1,6 +1,6 @@
 # Függőségek telepítése
 
-Kezdés előtt [telepítse a Visual Studio 2017](https://go.microsoft.com/fwlink/?linkid=2016389)-et, és győződjön meg arról, hogy az Azure-fejlesztési számítási feladatok is telepítve vannak.
+Kezdés előtt [telepítse a Visual Studio 2019](https://go.microsoft.com/fwlink/?linkid=2016389)-et, és győződjön meg arról, hogy az Azure-fejlesztési számítási feladatok is telepítve vannak.
 
 A Visual Studio telepítése után ellenőrizze, hogy rendelkezik-e a [legújabb Azure Functions-eszközökkel](https://go.microsoft.com/fwlink/?linkid=2016394).
 
