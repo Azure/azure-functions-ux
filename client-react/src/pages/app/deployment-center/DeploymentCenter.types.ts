@@ -73,7 +73,7 @@ export interface DeploymentCenterCodeLogsProps {
 }
 
 export interface DeploymentCenterCommitLogsProps {
-  commitId: string;
+  commitId?: string;
 }
 
 export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
@@ -112,7 +112,6 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
   resetApplicationPassword: () => void;
 }
 
-// TODO (t-kakan): Verify all properties are guaranteed
 export interface DeploymentProperties {
   id: string;
   status: DeploymentStatus;
@@ -124,8 +123,6 @@ export interface DeploymentProperties {
   progress: string;
   received_time: string;
   start_time: string;
-  end_time?: string;
-  last_success_end_time?: string;
   complete: boolean;
   active: string;
   is_temp: boolean;
@@ -133,13 +130,14 @@ export interface DeploymentProperties {
   url: Uri;
   log_url: Uri;
   site_name: string;
+  end_time?: string;
+  last_success_end_time?: string;
 }
 
 export interface DeploymentLogsItem {
   log_time: string;
   id: string;
   message: string;
-  type: number;
   details_url: string;
 }
 

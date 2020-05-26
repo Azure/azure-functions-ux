@@ -18,8 +18,8 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
   const [displayingDetails, setDisplayingDetails] = useState<boolean>(false);
   const [logDetails, setLogDetails] = useState<string | undefined>(undefined);
 
-  const fetchDeploymentLogs = async () => {
-    const commitLogsResponse = await deploymentCenterData.getDeploymentLogs(commitId);
+  const fetchDeploymentLogs = async (commitIdString: string) => {
+    const commitLogsResponse = await deploymentCenterData.getDeploymentLogs(commitIdString);
 
     if (commitLogsResponse.metadata.success) {
       setLogItems(commitLogsResponse.data);
@@ -31,11 +31,11 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
     }
   };
 
-  const showLogDetails = async (logId: string) => {
+  const showLogDetails = async (commitIdString: string, logId: string) => {
     setDisplayingDetails(true);
     setLogDetails(undefined);
 
-    const deploymentLogDetailsResponse = await deploymentCenterData.getLogDetails(commitId, logId);
+    const deploymentLogDetailsResponse = await deploymentCenterData.getLogDetails(commitIdString, logId);
 
     if (deploymentLogDetailsResponse.metadata.success) {
       // NOTE (t-kakan): deploymentLogDetailsResponse give an array of messages rather than single message
@@ -51,7 +51,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
     }
   };
 
-  const getLogDisplayItem = (logItem: ArmObj<DeploymentLogsItem>) => {
+  const getLogDisplayItem = (commitIdString: string, logItem: ArmObj<DeploymentLogsItem>) => {
     return {
       // NOTE (t-kakan): A is AM/PM
       displayTime: moment(logItem.properties.log_time).format('h:mm:ss A'),
@@ -62,7 +62,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
             {
               href: '#' + logItem.properties.id,
               onClick: () => {
-                showLogDetails(logItem.properties.id);
+                showLogDetails(commitIdString, logItem.properties.id);
               },
             },
             t('showLogs')
@@ -73,13 +73,13 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
 
   useEffect(() => {
     if (commitId) {
-      fetchDeploymentLogs();
+      fetchDeploymentLogs(commitId);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [commitId]);
 
-  const logDisplayItems = logItems ? logItems.value.map(logItem => getLogDisplayItem(logItem)) : [];
+  const logDisplayItems = logItems && commitId ? logItems.value.map(logItem => getLogDisplayItem(commitId, logItem)) : [];
 
   const columns: IColumn[] = [
     { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 100 },
@@ -94,7 +94,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
       ) : logItems ? (
         <>
           <h1>{t('logDetailsHeader')}</h1>
-          {commitId && <h2>{commitId.split('/')[commitId.split('/').length - 1]}</h2>}
+          {commitId && <h2>{`${t('commitId')}: ${commitId.split('/')[commitId.split('/').length - 1]}`}</h2>}
           <DisplayTableWithEmptyMessage columns={columns} items={logDisplayItems} selectionMode={0} layoutMode={1} constrainMode={0} />
           {displayingDetails && <pre className={deploymentCenterLogs}>{logDetails ? logDetails : t('resourceSelect')}</pre>}
         </>

@@ -124,7 +124,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
         />
       )}
       <CustomPanel isOpen={isLogPanelOpen} onDismiss={dismissLogPanel} type={PanelType.medium}>
-        <DeploymentCenterCommitLogs commitId={currentCommitId!} />
+        <DeploymentCenterCommitLogs commitId={currentCommitId} />
       </CustomPanel>
     </>
   );
