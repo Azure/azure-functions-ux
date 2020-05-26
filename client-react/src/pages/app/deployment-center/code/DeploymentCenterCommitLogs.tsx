@@ -18,7 +18,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
   const [displayingDetails, setDisplayingDetails] = useState<boolean>(false);
   const [logDetails, setLogDetails] = useState<string | undefined>(undefined);
 
-  const fetchData = async () => {
+  const fetchDeploymentLogs = async () => {
     const commitLogsResponse = await deploymentCenterData.getDeploymentLogs(commitId);
 
     if (commitLogsResponse.metadata.success) {
@@ -73,7 +73,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
 
   useEffect(() => {
     if (commitId) {
-      fetchData();
+      fetchDeploymentLogs();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
