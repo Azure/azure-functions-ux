@@ -9,11 +9,12 @@ import {
   DeploymentProperties,
   CodeDeploymentsRow,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType } from 'office-ui-fabric-react';
+import { ProgressIndicator, PanelType, IColumn } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { deploymentCenterLogsError } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
+import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {
@@ -28,13 +29,16 @@ export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
 const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const { deployments, deploymentsError } = props;
+  const [currentCommitId, setCurrentCommitId] = useState<string | null>(null);
   const { t } = useTranslation();
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
     setIsLogPanelOpen(true);
+    setCurrentCommitId(deployment.id);
   };
   const dismissLogPanel = () => {
     setIsLogPanelOpen(false);
+    setCurrentCommitId(null);
   };
 
   const getStatusString = (status: DeploymentStatus, progressString: string) => {
@@ -98,7 +102,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const rows: CodeDeploymentsRow[] = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
   const items: CodeDeploymentsRow[] = rows.sort(dateTimeComparatorReverse);
 
-  const columns = [
+  const columns: IColumn[] = [
     { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150 },
     { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 150 },
     { key: 'status', name: t('status'), fieldName: 'status', minWidth: 210 },
@@ -119,7 +123,9 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
           ariaValueText={t('deploymentCenterCodeDeploymentsLoadingAriaValue')}
         />
       )}
-      <CustomPanel isOpen={isLogPanelOpen} onDismiss={dismissLogPanel} type={PanelType.medium} />
+      <CustomPanel isOpen={isLogPanelOpen} onDismiss={dismissLogPanel} type={PanelType.medium}>
+        <DeploymentCenterCommitLogs commitId={currentCommitId!} />
+      </CustomPanel>
     </>
   );
 };

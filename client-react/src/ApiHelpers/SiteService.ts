@@ -13,7 +13,7 @@ import Url from '../utils/url';
 import { sendHttpRequest } from './HttpClient';
 import { KeyValue } from '../models/portal-models';
 import { PublishingCredentials } from '../models/site/publish';
-import { DeploymentProperties } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { DeploymentProperties, DeploymentLogsItem } from '../pages/app/deployment-center/DeploymentCenter.types';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -85,6 +85,24 @@ export default class SiteService {
     return MakeArmCall<ArmArray<DeploymentProperties>>({
       resourceId: `${resourceId}/deployments`,
       commandName: 'fetchDeployments',
+      method: 'GET',
+      skipBatching: force,
+    });
+  };
+
+  public static getDeploymentLogs = async (deploymentId: string, force?: boolean) => {
+    return MakeArmCall<ArmArray<DeploymentLogsItem>>({
+      resourceId: `${deploymentId}/log`,
+      commandName: 'fetchDeploymentLogs',
+      method: 'GET',
+      skipBatching: force,
+    });
+  };
+
+  public static getLogDetails = async (deploymentId: string, logId: string, force?: boolean) => {
+    return MakeArmCall<ArmArray<DeploymentLogsItem>>({
+      resourceId: `${deploymentId}/log/${logId}`,
+      commandName: 'fetchLogDetails',
       method: 'GET',
       skipBatching: force,
     });

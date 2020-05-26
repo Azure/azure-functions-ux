@@ -72,6 +72,10 @@ export interface DeploymentCenterCodeLogsProps {
   deploymentsError?: string;
 }
 
+export interface DeploymentCenterCommitLogsProps {
+  commitId: string;
+}
+
 export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
   resetApplicationPassword: () => void;
   publishingCredentials?: ArmObj<PublishingCredentials>;
@@ -129,6 +133,14 @@ export interface DeploymentProperties {
   url: Uri;
   log_url: Uri;
   site_name: string;
+}
+
+export interface DeploymentLogsItem {
+  log_time: string;
+  id: string;
+  message: string;
+  type: number;
+  details_url: string;
 }
 
 export interface DateTimeObj {

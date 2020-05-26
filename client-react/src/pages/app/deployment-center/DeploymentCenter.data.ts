@@ -40,4 +40,12 @@ export default class DeploymentCenterData {
   public getSiteDeployments = (resourceId: string) => {
     return SiteService.getSiteDeployments(resourceId);
   };
+
+  public getDeploymentLogs = (deploymentId: string) => {
+    return SiteService.getDeploymentLogs(deploymentId);
+  };
+
+  public getLogDetails = (deploymentId: string, logId: string) => {
+    return SiteService.getLogDetails(deploymentId, logId);
+  };
 }
