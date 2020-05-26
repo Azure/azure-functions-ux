@@ -9,9 +9,8 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
     <>
       <h3>{t('deploymentCenterContainerGitHubActionsTitle')}</h3>
       <DeploymentCenterGitHubAccount {...props} />
-
-      <p>The GitHub Source form will go here</p>
     </>
+    //TODO (michinoy): We can start adding the github source controls here now.
   );
 };
 
