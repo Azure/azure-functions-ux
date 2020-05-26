@@ -2028,4 +2028,5 @@ export class PortalResources {
   public static deploymentCenterCodeLogActivityFailedWithError = 'deploymentCenterCodeLogActivityFailedWithError';
   public static deploymentCenterCodeDeploymentLogActivityLoadingAriaValue = 'deploymentCenterCodeDeploymentLogActivityLoadingAriaValue';
   public static deploymentCenterCodeDeploymentLogActivityLoading = 'deploymentCenterCodeDeploymentLogActivityLoading';
+  public static logDetailsHeader = 'logDetailsHeader';
 }

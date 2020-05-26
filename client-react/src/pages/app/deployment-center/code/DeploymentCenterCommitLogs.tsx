@@ -93,7 +93,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
         <pre className={deploymentCenterLogsError}>{logItemsError}</pre>
       ) : logItems ? (
         <>
-          <h1>Log Details</h1>
+          <h1>{t('logDetailsHeader')}</h1>
           {commitId && <h2>{commitId.split('/')[commitId.split('/').length - 1]}</h2>}
           <DisplayTableWithEmptyMessage columns={columns} items={logDisplayItems} selectionMode={0} layoutMode={1} constrainMode={0} />
           {displayingDetails && <pre className={deploymentCenterLogs}>{logDetails ? logDetails : t('resourceSelect')}</pre>}

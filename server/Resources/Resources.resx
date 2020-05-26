@@ -6249,4 +6249,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeDeploymentLogActivityLoading" xml:space="preserve">
         <value>Loading deployment log activity...</value>
     </data>
+    <data name="logDetailsHeader" xml:space="preserve">
+        <value>Log Details</value>
+    </data>
 </root>
