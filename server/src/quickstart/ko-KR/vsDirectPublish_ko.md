@@ -1,6 +1,6 @@
 # 종속성 설치
 
-시작하기 전에 [Visual Studio 2017을 설치](https://go.microsoft.com/fwlink/?linkid=2016389)하고 Azure 개발 워크로드 또한 설치되어 있는지 확인해야 합니다.
+시작하기 전에 [Visual Studio 2019을 설치](https://go.microsoft.com/fwlink/?linkid=2016389)하고 Azure 개발 워크로드 또한 설치되어 있는지 확인해야 합니다.
 
 Visual Studio가 설치되면 최신 [Azure Functions 도구](https://go.microsoft.com/fwlink/?linkid=2016394)가 있는지 확인합니다.
 
