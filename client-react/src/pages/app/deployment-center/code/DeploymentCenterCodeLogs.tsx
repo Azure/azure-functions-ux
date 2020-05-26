@@ -29,7 +29,7 @@ export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
 const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const { deployments, deploymentsError } = props;
-  const [currentCommitId, setCurrentCommitId] = useState<string | null>(null);
+  const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
   const { t } = useTranslation();
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
@@ -38,7 +38,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   };
   const dismissLogPanel = () => {
     setIsLogPanelOpen(false);
-    setCurrentCommitId(null);
+    setCurrentCommitId(undefined);
   };
 
   const getStatusString = (status: DeploymentStatus, progressString: string) => {
