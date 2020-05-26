@@ -9,7 +9,6 @@ export interface WebAppMajorVersion {
   displayText: string;
   value: string;
   sortOrder: number;
-  runtimeVersion: string;
   minorVersions: WebAppMinorVersion[];
 }
 
@@ -17,12 +16,12 @@ export interface WebAppMinorVersion {
   displayText: string;
   value: string;
   sortOrder: number;
-  runtimeVersion: string;
   platforms: Platform[];
 }
 
 export interface Platform {
   os: 'linux' | 'windows';
+  runtimeVersion: string;
   sortOrder: number;
   remoteDebuggingEnabled: boolean;
   viewModifiers: ViewModifiers;
