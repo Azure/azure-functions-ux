@@ -2022,4 +2022,11 @@ export class PortalResources {
   public static deploymentCenterCodeDeploymentsLoading = 'deploymentCenterCodeDeploymentsLoading';
   public static deploymentCenterCodeDeploymentsFailed = 'deploymentCenterCodeDeploymentsFailed';
   public static deploymentCenterCodeDeploymentsFailedWithError = 'deploymentCenterCodeDeploymentsFailedWithError';
+  public static deploymentCenterCodeLogDetailsFailed = 'deploymentCenterCodeLogDetailsFailed';
+  public static deploymentCenterCodeLogDetailsFailedWithError = 'deploymentCenterCodeLogDetailsFailedWithError';
+  public static deploymentCenterCodeLogActivityFailed = 'deploymentCenterCodeLogActivityFailed';
+  public static deploymentCenterCodeLogActivityFailedWithError = 'deploymentCenterCodeLogActivityFailedWithError';
+  public static deploymentCenterCodeDeploymentLogActivityLoadingAriaValue = 'deploymentCenterCodeDeploymentLogActivityLoadingAriaValue';
+  public static deploymentCenterCodeDeploymentLogActivityLoading = 'deploymentCenterCodeDeploymentLogActivityLoading';
+  public static logDetailsHeader = 'logDetailsHeader';
 }
