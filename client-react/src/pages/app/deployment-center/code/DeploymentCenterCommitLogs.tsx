@@ -31,14 +31,6 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
     }
   };
 
-  useEffect(() => {
-    if (commitId) {
-      fetchData();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const showLogDetails = async (logId: string) => {
     setDisplayingDetails(true);
     setLogDetails(undefined);
@@ -78,6 +70,14 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
         : '',
     };
   };
+
+  useEffect(() => {
+    if (commitId) {
+      fetchData();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const logDisplayItems = logItems ? logItems.value.map(logItem => getLogDisplayItem(logItem)) : [];
 
