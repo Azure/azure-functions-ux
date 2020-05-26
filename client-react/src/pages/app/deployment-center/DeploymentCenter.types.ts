@@ -72,6 +72,10 @@ export interface DeploymentCenterCodeLogsProps {
   deploymentsError?: string;
 }
 
+export interface DeploymentCenterCommitLogsProps {
+  commitId?: string;
+}
+
 export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
   resetApplicationPassword: () => void;
   publishingCredentials?: ArmObj<PublishingCredentials>;
@@ -108,7 +112,6 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
   resetApplicationPassword: () => void;
 }
 
-// TODO (t-kakan): Verify all properties are guaranteed
 export interface DeploymentProperties {
   id: string;
   status: DeploymentStatus;
@@ -120,8 +123,6 @@ export interface DeploymentProperties {
   progress: string;
   received_time: string;
   start_time: string;
-  end_time?: string;
-  last_success_end_time?: string;
   complete: boolean;
   active: string;
   is_temp: boolean;
@@ -129,6 +130,15 @@ export interface DeploymentProperties {
   url: Uri;
   log_url: Uri;
   site_name: string;
+  end_time?: string;
+  last_success_end_time?: string;
+}
+
+export interface DeploymentLogsItem {
+  log_time: string;
+  id: string;
+  message: string;
+  details_url: string;
 }
 
 export interface DateTimeObj {
@@ -139,13 +149,7 @@ export interface CodeDeploymentsRow {
   index: number;
   rawTime: moment.Moment;
   displayTime: string;
-  commit: React.DetailedReactHTMLElement<
-    {
-      href: string;
-      onClick: () => void;
-    },
-    HTMLElement
-  >;
+  commit: JSX.Element;
   checkinMessage: string;
   status: string;
 }
