@@ -12,7 +12,6 @@ import {
   SelectionMode,
   SearchBox,
   PanelType,
-  Overlay,
 } from 'office-ui-fabric-react';
 import { defaultCellStyle } from '../../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { FunctionKeysContext } from './FunctionKeysDataLoader';
@@ -22,12 +21,9 @@ import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWi
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import FunctionKeyAddEdit from './FunctionKeyAddEdit';
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
-import { SiteStateContext } from '../../../../../SiteState';
-import SiteHelper from '../../../../../utils/SiteHelper';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import { PortalContext } from '../../../../../PortalContext';
-import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { filterTextFieldStyle } from '../../../../../components/form-controls/formControl.override.styles';
 
@@ -36,7 +32,7 @@ interface FunctionKeysProps {
   initialValues: FunctionKeysFormValues;
   refreshData: () => void;
   setRefreshLoading: (loading: boolean) => void;
-  refreshLoading: boolean;
+  loading: boolean;
   appPermission: boolean;
 }
 
@@ -47,7 +43,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     refreshData,
     initialValues: { keys },
     resourceId,
-    refreshLoading,
+    loading,
     appPermission,
   } = props;
   const { t } = useTranslation();
@@ -65,10 +61,6 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   const functionKeysContext = useContext(FunctionKeysContext);
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
-
-  const siteStateContext = useContext(SiteStateContext);
-
-  const readOnlyPermission = SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) || !appPermission;
 
   const flipHideSwitch = () => {
     setShownValues(showValues ? [] : [...new Set(keys.map(h => h.name))]);
@@ -224,7 +216,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         <TooltipHost content={t('delete')} id={`function-keys-delete-tooltip-${index}`} calloutProps={{ gapSpace: 0 }} closeDelay={500}>
           <IconButton
             className={`${defaultCellStyle} ${deleteButtonStyle(theme)}`}
-            disabled={readOnlyPermission}
+            disabled={!appPermission}
             id={`function-keys-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
@@ -273,7 +265,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
       {
         key: 'function-keys-add',
         onClick: () => showAddEditPanel(),
-        disabled: readOnlyPermission,
+        disabled: !appPermission || loading,
         iconProps: { iconName: 'Add' },
         name: t('newFunctionKey'),
         ariaLabel: t('functionKeys_addNewFunctionKey'),
@@ -297,7 +289,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
     <>
       <div>
         <div id="command-bar" className={commandBarSticky}>
-          <FunctionKeysCommandBar refreshFunction={refreshData} appPermission={appPermission} refreshLoading={refreshLoading} />
+          <FunctionKeysCommandBar refreshFunction={refreshData} appPermission={appPermission} loading={loading} />
         </div>
         <div id="function-keys-data" className={formStyle}>
           <h3>{t('functionKeys_title')}</h3>
@@ -310,7 +302,8 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
             layoutMode={DetailsListLayoutMode.justified}
             selectionMode={SelectionMode.none}
             selectionPreservedOnEmptyClick={true}
-            emptyMessage={t('emptyFunctionKeys')}>
+            emptyMessage={t('emptyFunctionKeys')}
+            shimmer={{ lines: 2, show: loading }}>
             <SearchBox
               id="function-keys-search"
               className="ms-slideDownIn20"
@@ -365,17 +358,11 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
               otherAppKeys={keys}
               panelItem={panelItem}
               showRenewKeyDialog={showRenewKeyDialog}
-              readOnlyPermission={readOnlyPermission}
+              readOnlyPermission={!appPermission}
             />
           </CustomPanel>
         </div>
       </div>
-      {(deletingKey || refreshLoading) && (
-        <>
-          <LoadingComponent />
-          <Overlay />
-        </>
-      )}
     </>
   );
 };
