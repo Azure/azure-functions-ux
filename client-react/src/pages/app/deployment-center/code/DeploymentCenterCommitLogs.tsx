@@ -86,6 +86,12 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
     { key: 'log', name: t('log'), fieldName: 'log', minWidth: 150 },
   ];
 
+  const getCommitIdHeader = () => {
+    if (commitId) {
+      return <h2>{`${t('commitId')}: ${commitId.split('/')[commitId.split('/').length - 1]}`}</h2>;
+    }
+  };
+
   return (
     <>
       {logItemsError ? (
@@ -93,7 +99,7 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
       ) : logItems ? (
         <>
           <h1>{t('logDetailsHeader')}</h1>
-          {commitId && <h2>{`${t('commitId')}: ${commitId.split('/')[commitId.split('/').length - 1]}`}</h2>}
+          {getCommitIdHeader()}
           <DisplayTableWithEmptyMessage columns={columns} items={logDisplayItems} selectionMode={0} layoutMode={1} constrainMode={0} />
           {displayingDetails && <pre className={deploymentCenterLogs}>{logDetails ? logDetails : t('resourceSelect')}</pre>}
         </>
