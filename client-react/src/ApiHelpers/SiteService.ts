@@ -90,21 +90,19 @@ export default class SiteService {
     });
   };
 
-  public static getDeploymentLogs = async (deploymentId: string, force?: boolean) => {
+  public static getDeploymentLogs = async (deploymentId: string) => {
     return MakeArmCall<ArmArray<DeploymentLogsItem>>({
       resourceId: `${deploymentId}/log`,
       commandName: 'fetchDeploymentLogs',
       method: 'GET',
-      skipBatching: force,
     });
   };
 
-  public static getLogDetails = async (deploymentId: string, logId: string, force?: boolean) => {
+  public static getLogDetails = async (deploymentId: string, logId: string) => {
     return MakeArmCall<ArmArray<DeploymentLogsItem>>({
       resourceId: `${deploymentId}/log/${logId}`,
       commandName: 'fetchLogDetails',
       method: 'GET',
-      skipBatching: force,
     });
   };
 
