@@ -4,7 +4,7 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { ArmArray, ArmObj } from '../../../../models/arm-obj';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { useTranslation } from 'react-i18next';
-import { ProgressIndicator, IColumn } from 'office-ui-fabric-react';
+import { ProgressIndicator, IColumn, Link } from 'office-ui-fabric-react';
 import { deploymentCenterLogsError, deploymentCenterLogs } from '../DeploymentCenter.styles';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
@@ -51,23 +51,22 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
     }
   };
 
+  const getShowDetailsLink = (commitIdString: string, logItem: ArmObj<DeploymentLogsItem>) => {
+    return logItem.properties.details_url ? (
+      <Link href={`#${logItem.properties.id}`} onClick={() => showLogDetails(commitIdString, logItem.properties.id)}>
+        {t('showLogs')}
+      </Link>
+    ) : (
+      ''
+    );
+  };
+
   const getLogDisplayItem = (commitIdString: string, logItem: ArmObj<DeploymentLogsItem>) => {
     return {
       // NOTE (t-kakan): A is AM/PM
       displayTime: moment(logItem.properties.log_time).format('h:mm:ss A'),
       activity: logItem.properties.message,
-      log: logItem.properties.details_url
-        ? React.createElement(
-            'a',
-            {
-              href: '#' + logItem.properties.id,
-              onClick: () => {
-                showLogDetails(commitIdString, logItem.properties.id);
-              },
-            },
-            t('showLogs')
-          )
-        : '',
+      log: getShowDetailsLink(commitIdString, logItem),
     };
   };
 

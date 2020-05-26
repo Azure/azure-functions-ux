@@ -9,7 +9,7 @@ import {
   DeploymentProperties,
   CodeDeploymentsRow,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn } from 'office-ui-fabric-react';
+import { ProgressIndicator, PanelType, IColumn, Link } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterLogsError } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -63,15 +63,10 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
       rawTime: moment(deployment.properties.received_time),
       // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
       displayTime: moment(deployment.properties.received_time).format('h:mm:ss A Z'),
-      commit: React.createElement(
-        'a',
-        {
-          href: '#' + deployment.properties.id,
-          onClick: () => {
-            showLogPanel(deployment);
-          },
-        },
-        deployment.properties.id.substr(0, 7)
+      commit: (
+        <Link href={`#${deployment.properties.id}`} onClick={() => showLogPanel(deployment)}>
+          {deployment.properties.id.substr(0, 7)}
+        </Link>
       ),
       checkinMessage: deployment.properties.message,
       status: deployment.properties.active

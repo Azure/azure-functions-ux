@@ -149,13 +149,7 @@ export interface CodeDeploymentsRow {
   index: number;
   rawTime: moment.Moment;
   displayTime: string;
-  commit: React.DetailedReactHTMLElement<
-    {
-      href: string;
-      onClick: () => void;
-    },
-    HTMLElement
-  >;
+  commit: JSX.Element;
   checkinMessage: string;
   status: string;
 }
