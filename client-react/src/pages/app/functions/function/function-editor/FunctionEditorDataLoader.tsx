@@ -341,13 +341,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         // TODO (krmitta): Handle error thrown and show the output accordingly
       }
 
-      let responseText = '';
-      // Stringify the response if it is JSON, otherwise use it as such
-      try {
-        responseText = JSON.stringify(resData);
-      } catch (e) {
-        responseText = resData;
-      }
       setResponseContent({
         code: runResponse.metadata.status,
         text: resData,
