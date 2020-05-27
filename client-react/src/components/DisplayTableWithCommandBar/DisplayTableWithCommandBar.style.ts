@@ -1,6 +1,8 @@
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { IDetailsListStyles } from 'office-ui-fabric-react';
 
+export const DEFAULTLISTHEIGHT = '31px';
+
 export const commandBarStyles = (theme: ThemeExtended) => {
   return {
     root: [
@@ -33,20 +35,20 @@ export const DetailListStyles = (): Partial<IDetailsListStyles> => {
     root: {
       selectors: {
         '.ms-List-cell': {
-          minHeight: '31px',
+          minHeight: DEFAULTLISTHEIGHT,
         },
         '.ms-DetailsRow': {
-          minHeight: '31px',
-          maxHeight: '31px',
+          minHeight: DEFAULTLISTHEIGHT,
+          maxHeight: DEFAULTLISTHEIGHT,
         },
         '.ms-DetailsRow-fields': {
-          maxHeight: '31px',
+          maxHeight: DEFAULTLISTHEIGHT,
         },
         '.ms-DetailsRow-cell': {
           paddingTop: '8px',
         },
         'ms-Shimmer-shimmerWrapper': {
-          height: '31px',
+          height: DEFAULTLISTHEIGHT,
         },
       },
     },
