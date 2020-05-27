@@ -106,7 +106,3 @@ export const detailListHeaderStyle = style({
 });
 
 export const filterTextFieldStyle = { root: { marginTop: '5px', height: '25px', width: '300px' } };
-
-export const additionalControlsStyle = style({
-  marginLeft: '5px',
-});
