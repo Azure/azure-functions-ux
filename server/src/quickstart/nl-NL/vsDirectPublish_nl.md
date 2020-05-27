@@ -1,6 +1,6 @@
 # Afhankelijkheden installeren
 
-Voordat u aan de slag kunt, moet u [Visual Studio 2017 installeren](https://go.microsoft.com/fwlink/?linkid=2016389) en controleren of de ontwikkelworkload van Azure ook is geïnstalleerd.
+Voordat u aan de slag kunt, moet u [Visual Studio 2019 installeren](https://go.microsoft.com/fwlink/?linkid=2016389) en controleren of de ontwikkelworkload van Azure ook is geïnstalleerd.
 
 Nadat Visual Studio is geïnstalleerd, controleert u of u over de [meest recente Azure Functions-hulpprogramma's beschikt](https://go.microsoft.com/fwlink/?linkid=2016394).
 

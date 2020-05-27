@@ -54,6 +54,7 @@ const DisplayTableWithEmptyMessage: React.SFC<Props> = props => {
           className={initialShimmerTableStyle(shimmer.show)}
           removeFadingOverlay={true}
           columns={updatedColumns}
+          detailsListStyles={rest.styles}
           {...rest}
         />
       ) : (

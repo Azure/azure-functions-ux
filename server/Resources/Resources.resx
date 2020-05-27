@@ -6231,4 +6231,44 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
         <value>Failed to load deployment logs: {0}</value>
     </data>
+    <data name="deploymentCenterCodeLogDetailsFailed" xml:space="preserve">
+        <value>Failed to load log details</value>
+    </data>
+    <data name="deploymentCenterCodeLogDetailsFailedWithError" xml:space="preserve">
+        <value>Failed to load log details: {0}</value>
+    </data>
+    <data name="deploymentCenterCodeLogActivityFailed" xml:space="preserve">
+        <value>Failed to load activity</value>
+    </data>
+    <data name="deploymentCenterCodeLogActivityFailedWithError" xml:space="preserve">
+        <value>Failed to load log activity: {0}</value>
+    </data>
+    <data name="deploymentCenterCodeDeploymentLogActivityLoadingAriaValue" xml:space="preserve">
+        <value>Loading deployment log activity</value>
+    </data>
+    <data name="deploymentCenterCodeDeploymentLogActivityLoading" xml:space="preserve">
+        <value>Loading deployment log activity...</value>
+    </data>
+    <data name="logDetailsHeader" xml:space="preserve">
+        <value>Log Details</value>
+    </data>
+    <data name="deploymentCenterOAuthFetchingUserInformation" xml:space="preserve">
+        <value>Fetching user information...</value>
+    </data>
+    <data name="deploymentCenterOAuthAuthorizingUser" xml:space="preserve">
+        <value>Authorizing user...</value>
+    </data>
+    <data name="deploymentCenterOAuthAuthorizeAriaLabel" xml:space="preserve">
+        <value>Authorize user</value>
+    </data>
+    <data name="deploymentCenterOAuthAuthorize" xml:space="preserve">
+        <value>Authorize</value>
+    </data>
+    <data name="deploymentCenterOAuthChangeAccount" xml:space="preserve">
+        <value>Change Account</value>
+    </data>
+    <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
+        <value>Signed in as</value>
+    </data>
+ </root>
 </root>
