@@ -350,7 +350,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       }
       setResponseContent({
         code: runResponse.metadata.status,
-        text: responseText,
+        text: resData,
       });
     }
     setFunctionRunning(false);

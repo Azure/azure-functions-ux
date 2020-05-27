@@ -98,30 +98,39 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     let localTestData;
     try {
       localTestData = JSON.parse(testData || functionInfo.properties.test_data || '');
-      if (!localTestData.headers) {
-        localTestData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
-      }
     } catch (err) {
+      localTestData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
       LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
     }
     if (!!localTestData) {
       if (!!localTestData.body) {
         setReqBody(localTestData.body);
+        delete localTestData.body;
       }
       if (!!localTestData.method) {
         updatedFormValues.method = localTestData.method;
+        delete localTestData.method;
+      } else {
+        updatedFormValues.method = HttpMethods.post;
       }
       if (!!localTestData.queryStringParams) {
         const queryParameters = localTestData.queryStringParams;
+        delete localTestData.queryStringParams;
         for (const parameters of queryParameters) {
           updatedFormValues.queries.push({ name: parameters.name, value: parameters.value });
         }
       }
       if (!!localTestData.headers) {
         const headers = localTestData.headers;
+        delete localTestData.headers;
         for (const header of headers) {
           updatedFormValues.headers.push({ name: header.name, value: header.value });
         }
+      }
+
+      // the entire testData is considered as a body, if the test data is non empty
+      if (Object.keys(localTestData).length > 0) {
+        setReqBody(JSON.stringify(localTestData));
       }
     }
 
