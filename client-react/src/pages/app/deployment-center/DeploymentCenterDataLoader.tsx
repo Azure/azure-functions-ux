@@ -47,6 +47,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [isPublishProfilePanelOpen, setIsPublishProfilePanelOpen] = useState<boolean>(false);
   const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties> | undefined>(undefined);
   const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(false);
 
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
 
@@ -81,6 +82,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   };
 
   const fetchData = async () => {
+    setIsLoading(true);
     const writePermissionRequest = portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
     const getPublishingUserRequest = deploymentCenterData.getPublishingUser();
     const getContainerLogsRequest = deploymentCenterData.fetchContainerLogs(resourceId);
@@ -174,6 +176,9 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       }
 
       processPublishProfileResponse(publishProfileResponse);
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
     }
 
     setFormData(deploymentCenterContainerFormBuilder.generateFormData());
@@ -188,6 +193,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     setIsPublishProfilePanelOpen(false);
   };
 
+  const refresh = () => {
+    fetchData();
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -198,7 +207,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     return <LoadingComponent />;
   }
 
-  return (
+  return siteStateContext.site && !isLoading ? (
     <DeploymentCenterContext.Provider value={{ resourceId, hasWritePermission, siteDescriptor }}>
       {isContainerApp(siteStateContext.site) ? (
         <DeploymentCenterContainerForm
@@ -210,6 +219,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           formValidationSchema={formValidationSchema}
           resetApplicationPassword={resetApplicationPassword}
           showPublishProfilePanel={showPublishProfilePanel}
+          refresh={refresh}
         />
       ) : (
         <DeploymentCenterCodeForm
@@ -222,6 +232,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           formValidationSchema={formValidationSchema}
           resetApplicationPassword={resetApplicationPassword}
           showPublishProfilePanel={showPublishProfilePanel}
+          refresh={refresh}
         />
       )}
       <DeploymentCenterPublishProfilePanel
@@ -230,6 +241,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         resetApplicationPassword={resetApplicationPassword}
       />
     </DeploymentCenterContext.Provider>
+  ) : (
+    <LoadingComponent />
   );
 };
 

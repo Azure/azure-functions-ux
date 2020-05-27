@@ -16,7 +16,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   );
 
   const authorizeGitHubAccount = () => {
-    throw 'Not implemented';
+    throw Error('not implemented');
   };
 
   // TODO(michinoy): We will need to add methods here to manage github specific network calls such as:

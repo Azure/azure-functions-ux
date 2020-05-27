@@ -85,12 +85,14 @@ export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
 }
 
 export interface DeploymentCenterContainerFormProps extends DeploymentCenterContainerProps {
+  refresh: () => void;
   showPublishProfilePanel: () => void;
   formData?: DeploymentCenterFormData;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType;
 }
 
 export interface DeploymentCenterCodeFormProps extends DeploymentCenterCodeProps {
+  refresh: () => void;
   showPublishProfilePanel: () => void;
   formData?: DeploymentCenterFormData;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType;
@@ -100,7 +102,7 @@ export interface DeploymentCenterCommandBarProps {
   saveFunction: () => void;
   discardFunction: () => void;
   showPublishProfilePanel: () => void;
-  refreshFunction: () => void;
+  refresh: () => void;
 }
 
 export interface DeploymentCenterPublishProfilePanelProps {
