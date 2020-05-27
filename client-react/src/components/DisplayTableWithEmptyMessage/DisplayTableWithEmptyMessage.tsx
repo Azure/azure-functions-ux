@@ -6,6 +6,7 @@ import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../ThemeContext';
 import { ShimmeredDetailsList } from 'office-ui-fabric-react';
 import { detailListHeaderStyle } from '../form-controls/formControl.override.styles';
+import { ShimmerDetailListStyles } from '../DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 
 export interface ShimmerProps {
   lines: number;
@@ -54,6 +55,7 @@ const DisplayTableWithEmptyMessage: React.SFC<Props> = props => {
           className={initialShimmerTableStyle(shimmer.show)}
           removeFadingOverlay={true}
           columns={updatedColumns}
+          detailsListStyles={rest.styles}
           {...rest}
         />
       ) : (

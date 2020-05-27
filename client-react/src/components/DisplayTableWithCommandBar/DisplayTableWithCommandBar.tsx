@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ICommandBarItemProps, CommandBar, IDetailsListProps } from 'office-ui-fabric-react';
 import { ThemeContext } from '../../ThemeContext';
-import { commandBarStyles } from './DisplayTableWithCommandBar.style';
+import { commandBarStyles, DetailListStyles } from './DisplayTableWithCommandBar.style';
 import DisplayTableCommandBarButton from './DisplayTableCommandBarButton';
 import DisplayTableWithEmptyMessage, {
   DisplayTableWithEmptyMessageProps,
@@ -13,8 +13,14 @@ interface DisplayTableWithCommandBarProps {
 
 type Props = DisplayTableWithEmptyMessageProps & DisplayTableWithCommandBarProps & IDetailsListProps;
 const DisplayTableWithCommandBar: React.SFC<Props> = props => {
-  const { commandBarItems } = props;
+  const { commandBarItems, styles, ...rest } = props;
   const theme = useContext(ThemeContext);
+
+  let customStyles = DetailListStyles();
+
+  if (!!styles) {
+    customStyles = Object.assign(customStyles, styles);
+  }
 
   return (
     <>
@@ -22,7 +28,7 @@ const DisplayTableWithCommandBar: React.SFC<Props> = props => {
         <CommandBar items={commandBarItems} role="nav" styles={commandBarStyles(theme)} buttonAs={DisplayTableCommandBarButton} />
       )}
       {props.children}
-      <DisplayTableWithEmptyMessage {...props} />
+      <DisplayTableWithEmptyMessage styles={customStyles} {...rest} />
     </>
   );
 };
