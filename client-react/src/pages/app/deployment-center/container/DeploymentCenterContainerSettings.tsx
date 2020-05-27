@@ -1,12 +1,12 @@
 import React from 'react';
 import DeploymentCenterContainerSource from './DeploymentCenterContainerSource';
-import { DeploymentCenterFieldProps, ContainerRegistrySources } from '../DeploymentCenter.types';
+import { ContainerRegistrySources, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { ScmTypes } from '../../../../models/site/config';
-import DeploymentCenterGitHubProvider from '../DeploymentCenterGitHubProvider';
 import DeploymentCenterContainerRegistrySettings from './DeploymentCenterContainerRegistrySettings';
 import DeploymentCenterContainerAcrSettings from './DeploymentCenterContainerAcrSettings';
 import DeploymentCenterContainerDockerHubSettings from './DeploymentCenterContainerDockeHubSettings';
 import DeploymentCenterContainerPrivateRegistrySettings from './DeploymentCenterContainerPrivateRegistrySettings';
+import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps> = props => {
   const { formProps } = props;
@@ -19,7 +19,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps> = 
     <>
       <DeploymentCenterContainerSource />
 
-      {isGitHubActionEnabled && <DeploymentCenterGitHubProvider />}
+      {isGitHubActionEnabled && <DeploymentCenterGitHubDataLoader formProps={formProps} />}
 
       <DeploymentCenterContainerRegistrySettings {...props} />
 

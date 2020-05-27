@@ -3,6 +3,7 @@ import { ArmObj } from '../../../models/arm-obj';
 import { PublishingUser } from '../../../models/site/publish';
 import ProviderService from '../../../ApiHelpers/ProviderService';
 import SiteService from '../../../ApiHelpers/SiteService';
+import GitHubService from '../../../ApiHelpers/GitHubService';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -47,5 +48,9 @@ export default class DeploymentCenterData {
 
   public getLogDetails = (deploymentId: string, logId: string) => {
     return SiteService.getLogDetails(deploymentId, logId);
+  };
+
+  public getGitHubUser = (armToken: string) => {
+    return GitHubService.getUser(armToken);
   };
 }
