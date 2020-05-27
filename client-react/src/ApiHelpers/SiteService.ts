@@ -8,9 +8,6 @@ import { SiteConfig, ArmAzureStorageMount } from '../models/site/config';
 import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
 import { HostStatus } from '../models/functions/host-status';
-import { isLinuxDynamic } from '../utils/arm-utils';
-import Url from '../utils/url';
-import { sendHttpRequest } from './HttpClient';
 import { KeyValue } from '../models/portal-models';
 import { PublishingCredentials } from '../models/site/publish';
 import { DeploymentProperties, DeploymentLogsItem } from '../pages/app/deployment-center/DeploymentCenter.types';
@@ -182,11 +179,7 @@ export default class SiteService {
   };
 
   public static fireSyncTrigger = (site: ArmObj<Site>, token: string) => {
-    if (isLinuxDynamic(site)) {
-      return MakeArmCall<any>({ resourceId: `${site.id}/hostruntime/admin/host/synctriggers`, commandName: 'syncTrigger', method: 'POST' });
-    } else {
-      return sendHttpRequest({ url: Url.getSyncTriggerUrl(site), method: 'POST', headers: { Authorization: `Bearer ${token}` } });
-    }
+    return MakeArmCall<any>({ resourceId: `${site.id}/host/default/sync`, commandName: 'syncTrigger', method: 'POST' });
   };
 
   public static getPublishProfile = (resourceId: string) => {
