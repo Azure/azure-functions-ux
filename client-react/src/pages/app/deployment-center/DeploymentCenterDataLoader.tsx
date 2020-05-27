@@ -203,10 +203,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!siteStateContext.site) {
-    return <LoadingComponent />;
-  }
-
   return siteStateContext.site && !isLoading ? (
     <DeploymentCenterContext.Provider value={{ resourceId, hasWritePermission, siteDescriptor }}>
       {isContainerApp(siteStateContext.site) ? (
