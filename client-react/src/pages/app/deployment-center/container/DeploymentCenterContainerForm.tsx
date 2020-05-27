@@ -55,6 +55,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               discardFunction={discardFunction}
               showPublishProfilePanel={props.showPublishProfilePanel}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
+              isLoading={props.isLoading}
             />
           </div>
           <>
