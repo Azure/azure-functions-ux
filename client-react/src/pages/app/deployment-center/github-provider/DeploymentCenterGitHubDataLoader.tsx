@@ -4,6 +4,7 @@ import { GitHubUser } from '../../../../models/github';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import GitHubService from '../../../../ApiHelpers/GitHubService';
 
 const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
@@ -16,6 +17,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   );
 
   const authorizeGitHubAccount = () => {
+    const win = window.open(GitHubService.authorizeUrl, 'windowname1', 'width=800, height=600');
     throw Error('not implemented');
   };
 

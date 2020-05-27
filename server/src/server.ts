@@ -43,6 +43,8 @@ async function bootstrap() {
     });
   }
 
+  app.enableCors();
+
   app.useStaticAssets(join(__dirname, 'public'));
   app.useStaticAssets(join(__dirname, 'public', 'react'));
   app.use(
