@@ -12,14 +12,16 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
   const gitHubAccountControls = gitHubUser ? (
     <>
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
-        {`${gitHubUser.login}`}
-        <Link
-          key="deployment-center-github-change-account-link"
-          onClick={authorizeGitHubAccount}
-          className={additionalTextFieldControl}
-          aria-label={t('deploymentCenterOAuthChangeAccount')}>
-          {t('deploymentCenterOAuthChangeAccount')}
-        </Link>
+        <div>
+          {`${gitHubUser.login}`}
+          <Link
+            key="deployment-center-github-change-account-link"
+            onClick={authorizeGitHubAccount}
+            className={additionalTextFieldControl}
+            aria-label={t('deploymentCenterOAuthChangeAccount')}>
+            {t('deploymentCenterOAuthChangeAccount')}
+          </Link>
+        </div>
       </ReactiveFormControl>
     </>
   ) : (
