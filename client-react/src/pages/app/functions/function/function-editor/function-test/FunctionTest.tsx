@@ -103,6 +103,9 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
       LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
     }
     if (!!localTestData) {
+      // Make sure to remove the keys: {body, headers, method, queryStringParams};
+      // if there are still some keys (meaning the test-data file has been manually updated by the user),
+      // we consider the entire remaining object as the body
       if (!!localTestData.body) {
         setReqBody(localTestData.body);
         delete localTestData.body;
@@ -128,7 +131,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
         }
       }
 
-      // the entire testData is considered as a body, if the test data is non empty
+      // as per the information in the previous comment, consider the entire remaining object as the body
       if (Object.keys(localTestData).length > 0) {
         setReqBody(JSON.stringify(localTestData));
       }
