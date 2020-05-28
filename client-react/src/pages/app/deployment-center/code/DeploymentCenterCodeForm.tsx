@@ -27,7 +27,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   };
 
   const refreshFunction = () => {
-    setIsRefreshConfirmDialogVisible(false);
+    hideRefreshConfirmDialog();
     props.refresh();
   };
 

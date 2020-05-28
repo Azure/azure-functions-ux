@@ -65,10 +65,12 @@ export interface DeploymentCenterFieldProps {
 }
 
 export interface DeploymentCenterContainerLogsProps {
+  isLoading: boolean;
   logs?: string;
 }
 
 export interface DeploymentCenterCodeLogsProps {
+  isLoading: boolean;
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
 }
@@ -78,6 +80,7 @@ export interface DeploymentCenterCommitLogsProps {
 }
 
 export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
+  isLoading: boolean;
   resetApplicationPassword: () => void;
   publishingCredentials?: ArmObj<PublishingCredentials>;
   publishingUser?: ArmObj<PublishingUser>;

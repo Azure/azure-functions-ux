@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Field } from 'formik';
 import { DeploymentCenterFtpsProps } from './DeploymentCenter.types';
-import { MessageBarType, ActionButton } from 'office-ui-fabric-react';
+import { MessageBarType, ActionButton, Spinner } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterContent, additionalTextFieldControl } from './DeploymentCenter.styles';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
@@ -14,7 +14,7 @@ type PasswordFieldType = 'password' | undefined;
 
 const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
   const { t } = useTranslation();
-  const { publishingProfile, publishingUser, resetApplicationPassword } = props;
+  const { publishingProfile, publishingUser, resetApplicationPassword, isLoading } = props;
 
   const [applicationPasswordType, setApplicationPasswordType] = useState<PasswordFieldType>('password');
   const [providerPasswordType, setProviderPasswordType] = useState<PasswordFieldType>('password');
@@ -58,6 +58,8 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
     setProviderConfirmPasswordType(!providerConfirmPasswordType ? 'password' : undefined);
   };
 
+  console.log(isLoading);
+
   return (
     <div className={deploymentCenterContent}>
       {deploymentCenterContext && !deploymentCenterContext.hasWritePermission && (
@@ -72,6 +74,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps> = props => {
         value={ftpsEndpoint}
         copyButton={true}
         disabled={true}
+        additionalControls={[isLoading ? <Spinner /> : <></>]}
       />
 
       <h3>{t('deploymentCenterFtpsApplicationScopeTitle')}</h3>

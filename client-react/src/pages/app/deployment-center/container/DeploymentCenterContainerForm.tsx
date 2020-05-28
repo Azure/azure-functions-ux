@@ -27,11 +27,11 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   };
 
   const refreshFunction = () => {
+    hideRefreshConfirmDialog();
     props.refresh();
   };
 
   const onSubmit = () => {
-    setIsRefreshConfirmDialogVisible(false);
     throw Error('not implemented');
   };
 
