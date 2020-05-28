@@ -1,6 +1,6 @@
 # Instalar dependências
 
-Antes de começar, deve [instalar o Visual Studio 2017](https://go.microsoft.com/fwlink/?linkid=2016389) e garantir que a carga de trabalho de desenvolvimento do Azure também está instalada.
+Antes de começar, deve [instalar o Visual Studio 2019](https://go.microsoft.com/fwlink/?linkid=2016389) e garantir que a carga de trabalho de desenvolvimento do Azure também está instalada.
 
 Depois de instalar o Visual Studio, certifique-se de que tem as [ferramentas das Funções do Azure mais recentes](https://go.microsoft.com/fwlink/?linkid=2016394).
 

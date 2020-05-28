@@ -22,15 +22,14 @@ import {
   tableValueFormFieldStyle,
   tableValueIconStyle,
 } from './Configuration.styles';
-import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
+import { learnMoreLinkStyle, filterTextFieldStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
 import { ArmObj } from '../../../models/arm-obj';
 import { Environment } from '../../../models/static-site/environment';
 import IconButton from '../../../components/IconButton/IconButton';
 import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
 import { ThemeContext } from '../../../ThemeContext';
-import { filterBoxStyle } from '../../app/functions/app-keys/AppKeys.styles';
-import Panel from '../../../components/Panel/Panel';
+import CustomPanel from '../../../components/CustomPanel/CustomPanel';
 import ConfigurationAddEdit from './ConfigurationAddEdit';
 import { sortBy } from 'lodash-es';
 import { KeyValue } from '../../../models/portal-models';
@@ -542,14 +541,14 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             className="ms-slideDownIn20"
             autoFocus
             iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
+            styles={filterTextFieldStyle}
             placeholder={t('staticSite_filterApplicationSetting')}
             onChange={newValue => setFilter(newValue)}
             value={filter}
             disabled={isTableCommandBarDisabled()}
           />
         </DisplayTableWithCommandBar>
-        <Panel
+        <CustomPanel
           isOpen={showPanel && panelType === PanelType.edit}
           onDismiss={onCancel}
           headerText={
@@ -563,14 +562,14 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             cancel={onCancel}
             updateEnvironmentVariable={updateEnvironmentVariable}
           />
-        </Panel>
-        <Panel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
+        </CustomPanel>
+        <CustomPanel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
           <ConfigurationAdvancedAddEdit
             environmentVariables={environmentVariables}
             cancel={onCancel}
             updateEnvironmentVariable={updateEnvironmentVariable}
           />
-        </Panel>
+        </CustomPanel>
       </div>
     </>
   );

@@ -73,15 +73,15 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
     // Check if the options are group or not
     this.optionsGrouped = (value[0] as DropDownGroupElement<T>).dropDownElements !== undefined;
 
-    let defaultOptionFound: boolean = false;
-    let selectedOptionId: number = null;
-    let selectedOptionValue: T = null;
+    let controlMatchingOption: DropDownElement<T> = null;
+    let defaultOption: DropDownElement<T> = null;
+    let autoDefaultOption: DropDownElement<T> = null;
 
     let optionCount = 0;
 
     if (this.optionsGrouped) {
-      let options: DropDownGroupElement<T>[] = [];
-      let inputs: DropDownGroupElement<T>[] = value as DropDownGroupElement<T>[];
+      const options: DropDownGroupElement<T>[] = [];
+      const inputs: DropDownGroupElement<T>[] = value as DropDownGroupElement<T>[];
       inputs.forEach(optGroup => {
         const optionsGroup: DropDownGroupElement<T> = {
           displayLabel: optGroup.displayLabel,
@@ -89,57 +89,79 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
         };
 
         optGroup.dropDownElements.forEach(opt => {
-          optionsGroup.dropDownElements.push({
+          const option = {
             id: optionCount++,
             displayLabel: opt.displayLabel,
             value: opt.value,
             default: opt.default,
-          });
+          };
 
-          if ((optionCount === 1 && this.setDefault) || opt.default) {
-            selectedOptionId = optionCount - 1;
-            selectedOptionValue = opt.value;
-            defaultOptionFound = defaultOptionFound || opt.default;
+          if (this.control && this.control.value === opt.value) {
+            controlMatchingOption = option;
           }
-        });
+          if (opt.default) {
+            defaultOption = option;
+          }
+          if (optionCount === 1 && this.setDefault) {
+            autoDefaultOption = option;
+          }
 
+          optionsGroup.dropDownElements.push(option);
+        });
         options.push(optionsGroup);
       });
       this._options = options;
     } else {
-      let options: DropDownElement<T>[] = [];
-      let inputs: DropDownElement<T>[] = value as DropDownElement<T>[];
+      const options: DropDownElement<T>[] = [];
+      const inputs: DropDownElement<T>[] = value as DropDownElement<T>[];
       inputs.forEach((opt, ind, arr) => {
-        options.push({
+        const option = {
           id: optionCount++,
           displayLabel: opt.displayLabel,
           value: opt.value,
           default: opt.default,
-        });
+        };
 
-        if ((optionCount === 1 && (this.setDefault || arr.length === 1)) || opt.default) {
-          selectedOptionId = optionCount - 1;
-          selectedOptionValue = opt.value;
-          defaultOptionFound = defaultOptionFound || opt.default || arr.length === 1;
+        if (this.control && this.control.value === opt.value) {
+          controlMatchingOption = option;
         }
+        if (opt.default) {
+          defaultOption = option;
+        }
+        if (optionCount === 1 && (this.setDefault || arr.length === 1)) {
+          autoDefaultOption = option;
+        }
+
+        options.push(option);
       });
       this._options = options;
     }
 
     if (optionCount === 0) {
+      // There are no options, so we can't have a selected option.
       delete this.selectedElement;
-      return;
-    }
-
-    if (defaultOptionFound || this.setDefault) {
-      if (!this.control) {
-        this.onSelect(selectedOptionId.toString());
+    } else if (!!this.control && this.control.value !== null) {
+      // The drop-down is associated with a form control that has a non-null value.
+      // Unless there is an option that matches the value of the from control, no option should be selected.
+      if (!controlMatchingOption) {
+        delete this.selectedElement;
       } else {
-        this.onSelectValue(selectedOptionValue);
+        this.onSelectValue(controlMatchingOption.value);
       }
     } else {
-      if (this.selectedElement) {
+      // The drop-down is not associated with a form control, or the associated form control has null value.
+      // If the default option (if present), or auto-select an option (if setDefault is set to true).
+      // Otherwise, clear the selection.
+      const defaultOpt = defaultOption || (this.setDefault && autoDefaultOption);
+      if (!defaultOpt) {
         delete this.selectedElement;
+      } else {
+        if (!this.control) {
+          this.onSelect(defaultOpt.id.toString());
+        } else {
+          this.control.setValue(defaultOpt.value);
+          this.onSelectValue(defaultOpt.value);
+        }
       }
     }
   }

@@ -392,6 +392,7 @@ export class ARMApiVersions {
   public static acrWebhookApiVersion = '2017-10-01';
   public static serviceBusAndEventHubApiVersion20150801 = '2015-08-01';
   public static storageApiVersion = '2018-07-01';
+  public static stacksApiVersion20200501 = '2020-05-01';
 }
 export class SubscriptionQuotaIds {
   public static readonly dreamSparkQuotaId = 'DreamSpark_2015-02-01';

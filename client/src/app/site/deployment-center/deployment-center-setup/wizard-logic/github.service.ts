@@ -202,7 +202,7 @@ export class GithubService implements OnDestroy {
   }
 
   private _isJavaWarBuild(buildSettings: BuildSettings) {
-    return buildSettings.runtimeStackVersion.toLocaleLowerCase().indexOf(JavaContainers.Tomcat) > 0;
+    return buildSettings.runtimeStackVersion.toLocaleLowerCase().indexOf(JavaContainers.Tomcat) > -1;
   }
 
   // TODO(michinoy): Need to implement templated github action workflow generation.
@@ -344,6 +344,7 @@ jobs:
       uses: azure/appservice-build@v1
       with:
         platform: python
+        platform-version: '${runtimeStackVersion}'
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v1

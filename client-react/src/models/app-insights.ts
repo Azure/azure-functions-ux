@@ -59,3 +59,8 @@ export interface AppInsightsInvocationTraceDetail {
   message: string;
   logLevel: string;
 }
+
+export enum AppInsightsKeyType {
+  string = 'string',
+  keyVault = 'keyVault',
+}

@@ -2,10 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import AppKeysData from './AppKeys.data';
 import AppKeys from './AppKeys';
 import { AppKeysFormValues } from './AppKeys.types';
-import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { PortalContext } from '../../../../PortalContext';
 import { SiteRouterContext } from '../../SiteRouter';
-import { disableIFrameStyle } from './AppKeys.styles';
 import { SiteStateContext } from '../../../../SiteState';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
@@ -21,9 +19,8 @@ export interface AppKeysDataLoaderProps {
 const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   const { resourceId } = props;
   const [initialValues, setInitialValues] = useState<AppKeysFormValues | null>(null);
-  const [refreshLoading, setRefeshLoading] = useState(false);
+  const [refreshLoading, setRefreshLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
-  const [appPermission, setAppPermission] = useState(true);
 
   const portalContext = useContext(PortalContext);
   const siteContext = useContext(SiteRouterContext);
@@ -32,17 +29,13 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   const { t } = useTranslation();
 
   const refreshData = () => {
-    setRefeshLoading(true);
+    setRefreshLoading(true);
     fetchData();
   };
 
   const fetchData = async () => {
     const site = await siteContext.fetchSite(resourceId);
     const appKeys = await appKeysData.fetchKeys(resourceId);
-
-    if (appKeys.metadata.status === 409 || appKeys.metadata.status === 403) {
-      setAppPermission(false);
-    }
 
     setInitialValues(
       appKeysData.convertStateToForm({
@@ -52,7 +45,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
     );
     portalContext.loadComplete();
     setInitialLoading(false);
-    setRefeshLoading(false);
+    setRefreshLoading(false);
   };
 
   useEffect(() => {
@@ -64,18 +57,12 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   return (
     <AppKeysContext.Provider value={appKeysData}>
       {siteStateContext.stopped && <CustomBanner message={t('noAppKeysWhileFunctionAppStopped')} type={MessageBarType.warning} />}
-      {refreshLoading && (
-        <div>
-          <LoadingComponent />
-          <div className={disableIFrameStyle} />
-        </div>
-      )}
       <AppKeys
-        initialLoading={initialLoading}
         resourceId={resourceId}
         initialValues={initialValues}
         refreshData={refreshData}
-        appPermission={appPermission || !siteStateContext.stopped}
+        appPermission={!siteStateContext.stopped}
+        loading={initialLoading || refreshLoading}
       />
     </AppKeysContext.Provider>
   );

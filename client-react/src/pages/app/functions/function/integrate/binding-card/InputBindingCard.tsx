@@ -12,20 +12,30 @@ import { PortalContext } from '../../../../../../PortalContext';
 import { ThemeExtended } from '../../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../../ThemeContext';
 import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
-import { getBindingDirection } from '../BindingPanel/BindingEditor';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
+import { getBindingDirection } from '../FunctionIntegrate.utils';
 import BindingCard, { createNew, EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
 import { listStyle } from './BindingCard.styles';
 
 const InputBindingCard: React.SFC<EditableBindingCardProps> = props => {
-  const { functionInfo, bindings, readOnly } = props;
+  const { functionInfo, bindings, readOnly, loadBindingSettings } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
   const bindingEditorContext = useContext(BindingEditorContext) as BindingEditorContextInfo;
 
   const inputs = getInputBindings(functionInfo.properties.config.bindings);
-  const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, inputs, readOnly);
+  const content = getContent(
+    portalCommunicator,
+    functionInfo,
+    bindings,
+    t,
+    bindingEditorContext,
+    theme,
+    inputs,
+    readOnly,
+    loadBindingSettings
+  );
 
   return <BindingCard title={t('input')} Svg={InputSvg} content={content} {...props} />;
 };
@@ -46,14 +56,23 @@ const getContent = (
   bindingEditorContext: BindingEditorContextInfo,
   theme: ThemeExtended,
   inputBindings: BindingInfo[],
-  readOnly: boolean
+  readOnly: boolean,
+  loadBindingSettings
 ): JSX.Element => {
   const inputList = inputBindings.map((item, i) => {
     const name = item.name ? `(${item.name})` : '';
     const linkName = `${BindingFormBuilder.getBindingTypeName(item, bindings)} ${name}`;
     return (
       <li key={i.toString()}>
-        <Link onClick={() => editExisting(portalCommunicator, t, functionInfo, item, bindingEditorContext, BindingDirection.in)}>
+        <Link
+          onClick={() => {
+            loadBindingSettings(
+              bindings.find(binding => binding.type === item.type && binding.direction === BindingDirection.in)!.id,
+              false
+            ).then(() => {
+              editExisting(portalCommunicator, t, functionInfo, item, bindingEditorContext, BindingDirection.in);
+            });
+          }}>
           {linkName}
         </Link>
       </li>
@@ -64,7 +83,13 @@ const getContent = (
   if (!readOnly) {
     completeInputList.push(
       <li key={'newInput'}>
-        <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingDirection.in)}>
+        <Link
+          onClick={() => {
+            const inputs = bindings.filter(binding => binding.direction === BindingDirection.in);
+            Promise.all(inputs.map(binding => loadBindingSettings(binding.id, false))).then(() => {
+              createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingDirection.in);
+            });
+          }}>
           {t('integrateAddInput')}
         </Link>
       </li>

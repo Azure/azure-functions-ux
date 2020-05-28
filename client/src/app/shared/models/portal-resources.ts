@@ -678,6 +678,7 @@ export class PortalResources {
   public static validation_routingTotalPercentError = 'validation_routingTotalPercentError';
   public static validation_siteNameMinChars = 'validation_siteNameMinChars';
   public static validation_siteNameMaxChars = 'validation_siteNameMaxChars';
+  public static validation_slotNameMaxChars = 'validation_slotNameMaxChars';
   public static validation_siteNameInvalidChar = 'validation_siteNameInvalidChar';
   public static validation_siteNameNotAvailable = 'validation_siteNameNotAvailable';
   public static validation_slotNameNotAvailable = 'validation_slotNameNotAvailable';
@@ -1598,6 +1599,10 @@ export class PortalResources {
   public static userCredsError = 'userCredsError';
   public static incomingClientCertificates = 'incomingClientCertificates';
   public static requireIncomingClientCertificates = 'requireIncomingClientCertificates';
+  public static clientCertificateMode = 'clientCertificateMode';
+  public static clientCertificateModeRequire = 'clientCertificateModeRequire';
+  public static clientCertificateModeAllow = 'clientCertificateModeAllow';
+  public static clientCertificateModeIgnore = 'clientCertificateModeIgnore';
   public static certificateExlusionPaths = 'certificateExlusionPaths';
   public static editCertificateExlusionPaths = 'editCertificateExlusionPaths';
   public static noExclusionRulesDefined = 'noExclusionRulesDefined';
@@ -1876,6 +1881,7 @@ export class PortalResources {
   public static integrateDeleteInputConfirmHeader = 'integrateDeleteInputConfirmHeader';
   public static integrateDeleteInputConfirmMessage = 'integrateDeleteInputConfirmMessage';
   public static integrate_bindingsFailedLoading = 'integrate_bindingsFailedLoading';
+  public static integrate_compiledDoNotShowInputOutput = 'integrate_compiledDoNotShowInputOutput';
   public static deleteFunctionKeyHeader = 'deleteFunctionKeyHeader';
   public static deleteFunctionKeyMessage = 'deleteFunctionKeyMessage';
   public static fetchFileContentFailureMessage = 'fetchFileContentFailureMessage';
@@ -1942,10 +1948,10 @@ export class PortalResources {
   public static staticSite_applicationSettingInvalidProperty = 'staticSite_applicationSettingInvalidProperty';
   public static staticSite_applicationSettingValueMustBeAString = 'staticSite_applicationSettingValueMustBeAString';
   public static staticSite_readOnlyRbac = 'staticSite_readOnlyRbac';
-  public static deploymentCenterPivotItemContainerLogsHeaderText = 'deploymentCenterPivotItemContainerLogsHeaderText';
-  public static deploymentCenterPivotItemContainerLogsAriaLabel = 'deploymentCenterPivotItemContainerLogsAriaLabel';
-  public static deploymentCenterPivotItemContainerSettingsHeaderText = 'deploymentCenterPivotItemContainerSettingsHeaderText';
-  public static deploymentCenterPivotItemContainerSettingsAriaLabel = 'deploymentCenterPivotItemContainerSettingsAriaLabel';
+  public static deploymentCenterPivotItemLogsHeaderText = 'deploymentCenterPivotItemLogsHeaderText';
+  public static deploymentCenterPivotItemLogsAriaLabel = 'deploymentCenterPivotItemLogsAriaLabel';
+  public static deploymentCenterPivotItemSettingsHeaderText = 'deploymentCenterPivotItemSettingsHeaderText';
+  public static deploymentCenterPivotItemSettingsAriaLabel = 'deploymentCenterPivotItemSettingsAriaLabel';
   public static deploymentCenterPivotItemFtpsHeaderText = 'deploymentCenterPivotItemFtpsHeaderText';
   public static deploymentCenterPivotItemFtpsAriaLabel = 'deploymentCenterPivotItemFtpsAriaLabel';
   public static deploymentCenterContainerLogsLoadingAriaValue = 'deploymentCenterContainerLogsLoadingAriaValue';
@@ -1981,7 +1987,52 @@ export class PortalResources {
   public static hideProviderPasswordAriaLabel = 'hideProviderPasswordAriaLabel';
   public static showProviderConfirmPasswordAriaLabel = 'showProviderConfirmPasswordAriaLabel';
   public static hideProviderConfirmPasswordAriaLabel = 'hideProviderConfirmPasswordAriaLabel';
+  public static resetPublishProfileConfirmationTitle = 'resetPublishProfileConfirmationTitle';
+  public static resetPublishProfileConfirmationDescription = 'resetPublishProfileConfirmationDescription';
+  public static usernameLengthRequirements = 'usernameLengthRequirements';
+  public static deploymentCenterContainerSettingsDescription = 'deploymentCenterContainerSettingsDescription';
+  public static deploymentCenterContainerSettingsSourceLabel = 'deploymentCenterContainerSettingsSourceLabel';
+  public static deploymentCenterContainerSettingsSourceOptionContainerRegistry =
+    'deploymentCenterContainerSettingsSourceOptionContainerRegistry';
+  public static deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription =
+    'deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription';
+  public static deploymentCenterContainerSettingsSourceOptionGitHubActions = 'deploymentCenterContainerSettingsSourceOptionGitHubActions';
+  public static deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription =
+    'deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription';
+  public static functionEditor_privateLinkRunMessage = 'functionEditor_privateLinkRunMessage';
+  public static deploymentCenterContainerGitHubActionsTitle = 'deploymentCenterContainerGitHubActionsTitle';
+  public static deploymentCenterContainerRegistrySettingsTitle = 'deploymentCenterContainerRegistrySettingsTitle';
+  public static deploymentCenterContainerRegistryOptionsLabel = 'deploymentCenterContainerRegistryOptionsLabel';
+  public static deploymentCenterContainerRegistrySourceLabel = 'deploymentCenterContainerRegistrySourceLabel';
+  public static deploymentCenterPublishProfileDescription = 'deploymentCenterPublishProfileDescription';
+  public static downloadPublishProfile = 'downloadPublishProfile';
+  public static managePublishProfileCommandBarAriaLabel = 'managePublishProfileCommandBarAriaLabel';
+  public static downloadingPublishProfile = 'downloadingPublishProfile';
+  public static downloadingPublishProfileFailed = 'downloadingPublishProfileFailed';
+  public static downloadingPublishProfileSucceeded = 'downloadingPublishProfileSucceeded';
   public static staticSite_configUpdating = 'staticSite_configUpdating';
   public static staticSite_configUpdateSuccess = 'staticSite_configUpdateSuccess';
   public static staticSite_configUpdateFailure = 'staticSite_configUpdateFailure';
+  public static clickToShowValue = 'clickToShowValue';
+  public static clickToHideValue = 'clickToHideValue';
+  public static testAndRun = 'testAndRun';
+  public static appInsightsKeyVaultWarningMessage = 'appInsightsKeyVaultWarningMessage';
+  public static clickToUpdateSettings = 'clickToUpdateSettings';
+  public static deploymentCenterCodeDeploymentsLoadingAriaValue = 'deploymentCenterCodeDeploymentsLoadingAriaValue';
+  public static deploymentCenterCodeDeploymentsLoading = 'deploymentCenterCodeDeploymentsLoading';
+  public static deploymentCenterCodeDeploymentsFailed = 'deploymentCenterCodeDeploymentsFailed';
+  public static deploymentCenterCodeDeploymentsFailedWithError = 'deploymentCenterCodeDeploymentsFailedWithError';
+  public static deploymentCenterCodeLogDetailsFailed = 'deploymentCenterCodeLogDetailsFailed';
+  public static deploymentCenterCodeLogDetailsFailedWithError = 'deploymentCenterCodeLogDetailsFailedWithError';
+  public static deploymentCenterCodeLogActivityFailed = 'deploymentCenterCodeLogActivityFailed';
+  public static deploymentCenterCodeLogActivityFailedWithError = 'deploymentCenterCodeLogActivityFailedWithError';
+  public static deploymentCenterCodeDeploymentLogActivityLoadingAriaValue = 'deploymentCenterCodeDeploymentLogActivityLoadingAriaValue';
+  public static deploymentCenterCodeDeploymentLogActivityLoading = 'deploymentCenterCodeDeploymentLogActivityLoading';
+  public static logDetailsHeader = 'logDetailsHeader';
+  public static deploymentCenterOAuthFetchingUserInformation = 'deploymentCenterOAuthFetchingUserInformation';
+  public static deploymentCenterOAuthAuthorizingUser = 'deploymentCenterOAuthAuthorizingUser';
+  public static deploymentCenterOAuthAuthorizeAriaLabel = 'deploymentCenterOAuthAuthorizeAriaLabel';
+  public static deploymentCenterOAuthAuthorize = 'deploymentCenterOAuthAuthorize';
+  public static deploymentCenterOAuthChangeAccount = 'deploymentCenterOAuthChangeAccount';
+  public static deploymentCenterOAuthSingedInAs = 'deploymentCenterOAuthSingedInAs';
 }

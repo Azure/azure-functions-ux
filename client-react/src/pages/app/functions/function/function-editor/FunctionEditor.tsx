@@ -5,7 +5,7 @@ import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
 import { BindingType } from '../../../../../models/functions/function-binding';
 import { Site } from '../../../../../models/site/site';
-import Panel from '../../../../../components/Panel/Panel';
+import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
 import FunctionTest from './function-test/FunctionTest';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../../../components/monaco-editor/monaco-editor';
@@ -184,10 +184,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     props.run(tempFunctionInfo, values.xFunctionKey);
   };
 
-  const inputBinding =
-    functionInfo.properties.config && functionInfo.properties.config.bindings
-      ? functionInfo.properties.config.bindings.find(e => e.type === BindingType.httpTrigger)
-      : null;
+  const isGetFunctionUrlVisible = () => {
+    return (
+      functionInfo.properties.config &&
+      functionInfo.properties.config.bindings &&
+      !!functionInfo.properties.config.bindings.find(e => e.type === BindingType.httpTrigger || e.type === BindingType.eventGridTrigger)
+    );
+  };
 
   const getDropdownOptions = (): IDropdownOption[] => {
     return !!fileList
@@ -375,11 +378,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           resetFunction={() => setShowDiscardConfirmDialog(true)}
           testFunction={test}
           refreshFunction={refresh}
-          showGetFunctionUrlCommand={!!inputBinding}
+          isGetFunctionUrlVisible={isGetFunctionUrlVisible()}
           dirty={isDirty()}
           disabled={isDisabled() || appReadOnlyPermission}
           urlObjs={urlObjs}
           testDisabled={isTestDisabled()}
+          functionInfo={functionInfo}
+          runtimeVersion={runtimeVersion}
         />
         <ConfirmDialog
           primaryActionButton={{
@@ -426,7 +431,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           onChangeDropdown={onFileSelectorChange}
         />
       </div>
-      <Panel
+      <CustomPanel
         type={PanelType.medium}
         isOpen={showTestPanel}
         onDismiss={onCloseTest}
@@ -449,7 +454,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           xFunctionKey={xFunctionKey}
           getFunctionUrl={getFunctionUrl}
         />
-      </Panel>
+      </CustomPanel>
       {isLoading() && <LoadingComponent />}
       {!logPanelFullscreen && (
         <div className={editorDivStyle}>

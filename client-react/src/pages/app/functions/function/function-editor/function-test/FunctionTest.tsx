@@ -13,6 +13,8 @@ import { LogCategories } from '../../../../../../utils/LogCategories';
 import { functionTestBodyStyle } from './FunctionTest.styles';
 import { MessageBarType } from 'office-ui-fabric-react';
 import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
+import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
+import { Links } from '../../../../../../utils/FwLinks';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -29,16 +31,15 @@ export interface FunctionTestProps {
   testData?: string;
 }
 
-const defaultInputFormValues: InputFormValues = {
-  method: HttpMethods.get,
-  queries: [],
-  headers: [],
-};
-
 // TODO (krmitta): Add Content for Function test panel [WI: 5536379]
 const FunctionTest: React.SFC<FunctionTestProps> = props => {
   const { t } = useTranslation();
   const [statusMessage, setStatusMessage] = useState<StatusMessage | undefined>(undefined);
+  const [defaultInputFormValues, setDefaultInputFormValues] = useState<InputFormValues>({
+    method: HttpMethods.get,
+    queries: [],
+    headers: [],
+  });
 
   const {
     run,
@@ -89,36 +90,50 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     setReqBody(newValue);
   };
 
-  useEffect(() => {
-    defaultInputFormValues.headers = [];
-    defaultInputFormValues.queries = [];
+  const setUpdatedInputFormValues = () => {
+    const updatedFormValues = { ...defaultInputFormValues };
+
+    updatedFormValues.headers = [];
+    updatedFormValues.queries = [];
     let localTestData;
     try {
       localTestData = JSON.parse(testData || functionInfo.properties.test_data || '');
-      if (!localTestData.headers) {
-        localTestData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
-      }
     } catch (err) {
+      localTestData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
       LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
     }
     if (!!localTestData) {
+      // Make sure to remove the keys: {body, headers, method, queryStringParams};
+      // if there are still some keys (meaning the test-data file has been manually updated by the user),
+      // we consider the entire remaining object as the body
       if (!!localTestData.body) {
         setReqBody(localTestData.body);
+        delete localTestData.body;
       }
       if (!!localTestData.method) {
-        defaultInputFormValues.method = localTestData.method;
+        updatedFormValues.method = localTestData.method;
+        delete localTestData.method;
+      } else {
+        updatedFormValues.method = HttpMethods.post;
       }
       if (!!localTestData.queryStringParams) {
         const queryParameters = localTestData.queryStringParams;
+        delete localTestData.queryStringParams;
         for (const parameters of queryParameters) {
-          defaultInputFormValues.queries.push({ name: parameters.name, value: parameters.value });
+          updatedFormValues.queries.push({ name: parameters.name, value: parameters.value });
         }
       }
       if (!!localTestData.headers) {
         const headers = localTestData.headers;
+        delete localTestData.headers;
         for (const header of headers) {
-          defaultInputFormValues.headers.push({ name: header.name, value: header.value });
+          updatedFormValues.headers.push({ name: header.name, value: header.value });
         }
+      }
+
+      // as per the information in the previous comment, consider the entire remaining object as the body
+      if (Object.keys(localTestData).length > 0) {
+        setReqBody(JSON.stringify(localTestData));
       }
     }
 
@@ -135,8 +150,8 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           .replace('}', '')
           .split(':');
         const name = splitResult[0];
-        if (!defaultInputFormValues.queries.find(q => q.name.toLowerCase() === name.toLowerCase())) {
-          defaultInputFormValues.queries.push({
+        if (!updatedFormValues.queries.find(q => q.name.toLowerCase() === name.toLowerCase())) {
+          updatedFormValues.queries.push({
             name,
             value: splitResult.length > 0 ? splitResult[1] : '',
           });
@@ -144,18 +159,28 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
       });
     }
 
+    setDefaultInputFormValues(updatedFormValues);
+  };
+
+  useEffect(() => {
+    setUpdatedInputFormValues();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testData]);
 
   useEffect(() => {
-    defaultInputFormValues.xFunctionKey = xFunctionKey;
+    const updatedFormValues = { ...defaultInputFormValues };
+    updatedFormValues.xFunctionKey = xFunctionKey;
+
+    setDefaultInputFormValues(updatedFormValues);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [xFunctionKey]);
   return (
     <Formik
       initialValues={defaultInputFormValues}
       onSubmit={run}
+      enableReinitialize={true}
       validate={validateForm}
       render={(formProps: FormikProps<InputFormValues>) => {
         const actionBarPrimaryButtonProps = {
@@ -174,6 +199,14 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
 
         return (
           <Form className={addEditFormStyle}>
+            {!!responseContent && responseContent.code === 403 && (
+              <CustomBanner
+                message={t('functionEditor_privateLinkRunMessage')}
+                type={MessageBarType.warning}
+                undocked={true}
+                learnMoreLink={Links.functionsPrivateLinkLearnMore}
+              />
+            )}
             <div className={functionTestBodyStyle}>
               {selectedPivotTab === PivotType.input && (
                 <FunctionTestInput

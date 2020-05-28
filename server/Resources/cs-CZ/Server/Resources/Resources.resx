@@ -2146,6 +2146,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="validation_siteNameMaxChars" xml:space="preserve">
         <value>Název musí mít méně než 60 znaků.</value>
     </data>
+  <data name="validation_slotNameMaxChars" xml:space="preserve">
+        <value>Název slotu a název webu musí mít dohromady méně než 59 znaků.</value>
+    </data>
   <data name="validation_siteNameInvalidChar" xml:space="preserve">
         <value>{0} není platný znak.</value>
     </data>
@@ -3269,7 +3272,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Pokud chcete přidat další prostředky pro svůj plán, zvolte jinou cenovou úroveň.</value>
     </data>
   <data name="pricing_applyButtonLabel" xml:space="preserve">
-        <value>Aktualizovat plán služby App Service</value>
+        <value>Použít změny</value>
     </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
         <value>Sdílená infrastruktura</value>
@@ -3924,10 +3927,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Zdroj image</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Full Image Name and Tag</value>
+        <value>Celý název a značka image</value>
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
-        <value>E.g. nginx:latest</value>
+        <value>Např. nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Pokud chcete začít, nejdříve vytvořte registr služby Azure Container Registry a přidejte image.</value>
@@ -3945,7 +3948,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Adresa URL serveru</value>
     </data>
   <data name="containerServerURLPlaceholder" xml:space="preserve">
-        <value>E.g. https://index.docker.io</value>
+        <value>Např. https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Přihlášení</value>
@@ -4953,13 +4956,25 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Do aplikace funkcí se přidala omezení přístupu. Ta můžou mít vliv na možnost spravovat aplikaci přes portál a můžou způsobit, že modul runtime nebude dostupný.</value>
     </data>
   <data name="userCredsError" xml:space="preserve">
-        <value>Zadané heslo nesplňuje minimální požadavky. Heslo by mělo být alespoň osm znaků dlouhé a musí obsahovat písmena a číslice.</value>
+        <value>Zadané heslo nesplňuje minimální požadavky. Heslo by mělo být alespoň osm znaků dlouhé a musí obsahovat velká písmena, malá písmena, číslice a symboly.</value>
     </data>
   <data name="incomingClientCertificates" xml:space="preserve">
         <value>Příchozí klientské certifikáty</value>
     </data>
   <data name="requireIncomingClientCertificates" xml:space="preserve">
         <value>Požadovat příchozí certifikát</value>
+    </data>
+  <data name="clientCertificateMode" xml:space="preserve">
+        <value>Client certificate mode</value>
+    </data>
+  <data name="clientCertificateModeRequire" xml:space="preserve">
+        <value>Require</value>
+    </data>
+  <data name="clientCertificateModeAllow" xml:space="preserve">
+        <value>Allow</value>
+    </data>
+  <data name="clientCertificateModeIgnore" xml:space="preserve">
+        <value>Ignore</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Cesty pro vyloučení certifikátů</value>
@@ -5419,13 +5434,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Rozsah</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Runtime Scale Monitoring</value>
+        <value>Monitorování škálování modulu runtime</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Pokud chcete povolit, aby vaši aplikaci spouštěly prostředky ve virtuální síti nebo vlastní triggery, povolte toto nastavení. Tato možnost vyžaduje, aby byla aktivní alespoň 1 předem připravená instance. &lt;a href="{0}" target="_blank"&gt;Další informace&lt;/a&gt;</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
+        <value>Pokud chcete povolit, aby vaši aplikaci spouštěly prostředky ve virtuální síti nebo vlastní triggery, povolte toto nastavení. Tato možnost vyžaduje, aby byla aktivní alespoň 1 předem připravená instance.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Aktualizovat nastavení aplikace</value>
@@ -5799,6 +5814,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="integrate_bindingsFailedLoading" xml:space="preserve">
         <value>Nejméně jednu vazbu se nepovedlo načíst, aktualizujte prosím stránku.</value>
     </data>
+  <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
+        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Odstranit funkční klávesu</value>
     </data>
@@ -5946,20 +5964,20 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="blaclistFile_message" xml:space="preserve">
         <value>Úpravy tohoto typu souboru se v editoru na portálu nepodporují.</value>
     </data>
-  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
-        <value>Nejsou k dispozici žádné proměnné prostředí, které by se daly zobrazit.</value>
+  <data name="staticSite_emptyApplicationSettingList" xml:space="preserve">
+        <value>Nejsou k dispozici žádná nastavení aplikace, která by se dala zobrazit.</value>
     </data>
-  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+  <data name="staticSite_addNewApplicationSetting" xml:space="preserve">
         <value>Přidat</value>
     </data>
-  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
-        <value>Přidat novou proměnnou prostředí</value>
+  <data name="staticSite_ariaLabel_addNewApplicationSetting" xml:space="preserve">
+        <value>Přidat nové nastavení aplikace</value>
     </data>
-  <data name="staticSite_environmentVariables" xml:space="preserve">
-        <value>Proměnné prostředí</value>
+  <data name="staticSite_applicationSettings" xml:space="preserve">
+        <value>Nastavení aplikace</value>
     </data>
-  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
-        <value>Proměnné prostředí, které se dají použít na vašem webu, se šifrují při nečinnosti a odesílají přes šifrovaný kanál. Pomocí ovládacích prvků níže si je můžete zobrazit jako prostý text v prohlížeči.</value>
+  <data name="staticSite_applicationSettingsInfoMessage" xml:space="preserve">
+        <value>Nastavení aplikace, která se dají použít na vašem webu, se šifrují při nečinnosti a odesílají přes šifrovaný kanál. Pomocí ovládacích prvků níže si je můžete zobrazit jako prostý text v prohlížeči.</value>
     </data>
   <data name="staticSite_environment" xml:space="preserve">
         <value>Prostředí</value>
@@ -5967,11 +5985,11 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>Vyberte prostředí pro daný web.</value>
     </data>
-  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filtrovat proměnné prostředí</value>
+  <data name="staticSite_filterApplicationSetting" xml:space="preserve">
+        <value>Filtrovat nastavení aplikace</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Opravdu chcete zahodit změny proměnných prostředí {0}?</value>
+        <value>Opravdu chcete zahodit změny nastavení aplikace pro prostředí {0}?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
         <value>Vaše neuložené změny se zahodí.</value>
@@ -5979,35 +5997,35 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
         <value>Opravdu chcete změnit prostředí?</value>
     </data>
-  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} je ve všech proměnných prostředí povinná vlastnost.</value>
+  <data name="staticSite_applicationSettingPropIsRequired" xml:space="preserve">
+        <value>{0} je ve všech nastaveních aplikace povinná vlastnost.</value>
     </data>
-  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Názvy proměnných prostředí musí být jedinečné.</value>
+  <data name="staticSite_applicationSettingNamesUnique" xml:space="preserve">
+        <value>Název nastavení aplikace musí být jedinečný.</value>
     </data>
-  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Hodnoty proměnných prostředí musí být pole.</value>
+  <data name="staticSite_applicationSettingValuesMustBeAnArray" xml:space="preserve">
+        <value>Hodnoty nastavení aplikace musí být pole.</value>
     </data>
-  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} není platná vlastnost proměnné prostředí.</value>
+  <data name="staticSite_applicationSettingInvalidProperty" xml:space="preserve">
+        <value>{0} je neplatná vlastnost nastavení aplikace.</value>
     </data>
-  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>Všechny vlastnosti hodnot a názvů proměnných prostředí musí být typu string.</value>
+  <data name="staticSite_applicationSettingValueMustBeAString" xml:space="preserve">
+        <value>Všechny vlastnosti názvů a hodnot nastavení aplikace musí být typu string.</value>
     </data>
   <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>Váš web je v tuto chvíli v režimu jen pro čtení, protože přístup přiřazený přes RBAC je nastavený na hodnotu Čtenář.</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
-        <value>Protokoly</value>
+  <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
+        <value>Logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
-        <value>Protokoly kontejneru</value>
+  <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
+        <value>Deployment center logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
-        <value>Nastavení</value>
+  <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
+        <value>Settings</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
-        <value>Nastavení kontejneru</value>
+  <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
+        <value>Deployment center settings</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>Přihlašovací údaje k FTP/FTPS</value>
@@ -6034,16 +6052,16 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Dvacet nejnovějších tras volání funkce. Pro pokročilejší analýzu spusťte dotaz v Application Insights.</value>
     </data>
   <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
-        <value>Aktualizovat proměnné prostředí</value>
+        <value>Aktualizovat nastavení aplikace</value>
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Při aktualizaci se ztratí všechny neuložené změny. Opravdu chcete pokračovat?</value>
     </data>
-  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
-        <value>Přidat proměnnou prostředí</value>
+  <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
+        <value>Přidat nastavení aplikace</value>
     </data>
-  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
-        <value>Upravit proměnnou prostředí</value>
+  <data name="staticSite_editApplicationSettingHeader" xml:space="preserve">
+        <value>Upravit nastavení aplikace</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
         <value>App Service podporuje několik technologií pro přístup, publikování a úpravu obsahu aplikace. Obor přihlašovacích údajů FTP/FTPS se dá vymezit na aplikaci nebo na uživatele.</value>
@@ -6088,30 +6106,114 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
         <value>Klíče služby Functions mají obor vymezený na tuto funkci a dají se použít pro přístup k této funkci triggeru HTTP.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
-        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+        <value>Nastavení aplikace se dají použít jen pro statické webové aplikace s alespoň jednou funkcí. Pokud chcete povolit konfiguraci, přidejte ke své aplikaci nějakou funkci.</value>
     </data>
   <data name="reset" xml:space="preserve">
-        <value>Reset</value>
+        <value>Resetovat</value>
     </data>
   <data name="resetPublishProfileAriaLabel" xml:space="preserve">
-        <value>Reset publishing profile</value>
+        <value>Resetovat profil publikování</value>
     </data>
   <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Show application password</value>
+        <value>Zobrazit heslo aplikace</value>
     </data>
   <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Hide application password</value>
+        <value>Skrýt heslo aplikace</value>
     </data>
   <data name="showProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user password</value>
+        <value>Zobrazit heslo uživatele poskytovatele</value>
     </data>
   <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user password</value>
+        <value>Skrýt heslo uživatele poskytovatele</value>
     </data>
   <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user confirm password</value>
+        <value>Zobrazit potvrzení hesla uživatele poskytovatele</value>
     </data>
   <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user confirm password</value>
+        <value>Skrýt potvrzení hesla uživatele poskytovatele</value>
+    </data>
+  <data name="resetPublishProfileConfirmationTitle" xml:space="preserve">
+        <value>Resetovat heslo profilu publikování aplikace?</value>
+    </data>
+  <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
+        <value>Když se heslo profilu resetuje, externí integrace prostřednictvím profilu publikování přestanou fungovat.</value>
+    </data>
+  <data name="usernameLengthRequirements" xml:space="preserve">
+        <value>Uživatelské jméno musí mít délku nejméně {0} znaků.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
+        <value>Pomocí těchto nastavení můžete nakonfigurovat model nasazení kontejnerové aplikace a registr. Pro větší operační efektivitu doporučujeme GitHub Actions.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+        <value>Zdroj</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
+        <value>Registr kontejnerů</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+        <value>Nastavte aplikaci tak, aby načítala image kontejneru z registru.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+        <value>Vytvářejte, nasazujte a spravujte kontejnerovou aplikaci automaticky pomocí GitHub Actions.</value>
+    </data>
+  <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
+        <value>Abyste mohli spustit svou funkci, potřebujete přímý přístup k síti. Vaše aplikace může být omezená privátními koncovými body, omezeními přístupu nebo koncovými body služeb.</value>
+    </data>
+  <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
+        <value>Nastavení registru</value>
+    </data>
+  <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
+        <value>Možnosti</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
+        <value>Zdroj registrů</value>
+    </data>
+  <data name="deploymentCenterPublishProfileDescription" xml:space="preserve">
+        <value>Pokud se chcete připojit a odeslat nasazení do webové aplikace, importujte profil publikování do sady Visual Studio nebo jiných klientů.</value>
+    </data>
+  <data name="downloadPublishProfile" xml:space="preserve">
+        <value>Stáhnout profil publikování</value>
+    </data>
+  <data name="managePublishProfileCommandBarAriaLabel" xml:space="preserve">
+        <value>Spravovat příkazy profilu publikování</value>
+    </data>
+  <data name="downloadingPublishProfile" xml:space="preserve">
+        <value>Stahuje se profil publikování.</value>
+    </data>
+  <data name="downloadingPublishProfileFailed" xml:space="preserve">
+        <value>Nepovedlo se stáhnout profil publikování.</value>
+    </data>
+  <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
+        <value>Profil publikování se úspěšně stáhl.</value>
+    </data>
+  <data name="staticSite_configUpdating" xml:space="preserve">
+        <value>Aktualizují se nastavení aplikace.</value>
+    </data>
+  <data name="staticSite_configUpdateSuccess" xml:space="preserve">
+        <value>Nastavení aplikace se úspěšně aktualizovala.</value>
+    </data>
+  <data name="staticSite_configUpdateFailure" xml:space="preserve">
+        <value>Nepovedlo se aktualizovat nastavení aplikace: {0}</value>
+    </data>
+  <data name="clickToShowValue" xml:space="preserve">
+        <value>Click to show value</value>
+    </data>
+  <data name="clickToHideValue" xml:space="preserve">
+        <value>Click to hide value</value>
+    </data>
+  <data name="testAndRun" xml:space="preserve">
+        <value>Test/Run</value>
+    </data>
+  <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
+        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+    </data>
+  <data name="clickToUpdateSettings" xml:space="preserve">
+        <value>Click here to update your settings.</value>
     </data>
 </root>

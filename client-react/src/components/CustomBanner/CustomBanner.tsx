@@ -8,7 +8,7 @@ import { ThemeContext } from '../../ThemeContext';
 import { messageBannerClass, messageBannerIconStyle, messageBannerStyles } from './CustomBanner.styles';
 
 interface CustomBannerProps {
-  message: string;
+  message: string | JSX.Element;
   type: MessageBarType;
   id?: string;
   customIcon?: JSX.Element;
@@ -36,7 +36,7 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
     <div>
       <MessageBar
         id={`${id}-custom-banner`}
-        isMultiline={!!undocked}
+        isMultiline={true}
         messageBarType={type}
         styles={messageBannerStyles(!!icon, !!undocked)}
         className={className}

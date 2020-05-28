@@ -4,16 +4,10 @@ import { ICommandBarItemProps, CommandBar } from 'office-ui-fabric-react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { SiteStateContext } from '../../../SiteState';
-
-interface DeploymentCenterCommandBarProps {
-  saveFunction: () => void;
-  discardFunction: () => void;
-  managePublishProfileFunction: () => void;
-  refreshFunction: () => void;
-}
+import { DeploymentCenterCommandBarProps } from './DeploymentCenter.types';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, managePublishProfileFunction, refreshFunction } = props;
+  const { saveFunction, discardFunction, showPublishProfilePanel, refresh } = props;
   const { t } = useTranslation();
   const siteStateContext = useContext(SiteStateContext);
 
@@ -69,7 +63,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
       disabled: !isSiteLoaded(),
-      onClick: managePublishProfileFunction,
+      onClick: showPublishProfilePanel,
     },
     {
       key: 'refresh',
@@ -79,7 +73,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
       ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
       disabled: !isSiteLoaded(),
-      onClick: refreshFunction,
+      onClick: refresh,
     },
   ];
 

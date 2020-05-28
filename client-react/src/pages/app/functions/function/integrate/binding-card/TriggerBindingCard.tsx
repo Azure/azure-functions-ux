@@ -12,20 +12,30 @@ import { PortalContext } from '../../../../../../PortalContext';
 import { ThemeExtended } from '../../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../../ThemeContext';
 import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
-import { getBindingDirection } from '../BindingPanel/BindingEditor';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
+import { getBindingDirection } from '../FunctionIntegrate.utils';
 import BindingCard, { createNew, EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
 import { listStyle } from './BindingCard.styles';
 
 const TriggerBindingCard: React.SFC<EditableBindingCardProps> = props => {
-  const { functionInfo, bindings, readOnly } = props;
+  const { functionInfo, bindings, readOnly, loadBindingSettings } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
   const bindingEditorContext = useContext(BindingEditorContext) as BindingEditorContextInfo;
 
   const trigger = getTrigger(functionInfo.properties.config.bindings);
-  const content = getContent(portalCommunicator, functionInfo, bindings, t, bindingEditorContext, theme, trigger, readOnly);
+  const content = getContent(
+    portalCommunicator,
+    functionInfo,
+    bindings,
+    t,
+    bindingEditorContext,
+    theme,
+    trigger,
+    readOnly,
+    loadBindingSettings
+  );
 
   return <BindingCard title={t('trigger')} Svg={PowerSvg} content={content} {...props} />;
 };
@@ -44,20 +54,29 @@ const getContent = (
   bindingEditorContext: BindingEditorContextInfo,
   theme: ThemeExtended,
   trigger: BindingInfo | undefined,
-  readOnly: boolean
+  readOnly: boolean,
+  loadBindingSettings: (bindingId: string, force: boolean) => Promise<void>
 ): JSX.Element => {
   return (
     <ul className={listStyle(theme)}>
       {trigger ? (
         <li key="0">
           <Link
-            onClick={() =>
-              editExisting(portalCommunicator, t, functionInfo, trigger, bindingEditorContext, BindingDirection.trigger)
-            }>{`${BindingFormBuilder.getBindingTypeName(trigger, bindings)} (${trigger.name})`}</Link>
+            onClick={() => {
+              loadBindingSettings(bindings.find(binding => binding.type === trigger.type)!.id, false).then(() => {
+                editExisting(portalCommunicator, t, functionInfo, trigger, bindingEditorContext, BindingDirection.trigger);
+              });
+            }}>{`${BindingFormBuilder.getBindingTypeName(trigger, bindings)} (${trigger.name})`}</Link>
         </li>
       ) : !readOnly ? (
         <li key={'newTrigger'}>
-          <Link onClick={() => createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingDirection.trigger)}>
+          <Link
+            onClick={() => {
+              const triggerBindings = bindings.filter(binding => binding.direction === BindingDirection.trigger);
+              Promise.all(triggerBindings.map(binding => loadBindingSettings(binding.id, false))).then(() => {
+                createNew(portalCommunicator, t, functionInfo, bindingEditorContext, BindingDirection.trigger);
+              });
+            }}>
             {t('integrateAddTrigger')}
           </Link>
         </li>
