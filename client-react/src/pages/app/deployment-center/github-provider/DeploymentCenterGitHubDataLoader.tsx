@@ -17,8 +17,11 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   );
 
   const authorizeGitHubAccount = () => {
-    const win = window.open(GitHubService.authorizeUrl, 'windowname1', 'width=800, height=600');
-    throw Error('not implemented');
+    const win = window.open(GitHubService.authorizeUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
+
+    setInterval(() => {
+      console.log(win && win.location.href);
+    }, 100);
   };
 
   // TODO(michinoy): We will need to add methods here to manage github specific network calls such as:
