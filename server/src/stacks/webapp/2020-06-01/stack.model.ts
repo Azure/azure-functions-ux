@@ -2,6 +2,7 @@ export interface WebAppStack {
   displayText: string;
   value: string;
   sortOrder: number;
+  preferredOs: 'linux' | 'windows';
   majorVersions: WebAppMajorVersion[];
 }
 
@@ -9,7 +10,7 @@ export interface WebAppMajorVersion {
   displayText: string;
   value: string;
   sortOrder: number;
-  platforms: Platform[];
+  platforms: PlatformOptions;
   minorVersions: WebAppMinorVersion[];
 }
 
@@ -17,13 +18,16 @@ export interface WebAppMinorVersion {
   displayText: string;
   value: string;
   sortOrder: number;
-  platforms: Platform[];
+  platforms: PlatformOptions;
+}
+
+export interface PlatformOptions {
+  linux?: Platform;
+  windows?: Platform;
 }
 
 export interface Platform {
-  os: 'linux' | 'windows';
   runtimeVersion: string;
-  sortOrder: number;
   remoteDebuggingEnabled: boolean;
   viewModifiers: ViewModifiers;
   appInsightsSettings: AppInsightsSettings;
