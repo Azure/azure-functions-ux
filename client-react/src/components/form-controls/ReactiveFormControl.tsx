@@ -8,7 +8,6 @@ import {
   learnMoreLinkStyle,
   formStackStyle,
   formLabelStyle,
-  additionalControlsStyle,
 } from './formControl.override.styles';
 import UpsellIcon from '../TooltipIcons/UpsellIcon';
 import { useWindowSize } from 'react-use';
@@ -25,11 +24,10 @@ interface ReactiveFormControlProps {
   learnMoreLink?: string;
   dirty?: boolean;
   formControlClassName?: string;
-  additionalControls?: JSX.Element[];
 }
 
 const ReactiveFormControl = (props: ReactiveFormControlProps) => {
-  const { upsellMessage, label, infoBubbleMessage, learnMoreLink, dirty, formControlClassName, additionalControls } = props;
+  const { upsellMessage, label, infoBubbleMessage, learnMoreLink, dirty, formControlClassName } = props;
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
@@ -74,7 +72,6 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
           </Stack>
         </div>
       )}
-      <div className={additionalControlsStyle}>{additionalControls}</div>
     </Stack>
   );
 };
