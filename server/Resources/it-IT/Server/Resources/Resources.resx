@@ -2146,6 +2146,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="validation_siteNameMaxChars" xml:space="preserve">
         <value>Il nome deve contenere meno di 60 caratteri</value>
     </data>
+  <data name="validation_slotNameMaxChars" xml:space="preserve">
+        <value>La combinazione di nome del sito e nome dello slot deve contenere meno di 59 caratteri</value>
+    </data>
   <data name="validation_siteNameInvalidChar" xml:space="preserve">
         <value>'{0}' è un carattere non valido</value>
     </data>
@@ -3269,7 +3272,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Per aggiungere più risorse al piano, scegliere un piano tariffario diverso</value>
     </data>
   <data name="pricing_applyButtonLabel" xml:space="preserve">
-        <value>Aggiorna piano di servizio app</value>
+        <value>Applica modifiche</value>
     </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
         <value>Infrastruttura condivisa</value>
@@ -3924,10 +3927,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Origine immagine</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Full Image Name and Tag</value>
+        <value>Tag e nome immagine completo</value>
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
-        <value>E.g. nginx:latest</value>
+        <value>Ad esempio: nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Per iniziare, creare un Registro Azure Container e aggiungere un'immagine.</value>
@@ -3945,7 +3948,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>URL server</value>
     </data>
   <data name="containerServerURLPlaceholder" xml:space="preserve">
-        <value>E.g. https://index.docker.io</value>
+        <value>Ad esempio: https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Account di accesso</value>
@@ -4953,13 +4956,25 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>All'app per le funzioni sono state aggiunte restrizioni di accesso che possono influire sulla possibilità di gestirla dal portale e che potrebbero rendere irraggiungibile il runtime.</value>
     </data>
   <data name="userCredsError" xml:space="preserve">
-        <value>La password specificata non soddisfa i requisiti minimi. La password deve avere una lunghezza di almeno otto caratteri e deve contenere lettere e numeri.</value>
+        <value>La password specificata non soddisfa i requisiti minimi. La password deve avere una lunghezza di almeno otto caratteri e deve contenere lettere maiuscole, lettere minuscole, numeri e simboli.</value>
     </data>
   <data name="incomingClientCertificates" xml:space="preserve">
         <value>Certificati client in ingresso</value>
     </data>
   <data name="requireIncomingClientCertificates" xml:space="preserve">
         <value>Richiedi certificato in ingresso</value>
+    </data>
+  <data name="clientCertificateMode" xml:space="preserve">
+        <value>Client certificate mode</value>
+    </data>
+  <data name="clientCertificateModeRequire" xml:space="preserve">
+        <value>Require</value>
+    </data>
+  <data name="clientCertificateModeAllow" xml:space="preserve">
+        <value>Allow</value>
+    </data>
+  <data name="clientCertificateModeIgnore" xml:space="preserve">
+        <value>Ignore</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Percorsi di esclusione dei certificati</value>
@@ -5419,13 +5434,13 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Ambito</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Runtime Scale Monitoring</value>
+        <value>Monitoraggio della scalabilità del runtime</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Abilitare questa impostazione per consentire all'app di essere attivata da risorse all'interno di una rete virtuale o da trigger personalizzati. Richiede almeno 1 istanza preriscaldata per essere attiva. &lt;a href="{0}" target="_blank"&gt;Altre informazioni&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
+        <value>Abilitare questa impostazione per consentire all'app di essere attivata da risorse all'interno di una rete virtuale o da trigger personalizzati. Richiede almeno 1 istanza preriscaldata per essere attiva.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Aggiorna impostazioni app</value>
@@ -5799,6 +5814,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="integrate_bindingsFailedLoading" xml:space="preserve">
         <value>Il caricamento di una o più associazioni non è riuscito. Aggiornare la pagina.</value>
     </data>
+  <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
+        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Elimina chiave di funzione</value>
     </data>
@@ -5946,20 +5964,20 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="blaclistFile_message" xml:space="preserve">
         <value>La modifica di questo tipo di file non è attualmente supportata nell'editor del portale.</value>
     </data>
-  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
-        <value>Nessuna variabile di ambiente da visualizzare</value>
+  <data name="staticSite_emptyApplicationSettingList" xml:space="preserve">
+        <value>Nessuna impostazione applicazione da visualizzare</value>
     </data>
-  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+  <data name="staticSite_addNewApplicationSetting" xml:space="preserve">
         <value>Aggiungi</value>
     </data>
-  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
-        <value>Aggiungi nuova variabile di ambiente</value>
+  <data name="staticSite_ariaLabel_addNewApplicationSetting" xml:space="preserve">
+        <value>Aggiungi nuova impostazione applicazione</value>
     </data>
-  <data name="staticSite_environmentVariables" xml:space="preserve">
-        <value>Variabili di ambiente</value>
+  <data name="staticSite_applicationSettings" xml:space="preserve">
+        <value>Impostazioni applicazione</value>
     </data>
-  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
-        <value>Le variabili di ambiente applicabili al sito sono crittografate mentre sono inattive e trasmesse tramite un canale crittografato. È possibile scegliere di visualizzarle in testo normale nel browser usando i controlli seguenti.</value>
+  <data name="staticSite_applicationSettingsInfoMessage" xml:space="preserve">
+        <value>Le impostazioni applicazione applicabili al sito sono crittografate mentre sono inattive e trasmesse tramite un canale crittografato. È possibile scegliere di visualizzarle in testo normale nel browser usando i controlli seguenti.</value>
     </data>
   <data name="staticSite_environment" xml:space="preserve">
         <value>Ambiente</value>
@@ -5967,11 +5985,11 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>Selezionare l'ambiente per il sito</value>
     </data>
-  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filtra variabile di ambiente</value>
+  <data name="staticSite_filterApplicationSetting" xml:space="preserve">
+        <value>Filtra impostazione applicazione</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Rimuovere le modifiche apportate alle variabili di ambiente per l'ambiente {0}?</value>
+        <value>Rimuovere le modifiche apportate alle impostazioni applicazione per l'ambiente {0}?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
         <value>Le modifiche non salvate verranno rimosse.</value>
@@ -5979,35 +5997,35 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
         <value>Modificare l'ambiente?</value>
     </data>
-  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} è una proprietà obbligatoria per tutte le variabili di ambiente</value>
+  <data name="staticSite_applicationSettingPropIsRequired" xml:space="preserve">
+        <value>{0} è una proprietà obbligatoria per tutte le impostazioni dell'applicazione</value>
     </data>
-  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Il nome della variabile di ambiente deve essere univoco</value>
+  <data name="staticSite_applicationSettingNamesUnique" xml:space="preserve">
+        <value>Il nome dell'impostazione applicazione deve essere univoco</value>
     </data>
-  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>I valori delle variabili di ambiente devono essere una matrice</value>
+  <data name="staticSite_applicationSettingValuesMustBeAnArray" xml:space="preserve">
+        <value>I valori delle impostazioni applicazione devono essere una matrice</value>
     </data>
-  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} è una proprietà di variabile di ambiente non valida</value>
+  <data name="staticSite_applicationSettingInvalidProperty" xml:space="preserve">
+        <value>{0} è una proprietà di impostazione applicazione non valida</value>
     </data>
-  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>Tutte le proprietà dei nomi e dei valori nelle variabili di ambiente devono essere di tipo stringa</value>
+  <data name="staticSite_applicationSettingValueMustBeAString" xml:space="preserve">
+        <value>Tutte le proprietà dei nomi e dei valori nelle impostazioni applicazione devono essere di tipo stringa</value>
     </data>
   <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>Il sito è attualmente in modalità di sola lettura perché l'accesso assegnato al controllo degli accessi in base al ruolo è impostato su: Lettore</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
-        <value>Log</value>
+  <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
+        <value>Logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
-        <value>Log contenitore</value>
+  <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
+        <value>Deployment center logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
-        <value>Impostazioni</value>
+  <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
+        <value>Settings</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
-        <value>Impostazioni contenitore</value>
+  <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
+        <value>Deployment center settings</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>Credenziali FTP/FTPS</value>
@@ -6034,16 +6052,16 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>Le venti analisi di chiamata di funzione più recenti. Per un'analisi più avanzata, eseguire la query in Application Insights.</value>
     </data>
   <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
-        <value>Aggiorna variabili di ambiente</value>
+        <value>Aggiorna impostazioni applicazione</value>
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>All'aggiornamento, tutte le modifiche non salvate andranno perse. Continuare?</value>
     </data>
-  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
-        <value>Aggiungi variabile di ambiente</value>
+  <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
+        <value>Aggiungi impostazione applicazione</value>
     </data>
-  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
-        <value>Modifica variabile di ambiente</value>
+  <data name="staticSite_editApplicationSettingHeader" xml:space="preserve">
+        <value>Modifica impostazione applicazione</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
         <value>Il Servizio app supporta numerose tecnologie per accedere, pubblicare e modificare il contenuto dell'app. È possibile definire l'ambito delle credenziali FTP/FTPS in base all'applicazione o all'utente.</value>
@@ -6088,30 +6106,114 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
         <value>I tasti funzione sono limitati a questa funzione e possono essere usati per accedere a questa funzione di trigger HTTP.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
-        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+        <value>Le impostazioni applicazione sono applicabili solo alle app Web statiche con almeno una funzione. Per abilitare la configurazione, aggiungere una funzione all'app.</value>
     </data>
   <data name="reset" xml:space="preserve">
-        <value>Reset</value>
+        <value>Reimposta</value>
     </data>
   <data name="resetPublishProfileAriaLabel" xml:space="preserve">
-        <value>Reset publishing profile</value>
+        <value>Reimposta profilo di pubblicazione</value>
     </data>
   <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Show application password</value>
+        <value>Mostra password applicazione</value>
     </data>
   <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Hide application password</value>
+        <value>Nascondi password applicazione</value>
     </data>
   <data name="showProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user password</value>
+        <value>Mostra password utente del provider</value>
     </data>
   <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user password</value>
+        <value>Nascondi password utente del provider</value>
     </data>
   <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user confirm password</value>
+        <value>Mostra password di conferma utente del provider</value>
     </data>
   <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user confirm password</value>
+        <value>Nascondi password di conferma utente del provider</value>
+    </data>
+  <data name="resetPublishProfileConfirmationTitle" xml:space="preserve">
+        <value>Reimpostare la password del profilo di pubblicazione dell'applicazione?</value>
+    </data>
+  <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
+        <value>Reimpostando la password del profilo, le integrazioni esterne tramite il profilo di pubblicazione cesseranno di funzionare.</value>
+    </data>
+  <data name="usernameLengthRequirements" xml:space="preserve">
+        <value>Il nome utente deve contenere almeno {0} caratteri.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
+        <value>Usare queste impostazioni per configurare il modello di distribuzione dell'app contenitore e il registro. È consigliabile usare GitHub Actions per una maggiore efficienza operativa.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+        <value>Origine</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
+        <value>Registro Container</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+        <value>Configurare l'app per eseguire il pull dell'immagine del contenitore da un registro.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+        <value>È possibile creare, distribuire e gestire automaticamente l'app contenitore con GitHub Actions.</value>
+    </data>
+  <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
+        <value>Per l'esecuzione della funzione è necessario disporre di un accesso diretto alla rete. L'app potrebbe essere limitata da endpoint privati, restrizioni dell'accesso o endpoint servizio.</value>
+    </data>
+  <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
+        <value>Impostazioni registro</value>
+    </data>
+  <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
+        <value>Opzioni</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
+        <value>Origine registro</value>
+    </data>
+  <data name="deploymentCenterPublishProfileDescription" xml:space="preserve">
+        <value>Consente di importare il profilo di pubblicazione in Visual Studio o in altri client per connettersi ed eseguire il push una distribuzione all'app Web.</value>
+    </data>
+  <data name="downloadPublishProfile" xml:space="preserve">
+        <value>Scarica profilo di pubblicazione</value>
+    </data>
+  <data name="managePublishProfileCommandBarAriaLabel" xml:space="preserve">
+        <value>Gestisci comandi del profilo di pubblicazione</value>
+    </data>
+  <data name="downloadingPublishProfile" xml:space="preserve">
+        <value>Download del profilo di pubblicazione</value>
+    </data>
+  <data name="downloadingPublishProfileFailed" xml:space="preserve">
+        <value>Non è stato possibile scaricare il profilo di pubblicazione</value>
+    </data>
+  <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
+        <value>Il profilo di pubblicazione è stato scaricato</value>
+    </data>
+  <data name="staticSite_configUpdating" xml:space="preserve">
+        <value>Aggiornamento delle impostazioni applicazione...</value>
+    </data>
+  <data name="staticSite_configUpdateSuccess" xml:space="preserve">
+        <value>Le impostazioni applicazione sono state aggiornate</value>
+    </data>
+  <data name="staticSite_configUpdateFailure" xml:space="preserve">
+        <value>Non è stato possibile aggiornare le impostazioni applicazione: {0}</value>
+    </data>
+  <data name="clickToShowValue" xml:space="preserve">
+        <value>Click to show value</value>
+    </data>
+  <data name="clickToHideValue" xml:space="preserve">
+        <value>Click to hide value</value>
+    </data>
+  <data name="testAndRun" xml:space="preserve">
+        <value>Test/Run</value>
+    </data>
+  <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
+        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+    </data>
+  <data name="clickToUpdateSettings" xml:space="preserve">
+        <value>Click here to update your settings.</value>
     </data>
 </root>
