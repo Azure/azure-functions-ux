@@ -9,6 +9,7 @@ export interface WebAppMajorVersion {
   displayText: string;
   value: string;
   sortOrder: number;
+  platforms: Platform[];
   minorVersions: WebAppMinorVersion[];
 }
 
