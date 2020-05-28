@@ -98,30 +98,42 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     let localTestData;
     try {
       localTestData = JSON.parse(testData || functionInfo.properties.test_data || '');
-      if (!localTestData.headers) {
-        localTestData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
-      }
     } catch (err) {
+      localTestData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
       LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
     }
     if (!!localTestData) {
+      // Make sure to remove the keys: {body, headers, method, queryStringParams};
+      // if there are still some keys (meaning the test-data file has been manually updated by the user),
+      // we consider the entire remaining object as the body
       if (!!localTestData.body) {
         setReqBody(localTestData.body);
+        delete localTestData.body;
       }
       if (!!localTestData.method) {
         updatedFormValues.method = localTestData.method;
+        delete localTestData.method;
+      } else {
+        updatedFormValues.method = HttpMethods.post;
       }
       if (!!localTestData.queryStringParams) {
         const queryParameters = localTestData.queryStringParams;
+        delete localTestData.queryStringParams;
         for (const parameters of queryParameters) {
           updatedFormValues.queries.push({ name: parameters.name, value: parameters.value });
         }
       }
       if (!!localTestData.headers) {
         const headers = localTestData.headers;
+        delete localTestData.headers;
         for (const header of headers) {
           updatedFormValues.headers.push({ name: header.name, value: header.value });
         }
+      }
+
+      // as per the information in the previous comment, consider the entire remaining object as the body
+      if (Object.keys(localTestData).length > 0) {
+        setReqBody(JSON.stringify(localTestData));
       }
     }
 
