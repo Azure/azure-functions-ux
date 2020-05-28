@@ -2146,6 +2146,9 @@
   <data name="validation_siteNameMaxChars" xml:space="preserve">
         <value>名称必须少于 60 个字符</value>
     </data>
+  <data name="validation_slotNameMaxChars" xml:space="preserve">
+        <value>站点名称和槽名称的字符数加起来必须少于 59 个</value>
+    </data>
   <data name="validation_siteNameInvalidChar" xml:space="preserve">
         <value>“{0}”是一个无效字符</value>
     </data>
@@ -3269,7 +3272,7 @@
         <value>选择一个不同的定价层，为计划添加更多资源</value>
     </data>
   <data name="pricing_applyButtonLabel" xml:space="preserve">
-        <value>升级应用服务计划</value>
+        <value>应用更改</value>
     </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
         <value>共享基础结构</value>
@@ -3924,10 +3927,10 @@
         <value>映像源</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Full Image Name and Tag</value>
+        <value>完整映像名称和标记</value>
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
-        <value>E.g. nginx:latest</value>
+        <value>例如，nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>要开始使用，首先创建 Azure 容器注册表并添加图像。</value>
@@ -3945,7 +3948,7 @@
         <value>服务器 URL</value>
     </data>
   <data name="containerServerURLPlaceholder" xml:space="preserve">
-        <value>E.g. https://index.docker.io</value>
+        <value>例如，https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>登录</value>
@@ -4953,13 +4956,25 @@
         <value>已向你的函数应用添加访问限制，这可能影响你通过门户管理此应用的能力，并可能导致运行时无法访问。</value>
     </data>
   <data name="userCredsError" xml:space="preserve">
-        <value>指定的密码不符合最低要求。密码应至少为八个字符，并且必须包含字母和数字。</value>
+        <value>指定的密码不满足最低要求。密码应至少要有八个字符，且必须包含大写字母、小写字母、数字和符号。</value>
     </data>
   <data name="incomingClientCertificates" xml:space="preserve">
         <value>传入的客户端证书</value>
     </data>
   <data name="requireIncomingClientCertificates" xml:space="preserve">
         <value>需要传入证书</value>
+    </data>
+  <data name="clientCertificateMode" xml:space="preserve">
+        <value>Client certificate mode</value>
+    </data>
+  <data name="clientCertificateModeRequire" xml:space="preserve">
+        <value>Require</value>
+    </data>
+  <data name="clientCertificateModeAllow" xml:space="preserve">
+        <value>Allow</value>
+    </data>
+  <data name="clientCertificateModeIgnore" xml:space="preserve">
+        <value>Ignore</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>证书排除路径</value>
@@ -5419,13 +5434,13 @@
         <value>范围</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Runtime Scale Monitoring</value>
+        <value>运行时规模监视</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>启用此设置可允许应用由 VNET 中的资源触发，或由自定义触发器触发。它需要至少 1 个预加热实例才能激活。&lt;a href="{0}" target="_blank"&gt;了解更多&lt;/a&gt;。</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
+        <value>启用此设置可允许应用由 VNET 中的资源触发，或由自定义触发器触发。它需要至少 1 个预加热实例才能激活。</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>刷新应用设置</value>
@@ -5599,13 +5614,13 @@
         <value>通过在“应用程序”设置中配置 FUNCTIONS_EXTENSION_VERSION 的值，你已选择使用自定义运行时版本。</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+        <value>正在将你的运行时版本从 {0} 更新为 {1}。这可能会引入对现有功能的语言和绑定的中断性变更。不妨新建函数应用，并在升级运行时的主要版本时将函数迁移到此应用。</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
-        <value>Update Runtime Version</value>
+        <value>更新运行时版本</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
-        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
+        <value>你的应用目前正在运行版本 {0}，并具有现有功能。不建议切换到版本 {1}，因为它可能会引入对语言和绑定的中断性变更。是否确定要继续操作?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>GitHub 令牌中缺少“工作流”范围。请返回到“源代码管理”步骤，以重新授权 GitHub。</value>
@@ -5799,6 +5814,9 @@
   <data name="integrate_bindingsFailedLoading" xml:space="preserve">
         <value>未能加载一个或多个绑定，请刷新页面。</value>
     </data>
+  <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
+        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>删除功能键</value>
     </data>
@@ -5946,20 +5964,20 @@
   <data name="blaclistFile_message" xml:space="preserve">
         <value>门户编辑器不支持编辑此文件类型。</value>
     </data>
-  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
-        <value>没有环境变量可显示</value>
+  <data name="staticSite_emptyApplicationSettingList" xml:space="preserve">
+        <value>没有应用程序设置可显示</value>
     </data>
-  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+  <data name="staticSite_addNewApplicationSetting" xml:space="preserve">
         <value>添加</value>
     </data>
-  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
-        <value>添加新环境变量</value>
+  <data name="staticSite_ariaLabel_addNewApplicationSetting" xml:space="preserve">
+        <value>添加新应用程序设置</value>
     </data>
-  <data name="staticSite_environmentVariables" xml:space="preserve">
-        <value>环境变量</value>
+  <data name="staticSite_applicationSettings" xml:space="preserve">
+        <value>应用程序设置</value>
     </data>
-  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
-        <value>适用于你站点的环境变量已静态加密，并通过加密通道进行传输。你可以选择使用以下控件在浏览器中以纯文本形式显示它们。</value>
+  <data name="staticSite_applicationSettingsInfoMessage" xml:space="preserve">
+        <value>适用于你站点的应用程序设置已静态加密，并通过加密通道进行传输。你可以选择使用下面的控制在浏览器中以纯文本形式显示它们。</value>
     </data>
   <data name="staticSite_environment" xml:space="preserve">
         <value>环境</value>
@@ -5967,11 +5985,11 @@
   <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>为站点选择环境</value>
     </data>
-  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>筛选环境变量</value>
+  <data name="staticSite_filterApplicationSetting" xml:space="preserve">
+        <value>筛选应用程序设置</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>是否确定要放弃对环境 {0} 的环境变量的更改?</value>
+        <value>是否确定要放弃对环境 {0} 的应用程序设置所做的更改?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
         <value>将丢弃未保存的更改。</value>
@@ -5979,35 +5997,35 @@
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
         <value>是否确定要更改环境?</value>
     </data>
-  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} 是所有环境变量的必需属性</value>
+  <data name="staticSite_applicationSettingPropIsRequired" xml:space="preserve">
+        <value>{0} 对所有应用程序设置而言都是必需属性</value>
     </data>
-  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>环境变量名称必须是唯一的</value>
+  <data name="staticSite_applicationSettingNamesUnique" xml:space="preserve">
+        <value>应用程序设置名称必须是唯一的</value>
     </data>
-  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>环境变量值必须是数组</value>
+  <data name="staticSite_applicationSettingValuesMustBeAnArray" xml:space="preserve">
+        <value>应用程序设置值必须是数组类型</value>
     </data>
-  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} 是无效的环境变量属性</value>
+  <data name="staticSite_applicationSettingInvalidProperty" xml:space="preserve">
+        <value>{0} 是无效的应用程序设置属性</value>
     </data>
-  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>所有环境变量值和名称属性都必须是字符串类型</value>
+  <data name="staticSite_applicationSettingValueMustBeAString" xml:space="preserve">
+        <value>所有应用程序设置值和名称属性都必须是字符串类型</value>
     </data>
   <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>你的站点目前处于只读模式，因为 RBAC 分配的访问权限设置为“读取者”</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
-        <value>日志</value>
+  <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
+        <value>Logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
-        <value>容器日志</value>
+  <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
+        <value>Deployment center logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
-        <value>设置</value>
+  <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
+        <value>Settings</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
-        <value>容器设置</value>
+  <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
+        <value>Deployment center settings</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>FTP/FTPS 凭据</value>
@@ -6034,37 +6052,37 @@
         <value>二十个最近的函数调用跟踪。若要进行更高级的分析，请在 Application Insights 中运行查询。</value>
     </data>
   <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
-        <value>刷新环境变量</value>
+        <value>刷新应用程序设置</value>
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>刷新时，所有未保存的更改都将丢失。是否确实要继续?</value>
     </data>
-  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
-        <value>添加环境变量</value>
+  <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
+        <value>添加应用程序设置</value>
     </data>
-  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
-        <value>编辑环境变量</value>
+  <data name="staticSite_editApplicationSettingHeader" xml:space="preserve">
+        <value>编辑应用程序设置</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+        <value>应用服务支持使用多种技术来访问、发布和修改应用内容。FTP/FTPS 凭据的作用域可以限定为应用程序或用户。</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
-        <value>FTPS endpoint</value>
+        <value>FTPS 终结点</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
-        <value>Application scope</value>
+        <value>应用程序作用域</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>应用程序作用域凭据是自动生成的，仅提供对此特定应用或部署槽位的访问权限。这些凭据可以与 FTP、本地 GIT 和 WebDeploy 配合使用。它们无法手动配置，但可以随时重置。</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
-        <value>用户范围</value>
+        <value>用户作用域</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+        <value>用户作用域凭据由你(即用户)定义，可用于你有权访问的所有应用。这些凭据可以与 FTP、本地 Git 和 WebDeploy 配合使用。若要使用用户级凭据向 FTP/FTPS 终结点进行身份验证，用户名必须采用以下格式:“{0}”</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
-        <value>(your username)</value>
+        <value>(你的用户名)</value>
     </data>
   <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
         <value>用户名</value>
@@ -6076,42 +6094,126 @@
         <value>确认密码</value>
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
-        <value>Write permission on the site or the slot is required to view credentials.</value>
+        <value>必须在站点或槽位上拥有写入权限，才能查看凭据。</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
-        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+        <value>将主机密钥与客户端结合使用，以访问应用中的所有 HTTP 函数。_master 密钥授予对函数运行时 API 的管理员访问权限。</value>
     </data>
   <data name="appKeys_systemKeys_description" xml:space="preserve">
-        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+        <value>系统密钥是由函数运行时自动管理的。系统密钥提供对函数运行时功能的具体访问权限。</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+        <value>函数密钥的作用域限定为此函数，可用于访问此 HTTP 触发器函数。</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
-        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+        <value>应用程序设置只适用于具有至少一个函数的静态 Web 应用。请将函数添加到应用中，以启用“配置”。</value>
     </data>
   <data name="reset" xml:space="preserve">
-        <value>Reset</value>
+        <value>重置</value>
     </data>
   <data name="resetPublishProfileAriaLabel" xml:space="preserve">
-        <value>Reset publishing profile</value>
+        <value>重置发布配置文件</value>
     </data>
   <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Show application password</value>
+        <value>显示应用程序密码</value>
     </data>
   <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Hide application password</value>
+        <value>隐藏应用程序密码</value>
     </data>
   <data name="showProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user password</value>
+        <value>显示提供程序用户密码</value>
     </data>
   <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user password</value>
+        <value>隐藏提供程序用户密码</value>
     </data>
   <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user confirm password</value>
+        <value>显示提供程序用户确认密码</value>
     </data>
   <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user confirm password</value>
+        <value>隐藏提供程序用户确认密码</value>
+    </data>
+  <data name="resetPublishProfileConfirmationTitle" xml:space="preserve">
+        <value>重置应用程序发布配置文件密码?</value>
+    </data>
+  <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
+        <value>通过重置配置文件密码，任何通过发布配置文件进行的外部集成都会卡住。</value>
+    </data>
+  <data name="usernameLengthRequirements" xml:space="preserve">
+        <value>用户名的长度至少必须为 {0} 个字符。</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
+        <value>使用这些设置来配置容器应用部署模型和注册表。建议使用 GitHub Actions 来提高运行效率。</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+        <value>源</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
+        <value>容器注册表</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+        <value>设置应用，以从注册表中拉取容器映像。</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+        <value>使用 GitHub Actions 自动生成、部署和管理容器应用。</value>
+    </data>
+  <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
+        <value>必须拥有直接网络访问权限，才能运行你的功能。应用可能会通过专用终结点、访问限制或服务终结点受到限制。</value>
+    </data>
+  <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
+        <value>注册表设置</value>
+    </data>
+  <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
+        <value>选项</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
+        <value>注册表源</value>
+    </data>
+  <data name="deploymentCenterPublishProfileDescription" xml:space="preserve">
+        <value>将发布配置文件导入到 Visual Studio 或其他客户端，以将部署连接并推送到 WebApp。</value>
+    </data>
+  <data name="downloadPublishProfile" xml:space="preserve">
+        <value>下载发布配置文件</value>
+    </data>
+  <data name="managePublishProfileCommandBarAriaLabel" xml:space="preserve">
+        <value>管理发布配置文件命令</value>
+    </data>
+  <data name="downloadingPublishProfile" xml:space="preserve">
+        <value>正在下载发布配置文件</value>
+    </data>
+  <data name="downloadingPublishProfileFailed" xml:space="preserve">
+        <value>未能下载发布配置文件</value>
+    </data>
+  <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
+        <value>已成功下载发布配置文件</value>
+    </data>
+  <data name="staticSite_configUpdating" xml:space="preserve">
+        <value>正在更新应用程序设置</value>
+    </data>
+  <data name="staticSite_configUpdateSuccess" xml:space="preserve">
+        <value>已成功更新应用程序设置</value>
+    </data>
+  <data name="staticSite_configUpdateFailure" xml:space="preserve">
+        <value>无法更新应用程序设置: {0}</value>
+    </data>
+  <data name="clickToShowValue" xml:space="preserve">
+        <value>Click to show value</value>
+    </data>
+  <data name="clickToHideValue" xml:space="preserve">
+        <value>Click to hide value</value>
+    </data>
+  <data name="testAndRun" xml:space="preserve">
+        <value>Test/Run</value>
+    </data>
+  <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
+        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+    </data>
+  <data name="clickToUpdateSettings" xml:space="preserve">
+        <value>Click here to update your settings.</value>
     </data>
 </root>
