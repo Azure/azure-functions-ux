@@ -9,15 +9,12 @@ export interface WebAppStack {
 export interface WebAppMajorVersion {
   displayText: string;
   value: string;
-  sortOrder: number;
-  platforms: PlatformOptions;
   minorVersions: WebAppMinorVersion[];
 }
 
 export interface WebAppMinorVersion {
   displayText: string;
   value: string;
-  sortOrder: number;
   platforms: PlatformOptions;
 }
 
@@ -35,11 +32,10 @@ export interface Platform {
 }
 
 export interface ViewModifiers {
-  isPreview: boolean;
-  isDeprecated: boolean;
-  isHidden: boolean;
-  showWithFeatureFlag?: boolean;
-  datedEndOfLIfe?: string;
+  isPreview: boolean; // Stack should be labeled as 'preview'
+  isDeprecated: boolean; // Stack should be hidden unless user is already running that stack
+  isHidden: boolean; // Stack should be hidden unless a feature flag is used
+  projectedEndOfLifeDate?: Date; // Stack projected end of life date
 }
 
 export interface AppInsightsSettings {
