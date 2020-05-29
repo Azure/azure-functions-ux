@@ -203,7 +203,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return siteStateContext.site && !isLoading ? (
+  return siteStateContext.site ? (
     <DeploymentCenterContext.Provider value={{ resourceId, hasWritePermission, siteDescriptor }}>
       {isContainerApp(siteStateContext.site) ? (
         <DeploymentCenterContainerForm
@@ -216,6 +216,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           resetApplicationPassword={resetApplicationPassword}
           showPublishProfilePanel={showPublishProfilePanel}
           refresh={refresh}
+          isLoading={isLoading}
         />
       ) : (
         <DeploymentCenterCodeForm
@@ -229,6 +230,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           resetApplicationPassword={resetApplicationPassword}
           showPublishProfilePanel={showPublishProfilePanel}
           refresh={refresh}
+          isLoading={isLoading}
         />
       )}
       <DeploymentCenterPublishProfilePanel

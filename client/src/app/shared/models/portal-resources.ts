@@ -2020,6 +2020,8 @@ export class PortalResources {
   public static clickToUpdateSettings = 'clickToUpdateSettings';
   public static deploymentCenterCodeDeploymentsLoadingAriaValue = 'deploymentCenterCodeDeploymentsLoadingAriaValue';
   public static deploymentCenterCodeDeploymentsLoading = 'deploymentCenterCodeDeploymentsLoading';
+  public static deploymentCenterFtpLoadingAriaValue = 'deploymentCenterFtpLoadingAriaValue';
+  public static deploymentCenterFtpLoading = 'deploymentCenterFtpLoading';
   public static deploymentCenterCodeDeploymentsFailed = 'deploymentCenterCodeDeploymentsFailed';
   public static deploymentCenterCodeDeploymentsFailedWithError = 'deploymentCenterCodeDeploymentsFailedWithError';
   public static deploymentCenterCodeLogDetailsFailed = 'deploymentCenterCodeLogDetailsFailed';
