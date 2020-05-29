@@ -36,16 +36,21 @@ export const DetailListStyles = (): Partial<IDetailsListStyles> => {
       selectors: {
         '.ms-List-cell': {
           minHeight: DEFAULTLISTHEIGHT,
+          height: 'auto',
         },
         '.ms-DetailsRow': {
           minHeight: DEFAULTLISTHEIGHT,
-          maxHeight: DEFAULTLISTHEIGHT,
+          height: 'auto',
         },
         '.ms-DetailsRow-fields': {
-          maxHeight: DEFAULTLISTHEIGHT,
+          minHeight: DEFAULTLISTHEIGHT,
+          height: 'auto',
         },
         '.ms-DetailsRow-cell': {
-          paddingTop: '8px',
+          paddingTop: '5px',
+          paddingBottom: '5px',
+          minHeight: DEFAULTLISTHEIGHT,
+          height: 'fit-content',
         },
         'ms-Shimmer-shimmerWrapper': {
           height: DEFAULTLISTHEIGHT,
