@@ -344,6 +344,7 @@ jobs:
       uses: azure/appservice-build@v1
       with:
         platform: python
+        platform-version: '${runtimeStackVersion}'
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v1
