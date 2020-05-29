@@ -2146,6 +2146,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="validation_siteNameMaxChars" xml:space="preserve">
         <value>De naam mag niet langer zijn dan 60 tekens</value>
     </data>
+  <data name="validation_slotNameMaxChars" xml:space="preserve">
+        <value>De combinatie van de sitenaam en sleufnaam moet minder dan 59 tekens bevatten</value>
+    </data>
   <data name="validation_siteNameInvalidChar" xml:space="preserve">
         <value>{0} is een ongeldig teken</value>
     </data>
@@ -3270,7 +3273,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Kies een andere prijscategorie om meer resources aan uw abonnement toe te voegen</value>
     </data>
   <data name="pricing_applyButtonLabel" xml:space="preserve">
-        <value>App Service-abonnement bijwerken</value>
+        <value>Wijzigingen toepassen</value>
     </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
         <value>Gedeelde infrastructuur</value>
@@ -3925,10 +3928,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Bron van installatiekopie</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Full Image Name and Tag</value>
+        <value>Volledige naam en tag van de installatiekopie</value>
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
-        <value>E.g. nginx:latest</value>
+        <value>Bijvoorbeeld nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Maak eerst een Azure Container Registry en voeg een installatiekopie toe om aan de slag te gaan.</value>
@@ -3946,7 +3949,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Server-URL</value>
     </data>
   <data name="containerServerURLPlaceholder" xml:space="preserve">
-        <value>E.g. https://index.docker.io</value>
+        <value>Bijvoorbeeld https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Aanmelden</value>
@@ -4954,13 +4957,25 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Er zijn toegangsbeperkingen toegevoegd aan uw functie-app. Dit heeft wellicht invloed op de mogelijkheid om de app te beheren vanuit de portal en de runtime onbereikbaar te maken.</value>
     </data>
   <data name="userCredsError" xml:space="preserve">
-        <value>Het opgegeven wachtwoord voldoet niet aan de minimumvereisten. Het wachtwoord moet ten minste acht tekens lang zijn en moet bestaan uit letters en cijfers.</value>
+        <value>Het opgegeven wachtwoord voldoet niet aan de minimumvereisten. Het wachtwoord moet ten minste acht tekens lang zijn en moet hoofdletters, kleine letters, cijfers en symbolen bevatten.</value>
     </data>
   <data name="incomingClientCertificates" xml:space="preserve">
         <value>Inkomende clientcertificaten</value>
     </data>
   <data name="requireIncomingClientCertificates" xml:space="preserve">
         <value>Inkomend certificaat vereist</value>
+    </data>
+  <data name="clientCertificateMode" xml:space="preserve">
+        <value>Client certificate mode</value>
+    </data>
+  <data name="clientCertificateModeRequire" xml:space="preserve">
+        <value>Require</value>
+    </data>
+  <data name="clientCertificateModeAllow" xml:space="preserve">
+        <value>Allow</value>
+    </data>
+  <data name="clientCertificateModeIgnore" xml:space="preserve">
+        <value>Ignore</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Certificaatuitsluitingspaden</value>
@@ -5420,13 +5435,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Bereik</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Runtime Scale Monitoring</value>
+        <value>Schaalbewaking tijdens runtime</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Schakel deze instelling in om uw app te laten activeren door resources in een VNET of door aangepaste triggers. Er moet ten minste 1 initialisatie-instantie actief zijn. &lt;a href="{0}" target="_blank"&gt;Meer informatie&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
+        <value>Schakel deze instelling in om uw app te laten activeren door resources in een VNET of door aangepaste triggers. Er moet ten minste 1 initialisatie-instantie actief zijn.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>App-instellingen vernieuwen</value>
@@ -5600,13 +5615,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Als u de waarde van FUNCTIONS_EXTENSION_VERSION in de toepassingsinstellingen configureert, kiest u voor het gebruik van een aangepaste runtimeversie.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+        <value>Uw runtime-versie wordt bijgewerkt van {0} naar {1}. Dit kan leiden tot wijzigingen van de taal en bindingen voor uw bestaande functies. U kunt een nieuwe functie-app maken en uw functies naar deze app migreren bij het upgraden van de primaire versies van de runtime.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
-        <value>Update Runtime Version</value>
+        <value>Runtime-versie bijwerken</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
-        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
+        <value>Uw app wordt momenteel uitgevoerd met versie {0} en heeft bestaande functies. Overschakelen naar versie {1} wordt niet aanbevolen, omdat dit kan leiden tot wijzigingen in talen en bindingen. Weet u zeker dat u wilt doorgaan?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>Het bereik workflow ontbreekt in het GitHub-token. Ga terug naar de stap voor broncodebeheer om GitHub opnieuw te autoriseren.</value>
@@ -5800,6 +5815,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="integrate_bindingsFailedLoading" xml:space="preserve">
         <value>Kan een of meer bindingen niet laden, vernieuw de pagina.</value>
     </data>
+  <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
+        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Functiesleutel verwijderen</value>
     </data>
@@ -5947,20 +5965,20 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="blaclistFile_message" xml:space="preserve">
         <value>Het bewerken van dit bestandstype wordt niet ondersteund in de portaleditor.</value>
     </data>
-  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
-        <value>Er zijn geen omgevingsvariabelen om weer te geven</value>
+  <data name="staticSite_emptyApplicationSettingList" xml:space="preserve">
+        <value>Geen toepassingsinstelling om weer te geven</value>
     </data>
-  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+  <data name="staticSite_addNewApplicationSetting" xml:space="preserve">
         <value>Toevoegen</value>
     </data>
-  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
-        <value>Een nieuwe omgevingsvariabele toevoegen</value>
+  <data name="staticSite_ariaLabel_addNewApplicationSetting" xml:space="preserve">
+        <value>Nieuwe toepassingsinstelling toevoegen</value>
     </data>
-  <data name="staticSite_environmentVariables" xml:space="preserve">
-        <value>Omgevingsvariabelen</value>
+  <data name="staticSite_applicationSettings" xml:space="preserve">
+        <value>Toepassingsinstellingen</value>
     </data>
-  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
-        <value>De omgevingsvariabelen die van toepassing zijn op uw site zijn in rust versleuteld en worden verzonden via een versleuteld kanaal. U kunt ervoor kiezen deze als tekst zonder opmaak in uw browser weer te geven door de onderstaande besturingselementen te gebruiken.</value>
+  <data name="staticSite_applicationSettingsInfoMessage" xml:space="preserve">
+        <value>De toepassingsinstellingen die van toepassing zijn op uw site, zijn at rest versleuteld en worden verzonden via een versleuteld kanaal. U kunt ervoor kiezen deze als tekst zonder opmaak in uw browser weer te geven door de onderstaande besturingselementen te gebruiken.</value>
     </data>
   <data name="staticSite_environment" xml:space="preserve">
         <value>Omgeving</value>
@@ -5968,11 +5986,11 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>Selecteer de omgeving voor de site</value>
     </data>
-  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Omgevingsvariabelen filteren</value>
+  <data name="staticSite_filterApplicationSetting" xml:space="preserve">
+        <value>Toepassingsinstelling filteren</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Weet u zeker dat u de wijzigingen in de omgevingsvariabelen voor de omgeving {0} wilt negeren?</value>
+        <value>Weet u zeker dat u de wijzigingen in de toepassingsinstellingen voor de omgeving {0} wilt negeren?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
         <value>Niet-opgeslagen wijzigingen gaan verloren.</value>
@@ -5980,35 +5998,35 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
         <value>Weet u zeker dat u de omgeving wilt wijzigen?</value>
     </data>
-  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} is een vereiste eigenschap voor alle omgevingsvariabelen</value>
+  <data name="staticSite_applicationSettingPropIsRequired" xml:space="preserve">
+        <value>{0} is een vereiste eigenschap voor alle toepassingsinstellingen</value>
     </data>
-  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>De naam van de omgevingsvariabele moet uniek zijn</value>
+  <data name="staticSite_applicationSettingNamesUnique" xml:space="preserve">
+        <value>De naam van de toepassingsinstelling moet uniek zijn</value>
     </data>
-  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>De waarden van omgevingsvariabelen moeten een matrix zijn</value>
+  <data name="staticSite_applicationSettingValuesMustBeAnArray" xml:space="preserve">
+        <value>De waarden voor de toepassingsinstellingen moeten een matrix zijn</value>
     </data>
-  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} is een ongeldige eigenschap voor een omgevingsvariabele</value>
+  <data name="staticSite_applicationSettingInvalidProperty" xml:space="preserve">
+        <value>{0} is een ongeldige eigenschap voor de toepassing</value>
     </data>
-  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>Alle waarde- en naameigenschappen voor omgevingsvariabelen moeten van het type tekenreeks zijn</value>
+  <data name="staticSite_applicationSettingValueMustBeAString" xml:space="preserve">
+        <value>Alle waarde- en naameigenschappen voor de toepassingsinstellingen moeten van het type tekenreeks zijn</value>
     </data>
   <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>De site bevindt zich momenteel in de modus Alleen-lezen omdat uw met RBAC toegewezen toegang is ingesteld op Lezer</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
-        <value>Logboeken</value>
+  <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
+        <value>Logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
-        <value>Logboeken voor containers</value>
+  <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
+        <value>Deployment center logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
-        <value>Instellingen</value>
+  <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
+        <value>Settings</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
-        <value>Containerinstellingen</value>
+  <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
+        <value>Deployment center settings</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>FTP-/FTPs-referenties</value>
@@ -6035,37 +6053,37 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>De twintig meest recente functieaanroeptraceringen. Voer de query uit in Application Insights voor een geavanceerde analyse.</value>
     </data>
   <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
-        <value>Refresh environment variables</value>
+        <value>Toepassingsinstellingen vernieuwen</value>
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Alle niet-opgeslagen wijzigingen gaan verloren bij het vernieuwen. Weet u zeker dat u wilt doorgaan?</value>
     </data>
-  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
-        <value>Add environment variable</value>
+  <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
+        <value>Toepassingsinstelling toevoegen</value>
     </data>
-  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
-        <value>Edit environment variable</value>
+  <data name="staticSite_editApplicationSettingHeader" xml:space="preserve">
+        <value>Toepassingsinstelling bewerken</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+        <value>App Service ondersteunt meerdere technologieën voor het gebruiken, publiceren en wijzigen van de inhoud van uw app. FTP-/FTPS-referenties kunnen worden ingesteld voor de toepassing of de gebruiker.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
-        <value>FTPS endpoint</value>
+        <value>FTPS-eindpunt</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
-        <value>Application scope</value>
+        <value>Toepassingsbereik</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Referenties voor toepassingsbereiken worden automatisch gegenereerd en bieden alleen toegang tot deze specifieke app of implementatiesite. Deze referenties kunnen worden gebruikt met FTP, een lokale Git-opslagplaats en WebDeploy. De referenties kunnen niet handmatig worden geconfigureerd, maar kunnen op elk moment opnieuw worden ingesteld.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
-        <value>User scope</value>
+        <value>Gebruikersbereik</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+        <value>Referenties voor gebruikersbereiken worden gedefinieerd door u, de gebruiker, en kunnen worden gebruikt met alle apps waartoe u toegang hebt. Deze referenties kunnen worden gebruikt met FTP, een lokale Git-opslagplaats en WebDeploy. Voor verificatie bij een FTP-/FTPS-eindpunt met referenties op gebruikersniveau is een gebruikersnaam vereist met de volgende indeling: {0}</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
-        <value>(your username)</value>
+        <value>(uw gebruikersnaam)</value>
     </data>
   <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
         <value>Gebruikersnaam</value>
@@ -6074,45 +6092,129 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
         <value>Wachtwoord</value>
     </data>
   <data name="deploymentCenterFtpsConfirmPasswordLabel" xml:space="preserve">
-        <value>Bevestig het wachtwoord</value>
+        <value>Wachtwoord bevestigen</value>
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
-        <value>Write permission on the site or the slot is required to view credentials.</value>
+        <value>Er is een schrijfmachtiging voor de site of de sleuf vereist om referenties weer te geven.</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
-        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+        <value>Gebruik hostsleutels voor uw clients om alle HTTP-functies in de app te gebruiken. De sleutel _master biedt beheerderstoegang tot de API's van de Functions-runtime.</value>
     </data>
   <data name="appKeys_systemKeys_description" xml:space="preserve">
-        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+        <value>Systeemsleutels worden automatisch beheerd door de Functions-runtime. Systeemsleutels bieden gedetailleerde toegang tot functies van de Functions-runtime.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+        <value>Functietoetsen worden aan de hand van deze functie in een bereik geplaatst en kunnen worden gebruikt om toegang te krijgen tot deze HTTP-activeringsfunctie.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
-        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+        <value>Toepassingsinstellingen zijn alleen van toepassing op statische web-apps met ten minste één functie. Voeg een of meer functies toe aan uw app om de configuratie in te schakelen.</value>
     </data>
   <data name="reset" xml:space="preserve">
-        <value>Reset</value>
+        <value>Opnieuw instellen</value>
     </data>
   <data name="resetPublishProfileAriaLabel" xml:space="preserve">
-        <value>Reset publishing profile</value>
+        <value>Publicatieprofiel opnieuw instellen</value>
     </data>
   <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Show application password</value>
+        <value>Toepassingswachtwoord weergeven</value>
     </data>
   <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Hide application password</value>
+        <value>Toepassingswachtwoord verbergen</value>
     </data>
   <data name="showProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user password</value>
+        <value>Providergebruikerswachtwoord weergeven</value>
     </data>
   <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user password</value>
+        <value>Providergebruikerswachtwoord verbergen</value>
     </data>
   <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user confirm password</value>
+        <value>Wachtwoord voor het bevestigen van de providergebruiker weergeven</value>
     </data>
   <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user confirm password</value>
+        <value>Wachtwoord voor het bevestigen van de providergebruiker verbergen</value>
+    </data>
+  <data name="resetPublishProfileConfirmationTitle" xml:space="preserve">
+        <value>Wachtwoord voor toepassingspublicatieprofiel opnieuw instellen?</value>
+    </data>
+  <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
+        <value>Als het profielwachtwoord opnieuw wordt ingesteld, werken externe integraties via het publicatieprofiel niet meer.</value>
+    </data>
+  <data name="usernameLengthRequirements" xml:space="preserve">
+        <value>De gebruikersnaam moet ten minste uit {0} tekens bestaan.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
+        <value>Gebruik deze instellingen om het implementatiemodel en register voor uw container-app te configureren. GitHub Actions wordt aanbevolen voor een betere operationele efficiëntie.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+        <value>Bron</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
+        <value>Container Registry</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+        <value>Stel uw app in om de containerinstallatiekopie uit een register te halen.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+        <value>Bouw, implementeer en beheer uw container-app automatisch met GitHub Actions.</value>
+    </data>
+  <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
+        <value>U moet rechtstreekse netwerktoegang hebben om de functie uit te voeren. Uw app is mogelijk beperkt met privé-eindpunten, toegangsbeperkingen of service-eindpunten.</value>
+    </data>
+  <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
+        <value>Registerinstellingen</value>
+    </data>
+  <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
+        <value>Opties</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
+        <value>Registerbron</value>
+    </data>
+  <data name="deploymentCenterPublishProfileDescription" xml:space="preserve">
+        <value>Importeer het publicatieprofiel in Visual Studio of andere clients om verbinding te maken en een implementatie naar uw web-app te pushen.</value>
+    </data>
+  <data name="downloadPublishProfile" xml:space="preserve">
+        <value>Publicatieprofiel downloaden</value>
+    </data>
+  <data name="managePublishProfileCommandBarAriaLabel" xml:space="preserve">
+        <value>Opdrachten voor publicatieprofiel beheren</value>
+    </data>
+  <data name="downloadingPublishProfile" xml:space="preserve">
+        <value>Publicatieprofiel wordt gedownload</value>
+    </data>
+  <data name="downloadingPublishProfileFailed" xml:space="preserve">
+        <value>Kan het publicatieprofiel niet downloaden</value>
+    </data>
+  <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
+        <value>Het publicatieprofiel is gedownload</value>
+    </data>
+  <data name="staticSite_configUpdating" xml:space="preserve">
+        <value>Toepassingsinstellingen bijwerken</value>
+    </data>
+  <data name="staticSite_configUpdateSuccess" xml:space="preserve">
+        <value>De toepassingsinstellingen zijn bijgewerkt</value>
+    </data>
+  <data name="staticSite_configUpdateFailure" xml:space="preserve">
+        <value>Kan de volgende toepassingsinstellingen niet bijwerken: {0}</value>
+    </data>
+  <data name="clickToShowValue" xml:space="preserve">
+        <value>Click to show value</value>
+    </data>
+  <data name="clickToHideValue" xml:space="preserve">
+        <value>Click to hide value</value>
+    </data>
+  <data name="testAndRun" xml:space="preserve">
+        <value>Test/Run</value>
+    </data>
+  <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
+        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+    </data>
+  <data name="clickToUpdateSettings" xml:space="preserve">
+        <value>Click here to update your settings.</value>
     </data>
 </root>

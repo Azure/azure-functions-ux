@@ -2146,6 +2146,9 @@
   <data name="validation_siteNameMaxChars" xml:space="preserve">
         <value>이름은 60자 미만이어야 합니다.</value>
     </data>
+  <data name="validation_slotNameMaxChars" xml:space="preserve">
+        <value>결합한 사이트 이름과 슬롯 이름은 59자 미만이어야 합니다.</value>
+    </data>
   <data name="validation_siteNameInvalidChar" xml:space="preserve">
         <value>'{0}'은(는) 잘못된 문자입니다.</value>
     </data>
@@ -3269,7 +3272,7 @@
         <value>계획에 대한 리소스를 더 추가하려면 다른 가격 책정 계층을 선택합니다.</value>
     </data>
   <data name="pricing_applyButtonLabel" xml:space="preserve">
-        <value>App Service 계획 업데이트</value>
+        <value>변경 내용 적용</value>
     </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
         <value>공유 인프라</value>
@@ -3924,10 +3927,10 @@
         <value>이미지 소스</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Full Image Name and Tag</value>
+        <value>전체 이미지 이름 및 태그</value>
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
-        <value>E.g. nginx:latest</value>
+        <value>예: nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>시작하려면 먼저 Azure Container Registry를 만들고 이미지를 추가하세요.</value>
@@ -3945,7 +3948,7 @@
         <value>서버 URL</value>
     </data>
   <data name="containerServerURLPlaceholder" xml:space="preserve">
-        <value>E.g. https://index.docker.io</value>
+        <value>예: https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>로그인</value>
@@ -4953,13 +4956,25 @@
         <value>함수 앱에 액세스 제한이 추가되어 포털에서 관리하는 기능에 영향을 미치고 런타임에 연결할 수 없게 됩니다.</value>
     </data>
   <data name="userCredsError" xml:space="preserve">
-        <value>지정한 암호가 최소 요구 사항을 충족하지 않습니다. 암호는 8자 이상이어야 하며 문자와 숫자를 포함해야 합니다.</value>
+        <value>지정한 암호가 최소 요구 사항을 충족하지 않습니다. 암호는 8자 이상이어야 하며 대문자, 소문자, 숫자 및 기호를 포함해야 합니다.</value>
     </data>
   <data name="incomingClientCertificates" xml:space="preserve">
         <value>들어오는 클라이언트 인증서</value>
     </data>
   <data name="requireIncomingClientCertificates" xml:space="preserve">
         <value>들어오는 인증서 필요</value>
+    </data>
+  <data name="clientCertificateMode" xml:space="preserve">
+        <value>Client certificate mode</value>
+    </data>
+  <data name="clientCertificateModeRequire" xml:space="preserve">
+        <value>Require</value>
+    </data>
+  <data name="clientCertificateModeAllow" xml:space="preserve">
+        <value>Allow</value>
+    </data>
+  <data name="clientCertificateModeIgnore" xml:space="preserve">
+        <value>Ignore</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>인증서 제외 경로</value>
@@ -5419,13 +5434,13 @@
         <value>범위</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Runtime Scale Monitoring</value>
+        <value>런타임 크기 조정 모니터링</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>이 설정을 사용하도록 설정하면 VNET의 리소스 또는 사용자 지정 트리거로 앱을 트리거할 수 있습니다. 하나 이상의 예열된 인스턴스를 활성화해야 합니다. &lt;a href="{0}" target="_blank"&gt;자세히 알아보세요&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
+        <value>이 설정을 사용하도록 설정하면 VNET의 리소스 또는 사용자 지정 트리거로 앱을 트리거할 수 있습니다. 하나 이상의 예열된 인스턴스를 활성화해야 합니다.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>앱 설정 새로 고침</value>
@@ -5599,13 +5614,13 @@
         <value>애플리케이션 설정에서 FUNCTIONS_EXTENSION_VERSION의 값을 구성하여 사용자 지정 런타임 버전을 사용하도록 선택했습니다.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+        <value>런타임 버전을 {0}에서 {1}(으)로 업데이트합니다. 이로 인해 기존 함수의 언어 및 바인딩의 호환성이 손상되는 변경을 일으킬 수 있습니다. 런타임 주 버전을 업그레이드할 때 새 함수 앱을 만들고 함수를 이 앱으로 마이그레이션하는 것이 좋습니다.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
-        <value>Update Runtime Version</value>
+        <value>런타임 버전 업데이트</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
-        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
+        <value>앱이 현재 {0} 버전을 실행 중이며 기존 함수를 포함합니다. {1} 버전으로 전환하면 언어와 바인딩의 호환성이 손상되는 변경을 일으킬 수 있으므로 전환하지 않는 것이 좋습니다. 계속하시겠습니까?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>GitHub 토큰에 '워크플로' 범위가 없습니다. GitHub에 다시 권한을 부여하려면 '소스 제어' 단계로 돌아가세요.</value>
@@ -5799,6 +5814,9 @@
   <data name="integrate_bindingsFailedLoading" xml:space="preserve">
         <value>하나 이상의 바인딩을 로드하지 못했습니다. 페이지를 새로 고치세요.</value>
     </data>
+  <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
+        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>함수 키 삭제</value>
     </data>
@@ -5946,20 +5964,20 @@
   <data name="blaclistFile_message" xml:space="preserve">
         <value>이 파일 형식은 포털 편집기에서 편집할 수 없습니다.</value>
     </data>
-  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
-        <value>표시할 환경 변수 없음</value>
+  <data name="staticSite_emptyApplicationSettingList" xml:space="preserve">
+        <value>표시할 애플리케이션 설정이 없음</value>
     </data>
-  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+  <data name="staticSite_addNewApplicationSetting" xml:space="preserve">
         <value>추가</value>
     </data>
-  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
-        <value>새 환경 변수 추가</value>
+  <data name="staticSite_ariaLabel_addNewApplicationSetting" xml:space="preserve">
+        <value>새 애플리케이션 설정 추가</value>
     </data>
-  <data name="staticSite_environmentVariables" xml:space="preserve">
-        <value>환경 변수</value>
+  <data name="staticSite_applicationSettings" xml:space="preserve">
+        <value>애플리케이션 설정</value>
     </data>
-  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
-        <value>사이트에 적용되는 환경 변수는 미사용 시 암호화되고 암호화된 채널을 통해 전송됩니다. 아래 컨트롤을 사용하여 브라우저에서 환경 변수를 일반 텍스트로 표시하도록 선택할 수 있습니다.</value>
+  <data name="staticSite_applicationSettingsInfoMessage" xml:space="preserve">
+        <value>사이트에 적용되는 애플리케이션 설정은 미사용 시 암호화되고 암호화된 채널을 통해 전송됩니다. 아래 컨트롤을 사용하여 브라우저에서 애플리케이션 설정을 일반 텍스트로 표시하도록 선택할 수 있습니다.</value>
     </data>
   <data name="staticSite_environment" xml:space="preserve">
         <value>환경</value>
@@ -5967,11 +5985,11 @@
   <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>사이트의 환경 선택</value>
     </data>
-  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>필터 환경 변수</value>
+  <data name="staticSite_filterApplicationSetting" xml:space="preserve">
+        <value>애플리케이션 설정 필터링</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>{0} 환경의 환경 변수에 대한 변경 내용을 취소하시겠습니까?</value>
+        <value>{0} 환경의 애플리케이션 설정에 대한 변경 내용을 취소하시겠습니까?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
         <value>저장하지 않은 변경 내용은 취소됩니다.</value>
@@ -5979,35 +5997,35 @@
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
         <value>환경을 변경하시겠습니까?</value>
     </data>
-  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0}은(는) 모든 환경 변수에서 필수 속성입니다.</value>
+  <data name="staticSite_applicationSettingPropIsRequired" xml:space="preserve">
+        <value>{0}은(는) 모든 애플리케이션 설정에서 필수 속성입니다.</value>
     </data>
-  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>환경 변수 이름은 고유해야 합니다.</value>
+  <data name="staticSite_applicationSettingNamesUnique" xml:space="preserve">
+        <value>애플리케이션 설정 이름은 고유해야 합니다.</value>
     </data>
-  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>환경 변수 값은 배열이어야 합니다.</value>
+  <data name="staticSite_applicationSettingValuesMustBeAnArray" xml:space="preserve">
+        <value>애플리케이션 설정 값이 배열이어야 합니다.</value>
     </data>
-  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0}은(는) 잘못된 환경 변수 속성입니다.</value>
+  <data name="staticSite_applicationSettingInvalidProperty" xml:space="preserve">
+        <value>{0}은(는) 잘못된 애플리케이션 설정 속성입니다.</value>
     </data>
-  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>모든 환경 변수 값 및 이름 속성은 문자열 형식이어야 합니다.</value>
+  <data name="staticSite_applicationSettingValueMustBeAString" xml:space="preserve">
+        <value>모든 애플리케이션 설정 값 및 이름 속성은 문자열 형식이어야 합니다.</value>
     </data>
   <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>RBAC 할당된 액세스 권한이 reader로 설정되어 있어 사이트가 현재 읽기 전용 모드에 있습니다.</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
-        <value>로그</value>
+  <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
+        <value>Logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
-        <value>컨테이너 로그</value>
+  <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
+        <value>Deployment center logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
-        <value>설정</value>
+  <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
+        <value>Settings</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
-        <value>컨테이너 설정</value>
+  <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
+        <value>Deployment center settings</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>FTP/FTPS 자격 증명</value>
@@ -6034,37 +6052,37 @@
         <value>가장 최근의 함수 호출 추적 스무 개입니다. 고급 분석을 위해 Application Insights에서 쿼리를 실행합니다.</value>
     </data>
   <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
-        <value>환경 변수 새로 고침</value>
+        <value>애플리케이션 설정 새로 고침</value>
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>새로 고치면 저장하지 않은 모든 변경 내용이 손실됩니다. 계속하시겠습니까?</value>
     </data>
-  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
-        <value>환경 변수 추가</value>
+  <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
+        <value>애플리케이션 설정 추가</value>
     </data>
-  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
-        <value>환경 변수 편집</value>
+  <data name="staticSite_editApplicationSettingHeader" xml:space="preserve">
+        <value>애플리케이션 설정 편집</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+        <value>App Service는 앱의 콘텐츠에 액세스하고 콘텐츠를 게시하고 수정하는 여러 기술을 지원합니다. FTP/FTPS 자격 증명의 범위는 애플리케이션 또는 사용자가 될 수 있습니다.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
-        <value>FTPS endpoint</value>
+        <value>FTPS 엔드포인트</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
-        <value>Application scope</value>
+        <value>애플리케이션 범위</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>애플리케이션 범위 자격 증명은 자동으로 생성되며 이 특정 앱 또는 배포 슬롯에 대한 액세스 권한만 제공합니다. 이러한 자격 증명은 FTP, 로컬 Git 및 WebDeploy에서 사용할 수 있습니다. 해당 자격 증명은 수동으로 구성할 수 없으며 언제든지 다시 설정할 수 있습니다.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
-        <value>User scope</value>
+        <value>사용자 범위</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+        <value>사용자 범위 자격 증명은 사용자가 정의하며 액세스할 수 있는 모든 앱에서 사용할 수 있습니다. 이러한 자격 증명은 FTP, 로컬 Git 및 WebDeploy와 함께 사용할 수 있습니다. 사용자 수준 자격 증명을 사용하여 FTP/FTPS 엔드포인트에 인증하려면 '{0}' 형식의 사용자 이름이 필요합니다.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
-        <value>(your username)</value>
+        <value>(사용자 이름)</value>
     </data>
   <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
         <value>사용자 이름</value>
@@ -6076,42 +6094,126 @@
         <value>암호 확인</value>
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
-        <value>Write permission on the site or the slot is required to view credentials.</value>
+        <value>자격 증명을 보려면 사이트 또는 슬롯에 대한 쓰기 권한이 필요합니다.</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
-        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+        <value>클라이언트에 호스트 키를 사용하여 앱의 모든 HTTP 함수에 액세스합니다. _master 키는 함수 런타임 API에 대한 관리자 액세스 권한을 부여합니다.</value>
     </data>
   <data name="appKeys_systemKeys_description" xml:space="preserve">
-        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+        <value>시스템 키는 함수 런타임에 의해 자동으로 관리됩니다. 시스템 키를 통해 함수 런타임 기능의 액세스를 세밀하게 제어할 수 있습니다.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+        <value>함수 키는 이 함수로 범위가 지정되며 이 http 트리거 함수에 액세스하는 데 사용할 수 있습니다.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
-        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+        <value>애플리케이션 설정은 하나 이상의 함수가 포함된 정적 Web Apps에만 적용할 수 있습니다. 구성을 사용하도록 설정하려면 앱에 함수를 추가하세요.</value>
     </data>
   <data name="reset" xml:space="preserve">
-        <value>Reset</value>
+        <value>다시 설정</value>
     </data>
   <data name="resetPublishProfileAriaLabel" xml:space="preserve">
-        <value>Reset publishing profile</value>
+        <value>게시 프로필 다시 설정</value>
     </data>
   <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Show application password</value>
+        <value>애플리케이션 암호 표시</value>
     </data>
   <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Hide application password</value>
+        <value>애플리케이션 암호 숨기기</value>
     </data>
   <data name="showProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user password</value>
+        <value>공급자 사용자 암호 표시</value>
     </data>
   <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user password</value>
+        <value>공급자 사용자 암호 숨기기</value>
     </data>
   <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user confirm password</value>
+        <value>공급자 사용자 암호 확인 표시</value>
     </data>
   <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user confirm password</value>
+        <value>공급자 사용자 암호 확인 숨기기</value>
+    </data>
+  <data name="resetPublishProfileConfirmationTitle" xml:space="preserve">
+        <value>애플리케이션 게시 프로필 암호를 다시 설정하시겠습니까?</value>
+    </data>
+  <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
+        <value>프로필 암호를 다시 설정하면 게시 프로필을 통한 모든 외부 통합의 작동이 중지됩니다.</value>
+    </data>
+  <data name="usernameLengthRequirements" xml:space="preserve">
+        <value>사용자 이름은 {0}자 이상이어야 합니다.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
+        <value>이 설정을 사용하여 컨테이너 앱 배포 모델 및 레지스트리를 구성하세요. 작업 효율성을 높이기 위해 GitHub Actions를 사용하는 것이 좋습니다.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+        <value>소스</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
+        <value>컨테이너 레지스트리</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+        <value>레지스트리에서 컨테이너 이미지를 끌어올 앱을 설치합니다.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
+        <value>GitHub 작업</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+        <value>GitHub 작업으로 컨테이너 앱을 자동으로 빌드, 배포 및 관리합니다.</value>
+    </data>
+  <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
+        <value>함수를 실행하려면 직접 네트워크 액세스 권한이 있어야 합니다. 앱이 프라이빗 엔드포인트, 액세스 제한 또는 서비스 엔드포인트를 사용하여 제한될 수 있습니다.</value>
+    </data>
+  <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
+        <value>레지스트리 설정</value>
+    </data>
+  <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
+        <value>옵션</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
+        <value>레지스트리 원본</value>
+    </data>
+  <data name="deploymentCenterPublishProfileDescription" xml:space="preserve">
+        <value>게시 프로필을 Visual Studio 또는 다른 클라이언트로 가져와서 배포를 WebApp에 연결하고 푸시합니다.</value>
+    </data>
+  <data name="downloadPublishProfile" xml:space="preserve">
+        <value>게시 프로필 다운로드</value>
+    </data>
+  <data name="managePublishProfileCommandBarAriaLabel" xml:space="preserve">
+        <value>게시 프로필 명령 관리</value>
+    </data>
+  <data name="downloadingPublishProfile" xml:space="preserve">
+        <value>게시 프로필을 다운로드하는 중</value>
+    </data>
+  <data name="downloadingPublishProfileFailed" xml:space="preserve">
+        <value>게시 프로필 다운로드 실패</value>
+    </data>
+  <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
+        <value>게시 프로필을 다운로드했습니다.</value>
+    </data>
+  <data name="staticSite_configUpdating" xml:space="preserve">
+        <value>애플리케이션 설정을 업데이트하는 중</value>
+    </data>
+  <data name="staticSite_configUpdateSuccess" xml:space="preserve">
+        <value>애플리케이션 설정을 업데이트했습니다.</value>
+    </data>
+  <data name="staticSite_configUpdateFailure" xml:space="preserve">
+        <value>애플리케이션 설정을 업데이트하지 못했습니다({0}).</value>
+    </data>
+  <data name="clickToShowValue" xml:space="preserve">
+        <value>Click to show value</value>
+    </data>
+  <data name="clickToHideValue" xml:space="preserve">
+        <value>Click to hide value</value>
+    </data>
+  <data name="testAndRun" xml:space="preserve">
+        <value>Test/Run</value>
+    </data>
+  <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
+        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+    </data>
+  <data name="clickToUpdateSettings" xml:space="preserve">
+        <value>Click here to update your settings.</value>
     </data>
 </root>

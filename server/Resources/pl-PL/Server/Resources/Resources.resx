@@ -2146,6 +2146,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="validation_siteNameMaxChars" xml:space="preserve">
         <value>Nazwa musi mieć mniej niż 60 znaków</value>
     </data>
+  <data name="validation_slotNameMaxChars" xml:space="preserve">
+        <value>Nazwa witryny połączona z nazwą miejsca musi mieć mniej niż 59 znaków</value>
+    </data>
   <data name="validation_siteNameInvalidChar" xml:space="preserve">
         <value>„{0}” jest nieprawidłowym znakiem</value>
     </data>
@@ -3269,7 +3272,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Wybierz inną warstwę cenową, aby dodać więcej zasobów do planu</value>
     </data>
   <data name="pricing_applyButtonLabel" xml:space="preserve">
-        <value>Zaktualizuj plan usługi App Service</value>
+        <value>Zastosuj zmiany</value>
     </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
         <value>Infrastruktura współdzielona</value>
@@ -3924,10 +3927,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Źródło obrazu</value>
     </data>
   <data name="containerImageAndTag" xml:space="preserve">
-        <value>Full Image Name and Tag</value>
+        <value>Pełna nazwa i tag obrazu</value>
     </data>
   <data name="containerImageAndTagPlaceholder" xml:space="preserve">
-        <value>E.g. nginx:latest</value>
+        <value>Na przykład nginx:latest</value>
     </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
         <value>Aby rozpocząć, najpierw utwórz rejestr Azure Container Registry i dodaj obraz.</value>
@@ -3945,7 +3948,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Adres URL serwera</value>
     </data>
   <data name="containerServerURLPlaceholder" xml:space="preserve">
-        <value>E.g. https://index.docker.io</value>
+        <value>Na przykład https://index.docker.io</value>
     </data>
   <data name="containerLogin" xml:space="preserve">
         <value>Logowanie</value>
@@ -4953,13 +4956,25 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Do aplikacji funkcji dodano ograniczenia dostępu. Może to mieć wpływ na możliwość zarządzania nią z poziomu portalu oraz uniemożliwić kontakt ze środowiskiem uruchomieniowym.</value>
     </data>
   <data name="userCredsError" xml:space="preserve">
-        <value>Podane hasło nie spełnia minimalnych wymagań. Hasło powinno składać się z co najmniej ośmiu znaków oraz musi zawierać litery i cyfry.</value>
+        <value>Podane hasło nie spełnia minimalnych wymagań. Hasło powinno składać się z co najmniej ośmiu znaków oraz musi zawierać wielkie litery, małe litery, cyfry i symbole.</value>
     </data>
   <data name="incomingClientCertificates" xml:space="preserve">
         <value>Przychodzące certyfikaty klientów</value>
     </data>
   <data name="requireIncomingClientCertificates" xml:space="preserve">
         <value>Wymagaj certyfikatu przychodzącego</value>
+    </data>
+  <data name="clientCertificateMode" xml:space="preserve">
+        <value>Client certificate mode</value>
+    </data>
+  <data name="clientCertificateModeRequire" xml:space="preserve">
+        <value>Require</value>
+    </data>
+  <data name="clientCertificateModeAllow" xml:space="preserve">
+        <value>Allow</value>
+    </data>
+  <data name="clientCertificateModeIgnore" xml:space="preserve">
+        <value>Ignore</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Ścieżki wykluczenia certyfikatów</value>
@@ -5419,13 +5434,13 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Zakres</value>
     </data>
   <data name="appFunctionSettings_virtualNetworkTriggerSupport" xml:space="preserve">
-        <value>Runtime Scale Monitoring</value>
+        <value>Monitorowanie skalowania w czasie wykonywania</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoredText" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active. &lt;a href="{0}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
+        <value>Włącz to ustawienie, aby umożliwić wyzwalanie aplikacji przez zasoby w sieci wirtualnej lub przez wyzwalacze niestandardowe. Wymaga to aktywnego co najmniej 1 wstępnie zapełnionego wystąpienia. &lt;a href="{0}" target="_blank"&gt;Dowiedz się więcej&lt;/a&gt;.</value>
     </data>
   <data name="appFunctionSettings_runtimeScalingMonitoringMessage" xml:space="preserve">
-        <value>Enable this setting to allow your app to be triggered by resources in a VNET or by custom triggers. It requires at least 1 pre-warmed instance to be active.</value>
+        <value>Włącz to ustawienie, aby umożliwić wyzwalanie aplikacji przez zasoby w sieci wirtualnej lub przez wyzwalacze niestandardowe. Wymaga to aktywnego co najmniej 1 wstępnie zapełnionego wystąpienia.</value>
     </data>
   <data name="refreshAppSettingsTitle" xml:space="preserve">
         <value>Odświeżanie ustawień aplikacji</value>
@@ -5599,13 +5614,13 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Podczas konfigurowania wartości FUNCTIONS_EXTENSION_VERSION w ustawieniach aplikacji została wybrana niestandardowa wersja środowiska uruchomieniowego.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsWarning" xml:space="preserve">
-        <value>You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.</value>
+        <value>Aktualizujesz wersję środowiska uruchomieniowego z {0} na {1}. Mogą wystąpić zmiany powodujące niezgodność w języku i powiązaniach istniejących funkcji. W przypadku uaktualniania wersji głównych środowiska uruchomieniowego rozważ utworzenie nowej aplikacji funkcji i migrowanie funkcji do tej aplikacji.</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationTitle" xml:space="preserve">
-        <value>Update Runtime Version</value>
+        <value>Aktualizacja wersji środowiska uruchomieniowego</value>
     </data>
   <data name="functionsRuntimeVersionExistingFunctionsConfirmationMessage" xml:space="preserve">
-        <value>Your app is currently running version {0} and has existing functions. Switching to version {1} is not recommended since it can introduce breaking changes to languages and bindings. Are you sure you want to continue?</value>
+        <value>Aplikacja obecnie korzysta z wersji {0} i ma istniejące funkcje. Zmiana wersji na {1} nie jest zalecana, ponieważ mogą wystąpić zmiany powodujące niezgodność w językach i powiązaniach. Czy na pewno chcesz kontynuować?</value>
     </data>
   <data name="githubActionWorkflowScopeMissing" xml:space="preserve">
         <value>Brak zakresu „workflow” w tokenie usługi GitHub. Wróć do kroku „kontrola źródła”, aby ponownie autoryzować usługę GitHub.</value>
@@ -5799,6 +5814,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="integrate_bindingsFailedLoading" xml:space="preserve">
         <value>Nie udało się załadować co najmniej jednego powiązania, odśwież stronę.</value>
     </data>
+  <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
+        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+    </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>Usuń klucz funkcji</value>
     </data>
@@ -5946,20 +5964,20 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="blaclistFile_message" xml:space="preserve">
         <value>Edytowanie tego typu pliku nie jest obsługiwane w edytorze portalu.</value>
     </data>
-  <data name="staticSite_emptyEnvironmentVariableList" xml:space="preserve">
-        <value>Nie ma zmiennych środowiskowych do wyświetlenia</value>
+  <data name="staticSite_emptyApplicationSettingList" xml:space="preserve">
+        <value>Brak ustawienia aplikacji do wyświetlenia</value>
     </data>
-  <data name="staticSite_addNewEnvironmentVariable" xml:space="preserve">
+  <data name="staticSite_addNewApplicationSetting" xml:space="preserve">
         <value>Dodaj</value>
     </data>
-  <data name="staticSite_ariaLabel_addNewEnvironmentVariable" xml:space="preserve">
-        <value>Dodaj nową zmienną środowiskową</value>
+  <data name="staticSite_ariaLabel_addNewApplicationSetting" xml:space="preserve">
+        <value>Dodaj nowe ustawienie aplikacji</value>
     </data>
-  <data name="staticSite_environmentVariables" xml:space="preserve">
-        <value>Zmienne środowiskowe</value>
+  <data name="staticSite_applicationSettings" xml:space="preserve">
+        <value>Ustawienia aplikacji</value>
     </data>
-  <data name="staticSite_environmentVariablesInfoMessage" xml:space="preserve">
-        <value>Zmienne środowiskowe dotyczące Twojej lokacji są przechowywane w postaci zaszyfrowanej i przesyłane szyfrowanym kanałem. Możesz wyświetlić je w przeglądarce jako zwykły tekst, używając kontrolek poniżej.</value>
+  <data name="staticSite_applicationSettingsInfoMessage" xml:space="preserve">
+        <value>Ustawienia aplikacji dotyczące Twojej lokacji są przechowywane w postaci zaszyfrowanej i przesyłane szyfrowanym kanałem. Możesz wyświetlić je w przeglądarce jako zwykły tekst, używając kontrolek poniżej.</value>
     </data>
   <data name="staticSite_environment" xml:space="preserve">
         <value>Środowisko</value>
@@ -5967,11 +5985,11 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="staticSite_environmentDropdownAriaLabel" xml:space="preserve">
         <value>Wybierz środowisko dla lokacji</value>
     </data>
-  <data name="staticSite_filterEnvironmentVariable" xml:space="preserve">
-        <value>Filtruj zmienne środowiskowe</value>
+  <data name="staticSite_filterApplicationSetting" xml:space="preserve">
+        <value>Filtruj ustawienie aplikacji</value>
     </data>
   <data name="staticSite_discardChangesMesssage" xml:space="preserve">
-        <value>Czy na pewno chcesz odrzucić zmiany w zmiennych środowiskowych dla środowiska {0}?</value>
+        <value>Czy na pewno chcesz odrzucić zmiany w ustawieniach aplikacji dla środowiska {0}?</value>
     </data>
   <data name="staticSite_changeEnvironmentTitle" xml:space="preserve">
         <value>Niezapisane zmiany zostaną odrzucone.</value>
@@ -5979,35 +5997,35 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="staticSite_changeEnvironmentMessage" xml:space="preserve">
         <value>Czy na pewno chcesz zmienić środowisko?</value>
     </data>
-  <data name="staticSite_environmentVariablePropIsRequired" xml:space="preserve">
-        <value>{0} jest właściwością wymaganą we wszystkich zmiennych środowiskowych</value>
+  <data name="staticSite_applicationSettingPropIsRequired" xml:space="preserve">
+        <value>{0} jest właściwością wymaganą dla wszystkich ustawień aplikacji</value>
     </data>
-  <data name="staticSite_environmentVariableNamesUnique" xml:space="preserve">
-        <value>Nazwa zmiennej środowiskowej musi być unikatowa</value>
+  <data name="staticSite_applicationSettingNamesUnique" xml:space="preserve">
+        <value>Nazwa ustawienia aplikacji musi być unikatowa</value>
     </data>
-  <data name="staticSite_environmentVariableValuesMustBeAnArray" xml:space="preserve">
-        <value>Wartości zmiennych środowiskowych muszą być tablicą</value>
+  <data name="staticSite_applicationSettingValuesMustBeAnArray" xml:space="preserve">
+        <value>Wartości ustawień aplikacji muszą być tablicą</value>
     </data>
-  <data name="staticSite_environmentVariableInvalidProperty" xml:space="preserve">
-        <value>{0} jest nieprawidłową właściwością zmiennej środowiskowej</value>
+  <data name="staticSite_applicationSettingInvalidProperty" xml:space="preserve">
+        <value>{0} jest nieprawidłową właściwością ustawienia aplikacji</value>
     </data>
-  <data name="staticSite_environmentVariableValueMustBeAString" xml:space="preserve">
-        <value>Wszystkie właściwości wartości i nazw zmiennych środowiskowych muszą być typu „ciąg”</value>
+  <data name="staticSite_applicationSettingValueMustBeAString" xml:space="preserve">
+        <value>Wszystkie właściwości nazw i wartości ustawień aplikacji muszą być typu „ciąg”</value>
     </data>
   <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>Twoja strona jest obecnie w trybie tylko do odczytu, ponieważ Twój dostęp przypisany w ramach kontroli dostępu opartej na rolach jest ustawiony na: Czytelnik</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsHeaderText" xml:space="preserve">
-        <value>Dzienniki</value>
+  <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
+        <value>Logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerLogsAriaLabel" xml:space="preserve">
-        <value>Dzienniki kontenerów</value>
+  <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
+        <value>Deployment center logs</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsHeaderText" xml:space="preserve">
-        <value>Ustawienia</value>
+  <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
+        <value>Settings</value>
     </data>
-  <data name="deploymentCenterPivotItemContainerSettingsAriaLabel" xml:space="preserve">
-        <value>Ustawienia kontenera</value>
+  <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
+        <value>Deployment center settings</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>Poświadczenia FTP/FTPS</value>
@@ -6034,37 +6052,37 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Dwadzieścia najnowszych śladów wywołań funkcji. Aby uzyskać bardziej zaawansowaną analizę, uruchom zapytanie w usłudze Application Insights.</value>
     </data>
   <data name="staticSite_refreshConfirmTitle" xml:space="preserve">
-        <value>Odświeżanie zmiennych środowiskowych</value>
+        <value>Odświeżanie ustawień aplikacji</value>
     </data>
   <data name="staticSite_refreshConfirmMessage" xml:space="preserve">
         <value>Wszystkie niezapisane zmiany zostaną utracone podczas odświeżania. Czy na pewno chcesz kontynuować?</value>
     </data>
-  <data name="staticSite_addEnvironmentVariableHeader" xml:space="preserve">
-        <value>Dodaj zmienną środowiskową</value>
+  <data name="staticSite_addApplicationSettingHeader" xml:space="preserve">
+        <value>Dodaj ustawienie aplikacji</value>
     </data>
-  <data name="staticSite_editEnvironmentVariableHeader" xml:space="preserve">
-        <value>Edytuj zmienną środowiskową</value>
+  <data name="staticSite_editApplicationSettingHeader" xml:space="preserve">
+        <value>Edytuj ustawienie aplikacji</value>
     </data>
   <data name="deploymentCenterFtpsDescription" xml:space="preserve">
-        <value>App Service supports multiple technologies to access, publish and modify the content of your app. FTP/FTPS credentials can be scoped to the application or the user.</value>
+        <value>Usługa App Service obsługuje wiele technologii służących do uzyskiwania dostępu do zawartości aplikacji oraz publikowania i modyfikowania jej. Dla poświadczeń FTP/FTPS można ustawić zakres aplikacji lub użytkownika.</value>
     </data>
   <data name="deploymentCenterFtpsEndpointLabel" xml:space="preserve">
-        <value>FTPS endpoint</value>
+        <value>Punkt końcowy FTPS</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeTitle" xml:space="preserve">
-        <value>Application scope</value>
+        <value>Zakres aplikacji</value>
     </data>
   <data name="deploymentCenterFtpsApplicationScopeDescription" xml:space="preserve">
-        <value>Application scope credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy. They cannot be configured manually, but can be reset anytime.</value>
+        <value>Poświadczenia zakresu aplikacji są generowane automatycznie i zapewniają dostęp tylko do tej określonej aplikacji lub miejsca wdrożenia. Te poświadczenia mogą być używane w przypadku protokołu FTP, lokalnego repozytorium Git oraz narzędzia WebDeploy. Nie można ich skonfigurować ręcznie, ale w dowolnym momencie można je zresetować.</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeTitle" xml:space="preserve">
-        <value>User scope</value>
+        <value>Zakres użytkownika</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeDescription" xml:space="preserve">
-        <value>User scope credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. Authenticating to an FTP/FTPS endpoint using user-level credentials requirers a username in the following format: '{0}'</value>
+        <value>Poświadczenia zakresu użytkownika są definiowane przez Ciebie (użytkownika) i mogą być używane na potrzeby wszystkich aplikacji, do których masz dostęp. Te poświadczenia mogą być używane w przypadku protokołu FTP, lokalnego repozytorium Git oraz narzędzia WebDeploy. Uwierzytelnianie w punkcie końcowym FTP/FTPS przy użyciu poświadczeń na poziomie użytkownika wymaga nazwy użytkownika w następującym formacie: „{0}”</value>
     </data>
   <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
-        <value>(your username)</value>
+        <value>(Twoja nazwa użytkownika)</value>
     </data>
   <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
         <value>Nazwa użytkownika</value>
@@ -6076,42 +6094,126 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
         <value>Potwierdź hasło</value>
     </data>
   <data name="deploymentCenterFtpsWritePermissionRequired" xml:space="preserve">
-        <value>Write permission on the site or the slot is required to view credentials.</value>
+        <value>W celu wyświetlenia poświadczeń wymagane jest uprawnienie do zapisu w witrynie lub miejscu.</value>
     </data>
   <data name="appKeys_hostKeys_description" xml:space="preserve">
-        <value>Use Host keys with your clients to access your all HTTP functions in your app. _master key grants admin access to Functions Runtime APIs.</value>
+        <value>Używaj kluczy hostów w klientach, aby uzyskiwać dostęp do wszystkich funkcji HTTP w aplikacji. Klucz _master przyznaje dostęp administracyjny do interfejsów API środowiska uruchomieniowego usługi Functions.</value>
     </data>
   <data name="appKeys_systemKeys_description" xml:space="preserve">
-        <value>System keys are automatically managed by the Function runtime. System Kkys provide granular access to functions runtime features.</value>
+        <value>Kluczami systemowymi automatycznie zarządza środowisko uruchomieniowe usługi Functions. Klucze systemowe zapewniają szczegółowy dostęp do funkcji środowiska uruchomieniowego usługi Functions.</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>Function keys are scoped to this function and can be used to access this http trigger function.</value>
+        <value>Zakres kluczy funkcji to ta funkcja. Można ich używać w celu uzyskiwania dostępu do tej funkcji wyzwalacza HTTP.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
-        <value>Environment variables are only applicable to Static apps with at least one function. Add a functions to your app to enable Configuration.</value>
+        <value>Ustawienia aplikacji mają zastosowanie tylko do statycznych aplikacji internetowych z co najmniej jedną funkcją. Dodaj funkcję do aplikacji, aby umożliwić konfigurację.</value>
     </data>
   <data name="reset" xml:space="preserve">
-        <value>Reset</value>
+        <value>Resetuj</value>
     </data>
   <data name="resetPublishProfileAriaLabel" xml:space="preserve">
-        <value>Reset publishing profile</value>
+        <value>Resetuj profil publikowania</value>
     </data>
   <data name="showApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Show application password</value>
+        <value>Pokaż hasło aplikacji</value>
     </data>
   <data name="hideApplicationPasswordAriaLabel" xml:space="preserve">
-        <value>Hide application password</value>
+        <value>Ukryj hasło aplikacji</value>
     </data>
   <data name="showProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user password</value>
+        <value>Pokaż hasło użytkownika dostawcy</value>
     </data>
   <data name="hideProviderPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user password</value>
+        <value>Ukryj hasło użytkownika dostawcy</value>
     </data>
   <data name="showProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Show provider user confirm password</value>
+        <value>Pokaż potwierdzenie hasła użytkownika dostawcy</value>
     </data>
   <data name="hideProviderConfirmPasswordAriaLabel" xml:space="preserve">
-        <value>Hide provider user confirm password</value>
+        <value>Ukryj potwierdzenie hasła użytkownika dostawcy</value>
+    </data>
+  <data name="resetPublishProfileConfirmationTitle" xml:space="preserve">
+        <value>Czy zresetować hasło profilu publikowania aplikacji?</value>
+    </data>
+  <data name="resetPublishProfileConfirmationDescription" xml:space="preserve">
+        <value>Zresetowanie hasła profilu spowoduje, że wszelkie zewnętrzne integracje za pośrednictwem tego profilu publikowania przestaną działać.</value>
+    </data>
+  <data name="usernameLengthRequirements" xml:space="preserve">
+        <value>Minimalna długość nazwy użytkownika w znakach: {0}.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
+        <value>Skonfiguruj rejestr i model wdrożenia aplikacji kontenera. Zalecamy użycie usługi GitHub Actions, aby zwiększyć efektywność operacyjną.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+        <value>Źródło</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
+        <value>Rejestr kontenerów</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+        <value>Skonfiguruj aplikację do ściągania obrazu kontenera z rejestru.</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+        <value>Kompiluj i wdrażaj aplikację kontenera oraz zarządzaj nią automatycznie za pomocą usługi GitHub Actions.</value>
+    </data>
+  <data name="functionEditor_privateLinkRunMessage" xml:space="preserve">
+        <value>Aby uruchomić funkcję, musisz mieć bezpośredni dostęp do sieci. Aplikacja może być ograniczona w przypadku prywatnych punktów końcowych, ograniczeń dostępu lub punktów końcowych usługi.</value>
+    </data>
+  <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
+        <value>Ustawienia rejestru</value>
+    </data>
+  <data name="deploymentCenterContainerRegistryOptionsLabel" xml:space="preserve">
+        <value>Opcje</value>
+    </data>
+  <data name="deploymentCenterContainerRegistrySourceLabel" xml:space="preserve">
+        <value>Źródło rejestru</value>
+    </data>
+  <data name="deploymentCenterPublishProfileDescription" xml:space="preserve">
+        <value>Zaimportuj profil publikowania do programu Visual Studio lub innych klientów w celu nawiązania połączenia i wypchnięcia wdrożenia do aplikacji internetowej.</value>
+    </data>
+  <data name="downloadPublishProfile" xml:space="preserve">
+        <value>Pobierz profil publikowania</value>
+    </data>
+  <data name="managePublishProfileCommandBarAriaLabel" xml:space="preserve">
+        <value>Polecenia do zarządzania profilem publikowania</value>
+    </data>
+  <data name="downloadingPublishProfile" xml:space="preserve">
+        <value>Pobieranie profilu publikowania</value>
+    </data>
+  <data name="downloadingPublishProfileFailed" xml:space="preserve">
+        <value>Nie można pobrać profilu publikowania</value>
+    </data>
+  <data name="downloadingPublishProfileSucceeded" xml:space="preserve">
+        <value>Pomyślnie pobrano profil publikowania</value>
+    </data>
+  <data name="staticSite_configUpdating" xml:space="preserve">
+        <value>Aktualizowanie ustawień aplikacji</value>
+    </data>
+  <data name="staticSite_configUpdateSuccess" xml:space="preserve">
+        <value>Pomyślnie zaktualizowano ustawienia aplikacji</value>
+    </data>
+  <data name="staticSite_configUpdateFailure" xml:space="preserve">
+        <value>Nie można zaktualizować ustawień aplikacji: {0}</value>
+    </data>
+  <data name="clickToShowValue" xml:space="preserve">
+        <value>Click to show value</value>
+    </data>
+  <data name="clickToHideValue" xml:space="preserve">
+        <value>Click to hide value</value>
+    </data>
+  <data name="testAndRun" xml:space="preserve">
+        <value>Test/Run</value>
+    </data>
+  <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
+        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+    </data>
+  <data name="clickToUpdateSettings" xml:space="preserve">
+        <value>Click here to update your settings.</value>
     </data>
 </root>

@@ -50,8 +50,6 @@ export default class PortalCommunicator {
     'portal.microsoftazure.de',
     'portal.azure.cn',
     'portal.azure.us',
-    'powerapps.cloudapp.net',
-    'web.powerapps.com',
     'portal.azure.eaglex.ic.gov',
     'portal.azure.microsoft.scloud',
   ];
