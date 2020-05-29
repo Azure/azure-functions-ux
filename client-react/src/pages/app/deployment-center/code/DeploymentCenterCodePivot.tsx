@@ -15,13 +15,14 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodeProps> = props => 
     resetApplicationPassword,
     deployments,
     deploymentsError,
+    siteConfig,
   } = props;
   const { t } = useTranslation();
 
   return (
     <Pivot>
       <PivotItem headerText={t('deploymentCenterPivotItemLogsHeaderText')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-        <DeploymentCenterCodeLogs deployments={deployments} deploymentsError={deploymentsError} />
+        <DeploymentCenterCodeLogs deployments={deployments} deploymentsError={deploymentsError} siteConfig={siteConfig} />
       </PivotItem>
 
       <PivotItem headerText={t('deploymentCenterPivotItemSettingsHeaderText')} ariaLabel={t('deploymentCenterPivotItemSettingsAriaLabel')}>

@@ -9,15 +9,16 @@ import {
   DeploymentProperties,
   CodeDeploymentsRow,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link } from 'office-ui-fabric-react';
+import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterLogsError } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 // import { style } from 'typestyle';
-import { ReactComponent as VSTSRM } from '../../../../images/Common/vstsrm.svg';
+import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
 import { style } from 'typestyle';
+import { ScmTypes } from '../../../../models/site/config';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {
@@ -32,7 +33,7 @@ export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
 const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
-  const { deployments, deploymentsError } = props;
+  const { deployments, deploymentsError, siteConfig } = props;
   const { t } = useTranslation();
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
@@ -122,7 +123,6 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
 
     $nest: {
       h3: {
-        // display: 'inline-block',
         marginTop: '12px',
         fontSize: '18px',
       },
@@ -139,11 +139,22 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     },
   });
 
-  // const getZeroDayContent = () => {
-  //   if (items.length == 0) {
-
-  //   }
-  // };
+  const getZeroDayContent = () => {
+    if (siteConfig && siteConfig.properties.scmType === ScmTypes.None) {
+      return (
+        <>
+          <div className={notConfiguredInfo}>
+            <DeploymentCenterIcon />
+            <h3>CI/CD is not configured</h3>
+            <p>To start, go to Settings tab and set up CI/CD.</p>
+            <PrimaryButton text="Go to Settings" />
+          </div>
+        </>
+      );
+    } else {
+      return <h3>No deployments found</h3>;
+    }
+  };
 
   return (
     <>
@@ -152,11 +163,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
       ) : deployments ? (
         <>
           <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
-          <div className={notConfiguredInfo}>
-            <VSTSRM />
-            <h3>CI/CD is not configured</h3>
-            <p>To start, go to Settings tab and set up CI/CD.</p>
-          </div>
+          {items.length === 0 && getZeroDayContent()}
         </>
       ) : (
         <ProgressIndicator

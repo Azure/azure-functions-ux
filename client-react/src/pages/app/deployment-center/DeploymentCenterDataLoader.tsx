@@ -25,6 +25,7 @@ import { DeploymentCenterContainerFormBuilder } from './container/DeploymentCent
 import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import { isContainerApp } from '../../../utils/arm-utils';
+import { SiteConfig } from '../../../models/site/config';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -46,6 +47,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [formValidationSchema, setFormValidationSchema] = useState<DeploymentCenterYupValidationSchemaType | undefined>(undefined);
   const [isPublishProfilePanelOpen, setIsPublishProfilePanelOpen] = useState<boolean>(false);
   const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties> | undefined>(undefined);
+  const [siteConfig, setSiteConfig] = useState<ArmObj<SiteConfig> | undefined>(undefined);
   const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -125,6 +127,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     }
 
     if (siteConfigResponse.metadata.success) {
+      setSiteConfig(siteConfigResponse.data);
       deploymentCenterContainerFormBuilder.setSiteConfig(siteConfigResponse.data);
     } else {
       LogService.error(
@@ -222,6 +225,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           deployments={deployments}
           deploymentsError={deploymentsError}
           publishingUser={publishingUser}
+          siteConfig={siteConfig}
           publishingProfile={publishingProfile}
           publishingCredentials={publishingCredentials}
           formData={formData}

@@ -2,7 +2,7 @@ import { ArmObj, ArmArray } from '../../../models/arm-obj';
 import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../../models/site/publish';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { ScmTypes } from '../../../models/site/config';
+import { ScmTypes, SiteConfig } from '../../../models/site/config';
 import moment from 'moment';
 import { Uri } from 'monaco-editor';
 import { GitHubUser } from '../../../models/github';
@@ -69,6 +69,7 @@ export interface DeploymentCenterContainerLogsProps {
 }
 
 export interface DeploymentCenterCodeLogsProps {
+  siteConfig?: ArmObj<SiteConfig>;
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
 }
