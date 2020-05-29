@@ -98,9 +98,9 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const items: CodeDeploymentsRow[] = rows.sort(dateTimeComparatorReverse);
 
   const columns: IColumn[] = [
-    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150 },
-    { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 150 },
-    { key: 'status', name: t('status'), fieldName: 'status', minWidth: 210 },
+    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150, maxWidth: 250 },
+    { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 100, maxWidth: 150 },
+    { key: 'status', name: t('status'), fieldName: 'status', minWidth: 150, maxWidth: 200 },
     { key: 'checkinMessage', name: t('checkinMessage'), fieldName: 'checkinMessage', minWidth: 210 },
   ];
 
