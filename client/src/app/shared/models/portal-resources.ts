@@ -1991,7 +1991,8 @@ export class PortalResources {
   public static resetPublishProfileConfirmationDescription = 'resetPublishProfileConfirmationDescription';
   public static usernameLengthRequirements = 'usernameLengthRequirements';
   public static deploymentCenterContainerSettingsDescription = 'deploymentCenterContainerSettingsDescription';
-  public static deploymentCenterContainerSettingsSourceLabel = 'deploymentCenterContainerSettingsSourceLabel';
+  public static deploymentCenterCodeSettingsDescription = 'deploymentCenterCodeSettingsDescription';
+  public static deploymentCenterSettingsSourceLabel = 'deploymentCenterSettingsSourceLabel';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistry =
     'deploymentCenterContainerSettingsSourceOptionContainerRegistry';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription =
@@ -2035,4 +2036,14 @@ export class PortalResources {
   public static deploymentCenterOAuthAuthorize = 'deploymentCenterOAuthAuthorize';
   public static deploymentCenterOAuthChangeAccount = 'deploymentCenterOAuthChangeAccount';
   public static deploymentCenterOAuthSingedInAs = 'deploymentCenterOAuthSingedInAs';
+  public static deploymentCenterCodeSettingsSourceContinuousDeploymentHeader =
+    'deploymentCenterCodeSettingsSourceContinuousDeploymentHeader';
+  public static deploymentCenterCodeSettingsSourceManualDeploymentHeader = 'deploymentCenterCodeSettingsSourceManualDeploymentHeader';
+  public static deploymentCenterCodeSettingsSourceGithub = 'deploymentCenterCodeSettingsSourceGithub';
+  public static deploymentCenterCodeSettingsSourceAzureRepos = 'deploymentCenterCodeSettingsSourceAzureRepos';
+  public static deploymentCenterCodeSettingsSourceBitbucket = 'deploymentCenterCodeSettingsSourceBitbucket';
+  public static deploymentCenterCodeSettingsSourceLocalGit = 'deploymentCenterCodeSettingsSourceLocalGit';
+  public static deploymentCenterCodeSettingsSourceOneDrive = 'deploymentCenterCodeSettingsSourceOneDrive';
+  public static deploymentCenterCodeSettingsSourceDropbox = 'deploymentCenterCodeSettingsSourceDropbox';
+  public static deploymentCenterCodeSettingsSourceExternal = 'deploymentCenterCodeSettingsSourceExternal';
 }

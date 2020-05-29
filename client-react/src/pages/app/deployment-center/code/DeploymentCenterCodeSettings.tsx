@@ -1,8 +1,13 @@
 import React from 'react';
 import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import DeploymentCenterCodeSource from './DeploymentCenterCodeSource';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps> = props => {
-  return <h1>Placeholder for settings</h1>;
+  return (
+    <>
+      <DeploymentCenterCodeSource />
+    </>
+  );
 };
 
 export default DeploymentCenterCodeSettings;
