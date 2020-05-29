@@ -26,15 +26,11 @@ export interface PlatformOptions {
 export interface Platform {
   runtimeVersion: string;
   remoteDebuggingEnabled: boolean;
-  viewModifiers: ViewModifiers;
   appInsightsSettings: AppInsightsSettings;
   gitHubActionSettings: GitHubActionSettings;
-}
-
-export interface ViewModifiers {
-  isPreview: boolean; // Stack should be labeled as 'preview'
-  isDeprecated: boolean; // Stack should be hidden unless user is already running that stack
-  isHidden: boolean; // Stack should be hidden unless a feature flag is used
+  isPreview?: boolean; // Stack should be labeled as 'preview'
+  isDeprecated?: boolean; // Stack should be hidden unless user is already running that stack
+  isHidden?: boolean; // Stack should be hidden unless a feature flag is used
   projectedEndOfLifeDate?: Date; // Stack projected end of life date
 }
 

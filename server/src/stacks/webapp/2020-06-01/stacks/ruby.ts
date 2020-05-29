@@ -17,11 +17,6 @@ export const rubyWebAppStack: WebAppStack = {
             linux: {
               runtimeVersion: 'RUBY|2.6',
               remoteDebuggingEnabled: false,
-              viewModifiers: {
-                isPreview: false,
-                isDeprecated: false,
-                isHidden: false,
-              },
               appInsightsSettings: {
                 isEnabled: false,
               },
@@ -38,11 +33,6 @@ export const rubyWebAppStack: WebAppStack = {
             linux: {
               runtimeVersion: 'RUBY|2.6.2',
               remoteDebuggingEnabled: false,
-              viewModifiers: {
-                isPreview: false,
-                isDeprecated: false,
-                isHidden: false,
-              },
               appInsightsSettings: {
                 isEnabled: false,
               },
@@ -65,11 +55,6 @@ export const rubyWebAppStack: WebAppStack = {
             linux: {
               runtimeVersion: 'RUBY|2.5',
               remoteDebuggingEnabled: false,
-              viewModifiers: {
-                isPreview: false,
-                isDeprecated: false,
-                isHidden: false,
-              },
               appInsightsSettings: {
                 isEnabled: false,
               },
@@ -86,11 +71,6 @@ export const rubyWebAppStack: WebAppStack = {
             linux: {
               runtimeVersion: 'RUBY|2.5.5',
               remoteDebuggingEnabled: false,
-              viewModifiers: {
-                isPreview: false,
-                isDeprecated: false,
-                isHidden: false,
-              },
               appInsightsSettings: {
                 isEnabled: false,
               },
@@ -112,12 +92,8 @@ export const rubyWebAppStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'RUBY|2.4',
+              isDeprecated: true,
               remoteDebuggingEnabled: false,
-              viewModifiers: {
-                isPreview: false,
-                isDeprecated: true,
-                isHidden: false,
-              },
               appInsightsSettings: {
                 isEnabled: false,
               },
@@ -133,12 +109,8 @@ export const rubyWebAppStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'RUBY|2.4.5',
+              isDeprecated: true,
               remoteDebuggingEnabled: false,
-              viewModifiers: {
-                isPreview: false,
-                isDeprecated: true,
-                isHidden: false,
-              },
               appInsightsSettings: {
                 isEnabled: false,
               },
@@ -160,12 +132,8 @@ export const rubyWebAppStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'RUBY|2.3',
+              isDeprecated: true,
               remoteDebuggingEnabled: false,
-              viewModifiers: {
-                isPreview: false,
-                isDeprecated: true,
-                isHidden: false,
-              },
               appInsightsSettings: {
                 isEnabled: false,
               },
@@ -181,12 +149,8 @@ export const rubyWebAppStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'RUBY|2.3.8',
+              isDeprecated: true,
               remoteDebuggingEnabled: false,
-              viewModifiers: {
-                isPreview: false,
-                isDeprecated: true,
-                isHidden: false,
-              },
               appInsightsSettings: {
                 isEnabled: false,
               },
@@ -203,11 +167,7 @@ export const rubyWebAppStack: WebAppStack = {
             linux: {
               runtimeVersion: 'RUBY|2.3.3',
               remoteDebuggingEnabled: false,
-              viewModifiers: {
-                isPreview: false,
-                isDeprecated: true,
-                isHidden: false,
-              },
+              isDeprecated: true,
               appInsightsSettings: {
                 isEnabled: false,
               },
