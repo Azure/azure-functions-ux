@@ -68,8 +68,6 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       id: ScenarioIds.appInsightsConfigurable,
       runCheckAsync: (input: ScenarioCheckInput) => {
         if (
-          NationalCloudEnvironment.isFairFax() ||
-          NationalCloudEnvironment.isMooncake() ||
           NationalCloudEnvironment.isBlackforest() ||
           NationalCloudEnvironment.isUSNat() ||
           NationalCloudEnvironment.isUSSec() ||
