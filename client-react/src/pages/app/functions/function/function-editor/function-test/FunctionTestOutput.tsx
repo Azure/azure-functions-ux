@@ -26,6 +26,21 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
 
   const startUpInfoContext = useContext(StartupInfoContext);
 
+  const getBodyValue = () => {
+    if (!!responseContent && !!responseContent.text) {
+      const text = responseContent.text;
+      if (typeof text !== 'string') {
+        // third parameter refers to the number of white spaces.
+        // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
+        return JSON.stringify(text, null, 2);
+      } else {
+        return text;
+      }
+    } else {
+      return '';
+    }
+  };
+
   return (
     <div className={pivotItemWrapper}>
       <div className={functionTestGroupStyle}>
@@ -39,18 +54,19 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
         <div className={responseContentStyle}>
           <MonacoEditor
             language={EditorLanguage.json}
-            value={!!responseContent && !!responseContent.text ? responseContent.text : ''}
+            value={getBodyValue()}
             theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
             height="70px"
             options={{
               minimap: { enabled: false },
-              scrollBeyondLastLine: false,
+              scrollBeyondLastLine: true,
               lineNumbers: false,
               glyphMargin: false,
               folding: false,
               lineDecorationsWidth: 0,
               disableLayerHinting: true,
               readOnly: true,
+              hideReadOnlyTooltip: true,
             }}
           />
         </div>
