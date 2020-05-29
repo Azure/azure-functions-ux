@@ -95,6 +95,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
 
     updatedFormValues.headers = [];
     updatedFormValues.queries = [];
+    updatedFormValues.xFunctionKey = xFunctionKey;
     let localTestData;
     try {
       localTestData = JSON.parse(testData || functionInfo.properties.test_data || '');
@@ -166,16 +167,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     setUpdatedInputFormValues();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [testData]);
-
-  useEffect(() => {
-    const updatedFormValues = { ...defaultInputFormValues };
-    updatedFormValues.xFunctionKey = xFunctionKey;
-
-    setDefaultInputFormValues(updatedFormValues);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [xFunctionKey]);
+  }, [testData, xFunctionKey]);
   return (
     <Formik
       initialValues={defaultInputFormValues}
