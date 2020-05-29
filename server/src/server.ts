@@ -43,11 +43,6 @@ async function bootstrap() {
     });
   }
 
-  // NOTE(michinoy): Need to enable CORS for local environment so a win opened from react (localhost:44400)
-  // can access a URL on server (localhost:44300). This is not needed in canary or prod as the same server is
-  // used to server react and angular pages.
-  app.enableCors();
-
   app.useStaticAssets(join(__dirname, 'public'));
   app.useStaticAssets(join(__dirname, 'public', 'react'));
   app.use(
