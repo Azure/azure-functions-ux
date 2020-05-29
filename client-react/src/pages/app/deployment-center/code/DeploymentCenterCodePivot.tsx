@@ -15,13 +15,14 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodeProps> = props => 
     resetApplicationPassword,
     deployments,
     deploymentsError,
+    isLoading,
   } = props;
   const { t } = useTranslation();
 
   return (
     <Pivot>
       <PivotItem headerText={t('deploymentCenterPivotItemLogsHeaderText')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-        <DeploymentCenterCodeLogs deployments={deployments} deploymentsError={deploymentsError} />
+        <DeploymentCenterCodeLogs deployments={deployments} deploymentsError={deploymentsError} isLoading={isLoading} />
       </PivotItem>
 
       <PivotItem headerText={t('deploymentCenterPivotItemSettingsHeaderText')} ariaLabel={t('deploymentCenterPivotItemSettingsAriaLabel')}>
@@ -35,6 +36,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodeProps> = props => 
           publishingCredentials={publishingCredentials}
           publishingProfile={publishingProfile}
           publishingUser={publishingUser}
+          isLoading={isLoading}
         />
       </PivotItem>
     </Pivot>
