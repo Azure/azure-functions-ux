@@ -53,4 +53,8 @@ export default class DeploymentCenterData {
   public getGitHubUser = (armToken: string) => {
     return GitHubService.getUser(armToken);
   };
+
+  public storeGitHubToken = (redirectUrl: string, armToken: string) => {
+    return GitHubService.storeToken(redirectUrl, armToken);
+  };
 }
