@@ -24,6 +24,10 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     window.open(`https://${hostName}`);
   };
 
+  const isDisabledOnReload = () => {
+    return !isSiteLoaded() || isLoading;
+  };
+
   const commandBarItems: ICommandBarItemProps[] = [
     {
       key: 'save',
@@ -32,7 +36,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Save',
       },
       ariaLabel: t('deploymentCenterSaveCommandAriaLabel'),
-      disabled: !isSiteLoaded() || isLoading,
+      disabled: isDisabledOnReload(),
       onClick: saveFunction,
     },
     {
@@ -42,7 +46,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Cancel',
       },
       ariaLabel: t('deploymentCenterDiscardCommandAriaLabel'),
-      disabled: !isSiteLoaded() || isLoading,
+      disabled: isDisabledOnReload(),
       onClick: discardFunction,
     },
     {
@@ -72,7 +76,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'Refresh',
       },
       ariaLabel: t('deploymentCenterRefreshCommandAriaLabel'),
-      disabled: !isSiteLoaded() || isLoading,
+      disabled: isDisabledOnReload(),
       onClick: refresh,
     },
   ];
