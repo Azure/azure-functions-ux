@@ -21,6 +21,6 @@ export default class GitHubService {
       authToken: authToken,
     };
 
-    return sendHttpRequest<void>({ url: `${Url.serviceHost}api/github/storeToken`, method: 'POST', data });
+    return sendHttpRequest<void>({ url: `${Url.serviceHost}auth/github/storeToken`, method: 'POST', data });
   };
 }
