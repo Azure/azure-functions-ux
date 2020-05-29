@@ -15,6 +15,9 @@ import { deploymentCenterLogsError } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
+// import { style } from 'typestyle';
+import { ReactComponent as VSTSRM } from '../../../../images/Common/vstsrm.svg';
+import { style } from 'typestyle';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {
@@ -106,12 +109,55 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
 
   const groups: IGroup[] = getItemGroups(items);
 
+  // const cloud3 = style({
+  //   // position: 'absolute',
+  //   top: '600px',
+  //   left: '960px',
+  //   width: '100px',
+  // });
+
+  const notConfiguredInfo = style({
+    width: '100%',
+    textAlign: 'center',
+
+    $nest: {
+      h3: {
+        // display: 'inline-block',
+        marginTop: '12px',
+        fontSize: '18px',
+      },
+
+      p: {
+        fontSize: '15px',
+      },
+
+      svg: {
+        height: '200px',
+        width: '200px',
+        marginTop: '18px',
+      },
+    },
+  });
+
+  // const getZeroDayContent = () => {
+  //   if (items.length == 0) {
+
+  //   }
+  // };
+
   return (
     <>
       {deploymentsError ? (
         <pre className={deploymentCenterLogsError}>{deploymentsError}</pre>
       ) : deployments ? (
-        <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
+        <>
+          <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
+          <div className={notConfiguredInfo}>
+            <VSTSRM />
+            <h3>CI/CD is not configured</h3>
+            <p>To start, go to Settings tab and set up CI/CD.</p>
+          </div>
+        </>
       ) : (
         <ProgressIndicator
           description={t('deploymentCenterCodeDeploymentsLoading')}
