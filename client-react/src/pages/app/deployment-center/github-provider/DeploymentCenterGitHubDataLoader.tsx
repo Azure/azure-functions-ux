@@ -25,6 +25,8 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     const oauthWindow = window.open(GitHubService.authorizeUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
 
     const authPromise = new Promise<authorizationResult>((resolve, reject) => {
+      setGitHubAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
+
       // Check for authorization status every 100 ms.
       const timerId = setInterval(() => {
         if (oauthWindow && oauthWindow.document.URL.indexOf(`/callback`) !== -1) {
