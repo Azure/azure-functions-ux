@@ -29,7 +29,7 @@ export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
 const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
-  const { deployments, deploymentsError } = props;
+  const { deployments, deploymentsError, isLoading } = props;
   const { t } = useTranslation();
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
@@ -94,13 +94,22 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     return groups;
   };
 
+  const getProgressIndicator = () => {
+    return (
+      <ProgressIndicator
+        description={t('deploymentCenterCodeDeploymentsLoading')}
+        ariaValueText={t('deploymentCenterCodeDeploymentsLoadingAriaValue')}
+      />
+    );
+  };
+
   const rows: CodeDeploymentsRow[] = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
   const items: CodeDeploymentsRow[] = rows.sort(dateTimeComparatorReverse);
 
   const columns: IColumn[] = [
-    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150 },
-    { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 150 },
-    { key: 'status', name: t('status'), fieldName: 'status', minWidth: 210 },
+    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 150, maxWidth: 250 },
+    { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 100, maxWidth: 150 },
+    { key: 'status', name: t('status'), fieldName: 'status', minWidth: 150, maxWidth: 200 },
     { key: 'checkinMessage', name: t('checkinMessage'), fieldName: 'checkinMessage', minWidth: 210 },
   ];
 
@@ -108,15 +117,14 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
 
   return (
     <>
-      {deploymentsError ? (
+      {isLoading ? (
+        getProgressIndicator()
+      ) : deploymentsError ? (
         <pre className={deploymentCenterLogsError}>{deploymentsError}</pre>
       ) : deployments ? (
         <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
       ) : (
-        <ProgressIndicator
-          description={t('deploymentCenterCodeDeploymentsLoading')}
-          ariaValueText={t('deploymentCenterCodeDeploymentsLoadingAriaValue')}
-        />
+        getProgressIndicator()
       )}
       <CustomPanel isOpen={isLogPanelOpen} onDismiss={dismissLogPanel} type={PanelType.medium}>
         <DeploymentCenterCommitLogs commitId={currentCommitId} />
