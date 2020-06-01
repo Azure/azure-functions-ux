@@ -476,6 +476,29 @@ export const nodeStack: WebAppStack = {
       ],
     },
     {
+      displayText: 'Node 7',
+      value: '7',
+      minorVersions: [
+        {
+          displayText: 'Node 7.10',
+          value: '7.10',
+          platforms: {
+            windows: {
+              runtimeVersion: '7.10.1',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: 'Node 6',
       value: '6',
       minorVersions: [
