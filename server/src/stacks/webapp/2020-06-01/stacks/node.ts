@@ -79,6 +79,23 @@ export const nodeStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Node 10.16',
+          value: '10.16',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|10.16',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
           displayText: 'Node 10.15',
           value: '10.15',
           platforms: {
@@ -122,11 +139,39 @@ export const nodeStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Node 10.12',
+          value: '10.12',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|10.12',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
           displayText: 'Node 10.10',
           value: '10.10',
           platforms: {
             linux: {
               runtimeVersion: 'NODE|10.10',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+            windows: {
+              runtimeVersion: '10.0.0',
               remoteDebuggingEnabled: false,
               appInsightsSettings: {
                 isEnabled: true,
@@ -169,90 +214,6 @@ export const nodeStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'NODE|10.1',
-              remoteDebuggingEnabled: false,
-              appInsightsSettings: {
-                isEnabled: true,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-              },
-            },
-          },
-        },
-        {
-          displayText: 'Node 10.16',
-          value: '10.16',
-          platforms: {
-            linux: {
-              runtimeVersion: 'NODE|10.16',
-              isDeprecated: true,
-              remoteDebuggingEnabled: false,
-              appInsightsSettings: {
-                isEnabled: true,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-              },
-            },
-          },
-        },
-        {
-          displayText: 'Node 10.14',
-          value: '10.14',
-          platforms: {
-            linux: {
-              runtimeVersion: 'NODE|10.14',
-              isDeprecated: true,
-              remoteDebuggingEnabled: false,
-              appInsightsSettings: {
-                isEnabled: true,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-              },
-            },
-          },
-        },
-        {
-          displayText: 'Node 10.12',
-          value: '10.12',
-          platforms: {
-            linux: {
-              runtimeVersion: 'NODE|10.12',
-              isDeprecated: true,
-              remoteDebuggingEnabled: false,
-              appInsightsSettings: {
-                isEnabled: true,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-              },
-            },
-          },
-        },
-        {
-          displayText: 'Node 10.10',
-          value: '10.10',
-          platforms: {
-            linux: {
-              runtimeVersion: 'NODE|10.10',
-              isDeprecated: true,
-              remoteDebuggingEnabled: false,
-              appInsightsSettings: {
-                isEnabled: true,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-              },
-            },
-          },
-        },
-        {
-          displayText: 'Node 10.0',
-          value: '10.0',
-          platforms: {
-            windows: {
-              runtimeVersion: '10.0.0',
               remoteDebuggingEnabled: false,
               appInsightsSettings: {
                 isEnabled: true,
