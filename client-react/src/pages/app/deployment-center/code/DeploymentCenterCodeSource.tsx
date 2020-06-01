@@ -1,8 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IDropdownOption, DropdownMenuItemType, Dropdown } from 'office-ui-fabric-react';
+import { IDropdownOption, DropdownMenuItemType } from 'office-ui-fabric-react';
 import { ScmTypes } from '../../../../models/site/config';
 import { Field } from 'formik';
+import Dropdown from '../../../../components/form-controls/DropDown';
 
 const DeploymentCenterCodeSource: React.FC<{}> = props => {
   const { t } = useTranslation();

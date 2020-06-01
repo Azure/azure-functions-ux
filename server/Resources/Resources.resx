@@ -6153,6 +6153,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSettingsSourceLabel" xml:space="preserve">
         <value>Source</value>
     </data>
+    <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
+        <value>Select code source</value>
+    </data>
     <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>Container Registry</value>
     </data>

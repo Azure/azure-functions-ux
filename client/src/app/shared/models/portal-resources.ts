@@ -1993,6 +1993,7 @@ export class PortalResources {
   public static deploymentCenterContainerSettingsDescription = 'deploymentCenterContainerSettingsDescription';
   public static deploymentCenterCodeSettingsDescription = 'deploymentCenterCodeSettingsDescription';
   public static deploymentCenterSettingsSourceLabel = 'deploymentCenterSettingsSourceLabel';
+  public static deploymentCenterCodeSettingsSourcePlaceholder = 'deploymentCenterCodeSettingsSourcePlaceholder';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistry =
     'deploymentCenterContainerSettingsSourceOptionContainerRegistry';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription =
