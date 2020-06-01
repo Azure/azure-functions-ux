@@ -268,7 +268,25 @@ export const nodeStack: WebAppStack = {
     {
       displayText: 'Node 9',
       value: '9',
-      minorVersions: [],
+      minorVersions: [
+        {
+          displayText: 'Node 9.4',
+          value: '9.4',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|9.4',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+      ],
     },
     {
       displayText: 'Node 8',
