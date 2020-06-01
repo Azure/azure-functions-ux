@@ -30,6 +30,7 @@ import { PortalTheme } from '../../../../../../models/portal-models';
 import { StartupInfoContext } from '../../../../../../StartupInfoContext';
 import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
+import StringUtils from '../../../../../../utils/string';
 
 export interface FunctionTestInputProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -184,7 +185,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
         <div className={bodyEditorStyle}>
           <MonacoEditor
             language="json"
-            value={body}
+            value={StringUtils.stringifyJsonForEditor(body)}
             onChange={onRequestBodyChange}
             height="300px"
             options={{
