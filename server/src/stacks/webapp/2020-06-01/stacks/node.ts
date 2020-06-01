@@ -478,7 +478,155 @@ export const nodeStack: WebAppStack = {
     {
       displayText: 'Node 6',
       value: '6',
-      minorVersions: [],
+      minorVersions: [
+        {
+          displayText: 'Node 6 LTS',
+          value: '6-LTS',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|6-lts',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 6.12',
+          value: '6.12',
+          platforms: {
+            windows: {
+              runtimeVersion: '6.12',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 6.11',
+          value: '6.11',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|6.11',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 6.10',
+          value: '6.10',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|6.10',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 6.9',
+          value: '6.9',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|6.9',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+            windows: {
+              runtimeVersion: '6.9.5',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 6.6',
+          value: '6.6',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|6.6',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 6.5',
+          value: '6.5',
+          platforms: {
+            windows: {
+              runtimeVersion: '6.5.0',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 6.2',
+          value: '6.2',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|6.2',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+      ],
     },
     {
       displayText: 'Node 4',
