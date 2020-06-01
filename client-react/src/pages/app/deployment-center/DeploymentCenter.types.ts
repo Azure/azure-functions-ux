@@ -70,8 +70,9 @@ export interface DeploymentCenterContainerLogsProps {
 }
 
 export interface DeploymentCenterCodeLogsProps {
-  siteConfig?: ArmObj<SiteConfig>;
+  goToSettings?: () => void;
   isLoading: boolean;
+  siteConfig?: ArmObj<SiteConfig>;
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
 }
