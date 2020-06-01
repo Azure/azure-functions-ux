@@ -70,10 +70,10 @@ export interface DeploymentCenterContainerLogsProps {
 }
 
 export interface DeploymentCenterCodeLogsProps {
-  goToSettings?: () => void;
   isLoading: boolean;
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
+  goToSettings?: () => void;
 }
 
 export interface DeploymentCenterCommitLogsProps {
