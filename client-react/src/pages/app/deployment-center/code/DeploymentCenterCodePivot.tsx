@@ -15,7 +15,6 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodeProps> = props => 
     resetApplicationPassword,
     deployments,
     deploymentsError,
-    siteConfig,
     isLoading,
   } = props;
   const { t } = useTranslation();
@@ -42,7 +41,6 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodeProps> = props => 
           deployments={deployments}
           deploymentsError={deploymentsError}
           isLoading={isLoading}
-          siteConfig={siteConfig}
         />
       </PivotItem>
 

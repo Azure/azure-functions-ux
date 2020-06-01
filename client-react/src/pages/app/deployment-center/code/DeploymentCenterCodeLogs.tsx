@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 import { IGroup } from 'office-ui-fabric-react/lib/components/GroupedList/GroupedList.types';
@@ -17,6 +17,7 @@ import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
 import { ScmTypes } from '../../../../models/site/config';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {
@@ -31,7 +32,8 @@ export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
 const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
-  const { deployments, deploymentsError, siteConfig, isLoading, goToSettings } = props;
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const { deployments, deploymentsError, isLoading, goToSettings } = props;
   const { t } = useTranslation();
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
@@ -124,7 +126,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const groups: IGroup[] = getItemGroups(items);
 
   const getZeroDayContent = () => {
-    if (siteConfig && siteConfig.properties.scmType === ScmTypes.None) {
+    if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmTypes.None) {
       return (
         <>
           <div className={deploymentCenterCodeLogsNotConfigured}>

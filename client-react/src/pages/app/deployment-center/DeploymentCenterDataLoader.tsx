@@ -26,6 +26,7 @@ import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCen
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import { isContainerApp } from '../../../utils/arm-utils';
 import { SiteConfig } from '../../../models/site/config';
+import { KeyValue } from '../../../models/portal-models';
 
 export interface DeploymentCenterDataLoaderProps {
   resourceId: string;
@@ -43,6 +44,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [publishingCredentials, setPublishingCredentials] = useState<ArmObj<PublishingCredentials> | undefined>(undefined);
   const [publishingProfile, setPublishingProfile] = useState<PublishingProfile | undefined>(undefined);
   const [siteDescriptor, setSiteDescriptor] = useState<ArmSiteDescriptor | undefined>(undefined);
+  const [applicationSettings, setApplicationSettings] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
   const [formData, setFormData] = useState<DeploymentCenterFormData | undefined>(undefined);
   const [formValidationSchema, setFormValidationSchema] = useState<DeploymentCenterYupValidationSchemaType | undefined>(undefined);
   const [isPublishProfilePanelOpen, setIsPublishProfilePanelOpen] = useState<boolean>(false);
@@ -159,6 +161,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       ]);
 
       if (fetchApplicationSettingsResponse.metadata.success) {
+        setApplicationSettings(fetchApplicationSettingsResponse.data);
         deploymentCenterContainerFormBuilder.setApplicationSettings(fetchApplicationSettingsResponse.data);
       } else {
         LogService.error(
@@ -207,7 +210,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   }, []);
 
   return siteStateContext.site ? (
-    <DeploymentCenterContext.Provider value={{ resourceId, hasWritePermission, siteDescriptor }}>
+    <DeploymentCenterContext.Provider value={{ resourceId, hasWritePermission, siteDescriptor, siteConfig, applicationSettings }}>
       {isContainerApp(siteStateContext.site) ? (
         <DeploymentCenterContainerForm
           logs={logs}
@@ -226,7 +229,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
           deployments={deployments}
           deploymentsError={deploymentsError}
           publishingUser={publishingUser}
-          siteConfig={siteConfig}
           publishingProfile={publishingProfile}
           publishingCredentials={publishingCredentials}
           formData={formData}
