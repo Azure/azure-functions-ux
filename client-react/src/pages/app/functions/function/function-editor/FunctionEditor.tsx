@@ -166,20 +166,17 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
     let data;
     if (isHttpOrWebHookFunction) {
-      data = {
+      data = JSON.stringify({
         method: values.method,
         queryStringParams: values.queries,
         headers: values.headers,
         body: reqBody,
-      };
+      });
     } else {
-      data = {
-        body: reqBody,
-      };
+      data = reqBody;
     }
-    const updatedData = JSON.stringify(data);
     const tempFunctionInfo = functionInfo;
-    tempFunctionInfo.properties.test_data = updatedData;
+    tempFunctionInfo.properties.test_data = data;
     setLogPanelExpanded(true);
     props.run(tempFunctionInfo, values.xFunctionKey);
   };
