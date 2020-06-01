@@ -73,6 +73,7 @@ export interface DeploymentCenterCodeLogsProps {
   isLoading: boolean;
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
+  goToSettings?: () => void;
 }
 
 export interface DeploymentCenterCommitLogsProps {

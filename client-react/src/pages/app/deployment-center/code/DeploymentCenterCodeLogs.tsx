@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 import { IGroup } from 'office-ui-fabric-react/lib/components/GroupedList/GroupedList.types';
@@ -9,12 +9,15 @@ import {
   DeploymentProperties,
   CodeDeploymentsRow,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link } from 'office-ui-fabric-react';
+import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterLogsError } from '../DeploymentCenter.styles';
+import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
+import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
+import { ScmTypes } from '../../../../models/site/config';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {
@@ -29,7 +32,8 @@ export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
 const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
-  const { deployments, deploymentsError, isLoading } = props;
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const { deployments, deploymentsError, isLoading, goToSettings } = props;
   const { t } = useTranslation();
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
@@ -103,6 +107,12 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     );
   };
 
+  const goToSettingsOnClick = () => {
+    if (goToSettings) {
+      goToSettings();
+    }
+  };
+
   const rows: CodeDeploymentsRow[] = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
   const items: CodeDeploymentsRow[] = rows.sort(dateTimeComparatorReverse);
 
@@ -115,6 +125,29 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
 
   const groups: IGroup[] = getItemGroups(items);
 
+  const getZeroDayContent = () => {
+    if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmTypes.None) {
+      return (
+        <>
+          <div className={deploymentCenterCodeLogsNotConfigured}>
+            <DeploymentCenterIcon filter="grayscale(100%)" />
+            <h3>{t('deploymentCenterCodeLogsCICDNotConfiguredHeader')}</h3>
+            <p>{t('deploymentCenterCodeLogsCICDNotConfiguredDescription')}</p>
+            <PrimaryButton text={t('deploymentCenterCodeLogsCICDNotConfiguredGoToSettings')} onClick={() => goToSettingsOnClick()} />
+          </div>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <div className={deploymentCenterCodeLogsNotConfigured}>
+            <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>;
+          </div>
+        </>
+      );
+    }
+  };
+
   return (
     <>
       {isLoading ? (
@@ -122,7 +155,10 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
       ) : deploymentsError ? (
         <pre className={deploymentCenterLogsError}>{deploymentsError}</pre>
       ) : deployments ? (
-        <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
+        <>
+          <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
+          {items.length === 0 && getZeroDayContent()}
+        </>
       ) : (
         getProgressIndicator()
       )}
