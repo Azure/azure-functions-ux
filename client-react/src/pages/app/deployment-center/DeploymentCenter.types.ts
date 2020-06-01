@@ -32,6 +32,11 @@ export enum DeploymentStatus {
   Success,
 }
 
+export enum AppTypes {
+  Code,
+  Container,
+}
+
 export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps;
 
 export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps;
@@ -115,10 +120,15 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
   resetApplicationPassword: () => void;
 }
 
+export interface DeploymentCenterGitHubDataLoaderProps extends DeploymentCenterFieldProps {
+  appType: AppTypes;
+}
+
 export interface DeploymentCenterGitHubProviderProps extends DeploymentCenterFieldProps {
   authorizeGitHubAccount: () => void;
   gitHubAccountStatusMessage?: string;
   gitHubUser?: GitHubUser;
+  appType: AppTypes;
 }
 
 // TODO (t-kakan): Verify all properties are guaranteed

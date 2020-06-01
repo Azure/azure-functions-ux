@@ -3,11 +3,11 @@ import DeploymentCenterGitHubProvider from './DeploymentCenterGitHubProvider';
 import { GitHubUser } from '../../../../models/github';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterGitHubDataLoaderProps } from '../DeploymentCenter.types';
 
-const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
+const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterGitHubDataLoaderProps> = props => {
   const { t } = useTranslation();
-  const { formProps } = props;
+  const { formProps, appType } = props;
 
   const deploymentCenterData = new DeploymentCenterData();
   const [gitHubUser, setGitHubUser] = useState<GitHubUser | undefined>(undefined);
@@ -43,6 +43,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   return (
     <DeploymentCenterGitHubProvider
       formProps={formProps}
+      appType={appType}
       gitHubUser={gitHubUser}
       gitHubAccountStatusMessage={gitHubAccountStatusMessage}
       authorizeGitHubAccount={authorizeGitHubAccount}
