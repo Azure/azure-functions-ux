@@ -6,7 +6,6 @@ import {
   AppInsightsInvocationTrace,
   AppInsightsInvocationTraceDetail,
 } from '../../../../../models/app-insights';
-import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
 
 const invocationsData = new FunctionInvocationsData();
 export const FunctionInvocationsContext = React.createContext(invocationsData);
@@ -25,10 +24,6 @@ const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps
   const [currentTrace, setCurrentTrace] = useState<AppInsightsInvocationTrace | undefined>(undefined);
   const [invocationDetails, setInvocationDetails] = useState<AppInsightsInvocationTraceDetail[] | undefined>(undefined);
 
-  const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
-  const functionAppName = armFunctionDescriptor.site;
-  const functionName = armFunctionDescriptor.name;
-
   const fetchData = async () => {
     fetchMonthlySummary();
     fetchInvocationTraces();
@@ -36,24 +31,14 @@ const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps
 
   const fetchMonthlySummary = async () => {
     if (appInsightsToken) {
-      const monthlySummaryResponse = await invocationsData.getMonthlySummary(
-        appInsightsAppId,
-        appInsightsToken,
-        functionAppName,
-        functionName
-      );
+      const monthlySummaryResponse = await invocationsData.getMonthlySummary(appInsightsAppId, appInsightsToken, resourceId);
       setMonthlySummary(monthlySummaryResponse);
     }
   };
 
   const fetchInvocationTraces = async () => {
     if (appInsightsToken) {
-      const invocationTracesResponse = await invocationsData.getInvocationTraces(
-        appInsightsAppId,
-        appInsightsToken,
-        functionAppName,
-        functionName
-      );
+      const invocationTracesResponse = await invocationsData.getInvocationTraces(appInsightsAppId, appInsightsToken, resourceId);
       setInvocationTraces(invocationTracesResponse);
     }
   };
@@ -90,8 +75,7 @@ const FunctionInvocationsDataLoader: React.FC<FunctionInvocationsDataLoaderProps
   return (
     <FunctionInvocationsContext.Provider value={invocationsData}>
       <FunctionInvocations
-        functionAppName={functionAppName}
-        functionName={functionName}
+        functionResourceId={resourceId}
         appInsightsResourceId={appInsightsResourceId}
         monthlySummary={monthlySummary}
         invocationTraces={invocationTraces}
