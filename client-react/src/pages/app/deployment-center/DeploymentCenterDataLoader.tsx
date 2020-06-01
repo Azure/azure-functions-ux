@@ -134,6 +134,8 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       );
     }
 
+    console.log(siteConfigResponse);
+
     if (publishingUserResponse.metadata.success) {
       setPublishingUser(publishingUserResponse.data);
       deploymentCenterContainerFormBuilder.setPublishingUser(publishingUserResponse.data);
