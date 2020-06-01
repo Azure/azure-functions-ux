@@ -65,11 +65,13 @@ export interface DeploymentCenterFieldProps {
 }
 
 export interface DeploymentCenterContainerLogsProps {
+  isLoading: boolean;
   logs?: string;
 }
 
 export interface DeploymentCenterCodeLogsProps {
   siteConfig?: ArmObj<SiteConfig>;
+  isLoading: boolean;
   deployments?: ArmArray<DeploymentProperties>;
   deploymentsError?: string;
 }
@@ -79,27 +81,27 @@ export interface DeploymentCenterCommitLogsProps {
 }
 
 export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
+  isLoading: boolean;
   resetApplicationPassword: () => void;
   publishingCredentials?: ArmObj<PublishingCredentials>;
   publishingUser?: ArmObj<PublishingUser>;
   publishingProfile?: PublishingProfile;
 }
 
-export interface DeploymentCenterContainerFormProps extends DeploymentCenterContainerProps {
+export interface DeploymentCenterFormProps {
+  isLoading: boolean;
   refresh: () => void;
   showPublishProfilePanel: () => void;
   formData?: DeploymentCenterFormData;
   formValidationSchema?: DeploymentCenterYupValidationSchemaType;
 }
 
-export interface DeploymentCenterCodeFormProps extends DeploymentCenterCodeProps {
-  refresh: () => void;
-  showPublishProfilePanel: () => void;
-  formData?: DeploymentCenterFormData;
-  formValidationSchema?: DeploymentCenterYupValidationSchemaType;
-}
+export type DeploymentCenterContainerFormProps = DeploymentCenterContainerProps & DeploymentCenterFormProps;
+
+export type DeploymentCenterCodeFormProps = DeploymentCenterCodeProps & DeploymentCenterFormProps;
 
 export interface DeploymentCenterCommandBarProps {
+  isLoading: boolean;
   saveFunction: () => void;
   discardFunction: () => void;
   showPublishProfilePanel: () => void;

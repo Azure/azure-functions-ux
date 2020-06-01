@@ -2024,6 +2024,8 @@ export class PortalResources {
   public static deploymentCenterCodeLogsNoDeployments = 'deploymentCenterCodeLogsNoDeployments';
   public static deploymentCenterCodeDeploymentsLoadingAriaValue = 'deploymentCenterCodeDeploymentsLoadingAriaValue';
   public static deploymentCenterCodeDeploymentsLoading = 'deploymentCenterCodeDeploymentsLoading';
+  public static deploymentCenterFtpLoadingAriaValue = 'deploymentCenterFtpLoadingAriaValue';
+  public static deploymentCenterFtpLoading = 'deploymentCenterFtpLoading';
   public static deploymentCenterCodeDeploymentsFailed = 'deploymentCenterCodeDeploymentsFailed';
   public static deploymentCenterCodeDeploymentsFailedWithError = 'deploymentCenterCodeDeploymentsFailedWithError';
   public static deploymentCenterCodeLogDetailsFailed = 'deploymentCenterCodeLogDetailsFailed';
