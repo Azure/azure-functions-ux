@@ -128,7 +128,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
       return (
         <>
           <div className={deploymentCenterCodeLogsNotConfigured}>
-            <DeploymentCenterIcon />
+            <DeploymentCenterIcon filter="grayscale(100%)" />
             <h3>{t('deploymentCenterCodeLogsCICDNotConfiguredHeader')}</h3>
             <p>{t('deploymentCenterCodeLogsCICDNotConfiguredDescription')}</p>
             <PrimaryButton text={t('deploymentCenterCodeLogsCICDNotConfiguredGoToSettings')} onClick={() => goToSettingsOnClick()} />
