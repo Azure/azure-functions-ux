@@ -291,7 +291,228 @@ export const nodeStack: WebAppStack = {
     {
       displayText: 'Node 8',
       value: '8',
-      minorVersions: [],
+      minorVersions: [
+        {
+          displayText: 'Node 8 LTS',
+          value: '8-LTS',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|8-lts',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 8.12',
+          value: '8.12',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|8.12',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 8.11',
+          value: '8.11',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|8.11',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+            windows: {
+              runtimeVersion: '8.11',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 8.10',
+          value: '8.10',
+          platforms: {
+            windows: {
+              runtimeVersion: '8.10',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 8.9',
+          value: '8.9',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|8.9',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+            windows: {
+              runtimeVersion: '8.9',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 8.8',
+          value: '8.8',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|8.8',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 8.5',
+          value: '8.5',
+          platforms: {
+            windows: {
+              runtimeVersion: '8.5',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 8.4',
+          value: '8.4',
+          platforms: {
+            windows: {
+              runtimeVersion: '8.4',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 8.2',
+          value: '8.2',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|8.2',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 8.1',
+          value: '8.1',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|8.1',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+            windows: {
+              runtimeVersion: '8.1.4',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 8.0',
+          value: '8.0',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|8.0',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+      ],
     },
     {
       displayText: 'Node 6',
