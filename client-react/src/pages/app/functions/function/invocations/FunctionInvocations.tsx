@@ -29,8 +29,7 @@ import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { filterTextFieldStyle } from '../../../../../components/form-controls/formControl.override.styles';
 
 interface FunctionInvocationsProps {
-  functionAppName: string;
-  functionName: string;
+  functionResourceId: string;
   appInsightsResourceId: string;
   refreshInvocations: () => void;
   setCurrentTrace: (trace: AppInsightsInvocationTrace | undefined) => void;
@@ -45,8 +44,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
     monthlySummary,
     invocationTraces,
     refreshInvocations,
-    functionAppName,
-    functionName,
+    functionResourceId,
     appInsightsResourceId,
     invocationDetails,
     setCurrentTrace,
@@ -84,7 +82,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         detailBladeInputs: {
           resourceId: appInsightsResourceId,
           source: 'Microsoft.Web-FunctionApp',
-          query: invocationsContext.formInvocationTracesQuery(functionAppName, functionName),
+          query: invocationsContext.formInvocationTracesQuery(functionResourceId),
         },
       },
       'function-monitor'
