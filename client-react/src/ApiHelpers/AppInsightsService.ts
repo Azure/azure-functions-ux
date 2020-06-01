@@ -20,6 +20,7 @@ import { NationalCloudEnvironment } from '../utils/scenario-checker/national-clo
 import { LocalStorageService } from '../utils/LocalStorageService';
 import { StorageKeys } from '../models/LocalStorage.model';
 import SiteService from './SiteService';
+import { ArmFunctionDescriptor } from '../utils/resourceDescriptors';
 
 export default class AppInsightsService {
   public static getAppInsights = (resourceId: string) => {
@@ -40,13 +41,8 @@ export default class AppInsightsService {
     });
   };
 
-  public static getLast30DaysSummary = (
-    appInsightsAppId: string,
-    appInsightsToken: string,
-    functionAppName: string,
-    functionName: string
-  ) => {
-    const data = { query: AppInsightsService._formLast30DayQuery(functionAppName, functionName), timespan: 'P30D' };
+  public static getLast30DaysSummary = (appInsightsAppId: string, appInsightsToken: string, functionResourceId: string) => {
+    const data = { query: AppInsightsService._formLast30DayQuery(functionResourceId), timespan: 'P30D' };
     const headers = AppInsightsService._formAppInsightsHeaders(appInsightsToken);
     const url = AppInsightsService._formLast30DayUrl(appInsightsAppId);
 
@@ -68,11 +64,10 @@ export default class AppInsightsService {
   public static getInvocationTraces = (
     appInsightsAppId: string,
     appInsightsToken: string,
-    functionAppName: string,
-    functionName: string,
+    functionResourceId: string,
     top: number = 20
   ) => {
-    const data = { query: AppInsightsService.formInvocationTracesQuery(functionAppName, functionName, top), timespan: 'P30D' };
+    const data = { query: AppInsightsService.formInvocationTracesQuery(functionResourceId, top), timespan: 'P30D' };
     const headers = AppInsightsService._formAppInsightsHeaders(appInsightsToken);
     const url = AppInsightsService._formInvocationTracesUrl(appInsightsAppId);
 
@@ -91,7 +86,8 @@ export default class AppInsightsService {
     });
   };
 
-  public static formInvocationTracesQuery = (functionAppName: string, functionName: string, top: number = 20) => {
+  public static formInvocationTracesQuery = (functionResourceId: string, top: number = 20) => {
+    const [functionAppName, functionName] = AppInsightsService._extractFunctionAppNameAndFunctionName(functionResourceId);
     return (
       `requests ` +
       `| project timestamp, id, operation_Name, success, resultCode, duration, operation_Id, cloud_RoleName, invocationId=customDimensions['InvocationId'] ` +
@@ -272,7 +268,8 @@ export default class AppInsightsService {
     return { Authorization: `Bearer ${appInsightsToken}` };
   };
 
-  private static _formLast30DayQuery = (functionAppName: string, functionName: string): string => {
+  private static _formLast30DayQuery = (functionResourceId: string): string => {
+    const [functionAppName, functionName] = AppInsightsService._extractFunctionAppNameAndFunctionName(functionResourceId);
     return (
       `requests ` +
       `| where timestamp >= ago(30d) ` +
@@ -280,6 +277,15 @@ export default class AppInsightsService {
       `| summarize count=count() by success`
     );
   };
+
+  private static _extractFunctionAppNameAndFunctionName(functionResourceId: string): [string, string] {
+    const armFunctionDescriptor = new ArmFunctionDescriptor(functionResourceId);
+    const functionAppName = armFunctionDescriptor.slot
+      ? `${armFunctionDescriptor.site}-${armFunctionDescriptor.slot}`
+      : armFunctionDescriptor.site;
+    const functionName = armFunctionDescriptor.name;
+    return [functionAppName, functionName];
+  }
 
   private static _formLast30DayUrl = (appInsightsAppId: string): string => {
     return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
