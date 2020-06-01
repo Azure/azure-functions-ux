@@ -2018,6 +2018,10 @@ export class PortalResources {
   public static testAndRun = 'testAndRun';
   public static appInsightsKeyVaultWarningMessage = 'appInsightsKeyVaultWarningMessage';
   public static clickToUpdateSettings = 'clickToUpdateSettings';
+  public static deploymentCenterCodeLogsCICDNotConfiguredHeader = 'deploymentCenterCodeLogsCICDNotConfiguredHeader';
+  public static deploymentCenterCodeLogsCICDNotConfiguredDescription = 'deploymentCenterCodeLogsCICDNotConfiguredDescription';
+  public static deploymentCenterCodeLogsCICDNotConfiguredGoToSettings = 'deploymentCenterCodeLogsCICDNotConfiguredGoToSettings';
+  public static deploymentCenterCodeLogsNoDeployments = 'deploymentCenterCodeLogsNoDeployments';
   public static deploymentCenterCodeDeploymentsLoadingAriaValue = 'deploymentCenterCodeDeploymentsLoadingAriaValue';
   public static deploymentCenterCodeDeploymentsLoading = 'deploymentCenterCodeDeploymentsLoading';
   public static deploymentCenterCodeDeploymentsFailed = 'deploymentCenterCodeDeploymentsFailed';

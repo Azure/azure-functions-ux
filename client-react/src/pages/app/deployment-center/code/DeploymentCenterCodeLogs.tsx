@@ -11,13 +11,11 @@ import {
 } from '../DeploymentCenter.types';
 import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton } from 'office-ui-fabric-react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterLogsError } from '../DeploymentCenter.styles';
+import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
-// import { style } from 'typestyle';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
-import { style } from 'typestyle';
 import { ScmTypes } from '../../../../models/site/config';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
@@ -110,49 +108,26 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
 
   const groups: IGroup[] = getItemGroups(items);
 
-  // const cloud3 = style({
-  //   // position: 'absolute',
-  //   top: '600px',
-  //   left: '960px',
-  //   width: '100px',
-  // });
-
-  const notConfiguredInfo = style({
-    width: '100%',
-    textAlign: 'center',
-
-    $nest: {
-      h3: {
-        marginTop: '12px',
-        fontSize: '18px',
-      },
-
-      p: {
-        fontSize: '15px',
-      },
-
-      svg: {
-        height: '200px',
-        width: '200px',
-        marginTop: '18px',
-      },
-    },
-  });
-
   const getZeroDayContent = () => {
     if (siteConfig && siteConfig.properties.scmType === ScmTypes.None) {
       return (
         <>
-          <div className={notConfiguredInfo}>
+          <div className={deploymentCenterCodeLogsNotConfigured}>
             <DeploymentCenterIcon />
-            <h3>CI/CD is not configured</h3>
-            <p>To start, go to Settings tab and set up CI/CD.</p>
-            <PrimaryButton text="Go to Settings" />
+            <h3>{t('deploymentCenterCodeLogsCICDNotConfiguredHeader')}</h3>
+            <p>{t('deploymentCenterCodeLogsCICDNotConfiguredDescription')}</p>
+            <PrimaryButton text={t('deploymentCenterCodeLogsCICDNotConfiguredGoToSettings')} />
           </div>
         </>
       );
     } else {
-      return <h3>No deployments found</h3>;
+      return (
+        <>
+          <div className={deploymentCenterCodeLogsNotConfigured}>
+            <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>;
+          </div>
+        </>
+      );
     }
   };
 

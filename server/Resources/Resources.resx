@@ -6219,6 +6219,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="clickToUpdateSettings" xml:space="preserve">
         <value>Click here to update your settings.</value>
     </data>
+    <data name="deploymentCenterCodeLogsCICDNotConfiguredHeader" xml:space="preserve">
+        <value>CI/CD is not configured</value>
+    </data>
+    <data name="deploymentCenterCodeLogsCICDNotConfiguredDescription" xml:space="preserve">
+        <value>To start, go to Settings tab and set up CI/CD.</value>
+    </data>
+    <data name="deploymentCenterCodeLogsCICDNotConfiguredGoToSettings" xml:space="preserve">
+        <value>Go to Settings</value>
+    </data>
+    <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
+        <value>No deployments found</value>
+    </data>
     <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
         <value>Loading deployment logs</value>
     </data>
