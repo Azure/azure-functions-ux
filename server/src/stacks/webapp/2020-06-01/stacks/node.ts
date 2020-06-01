@@ -631,7 +631,70 @@ export const nodeStack: WebAppStack = {
     {
       displayText: 'Node 4',
       value: '4',
-      minorVersions: [],
+      minorVersions: [
+        {
+          displayText: 'Node 4.8',
+          value: '4.8',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|4.8',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+            windows: {
+              runtimeVersion: '4.8',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 4.5',
+          value: '4.5',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|4.5',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+        {
+          displayText: 'Node 4.4',
+          value: '4.4',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|4.4',
+              isDeprecated: true,
+              remoteDebuggingEnabled: false,
+              appInsightsSettings: {
+                isEnabled: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+      ],
     },
   ],
 };
