@@ -22,6 +22,7 @@ import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithC
 import { ThemeContext } from '../../../../ThemeContext';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 
 interface SystemKeysProps {
   resourceId: string;
@@ -154,7 +155,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         <>
           <ActionButton
             id={`app-keys-host-keys-show-hide-${index}`}
-            className={defaultCellStyle}
+            className={`${defaultCellStyle} ${linkCellStyle(theme)}`}
             onClick={() => onShowHideButtonClick(itemKey)}
             iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
             {hidden ? (

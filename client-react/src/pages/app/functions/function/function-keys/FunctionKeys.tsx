@@ -26,6 +26,7 @@ import LogService from '../../../../../utils/LogService';
 import { PortalContext } from '../../../../../PortalContext';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { filterTextFieldStyle } from '../../../../../components/form-controls/formControl.override.styles';
+import { linkCellStyle } from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 
 interface FunctionKeysProps {
   resourceId: string;
@@ -188,7 +189,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         <>
           <ActionButton
             id={`function-keys-show-hide-${index}`}
-            className={defaultCellStyle}
+            className={`${defaultCellStyle} ${linkCellStyle(theme)}`}
             onClick={() => onShowHideButtonClick(itemKey)}
             iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
             {hidden ? (
