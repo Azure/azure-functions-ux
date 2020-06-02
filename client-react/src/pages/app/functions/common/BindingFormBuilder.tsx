@@ -5,7 +5,6 @@ import React from 'react';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import TextField from '../../../../components/form-controls/TextField';
 import Toggle from '../../../../components/form-controls/Toggle';
-import { FormControlWrapper, Layout } from '../../../../components/FormControlWrapper/FormControlWrapper';
 import { Binding, BindingSetting, BindingSettingValue, BindingValidator } from '../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
 import { getFunctionBindingDirection } from '../function/integrate/FunctionIntegrate.utils';
@@ -116,17 +115,21 @@ export class BindingFormBuilder {
         });
 
         fields.push(
-          <FormControlWrapper label={rule.label} layout={Layout.vertical} tooltip={rule.help} required={true} key={ruleName}>
-            <Field
-              name={ruleName}
-              id={ruleName}
-              component={Dropdown}
-              options={ruleOptions}
-              disabled={isDisabled}
-              onPanel={true}
-              {...formProps}
-            />
-          </FormControlWrapper>
+          <Field
+            label={rule.label}
+            name={ruleName}
+            id={ruleName}
+            component={Dropdown}
+            options={ruleOptions}
+            disabled={isDisabled}
+            onPanel={true}
+            horizontal={false}
+            mouseOverToolTip={rule.help}
+            required={true}
+            key={ruleName}
+            {...formProps}
+            dirty={false}
+          />
         );
       });
     }
