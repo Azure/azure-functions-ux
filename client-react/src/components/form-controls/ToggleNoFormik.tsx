@@ -13,13 +13,13 @@ interface CustomToggleProps {
 }
 
 const ToggleNoFormik = (props: IToggleProps & CustomToggleProps) => {
-  const { checked, onChange, errorMessage, label } = props;
+  const { checked, onChange, errorMessage, id, label } = props;
   const theme = useContext(ThemeContext);
 
   return (
     <ReactiveFormControl {...props}>
       <OfficeToggle
-        aria-labelledby={`${props.id}-label`}
+        aria-labelledby={`${id}-label`}
         ariaLabel={label}
         onChange={onChange}
         errorMessage={errorMessage}
@@ -29,6 +29,7 @@ const ToggleNoFormik = (props: IToggleProps & CustomToggleProps) => {
           },
         }}
         {...props}
+        label={undefined} // ReactiveFormControl will handle the label
       />
     </ReactiveFormControl>
   );
