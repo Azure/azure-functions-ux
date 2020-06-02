@@ -124,7 +124,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
           styles={textFieldStyleOverrides(theme, fullpage, widthOverride)}
           onRenderSuffix={onRenderSuffix}
           {...rest}
-          required={false}
+          required={false} // ReactiveFormControl will handle displaying required
         />
         {additionalControls}
       </>
