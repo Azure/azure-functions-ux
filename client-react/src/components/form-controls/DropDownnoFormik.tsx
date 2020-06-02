@@ -35,6 +35,7 @@ const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
         errorMessage={errorMessage}
         {...rest}
         styles={dropdownStyleOverrides(theme, fullpage, widthOverride)}
+        required={false} // ReactiveFormControl will handle displaying required
       />
     </ReactiveFormControl>
   );
