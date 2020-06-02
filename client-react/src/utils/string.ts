@@ -40,4 +40,14 @@ export default class StringUtils {
   public static endsWithIgnoreCase(source?: string, substring?: string): boolean {
     return !!source && !!substring && source.toUpperCase().endsWith(substring.toUpperCase());
   }
+
+  public static stringifyJsonForEditor(value: any) {
+    if (typeof value !== 'string') {
+      // third parameter refers to the number of white spaces.
+      // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
+      return JSON.stringify(value, null, 2);
+    } else {
+      return value;
+    }
+  }
 }
