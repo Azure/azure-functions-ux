@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
+import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { AuthorizationRule, EventHub, KeyList, Namespace } from '../../../../../../models/eventhub';
@@ -155,7 +156,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
                     setKeyList(undefined);
                   }}
                   errorMessage={undefined}
-                  horizontal={false}
+                  layout={Layout.Vertical}
                   {...props}
                   id="newEventHubNamespaceConnection"
                   mouseOverToolTip={undefined}
@@ -175,7 +176,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
                         setKeyList(undefined);
                       }}
                       errorMessage={undefined}
-                      horizontal={false}
+                      layout={Layout.Vertical}
                       {...props}
                       id="newEventHubConnection"
                       mouseOverToolTip={undefined}
@@ -194,7 +195,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
                             setKeyList(undefined);
                           }}
                           errorMessage={undefined}
-                          horizontal={false}
+                          layout={Layout.Vertical}
                           {...props}
                           id="newEventHubPolicyConnection"
                           mouseOverToolTip={undefined}

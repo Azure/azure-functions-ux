@@ -1,12 +1,13 @@
+import { Field, FormikProps } from 'formik';
+import i18next from 'i18next';
 import React from 'react';
+import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
+import TextField from '../../../../components/form-controls/TextField';
+import { ArmObj } from '../../../../models/arm-obj';
 import { Binding } from '../../../../models/functions/binding';
 import { BindingInfo } from '../../../../models/functions/function-binding';
-import i18next from 'i18next';
-import { BindingFormBuilder, BindingEditorFormValues } from './BindingFormBuilder';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import { ArmObj } from '../../../../models/arm-obj';
-import { FormikProps, Field } from 'formik';
-import TextField from '../../../../components/form-controls/TextField';
+import { BindingEditorFormValues, BindingFormBuilder } from './BindingFormBuilder';
 
 export interface CreateFunctionFormValues extends BindingEditorFormValues {
   functionName: string;
@@ -63,7 +64,7 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
         component={TextField}
         disabled={isDisabled}
         validate={(value: string) => this._validateFunctionName(value)}
-        horizontal={false}
+        layout={Layout.Vertical}
         required={true}
         key={0}
         {...formProps}
