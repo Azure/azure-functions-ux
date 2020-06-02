@@ -1,12 +1,12 @@
 import React from 'react';
-import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
 import DeploymentCenterCodeSource from './DeploymentCenterCodeSource';
 import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
 import { ScmTypes } from '../../../../models/site/config';
 
-const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps> = props => {
+const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
-  const isGitHubSource = formProps && formProps.values.scmType === ScmTypes.GitHub;
+  const isGitHubSource = formProps && formProps.values.sourceProvider === ScmTypes.GitHub;
   return (
     <>
       <DeploymentCenterCodeSource />

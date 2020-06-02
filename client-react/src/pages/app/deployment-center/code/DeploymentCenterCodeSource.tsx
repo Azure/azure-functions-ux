@@ -37,7 +37,7 @@ const DeploymentCenterCodeSource: React.FC<{}> = props => {
         id="deployment-center-container-settings-source-option"
         label={t('deploymentCenterSettingsSourceLabel')}
         placeholder={t('deploymentCenterCodeSettingsSourcePlaceholder')}
-        name="scmType"
+        name="sourceProvider"
         component={Dropdown}
         displayInVerticalLayout={true}
         options={options}
