@@ -6270,5 +6270,4 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
         <value>Signed in as</value>
     </data>
- </root>
 </root>
