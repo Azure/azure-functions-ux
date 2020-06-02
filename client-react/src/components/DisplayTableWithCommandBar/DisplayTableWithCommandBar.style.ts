@@ -1,5 +1,6 @@
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { IDetailsListStyles } from 'office-ui-fabric-react';
+import { style } from 'typestyle';
 
 export const DEFAULTLISTHEIGHT = '31px';
 
@@ -59,3 +60,8 @@ export const DetailListStyles = (): Partial<IDetailsListStyles> => {
     },
   };
 };
+
+export const linkCellStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.actionLink,
+  });
