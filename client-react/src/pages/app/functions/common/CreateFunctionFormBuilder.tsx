@@ -7,7 +7,6 @@ import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FormikProps, Field } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
-import { Layout, FormControlWrapper } from '../../../../components/FormControlWrapper/FormControlWrapper';
 
 export interface CreateFunctionFormValues extends BindingEditorFormValues {
   functionName: string;
