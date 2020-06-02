@@ -14,6 +14,7 @@ import { PortalTheme } from '../../../../../../models/portal-models';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../../../../components/monaco-editor/monaco-editor';
 import { EditorLanguage } from '../../../../../../utils/EditorManager';
 import { StartupInfoContext } from '../../../../../../StartupInfoContext';
+import StringUtils from '../../../../../../utils/string';
 
 export interface FunctionTestOutputProps {
   responseContent?: ResponseContent;
@@ -28,14 +29,7 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
 
   const getBodyValue = () => {
     if (!!responseContent && !!responseContent.text) {
-      const text = responseContent.text;
-      if (typeof text !== 'string') {
-        // third parameter refers to the number of white spaces.
-        // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
-        return JSON.stringify(text, null, 2);
-      } else {
-        return text;
-      }
+      return StringUtils.stringifyJsonForEditor(responseContent.text);
     } else {
       return '';
     }

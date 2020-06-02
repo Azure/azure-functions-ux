@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { addEditFormStyle } from '../../../../../../components/form-controls/formControl.override.styles';
 import ActionBar, { StatusMessage } from '../../../../../../components/ActionBar';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +15,7 @@ import { MessageBarType } from 'office-ui-fabric-react';
 import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../../../utils/FwLinks';
+import { FunctionEditorContext } from '../FunctionEditorDataLoader';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -61,6 +62,10 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     level: MessageBarType.error,
   };
 
+  const functionEditorContext = useContext(FunctionEditorContext);
+
+  const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
+
   const validateForm = (values: InputFormValues) => {
     const invalidQueries = values.queries.filter(q => !ValidationRegex.queryName.test(q.name) || !q.value);
     setStatusMessage(undefined);
@@ -97,44 +102,43 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     updatedFormValues.queries = [];
     updatedFormValues.xFunctionKey = xFunctionKey;
     let localTestData;
-    try {
-      localTestData = JSON.parse(testData || functionInfo.properties.test_data || '');
-    } catch (err) {
-      localTestData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
-      LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
+    if (isHttpOrWebHookFunction) {
+      try {
+        localTestData = JSON.parse(testData || functionInfo.properties.test_data || '');
+      } catch (err) {
+        localTestData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
+        LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
+      }
+    } else {
+      localTestData = testData || functionInfo.properties.test_data || '';
     }
     if (!!localTestData) {
-      // Make sure to remove the keys: {body, headers, method, queryStringParams};
-      // if there are still some keys (meaning the test-data file has been manually updated by the user),
-      // we consider the entire remaining object as the body
-      if (!!localTestData.body) {
-        setReqBody(localTestData.body);
-        delete localTestData.body;
-      }
-      if (!!localTestData.method) {
-        updatedFormValues.method = localTestData.method;
-        delete localTestData.method;
+      if (isHttpOrWebHookFunction) {
+        // Make sure to remove the keys: {body, headers, method, queryStringParams};
+        // if there are still some keys (meaning the test-data file has been manually updated by the user),
+        // we consider the entire remaining object as the body
+        if (!!localTestData.body) {
+          setReqBody(localTestData.body);
+        }
+        if (!!localTestData.method) {
+          updatedFormValues.method = localTestData.method;
+        } else {
+          updatedFormValues.method = HttpMethods.post;
+        }
+        if (!!localTestData.queryStringParams) {
+          const queryParameters = localTestData.queryStringParams;
+          for (const parameters of queryParameters) {
+            updatedFormValues.queries.push({ name: parameters.name, value: parameters.value });
+          }
+        }
+        if (!!localTestData.headers) {
+          const headers = localTestData.headers;
+          for (const header of headers) {
+            updatedFormValues.headers.push({ name: header.name, value: header.value });
+          }
+        }
       } else {
-        updatedFormValues.method = HttpMethods.post;
-      }
-      if (!!localTestData.queryStringParams) {
-        const queryParameters = localTestData.queryStringParams;
-        delete localTestData.queryStringParams;
-        for (const parameters of queryParameters) {
-          updatedFormValues.queries.push({ name: parameters.name, value: parameters.value });
-        }
-      }
-      if (!!localTestData.headers) {
-        const headers = localTestData.headers;
-        delete localTestData.headers;
-        for (const header of headers) {
-          updatedFormValues.headers.push({ name: header.name, value: header.value });
-        }
-      }
-
-      // as per the information in the previous comment, consider the entire remaining object as the body
-      if (Object.keys(localTestData).length > 0) {
-        setReqBody(JSON.stringify(localTestData));
+        setReqBody(localTestData);
       }
     }
 
