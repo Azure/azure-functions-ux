@@ -1,5 +1,5 @@
 import React from 'react';
-import { DeploymentCenterFieldProps, AppTypes } from '../DeploymentCenter.types';
+import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import DeploymentCenterCodeSource from './DeploymentCenterCodeSource';
 import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
 import { ScmTypes } from '../../../../models/site/config';
@@ -10,7 +10,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps> = props
   return (
     <>
       <DeploymentCenterCodeSource />
-      {isGitHubSource && <DeploymentCenterGitHubDataLoader formProps={formProps} appType={AppTypes.Code} />}
+      {isGitHubSource && <DeploymentCenterGitHubDataLoader formProps={formProps} />}
     </>
   );
 };

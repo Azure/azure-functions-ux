@@ -32,18 +32,18 @@ export enum DeploymentStatus {
   Success,
 }
 
-export enum AppTypes {
-  Code,
-  Container,
-}
+export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
+  DeploymentCenterFtpsProps<DeploymentCenterContainerFormData>;
 
-export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps;
+export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps<DeploymentCenterCodeFormData>;
 
-export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps;
+export type DeploymentCenterYupValidationSchemaType<
+  T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData
+> = Yup.ObjectSchema<Yup.Shape<object, DeploymentCenterFormData<T>>>;
 
-export type DeploymentCenterYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, DeploymentCenterFormData>>;
-
-export type DeploymentCenterFormData = DeploymentCenterCommonFormData & DeploymentCenterContainerFormData;
+export type DeploymentCenterFormData<
+  T = DeploymentCenterCodeFormData | DeploymentCenterContainerFormData
+> = DeploymentCenterCommonFormData & T;
 
 export interface DeploymentCenterCommonFormData {
   publishingUsername: string;
@@ -65,8 +65,13 @@ export interface DeploymentCenterContainerFormData {
   cicd: boolean;
 }
 
-export interface DeploymentCenterFieldProps {
-  formProps?: FormikProps<DeploymentCenterFormData>;
+export interface DeploymentCenterCodeFormData {
+  sourceProvider: ScmTypes;
+  buildProvider: ScmTypes;
+}
+
+export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
+  formProps?: FormikProps<DeploymentCenterFormData<T>>;
 }
 
 export interface DeploymentCenterContainerLogsProps {
@@ -85,7 +90,8 @@ export interface DeploymentCenterCommitLogsProps {
   commitId?: string;
 }
 
-export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
+export interface DeploymentCenterFtpsProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
   isLoading: boolean;
   resetApplicationPassword: () => void;
   publishingCredentials?: ArmObj<PublishingCredentials>;
@@ -93,17 +99,26 @@ export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
   publishingProfile?: PublishingProfile;
 }
 
-export interface DeploymentCenterFormProps {
+export interface DeploymentCenterFormProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   isLoading: boolean;
   refresh: () => void;
   showPublishProfilePanel: () => void;
-  formData?: DeploymentCenterFormData;
-  formValidationSchema?: DeploymentCenterYupValidationSchemaType;
+  formData?: DeploymentCenterFormData<T>;
+  formValidationSchema?: DeploymentCenterYupValidationSchemaType<T>;
 }
 
-export type DeploymentCenterContainerFormProps = DeploymentCenterContainerProps & DeploymentCenterFormProps;
+export type DeploymentCenterContainerFormProps<
+  T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData
+> = DeploymentCenterContainerProps & DeploymentCenterFormProps<T>;
 
-export type DeploymentCenterCodeFormProps = DeploymentCenterCodeProps & DeploymentCenterFormProps;
+export type DeploymentCenterCodeFormProps<
+  T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData
+> = DeploymentCenterCodeProps & DeploymentCenterFormProps<T>;
+
+// export interface DeploymentCenterCodeFormProps extends DeploymentCenterCodeProps, DeploymentCenterFormProps {
+//   sourceProvider: ScmTypes;
+//   buildProvider: ScmTypes;
+// }
 
 export interface DeploymentCenterCommandBarProps {
   isLoading: boolean;
@@ -123,15 +138,11 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
   resetApplicationPassword: () => void;
 }
 
-export interface DeploymentCenterGitHubDataLoaderProps extends DeploymentCenterFieldProps {
-  appType: AppTypes;
-}
-
-export interface DeploymentCenterGitHubProviderProps extends DeploymentCenterFieldProps {
+export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
   authorizeGitHubAccount: () => void;
   gitHubAccountStatusMessage?: string;
   gitHubUser?: GitHubUser;
-  appType: AppTypes;
 }
 
 // TODO (t-kakan): Verify all properties are guaranteed

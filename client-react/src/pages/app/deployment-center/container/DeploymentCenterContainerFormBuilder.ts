@@ -1,41 +1,18 @@
-import { ArmObj } from '../../../../models/arm-obj';
-import { PublishingUser } from '../../../../models/site/publish';
-import { SiteConfig, ScmTypes } from '../../../../models/site/config';
+import { ScmTypes } from '../../../../models/site/config';
 import {
   DeploymentCenterFormData,
   ContainerOptions,
   ContainerRegistrySources,
   ContainerDockerAccessTypes,
   DeploymentCenterYupValidationSchemaType,
+  DeploymentCenterContainerFormData,
 } from '../DeploymentCenter.types';
-import { KeyValue } from '../../../../models/portal-models';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import i18next from 'i18next';
 import * as Yup from 'yup';
+import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 
-export class DeploymentCenterContainerFormBuilder {
-  private _publishingUser: ArmObj<PublishingUser>;
-  private _siteConfig: ArmObj<SiteConfig>;
-  private _applicationSettings: ArmObj<KeyValue<string>>;
-  private _t: i18next.TFunction;
-
-  constructor(t: i18next.TFunction) {
-    this._t = t;
-  }
-
-  public setPublishingUser(publishingUser: ArmObj<PublishingUser>) {
-    this._publishingUser = publishingUser;
-  }
-
-  public setSiteConfig(siteConfig: ArmObj<SiteConfig>) {
-    this._siteConfig = siteConfig;
-  }
-
-  public setApplicationSettings(applicationSettings: ArmObj<KeyValue<string>>) {
-    this._applicationSettings = applicationSettings;
-  }
-
-  public generateFormData(): DeploymentCenterFormData {
+export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBuilder {
+  public generateFormData(): DeploymentCenterFormData<DeploymentCenterContainerFormData> {
     return {
       publishingUsername: this._publishingUser ? this._publishingUser.properties.publishingUserName : '',
       publishingPassword: '',
@@ -54,7 +31,7 @@ export class DeploymentCenterContainerFormBuilder {
     };
   }
 
-  public generateYupValidationSchema(): DeploymentCenterYupValidationSchemaType {
+  public generateYupValidationSchema(): DeploymentCenterYupValidationSchemaType<DeploymentCenterContainerFormData> {
     // NOTE(michinoy): The password should be at least eight characters long and must contain letters, numbers, and symbol.
     const passwordMinimumRequirementsRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
     const usernameMinLength = 3;

@@ -3,17 +3,17 @@ import DeploymentCenterGitHubProvider from './DeploymentCenterGitHubProvider';
 import { GitHubUser } from '../../../../models/github';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import { DeploymentCenterGitHubDataLoaderProps } from '../DeploymentCenter.types';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
+import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 
 interface authorizationResult {
   timerId: NodeJS.Timeout;
   redirectUrl?: string;
 }
 
-const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterGitHubDataLoaderProps> = props => {
+const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();
-  const { formProps, appType } = props;
+  const { formProps } = props;
 
   const deploymentCenterData = new DeploymentCenterData();
   const [gitHubUser, setGitHubUser] = useState<GitHubUser | undefined>(undefined);
@@ -86,7 +86,6 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterGitHubDataLoade
   return (
     <DeploymentCenterGitHubProvider
       formProps={formProps}
-      appType={appType}
       gitHubUser={gitHubUser}
       gitHubAccountStatusMessage={gitHubAccountStatusMessage}
       authorizeGitHubAccount={authorizeGitHubAccount}

@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterGitHubAccount from './DeploymentCenterGitHubAccount';
-import { DeploymentCenterGitHubProviderProps, AppTypes } from '../DeploymentCenter.types';
+import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderProps> = props => {
-  const { appType } = props;
   const { t } = useTranslation();
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
+  console.log(deploymentCenterContext);
+
   return (
     <>
-      {appType === AppTypes.Container ? (
+      {deploymentCenterContext.isContainerApplication ? (
         <h3>{t('deploymentCenterContainerGitHubActionsTitle')}</h3>
       ) : (
         <h3>{t('deploymentCenterCodeGitHubTitle')}</h3>
