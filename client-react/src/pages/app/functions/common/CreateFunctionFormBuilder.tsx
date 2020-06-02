@@ -57,16 +57,19 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
 
   private _getFunctionNameTextField(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
     return (
-      <FormControlWrapper label={this.t('functionCreate_newFunction')} layout={Layout.vertical} key={0} required={true}>
-        <Field
-          name={'functionName'}
-          id={'functionName'}
-          component={TextField}
-          disabled={isDisabled}
-          validate={(value: string) => this._validateFunctionName(value)}
-          {...formProps}
-        />
-      </FormControlWrapper>
+      <Field
+        label={this.t('functionCreate_newFunction')}
+        name={'functionName'}
+        id={'functionName'}
+        component={TextField}
+        disabled={isDisabled}
+        validate={(value: string) => this._validateFunctionName(value)}
+        horizontal={false}
+        required={true}
+        key={0}
+        {...formProps}
+        dirty={false}
+      />
     );
   }
 
