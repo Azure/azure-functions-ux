@@ -27,7 +27,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   };
 
   const refreshFunction = () => {
-    setIsRefreshConfirmDialogVisible(false);
+    hideRefreshConfirmDialog();
     props.refresh();
   };
 
@@ -55,6 +55,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
               discardFunction={discardFunction}
               showPublishProfilePanel={props.showPublishProfilePanel}
               refresh={() => setIsRefreshConfirmDialogVisible(true)}
+              isLoading={props.isLoading}
             />
           </div>
           <>
