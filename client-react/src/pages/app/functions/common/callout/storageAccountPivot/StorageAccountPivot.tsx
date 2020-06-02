@@ -2,18 +2,17 @@ import { FieldProps, Formik, FormikProps } from 'formik';
 import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
-import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { StorageAccount, StorageAccountKeys } from '../../../../../../models/storage-account';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import LogService from '../../../../../../utils/LogService';
+import { NationalCloudEnvironment } from '../../../../../../utils/scenario-checker/national-cloud.environment';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingTopStyle } from '../Callout.styles';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
-import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
-import { NationalCloudEnvironment } from '../../../../../../utils/scenario-checker/national-cloud.environment';
 
 interface StorageAccountPivotFormValues {
   storageAccount: ArmObj<StorageAccount> | undefined;
@@ -87,18 +86,20 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
             {!!storageAccounts && storageAccounts.length === 0 ? (
               <p>{t('storageAccountPivot_noStorageAccounts')}</p>
             ) : (
-              <FormControlWrapper label={t('storageAccountPivot_storageAccount')} layout={Layout.vertical}>
-                <Dropdown
-                  options={storageAccountOptions}
-                  selectedKey={formValues.storageAccount && formValues.storageAccount.id}
-                  onChange={(o, e) => {
-                    setFormValues({ storageAccount: e && e.data });
-                    setKeyList(undefined);
-                  }}
-                  errorMessage={undefined}
-                  {...props}
-                />
-              </FormControlWrapper>
+              <Dropdown
+                label={t('storageAccountPivot_storageAccount')}
+                options={storageAccountOptions}
+                selectedKey={formValues.storageAccount && formValues.storageAccount.id}
+                onChange={(o, e) => {
+                  setFormValues({ storageAccount: e && e.data });
+                  setKeyList(undefined);
+                }}
+                errorMessage={undefined}
+                horizontal={false}
+                {...props}
+                id="newStorageAccountConnection"
+                mouseOverToolTip={undefined}
+              />
             )}
             <footer style={paddingTopStyle}>
               <PrimaryButton disabled={!formValues.storageAccount} onClick={formProps.submitForm}>

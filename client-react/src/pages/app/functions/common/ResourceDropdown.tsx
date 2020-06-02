@@ -13,7 +13,7 @@ import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import SiteHelper from '../../../../utils/SiteHelper';
 import { BindingEditorFormValues } from './BindingFormBuilder';
-import { calloutStyle1Field, calloutStyle2Fields, calloutStyle3Fields, linkPaddingStyle } from './callout/Callout.styles';
+import { calloutStyleField, linkPaddingStyle } from './callout/Callout.styles';
 import NewAppSettingCallout from './callout/NewAppSettingCallout';
 import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCallout';
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
@@ -92,7 +92,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
             {'New'}
           </Link>
           {setting.resource === BindingSettingResource.Storage && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle1Field}>
+            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
               <NewStorageAccountConnectionCallout
                 resourceId={resourceId}
                 setNewAppSetting={setNewAppSetting}
@@ -103,7 +103,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
             </Callout>
           )}
           {setting.resource === BindingSettingResource.EventHub && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle3Fields}>
+            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
               <NewEventHubConnectionCallout
                 resourceId={resourceId}
                 setNewAppSetting={setNewAppSetting}
@@ -114,7 +114,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
             </Callout>
           )}
           {setting.resource === BindingSettingResource.ServiceBus && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
+            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
               <NewServiceBusConnectionCallout
                 resourceId={resourceId}
                 setNewAppSetting={setNewAppSetting}
@@ -125,7 +125,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
             </Callout>
           )}
           {setting.resource === BindingSettingResource.DocumentDB && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
+            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
               <NewDocumentDBConnectionCallout
                 resourceId={resourceId}
                 setNewAppSetting={setNewAppSetting}
@@ -136,7 +136,7 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
             </Callout>
           )}
           {setting.resource === BindingSettingResource.AppSetting && (
-            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyle2Fields}>
+            <Callout onDismiss={() => setIsDialogVisible(false)} target={'#target'} hidden={!isDialogVisible} style={calloutStyleField}>
               <NewAppSettingCallout
                 resourceId={resourceId}
                 setNewAppSetting={setNewAppSetting}

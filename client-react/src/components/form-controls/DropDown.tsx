@@ -13,6 +13,8 @@ export interface CustomDropdownProps {
   learnMoreLink?: string;
   dirty?: boolean;
   onPanel?: boolean;
+  horizontal?: boolean;
+  mouseOverToolTip?: string;
 }
 
 const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {

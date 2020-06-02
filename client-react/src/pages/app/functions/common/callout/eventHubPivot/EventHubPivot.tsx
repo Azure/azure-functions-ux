@@ -2,8 +2,8 @@ import { FieldProps, Formik, FormikProps } from 'formik';
 import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
-import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { AuthorizationRule, EventHub, KeyList, Namespace } from '../../../../../../models/eventhub';
@@ -12,7 +12,6 @@ import LogService from '../../../../../../utils/LogService';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { EventHubPivotContext } from './EventHubPivotDataLoader';
-import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 
 export interface EventHubPivotFormValues {
   namespace: ArmObj<Namespace> | undefined;
@@ -145,55 +144,61 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
               <p>{t('eventHubPicker_noNamespaces')}</p>
             ) : (
               <>
-                <FormControlWrapper label={t('eventHubPicker_namespace')} layout={Layout.vertical}>
-                  <Dropdown
-                    options={namespaceOptions}
-                    selectedKey={formValues.namespace && formValues.namespace.id}
-                    onChange={(o, e) => {
-                      setFormValues({ namespace: e && e.data, eventHub: undefined, policy: undefined });
-                      setEventHubs(undefined);
-                      setNamespaceAuthRules(undefined);
-                      setKeyList(undefined);
-                    }}
-                    errorMessage={undefined}
-                    {...props}
-                  />
-                </FormControlWrapper>
+                <Dropdown
+                  label={t('eventHubPicker_namespace')}
+                  options={namespaceOptions}
+                  selectedKey={formValues.namespace && formValues.namespace.id}
+                  onChange={(o, e) => {
+                    setFormValues({ namespace: e && e.data, eventHub: undefined, policy: undefined });
+                    setEventHubs(undefined);
+                    setNamespaceAuthRules(undefined);
+                    setKeyList(undefined);
+                  }}
+                  errorMessage={undefined}
+                  horizontal={false}
+                  {...props}
+                  id="newEventHubNamespaceConnection"
+                  mouseOverToolTip={undefined}
+                />
                 {!eventHubs && <LoadingComponent />}
                 {!!eventHubs && eventHubs.length === 0 ? (
                   <p>{t('eventHubPicker_noEventHubs')}</p>
                 ) : (
                   <>
-                    <FormControlWrapper label={t('eventHubPicker_eventHub')} layout={Layout.vertical}>
-                      <Dropdown
-                        options={eventHubOptions}
-                        selectedKey={formValues.eventHub && formValues.eventHub.id}
-                        onChange={(o, e) => {
-                          setFormValues({ ...formValues, eventHub: e && e.data, policy: undefined });
-                          setEventHubAuthRules(undefined);
-                          setKeyList(undefined);
-                        }}
-                        errorMessage={undefined}
-                        {...props}
-                      />
-                    </FormControlWrapper>
+                    <Dropdown
+                      label={t('eventHubPicker_eventHub')}
+                      options={eventHubOptions}
+                      selectedKey={formValues.eventHub && formValues.eventHub.id}
+                      onChange={(o, e) => {
+                        setFormValues({ ...formValues, eventHub: e && e.data, policy: undefined });
+                        setEventHubAuthRules(undefined);
+                        setKeyList(undefined);
+                      }}
+                      errorMessage={undefined}
+                      horizontal={false}
+                      {...props}
+                      id="newEventHubConnection"
+                      mouseOverToolTip={undefined}
+                    />
                     {(!namespaceAuthRules || !eventHubAuthRules) && <LoadingComponent />}
                     {!!namespaceAuthRules && namespaceAuthRules.length === 0 && (!!eventHubAuthRules && eventHubAuthRules.length === 0) ? (
                       <p>{t('eventHubPicker_noPolicies')}</p>
                     ) : (
                       <>
-                        <FormControlWrapper label={t('eventHubPicker_policy')} layout={Layout.vertical}>
-                          <Dropdown
-                            options={policyOptions}
-                            selectedKey={formValues.policy && formValues.policy.id}
-                            onChange={(o, e) => {
-                              setFormValues({ ...formValues, policy: e && e.data });
-                              setKeyList(undefined);
-                            }}
-                            errorMessage={undefined}
-                            {...props}
-                          />
-                        </FormControlWrapper>
+                        <Dropdown
+                          label={t('eventHubPicker_policy')}
+                          options={policyOptions}
+                          selectedKey={formValues.policy && formValues.policy.id}
+                          onChange={(o, e) => {
+                            setFormValues({ ...formValues, policy: e && e.data });
+                            setKeyList(undefined);
+                          }}
+                          errorMessage={undefined}
+                          horizontal={false}
+                          {...props}
+                          id="newEventHubPolicyConnection"
+                          mouseOverToolTip={undefined}
+                        />
                         {!keyList && <LoadingComponent />}
                       </>
                     )}
