@@ -80,7 +80,8 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
             <TooltipHost overflowMode={TooltipOverflowMode.Self} content={label} hostClassName={hostStyle(multiline)} styles={tooltipStyle}>
               {label}
             </TooltipHost>
-            {getRequiredIcon(theme, required)} {getMouseOverToolTip(`${children.props.id}-tooltip`, mouseOverToolTip)}
+            {getRequiredIcon(theme, required)}
+            {getMouseOverToolTip(`${children.props.id}-tooltip`, mouseOverToolTip)}
           </Label>
         </Stack>
       )}
@@ -116,6 +117,7 @@ const getRequiredIcon = (theme: ThemeExtended, required?: boolean) => {
         className={style({
           fontWeight: 'bold',
           color: theme.palette.red,
+          marginLeft: '2px',
         })}>
         *
       </span>
