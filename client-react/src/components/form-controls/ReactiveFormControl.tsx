@@ -20,6 +20,11 @@ import {
   upsellIconStyle,
 } from './formControl.override.styles';
 
+export enum Layout {
+  Horizontal = 'horizontal',
+  Vertical = 'vertical',
+}
+
 interface ReactiveFormControlProps {
   children: JSX.Element;
   id: string;
@@ -29,7 +34,7 @@ interface ReactiveFormControlProps {
   learnMoreLink?: string;
   dirty?: boolean;
   formControlClassName?: string;
-  horizontal?: boolean;
+  layout?: Layout;
   mouseOverToolTip?: string;
   required?: boolean;
   multiline?: boolean;
@@ -43,20 +48,23 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
     learnMoreLink,
     dirty,
     formControlClassName,
-    horizontal,
+    layout,
     children,
     id,
     mouseOverToolTip,
     required,
     multiline,
   } = props;
+
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const fullPage = width > 1000;
+  const horizontal = layout ? layout !== Layout.Vertical : fullPage;
+
   return (
     <Stack
-      horizontal={horizontal !== undefined ? horizontal : fullPage}
+      horizontal={horizontal}
       verticalAlign="center"
       className={`${!!formControlClassName ? formControlClassName : ''} ${controlContainerStyle(!!upsellMessage, fullPage)}`}>
       {label && (

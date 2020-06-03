@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 import ConfirmDialog from '../../../../../../components/ConfirmDialog/ConfirmDialog';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
+import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Binding } from '../../../../../../models/functions/binding';
 import { BindingInfo } from '../../../../../../models/functions/function-binding';
@@ -131,7 +132,7 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
                   disabled={true}
                   selectedKey={currentBinding.type}
                   onPanel={true}
-                  horizontal={false}
+                  layout={Layout.Vertical}
                   key="type"
                   {...formProps}
                   dirty={false}
