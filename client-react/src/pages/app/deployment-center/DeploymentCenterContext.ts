@@ -7,6 +7,8 @@ import { KeyValue } from '../../../models/portal-models';
 export interface IDeploymentCenterContext {
   resourceId: string;
   hasWritePermission: boolean;
+  isContainerApplication: boolean;
+  isLinuxApplication: boolean;
   siteConfig?: ArmObj<SiteConfig>;
   siteDescriptor?: ArmSiteDescriptor;
   applicationSettings?: ArmObj<KeyValue<string>>;

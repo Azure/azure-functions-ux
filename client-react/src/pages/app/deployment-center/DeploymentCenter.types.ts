@@ -32,19 +32,23 @@ export enum DeploymentStatus {
   Success,
 }
 
-export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps;
+export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
+  DeploymentCenterFtpsProps<DeploymentCenterContainerFormData>;
 
-export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps;
+export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps<DeploymentCenterCodeFormData>;
 
-export type DeploymentCenterYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, DeploymentCenterFormData>>;
+export type DeploymentCenterYupValidationSchemaType<
+  T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData
+> = Yup.ObjectSchema<Yup.Shape<object, DeploymentCenterFormData<T>>>;
 
-export type DeploymentCenterFormData = DeploymentCenterCommonFormData & DeploymentCenterContainerFormData;
+export type DeploymentCenterFormData<
+  T = DeploymentCenterCodeFormData | DeploymentCenterContainerFormData
+> = DeploymentCenterCommonFormData & T;
 
 export interface DeploymentCenterCommonFormData {
   publishingUsername: string;
   publishingPassword: string;
   publishingConfirmPassword: string;
-  scmType: ScmTypes;
 }
 
 export interface DeploymentCenterContainerFormData {
@@ -58,10 +62,16 @@ export interface DeploymentCenterContainerFormData {
   password: string;
   command: string;
   cicd: boolean;
+  scmType: ScmTypes;
 }
 
-export interface DeploymentCenterFieldProps {
-  formProps?: FormikProps<DeploymentCenterFormData>;
+export interface DeploymentCenterCodeFormData {
+  sourceProvider: ScmTypes;
+  buildProvider: ScmTypes;
+}
+
+export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
+  formProps?: FormikProps<DeploymentCenterFormData<T>>;
 }
 
 export interface DeploymentCenterContainerLogsProps {
@@ -80,7 +90,8 @@ export interface DeploymentCenterCommitLogsProps {
   commitId?: string;
 }
 
-export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
+export interface DeploymentCenterFtpsProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
   isLoading: boolean;
   resetApplicationPassword: () => void;
   publishingCredentials?: ArmObj<PublishingCredentials>;
@@ -88,17 +99,18 @@ export interface DeploymentCenterFtpsProps extends DeploymentCenterFieldProps {
   publishingProfile?: PublishingProfile;
 }
 
-export interface DeploymentCenterFormProps {
+export interface DeploymentCenterFormProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   isLoading: boolean;
   refresh: () => void;
   showPublishProfilePanel: () => void;
-  formData?: DeploymentCenterFormData;
-  formValidationSchema?: DeploymentCenterYupValidationSchemaType;
+  formData?: DeploymentCenterFormData<T>;
+  formValidationSchema?: DeploymentCenterYupValidationSchemaType<T>;
 }
 
-export type DeploymentCenterContainerFormProps = DeploymentCenterContainerProps & DeploymentCenterFormProps;
+export type DeploymentCenterContainerFormProps<T = DeploymentCenterContainerFormData> = DeploymentCenterContainerProps &
+  DeploymentCenterFormProps<T>;
 
-export type DeploymentCenterCodeFormProps = DeploymentCenterCodeProps & DeploymentCenterFormProps;
+export type DeploymentCenterCodeFormProps<T = DeploymentCenterCodeFormData> = DeploymentCenterCodeProps & DeploymentCenterFormProps<T>;
 
 export interface DeploymentCenterCommandBarProps {
   isLoading: boolean;
@@ -118,13 +130,13 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
   resetApplicationPassword: () => void;
 }
 
-export interface DeploymentCenterGitHubProviderProps extends DeploymentCenterFieldProps {
+export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
+  extends DeploymentCenterFieldProps<T> {
   authorizeGitHubAccount: () => void;
   gitHubAccountStatusMessage?: string;
   gitHubUser?: GitHubUser;
 }
 
-// TODO (t-kakan): Verify all properties are guaranteed
 export interface DeploymentProperties {
   id: string;
   status: DeploymentStatus;
