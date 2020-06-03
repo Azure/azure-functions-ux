@@ -14,7 +14,6 @@ import {
   formLabelStyle,
   formStackStyle,
   hostStyle,
-  infoIconStyle,
   infoMessageStyle,
   learnMoreLinkStyle,
   tooltipStyle,
