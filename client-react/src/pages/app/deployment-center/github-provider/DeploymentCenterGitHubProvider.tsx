@@ -7,7 +7,6 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderProps> = props => {
   const { t } = useTranslation();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
-  console.log(deploymentCenterContext);
 
   return (
     <>
