@@ -73,12 +73,6 @@ export const infoMessageStyle = (fullpage: boolean) =>
     paddingTop: fullpage ? 0 : '5px',
   });
 
-export const infoIconStyle = (theme: ThemeExtended) =>
-  style({
-    color: theme.semanticColors.infoIcon,
-    paddingRight: '5px',
-  });
-
 export const copyButtonStyle = {
   root: {
     fontSize: '15px',

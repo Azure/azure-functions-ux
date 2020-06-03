@@ -1,8 +1,9 @@
-import { Icon, Label, Link, Stack, TooltipHost, TooltipOverflowMode } from 'office-ui-fabric-react';
+import { Label, Link, Stack, TooltipHost, TooltipOverflowMode } from 'office-ui-fabric-react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
 import { style } from 'typestyle';
+import { ReactComponent as InfoSvg } from '../../images/Common/Info.svg';
 import { dirtyElementStyle } from '../../pages/app/app-settings/AppSettings.styles';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../ThemeContext';
@@ -13,7 +14,6 @@ import {
   formLabelStyle,
   formStackStyle,
   hostStyle,
-  infoIconStyle,
   infoMessageStyle,
   learnMoreLinkStyle,
   tooltipStyle,
@@ -88,9 +88,16 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
       {children}
       {infoBubbleMessage && (
         <div className={infoMessageStyle(fullPage)}>
-          <Stack horizontal verticalAlign="center">
-            <Icon iconName="Info" className={infoIconStyle(theme)} />
-            <div>
+          <Stack horizontal verticalAlign="center" disableShrink={true}>
+            <InfoSvg
+              className={style({
+                paddingRight: '5px',
+              })}
+            />
+            <div
+              className={style({
+                width: 'fit-content',
+              })}>
               <span id={`${id}-infobubble`}>{`${infoBubbleMessage} `}</span>
               {learnMoreLink && (
                 <Link
