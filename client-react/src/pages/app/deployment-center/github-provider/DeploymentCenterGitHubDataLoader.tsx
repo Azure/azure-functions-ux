@@ -24,7 +24,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   const authorizeGitHubAccount = async () => {
     const oauthWindow = window.open(GitHubService.authorizeUrl, 'appservice-deploymentcenter-provider-auth', 'width=800, height=600');
 
-    const authPromise = new Promise<authorizationResult>((resolve, reject) => {
+    const authPromise = new Promise<authorizationResult>(resolve => {
       setGitHubAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
 
       // Check for authorization status every 100 ms.
@@ -67,7 +67,9 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
   const fetchData = async () => {
     const armToken = window.appsvc && window.appsvc.env.armToken ? `bearer ${window.appsvc.env.armToken}` : '';
-    const gitHubUserResponse = await deploymentCenterData.getGitHubUser(armToken);
+    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(armToken);
+
+    const [gitHubUserResponse] = await Promise.all([getGitHubUserRequest]);
 
     setGitHubAccountStatusMessage(undefined);
 

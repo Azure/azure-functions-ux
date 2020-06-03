@@ -1,8 +1,9 @@
 import React from 'react';
 import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps> = props => {
-  return <h1>Placeholder for settings</h1>;
+  return <DeploymentCenterGitHubDataLoader />;
 };
 
 export default DeploymentCenterCodeSettings;

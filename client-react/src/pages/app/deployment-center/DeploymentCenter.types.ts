@@ -154,6 +154,14 @@ export interface DeploymentLogsItem {
   details_url: string;
 }
 
+export interface SourceControlProperties {
+  deploymentRollbackEnabled: boolean;
+  repoUrl: string;
+  branch: string;
+  isMercurial: boolean;
+  isGitHubAction?: boolean;
+}
+
 export interface DateTimeObj {
   rawTime: moment.Moment;
 }

@@ -2041,4 +2041,12 @@ export class PortalResources {
   public static deploymentCenterOAuthAuthorize = 'deploymentCenterOAuthAuthorize';
   public static deploymentCenterOAuthChangeAccount = 'deploymentCenterOAuthChangeAccount';
   public static deploymentCenterOAuthSingedInAs = 'deploymentCenterOAuthSingedInAs';
+  public static deploymentCenterOAuthOrganization = 'deploymentCenterOAuthOrganization';
+  public static deploymentCenterOAuthOrganizationPlaceholder = 'deploymentCenterOAuthOrganizationPlaceholder';
+  public static deploymentCenterOAuthProject = 'deploymentCenterOAuthProject';
+  public static deploymentCenterOAuthProjectPlaceholder = 'deploymentCenterOAuthProjectPlaceholder';
+  public static deploymentCenterOAuthRepository = 'deploymentCenterOAuthRepository';
+  public static deploymentCenterOAuthRepositoryPlaceholder = 'deploymentCenterOAuthRepositoryPlaceholder';
+  public static deploymentCenterOAuthBranch = 'deploymentCenterOAuthBranch';
+  public static deploymentCenterOAuthBranchPlaceholder = 'deploymentCenterOAuthBranchPlaceholder';
 }
