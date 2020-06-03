@@ -3,8 +3,8 @@ import DeploymentCenterGitHubProvider from './DeploymentCenterGitHubProvider';
 import { GitHubUser } from '../../../../models/github';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
+import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 
 interface authorizationResult {
   timerId: NodeJS.Timeout;
