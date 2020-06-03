@@ -115,11 +115,6 @@ export type DeploymentCenterCodeFormProps<
   T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData
 > = DeploymentCenterCodeProps & DeploymentCenterFormProps<T>;
 
-// export interface DeploymentCenterCodeFormProps extends DeploymentCenterCodeProps, DeploymentCenterFormProps {
-//   sourceProvider: ScmTypes;
-//   buildProvider: ScmTypes;
-// }
-
 export interface DeploymentCenterCommandBarProps {
   isLoading: boolean;
   saveFunction: () => void;
@@ -145,7 +140,6 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   gitHubUser?: GitHubUser;
 }
 
-// TODO (t-kakan): Verify all properties are guaranteed
 export interface DeploymentProperties {
   id: string;
   status: DeploymentStatus;
