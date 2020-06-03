@@ -19,7 +19,7 @@ const AzurePortalColors = {
   warningBackground: '#b36200',
   warningIcon: '#ff8c00',
   infoBackground: '#012b65',
-  infoIcon: '#015cda',
+  infoIcon: '#bbb',
   monochromaticIcon: '#bbb',
   textColor: '#ffffff',
   placeholderText: '#afafaf',
