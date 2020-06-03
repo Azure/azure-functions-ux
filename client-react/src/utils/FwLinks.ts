@@ -15,3 +15,7 @@ export const Links = {
   // TODO (krmitta): Update the learn more link with the correct fwlink
   functionsPrivateLinkLearnMore: 'https://docs.microsoft.com/en-us/azure/azure-functions/functions-networking-options',
 };
+
+export const DeploymentCenterLinks = {
+  appServiceDocumentation: 'https://go.microsoft.com/fwlink/?linkid=874656',
+};
