@@ -1,9 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IDropdownOption, DropdownMenuItemType } from 'office-ui-fabric-react';
+import { IDropdownOption, DropdownMenuItemType, Link } from 'office-ui-fabric-react';
 import { ScmTypes } from '../../../../models/site/config';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
+import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 
 const DeploymentCenterCodeSource: React.FC<{}> = props => {
   const { t } = useTranslation();
@@ -31,7 +33,17 @@ const DeploymentCenterCodeSource: React.FC<{}> = props => {
 
   return (
     <>
-      <p>{t('deploymentCenterCodeSettingsDescription')}</p>
+      <p>
+        <span id="deployment-center-settings-message">{t('deploymentCenterCodeSettingsDescription')}</span>
+        <Link
+          id="deployment-center-settings-learnMore"
+          href={DeploymentCenterLinks.appServiceDocumentation}
+          target="_blank"
+          className={learnMoreLinkStyle}
+          aria-labelledby="deployment-center-settings-message">
+          {` ${t('learnMore')}`}
+        </Link>
+      </p>
 
       <Field
         id="deployment-center-container-settings-source-option"
