@@ -49,7 +49,6 @@ export interface DeploymentCenterCommonFormData {
   publishingUsername: string;
   publishingPassword: string;
   publishingConfirmPassword: string;
-  scmType: ScmTypes;
 }
 
 export interface DeploymentCenterContainerFormData {
@@ -63,6 +62,7 @@ export interface DeploymentCenterContainerFormData {
   password: string;
   command: string;
   cicd: boolean;
+  scmType: ScmTypes;
 }
 
 export interface DeploymentCenterCodeFormData {
