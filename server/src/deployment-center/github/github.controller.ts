@@ -21,12 +21,24 @@ export class GithubController {
   private readonly provider = 'github';
   private readonly githubApiUrl = 'https://api.github.com';
 
-  private readonly environmentUrlsMap: { [id in Environments]: string } = {
+  private readonly environmentToUrlMap: { [id in Environments]: string } = {
     PROD: 'https://functions.azure.com',
     STAGE: 'https://functions-staging.azure.com',
     RELEASE: 'https://functions-release.azure.com',
     NEXT: 'https://functions-next.azure.com',
     DEV: 'https://localhost:44300',
+  };
+
+  private readonly urlToEnvironmentMap: { [id: string]: Environments } = {
+    'https://functions.azure.com': Environments.Prod,
+    'https://functions-staging.azure.com': Environments.Stage,
+    'https://functions-staging-westus-ame.azurewebsites.net': Environments.Stage,
+    'https://functions-staging-westeurope-ame.azurewebsites.net': Environments.Stage,
+    'https://functions-release.azure.com': Environments.Release,
+    'https://functions-release-ame.azurewebsites.net': Environments.Release,
+    'https://functions-next.azure.com': Environments.Next,
+    'https://azure-functions-ux-next.azurewebsites.net': Environments.Next,
+    'https://localhost:44300': Environments.Dev,
   };
 
   constructor(
@@ -135,7 +147,7 @@ export class GithubController {
   @Get('auth/github/callback/env/:env')
   async callbackRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('env') env) {
     const envToUpper = (env && (env as string).toUpperCase()) || '';
-    const envUri = this.environmentUrlsMap[envToUpper] || this.environmentUrlsMap[Environments.Prod];
+    const envUri = this.environmentToUrlMap[envToUpper] || this.environmentToUrlMap[Environments.Prod];
     res.redirect(`${envUri}/auth/github/callback?code=${code}&state=${state}`);
   }
 
@@ -271,11 +283,11 @@ export class GithubController {
 
   private _getEnvironment(hostUrl: string): Environments {
     const hostUrlToLower = (hostUrl || '').toLocaleLowerCase();
-    for (const env in this.environmentUrlsMap) {
-      if (!!this.environmentUrlsMap[env]) {
-        const envUrlToLower = (this.environmentUrlsMap[env] as string).toLocaleLowerCase();
+    for (const url in this.urlToEnvironmentMap) {
+      if (!!this.urlToEnvironmentMap[url]) {
+        const envUrlToLower = url.toLocaleLowerCase();
         if (hostUrlToLower.startsWith(envUrlToLower)) {
-          return env as Environments;
+          return this.urlToEnvironmentMap[url];
         }
       }
     }
@@ -284,11 +296,12 @@ export class GithubController {
 
   private _getRedirectUri(host: string): string {
     const redirectUri =
-      this.configService.get('GITHUB_REDIRECT_URL') || `${this.environmentUrlsMap[Environments.Prod]}/auth/github/callback`;
+      this.configService.get('GITHUB_REDIRECT_URL') || `${this.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
 
-    const redirectUriToLower = redirectUri.toLocaleLowerCase();
-    const hostUrlToLower = `https://${host}`.toLocaleLowerCase();
-    if (!redirectUriToLower.startsWith(hostUrlToLower)) {
+    const [redirectUriToLower, hostUrlToLower] = [redirectUri.toLocaleLowerCase(), `https://${host}`.toLocaleLowerCase()];
+    const [redirectEnv, clientEnv] = [this._getEnvironment(redirectUriToLower), this._getEnvironment(hostUrlToLower)];
+
+    if (clientEnv && redirectEnv !== clientEnv) {
       // Once GitHub authentication is complete, the browser needs to be redirected to the same host as the parent window that
       // originally launched it. Otherwise, the parent window won't be able to extract the token due to origin mis-match.
 
@@ -298,10 +311,7 @@ export class GithubController {
       // - If the host of the parent window doesn't match the host of the pre-configured callback, then we append '/env/<ENV>' to the
       //   pre-configured callback and use this as the redirect URL. When the browser gets redirected to this URL from GitHub, it will
       //   result in an additional redirect to the correct environment where the host will match the parent window's host.
-      const env = this._getEnvironment(hostUrlToLower);
-      if (!!env) {
-        return `${redirectUri}/env/${env}`;
-      }
+      return `${redirectUri}/env/${clientEnv}`;
     }
 
     return redirectUri;
