@@ -91,8 +91,6 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
         <div className={infoMessageStyle(fullPage)}>
           <Stack horizontal verticalAlign="center" disableShrink={true}>
             <InfoSvg
-              width="16px"
-              height="16px"
               className={style({
                 paddingRight: '5px',
               })}
