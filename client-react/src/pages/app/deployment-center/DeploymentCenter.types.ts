@@ -107,13 +107,10 @@ export interface DeploymentCenterFormProps<T = DeploymentCenterContainerFormData
   formValidationSchema?: DeploymentCenterYupValidationSchemaType<T>;
 }
 
-export type DeploymentCenterContainerFormProps<
-  T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData
-> = DeploymentCenterContainerProps & DeploymentCenterFormProps<T>;
+export type DeploymentCenterContainerFormProps<T = DeploymentCenterContainerFormData> = DeploymentCenterContainerProps &
+  DeploymentCenterFormProps<T>;
 
-export type DeploymentCenterCodeFormProps<
-  T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData
-> = DeploymentCenterCodeProps & DeploymentCenterFormProps<T>;
+export type DeploymentCenterCodeFormProps<T = DeploymentCenterCodeFormData> = DeploymentCenterCodeProps & DeploymentCenterFormProps<T>;
 
 export interface DeploymentCenterCommandBarProps {
   isLoading: boolean;
