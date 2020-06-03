@@ -12,20 +12,8 @@ export const linkPaddingStyle = {
   paddingBottom: '10px',
 };
 
-export const calloutStyle3Fields = {
+export const calloutStyleField = {
   padding: '10px',
-  height: 310,
-  width: 400,
-};
-
-export const calloutStyle2Fields = {
-  padding: '10px',
-  height: 235,
-  width: 400,
-};
-
-export const calloutStyle1Field = {
-  padding: '10px',
-  height: 175,
+  minHeight: 175,
   width: 400,
 };

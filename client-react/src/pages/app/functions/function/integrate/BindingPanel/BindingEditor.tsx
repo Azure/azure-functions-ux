@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 import ConfirmDialog from '../../../../../../components/ConfirmDialog/ConfirmDialog';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
-import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Binding } from '../../../../../../models/functions/binding';
 import { BindingInfo } from '../../../../../../models/functions/function-binding';
@@ -123,16 +122,20 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
                 disabled={readOnly}
               />
               <div className={fieldWrapperStyle}>
-                <FormControlWrapper label={t('integrateBindingType')} layout={Layout.vertical}>
-                  <Field
-                    name="type"
-                    component={Dropdown}
-                    options={[{ key: currentBinding.type, text: currentBinding.displayName }]}
-                    disabled={true}
-                    selectedKey={currentBinding.type}
-                    {...formProps}
-                  />
-                </FormControlWrapper>
+                <Field
+                  label={t('integrateBindingType')}
+                  name="type"
+                  id="type"
+                  component={Dropdown}
+                  options={[{ key: currentBinding.type, text: currentBinding.displayName }]}
+                  disabled={true}
+                  selectedKey={currentBinding.type}
+                  onPanel={true}
+                  horizontal={false}
+                  key="type"
+                  {...formProps}
+                  dirty={false}
+                />
 
                 {builder.getFields(formProps, readOnly || isDisabled, true)}
               </div>

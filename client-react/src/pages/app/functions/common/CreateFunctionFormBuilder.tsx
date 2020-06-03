@@ -7,7 +7,6 @@ import { FunctionInfo } from '../../../../models/functions/function-info';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FormikProps, Field } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
-import { Layout, FormControlWrapper } from '../../../../components/FormControlWrapper/FormControlWrapper';
 
 export interface CreateFunctionFormValues extends BindingEditorFormValues {
   functionName: string;
@@ -57,16 +56,19 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
 
   private _getFunctionNameTextField(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
     return (
-      <FormControlWrapper label={this.t('functionCreate_newFunction')} layout={Layout.vertical} key={0} required={true}>
-        <Field
-          name={'functionName'}
-          id={'functionName'}
-          component={TextField}
-          disabled={isDisabled}
-          validate={(value: string) => this._validateFunctionName(value)}
-          {...formProps}
-        />
-      </FormControlWrapper>
+      <Field
+        label={this.t('functionCreate_newFunction')}
+        name={'functionName'}
+        id={'functionName'}
+        component={TextField}
+        disabled={isDisabled}
+        validate={(value: string) => this._validateFunctionName(value)}
+        horizontal={false}
+        required={true}
+        key={0}
+        {...formProps}
+        dirty={false}
+      />
     );
   }
 

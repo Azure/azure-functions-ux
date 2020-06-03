@@ -16,10 +16,12 @@ interface CustomDropdownProps {
   learnMoreLink?: string;
   widthOverride?: string;
   onPanel?: boolean;
+  horizontal?: boolean;
+  mouseOverToolTip?: string;
 }
 
 const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
-  const { onChange, errorMessage, options, label, widthOverride, onPanel, ...rest } = props;
+  const { onChange, errorMessage, id, options, label, widthOverride, onPanel, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
 
@@ -28,13 +30,14 @@ const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
   return (
     <ReactiveFormControl {...props}>
       <OfficeDropdown
-        aria-labelledby={`${props.id}-label`}
+        aria-labelledby={`${id}-label`}
         ariaLabel={label}
         options={options}
         onChange={onChange}
         errorMessage={errorMessage}
         {...rest}
         styles={dropdownStyleOverrides(theme, fullpage, widthOverride)}
+        required={false} // ReactiveFormControl will handle displaying required
       />
     </ReactiveFormControl>
   );

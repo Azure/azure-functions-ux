@@ -112,19 +112,22 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
 
   return (
     <ReactiveFormControl {...props}>
-      <OfficeTextField
-        id={id}
-        aria-labelledby={`${id}-label`}
-        value={hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : value || ''}
-        tabIndex={0}
-        onChange={onChange}
-        onBlur={onBlur}
-        errorMessage={errorMessage}
-        styles={textFieldStyleOverrides(theme, fullpage, widthOverride)}
-        onRenderSuffix={onRenderSuffix}
-        {...rest}
-      />
-      {additionalControls}
+      <>
+        <OfficeTextField
+          id={id}
+          aria-labelledby={`${id}-label`}
+          value={hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : value || ''}
+          tabIndex={0}
+          onChange={onChange}
+          onBlur={onBlur}
+          errorMessage={errorMessage}
+          styles={textFieldStyleOverrides(theme, fullpage, widthOverride)}
+          onRenderSuffix={onRenderSuffix}
+          {...rest}
+          required={false} // ReactiveFormControl will handle displaying required
+        />
+        {additionalControls}
+      </>
     </ReactiveFormControl>
   );
 };

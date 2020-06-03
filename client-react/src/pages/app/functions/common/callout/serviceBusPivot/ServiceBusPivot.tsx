@@ -2,8 +2,8 @@ import { FieldProps, Formik, FormikProps } from 'formik';
 import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
-import { FormControlWrapper, Layout } from '../../../../../../components/FormControlWrapper/FormControlWrapper';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { AuthorizationRule, KeyList, Namespace } from '../../../../../../models/servicebus';
@@ -12,7 +12,6 @@ import LogService from '../../../../../../utils/LogService';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { ServiceBusPivotContext } from './ServiceBusPivotDataLoader';
-import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 
 export interface ServiceBusPivotFormValues {
   namespace: ArmObj<Namespace> | undefined;
@@ -104,36 +103,40 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & IDropdownProps & Fiel
               <p>{t('serviceBusPicker_noNamespaces')}</p>
             ) : (
               <>
-                <FormControlWrapper label={t('serviceBusPicker_namespace')} layout={Layout.vertical}>
-                  <Dropdown
-                    options={namespaceOptions}
-                    selectedKey={formValues.namespace && formValues.namespace.id}
-                    onChange={(o, e) => {
-                      setFormValues({ namespace: e && e.data, policy: undefined });
-                      setNamespaceAuthRules(undefined);
-                      setKeyList(undefined);
-                    }}
-                    errorMessage={undefined}
-                    {...props}
-                  />
-                </FormControlWrapper>
+                <Dropdown
+                  label={t('serviceBusPicker_namespace')}
+                  options={namespaceOptions}
+                  selectedKey={formValues.namespace && formValues.namespace.id}
+                  onChange={(o, e) => {
+                    setFormValues({ namespace: e && e.data, policy: undefined });
+                    setNamespaceAuthRules(undefined);
+                    setKeyList(undefined);
+                  }}
+                  errorMessage={undefined}
+                  horizontal={false}
+                  {...props}
+                  id="newServiceBusNamespaceConnection"
+                  mouseOverToolTip={undefined}
+                />
                 {!namespaceAuthRules && <LoadingComponent />}
                 {!!namespaceAuthRules && namespaceAuthRules.length === 0 ? (
                   <p>{t('serviceBusPicker_noPolicies')}</p>
                 ) : (
                   <>
-                    <FormControlWrapper label={t('serviceBusPicker_policy')} layout={Layout.vertical}>
-                      <Dropdown
-                        options={policyOptions}
-                        selectedKey={formValues.policy && formValues.policy.id}
-                        onChange={(o, e) => {
-                          setFormValues({ ...formValues, policy: e && e.data });
-                          setKeyList(undefined);
-                        }}
-                        errorMessage={undefined}
-                        {...props}
-                      />
-                    </FormControlWrapper>
+                    <Dropdown
+                      label={t('serviceBusPicker_policy')}
+                      options={policyOptions}
+                      selectedKey={formValues.policy && formValues.policy.id}
+                      onChange={(o, e) => {
+                        setFormValues({ ...formValues, policy: e && e.data });
+                        setKeyList(undefined);
+                      }}
+                      errorMessage={undefined}
+                      horizontal={false}
+                      {...props}
+                      id="newServiceBusPolicyConnection"
+                      mouseOverToolTip={undefined}
+                    />
                     {!keyList && <LoadingComponent />}
                   </>
                 )}
