@@ -16,6 +16,7 @@ export enum ScmTypes {
   ExternalHg = 'ExternalHg',
   OneDrive = 'OneDrive',
   Vso = 'VSO',
+  Vsts = 'VSTS',
 }
 
 export interface SiteConfig {

@@ -6147,8 +6147,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>Use these settings to configure your container app deployment model and registry. We recommend GitHub Actions for greater operational efficiency.</value>
     </data>
-    <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+    <data name="deploymentCenterCodeSettingsDescription" xml:space="preserve">
+        <value>Deploy and build code from your preferred source and build provider.</value>
+    </data>
+    <data name="deploymentCenterSettingsSourceLabel" xml:space="preserve">
         <value>Source</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
+        <value>Select code source</value>
     </data>
     <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>Container Registry</value>
@@ -6167,6 +6173,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
         <value>GitHub Actions</value>
+    </data>
+    <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
+        <value>GitHub</value>
     </data>
     <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>Registry settings</value>
@@ -6287,5 +6296,35 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
         <value>Signed in as</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
+        <value>Select code source</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceContinuousDeploymentHeader" xml:space="preserve">
+        <value>Continuous Deployment (CI/CD)</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
+        <value>Manual Deployment (Push)</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceGithub" xml:space="preserve">
+        <value>Github</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceBitbucket" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceLocalGit" xml:space="preserve">
+        <value>Local Git</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceOneDrive" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
+        <value>External</value>
     </data>
 </root>
