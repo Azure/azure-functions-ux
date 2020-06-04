@@ -57,9 +57,9 @@ const markEndOfLifeInPlace = (stacksResponse: HttpResponseObject<ArmArray<Availa
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
   const [windowsStacksPromise, linuxStacksPromise] =
-    Url.getFeatureValue(CommonConstants.FeatureFlags.UseNewStacksApi) === 'true'
-      ? [RuntimeStackService.getWebAppConfigurationStacks('windows'), RuntimeStackService.getWebAppConfigurationStacks('linux')]
-      : [SiteService.fetchStacks('Windows'), SiteService.fetchStacks('Linux')];
+    Url.getFeatureValue(CommonConstants.FeatureFlags.UseOldStacksApi) === 'true'
+      ? [SiteService.fetchStacks('Windows'), SiteService.fetchStacks('Linux')]
+      : [RuntimeStackService.getWebAppConfigurationStacks('windows'), RuntimeStackService.getWebAppConfigurationStacks('linux')];
 
   const [
     webConfig,
