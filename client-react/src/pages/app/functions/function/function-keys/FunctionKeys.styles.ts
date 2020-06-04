@@ -9,6 +9,7 @@ export const commandBarSticky = style({
 
 export const formStyle = style({
   padding: '5px 20px',
+  maxWidth: '800px',
 });
 
 export const messageBanner = (theme: ThemeExtended) =>
