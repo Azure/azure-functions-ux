@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
 import { PrimaryButton, Label, Link, IDropdownOption } from 'office-ui-fabric-react';
@@ -12,7 +12,6 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
     gitHubUser,
     gitHubAccountStatusMessage,
     authorizeGitHubAccount,
-    fetchOrganizationOptions,
     fetchRepositoryOptions,
     fetchBranchOptions: fetchBatchOptions,
     organizationOptions,
