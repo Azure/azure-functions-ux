@@ -25,7 +25,7 @@ export interface PlatformOptions {
 
 export interface Platform {
   runtimeVersion: string;
-  remoteDebuggingEnabled: boolean;
+  remoteDebuggingSupported: boolean;
   appInsightsSettings: AppInsightsSettings;
   gitHubActionSettings: GitHubActionSettings;
   isPreview?: boolean; // Stack should be labeled as 'preview'
@@ -35,8 +35,8 @@ export interface Platform {
 }
 
 export interface AppInsightsSettings {
-  isEnabled: boolean;
-  isDefaultOn?: boolean;
+  isSupported: boolean;
+  isDefaultOff?: boolean;
 }
 
 export interface GitHubActionSettings {
