@@ -50,11 +50,31 @@ export default class DeploymentCenterData {
     return SiteService.getLogDetails(deploymentId, logId);
   };
 
+  public getSourceControlDetails = (resourceId: string) => {
+    return SiteService.getSourceControlDetails(resourceId);
+  };
+
   public getGitHubUser = (armToken: string) => {
     return GitHubService.getUser(armToken);
   };
 
   public storeGitHubToken = (redirectUrl: string, armToken: string) => {
     return GitHubService.storeToken(redirectUrl, armToken);
+  };
+
+  public getGitHubOrganizations = (armToken: string) => {
+    return GitHubService.getOrganizations(armToken);
+  };
+
+  public getGitHubOrgRepositories = (repositories_url: string, armToken: string) => {
+    return GitHubService.getOrgRepositories(repositories_url, armToken);
+  };
+
+  public getGitHubUserRepositories = (armToken: string) => {
+    return GitHubService.getUserRepositories(armToken);
+  };
+
+  public getGitHubBranches = (repository_url: string, armToken: string) => {
+    return GitHubService.getBranches(repository_url, armToken);
   };
 }
