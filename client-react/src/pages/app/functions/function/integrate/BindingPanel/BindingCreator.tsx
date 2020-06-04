@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../../../components/ActionBar';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { learnMoreLinkStyle } from '../../../../../../components/form-controls/formControl.override.styles';
+import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../../../models/functions/function-binding';
@@ -80,7 +81,7 @@ const BindingCreator: React.SFC<BindingCreatorProps> = props => {
               options={dropdownOptions}
               disabled={onlyBuiltInBindings && dropdownOptions.length === 0}
               onPanel={true}
-              horizontal={false}
+              layout={Layout.Vertical}
               key="type"
               {...formProps}
               dirty={false}

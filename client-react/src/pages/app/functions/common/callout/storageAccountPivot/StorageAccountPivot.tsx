@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
+import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { StorageAccount, StorageAccountKeys } from '../../../../../../models/storage-account';
@@ -95,7 +96,7 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
                   setKeyList(undefined);
                 }}
                 errorMessage={undefined}
-                horizontal={false}
+                layout={Layout.Vertical}
                 {...props}
                 id="newStorageAccountConnection"
                 mouseOverToolTip={undefined}
