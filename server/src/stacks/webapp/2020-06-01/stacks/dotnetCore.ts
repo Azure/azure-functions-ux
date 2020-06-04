@@ -1,8 +1,10 @@
 import { WebAppStack } from './../stack.model';
 
+const dotnetCore2Point1EOL = new Date(20201, 8, 21);
+
 export const dotnetCoreStack: WebAppStack = {
   displayText: '.NET Core',
-  value: 'DOTNETCORE',
+  value: '.NET Core',
   sortOrder: 4,
   preferredOs: 'windows',
   majorVersions: [
@@ -16,9 +18,9 @@ export const dotnetCoreStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '3.1',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -27,9 +29,9 @@ export const dotnetCoreStack: WebAppStack = {
             },
             linux: {
               runtimeVersion: 'DOTNETCORE|3.1',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -45,9 +47,9 @@ export const dotnetCoreStack: WebAppStack = {
             windows: {
               runtimeVersion: '3.0',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -56,9 +58,9 @@ export const dotnetCoreStack: WebAppStack = {
             linux: {
               runtimeVersion: 'DOTNETCORE|3.0',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -79,9 +81,9 @@ export const dotnetCoreStack: WebAppStack = {
             windows: {
               runtimeVersion: '2.2',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -90,9 +92,9 @@ export const dotnetCoreStack: WebAppStack = {
             linux: {
               runtimeVersion: 'DOTNETCORE|2.2',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -106,20 +108,21 @@ export const dotnetCoreStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '2.1',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
                 supportedVersion: '2.1.804',
               },
+              projectedEndOfLifeDate: dotnetCore2Point1EOL,
             },
             linux: {
               runtimeVersion: 'DOTNETCORE|2.1',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -135,9 +138,9 @@ export const dotnetCoreStack: WebAppStack = {
             windows: {
               runtimeVersion: '2.0',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -146,9 +149,9 @@ export const dotnetCoreStack: WebAppStack = {
             linux: {
               runtimeVersion: 'DOTNETCORE|2.0',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -169,9 +172,9 @@ export const dotnetCoreStack: WebAppStack = {
             windows: {
               runtimeVersion: '1.1',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -180,9 +183,9 @@ export const dotnetCoreStack: WebAppStack = {
             linux: {
               runtimeVersion: 'DOTNETCORE|1.1',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -197,9 +200,9 @@ export const dotnetCoreStack: WebAppStack = {
             windows: {
               runtimeVersion: '1.0',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -208,9 +211,9 @@ export const dotnetCoreStack: WebAppStack = {
             linux: {
               runtimeVersion: 'DOTNETCORE|1.0',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,

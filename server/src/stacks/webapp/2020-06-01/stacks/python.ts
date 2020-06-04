@@ -16,9 +16,9 @@ export const pythonStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'PYTHON|3.8',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -32,9 +32,9 @@ export const pythonStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'PYTHON|3.7',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -48,9 +48,9 @@ export const pythonStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'PYTHON|3.6',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -58,9 +58,9 @@ export const pythonStack: WebAppStack = {
             },
             windows: {
               runtimeVersion: '3.4.0',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -82,9 +82,9 @@ export const pythonStack: WebAppStack = {
             linux: {
               runtimeVersion: 'PYTHON|2.7',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -93,9 +93,9 @@ export const pythonStack: WebAppStack = {
             windows: {
               runtimeVersion: '2.7.3',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,

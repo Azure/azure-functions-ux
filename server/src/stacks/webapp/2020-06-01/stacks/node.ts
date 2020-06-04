@@ -1,5 +1,8 @@
 import { WebAppStack } from './../stack.model';
 
+const node10EOL = new Date(2021, 4, 1);
+const node12EOL = new Date(2022, 4, 1);
+
 export const nodeStack: WebAppStack = {
   displayText: 'Node',
   value: 'Node',
@@ -16,10 +19,10 @@ export const nodeStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'NODE|lts',
-              isPreview: true,
-              remoteDebuggingEnabled: false,
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -39,24 +42,26 @@ export const nodeStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'NODE|12-lts',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
                 supportedVersion: '12.x',
               },
+              projectedEndOfLifeDate: node12EOL,
             },
             windows: {
               runtimeVersion: '12.13.0',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
               },
+              projectedEndOfLifeDate: node12EOL,
             },
           },
         },
@@ -67,14 +72,15 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|12.9',
               isDeprecated: true,
-              remoteDebuggingEnabled: true,
+              remoteDebuggingSupported: true,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
                 supportedVersion: '12.x',
               },
+              projectedEndOfLifeDate: node12EOL,
             },
           },
         },
@@ -90,14 +96,15 @@ export const nodeStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'NODE|10-lts',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
                 supportedVersion: '10.x',
               },
+              projectedEndOfLifeDate: node10EOL,
             },
           },
         },
@@ -108,13 +115,14 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|10.16',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
               },
+              projectedEndOfLifeDate: node10EOL,
             },
           },
         },
@@ -125,13 +133,14 @@ export const nodeStack: WebAppStack = {
             windows: {
               runtimeVersion: '10.15.2',
               isPreview: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: false,
               },
+              projectedEndOfLifeDate: node10EOL,
             },
           },
         },
@@ -141,23 +150,25 @@ export const nodeStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'NODE|10.14',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
               },
+              projectedEndOfLifeDate: node10EOL,
             },
             windows: {
               runtimeVersion: '10.14.1',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
               },
+              projectedEndOfLifeDate: node10EOL,
             },
           },
         },
@@ -168,13 +179,14 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|10.12',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
               },
+              projectedEndOfLifeDate: node10EOL,
             },
           },
         },
@@ -185,23 +197,25 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|10.10',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
               },
+              projectedEndOfLifeDate: node10EOL,
             },
             windows: {
               runtimeVersion: '10.0.0',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
               },
+              projectedEndOfLifeDate: node10EOL,
             },
           },
         },
@@ -211,23 +225,25 @@ export const nodeStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'NODE|10.6',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
               },
+              projectedEndOfLifeDate: node10EOL,
             },
             windows: {
               runtimeVersion: '10.6.0',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
               },
+              projectedEndOfLifeDate: node10EOL,
             },
           },
         },
@@ -237,13 +253,14 @@ export const nodeStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'NODE|10.1',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
               },
+              projectedEndOfLifeDate: node10EOL,
             },
           },
         },
@@ -260,9 +277,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|9.4',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -283,9 +300,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|8-lts',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -300,9 +317,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|8.12',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -317,9 +334,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|8.11',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -328,9 +345,9 @@ export const nodeStack: WebAppStack = {
             windows: {
               runtimeVersion: '8.11',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -345,9 +362,9 @@ export const nodeStack: WebAppStack = {
             windows: {
               runtimeVersion: '8.10',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -362,9 +379,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|8.9',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -373,9 +390,9 @@ export const nodeStack: WebAppStack = {
             windows: {
               runtimeVersion: '8.9',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -390,9 +407,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|8.8',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -407,9 +424,9 @@ export const nodeStack: WebAppStack = {
             windows: {
               runtimeVersion: '8.5',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -424,9 +441,9 @@ export const nodeStack: WebAppStack = {
             windows: {
               runtimeVersion: '8.4',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -441,9 +458,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|8.2',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -458,9 +475,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|8.1',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -469,9 +486,9 @@ export const nodeStack: WebAppStack = {
             windows: {
               runtimeVersion: '8.1.4',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -486,9 +503,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|8.0',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -509,9 +526,9 @@ export const nodeStack: WebAppStack = {
             windows: {
               runtimeVersion: '7.10.1',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: false,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -532,9 +549,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|6-lts',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -549,9 +566,9 @@ export const nodeStack: WebAppStack = {
             windows: {
               runtimeVersion: '6.12',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -566,9 +583,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|6.11',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -583,9 +600,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|6.10',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -600,9 +617,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|6.9',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -611,9 +628,9 @@ export const nodeStack: WebAppStack = {
             windows: {
               runtimeVersion: '6.9.5',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -628,9 +645,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|6.6',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -645,9 +662,9 @@ export const nodeStack: WebAppStack = {
             windows: {
               runtimeVersion: '6.5.0',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -662,9 +679,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|6.2',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -685,9 +702,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|4.8',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -696,9 +713,9 @@ export const nodeStack: WebAppStack = {
             windows: {
               runtimeVersion: '4.8',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -713,9 +730,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|4.5',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -730,9 +747,9 @@ export const nodeStack: WebAppStack = {
             linux: {
               runtimeVersion: 'NODE|4.4',
               isDeprecated: true,
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,

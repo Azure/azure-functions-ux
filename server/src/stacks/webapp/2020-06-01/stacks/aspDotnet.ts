@@ -7,8 +7,8 @@ export const aspDotnetStack: WebAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
-      displayText: 'ASP.NET V4.7',
-      value: 'V4.7',
+      displayText: 'ASP.NET V4',
+      value: 'V4',
       minorVersions: [
         {
           displayText: 'ASP.NET V4.7',
@@ -16,9 +16,9 @@ export const aspDotnetStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: 'v4.0',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
@@ -29,8 +29,8 @@ export const aspDotnetStack: WebAppStack = {
       ],
     },
     {
-      displayText: 'ASP.NET V3.5',
-      value: 'V3.5',
+      displayText: 'ASP.NET V3',
+      value: 'V3',
       minorVersions: [
         {
           displayText: 'ASP.NET V3.5',
@@ -38,9 +38,9 @@ export const aspDotnetStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: 'v2.0',
-              remoteDebuggingEnabled: false,
+              remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isEnabled: true,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: false,
