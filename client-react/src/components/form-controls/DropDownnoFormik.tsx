@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { useWindowSize } from 'react-use';
 import { ThemeContext } from '../../ThemeContext';
 import { dropdownStyleOverrides } from './formControl.override.styles';
-import ReactiveFormControl from './ReactiveFormControl';
+import ReactiveFormControl, { Layout } from './ReactiveFormControl';
 
 interface CustomDropdownProps {
   id: string;
@@ -16,7 +16,7 @@ interface CustomDropdownProps {
   learnMoreLink?: string;
   widthOverride?: string;
   onPanel?: boolean;
-  horizontal?: boolean;
+  layout?: Layout;
   mouseOverToolTip?: string;
 }
 

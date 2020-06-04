@@ -1,8 +1,9 @@
-import { Icon, Label, Link, Stack, TooltipHost, TooltipOverflowMode } from 'office-ui-fabric-react';
+import { Label, Link, Stack, TooltipHost, TooltipOverflowMode } from 'office-ui-fabric-react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
 import { style } from 'typestyle';
+import { ReactComponent as InfoSvg } from '../../images/Common/Info.svg';
 import { dirtyElementStyle } from '../../pages/app/app-settings/AppSettings.styles';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../ThemeContext';
@@ -13,12 +14,16 @@ import {
   formLabelStyle,
   formStackStyle,
   hostStyle,
-  infoIconStyle,
   infoMessageStyle,
   learnMoreLinkStyle,
   tooltipStyle,
   upsellIconStyle,
 } from './formControl.override.styles';
+
+export enum Layout {
+  Horizontal = 'horizontal',
+  Vertical = 'vertical',
+}
 
 interface ReactiveFormControlProps {
   children: JSX.Element;
@@ -29,7 +34,7 @@ interface ReactiveFormControlProps {
   learnMoreLink?: string;
   dirty?: boolean;
   formControlClassName?: string;
-  horizontal?: boolean;
+  layout?: Layout;
   mouseOverToolTip?: string;
   required?: boolean;
   multiline?: boolean;
@@ -43,20 +48,23 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
     learnMoreLink,
     dirty,
     formControlClassName,
-    horizontal,
+    layout,
     children,
     id,
     mouseOverToolTip,
     required,
     multiline,
   } = props;
+
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const fullPage = width > 1000;
+  const horizontal = layout ? layout !== Layout.Vertical : fullPage;
+
   return (
     <Stack
-      horizontal={horizontal !== undefined ? horizontal : fullPage}
+      horizontal={horizontal}
       verticalAlign="center"
       className={`${!!formControlClassName ? formControlClassName : ''} ${controlContainerStyle(!!upsellMessage, fullPage)}`}>
       {label && (
@@ -72,16 +80,24 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
             <TooltipHost overflowMode={TooltipOverflowMode.Self} content={label} hostClassName={hostStyle(multiline)} styles={tooltipStyle}>
               {label}
             </TooltipHost>
-            {getRequiredIcon(theme, required)} {getMouseOverToolTip(`${children.props.id}-tooltip`, mouseOverToolTip)}
+            {getRequiredIcon(theme, required)}
+            {getMouseOverToolTip(`${children.props.id}-tooltip`, mouseOverToolTip)}
           </Label>
         </Stack>
       )}
       {children}
       {infoBubbleMessage && (
         <div className={infoMessageStyle(fullPage)}>
-          <Stack horizontal verticalAlign="center">
-            <Icon iconName="Info" className={infoIconStyle(theme)} />
-            <div>
+          <Stack horizontal verticalAlign="center" disableShrink={true}>
+            <InfoSvg
+              className={style({
+                paddingRight: '5px',
+              })}
+            />
+            <div
+              className={style({
+                width: 'fit-content',
+              })}>
               <span id={`${id}-infobubble`}>{`${infoBubbleMessage} `}</span>
               {learnMoreLink && (
                 <Link
@@ -108,6 +124,7 @@ const getRequiredIcon = (theme: ThemeExtended, required?: boolean) => {
         className={style({
           fontWeight: 'bold',
           color: theme.palette.red,
+          marginLeft: '2px',
         })}>
         *
       </span>
