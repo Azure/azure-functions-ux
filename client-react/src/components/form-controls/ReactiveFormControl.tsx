@@ -34,6 +34,7 @@ interface ReactiveFormControlProps {
   learnMoreLink?: string;
   dirty?: boolean;
   formControlClassName?: string;
+  customLabelClassName?: string;
   layout?: Layout;
   mouseOverToolTip?: string;
   required?: boolean;
@@ -48,6 +49,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
     learnMoreLink,
     dirty,
     formControlClassName,
+    customLabelClassName,
     layout,
     children,
     id,
@@ -75,7 +77,9 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
             </div>
           )}
           <Label
-            className={`${formLabelStyle(!!upsellMessage, fullPage)} ${dirty ? dirtyElementStyle(theme, true) : ''}`}
+            className={`${!!customLabelClassName ? customLabelClassName : ''} ${formLabelStyle(!!upsellMessage, fullPage)} ${
+              dirty ? dirtyElementStyle(theme, true) : ''
+            }`}
             id={`${id}-label`}>
             <TooltipHost overflowMode={TooltipOverflowMode.Self} content={label} hostClassName={hostStyle(multiline)} styles={tooltipStyle}>
               {label}
