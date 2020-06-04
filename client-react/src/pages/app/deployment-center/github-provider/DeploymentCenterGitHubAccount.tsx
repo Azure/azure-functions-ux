@@ -31,11 +31,6 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
 
   const onBranchChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {};
 
-  useEffect(() => {
-    fetchOrganizationOptions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gitHubUser]);
-
   const gitHubAccountControls = gitHubUser ? (
     <>
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
