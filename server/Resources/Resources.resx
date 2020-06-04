@@ -6297,6 +6297,30 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
         <value>Signed in as</value>
     </data>
+    <data name="deploymentCenterOAuthOrganization" xml:space="preserve">
+        <value>Organization</value>
+    </data>
+    <data name="deploymentCenterOAuthOrganizationPlaceholder" xml:space="preserve">
+        <value>Select organization</value>
+    </data>
+    <data name="deploymentCenterOAuthProject" xml:space="preserve">
+        <value>Project</value>
+    </data>
+    <data name="deploymentCenterOAuthProjectPlaceholder" xml:space="preserve">
+        <value>Select project</value>
+    </data>
+    <data name="deploymentCenterOAuthRepository" xml:space="preserve">
+        <value>Repository</value>
+    </data>
+    <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
+        <value>Select repository</value>
+    </data>
+    <data name="deploymentCenterOAuthBranch" xml:space="preserve">
+        <value>Branch</value>
+    </data>
+    <data name="deploymentCenterOAuthBranchPlaceholder" xml:space="preserve">
+        <value>Select branch</value>
+    </data>
     <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
         <value>Select code source</value>
     </data>

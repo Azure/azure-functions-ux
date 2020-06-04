@@ -6,6 +6,7 @@ import { ScmTypes } from '../../../models/site/config';
 import moment from 'moment';
 import { Uri } from 'monaco-editor';
 import { GitHubUser } from '../../../models/github';
+import { IDropdownOption } from 'office-ui-fabric-react';
 
 export enum ContainerOptions {
   docker = 'docker',
@@ -133,6 +134,12 @@ export interface DeploymentCenterPublishProfileCommandBarProps {
 export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
   extends DeploymentCenterFieldProps<T> {
   authorizeGitHubAccount: () => void;
+  fetchOrganizationOptions: () => void;
+  fetchRepositoryOptions: (repositories_url: string) => void;
+  fetchBranchOptions: (repository_url: string) => void;
+  organizationOptions: IDropdownOption[];
+  repositoryOptions: IDropdownOption[];
+  branchOptions: IDropdownOption[];
   gitHubAccountStatusMessage?: string;
   gitHubUser?: GitHubUser;
 }
@@ -164,6 +171,14 @@ export interface DeploymentLogsItem {
   id: string;
   message: string;
   details_url: string;
+}
+
+export interface SourceControlProperties {
+  deploymentRollbackEnabled: boolean;
+  repoUrl: string;
+  branch: string;
+  isMercurial: boolean;
+  isGitHubAction?: boolean;
 }
 
 export interface DateTimeObj {
