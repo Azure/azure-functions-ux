@@ -167,7 +167,6 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
             layout={Layout.Vertical}
             value={newRgNameFieldValue}
             onChange={onRgNameTextChange}
-            placeholder={t('createNew')}
             errorMessage={newRgNameValidationError}
             required={true}
           />

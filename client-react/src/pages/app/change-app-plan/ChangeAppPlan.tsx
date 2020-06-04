@@ -194,7 +194,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                       />
                     </ReactiveFormControl>
 
-                    <ReactiveFormControl id="resourceGroup" label={t('resourceGroup')}>
+                    <ReactiveFormControl id="currentResourceGroup" label={t('resourceGroup')}>
                       <div
                         tabIndex={0}
                         aria-label={t('resourceGroup') + getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}>
@@ -202,13 +202,13 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                       </div>
                     </ReactiveFormControl>
 
-                    <ReactiveFormControl id="region" label={t('region')} mouseOverToolTip={t('changePlanLocationTooltip')}>
+                    <ReactiveFormControl id="currentRegion" label={t('region')} mouseOverToolTip={t('changePlanLocationTooltip')}>
                       <span tabIndex={0} aria-label={t('region') + site.location}>
                         {site.location}
                       </span>
                     </ReactiveFormControl>
 
-                    <ReactiveFormControl id="pricingTier" label={t('pricingTier')}>
+                    <ReactiveFormControl id="currentPricingTier" label={t('pricingTier')}>
                       {getPricingTierValue(currentServerFarm.id, formProps, changeSkuLinkElement, portalCommunicator, t)}
                     </ReactiveFormControl>
                   </Stack>
