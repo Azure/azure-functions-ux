@@ -50,7 +50,6 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
 
   const copyToClipboard = (e: React.MouseEvent<any>) => {
     if (!!e) {
-      e.preventDefault();
       e.stopPropagation();
     }
     TextUtilitiesService.copyContentToClipboard(value || '');
