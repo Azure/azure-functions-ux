@@ -3,6 +3,7 @@ import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
 export const formStyle = style({
   padding: '5px 20px',
+  maxWidth: '800px',
 });
 
 export const commandBarSticky = style({
