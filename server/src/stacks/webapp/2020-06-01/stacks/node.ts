@@ -10,6 +10,29 @@ export const nodeStack: WebAppStack = {
   preferredOs: 'linux',
   majorVersions: [
     {
+      displayText: 'Node LTS',
+      value: 'LTS',
+      minorVersions: [
+        {
+          displayText: 'Node LTS',
+          value: 'LTS',
+          platforms: {
+            linux: {
+              runtimeVersion: 'NODE|lts',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+              },
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: 'Node 12',
       value: '12',
       minorVersions: [
