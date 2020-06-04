@@ -1,23 +1,23 @@
-import { NewPlanInfo } from './CreateOrSelectPlan';
-import { IDropdownOption, Panel, PrimaryButton, DefaultButton, PanelType, Link, MessageBar, MessageBarType } from 'office-ui-fabric-react';
-import { ResourceGroupInfo, CreateOrSelectResourceGroup } from './CreateOrSelectResourceGroup';
-import { TextField as OfficeTextField } from 'office-ui-fabric-react/lib/TextField';
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import i18next from 'i18next';
+import { DefaultButton, IDropdownOption, Link, MessageBar, MessageBarType, Panel, PanelType, PrimaryButton } from 'office-ui-fabric-react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { getServerFarmValidator } from '../../../utils/validation/serverFarmValidator';
+import { Layout } from '../../../components/form-controls/ReactiveFormControl';
+import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
+import { ArmObj } from '../../../models/arm-obj';
+import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
+import { ServerFarm } from '../../../models/serverFarm/serverfarm';
+import PortalCommunicator from '../../../portal-communicator';
+import { PortalContext } from '../../../PortalContext';
 import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
-import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
 import { AppKind } from '../../../utils/AppKind';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import RbacConstants from '../../../utils/rbac-constants';
-import { FormControlWrapper, Layout } from '../../../components/FormControlWrapper/FormControlWrapper';
-import { ArmObj } from '../../../models/arm-obj';
-import { ServerFarm } from '../../../models/serverFarm/serverfarm';
-import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
-import { PortalContext } from '../../../PortalContext';
-import PortalCommunicator from '../../../portal-communicator';
+import { getServerFarmValidator } from '../../../utils/validation/serverFarmValidator';
+import { NewPlanInfo } from './CreateOrSelectPlan';
+import { CreateOrSelectResourceGroup, ResourceGroupInfo } from './CreateOrSelectResourceGroup';
 
 export interface CreatePlanProps {
   newPlanInfo: NewPlanInfo;
@@ -105,16 +105,17 @@ export const CreatePlan = (props: CreatePlanProps) => {
           onRgValidationError={e => onRgValidationError(e, setHasResourceGroupWritePermission)}
         />
 
-        <FormControlWrapper label={t('_name')} layout={Layout.vertical} required={true} style={{ marginTop: '20px' }}>
-          <OfficeTextField
-            id="createplan-planname"
-            styles={TextFieldStyles}
-            value={newPlanInfo.name}
-            onChange={onChangePlanName}
-            errorMessage={newPlanNameValidationError}
-            placeholder={t('planName')}
-          />
-        </FormControlWrapper>
+        <TextFieldNoFormik
+          label={t('_name')}
+          id="createplan-planname"
+          layout={Layout.Vertical}
+          styles={TextFieldStyles}
+          value={newPlanInfo.name}
+          onChange={onChangePlanName}
+          errorMessage={newPlanNameValidationError}
+          placeholder={t('planName')}
+          required={true}
+        />
       </Panel>
     </>
   );

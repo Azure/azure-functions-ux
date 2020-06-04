@@ -1,6 +1,6 @@
 import React, { FC, useContext, useState } from 'react';
 import { TextField as OfficeTextField, ITextFieldProps, ITextField } from 'office-ui-fabric-react/lib/TextField';
-import ReactiveFormControl from './ReactiveFormControl';
+import ReactiveFormControl, { Layout } from './ReactiveFormControl';
 import { useWindowSize } from 'react-use';
 import { ThemeContext } from '../../ThemeContext';
 import { textFieldStyleOverrides, copyButtonStyle } from './formControl.override.styles';
@@ -21,6 +21,7 @@ interface CustomTextFieldProps {
   copyButton?: boolean;
   formControlClassName?: string;
   additionalControls?: JSX.Element[];
+  layout?: Layout;
   hideShowButton?: {
     onButtonClick?: (hidden: boolean) => void;
   };
