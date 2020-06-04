@@ -6,40 +6,12 @@ import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
-import { TokenData } from '../deployment-center';
-
-enum Environments {
-  Prod = 'PROD',
-  Stage = 'STAGE',
-  Release = 'RELEASE',
-  Next = 'NEXT',
-  Dev = 'DEV',
-}
+import { TokenData, EnvironmentUrlMappings, Environments } from '../deployment-center';
 
 @Controller()
 export class GithubController {
   private readonly provider = 'github';
   private readonly githubApiUrl = 'https://api.github.com';
-
-  private readonly environmentToUrlMap: { [id in Environments]: string } = {
-    PROD: 'https://functions.azure.com',
-    STAGE: 'https://functions-staging.azure.com',
-    RELEASE: 'https://functions-release.azure.com',
-    NEXT: 'https://functions-next.azure.com',
-    DEV: 'https://localhost:44300',
-  };
-
-  private readonly urlToEnvironmentMap: { [id: string]: Environments } = {
-    'https://functions.azure.com': Environments.Prod,
-    'https://functions-staging.azure.com': Environments.Stage,
-    'https://functions-staging-westus-ame.azurewebsites.net': Environments.Stage,
-    'https://functions-staging-westeurope-ame.azurewebsites.net': Environments.Stage,
-    'https://functions-release.azure.com': Environments.Release,
-    'https://functions-release-ame.azurewebsites.net': Environments.Release,
-    'https://functions-next.azure.com': Environments.Next,
-    'https://azure-functions-ux-next.azurewebsites.net': Environments.Next,
-    'https://localhost:44300': Environments.Dev,
-  };
 
   constructor(
     private dcService: DeploymentCenterService,
@@ -147,7 +119,7 @@ export class GithubController {
   @Get('auth/github/callback/env/:env')
   async callbackRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('env') env) {
     const envToUpper = (env && (env as string).toUpperCase()) || '';
-    const envUri = this.environmentToUrlMap[envToUpper] || this.environmentToUrlMap[Environments.Prod];
+    const envUri = EnvironmentUrlMappings.environmentToUrlMap[envToUpper] || EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod];
     res.redirect(`${envUri}/auth/github/callback?code=${code}&state=${state}`);
   }
 
@@ -283,11 +255,11 @@ export class GithubController {
 
   private _getEnvironment(hostUrl: string): Environments {
     const hostUrlToLower = (hostUrl || '').toLocaleLowerCase();
-    for (const url in this.urlToEnvironmentMap) {
-      if (!!this.urlToEnvironmentMap[url]) {
+    for (const url in EnvironmentUrlMappings.urlToEnvironmentMap) {
+      if (!!EnvironmentUrlMappings.urlToEnvironmentMap[url]) {
         const envUrlToLower = url.toLocaleLowerCase();
         if (hostUrlToLower.startsWith(envUrlToLower)) {
-          return this.urlToEnvironmentMap[url];
+          return EnvironmentUrlMappings.urlToEnvironmentMap[url];
         }
       }
     }
@@ -296,7 +268,8 @@ export class GithubController {
 
   private _getRedirectUri(host: string): string {
     const redirectUri =
-      this.configService.get('GITHUB_REDIRECT_URL') || `${this.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
+      this.configService.get('GITHUB_REDIRECT_URL') ||
+      `${EnvironmentUrlMappings.environmentToUrlMap[Environments.Prod]}/auth/github/callback`;
 
     const [redirectUriToLower, hostUrlToLower] = [redirectUri.toLocaleLowerCase(), `https://${host}`.toLocaleLowerCase()];
     const [redirectEnv, clientEnv] = [this._getEnvironment(redirectUriToLower), this._getEnvironment(hostUrlToLower)];
