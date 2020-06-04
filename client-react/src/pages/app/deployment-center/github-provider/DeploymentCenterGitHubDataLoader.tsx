@@ -39,9 +39,8 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setBranchOptions([]);
     const newOrganizationOptions: IDropdownOption[] = [];
 
-    const armToken = getArmToken();
     if (gitHubUser) {
-      const gitHubOrganizationsResponse = await deploymentCenterData.getGitHubOrganizations(armToken);
+      const gitHubOrganizationsResponse = await deploymentCenterData.getGitHubOrganizations(getArmToken());
 
       if (gitHubOrganizationsResponse.metadata.success) {
         gitHubOrganizationsResponse.data.forEach(org => {
@@ -66,11 +65,9 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setBranchOptions([]);
     const newRepositoryOptions: IDropdownOption[] = [];
 
-    const armToken = getArmToken();
-
     const gitHubRepositoriesResponse = await (repositories_url.toLocaleLowerCase().indexOf('github.com/users/') > -1
-      ? deploymentCenterData.getGitHubUserRepositories(armToken)
-      : deploymentCenterData.getGitHubOrgRepositories(repositories_url, armToken));
+      ? deploymentCenterData.getGitHubUserRepositories(getArmToken())
+      : deploymentCenterData.getGitHubOrgRepositories(repositories_url, getArmToken()));
 
     if (gitHubRepositoriesResponse.metadata.success) {
       gitHubRepositoriesResponse.data.forEach(repository => {
@@ -91,9 +88,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
     setBranchOptions([]);
     const newBranchOptions: IDropdownOption[] = [];
 
-    const armToken = getArmToken();
-
-    const gitHubBranchesResponse = await deploymentCenterData.getGitHubBranches(repository_url, armToken);
+    const gitHubBranchesResponse = await deploymentCenterData.getGitHubBranches(repository_url, getArmToken());
 
     if (gitHubBranchesResponse.metadata.success) {
       gitHubBranchesResponse.data.forEach(branch => {
@@ -143,8 +138,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       oauthWindow && oauthWindow.close();
 
       if (authorizationResult.redirectUrl) {
-        const armToken = getArmToken();
-        return deploymentCenterData.storeGitHubToken(authorizationResult.redirectUrl, armToken).then(() => fetchData());
+        return deploymentCenterData.storeGitHubToken(authorizationResult.redirectUrl, getArmToken()).then(() => fetchData());
       } else {
         return fetchData();
       }
@@ -155,8 +149,7 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
   // repos, orgs, branches, workflow file, etc.
 
   const fetchData = async () => {
-    const armToken = getArmToken();
-    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(armToken);
+    const getGitHubUserRequest = deploymentCenterData.getGitHubUser(getArmToken());
 
     const [gitHubUserResponse] = await Promise.all([getGitHubUserRequest]);
 
