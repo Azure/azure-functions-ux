@@ -1,5 +1,5 @@
 import React, { FC, useContext, useState } from 'react';
-import { TextField as OfficeTextField, ITextFieldProps } from 'office-ui-fabric-react/lib/TextField';
+import { TextField as OfficeTextField, ITextFieldProps, ITextField } from 'office-ui-fabric-react/lib/TextField';
 import ReactiveFormControl, { Layout } from './ReactiveFormControl';
 import { useWindowSize } from 'react-use';
 import { ThemeContext } from '../../ThemeContext';
@@ -48,12 +48,13 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
 
   const [copied, setCopied] = useState(false);
   const [hidden, setHidden] = useState(!!hideShowButton);
+  const [textFieldRef, setTextFieldRef] = useState<ITextField | undefined>(undefined);
 
   const copyToClipboard = (e: React.MouseEvent<any>) => {
     if (!!e) {
       e.stopPropagation();
     }
-    TextUtilitiesService.copyContentToClipboard(value || '');
+    TextUtilitiesService.copyContentToClipboard(value || '', textFieldRef);
     setCopied(true);
   };
 
@@ -115,6 +116,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     <ReactiveFormControl {...props}>
       <>
         <OfficeTextField
+          componentRef={ref => ref && setTextFieldRef(ref)}
           id={id}
           aria-labelledby={`${id}-label`}
           value={hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : value || ''}

@@ -35,6 +35,5 @@ export const renewTextStyle = (theme: ThemeExtended) =>
 
 export const deleteButtonStyle = (theme: ThemeExtended) =>
   style({
-    color: theme.semanticColors.actionLink,
     float: 'right',
   });
