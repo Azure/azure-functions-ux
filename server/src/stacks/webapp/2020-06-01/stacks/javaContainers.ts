@@ -182,8 +182,37 @@ export const javaContainersStack: WebAppStack = {
     },
     {
       displayText: 'Tomcat 8.0',
-      value: 'Tomcat 8.0',
-      minorVersions: [],
+      value: 'TOMCAT',
+      minorVersions: [
+        {
+          displayText: 'Tomcat 8.0 (Auto-Update)',
+          value: '8.0',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 8.0.53',
+          value: '8.0.53',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 8.0.46',
+          value: '8.0.46',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 8.0.23',
+          value: '8.0.23',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+      ],
     },
     {
       displayText: 'Tomcat 7.0',
