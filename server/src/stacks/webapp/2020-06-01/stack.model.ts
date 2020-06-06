@@ -2,8 +2,8 @@ export interface WebAppStack {
   displayText: string;
   value: string;
   sortOrder: number;
-  preferredOs: 'linux' | 'windows';
   majorVersions: WebAppMajorVersion[];
+  preferredOs?: 'linux' | 'windows';
 }
 
 export interface WebAppMajorVersion {
@@ -15,7 +15,8 @@ export interface WebAppMajorVersion {
 export interface WebAppMinorVersion {
   displayText: string;
   value: string;
-  platforms: PlatformOptions;
+  platforms?: PlatformOptions;
+  containerSettings?: ContainerSettings; // Only used for Java Containers Stack
 }
 
 export interface PlatformOptions {
@@ -42,4 +43,17 @@ export interface AppInsightsSettings {
 export interface GitHubActionSettings {
   isSupported: boolean;
   supportedVersion?: string;
+}
+
+export interface ContainerSettings {
+  javaLinuxSupport: JavaLinuxSupport;
+  isPreview?: boolean; // Container should be labeled as 'preview'
+  isDeprecated?: boolean; // Container should be hidden unless user is already running that stack
+  isHidden?: boolean; // Container should be hidden unless a feature flag is used
+  projectedEndOfLifeDate?: Date; // Container projected end of life date
+}
+
+export interface JavaLinuxSupport {
+  java11Runtime?: string;
+  java8Runtime?: string;
 }

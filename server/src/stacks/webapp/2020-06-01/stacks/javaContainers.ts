@@ -4,12 +4,31 @@ export const javaContainersStack: WebAppStack = {
   displayText: 'Java Containers',
   value: 'Java Containers',
   sortOrder: 7,
-  preferredOs: undefined,
   majorVersions: [
     {
       displayText: 'Java SE (embedded web server)',
-      value: 'Java SE',
-      minorVersions: [],
+      value: 'JAVA',
+      minorVersions: [
+        {
+          displayText: 'Java SE 8 (Auto-update)',
+          value: '8',
+          containerSettings: {
+            javaLinuxSupport: {
+              java11Runtime: 'JAVA|11-java11',
+              java8Runtime: 'JAVA|8-jre8',
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 8u232',
+          value: '8u232',
+          containerSettings: {
+            javaLinuxSupport: {
+              java8Runtime: 'JAVA|8u232',
+            },
+          },
+        },
+      ],
     },
     {
       displayText: 'Tomcat 9.0',
