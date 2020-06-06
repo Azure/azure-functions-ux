@@ -13,12 +13,58 @@ export const javaStack: WebAppStack = {
         {
           displayText: 'Java 11.0.3 (Azul)',
           value: '11.0.3 (Azul)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'java11',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+            },
+            windows: {
+              runtimeVersion: '11.0.3_ZULU',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 11.0.2 (Azul)',
           value: '11.0.2 (Azul)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'java11',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+            },
+            windows: {
+              runtimeVersion: '11.0.2_ZULU',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+            },
+          },
         },
       ],
     },
@@ -119,7 +165,7 @@ export const javaStack: WebAppStack = {
         },
         {
           displayText: 'Java 1.7.0_71 (Oracle)',
-          value: '1.7.0_80 (Oracle)',
+          value: '1.7.0_71 (Oracle)',
           platforms: {},
         },
         {
