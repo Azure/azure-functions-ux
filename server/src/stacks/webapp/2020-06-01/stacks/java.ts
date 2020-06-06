@@ -293,7 +293,7 @@ export const javaStack: WebAppStack = {
               },
             },
             windows: {
-              runtimeVersion: '1.8.0_144', // allisonm: Azul runtimes versions here and lower omit the suffix: _ZULU
+              runtimeVersion: '1.8.0_144', // allisonm: Azul 8 runtimes versions here and lower omit the suffix: _ZULU
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -494,28 +494,83 @@ export const javaStack: WebAppStack = {
       minorVersions: [
         {
           displayText: 'Java 1.7.0_222 (Azul)',
-          value: '1.7.0_222  (Azul)',
-          platforms: {},
+          value: '1.7.0_222 (Azul)',
+          platforms: {
+            windows: {
+              runtimeVersion: '1.7.0_222_ZULU',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.7.0_191 (Azul)',
           value: '1.7.0_191  (Azul)',
-          platforms: {},
+          platforms: {
+            windows: {
+              runtimeVersion: '1.7.0_191_ZULU',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.7.0_80 (Oracle)',
           value: '1.7.0_80 (Oracle)',
-          platforms: {},
+          platforms: {
+            windows: {
+              runtimeVersion: '1.7.0_80',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.7.0_71 (Oracle)',
           value: '1.7.0_71 (Oracle)',
-          platforms: {},
+          platforms: {
+            windows: {
+              runtimeVersion: '1.7.0_71',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.7.0_51 (Oracle)',
           value: '1.7.0_51 (Oracle)',
-          platforms: {},
+          platforms: {
+            windows: {
+              runtimeVersion: '1.7.0_51',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
         },
       ],
     },
