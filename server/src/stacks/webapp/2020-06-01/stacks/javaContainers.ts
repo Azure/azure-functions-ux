@@ -32,8 +32,78 @@ export const javaContainersStack: WebAppStack = {
     },
     {
       displayText: 'Tomcat 9.0',
-      value: 'Tomcat 9.0',
-      minorVersions: [],
+      value: 'TOMCAT',
+      minorVersions: [
+        {
+          displayText: 'Tomcat 9.0 (Auto-update)',
+          value: '9.0',
+          containerSettings: {
+            javaLinuxSupport: {
+              java11Runtime: 'TOMCAT|9.0-java11',
+              java8Runtime: 'TOMCAT|9.0-jre8',
+            },
+          },
+        },
+        {
+          displayText: 'Tomcat 9.0.27',
+          value: '9.0.27',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 9.0.21',
+          value: '9.0.21',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 9.0.20',
+          value: '9.0.20',
+          containerSettings: {
+            javaLinuxSupport: {
+              java11Runtime: 'TOMCAT|9.0.20-java11',
+              java8Runtime: 'TOMCAT|9.0.20-java8', // Note (allisonm): For some reason this is java8 not jre8
+            },
+          },
+        },
+        {
+          displayText: 'Tomcat 9.0.21',
+          value: '9.0.14',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 9.0.14',
+          value: '9.0.12',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 9.0.14',
+          value: '9.0.12',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 9.0.8',
+          value: '9.0.8',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 9.0.0',
+          value: '9.0.0',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+      ],
     },
     {
       displayText: 'Tomcat 8.5',
