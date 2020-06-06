@@ -1,5 +1,10 @@
 import { WebAppStack } from './../stack.model';
 
+// EOL source: https://azure.microsoft.com/en-us/blog/azure-app-service-update-free-linux-tier-python-and-java-support-and-more/
+const java7EOL = new Date(2023, 7);
+const java8EOL = new Date(2025, 3);
+const java11EOL = new Date(2026, 9);
+
 export const javaStack: WebAppStack = {
   displayText: 'Java',
   value: 'Java',
@@ -24,6 +29,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '11',
               },
+              projectedEndOfLifeDate: java11EOL,
             },
             windows: {
               runtimeVersion: '11.0.3_ZULU',
@@ -35,6 +41,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '11',
               },
+              projectedEndOfLifeDate: java11EOL,
             },
           },
         },
@@ -52,6 +59,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '11',
               },
+              projectedEndOfLifeDate: java11EOL,
             },
             windows: {
               runtimeVersion: '11.0.2_ZULU',
@@ -63,6 +71,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '11',
               },
+              projectedEndOfLifeDate: java11EOL,
             },
           },
         },
@@ -86,6 +95,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_212_ZULU',
@@ -97,6 +107,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -114,6 +125,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_202_ZULU',
@@ -125,6 +137,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -142,6 +155,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_202',
@@ -153,6 +167,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -171,6 +186,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_181_ZULU',
@@ -183,6 +199,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -201,6 +218,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_181',
@@ -213,6 +231,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -231,6 +250,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_172_ZULU',
@@ -243,6 +263,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -261,6 +282,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_172',
@@ -273,6 +295,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -291,9 +314,10 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
-              runtimeVersion: '1.8.0_144', // allisonm: Azul 8 runtimes versions here and lower omit the suffix: _ZULU
+              runtimeVersion: '1.8.0_144', // NOTE (allisonm): Azul 8 runtimes versions here and lower omit the suffix: _ZULU
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -303,6 +327,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -321,6 +346,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_111',
@@ -333,6 +359,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -351,6 +378,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_102',
@@ -363,6 +391,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -381,6 +410,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_92',
@@ -393,6 +423,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -411,6 +442,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_73',
@@ -423,6 +455,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -441,6 +474,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_60',
@@ -453,6 +487,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -471,6 +506,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
             windows: {
               runtimeVersion: '1.8.0_65',
@@ -483,6 +519,7 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
+              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -505,6 +542,7 @@ export const javaStack: WebAppStack = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              projectedEndOfLifeDate: java7EOL,
             },
           },
         },
@@ -521,6 +559,7 @@ export const javaStack: WebAppStack = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              projectedEndOfLifeDate: java7EOL,
             },
           },
         },
@@ -537,6 +576,7 @@ export const javaStack: WebAppStack = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              projectedEndOfLifeDate: java7EOL,
             },
           },
         },
@@ -553,6 +593,7 @@ export const javaStack: WebAppStack = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              projectedEndOfLifeDate: java7EOL,
             },
           },
         },
@@ -569,6 +610,7 @@ export const javaStack: WebAppStack = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              projectedEndOfLifeDate: java7EOL,
             },
           },
         },
