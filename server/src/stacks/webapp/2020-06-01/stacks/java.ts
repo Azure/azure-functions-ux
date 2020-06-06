@@ -75,72 +75,416 @@ export const javaStack: WebAppStack = {
         {
           displayText: 'Java 1.8.0_212 (Azul)',
           value: '1.8.0_212 (Azul)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_212_ZULU',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_202 (Azul)',
           value: '1.8.0_202 (Azul)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_202_ZULU',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_202 (Oracle)',
           value: '1.8.0_202 (Oracle)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_202',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_181 (Azul)',
           value: '1.8.0_181 (Azul)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_181_ZULU',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_181 (Oracle)',
           value: '1.8.0_181 (Oracle)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_181',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_172 (Azul)',
           value: '1.8.0_172 (Azul)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_172_ZULU',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_172 (Oracle)',
           value: '1.8.0_172 (Oracle)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_172',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_144 (Azul)',
           value: '1.8.0_144 (Azul)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_144', // allisonm: Azul runtimes versions here and lower omit the suffix: _ZULU
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_111 (Oracle)',
           value: '1.8.0_111 (Oracle)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_111',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_102 (Azul)',
           value: '1.8.0_102 (Azul)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_102',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_92 (Azul)',
           value: '1.8.0_92 (Azul)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_92',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_73 (Oracle)',
           value: '1.8.0_73 (Oracle)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_73',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_60 (Oracle)',
           value: '1.8.0_60 (Oracle)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_60',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
         {
           displayText: 'Java 1.8.0_25 (Oracle)',
           value: '1.8.0_25 (Oracle)',
-          platforms: {},
+          platforms: {
+            linux: {
+              runtimeVersion: 'jre8',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+            windows: {
+              runtimeVersion: '1.8.0_65',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+            },
+          },
         },
       ],
     },
