@@ -177,7 +177,6 @@ export const javaStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'jre8',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -190,7 +189,6 @@ export const javaStack: WebAppStack = {
             },
             windows: {
               runtimeVersion: '1.8.0_181_ZULU',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -209,7 +207,6 @@ export const javaStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'jre8',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -222,7 +219,6 @@ export const javaStack: WebAppStack = {
             },
             windows: {
               runtimeVersion: '1.8.0_181',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -241,7 +237,6 @@ export const javaStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'jre8',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -254,7 +249,6 @@ export const javaStack: WebAppStack = {
             },
             windows: {
               runtimeVersion: '1.8.0_172_ZULU',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -273,7 +267,6 @@ export const javaStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'jre8',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -286,7 +279,6 @@ export const javaStack: WebAppStack = {
             },
             windows: {
               runtimeVersion: '1.8.0_172',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -305,7 +297,6 @@ export const javaStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'jre8',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -318,7 +309,6 @@ export const javaStack: WebAppStack = {
             },
             windows: {
               runtimeVersion: '1.8.0_144', // NOTE (allisonm): Azul 8 runtimes versions here and lower omit the suffix: _ZULU
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -337,7 +327,6 @@ export const javaStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'jre8',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -350,7 +339,6 @@ export const javaStack: WebAppStack = {
             },
             windows: {
               runtimeVersion: '1.8.0_111',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -369,7 +357,6 @@ export const javaStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'jre8',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -382,7 +369,6 @@ export const javaStack: WebAppStack = {
             },
             windows: {
               runtimeVersion: '1.8.0_102',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -401,7 +387,6 @@ export const javaStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'jre8',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -414,7 +399,6 @@ export const javaStack: WebAppStack = {
             },
             windows: {
               runtimeVersion: '1.8.0_92',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -433,7 +417,6 @@ export const javaStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'jre8',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -446,7 +429,6 @@ export const javaStack: WebAppStack = {
             },
             windows: {
               runtimeVersion: '1.8.0_73',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -465,7 +447,6 @@ export const javaStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'jre8',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -478,7 +459,6 @@ export const javaStack: WebAppStack = {
             },
             windows: {
               runtimeVersion: '1.8.0_60',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -497,7 +477,6 @@ export const javaStack: WebAppStack = {
           platforms: {
             linux: {
               runtimeVersion: 'jre8',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -510,7 +489,6 @@ export const javaStack: WebAppStack = {
             },
             windows: {
               runtimeVersion: '1.8.0_65',
-              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
