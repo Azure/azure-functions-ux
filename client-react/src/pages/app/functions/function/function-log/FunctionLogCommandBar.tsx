@@ -73,7 +73,9 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       if (showMaximize) {
         mainItems.push(getMaximizeItem());
       }
-      mainItems.push(getFeedbackItem());
+      if (appInsightsResourceId) {
+        mainItems.push(getFeedbackItem());
+      }
     }
     return mainItems;
   };
