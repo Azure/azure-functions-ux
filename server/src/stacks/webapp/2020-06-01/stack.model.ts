@@ -47,7 +47,7 @@ export interface GitHubActionSettings {
 
 export interface ContainerSettings {
   windowsSupport: boolean;
-  linuxSupport: LinuxSupport;
+  linuxSupport: LinuxSupport | false;
   isPreview?: boolean; // Container should be labeled as 'preview'
   isDeprecated?: boolean; // Container should be hidden unless user is already running that container
   isHidden?: boolean; // Container should be hidden unless a feature flag is used

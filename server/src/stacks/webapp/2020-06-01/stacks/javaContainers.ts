@@ -71,7 +71,7 @@ export const javaContainersStack: WebAppStack = {
           value: '9.0.27',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -79,7 +79,7 @@ export const javaContainersStack: WebAppStack = {
           value: '9.0.21',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -98,7 +98,7 @@ export const javaContainersStack: WebAppStack = {
           value: '9.0.14',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -106,7 +106,7 @@ export const javaContainersStack: WebAppStack = {
           value: '9.0.12',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -114,7 +114,7 @@ export const javaContainersStack: WebAppStack = {
           value: '9.0.12',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -122,7 +122,7 @@ export const javaContainersStack: WebAppStack = {
           value: '9.0.8',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -130,7 +130,7 @@ export const javaContainersStack: WebAppStack = {
           value: '9.0.0',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
       ],
@@ -155,7 +155,7 @@ export const javaContainersStack: WebAppStack = {
           value: '8.5.6',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -163,7 +163,7 @@ export const javaContainersStack: WebAppStack = {
           value: '8.5.47',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -171,7 +171,7 @@ export const javaContainersStack: WebAppStack = {
           value: '8.5.47',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -190,7 +190,7 @@ export const javaContainersStack: WebAppStack = {
           value: '8.5.37',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -198,7 +198,7 @@ export const javaContainersStack: WebAppStack = {
           value: '8.5.34',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -206,7 +206,7 @@ export const javaContainersStack: WebAppStack = {
           value: '8.5.31',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -214,7 +214,7 @@ export const javaContainersStack: WebAppStack = {
           value: '8.5.20',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
       ],
@@ -228,7 +228,7 @@ export const javaContainersStack: WebAppStack = {
           value: '8.0',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -236,7 +236,7 @@ export const javaContainersStack: WebAppStack = {
           value: '8.0.53',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -244,7 +244,7 @@ export const javaContainersStack: WebAppStack = {
           value: '8.0.46',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -252,7 +252,7 @@ export const javaContainersStack: WebAppStack = {
           value: '8.0.23',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
       ],
@@ -266,7 +266,7 @@ export const javaContainersStack: WebAppStack = {
           value: '7.0',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -274,7 +274,7 @@ export const javaContainersStack: WebAppStack = {
           value: '7.0.94',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -282,7 +282,7 @@ export const javaContainersStack: WebAppStack = {
           value: '7.0.81',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -290,7 +290,7 @@ export const javaContainersStack: WebAppStack = {
           value: '7.0.62',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -298,7 +298,7 @@ export const javaContainersStack: WebAppStack = {
           value: '7.0.50',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
       ],
@@ -312,7 +312,7 @@ export const javaContainersStack: WebAppStack = {
           value: '9.3',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -320,7 +320,7 @@ export const javaContainersStack: WebAppStack = {
           value: '9.3.25',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -328,7 +328,7 @@ export const javaContainersStack: WebAppStack = {
           value: '9.3.13',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
       ],
@@ -342,7 +342,7 @@ export const javaContainersStack: WebAppStack = {
           value: '9.1',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
         {
@@ -350,7 +350,7 @@ export const javaContainersStack: WebAppStack = {
           value: '9.1.0',
           containerSettings: {
             windowsSupport: true,
-            linuxSupport: {},
+            linuxSupport: false,
           },
         },
       ],
