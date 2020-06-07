@@ -305,7 +305,19 @@ export const javaContainersStack: WebAppStack = {
     {
       displayText: 'WildFly 14',
       value: 'WildFly 14',
-      minorVersions: [],
+      minorVersions: [
+        {
+          displayText: 'WildFly 14',
+          value: '14',
+          containerSettings: {
+            isPreview: true,
+            isHidden: true,
+            javaLinuxSupport: {
+              java8Runtime: 'WILDFLY|14-jre8',
+            },
+          },
+        },
+      ],
     },
   ],
 };
