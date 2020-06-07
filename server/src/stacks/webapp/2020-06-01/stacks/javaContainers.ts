@@ -10,12 +10,31 @@ export const javaContainersStack: WebAppStack = {
       value: 'JAVA',
       minorVersions: [
         {
+          displayText: 'Java SE 11 (Auto-update)',
+          value: '11',
+          containerSettings: {
+            windowsSupport: false,
+            linuxSupport: {
+              java11Runtime: 'JAVA|11-java11',
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 11.0.5',
+          value: '11.0.5',
+          containerSettings: {
+            windowsSupport: false,
+            linuxSupport: {
+              java11Runtime: 'JAVA|11.0.5', // Note (allisonm): For some reason this doesn't have suffix of -java11
+            },
+          },
+        },
+        {
           displayText: 'Java SE 8 (Auto-update)',
           value: '8',
           containerSettings: {
             windowsSupport: true,
             linuxSupport: {
-              java11Runtime: 'JAVA|11-java11',
               java8Runtime: 'JAVA|8-jre8',
             },
           },
