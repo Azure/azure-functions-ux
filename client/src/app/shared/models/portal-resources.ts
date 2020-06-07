@@ -2035,4 +2035,5 @@ export class PortalResources {
   public static deploymentCenterOAuthAuthorize = 'deploymentCenterOAuthAuthorize';
   public static deploymentCenterOAuthChangeAccount = 'deploymentCenterOAuthChangeAccount';
   public static deploymentCenterOAuthSingedInAs = 'deploymentCenterOAuthSingedInAs';
+  public static leaveFeedback = 'leaveFeedback';
 }

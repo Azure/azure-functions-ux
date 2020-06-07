@@ -73,6 +73,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       if (showMaximize) {
         mainItems.push(getMaximizeItem());
       }
+      mainItems.push(getFeedbackItem());
     }
     return mainItems;
   };
@@ -194,6 +195,23 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       ariaLabel: maximized ? t('minimize') : t('maximize'),
       onClick: toggleMaximize,
     };
+  };
+
+  const getFeedbackItem = (): ICommandBarItemProps => {
+    return {
+      key: 'feedback',
+      name: t('leaveFeedback'),
+      iconProps: {
+        iconName: 'Heart',
+      },
+      disabled: false,
+      ariaLabel: t('leaveFeedback'),
+      onClick: openFeedbackBlade,
+    };
+  };
+
+  const openFeedbackBlade = () => {
+    console.log('feedback!');
   };
 
   return (
