@@ -256,9 +256,51 @@ export const javaContainersStack: WebAppStack = {
       ],
     },
     {
+      displayText: 'Jetty 9.3',
+      value: 'JETTY',
+      minorVersions: [
+        {
+          displayText: 'Jetty 9.3 (Auto-Update)',
+          value: '9.3',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Jetty 9.3.25',
+          value: '9.3.25',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Jetty 9.3.13',
+          value: '9.3.13',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+      ],
+    },
+    {
       displayText: 'Jetty 9.1',
-      value: 'Jetty 9.1',
-      minorVersions: [],
+      value: 'JETTY',
+      minorVersions: [
+        {
+          displayText: 'Jetty 9.1 (Auto-Update)',
+          value: '9.1',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Jetty 9.1.0',
+          value: '9.1.0',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+      ],
     },
     {
       displayText: 'WildFly 14',
