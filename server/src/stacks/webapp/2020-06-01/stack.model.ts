@@ -46,14 +46,15 @@ export interface GitHubActionSettings {
 }
 
 export interface ContainerSettings {
-  javaLinuxSupport: JavaLinuxSupport;
+  windowsSupport: boolean;
+  linuxSupport: LinuxSupport;
   isPreview?: boolean; // Container should be labeled as 'preview'
   isDeprecated?: boolean; // Container should be hidden unless user is already running that container
   isHidden?: boolean; // Container should be hidden unless a feature flag is used
   projectedEndOfLifeDate?: Date; // Container projected end of life date
 }
 
-export interface JavaLinuxSupport {
+export interface LinuxSupport {
   java11Runtime?: string;
   java8Runtime?: string;
 }

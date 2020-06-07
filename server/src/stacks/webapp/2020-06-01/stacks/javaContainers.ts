@@ -13,7 +13,8 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'Java SE 8 (Auto-update)',
           value: '8',
           containerSettings: {
-            javaLinuxSupport: {
+            windowsSupport: true,
+            linuxSupport: {
               java11Runtime: 'JAVA|11-java11',
               java8Runtime: 'JAVA|8-jre8',
             },
@@ -23,7 +24,8 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'Java SE 8u232',
           value: '8u232',
           containerSettings: {
-            javaLinuxSupport: {
+            windowsSupport: false,
+            linuxSupport: {
               java8Runtime: 'JAVA|8u232',
             },
           },
@@ -38,7 +40,8 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'Tomcat 9.0 (Auto-update)',
           value: '9.0',
           containerSettings: {
-            javaLinuxSupport: {
+            windowsSupport: true,
+            linuxSupport: {
               java11Runtime: 'TOMCAT|9.0-java11',
               java8Runtime: 'TOMCAT|9.0-jre8',
             },
@@ -48,21 +51,24 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'Tomcat 9.0.27',
           value: '9.0.27',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 9.0.21',
           value: '9.0.21',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 9.0.20',
           value: '9.0.20',
           containerSettings: {
-            javaLinuxSupport: {
+            windowsSupport: false,
+            linuxSupport: {
               java11Runtime: 'TOMCAT|9.0.20-java11',
               java8Runtime: 'TOMCAT|9.0.20-java8', // Note (allisonm): For some reason this is java8 not jre8
             },
@@ -72,35 +78,40 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'Tomcat 9.0.21',
           value: '9.0.14',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 9.0.14',
           value: '9.0.12',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 9.0.14',
           value: '9.0.12',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 9.0.8',
           value: '9.0.8',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 9.0.0',
           value: '9.0.0',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
       ],
@@ -113,7 +124,8 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'Tomcat 8.5 (Auto-update)',
           value: '8.5',
           containerSettings: {
-            javaLinuxSupport: {
+            windowsSupport: true,
+            linuxSupport: {
               java11Runtime: 'TOMCAT|8.5-java11',
               java8Runtime: 'TOMCAT|8.5-jre8',
             },
@@ -123,28 +135,32 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'Tomcat 8.5.6',
           value: '8.5.6',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 8.5.47',
           value: '8.5.47',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 8.5.42',
           value: '8.5.47',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 8.5.41',
           value: '8.5.47',
           containerSettings: {
-            javaLinuxSupport: {
+            windowsSupport: false,
+            linuxSupport: {
               java11Runtime: 'TOMCAT|8.5.41-java11',
               java8Runtime: 'TOMCAT|8.5.41-java8', // Note (allisonm): For some reason this is java8 not jre8
             },
@@ -154,28 +170,32 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'Tomcat 8.5.37',
           value: '8.5.37',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 8.5.34',
           value: '8.5.34',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 8.5.31',
           value: '8.5.31',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 8.5.20',
           value: '8.5.20',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
       ],
@@ -188,28 +208,32 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'Tomcat 8.0 (Auto-Update)',
           value: '8.0',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 8.0.53',
           value: '8.0.53',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 8.0.46',
           value: '8.0.46',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 8.0.23',
           value: '8.0.23',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
       ],
@@ -222,35 +246,40 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'Tomcat 7.0 (Auto-Update)',
           value: '7.0',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 7.0.94',
           value: '7.0.94',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 7.0.81',
           value: '7.0.81',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 7.0.62',
           value: '7.0.62',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Tomcat 7.0.50',
           value: '7.0.50',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
       ],
@@ -263,21 +292,24 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'Jetty 9.3 (Auto-Update)',
           value: '9.3',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Jetty 9.3.25',
           value: '9.3.25',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Jetty 9.3.13',
           value: '9.3.13',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
       ],
@@ -290,14 +322,16 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'Jetty 9.1 (Auto-Update)',
           value: '9.1',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
         {
           displayText: 'Jetty 9.1.0',
           value: '9.1.0',
           containerSettings: {
-            javaLinuxSupport: {},
+            windowsSupport: true,
+            linuxSupport: {},
           },
         },
       ],
@@ -312,7 +346,8 @@ export const javaContainersStack: WebAppStack = {
           containerSettings: {
             isPreview: true,
             isHidden: true,
-            javaLinuxSupport: {
+            windowsSupport: false,
+            linuxSupport: {
               java8Runtime: 'WILDFLY|14-jre8',
             },
           },
