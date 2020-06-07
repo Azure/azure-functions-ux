@@ -2036,4 +2036,6 @@ export class PortalResources {
   public static deploymentCenterOAuthChangeAccount = 'deploymentCenterOAuthChangeAccount';
   public static deploymentCenterOAuthSingedInAs = 'deploymentCenterOAuthSingedInAs';
   public static leaveFeedback = 'leaveFeedback';
+  public static functionLogsFeedbackCESQuestion = 'functionLogsFeedbackCESQuestion';
+  public static functionLogsFeedbackCVAQuestion = 'functionLogsFeedbackCVAQuestion';
 }

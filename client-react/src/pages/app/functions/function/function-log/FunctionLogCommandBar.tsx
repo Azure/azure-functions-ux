@@ -211,7 +211,23 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   };
 
   const openFeedbackBlade = () => {
-    console.log('feedback!');
+    const featureName = 'FunctionLogs';
+    portalContext.openBlade(
+      {
+        detailBlade: 'InProductFeedbackBlade',
+        extension: 'HubsExtension',
+        openAsContextBlade: true,
+        detailBladeInputs: {
+          bladeName: `${featureName}`,
+          cesQuestion: t('functionLogsFeedbackCESQuestion'),
+          cvaQuestion: t('functionLogsFeedbackCVAQuestion'),
+          extensionName: 'WebsitesExtension',
+          featureName: `${featureName}`,
+          surveyId: `${featureName}-0421`,
+        },
+      },
+      'function-logs'
+    );
   };
 
   return (
