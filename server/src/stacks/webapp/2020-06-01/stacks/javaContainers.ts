@@ -216,8 +216,44 @@ export const javaContainersStack: WebAppStack = {
     },
     {
       displayText: 'Tomcat 7.0',
-      value: 'Tomcat 7.0',
-      minorVersions: [],
+      value: 'TOMCAT',
+      minorVersions: [
+        {
+          displayText: 'Tomcat 7.0 (Auto-Update)',
+          value: '7.0',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 7.0.94',
+          value: '7.0.94',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 7.0.81',
+          value: '7.0.81',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 7.0.62',
+          value: '7.0.62',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+        {
+          displayText: 'Tomcat 7.0.50',
+          value: '7.0.50',
+          containerSettings: {
+            javaLinuxSupport: {},
+          },
+        },
+      ],
     },
     {
       displayText: 'Jetty 9.1',
