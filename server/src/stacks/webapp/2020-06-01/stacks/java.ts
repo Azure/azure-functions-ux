@@ -16,6 +16,66 @@ export const javaStack: WebAppStack = {
       value: '11',
       minorVersions: [
         {
+          displayText: 'Java 11 (Auto-Update)',
+          value: '11.0',
+          platforms: {
+            linux: {
+              runtimeVersion: undefined,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              projectedEndOfLifeDate: java11EOL,
+            },
+            windows: {
+              runtimeVersion: '11',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              projectedEndOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 11.0.5 (Azul)',
+          value: '11.0.5 (Azul)',
+          platforms: {
+            linux: {
+              runtimeVersion: undefined,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              projectedEndOfLifeDate: java11EOL,
+            },
+            windows: {
+              runtimeVersion: '11.0.5_ZULU',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              projectedEndOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
           displayText: 'Java 11.0.3 (Azul)',
           value: '11.0.3 (Azul)',
           platforms: {
@@ -81,6 +141,66 @@ export const javaStack: WebAppStack = {
       displayText: 'Java 8',
       value: '8',
       minorVersions: [
+        {
+          displayText: 'Java 8 (Auto-Update)',
+          value: '1.8.0',
+          platforms: {
+            linux: {
+              runtimeVersion: undefined,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              projectedEndOfLifeDate: java8EOL,
+            },
+            windows: {
+              runtimeVersion: '1.8',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              projectedEndOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.8.0_232 (Azul)',
+          value: '1.8.0_232 (Azul)',
+          platforms: {
+            linux: {
+              runtimeVersion: undefined,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              projectedEndOfLifeDate: java8EOL,
+            },
+            windows: {
+              runtimeVersion: '1.8.0_232_ZULU',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              projectedEndOfLifeDate: java8EOL,
+            },
+          },
+        },
         {
           displayText: 'Java 1.8.0_212 (Azul)',
           value: '1.8.0_212 (Azul)',
@@ -507,6 +627,23 @@ export const javaStack: WebAppStack = {
       displayText: 'Java 7',
       value: '7',
       minorVersions: [
+        {
+          displayText: 'Java 1.7.0 (Auto-Update)',
+          value: '1.7.0',
+          platforms: {
+            windows: {
+              runtimeVersion: '1.7',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              projectedEndOfLifeDate: java7EOL,
+            },
+          },
+        },
         {
           displayText: 'Java 1.7.0_222 (Azul)',
           value: '1.7.0_222 (Azul)',
