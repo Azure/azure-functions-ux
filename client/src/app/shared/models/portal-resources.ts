@@ -1994,6 +1994,10 @@ export class PortalResources {
   public static deploymentCenterCodeSettingsDescription = 'deploymentCenterCodeSettingsDescription';
   public static deploymentCenterSettingsSourceLabel = 'deploymentCenterSettingsSourceLabel';
   public static deploymentCenterCodeSettingsSourcePlaceholder = 'deploymentCenterCodeSettingsSourcePlaceholder';
+  public static deploymentCenterSettingsBuildTitle = 'deploymentCenterSettingsBuildTitle';
+  public static deploymentCenterSettingsBuildLabel = 'deploymentCenterSettingsBuildLabel';
+  public static deploymentCenterSettingsRuntimeLabel = 'deploymentCenterSettingsRuntimeLabel';
+  public static deploymentCenterSettingsRuntimeVersionLabel = 'deploymentCenterSettingsRuntimeVersionLabel';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistry =
     'deploymentCenterContainerSettingsSourceOptionContainerRegistry';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription =
@@ -2063,4 +2067,6 @@ export class PortalResources {
   public static deploymentCenterCodeSettingsSourceOneDrive = 'deploymentCenterCodeSettingsSourceOneDrive';
   public static deploymentCenterCodeSettingsSourceDropbox = 'deploymentCenterCodeSettingsSourceDropbox';
   public static deploymentCenterCodeSettingsSourceExternal = 'deploymentCenterCodeSettingsSourceExternal';
+  public static deploymentCenterCodeSettingsBuildGitHubAction = 'deploymentCenterCodeSettingsBuildGitHubAction';
+  public static deploymentCenterCodeSettingsBuildKudu = 'deploymentCenterCodeSettingsBuildKudu';
 }

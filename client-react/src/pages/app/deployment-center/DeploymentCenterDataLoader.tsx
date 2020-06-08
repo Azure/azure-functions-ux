@@ -65,6 +65,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [isPublishProfilePanelOpen, setIsPublishProfilePanelOpen] = useState<boolean>(false);
   const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties> | undefined>(undefined);
   const [siteConfig, setSiteConfig] = useState<ArmObj<SiteConfig> | undefined>(undefined);
+  const [siteMetadata, setSiteMetadata] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
   const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [isContainerApplication, setIsContainerApplication] = useState(false);
@@ -110,6 +111,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getContainerLogsRequest = deploymentCenterData.fetchContainerLogs(resourceId);
     const getSiteConfigRequest = deploymentCenterData.getSiteConfig(resourceId);
     const getDeploymentsRequest = deploymentCenterData.getSiteDeployments(resourceId);
+    const getSiteMetadataRequest = deploymentCenterData.getSiteMetadata(resourceId);
 
     const [
       writePermissionResponse,
@@ -117,12 +119,14 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       containerLogsResponse,
       siteConfigResponse,
       deploymentsResponse,
+      siteMetadataResponse,
     ] = await Promise.all([
       writePermissionRequest,
       getPublishingUserRequest,
       getContainerLogsRequest,
       getSiteConfigRequest,
       getDeploymentsRequest,
+      getSiteMetadataRequest,
     ]);
 
     setSiteDescriptor(new ArmSiteDescriptor(resourceId));
@@ -155,6 +159,18 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         LogCategories.deploymentCenter,
         'DeploymentCenterFtpsDataLoader',
         `Failed to get site config with error: ${getErrorMessage(siteConfigResponse.metadata.error)}`
+      );
+    }
+
+    if (siteMetadataResponse.metadata.success) {
+      setSiteMetadata(siteMetadataResponse.data);
+      deploymentCenterContainerFormBuilder.setSiteMetadata(siteMetadataResponse.data);
+      deploymentCenterCodeFormBuilder.setSiteMetadata(siteMetadataResponse.data);
+    } else {
+      LogService.error(
+        LogCategories.deploymentCenter,
+        'DeploymentCenterFtpsDataLoader',
+        `Failed to get site metadata with error: ${getErrorMessage(siteMetadataResponse.metadata.error)}`
       );
     }
 
@@ -252,6 +268,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         applicationSettings,
         isContainerApplication,
         isLinuxApplication,
+        siteMetadata,
       }}>
       {isContainerApp(siteStateContext.site) ? (
         <DeploymentCenterContainerForm

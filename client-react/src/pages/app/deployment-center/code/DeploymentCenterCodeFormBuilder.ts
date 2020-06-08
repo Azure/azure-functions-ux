@@ -1,4 +1,4 @@
-import { ScmTypes } from '../../../../models/site/config';
+import { ScmTypes, BuildProvider } from '../../../../models/site/config';
 import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
 import * as Yup from 'yup';
 import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
@@ -7,7 +7,7 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
   public generateFormData(): DeploymentCenterFormData<DeploymentCenterCodeFormData> {
     return {
       sourceProvider: ScmTypes.None,
-      buildProvider: ScmTypes.None,
+      buildProvider: BuildProvider.None,
       ...this.generatePublishingCredentialsFormData(),
     };
     // TODO(t-kakan): Properly set sourceProvider and buildProvider rather than setting them to None
