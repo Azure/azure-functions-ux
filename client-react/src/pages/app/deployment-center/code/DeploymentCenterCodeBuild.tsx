@@ -13,16 +13,16 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
 
   const isGitHubSource = formProps && formProps.values.sourceProvider === ScmTypes.GitHub;
 
+  interface BuildDropdownOption extends IDropdownOption {
+    buildType: BuildProvider;
+  }
+
   const updateSelectedBuild = (e: any, option: BuildDropdownOption) => {
     setSelectedBuild(option.buildType);
     if (formProps) {
       formProps.setFieldValue('buildProvider', option.buildType);
     }
   };
-
-  interface BuildDropdownOption extends IDropdownOption {
-    buildType: BuildProvider;
-  }
 
   const buildOptions: BuildDropdownOption[] = [
     { key: BuildProvider.GitHubAction, text: t('deploymentCenterCodeSettingsBuildGitHubAction'), buildType: BuildProvider.GitHubAction },
@@ -44,7 +44,6 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
         setSelectedBuild(BuildProvider.GitHubAction);
         formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
       }
-
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     formProps ? [formProps.values.sourceProvider] : []

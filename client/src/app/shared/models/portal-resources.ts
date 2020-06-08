@@ -2060,7 +2060,7 @@ export class PortalResources {
   public static deploymentCenterCodeSettingsSourceContinuousDeploymentHeader =
     'deploymentCenterCodeSettingsSourceContinuousDeploymentHeader';
   public static deploymentCenterCodeSettingsSourceManualDeploymentHeader = 'deploymentCenterCodeSettingsSourceManualDeploymentHeader';
-  public static deploymentCenterCodeSettingsSourceGithub = 'deploymentCenterCodeSettingsSourceGithub';
+  public static deploymentCenterCodeSettingsSourceGitHub = 'deploymentCenterCodeSettingsSourceGitHub';
   public static deploymentCenterCodeSettingsSourceAzureRepos = 'deploymentCenterCodeSettingsSourceAzureRepos';
   public static deploymentCenterCodeSettingsSourceBitbucket = 'deploymentCenterCodeSettingsSourceBitbucket';
   public static deploymentCenterCodeSettingsSourceLocalGit = 'deploymentCenterCodeSettingsSourceLocalGit';

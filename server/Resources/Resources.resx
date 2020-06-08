@@ -6342,8 +6342,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
         <value>Manual Deployment (Push)</value>
     </data>
-    <data name="deploymentCenterCodeSettingsSourceGithub" xml:space="preserve">
-        <value>Github</value>
+    <data name="deploymentCenterCodeSettingsSourceGitHub" xml:space="preserve">
+        <value>GitHub</value>
     </data>
     <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
         <value>Azure Repos</value>
