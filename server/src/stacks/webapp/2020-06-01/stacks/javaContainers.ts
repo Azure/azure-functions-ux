@@ -36,7 +36,7 @@ export const javaContainersStack: WebAppStack = {
           containerSettings: {
             windowsSupport: {
               javaContainer: 'JAVA',
-              javaContainerVersion: '11',
+              javaContainerVersion: '8',
             },
             linuxSupport: {
               java8Runtime: 'JAVA|8-jre8',
