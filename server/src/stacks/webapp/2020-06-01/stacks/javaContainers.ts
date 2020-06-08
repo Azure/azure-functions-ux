@@ -446,8 +446,7 @@ export const javaContainersStack: WebAppStack = {
           displayText: 'WildFly 14',
           value: '14',
           containerSettings: {
-            isPreview: true,
-            isHidden: true,
+            isDeprecated: true,
             windowsSupport: false,
             linuxSupport: {
               java8Runtime: 'WILDFLY|14-jre8',
