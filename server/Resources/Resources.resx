@@ -6156,6 +6156,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
         <value>Select code source</value>
     </data>
+    <data name="deploymentCenterSettingsBuildTitle" xml:space="preserve">
+        <value>Build</value>
+    </data>
+    <data name="deploymentCenterSettingsBuildLabel" xml:space="preserve">
+        <value>Build provider</value>
+    </data>
+    <data name="deploymentCenterSettingsRuntimeLabel" xml:space="preserve">
+        <value>Runtime stack</value>
+    </data>
+    <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
+        <value>Version</value>
+    </data>
     <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>Container Registry</value>
     </data>
@@ -6330,8 +6342,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
         <value>Manual Deployment (Push)</value>
     </data>
-    <data name="deploymentCenterCodeSettingsSourceGithub" xml:space="preserve">
-        <value>Github</value>
+    <data name="deploymentCenterCodeSettingsSourceGitHub" xml:space="preserve">
+        <value>GitHub</value>
     </data>
     <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
         <value>Azure Repos</value>
@@ -6350,5 +6362,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
         <value>External</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+    <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
+        <value>App Service Build Service</value>
     </data>
 </root>

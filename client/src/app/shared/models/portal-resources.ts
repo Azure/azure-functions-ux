@@ -1994,6 +1994,10 @@ export class PortalResources {
   public static deploymentCenterCodeSettingsDescription = 'deploymentCenterCodeSettingsDescription';
   public static deploymentCenterSettingsSourceLabel = 'deploymentCenterSettingsSourceLabel';
   public static deploymentCenterCodeSettingsSourcePlaceholder = 'deploymentCenterCodeSettingsSourcePlaceholder';
+  public static deploymentCenterSettingsBuildTitle = 'deploymentCenterSettingsBuildTitle';
+  public static deploymentCenterSettingsBuildLabel = 'deploymentCenterSettingsBuildLabel';
+  public static deploymentCenterSettingsRuntimeLabel = 'deploymentCenterSettingsRuntimeLabel';
+  public static deploymentCenterSettingsRuntimeVersionLabel = 'deploymentCenterSettingsRuntimeVersionLabel';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistry =
     'deploymentCenterContainerSettingsSourceOptionContainerRegistry';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription =
@@ -2056,11 +2060,13 @@ export class PortalResources {
   public static deploymentCenterCodeSettingsSourceContinuousDeploymentHeader =
     'deploymentCenterCodeSettingsSourceContinuousDeploymentHeader';
   public static deploymentCenterCodeSettingsSourceManualDeploymentHeader = 'deploymentCenterCodeSettingsSourceManualDeploymentHeader';
-  public static deploymentCenterCodeSettingsSourceGithub = 'deploymentCenterCodeSettingsSourceGithub';
+  public static deploymentCenterCodeSettingsSourceGitHub = 'deploymentCenterCodeSettingsSourceGitHub';
   public static deploymentCenterCodeSettingsSourceAzureRepos = 'deploymentCenterCodeSettingsSourceAzureRepos';
   public static deploymentCenterCodeSettingsSourceBitbucket = 'deploymentCenterCodeSettingsSourceBitbucket';
   public static deploymentCenterCodeSettingsSourceLocalGit = 'deploymentCenterCodeSettingsSourceLocalGit';
   public static deploymentCenterCodeSettingsSourceOneDrive = 'deploymentCenterCodeSettingsSourceOneDrive';
   public static deploymentCenterCodeSettingsSourceDropbox = 'deploymentCenterCodeSettingsSourceDropbox';
   public static deploymentCenterCodeSettingsSourceExternal = 'deploymentCenterCodeSettingsSourceExternal';
+  public static deploymentCenterCodeSettingsBuildGitHubAction = 'deploymentCenterCodeSettingsBuildGitHubAction';
+  public static deploymentCenterCodeSettingsBuildKudu = 'deploymentCenterCodeSettingsBuildKudu';
 }

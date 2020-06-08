@@ -16,7 +16,7 @@ const DeploymentCenterCodeSource: React.FC<{}> = props => {
       text: t('deploymentCenterCodeSettingsSourceContinuousDeploymentHeader'),
       itemType: DropdownMenuItemType.Header,
     },
-    { key: ScmTypes.GitHub, text: t('deploymentCenterCodeSettingsSourceGithub') },
+    { key: ScmTypes.GitHub, text: t('deploymentCenterCodeSettingsSourceGitHub') },
     { key: ScmTypes.Vso, text: t('deploymentCenterCodeSettingsSourceAzureRepos') },
     { key: ScmTypes.BitbucketGit, text: t('deploymentCenterCodeSettingsSourceBitbucket') },
     { key: ScmTypes.LocalGit, text: t('deploymentCenterCodeSettingsSourceLocalGit') },

@@ -19,6 +19,12 @@ export enum ScmTypes {
   Vsts = 'VSTS',
 }
 
+export enum BuildProvider {
+  None = 'None',
+  GitHubAction = 'GitHubAction',
+  AppServiceBuildService = 'AppServiceBuildService',
+}
+
 export interface SiteConfig {
   numberOfWorkers: number;
   defaultDocuments: string[];
