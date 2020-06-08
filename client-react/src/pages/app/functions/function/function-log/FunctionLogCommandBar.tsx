@@ -225,7 +225,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
           cvaQuestion: t('functionLogsFeedbackCVAQuestion'),
           extensionName: 'WebsitesExtension',
           featureName: `${featureName}`,
-          surveyId: `${featureName}-0421`,
+          surveyId: `${featureName}-0420`,
         },
       },
       'function-logs'
