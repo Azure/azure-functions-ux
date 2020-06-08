@@ -2069,4 +2069,7 @@ export class PortalResources {
   public static deploymentCenterCodeSettingsSourceExternal = 'deploymentCenterCodeSettingsSourceExternal';
   public static deploymentCenterCodeSettingsBuildGitHubAction = 'deploymentCenterCodeSettingsBuildGitHubAction';
   public static deploymentCenterCodeSettingsBuildKudu = 'deploymentCenterCodeSettingsBuildKudu';
+  public static leaveFeedback = 'leaveFeedback';
+  public static functionLogsFeedbackCESQuestion = 'functionLogsFeedbackCESQuestion';
+  public static functionLogsFeedbackCVAQuestion = 'functionLogsFeedbackCVAQuestion';
 }
