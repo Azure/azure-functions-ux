@@ -441,6 +441,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.7',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -458,6 +459,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.7.0_222_ZULU',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -475,6 +477,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.7.0_191_ZULU',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
