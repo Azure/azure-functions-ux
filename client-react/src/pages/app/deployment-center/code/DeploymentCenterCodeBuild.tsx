@@ -35,7 +35,6 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
 
   useEffect(
     () => {
-      console.log('hello');
       if (formProps && formProps.values.sourceProvider !== ScmTypes.GitHub) {
         setSelectedBuild(BuildProvider.AppServiceBuildService);
         formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
