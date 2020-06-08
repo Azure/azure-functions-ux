@@ -1,6 +1,6 @@
 import { WebAppStack } from './../stack.model';
 
-// EOL source: https://azure.microsoft.com/en-us/blog/azure-app-service-update-free-linux-tier-python-and-java-support-and-more/
+// EOL source: https://docs.microsoft.com/en-us/java/azure/jdk/?view=azure-java-stable#supported-java-versions-and-update-schedule
 const java7EOL = new Date(2023, 7);
 const java8EOL = new Date(2025, 3);
 const java11EOL = new Date(2026, 9);
@@ -20,7 +20,7 @@ export const javaStack: WebAppStack = {
           value: '11.0.3 (Azul)',
           platforms: {
             linux: {
-              runtimeVersion: 'java11',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -50,7 +50,7 @@ export const javaStack: WebAppStack = {
           value: '11.0.2 (Azul)',
           platforms: {
             linux: {
-              runtimeVersion: 'java11',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -86,7 +86,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_212 (Azul)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -116,7 +116,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_202 (Azul)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -146,7 +146,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_202 (Oracle)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -176,7 +176,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_181 (Azul)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -206,7 +206,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_181 (Oracle)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -236,7 +236,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_172 (Azul)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -266,7 +266,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_172 (Oracle)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -296,7 +296,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_144 (Azul)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -326,7 +326,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_111 (Oracle)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -356,7 +356,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_102 (Azul)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -386,7 +386,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_92 (Azul)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -416,7 +416,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_73 (Oracle)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -446,7 +446,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_60 (Oracle)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -476,7 +476,7 @@ export const javaStack: WebAppStack = {
           value: '1.8.0_25 (Oracle)',
           platforms: {
             linux: {
-              runtimeVersion: 'jre8',
+              runtimeVersion: undefined,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
