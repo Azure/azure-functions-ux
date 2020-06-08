@@ -25,7 +25,8 @@ export const javaContainersStack: WebAppStack = {
           containerSettings: {
             windowsSupport: false,
             linuxSupport: {
-              java11Runtime: 'JAVA|11.0.5', // Note (allisonm): For some reason this doesn't have suffix of -java11
+              // Note (allisonm): This doesn't have suffix of -java11 since setting to 11.0.5 prevents auto-updates
+              java11Runtime: 'JAVA|11.0.5',
             },
           },
         },
@@ -101,7 +102,7 @@ export const javaContainersStack: WebAppStack = {
             windowsSupport: false,
             linuxSupport: {
               java11Runtime: 'TOMCAT|9.0.20-java11',
-              java8Runtime: 'TOMCAT|9.0.20-java8', // Note (allisonm): For some reason this is java8 not jre8
+              java8Runtime: 'TOMCAT|9.0.20-java8', // Note (allisonm): Newer Tomcat versions use java8, not jre8
             },
           },
         },
@@ -209,7 +210,7 @@ export const javaContainersStack: WebAppStack = {
             windowsSupport: false,
             linuxSupport: {
               java11Runtime: 'TOMCAT|8.5.41-java11',
-              java8Runtime: 'TOMCAT|8.5.41-java8', // Note (allisonm): For some reason this is java8 not jre8
+              java8Runtime: 'TOMCAT|8.5.41-java8', // Note (allisonm): Newer Tomcat versions use java8, not jre8
             },
           },
         },
