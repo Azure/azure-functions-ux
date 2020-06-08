@@ -219,6 +219,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_202',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -227,7 +228,6 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -255,6 +255,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_181',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -263,7 +264,6 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -291,6 +291,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_172',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -299,7 +300,6 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -327,6 +327,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_111',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -335,7 +336,6 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -381,6 +381,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_73',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -389,7 +390,6 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -399,6 +399,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_60',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -407,7 +408,6 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -417,6 +417,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_65',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -425,7 +426,6 @@ export const javaStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
             },
           },
         },
@@ -492,6 +492,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.7.0_80',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -499,7 +500,6 @@ export const javaStack: WebAppStack = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: java7EOL,
             },
           },
         },
@@ -509,6 +509,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.7.0_71',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -516,7 +517,6 @@ export const javaStack: WebAppStack = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: java7EOL,
             },
           },
         },
@@ -526,6 +526,7 @@ export const javaStack: WebAppStack = {
           platforms: {
             windows: {
               runtimeVersion: '1.7.0_51',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -533,7 +534,6 @@ export const javaStack: WebAppStack = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: java7EOL,
             },
           },
         },
