@@ -95,7 +95,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       const currentRuntimeVersion = getRuntimeVersionString(hostStatusData.properties.version);
       setRuntimeVersion(currentRuntimeVersion);
       const [hostJsonResponse, fileListResponse] = await Promise.all([
-        FunctionsService.getHostJson(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
+        FunctionsService.getHostJson(siteResourceId, currentRuntimeVersion),
         FunctionsService.getFileContent(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
       ]);
       if (hostJsonResponse && hostJsonResponse.metadata.success) {
