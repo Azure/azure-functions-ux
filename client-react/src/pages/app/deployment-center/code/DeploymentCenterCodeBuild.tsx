@@ -44,8 +44,7 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
         setSelectedBuild(BuildProvider.GitHubAction);
         formProps.setFieldValue('buildProvider', BuildProvider.GitHubAction);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
+    }, // eslint-disable-next-line react-hooks/exhaustive-deps
     formProps ? [formProps.values.sourceProvider] : []
   );
 
