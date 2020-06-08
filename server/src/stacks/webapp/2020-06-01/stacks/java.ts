@@ -46,8 +46,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 11.0.5 (Azul)',
-          value: '11.0.5 (Azul)',
+          displayText: 'Java 11.0.5',
+          value: '11.0.5',
           platforms: {
             linux: {
               runtimeVersion: undefined,
@@ -76,8 +76,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 11.0.3 (Azul)',
-          value: '11.0.3 (Azul)',
+          displayText: 'Java 11.0.3',
+          value: '11.0.3',
           platforms: {
             windows: {
               runtimeVersion: '11.0.3_ZULU',
@@ -94,8 +94,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 11.0.2 (Azul)',
-          value: '11.0.2 (Azul)',
+          displayText: 'Java 11.0.2',
+          value: '11.0.2',
           platforms: {
             windows: {
               runtimeVersion: '11.0.2_ZULU',
@@ -148,8 +148,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.8.0_232 (Azul)',
-          value: '8.0_232 (Azul)',
+          displayText: 'Java 1.8.0_232',
+          value: '8.0.232',
           platforms: {
             linux: {
               runtimeVersion: undefined,
@@ -178,8 +178,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.8.0_212 (Azul)',
-          value: '8.0_212 (Azul)',
+          displayText: 'Java 1.8.0_212',
+          value: '8.0.212',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_212_ZULU',
@@ -196,8 +196,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.8.0_202 (Azul)',
-          value: '8.0_202 (Azul)',
+          displayText: 'Java 1.8.0_202',
+          value: '8.0.202',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_202_ZULU',
@@ -215,7 +215,7 @@ export const javaStack: WebAppStack = {
         },
         {
           displayText: 'Java 1.8.0_202 (Oracle)',
-          value: '8.0_202 (Oracle)',
+          value: '8.0.202 (Oracle)',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_202',
@@ -232,8 +232,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.8.0_181 (Azul)',
-          value: '8.0_181 (Azul)',
+          displayText: 'Java 1.8.0_181',
+          value: '8.0.181',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_181_ZULU',
@@ -251,7 +251,7 @@ export const javaStack: WebAppStack = {
         },
         {
           displayText: 'Java 1.8.0_181 (Oracle)',
-          value: '8.0_181 (Oracle)',
+          value: '8.0.181 (Oracle)',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_181',
@@ -268,8 +268,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.8.0_172 (Azul)',
-          value: '8.0_172 (Azul)',
+          displayText: 'Java 1.8.0_172',
+          value: '8.0.172',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_172_ZULU',
@@ -287,7 +287,7 @@ export const javaStack: WebAppStack = {
         },
         {
           displayText: 'Java 1.8.0_172 (Oracle)',
-          value: '8.0_172 (Oracle)',
+          value: '8.0.172 (Oracle)',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_172',
@@ -304,8 +304,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.8.0_144 (Azul)',
-          value: '8.0_144 (Azul)',
+          displayText: 'Java 1.8.0_144',
+          value: '8.0.144',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_144', // NOTE (allisonm): Azul 8 runtimes versions here and lower omit the suffix: _ZULU
@@ -323,7 +323,7 @@ export const javaStack: WebAppStack = {
         },
         {
           displayText: 'Java 1.8.0_111 (Oracle)',
-          value: '8.0_111 (Oracle)',
+          value: '8.0.111 (Oracle)',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_111',
@@ -340,8 +340,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.8.0_102 (Azul)',
-          value: '8.0_102 (Azul)',
+          displayText: 'Java 1.8.0_102',
+          value: '8.0.102',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_102',
@@ -358,8 +358,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.8.0_92 (Azul)',
-          value: '8.0_92 (Azul)',
+          displayText: 'Java 1.8.0_92',
+          value: '8.0.92',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_92',
@@ -377,7 +377,7 @@ export const javaStack: WebAppStack = {
         },
         {
           displayText: 'Java 1.8.0_73 (Oracle)',
-          value: '8.0_73 (Oracle)',
+          value: '8.0.73 (Oracle)',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_73',
@@ -395,7 +395,7 @@ export const javaStack: WebAppStack = {
         },
         {
           displayText: 'Java 1.8.0_60 (Oracle)',
-          value: '8.0_60 (Oracle)',
+          value: '8.0.60 (Oracle)',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_60',
@@ -413,7 +413,7 @@ export const javaStack: WebAppStack = {
         },
         {
           displayText: 'Java 1.8.0_25 (Oracle)',
-          value: '8.0_25 (Oracle)',
+          value: '8.0.25 (Oracle)',
           platforms: {
             windows: {
               runtimeVersion: '1.8.0_65',
@@ -454,8 +454,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.7.0_222 (Azul)',
-          value: '7.0_222 (Azul)',
+          displayText: 'Java 1.7.0_222',
+          value: '7.0.222',
           platforms: {
             windows: {
               runtimeVersion: '1.7.0_222_ZULU',
@@ -472,8 +472,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 1.7.0_191 (Azul)',
-          value: '7.0_191  (Azul)',
+          displayText: 'Java 1.7.0_191',
+          value: '7.0.191',
           platforms: {
             windows: {
               runtimeVersion: '1.7.0_191_ZULU',
@@ -491,7 +491,7 @@ export const javaStack: WebAppStack = {
         },
         {
           displayText: 'Java 1.7.0_80 (Oracle)',
-          value: '7.0_80 (Oracle)',
+          value: '7.0.80 (Oracle)',
           platforms: {
             windows: {
               runtimeVersion: '1.7.0_80',
@@ -508,7 +508,7 @@ export const javaStack: WebAppStack = {
         },
         {
           displayText: 'Java 1.7.0_71 (Oracle)',
-          value: '7.0_71 (Oracle)',
+          value: '7.0.71 (Oracle)',
           platforms: {
             windows: {
               runtimeVersion: '1.7.0_71',
@@ -525,7 +525,7 @@ export const javaStack: WebAppStack = {
         },
         {
           displayText: 'Java 1.7.0_51 (Oracle)',
-          value: '7.0_51 (Oracle)',
+          value: '7.0.51 (Oracle)',
           platforms: {
             windows: {
               runtimeVersion: '1.7.0_51',
