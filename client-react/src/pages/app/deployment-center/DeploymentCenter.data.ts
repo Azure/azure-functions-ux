@@ -38,7 +38,7 @@ export default class DeploymentCenterData {
     return SiteService.fetchApplicationSettings(resourceId);
   };
 
-  public getSiteMetadata = (resourceId: string) => {
+  public getConfigMetadata = (resourceId: string) => {
     return SiteService.fetchMetadata(resourceId);
   };
 

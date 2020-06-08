@@ -12,7 +12,7 @@ export interface IDeploymentCenterContext {
   siteConfig?: ArmObj<SiteConfig>;
   siteDescriptor?: ArmSiteDescriptor;
   applicationSettings?: ArmObj<KeyValue<string>>;
-  siteMetadata?: ArmObj<KeyValue<string>>;
+  configMetadata?: ArmObj<KeyValue<string>>;
 }
 
 export const DeploymentCenterContext = React.createContext<IDeploymentCenterContext>({} as IDeploymentCenterContext);

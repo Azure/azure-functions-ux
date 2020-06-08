@@ -10,7 +10,7 @@ export abstract class DeploymentCenterFormBuilder {
   protected _publishingUser: ArmObj<PublishingUser>;
   protected _siteConfig: ArmObj<SiteConfig>;
   protected _applicationSettings: ArmObj<KeyValue<string>>;
-  protected _siteMetadata: ArmObj<KeyValue<string>>;
+  protected _configMetadata: ArmObj<KeyValue<string>>;
   protected _t: i18next.TFunction;
 
   constructor(t: i18next.TFunction) {
@@ -60,8 +60,8 @@ export abstract class DeploymentCenterFormBuilder {
     this._applicationSettings = applicationSettings;
   }
 
-  public setSiteMetadata(applicationSettings: ArmObj<KeyValue<string>>) {
-    this._applicationSettings = applicationSettings;
+  public setConfigMetadata(configMetadata: ArmObj<KeyValue<string>>) {
+    this._configMetadata = configMetadata;
   }
 
   public abstract generateFormData(): DeploymentCenterFormData;
