@@ -1,11 +1,11 @@
 <div *ngIf="featureItems && featureItems.length > 0">
-  <h3 class="feature-list-header">{{title}}</h3>
+  <h4 class="feature-list-header">{{title}}</h4>
   <div>{{description}}</div>
   <div *ngFor="let feature of featureItems" class="feature-item">
 
     <div [load-image]="feature.iconUrl" class="icon-medium"></div>
     <div class="feature-body">
-      <h4 [id]="feature.title | removeSpaces">{{feature.title}}</h4>
+      <h5 [id]="feature.title | removeSpaces">{{feature.title}}</h5>
       <div class="feature-description">{{feature.description}}
         <div class="feature-learnMore"
           *ngIf="feature.learnMoreUrl"

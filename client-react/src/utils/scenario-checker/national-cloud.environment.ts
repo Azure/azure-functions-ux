@@ -96,13 +96,6 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.addFTPOptions] = {
-      id: ScenarioIds.addFTPOptions,
-      runCheck: () => {
-        return { status: 'disabled' };
-      },
-    };
-
     this.scenarioChecks[ScenarioIds.addDiagnoseAndSolve] = {
       id: ScenarioIds.addDiagnoseAndSolve,
       runCheck: () => {
