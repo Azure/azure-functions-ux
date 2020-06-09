@@ -186,7 +186,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const tokenIsValid = (tokenComponent: AppInsightsComponentToken): boolean => {
     const tokenExpirationTime = new Date(tokenComponent.expires);
     const currentTime = new Date();
-    return tokenExpirationTime <= currentTime;
+    return tokenExpirationTime > currentTime;
   };
 
   const startLogs = () => {
