@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { ArmObj } from '../../../../../models/arm-obj';
-import { AppInsightsComponent } from '../../../../../models/app-insights';
+import { AppInsightsComponent, AppInsightsComponentToken } from '../../../../../models/app-insights';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
@@ -49,7 +49,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   const { t } = useTranslation();
 
-  const [appInsightsToken, setAppInsightsToken] = useState<string | undefined>(undefined);
+  const [appInsightsToken, setAppInsightsToken] = useState<AppInsightsComponentToken | undefined>(undefined);
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
   const [started, setStarted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
@@ -90,7 +90,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const fetchToken = async (component: ArmObj<AppInsightsComponent>) => {
     AppInsightsService.getAppInsightsComponentToken(component.id).then(appInsightsComponentTokenResponse => {
       if (appInsightsComponentTokenResponse.metadata.success) {
-        setAppInsightsToken(appInsightsComponentTokenResponse.data.token);
+        setAppInsightsToken(appInsightsComponentTokenResponse.data);
       } else {
         LogService.error(
           LogCategories.functionLog,
@@ -105,9 +105,9 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     setAppInsightsToken(undefined);
   };
 
-  const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, token: string) => {
+  const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, token: AppInsightsComponentToken) => {
     quickPulseQueryLayer
-      .queryDetails(token, false, '')
+      .queryDetails(token.token, false, '')
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
           let newDocs = dataV2.DataRanges[0].Documents.filter(
@@ -125,12 +125,17 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       })
       .catch(error => {
         const errorString = typeof error === 'string' ? error : JSON.stringify(error);
+        const tokenExpiration = new Date(token.expires);
+        const now = new Date();
+        if (tokenExpiration >= now) {
+          // Only log an error if the token has not yet expired
+          LogService.error(
+            LogCategories.functionLog,
+            'queryAppInsights',
+            `Error when attempting to Query Application Insights: ${errorString}`
+          );
+        }
         resetAppInsightsToken();
-        LogService.error(
-          LogCategories.functionLog,
-          'getAppInsightsComponentToken',
-          `Error when attempting to Query Application Insights: ${errorString}`
-        );
       })
       .finally(() => {
         setCallCount(callCount + 1);
@@ -226,9 +231,15 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   }, [appInsightsComponent, appInsightsToken]);
 
   useEffect(() => {
-    if (appInsightsToken && queryLayer) {
-      const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, appInsightsToken), 3000);
-      return () => clearInterval(timeout);
+    if (appInsightsToken) {
+      const tokenExpiration = new Date(appInsightsToken.expires);
+      const now = new Date();
+      if (tokenExpiration <= now) {
+        resetAppInsightsToken();
+      } else if (queryLayer) {
+        const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, appInsightsToken), 3000);
+        return () => clearInterval(timeout);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allLogEntries, queryLayer, appInsightsToken, callCount]);
