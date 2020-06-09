@@ -63,32 +63,30 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
-      {scenarioChecker.checkScenario(ScenarioIds.addFTPOptions, { site }).status !== 'disabled' && (
-        <Field
-          name="config.properties.ftpsState"
-          dirty={values.config.properties.ftpsState !== initialValues.config.properties.ftpsState}
-          component={Dropdown}
-          infoBubbleMessage={t('ftpsInfoMessage')}
-          learnMoreLink={Links.ftpInfo}
-          label={t('ftpState')}
-          id="app-settings-ftps-state"
-          disabled={disableAllControls}
-          options={[
-            {
-              key: 'AllAllowed',
-              text: t('allAllowed'),
-            },
-            {
-              key: 'FtpsOnly',
-              text: t('ftpsOnly'),
-            },
-            {
-              key: 'Disabled',
-              text: t('disabled'),
-            },
-          ]}
-        />
-      )}
+      <Field
+        name="config.properties.ftpsState"
+        dirty={values.config.properties.ftpsState !== initialValues.config.properties.ftpsState}
+        component={Dropdown}
+        infoBubbleMessage={t('ftpsInfoMessage')}
+        learnMoreLink={Links.ftpInfo}
+        label={t('ftpState')}
+        id="app-settings-ftps-state"
+        disabled={disableAllControls}
+        options={[
+          {
+            key: 'AllAllowed',
+            text: t('allAllowed'),
+          },
+          {
+            key: 'FtpsOnly',
+            text: t('ftpsOnly'),
+          },
+          {
+            key: 'Disabled',
+            text: t('disabled'),
+          },
+        ]}
+      />
       {scenarioChecker.checkScenario(ScenarioIds.addHTTPSwitch, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.http20Enabled"
