@@ -105,9 +105,9 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     setAppInsightsToken(undefined);
   };
 
-  const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, token: AppInsightsComponentToken) => {
+  const queryAppInsightsAndUpdateLogs = (quickPulseQueryLayer: QuickPulseQueryLayer, tokenComponent: AppInsightsComponentToken) => {
     quickPulseQueryLayer
-      .queryDetails(token.token, false, '')
+      .queryDetails(tokenComponent.token, false, '')
       .then((dataV2: SchemaResponseV2) => {
         if (dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
           let newDocs = dataV2.DataRanges[0].Documents.filter(
@@ -124,11 +124,11 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
         }
       })
       .catch(error => {
-        const errorString = typeof error === 'string' ? error : JSON.stringify(error);
-        const tokenExpiration = new Date(token.expires);
-        const now = new Date();
-        if (tokenExpiration > now) {
+        const tokenExpirationTime = new Date(tokenComponent.expires);
+        const currentTime = new Date();
+        if (tokenExpirationTime > currentTime) {
           // Only log an error if the token has not yet expired
+          const errorString = typeof error === 'string' ? error : JSON.stringify(error);
           LogService.error(
             LogCategories.functionLog,
             'queryAppInsights',
@@ -183,6 +183,12 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     setCallCount(0);
   };
 
+  const tokenIsValid = (tokenComponent: AppInsightsComponentToken): boolean => {
+    const tokenExpirationTime = new Date(tokenComponent.expires);
+    const currentTime = new Date();
+    return tokenExpirationTime <= currentTime;
+  };
+
   const startLogs = () => {
     if (appReadOnlyPermission) {
       setErrorMessage(t('functionLog_rbacPermissionsForAppInsights'));
@@ -231,14 +237,12 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   }, [appInsightsComponent, appInsightsToken]);
 
   useEffect(() => {
-    if (appInsightsToken) {
-      const tokenExpiration = new Date(appInsightsToken.expires);
-      const now = new Date();
-      if (tokenExpiration <= now) {
-        resetAppInsightsToken();
-      } else if (queryLayer) {
+    if (appInsightsToken && queryLayer) {
+      if (tokenIsValid(appInsightsToken)) {
         const timeout = setTimeout(() => queryAppInsightsAndUpdateLogs(queryLayer, appInsightsToken), 3000);
         return () => clearInterval(timeout);
+      } else {
+        resetAppInsightsToken();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
