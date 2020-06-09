@@ -127,7 +127,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
         const errorString = typeof error === 'string' ? error : JSON.stringify(error);
         const tokenExpiration = new Date(token.expires);
         const now = new Date();
-        if (tokenExpiration >= now) {
+        if (tokenExpiration > now) {
           // Only log an error if the token has not yet expired
           LogService.error(
             LogCategories.functionLog,
