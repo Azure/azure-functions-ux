@@ -62,13 +62,9 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
     height: 83px;
     padding-top: 7px;
 
-    h3 {
+    h4 {
       margin-top: 2px;
       font-weight: bold;
-    }
-
-    h4 {
-      font-size: 12px;
     }
 
     &.selected-spec-group {
@@ -110,8 +106,13 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
     margin: 10px 5px;
     position: relative;
     cursor: pointer;
+    outline: 0 solid $border-selection-color;
 
-    h2 {
+    &:focus {
+      border: 2px dashed white;
+    }
+
+    h5 {
       color: $body-bg-color;
       font-weight: bold;
       position: absolute;
@@ -141,7 +142,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
       color: $default-text-color;
       cursor: not-allowed;
 
-      h2 {
+      h5 {
         color: $default-text-color;
       }
     }
@@ -206,10 +207,10 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
   .feature-item {
     position: relative;
     height: 70px;
-    background-color: #8a8886;
+    background-color: #eee;
     margin: 5px 0px;
 
-    h4 {
+    h5 {
       font-size: 12px;
       font-weight: bold;
       margin: 0px 0px 2px 0px;
