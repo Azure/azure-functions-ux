@@ -1,4 +1,4 @@
-import { AvailableStack } from '../models/available-stacks';
+import { AvailableStack, WebAppCreateStack } from '../models/available-stacks';
 import { CommonConstants } from '../utils/CommonConstants';
 import { ArmArray } from '../models/arm-obj';
 import Url from '../utils/url';
@@ -21,6 +21,15 @@ export default class RuntimeStackService {
         data: success ? { value: result.data } : (null as any),
       };
       return mappedResult;
+    });
+  };
+
+  public static getWebAppGitHubActionStacks = (stacksOs: 'linux' | 'windows') => {
+    return sendHttpRequest<WebAppCreateStack[]>({
+      url: `${Url.serviceHost}stacks/webAppGitHubActionStacks?os=${stacksOs}&api-version=${
+        CommonConstants.ApiVersions.stacksApiVersion20200501
+      }`,
+      method: 'POST',
     });
   };
 }

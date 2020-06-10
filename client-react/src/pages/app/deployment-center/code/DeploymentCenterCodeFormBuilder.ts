@@ -8,15 +8,18 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
     return {
       sourceProvider: ScmTypes.None,
       buildProvider: BuildProvider.None,
+      runtimeStack: '',
+      runtimeVersion: '',
       ...this.generatePublishingCredentialsFormData(),
     };
-    // TODO(t-kakan): Properly set sourceProvider and buildProvider rather than setting them to None
   }
 
   public generateYupValidationSchema(): DeploymentCenterYupValidationSchemaType<DeploymentCenterCodeFormData> {
     return Yup.object().shape({
       sourceProvider: Yup.mixed().required(),
       buildProvider: Yup.mixed().required(),
+      runtimeStack: Yup.mixed().notRequired(),
+      runtimeVersion: Yup.mixed().notRequired(),
       ...this.generatePublishingCredentailsYupValidationSchema(),
     });
   }

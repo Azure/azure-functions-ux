@@ -69,6 +69,8 @@ export interface DeploymentCenterContainerFormData {
 export interface DeploymentCenterCodeFormData {
   sourceProvider: ScmTypes;
   buildProvider: BuildProvider;
+  runtimeStack: string;
+  runtimeVersion: string;
 }
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
@@ -192,4 +194,29 @@ export interface CodeDeploymentsRow {
   commit: JSX.Element;
   checkinMessage: string;
   status: string;
+}
+
+export interface BuildDropdownOption extends IDropdownOption {
+  buildType: BuildProvider;
+}
+
+export class JavaVersions {
+  public static WindowsVersion8 = '1.8';
+  public static WindowsVersion11 = '11';
+  public static LinuxVersion8 = 'java8';
+  public static LinuxVersion11 = 'java11';
+}
+
+export class JavaContainers {
+  public static JavaSE = 'java';
+  public static Tomcat = 'tomcat';
+}
+
+export class RuntimeStacks {
+  public static aspnet = 'dotnet';
+  public static node = 'node';
+  public static python = 'python';
+  public static dotnetcore = 'dotnetcore';
+  public static java8 = 'java-8';
+  public static java11 = 'java-11';
 }
