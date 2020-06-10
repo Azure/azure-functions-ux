@@ -8,8 +8,7 @@ import {
   DeploymentCenterFieldProps,
   DeploymentCenterCodeFormData,
   BuildDropdownOption,
-  StackAndVersion,
-  AppOs,
+  RuntimeStackSetting,
 } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
@@ -17,10 +16,11 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { WebAppCreateStack } from '../../../../models/available-stacks';
-import { getStackAndVersion } from '../utility/DeploymentCenterUtility';
+import { getRuntimeStackSetting } from '../utility/DeploymentCenterUtility';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
+import { AppOs } from '../../../../models/site/site';
 
 const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -35,7 +35,9 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
   const [defaultVersion, setDefaultVersion] = useState<string>('');
   const [stackNotSupportedMessage, setStackNotSupportedMessage] = useState<string>('');
   const [stackMismatchMessage, setStackMismatchMessage] = useState<string>('');
+
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+
   const deploymentCenterData = new DeploymentCenterData();
 
   const isGitHubSource = formProps && formProps.values.sourceProvider === ScmTypes.GitHub;
@@ -144,7 +146,7 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
     }
   };
 
-  const setStackMessage = () => {
+  const updateStackNotSupportedMessage = () => {
     if (deploymentCenterContext.siteDescriptor) {
       const siteName = deploymentCenterContext.siteDescriptor.site;
       const slotName = deploymentCenterContext.siteDescriptor.slot;
@@ -174,15 +176,15 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
         setSelectedRuntime(appSelectedStack[0].key.toString());
         populateVersionDropdown(appSelectedStack[0].key.toString());
       } else {
-        setStackMessage();
+        updateStackNotSupportedMessage();
       }
     }
   };
 
-  useEffect(() => {
-    const defaultStackAndVersion: StackAndVersion =
+  const setInitialDefaultValues = () => {
+    const defaultStackAndVersion: RuntimeStackSetting =
       deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata && deploymentCenterContext.applicationSettings
-        ? getStackAndVersion(
+        ? getRuntimeStackSetting(
             deploymentCenterContext.isLinuxApplication,
             deploymentCenterContext.siteConfig,
             deploymentCenterContext.configMetadata,
@@ -191,6 +193,10 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
         : { runtimeStack: '', runtimeVersion: '' };
     setDefaultStack(defaultStackAndVersion.runtimeStack);
     setDefaultVersion(defaultStackAndVersion.runtimeVersion);
+  };
+
+  useEffect(() => {
+    setInitialDefaultValues();
     fetchStacks();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

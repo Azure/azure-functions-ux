@@ -1,23 +1,23 @@
-import { StackAndVersion } from '../DeploymentCenter.types';
+import { RuntimeStackSetting } from '../DeploymentCenter.types';
 import { ArmObj } from '../../../../models/arm-obj';
 import { SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
 import { RuntimeStacks, JavaContainers, JavaVersions } from '../../../../utils/stacks-utils';
 
-export const getStackAndVersion = (
+export const getRuntimeStackSetting = (
   isLinuxApplication: boolean,
   siteConfig: ArmObj<SiteConfig>,
   configMetadata: ArmObj<KeyValue<string>>,
   applicationSettings: ArmObj<KeyValue<string>>
-): StackAndVersion => {
+): RuntimeStackSetting => {
   if (isLinuxApplication) {
-    return getStackAndVersionForLinux(siteConfig);
+    return getRuntimeStackSettingForLinux(siteConfig);
   } else {
-    return getStackAndVersionForWindows(siteConfig, configMetadata, applicationSettings);
+    return getRuntimeStackSettingForWindows(siteConfig, configMetadata, applicationSettings);
   }
 };
 
-const getStackVersionForWindows = (stack: string, siteConfig: ArmObj<SiteConfig>, applicationSettings: ArmObj<KeyValue<string>>) => {
+const getRuntimeStackVersionForWindows = (stack: string, siteConfig: ArmObj<SiteConfig>, applicationSettings: ArmObj<KeyValue<string>>) => {
   if (stack === RuntimeStacks.node) {
     return applicationSettings.properties['WEBSITE_NODE_DEFAULT_VERSION'];
   } else if (stack === RuntimeStacks.python) {
@@ -29,7 +29,7 @@ const getStackVersionForWindows = (stack: string, siteConfig: ArmObj<SiteConfig>
   }
 };
 
-const getStackForWindows = (siteConfig: ArmObj<SiteConfig>, configMetadata: ArmObj<KeyValue<string>>) => {
+const getRuntimeStackForWindows = (siteConfig: ArmObj<SiteConfig>, configMetadata: ArmObj<KeyValue<string>>) => {
   if (configMetadata['CURRENT_STACK']) {
     const metadataStack = configMetadata['CURRENT_STACK'].toLowerCase();
 
@@ -41,28 +41,29 @@ const getStackForWindows = (siteConfig: ArmObj<SiteConfig>, configMetadata: ArmO
     } else {
       return metadataStack;
     }
+  } else {
+    return '';
   }
-  return '';
 };
 
-const getStackAndVersionForWindows = (
+const getRuntimeStackSettingForWindows = (
   siteConfig: ArmObj<SiteConfig>,
   configMetadata: ArmObj<KeyValue<string>>,
   applicationSettings: ArmObj<KeyValue<string>>
-): StackAndVersion => {
+): RuntimeStackSetting => {
   const stackData = { runtimeStack: '', runtimeVersion: '' };
 
-  stackData.runtimeStack = getStackForWindows(siteConfig, configMetadata);
-  stackData.runtimeVersion = getStackVersionForWindows(stackData.runtimeStack, siteConfig, applicationSettings);
+  stackData.runtimeStack = getRuntimeStackForWindows(siteConfig, configMetadata);
+  stackData.runtimeVersion = getRuntimeStackVersionForWindows(stackData.runtimeStack, siteConfig, applicationSettings);
 
   return stackData;
 };
 
-const getStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>) => {
+const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   return !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion : '';
 };
 
-const getStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
+const getRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
 
@@ -80,11 +81,11 @@ const getStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   }
 };
 
-const getStackAndVersionForLinux = (siteConfig: ArmObj<SiteConfig>): StackAndVersion => {
+const getRuntimeStackSettingForLinux = (siteConfig: ArmObj<SiteConfig>): RuntimeStackSetting => {
   const stackData = { runtimeStack: '', runtimeVersion: '' };
 
-  stackData.runtimeStack = getStackForLinux(siteConfig);
-  stackData.runtimeVersion = getStackVersionForLinux(siteConfig);
+  stackData.runtimeStack = getRuntimeStackForLinux(siteConfig);
+  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig);
 
   return stackData;
 };

@@ -200,14 +200,7 @@ export interface BuildDropdownOption extends IDropdownOption {
   buildType: BuildProvider;
 }
 
-export interface StackAndVersion {
+export interface RuntimeStackSetting {
   runtimeStack: string;
   runtimeVersion: string;
 }
-
-export enum AppOs {
-  linux = 'linux',
-  windows = 'windows',
-}
-
-export type AppOsType = AppOs.linux | AppOs.windows;

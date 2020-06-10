@@ -19,14 +19,10 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
       sourceProvider: Yup.mixed().required(),
       buildProvider: Yup.mixed().required(),
       runtimeStack: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
-        return (
-          this.parent.buildProvider !== BuildProvider.GitHubAction || (this.parent.buildProvider === BuildProvider.GitHubAction && !value)
-        );
+        return this.parent.buildProvider !== BuildProvider.GitHubAction || !value;
       }),
       runtimeVersion: Yup.string().test('validateIfNeeded', this._t('nomatchpassword'), function(value) {
-        return (
-          this.parent.buildProvider !== BuildProvider.GitHubAction || (this.parent.buildProvider === BuildProvider.GitHubAction && !value)
-        );
+        return this.parent.buildProvider !== BuildProvider.GitHubAction || !value;
       }),
       ...this.generatePublishingCredentailsYupValidationSchema(),
     });

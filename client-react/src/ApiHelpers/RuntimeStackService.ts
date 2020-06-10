@@ -4,7 +4,7 @@ import { ArmArray } from '../models/arm-obj';
 import Url from '../utils/url';
 import { sendHttpRequest } from './HttpClient';
 import { HttpResponseObject } from '../ArmHelper.types';
-import { AppOsType } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { AppOsType } from '../models/site/site';
 
 export default class RuntimeStackService {
   public static getWebAppConfigurationStacks = (stacksOs: 'linux' | 'windows') => {

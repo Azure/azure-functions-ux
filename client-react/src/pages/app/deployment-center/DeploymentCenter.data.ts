@@ -5,7 +5,7 @@ import ProviderService from '../../../ApiHelpers/ProviderService';
 import SiteService from '../../../ApiHelpers/SiteService';
 import GitHubService from '../../../ApiHelpers/GitHubService';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
-import { AppOsType } from './DeploymentCenter.types';
+import { AppOsType } from '../../../models/site/site';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
