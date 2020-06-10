@@ -80,16 +80,8 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
     }
   };
 
-  const updateSelectedRuntime = (e: any, option: IDropdownOption) => {
-    setSelectedRuntime(option.key.toString());
-
-    // NOTE(michinoy): Show a warning message if the user selects a stack which does not match what their app is configured with.
-    if (
-      defaultStack &&
-      option.key.toString() !== defaultStack.toLocaleLowerCase() &&
-      !stackNotSupportedMessage &&
-      deploymentCenterContext.siteDescriptor
-    ) {
+  const updateStackMismatchMessage = () => {
+    if (deploymentCenterContext.siteDescriptor) {
       const siteName = deploymentCenterContext.siteDescriptor.site;
       const slotName = deploymentCenterContext.siteDescriptor.slot;
       if (defaultStack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
@@ -104,6 +96,17 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
           })
         );
       }
+    } else {
+      setStackMismatchMessage('');
+    }
+  };
+
+  const updateSelectedRuntime = (e: any, option: IDropdownOption) => {
+    setSelectedRuntime(option.key.toString());
+
+    // NOTE(michinoy): Show a warning message if the user selects a stack which does not match what their app is configured with.
+    if (defaultStack && option.key.toString() !== defaultStack.toLocaleLowerCase() && !stackNotSupportedMessage) {
+      updateStackMismatchMessage();
     } else {
       setStackMismatchMessage('');
     }
@@ -123,6 +126,58 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
       buildType: BuildProvider.AppServiceBuildService,
     },
   ];
+
+  const setDefaultSelectedRuntimeVersion = () => {
+    // NOTE(michinoy): once the stack versions dropdown is populated, default selection can be done in either of following ways:
+    // 1. If the stack version is selected for the app and it exists in the list
+    // 2. Select the first item in the list if the stack version does not exist (e.g. .NET Core) Or does not exist in the list (e.g. Node LTS)
+    if (runtimeVersionOptions.length >= 1) {
+      const defaultRuntimeVersionOption = runtimeVersionOptions.filter(
+        item => item.key.toString().toLocaleLowerCase() === defaultVersion.toLocaleLowerCase()
+      );
+
+      if (defaultRuntimeVersionOption && defaultRuntimeVersionOption.length === 1) {
+        setSelectedVersion(defaultRuntimeVersionOption[0].key.toString());
+      } else {
+        setSelectedVersion(runtimeVersionOptions[0].key.toString());
+      }
+    }
+  };
+
+  const setStackMessage = () => {
+    if (deploymentCenterContext.siteDescriptor) {
+      const siteName = deploymentCenterContext.siteDescriptor.site;
+      const slotName = deploymentCenterContext.siteDescriptor.slot;
+      if (defaultStack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
+        setStackNotSupportedMessage(
+          t('githubActionAspNetStackNotSupportedMessage', { appName: slotName ? `${siteName} (${slotName})` : siteName })
+        );
+      } else {
+        setStackNotSupportedMessage(
+          t('githubActionStackNotSupportedMessage', { appName: slotName ? `${siteName} (${slotName})` : siteName, stack: defaultStack })
+        );
+      }
+    } else {
+      setStackNotSupportedMessage('');
+    }
+  };
+
+  const setInitialRuntimeDetails = () => {
+    // NOTE(michinoy): Once the dropdown is populated, preselect stack that the user had selected during create.
+    // If the users app was built using a stack that is not supported, show a warning message.
+    if (selectedBuild === BuildProvider.GitHubAction && defaultStack && runtimeStackOptions.length >= 1) {
+      const appSelectedStack = runtimeStackOptions.filter(item => item.key.toString() === defaultStack.toLocaleLowerCase());
+
+      if (appSelectedStack && appSelectedStack.length === 1) {
+        setStackNotSupportedMessage('');
+        setStackMismatchMessage('');
+        setSelectedRuntime(appSelectedStack[0].key.toString());
+        populateVersionDropdown(appSelectedStack[0].key.toString());
+      } else {
+        setStackMessage();
+      }
+    }
+  };
 
   useEffect(() => {
     const defaultStackAndVersion: StackAndVersion =
@@ -157,53 +212,13 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
   );
 
   useEffect(() => {
-    // NOTE(michinoy): Once the dropdown is populated, preselect stack that the user had selected during create.
-    // If the users app was built using a stack that is not supported, show a warning message.
-    if (
-      selectedBuild === BuildProvider.GitHubAction &&
-      defaultStack &&
-      runtimeStackOptions.length >= 1 &&
-      deploymentCenterContext.siteDescriptor
-    ) {
-      const appSelectedStack = runtimeStackOptions.filter(item => item.key.toString() === defaultStack.toLocaleLowerCase());
-
-      const siteName = deploymentCenterContext.siteDescriptor.site;
-      const slotName = deploymentCenterContext.siteDescriptor.slot;
-
-      if (appSelectedStack && appSelectedStack.length === 1) {
-        setStackNotSupportedMessage('');
-        setStackMismatchMessage('');
-        setSelectedRuntime(appSelectedStack[0].key.toString());
-        populateVersionDropdown(appSelectedStack[0].key.toString());
-      } else if (defaultStack.toLocaleLowerCase() === RuntimeStacks.aspnet) {
-        setStackNotSupportedMessage(
-          t('githubActionAspNetStackNotSupportedMessage', { appName: slotName ? `${siteName} (${slotName})` : siteName })
-        );
-      } else {
-        setStackNotSupportedMessage(
-          t('githubActionStackNotSupportedMessage', { appName: slotName ? `${siteName} (${slotName})` : siteName, stack: defaultStack })
-        );
-      }
-    }
+    setInitialRuntimeDetails();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runtimeStackOptions, selectedBuild]);
 
   useEffect(() => {
-    // NOTE(michinoy): once the stack versions dropdown is populated, default selection can be done in either of following ways:
-    // 1. If the stack version is selected for the app and it exists in the list
-    // 2. Select the first item in the list if the stack version does not exist (e.g. .NET Core) Or does not exist in the list (e.g. Node LTS)
-    if (runtimeVersionOptions.length >= 1) {
-      const defaultRuntimeVersionOption = runtimeVersionOptions.filter(
-        item => item.key.toString().toLocaleLowerCase() === defaultVersion.toLocaleLowerCase()
-      );
-
-      if (defaultRuntimeVersionOption && defaultRuntimeVersionOption.length === 1) {
-        setSelectedVersion(defaultRuntimeVersionOption[0].key.toString());
-      } else {
-        setSelectedVersion(runtimeVersionOptions[0].key.toString());
-      }
-    }
+    setDefaultSelectedRuntimeVersion();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runtimeVersionOptions]);
