@@ -208,10 +208,10 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runtimeVersionOptions]);
 
-  return (
-    <>
-      <h3>{t('deploymentCenterSettingsBuildTitle')}</h3>
-      {formProps && formProps.values.buildProvider === BuildProvider.GitHubAction && (
+  const getCustomBanner = () => {
+    return (
+      formProps &&
+      formProps.values.buildProvider === BuildProvider.GitHubAction && (
         <>
           {stackNotSupportedMessage && (
             <div className={deploymentCenterInfoBannerDiv}>
@@ -224,7 +224,14 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
             </div>
           )}
         </>
-      )}
+      )
+    );
+  };
+
+  return (
+    <>
+      <h3>{t('deploymentCenterSettingsBuildTitle')}</h3>
+      {getCustomBanner()}
       <Field
         id="deployment-center-container-settings-build-option"
         label={t('deploymentCenterSettingsBuildLabel')}
