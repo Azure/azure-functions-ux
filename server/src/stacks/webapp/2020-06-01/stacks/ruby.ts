@@ -1,6 +1,6 @@
 import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
-export const rubyWebAppStack: WebAppStack<WebAppRuntimes> = {
+export const rubyStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Ruby',
   value: 'Ruby',
   sortOrder: 5,
