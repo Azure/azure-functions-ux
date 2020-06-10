@@ -220,3 +220,8 @@ export class RuntimeStacks {
   public static java8 = 'java-8';
   public static java11 = 'java-11';
 }
+
+export interface StackAndVersion {
+  runtimeStack: string;
+  runtimeVersion: string;
+}
