@@ -1,7 +1,8 @@
-import { RuntimeStacks, JavaVersions, JavaContainers, StackAndVersion } from '../DeploymentCenter.types';
+import { StackAndVersion } from '../DeploymentCenter.types';
 import { ArmObj } from '../../../../models/arm-obj';
 import { SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
+import { RuntimeStacks, JavaContainers, JavaVersions } from '../../../../utils/stacks-utils';
 
 export const getStackAndVersion = (
   isLinuxApplication: boolean,

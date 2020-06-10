@@ -9,7 +9,6 @@ import {
   DeploymentCenterCodeFormData,
   BuildDropdownOption,
   StackAndVersion,
-  RuntimeStacks,
   AppOs,
 } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -21,6 +20,7 @@ import { WebAppCreateStack } from '../../../../models/available-stacks';
 import { getStackAndVersion } from '../utility/DeploymentCenterUtility';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { RuntimeStacks } from '../../../../utils/stacks-utils';
 
 const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
