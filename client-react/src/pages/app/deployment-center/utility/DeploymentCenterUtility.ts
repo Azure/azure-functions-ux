@@ -3,20 +3,20 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
 
-export const setStackAndVersion = (
+export const getStackAndVersion = (
   isLinuxApplication: boolean,
   siteConfig?: ArmObj<SiteConfig>,
   configMetadata?: ArmObj<KeyValue<string>>,
   applicationSettings?: ArmObj<KeyValue<string>>
 ): StackAndVersion => {
   if (isLinuxApplication) {
-    return setStackAndVersionForLinux(siteConfig);
+    return getStackAndVersionForLinux(siteConfig);
   } else {
-    return setStackAndVersionForWindows(siteConfig, configMetadata, applicationSettings);
+    return getStackAndVersionForWindows(siteConfig, configMetadata, applicationSettings);
   }
 };
 
-const setStackAndVersionForWindows = (
+const getStackAndVersionForWindows = (
   siteConfig?: ArmObj<SiteConfig>,
   configMetadata?: ArmObj<KeyValue<string>>,
   applicationSettings?: ArmObj<KeyValue<string>>
@@ -51,7 +51,7 @@ const setStackAndVersionForWindows = (
   return { runtimeStack: stack, runtimeVersion: stackVersion };
 };
 
-const setStackAndVersionForLinux = (siteConfig?: ArmObj<SiteConfig>): StackAndVersion => {
+const getStackAndVersionForLinux = (siteConfig?: ArmObj<SiteConfig>): StackAndVersion => {
   let stack = '';
   let stackVersion = '';
 

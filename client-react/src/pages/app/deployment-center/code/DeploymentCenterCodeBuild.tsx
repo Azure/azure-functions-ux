@@ -17,7 +17,7 @@ import LogService from '../../../../utils/LogService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { WebAppCreateStack } from '../../../../models/available-stacks';
-import { setStackAndVersion } from '../utility/DeploymentCenterUtility';
+import { getStackAndVersion } from '../utility/DeploymentCenterUtility';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 
@@ -124,7 +124,7 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
   ];
 
   useEffect(() => {
-    const defaultStackAndVersion: StackAndVersion = setStackAndVersion(
+    const defaultStackAndVersion: StackAndVersion = getStackAndVersion(
       deploymentCenterContext.isLinuxApplication,
       deploymentCenterContext.siteConfig,
       deploymentCenterContext.configMetadata,
@@ -190,12 +190,12 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
     // 1. If the stack version is selected for the app and it exists in the list
     // 2. Select the first item in the list if the stack version does not exist (e.g. .NET Core) Or does not exist in the list (e.g. Node LTS)
     if (runtimeVersionOptions.length >= 1) {
-      const appSelectedStackVersion = runtimeVersionOptions.filter(
+      const defaultRuntimeVersionOption = runtimeVersionOptions.filter(
         item => item.key.toString().toLocaleLowerCase() === defaultVersion.toLocaleLowerCase()
       );
 
-      if (appSelectedStackVersion && appSelectedStackVersion.length === 1) {
-        setSelectedVersion(appSelectedStackVersion[0].key.toString());
+      if (defaultRuntimeVersionOption && defaultRuntimeVersionOption.length === 1) {
+        setSelectedVersion(defaultRuntimeVersionOption[0].key.toString());
       } else {
         setSelectedVersion(runtimeVersionOptions[0].key.toString());
       }
