@@ -28,6 +28,12 @@ export const additionalTextFieldControl = style({
   marginLeft: '5px',
 });
 
+export const deploymentCenterInfoBannerDiv = style({
+  maxWidth: '800px',
+  marginTop: '1em',
+  marginBottom: '1em',
+});
+
 export const deploymentCenterCodeLogsNotConfigured = style({
   width: '100%',
   textAlign: 'center',
@@ -42,7 +48,6 @@ export const deploymentCenterCodeLogsNotConfigured = style({
     p: {
       fontSize: '15px',
     },
-
     svg: {
       height: '200px',
       width: '200px',

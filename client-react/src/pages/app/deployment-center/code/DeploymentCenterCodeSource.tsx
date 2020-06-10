@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IDropdownOption, DropdownMenuItemType, Link } from 'office-ui-fabric-react';
+import { IDropdownOption, DropdownMenuItemType, Link, MessageBarType } from 'office-ui-fabric-react';
 import { ScmTypes } from '../../../../models/site/config';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 
 const DeploymentCenterCodeSource: React.FC<{}> = props => {
   const { t } = useTranslation();
+  const deploymentCenterContext = useContext(DeploymentCenterContext);
+
+  const getInProductionSlot = () => {
+    return !(deploymentCenterContext.siteDescriptor && deploymentCenterContext.siteDescriptor.slot);
+  };
 
   const options: IDropdownOption[] = [
     {
@@ -33,6 +41,12 @@ const DeploymentCenterCodeSource: React.FC<{}> = props => {
 
   return (
     <>
+      {getInProductionSlot() && (
+        <div className={deploymentCenterInfoBannerDiv}>
+          <CustomBanner message={t('deploymentCenterProdSlotWarning')} type={MessageBarType.info} />
+        </div>
+      )}
+
       <p>
         <span id="deployment-center-settings-message">{t('deploymentCenterCodeSettingsDescription')}</span>
         <Link
