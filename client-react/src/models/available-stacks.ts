@@ -68,10 +68,10 @@ export interface WebAppCreateStackVersionPlatform {
   applicationInsightsEnabled: boolean;
   remoteDebuggingEnabled: boolean;
   runtimeVersion: string;
-  githubActionSettings?: WebAppCreateStackVersionPlatformGithubAction;
+  githubActionSettings?: GitHubActionSettings;
 }
 
-export interface WebAppCreateStackVersionPlatformGithubAction {
+export interface GitHubActionSettings {
   supported: boolean;
   recommendedVersion?: string; // The version representation between Antares backend and GitHub action might mismatch.
 }
