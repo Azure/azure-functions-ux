@@ -8,6 +8,7 @@ import { learnMoreLinkStyle } from '../../../../components/form-controls/formCon
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 
 const DeploymentCenterCodeSource: React.FC<{}> = props => {
   const { t } = useTranslation();
@@ -40,7 +41,11 @@ const DeploymentCenterCodeSource: React.FC<{}> = props => {
 
   return (
     <>
-      {getInProductionSlot() && <CustomBanner message={t('deploymentCenterProdSlotWarning')} type={MessageBarType.info} />}
+      {getInProductionSlot() && (
+        <div className={deploymentCenterInfoBannerDiv}>
+          <CustomBanner message={t('deploymentCenterProdSlotWarning')} type={MessageBarType.info} />
+        </div>
+      )}
 
       <p>
         <span id="deployment-center-settings-message">{t('deploymentCenterCodeSettingsDescription')}</span>
