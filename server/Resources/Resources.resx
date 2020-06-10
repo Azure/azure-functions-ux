@@ -6378,4 +6378,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
         <value>How valuable is the new logs feature backed by Application Insights?</value>
     </data>
+    <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
+        <value>If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.</value>
+    </data>
+    <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
+        <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
+    </data>
 </root>

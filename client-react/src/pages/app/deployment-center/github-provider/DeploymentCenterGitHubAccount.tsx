@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
-import { PrimaryButton, Label, Link, IDropdownOption } from 'office-ui-fabric-react';
+import { PrimaryButton, Label, Link, IDropdownOption, MessageBarType } from 'office-ui-fabric-react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl } from '../DeploymentCenter.styles';
+import { additionalTextFieldControl, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { Field } from 'formik';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 
 const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProps> = props => {
   const {
@@ -18,7 +20,12 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
     repositoryOptions,
     branchOptions,
   } = props;
+  const [showInfoBanner, setShowInfoBanner] = useState(true);
   const { t } = useTranslation();
+
+  const closeInfoBanner = () => {
+    setShowInfoBanner(false);
+  };
 
   const onOrganizationChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
     fetchRepositoryOptions(option.key.toString());
@@ -28,10 +35,21 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProp
     fetchBatchOptions(option.key.toString());
   };
 
-  const onBranchChange = (event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {};
+  const onBranchChange = () => {};
 
   const gitHubAccountControls = gitHubUser ? (
     <>
+      {showInfoBanner && (
+        <div className={deploymentCenterInfoBannerDiv}>
+          <CustomBanner
+            message={t('deploymentCenterConfigureGitHubPermissions')}
+            type={MessageBarType.info}
+            learnMoreLink={DeploymentCenterLinks.configureDeployment}
+            onDismiss={closeInfoBanner}
+          />
+        </div>
+      )}
+
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
         <div>
           {`${gitHubUser.login}`}
