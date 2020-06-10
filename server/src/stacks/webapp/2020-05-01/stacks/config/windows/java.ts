@@ -35,12 +35,18 @@ export const javaWindowsConfigStack: WebAppConfigStack = {
           {
             displayVersion: '1.7.0_191 (Azul)',
             runtimeVersion: '1.7.0_191_ZULU',
-            isDefault: true,
+            isDefault: false,
             isRemoteDebuggingEnabled: false,
           },
           {
             displayVersion: '1.7.0_222 (Azul)',
             runtimeVersion: '1.7.0_222_ZULU',
+            isDefault: true,
+            isRemoteDebuggingEnabled: false,
+          },
+          {
+            displayVersion: '1.7.0_242 (Azul)',
+            runtimeVersion: '1.7.0_242_ZULU',
             isDefault: false,
             isRemoteDebuggingEnabled: false,
           },
@@ -130,12 +136,18 @@ export const javaWindowsConfigStack: WebAppConfigStack = {
           {
             displayVersion: '1.8.0_202 (Azul)',
             runtimeVersion: '1.8.0_202_ZULU',
-            isDefault: true,
+            isDefault: false,
             isRemoteDebuggingEnabled: false,
           },
           {
             displayVersion: '1.8.0_212 (Azul)',
             runtimeVersion: '1.8.0_212_ZULU',
+            isDefault: true,
+            isRemoteDebuggingEnabled: false,
+          },
+          {
+            displayVersion: '1.8.0_232 (Azul)',
+            runtimeVersion: '1.8.0_232_ZULU',
             isDefault: false,
             isRemoteDebuggingEnabled: false,
           },
@@ -153,12 +165,18 @@ export const javaWindowsConfigStack: WebAppConfigStack = {
           {
             displayVersion: '11.0.2 (Azul)',
             runtimeVersion: '11.0.2_ZULU',
-            isDefault: true,
+            isDefault: false,
             isRemoteDebuggingEnabled: false,
           },
           {
             displayVersion: '11.0.3 (Azul)',
             runtimeVersion: '11.0.3_ZULU',
+            isDefault: true,
+            isRemoteDebuggingEnabled: false,
+          },
+          {
+            displayVersion: '11.0.5 (Azul)',
+            runtimeVersion: '11.0.5_ZULU',
             isDefault: false,
             isRemoteDebuggingEnabled: false,
           },
