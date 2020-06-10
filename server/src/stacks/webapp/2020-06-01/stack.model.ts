@@ -1,37 +1,33 @@
-export interface WebAppStack {
+export interface WebAppStack<T extends WebAppRuntimes | JavaContainers> {
   displayText: string;
   value: string;
   sortOrder: number;
-  preferredOs: 'linux' | 'windows';
-  majorVersions: WebAppMajorVersion[];
+  majorVersions: WebAppMajorVersion<T>[];
+  preferredOs?: 'linux' | 'windows';
 }
 
-export interface WebAppMajorVersion {
+export interface WebAppMajorVersion<T> {
   displayText: string;
   value: string;
-  minorVersions: WebAppMinorVersion[];
+  minorVersions: WebAppMinorVersion<T>[];
 }
 
-export interface WebAppMinorVersion {
+export interface WebAppMinorVersion<T> {
   displayText: string;
   value: string;
-  platforms: PlatformOptions;
+  stackSettings: T;
 }
 
-export interface PlatformOptions {
-  linux?: Platform;
-  windows?: Platform;
+export interface WebAppRuntimes {
+  linuxRuntimeSettings?: WebAppRuntimeSettings;
+  windowsRuntimeSettings?: WebAppRuntimeSettings;
 }
 
-export interface Platform {
+export interface WebAppRuntimeSettings extends CommonSettings {
   runtimeVersion: string;
   remoteDebuggingSupported: boolean;
   appInsightsSettings: AppInsightsSettings;
   gitHubActionSettings: GitHubActionSettings;
-  isPreview?: boolean; // Stack should be labeled as 'preview'
-  isDeprecated?: boolean; // Stack should be hidden unless user is already running that stack
-  isHidden?: boolean; // Stack should be hidden unless a feature flag is used
-  projectedEndOfLifeDate?: Date; // Stack projected end of life date
 }
 
 export interface AppInsightsSettings {
@@ -42,4 +38,26 @@ export interface AppInsightsSettings {
 export interface GitHubActionSettings {
   isSupported: boolean;
   supportedVersion?: string;
+}
+
+export interface JavaContainers {
+  linuxContainerSettings?: LinuxJavaContainerSettings;
+  windowsContainerSettings?: WindowsJavaContainerSettings;
+}
+
+export interface WindowsJavaContainerSettings extends CommonSettings {
+  javaContainer: string;
+  javaContainerVersion: string;
+}
+
+export interface LinuxJavaContainerSettings extends CommonSettings {
+  java11Runtime?: string;
+  java8Runtime?: string;
+}
+
+export interface CommonSettings {
+  isPreview?: boolean; // Stack should be labeled as 'preview'
+  isDeprecated?: boolean; // Stack should be hidden unless user is already running that stack
+  isHidden?: boolean; // Stack should be hidden unless a feature flag is used
+  projectedEndOfLifeDate?: Date; // Stack projected end of life date
 }

@@ -1,9 +1,9 @@
-import { WebAppStack } from './../stack.model';
+import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
 const node10EOL = new Date(2021, 4, 1);
 const node12EOL = new Date(2022, 4, 1);
 
-export const nodeStack: WebAppStack = {
+export const nodeStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Node',
   value: 'Node',
   sortOrder: 1,
@@ -16,8 +16,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node LTS',
           value: 'LTS',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|lts',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -39,8 +39,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 12 LTS',
           value: '12-LTS',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|12-lts',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -52,7 +52,7 @@ export const nodeStack: WebAppStack = {
               },
               projectedEndOfLifeDate: node12EOL,
             },
-            windows: {
+            windowsRuntimeSettings: {
               runtimeVersion: '12.13.0',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -68,8 +68,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 12.9',
           value: '12.9',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|12.9',
               isDeprecated: true,
               remoteDebuggingSupported: true,
@@ -93,8 +93,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 10 LTS',
           value: '10-LTS',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|10-lts',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -111,8 +111,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 10.16',
           value: '10.16',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|10.16',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -129,8 +129,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 10.15',
           value: '10.15',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '10.15.2',
               isPreview: true,
               remoteDebuggingSupported: false,
@@ -147,8 +147,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 10.14',
           value: '10.14',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|10.14',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -159,7 +159,7 @@ export const nodeStack: WebAppStack = {
               },
               projectedEndOfLifeDate: node10EOL,
             },
-            windows: {
+            windowsRuntimeSettings: {
               runtimeVersion: '10.14.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -175,8 +175,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 10.12',
           value: '10.12',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|10.12',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -193,8 +193,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 10.10',
           value: '10.10',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|10.10',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -206,7 +206,7 @@ export const nodeStack: WebAppStack = {
               },
               projectedEndOfLifeDate: node10EOL,
             },
-            windows: {
+            windowsRuntimeSettings: {
               runtimeVersion: '10.0.0',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -222,8 +222,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 10.6',
           value: '10.6',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|10.6',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -234,7 +234,7 @@ export const nodeStack: WebAppStack = {
               },
               projectedEndOfLifeDate: node10EOL,
             },
-            windows: {
+            windowsRuntimeSettings: {
               runtimeVersion: '10.6.0',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -250,8 +250,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 10.1',
           value: '10.1',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|10.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -273,8 +273,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 9.4',
           value: '9.4',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|9.4',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -296,8 +296,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 8 LTS',
           value: '8-LTS',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|8-lts',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -313,8 +313,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 8.12',
           value: '8.12',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|8.12',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -330,8 +330,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 8.11',
           value: '8.11',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|8.11',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -342,7 +342,7 @@ export const nodeStack: WebAppStack = {
                 isSupported: true,
               },
             },
-            windows: {
+            windowsRuntimeSettings: {
               runtimeVersion: '8.11',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -358,8 +358,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 8.10',
           value: '8.10',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '8.10',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -375,8 +375,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 8.9',
           value: '8.9',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|8.9',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -387,7 +387,7 @@ export const nodeStack: WebAppStack = {
                 isSupported: true,
               },
             },
-            windows: {
+            windowsRuntimeSettings: {
               runtimeVersion: '8.9',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -403,8 +403,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 8.8',
           value: '8.8',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|8.8',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -420,8 +420,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 8.5',
           value: '8.5',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '8.5',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -437,8 +437,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 8.4',
           value: '8.4',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '8.4',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -454,8 +454,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 8.2',
           value: '8.2',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|8.2',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -471,8 +471,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 8.1',
           value: '8.1',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|8.1',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -483,7 +483,7 @@ export const nodeStack: WebAppStack = {
                 isSupported: true,
               },
             },
-            windows: {
+            windowsRuntimeSettings: {
               runtimeVersion: '8.1.4',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -499,8 +499,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 8.0',
           value: '8.0',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|8.0',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -522,8 +522,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 7.10',
           value: '7.10',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '7.10.1',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -545,8 +545,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 6 LTS',
           value: '6-LTS',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|6-lts',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -562,8 +562,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 6.12',
           value: '6.12',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '6.12',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -579,8 +579,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 6.11',
           value: '6.11',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|6.11',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -596,8 +596,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 6.10',
           value: '6.10',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|6.10',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -613,8 +613,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 6.9',
           value: '6.9',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|6.9',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -625,7 +625,7 @@ export const nodeStack: WebAppStack = {
                 isSupported: true,
               },
             },
-            windows: {
+            windowsRuntimeSettings: {
               runtimeVersion: '6.9.5',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -641,8 +641,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 6.6',
           value: '6.6',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|6.6',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -658,8 +658,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 6.5',
           value: '6.5',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '6.5.0',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -675,8 +675,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 6.2',
           value: '6.2',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|6.2',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -698,8 +698,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 4.8',
           value: '4.8',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|4.8',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -710,7 +710,7 @@ export const nodeStack: WebAppStack = {
                 isSupported: true,
               },
             },
-            windows: {
+            windowsRuntimeSettings: {
               runtimeVersion: '4.8',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -726,8 +726,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 4.5',
           value: '4.5',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|4.5',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -743,8 +743,8 @@ export const nodeStack: WebAppStack = {
         {
           displayText: 'Node 4.4',
           value: '4.4',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'NODE|4.4',
               isDeprecated: true,
               remoteDebuggingSupported: false,

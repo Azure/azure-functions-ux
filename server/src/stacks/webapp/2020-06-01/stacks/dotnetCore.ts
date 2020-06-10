@@ -1,8 +1,8 @@
-import { WebAppStack } from './../stack.model';
+import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
 const dotnetCore2Point1EOL = new Date(20201, 8, 21);
 
-export const dotnetCoreStack: WebAppStack = {
+export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
   displayText: '.NET Core',
   value: '.NET Core',
   sortOrder: 4,
@@ -15,8 +15,8 @@ export const dotnetCoreStack: WebAppStack = {
         {
           displayText: '.Net Core 3.1 (LTS)',
           value: '3.1',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '3.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -27,7 +27,7 @@ export const dotnetCoreStack: WebAppStack = {
                 supportedVersion: '3.1.102',
               },
             },
-            linux: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|3.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -43,8 +43,8 @@ export const dotnetCoreStack: WebAppStack = {
         {
           displayText: '.Net Core 3.0',
           value: '3.0',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '3.0',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -55,7 +55,7 @@ export const dotnetCoreStack: WebAppStack = {
                 isSupported: true,
               },
             },
-            linux: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|3.0',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -77,8 +77,8 @@ export const dotnetCoreStack: WebAppStack = {
         {
           displayText: '.NET Core 2.2',
           value: '2.2',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '2.2',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -89,7 +89,7 @@ export const dotnetCoreStack: WebAppStack = {
                 isSupported: true,
               },
             },
-            linux: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|2.2',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -105,8 +105,8 @@ export const dotnetCoreStack: WebAppStack = {
         {
           displayText: '.NET Core 2.1 (LTS)',
           value: '2.1',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '2.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -118,7 +118,7 @@ export const dotnetCoreStack: WebAppStack = {
               },
               projectedEndOfLifeDate: dotnetCore2Point1EOL,
             },
-            linux: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|2.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -134,8 +134,8 @@ export const dotnetCoreStack: WebAppStack = {
         {
           displayText: '.NET Core 2.0',
           value: '2.0',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '2.0',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -146,7 +146,7 @@ export const dotnetCoreStack: WebAppStack = {
                 isSupported: true,
               },
             },
-            linux: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|2.0',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -168,8 +168,8 @@ export const dotnetCoreStack: WebAppStack = {
         {
           displayText: '.NET Core 1.1',
           value: '1.1',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '1.1',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -180,7 +180,7 @@ export const dotnetCoreStack: WebAppStack = {
                 isSupported: true,
               },
             },
-            linux: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|1.1',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -196,8 +196,8 @@ export const dotnetCoreStack: WebAppStack = {
         {
           displayText: '.NET Core 1.0',
           value: '1.0',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: '1.0',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -208,7 +208,7 @@ export const dotnetCoreStack: WebAppStack = {
                 isSupported: true,
               },
             },
-            linux: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|1.0',
               isDeprecated: true,
               remoteDebuggingSupported: false,
