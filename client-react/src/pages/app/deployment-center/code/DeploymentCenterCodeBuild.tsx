@@ -10,6 +10,7 @@ import {
   BuildDropdownOption,
   StackAndVersion,
   RuntimeStacks,
+  AppOs,
 } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
@@ -41,7 +42,7 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
 
   const fetchStacks = async () => {
     const runtimeStacksResponse = await deploymentCenterData.getRuntimeStacks(
-      deploymentCenterContext.isLinuxApplication ? 'linux' : 'windows'
+      deploymentCenterContext.isLinuxApplication ? AppOs.linux : AppOs.windows
     );
 
     if (runtimeStacksResponse.metadata.success) {
@@ -124,12 +125,15 @@ const DeploymentCenterCodeBuild: React.FC<DeploymentCenterFieldProps<DeploymentC
   ];
 
   useEffect(() => {
-    const defaultStackAndVersion: StackAndVersion = getStackAndVersion(
-      deploymentCenterContext.isLinuxApplication,
-      deploymentCenterContext.siteConfig,
-      deploymentCenterContext.configMetadata,
-      deploymentCenterContext.applicationSettings
-    );
+    const defaultStackAndVersion: StackAndVersion =
+      deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata && deploymentCenterContext.applicationSettings
+        ? getStackAndVersion(
+            deploymentCenterContext.isLinuxApplication,
+            deploymentCenterContext.siteConfig,
+            deploymentCenterContext.configMetadata,
+            deploymentCenterContext.applicationSettings
+          )
+        : { runtimeStack: '', runtimeVersion: '' };
     setDefaultStack(defaultStackAndVersion.runtimeStack);
     setDefaultVersion(defaultStackAndVersion.runtimeVersion);
     fetchStacks();

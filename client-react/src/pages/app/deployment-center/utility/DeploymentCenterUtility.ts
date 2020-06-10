@@ -5,9 +5,9 @@ import { KeyValue } from '../../../../models/portal-models';
 
 export const getStackAndVersion = (
   isLinuxApplication: boolean,
-  siteConfig?: ArmObj<SiteConfig>,
-  configMetadata?: ArmObj<KeyValue<string>>,
-  applicationSettings?: ArmObj<KeyValue<string>>
+  siteConfig: ArmObj<SiteConfig>,
+  configMetadata: ArmObj<KeyValue<string>>,
+  applicationSettings: ArmObj<KeyValue<string>>
 ): StackAndVersion => {
   if (isLinuxApplication) {
     return getStackAndVersionForLinux(siteConfig);
@@ -16,62 +16,74 @@ export const getStackAndVersion = (
   }
 };
 
-const getStackAndVersionForWindows = (
-  siteConfig?: ArmObj<SiteConfig>,
-  configMetadata?: ArmObj<KeyValue<string>>,
-  applicationSettings?: ArmObj<KeyValue<string>>
-): StackAndVersion => {
-  let stack = '';
-  let stackVersion = '';
-  if (configMetadata && configMetadata['CURRENT_STACK']) {
+const getStackVersionForWindows = (stack: string, siteConfig: ArmObj<SiteConfig>, applicationSettings: ArmObj<KeyValue<string>>) => {
+  if (stack === RuntimeStacks.node) {
+    return applicationSettings.properties['WEBSITE_NODE_DEFAULT_VERSION'];
+  } else if (stack === RuntimeStacks.python) {
+    return siteConfig.properties.pythonVersion;
+  } else if (stack === RuntimeStacks.java8 || stack === RuntimeStacks.java11) {
+    return `${siteConfig.properties.javaVersion}|${siteConfig.properties.javaContainer}|${siteConfig.properties.javaContainerVersion}`;
+  } else {
+    return '';
+  }
+};
+
+const getStackForWindows = (siteConfig: ArmObj<SiteConfig>, configMetadata: ArmObj<KeyValue<string>>) => {
+  if (configMetadata['CURRENT_STACK']) {
     const metadataStack = configMetadata['CURRENT_STACK'].toLowerCase();
 
     // NOTE(michinoy): Java is special, so need to handle it carefully. Also in this case, use
     // the string 'java' rather than any of the constants defined as it is not related to any of the
     // defined constants.
     if (metadataStack === 'java') {
-      stack = siteConfig && siteConfig.properties.javaVersion === JavaVersions.WindowsVersion8 ? RuntimeStacks.java8 : RuntimeStacks.java11;
+      return siteConfig.properties.javaVersion === JavaVersions.WindowsVersion8 ? RuntimeStacks.java8 : RuntimeStacks.java11;
     } else {
-      stack = metadataStack;
+      return metadataStack;
     }
   }
-
-  if (applicationSettings && stack === RuntimeStacks.node) {
-    stackVersion = applicationSettings.properties['WEBSITE_NODE_DEFAULT_VERSION'];
-  } else if (siteConfig && stack === RuntimeStacks.python) {
-    stackVersion = siteConfig.properties.pythonVersion;
-  } else if (siteConfig && (stack === RuntimeStacks.java8 || stack === RuntimeStacks.java11)) {
-    stackVersion = `${siteConfig.properties.javaVersion}|${siteConfig.properties.javaContainer}|${
-      siteConfig.properties.javaContainerVersion
-    }`;
-  } else if (stack === '') {
-    stackVersion = '';
-  }
-
-  return { runtimeStack: stack, runtimeVersion: stackVersion };
+  return '';
 };
 
-const getStackAndVersionForLinux = (siteConfig?: ArmObj<SiteConfig>): StackAndVersion => {
-  let stack = '';
-  let stackVersion = '';
+const getStackAndVersionForWindows = (
+  siteConfig: ArmObj<SiteConfig>,
+  configMetadata: ArmObj<KeyValue<string>>,
+  applicationSettings: ArmObj<KeyValue<string>>
+): StackAndVersion => {
+  const stackData = { runtimeStack: '', runtimeVersion: '' };
 
-  const linuxFxVersionParts = siteConfig && siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
+  stackData.runtimeStack = getStackForWindows(siteConfig, configMetadata);
+  stackData.runtimeVersion = getStackVersionForWindows(stackData.runtimeStack, siteConfig, applicationSettings);
+
+  return stackData;
+};
+
+const getStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>) => {
+  return !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion : '';
+};
+
+const getStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
+  const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
 
   // NOTE(michinoy): Java is special, so need to handle it carefully.
   if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat) {
-    const fxVersionParts = siteConfig && !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('-') : [];
+    const fxVersionParts = !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('-') : [];
     const fxStack = fxVersionParts.length === 2 ? fxVersionParts[1].toLocaleLowerCase() : '';
     if (fxStack === JavaVersions.LinuxVersion8 || fxStack === JavaVersions.LinuxVersion11) {
-      stack = fxStack === JavaVersions.LinuxVersion8 ? RuntimeStacks.java8 : RuntimeStacks.java11;
+      return fxStack === JavaVersions.LinuxVersion8 ? RuntimeStacks.java8 : RuntimeStacks.java11;
     } else {
-      stack = '';
+      return '';
     }
   } else {
-    stack = runtimeStack;
+    return runtimeStack;
   }
+};
 
-  stackVersion = siteConfig && !!siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion : '';
+const getStackAndVersionForLinux = (siteConfig: ArmObj<SiteConfig>): StackAndVersion => {
+  const stackData = { runtimeStack: '', runtimeVersion: '' };
 
-  return { runtimeStack: stack, runtimeVersion: stackVersion };
+  stackData.runtimeStack = getStackForLinux(siteConfig);
+  stackData.runtimeVersion = getStackVersionForLinux(siteConfig);
+
+  return stackData;
 };

@@ -225,3 +225,10 @@ export interface StackAndVersion {
   runtimeStack: string;
   runtimeVersion: string;
 }
+
+export enum AppOs {
+  linux = 'linux',
+  windows = 'windows',
+}
+
+export type AppOsType = AppOs.linux | AppOs.windows;

@@ -4,6 +4,7 @@ import { ArmArray } from '../models/arm-obj';
 import Url from '../utils/url';
 import { sendHttpRequest } from './HttpClient';
 import { HttpResponseObject } from '../ArmHelper.types';
+import { AppOsType } from '../pages/app/deployment-center/DeploymentCenter.types';
 
 export default class RuntimeStackService {
   public static getWebAppConfigurationStacks = (stacksOs: 'linux' | 'windows') => {
@@ -24,7 +25,7 @@ export default class RuntimeStackService {
     });
   };
 
-  public static getWebAppGitHubActionStacks = (stacksOs: 'linux' | 'windows') => {
+  public static getWebAppGitHubActionStacks = (stacksOs: AppOsType) => {
     return sendHttpRequest<WebAppCreateStack[]>({
       url: `${Url.serviceHost}stacks/webAppGitHubActionStacks?os=${stacksOs}&api-version=${
         CommonConstants.ApiVersions.stacksApiVersion20200501
