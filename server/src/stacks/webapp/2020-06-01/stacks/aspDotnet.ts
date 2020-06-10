@@ -1,6 +1,6 @@
-import { WebAppStack } from './../stack.model';
+import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
-export const aspDotnetStack: WebAppStack = {
+export const aspDotnetStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'ASP.NET',
   value: 'ASP.NET',
   sortOrder: 0,
@@ -13,8 +13,8 @@ export const aspDotnetStack: WebAppStack = {
         {
           displayText: 'ASP.NET V4.7',
           value: 'V4.7',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: 'v4.0',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -35,8 +35,8 @@ export const aspDotnetStack: WebAppStack = {
         {
           displayText: 'ASP.NET V3.5',
           value: 'V3.5',
-          platforms: {
-            windows: {
+          stackSettings: {
+            windowsRuntimeSettings: {
               runtimeVersion: 'v2.0',
               remoteDebuggingSupported: false,
               appInsightsSettings: {

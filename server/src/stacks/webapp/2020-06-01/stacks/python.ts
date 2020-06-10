@@ -1,6 +1,6 @@
-import { WebAppStack } from './../stack.model';
+import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
-export const pythonStack: WebAppStack = {
+export const pythonStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Python',
   value: 'Python',
   sortOrder: 2,
@@ -13,8 +13,8 @@ export const pythonStack: WebAppStack = {
         {
           displayText: 'Python 3.8',
           value: '3.8',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'PYTHON|3.8',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -29,8 +29,8 @@ export const pythonStack: WebAppStack = {
         {
           displayText: 'Python 3.7',
           value: '3.7',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'PYTHON|3.7',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -45,8 +45,8 @@ export const pythonStack: WebAppStack = {
         {
           displayText: 'Python 3.6',
           value: '3.6',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'PYTHON|3.6',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -56,7 +56,7 @@ export const pythonStack: WebAppStack = {
                 isSupported: true,
               },
             },
-            windows: {
+            windowsRuntimeSettings: {
               runtimeVersion: '3.4.0',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -78,8 +78,8 @@ export const pythonStack: WebAppStack = {
         {
           displayText: 'Python 2.7',
           value: '2.7',
-          platforms: {
-            linux: {
+          stackSettings: {
+            linuxRuntimeSettings: {
               runtimeVersion: 'PYTHON|2.7',
               isDeprecated: true,
               remoteDebuggingSupported: false,
@@ -90,7 +90,7 @@ export const pythonStack: WebAppStack = {
                 isSupported: true,
               },
             },
-            windows: {
+            windowsRuntimeSettings: {
               runtimeVersion: '2.7.3',
               isDeprecated: true,
               remoteDebuggingSupported: false,
