@@ -54,6 +54,15 @@ export class FunctionAppEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.linuxAppRuntime] = {
+      id: ScenarioIds.linuxAppRuntime,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.showFunctionRuntimeSettings] = {
       id: ScenarioIds.showFunctionRuntimeSettings,
       runCheck: () => {
