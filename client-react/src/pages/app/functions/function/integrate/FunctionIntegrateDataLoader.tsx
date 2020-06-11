@@ -66,8 +66,9 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
         functionAppId={this.state.functionAppId}
         functionInfo={this.state.functionInfo}
         hostStatus={this.state.hostStatus}
-        refreshIntegrate={() => this._refresh()}
         isRefreshing={this.state.refresh}
+        refreshIntegrate={() => this._refresh()}
+        loadBindingSettings={(bindingId: string, force: boolean) => this._loadBindingSettings(bindingId, force)}
       />
     );
   }
@@ -145,30 +146,28 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   }
 
   private _loadBindings() {
-    functionIntegrateData
-      .getBindings(this.state.functionAppId)
-      .then(r => {
-        if (r.metadata.success) {
-          this.setState({
-            ...this.state,
-            bindings: r.data.properties,
-          });
-        } else {
-          LogService.error(
-            LogCategories.functionIntegrate,
-            'getBindings',
-            `Failed to get bindings: ${getErrorMessageOrStringify(r.metadata.error)}`
-          );
-        }
-      })
-      .then(() => {
-        if (this.state.bindings) {
-          Promise.all(this.state.bindings.map(binding => this._loadBindingSettings(binding.id)));
-        }
-      });
+    functionIntegrateData.getBindings(this.state.functionAppId).then(r => {
+      if (r.metadata.success) {
+        this.setState({
+          ...this.state,
+          bindings: r.data.properties,
+        });
+      } else {
+        LogService.error(
+          LogCategories.functionIntegrate,
+          'getBindings',
+          `Failed to get bindings: ${getErrorMessageOrStringify(r.metadata.error)}`
+        );
+      }
+    });
   }
 
-  private _loadBindingSettings = (bindingId: string) => {
+  private _loadBindingSettings = (bindingId: string, force: boolean): Promise<void> => {
+    const bindingFromState = this.state.bindings && this.state.bindings.find(binding => binding.id === bindingId);
+    if (!force && bindingFromState && bindingFromState.settings) {
+      return Promise.resolve();
+    }
+
     return functionIntegrateData.getBinding(this.state.functionAppId, bindingId).then(r => {
       if (r.metadata.success) {
         const newBinding: Binding = r.data.properties[0];

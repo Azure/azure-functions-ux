@@ -59,4 +59,8 @@ export default class FunctionEditorData {
   public isHttpOrWebHookFunction(functionInfo: ArmObj<FunctionInfo>) {
     return BindingManager.getHttpTriggerTypeInfo(functionInfo.properties) || BindingManager.getWebHookTypeInfo(functionInfo.properties);
   }
+
+  public isEventGridTriggerFunction(functionInfo: ArmObj<FunctionInfo>) {
+    return BindingManager.getEventGridTriggerInfo(functionInfo.properties);
+  }
 }

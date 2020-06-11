@@ -1,9 +1,9 @@
 import React from 'react';
 import { Pivot, PivotItem } from 'office-ui-fabric-react';
 import DeploymentCenterContainerSettings from './DeploymentCenterContainerSettings';
-import DeploymentCenterFtps from './DeploymentCenterFtps';
+import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterContainerProps } from './DeploymentCenter.types';
+import { DeploymentCenterContainerProps } from '../DeploymentCenter.types';
 import DeploymentCenterContainerLogs from './DeploymentCenterContainerLogs';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerProps> = props => {
@@ -12,16 +12,12 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerProps> =
 
   return (
     <Pivot>
-      <PivotItem
-        headerText={t('deploymentCenterPivotItemContainerLogsHeaderText')}
-        ariaLabel={t('deploymentCenterPivotItemContainerLogsAriaLabel')}>
+      <PivotItem headerText={t('deploymentCenterPivotItemLogsHeaderText')} ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
         <DeploymentCenterContainerLogs logs={logs} />
       </PivotItem>
 
-      <PivotItem
-        headerText={t('deploymentCenterPivotItemContainerSettingsHeaderText')}
-        ariaLabel={t('deploymentCenterPivotItemContainerSettingsAriaLabel')}>
-        <DeploymentCenterContainerSettings />
+      <PivotItem headerText={t('deploymentCenterPivotItemSettingsHeaderText')} ariaLabel={t('deploymentCenterPivotItemSettingsAriaLabel')}>
+        <DeploymentCenterContainerSettings formProps={formProps} />
       </PivotItem>
 
       <PivotItem headerText={t('deploymentCenterPivotItemFtpsHeaderText')} ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}>

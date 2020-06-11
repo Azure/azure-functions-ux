@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   pivotItemWrapper,
@@ -10,6 +10,11 @@ import {
 import { Label } from 'office-ui-fabric-react';
 import { ResponseContent } from '../FunctionEditor.types';
 import { HttpConstants } from '../../../../../../utils/constants/HttpConstants';
+import { PortalTheme } from '../../../../../../models/portal-models';
+import MonacoEditor, { getMonacoEditorTheme } from '../../../../../../components/monaco-editor/monaco-editor';
+import { EditorLanguage } from '../../../../../../utils/EditorManager';
+import { StartupInfoContext } from '../../../../../../StartupInfoContext';
+import StringUtils from '../../../../../../utils/string';
 
 export interface FunctionTestOutputProps {
   responseContent?: ResponseContent;
@@ -19,6 +24,16 @@ export interface FunctionTestOutputProps {
 const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
   const { t } = useTranslation();
   const { responseContent } = props;
+
+  const startUpInfoContext = useContext(StartupInfoContext);
+
+  const getBodyValue = () => {
+    if (!!responseContent && !!responseContent.text) {
+      return StringUtils.stringifyJsonForEditor(responseContent.text);
+    } else {
+      return '';
+    }
+  };
 
   return (
     <div className={pivotItemWrapper}>
@@ -30,7 +45,25 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
       </div>
       <div className={functionTestGroupStyle}>
         <Label className={testFormLabelStyle}>{t('httpRun_responseContent')}</Label>
-        <div className={responseContentStyle}>{!!responseContent && !!responseContent.text ? responseContent.text : ''}</div>
+        <div className={responseContentStyle}>
+          <MonacoEditor
+            language={EditorLanguage.json}
+            value={getBodyValue()}
+            theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
+            height="70px"
+            options={{
+              minimap: { enabled: false },
+              scrollBeyondLastLine: true,
+              lineNumbers: false,
+              glyphMargin: false,
+              folding: false,
+              lineDecorationsWidth: 0,
+              disableLayerHinting: true,
+              readOnly: true,
+              hideReadOnlyTooltip: true,
+            }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -16,14 +16,7 @@ import {
   Link,
 } from 'office-ui-fabric-react';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import {
-  invocationsTabStyle,
-  filterBoxStyle,
-  invocationsSummary,
-  summaryItem,
-  successElement,
-  invocationsTable,
-} from './FunctionInvocations.style';
+import { invocationsTabStyle, invocationsSummary, summaryItem, successElement, invocationsTable } from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../../../../images/Common/Error.svg';
 import { ReactComponent as SuccessSvg } from '../../../../../images/Common/Success.svg';
@@ -31,12 +24,12 @@ import LoadingComponent from '../../../../../components/Loading/LoadingComponent
 import { PortalContext } from '../../../../../PortalContext';
 import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
 import FunctionInvocationDetails from './FunctionInvocationDetails';
-import Panel from '../../../../../components/Panel/Panel';
+import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
+import { filterTextFieldStyle } from '../../../../../components/form-controls/formControl.override.styles';
 
 interface FunctionInvocationsProps {
-  functionAppName: string;
-  functionName: string;
+  functionResourceId: string;
   appInsightsResourceId: string;
   refreshInvocations: () => void;
   setCurrentTrace: (trace: AppInsightsInvocationTrace | undefined) => void;
@@ -51,8 +44,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
     monthlySummary,
     invocationTraces,
     refreshInvocations,
-    functionAppName,
-    functionName,
+    functionResourceId,
     appInsightsResourceId,
     invocationDetails,
     setCurrentTrace,
@@ -90,7 +82,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         detailBladeInputs: {
           resourceId: appInsightsResourceId,
           source: 'Microsoft.Web-FunctionApp',
-          query: invocationsContext.formInvocationTracesQuery(functionAppName, functionName),
+          query: invocationsContext.formInvocationTracesQuery(functionResourceId),
         },
       },
       'function-monitor'
@@ -229,7 +221,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
               className="ms-slideDownIn20"
               autoFocus
               iconProps={{ iconName: 'Filter' }}
-              styles={filterBoxStyle}
+              styles={filterTextFieldStyle}
               placeholder={t('filterInvocations')}
               onChange={newValue => setFilterValue(newValue)}
             />
@@ -238,13 +230,17 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
       </div>
 
       {/*Invocation Details Panel*/}
-      <Panel isOpen={!!currentTrace} onDismiss={() => setCurrentTrace(undefined)} headerText={'Invocation Details'} type={PanelType.medium}>
+      <CustomPanel
+        isOpen={!!currentTrace}
+        onDismiss={() => setCurrentTrace(undefined)}
+        headerText={'Invocation Details'}
+        type={PanelType.medium}>
         <FunctionInvocationDetails
           invocationDetails={invocationDetails}
           appInsightsResourceId={appInsightsResourceId}
           currentTrace={currentTrace}
         />
-      </Panel>
+      </CustomPanel>
     </div>
   );
 };

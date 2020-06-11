@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
-import { ThemeContext } from '../../../../ThemeContext';
-import { getCardStyle, getHeaderStyle, getDescriptionStyle, getTitleStyle, getInfoStyle, getSvg } from './FunctionCreate.styles';
-import { FunctionTemplate } from '../../../../models/functions/function-template';
-import { PivotState } from './FunctionCreate';
 import { KeyCodes } from 'office-ui-fabric-react';
-import { getBindingDirection } from '../function/integrate/BindingPanel/BindingEditor';
+import React, { useContext } from 'react';
+import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { HostStatus } from '../../../../models/functions/host-status';
+import { ThemeContext } from '../../../../ThemeContext';
+import { getBindingDirection } from '../function/integrate/FunctionIntegrate.utils';
+import { PivotState } from './FunctionCreate';
+import { getCardStyle, getDescriptionStyle, getHeaderStyle, getInfoStyle, getSvg, getTitleStyle } from './FunctionCreate.styles';
 
 export interface CreateCardProps {
   functionTemplate: FunctionTemplate;

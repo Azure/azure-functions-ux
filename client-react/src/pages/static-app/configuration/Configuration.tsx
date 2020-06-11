@@ -22,15 +22,14 @@ import {
   tableValueFormFieldStyle,
   tableValueIconStyle,
 } from './Configuration.styles';
-import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
+import { learnMoreLinkStyle, filterTextFieldStyle } from '../../../components/form-controls/formControl.override.styles';
 import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
 import { ArmObj } from '../../../models/arm-obj';
 import { Environment } from '../../../models/static-site/environment';
 import IconButton from '../../../components/IconButton/IconButton';
 import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
 import { ThemeContext } from '../../../ThemeContext';
-import { filterBoxStyle } from '../../app/functions/app-keys/AppKeys.styles';
-import Panel from '../../../components/Panel/Panel';
+import CustomPanel from '../../../components/CustomPanel/CustomPanel';
 import ConfigurationAddEdit from './ConfigurationAddEdit';
 import { sortBy } from 'lodash-es';
 import { KeyValue } from '../../../models/portal-models';
@@ -68,7 +67,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [showAllValues, setShowAllValues] = useState(false);
   const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariable[]>([]);
-  const [showFilter, setShowFilter] = useState(false);
   const [filter, setFilter] = useState('');
   const [showPanel, setShowPanel] = useState(false);
   const [panelType, setPanelType] = useState<PanelType | undefined>(undefined);
@@ -109,11 +107,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
     setPanelType(PanelType.bulk);
   };
 
-  const toggleFilter = () => {
-    setShowFilter(!showFilter);
-    setFilter('');
-  };
-
   const isTableCommandBarDisabled = () => {
     return isLoading || !hasWritePermissions || apiFailure;
   };
@@ -127,8 +120,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         onClick: openAddNewEnvironmentVariablePanel,
         disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Add' },
-        name: t('staticSite_addNewEnvironmentVariable'),
-        ariaLabel: t('staticSite_ariaLabel_addNewEnvironmentVariable'),
+        name: t('staticSite_addNewApplicationSetting'),
+        ariaLabel: t('staticSite_ariaLabel_addNewApplicationSetting'),
       },
       {
         key: 'environment-variable-show-hide',
@@ -143,13 +136,6 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         disabled: isTableCommandBarDisabled(),
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
-      },
-      {
-        key: 'environment-variable-show-filter',
-        onClick: toggleFilter,
-        disabled: isTableCommandBarDisabled(),
-        iconProps: { iconName: 'Filter' },
-        name: t('filter'),
       },
     ];
   };
@@ -380,6 +366,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
 
   const discard = () => {
     initEnvironmentVariables();
+    setIsDirty(false);
     hideDiscardConfirmDialog();
   };
 
@@ -417,6 +404,7 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   const refresh = () => {
     setIsRefreshConfirmDialogVisible(false);
     setSelectedEnvironment(undefined);
+    setFilter('');
     props.refresh();
   };
 
@@ -515,9 +503,9 @@ const Configuration: React.FC<ConfigurationProps> = props => {
         />
       </>
       <div className={formStyle}>
-        <h3>{t('staticSite_environmentVariables')}</h3>
+        <h3>{t('staticSite_applicationSettings')}</h3>
         <p>
-          <span id="environment-variable-info-message">{t('staticSite_environmentVariablesInfoMessage')}</span>
+          <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
           <Link
             id="environment-variable-info-learnMore"
             href={Links.staticSiteEnvironmentVariablesLearnMore}
@@ -546,27 +534,27 @@ const Configuration: React.FC<ConfigurationProps> = props => {
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          emptyMessage={t('staticSite_emptyEnvironmentVariableList')}
+          emptyMessage={t('staticSite_emptyApplicationSettingList')}
           shimmer={{ lines: 2, show: isLoading }}>
-          {showFilter && (
-            <SearchBox
-              id="environment-variable-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterBoxStyle}
-              placeholder={t('staticSite_filterEnvironmentVariable')}
-              onChange={newValue => setFilter(newValue)}
-            />
-          )}
+          <SearchBox
+            id="environment-variable-search"
+            className="ms-slideDownIn20"
+            autoFocus
+            iconProps={{ iconName: 'Filter' }}
+            styles={filterTextFieldStyle}
+            placeholder={t('staticSite_filterApplicationSetting')}
+            onChange={newValue => setFilter(newValue)}
+            value={filter}
+            disabled={isTableCommandBarDisabled()}
+          />
         </DisplayTableWithCommandBar>
-        <Panel
+        <CustomPanel
           isOpen={showPanel && panelType === PanelType.edit}
           onDismiss={onCancel}
           headerText={
             currentEnvironmentVariableIndex === undefined
-              ? t('staticSite_addEnvironmentVariableHeader')
-              : t('staticSite_editEnvironmentVariableHeader')
+              ? t('staticSite_addApplicationSettingHeader')
+              : t('staticSite_editApplicationSettingHeader')
           }>
           <ConfigurationAddEdit
             currentEnvironmentVariableIndex={currentEnvironmentVariableIndex!}
@@ -574,14 +562,14 @@ const Configuration: React.FC<ConfigurationProps> = props => {
             cancel={onCancel}
             updateEnvironmentVariable={updateEnvironmentVariable}
           />
-        </Panel>
-        <Panel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
+        </CustomPanel>
+        <CustomPanel isOpen={showPanel && panelType === PanelType.bulk} onDismiss={onCancel}>
           <ConfigurationAdvancedAddEdit
             environmentVariables={environmentVariables}
             cancel={onCancel}
             updateEnvironmentVariable={updateEnvironmentVariable}
           />
-        </Panel>
+        </CustomPanel>
       </div>
     </>
   );

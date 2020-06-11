@@ -14,10 +14,11 @@ import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
 import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
-import { filterBoxStyle, dirtyElementStyle } from '../AppSettings.styles';
+import { dirtyElementStyle } from '../AppSettings.styles';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import Panel from '../../../../components/Panel/Panel';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { ThemeContext } from '../../../../ThemeContext';
+import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 
 const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { production_write, editable, saving } = useContext(PermissionsContext);
@@ -27,7 +28,6 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
   const [currentConnectionString, setCurrentConnectionString] = useState<FormConnectionString | null>(null);
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [filter, setFilter] = useState('');
-  const [showFilter, setShowFilter] = useState(false);
   const [showAllValues, setShowAllValues] = useState(false);
 
   const { t, values } = props;
@@ -58,12 +58,6 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
       },
-      {
-        key: 'app-settings-connection-strings-show-filter',
-        onClick: toggleFilter,
-        iconProps: { iconName: 'Filter' },
-        name: t('filter'),
-      },
     ];
   };
 
@@ -76,11 +70,6 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
   const openBulkEdit = () => {
     setShowPanel(true);
     setPanelItem('bulk');
-  };
-
-  const toggleFilter = () => {
-    setFilter('');
-    setShowFilter(!showFilter);
   };
 
   const flipHideSwitch = () => {
@@ -359,19 +348,17 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyConnectionStrings')}>
-        {showFilter && (
-          <SearchBox
-            id="app-settings-connection-strings-search"
-            className="ms-slideDownIn20"
-            autoFocus
-            iconProps={{ iconName: 'Filter' }}
-            styles={filterBoxStyle}
-            placeholder={t('filterConnectionStrings')}
-            onChange={newValue => setFilter(newValue)}
-          />
-        )}
+        <SearchBox
+          id="app-settings-connection-strings-search"
+          className="ms-slideDownIn20"
+          autoFocus
+          iconProps={{ iconName: 'Filter' }}
+          styles={filterTextFieldStyle}
+          placeholder={t('filterConnectionStrings')}
+          onChange={newValue => setFilter(newValue)}
+        />
       </DisplayTableWithCommandBar>
-      <Panel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>
+      <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>
         <ConnectionStringsAddEdit
           connectionString={currentConnectionString!}
           otherConnectionStrings={values.connectionStrings}
@@ -380,8 +367,8 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
           closeBlade={onCancel}
           site={values.site}
         />
-      </Panel>
-      <Panel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel}>
+      </CustomPanel>
+      <CustomPanel isOpen={showPanel && panelItem === 'bulk'} onDismiss={onCancel}>
         <Suspense fallback={<LoadingComponent />}>
           <ConnectionStringsBulkEdit
             updateAppSetting={saveBulkEdit}
@@ -390,7 +377,7 @@ const ConnectionStrings: React.FC<FormikProps<AppSettingsFormValues> & WithTrans
             disableSlotSetting={!production_write}
           />
         </Suspense>
-      </Panel>
+      </CustomPanel>
     </>
   );
 };

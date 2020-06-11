@@ -2,7 +2,7 @@ import i18next from 'i18next';
 import { PanelType } from 'office-ui-fabric-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Panel from '../../../../../../components/Panel/Panel';
+import CustomPanel from '../../../../../../components/CustomPanel/CustomPanel';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
 import { BindingInfo } from '../../../../../../models/functions/function-binding';
@@ -46,7 +46,7 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
   const { t } = useTranslation();
 
   return (
-    <Panel
+    <CustomPanel
       isOpen={isOpen}
       type={PanelType.smallFixedFar}
       headerText={getPanelHeader(t, bindingDirection, bindingInfo)}
@@ -76,7 +76,7 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
             />
           ))}
       </div>
-    </Panel>
+    </CustomPanel>
   );
 };
 

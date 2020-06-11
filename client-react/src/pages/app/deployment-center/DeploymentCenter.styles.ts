@@ -15,9 +15,13 @@ export const deploymentCenterContent = style({
   maxWidth: '800px',
 });
 
-export const containerLogs = style({
+export const deploymentCenterLogs = style({
   whiteSpace: 'pre-line',
   margin: 0,
+});
+
+export const deploymentCenterLogsError = style({
+  marginTop: '20px',
 });
 
 export const additionalTextFieldControl = style({

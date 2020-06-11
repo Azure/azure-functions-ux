@@ -10,7 +10,7 @@ import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { VirtualApplication } from '../../../../models/site/config';
 import { TooltipHost, ICommandBarItemProps, PanelType } from 'office-ui-fabric-react';
-import Panel from '../../../../components/Panel/Panel';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';
 import { dirtyElementStyle } from '../AppSettings.styles';
@@ -249,14 +249,14 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyVirtualDirectories')}
       />
-      <Panel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancelPanel} headerText={t('newApp')}>
+      <CustomPanel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancelPanel} headerText={t('newApp')}>
         <VirtualApplicationsAddEdit
           virtualApplication={currentVirtualApplication!}
           otherVirtualApplications={values.virtualApplications}
           updateVirtualApplication={onClosePanel}
           closeBlade={onCancelPanel}
         />
-      </Panel>
+      </CustomPanel>
     </>
   );
 };

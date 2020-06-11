@@ -1,4 +1,7 @@
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
+import { IDetailsListStyles } from 'office-ui-fabric-react';
+
+export const DEFAULTLISTHEIGHT = '31px';
 
 export const commandBarStyles = (theme: ThemeExtended) => {
   return {
@@ -21,6 +24,36 @@ export const tableCommandBarButtonStyle = (theme: ThemeExtended) => {
         },
         ':focus': {
           color: theme.semanticColors.bodyTextChecked,
+        },
+      },
+    },
+  };
+};
+
+export const DetailListStyles = (): Partial<IDetailsListStyles> => {
+  return {
+    root: {
+      selectors: {
+        '.ms-List-cell': {
+          minHeight: DEFAULTLISTHEIGHT,
+          height: 'auto',
+        },
+        '.ms-DetailsRow': {
+          minHeight: DEFAULTLISTHEIGHT,
+          height: 'auto',
+        },
+        '.ms-DetailsRow-fields': {
+          minHeight: DEFAULTLISTHEIGHT,
+          height: 'auto',
+        },
+        '.ms-DetailsRow-cell': {
+          paddingTop: '5px',
+          paddingBottom: '5px',
+          minHeight: DEFAULTLISTHEIGHT,
+          height: 'fit-content',
+        },
+        'ms-Shimmer-shimmerWrapper': {
+          height: DEFAULTLISTHEIGHT,
         },
       },
     },

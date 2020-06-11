@@ -99,3 +99,10 @@ export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean) =>
     width: upsellIcon && fullpage ? '220px' : '200px',
     paddingRight: '5px',
   });
+
+export const detailListHeaderStyle = style({
+  fontWeight: 'bolder',
+  fontSize: '13px',
+});
+
+export const filterTextFieldStyle = { root: { marginTop: '5px', height: '25px', width: '300px' } };

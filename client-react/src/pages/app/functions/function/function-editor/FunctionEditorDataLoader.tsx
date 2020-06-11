@@ -48,6 +48,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [responseContent, setResponseContent] = useState<ResponseContent | undefined>(undefined);
   const [functionRunning, setFunctionRunning] = useState(false);
   const [hostUrls, setHostUrls] = useState<UrlObj[]>([]);
+  const [systemUrls, setSystemUrls] = useState<UrlObj[]>([]);
   const [functionUrls, setFunctionUrls] = useState<UrlObj[]>([]);
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [testData, setTestData] = useState<string | undefined>(undefined);
@@ -340,16 +341,9 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         // TODO (krmitta): Handle error thrown and show the output accordingly
       }
 
-      let responseText = '';
-      // Stringify the response if it is JSON, otherwise use it as such
-      try {
-        responseText = JSON.stringify(resData);
-      } catch (e) {
-        responseText = resData;
-      }
       setResponseContent({
         code: runResponse.metadata.status,
-        text: responseText,
+        text: resData,
       });
     }
     setFunctionRunning(false);
@@ -377,10 +371,20 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         });
       }
     }
-    if (keyType === UrlType.Host) {
-      setHostUrls(newUrlsObj);
-    } else {
-      setFunctionUrls(newUrlsObj);
+
+    switch (keyType) {
+      case UrlType.Host: {
+        setHostUrls(newUrlsObj);
+        break;
+      }
+      case UrlType.Function: {
+        setFunctionUrls(newUrlsObj);
+        break;
+      }
+      case UrlType.System: {
+        setSystemUrls(newUrlsObj);
+        break;
+      }
     }
   };
 
@@ -453,7 +457,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   useEffect(() => {
     if (!!site && !!functionInfo) {
       if (!!hostKeys) {
-        setUrlsAndOptions({ master: hostKeys.masterKey, ...hostKeys.functionKeys, ...hostKeys.systemKeys }, UrlType.Host);
+        setUrlsAndOptions({ master: hostKeys.masterKey, ...hostKeys.functionKeys }, UrlType.Host);
+        setUrlsAndOptions({ ...hostKeys.systemKeys }, UrlType.System);
       }
       if (!!functionKeys) {
         setUrlsAndOptions(functionKeys, UrlType.Function);
@@ -483,7 +488,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           runtimeVersion={runtimeVersion}
           responseContent={responseContent}
           functionRunning={functionRunning}
-          urlObjs={[...functionUrls, ...hostUrls]}
+          urlObjs={[...functionUrls, ...hostUrls, ...systemUrls]}
           showTestPanel={showTestPanel}
           setShowTestPanel={setShowTestPanel}
           testData={testData}
