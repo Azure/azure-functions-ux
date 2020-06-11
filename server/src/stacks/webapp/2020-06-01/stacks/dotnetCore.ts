@@ -57,7 +57,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: dotnetCore3Point0EOL,
+              endOfLifeDate: dotnetCore3Point0EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|3.0',
@@ -69,7 +69,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: dotnetCore3Point0EOL,
+              endOfLifeDate: dotnetCore3Point0EOL,
             },
           },
         },
@@ -93,7 +93,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: dotnetCore2Point2EOL,
+              endOfLifeDate: dotnetCore2Point2EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|2.2',
@@ -105,7 +105,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: dotnetCore2Point2EOL,
+              endOfLifeDate: dotnetCore2Point2EOL,
             },
           },
         },
@@ -123,7 +123,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '2.1.804',
               },
-              projectedEndOfLifeDate: dotnetCore2Point1EOL,
+              endOfLifeDate: dotnetCore2Point1EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|2.1',
@@ -135,7 +135,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '2.1.804',
               },
-              projectedEndOfLifeDate: dotnetCore2Point1EOL,
+              endOfLifeDate: dotnetCore2Point1EOL,
             },
           },
         },
@@ -153,7 +153,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: dotnetCore2Point0EOL,
+              endOfLifeDate: dotnetCore2Point0EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|2.0',
@@ -165,7 +165,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: dotnetCore2Point0EOL,
+              endOfLifeDate: dotnetCore2Point0EOL,
             },
           },
         },
@@ -189,7 +189,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: dotnetCore1EOL,
+              endOfLifeDate: dotnetCore1EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|1.1',
@@ -201,7 +201,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: dotnetCore1EOL,
+              endOfLifeDate: dotnetCore1EOL,
             },
           },
         },
@@ -219,7 +219,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: dotnetCore1EOL,
+              endOfLifeDate: dotnetCore1EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|1.0',
@@ -231,7 +231,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: dotnetCore1EOL,
+              endOfLifeDate: dotnetCore1EOL,
             },
           },
         },

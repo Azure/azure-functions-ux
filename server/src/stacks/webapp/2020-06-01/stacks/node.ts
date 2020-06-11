@@ -54,7 +54,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '12.x',
               },
-              projectedEndOfLifeDate: node12EOL,
+              endOfLifeDate: node12EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '12.13.0',
@@ -65,7 +65,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node12EOL,
+              endOfLifeDate: node12EOL,
             },
           },
         },
@@ -84,7 +84,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '12.x',
               },
-              projectedEndOfLifeDate: node12EOL,
+              endOfLifeDate: node12EOL,
             },
           },
         },
@@ -108,7 +108,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '10.x',
               },
-              projectedEndOfLifeDate: node10EOL,
+              endOfLifeDate: node10EOL,
             },
           },
         },
@@ -126,7 +126,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node10EOL,
+              endOfLifeDate: node10EOL,
             },
           },
         },
@@ -144,7 +144,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: node10EOL,
+              endOfLifeDate: node10EOL,
             },
           },
         },
@@ -161,7 +161,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node10EOL,
+              endOfLifeDate: node10EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '10.14.1',
@@ -172,7 +172,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node10EOL,
+              endOfLifeDate: node10EOL,
             },
           },
         },
@@ -190,7 +190,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node10EOL,
+              endOfLifeDate: node10EOL,
             },
           },
         },
@@ -208,7 +208,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node10EOL,
+              endOfLifeDate: node10EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '10.0.0',
@@ -219,7 +219,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node10EOL,
+              endOfLifeDate: node10EOL,
             },
           },
         },
@@ -236,7 +236,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node10EOL,
+              endOfLifeDate: node10EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '10.6.0',
@@ -247,7 +247,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node10EOL,
+              endOfLifeDate: node10EOL,
             },
           },
         },
@@ -264,7 +264,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node10EOL,
+              endOfLifeDate: node10EOL,
             },
           },
         },
@@ -288,7 +288,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node9EOL,
+              endOfLifeDate: node9EOL,
             },
           },
         },
@@ -312,7 +312,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
           },
         },
@@ -330,7 +330,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
           },
         },
@@ -348,7 +348,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '8.11',
@@ -360,7 +360,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
           },
         },
@@ -378,7 +378,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
           },
         },
@@ -396,7 +396,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '8.9',
@@ -408,7 +408,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
           },
         },
@@ -426,7 +426,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
           },
         },
@@ -444,7 +444,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
           },
         },
@@ -462,7 +462,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
           },
         },
@@ -480,7 +480,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
           },
         },
@@ -498,7 +498,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '8.1.4',
@@ -510,7 +510,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
           },
         },
@@ -528,7 +528,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node8EOL,
+              endOfLifeDate: node8EOL,
             },
           },
         },
@@ -552,7 +552,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: node7EOL,
+              endOfLifeDate: node7EOL,
             },
           },
         },
@@ -576,7 +576,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node6EOL,
+              endOfLifeDate: node6EOL,
             },
           },
         },
@@ -594,7 +594,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: node6EOL,
+              endOfLifeDate: node6EOL,
             },
           },
         },
@@ -612,7 +612,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node6EOL,
+              endOfLifeDate: node6EOL,
             },
           },
         },
@@ -630,7 +630,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node6EOL,
+              endOfLifeDate: node6EOL,
             },
           },
         },
@@ -648,7 +648,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node6EOL,
+              endOfLifeDate: node6EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '6.9.5',
@@ -660,7 +660,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node6EOL,
+              endOfLifeDate: node6EOL,
             },
           },
         },
@@ -678,7 +678,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node6EOL,
+              endOfLifeDate: node6EOL,
             },
           },
         },
@@ -696,7 +696,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: node6EOL,
+              endOfLifeDate: node6EOL,
             },
           },
         },
@@ -714,7 +714,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node6EOL,
+              endOfLifeDate: node6EOL,
             },
           },
         },
@@ -738,7 +738,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node4EOL,
+              endOfLifeDate: node4EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '4.8',
@@ -750,7 +750,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: node4EOL,
+              endOfLifeDate: node4EOL,
             },
           },
         },
@@ -768,7 +768,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node4EOL,
+              endOfLifeDate: node4EOL,
             },
           },
         },
@@ -786,7 +786,7 @@ export const nodeStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: node4EOL,
+              endOfLifeDate: node4EOL,
             },
           },
         },

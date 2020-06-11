@@ -45,7 +45,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: php7Point3EOL,
+              endOfLifeDate: php7Point3EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '7.3',
@@ -56,7 +56,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: php7Point3EOL,
+              endOfLifeDate: php7Point3EOL,
             },
           },
         },
@@ -73,7 +73,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: php7Point2EOL,
+              endOfLifeDate: php7Point2EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '7.2',
@@ -84,7 +84,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: php7Point2EOL,
+              endOfLifeDate: php7Point2EOL,
             },
           },
         },
@@ -102,7 +102,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: php7Point1EOL,
+              endOfLifeDate: php7Point1EOL,
             },
           },
         },
@@ -120,7 +120,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: php7Point0EOL,
+              endOfLifeDate: php7Point0EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '7.0',
@@ -132,7 +132,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: php7Point0EOL,
+              endOfLifeDate: php7Point0EOL,
             },
           },
         },
@@ -156,7 +156,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: php5Point6EOL,
+              endOfLifeDate: php5Point6EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '5.6',
@@ -168,7 +168,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: php5Point6EOL,
+              endOfLifeDate: php5Point6EOL,
             },
           },
         },

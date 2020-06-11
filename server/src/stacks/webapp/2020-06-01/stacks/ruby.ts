@@ -102,7 +102,7 @@ export const rubyStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: ruby2Point4EOL,
+              endOfLifeDate: ruby2Point4EOL,
             },
           },
         },
@@ -120,7 +120,7 @@ export const rubyStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: ruby2Point4EOL,
+              endOfLifeDate: ruby2Point4EOL,
             },
           },
         },
@@ -144,7 +144,7 @@ export const rubyStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: ruby2Point3EOL,
+              endOfLifeDate: ruby2Point3EOL,
             },
           },
         },
@@ -162,7 +162,7 @@ export const rubyStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: ruby2Point3EOL,
+              endOfLifeDate: ruby2Point3EOL,
             },
           },
         },
@@ -180,7 +180,7 @@ export const rubyStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: ruby2Point3EOL,
+              endOfLifeDate: ruby2Point3EOL,
             },
           },
         },

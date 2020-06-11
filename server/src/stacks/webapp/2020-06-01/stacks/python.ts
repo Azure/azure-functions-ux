@@ -90,7 +90,7 @@ export const pythonStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: python2EOL,
+              endOfLifeDate: python2EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '2.7.3',
@@ -102,7 +102,7 @@ export const pythonStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
-              projectedEndOfLifeDate: python2EOL,
+              endOfLifeDate: python2EOL,
             },
           },
         },
