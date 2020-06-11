@@ -412,12 +412,22 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       value: 'WildFly 14',
       minorVersions: [
         {
-          displayText: 'WildFly 14',
+          displayText: 'WildFly 14 (Auto-update)',
           value: '14',
           stackSettings: {
             linuxContainerSettings: {
               isDeprecated: true,
               java8Runtime: 'WILDFLY|14-jre8',
+            },
+          },
+        },
+        {
+          displayText: 'WildFly 14.0.1',
+          value: '14.0.1',
+          stackSettings: {
+            linuxContainerSettings: {
+              isDeprecated: true,
+              java8Runtime: 'WILDFLY|14.0.1-java8',
             },
           },
         },
