@@ -16,6 +16,23 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
       value: '7',
       minorVersions: [
         {
+          displayText: 'PHP 7.4',
+          value: '7.4',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '7.4',
+              isPreview: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+            },
+          },
+        },
+        {
           displayText: 'PHP 7.3',
           value: '7.3',
           stackSettings: {
