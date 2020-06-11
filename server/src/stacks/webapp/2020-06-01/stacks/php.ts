@@ -1,7 +1,10 @@
 import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
-const php7Point2EOL = new Date(2020, 11, 30);
 const php7Point3EOL = new Date(2021, 11, 28);
+const php7Point2EOL = new Date(2020, 11, 30);
+const php7Point1EOL = new Date(2020, 2, 1);
+const php7Point0EOL = new Date(2020, 2, 1);
+const php5Point6EOL = new Date(2021, 2, 1);
 
 export const phpStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'PHP',
@@ -82,6 +85,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              projectedEndOfLifeDate: php7Point1EOL,
             },
           },
         },
@@ -99,6 +103,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              projectedEndOfLifeDate: php7Point0EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '7.0',
@@ -110,6 +115,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              projectedEndOfLifeDate: php7Point0EOL,
             },
           },
         },
@@ -133,6 +139,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              projectedEndOfLifeDate: php5Point6EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '5.6',
@@ -144,6 +151,7 @@ export const phpStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              projectedEndOfLifeDate: php5Point6EOL,
             },
           },
         },
