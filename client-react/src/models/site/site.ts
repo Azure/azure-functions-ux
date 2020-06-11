@@ -126,3 +126,10 @@ export interface HostNameSslState {
   iPBasedSslState: IpBasedSslState;
   hostType: HostType;
 }
+
+export enum AppOs {
+  linux = 'linux',
+  windows = 'windows',
+}
+
+export type AppOsType = AppOs.linux | AppOs.windows;

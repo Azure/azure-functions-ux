@@ -69,6 +69,8 @@ export interface DeploymentCenterContainerFormData {
 export interface DeploymentCenterCodeFormData {
   sourceProvider: ScmTypes;
   buildProvider: BuildProvider;
+  runtimeStack: string;
+  runtimeVersion: string;
 }
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
@@ -192,4 +194,13 @@ export interface CodeDeploymentsRow {
   commit: JSX.Element;
   checkinMessage: string;
   status: string;
+}
+
+export interface BuildDropdownOption extends IDropdownOption {
+  buildType: BuildProvider;
+}
+
+export interface RuntimeStackSetting {
+  runtimeStack: string;
+  runtimeVersion: string;
 }

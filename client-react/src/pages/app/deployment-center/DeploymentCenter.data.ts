@@ -4,6 +4,8 @@ import { PublishingUser } from '../../../models/site/publish';
 import ProviderService from '../../../ApiHelpers/ProviderService';
 import SiteService from '../../../ApiHelpers/SiteService';
 import GitHubService from '../../../ApiHelpers/GitHubService';
+import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
+import { AppOsType } from '../../../models/site/site';
 
 export default class DeploymentCenterData {
   public fetchContainerLogs = (resourceId: string) => {
@@ -80,5 +82,9 @@ export default class DeploymentCenterData {
 
   public getGitHubBranches = (repository_url: string, armToken: string) => {
     return GitHubService.getBranches(repository_url, armToken);
+  };
+
+  public getRuntimeStacks = (stacksOs: AppOsType) => {
+    return RuntimeStackService.getWebAppGitHubActionStacks(stacksOs);
   };
 }
