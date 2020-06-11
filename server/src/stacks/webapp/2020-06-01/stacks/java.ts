@@ -15,11 +15,12 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
       value: '11',
       minorVersions: [
         {
-          displayText: 'Java 11 (Auto-update)',
+          displayText: 'Java 11',
           value: '11.0',
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: undefined,
+              isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -32,6 +33,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '11',
+              isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -117,11 +119,12 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
       value: '8',
       minorVersions: [
         {
-          displayText: 'Java 8 (Auto-update)',
+          displayText: 'Java 8',
           value: '8.0',
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: undefined,
+              isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -134,6 +137,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '1.8',
+              isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -435,11 +439,12 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
       value: '7',
       minorVersions: [
         {
-          displayText: 'Java 7 (Auto-update)',
+          displayText: 'Java 7',
           value: '7.0',
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '1.7',
+              isAutoUpdate: true,
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {

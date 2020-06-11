@@ -61,4 +61,5 @@ export interface CommonSettings {
   isDeprecated?: boolean; // Stack should be hidden unless user is already running that stack
   isHidden?: boolean; // Stack should be hidden unless a feature flag is used
   projectedEndOfLifeDate?: Date; // Stack projected end of life date
+  isAutoUpdate?: boolean; // Stack should be labeled as 'auto-update'
 }
