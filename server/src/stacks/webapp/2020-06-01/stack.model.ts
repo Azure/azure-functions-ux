@@ -1,7 +1,8 @@
+// NOTE (allisonm): Any change to existing properties requires a new API version!
+
 export interface WebAppStack<T extends WebAppRuntimes | JavaContainers> {
   displayText: string;
   value: string;
-  sortOrder: number;
   majorVersions: WebAppMajorVersion<T>[];
   preferredOs?: 'linux' | 'windows';
 }
@@ -59,5 +60,6 @@ export interface CommonSettings {
   isPreview?: boolean; // Stack should be labeled as 'preview'
   isDeprecated?: boolean; // Stack should be hidden unless user is already running that stack
   isHidden?: boolean; // Stack should be hidden unless a feature flag is used
-  projectedEndOfLifeDate?: Date; // Stack projected end of life date
+  endOfLifeDate?: Date; // Stack end of life date
+  isAutoUpdate?: boolean; // Stack should be labeled as 'auto-update'
 }

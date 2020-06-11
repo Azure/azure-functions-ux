@@ -1,11 +1,14 @@
 import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
+const dotnetCore3Point0EOL = new Date(2020, 3, 3);
+const dotnetCore2Point2EOL = new Date(2019, 12, 23);
 const dotnetCore2Point1EOL = new Date(20201, 8, 21);
+const dotnetCore2Point0EOL = new Date(2018, 10, 1);
+const dotnetCore1EOL = new Date(2019, 6, 27);
 
 export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
   displayText: '.NET Core',
   value: '.NET Core',
-  sortOrder: 4,
   preferredOs: 'windows',
   majorVersions: [
     {
@@ -54,6 +57,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+              endOfLifeDate: dotnetCore3Point0EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|3.0',
@@ -65,6 +69,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+              endOfLifeDate: dotnetCore3Point0EOL,
             },
           },
         },
@@ -88,6 +93,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+              endOfLifeDate: dotnetCore2Point2EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|2.2',
@@ -99,6 +105,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+              endOfLifeDate: dotnetCore2Point2EOL,
             },
           },
         },
@@ -116,7 +123,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '2.1.804',
               },
-              projectedEndOfLifeDate: dotnetCore2Point1EOL,
+              endOfLifeDate: dotnetCore2Point1EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|2.1',
@@ -128,6 +135,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '2.1.804',
               },
+              endOfLifeDate: dotnetCore2Point1EOL,
             },
           },
         },
@@ -145,6 +153,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+              endOfLifeDate: dotnetCore2Point0EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|2.0',
@@ -156,6 +165,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+              endOfLifeDate: dotnetCore2Point0EOL,
             },
           },
         },
@@ -179,6 +189,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+              endOfLifeDate: dotnetCore1EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|1.1',
@@ -190,6 +201,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+              endOfLifeDate: dotnetCore1EOL,
             },
           },
         },
@@ -207,6 +219,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+              endOfLifeDate: dotnetCore1EOL,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|1.0',
@@ -218,6 +231,7 @@ export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+              endOfLifeDate: dotnetCore1EOL,
             },
           },
         },

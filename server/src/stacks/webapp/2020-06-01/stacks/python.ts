@@ -1,9 +1,10 @@
 import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
+const python2EOL = new Date(2020, 1, 1);
+
 export const pythonStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Python',
   value: 'Python',
-  sortOrder: 2,
   preferredOs: 'linux',
   majorVersions: [
     {
@@ -89,6 +90,7 @@ export const pythonStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+              endOfLifeDate: python2EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '2.7.3',
@@ -100,6 +102,7 @@ export const pythonStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: true,
               },
+              endOfLifeDate: python2EOL,
             },
           },
         },

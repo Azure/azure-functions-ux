@@ -3,18 +3,18 @@ import { WebAppStack, JavaContainers } from './../stack.model';
 export const javaContainersStack: WebAppStack<JavaContainers> = {
   displayText: 'Java Containers',
   value: 'Java Containers',
-  sortOrder: 7,
   majorVersions: [
     {
       displayText: 'Java SE (embedded web server)',
       value: 'Java SE',
       minorVersions: [
         {
-          displayText: 'Java SE 11 (Auto-update)',
+          displayText: 'Java SE 11',
           value: '11',
           stackSettings: {
             linuxContainerSettings: {
               java11Runtime: 'JAVA|11-java11',
+              isAutoUpdate: true,
             },
           },
         },
@@ -29,15 +29,17 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
           },
         },
         {
-          displayText: 'Java SE 8 (Auto-update)',
+          displayText: 'Java SE 8',
           value: '8',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'JAVA',
               javaContainerVersion: '8',
+              isAutoUpdate: true,
             },
             linuxContainerSettings: {
               java8Runtime: 'JAVA|8-jre8',
+              isAutoUpdate: true,
             },
           },
         },
@@ -57,16 +59,18 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       value: 'Tomcat 9.0',
       minorVersions: [
         {
-          displayText: 'Tomcat 9.0 (Auto-update)',
+          displayText: 'Tomcat 9.0',
           value: '9.0',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '9.0',
+              isAutoUpdate: true,
             },
             linuxContainerSettings: {
               java11Runtime: 'TOMCAT|9.0-java11',
               java8Runtime: 'TOMCAT|9.0-jre8',
+              isAutoUpdate: true,
             },
           },
         },
@@ -147,16 +151,18 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       value: 'Tomcat 8.5',
       minorVersions: [
         {
-          displayText: 'Tomcat 8.5 (Auto-update)',
+          displayText: 'Tomcat 8.5',
           value: '8.5',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '8.5',
+              isAutoUpdate: true,
             },
             linuxContainerSettings: {
               java11Runtime: 'TOMCAT|8.5-java11',
               java8Runtime: 'TOMCAT|8.5-jre8',
+              isAutoUpdate: true,
             },
           },
         },
@@ -182,7 +188,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
         },
         {
           displayText: 'Tomcat 8.5.42',
-          value: '8.5.47',
+          value: '8.5.42',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
@@ -192,7 +198,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
         },
         {
           displayText: 'Tomcat 8.5.41',
-          value: '8.5.47',
+          value: '8.5.41',
           stackSettings: {
             linuxContainerSettings: {
               java11Runtime: 'TOMCAT|8.5.41-java11',
@@ -247,12 +253,13 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       value: 'Tomcat 8.0',
       minorVersions: [
         {
-          displayText: 'Tomcat 8.0 (Auto-Update)',
+          displayText: 'Tomcat 8.0',
           value: '8.0',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '8.0',
+              isAutoUpdate: true,
             },
           },
         },
@@ -274,7 +281,6 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '8.0.46',
             },
-            linuxContainerSettings: undefined,
           },
         },
         {
@@ -294,12 +300,13 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       value: 'Tomcat 7.0',
       minorVersions: [
         {
-          displayText: 'Tomcat 7.0 (Auto-Update)',
+          displayText: 'Tomcat 7.0',
           value: '7.0',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '7.0',
+              isAutoUpdate: true,
             },
           },
         },
@@ -331,7 +338,6 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
               javaContainer: 'TOMCAT',
               javaContainerVersion: '7.0.62',
             },
-            linuxContainerSettings: undefined,
           },
         },
         {
@@ -351,12 +357,13 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       value: 'Jetty 9.3',
       minorVersions: [
         {
-          displayText: 'Jetty 9.3 (Auto-Update)',
+          displayText: 'Jetty 9.3',
           value: '9.3',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'JETTY',
               javaContainerVersion: '9.3',
+              isAutoUpdate: true,
             },
           },
         },
@@ -387,12 +394,13 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       value: 'Jetty 9.1',
       minorVersions: [
         {
-          displayText: 'Jetty 9.1 (Auto-Update)',
+          displayText: 'Jetty 9.1',
           value: '9.1',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'JETTY',
               javaContainerVersion: '9.1',
+              isAutoUpdate: true,
             },
           },
         },
@@ -417,8 +425,19 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
           value: '14',
           stackSettings: {
             linuxContainerSettings: {
-              isDeprecated: true,
               java8Runtime: 'WILDFLY|14-jre8',
+              isDeprecated: true,
+              isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'WildFly 14.0.1',
+          value: '14.0.1',
+          stackSettings: {
+            linuxContainerSettings: {
+              isDeprecated: true,
+              java8Runtime: 'WILDFLY|14.0.1-java8',
             },
           },
         },

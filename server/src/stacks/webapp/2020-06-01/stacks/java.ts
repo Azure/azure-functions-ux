@@ -1,14 +1,13 @@
 import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
 // EOL source: https://docs.microsoft.com/en-us/java/azure/jdk/?view=azure-java-stable#supported-java-versions-and-update-schedule
-const java7EOL = new Date(2023, 7);
-const java8EOL = new Date(2025, 3);
 const java11EOL = new Date(2026, 9);
+const java8EOL = new Date(2025, 3);
+const java7EOL = new Date(2023, 7);
 
 export const javaStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Java',
   value: 'Java',
-  sortOrder: 6,
   preferredOs: 'linux',
   majorVersions: [
     {
@@ -16,11 +15,12 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
       value: '11',
       minorVersions: [
         {
-          displayText: 'Java 11 (Auto-Update)',
+          displayText: 'Java 11',
           value: '11.0',
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: undefined,
+              isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -29,10 +29,11 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '11',
               },
-              projectedEndOfLifeDate: java11EOL,
+              endOfLifeDate: java11EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '11',
+              isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -41,7 +42,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '11',
               },
-              projectedEndOfLifeDate: java11EOL,
+              endOfLifeDate: java11EOL,
             },
           },
         },
@@ -59,7 +60,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '11',
               },
-              projectedEndOfLifeDate: java11EOL,
+              endOfLifeDate: java11EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '11.0.5_ZULU',
@@ -71,7 +72,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '11',
               },
-              projectedEndOfLifeDate: java11EOL,
+              endOfLifeDate: java11EOL,
             },
           },
         },
@@ -89,7 +90,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '11',
               },
-              projectedEndOfLifeDate: java11EOL,
+              endOfLifeDate: java11EOL,
             },
           },
         },
@@ -107,7 +108,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '11',
               },
-              projectedEndOfLifeDate: java11EOL,
+              endOfLifeDate: java11EOL,
             },
           },
         },
@@ -118,11 +119,12 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
       value: '8',
       minorVersions: [
         {
-          displayText: 'Java 8 (Auto-Update)',
+          displayText: 'Java 8',
           value: '8.0',
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: undefined,
+              isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -131,10 +133,11 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
+              endOfLifeDate: java8EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '1.8',
+              isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -143,7 +146,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
+              endOfLifeDate: java8EOL,
             },
           },
         },
@@ -161,7 +164,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
+              endOfLifeDate: java8EOL,
             },
             windowsRuntimeSettings: {
               runtimeVersion: '1.8.0_232_ZULU',
@@ -173,7 +176,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
+              endOfLifeDate: java8EOL,
             },
           },
         },
@@ -191,7 +194,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
+              endOfLifeDate: java8EOL,
             },
           },
         },
@@ -209,7 +212,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
+              endOfLifeDate: java8EOL,
             },
           },
         },
@@ -245,7 +248,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
+              endOfLifeDate: java8EOL,
             },
           },
         },
@@ -281,7 +284,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
+              endOfLifeDate: java8EOL,
             },
           },
         },
@@ -317,7 +320,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
+              endOfLifeDate: java8EOL,
             },
           },
         },
@@ -353,7 +356,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
+              endOfLifeDate: java8EOL,
             },
           },
         },
@@ -371,7 +374,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
                 isSupported: true,
                 supportedVersion: '8',
               },
-              projectedEndOfLifeDate: java8EOL,
+              endOfLifeDate: java8EOL,
             },
           },
         },
@@ -436,11 +439,12 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
       value: '7',
       minorVersions: [
         {
-          displayText: 'Java 1.7.0 (Auto-Update)',
+          displayText: 'Java 7',
           value: '7.0',
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '1.7',
+              isAutoUpdate: true,
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -449,7 +453,25 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: java7EOL,
+              endOfLifeDate: java7EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.7.0_242',
+          value: '7.0.242',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.7.0_242_ZULU',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              endOfLifeDate: java7EOL,
             },
           },
         },
@@ -467,7 +489,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: java7EOL,
+              endOfLifeDate: java7EOL,
             },
           },
         },
@@ -485,7 +507,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
-              projectedEndOfLifeDate: java7EOL,
+              endOfLifeDate: java7EOL,
             },
           },
         },

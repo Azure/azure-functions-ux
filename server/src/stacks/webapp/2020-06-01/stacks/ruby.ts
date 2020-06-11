@@ -1,9 +1,11 @@
 import { WebAppStack, WebAppRuntimes } from './../stack.model';
 
-export const rubyWebAppStack: WebAppStack<WebAppRuntimes> = {
+const ruby2Point4EOL = new Date(2020, 4, 1);
+const ruby2Point3EOL = new Date(2019, 3, 31);
+
+export const rubyStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Ruby',
   value: 'Ruby',
-  sortOrder: 5,
   preferredOs: 'linux',
   majorVersions: [
     {
@@ -100,6 +102,7 @@ export const rubyWebAppStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              endOfLifeDate: ruby2Point4EOL,
             },
           },
         },
@@ -117,6 +120,7 @@ export const rubyWebAppStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              endOfLifeDate: ruby2Point4EOL,
             },
           },
         },
@@ -140,6 +144,7 @@ export const rubyWebAppStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              endOfLifeDate: ruby2Point3EOL,
             },
           },
         },
@@ -157,6 +162,7 @@ export const rubyWebAppStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              endOfLifeDate: ruby2Point3EOL,
             },
           },
         },
@@ -174,6 +180,7 @@ export const rubyWebAppStack: WebAppStack<WebAppRuntimes> = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              endOfLifeDate: ruby2Point3EOL,
             },
           },
         },
