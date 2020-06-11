@@ -8,7 +8,6 @@ const java11EOL = new Date(2026, 9);
 export const javaStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Java',
   value: 'Java',
-  sortOrder: 6,
   preferredOs: 'linux',
   majorVersions: [
     {

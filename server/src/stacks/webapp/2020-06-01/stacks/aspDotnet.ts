@@ -3,7 +3,6 @@ import { WebAppStack, WebAppRuntimes } from './../stack.model';
 export const aspDotnetStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'ASP.NET',
   value: 'ASP.NET',
-  sortOrder: 0,
   preferredOs: 'windows',
   majorVersions: [
     {

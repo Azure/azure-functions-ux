@@ -8,7 +8,6 @@ import { rubyStack } from './stacks/ruby';
 import { pythonStack } from './stacks/python';
 import { phpStack } from './stacks/php';
 import { javaContainersStack } from './stacks/javaContainers';
-// tslint:disable: prefer-for-of
 
 @Injectable()
 export class WebAppStacksService20200601 {
@@ -71,7 +70,6 @@ export class WebAppStacksService20200601 {
       displayText: stack.displayText,
       value: stack.value,
       preferredOs: stack.preferredOs,
-      sortOrder: 0,
       majorVersions: [],
     };
   }

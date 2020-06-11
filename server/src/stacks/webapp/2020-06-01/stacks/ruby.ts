@@ -3,7 +3,6 @@ import { WebAppStack, WebAppRuntimes } from './../stack.model';
 export const rubyStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Ruby',
   value: 'Ruby',
-  sortOrder: 5,
   preferredOs: 'linux',
   majorVersions: [
     {

@@ -1,7 +1,6 @@
 export interface WebAppStack<T extends WebAppRuntimes | JavaContainers> {
   displayText: string;
   value: string;
-  sortOrder: number;
   majorVersions: WebAppMajorVersion<T>[];
   preferredOs?: 'linux' | 'windows';
 }

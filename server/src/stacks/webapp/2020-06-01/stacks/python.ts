@@ -3,7 +3,6 @@ import { WebAppStack, WebAppRuntimes } from './../stack.model';
 export const pythonStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Python',
   value: 'Python',
-  sortOrder: 2,
   preferredOs: 'linux',
   majorVersions: [
     {

@@ -6,7 +6,6 @@ const node12EOL = new Date(2022, 4, 1);
 export const nodeStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'Node',
   value: 'Node',
-  sortOrder: 1,
   preferredOs: 'linux',
   majorVersions: [
     {

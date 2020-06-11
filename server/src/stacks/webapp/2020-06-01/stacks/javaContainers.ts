@@ -3,7 +3,6 @@ import { WebAppStack, JavaContainers } from './../stack.model';
 export const javaContainersStack: WebAppStack<JavaContainers> = {
   displayText: 'Java Containers',
   value: 'Java Containers',
-  sortOrder: 7,
   majorVersions: [
     {
       displayText: 'Java SE (embedded web server)',

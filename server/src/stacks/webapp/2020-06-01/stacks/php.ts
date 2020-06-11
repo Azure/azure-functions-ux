@@ -6,7 +6,6 @@ const php7Point3EOL = new Date(2021, 11, 28);
 export const phpStack: WebAppStack<WebAppRuntimes> = {
   displayText: 'PHP',
   value: 'PHP',
-  sortOrder: 3,
   preferredOs: 'linux',
   majorVersions: [
     {

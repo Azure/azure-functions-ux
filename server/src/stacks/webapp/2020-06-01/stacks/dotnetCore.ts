@@ -5,7 +5,6 @@ const dotnetCore2Point1EOL = new Date(20201, 8, 21);
 export const dotnetCoreStack: WebAppStack<WebAppRuntimes> = {
   displayText: '.NET Core',
   value: '.NET Core',
-  sortOrder: 4,
   preferredOs: 'windows',
   majorVersions: [
     {
