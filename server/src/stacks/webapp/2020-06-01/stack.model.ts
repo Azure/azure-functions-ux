@@ -1,3 +1,5 @@
+// NOTE (allisonm): Any change to existing properties requires a new API version!
+
 export interface WebAppStack<T extends WebAppRuntimes | JavaContainers> {
   displayText: string;
   value: string;
