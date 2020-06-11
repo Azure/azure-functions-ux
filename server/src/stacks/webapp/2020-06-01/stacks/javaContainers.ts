@@ -181,7 +181,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
         },
         {
           displayText: 'Tomcat 8.5.42',
-          value: '8.5.47',
+          value: '8.5.42',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
@@ -191,7 +191,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
         },
         {
           displayText: 'Tomcat 8.5.41',
-          value: '8.5.47',
+          value: '8.5.41',
           stackSettings: {
             linuxContainerSettings: {
               java11Runtime: 'TOMCAT|8.5.41-java11',
