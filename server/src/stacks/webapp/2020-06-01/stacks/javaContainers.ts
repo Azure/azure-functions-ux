@@ -246,7 +246,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       value: 'Tomcat 8.0',
       minorVersions: [
         {
-          displayText: 'Tomcat 8.0 (Auto-Update)',
+          displayText: 'Tomcat 8.0 (Auto-update)',
           value: '8.0',
           stackSettings: {
             windowsContainerSettings: {
@@ -293,7 +293,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       value: 'Tomcat 7.0',
       minorVersions: [
         {
-          displayText: 'Tomcat 7.0 (Auto-Update)',
+          displayText: 'Tomcat 7.0 (Auto-update)',
           value: '7.0',
           stackSettings: {
             windowsContainerSettings: {
@@ -350,7 +350,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       value: 'Jetty 9.3',
       minorVersions: [
         {
-          displayText: 'Jetty 9.3 (Auto-Update)',
+          displayText: 'Jetty 9.3 (Auto-update)',
           value: '9.3',
           stackSettings: {
             windowsContainerSettings: {
@@ -386,7 +386,7 @@ export const javaContainersStack: WebAppStack<JavaContainers> = {
       value: 'Jetty 9.1',
       minorVersions: [
         {
-          displayText: 'Jetty 9.1 (Auto-Update)',
+          displayText: 'Jetty 9.1 (Auto-update)',
           value: '9.1',
           stackSettings: {
             windowsContainerSettings: {

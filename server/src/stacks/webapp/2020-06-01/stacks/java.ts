@@ -15,7 +15,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
       value: '11',
       minorVersions: [
         {
-          displayText: 'Java 11 (Auto-Update)',
+          displayText: 'Java 11 (Auto-update)',
           value: '11.0',
           stackSettings: {
             linuxRuntimeSettings: {
@@ -117,7 +117,7 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
       value: '8',
       minorVersions: [
         {
-          displayText: 'Java 8 (Auto-Update)',
+          displayText: 'Java 8 (Auto-update)',
           value: '8.0',
           stackSettings: {
             linuxRuntimeSettings: {
@@ -435,11 +435,29 @@ export const javaStack: WebAppStack<WebAppRuntimes> = {
       value: '7',
       minorVersions: [
         {
-          displayText: 'Java 1.7.0 (Auto-Update)',
+          displayText: 'Java 7 (Auto-update)',
           value: '7.0',
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '1.7',
+              isDeprecated: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: false,
+              },
+              projectedEndOfLifeDate: java7EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.7.0_242',
+          value: '7.0.242',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.7.0_242_ZULU',
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
