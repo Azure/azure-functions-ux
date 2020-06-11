@@ -51,11 +51,12 @@ export class StacksController {
   }
 
   @Post('webAppStacks')
-  webAppStacks(@Query('api-version') apiVersion: string) {
+  webAppStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
     this._validateApiVersion(apiVersion, [Versions.version20200601]);
+    this._validateOs(os);
 
     if (apiVersion === Versions.version20200601) {
-      return this._stackWebAppService20200601.getStacks();
+      return this._stackWebAppService20200601.getStacks(os);
     }
   }
 
