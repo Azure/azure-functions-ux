@@ -4965,16 +4965,16 @@
         <value>需要傳入憑證</value>
     </data>
   <data name="clientCertificateMode" xml:space="preserve">
-        <value>Client certificate mode</value>
+        <value>用戶端憑證模式</value>
     </data>
   <data name="clientCertificateModeRequire" xml:space="preserve">
-        <value>Require</value>
+        <value>需要</value>
     </data>
   <data name="clientCertificateModeAllow" xml:space="preserve">
-        <value>Allow</value>
+        <value>允許</value>
     </data>
   <data name="clientCertificateModeIgnore" xml:space="preserve">
-        <value>Ignore</value>
+        <value>略過</value>
     </data>
   <data name="certificateExlusionPaths" xml:space="preserve">
         <value>憑證排除路徑</value>
@@ -5815,7 +5815,7 @@
         <value>無法載入一或多個繫結，請重新整理該頁面。</value>
     </data>
   <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
-        <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
+        <value>使用編譯的函式時，不會顯示定義為屬性的繫結。</value>
     </data>
   <data name="deleteFunctionKeyHeader" xml:space="preserve">
         <value>刪除函式金鑰</value>
@@ -6016,16 +6016,16 @@
         <value>您的網站目前為唯讀模式，因為您 RBAC 受指派的存取權設為: 讀者</value>
     </data>
   <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
-        <value>Logs</value>
+        <value>記錄</value>
     </data>
   <data name="deploymentCenterPivotItemLogsAriaLabel" xml:space="preserve">
-        <value>Deployment center logs</value>
+        <value>部署中心記錄</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsHeaderText" xml:space="preserve">
-        <value>Settings</value>
+        <value>設定</value>
     </data>
   <data name="deploymentCenterPivotItemSettingsAriaLabel" xml:space="preserve">
-        <value>Deployment center settings</value>
+        <value>部署中心設定</value>
     </data>
   <data name="deploymentCenterPivotItemFtpsHeaderText" xml:space="preserve">
         <value>FTP/FTPS 認證</value>
@@ -6103,7 +6103,7 @@
         <value>系統金鑰由 Functions 執行階段自動管理。系統金鑰可提供 Functions 執行階段功能的細微存取權。</value>
     </data>
   <data name="functionKeys_description" xml:space="preserve">
-        <value>函式金鑰的範圍限定為此函式，並可用於存取此 http 觸發程序函式。</value>
+        <value>Function keys are scoped to this function and can be used to access this function.</value>
     </data>
   <data name="staticSite_noFunctionMessage" xml:space="preserve">
         <value>應用程式設定僅適用於至少有一個函式的靜態 Web Apps。請在您的應用程式中新增函式以啟用設定。</value>
@@ -6144,8 +6144,26 @@
   <data name="deploymentCenterContainerSettingsDescription" xml:space="preserve">
         <value>使用這些設定對您的容器應用程式部署模型與登錄進行設定。建議您使用 GitHub Actions 以提高作業效率。</value>
     </data>
-  <data name="deploymentCenterContainerSettingsSourceLabel" xml:space="preserve">
+  <data name="deploymentCenterCodeSettingsDescription" xml:space="preserve">
+        <value>從您的常用的來源與組建提供者，部署及建立程式碼。</value>
+    </data>
+  <data name="deploymentCenterSettingsSourceLabel" xml:space="preserve">
         <value>來源</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcePlaceholder" xml:space="preserve">
+        <value>選取程式碼來源</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildTitle" xml:space="preserve">
+        <value>建置</value>
+    </data>
+  <data name="deploymentCenterSettingsBuildLabel" xml:space="preserve">
+        <value>組建提供者</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeLabel" xml:space="preserve">
+        <value>執行階段堆疊</value>
+    </data>
+  <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
+        <value>版本</value>
     </data>
   <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>容器登錄</value>
@@ -6164,6 +6182,9 @@
     </data>
   <data name="deploymentCenterContainerGitHubActionsTitle" xml:space="preserve">
         <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeGitHubTitle" xml:space="preserve">
+        <value>GitHub</value>
     </data>
   <data name="deploymentCenterContainerRegistrySettingsTitle" xml:space="preserve">
         <value>登錄設定</value>
@@ -6202,18 +6223,162 @@
         <value>無法更新應用程式設定: {0}</value>
     </data>
   <data name="clickToShowValue" xml:space="preserve">
-        <value>Click to show value</value>
+        <value>按一下即可顯示值</value>
     </data>
   <data name="clickToHideValue" xml:space="preserve">
-        <value>Click to hide value</value>
+        <value>按一下即可隱藏值</value>
     </data>
   <data name="testAndRun" xml:space="preserve">
-        <value>Test/Run</value>
+        <value>測試/執行</value>
     </data>
   <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
-        <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
+        <value>偵測到您的 Application Insights 檢測金鑰或連接字串儲存在金鑰保存庫中，因而導致監視體驗發生問題。</value>
     </data>
   <data name="clickToUpdateSettings" xml:space="preserve">
-        <value>Click here to update your settings.</value>
+        <value>按一下這裡更新設定。</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredHeader" xml:space="preserve">
+        <value>CI/CD 未設定</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredDescription" xml:space="preserve">
+        <value>若要開始，請前往 [設定] 索引標籤設定 CI/CD。</value>
+    </data>
+  <data name="deploymentCenterCodeLogsCICDNotConfiguredGoToSettings" xml:space="preserve">
+        <value>前往 [設定]</value>
+    </data>
+  <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
+        <value>找不到任何部署</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
+        <value>正在載入部署記錄</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsLoading" xml:space="preserve">
+        <value>正在載入部署記錄...</value>
+    </data>
+  <data name="deploymentCenterFtpLoadingAriaValue" xml:space="preserve">
+        <value>正在載入 FTP/FTPs 認證</value>
+    </data>
+  <data name="deploymentCenterFtpLoading" xml:space="preserve">
+        <value>正在載入 FTP/FTPs 認證...</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailed" xml:space="preserve">
+        <value>無法載入部署記錄</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentsFailedWithError" xml:space="preserve">
+        <value>無法載入部署記錄: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailed" xml:space="preserve">
+        <value>無法載入記錄詳細資料</value>
+    </data>
+  <data name="deploymentCenterCodeLogDetailsFailedWithError" xml:space="preserve">
+        <value>無法載入記錄詳細資料: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailed" xml:space="preserve">
+        <value>無法載入活動</value>
+    </data>
+  <data name="deploymentCenterCodeLogActivityFailedWithError" xml:space="preserve">
+        <value>無法載入記錄活動: {0}</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoadingAriaValue" xml:space="preserve">
+        <value>正在載入部署記錄活動</value>
+    </data>
+  <data name="deploymentCenterCodeDeploymentLogActivityLoading" xml:space="preserve">
+        <value>正在載入部署記錄活動...</value>
+    </data>
+  <data name="logDetailsHeader" xml:space="preserve">
+        <value>記錄詳細資料</value>
+    </data>
+  <data name="deploymentCenterOAuthFetchingUserInformation" xml:space="preserve">
+        <value>正在擷取使用者資訊...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizingUser" xml:space="preserve">
+        <value>正在授權使用者...</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorizeAriaLabel" xml:space="preserve">
+        <value>授權使用者</value>
+    </data>
+  <data name="deploymentCenterOAuthAuthorize" xml:space="preserve">
+        <value>授權</value>
+    </data>
+  <data name="deploymentCenterOAuthChangeAccount" xml:space="preserve">
+        <value>變更帳戶</value>
+    </data>
+  <data name="deploymentCenterOAuthSingedInAs" xml:space="preserve">
+        <value>登入身分</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganization" xml:space="preserve">
+        <value>組織</value>
+    </data>
+  <data name="deploymentCenterOAuthOrganizationPlaceholder" xml:space="preserve">
+        <value>選取組織</value>
+    </data>
+  <data name="deploymentCenterOAuthProject" xml:space="preserve">
+        <value>專案</value>
+    </data>
+  <data name="deploymentCenterOAuthProjectPlaceholder" xml:space="preserve">
+        <value>選取專案</value>
+    </data>
+  <data name="deploymentCenterOAuthRepository" xml:space="preserve">
+        <value>存放庫</value>
+    </data>
+  <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
+        <value>選取存放庫</value>
+    </data>
+  <data name="deploymentCenterOAuthBranch" xml:space="preserve">
+        <value>分支</value>
+    </data>
+  <data name="deploymentCenterOAuthBranchPlaceholder" xml:space="preserve">
+        <value>選取分支</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
+        <value>選取程式碼來源</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceContinuousDeploymentHeader" xml:space="preserve">
+        <value>持續部署 (CI/CD)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceManualDeploymentHeader" xml:space="preserve">
+        <value>手動部署 (推送)</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceGitHub" xml:space="preserve">
+        <value>GitHub</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceAzureRepos" xml:space="preserve">
+        <value>Azure Repos</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceBitbucket" xml:space="preserve">
+        <value>Bitbucket</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceLocalGit" xml:space="preserve">
+        <value>本機 Git</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceOneDrive" xml:space="preserve">
+        <value>OneDrive</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceDropbox" xml:space="preserve">
+        <value>Dropbox</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsSourceExternal" xml:space="preserve">
+        <value>外部</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildGitHubAction" xml:space="preserve">
+        <value>GitHub Actions</value>
+    </data>
+  <data name="deploymentCenterCodeSettingsBuildKudu" xml:space="preserve">
+        <value>App Service 組建服務</value>
+    </data>
+  <data name="leaveFeedback" xml:space="preserve">
+        <value>離開意見反應</value>
+    </data>
+  <data name="functionLogsFeedbackCESQuestion" xml:space="preserve">
+        <value>使用經過改進並由 Application Insights 支援的記錄功能，為您應用程式偵錯的難易程度如何?</value>
+    </data>
+  <data name="functionLogsFeedbackCVAQuestion" xml:space="preserve">
+        <value>Application Insights 支援之新記錄功能的實用程度如何?</value>
+    </data>
+  <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
+        <value>If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.</value>
+    </data>
+  <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
+        <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
     </data>
 </root>
